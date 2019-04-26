@@ -4,7 +4,7 @@ import SiderNav from '../../components/SiderNav'
 import ContentMain from '../../components/ContentMain'
 import HeaderBar from '../../components/HeaderBar'
 
-const {Sider, Header, Content, Footer} = Layout
+const {Sider, Header, Content} = Layout
 
 
 class Index extends React.Component{
@@ -24,8 +24,8 @@ class Index extends React.Component{
       <div id='page'>
         <Layout>
           <Header style={{background: '#fff', padding: '0 16px'}}>
-              <HeaderBar collapsed={this.state.collapsed} onToggle={this.toggle}/>
-            </Header>
+            <HeaderBar collapsed={this.state.collapsed} onToggle={this.toggle}/>
+          </Header>
           <Layout>
             <Sider collapsible
                   trigger={null}
@@ -33,11 +33,9 @@ class Index extends React.Component{
                   >
               <SiderNav/>
             </Sider>
-            <Layout>
-              <Content>
-                <ContentMain/>
-              </Content>
-            </Layout>
+            <Content style={{overflow: 'hidden', margin: 0}}>
+              <ContentMain/>
+            </Content>
           </Layout>
         </Layout>
       </div>
