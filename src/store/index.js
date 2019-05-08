@@ -1,6 +1,6 @@
 import appStore from './appStore'
 
 const store = {
-  appStore
+    appStore
 }
 export default store

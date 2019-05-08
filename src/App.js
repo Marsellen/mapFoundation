@@ -1,21 +1,16 @@
-import React, {Component} from 'react';
-import PrivateRoute from './components/PrivateRoute'
-import {Route,Switch} from 'react-router-dom'
-import Login from './pages/Login/index'
-import Index from './pages/Index/index'
+import React from 'react'
+import { Switch } from 'react-router-dom'
+import Routers from './router'
 import './App.css'
-import './assets/font/iconfont.css'
 
-
-class App extends Component {
-  render() {
-    return (
-      <Switch>
-        <Route path='/login' component={Login}/>
-        <PrivateRoute path='/' component={Index}/>
-      </Switch>
-    )
-  }
+class App extends React.Component {
+    render() {
+        return (
+            <Switch>
+                {Routers}
+            </Switch>
+        )
+    }
 }
 
 export default App;

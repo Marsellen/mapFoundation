@@ -1,25 +1,23 @@
 ﻿按照react脚手架搭建，并放出config目录
-AD-editor
+工程名为：react-cli-ui
 
-config  自定义配置文件：ask用户自定义的配置文件，要不要放到这里？
+config  配置文件
 src
     assets
         img 图片
         css 样式文件
-    deps        第3方文件型的依赖库
-        AD-ksh  可视化的SDK库
     common      公共类
     utils       各种工具类
     components  各种组件，公共组件放到这里
     pages       各种页面，业务页面放到这里
-        loginPage
-        editPage
-            components
-            service
-            stores
+        Login   登录页面
+        bussinessPage    
+            components  业务页面独有的组件
+            service     业务页面独有的服务
+            store       业务页面独有的状态管理
     router      路由
     service     各种后台的请求放这里
-    stores      公共状态管理
+    store       公共状态管理
     
 
 备注：
