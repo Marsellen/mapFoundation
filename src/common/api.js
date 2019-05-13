@@ -1,8 +1,8 @@
 export function locationPath(url) {
     if (/^\//.test(url)) {
-        return `http://localhost:3000${url}`
+        return `http://localhost:8080${url}`
     } else {
-        return `http://localhost:3000/${url}`
+        return `http://localhost:8080/${url}`
     }
 }
 

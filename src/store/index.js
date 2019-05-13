@@ -1,6 +1,7 @@
 import appStore from './appStore'
+import pageStore from 'src/pages/store'
 
-const store = {
-    appStore
+export default {
+    appStore,
+    ...pageStore
 }
-export default store

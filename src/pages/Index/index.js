@@ -1,36 +1,52 @@
 import React from 'react'
 import { Layout } from 'antd'
+import { inject, observer } from 'mobx-react'
+import Sider from 'src/components/Sider'
+import SiderView from './components/SiderView'
 
-const { Sider, Header, Content } = Layout
+const { Header } = Layout
 
-
+@inject('menuStore')
+@observer
 class Index extends React.Component {
     state = {
         
     }
 
+    componentWillMount() {
+        this.props.menuStore.initMenus()
+    }
+
     render() {
-        // 设置Sider的minHeight可以使左右自适应对齐
+        const { menus } = this.props.menuStore
         return (
             <div id='page'>
                 <Layout>
                     <Header style={{ background: '#fff', padding: '0 16px' }}>
                         
                     </Header>
-                    <Layout>
-                        <Sider collapsible
-                            trigger={null}
-                            collapsed={this.state.collapsed}
-                        >
-                            
+                    <div style={styles.content}>
+                        <Sider menus={menus}>
+                            {SiderView}
                         </Sider>
-                        <Content style={{ overflow: 'hidden', margin: 0 }}>
+                        <div style={styles.rightContent}>
                             hello world
-                        </Content>
-                    </Layout>
+                        </div>
+                    </div>
                 </Layout>
             </div>
         );
     }
 }
+
+const styles = {
+    content: {
+        display: 'flex',
+        flexDirection: 'row'
+    },
+    rightContent: {
+        flexGrow: 1
+    }
+}
+
 export default Index
