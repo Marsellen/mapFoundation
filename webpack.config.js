@@ -16,7 +16,8 @@ module.exports = {
   resolve: {
     alias: {
       'src': path.resolve(__dirname, './src/'),
-      'mock': path.resolve(__dirname, './mock/')
+      'mock': path.resolve(__dirname, './mock/'),
+      'demo': path.resolve(__dirname, './demo/')
     }
   },
   module: {
@@ -55,5 +56,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html'
     })
-  ]
+  ],
+  devServer: {
+    historyApiFallback: true
+  }
 }

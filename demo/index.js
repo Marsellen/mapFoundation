@@ -2,9 +2,9 @@ import React from 'react'
 import PrivateRoute from 'src/components/PrivateRoute'
 import LoadableComponent from 'src/utils/LoadableComponent'
 
-const Home = LoadableComponent(() => import('src/pages/Index'))
+const Demo = LoadableComponent(() => import('demo/Index/index'))
 //import Home from 'src/pages/Index'
 
 export default (
-    <PrivateRoute key='Home' path='/' component={Home} />
+    <PrivateRoute key='Demo' path='/demo-page' component={Demo} />
 )

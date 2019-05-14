@@ -26,7 +26,10 @@ const styles = {
     },
     menuIcon: {
         cursor: 'pointer',
-        fontSize: 20
+        fontSize: 20,
+        ':hover': {
+            color: '#fff'
+        }
     }
 }
 
