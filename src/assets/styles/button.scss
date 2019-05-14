@@ -1,0 +1,113 @@
+button,
+html [type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  cursor: pointer;
+  background-image: none;
+  white-space: nowrap;
+  padding: 0 15px;
+  font-size: 14px;
+  height: 32px;
+  position: relative;
+  outline: none;
+  background-image: linear-gradient(-180deg, #f9fbff 0%, #dce2e9 100%);
+  border: 1px solid #cbd3dc;
+  border-radius: 3px;
+  color: #5e6579;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.50);
+  //fix bootstrap
+  &:hover {
+    background-image: linear-gradient(-180deg, #f2f2f2 0%, #d0d6dd 100%);
+    border: 1px solid #c0c8d0;
+  }
+
+  &:active {
+    background-image: linear-gradient(-1deg, #e6e8ec 40%, #c6cbd2 100%);
+  }
+
+  &.primary {
+    background-color: #4380f9;
+    border-color: #4380f9;
+    color: #fff;
+  }
+
+  &.dashed {
+    border-style: dashed;
+  }
+
+  &.danger {
+    color: #f5222d;
+    background-color: #f5f5f5;
+    border-color: #d9d9d9;
+
+    &:hover {
+      color: #fff;
+      background-color: #ff4d4f;
+      border-color: #ff4d4f;
+    }
+  }
+
+  &.disabled,
+  &[disabled] {
+    background: #ffffff;
+    border: 1px solid #dedede;
+  }
+
+  .fa {
+    margin-right: 5px;
+  }
+}
+
+.btn-primary {
+  color: #fff;
+  //background-image:linear-gradient(-180deg, #72baed 0%, #54a1e7 100%);
+  //border-radius:3px;
+  border-color: #5195d8;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.50);
+  background-image: linear-gradient(-180deg, #72baed 0%, #59a6e7 77%, #54a1e7 97%);
+  border-radius: 4px;
+  font-size: 12px;
+
+  &:hover {
+    background-image: linear-gradient(-180deg, #609dc9 0%, #4789c4 100%);
+    border-color: #447eb7;
+  }
+
+  &:active {
+    background-image: linear-gradient(-180deg, #235c8f 0%, #2b6ea9 29%);
+    border-color: #285e8e;
+  }
+
+  &.disabled,
+  &[disabled] {
+    background: #82b3de;
+    border: 1px solid #7aaad6;
+  }
+}
+
+.btn-download {
+  width: 58px;
+  height: 29px;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.50);
+}
+
+.btn-save {
+  width: 106px;
+  height: 38px;
+  font-size: 14px;
+}
+
+.btn-dld-mb {
+  margin-bottom: 9px;
+}
+

@@ -1,0 +1,72 @@
+////forms
+
+.form-control {
+  border-radius: 0;
+  box-shadow: none;
+  border-color: #d2d6de;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 5px;
+  max-width: 100%;
+}
+
+.select2-container--default .select2-selection--single {
+  border: 1px solid #d2d6de!important;
+  border-radius: 0px!important;
+}
+
+.select2-dropdown {
+  border: 1px solid #d2d6de!important;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+  border: 1px solid #d2d6de!important;
+}
+
+.dl-vertical {
+  margin-bottom: 10px;
+
+  dt {
+    color: #666;
+    line-height: 24px;
+  }
+
+  dd {
+    color: #343434;
+    line-height: 24px;
+  }
+}
+
+.tab-pane .search-body {
+  margin-top: 10px;
+}
+
+.box-body .table {
+  margin-top: 10px;
+}
+
+table.gridform select {
+  padding: 0!important !important;
+}
+
+.modal-dialog {
+  table.gridform .control-label {
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  table.gridform label {
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  .ui-widget-header {
+    font-weight: 400;
+  }
+}
+
+.form-control.noreadonly[readonly]{
+    background: #fff;
+}
+
+.input_checkbox{position: relative;top:1px}

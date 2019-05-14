@@ -1,0 +1,29 @@
+@import "functions";
+@import "animate";
+
+.app {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+aside {
+  width: 10%;
+}
+
+main {
+  width: 90%;
+  text-align: center;
+}
+
+//demo
+aside,
+main {
+  padding: 20px;
+  min-height: 788px;
+}
+aside {
+  border: 1px dashed #c1c1c1;
+}

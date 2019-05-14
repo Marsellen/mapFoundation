@@ -1,0 +1,73 @@
+@import "./functions.scss";
+
+body {
+  position: relative;
+  background: linear-gradient(0deg, #0b4182 1%, #1e88e5 100%);
+}
+
+.login-box {
+  position: absolute;
+  top: 150px;
+  @include calc('left','50% - 240px');
+  background-color: #fff;
+  width: 400px;
+  padding: 40px;
+  text-align: center;
+  font-size: 14px;
+
+  .login-logo {
+    opacity: 0;
+    margin-bottom: 12px;
+
+    .login-img {
+      width: 220px;
+    }
+  }
+
+  .login-box-msg {
+    padding-bottom: 12px;
+    color: #e53935;
+  }
+
+  .remember-me {
+    text-align: left;
+  }
+
+  .form-control-feedback {
+    line-height: 42px;
+    height: 42px;
+  }
+
+  .action {
+    margin-top: 20px;
+    width: 100%;
+
+    button {
+      @include calc('width','100% - 24px');
+      height: 42px;
+      background: #4380f9;
+      color: #fff;
+      border: 0;
+      font-size: 14px;
+    }
+  }
+}
+
+#loginAccount {
+  margin-bottom: 15px;
+}
+
+#loginAccount,
+#loginPassword {
+  font-size: 14px;
+  @include border-radius(3px);
+  padding: 6px 12px;
+  height: 28px;
+  @include calc('width','100% - 50px');
+  border: 1px solid #DCDEE0;
+  background-color: #fff;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+}
