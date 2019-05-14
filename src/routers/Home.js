@@ -1,18 +1,6 @@
-import React, { lazy, Suspense } from 'react';
-//import PrivateRoute from 'src/components/PrivateRoute'
-import { Route } from 'react-router-dom'
+import React, { lazy } from "react";
+import PrivateRoute from "src/components/PrivateRoute";
 
-const Home = lazy(() => import('pages/Home'))
+const Home = lazy(() => import("src/pages/Index"));
 
-function LazyHome() {
-    return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <Home />
-        </Suspense>
-    );
-}
-
-export default (
-    //<PrivateRoute key='Home' path='/' component={Home} />
-    <Route key="Home" exact path="/" component={LazyHome} />
-)
+export default <PrivateRoute key='Home' path='/' component={Home} />;

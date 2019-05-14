@@ -36,9 +36,7 @@ module.exports = {
         ],
     },
     devServer: {
-        contentBase: path.join(__dirname, 'dist'),
-        historyApiFallback: true,
-        inline: true,
+        //contentBase: path.join(__dirname, 'dist'),
         hot: true
     },
     resolve: {
@@ -47,13 +45,9 @@ module.exports = {
         ],
         alias: {
             src: path.resolve(__dirname, 'src/'),
-            components: path.resolve(__dirname, 'src/components/'),
-            routers: path.resolve(__dirname, 'src/routers/'),
-            store: path.resolve(__dirname, 'src/store/'),
-            config: path.resolve(__dirname, 'src/config/'),
-            layouts: path.resolve(__dirname, 'src/layouts/'),
-            styles: path.resolve(__dirname, 'src/assets/styles/'),
-            pages: path.resolve(__dirname, 'src/pages/')
+            demo: path.resolve(__dirname, 'demo/'),
+            'mock': path.resolve(__dirname, './mock/'),
+            styles: path.resolve(__dirname, 'src/assets/styles/')
         },
         extensions: ['.js', '.jsx', '.json']
     },

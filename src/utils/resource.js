@@ -1,6 +1,6 @@
-import axios from 'axios'
+import axios from "axios";
 
-const BASIC_METHODS = ['get', 'post', 'put']
+const BASIC_METHODS = ["get", "post", "put"];
 
 /**
  * url format
@@ -9,38 +9,39 @@ const BASIC_METHODS = ['get', 'post', 'put']
  */
 function urlFormat(url, params) {
     // 根据params内容替换对应的占位符
-	Object.keys(params).map(key => {
-		let reg = new RegExp(':' + key + '\\b', 'g')
-		if (reg.test(url)) {
-			url = url.replace(reg, params[key])
-			delete params[key]
-		}
-    })
-    url = url.replace(/\/:[a-z]+?\b/ig, '')  //去除未被替换的占位符
-	return url
+    Object.keys(params).map(key => {
+        let reg = new RegExp(":" + key + "\\b", "g");
+        if (reg.test(url)) {
+            url = url.replace(reg, params[key]);
+            delete params[key];
+        }
+    });
+    url = url.replace(/\/:[a-z]+?\b/gi, ""); //去除未被替换的占位符
+    return url;
 }
 
 function request(defaultUrl, extraParams, option) {
-	return function (data) {
-		return new Promise((resolve, reject) => {
-			let params = {
-				...extraParams,
-				...option.extraParams,
-				...data
-			}
-			let key = option.method === 'get' || !option.method ? 'params' : 'data'
-			let config = {
-				...option,
-				url: urlFormat(option.url || defaultUrl, params),
-				[key]: params
-			}
-			axios(config)
-				.then(response => {
-					resolve(response.data)
-				})
-				.catch(reject)
-		})
-	}
+    return function(data) {
+        return new Promise((resolve, reject) => {
+            let params = {
+                ...extraParams,
+                ...option.extraParams,
+                ...data
+            };
+            let key =
+                option.method === "get" || !option.method ? "params" : "data";
+            let config = {
+                ...option,
+                url: urlFormat(option.url || defaultUrl, params),
+                [key]: params
+            };
+            axios(config)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(reject);
+        });
+    };
 }
 
 /**
@@ -53,14 +54,14 @@ function request(defaultUrl, extraParams, option) {
  * @returns {object} resource 资源服务对象
  */
 function resource(defaultUrl, extraParams, options) {
-	let $resource = {}
-	BASIC_METHODS.forEach(key => {
-		$resource[key] = request(defaultUrl, extraParams, { method: key })
-	})
-	Object.keys(options).map(key => {
-		$resource[key] = request(defaultUrl, extraParams, options[key])
-	})
-	return $resource
+    let $resource = {};
+    BASIC_METHODS.forEach(key => {
+        $resource[key] = request(defaultUrl, extraParams, { method: key });
+    });
+    Object.keys(options).map(key => {
+        $resource[key] = request(defaultUrl, extraParams, options[key]);
+    });
+    return $resource;
 }
 
-export default resource
+export default resource;

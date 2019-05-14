@@ -1,17 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Layout from './layouts/VizLayout';
-import './assets/styles/reset.scss';
+import "@babel/polyfill";
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "mobx-react";
+import store from "./store";
+import App from "./App";
+import "./assets/styles/reset.scss";
 
 //offline
 //import * as serviceWorker from './serviceWorker';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from "react-router-dom";
 
-ReactDOM.render((
+ReactDOM.render(
     <BrowserRouter>
-        <Layout />
-    </BrowserRouter>
-), document.getElementById('root'));
+        <Provider {...store}>
+            <App />
+        </Provider>
+    </BrowserRouter>,
+    document.getElementById("root")
+);
 
 //offline
 //serviceWorker.unregister();

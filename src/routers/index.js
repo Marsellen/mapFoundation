@@ -1,10 +1,7 @@
-import Home from 'routers/Home'
-import Filter from 'routers/Filter'
+import Login from "./Login";
+import Home from "./Home";
+import Demo from "demo";
 
+const routeList = [Login, Home, Demo];
 
-const RouteList = [
-    Home,
-    Filter
-]
-
-export default RouteList
+export default routeList;

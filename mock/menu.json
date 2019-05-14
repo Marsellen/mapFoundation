@@ -1,12 +1,26 @@
-{
-    "menus": [
-        {
-            "oid": "321839218902",
-            "title": "PAGE A"
-        },
-        {
-            "oid": "321839218903",
-            "title": "PAGE B"
-        }
-    ]
-}
+[
+    {
+        "id": 1,
+        "label": "工具栏",
+        "icon": "tool",
+        "type": "tool"
+    },
+    {
+        "id": 2,
+        "label": "图层管理",
+        "icon": "layout",
+        "type": "layer"
+    },
+    {
+        "id": 3,
+        "label": "任务管理",
+        "icon": "profile",
+        "type": "task"
+    },
+    {
+        "id": 4,
+        "label": "历史管理",
+        "icon": "retweet",
+        "type": "history"
+    }
+]
