@@ -30,7 +30,7 @@ class Index extends React.Component {
                             {SiderView}
                         </Sider>
                         <div style={styles.rightContent}>
-                            hello world
+                            hello world demo
                         </div>
                     </div>
                 </Layout>

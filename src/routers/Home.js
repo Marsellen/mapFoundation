@@ -3,4 +3,8 @@ import PrivateRoute from "src/components/PrivateRoute";
 
 const Home = lazy(() => import("src/pages/Index"));
 
-export default <PrivateRoute key='Home' path='/' component={Home} />;
+export default (
+    
+    <PrivateRoute exact key='Home' path='/' component={Home} />
+)
+
