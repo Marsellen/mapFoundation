@@ -1,12 +1,12 @@
-import React from "react";
-import { notification } from "antd";
-import "./style.css";
-import { withRouter } from "react-router-dom";
-import { inject, observer } from "mobx-react";
-import LoginForm from "./LoginForm";
+import React from 'react';
+import { notification } from 'antd';
+import './style.css';
+import { withRouter } from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
+import LoginForm from './LoginForm';
 
 @withRouter
-@inject("appStore")
+@inject('appStore')
 @observer
 class Login extends React.Component {
     state = {};
@@ -35,17 +35,17 @@ class Login extends React.Component {
                 </ul>
             ),
             duration: 0,
-            className: "login-notification"
+            className: 'login-notification'
         });
     };
 
     render() {
         return (
-            <div id='login-page'>
+            <div id="login-page">
                 <div>
-                    <div id='backgroundBox' style={styles.backgroundBox} />
-                    <div className='container'>
-                        <LoginForm className={"box showBox"} />
+                    <div id="backgroundBox" style={styles.backgroundBox} />
+                    <div className="container">
+                        <LoginForm className={'box showBox'} />
                     </div>
                 </div>
             </div>
@@ -55,32 +55,32 @@ class Login extends React.Component {
 
 const styles = {
     backgroundBox: {
-        position: "fixed",
-        top: "0",
-        left: "0",
-        width: "100vw",
-        height: "100vh",
-        backgroundSize: "100% 100%",
-        transition: "all .5s"
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100vw',
+        height: '100vh',
+        backgroundSize: '100% 100%',
+        transition: 'all .5s'
     },
     focus: {
         // transform: 'scale(0.7)',
-        width: "20px",
+        width: '20px',
         opacity: 1
     },
     loadingBox: {
-        position: "fixed",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%,-50%)"
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%,-50%)'
     },
     loadingTitle: {
-        position: "fixed",
-        top: "50%",
-        left: "50%",
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
         marginLeft: -45,
         marginTop: -18,
-        color: "#000",
+        color: '#000',
         fontWeight: 500,
         fontSize: 24
     }

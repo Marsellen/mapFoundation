@@ -1,8 +1,8 @@
-import React from "react";
-import SiderBar from "./SiderBar";
-import SiderContent from "./SiderContent";
-import SiderItem from "./SiderItem";
-import SiderSwitch from "./SiderSwitch";
+import React from 'react';
+import SiderBar from './SiderBar';
+import SiderContent from './SiderContent';
+import SiderItem from './SiderItem';
+import SiderSwitch from './SiderSwitch';
 
 class Sider extends React.Component {
     state = {
@@ -49,8 +49,8 @@ class Sider extends React.Component {
 
 const styles = {
     sider: {
-        height: "calc(100vh - 64px)",
-        display: "flex"
+        height: 'calc(100vh - 64px)',
+        display: 'flex'
     }
 };
 

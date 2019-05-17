@@ -1,7 +1,7 @@
-import React, { Suspense } from "react";
-import { Switch } from "react-router-dom";
-import Routers from "./routers";
-import LoadingPage from "src/components/LoadingPage";
+import React, { Suspense } from 'react';
+import { Switch } from 'react-router-dom';
+import Routers from './routers';
+import LoadingPage from 'src/components/LoadingPage';
 
 class App extends React.Component {
     render() {

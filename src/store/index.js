@@ -1,6 +1,6 @@
-import appStore from "./appStore";
-import pageStore from "src/pages/store";
-import demoStore from "demo/store";
+import appStore from './appStore';
+import pageStore from 'src/pages/store';
+import demoStore from 'demo/store';
 
 export default {
     appStore,

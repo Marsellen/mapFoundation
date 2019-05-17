@@ -1,5 +1,5 @@
-import IndexStore from './Index/store'
+import IndexStore from './Index/store';
 
 export default {
     ...IndexStore
-}
+};

@@ -1,14 +1,14 @@
-import React from "react";
-import { Tooltip, Icon } from "antd";
+import React from 'react';
+import { Tooltip, Icon } from 'antd';
 
 class SiderItem extends React.Component {
     render() {
         const { record, clickAction, activeItem } = this.props;
         let type = activeItem && activeItem.type;
-        let fillColor = type == record.type ? "#fff" : "#bbb";
+        let fillColor = type == record.type ? '#fff' : '#bbb';
         return (
             <div style={styles.siderItem}>
-                <Tooltip placement='right' title={record.label}>
+                <Tooltip placement="right" title={record.label}>
                     <Icon
                         type={record.icon}
                         style={{ ...styles.menuIcon, color: fillColor }}
@@ -26,15 +26,15 @@ const styles = {
     siderItem: {
         width: 50,
         height: 45,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     menuIcon: {
-        cursor: "pointer",
+        cursor: 'pointer',
         fontSize: 20,
-        ":hover": {
-            color: "#fff"
+        ':hover': {
+            color: '#fff'
         }
     }
 };

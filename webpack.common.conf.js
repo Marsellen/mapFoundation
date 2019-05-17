@@ -9,7 +9,8 @@ module.exports = {
     },
     output: {
         filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        globalObject: 'this'
     },
     module: {
         noParse: [/moment.js/],
@@ -61,6 +62,11 @@ module.exports = {
                 PUBLIC_URL: __dirname
             }
         }),
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            THREE: 'three'
+        })
     ],
 };

@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-const BASIC_METHODS = ["get", "post", "put"];
+const BASIC_METHODS = ['get', 'post', 'put'];
 
 /**
  * url format
@@ -10,13 +10,13 @@ const BASIC_METHODS = ["get", "post", "put"];
 function urlFormat(url, params) {
     // 根据params内容替换对应的占位符
     Object.keys(params).map(key => {
-        let reg = new RegExp(":" + key + "\\b", "g");
+        let reg = new RegExp(':' + key + '\\b', 'g');
         if (reg.test(url)) {
             url = url.replace(reg, params[key]);
             delete params[key];
         }
     });
-    url = url.replace(/\/:[a-z]+?\b/gi, ""); //去除未被替换的占位符
+    url = url.replace(/\/:[a-z]+?\b/gi, ''); //去除未被替换的占位符
     return url;
 }
 
@@ -29,7 +29,7 @@ function request(defaultUrl, extraParams, option) {
                 ...data
             };
             let key =
-                option.method === "get" || !option.method ? "params" : "data";
+                option.method === 'get' || !option.method ? 'params' : 'data';
             let config = {
                 ...option,
                 url: urlFormat(option.url || defaultUrl, params),

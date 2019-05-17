@@ -22,7 +22,7 @@ const Home = LoadableComponent(() => import('src/pages/Home/index'))  //参数�
 
 @withRouter
 class ContentMain extends React.Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.menuStore.initMenus()
     }
 
@@ -114,7 +114,7 @@ import { inject, observer } from 'mobx-react';
 @inject('menuStore')  //注入menuStore
 @observer           //将组件设置为观察者
 class SiderNav extends React.Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.menuStore.initMenus() //组件第一次渲染前获取数据
     }
 

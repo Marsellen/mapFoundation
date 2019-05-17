@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 class SiderContent extends React.Component {
     render() {
@@ -8,7 +8,7 @@ class SiderContent extends React.Component {
             <div
                 style={{
                     ...styles.siderContent,
-                    display: showContent ? "flex" : "none"
+                    display: showContent ? 'flex' : 'none'
                 }}>
                 <div style={styles.contentTitle}>{title}</div>
                 <div style={styles.contentView}>{this.props.children}</div>
@@ -19,21 +19,21 @@ class SiderContent extends React.Component {
 
 const styles = {
     siderContent: {
-        height: "100%",
-        width: "200px",
-        flexDirection: "column"
+        height: '100%',
+        width: '200px',
+        flexDirection: 'column'
     },
     contentTitle: {
-        lineHeight: "32px",
-        background: "rgba(0, 0, 0, 0.75)",
+        lineHeight: '32px',
+        background: 'rgba(0, 0, 0, 0.75)',
         height: 32,
-        color: "#ddd",
+        color: '#ddd',
         fontSize: 12,
         paddingLeft: 16
     },
     contentView: {
         flexGrow: 1,
-        background: "rgba(0, 0, 0, 0.65)"
+        background: 'rgba(0, 0, 0, 0.65)'
     }
 };
 

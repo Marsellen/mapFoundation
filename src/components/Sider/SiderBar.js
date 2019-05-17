@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 class SiderBar extends React.Component {
     render() {
@@ -8,10 +8,10 @@ class SiderBar extends React.Component {
 
 const styles = {
     siderBar: {
-        background: "rgba(0, 0, 0, 0.85)",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column"
+        background: 'rgba(0, 0, 0, 0.85)',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column'
     }
 };
 

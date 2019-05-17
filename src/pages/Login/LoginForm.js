@@ -1,17 +1,17 @@
-import React from "react";
-import { randomNum } from "../../utils/utils";
-import { withRouter } from "react-router-dom";
-import { inject, observer } from "mobx-react";
-import { Form, Input, Row, Col } from "antd";
+import React from 'react';
+import { randomNum } from '../../utils/utils';
+import { withRouter } from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
+import { Form, Input, Row, Col } from 'antd';
 
 @withRouter
-@inject("appStore")
+@inject('appStore')
 @observer
 @Form.create()
 class LoginForm extends React.Component {
     state = {
         focusItem: -1, //保存当前聚焦的input
-        code: "" //验证码
+        code: '' //验证码
     };
 
     componentDidMount() {
@@ -22,7 +22,7 @@ class LoginForm extends React.Component {
      * 生成验证码
      */
     createCode = () => {
-        const ctx = this.canvas.getContext("2d");
+        const ctx = this.canvas.getContext('2d');
         const chars = [
             1,
             2,
@@ -33,67 +33,67 @@ class LoginForm extends React.Component {
             7,
             8,
             9,
-            "a",
-            "b",
-            "c",
-            "d",
-            "e",
-            "f",
-            "g",
-            "h",
-            "j",
-            "k",
-            "l",
-            "m",
-            "n",
-            "p",
-            "q",
-            "r",
-            "s",
-            "t",
-            "u",
-            "v",
-            "w",
-            "x",
-            "y",
-            "z",
-            "A",
-            "B",
-            "C",
-            "D",
-            "E",
-            "F",
-            "G",
-            "H",
-            "J",
-            "K",
-            "L",
-            "M",
-            "N",
-            "P",
-            "Q",
-            "R",
-            "S",
-            "T",
-            "U",
-            "V",
-            "W",
-            "X",
-            "Y",
-            "Z"
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f',
+            'g',
+            'h',
+            'j',
+            'k',
+            'l',
+            'm',
+            'n',
+            'p',
+            'q',
+            'r',
+            's',
+            't',
+            'u',
+            'v',
+            'w',
+            'x',
+            'y',
+            'z',
+            'A',
+            'B',
+            'C',
+            'D',
+            'E',
+            'F',
+            'G',
+            'H',
+            'J',
+            'K',
+            'L',
+            'M',
+            'N',
+            'P',
+            'Q',
+            'R',
+            'S',
+            'T',
+            'U',
+            'V',
+            'W',
+            'X',
+            'Y',
+            'Z'
         ];
-        let code = "";
+        let code = '';
         ctx.clearRect(0, 0, 80, 39);
         for (let i = 0; i < 4; i++) {
             const char = chars[randomNum(0, 57)];
             code += char;
-            ctx.font = randomNum(20, 25) + "px SimHei"; //设置字体随机大小
-            ctx.fillStyle = "#D3D7F7";
-            ctx.textBaseline = "middle";
+            ctx.font = randomNum(20, 25) + 'px SimHei'; //设置字体随机大小
+            ctx.fillStyle = '#D3D7F7';
+            ctx.textBaseline = 'middle';
             ctx.shadowOffsetX = randomNum(-3, 3);
             ctx.shadowOffsetY = randomNum(-3, 3);
             ctx.shadowBlur = randomNum(-3, 3);
-            ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
             let x = (80 / 5) * (i + 1);
             let y = 39 / 2;
             let deg = randomNum(-25, 25);
@@ -124,7 +124,7 @@ class LoginForm extends React.Component {
                     this.props.form.setFields({
                         verification: {
                             value: values.verification,
-                            errors: [new Error("验证码错误")]
+                            errors: [new Error('验证码错误')]
                         }
                     });
                     return;
@@ -139,7 +139,7 @@ class LoginForm extends React.Component {
                     this.props.form.setFields({
                         username: {
                             value: values.username,
-                            errors: [new Error("用户名不存在")]
+                            errors: [new Error('用户名不存在')]
                         }
                     });
                     return;
@@ -149,7 +149,7 @@ class LoginForm extends React.Component {
                         this.props.form.setFields({
                             password: {
                                 value: values.password,
-                                errors: [new Error("密码错误")]
+                                errors: [new Error('密码错误')]
                             }
                         });
                         return;
@@ -161,7 +161,7 @@ class LoginForm extends React.Component {
                 });
 
                 const { from } = this.props.location.state || {
-                    from: { pathname: "/" }
+                    from: { pathname: '/' }
                 };
                 this.props.history.push(from);
             }
@@ -173,20 +173,20 @@ class LoginForm extends React.Component {
         const { focusItem, code } = this.state;
         return (
             <div className={this.props.className}>
-                <h3 className='title'>管理员登录</h3>
+                <h3 className="title">管理员登录</h3>
                 <Form onSubmit={this.loginSubmit}>
                     <Form.Item>
-                        {getFieldDecorator("username", {
-                            rules: [{ required: true, message: "请输入用户名" }]
+                        {getFieldDecorator('username', {
+                            rules: [{ required: true, message: '请输入用户名' }]
                         })(
                             <Input
                                 onFocus={() => this.setState({ focusItem: 0 })}
                                 onBlur={() => this.setState({ focusItem: -1 })}
                                 maxLength={16}
-                                placeholder='用户名'
+                                placeholder="用户名"
                                 addonBefore={
                                     <span
-                                        className='iconfont icon-User'
+                                        className="iconfont icon-User"
                                         style={
                                             focusItem === 0 ? styles.focus : {}
                                         }
@@ -196,18 +196,18 @@ class LoginForm extends React.Component {
                         )}
                     </Form.Item>
                     <Form.Item>
-                        {getFieldDecorator("password", {
-                            rules: [{ required: true, message: "请输入密码" }]
+                        {getFieldDecorator('password', {
+                            rules: [{ required: true, message: '请输入密码' }]
                         })(
                             <Input
                                 onFocus={() => this.setState({ focusItem: 1 })}
                                 onBlur={() => this.setState({ focusItem: -1 })}
-                                type='password'
+                                type="password"
                                 maxLength={16}
-                                placeholder='密码'
+                                placeholder="密码"
                                 addonBefore={
                                     <span
-                                        className='iconfont icon-suo1'
+                                        className="iconfont icon-suo1"
                                         style={
                                             focusItem === 1 ? styles.focus : {}
                                         }
@@ -217,10 +217,10 @@ class LoginForm extends React.Component {
                         )}
                     </Form.Item>
                     <Form.Item>
-                        {getFieldDecorator("verification", {
+                        {getFieldDecorator('verification', {
                             validateFirst: true,
                             rules: [
-                                { required: true, message: "请输入验证码" },
+                                { required: true, message: '请输入验证码' },
                                 {
                                     validator: (rule, value, callback) => {
                                         if (
@@ -228,7 +228,7 @@ class LoginForm extends React.Component {
                                             code.toUpperCase() !==
                                                 value.toUpperCase()
                                         ) {
-                                            callback("验证码错误");
+                                            callback('验证码错误');
                                         }
                                         callback();
                                     }
@@ -245,10 +245,10 @@ class LoginForm extends React.Component {
                                             this.setState({ focusItem: -1 })
                                         }
                                         maxLength={4}
-                                        placeholder='验证码'
+                                        placeholder="验证码"
                                         addonBefore={
                                             <span
-                                                className='iconfont icon-securityCode-b'
+                                                className="iconfont icon-securityCode-b"
                                                 style={
                                                     focusItem === 2
                                                         ? styles.focus
@@ -261,23 +261,23 @@ class LoginForm extends React.Component {
                                 <Col span={9}>
                                     <canvas
                                         onClick={this.createCode}
-                                        width='80'
-                                        height='39'
+                                        width="80"
+                                        height="39"
                                         ref={el => (this.canvas = el)}
                                     />
                                 </Col>
                             </Row>
                         )}
                     </Form.Item>
-                    <div className='bottom'>
+                    <div className="bottom">
                         <input
-                            className='loginBtn'
-                            type='submit'
-                            value='登录'
+                            className="loginBtn"
+                            type="submit"
+                            value="登录"
                         />
                     </div>
                 </Form>
-                <div className='footer'>
+                <div className="footer">
                     <div>欢迎登陆后台管理系统</div>
                 </div>
             </div>
@@ -287,7 +287,7 @@ class LoginForm extends React.Component {
 
 const styles = {
     focus: {
-        width: "20px",
+        width: '20px',
         opacity: 1
     }
 };

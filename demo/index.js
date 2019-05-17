@@ -1,8 +1,6 @@
-import React, { lazy } from 'react'
-import PrivateRoute from 'src/components/PrivateRoute'
+import React, { lazy } from 'react';
+import PrivateRoute from 'src/components/PrivateRoute';
 
-const Demo = lazy(() => import('demo/Index/index'))
+const Demo = lazy(() => import('demo/Index/index'));
 
-export default (
-    <PrivateRoute key='Demo' path='/demo-page' component={Demo} />
-)
+export default <PrivateRoute key="Demo" path="/demo-page" component={Demo} />;

@@ -1,40 +1,33 @@
-import React from 'react'
-import { Layout } from 'antd'
-import { inject, observer } from 'mobx-react'
-import Sider from 'src/components/Sider'
-import SiderView from './components/SiderView'
+import React from 'react';
+import { Layout } from 'antd';
+import { inject, observer } from 'mobx-react';
+import Sider from 'src/components/Sider';
+import SiderView from './components/SiderView';
+import VizCompnent from './components/VizCompnent';
 
-const { Header } = Layout
+const { Header } = Layout;
 
 @inject('menuStore')
 @observer
 class Index extends React.Component {
-    state = {
-        
-    }
+    state = {};
 
-    componentWillMount() {
-        this.props.menuStore.initMenus()
+    componentDidMount() {
+        this.props.menuStore.initMenus();
     }
 
     render() {
-        const { menus } = this.props.menuStore
+        const { menus } = this.props.menuStore;
         return (
-            <div id='page'>
-                <Layout>
-                    <Header style={{ background: '#fff', padding: '0 16px' }}>
-                        
-                    </Header>
-                    <div style={styles.content}>
-                        <Sider menus={menus}>
-                            {SiderView}
-                        </Sider>
-                        <div style={styles.rightContent}>
-                            hello world demo
-                        </div>
+            <Layout>
+                <Header />
+                <div style={styles.content}>
+                    <Sider menus={menus}>{SiderView}</Sider>
+                    <div style={styles.rightContent}>
+                        <VizCompnent />
                     </div>
-                </Layout>
-            </div>
+                </div>
+            </Layout>
         );
     }
 }
@@ -45,8 +38,9 @@ const styles = {
         flexDirection: 'row'
     },
     rightContent: {
-        flexGrow: 1
+        flexGrow: 1,
+        position: 'relative'
     }
-}
+};
 
-export default Index
+export default Index;

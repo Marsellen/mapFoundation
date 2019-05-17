@@ -22,7 +22,7 @@ body {
   height: 100%;
   color: $font-color;
   word-wrap: break-word;
-  overflow: auto;
+  overflow: hidden;
 
   a {
     text-decoration: none;

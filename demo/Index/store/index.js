@@ -1,5 +1,5 @@
-import menuStore from './MenuStore'
+import menuStore from './MenuStore';
 
 export default {
     menuStore
-}
+};
