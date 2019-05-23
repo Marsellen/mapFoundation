@@ -22,5 +22,11 @@
         "label": "历史管理",
         "icon": "retweet",
         "type": "history"
+    },
+    {
+        "id": 4,
+        "label": "IndexedDB Demo",
+        "icon": "database",
+        "type": "IndexedDB"
     }
 ]

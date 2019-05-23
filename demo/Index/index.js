@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import Sider from 'src/components/Sider';
 import SiderView from './components/SiderView';
 import VizCompnent from './components/VizCompnent';
+import MultimediaView from './components/MultimediaView';
 
 const { Header } = Layout;
 
@@ -23,9 +24,10 @@ class Index extends React.Component {
                 <Header />
                 <div style={styles.content}>
                     <Sider menus={menus}>{SiderView}</Sider>
-                    <div style={styles.rightContent}>
+                    <div style={styles.vizContent}>
                         <VizCompnent />
                     </div>
+                    <MultimediaView />
                 </div>
             </Layout>
         );
@@ -37,7 +39,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'row'
     },
-    rightContent: {
+    vizContent: {
         flexGrow: 1,
         position: 'relative'
     }
