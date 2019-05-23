@@ -77,9 +77,8 @@ class EditForm extends React.Component {
             if (err) {
                 message.warning('请先填写正确的表单')
             } else {
-                let id = ID
+                let id = new Date().valueOf()
                 this.props.handleSave({id: id, ...values})
-                ID++
             }
         })
     }
@@ -88,6 +87,5 @@ class EditForm extends React.Component {
         this.props.onCancel()
     }
 }
-var ID = 0
 
 export default EditForm
