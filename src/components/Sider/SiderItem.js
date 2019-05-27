@@ -1,24 +1,31 @@
 import React from 'react';
-import { Tooltip, Icon } from 'antd';
+import { Icon, Popover } from 'antd';
+import SiderSwitch from './SiderSwitch';
 
 class SiderItem extends React.Component {
     render() {
-        const { record, clickAction, activeItem } = this.props;
+        const { record, activeItem } = this.props;
         let type = activeItem && activeItem.type;
         let fillColor = type == record.type ? '#fff' : '#bbb';
         return (
             <div style={styles.siderItem}>
-                <Tooltip placement="right" title={record.label}>
+                <Popover
+                    placement="rightTop"
+                    title={record.label}
+                    content={this._renderContent()}
+                    trigger="hover">
                     <Icon
                         type={record.icon}
                         style={{ ...styles.menuIcon, color: fillColor }}
-                        onClick={() => {
-                            clickAction(record);
-                        }}
                     />
-                </Tooltip>
+                </Popover>
             </div>
         );
+    }
+
+    _renderContent() {
+        const { record, content } = this.props;
+        return <SiderSwitch siderType={record.type}>{content}</SiderSwitch>;
     }
 }
 

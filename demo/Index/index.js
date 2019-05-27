@@ -8,17 +8,17 @@ import MultimediaView from './components/MultimediaView';
 
 const { Header } = Layout;
 
-@inject('menuStore')
+@inject('demoMenuStore')
 @observer
 class Index extends React.Component {
     state = {};
 
     componentDidMount() {
-        this.props.menuStore.initMenus();
+        this.props.demoMenuStore.initMenus();
     }
 
     render() {
-        const { menus } = this.props.menuStore;
+        const { menus } = this.props.demoMenuStore;
         return (
             <Layout>
                 <Header />

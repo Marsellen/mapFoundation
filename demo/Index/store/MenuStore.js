@@ -2,7 +2,7 @@ import { observable, flow, configure } from 'mobx';
 import MenuService from '../service/MenuService';
 
 configure({ enforceActions: 'always' });
-class MenuStore {
+class DemoMenuStore {
     @observable state = 'pending'; // 'pending' / 'done' / 'error'
     @observable menus = [];
 
@@ -20,4 +20,4 @@ class MenuStore {
     });
 }
 
-export default new MenuStore();
+export default new DemoMenuStore();

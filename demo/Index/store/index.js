@@ -1,7 +1,7 @@
-import menuStore from './MenuStore';
+import demoMenuStore from './MenuStore';
 import FeaturesStore from './FeaturesStore'
 
 export default {
-    menuStore,
+    demoMenuStore,
     FeaturesStore
 };

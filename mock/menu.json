@@ -1,32 +1,14 @@
 [
     {
         "id": 1,
-        "label": "工具栏",
-        "icon": "tool",
-        "type": "tool"
+        "label": "资料图层",
+        "icon": "database",
+        "type": "resource-layer"
     },
     {
         "id": 2,
-        "label": "图层管理",
+        "label": "数据图层",
         "icon": "layout",
-        "type": "layer"
-    },
-    {
-        "id": 3,
-        "label": "任务管理",
-        "icon": "profile",
-        "type": "task"
-    },
-    {
-        "id": 4,
-        "label": "历史管理",
-        "icon": "retweet",
-        "type": "history"
-    },
-    {
-        "id": 4,
-        "label": "IndexedDB Demo",
-        "icon": "database",
-        "type": "IndexedDB"
+        "type": "data-layer"
     }
 ]

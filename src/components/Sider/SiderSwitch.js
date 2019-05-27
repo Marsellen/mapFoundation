@@ -2,10 +2,9 @@ import React from 'react';
 
 class SiderSwitch extends React.Component {
     render() {
-        const { activeItem } = this.props;
-        let type = activeItem && activeItem.type;
+        const { siderType } = this.props;
         return React.Children.map(this.props.children, child => {
-            if (child.props.siderIndex != type) return;
+            if (child.props.siderIndex != siderType) return;
             return child;
         });
     }
