@@ -13,7 +13,8 @@ class SiderItem extends React.Component {
                     placement="rightTop"
                     title={record.label}
                     content={this._renderContent()}
-                    trigger="hover">
+                    trigger="hover"
+                    getPopupContainer={triggerNode => triggerNode.parentNode}>
                     <Icon
                         type={record.icon}
                         style={{ ...styles.menuIcon, color: fillColor }}
@@ -25,8 +26,19 @@ class SiderItem extends React.Component {
 
     _renderContent() {
         const { record, content } = this.props;
-        return <SiderSwitch siderType={record.type}>{content}</SiderSwitch>;
+        return (
+            <div onMouseLeave={this.onMouseLeave}>
+                <SiderSwitch siderType={record.type}>{content}</SiderSwitch>
+            </div>
+        );
     }
+
+    // 解决popover action为hover时，多次点击浮动层触发onMouseLeave导致浮动层隐藏问题
+    onMouseLeave = e => {
+        if (e.relatedTarget === window) {
+            e.stopPropagation();
+        }
+    };
 }
 
 const styles = {
