@@ -1,20 +1,23 @@
 import React from 'react';
 import { Checkbox, List } from 'antd';
+import { inject, observer } from 'mobx-react';
 
+@inject('ResourceLayerStore')
+@inject('DataLayerStore')
+@observer
 class DataLayer extends React.Component {
     render() {
-        let data = [
-            { value: 'A', label: '车道线', checked: true },
-            { value: 'B', label: '交通灯', checked: true },
-            { value: 'C', label: '交通牌' }
-        ];
-        //let defaultValue = ['A'];
+        let { DataLayerStore } = this.props;
         return (
             <List
-                dataSource={data}
+                key={DataLayerStore.updateKey}
+                dataSource={DataLayerStore.layers}
                 renderItem={item => (
                     <div>
-                        <Checkbox value={item.value} checked={item.checked} onChange={this.changeEvent(item)}>
+                        <Checkbox
+                            value={item.value}
+                            checked={item.checked}
+                            onChange={this.changeEvent(item)}>
                             {item.label}
                         </Checkbox>
                     </div>
@@ -24,13 +27,15 @@ class DataLayer extends React.Component {
     }
 
     changeEvent = item => {
+        let { DataLayerStore, ResourceLayerStore } = this.props;
         let onChange = e => {
-            console.log(e, item);
+            DataLayerStore.toggle(item.value, e.target.checked);
+            if (e.target.checked) {
+                ResourceLayerStore.showVertor();
+            }
         };
-        return onChange
-    }
-
-    
+        return onChange;
+    };
 }
 
 export default DataLayer;

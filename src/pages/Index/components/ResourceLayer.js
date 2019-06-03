@@ -1,26 +1,40 @@
 import React from 'react';
-import CheckboxList from 'src/components/CheckboxList';
+import { Checkbox, List } from 'antd';
+import { inject, observer } from 'mobx-react';
 
+@inject('ResourceLayerStore')
+@inject('DataLayerStore')
+@observer
 class ResourceLayer extends React.Component {
     render() {
-        let data = [
-            { value: 'A', label: '照片' },
-            { value: 'B', label: '点云' },
-            { value: 'C', label: '轨迹' },
-            { value: 'D', label: '高精地图' }
-        ];
-        let defaultValue = [];
+        let { ResourceLayerStore } = this.props;
         return (
-            <CheckboxList
-                dataSource={data}
-                defaultValue={defaultValue}
-                onChange={this.onChange}
+            <List
+                key={ResourceLayerStore.updateKey}
+                dataSource={ResourceLayerStore.layers}
+                renderItem={item => (
+                    <div>
+                        <Checkbox
+                            value={item.value}
+                            checked={item.checked}
+                            onChange={this.changeEvent(item)}>
+                            {item.label}
+                        </Checkbox>
+                    </div>
+                )}
             />
         );
     }
 
-    onChange = checkedValue => {
-        console.log(checkedValue);
+    changeEvent = item => {
+        let { ResourceLayerStore, DataLayerStore } = this.props;
+        let onChange = e => {
+            ResourceLayerStore.toggle(item.value, e.target.checked);
+            if (item.value == 'vector') {
+                DataLayerStore.toggleAll(e.target.checked)
+            }
+        };
+        return onChange;
     };
 }
 

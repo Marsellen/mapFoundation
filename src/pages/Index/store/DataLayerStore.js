@@ -1,20 +1,16 @@
-import { observable, flow, configure } from 'mobx';
+import { action, configure } from 'mobx';
+import LayerStore from './LayerStore';
 
 configure({ enforceActions: 'always' });
-class DataLayerStore {
-    layerGroup;
-    @observable layers;
+class DataLayerStore extends LayerStore {
+    constructor() {
+        super();
+    }
 
-    init = flow(function*(layerGroup) {
-        this.layerGroup = layerGroup;
-        this.layers = layerGroup.map(layer => {
-            return {
-                name: layer.layerName,
-                value: layer,
-                checked: true
-            };
-        });
-    });
+    @action toggleAll = checked => {
+        this.layers.map(layer => (layer.checked = checked));
+        this.updateKey = Math.random();
+    };
 }
 
 export default new DataLayerStore();
