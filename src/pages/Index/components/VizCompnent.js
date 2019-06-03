@@ -35,7 +35,7 @@ class VizCompnent extends React.Component {
                 },
                 {
                     layerId: 'vector',
-                    layerName: '轨迹',
+                    layerName: '高精地图',
                     layer: layerGroup
                 }
             ]);
