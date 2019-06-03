@@ -1,12 +1,27 @@
 import React from 'react';
-import { ADVIS } from 'addis-viz-sdk';
+import { Map, PointCloudLayer, LayerGroup } from 'addis-viz-sdk';
+import { inject, observer } from 'mobx-react';
 
+@inject('taskStore')
+@observer
 class VizCompnent extends React.Component {
     componentDidMount() {
-        const div = document.getElementById('viz');
-        const adVIS = new ADVIS(div);
-        window.adVIS = adVIS;
-        adVIS.loadPointCloud('http://10.43.16.17:8888/cloud.js');
+        const { taskStore } = this.props;
+        taskStore.init(task => {
+            const div = document.getElementById("viz");
+            const map = new Map(div);
+            window.map = map;
+            const opts = { type: 'pointcloud', layerId: 'test' }
+            const pointCloudLayer = new PointCloudLayer(task.point_clouds, opts);
+            map.getLayerManager().addLayer('PointCloudLayer', pointCloudLayer);
+
+            //admap
+            const layerGroup = new LayerGroup(task.vectors);
+            window.layerGroup = layerGroup;
+            map.getLayerManager().addLayerGroup(layerGroup).then((layers) => {
+                console.log(layers)
+            });
+        })
         
     }
 

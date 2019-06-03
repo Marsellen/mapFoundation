@@ -1,13 +1,7 @@
 import React from 'react';
-import { MeasuringTool } from 'addis-viz-sdk';
 import { Tooltip, Icon } from 'antd';
 
 class Tool extends React.Component {
-    componentDidMount() {
-        this.viewer = adVIS.viewer;
-        this.measuringTool = new MeasuringTool(this.viewer);
-    }
-
     render() {
         return (
             <div>

@@ -1,7 +1,6 @@
 import Login from './Login';
 import Home from './Home';
-import Demo from 'demo/index';
 
-const routeList = [Login, Home, Demo];
+const routeList = [Login, Home];
 
 export default routeList;

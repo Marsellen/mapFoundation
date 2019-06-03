@@ -1,6 +1,13 @@
 ## 项目启动
 
 ### 依赖项安装
+安装 addis-viz-sdk:
+> npm i addis-viz-sdk --registry=http://10.43.16.53:8081/repository/npm-all/  --save
+
+更新 addis-viz-sdk:
+> npm i addis-viz-sdk@latest --registry=http://10.43.16.53:8081/repository/npm-all/ --save
+
+npm依赖安装
 > npm install
 
 ### 服务启动

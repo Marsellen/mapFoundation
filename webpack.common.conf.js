@@ -1,11 +1,11 @@
-const path = require('path')
-const webpack = require('webpack')
+const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
-        index: './src/index.js',
+        index: './src/index.js'
     },
     output: {
         filename: '[name].bundle.js',
@@ -31,23 +31,21 @@ module.exports = {
                 test: /\.(png|jpg|jpeg|gif|ico)(\?v=\d+\.\d+\.\d+)?$/i,
                 loader: 'url-loader',
                 options: {
-                    limit: 10000,
-                },
+                    limit: 10000
+                }
             }
-        ],
+        ]
     },
     devServer: {
         historyApiFallback: true,
         hot: true
     },
     resolve: {
-        modules: [
-            'node_modules/'
-        ],
+        modules: ['node_modules/'],
         alias: {
             src: path.resolve(__dirname, 'src/'),
             demo: path.resolve(__dirname, 'demo/'),
-            'mock': path.resolve(__dirname, './mock/'),
+            mock: path.resolve(__dirname, './mock/'),
             styles: path.resolve(__dirname, 'src/assets/styles/')
         },
         extensions: ['.js', '.jsx', '.json']
@@ -69,4 +67,7 @@ module.exports = {
             THREE: 'three'
         })
     ],
+    node: {
+        fs: 'empty'
+    }
 };

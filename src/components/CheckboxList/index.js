@@ -7,13 +7,13 @@ class CheckboxList extends React.Component {
         return (
             <Checkbox.Group
                 style={Styles.group}
-                defaultValue={defaultValue}
+                //defaultValue={defaultValue}
                 onChange={onChange}>
                 <List
                     dataSource={dataSource}
                     renderItem={item => (
                         <div>
-                            <Checkbox value={item.value}>{item.label}</Checkbox>
+                            <Checkbox value={item.value} checked={item.checked}>{item.label}</Checkbox>
                         </div>
                     )}
                 />
