@@ -2,7 +2,7 @@ import React from 'react';
 import { randomNum } from '../../utils/utils';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import { Form, Input, Row, Col } from 'antd';
+import { Form, Input, Row, Col, Icon } from 'antd';
 
 @withRouter
 @inject('appStore')
@@ -185,10 +185,12 @@ class LoginForm extends React.Component {
                                 maxLength={16}
                                 placeholder="用户名"
                                 addonBefore={
-                                    <span
-                                        className="iconfont icon-User"
+                                    <Icon
+                                        type="user"
                                         style={
-                                            focusItem === 0 ? styles.focus : {}
+                                            focusItem === 0
+                                                ? styles.focus
+                                                : styles.normal
                                         }
                                     />
                                 }
@@ -206,10 +208,12 @@ class LoginForm extends React.Component {
                                 maxLength={16}
                                 placeholder="密码"
                                 addonBefore={
-                                    <span
-                                        className="iconfont icon-suo1"
+                                    <Icon
+                                        type="lock"
                                         style={
-                                            focusItem === 1 ? styles.focus : {}
+                                            focusItem === 1
+                                                ? styles.focus
+                                                : styles.normal
                                         }
                                     />
                                 }
@@ -247,12 +251,12 @@ class LoginForm extends React.Component {
                                         maxLength={4}
                                         placeholder="验证码"
                                         addonBefore={
-                                            <span
-                                                className="iconfont icon-securityCode-b"
+                                            <Icon
+                                                type="key"
                                                 style={
                                                     focusItem === 2
                                                         ? styles.focus
-                                                        : {}
+                                                        : styles.normal
                                                 }
                                             />
                                         }
@@ -278,7 +282,7 @@ class LoginForm extends React.Component {
                     </div>
                 </Form>
                 <div className="footer">
-                    <div>欢迎登陆后台管理系统</div>
+                    <div>欢迎登录编辑系统</div>
                 </div>
             </div>
         );
@@ -288,7 +292,13 @@ class LoginForm extends React.Component {
 const styles = {
     focus: {
         width: '20px',
-        opacity: 1
+        opacity: 1,
+        color: '#61bfff',
+        fontSize: 18
+    },
+    normal: {
+        color: '#61bfff',
+        fontSize: 18
     }
 };
 

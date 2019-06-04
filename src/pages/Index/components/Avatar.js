@@ -1,7 +1,10 @@
 import React from 'react';
-import { Dropdown, Menu } from 'antd';
+import { Dropdown, Menu, Modal } from 'antd';
 import { isAuthenticated } from 'src/utils/Session';
+import { inject, observer } from 'mobx-react';
 
+@inject('appStore')
+@observer
 class Avatar extends React.Component {
     state = {
         visible: false,
@@ -29,14 +32,26 @@ class Avatar extends React.Component {
             <Menu className="menu">
                 <Menu.Item>{isAuthenticated()}</Menu.Item>
                 <Menu.Divider />
-                <Menu.Item>
-                    <span onClick={this.logout}>退出登录</span>
+                <Menu.Item onClick={this.logout}>
+                    <span>退出登录</span>
                 </Menu.Item>
             </Menu>
         );
     }
 
-    logout = () => {};
+    logout = () => {
+        const { appStore } = this.props;
+        Modal.confirm({
+            title: '您确定要退出登录？',
+            okText: '确定',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk() {
+                appStore.toggleLogin(false);
+                location.reload();
+            }
+        });
+    };
 }
 
 const Styles = {
