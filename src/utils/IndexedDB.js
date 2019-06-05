@@ -79,6 +79,34 @@ class IndexedDB {
             }, reject);
         });
     };
+
+    getPrev = id => {
+        //只适用keyPath为id且id自增长的数据结构
+        return new Promise((resolve, reject) => {
+            this.open().then(objectStore => {
+                let keyRange = IDBKeyRange.upperBound(id, true);
+                let request = objectStore.openCursor(keyRange, 'prev');
+                request.onsuccess = event => {
+                    resolve(request.result, event);
+                };
+                request.onerror = reject;
+            }, reject);
+        });
+    };
+
+    getNext = id => {
+        //只适用keyPath为id且id自增长的数据结构
+        return new Promise((resolve, reject) => {
+            this.open().then(objectStore => {
+                let keyRange = IDBKeyRange.lowerBound(id, true);
+                let request = objectStore.openCursor(keyRange, 'next');
+                request.onsuccess = event => {
+                    resolve(request.result, event);
+                };
+                request.onerror = reject;
+            }, reject);
+        });
+    };
 }
 
 export default IndexedDB;
