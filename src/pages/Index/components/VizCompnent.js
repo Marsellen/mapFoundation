@@ -7,9 +7,9 @@ import { inject, observer } from 'mobx-react';
 @inject('DataLayerStore')
 @observer
 class VizCompnent extends React.Component {
-    componentDidMount() {
+    componentDidUpdate() {
         const { taskStore, ResourceLayerStore, DataLayerStore } = this.props;
-        taskStore.init(task => {
+        taskStore.getTaskFile(task => {
             const div = document.getElementById('viz');
             const map = new Map(div);
             window.map = map;
@@ -43,18 +43,11 @@ class VizCompnent extends React.Component {
     }
 
     render() {
-        return <div id="viz" style={Styles.viz} />;
+        const { taskStore } = this.props;
+        return (
+            <div id="viz" key={taskStore.activeTaskId} className="viz-box" />
+        );
     }
 }
-
-const Styles = {
-    viz: {
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        right: 0,
-        left: 0
-    }
-};
 
 export default VizCompnent;

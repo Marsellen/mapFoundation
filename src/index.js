@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
 import store from './store';
 import App from './App';
-import './assets/styles/reset.scss';
+import 'less/index.less';
 
 //offline
 //import * as serviceWorker from './serviceWorker';

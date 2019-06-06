@@ -6,6 +6,7 @@ import SiderView from './components/SiderView';
 import VizCompnent from './components/VizCompnent';
 import MultimediaView from './components/MultimediaView';
 import HeaderBar from './components/HeaderBar';
+import 'less/home.less';
 
 const { Header } = Layout;
 
@@ -21,13 +22,13 @@ class Index extends React.Component {
     render() {
         const { menus } = this.props.menuStore;
         return (
-            <Layout>
-                <Header style={styles.header}>
+            <Layout id="home">
+                <Header className="header">
                     <HeaderBar />
                 </Header>
-                <div style={styles.content}>
+                <div className="flex flex-row">
                     <Sider menus={menus}>{SiderView}</Sider>
-                    <div style={styles.vizContent}>
+                    <div className="flex-1 viz-content">
                         <VizCompnent />
                     </div>
                     <MultimediaView />
@@ -36,22 +37,5 @@ class Index extends React.Component {
         );
     }
 }
-
-const styles = {
-    header: {
-        height: 40,
-        lineHeight: '40px',
-        background: 'rgba(0, 0, 0, 0.8)',
-        padding: '0 20px 0 50px'
-    },
-    content: {
-        display: 'flex',
-        flexDirection: 'row'
-    },
-    vizContent: {
-        flexGrow: 1,
-        position: 'relative'
-    }
-};
 
 export default Index;

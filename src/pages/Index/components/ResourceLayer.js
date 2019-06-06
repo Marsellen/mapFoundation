@@ -31,7 +31,7 @@ class ResourceLayer extends React.Component {
         let onChange = e => {
             ResourceLayerStore.toggle(item.value, e.target.checked);
             if (item.value == 'vector') {
-                DataLayerStore.toggleAll(e.target.checked)
+                DataLayerStore.toggleAll(e.target.checked);
             }
         };
         return onChange;

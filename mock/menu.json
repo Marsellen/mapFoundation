@@ -1,5 +1,11 @@
 [
     {
+        "id": 0,
+        "label": "任务管理",
+        "icon": "container",
+        "type": "task-manage"
+    },
+    {
         "id": 1,
         "label": "资料图层",
         "icon": "database",

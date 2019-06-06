@@ -17,10 +17,10 @@ class MultimediaView extends React.Component {
 
     _renderOpenView() {
         return (
-            <div style={Styles.contentBox}>
+            <div className="multimedia-view-container">
                 <Icon
                     type="double-right"
-                    style={Styles.icon}
+                    className="muti-toggle-icon"
                     onClick={this.toggle}
                 />
             </div>
@@ -32,7 +32,7 @@ class MultimediaView extends React.Component {
             <Tooltip placement="left" title="图片显示窗口">
                 <Icon
                     type="double-left"
-                    style={Styles.icon}
+                    className="muti-toggle-icon"
                     onClick={this.toggle}
                 />
             </Tooltip>
@@ -45,20 +45,5 @@ class MultimediaView extends React.Component {
         });
     };
 }
-
-const Styles = {
-    contentBox: {
-        width: '25vw',
-        minWidth: 300,
-        position: 'relative'
-    },
-    icon: {
-        position: 'absolute',
-        right: 0,
-        margin: 10,
-        cursor: 'pointer',
-        background: '#fff'
-    }
-};
 
 export default MultimediaView;

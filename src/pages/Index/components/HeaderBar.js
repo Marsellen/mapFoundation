@@ -6,18 +6,12 @@ import ToolList from './ToolList';
 class HeaderBar extends React.Component {
     render() {
         return (
-            <div style={Styles.container}>
+            <div className="flex">
                 <ToolCtrl>{ToolList}</ToolCtrl>
                 <Avatar />
             </div>
         );
     }
 }
-
-const Styles = {
-    container: {
-        display: 'flex'
-    }
-};
 
 export default HeaderBar;

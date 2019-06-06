@@ -14,12 +14,12 @@ class Avatar extends React.Component {
     render() {
         const { avatar } = this.state;
         return (
-            <div style={Styles.container}>
+            <div className="flex flex-center">
                 <Dropdown overlay={this._renderMenu()}>
                     <img
                         onClick={() => this.setState({ visible: true })}
                         src={avatar}
-                        style={Styles.img}
+                        className="avatar-img"
                         alt=""
                     />
                 </Dropdown>
@@ -29,7 +29,7 @@ class Avatar extends React.Component {
 
     _renderMenu() {
         return (
-            <Menu className="menu">
+            <Menu className="submenu-title-wrapper">
                 <Menu.Item>{isAuthenticated()}</Menu.Item>
                 <Menu.Divider />
                 <Menu.Item onClick={this.logout}>
@@ -53,18 +53,5 @@ class Avatar extends React.Component {
         });
     };
 }
-
-const Styles = {
-    container: {
-        display: 'flex',
-        alignItems: 'center'
-    },
-    img: {
-        padding: 5,
-        width: 40,
-        height: 40,
-        borderRadius: 20
-    }
-};
 
 export default Avatar;

@@ -2,6 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
     entry: {
@@ -24,8 +26,17 @@ module.exports = {
                 }
             },
             {
-                test: /\.s?[ac]ss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
+                test: /\.(le|c)ss$/,
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            hmr: process.env.NODE_ENV === 'development'
+                        }
+                    },
+                    'css-loader',
+                    'less-loader'
+                ]
             },
             {
                 test: /\.(png|jpg|jpeg|gif|ico)(\?v=\d+\.\d+\.\d+)?$/i,
@@ -46,7 +57,7 @@ module.exports = {
             src: path.resolve(__dirname, 'src/'),
             demo: path.resolve(__dirname, 'demo/'),
             mock: path.resolve(__dirname, './mock/'),
-            styles: path.resolve(__dirname, 'src/assets/styles/')
+            less: path.resolve(__dirname, 'src/assets/less/')
         },
         extensions: ['.js', '.jsx', '.json']
     },
@@ -65,8 +76,24 @@ module.exports = {
             $: 'jquery',
             jQuery: 'jquery',
             THREE: 'three'
+        }),
+        new MiniCssExtractPlugin({
+            filename: devMode ? '[name].css' : '[name].[hash].css',
+            chunkFilename: devMode ? '[id].css' : '[id].[hash].css'
         })
     ],
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                styles: {
+                    name: 'styles',
+                    test: /\.(le|c)ss$/,
+                    chunks: 'all',
+                    enforce: true
+                }
+            }
+        }
+    },
     node: {
         fs: 'empty'
     }

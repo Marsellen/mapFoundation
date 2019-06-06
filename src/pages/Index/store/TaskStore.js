@@ -3,21 +3,34 @@ import TaskService from '../service/TaskService';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
-    @observable state = 'pending'; // 'pending' / 'done' / 'error'
     @observable tasks;
+    @observable activeTaskId;
 
-    init = flow(function*(callback) {
-        this.state = 'pending';
+    init = flow(function*() {
         try {
-            const tasks = yield TaskService.getTasks();
-            // 异步代码块会被自动包装成动作并修改状态
-            this.state = 'done';
+            const tasks = yield TaskService.get();
             this.tasks = tasks;
+            this.setActiveTaskId();
         } catch (e) {
             console.log(e);
-            this.state = 'error';
         }
-        callback(this.tasks[0])
+    });
+
+    setActiveTaskId = flow(function*(id) {
+        this.activeTaskId = id;
+        // TODO 缓存activeTaskId，取id优先级： id > 缓存id > this.tasks[0].id
+    });
+
+    getTaskFile = flow(function*(callback) {
+        try {
+            if (!this.activeTaskId) {
+                return;
+            }
+            const task = yield TaskService.get({id: this.activeTaskId});
+            callback(task);
+        } catch (e) {
+            console.log(e);
+        }
     });
 }
 

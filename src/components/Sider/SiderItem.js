@@ -4,21 +4,16 @@ import SiderSwitch from './SiderSwitch';
 
 class SiderItem extends React.Component {
     render() {
-        const { record, activeItem } = this.props;
-        let type = activeItem && activeItem.type;
-        let fillColor = type == record.type ? '#fff' : '#bbb';
+        const { record } = this.props;
         return (
-            <div style={styles.siderItem}>
+            <div className={`flex flex-center ad-sider-item ${record.type}`}>
                 <Popover
                     placement="rightTop"
                     title={record.label}
                     content={this._renderContent()}
                     trigger="hover"
                     getPopupContainer={triggerNode => triggerNode.parentNode}>
-                    <Icon
-                        type={record.icon}
-                        style={{ ...styles.menuIcon, color: fillColor }}
-                    />
+                    <Icon type={record.icon} className="ad-menu-icon" />
                 </Popover>
             </div>
         );
@@ -40,22 +35,5 @@ class SiderItem extends React.Component {
         }
     };
 }
-
-const styles = {
-    siderItem: {
-        width: 50,
-        height: 45,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    menuIcon: {
-        cursor: 'pointer',
-        fontSize: 20,
-        ':hover': {
-            color: '#fff'
-        }
-    }
-};
 
 export default SiderItem;

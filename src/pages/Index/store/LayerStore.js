@@ -3,12 +3,12 @@ import { observable, configure, action } from 'mobx';
 configure({ enforceActions: 'always' });
 class LayerStore {
     layerGroup;
-    @observable layers = [];
+    @observable layers;
     @observable updateKey;
 
     @action init = layers => {
-        this.layerGroup = layers;
-        this.layers = layers.map(layer => {
+        this.layerGroup = layers || [];
+        this.layers = this.layerGroup.map(layer => {
             return {
                 label: layer.layerName,
                 value: layer.layerId,

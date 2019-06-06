@@ -43,7 +43,7 @@ class Login extends React.Component {
         return (
             <div id="login-page">
                 <div>
-                    <div id="backgroundBox" style={styles.backgroundBox} />
+                    <div id="backgroundBox" className="background-box" />
                     <div className="container">
                         <LoginForm className={'box showBox'} />
                     </div>
@@ -52,38 +52,5 @@ class Login extends React.Component {
         );
     }
 }
-
-const styles = {
-    backgroundBox: {
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        width: '100vw',
-        height: '100vh',
-        backgroundSize: '100% 100%',
-        transition: 'all .5s'
-    },
-    focus: {
-        // transform: 'scale(0.7)',
-        width: '20px',
-        opacity: 1
-    },
-    loadingBox: {
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)'
-    },
-    loadingTitle: {
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        marginLeft: -45,
-        marginTop: -18,
-        color: '#000',
-        fontWeight: 500,
-        fontSize: 24
-    }
-};
 
 export default Login;
