@@ -97,7 +97,7 @@ class VizCompnent extends React.Component {
             const obj = detector.getActiveFeadtures();
             if (obj.length) {
                 console.log(obj[0]);
-                this.showAttributesModal(obj[0].properties);
+                this.showAttributesModal(obj[0].data.properties);
             }
         });
     };
