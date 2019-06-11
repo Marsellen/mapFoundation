@@ -18,7 +18,7 @@ class AttributesModal extends React.Component {
             {
                 title: '属性',
                 dataIndex: 'attribute',
-                width: '40%'
+                width: 100
             },
             {
                 title: '值',
@@ -65,7 +65,9 @@ class AttributesModal extends React.Component {
                     dataSource={attributes}
                     columns={this.columns}
                     pagination={false}
+                    bordered
                     size="small"
+                    scroll={{ y: 300 }}
                 />
             </Modal>
         );

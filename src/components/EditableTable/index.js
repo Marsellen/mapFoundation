@@ -15,7 +15,6 @@ class EditableTable extends React.Component {
             <Table
                 components={this.components}
                 rowClassName={() => 'editable-row'}
-                bordered
                 {...this.props}
             />
         );

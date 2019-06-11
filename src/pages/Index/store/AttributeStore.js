@@ -6,7 +6,7 @@ class AttributeStore {
 
     @action setAttributes = properties => {
         this.attributes = Object.keys(properties).map(key => {
-            return { attribute: key, value: properties[key] };
+            return { key: key, attribute: key, value: properties[key] };
         });
     };
 }
