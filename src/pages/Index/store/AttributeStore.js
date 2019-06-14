@@ -1,13 +1,12 @@
 import { observable, configure, action } from 'mobx';
+import modelFactory from 'src/utils/mapModel/modelFactory';
 
 configure({ enforceActions: 'always' });
 class AttributeStore {
     @observable attributes = [];
 
     @action setAttributes = properties => {
-        this.attributes = Object.keys(properties).map(key => {
-            return { key: key, attribute: key, value: properties[key] };
-        });
+        this.attributes = modelFactory('ADLaneDivider', properties).tableData();
     };
 }
 

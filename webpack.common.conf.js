@@ -78,7 +78,7 @@ module.exports = {
             THREE: 'three'
         }),
         new MiniCssExtractPlugin({
-            filename: devMode ? '[name].css' : '[name].[hash].css',
+            filename: devMode ? 'main.css' : 'main.[hash].css',
             chunkFilename: devMode ? '[id].css' : '[id].[hash].css'
         })
     ],
@@ -96,5 +96,9 @@ module.exports = {
     },
     node: {
         fs: 'empty'
+    },
+    stats: {
+        children: false,
+        warnings: false
     }
 };

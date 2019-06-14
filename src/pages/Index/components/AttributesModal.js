@@ -17,7 +17,7 @@ class AttributesModal extends React.Component {
         this.columns = [
             {
                 title: '属性',
-                dataIndex: 'attribute',
+                dataIndex: 'name',
                 width: 100
             },
             {
