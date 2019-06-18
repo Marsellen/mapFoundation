@@ -54,6 +54,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '禁止通行' }
     ],
     AD_LANE_TYPE: [
+        { value: 0, label: '未定义' },
         { value: 1, label: '普通车道' },
         { value: 2, label: '路口车道' },
         { value: 3, label: '应急车道' },

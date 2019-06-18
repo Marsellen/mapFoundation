@@ -77,7 +77,7 @@ class EditItem extends React.Component {
                         showSearch
                         style={{ width: '100%' }}
                         optionFilterProp="children"
-                        onChange={this.save}
+                        onChange={this.handleChange}
                         onBlur={this.toggleEdit}
                         filterOption={(input, option) =>
                             option.props.children
@@ -115,9 +115,14 @@ class EditItem extends React.Component {
             if (error && error[e.currentTarget.id]) {
                 return;
             }
-            this.toggleEdit();
             handleSave({ ...record, ...values });
+            this.toggleEdit();
         });
+    };
+
+    handleChange = value => {
+        const { record, handleSave } = this.props;
+        handleSave({ ...record, value: value });
     };
 }
 

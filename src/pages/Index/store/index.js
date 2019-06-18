@@ -4,6 +4,7 @@ import DataLayerStore from './DataLayerStore';
 import ResourceLayerStore from './ResourceLayerStore';
 import OperateHistoryStore from './OperateHistoryStore';
 import AttributeStore from './AttributeStore';
+import ToolCtrlStore from './ToolCtrlStore';
 
 export default {
     menuStore,
@@ -11,5 +12,6 @@ export default {
     DataLayerStore,
     ResourceLayerStore,
     OperateHistoryStore,
-    AttributeStore
+    AttributeStore,
+    ToolCtrlStore
 };

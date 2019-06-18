@@ -44,7 +44,7 @@ class VizCompnent extends React.Component {
         const pointCloudLayer = new PointCloudLayer(pointClouds, opts);
         map.getLayerManager().addLayer('PointCloudLayer', pointCloudLayer);
         return {
-            layerId: 'pointcloud',
+            layerId: pointCloudLayer.layerId,
             layerName: '点云',
             layer: pointCloudLayer
         };
@@ -62,7 +62,7 @@ class VizCompnent extends React.Component {
                 DataLayerStore.init(layers);
             });
         return {
-            layerId: 'vector',
+            layerId: 'layerGroup',
             layerName: '高精地图',
             layer: layerGroup
         };
@@ -75,7 +75,7 @@ class VizCompnent extends React.Component {
         let traceLayer = new TraceLayer(tracks);
         map.getLayerManager().addTraceLayer(traceLayer);
         return {
-            layerId: 'tracks',
+            layerId: traceLayer.layerId,
             layerName: '轨迹',
             layer: traceLayer
         };
@@ -97,19 +97,20 @@ class VizCompnent extends React.Component {
             const obj = detector.getActiveFeadtures();
             if (obj.length) {
                 console.log(obj[0]);
-                this.showAttributesModal(obj[0].data.properties);
+                this.showAttributesModal(obj[0]);
             }
         });
     };
 
-    showAttributesModal = properties => {
+    showAttributesModal = obj => {
         const { AttributeStore } = this.props;
-        AttributeStore.setAttributes(properties);
+        AttributeStore.setModel(obj);
         this.attributesModal.showModal();
     };
 
     handleSave = row => {
-        console.log(row);
+        const { AttributeStore } = this.props;
+        AttributeStore.setAttributes(row);
     };
 
     render() {
