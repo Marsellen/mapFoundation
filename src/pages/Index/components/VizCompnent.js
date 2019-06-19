@@ -8,6 +8,7 @@ import {
 } from 'addis-viz-sdk';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
+import NewFeatureModal from './NewFeatureModal';
 
 @inject('taskStore')
 @inject('ResourceLayerStore')
@@ -127,6 +128,7 @@ class VizCompnent extends React.Component {
                     handleSave={this.handleSave}
                     onRef={ref => (this.attributesModal = ref)}
                 />
+                <NewFeatureModal />
             </div>
         );
     }

@@ -27,11 +27,6 @@ class LayerStore {
         }
         this.updateKey = Math.random();
     };
-
-    @action updataAttributes = (id, features) => {
-        let layer = this.layerGroup.find(layer => layer.layerId == id).layer;
-        layer.updateFeatures(features);
-    }
 }
 
 export default LayerStore;

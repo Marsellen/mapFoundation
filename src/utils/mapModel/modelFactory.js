@@ -33,17 +33,21 @@ const AD_ARROW_OBJECT_ID = '用户编号';
 const AD_ARROW_ARR_DIRECT = '箭头方向';
 const AD_ARROW_ALANE_ID = '关联车道号';
 
+const AD_LANEATTRPOINT_ALAP_ID = '用户编号';
+const AD_LANEATTRPOINT_TYPE = '属性变化点类型';
+const AD_LANEATTRPOINT_REF_LINE = '关联道路参考线ID';
+
 class modelFactory {
-    getTabelData = option => {
-        return this[option.layerName](option.data.properties);
+    getTabelData = (type, properties, id) => {
+        return this[type](properties, id);
     };
 
-    LaneDivider = properties => {
+    LaneDivider = (properties, id) => {
         return [
             {
                 key: 'ALDIV_ID',
                 name: AD_LANE_DIVIDER_ID,
-                value: properties.ALDIV_ID,
+                value: properties.ALDIV_ID || id,
                 type: 'AD_LANE_DIVIDER_ID',
                 domType: 'Text'
             },
@@ -99,12 +103,12 @@ class modelFactory {
         ];
     };
 
-    ReferenceLine = properties => {
+    ReferenceLine = (properties, id) => {
         return [
             {
                 key: 'REFLINE_ID',
                 name: AD_REFERENCELINE_REFLINE_ID,
-                value: properties.REFLINE_ID,
+                value: properties.REFLINE_ID || id,
                 type: 'AD_REFERENCELINE_REFLINE_ID',
                 domType: 'Text'
             },
@@ -125,12 +129,12 @@ class modelFactory {
         ];
     };
 
-    Lane = properties => {
+    Lane = (properties, id) => {
         return [
             {
                 key: 'ALANE_ID',
                 name: AD_LANE_ALANE_ID,
-                value: properties.ALANE_ID,
+                value: properties.ALANE_ID || id,
                 type: 'AD_LANE_ALANE_ID',
                 domType: 'Text'
             },
@@ -207,12 +211,12 @@ class modelFactory {
         ];
     };
 
-    StopLocation = properties => {
+    StopLocation = (properties, id) => {
         return [
             {
                 key: 'OBJECT_ID',
                 name: AD_STOPLOCATION_OBJECT_ID,
-                value: properties.OBJECT_ID,
+                value: properties.OBJECT_ID || id,
                 type: 'AD_STOPLOCATION_OBJECT_ID',
                 domType: 'Text'
             },
@@ -226,12 +230,12 @@ class modelFactory {
         ];
     };
 
-    Polygon = properties => {
+    Polygon = (properties, id) => {
         return [
             {
                 key: 'OBJECT_ID',
                 name: AD_POLYGON_OBJECT_ID,
-                value: properties.OBJECT_ID,
+                value: properties.OBJECT_ID || id,
                 type: 'AD_POLYGON_OBJECT_ID',
                 domType: 'Text'
             },
@@ -245,12 +249,12 @@ class modelFactory {
         ];
     };
 
-    Arrow = properties => {
+    Arrow = (properties, id) => {
         return [
             {
                 key: 'OBJECT_ID',
                 name: AD_ARROW_OBJECT_ID,
-                value: properties.OBJECT_ID,
+                value: properties.OBJECT_ID || id,
                 type: 'AD_ARROW_OBJECT_ID',
                 domType: 'Text'
             },
@@ -266,6 +270,32 @@ class modelFactory {
                 name: AD_ARROW_ALANE_ID,
                 value: properties.ALANE_ID,
                 type: 'AD_ARROW_ALANE_ID',
+                domType: 'Text'
+            }
+        ];
+    };
+
+    LaneAttrPoint = (properties, id) => {
+        return [
+            {
+                key: 'ALAP_ID',
+                name: AD_LANEATTRPOINT_ALAP_ID,
+                value: properties.ALAP_ID || id,
+                type: 'AD_LANEATTRPOINT_ALAP_ID',
+                domType: 'Text'
+            },
+            {
+                key: 'TYPE',
+                name: AD_LANEATTRPOINT_TYPE,
+                value: properties.TYPE,
+                type: 'AD_LANEATTRPOINT_TYPE',
+                domType: 'Select'
+            },
+            {
+                key: 'REF_LINE',
+                name: AD_LANEATTRPOINT_REF_LINE,
+                value: properties.REF_LINE,
+                type: 'AD_LANEATTRPOINT_REF_LINE',
                 domType: 'Text'
             }
         ];

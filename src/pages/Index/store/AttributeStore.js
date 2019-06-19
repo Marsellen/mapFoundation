@@ -12,7 +12,10 @@ class AttributeStore {
     };
 
     @action updataAttributes = () => {
-        this.attributes = modelFactory.getTabelData(this.model);
+        this.attributes = modelFactory.getTabelData(
+            this.model.layerName,
+            this.model.data.properties
+        );
     };
 
     @action setAttributes = row => {

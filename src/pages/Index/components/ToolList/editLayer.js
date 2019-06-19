@@ -1,6 +1,7 @@
 import React from 'react';
 import { Popover, Tooltip, Icon, Radio, List } from 'antd';
 import { inject, observer } from 'mobx-react';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 class EditLayer extends React.Component {
     state = {
@@ -52,11 +53,17 @@ class EditLayer extends React.Component {
 }
 
 @inject('DataLayerStore')
+@inject('ToolCtrlStore')
+@inject('OperateHistoryStore')
+@inject('NewFeatureStore')
 @observer
 class EditLayerPicker extends React.Component {
-    state = { value: 1 };
+    state = { value: false };
     render() {
         let { DataLayerStore } = this.props;
+        let layers = DataLayerStore.layers
+            ? [{ value: false, label: '不启用' }, ...DataLayerStore.layers]
+            : [];
         return (
             <Radio.Group
                 onChange={this.onChange}
@@ -64,10 +71,14 @@ class EditLayerPicker extends React.Component {
                 style={{ width: '100%' }}>
                 <List
                     key={DataLayerStore.updateKey}
-                    dataSource={DataLayerStore.layers}
+                    dataSource={layers}
                     renderItem={item => (
                         <div>
-                            <Radio value={item.value}>{item.label}</Radio>
+                            <Radio value={item.value}>
+                                {item.value
+                                    ? DATA_LAYER_MAP[item.label].label
+                                    : item.label}
+                            </Radio>
                         </div>
                     )}
                 />
@@ -76,10 +87,25 @@ class EditLayerPicker extends React.Component {
     }
 
     onChange = e => {
-        console.log('radio checked', e.target.value);
+        const {
+            DataLayerStore,
+            ToolCtrlStore,
+            OperateHistoryStore,
+            NewFeatureStore
+        } = this.props;
         this.setState({
             value: e.target.value
         });
+        let layer = DataLayerStore.activeEditor(e.target.value, feature => {
+            OperateHistoryStore.add({
+                type: 'add',
+                uuid: feature.properties.uuid,
+                layerId: e.target.value
+            });
+            NewFeatureStore.init(feature);
+        });
+        NewFeatureStore.setFromType(layer);
+        ToolCtrlStore.updateByEditLayer(layer);
     };
 }
 

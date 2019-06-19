@@ -26,8 +26,8 @@ class OperateHistoryStore {
     add = flow(function*(history) {
         try {
             let result = yield this.historyStore.add(history);
-            console.log(result);
-            this.currentNode = result.id;
+            this.currentNode = result;
+            console.log('currentNode:', this.currentNode);
             yield this.init();
         } catch (e) {
             console.log(e);

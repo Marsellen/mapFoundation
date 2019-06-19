@@ -1,6 +1,7 @@
 import React from 'react';
 import { Checkbox, List } from 'antd';
 import { inject, observer } from 'mobx-react';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 @inject('ResourceLayerStore')
 @inject('DataLayerStore')
@@ -18,7 +19,7 @@ class DataLayer extends React.Component {
                             value={item.value}
                             checked={item.checked}
                             onChange={this.changeEvent(item)}>
-                            {item.label}
+                            {DATA_LAYER_MAP[item.label].label}
                         </Checkbox>
                     </div>
                 )}
