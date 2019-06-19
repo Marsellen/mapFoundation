@@ -6,7 +6,14 @@ import { inject, observer } from 'mobx-react';
 @observer
 class Save extends React.Component {
     render() {
-        return <ToolIcon icon="save" title="保存" action={this.action} />;
+        return (
+            <ToolIcon
+                icon="save"
+                title="保存"
+                disabled={true}
+                action={this.action}
+            />
+        );
     }
 
     action = () => {};

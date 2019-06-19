@@ -59,6 +59,12 @@ class EditLayer extends React.Component {
 @observer
 class EditLayerPicker extends React.Component {
     state = { value: false };
+
+    constructor(props) {
+        super(props);
+        this.props.OperateHistoryStore.destory(); // TODO 本地例子每次请求的数据不会被更新，清空历史记录
+    }
+
     render() {
         let { DataLayerStore } = this.props;
         let layers = DataLayerStore.layers
@@ -87,24 +93,13 @@ class EditLayerPicker extends React.Component {
     }
 
     onChange = e => {
-        const {
-            DataLayerStore,
-            ToolCtrlStore,
-            OperateHistoryStore,
-            NewFeatureStore
-        } = this.props;
+        const { DataLayerStore, ToolCtrlStore, NewFeatureStore } = this.props;
         this.setState({
             value: e.target.value
         });
         let layer = DataLayerStore.activeEditor(e.target.value, feature => {
-            OperateHistoryStore.add({
-                type: 'addFeature',
-                feature: feature,
-                layerName: e.target.value
-            });
-            NewFeatureStore.init(feature);
+            NewFeatureStore.init(feature, e.target.value);
         });
-        NewFeatureStore.setFromType(layer);
         ToolCtrlStore.updateByEditLayer(layer);
     };
 }

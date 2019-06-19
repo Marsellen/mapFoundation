@@ -9,10 +9,11 @@ import OperateFactory from 'src/utils/OperateFactory';
 class Undo extends React.Component {
     render() {
         const { OperateHistoryStore } = this.props;
-        let shouldUndo = OperateHistoryStore.shouldUndo();
+        let { currentNode, savedNode } = OperateHistoryStore;
+        let shouldUndo = currentNode > savedNode;
         return (
             <ToolIcon
-                disabled={shouldUndo}
+                disabled={!shouldUndo}
                 icon="undo"
                 title="撤销"
                 action={this.action}

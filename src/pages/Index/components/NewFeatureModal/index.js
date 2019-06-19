@@ -6,6 +6,7 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 @Form.create()
 @inject('NewFeatureStore')
+@inject('OperateHistoryStore')
 @observer
 class NewFeatureModal extends React.Component {
     render() {
@@ -108,13 +109,20 @@ class NewFeatureModal extends React.Component {
     };
 
     save = () => {
-        const { form, NewFeatureStore } = this.props;
+        const { form, NewFeatureStore, OperateHistoryStore } = this.props;
         form.validateFields((err, values) => {
             if (err) {
                 return;
             }
             console.log('Received values of form: ', values);
-            NewFeatureStore.save(values);
+            NewFeatureStore.save(values, (feature, layerName) => {
+                OperateHistoryStore.add({
+                    type: 'addFeature',
+                    feature: feature,
+                    layerName: layerName
+                });
+            });
+            
         });
     };
 }

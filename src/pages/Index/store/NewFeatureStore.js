@@ -9,15 +9,11 @@ class NewFeatureStore {
     @observable fromData = [];
     @observable fromType;
 
-    @action init = feature => {
+    @action init = (feature, layerName) => {
         this.feature = feature;
+        this.fromType = layerName
         this.setFromData();
         this.visible = true;
-    };
-
-    @action setFromType = layer => {
-        if (!layer) return;
-        this.fromType = layer.layerName;
     };
 
     setFromData = flow(function*() {
@@ -33,12 +29,13 @@ class NewFeatureStore {
         }
     });
 
-    @action save = properties => {
+    @action save = (properties, callback) => {
         this.feature.properties = {
             ...this.feature.properties,
             ...properties
         };
         this.visible = false;
+        callback(this.feature, this.fromType)
     };
 }
 

@@ -113,7 +113,7 @@ class IndexedDB {
     deleteByRange = (start, end) => {
         return new Promise((resolve, reject) => {
             this.open().then(objectStore => {
-                let keyRange = IDBKeyRange.bound(start, end, true, false)
+                let keyRange = IDBKeyRange.bound(start, end, true, false);
                 let request = objectStore.delete(keyRange);
                 request.onsuccess = event => {
                     resolve(request.result, event);
@@ -121,7 +121,19 @@ class IndexedDB {
                 request.onerror = reject;
             }, reject);
         });
-    }
+    };
+
+    clear = () => {
+        return new Promise((resolve, reject) => {
+            this.open().then(objectStore => {
+                let request = objectStore.clear();
+                request.onsuccess = event => {
+                    resolve(request.result, event);
+                };
+                request.onerror = reject;
+            }, reject);
+        });
+    };
 }
 
 export default IndexedDB;

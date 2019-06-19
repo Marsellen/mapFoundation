@@ -3,9 +3,9 @@ import IndexedDB from 'src/utils/IndexedDB';
 
 configure({ enforceActions: 'always' });
 class OperateHistoryStore {
-    currentNode = -1;
-    savedNode = -1;
-    finalNode = -1;
+    @observable currentNode = -1;
+    @observable savedNode = -1;
+    @observable finalNode = -1;
     @observable nodes = [];
     historyStore = new IndexedDB('adEditor', 'operateHistories', db => {
         db.createObjectStore('operateHistories', {
@@ -40,14 +40,6 @@ class OperateHistoryStore {
         } catch (e) {
             console.log(e);
         }
-    });
-
-    shouldRedo = flow(function*() {
-        return this.currentNode < this.finalNode;
-    });
-
-    shouldUndo = flow(function*() {
-        return this.savedNode < this.currentNode;
     });
 
     redo = flow(function*(callback) {
