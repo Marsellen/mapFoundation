@@ -87,7 +87,8 @@ class IndexedDB {
                 let keyRange = IDBKeyRange.upperBound(id, true);
                 let request = objectStore.openCursor(keyRange, 'prev');
                 request.onsuccess = event => {
-                    resolve(request.result, event);
+                    let prev = request.result && request.result.value;
+                    resolve(prev, event);
                 };
                 request.onerror = reject;
             }, reject);
@@ -101,12 +102,26 @@ class IndexedDB {
                 let keyRange = IDBKeyRange.lowerBound(id, true);
                 let request = objectStore.openCursor(keyRange, 'next');
                 request.onsuccess = event => {
-                    resolve(request.result, event);
+                    let next = request.result && request.result.value;
+                    resolve(next, event);
                 };
                 request.onerror = reject;
             }, reject);
         });
     };
+
+    deleteByRange = (start, end) => {
+        return new Promise((resolve, reject) => {
+            this.open().then(objectStore => {
+                let keyRange = IDBKeyRange.bound(start, end, true, false)
+                let request = objectStore.delete(keyRange);
+                request.onsuccess = event => {
+                    resolve(request.result, event);
+                };
+                request.onerror = reject;
+            }, reject);
+        });
+    }
 }
 
 export default IndexedDB;

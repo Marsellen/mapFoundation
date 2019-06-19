@@ -76,7 +76,7 @@ class EditLayerPicker extends React.Component {
                         <div>
                             <Radio value={item.value}>
                                 {item.value
-                                    ? DATA_LAYER_MAP[item.label].label
+                                    ? DATA_LAYER_MAP[item.value].label
                                     : item.label}
                             </Radio>
                         </div>
@@ -98,9 +98,9 @@ class EditLayerPicker extends React.Component {
         });
         let layer = DataLayerStore.activeEditor(e.target.value, feature => {
             OperateHistoryStore.add({
-                type: 'add',
-                uuid: feature.properties.uuid,
-                layerId: e.target.value
+                type: 'addFeature',
+                feature: feature,
+                layerName: e.target.value
             });
             NewFeatureStore.init(feature);
         });

@@ -3,8 +3,9 @@ import IndexedDB from 'src/utils/IndexedDB';
 
 configure({ enforceActions: 'always' });
 class OperateHistoryStore {
-    @observable currentNode;
-    @observable savedNode;
+    currentNode = -1;
+    savedNode = -1;
+    finalNode = -1;
     @observable nodes = [];
     historyStore = new IndexedDB('adEditor', 'operateHistories', db => {
         db.createObjectStore('operateHistories', {
@@ -25,8 +26,15 @@ class OperateHistoryStore {
 
     add = flow(function*(history) {
         try {
+            if (this.currentNode < this.finalNode) {
+                this.historyStore.deleteByRange(
+                    this.currentNode,
+                    this.finalNode
+                );
+            }
             let result = yield this.historyStore.add(history);
             this.currentNode = result;
+            this.finalNode = result;
             console.log('currentNode:', this.currentNode);
             yield this.init();
         } catch (e) {
@@ -34,11 +42,19 @@ class OperateHistoryStore {
         }
     });
 
+    shouldRedo = flow(function*() {
+        return this.currentNode < this.finalNode;
+    });
+
+    shouldUndo = flow(function*() {
+        return this.savedNode < this.currentNode;
+    });
+
     redo = flow(function*(callback) {
         try {
-            let preNode = yield this.historyStore.getPrev(this.currentNode);
-            callback(preNode);
-            this.currentNode = preNode.id;
+            let nextNode = yield this.historyStore.getNext(this.currentNode);
+            callback(nextNode);
+            this.currentNode = nextNode.id;
         } catch (e) {
             console.log(e);
         }
@@ -46,9 +62,10 @@ class OperateHistoryStore {
 
     undo = flow(function*(callback) {
         try {
-            let nextNode = yield this.historyStore.getNext(this.currentNode);
-            callback(nextNode);
-            this.currentNode = nextNode.id;
+            let preNode = yield this.historyStore.getPrev(this.currentNode);
+            let currentNode = yield this.historyStore.get(this.currentNode);
+            callback(currentNode);
+            this.currentNode = preNode ? preNode.id : -1;
         } catch (e) {
             console.log(e);
         }

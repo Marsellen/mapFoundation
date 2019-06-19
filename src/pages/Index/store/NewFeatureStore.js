@@ -39,8 +39,6 @@ class NewFeatureStore {
             ...properties
         };
         this.visible = false;
-        this.feature = null;
-        this.fromData = [];
     };
 }
 

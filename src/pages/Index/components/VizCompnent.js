@@ -45,7 +45,6 @@ class VizCompnent extends React.Component {
         const pointCloudLayer = new PointCloudLayer(pointClouds, opts);
         map.getLayerManager().addLayer('PointCloudLayer', pointCloudLayer);
         return {
-            layerId: pointCloudLayer.layerId,
             layerName: '点云',
             layer: pointCloudLayer
         };
@@ -63,7 +62,6 @@ class VizCompnent extends React.Component {
                 DataLayerStore.init(layers);
             });
         return {
-            layerId: 'layerGroup',
             layerName: '高精地图',
             layer: layerGroup
         };
@@ -76,7 +74,6 @@ class VizCompnent extends React.Component {
         let traceLayer = new TraceLayer(tracks);
         map.getLayerManager().addTraceLayer(traceLayer);
         return {
-            layerId: traceLayer.layerId,
             layerName: '轨迹',
             layer: traceLayer
         };

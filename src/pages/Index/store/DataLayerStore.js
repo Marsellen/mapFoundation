@@ -7,7 +7,6 @@ class DataLayerStore extends LayerStore {
     constructor() {
         super();
         this.editor;
-        this.editorLayerId;
     }
 
     @action toggleAll = checked => {
@@ -15,14 +14,13 @@ class DataLayerStore extends LayerStore {
         this.updateKey = Math.random();
     };
 
-    @action updataAttributes = (id, features) => {
-        let layer = this.layerGroup.find(layer => layer.layerId == id).layer;
+    @action updataAttributes = (name, features) => {
+        let layer = this.getLayerByName(name).layer;
         layer.updateFeatures(features);
     };
 
-    @action activeEditor = (id, callback) => {
-        this.editorLayerId = id;
-        let layer = this.layerGroup.find(layer => layer.layerId == id);
+    @action activeEditor = (name, callback) => {
+        let layer = this.getLayerByName(name);
         if (this.editor) {
             // TODO
             this.editor.editLayer = layer;
@@ -33,6 +31,10 @@ class DataLayerStore extends LayerStore {
         }
         return layer;
     };
+
+    @action getLayerByName = name => {
+        return this.layerGroup.find(layer => layer.layerName == name);
+    }
 
     @action newPoint = () => {
         if (!this.editor) return;

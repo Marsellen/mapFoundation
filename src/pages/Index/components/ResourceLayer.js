@@ -18,7 +18,7 @@ class ResourceLayer extends React.Component {
                             value={item.value}
                             checked={item.checked}
                             onChange={this.changeEvent(item)}>
-                            {item.label}
+                            {item.value}
                         </Checkbox>
                     </div>
                 )}

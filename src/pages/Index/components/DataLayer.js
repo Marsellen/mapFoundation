@@ -19,7 +19,7 @@ class DataLayer extends React.Component {
                             value={item.value}
                             checked={item.checked}
                             onChange={this.changeEvent(item)}>
-                            {DATA_LAYER_MAP[item.label].label}
+                            {DATA_LAYER_MAP[item.value].label}
                         </Checkbox>
                     </div>
                 )}

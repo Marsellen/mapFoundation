@@ -10,16 +10,15 @@ class LayerStore {
         this.layerGroup = layers || [];
         this.layers = this.layerGroup.map(layer => {
             return {
-                label: layer.layerName,
-                value: layer.layerId,
+                value: layer.layerName,
                 checked: true
             };
         });
     };
 
-    @action toggle = (id, checked) => {
-        this.layers.find(layer => layer.value == id).checked = checked;
-        let layer = this.layerGroup.find(layer => layer.layerId == id).layer;
+    @action toggle = (name, checked) => {
+        this.layers.find(layer => layer.value == name).checked = checked;
+        let layer = this.layerGroup.find(layer => layer.layerName == name).layer;
         if (checked) {
             layer.show();
         } else {
