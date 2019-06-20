@@ -3,6 +3,8 @@ import { Popover, Tooltip, Icon, Radio, List } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
+@inject('taskStore')
+@observer
 class EditLayer extends React.Component {
     state = {
         clicked: false,
@@ -24,12 +26,17 @@ class EditLayer extends React.Component {
     };
 
     handleClickChange = visible => {
+        const { taskStore } = this.props;
+        const { activeTaskId } = taskStore;
+        if (!activeTaskId) return;
         this.setState({
             clicked: visible,
             hovered: false
         });
     };
     render() {
+        const { taskStore } = this.props;
+        const { activeTaskId } = taskStore;
         return (
             <Popover
                 content={this._renderContent()}
@@ -41,7 +48,11 @@ class EditLayer extends React.Component {
                     title="设置编辑图层"
                     visible={this.state.hovered}
                     onVisibleChange={this.handleHoverChange}>
-                    <Icon type="sliders" className="ad-icon" />
+                    <Icon
+                        type="sliders"
+                        className={`ad-icon ${!activeTaskId &&
+                            'ad-disabled-icon'}`}
+                    />
                 </Tooltip>
             </Popover>
         );

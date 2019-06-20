@@ -42,7 +42,7 @@ class VizCompnent extends React.Component {
             return;
         }
         const opts = { type: 'pointcloud', layerId: 'pointcloud' };
-        const pointCloudLayer = new PointCloudLayer(pointClouds, opts);
+        window.pointCloudLayer = new PointCloudLayer(pointClouds, opts);
         map.getLayerManager().addLayer('PointCloudLayer', pointCloudLayer);
         return {
             layerName: '点云',
