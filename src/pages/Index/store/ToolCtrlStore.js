@@ -11,7 +11,7 @@ class ToolCtrlStore {
     };
 
     @action updateByEditLayer = layer => {
-        if (!layer) {
+        if (!layer || !DATA_LAYER_MAP[layer.layerName]) {
             this.tools = TOOLS_MAP.EDIT;
             return;
         }

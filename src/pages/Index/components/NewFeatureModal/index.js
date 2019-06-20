@@ -22,7 +22,10 @@ class NewFeatureModal extends React.Component {
                 sm: { span: 18 }
             }
         };
-        let label = fromType ? DATA_LAYER_MAP[fromType].label : '';
+        let label =
+            fromType && DATA_LAYER_MAP[fromType]
+                ? DATA_LAYER_MAP[fromType].label
+                : '';
         let title = '新建' + label;
         return (
             <Modal
@@ -122,7 +125,6 @@ class NewFeatureModal extends React.Component {
                     layerName: layerName
                 });
             });
-            
         });
     };
 }

@@ -92,9 +92,7 @@ class EditLayerPicker extends React.Component {
                     renderItem={item => (
                         <div>
                             <Radio value={item.value}>
-                                {item.value
-                                    ? DATA_LAYER_MAP[item.value].label
-                                    : item.label}
+                                {this.getLabel(item)}
                             </Radio>
                         </div>
                     )}
@@ -102,6 +100,15 @@ class EditLayerPicker extends React.Component {
             </Radio.Group>
         );
     }
+
+    getLabel = item => {
+        if (!item.value) {
+            return item.label;
+        }
+        return DATA_LAYER_MAP[item.value]
+            ? DATA_LAYER_MAP[item.value].label
+            : item.value;
+    };
 
     onChange = e => {
         const { DataLayerStore, ToolCtrlStore, NewFeatureStore } = this.props;

@@ -23,5 +23,15 @@ export const DATA_LAYER_MAP = {
         label: '地面停车线',
         type: 'LINE',
         id: 'OBJECT_ID'
+    },
+    Lane: {
+        label: '车道中心线',
+        type: 'LINE',
+        id: 'ALANE_ID'
+    },
+    TrafficSign: {
+        label: '交通标志牌',
+        type: 'AREA',
+        id: 'OBJECT_ID'
     }
 };
