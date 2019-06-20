@@ -6,7 +6,7 @@ import { inject, observer } from 'mobx-react';
 @observer
 class AddLine extends React.Component {
     render() {
-        return <ToolIcon icon="line" title="添加线要素" action={this.action} />;
+        return <ToolIcon icon="fork" title="添加线要素" action={this.action} />;
     }
 
     action = () => {

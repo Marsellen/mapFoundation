@@ -7,7 +7,7 @@ import { inject, observer } from 'mobx-react';
 class AddPolygon extends React.Component {
     render() {
         return (
-            <ToolIcon icon="border" title="添加面要素" action={this.action} />
+            <ToolIcon icon="gateway" title="添加面要素" action={this.action} />
         );
     }
 

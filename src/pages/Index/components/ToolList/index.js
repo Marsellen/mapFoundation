@@ -3,6 +3,7 @@ import Undo from './Undo';
 import Redo from './Redo';
 import Save from './Save';
 import Intensity from './Intensity';
+import UnderView from './UnderView';
 import EditLayer from './EditLayer';
 import AddLine from './AddLine';
 import AddPoint from './AddPoint';
@@ -13,6 +14,7 @@ export default [
     <Redo key="REDO" />,
     <Save key="SAVE" />,
     <Intensity key="INTENSITY" />,
+    <UnderView key="UnderView" />,
     <EditLayer key="EDIT_LAYER" />,
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,

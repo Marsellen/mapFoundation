@@ -91,7 +91,6 @@ class Intensity extends React.Component {
             updateKey: Math.random()
         });
         pointCloudLayer.setIntensity(value);
-        console.log(value);
     };
 }
 

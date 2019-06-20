@@ -3,6 +3,7 @@ export const TOOLS_MAP = {
         UNDO: true,
         REDO: true,
         SAVE: true,
+        UnderView: true,
         INTENSITY: true,
         EDIT_LAYER: true,
         POINT: false,
