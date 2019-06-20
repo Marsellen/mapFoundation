@@ -9,14 +9,19 @@ class NewFeatureStore {
     @observable fromData = [];
     @observable fromType;
 
-    @action init = (feature, layerName) => {
+    @action init = feature => {
         this.feature = feature;
-        this.fromType = layerName
+        console.log(feature);
         this.setFromData();
         this.visible = true;
     };
 
+    @action setLayerName = layerName => {
+        this.fromType = layerName;
+    };
+
     setFromData = flow(function*() {
+        this.fromData = [];
         try {
             const id = yield getID();
             this.fromData = modelFactory.getTabelData(
@@ -35,7 +40,7 @@ class NewFeatureStore {
             ...properties
         };
         this.visible = false;
-        callback(this.feature, this.fromType)
+        callback(this.feature, this.fromType);
     };
 }
 
