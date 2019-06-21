@@ -1,36 +1,39 @@
 ## 项目启动
 
 ### 依赖项安装
-安装 addis-viz-sdk:
-> npm i addis-viz-sdk --registry=http://10.43.16.53:8081/repository/npm-all/  --save
 
-更新 addis-viz-sdk:
-> npm i addis-viz-sdk@latest --registry=http://10.43.16.53:8081/repository/npm-all/ --save
+npm 依赖安装
 
-npm依赖安装
-> npm install
+> npm run i
+
+依赖包更新
+
+> 修改 package.json 中依赖包版本号，重新执行 npm run i
 
 ### 服务启动
+
 > npm start
 
 ## 编写指南
 
-### layout篇
+### layout 篇
+
 > 项目布局为上-左右结构：头部、侧边栏工作区、展示内容主体。
 > 展示内容主体路由配置样例：
+
 ```javascript
-import React from 'react'
-import { withRouter, Switch, Redirect } from 'react-router-dom'
-import LoadableComponent from '../../utils/LoadableComponent'
-import PrivateRoute from '../PrivateRoute'
+import React from 'react';
+import { withRouter, Switch, Redirect } from 'react-router-dom';
+import LoadableComponent from '../../utils/LoadableComponent';
+import PrivateRoute from '../PrivateRoute';
 
 // 模块引入
-const Home = LoadableComponent(() => import('src/pages/Home/index'))  //参数一定要是函数，否则不会懒加载，只会代码拆分
+const Home = LoadableComponent(() => import('src/pages/Home/index')); //参数一定要是函数，否则不会懒加载，只会代码拆分
 
 @withRouter
 class ContentMain extends React.Component {
     componentDidMount() {
-        this.props.menuStore.initMenus()
+        this.props.menuStore.initMenus();
     }
 
     render() {
@@ -38,24 +41,32 @@ class ContentMain extends React.Component {
             <div style={{ position: 'relative' }}>
                 <Switch>
                     {/* 模块路由声明 */}
-                    <PrivateRoute exact path='home' component={LoadableComponent(() => import('src/pages/Home/index'))} />
+                    <PrivateRoute
+                        exact
+                        path="home"
+                        component={LoadableComponent(() =>
+                            import('src/pages/Home/index')
+                        )}
+                    />
 
                     {/* 默认路由 */}
-                    <Redirect exact from='/' to='/home' />
+                    <Redirect exact from="/" to="/home" />
                 </Switch>
             </div>
-        )
+        );
     }
 }
 
-export default ContentMain
+export default ContentMain;
 ```
 
-### mobx状态管理篇
-1. 项目使用mobx进行状态管理，在根目录的index.js里统一注入store：
+### mobx 状态管理篇
+
+1. 项目使用 mobx 进行状态管理，在根目录的 index.js 里统一注入 store：
+
 ```javascript
 // ...
-import store from './store' //统一引入store
+import store from './store'; //统一引入store
 
 ReactDOM.render(
     <BrowserRouter>
@@ -65,89 +76,97 @@ ReactDOM.render(
             </Provider>
         </LocaleProvider>
     </BrowserRouter>,
-    document.getElementById('root'));
+    document.getElementById('root')
+);
 registerServiceWorker();
-
 ```
 
-2. 在src/store/index.js中统一管理store
+2. 在 src/store/index.js 中统一管理 store
+
 ```javascript
-import appStore from './appStore'
-import menuStore from './menuStore'
-import stepFormStore from 'src/demo/Entry/FormDemo/store'
+import appStore from './appStore';
+import menuStore from './menuStore';
+import stepFormStore from 'src/demo/Entry/FormDemo/store';
 
 const store = {
     appStore,
     menuStore,
     stepFormStore
-}
-export default store
+};
+export default store;
 ```
 
-3. store的实现
+3. store 的实现
+
 ```javascript
-import { observable, flow } from 'mobx'
-import CommonService from '../service/common.service' //引入service
+import { observable, flow } from 'mobx';
+import CommonService from '../service/common.service'; //引入service
 
 class MenuStore {
-    @observable menus = []  //@observable 声明该属性会被关联组件监听，当其改变时，会使关联组件重新渲染
-    @observable state = 'pending' // 'pending' / 'done' / 'error'
+    @observable menus = []; //@observable 声明该属性会被关联组件监听，当其改变时，会使关联组件重新渲染
+    @observable state = 'pending'; // 'pending' / 'done' / 'error'
 
     // 获取menu配置
     // flow函数介绍见 [https://cn.mobx.js.org/best/actions.html]
-    initMenus = flow(function * () { // <- 注意*号，这是生成器函数！
-        this.state = 'pending'
-        this.menus = []
+    initMenus = flow(function*() {
+        // <- 注意*号，这是生成器函数！
+        this.state = 'pending';
+        this.menus = [];
         try {
             // 调用请求，参数为请求数据参数，同axios参数配置，方法返回promise对象
-            const menus = yield CommonService.getMenus({ id: 222 })
+            const menus = yield CommonService.getMenus({ id: 222 });
             // 异步代码块会被自动包装成动作并修改状态
-            this.state = 'done'
-            this.menus = menus
+            this.state = 'done';
+            this.menus = menus;
         } catch (error) {
-            this.state = 'error'
+            this.state = 'error';
         }
-    })
+    });
 }
 
-export default new MenuStore()
+export default new MenuStore();
 ```
-4. 组件与store关联
+
+4. 组件与 store 关联
+
 ```javascript
-import React from 'react'
-import CustomMenu from "../CustomMenu/index";
+import React from 'react';
+import CustomMenu from '../CustomMenu/index';
 import { inject, observer } from 'mobx-react';
 
-@inject('menuStore')  //注入menuStore
-@observer           //将组件设置为观察者
+@inject('menuStore') //注入menuStore
+@observer //将组件设置为观察者
 class SiderNav extends React.Component {
     componentDidMount() {
-        this.props.menuStore.initMenus() //组件第一次渲染前获取数据
+        this.props.menuStore.initMenus(); //组件第一次渲染前获取数据
     }
 
     render() {
-        const { state, menus } = this.props.menuStore //根据获取到的menus数据渲染页面
+        const { state, menus } = this.props.menuStore; //根据获取到的menus数据渲染页面
         return (
             <div>
                 <CustomMenu menus={menus} />
             </div>
-        )
+        );
     }
 }
 
-export default SiderNav
+export default SiderNav;
 ```
 
-### resource简介篇
-> resource是基于axios的http请求服务组件，使用时需引入该组件，引入返回函数对象。
-1. service资源配置示例
+### resource 简介篇
+
+> resource 是基于 axios 的 http 请求服务组件，使用时需引入该组件，引入返回函数对象。
+
+1. service 资源配置示例
+
 ```javascript
 // src/service/common.services.js
 
 // 引入resource
-import resource from 'src/utils/resource'
+import resource from 'src/utils/resource';
 
-export default (function () {
+export default (function() {
     // 调用resouce函数
     /**
      * resource注册服务
@@ -158,76 +177,90 @@ export default (function () {
      * @param {options} value 资源调用方法参数
      * @returns {object} resource 资源服务对象
      */
-    let service = resource(locationPath('/mock/menu.json')/*全局默认url*/, {all_config: '11'} /*全局请求额外参数*/, {
-        getMenus: {  // 参数同axios参数，新增了extraParams的参数配置
-            url: locationPath('/mock/menu.json'), //请求路由
-            extraParams: { id: 123 }  //请求额外参数
-        },
-        addMenus: {
-            url: locationPath('/mock/menu.json'),
-            method: 'post'  //设置请求为post请求，默认为get
-        },
-        getTools: {
-            url: locationPath('/mock/tools.json'),
-            // `transformRequest` 允许在向服务器发送前，修改请求数据
-            // 只能用在 'PUT', 'POST' 和 'PATCH' 这几个请求方法
-            // 后面数组中的函数必须返回一个字符串，或 ArrayBuffer，或 Stream
-            transformRequest: [function (data) {
-                // 对 data 进行任意转换处理
+    let service = resource(
+        locationPath('/mock/menu.json') /*全局默认url*/,
+        { all_config: '11' } /*全局请求额外参数*/,
+        {
+            getMenus: {
+                // 参数同axios参数，新增了extraParams的参数配置
+                url: locationPath('/mock/menu.json'), //请求路由
+                extraParams: { id: 123 } //请求额外参数
+            },
+            addMenus: {
+                url: locationPath('/mock/menu.json'),
+                method: 'post' //设置请求为post请求，默认为get
+            },
+            getTools: {
+                url: locationPath('/mock/tools.json'),
+                // `transformRequest` 允许在向服务器发送前，修改请求数据
+                // 只能用在 'PUT', 'POST' 和 'PATCH' 这几个请求方法
+                // 后面数组中的函数必须返回一个字符串，或 ArrayBuffer，或 Stream
+                transformRequest: [
+                    function(data) {
+                        // 对 data 进行任意转换处理
 
-                return data;
-            }]  //更多参数设置看下一篇： axios配置详解
+                        return data;
+                    }
+                ] //更多参数设置看下一篇： axios配置详解
+            }
         }
-    })
+    );
 
     // 可扩展导出文件、打开新的游览器页面等方法
-    service.export = function () {
-        var url = 'http://somehost/somefile.zip'
-        var filename = 'what-you-want.txt'
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(url))
-        element.setAttribute('download', filename)
+    service.export = function() {
+        var url = 'http://somehost/somefile.zip';
+        var filename = 'what-you-want.txt';
+        element.setAttribute(
+            'href',
+            'data:text/plain;charset=utf-8,' + encodeURIComponent(url)
+        );
+        element.setAttribute('download', filename);
 
-        element.style.display = 'none'
-        document.body.appendChild(element)
+        element.style.display = 'none';
+        document.body.appendChild(element);
 
-        element.click()
+        element.click();
 
-        document.body.removeChild(element)
-    }
+        document.body.removeChild(element);
+    };
 
-    return service
-})()
+    return service;
+})();
 ```
-2. store调用示例
+
+2. store 调用示例
+
 ```javascript
-import { observable, flow } from 'mobx'
-import CommonService from '../service/common.service' //引入service
+import { observable, flow } from 'mobx';
+import CommonService from '../service/common.service'; //引入service
 
 class MenuStore {
-    @observable menus = []
-    @observable state = 'pending' // 'pending' / 'done' / 'error'
+    @observable menus = [];
+    @observable state = 'pending'; // 'pending' / 'done' / 'error'
 
     // 获取menu配置
-    initMenus = flow(function * () { // <- 注意*号，这是生成器函数！
-        this.state = 'pending'
-        this.menus = []
+    initMenus = flow(function*() {
+        // <- 注意*号，这是生成器函数！
+        this.state = 'pending';
+        this.menus = [];
         try {
             // 调用请求，参数为请求数据参数，同axios参数配置，方法返回promise对象
-            const menus = yield CommonService.getMenus({ id: 222 })
+            const menus = yield CommonService.getMenus({ id: 222 });
             // 异步代码块会被自动包装成动作并修改状态
-            this.state = 'done'
-            this.menus = menus
+            this.state = 'done';
+            this.menus = menus;
         } catch (error) {
-            this.state = 'error'
+            this.state = 'error';
         }
-    })
+    });
 }
 
-export default new MenuStore()
+export default new MenuStore();
 ```
 
-3. resource生成的默认请求
-> resource会根据传入的第一、二个参数生成默认的get、post、put三种请求，主要适用于单独的资源service。forExample：
+3. resource 生成的默认请求
+    > resource 会根据传入的第一、二个参数生成默认的 get、post、put 三种请求，主要适用于单独的资源 service。forExample：
+
 ```javascript
 // service配置，文件名： MenuService.js
 import resource from 'src/utils/resource'
@@ -290,8 +323,10 @@ export default (function () {
 
 ```
 
-### axios配置详解篇
-> 以下axios支持的参数，均可以在service中配置。
+### axios 配置详解篇
+
+> 以下 axios 支持的参数，均可以在 service 中配置。
+
 ```javascript
 {
   // `url` 是用于请求的服务器 URL
