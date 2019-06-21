@@ -37,6 +37,10 @@ const AD_LANEATTRPOINT_ALAP_ID = '用户编号';
 const AD_LANEATTRPOINT_TYPE = '属性变化点类型';
 const AD_LANEATTRPOINT_REF_LINE = '关联道路参考线ID';
 
+const AD_TRAFFICSIGN_OBJECT_ID = '用户编号';
+const AD_TRAFFICSIGN_TYPE = '标志牌类型';
+const AD_TRAFFICSIGN_VALUE = '类型取值';
+
 class modelFactory {
     getTabelData = (type, properties, id) => {
         return this[type](properties, id);
@@ -297,6 +301,32 @@ class modelFactory {
                 value: properties.REF_LINE,
                 type: 'AD_LANEATTRPOINT_REF_LINE',
                 domType: 'Text'
+            }
+        ];
+    };
+
+    TrafficSign = (properties, id) => {
+        return [
+            {
+                key: 'OBJECT_ID',
+                name: AD_TRAFFICSIGN_OBJECT_ID,
+                value: properties.OBJECT_ID || id,
+                type: 'AD_TRAFFICSIGN_OBJECT_ID',
+                domType: 'Text'
+            },
+            {
+                key: 'TYPE',
+                name: AD_TRAFFICSIGN_TYPE,
+                value: properties.TYPE,
+                type: 'AD_TRAFFICSIGN_TYPE',
+                domType: 'Select'
+            },
+            {
+                key: 'VALUE',
+                name: AD_TRAFFICSIGN_VALUE,
+                value: properties.VALUE,
+                type: 'AD_TRAFFICSIGN_VALUE',
+                domType: 'Input'
             }
         ];
     };

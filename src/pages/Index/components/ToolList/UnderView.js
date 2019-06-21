@@ -12,7 +12,7 @@ class UnderView extends React.Component {
             <ToolIcon
                 disabled={!activeTaskId}
                 icon="compass"
-                title="切换俯视图"
+                title="视角还原"
                 action={this.action}
             />
         );
