@@ -6,6 +6,7 @@ import OperateHistoryStore from './OperateHistoryStore';
 import AttributeStore from './AttributeStore';
 import ToolCtrlStore from './ToolCtrlStore';
 import NewFeatureStore from './NewFeatureStore';
+import RightMenuStore from './RightMenuStore';
 
 export default {
     menuStore,
@@ -15,5 +16,6 @@ export default {
     OperateHistoryStore,
     AttributeStore,
     ToolCtrlStore,
-    NewFeatureStore
+    NewFeatureStore,
+    RightMenuStore
 };

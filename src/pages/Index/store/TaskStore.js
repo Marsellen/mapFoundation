@@ -1,4 +1,4 @@
-import { observable, flow, configure } from 'mobx';
+import { observable, flow, configure, action } from 'mobx';
 import TaskService from '../service/TaskService';
 
 configure({ enforceActions: 'always' });
@@ -21,12 +21,16 @@ class TaskStore {
         // TODO 缓存activeTaskId，取id优先级： id > 缓存id > this.tasks[0].id
     });
 
+    @action getActiveTask = () => {
+        return this.tasks.find(task => task._id == this.activeTaskId);
+    };
+
     getTaskFile = flow(function*(callback) {
         try {
             if (!this.activeTaskId) {
                 return;
             }
-            const task = yield TaskService.get({id: this.activeTaskId});
+            const task = yield TaskService.get({ id: this.activeTaskId });
             callback(task);
         } catch (e) {
             console.log(e);

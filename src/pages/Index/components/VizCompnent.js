@@ -9,11 +9,13 @@ import {
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
 import NewFeatureModal from './NewFeatureModal';
+import RightMenuModal from './RightMenuModal';
 
 @inject('taskStore')
 @inject('ResourceLayerStore')
 @inject('DataLayerStore')
 @inject('AttributeStore')
+@inject('RightMenuStore')
 @observer
 class VizCompnent extends React.Component {
     constructor(props) {
@@ -87,7 +89,6 @@ class VizCompnent extends React.Component {
 
     installListener = () => {
         // attributes 拾取控件
-
         const controlManager = map.getControlManager();
         const detector = new DetectorControl();
         controlManager.addControl(detector);
@@ -98,6 +99,12 @@ class VizCompnent extends React.Component {
                 this.showAttributesModal(obj[0]);
             }
         });
+
+        // 右键菜单
+        // const { RightMenuStore } = this.props;
+        // document.getElementById('viz').addEventListener('contextmenu', e => {
+        //     RightMenuStore.show({ x: e.x, y: e.y });
+        // });
     };
 
     showAttributesModal = obj => {
@@ -126,6 +133,7 @@ class VizCompnent extends React.Component {
                     onRef={ref => (this.attributesModal = ref)}
                 />
                 <NewFeatureModal />
+                <RightMenuModal />
             </div>
         );
     }
