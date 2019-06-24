@@ -14,7 +14,7 @@ export default [
     <Redo key="REDO" />,
     <Save key="SAVE" />,
     <Intensity key="INTENSITY" />,
-    <UnderView key="UnderView" />,
+    <UnderView key="UNDER_VIEW" />,
     <EditLayer key="EDIT_LAYER" />,
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,
