@@ -8,8 +8,8 @@
     ],
     "scripts": {
         "i": "npm i addis-viz-sdk --registry=http://10.43.16.53:8081/repository/npm-all/ --save & npm i",
-        "start": "webpack-dev-server --mode development --open --hot --config ./webpack.dev.conf.js",
-        "build-start": "webpack-dev-server --mode development --config ./webpack.dev.conf.js --host 0.0.0.0 --port 8080",
+        "start": "webpack-dev-server --mode development --hot --config ./webpack.dev.conf.js",
+        "build-start": "webpack-dev-server --mode development --config ./webpack.dev.conf.js --host 0.0.0.0 --port 18000",
         "build": "webpack --mode production --config ./webpack.prod.conf.js"
     },
     "dependencies": {
