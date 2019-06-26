@@ -7,6 +7,7 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 @Form.create()
 @inject('NewFeatureStore')
 @inject('OperateHistoryStore')
+@inject('DataLayerStore')
 @observer
 class NewFeatureModal extends React.Component {
     render() {
@@ -33,7 +34,9 @@ class NewFeatureModal extends React.Component {
                 bodyStyle={{ maxHeight: '60vh', overflow: 'auto' }}
                 visible={visible}
                 title={title}
-                onCancel={this.save}
+                onCancel={this.cancel}
+                keyboard={false}
+                maskClosable={false}
                 footer={<Button onClick={this.save}>保存</Button>}>
                 <Form {...formItemLayout}>
                     {fromData.map((item, index) =>
@@ -117,7 +120,6 @@ class NewFeatureModal extends React.Component {
             if (err) {
                 return;
             }
-            console.log('Received values of form: ', values);
             NewFeatureStore.save(values, (feature, layerName) => {
                 OperateHistoryStore.add({
                     type: 'addFeature',
@@ -125,6 +127,27 @@ class NewFeatureModal extends React.Component {
                     layerName: layerName
                 });
             });
+        });
+    };
+
+    cancel = () => {
+        const { DataLayerStore, NewFeatureStore } = this.props;
+        const { fromType } = NewFeatureStore;
+        Modal.confirm({
+            title: '您确定放弃正在新建的内容?',
+            okText: '确定',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk() {
+                let layer = DataLayerStore.getLayerByName(fromType);
+                let key = DATA_LAYER_MAP[fromType].id;
+                let value = NewFeatureStore.getFeatureValue(key);
+                layer.layer.removeFeatureByOption({
+                    key,
+                    value
+                });
+                NewFeatureStore.hide();
+            }
         });
     };
 }

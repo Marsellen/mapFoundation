@@ -19,6 +19,12 @@ class DataLayerStore extends LayerStore {
         layer.updateFeatures(features);
     };
 
+    @action initEditor = callback => {
+        this.editor = new EditControl();
+        map.getControlManager().addControl(this.editor);
+        this.editor.onFeatureSelected(callback);
+    };
+
     @action activeEditor = (name, callback) => {
         let layer = this.getLayerByName(name);
         if (this.editor) {
@@ -27,14 +33,14 @@ class DataLayerStore extends LayerStore {
         } else {
             this.editor = new EditControl(layer);
             map.getControlManager().addControl(this.editor);
-            this.editor.onFeatureCreated(callback);
         }
+        this.editor.onFeatureCreated(callback);
         return layer;
     };
 
     @action getLayerByName = name => {
         return this.layerGroup.find(layer => layer.layerName == name);
-    }
+    };
 
     @action newPoint = () => {
         if (!this.editor) return;

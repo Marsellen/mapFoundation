@@ -19,10 +19,11 @@ class EditLayer extends React.Component {
     };
 
     handleHoverChange = visible => {
-        this.setState({
-            hovered: visible,
-            clicked: false
-        });
+        if (!this.state.clicked) {
+            this.setState({
+                hovered: visible
+            });
+        }
     };
 
     handleClickChange = visible => {
@@ -73,7 +74,6 @@ class EditLayerPicker extends React.Component {
 
     constructor(props) {
         super(props);
-        this.props.OperateHistoryStore.destory(); // TODO 本地例子每次请求的数据不会被更新，清空历史记录
     }
 
     render() {
@@ -115,9 +115,10 @@ class EditLayerPicker extends React.Component {
         this.setState({
             value: e.target.value
         });
-        NewFeatureStore.setLayerName(e.target.value);
-        let layer = DataLayerStore.activeEditor(e.target.value, feature => {
-            NewFeatureStore.init(feature);
+        let layer = DataLayerStore.activeEditor(e.target.value, result => {
+            let layerName = result.layerName;
+            let feature = result.data;
+            NewFeatureStore.init(feature, layerName);
         });
         ToolCtrlStore.updateByEditLayer(layer);
     };

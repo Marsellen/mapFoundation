@@ -16,6 +16,7 @@ import RightMenuModal from './RightMenuModal';
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('RightMenuStore')
+@inject('OperateHistoryStore')
 @observer
 class VizCompnent extends React.Component {
     constructor(props) {
@@ -35,8 +36,6 @@ class VizCompnent extends React.Component {
         let tracks = this.initTracks(task.tracks);
 
         this.initResouceLayer([pointClouds, vectors, tracks]);
-
-        this.installListener();
     };
 
     initPointCloud = pointClouds => {
@@ -63,6 +62,7 @@ class VizCompnent extends React.Component {
             .then(layers => {
                 map.setView('U'); // TODO 默认加载为俯视角 需要sdk提供默认初始化视角接口
                 DataLayerStore.init(layers);
+                this.installListener();
             });
         return {
             layerName: '高精地图',
@@ -89,23 +89,30 @@ class VizCompnent extends React.Component {
     };
 
     installListener = () => {
+        //禁用浏览器默认右键菜单
+        document.oncontextmenu = function(e) {
+            return false;
+        };
+
         // attributes 拾取控件
-        const controlManager = map.getControlManager();
-        const detector = new DetectorControl();
-        controlManager.addControl(detector);
-        map.container.addEventListener('click', e => {
-            const obj = detector.getActiveFeadtures();
-            if (obj.length) {
-                console.log(obj[0]);
-                this.showAttributesModal(obj[0]);
+        const {
+            DataLayerStore,
+            RightMenuStore,
+            OperateHistoryStore
+        } = this.props;
+        DataLayerStore.initEditor((result, event) => {
+            console.log(result, event);
+            if (event.button === 0) {
+                this.showAttributesModal(result[0]);
+            } else if (event.button === 2) {
+                RightMenuStore.show(result[0], {
+                    x: event.x,
+                    y: event.y
+                });
             }
         });
 
-        // 右键菜单
-        // const { RightMenuStore } = this.props;
-        // document.getElementById('viz').addEventListener('contextmenu', e => {
-        //     RightMenuStore.show({ x: e.x, y: e.y });
-        // });
+        OperateHistoryStore.destory(); // TODO 本地例子每次请求的数据不会被更新，清空历史记录
     };
 
     showAttributesModal = obj => {
