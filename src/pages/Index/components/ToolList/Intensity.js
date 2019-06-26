@@ -19,10 +19,11 @@ class Intensity extends React.Component {
     };
 
     handleHoverChange = visible => {
-        this.setState({
-            hovered: visible,
-            clicked: false
-        });
+        if (!this.state.clicked) {
+            this.setState({
+                hovered: visible
+            });
+        }
     };
 
     handleClickChange = visible => {

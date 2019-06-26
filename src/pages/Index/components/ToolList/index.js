@@ -14,9 +14,9 @@ export default [
     <Redo key="REDO" />,
     <Save key="SAVE" />,
     <Intensity key="INTENSITY" />,
-    <UnderView key="UNDER_VIEW" />,
     <EditLayer key="EDIT_LAYER" />,
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,
-    <AddPolygon key="POLYGON" />
+    <AddPolygon key="POLYGON" />,
+    <UnderView key="UNDER_VIEW" />
 ];

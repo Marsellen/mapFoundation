@@ -61,6 +61,7 @@ class VizCompnent extends React.Component {
         map.getLayerManager()
             .addLayerGroup(layerGroup)
             .then(layers => {
+                map.setView('U'); // TODO 默认加载为俯视角 需要sdk提供默认初始化视角接口
                 DataLayerStore.init(layers);
             });
         return {
