@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const devMode = process.env.NODE_ENV !== 'production';
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -80,7 +81,14 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: devMode ? 'main.css' : 'main.[hash].css',
             chunkFilename: devMode ? '[id].css' : '[id].[hash].css'
-        })
+        }),
+        new CopyWebpackPlugin([
+            //支持输入一个数组
+            {
+                from: path.resolve(__dirname, 'mock'), //将mock下的文件
+                to: './mock' // 复制到mock
+            }
+        ])
     ],
     optimization: {
         splitChunks: {
