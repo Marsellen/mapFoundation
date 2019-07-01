@@ -1,15 +1,14 @@
 import React from 'react';
-import {
-    Map,
-    PointCloudLayer,
-    LayerGroup,
-    TraceLayer,
-    DetectorControl
-} from 'addis-viz-sdk';
+import { Map, PointCloudLayer, LayerGroup, TraceLayer } from 'addis-viz-sdk';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
 import NewFeatureModal from './NewFeatureModal';
 import RightMenuModal from './RightMenuModal';
+import {
+    RESOURCE_LAYER_POINT_CLOUD,
+    RESOURCE_LAYER_VETOR,
+    RESOURCE_LAYER_TRACE
+} from 'src/config/DataLayerConfig';
 
 @inject('taskStore')
 @inject('ResourceLayerStore')
@@ -46,7 +45,7 @@ class VizCompnent extends React.Component {
         window.pointCloudLayer = new PointCloudLayer(pointClouds, opts);
         map.getLayerManager().addLayer('PointCloudLayer', pointCloudLayer);
         return {
-            layerName: '点云',
+            layerName: RESOURCE_LAYER_POINT_CLOUD,
             layer: pointCloudLayer
         };
     };
@@ -65,7 +64,7 @@ class VizCompnent extends React.Component {
                 this.installListener();
             });
         return {
-            layerName: '高精地图',
+            layerName: RESOURCE_LAYER_VETOR,
             layer: layerGroup
         };
     };
@@ -77,7 +76,7 @@ class VizCompnent extends React.Component {
         let traceLayer = new TraceLayer(tracks);
         map.getLayerManager().addTraceLayer(traceLayer);
         return {
-            layerName: '轨迹',
+            layerName: RESOURCE_LAYER_TRACE,
             layer: traceLayer
         };
     };
@@ -118,12 +117,7 @@ class VizCompnent extends React.Component {
     showAttributesModal = obj => {
         const { AttributeStore } = this.props;
         AttributeStore.setModel(obj);
-        this.attributesModal.showModal();
-    };
-
-    handleSave = row => {
-        const { AttributeStore } = this.props;
-        AttributeStore.setAttributes(row);
+        AttributeStore.show();
     };
 
     render() {
@@ -136,10 +130,7 @@ class VizCompnent extends React.Component {
                     key={taskStore.activeTaskId}
                     className="viz-box"
                 />
-                <AttributesModal
-                    handleSave={this.handleSave}
-                    onRef={ref => (this.attributesModal = ref)}
-                />
+                <AttributesModal />
                 <NewFeatureModal />
                 <RightMenuModal />
             </div>

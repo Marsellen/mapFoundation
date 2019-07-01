@@ -3,6 +3,7 @@ import { Menu } from 'antd';
 import { inject, observer } from 'mobx-react';
 
 @inject('taskStore')
+@inject('AttributeStore')
 @observer
 class Task extends React.Component {
     componentDidMount() {
@@ -17,7 +18,9 @@ class Task extends React.Component {
                     taskStore.tasks.map(item => (
                         <Menu.Item
                             key={item._id}
-                            onClick={this.toggleTask(item._id)}>
+                            onClick={() => {
+                                this.toggleTask(item._id);
+                            }}>
                             <span>{item.name}</span>
                         </Menu.Item>
                     ))}
@@ -26,11 +29,9 @@ class Task extends React.Component {
     }
 
     toggleTask = id => {
-        const { taskStore } = this.props;
-        const toggle = () => {
-            taskStore.setActiveTaskId(id);
-        };
-        return toggle;
+        const { taskStore, AttributeStore } = this.props;
+        taskStore.setActiveTaskId(id);
+        AttributeStore.hide();
     };
 }
 

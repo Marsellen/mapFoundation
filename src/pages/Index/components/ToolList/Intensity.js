@@ -65,7 +65,7 @@ class Intensity extends React.Component {
             <div className="flex flex-row">
                 <Slider
                     className="flex-1"
-                    defaultValue={value}
+                    value={value}
                     onChange={this.onChange}
                     tipFormatter={this.formatter}
                     style={{ width: 100 }}

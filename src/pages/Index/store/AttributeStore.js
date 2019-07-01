@@ -4,7 +4,16 @@ import modelFactory from 'src/utils/mapModel/modelFactory';
 configure({ enforceActions: 'always' });
 class AttributeStore {
     model;
+    @observable visible;
     @observable attributes = [];
+
+    @action show = () => {
+        this.visible = true;
+    };
+
+    @action hide = () => {
+        this.visible = false;
+    };
 
     @action setModel = obj => {
         this.model = obj;

@@ -35,3 +35,7 @@ export const DATA_LAYER_MAP = {
         id: 'OBJECT_ID'
     }
 };
+
+export const RESOURCE_LAYER_POINT_CLOUD = '点云';
+export const RESOURCE_LAYER_VETOR = '高精地图';
+export const RESOURCE_LAYER_TRACE = '轨迹';

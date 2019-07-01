@@ -14,6 +14,10 @@ class DataLayerStore extends LayerStore {
         this.updateKey = Math.random();
     };
 
+    @action hasShow = () => {
+        return this.layers.findIndex(layer => layer.checked)
+    }
+
     @action updataAttributes = (name, features) => {
         let layer = this.getLayerByName(name).layer;
         layer.updateFeatures(features);

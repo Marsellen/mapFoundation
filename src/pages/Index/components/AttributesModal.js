@@ -7,13 +7,8 @@ import 'less/components/attributes-modal.less';
 @inject('AttributeStore')
 @observer
 class AttributesModal extends React.Component {
-    state = {
-        visible: false
-    };
-
     constructor(props) {
         super(props);
-        const { handleSave } = props;
         this.columns = [
             {
                 title: '属性',
@@ -28,38 +23,32 @@ class AttributesModal extends React.Component {
                     editable: true,
                     title: '值',
                     dataIndex: 'value',
-                    handleSave: handleSave
+                    handleSave: this.handleSave
                 })
             }
         ];
     }
 
-    componentDidMount() {
-        this.props.onRef(this);
-    }
-
-    showModal = () => {
-        this.setState({
-            visible: true
-        });
+    handleSave = row => {
+        const { AttributeStore } = this.props;
+        AttributeStore.setAttributes(row);
     };
 
     handleCancel = e => {
-        this.setState({
-            visible: false
-        });
+        const { AttributeStore } = this.props;
+        AttributeStore.hide();
     };
 
     render() {
         const { AttributeStore } = this.props;
-        const { attributes } = AttributeStore;
+        const { attributes, visible } = AttributeStore;
         return (
             <Modal
                 footer={null}
                 mask={false}
                 wrapClassName="ad-attributes-modal"
                 title="属性框"
-                visible={this.state.visible}
+                visible={visible}
                 onCancel={this.handleCancel}>
                 <EditableTable
                     dataSource={attributes}
