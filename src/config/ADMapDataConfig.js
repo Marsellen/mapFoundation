@@ -231,7 +231,19 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '道路与铁路平面交叉道口信号灯', icon: 'plus' }
     ],
     AD_ARROW_ARR_DIRECT: [
-        { value: '000000000000', label: '直行', icon: 'plus' }
+        { value: '00000000000000000001', label: '直行', icon: 'plus' },
+        { value: '00000000000000000010', label: '左转', icon: 'plus' },
+        { value: '00000000000000000100', label: '右转', icon: 'plus' },
+        { value: '00000000000000001000', label: '左掉头', icon: 'plus' },
+        { value: '00000000000000010000', label: '右掉头', icon: 'plus' },
+        { value: '00000000000000100000', label: '左弯或需向左合流', icon: 'plus' },
+        { value: '00000000000001000000', label: '右弯或需向右合流', icon: 'plus' },
+        { value: '00000000000010000000', label: '左后方转弯', icon: 'plus' },
+        { value: '00000000000100000000', label: '右后方转弯', icon: 'plus' },
+        { value: '00000000001000000000', label: '禁止左掉头', icon: 'plus' },
+        { value: '00000000010000000000', label: '禁止右掉头', icon: 'plus' },
+        { value: '00000000100000000000', label: '禁止左转', icon: 'plus' },
+        { value: '00000001000000000000', label: '禁止右转', icon: 'plus' }
     ],
     AD_TRAFFIC_LIGHT_TYPE: [
         { value: 1, label: '普通机动车信号灯', icon: 'plus' },
