@@ -5,10 +5,13 @@ configure({ enforceActions: 'always' });
 class AttributeStore {
     model;
     @observable visible;
+    @observable type;
     @observable attributes = [];
+    @observable readonly;
 
-    @action show = () => {
+    @action show = readonly => {
         this.visible = true;
+        this.readonly = readonly;
     };
 
     @action hide = () => {
@@ -17,6 +20,7 @@ class AttributeStore {
 
     @action setModel = obj => {
         this.model = obj;
+        this.type = this.model.layerName;
         this.updataAttributes();
     };
 
@@ -27,9 +31,12 @@ class AttributeStore {
         );
     };
 
-    @action setAttributes = row => {
+    @action setAttributes = properties => {
         // model.data引用sdk要素数据的指针。修改其属性会同步修改sdk的要素数据。
-        this.model.data.properties[row.key] = row.value;
+        this.model.data.properties = {
+            ...this.model.data.properties,
+            ...properties
+        };
         this.updataAttributes();
     };
 }

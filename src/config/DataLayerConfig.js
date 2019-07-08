@@ -33,6 +33,16 @@ export const DATA_LAYER_MAP = {
         label: '交通标志牌',
         type: 'AREA',
         id: 'OBJECT_ID'
+    },
+    ReferenceLine: {
+        label: '道路参考线',
+        type: 'LINE',
+        id: 'REFLINE_ID'
+    },
+    TrafficLight: {
+        label: '交通灯',
+        type: 'AREA',
+        id: 'OBJECT_ID'
     }
 };
 

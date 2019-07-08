@@ -1,10 +1,9 @@
 .ad-attributes-modal {
     position: absolute;
-    left: 54px;
-    bottom: 4px;
-    top: unset;
-    right: unset;
-    max-height: calc(100vh - 48px);
+    right: 0;
+    top: 44px;
+    left: unset;
+    bottom: unset;
 
     .ant-modal {
         position: relative;
@@ -15,11 +14,7 @@
 
     .ant-modal-header {
         height: 40px;
-        padding: 16px;
-    }
-
-    .ant-modal-title {
-        line-height: 8px;
+        padding: 10px 16px;
     }
 
     .ant-modal-close-x {
@@ -30,6 +25,29 @@
     }
 
     .ant-modal-body {
-        padding: 16px;
+        padding: 4px 16px;
+        overflow-y: auto;
+        max-height: calc(100vh - 88px);
+    }
+
+    .ant-form-item {
+        margin-bottom: 8px;
+    }
+
+    .ant-form-item-label {
+        text-align: left;
+
+        .ant-form-item-required::before {
+            content: none;
+        }
+    }
+
+    .ant-input[disabled] {
+        color: rgba(0, 0, 0, 0.65);
+        background-color: #fff;
+    }
+
+    .ad-active-icon {
+        background-color: aqua;
     }
 }

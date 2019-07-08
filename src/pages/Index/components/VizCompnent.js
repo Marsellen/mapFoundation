@@ -2,7 +2,7 @@ import React from 'react';
 import { Map, PointCloudLayer, LayerGroup, TraceLayer } from 'addis-viz-sdk';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
-import NewFeatureModal from './NewFeatureModal';
+//import NewFeatureModal from './NewFeatureModal';
 import RightMenuModal from './RightMenuModal';
 import {
     RESOURCE_LAYER_POINT_CLOUD,
@@ -115,9 +115,11 @@ class VizCompnent extends React.Component {
     };
 
     showAttributesModal = obj => {
-        const { AttributeStore } = this.props;
+        const { AttributeStore, DataLayerStore } = this.props;
+        let editLayer = DataLayerStore.getEditLayer();
+        let readonly = !editLayer;
         AttributeStore.setModel(obj);
-        AttributeStore.show();
+        AttributeStore.show(readonly);
     };
 
     render() {
@@ -131,7 +133,7 @@ class VizCompnent extends React.Component {
                     className="viz-box"
                 />
                 <AttributesModal />
-                <NewFeatureModal />
+                {/* <NewFeatureModal /> */}
                 <RightMenuModal />
             </div>
         );

@@ -15,8 +15,8 @@ class DataLayerStore extends LayerStore {
     };
 
     @action hasShow = () => {
-        return this.layers.findIndex(layer => layer.checked)
-    }
+        return this.layers.findIndex(layer => layer.checked);
+    };
 
     @action updataAttributes = (name, features) => {
         let layer = this.getLayerByName(name).layer;
@@ -40,6 +40,10 @@ class DataLayerStore extends LayerStore {
         }
         this.editor.onFeatureCreated(callback);
         return layer;
+    };
+
+    @action getEditLayer = () => {
+        return this.editor.editLayer;
     };
 
     @action getLayerByName = name => {
