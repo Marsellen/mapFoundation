@@ -12,7 +12,7 @@
         "build": "webpack --mode production --config ./webpack.prod.conf.js"
     },
     "dependencies": {
-        "addis-viz-sdk": "0.0.18",
+        "addis-viz-sdk": "0.0.5-alpha.3",
         "antd": "^3.17.0",
         "axios": "^0.18.0",
         "dragm": "0.0.5",

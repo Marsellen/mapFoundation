@@ -31,7 +31,7 @@ class Index extends React.Component {
                     <div className="flex-1 viz-content">
                         <VizCompnent />
                     </div>
-                    {/* <MultimediaView /> */}
+                    <MultimediaView />
                 </div>
             </Layout>
         );

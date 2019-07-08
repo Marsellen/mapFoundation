@@ -74,6 +74,7 @@ class RightMenuModal extends React.Component {
                         key,
                         value
                     });
+                    DataLayerStore.clearChoose()
                     OperateHistoryStore.add({
                         type: 'deleteFeature',
                         feature,

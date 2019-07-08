@@ -9,6 +9,19 @@ class DataLayerStore extends LayerStore {
         this.editor;
     }
 
+    @action toggle = (name, checked) => {
+        this.layers.find(layer => layer.value == name).checked = checked;
+        let layer = this.layerGroup.find(layer => layer.layerName == name)
+            .layer;
+        if (checked) {
+            layer.show();
+        } else {
+            layer.hide();
+            this.clearChoose();
+        }
+        this.updateKey = Math.random();
+    };
+
     @action toggleAll = checked => {
         this.layers.map(layer => (layer.checked = checked));
         this.updateKey = Math.random();
@@ -33,6 +46,7 @@ class DataLayerStore extends LayerStore {
         let layer = this.getLayerByName(name);
         if (this.editor) {
             // TODO
+            this.editor.cancel();
             this.editor.editLayer = layer;
         } else {
             this.editor = new EditControl(layer);
@@ -44,6 +58,10 @@ class DataLayerStore extends LayerStore {
 
     @action getEditLayer = () => {
         return this.editor.editLayer;
+    };
+
+    @action clearChoose = () => {
+        this.editor.clear();
     };
 
     @action getLayerByName = name => {
