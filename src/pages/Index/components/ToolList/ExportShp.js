@@ -10,7 +10,7 @@ class ExportShp extends React.Component {
         const { activeTaskId } = taskStore;
         return (
             <ToolIcon
-                icon="baocun"
+                icon="daochu"
                 title="矢量转存为shp文件"
                 disabled={!activeTaskId}
                 action={this.action}
