@@ -366,6 +366,12 @@ export const TABLE_DATA_MAP = {
     ],
     Lane: [
         {
+            key: 'TYPE',
+            name: '车道类型',
+            type: 'AD_LANE_TYPE',
+            domType: 'RadioIconGroup'
+        },
+        {
             key: 'ALANE_ID',
             name: '用户编号',
             type: 'AD_LANE_ALANE_ID',
@@ -388,12 +394,6 @@ export const TABLE_DATA_MAP = {
             name: '右侧车道线ID',
             type: 'AD_LANE_R_DIV_ID',
             domType: 'Text'
-        },
-        {
-            key: 'TYPE',
-            name: '车道类型',
-            type: 'AD_LANE_TYPE',
-            domType: 'Select'
         },
         {
             key: 'LANE_NO',

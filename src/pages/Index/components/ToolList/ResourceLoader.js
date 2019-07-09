@@ -18,7 +18,7 @@ class ResourceLoader extends React.Component {
     render() {
         return (
             <span>
-                <ToolIcon icon="redo" title="资料加载" action={this.action} />
+                <ToolIcon icon="daoru" title="资料加载" action={this.action} />
                 {this.renderModal()}
             </span>
         );
