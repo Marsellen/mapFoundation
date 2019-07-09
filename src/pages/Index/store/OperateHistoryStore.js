@@ -67,10 +67,13 @@ class OperateHistoryStore {
         this.savedNode = this.currentNode;
     });
 
-    destory = flow(function*() {
+    destroy = flow(function*() {
         try {
             yield this.historyStore.clear();
             this.nodes = [];
+            this.currentNode = -1;
+            this.savedNode = -1;
+            this.finalNode = -1;
         } catch (e) {
             console.log(e);
         }

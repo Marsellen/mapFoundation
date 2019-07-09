@@ -1,4 +1,4 @@
-import { action, configure } from 'mobx';
+import { action, configure, observable } from 'mobx';
 import LayerStore from './LayerStore';
 import { EditControl } from 'addis-viz-sdk';
 
@@ -55,6 +55,7 @@ class DataLayerStore extends LayerStore {
             this.editor = new EditControl(layer);
             map.getControlManager().addControl(this.editor);
         }
+        this.updateKey = Math.random();
         this.editor.onFeatureCreated(callback);
         return layer;
     };

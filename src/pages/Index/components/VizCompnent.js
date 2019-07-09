@@ -19,7 +19,6 @@ import 'less/components/viz-compnent.less';
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('RightMenuStore')
-@inject('OperateHistoryStore')
 @observer
 class VizCompnent extends React.Component {
     constructor(props) {
@@ -101,7 +100,6 @@ class VizCompnent extends React.Component {
         const {
             DataLayerStore,
             RightMenuStore,
-            OperateHistoryStore,
             AttributeStore
         } = this.props;
         DataLayerStore.initEditor((result, event) => {
@@ -121,8 +119,6 @@ class VizCompnent extends React.Component {
                 }
             }
         });
-
-        OperateHistoryStore.destory(); // TODO 本地例子每次请求的数据不会被更新，清空历史记录
     };
 
     showAttributesModal = obj => {

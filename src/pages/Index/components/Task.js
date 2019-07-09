@@ -4,6 +4,9 @@ import { inject, observer } from 'mobx-react';
 
 @inject('taskStore')
 @inject('AttributeStore')
+@inject('OperateHistoryStore')
+@inject('DataLayerStore')
+@inject('ToolCtrlStore')
 @observer
 class Task extends React.Component {
     componentDidMount() {
@@ -36,8 +39,17 @@ class Task extends React.Component {
     };
 
     toggleTask = id => {
-        const { taskStore, AttributeStore } = this.props;
+        const {
+            taskStore,
+            AttributeStore,
+            OperateHistoryStore,
+            DataLayerStore,
+            ToolCtrlStore
+        } = this.props;
         taskStore.setActiveTaskId(id);
+        OperateHistoryStore.destroy();
+        DataLayerStore.activeEditor();
+        ToolCtrlStore.updateByEditLayer();
         AttributeStore.hide();
     };
 }
