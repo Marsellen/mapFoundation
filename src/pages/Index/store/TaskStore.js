@@ -72,7 +72,24 @@ class TaskStore {
             };
             yield TaskService.saveFile(payload);
             callback();
-        } catch (e) {}
+        } catch (e) {
+            console.log(e);
+        }
+    });
+
+    exportShp = flow(function*(callback) {
+        try {
+            let patt1 = /(\w+):\/\/([^/:]+)(:\d*)?([^# ]*)/;
+            let arr = this.activeTaskId.match(patt1);
+            let path = arr[arr.length - 1].replace(/\//, '');
+            let url = path + '/vectors/ads_all.geojson';
+            yield TaskService.exportShp({
+                jsonPath: url
+            });
+            callback();
+        } catch (e) {
+            console.log(e);
+        }
     });
 }
 

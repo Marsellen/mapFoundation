@@ -71,8 +71,6 @@ class EditLayer extends React.Component {
 @inject('NewFeatureStore')
 @observer
 class EditLayerPicker extends React.Component {
-    state = { value: false };
-
     constructor(props) {
         super(props);
     }
@@ -82,10 +80,12 @@ class EditLayerPicker extends React.Component {
         let layers = DataLayerStore.layers
             ? [{ value: false, label: '不启用' }, ...DataLayerStore.layers]
             : [];
+
+        let editLayer = DataLayerStore.getEditLayer();
         return (
             <Radio.Group
                 onChange={this.onChange}
-                value={this.state.value}
+                value={editLayer ? editLayer.layerName : false}
                 style={{ width: '100%' }}>
                 <List
                     key={DataLayerStore.updateKey}
@@ -118,9 +118,6 @@ class EditLayerPicker extends React.Component {
             NewFeatureStore,
             OperateHistoryStore
         } = this.props;
-        this.setState({
-            value: e.target.value
-        });
         let layer = DataLayerStore.activeEditor(e.target.value, result => {
             let layerName = result.layerName;
             let feature = result.data;

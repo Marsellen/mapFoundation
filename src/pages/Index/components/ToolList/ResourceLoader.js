@@ -11,6 +11,8 @@ const formLayout = {
 @Form.create()
 @inject('taskStore')
 @inject('OperateHistoryStore')
+@inject('DataLayerStore')
+@inject('ToolCtrlStore')
 @observer
 class ResourceLoader extends React.Component {
     state = {
@@ -76,19 +78,31 @@ class ResourceLoader extends React.Component {
     };
 
     save = () => {
-        const { form, taskStore, OperateHistoryStore } = this.props;
+        const {
+            form,
+            taskStore,
+            OperateHistoryStore,
+            DataLayerStore,
+            ToolCtrlStore
+        } = this.props;
         form.validateFields((err, values) => {
             if (err) {
                 return;
             }
-            taskStore.load(values, () => {
-                this.setState({
-                    visible: false
-                });
-                OperateHistoryStore.destroy();
-            }, () => {
-                alert('此资料已打开')
-            });
+            taskStore.load(
+                values,
+                () => {
+                    this.setState({
+                        visible: false
+                    });
+                    OperateHistoryStore.destroy();
+                    DataLayerStore.activeEditor();
+                    ToolCtrlStore.updateByEditLayer();
+                },
+                () => {
+                    alert('此资料已打开');
+                }
+            );
         });
     };
 

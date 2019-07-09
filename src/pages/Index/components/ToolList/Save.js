@@ -23,7 +23,6 @@ class Save extends React.Component {
     action = () => {
         const { taskStore, OperateHistoryStore } = this.props;
         let data = map.getLayerManager().getAllVectorData();
-        console.log(data);
         taskStore.submit(data, () => {
             OperateHistoryStore.save()
         });
