@@ -7,6 +7,7 @@ import EditLayer from './EditLayer';
 import AddLine from './AddLine';
 import AddPoint from './AddPoint';
 import AddPolygon from './AddPolygon';
+import ResourceLoader from './ResourceLoader';
 
 export default [
     <Undo key="UNDO" />,
@@ -17,4 +18,5 @@ export default [
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,
     <AddPolygon key="POLYGON" />,
+    <ResourceLoader key="RESOURCE_LOADER" />
 ];

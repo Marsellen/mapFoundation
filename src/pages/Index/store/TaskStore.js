@@ -3,7 +3,7 @@ import TaskService from '../service/TaskService';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
-    @observable tasks;
+    @observable tasks = [];
     @observable activeTaskId;
 
     init = flow(function*() {
@@ -11,6 +11,19 @@ class TaskStore {
             const tasks = yield TaskService.get();
             this.tasks = tasks;
             this.setActiveTaskId();
+        } catch (e) {
+            console.log(e);
+        }
+    });
+
+    load = flow(function*(option, callback) {
+        try {
+            this.tasks.push({
+                _id: option.url,
+                name: option.name
+            });
+            this.setActiveTaskId(option.url);
+            callback()
         } catch (e) {
             console.log(e);
         }
@@ -30,7 +43,11 @@ class TaskStore {
             if (!this.activeTaskId) {
                 return;
             }
-            const task = yield TaskService.get({ id: this.activeTaskId });
+            //const task = yield TaskService.get({ id: this.activeTaskId });
+            let task = {
+                point_clouds: this.activeTaskId + '/point_clouds/cloud.js',
+                vectors: this.activeTaskId + '/vectors/ads_all.geojson'
+            };
             callback(task);
         } catch (e) {
             console.log(e);

@@ -101,17 +101,24 @@ class VizCompnent extends React.Component {
         const {
             DataLayerStore,
             RightMenuStore,
-            OperateHistoryStore
+            OperateHistoryStore,
+            AttributeStore
         } = this.props;
         DataLayerStore.initEditor((result, event) => {
-            console.log(result, event);
-            if (event.button === 0) {
-                this.showAttributesModal(result[0]);
-            } else if (event.button === 2) {
-                RightMenuStore.show(result[0], {
-                    x: event.x,
-                    y: event.y
-                });
+            //console.log(result, event);
+            if (result && result.length > 0) {
+                if (event.button === 0) {
+                    this.showAttributesModal(result[0]);
+                } else if (event.button === 2) {
+                    RightMenuStore.show(result[0], {
+                        x: event.x,
+                        y: event.y
+                    });
+                }
+            } else {
+                if (event.button === 0) {
+                    AttributeStore.hide();
+                }
             }
         });
 

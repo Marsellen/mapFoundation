@@ -70,7 +70,7 @@ class AttributesModal extends React.Component {
         const { AttributeStore } = this.props;
         const { attributes } = AttributeStore;
         return (
-            <Form colon={false}>
+            <Form colon={false} hideRequiredMark={true}>
                 {attributes.map((item, index) => this.renderItem(item, index))}
             </Form>
         );

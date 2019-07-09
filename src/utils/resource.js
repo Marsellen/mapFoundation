@@ -30,10 +30,12 @@ function request(defaultUrl, extraParams, option) {
             };
             let key =
                 option.method === 'get' || !option.method ? 'params' : 'data';
+            let jsonParams = JSON.stringify(params);
             let config = {
                 ...option,
                 url: urlFormat(option.url || defaultUrl, params),
-                [key]: params
+                [key]: jsonParams,
+                headers: { 'Content-Type': 'application/json' }
             };
             axios(config)
                 .then(response => {

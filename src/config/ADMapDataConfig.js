@@ -231,12 +231,313 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '道路与铁路平面交叉道口信号灯', icon: 'plus' }
     ],
     AD_ARROW_ARR_DIRECT: [
-        { value: '000000000000', label: '直行', icon: 'plus' }
+        { value: '00000000000000000001', label: '直行', icon: 'plus' },
+        { value: '00000000000000000010', label: '左转', icon: 'plus' },
+        { value: '00000000000000000100', label: '右转', icon: 'plus' },
+        { value: '00000000000000001000', label: '左掉头', icon: 'plus' },
+        { value: '00000000000000010000', label: '右掉头', icon: 'plus' },
+        { value: '00000000000000100000', label: '左弯或需向左合流', icon: 'plus' },
+        { value: '00000000000001000000', label: '右弯或需向右合流', icon: 'plus' },
+        { value: '00000000000010000000', label: '左后方转弯', icon: 'plus' },
+        { value: '00000000000100000000', label: '右后方转弯', icon: 'plus' },
+        { value: '00000000001000000000', label: '禁止左掉头', icon: 'plus' },
+        { value: '00000000010000000000', label: '禁止右掉头', icon: 'plus' },
+        { value: '00000000100000000000', label: '禁止左转', icon: 'plus' },
+        { value: '00000001000000000000', label: '禁止右转', icon: 'plus' }
     ],
     AD_TRAFFIC_LIGHT_TYPE: [
         { value: 1, label: '普通机动车信号灯', icon: 'plus' },
         { value: 2, label: '方向指示信号灯', icon: 'plus' },
         { value: 3, label: '道路与铁路平面交叉道口信号灯', icon: 'plus' },
         { value: 0, label: '其他', icon: 'plus' }
+    ]
+};
+
+export const DEFAULT_PROPERTIES_MAP = {
+    Arrow: {
+        ARR_DIRECT: '00000000000000000001',
+        ALANE_ID: 0
+    },
+    Polygon: {
+        TYPE: 1
+    },
+    TrafficSign: {
+        TYPE: 101,
+        VALUE: 0
+    },
+    TrafficLight: {
+        TYPE: 1
+    },
+    LaneDivider: {
+        TYPE: 2,
+        DIRECTION: 2,
+        REF_LINE: 0,
+        SHARE_LINE: 0,
+        RD_STATUS: 1,
+        LANE_TYPE: 1,
+        LANE_NO: 1
+    },
+    RefLine: {
+        TYPE: 1,
+        RD_STATUS: 0
+    },
+    Lane: {
+        TYPE: 2,
+        DIRECTION: 2,
+        LANE_NO: 0,
+        RESTRICT: 0
+    },
+    LaneAttrPoint: {
+        TYPE: 0,
+        REF_LINE: 0
+    }
+};
+
+export const TABLE_DATA_MAP = {
+    LaneDivider: [
+        {
+            key: 'ALDIV_ID',
+            name: '用户编号',
+            type: 'AD_LANE_DIVIDER_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'TYPE',
+            name: '车道线类型',
+            type: 'AD_LANE_DIVIDER_TYPE',
+            domType: 'RadioIconGroup'
+        },
+        {
+            key: 'LANE_TYPE',
+            name: '车道类型',
+            type: 'AD_LANE_DIVIDER_LANE_TYPE',
+            domType: 'RadioIconGroup'
+        },
+        {
+            key: 'REF_LINE',
+            name: '参考线标识',
+            type: 'AD_LANE_DIVIDER_REF_LINE',
+            domType: 'Select'
+        },
+        {
+            key: 'SHARE_LINE',
+            name: '共用车道线标识',
+            type: 'AD_LANE_DIVIDER_SHARE_LINE',
+            domType: 'Select'
+        },
+        {
+            key: 'DIRECTION',
+            name: '交通流方向',
+            type: 'AD_LANE_DIVIDER_DIRECTION',
+            domType: 'Select'
+        },
+        {
+            key: 'RD_STATUS',
+            name: '通行状态',
+            type: 'AD_LANE_DIVIDER_RD_STATUS',
+            domType: 'Select'
+        },
+        {
+            key: 'LANE_NO',
+            name: '车道编号',
+            type: 'AD_LANE_DIVIDER_LANE_NO',
+            domType: 'Text'
+        }
+    ],
+    ReferenceLine: [
+        {
+            key: 'REFLINE_ID',
+            name: '用户编号',
+            type: 'AD_REFERENCELINE_REFLINE_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'TYPE',
+            name: '参考线类型',
+            type: 'AD_REFERENCELINE_TYPE',
+            domType: 'Select'
+        },
+        {
+            key: 'RD_STATUS',
+            name: '通行状态',
+            type: 'AD_REFERENCELINE_RD_STATUS',
+            domType: 'Select'
+        }
+    ],
+    Lane: [
+        {
+            key: 'ALANE_ID',
+            name: '用户编号',
+            type: 'AD_LANE_ALANE_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'REFLINE_ID',
+            name: '关联参考线ID',
+            type: 'AD_LANE_REFLINE_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'L_DIV_ID',
+            name: '左侧车道线ID',
+            type: 'AD_LANE_L_DIV_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'R_DIV_ID',
+            name: '右侧车道线ID',
+            type: 'AD_LANE_R_DIV_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'TYPE',
+            name: '车道类型',
+            type: 'AD_LANE_TYPE',
+            domType: 'Select'
+        },
+        {
+            key: 'LANE_NO',
+            name: '车道编号',
+            type: 'AD_LANE_LANE_NO',
+            domType: 'Text'
+        },
+        {
+            key: 'DIRECTION',
+            name: '交通流方向',
+            type: 'AD_LANE_DIRECTION',
+            domType: 'Select'
+        },
+        {
+            key: 'RESTRICT',
+            name: '限制类型',
+            type: 'AD_LANE_RESTRICT',
+            domType: 'Select'
+        },
+        {
+            key: 'VALUE',
+            name: '限制取值',
+            type: 'AD_LANE_VALUE',
+            domType: 'Input'
+        },
+        {
+            key: 'STATUS',
+            name: '通行状态',
+            type: 'AD_LANE_STATUS',
+            domType: 'Select'
+        },
+        {
+            key: 'OBJECT_ID',
+            name: '关联停止位置ID',
+            type: 'AD_LANE_OBJECT_ID',
+            domType: 'Text'
+        }
+    ],
+    StopLocation: [
+        {
+            key: 'OBJECT_ID',
+            name: '用户编号',
+            type: 'AD_STOPLOCATION_OBJECT_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'TYPE',
+            name: '类型',
+            type: 'AD_STOPLOCATION_TYPE',
+            domType: 'Select'
+        }
+    ],
+    Polygon: [
+        {
+            key: 'OBJECT_ID',
+            name: '用户编号',
+            type: 'AD_POLYGON_OBJECT_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'TYPE',
+            name: '面要素类型',
+            type: 'AD_POLYGON_TYPE',
+            domType: 'RadioIconGroup'
+        }
+    ],
+    Arrow: [
+        {
+            key: 'OBJECT_ID',
+            name: '用户编号',
+            type: 'AD_ARROW_OBJECT_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'ARR_DIRECT',
+            name: '箭头方向',
+            type: 'AD_ARROW_ARR_DIRECT',
+            domType: 'RadioIconGroup'
+        },
+        {
+            key: 'ALANE_ID',
+            name: '关联车道号',
+            type: 'AD_ARROW_ALANE_ID',
+            domType: 'Text'
+        }
+    ],
+    LaneAttrPoint: [
+        {
+            key: 'ALAP_ID',
+            name: '用户编号',
+            type: 'AD_LANEATTRPOINT_ALAP_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'TYPE',
+            name: '属性变化点类型',
+            type: 'AD_LANEATTRPOINT_TYPE',
+            domType: 'Select'
+        },
+        {
+            key: 'REF_LINE',
+            name: '关联参考线ID',
+            type: 'AD_LANEATTRPOINT_REF_LINE',
+            domType: 'Text'
+        }
+    ],
+    TrafficSign: [
+        {
+            key: 'OBJECT_ID',
+            name: '用户编号',
+            type: 'AD_TRAFFICSIGN_OBJECT_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'TYPE',
+            name: '标志牌类型',
+            type: 'AD_TRAFFICSIGN_TYPE',
+            domType: 'RadioIconGroup'
+        },
+        {
+            key: 'VALUE',
+            name: '类型取值',
+            type: 'AD_TRAFFICSIGN_VALUE',
+            domType: 'Input'
+        }
+    ],
+    TrafficLight: [
+        {
+            key: 'OBJECT_ID',
+            name: '用户编号',
+            type: 'AD_TRAFFIC_LIGHT_OBJECT_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'TYPE',
+            name: '交通灯类型',
+            type: 'AD_TRAFFIC_LIGHT_TYPE',
+            domType: 'RadioIconGroup'
+        },
+        {
+            key: 'REFLINE_ID',
+            name: '用户编号',
+            type: 'AD_TRAFFIC_LIGHT_REFLINE_ID',
+            domType: 'Input'
+        }
     ]
 };

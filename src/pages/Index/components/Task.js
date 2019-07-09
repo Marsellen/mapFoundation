@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu } from 'antd';
+import { Menu, Empty } from 'antd';
 import { inject, observer } from 'mobx-react';
 
 @inject('taskStore')
@@ -7,15 +7,15 @@ import { inject, observer } from 'mobx-react';
 @observer
 class Task extends React.Component {
     componentDidMount() {
-        this.props.taskStore.init();
+        //this.props.taskStore.init();
     }
 
     render() {
         const { taskStore } = this.props;
-        return (
-            <Menu className="menu">
-                {taskStore.tasks &&
-                    taskStore.tasks.map(item => (
+        if (taskStore.tasks && taskStore.tasks.length > 0) {
+            return (
+                <Menu className="menu">
+                    {taskStore.tasks.map(item => (
                         <Menu.Item
                             key={item._id}
                             onClick={() => {
@@ -24,9 +24,16 @@ class Task extends React.Component {
                             <span>{item.name}</span>
                         </Menu.Item>
                     ))}
-            </Menu>
-        );
+                </Menu>
+            );
+        } else {
+            return this.renderNoData();
+        }
     }
+
+    renderNoData = () => {
+        return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
+    };
 
     toggleTask = id => {
         const { taskStore, AttributeStore } = this.props;
