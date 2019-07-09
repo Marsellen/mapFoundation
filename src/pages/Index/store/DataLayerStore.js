@@ -24,6 +24,9 @@ class DataLayerStore extends LayerStore {
 
     @action toggleAll = checked => {
         this.layers.map(layer => (layer.checked = checked));
+        if (!checked) {
+            this.clearChoose();
+        }
         this.updateKey = Math.random();
     };
 

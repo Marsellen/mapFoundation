@@ -8,7 +8,8 @@ export const TOOLS_MAP = {
         EDIT_LAYER: true,
         POINT: false,
         LINE: false,
-        POLYGON: false
+        POLYGON: false,
+        RESOURCE_LOADER: true
     },
     CHECK: {}
 };

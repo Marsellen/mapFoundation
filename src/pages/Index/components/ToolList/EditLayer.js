@@ -111,7 +111,12 @@ class EditLayerPicker extends React.Component {
     };
 
     onChange = e => {
-        const { DataLayerStore, ToolCtrlStore, NewFeatureStore } = this.props;
+        const {
+            DataLayerStore,
+            ToolCtrlStore,
+            NewFeatureStore,
+            OperateHistoryStore
+        } = this.props;
         this.setState({
             value: e.target.value
         });
@@ -119,6 +124,11 @@ class EditLayerPicker extends React.Component {
             let layerName = result.layerName;
             let feature = result.data;
             NewFeatureStore.init(feature, layerName);
+            OperateHistoryStore.add({
+                type: 'addFeature',
+                feature: feature,
+                layerName: layerName
+            });
         });
         ToolCtrlStore.updateByEditLayer(layer);
     };
