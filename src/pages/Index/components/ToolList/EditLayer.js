@@ -119,6 +119,10 @@ class EditLayerPicker extends React.Component {
             OperateHistoryStore
         } = this.props;
         let layer = DataLayerStore.activeEditor(e.target.value, result => {
+            if (result.errorCode) {
+                alert(result.desc);
+                return;
+            }
             let layerName = result.layerName;
             let feature = result.data;
             NewFeatureStore.init(feature, layerName, () => {
