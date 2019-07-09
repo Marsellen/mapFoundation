@@ -12,11 +12,11 @@ import ResourceLoader from './ResourceLoader';
 export default [
     <Undo key="UNDO" />,
     <Redo key="REDO" />,
+    <ResourceLoader key="RESOURCE_LOADER" />,
     <Save key="SAVE" />,
     <Intensity key="INTENSITY" />,
     <EditLayer key="EDIT_LAYER" />,
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,
-    <AddPolygon key="POLYGON" />,
-    <ResourceLoader key="RESOURCE_LOADER" />
+    <AddPolygon key="POLYGON" />
 ];

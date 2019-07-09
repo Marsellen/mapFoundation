@@ -13,21 +13,25 @@ class RadioIconGroup extends React.Component {
     render() {
         const { value } = this.state;
         const { options, disabled } = this.props;
-        return options.map((option, index) => {
-            let active = value == option.value;
-            return (
-                <RadioIcon
-                    key={index}
-                    icon={option.icon}
-                    disabled={option.disabled || disabled}
-                    active={active}
-                    label={option.label}
-                    action={() => {
-                        this.onChange(option.value);
-                    }}
-                />
-            );
-        });
+        return (
+            <div className="attr-icon-box">
+                {options.map((option, index) => {
+                    let active = value == option.value;
+                    return (
+                        <RadioIcon
+                            key={index}
+                            icon={option.icon}
+                            disabled={option.disabled || disabled}
+                            active={active}
+                            label={option.label}
+                            action={() => {
+                                this.onChange(option.value);
+                            }}
+                        />
+                    );
+                })}
+            </div>
+        );
     }
 
     onChange = value => {

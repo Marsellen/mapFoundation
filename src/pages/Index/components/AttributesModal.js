@@ -38,6 +38,7 @@ class AttributesModal extends React.Component {
                 title={this.renderTitle()}
                 visible={visible}
                 onCancel={this.handleCancel}>
+                <div className="obscuration"></div>
                 {this.renderForm()}
             </Modal>
         );
@@ -52,7 +53,7 @@ class AttributesModal extends React.Component {
     renderFooter = () => {
         const { AttributeStore } = this.props;
         const { readonly } = AttributeStore;
-        return readonly ? null : <Button onClick={this.save}>保存</Button>;
+        return readonly ? null : <Button type="primary" onClick={this.save} size="small" ghost>保存</Button>;
     };
 
     save = () => {
