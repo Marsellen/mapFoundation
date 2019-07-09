@@ -10,6 +10,7 @@ const formLayout = {
 
 @Form.create()
 @inject('taskStore')
+@inject('OperateHistoryStore')
 @observer
 class ResourceLoader extends React.Component {
     state = {
@@ -75,7 +76,7 @@ class ResourceLoader extends React.Component {
     };
 
     save = () => {
-        const { form, taskStore } = this.props;
+        const { form, taskStore, OperateHistoryStore } = this.props;
         form.validateFields((err, values) => {
             if (err) {
                 return;
@@ -84,6 +85,9 @@ class ResourceLoader extends React.Component {
                 this.setState({
                     visible: false
                 });
+                OperateHistoryStore.destroy();
+            }, () => {
+                alert('此资料已打开')
             });
         });
     };

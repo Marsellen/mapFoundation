@@ -16,14 +16,19 @@ class TaskStore {
         }
     });
 
-    load = flow(function*(option, callback) {
+    load = flow(function*(option, callback, errorCallback) {
         try {
+            if (this.tasks.map(task => task._id).includes(option.url)) {
+                errorCallback();
+                return;
+            }
             this.tasks.push({
                 _id: option.url,
                 name: option.name
             });
+
             this.setActiveTaskId(option.url);
-            callback()
+            callback();
         } catch (e) {
             console.log(e);
         }
@@ -52,6 +57,22 @@ class TaskStore {
         } catch (e) {
             console.log(e);
         }
+    });
+
+    submit = flow(function*(data, callback) {
+        try {
+            let patt1 = /(\w+):\/\/([^/:]+)(:\d*)?([^# ]*)/;
+            let arr = this.activeTaskId.match(patt1);
+            let path = arr[arr.length - 1].replace(/\//, '');
+            let payload = {
+                filePath: path + '/vectors/',
+                fileName: 'ads_all',
+                fileFormat: 'geojson',
+                fileData: data
+            };
+            yield TaskService.saveFile(payload);
+            callback();
+        } catch (e) {}
     });
 }
 

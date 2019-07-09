@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 
 @inject('taskStore')
 @inject('AttributeStore')
+@inject('OperateHistoryStore')
 @observer
 class Task extends React.Component {
     componentDidMount() {
@@ -36,8 +37,9 @@ class Task extends React.Component {
     };
 
     toggleTask = id => {
-        const { taskStore, AttributeStore } = this.props;
+        const { taskStore, AttributeStore, OperateHistoryStore } = this.props;
         taskStore.setActiveTaskId(id);
+        OperateHistoryStore.destroy();
         AttributeStore.hide();
     };
 }
