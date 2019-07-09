@@ -4,9 +4,9 @@ import { inject, observer } from 'mobx-react';
 import Sider from 'src/components/Sider';
 import SiderView from './components/SiderView';
 import VizCompnent from './components/VizCompnent';
-import MultimediaView from './components/MultimediaView';
 import HeaderBar from './components/HeaderBar';
 import 'less/home.less';
+import logo from 'src/assets/img/logo.png';
 
 const { Header } = Layout;
 
@@ -24,6 +24,11 @@ class Index extends React.Component {
         return (
             <Layout id="home">
                 <Header className="header">
+                    <div className="logo-content">
+                        <a href="/">
+                            <img className="logo" src={logo} alt="logo" />
+                        </a>
+                    </div>
                     <HeaderBar />
                 </Header>
                 <div className="flex flex-row">
@@ -31,7 +36,6 @@ class Index extends React.Component {
                     <div className="flex-1 viz-content">
                         <VizCompnent />
                     </div>
-                    {/* <MultimediaView /> */}
                 </div>
             </Layout>
         );

@@ -8,34 +8,31 @@ class MultimediaView extends React.Component {
 
     render() {
         return (
-            <div>
+            <div
+                className={`multimedia-container ${
+                    !this.state.hide ? 'show' : 'hide'
+                }`}>
+                <div className="multimedia-header">{this._renderHidenView()}</div>
                 {!this.state.hide && this._renderOpenView()}
-                {this.state.hide && this._renderHidenView()}
             </div>
         );
     }
 
     _renderOpenView() {
-        return (
-            <div className="multimedia-view-container">
-                <Icon
-                    type="double-right"
-                    className="muti-toggle-icon"
-                    onClick={this.toggle}
-                />
-            </div>
-        );
+        return <div className="multimedia-view-container" />;
     }
 
     _renderHidenView() {
         return (
-            <Tooltip placement="left" title="图片显示窗口">
+            <div
+                className="multimedia-menu"
+                title="图片显示窗口"
+                onClick={this.toggle}>
                 <Icon
-                    type="double-left"
+                    type={this.state.hide ? 'left' : 'right'}
                     className="muti-toggle-icon"
-                    onClick={this.toggle}
                 />
-            </Tooltip>
+            </div>
         );
     }
 

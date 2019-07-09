@@ -3,7 +3,6 @@ import Undo from './Undo';
 import Redo from './Redo';
 import Save from './Save';
 import Intensity from './Intensity';
-import UnderView from './UnderView';
 import EditLayer from './EditLayer';
 import AddLine from './AddLine';
 import AddPoint from './AddPoint';
@@ -18,5 +17,4 @@ export default [
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,
     <AddPolygon key="POLYGON" />,
-    <UnderView key="UNDER_VIEW" />
 ];

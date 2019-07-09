@@ -1,6 +1,7 @@
 import React from 'react';
 import { Popover, Tooltip, Icon, Slider } from 'antd';
 import { inject, observer } from 'mobx-react';
+import IconFont from 'src/components/IconFont';
 
 @inject('taskStore')
 @observer
@@ -49,8 +50,8 @@ class Intensity extends React.Component {
                     title="设置点云反射率"
                     visible={this.state.hovered}
                     onVisibleChange={this.handleHoverChange}>
-                    <Icon
-                        type="bulb"
+                    <IconFont
+                        type="icon-dengpaobulb"
                         className={`ad-icon ${!activeTaskId &&
                             'ad-disabled-icon'}`}
                     />

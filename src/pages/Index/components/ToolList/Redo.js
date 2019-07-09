@@ -13,8 +13,8 @@ class Redo extends React.Component {
         let shouldRedo = currentNode < finalNode;
         return (
             <ToolIcon
-                icon="redo"
-                title="取消撤销"
+                icon="huitui_"
+                title="回退"
                 disabled={!shouldRedo}
                 action={this.action}
             />

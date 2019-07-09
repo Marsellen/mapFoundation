@@ -14,7 +14,7 @@ class Undo extends React.Component {
         return (
             <ToolIcon
                 disabled={!shouldUndo}
-                icon="undo"
+                icon="chexiao"
                 title="撤销"
                 action={this.action}
             />

@@ -10,7 +10,7 @@ class Save extends React.Component {
         const { activeTaskId } = taskStore;
         return (
             <ToolIcon
-                icon="save"
+                icon="baocun"
                 title="保存"
                 disabled={!activeTaskId}
                 action={this.action}

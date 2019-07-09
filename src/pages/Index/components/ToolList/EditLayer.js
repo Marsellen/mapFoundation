@@ -2,6 +2,7 @@ import React from 'react';
 import { Popover, Tooltip, Icon, Radio, List } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import IconFont from 'src/components/IconFont';
 
 @inject('taskStore')
 @observer
@@ -49,8 +50,8 @@ class EditLayer extends React.Component {
                     title="设置编辑图层"
                     visible={this.state.hovered}
                     onVisibleChange={this.handleHoverChange}>
-                    <Icon
-                        type="sliders"
+                    <IconFont
+                        type="icon-shezhi"
                         className={`ad-icon ${!activeTaskId &&
                             'ad-disabled-icon'}`}
                     />

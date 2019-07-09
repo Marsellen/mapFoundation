@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tooltip, Icon } from 'antd';
+import IconFont from '../IconFont';
 
 class RadioIconGroup extends React.Component {
     constructor(props) {
@@ -52,8 +53,8 @@ class RadioIcon extends React.Component {
         if (active) iconClass = iconClass + ' ad-active-icon';
         return (
             <Tooltip placement="top" title={label}>
-                <Icon
-                    type={icon}
+                <IconFont
+                    type={`icon-${icon}`}
                     className={iconClass}
                     onClick={disabled ? () => {} : action}
                 />

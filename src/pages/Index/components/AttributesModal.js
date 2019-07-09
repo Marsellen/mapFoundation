@@ -1,8 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import SeniorModal from 'src/components/SeniorModal';
 import RadioIconGroup from 'src/components/RadioIconGroup';
-import { Form, Input, Select, Button } from 'antd';
+import { Modal, Form, Input, Select, Button } from 'antd';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import 'less/components/attributes-modal.less';
@@ -31,7 +30,7 @@ class AttributesModal extends React.Component {
         const { AttributeStore } = this.props;
         const { visible } = AttributeStore;
         return (
-            <SeniorModal
+            <Modal
                 footer={this.renderFooter()}
                 mask={false}
                 destroyOnClose={true}
@@ -40,7 +39,7 @@ class AttributesModal extends React.Component {
                 visible={visible}
                 onCancel={this.handleCancel}>
                 {this.renderForm()}
-            </SeniorModal>
+            </Modal>
         );
     }
 

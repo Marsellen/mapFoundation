@@ -4,11 +4,15 @@ import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
 //import NewFeatureModal from './NewFeatureModal';
 import RightMenuModal from './RightMenuModal';
+import UnderView from './ToolList/UnderView';
 import {
     RESOURCE_LAYER_POINT_CLOUD,
     RESOURCE_LAYER_VETOR,
     RESOURCE_LAYER_TRACE
 } from 'src/config/DataLayerConfig';
+import MultimediaView from './MultimediaView';
+
+import 'less/components/viz-compnent.less';
 
 @inject('taskStore')
 @inject('ResourceLayerStore')
@@ -126,16 +130,17 @@ class VizCompnent extends React.Component {
         const { taskStore } = this.props;
 
         return (
-            <div>
-                <div
-                    id="viz"
-                    key={taskStore.activeTaskId}
-                    className="viz-box"
-                />
+            <React.Fragment>
+                <div id="viz" key={taskStore.activeTaskId} className="viz-box">
+                    <div className="set-compass">
+                        <UnderView key="UNDER_VIEW" />
+                    </div>
+                </div>
+                {taskStore.activeTaskId ? <MultimediaView /> : <span />}
                 <AttributesModal />
-                {/* <NewFeatureModal /> */}
                 <RightMenuModal />
-            </div>
+                {/* <NewFeatureModal /> */}
+            </React.Fragment>
         );
     }
 }
