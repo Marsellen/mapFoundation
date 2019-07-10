@@ -104,31 +104,31 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '禁止通行' }
     ],
     AD_LANEATTRPOINT_TYPE: [
-        { value: 0, label: '未制作' },
-        { value: 11, label: '右侧出口' },
-        { value: 12, label: '左侧出口' },
-        { value: 15, label: '道路分离点' },
-        { value: 16, label: '道路合并点' },
-        { value: 17, label: '车道合并点' },
-        { value: 20, label: '点云不清晰起始' },
-        { value: 40, label: '点云遮挡起始' },
-        { value: 50, label: '精度误差起始' },
-        { value: 60, label: '道路施工起始' },
-        { value: 21, label: '点云不清晰结束' },
-        { value: 41, label: '点云遮挡结束' },
-        { value: 51, label: '精度误差结束' },
-        { value: 61, label: '道路施工结束' }
+        { value: 0, label: '未制作', icon: 'weizhizuo' },
+        { value: 11, label: '右侧出口', icon: 'youcechukou' },
+        { value: 12, label: '左侧出口', icon: 'zuocechukou' },
+        { value: 15, label: '道路分离点', icon: 'daolufenlidian' },
+        { value: 16, label: '道路合并点', icon: 'daoluhebingdian' },
+        { value: 17, label: '车道合并点', icon: 'chedaohebingdian' },
+        { value: 20, label: '点云不清晰起始', icon: 'dianyunbuqingxiqishi' },
+        { value: 40, label: '点云遮挡起始', icon: 'dianyunzhedangqishi' },
+        { value: 50, label: '精度误差起始', icon: 'jingduwuchaqishi' },
+        { value: 60, label: '道路施工起始', icon: 'daolushigongqishi' },
+        { value: 21, label: '点云不清晰结束', icon: 'dianyunbuqingxijieshu' },
+        { value: 41, label: '点云遮挡结束', icon: 'dianyunzhedangjieshu' },
+        { value: 51, label: '精度误差结束', icon: 'jingduwuchajieshu' },
+        { value: 61, label: '道路施工结束', icon: 'daolushigongjieshu' }
     ],
     AD_STOPLOCATION_TYPE: [
-        { value: 1, label: '停止线' },
-        { value: 2, label: '停车让行线' },
-        { value: 3, label: '减速让行线' }
+        { value: 1, label: '停止线', icon: 'tingzhixian' },
+        { value: 2, label: '停车让行线', icon: 'tingcherangxingxian' },
+        { value: 3, label: '减速让行线', icon: 'jiansurangxingxian' }
     ],
     AD_POLYGON_TYPE: [
-        { value: 1, label: '人行横道', icon: 'plus' },
-        { value: 2, label: '禁止停车线', icon: 'plus' },
-        { value: 3, label: '减速带', icon: 'plus' },
-        { value: 4, label: '减速警示震荡线', icon: 'plus' }
+        { value: 1, label: '人行横道', icon: 'renxinghengdao' },
+        { value: 2, label: '禁止停车线', icon: 'jinzhitingchexian' },
+        { value: 3, label: '减速带', icon: 'jiansudai' },
+        { value: 4, label: '减速警示震荡线', icon: 'jiansujingshizhendangxian' }
     ],
     AD_TRAFFICSIGN_TYPE: [
         { value: 101, label: '交叉路口', icon: 'plus' },
@@ -224,32 +224,26 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 400, label: '其他', icon: 'plus' },
         { value: 500, label: '动态标志牌', icon: 'plus' }
     ],
-    AD_TRAFFICLIGHT_TYPE: [
-        { value: 0, label: '其他', icon: 'plus' },
-        { value: 1, label: '普通机动车信号灯', icon: 'plus' },
-        { value: 2, label: '方向指示信号灯', icon: 'plus' },
-        { value: 3, label: '道路与铁路平面交叉道口信号灯', icon: 'plus' }
+    AD_TRAFFIC_LIGHT_TYPE: [
+        { value: 0, label: '其他', icon: 'qita' },
+        { value: 1, label: '普通机动车信号灯', icon: 'putongjidongchexinhaodeng' },
+        { value: 2, label: '方向指示信号灯', icon: 'fangxiangzhishixinhaodeng' },
+        { value: 3, label: '道路与铁路平面交叉道口信号灯', icon: 'daoluyutielupingmianjiaochadaokouxinhaodeng' }
     ],
     AD_ARROW_ARR_DIRECT: [
-        { value: '00000000000000000001', label: '直行', icon: 'plus' },
-        { value: '00000000000000000010', label: '左转', icon: 'plus' },
-        { value: '00000000000000000100', label: '右转', icon: 'plus' },
-        { value: '00000000000000001000', label: '左掉头', icon: 'plus' },
-        { value: '00000000000000010000', label: '右掉头', icon: 'plus' },
-        { value: '00000000000000100000', label: '左弯或需向左合流', icon: 'plus' },
-        { value: '00000000000001000000', label: '右弯或需向右合流', icon: 'plus' },
-        { value: '00000000000010000000', label: '左后方转弯', icon: 'plus' },
-        { value: '00000000000100000000', label: '右后方转弯', icon: 'plus' },
-        { value: '00000000001000000000', label: '禁止左掉头', icon: 'plus' },
-        { value: '00000000010000000000', label: '禁止右掉头', icon: 'plus' },
-        { value: '00000000100000000000', label: '禁止左转', icon: 'plus' },
-        { value: '00000001000000000000', label: '禁止右转', icon: 'plus' }
-    ],
-    AD_TRAFFIC_LIGHT_TYPE: [
-        { value: 1, label: '普通机动车信号灯', icon: 'plus' },
-        { value: 2, label: '方向指示信号灯', icon: 'plus' },
-        { value: 3, label: '道路与铁路平面交叉道口信号灯', icon: 'plus' },
-        { value: 0, label: '其他', icon: 'plus' }
+        { value: '00000000000000000001', label: '直行', icon: 'zhixing' },
+        { value: '00000000000000000010', label: '左转', icon: 'zuozhuan' },
+        { value: '00000000000000000100', label: '右转', icon: 'youzhuan' },
+        { value: '00000000000000001000', label: '左掉头', icon: 'zuodiaotou' },
+        { value: '00000000000000010000', label: '右掉头', icon: 'youdiaotou' },
+        { value: '00000000000000100000', label: '左弯或需向左合流', icon: 'zuowanhuoxuxiangzuoheliu' },
+        { value: '00000000000001000000', label: '右弯或需向右合流', icon: 'youwanhuoxuxiangyouheliu' },
+        { value: '00000000000010000000', label: '左后方转弯', icon: 'zuohoufangzhuanwan' },
+        { value: '00000000000100000000', label: '右后方转弯', icon: 'youhoufangzhuanwan' },
+        { value: '00000000001000000000', label: '禁止左掉头', icon: 'jinzhizuodiaotou' },
+        { value: '00000000010000000000', label: '禁止右掉头', icon: 'jinzhiyoudiaotou' },
+        { value: '00000000100000000000', label: '禁止左转', icon: 'jinzhizuozhuan' },
+        { value: '00000001000000000000', label: '禁止右转', icon: 'jinzhiyouzhuan' }
     ]
 };
 
@@ -443,7 +437,7 @@ export const TABLE_DATA_MAP = {
             key: 'TYPE',
             name: '类型',
             type: 'AD_STOPLOCATION_TYPE',
-            domType: 'Select'
+            domType: 'RadioIconGroup'
         }
     ],
     Polygon: [
@@ -491,7 +485,7 @@ export const TABLE_DATA_MAP = {
             key: 'TYPE',
             name: '属性变化点类型',
             type: 'AD_LANEATTRPOINT_TYPE',
-            domType: 'Select'
+            domType: 'RadioIconGroup'
         },
         {
             key: 'REF_LINE',

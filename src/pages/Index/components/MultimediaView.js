@@ -1,22 +1,25 @@
 import React from 'react';
 import { Icon, Tooltip } from 'antd';
+import { inject, observer } from 'mobx-react';
 import PictureShowView from './PictureShowView';
+import 'less/components/multimedia-modal.less';
 
+@inject('PictureShowStore')
+@observer
 class MultimediaView extends React.Component {
-    state = {
-        hide: true
-    };
 
     render() {
+        const { PictureShowStore } = this.props;
+        const { visible } = PictureShowStore;
         return (
             <div
                 className={`multimedia-container ${
-                    !this.state.hide ? 'show' : 'hide'
+                    visible ? 'show' : 'hide'
                 }`}>
                 <div className="multimedia-header">
                     {this._renderHidenView()}
                 </div>
-                {!this.state.hide && this._renderOpenView()}
+                {visible && this._renderOpenView()}
             </div>
         );
     }
@@ -30,13 +33,15 @@ class MultimediaView extends React.Component {
     }
 
     _renderHidenView() {
+        const { PictureShowStore } = this.props;
+        const { visible } = PictureShowStore;
         return (
             <div
                 className="multimedia-menu"
                 title="图片显示窗口"
                 onClick={this.toggle}>
                 <Icon
-                    type={this.state.hide ? 'left' : 'right'}
+                    type={visible ? 'right' : 'left'}
                     className="muti-toggle-icon"
                 />
             </div>
@@ -44,9 +49,9 @@ class MultimediaView extends React.Component {
     }
 
     toggle = () => {
-        this.setState({
-            hide: !this.state.hide
-        });
+        const { PictureShowStore } = this.props;
+        const { visible, show, hide } = PictureShowStore;
+        visible ? hide() : show();
     };
 }
 

@@ -101,16 +101,23 @@ class VizCompnent extends React.Component {
         const {
             DataLayerStore,
             RightMenuStore,
+            PictureShowStore,
             AttributeStore
         } = this.props;
         DataLayerStore.initEditor((result, event) => {
             console.log(result, event);
             if (result && result.length > 0) {
                 if (event.button === 0) {
+                    /**
+                     * 判断是轨迹或轨迹点
+                     * VectorLayer 轨迹
+                     * TraceLayer 轨迹点
+                     */
                     if (result[0].type === 'VectorLayer') {
                         this.showAttributesModal(result[0]);
-                    } else if (result[0].type === '') {
+                    } else if (result[0].type === 'TraceLayer') {
                         this.showPictureShowView(result[0]);
+                        PictureShowStore.show();
                     }
                 } else if (event.button === 2) {
                     RightMenuStore.show(result[0], {

@@ -1,15 +1,18 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 
-@inject('AttributeStore')
+@inject('taskStore')
+@inject('PictureShowStore')
 @observer
 class PictureShowView extends React.Component {
-    render() {
-        // const { PictureShowStore } = this.props;
-        // const { visible } = PictureShowStore;
-        return (
-            <div>
+    render() {activeTaskId
+        const { PictureShowStore, taskStore } = this.props;
+        const { picData } = PictureShowStore;
+        const { activeTaskId } = taskStore;
 
+        return (
+            <div className="img-banner">
+                <img src={`${activeTaskId}/tracks/middle/${picData}`} />
             </div>
         );
     }
