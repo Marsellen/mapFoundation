@@ -47,7 +47,7 @@ class ResourceLoader extends React.Component {
                                     message: '资料名称必填'
                                 }
                             ],
-                            initialValue: '123'
+                            //initialValue: '123'
                         })(<Input />)}
                     </Form.Item>
                     <Form.Item label="资料路径">
@@ -62,7 +62,7 @@ class ResourceLoader extends React.Component {
                                     message: '资料路径必需为url'
                                 }
                             ],
-                            initialValue: 'http://10.43.16.80:15001/zhushanhu'
+                            //initialValue: 'http://10.43.16.80:15001/zhushanhu'
                         })(<Input />)}
                     </Form.Item>
                 </Form>
