@@ -104,7 +104,6 @@ class VizCompnent extends React.Component {
         } = this.props;
         DataLayerStore.initEditor((result, event) => {
             //console.log(result, event);
-            debugger
             if (result && result.length > 0) {
                 if (event.button === 0) {
                     this.showAttributesModal(result[0]);
