@@ -36,6 +36,7 @@ class ResourceLoader extends React.Component {
                 title="资料加载"
                 destroyOnClose={true}
                 onCancel={this.handleCancel}
+                maskClosable={false}
                 footer={this.renderFooter()}>
                 <Form colon={false} hideRequiredMark={true} {...formLayout}>
                     <Form.Item label="资料名称">
@@ -68,13 +69,32 @@ class ResourceLoader extends React.Component {
     };
 
     renderFooter = () => {
-        return <Button onClick={this.save}>加载</Button>;
+        return <Button onClick={this.submit}>加载</Button>;
     };
 
     action = () => {
         this.setState({
             visible: true
         });
+    };
+
+    submit = () => {
+        const { OperateHistoryStore } = this.props;
+        let { currentNode, savedNode } = OperateHistoryStore;
+        let shouldSave = currentNode > savedNode;
+        if (shouldSave) {
+            Modal.confirm({
+                title: '当前任务未保存，切换任务后会丢失，是否继续？',
+                okText: '确定',
+                cancelText: '取消',
+                okType: 'danger',
+                onOk: () => {
+                    this.save();
+                }
+            });
+        } else {
+            this.save();
+        }
     };
 
     save = () => {
@@ -85,6 +105,7 @@ class ResourceLoader extends React.Component {
             DataLayerStore,
             ToolCtrlStore
         } = this.props;
+
         form.validateFields((err, values) => {
             if (err) {
                 return;
@@ -100,7 +121,10 @@ class ResourceLoader extends React.Component {
                     ToolCtrlStore.updateByEditLayer();
                 },
                 () => {
-                    alert('此资料已打开');
+                    Modal.error({
+                        title: '此资料已打开',
+                        okText: '确定'
+                    });
                 }
             );
         });

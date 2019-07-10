@@ -51,7 +51,8 @@ class TaskStore {
             //const task = yield TaskService.get({ id: this.activeTaskId });
             let task = {
                 point_clouds: this.activeTaskId + '/point_clouds/cloud.js',
-                vectors: this.activeTaskId + '/vectors/ads_all.geojson'
+                vectors: this.activeTaskId + '/vectors/ads_all.geojson',
+                tracks: this.activeTaskId + '/tracks/tracks.json'
             };
             callback(task);
         } catch (e) {

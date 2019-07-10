@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Empty } from 'antd';
+import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 
 @inject('taskStore')
@@ -15,14 +15,15 @@ class Task extends React.Component {
 
     render() {
         const { taskStore } = this.props;
+        const { activeTaskId } = taskStore;
         if (taskStore.tasks && taskStore.tasks.length > 0) {
             return (
-                <Menu className="menu">
+                <Menu className="menu" selectedKeys={[activeTaskId]}>
                     {taskStore.tasks.map(item => (
                         <Menu.Item
                             key={item._id}
                             onClick={() => {
-                                this.toggleTask(item._id);
+                                this.chooseTask(item._id);
                             }}>
                             <span>{item.name}</span>
                         </Menu.Item>
@@ -36,6 +37,25 @@ class Task extends React.Component {
 
     renderNoData = () => {
         return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
+    };
+
+    chooseTask = id => {
+        const { OperateHistoryStore } = this.props;
+        let { currentNode, savedNode } = OperateHistoryStore;
+        let shouldSave = currentNode > savedNode;
+        if (shouldSave) {
+            Modal.confirm({
+                title: '当前任务未保存，切换任务后会丢失，是否继续？',
+                okText: '确定',
+                cancelText: '取消',
+                okType: 'danger',
+                onOk: () => {
+                    this.toggleTask(id);
+                }
+            });
+        } else {
+            this.toggleTask(id);
+        }
     };
 
     toggleTask = id => {

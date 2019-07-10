@@ -1,5 +1,5 @@
 import React from 'react';
-import { Popover, Tooltip, Icon, Radio, List } from 'antd';
+import { Popover, Tooltip, Modal, Radio, List } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import IconFont from 'src/components/IconFont';
@@ -120,7 +120,12 @@ class EditLayerPicker extends React.Component {
         } = this.props;
         let layer = DataLayerStore.activeEditor(e.target.value, result => {
             if (result.errorCode) {
-                alert(result.desc);
+                let arr = result.desc.split(':');
+                let desc = arr[arr.length - 1];
+                Modal.error({
+                    title: desc,
+                    okText: '确定'
+                });
                 return;
             }
             let layerName = result.layerName;
