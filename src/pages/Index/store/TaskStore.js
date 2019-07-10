@@ -28,7 +28,7 @@ class TaskStore {
             });
 
             this.setActiveTaskId(option.url);
-            callback();
+            callback && callback();
         } catch (e) {
             console.log(e);
         }
@@ -54,7 +54,7 @@ class TaskStore {
                 vectors: this.activeTaskId + '/vectors/ads_all.geojson',
                 tracks: this.activeTaskId + '/tracks/tracks.json'
             };
-            callback(task);
+            callback && callback(task);
         } catch (e) {
             console.log(e);
         }
@@ -72,7 +72,7 @@ class TaskStore {
                 fileData: data
             };
             yield TaskService.saveFile(payload);
-            callback();
+            callback && callback();
         } catch (e) {
             console.log(e);
         }
@@ -87,7 +87,7 @@ class TaskStore {
             yield TaskService.exportShp({
                 jsonPath: url
             });
-            callback();
+            callback && callback();
         } catch (e) {
             console.log(e);
         }

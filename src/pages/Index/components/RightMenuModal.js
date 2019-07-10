@@ -66,15 +66,12 @@ class RightMenuModal extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                RightMenuStore.delete((feature, layerName) => {
+                RightMenuStore.delete(result => {
+                    let feature = result.data;
+                    let layerName = result.layerName;
                     let layer = DataLayerStore.getLayerByName(layerName);
-                    let key = DATA_LAYER_MAP[layerName].id;
-                    let value = feature.properties[key];
-                    layer.layer.removeFeatureByOption({
-                        key,
-                        value
-                    });
-                    DataLayerStore.clearChoose()
+                    layer.layer.removeFeatureById(result.uuid);
+                    DataLayerStore.clearChoose();
                     OperateHistoryStore.add({
                         type: 'deleteFeature',
                         feature,

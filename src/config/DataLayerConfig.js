@@ -1,57 +1,57 @@
 export const DATA_LAYER_MAP = {
     Arrow: {
         label: '地面引导箭头',
-        type: 'POLYGON',
         id: 'OBJECT_ID',
-        spec: 'AD_Arrow'
+        spec: 'AD_Arrow',
+        tools: ['POLYGON']
     },
     LaneAttrPoint: {
         label: '车道属性变化点',
-        type: 'POINT',
         id: 'ALAP_ID',
-        spec: 'AD_LaneAttrPoint'
+        spec: 'AD_LaneAttrPoint',
+        tools: ['POINT']
     },
     LaneDivider: {
         label: '车道线',
-        type: 'LINE',
         id: 'ALDIV_ID',
-        spec: 'AD_LaneDivider'
+        spec: 'AD_LaneDivider',
+        tools: ['LINE']
     },
     Polygon: {
         label: '地面面要素',
-        type: 'POLYGON',
         id: 'OBJECT_ID',
-        spec: 'AD_Polygon'
+        spec: 'AD_Polygon',
+        tools: ['POLYGON']
     },
     StopLocation: {
         label: '地面停车线',
-        type: 'LINE',
         id: 'OBJECT_ID',
-        spec: 'AD_StopLocation'
+        spec: 'AD_StopLocation',
+        tools: ['LINE']
     },
     Lane: {
         label: '车道中心线',
-        type: 'LINE',
         id: 'ALANE_ID',
-        spec: 'AD_Lane'
+        spec: 'AD_Lane',
+        tools: ['LINE']
     },
     TrafficSign: {
         label: '交通标志牌',
-        type: 'AREA',
         id: 'OBJECT_ID',
-        spec: 'AD_TrafficSign'
+        spec: 'AD_TrafficSign',
+        tools: ['AREA']
     },
     ReferenceLine: {
         label: '道路参考线',
-        type: 'LINE',
         id: 'REFLINE_ID',
-        spec: 'AD_ReferenceLine'
+        spec: 'AD_ReferenceLine',
+        tools: ['LINE']
     },
     TrafficLight: {
         label: '交通灯',
-        type: 'AREA',
         id: 'OBJECT_ID',
-        spec: 'AD_TrafficLight'
+        spec: 'AD_TrafficLight',
+        tools: ['AREA']
     }
 };
 

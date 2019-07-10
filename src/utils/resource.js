@@ -33,7 +33,6 @@ function request(defaultUrl, extraParams, option) {
                 key = 'params';
             } else {
                 key = 'data';
-                params = JSON.stringify(params);
             }
             let config = {
                 ...option,

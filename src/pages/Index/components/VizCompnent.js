@@ -98,12 +98,7 @@ class VizCompnent extends React.Component {
         };
 
         // attributes 拾取控件
-        const {
-            DataLayerStore,
-            RightMenuStore,
-            PictureShowStore,
-            AttributeStore
-        } = this.props;
+        const { DataLayerStore, PictureShowStore, AttributeStore } = this.props;
         DataLayerStore.initEditor((result, event) => {
             console.log(result, event);
             if (result && result.length > 0) {
@@ -120,10 +115,7 @@ class VizCompnent extends React.Component {
                         PictureShowStore.show();
                     }
                 } else if (event.button === 2) {
-                    RightMenuStore.show(result[0], {
-                        x: event.x,
-                        y: event.y
-                    });
+                    this.showRightMenu(result[0], event);
                 }
             } else {
                 if (event.button === 0) {
@@ -141,9 +133,21 @@ class VizCompnent extends React.Component {
     showAttributesModal = obj => {
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
-        let readonly = !editLayer;
+        let readonly =
+            !editLayer || (editLayer && editLayer.layerName !== obj.layerName);
         AttributeStore.setModel(obj);
         AttributeStore.show(readonly);
+    };
+
+    showRightMenu = (obj, event) => {
+        const { DataLayerStore, RightMenuStore } = this.props;
+        const editLayer = DataLayerStore.getEditLayer();
+        if (editLayer && editLayer.layerName == obj.layerName) {
+            RightMenuStore.show(obj, {
+                x: event.x,
+                y: event.y
+            });
+        }
     };
 
     render() {

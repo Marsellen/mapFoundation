@@ -130,13 +130,25 @@ class EditLayerPicker extends React.Component {
             }
             let layerName = result.layerName;
             let feature = result.data;
-            NewFeatureStore.init(feature, layerName, () => {
-                OperateHistoryStore.add({
-                    type: 'addFeature',
-                    feature: feature,
-                    layerName: layerName
-                });
-            });
+            NewFeatureStore.init(
+                feature,
+                layerName,
+                () => {
+                    OperateHistoryStore.add({
+                        type: 'addFeature',
+                        feature: feature,
+                        layerName: layerName
+                    });
+                },
+                () => {
+                    let layer = DataLayerStore.getEditLayer();
+                    Modal.error({
+                        title: '请求ID失败',
+                        okText: '确定'
+                    });
+                    layer.layer.removeFeatureById(result.uuid);
+                }
+            );
         });
         ToolCtrlStore.updateByEditLayer(layer);
     };
