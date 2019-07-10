@@ -13,7 +13,7 @@ class PictureShowView extends React.Component {
         const { activeTaskId } = taskStore;
         const options = {
             inline: true, //内联模式
-            button: false,
+            // button: false,
             navbar: false,
             title: false,
             toolbar: {
@@ -30,33 +30,25 @@ class PictureShowView extends React.Component {
                 flipHorizontal: 0,
                 flipVertical: 0
             },
-            tooltip: false,
-            rotatable: false,
-            fullscreen: false,
+            tooltip: false, //放大或缩小时显示具有图像比率（百分比）的工具提示
+            rotatable: false, //旋转图像
+            fullscreen: true, //全屏
+            transition: false, //过渡
             backdrop: true, //控制背景
             minWidth: 580,
-            zoomRatio: 1,
+            zoomRatio: 0.1, //通过旋转鼠标缩放图像时定义比率
             minZoomRatio: 0.1, //最小比例
-            maxZoomRatio: 3 //最大比例
-        };
-        const methods = {
-            ready: function() {
-                // 2 methods are available here: "show" and "destroy".
-            },
-            shown: function() {
-                // 9 methods are available here: "hide", "view", "prev", "next", "play", "stop", "full", "exit" and "destroy".
-            },
+            maxZoomRatio: 3, //最大比例
             viewed: function() {
-                // All methods are available here except "show".
-                // this.viewer.zoomTo(1).rotateTo(180);
-                const { viewer } = this.refs.viewer.getViewer();
-                viewer.zoom(0.1);
+                this.viewer.zoomTo(0.58);
             }
         };
         return (
             <div className="img-banner">
-                <RcViewer options={options} methods={methods}>
-                    <img src={`${activeTaskId}/tracks/middle/${picData}`} />
+                <RcViewer options={options}>
+                    <img
+                        src={`${activeTaskId}/tracks/middle/${picData}`}
+                    />
                 </RcViewer>
             </div>
         );
