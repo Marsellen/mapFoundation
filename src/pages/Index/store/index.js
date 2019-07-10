@@ -4,6 +4,7 @@ import DataLayerStore from './DataLayerStore';
 import ResourceLayerStore from './ResourceLayerStore';
 import OperateHistoryStore from './OperateHistoryStore';
 import AttributeStore from './AttributeStore';
+import PictureShowStore from './PictureShowStore';
 import ToolCtrlStore from './ToolCtrlStore';
 import NewFeatureStore from './NewFeatureStore';
 import RightMenuStore from './RightMenuStore';
@@ -15,6 +16,7 @@ export default {
     ResourceLayerStore,
     OperateHistoryStore,
     AttributeStore,
+    PictureShowStore,
     ToolCtrlStore,
     NewFeatureStore,
     RightMenuStore

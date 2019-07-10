@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon, Tooltip } from 'antd';
+import PictureShowView from './PictureShowView';
 
 class MultimediaView extends React.Component {
     state = {
@@ -12,14 +13,20 @@ class MultimediaView extends React.Component {
                 className={`multimedia-container ${
                     !this.state.hide ? 'show' : 'hide'
                 }`}>
-                <div className="multimedia-header">{this._renderHidenView()}</div>
+                <div className="multimedia-header">
+                    {this._renderHidenView()}
+                </div>
                 {!this.state.hide && this._renderOpenView()}
             </div>
         );
     }
 
     _renderOpenView() {
-        return <div className="multimedia-view-container" />;
+        return (
+            <div className="multimedia-view-container">
+                <PictureShowView />
+            </div>
+        );
     }
 
     _renderHidenView() {
