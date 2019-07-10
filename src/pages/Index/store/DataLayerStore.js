@@ -61,7 +61,7 @@ class DataLayerStore extends LayerStore {
     };
 
     @action getEditLayer = () => {
-        return this.editor.editLayer;
+        return this.editor && this.editor.editLayer;
     };
 
     @action clearChoose = () => {
