@@ -100,13 +100,7 @@ class ResourceLoader extends React.Component {
     };
 
     save = () => {
-        const {
-            form,
-            taskStore,
-            OperateHistoryStore,
-            DataLayerStore,
-            ToolCtrlStore
-        } = this.props;
+        const { form, taskStore } = this.props;
 
         form.validateFields((err, values) => {
             if (err) {
@@ -118,9 +112,7 @@ class ResourceLoader extends React.Component {
                     this.setState({
                         visible: false
                     });
-                    OperateHistoryStore.destroy();
-                    DataLayerStore.activeEditor();
-                    ToolCtrlStore.updateByEditLayer();
+                    this.clearWorkSpace();
                 },
                 () => {
                     Modal.error({
@@ -130,6 +122,21 @@ class ResourceLoader extends React.Component {
                 }
             );
         });
+    };
+
+    clearWorkSpace = () => {
+        const {
+            taskStore,
+            OperateHistoryStore,
+            DataLayerStore,
+            ToolCtrlStore
+        } = this.props;
+        const { tasks } = taskStore;
+        if (tasks && tasks.length > 1) {
+            OperateHistoryStore.destroy();
+            DataLayerStore.activeEditor();
+            ToolCtrlStore.updateByEditLayer();
+        }
     };
 
     handleCancel = () => {

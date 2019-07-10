@@ -4,7 +4,7 @@ import IDService from 'src/pages/Index/service/IDService';
 
 configure({ enforceActions: 'always' });
 class NewFeatureStore {
-    init = flow(function*(feature, layerName, callback) {
+    init = flow(function*(feature, layerName, callback, errorCallback) {
         try {
             const result = yield IDService.post({ id_type: 'AD_' + layerName });
             let id = result.data[0].min;
@@ -16,9 +16,10 @@ class NewFeatureStore {
                 ...feature.properties,
                 ...defaultProperties
             };
-            callback()
+            callback && callback();
         } catch (e) {
             console.log(e);
+            errorCallback && errorCallback();
         }
     });
 }
