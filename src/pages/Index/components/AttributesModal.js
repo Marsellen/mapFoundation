@@ -38,7 +38,7 @@ class AttributesModal extends React.Component {
                 title={this.renderTitle()}
                 visible={visible}
                 onCancel={this.handleCancel}>
-                <div className="obscuration"></div>
+                <div className="obscuration" />
                 {this.renderForm()}
             </Modal>
         );
@@ -53,7 +53,11 @@ class AttributesModal extends React.Component {
     renderFooter = () => {
         const { AttributeStore } = this.props;
         const { readonly } = AttributeStore;
-        return readonly ? null : <Button type="primary" onClick={this.save} size="small" ghost>保存</Button>;
+        return readonly ? null : (
+            <Button type="primary" onClick={this.save} size="small" ghost>
+                保存
+            </Button>
+        );
     };
 
     save = () => {
@@ -100,7 +104,7 @@ class AttributesModal extends React.Component {
                 {form.getFieldDecorator(item.key, {
                     rules: [
                         {
-                            required: true,
+                            required: item.required,
                             message: `${item.name}必填`
                         }
                     ],
@@ -119,7 +123,7 @@ class AttributesModal extends React.Component {
                 {form.getFieldDecorator(item.key, {
                     rules: [
                         {
-                            required: true,
+                            required: item.required,
                             message: `${item.name}必填`
                         }
                     ],
@@ -153,12 +157,13 @@ class AttributesModal extends React.Component {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
         const options = TYPE_SELECT_OPTION_MAP[item.type];
+        console.log(item);
         return (
             <Form.Item key={index} label={item.name}>
                 {form.getFieldDecorator(item.key, {
                     rules: [
                         {
-                            required: true,
+                            required: item.required,
                             message: `${item.name}必填`
                         }
                     ],

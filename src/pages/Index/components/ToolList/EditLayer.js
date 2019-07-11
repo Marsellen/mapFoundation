@@ -71,9 +71,9 @@ class EditLayer extends React.Component {
 @inject('NewFeatureStore')
 @observer
 class EditLayerPicker extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+    state = {
+        hasCallBack: false
+    };
 
     render() {
         let { DataLayerStore } = this.props;
@@ -112,13 +112,23 @@ class EditLayerPicker extends React.Component {
     };
 
     onChange = e => {
+        const { DataLayerStore, ToolCtrlStore } = this.props;
+        let layer = DataLayerStore.activeEditor(e.target.value);
+        this.installCallBack();
+        ToolCtrlStore.updateByEditLayer(layer);
+    };
+
+    installCallBack = () => {
         const {
             DataLayerStore,
-            ToolCtrlStore,
             NewFeatureStore,
             OperateHistoryStore
         } = this.props;
-        let layer = DataLayerStore.activeEditor(e.target.value, result => {
+        if (this.state.hasCallBack) {
+            return;
+        }
+        DataLayerStore.setCreatedCallBack(result => {
+            DataLayerStore.setPointSize(0.5);
             if (result.errorCode) {
                 let arr = result.desc.split(':');
                 let desc = arr[arr.length - 1];
@@ -150,7 +160,10 @@ class EditLayerPicker extends React.Component {
                 }
             );
         });
-        ToolCtrlStore.updateByEditLayer(layer);
+
+        this.setState({
+            hasCallBack: true
+        });
     };
 }
 

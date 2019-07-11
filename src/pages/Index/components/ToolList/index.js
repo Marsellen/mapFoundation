@@ -9,6 +9,7 @@ import AddPoint from './AddPoint';
 import AddPolygon from './AddPolygon';
 import ResourceLoader from './ResourceLoader';
 import ExportShp from './ExportShp';
+import AddFacadeRectangle from './AddFacadeRectangle';
 
 export default [
     <Undo key="UNDO" />,
@@ -20,5 +21,6 @@ export default [
     <EditLayer key="EDIT_LAYER" />,
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,
-    <AddPolygon key="POLYGON" />
+    <AddPolygon key="POLYGON" />,
+    <AddFacadeRectangle key="ADD_FACADEREC_TANGLE" />
 ];

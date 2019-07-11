@@ -99,7 +99,8 @@ class VizCompnent extends React.Component {
 
         // attributes 拾取控件
         const { DataLayerStore, PictureShowStore, AttributeStore } = this.props;
-        DataLayerStore.initEditor((result, event) => {
+        DataLayerStore.initEditor();
+        DataLayerStore.setSelectedCallBack((result, event) => {
             console.log(result, event);
             if (result && result.length > 0) {
                 if (event.button === 0) {

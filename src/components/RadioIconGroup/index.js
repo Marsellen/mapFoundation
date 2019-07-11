@@ -1,17 +1,10 @@
 import React from 'react';
-import { Tooltip, Icon } from 'antd';
+import { Tooltip } from 'antd';
 import IconFont from '../IconFont';
 
 class RadioIconGroup extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: props.value
-        };
-    }
-
     render() {
-        const { value } = this.state;
+        const { value } = this.props;
         const { options, disabled } = this.props;
         return (
             <div className="attr-icon-box">
@@ -36,16 +29,9 @@ class RadioIconGroup extends React.Component {
 
     onChange = value => {
         const { onChange } = this.props;
-        this.setState(
-            {
-                value: value
-            },
-            () => {
-                if (typeof onChange === 'function') {
-                    onChange(this.state.value);
-                }
-            }
-        );
+        if (typeof onChange === 'function') {
+            onChange(value);
+        }
     };
 }
 
