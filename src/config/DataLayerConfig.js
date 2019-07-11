@@ -18,13 +18,13 @@ export const DATA_LAYER_MAP = {
         tools: ['LINE']
     },
     Polygon: {
-        label: '地面面要素',
+        label: '面状要素',
         id: 'OBJECT_ID',
         spec: 'AD_Polygon',
         tools: ['POLYGON']
     },
     StopLocation: {
-        label: '地面停车线',
+        label: '停止位置',
         id: 'OBJECT_ID',
         spec: 'AD_StopLocation',
         tools: ['LINE']
@@ -48,7 +48,7 @@ export const DATA_LAYER_MAP = {
         tools: ['LINE']
     },
     TrafficLight: {
-        label: '交通灯',
+        label: '交通信号灯',
         id: 'OBJECT_ID',
         spec: 'AD_TrafficLight',
         tools: ['ADD_FACADEREC_TANGLE']

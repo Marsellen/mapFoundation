@@ -1,6 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import RcViewer from 'rc-viewer';
+import IconFont from 'src/components/IconFont';
 
 @inject('taskStore')
 @inject('PictureShowStore')
@@ -21,7 +22,7 @@ class PictureShowView extends React.Component {
                 zoomIn: 1,
                 zoomOut: 1,
                 oneToOne: 1,
-                reset: 1,
+                reset: 0,
                 prev: 0,
                 play: 0,
                 next: 0,
@@ -35,25 +36,30 @@ class PictureShowView extends React.Component {
             fullscreen: true, //全屏
             transition: false, //过渡
             backdrop: true, //控制背景
-            minWidth: 580,
+            minWidth: 600,
             zoomRatio: 0.1, //通过旋转鼠标缩放图像时定义比率
             minZoomRatio: 0.1, //最小比例
             maxZoomRatio: 3, //最大比例
             viewed: function() {
-                this.viewer.zoomTo(0.58);
+                //设置相对比例0.6=展示宽度/图片实际宽度
+                this.viewer.zoomTo(0.6).move(0, 11.8);
             }
         };
         return (
             <div className="img-banner">
-                <RcViewer options={options}>
-                    <img
-                        src={
-                            picData
-                                ? `${activeTaskId}/tracks/middle/${picData}`
-                                : null
-                        }
-                    />
-                </RcViewer>
+                {picData ? (
+                    <RcViewer options={options} ref="viewer">
+                        <ul id="images">
+                            <li>
+                                <img
+                                    src={`${activeTaskId}/tracks/middle/${picData}`}
+                                />
+                            </li>
+                        </ul>
+                    </RcViewer>
+                ) : (
+                    <IconFont className="icondefault" type="icon-zanwutupian" />
+                )}
             </div>
         );
     }

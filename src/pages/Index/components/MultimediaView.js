@@ -7,17 +7,15 @@ import 'less/components/multimedia-modal.less';
 @inject('PictureShowStore')
 @observer
 class MultimediaView extends React.Component {
-
     render() {
         const { PictureShowStore } = this.props;
         const { visible } = PictureShowStore;
         return (
             <div
-                className={`multimedia-container ${
-                    visible ? 'show' : 'hide'
-                }`}>
+                className={`multimedia-container ${visible ? 'show' : 'hide'}`}>
                 <div className="multimedia-header">
                     {this._renderHidenView()}
+                    {visible && this._renderNextOrPreviousView()}
                 </div>
                 {visible && this._renderOpenView()}
             </div>
@@ -28,6 +26,25 @@ class MultimediaView extends React.Component {
         return (
             <div className="multimedia-view-container">
                 <PictureShowView />
+            </div>
+        );
+    }
+
+    _renderNextOrPreviousView() {
+        return (
+            <div className="multimedia-fun">
+                <div
+                    className="multimedia-i next-dot"
+                    title="下一个轨迹点"
+                    onClick={this.next}>
+                    <Icon type="caret-down" />
+                </div>
+                <div
+                    className="multimedia-i previou-dot"
+                    title="上一个轨迹点"
+                    onClick={this.previou}>
+                    <Icon type="caret-up" />
+                </div>
             </div>
         );
     }
@@ -47,6 +64,16 @@ class MultimediaView extends React.Component {
             </div>
         );
     }
+
+    next = () => {
+        console.log(traceLayer);
+        traceLayer.next(item => {
+            console.log(item);
+
+        });
+    };
+
+    previou = () => {};
 
     toggle = () => {
         const { PictureShowStore } = this.props;
