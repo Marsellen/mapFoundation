@@ -13,7 +13,7 @@ class PictureShowView extends React.Component {
         const { activeTaskId } = taskStore;
         const options = {
             inline: true, //内联模式
-            // button: false,
+            // button: false,//右上角全屏
             navbar: false,
             title: false,
             toolbar: {
@@ -47,7 +47,11 @@ class PictureShowView extends React.Component {
             <div className="img-banner">
                 <RcViewer options={options}>
                     <img
-                        src={`${activeTaskId}/tracks/middle/${picData}`}
+                        src={
+                            picData
+                                ? `${activeTaskId}/tracks/middle/${picData}`
+                                : null
+                        }
                     />
                 </RcViewer>
             </div>
