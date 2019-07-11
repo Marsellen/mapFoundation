@@ -8,6 +8,10 @@ export default (function() {
             saveFile: {
                 url: '/nas_service/api/savefile',
                 method: 'post'
+            },
+            creatCircle: {
+                url: '/nas_service/api/creatcircle',
+                method: 'post'
             }
         }
     );

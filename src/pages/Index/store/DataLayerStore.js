@@ -1,12 +1,14 @@
-import { action, configure, observable } from 'mobx';
+import { action, configure, flow } from 'mobx';
 import LayerStore from './LayerStore';
 import { EditControl } from 'addis-viz-sdk';
+import TaskService from '../service/TaskService';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore extends LayerStore {
     constructor() {
         super();
         this.editor;
+        this.createShouldUpdate;
     }
 
     @action toggle = (name, checked) => {
@@ -48,7 +50,7 @@ class DataLayerStore extends LayerStore {
         let layer = this.getLayerByName(name);
         if (this.editor) {
             // TODO
-            this.editor.cancel();
+            //this.editor.cancel();
             this.editor.editLayer = layer;
             this.setPointSize(0.5);
         } else {
@@ -64,7 +66,13 @@ class DataLayerStore extends LayerStore {
     };
 
     @action setCreatedCallBack = callback => {
-        this.editor.onFeatureCreated(callback);
+        this.editor.onFeatureCreated(result => {
+            callback(result, this.createShouldUpdate);
+        });
+    };
+
+    @action setEditedCallBack = callback => {
+        this.editor.onFeatureEdited(callback);
     };
 
     @action getEditLayer = () => {
@@ -81,25 +89,69 @@ class DataLayerStore extends LayerStore {
 
     @action newPoint = () => {
         if (!this.editor) return;
+        this.createShouldUpdate = false;
         this.editor.newPoint();
         this.setPointSize(3);
     };
 
     @action newLine = () => {
         if (!this.editor) return;
+        this.createShouldUpdate = false;
         this.editor.newLine();
         this.setPointSize(3);
     };
 
     @action newPolygon = () => {
         if (!this.editor) return;
+        this.createShouldUpdate = false;
         this.editor.newPolygon();
         this.setPointSize(3);
     };
 
     @action newFacadeRectangle = () => {
         if (!this.editor) return;
+        this.createShouldUpdate = false;
         this.editor.newMatrix();
+        this.setPointSize(3);
+    };
+
+    newCircle = flow(function*() {
+        if (!this.editor) return;
+        this.createShouldUpdate = true;
+        this.editor.newFixedPolygon(3);
+        this.setPointSize(5);
+    });
+
+    UpdataResult = flow(function*(result) {
+        try {
+            if (!this.createShouldUpdate) {
+                return result;
+            }
+            let points = result.data.geometry.coordinates[0];
+            let _result = yield TaskService.creatCircle(points);
+            result.data.geometry.coordinates[0] = _result.data;
+            this.editor.editLayer.layer.updateFeatures([result]);
+            return result;
+        } catch (e) {
+            console.log(e);
+        }
+    });
+
+    @action insertPoints = () => {
+        if (!this.editor) return;
+        this.editor.insertPoints();
+        this.setPointSize(3);
+    };
+
+    @action changePoints = () => {
+        if (!this.editor) return;
+        this.editor.changePoints();
+        this.setPointSize(3);
+    };
+
+    @action deletePoints = () => {
+        if (!this.editor) return;
+        this.editor.deletePoints();
         this.setPointSize(3);
     };
 

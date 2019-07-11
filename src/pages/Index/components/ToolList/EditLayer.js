@@ -69,6 +69,7 @@ class EditLayer extends React.Component {
 @inject('ToolCtrlStore')
 @inject('OperateHistoryStore')
 @inject('NewFeatureStore')
+@inject('RightMenuStore')
 @observer
 class EditLayerPicker extends React.Component {
     state = {
@@ -122,13 +123,15 @@ class EditLayerPicker extends React.Component {
         const {
             DataLayerStore,
             NewFeatureStore,
-            OperateHistoryStore
+            OperateHistoryStore,
+            RightMenuStore
         } = this.props;
         if (this.state.hasCallBack) {
             return;
         }
         DataLayerStore.setCreatedCallBack(result => {
             DataLayerStore.setPointSize(0.5);
+            //console.log(result);
             if (result.errorCode) {
                 let arr = result.desc.split(':');
                 let desc = arr[arr.length - 1];
@@ -138,27 +141,40 @@ class EditLayerPicker extends React.Component {
                 });
                 return;
             }
-            let layerName = result.layerName;
-            let feature = result.data;
-            NewFeatureStore.init(
-                feature,
-                layerName,
-                () => {
+            DataLayerStore.UpdataResult(result)
+                .then(result => {
+                    return NewFeatureStore.init(result);
+                })
+                .then(result => {
+                    let layerName = result.layerName;
+                    let feature = result.data;
                     OperateHistoryStore.add({
                         type: 'addFeature',
                         feature: feature,
                         layerName: layerName
                     });
-                },
-                () => {
+                })
+                .catch(() => {
                     let layer = DataLayerStore.getEditLayer();
                     Modal.error({
                         title: '请求ID失败',
                         okText: '确定'
                     });
                     layer.layer.removeFeatureById(result.uuid);
-                }
-            );
+                });
+        });
+
+        DataLayerStore.setEditedCallBack(result => {
+            //console.log(result);
+            DataLayerStore.setPointSize(0.5);
+            let oldFeature = RightMenuStore.getFeature();
+            OperateHistoryStore.add({
+                type: 'updateFeature',
+                oldFeature,
+                feature: result,
+                layerName: result.layerName,
+                uuid: result.uuid
+            });
         });
 
         this.setState({

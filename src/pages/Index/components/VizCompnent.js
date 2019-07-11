@@ -159,7 +159,8 @@ class VizCompnent extends React.Component {
         if (editLayer && editLayer.layerName == obj.layerName) {
             RightMenuStore.show(obj, {
                 x: event.x,
-                y: event.y
+                y: event.y,
+                layerName: obj.layerName
             });
         }
     };

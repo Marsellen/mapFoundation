@@ -9,7 +9,7 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 @observer
 class RightMenuModal extends React.Component {
     render() {
-        const { visible } = this.props.RightMenuStore;
+        const { visible, option } = this.props.RightMenuStore;
         return (
             <Modal
                 visible={visible}
@@ -27,10 +27,24 @@ class RightMenuModal extends React.Component {
                 onCancel={this.handleCancel}>
                 <Menu className="menu">
                     <Menu.Item
-                        key={0}
-                        onClick={this.action}
+                        onClick={this.deleteFeature}
                         style={{ marginTop: 0, marginBottom: 0 }}>
                         <span>删除</span>
+                    </Menu.Item>
+                    <Menu.Item
+                        onClick={this.insertPoints}
+                        style={{ marginTop: 0, marginBottom: 0 }}>
+                        <span>新增形状点</span>
+                    </Menu.Item>
+                    <Menu.Item
+                        onClick={this.changePoints}
+                        style={{ marginTop: 0, marginBottom: 0 }}>
+                        <span>修改形状点</span>
+                    </Menu.Item>
+                    <Menu.Item
+                        onClick={this.deletePoints}
+                        style={{ marginTop: 0, marginBottom: 0 }}>
+                        <span>删除形状点</span>
                     </Menu.Item>
                 </Menu>
             </Modal>
@@ -43,8 +57,8 @@ class RightMenuModal extends React.Component {
         if (x + 100 > innerWidth) {
             x = x - 100;
         }
-        if (y + 40 > innerHeight) {
-            y = y - 40;
+        if (y + 40 * 4 > innerHeight) {
+            y = y - 40 * 4;
         }
         return { top: y, left: x };
     };
@@ -54,7 +68,7 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
     };
 
-    action = () => {
+    deleteFeature = () => {
         const {
             RightMenuStore,
             OperateHistoryStore,
@@ -80,6 +94,24 @@ class RightMenuModal extends React.Component {
                 });
             }
         });
+    };
+
+    insertPoints = () => {
+        const { DataLayerStore, RightMenuStore } = this.props;
+        DataLayerStore.insertPoints();
+        RightMenuStore.hide();
+    };
+
+    changePoints = () => {
+        const { DataLayerStore, RightMenuStore } = this.props;
+        DataLayerStore.changePoints();
+        RightMenuStore.hide();
+    };
+
+    deletePoints = () => {
+        const { DataLayerStore, RightMenuStore } = this.props;
+        DataLayerStore.deletePoints();
+        RightMenuStore.hide();
     };
 }
 

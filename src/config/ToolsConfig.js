@@ -11,7 +11,8 @@ export const TOOLS_MAP = {
         LINE: false,
         POLYGON: false,
         RESOURCE_LOADER: true,
-        ADD_FACADEREC_TANGLE: false
+        ADD_FACADEREC_TANGLE: false,
+        ADD_CIRCLE: false
     },
     CHECK: {}
 };
