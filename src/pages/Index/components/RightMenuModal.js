@@ -10,6 +10,9 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 class RightMenuModal extends React.Component {
     render() {
         const { visible, option } = this.props.RightMenuStore;
+        if (!visible) {
+            return <div />;
+        }
         return (
             <Modal
                 visible={visible}
@@ -26,39 +29,61 @@ class RightMenuModal extends React.Component {
                 bodyStyle={{ padding: 0, fontSize: 12 }}
                 onCancel={this.handleCancel}>
                 <Menu className="menu">
-                    <Menu.Item
-                        onClick={this.deleteFeature}
-                        style={{ marginTop: 0, marginBottom: 0 }}>
-                        <span>删除</span>
-                    </Menu.Item>
-                    <Menu.Item
-                        onClick={this.insertPoints}
-                        style={{ marginTop: 0, marginBottom: 0 }}>
-                        <span>新增形状点</span>
-                    </Menu.Item>
-                    <Menu.Item
-                        onClick={this.changePoints}
-                        style={{ marginTop: 0, marginBottom: 0 }}>
-                        <span>修改形状点</span>
-                    </Menu.Item>
-                    <Menu.Item
-                        onClick={this.deletePoints}
-                        style={{ marginTop: 0, marginBottom: 0 }}>
-                        <span>删除形状点</span>
-                    </Menu.Item>
+                    {this.getMenus().map(menu => {
+                        return (
+                            option &&
+                            DATA_LAYER_MAP[
+                                option.layerName
+                            ].rightTools.includes(menu.key) &&
+                            menu
+                        );
+                    })}
                 </Menu>
             </Modal>
         );
     }
 
+    getMenus = () => {
+        return [
+            <Menu.Item
+                key="delete"
+                onClick={this.deleteFeature}
+                style={{ marginTop: 0, marginBottom: 0 }}>
+                <span>删除</span>
+            </Menu.Item>,
+            <Menu.Item
+                key="insertPoints"
+                onClick={this.insertPoints}
+                style={{ marginTop: 0, marginBottom: 0 }}>
+                <span>新增形状点</span>
+            </Menu.Item>,
+            <Menu.Item
+                key="changePoints"
+                onClick={this.changePoints}
+                style={{ marginTop: 0, marginBottom: 0 }}>
+                <span>修改形状点</span>
+            </Menu.Item>,
+            <Menu.Item
+                key="deletePoints"
+                onClick={this.deletePoints}
+                style={{ marginTop: 0, marginBottom: 0 }}>
+                <span>删除形状点</span>
+            </Menu.Item>
+        ];
+    };
+
     getPosition = () => {
         const { option } = this.props.RightMenuStore;
+        if (!option) return { top: -1000, left: -1000 };
         let { x, y } = option || { x: 0, y: 0 };
         if (x + 100 > innerWidth) {
             x = x - 100;
         }
-        if (y + 40 * 4 > innerHeight) {
-            y = y - 40 * 4;
+        let num = DATA_LAYER_MAP[option.layerName]
+            ? DATA_LAYER_MAP[option.layerName].rightTools.length
+            : 0;
+        if (y + 40 * num > innerHeight) {
+            y = y - 40 * num;
         }
         return { top: y, left: x };
     };
