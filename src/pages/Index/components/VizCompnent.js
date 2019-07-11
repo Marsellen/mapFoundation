@@ -1,5 +1,11 @@
 import React from 'react';
-import { Map, PointCloudLayer, LayerGroup, TraceLayer } from 'addis-viz-sdk';
+import {
+    Map,
+    DetectorControl,
+    PointCloudLayer,
+    LayerGroup,
+    TraceLayer
+} from 'addis-viz-sdk';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
 //import NewFeatureModal from './NewFeatureModal';
@@ -30,6 +36,10 @@ class VizCompnent extends React.Component {
         const { taskStore } = this.props;
         const div = document.getElementById('viz');
         window.map = new Map(div);
+        const controlManager = window.map.getControlManager();
+        const detector = new DetectorControl();
+        //点选控件放进控件管理器总
+        controlManager.addControl(detector);
         taskStore.getTaskFile(this.initTask);
     }
 
@@ -78,7 +88,10 @@ class VizCompnent extends React.Component {
             return;
         }
         window.traceLayer = new TraceLayer(tracks);
-        map.getLayerManager().addTraceLayer(traceLayer);
+        // traceLayer.showCar(false); //不演示小车
+        // map.getLayerManager().addTraceLayer(window.traceLayer);
+        map.getLayerManager().addLayer('TraceLayer', window.traceLayer);
+        window.traceLayer.setMap(map); //将map注册到图层，用于后续可视化监控点选动作
         return {
             layerName: RESOURCE_LAYER_TRACE,
             layer: traceLayer

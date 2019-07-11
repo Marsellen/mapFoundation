@@ -42,7 +42,7 @@ class MultimediaView extends React.Component {
                 <div
                     className="multimedia-i previou-dot"
                     title="上一个轨迹点"
-                    onClick={this.previou}>
+                    onClick={this.previous}>
                     <Icon type="caret-up" />
                 </div>
             </div>
@@ -66,13 +66,22 @@ class MultimediaView extends React.Component {
     }
 
     next = () => {
-        //console.log(traceLayer);
-        traceLayer.next(item => {
-            //console.log(item);
+        const { PictureShowStore } = this.props;
+        const { setPicData } = PictureShowStore;
+        window.traceLayer.nextPoint(item => {
+            window.map.location({ x: item.properties.X, y: item.properties.Y });
+            setPicData(item);
         });
     };
 
-    previou = () => {};
+    previous = () => {
+        const { PictureShowStore } = this.props;
+        const { setPicData } = PictureShowStore;
+        window.traceLayer.lastPoint(item => {
+            window.map.location({ x: item.properties.X, y: item.properties.Y });
+            setPicData(item);
+        });
+    };
 
     toggle = () => {
         const { PictureShowStore } = this.props;

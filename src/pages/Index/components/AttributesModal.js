@@ -114,13 +114,20 @@ class AttributesModal extends React.Component {
                             {
                                 required: item.required,
                                 message: `${item.name}必填`
+                            },
+                            {
+                                pattern:
+                                    item.validate === 'number'
+                                        ? '^[0-9]*$'
+                                        : '',
+                                message: '请输入数字'
                             }
                         ],
                         initialValue: item.value
                     })(<Input disabled={readonly} />)
                 ) : (
                     <span className="ant-form-text">
-                        {String(item.value) != '' ? String(item.value) : '--'}
+                        {item.value != '' ? item.value : '--'}
                     </span>
                 )}
             </Form.Item>
