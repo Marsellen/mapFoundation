@@ -56,7 +56,7 @@ class RadioIcon extends React.Component {
         if (disabled) iconClass = iconClass + ' ad-disabled-icon';
         if (active) iconClass = iconClass + ' ad-active-icon';
         return (
-            <Tooltip placement="top" title={label}>
+            <Tooltip placement="top" mouseEnterDelay={1} title={label}>
                 <IconFont
                     type={`icon-${icon}`}
                     className={iconClass}

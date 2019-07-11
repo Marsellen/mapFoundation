@@ -38,7 +38,7 @@ class AttributesModal extends React.Component {
                 title={this.renderTitle()}
                 visible={visible}
                 onCancel={this.handleCancel}>
-                <div className="obscuration"></div>
+                <div className="obscuration" />
                 {this.renderForm()}
             </Modal>
         );
@@ -53,7 +53,11 @@ class AttributesModal extends React.Component {
     renderFooter = () => {
         const { AttributeStore } = this.props;
         const { readonly } = AttributeStore;
-        return readonly ? null : <Button type="primary" onClick={this.save} size="small" ghost>保存</Button>;
+        return readonly ? null : (
+            <Button type="primary" onClick={this.save} size="small" ghost>
+                保存
+            </Button>
+        );
     };
 
     save = () => {
@@ -82,12 +86,19 @@ class AttributesModal extends React.Component {
     };
 
     renderText = (item, index) => {
-        const { form } = this.props;
+        const { form, AttributeStore } = this.props;
+        const { readonly } = AttributeStore;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {form.getFieldDecorator(item.key, {
-                    initialValue: item.value
-                })(<Input disabled />)}
+                {!readonly ? (
+                    form.getFieldDecorator(item.key, {
+                        initialValue: item.value
+                    })(<Input disabled />)
+                ) : (
+                    <span className="ant-form-text">
+                        {item.value ? item.value : '--'}
+                    </span>
+                )}
             </Form.Item>
         );
     };
@@ -97,15 +108,21 @@ class AttributesModal extends React.Component {
         const { readonly } = AttributeStore;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {form.getFieldDecorator(item.key, {
-                    rules: [
-                        {
-                            required: true,
-                            message: `${item.name}必填`
-                        }
-                    ],
-                    initialValue: item.value
-                })(<Input disabled={readonly} />)}
+                {!readonly ? (
+                    form.getFieldDecorator(item.key, {
+                        rules: [
+                            {
+                                required: true,
+                                message: `${item.name}必填`
+                            }
+                        ],
+                        initialValue: item.value
+                    })(<Input disabled={readonly} />)
+                ) : (
+                    <span className="ant-form-text">
+                        {String(item.value) != '' ? String(item.value) : '--'}
+                    </span>
+                )}
             </Form.Item>
         );
     };
@@ -116,37 +133,50 @@ class AttributesModal extends React.Component {
         const options = TYPE_SELECT_OPTION_MAP[item.type];
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {form.getFieldDecorator(item.key, {
-                    rules: [
-                        {
-                            required: true,
-                            message: `${item.name}必填`
-                        }
-                    ],
-                    initialValue: item.value
-                })(
-                    <Select
-                        showSearch
-                        optionFilterProp="children"
-                        filterOption={(input, option) =>
-                            option.props.children
-                                .toLowerCase()
-                                .indexOf(input.toLowerCase()) >= 0
-                        }>
-                        {options.map((option, index) => {
-                            return (
-                                <Select.Option
-                                    key={index}
-                                    value={option.value}
-                                    disabled={readonly}>
-                                    {option.label}
-                                </Select.Option>
-                            );
-                        })}
-                    </Select>
+                {!readonly ? (
+                    form.getFieldDecorator(item.key, {
+                        rules: [
+                            {
+                                required: true,
+                                message: `${item.name}必填`
+                            }
+                        ],
+                        initialValue: item.value
+                    })(
+                        <Select
+                            showSearch
+                            optionFilterProp="children"
+                            disabled={readonly}
+                            filterOption={(input, option) =>
+                                option.props.children
+                                    .toLowerCase()
+                                    .indexOf(input.toLowerCase()) >= 0
+                            }>
+                            {options.map((option, index) => {
+                                return (
+                                    <Select.Option
+                                        key={index}
+                                        value={option.value}>
+                                        {option.label}
+                                    </Select.Option>
+                                );
+                            })}
+                        </Select>
+                    )
+                ) : (
+                    <span className="ant-form-text">
+                        {this.getArrayOption(item.value, options)}
+                    </span>
                 )}
             </Form.Item>
         );
+    };
+
+    getArrayOption = (value, arr) => {
+        let text = '';
+        const pos = arr.findIndex(val => val.value === value);
+        text = String(pos) != '' ? arr[pos].label : '--';
+        return text;
     };
 
     renderRadioIconGroup = (item, index) => {

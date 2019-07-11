@@ -16,7 +16,7 @@ class PictureShowView extends React.Component {
             inline: true, //内联模式
             // button: false,//右上角全屏
             navbar: false,
-            title: false,
+            // title: false,
             toolbar: {
                 //工具栏
                 zoomIn: 1,
@@ -42,7 +42,7 @@ class PictureShowView extends React.Component {
             maxZoomRatio: 3, //最大比例
             viewed: function() {
                 //设置相对比例0.6=展示宽度/图片实际宽度
-                this.viewer.zoomTo(0.6).move(0, 11.8);
+                this.viewer.zoomTo(0.6).move(0, -6.2);
             }
         };
         return (
