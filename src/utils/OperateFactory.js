@@ -36,21 +36,11 @@ class OperateFactory {
     }
 
     updateFeature(layer, history) {
-        layer.updateFeatures([
-            {
-                data: history.newFeature,
-                uuid: history.newFeature.properties.uuid
-            }
-        ]);
+        layer.updateFeatures([history.feature]);
     }
 
     reUpdateFeature(layer, history) {
-        layer.updateFeatures([
-            {
-                data: history.oldFeature,
-                uuid: history.oldFeature.properties.uuid
-            }
-        ]);
+        layer.updateFeatures([history.oldFeature]);
     }
 }
 

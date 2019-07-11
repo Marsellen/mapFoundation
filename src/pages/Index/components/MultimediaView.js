@@ -66,10 +66,9 @@ class MultimediaView extends React.Component {
     }
 
     next = () => {
-        console.log(traceLayer);
+        //console.log(traceLayer);
         traceLayer.next(item => {
-            console.log(item);
-
+            //console.log(item);
         });
     };
 

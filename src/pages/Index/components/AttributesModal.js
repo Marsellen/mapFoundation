@@ -183,7 +183,7 @@ class AttributesModal extends React.Component {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
         const options = TYPE_SELECT_OPTION_MAP[item.type];
-        console.log(item);
+        //console.log(item);
         return (
             <Form.Item key={index} label={item.name}>
                 {form.getFieldDecorator(item.key, {

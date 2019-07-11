@@ -23,11 +23,16 @@ function urlFormat(url, params) {
 function request(defaultUrl, extraParams, option) {
     return function(data) {
         return new Promise((resolve, reject) => {
-            let params = {
-                ...extraParams,
-                ...option.extraParams,
-                ...data
-            };
+            let params;
+            if (Array.isArray(data)) {
+                params = data;
+            } else {
+                params = {
+                    ...extraParams,
+                    ...option.extraParams,
+                    ...data
+                };
+            }
             let key;
             if (option.method === 'get' || !option.method) {
                 key = 'params';
