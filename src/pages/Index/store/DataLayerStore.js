@@ -39,25 +39,32 @@ class DataLayerStore extends LayerStore {
         layer.updateFeatures(features);
     };
 
-    @action initEditor = callback => {
+    @action initEditor = () => {
         this.editor = new EditControl();
         map.getControlManager().addControl(this.editor);
-        this.editor.onFeatureSelected(callback);
     };
 
-    @action activeEditor = (name, callback) => {
+    @action activeEditor = name => {
         let layer = this.getLayerByName(name);
         if (this.editor) {
             // TODO
             this.editor.cancel();
             this.editor.editLayer = layer;
+            this.setPointSize(0.5);
         } else {
             this.editor = new EditControl(layer);
             map.getControlManager().addControl(this.editor);
         }
         this.updateKey = Math.random();
-        this.editor.onFeatureCreated(callback);
         return layer;
+    };
+
+    @action setSelectedCallBack = callback => {
+        this.editor.onFeatureSelected(callback);
+    };
+
+    @action setCreatedCallBack = callback => {
+        this.editor.onFeatureCreated(callback);
     };
 
     @action getEditLayer = () => {
@@ -75,16 +82,29 @@ class DataLayerStore extends LayerStore {
     @action newPoint = () => {
         if (!this.editor) return;
         this.editor.newPoint();
+        this.setPointSize(3);
     };
 
     @action newLine = () => {
         if (!this.editor) return;
         this.editor.newLine();
+        this.setPointSize(3);
     };
 
     @action newPolygon = () => {
         if (!this.editor) return;
         this.editor.newPolygon();
+        this.setPointSize(3);
+    };
+
+    @action newFacadeRectangle = () => {
+        if (!this.editor) return;
+        this.editor.newMatrix();
+        this.setPointSize(3);
+    };
+
+    @action setPointSize = size => {
+        pointCloudLayer.setPointSize(size);
     };
 
     @action stopEdit = () => {

@@ -25,9 +25,7 @@ class Index extends React.Component {
             <Layout id="home">
                 <Header className="header">
                     <div className="logo-content">
-                        <a href="/">
-                            <img className="logo" src={logo} alt="logo" />
-                        </a>
+                        <img className="logo" src={logo} alt="logo" />
                     </div>
                     <HeaderBar />
                 </Header>

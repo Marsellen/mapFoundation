@@ -112,7 +112,7 @@ class AttributesModal extends React.Component {
                     form.getFieldDecorator(item.key, {
                         rules: [
                             {
-                                required: true,
+                                required: item.required,
                                 message: `${item.name}必填`
                             }
                         ],
@@ -137,7 +137,7 @@ class AttributesModal extends React.Component {
                     form.getFieldDecorator(item.key, {
                         rules: [
                             {
-                                required: true,
+                                required: item.required,
                                 message: `${item.name}必填`
                             }
                         ],
@@ -183,12 +183,13 @@ class AttributesModal extends React.Component {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
         const options = TYPE_SELECT_OPTION_MAP[item.type];
+        console.log(item);
         return (
             <Form.Item key={index} label={item.name}>
                 {form.getFieldDecorator(item.key, {
                     rules: [
                         {
-                            required: true,
+                            required: item.required,
                             message: `${item.name}必填`
                         }
                     ],

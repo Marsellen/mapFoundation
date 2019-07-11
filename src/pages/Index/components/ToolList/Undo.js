@@ -26,6 +26,7 @@ class Undo extends React.Component {
         OperateHistoryStore.undo(preNode => {
             let layer = DataLayerStore.getLayerByName(preNode.layerName).layer;
             OperateFactory.undo(layer, preNode);
+            DataLayerStore.clearChoose();
         });
     };
 }
