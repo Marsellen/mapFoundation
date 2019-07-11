@@ -15,7 +15,13 @@ class PictureShowStore {
             : null;
     };
 
-    @action show = readonly => {
+    @action setPicData = obj => {
+        this.picData = obj.properties.Img.middle
+            ? obj.properties.Img.middle
+            : null;
+    };
+
+    @action show = () => {
         this.visible = true;
     };
 

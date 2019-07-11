@@ -627,6 +627,7 @@ export const TABLE_DATA_MAP = {
             key: 'VALUE',
             name: '类型取值',
             type: 'AD_TRAFFICSIGN_VALUE',
+            validate: 'number',
             domType: 'Input'
         }
     ],
