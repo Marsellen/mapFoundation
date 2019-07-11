@@ -26,6 +26,7 @@ class Redo extends React.Component {
         OperateHistoryStore.redo(nextNode => {
             let layer = DataLayerStore.getLayerByName(nextNode.layerName).layer;
             OperateFactory.redo(layer, nextNode);
+            DataLayerStore.clearChoose();
         });
     };
 }

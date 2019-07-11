@@ -290,21 +290,73 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: '000000000000010', label: '右转', icon: 'youzhuan' },
         { value: '000000000001000', label: '左掉头', icon: 'zuodiaotou' },
         { value: '000000000010000', label: '右掉头', icon: 'youdiaotou' },
-        { value: '000000000100000', label: '左弯或需向左合流', icon: 'zuowanhuoxuxiangzuoheliu' },
-        { value: '000000001000000', label: '右弯或需向右合流', icon: 'youwanhuoxuxiangyouheliu' },
-        { value: '000000010000000', label: '左后方转弯', icon: 'zuohoufangzhuanwan' },
-        { value: '000000100000000', label: '右后方转弯', icon: 'youhoufangzhuanwan' },
-        { value: '000001000000000', label: '禁止左掉头', icon: 'jinzhizuodiaotou' },
-        { value: '000010000000000', label: '禁止右掉头', icon: 'jinzhiyoudiaotou' },
+        {
+            value: '000000000100000',
+            label: '左弯或需向左合流',
+            icon: 'zuowanhuoxuxiangzuoheliu'
+        },
+        {
+            value: '000000001000000',
+            label: '右弯或需向右合流',
+            icon: 'youwanhuoxuxiangyouheliu'
+        },
+        {
+            value: '000000010000000',
+            label: '左后方转弯',
+            icon: 'zuohoufangzhuanwan'
+        },
+        {
+            value: '000000100000000',
+            label: '右后方转弯',
+            icon: 'youhoufangzhuanwan'
+        },
+        {
+            value: '000001000000000',
+            label: '禁止左掉头',
+            icon: 'jinzhizuodiaotou'
+        },
+        {
+            value: '000010000000000',
+            label: '禁止右掉头',
+            icon: 'jinzhiyoudiaotou'
+        },
         { value: '000100000000000', label: '禁止左转', icon: 'jinzhizuozhuan' },
         { value: '001000000000000', label: '禁止右转', icon: 'jinzhiyouzhuan' },
-        { value: '000000000000101', label: '直行或左转', icon: 'zhixinghuozuozhuan' },
-        { value: '000000000000011', label: '直行或右转', icon: 'zhixinghuoyouzhuan' },
-        { value: '000000000000111', label: '直行或左转或右转', icon: 'zhixinghuozuozhuanhuoyouzhuan' },
-        { value: '000000000001001', label: '直行或左掉头', icon: 'zhixinghuozuodiaotou' },
-        { value: '000000000010001', label: '直行或右掉头', icon: 'zhixinghuoyoudiaotou' },
-        { value: '000000000001100', label: '左转或左掉头', icon: 'zuozhuanhuozuodiaotou' },
-        { value: '000000000010010', label: '右转或右掉头', icon: 'youzhuanhuoyoudiaotou' }
+        {
+            value: '000000000000101',
+            label: '直行或左转',
+            icon: 'zhixinghuozuozhuan'
+        },
+        {
+            value: '000000000000011',
+            label: '直行或右转',
+            icon: 'zhixinghuoyouzhuan'
+        },
+        {
+            value: '000000000000111',
+            label: '直行或左转或右转',
+            icon: 'zhixinghuozuozhuanhuoyouzhuan'
+        },
+        {
+            value: '000000000001001',
+            label: '直行或左掉头',
+            icon: 'zhixinghuozuodiaotou'
+        },
+        {
+            value: '000000000010001',
+            label: '直行或右掉头',
+            icon: 'zhixinghuoyoudiaotou'
+        },
+        {
+            value: '000000000001100',
+            label: '左转或左掉头',
+            icon: 'zuozhuanhuozuodiaotou'
+        },
+        {
+            value: '000000000010010',
+            label: '右转或右掉头',
+            icon: 'youzhuanhuoyoudiaotou'
+        }
     ]
 };
 
@@ -345,6 +397,9 @@ export const DEFAULT_PROPERTIES_MAP = {
     LaneAttrPoint: {
         TYPE: 0,
         REF_LINE: 0
+    },
+    StopLocation: {
+        TYPE: 1
     }
 };
 
