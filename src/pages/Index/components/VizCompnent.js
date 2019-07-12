@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-    Map,
-    DetectorControl,
-    PointCloudLayer,
-    LayerGroup,
-    TraceLayer
-} from 'addis-viz-sdk';
+import { Map, PointCloudLayer, LayerGroup, TraceLayer } from 'addis-viz-sdk';
+import { Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
 //import NewFeatureModal from './NewFeatureModal';
@@ -26,6 +21,8 @@ import 'less/components/viz-compnent.less';
 @inject('AttributeStore')
 @inject('PictureShowStore')
 @inject('RightMenuStore')
+@inject('NewFeatureStore')
+@inject('OperateHistoryStore')
 @observer
 class VizCompnent extends React.Component {
     constructor(props) {
@@ -36,11 +33,7 @@ class VizCompnent extends React.Component {
         const { taskStore } = this.props;
         const div = document.getElementById('viz');
         window.map = new Map(div);
-        const controlManager = window.map.getControlManager();
-        const detector = new DetectorControl();
-        //点选控件放进控件管理器总
-        controlManager.addControl(detector);
-        taskStore.getTaskFile(this.initTask);
+        taskStore.getTaskFile().then(this.initTask);
     }
 
     initTask = task => {
@@ -111,31 +104,91 @@ class VizCompnent extends React.Component {
         };
 
         // attributes 拾取控件
-        const { DataLayerStore, PictureShowStore, AttributeStore } = this.props;
+        const { DataLayerStore } = this.props;
         DataLayerStore.initEditor();
-        DataLayerStore.setSelectedCallBack((result, event) => {
-            console.log(result, event);
-            if (result && result.length > 0) {
-                if (event.button === 0) {
-                    /**
-                     * 判断是轨迹或轨迹点
-                     * VectorLayer 轨迹
-                     * TraceLayer 轨迹点
-                     */
-                    if (result[0].type === 'VectorLayer') {
-                        this.showAttributesModal(result[0]);
-                    } else if (result[0].type === 'TraceLayer') {
-                        this.showPictureShowView(result[0]);
-                        PictureShowStore.show();
-                    }
-                } else if (event.button === 2) {
-                    this.showRightMenu(result[0], event);
+        DataLayerStore.setSelectedCallBack(this.selectedCallBack);
+        DataLayerStore.setCreatedCallBack(this.createdCallBack);
+        DataLayerStore.setEditedCallBack(this.editedCallBack);
+    };
+
+    selectedCallBack = (result, event) => {
+        const { PictureShowStore, AttributeStore } = this.props;
+        console.log(result, event);
+        if (result && result.length > 0) {
+            if (event.button === 0) {
+                /**
+                 * 判断是轨迹或轨迹点
+                 * VectorLayer 轨迹
+                 * TraceLayer 轨迹点
+                 */
+                if (result[0].type === 'VectorLayer') {
+                    this.showAttributesModal(result[0]);
+                } else if (result[0].type === 'TraceLayer') {
+                    this.showPictureShowView(result[0]);
+                    PictureShowStore.show();
                 }
-            } else {
-                if (event.button === 0) {
-                    AttributeStore.hide();
-                }
+            } else if (event.button === 2) {
+                this.showRightMenu(result[0], event);
             }
+        } else {
+            if (event.button === 0) {
+                AttributeStore.hide();
+            }
+        }
+    };
+
+    createdCallBack = result => {
+        const {
+            DataLayerStore,
+            NewFeatureStore,
+            OperateHistoryStore
+        } = this.props;
+        DataLayerStore.setPointSize(0.5);
+        //console.log(result);
+        if (result.errorCode) {
+            let arr = result.desc.split(':');
+            let desc = arr[arr.length - 1];
+            Modal.error({
+                title: desc,
+                okText: '确定'
+            });
+            return;
+        }
+        DataLayerStore.UpdataResult(result)
+            .then(result => {
+                return NewFeatureStore.init(result);
+            })
+            .then(result => {
+                let layerName = result.layerName;
+                let feature = result.data;
+                OperateHistoryStore.add({
+                    type: 'addFeature',
+                    feature: feature,
+                    layerName: layerName
+                });
+            })
+            .catch(e => {
+                console.log(e);
+                let layer = DataLayerStore.getEditLayer();
+                layer.layer.removeFeatureById(result.uuid);
+            });
+    };
+
+    editedCallBack = result => {
+        const {
+            DataLayerStore,
+            OperateHistoryStore,
+            RightMenuStore
+        } = this.props;
+        //console.log(result);
+        DataLayerStore.setPointSize(0.5);
+        let oldFeature = RightMenuStore.getFeature();
+        OperateHistoryStore.add({
+            type: 'updateFeature',
+            oldFeature,
+            feature: result,
+            layerName: result.layerName,
+            uuid: result.uuid
         });
     };
 
@@ -154,9 +207,10 @@ class VizCompnent extends React.Component {
     };
 
     showRightMenu = (obj, event) => {
-        const { DataLayerStore, RightMenuStore } = this.props;
+        const { DataLayerStore, RightMenuStore, AttributeStore } = this.props;
         const editLayer = DataLayerStore.getEditLayer();
         if (editLayer && editLayer.layerName == obj.layerName) {
+            AttributeStore.hide();
             RightMenuStore.show(obj, {
                 x: event.x,
                 y: event.y,

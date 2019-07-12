@@ -1,6 +1,7 @@
 import { configure, flow } from 'mobx';
 import modelFactory from 'src/utils/mapModel/modelFactory';
 import IDService from 'src/pages/Index/service/IDService';
+import { Modal } from 'antd';
 
 configure({ enforceActions: 'always' });
 class NewFeatureStore {
@@ -22,6 +23,10 @@ class NewFeatureStore {
             };
             return result;
         } catch (e) {
+            Modal.error({
+                title: '请求ID失败',
+                okText: '确定'
+            });
             console.log(e);
         }
     });

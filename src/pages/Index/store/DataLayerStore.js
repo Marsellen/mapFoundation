@@ -97,6 +97,7 @@ class DataLayerStore extends LayerStore {
     @action newLine = () => {
         if (!this.editor) return;
         this.createShouldUpdate = false;
+        console.log(this.editor);
         this.editor.newLine();
         this.setPointSize(3);
     };

@@ -1,5 +1,6 @@
 import { observable, flow, configure, action } from 'mobx';
 import TaskService from '../service/TaskService';
+import { Modal } from 'antd';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -16,11 +17,10 @@ class TaskStore {
         }
     });
 
-    load = flow(function*(option, callback, errorCallback) {
+    load = flow(function*(option) {
         try {
             if (this.tasks.map(task => task._id).includes(option.url)) {
-                errorCallback();
-                return;
+                throw { message: '资料已加载' };
             }
             this.tasks.push({
                 _id: option.url,
@@ -28,9 +28,13 @@ class TaskStore {
             });
 
             this.setActiveTaskId(option.url);
-            callback && callback();
+            return;
         } catch (e) {
             console.log(e);
+            Modal.error({
+                title: e.message,
+                okText: '确定'
+            });
         }
     });
 
@@ -43,7 +47,7 @@ class TaskStore {
         return this.tasks.find(task => task._id == this.activeTaskId);
     };
 
-    getTaskFile = flow(function*(callback) {
+    getTaskFile = flow(function*() {
         try {
             if (!this.activeTaskId) {
                 return;
@@ -54,13 +58,13 @@ class TaskStore {
                 vectors: this.activeTaskId + '/vectors/ads_all.geojson',
                 tracks: this.activeTaskId + '/tracks/tracks.json'
             };
-            callback && callback(task);
+            return task;
         } catch (e) {
             console.log(e);
         }
     });
 
-    submit = flow(function*(data, callback) {
+    submit = flow(function*(data) {
         try {
             let patt1 = /(\w+):\/\/([^/:]+)(:\d*)?([^# ]*)/;
             let arr = this.activeTaskId.match(patt1);
@@ -72,13 +76,13 @@ class TaskStore {
                 fileData: data
             };
             yield TaskService.saveFile(payload);
-            callback && callback();
+            return;
         } catch (e) {
             console.log(e);
         }
     });
 
-    exportShp = flow(function*(callback) {
+    exportShp = flow(function*() {
         try {
             let patt1 = /(\w+):\/\/([^/:]+)(:\d*)?([^# ]*)/;
             let arr = this.activeTaskId.match(patt1);
@@ -87,7 +91,7 @@ class TaskStore {
             yield TaskService.exportShp({
                 jsonPath: url
             });
-            callback && callback();
+            return;
         } catch (e) {
             console.log(e);
         }
