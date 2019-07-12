@@ -62,7 +62,7 @@ class ResourceLoader extends React.Component {
                                     message: '资料路径必需为url'
                                 }
                             ],
-                            //initialValue: 'http://10.43.16.80:15001/zhushanhu'
+                            // initialValue: 'http://10.43.16.80:15001/zhushanhu'
                         })(<Input />)}
                     </Form.Item>
                 </Form>
