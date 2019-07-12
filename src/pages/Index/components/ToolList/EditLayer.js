@@ -1,5 +1,5 @@
 import React from 'react';
-import { Popover, Tooltip, Modal, Radio, List } from 'antd';
+import { Popover, Tooltip, Radio, List } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import IconFont from 'src/components/IconFont';
@@ -67,15 +67,8 @@ class EditLayer extends React.Component {
 
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
-@inject('OperateHistoryStore')
-@inject('NewFeatureStore')
-@inject('RightMenuStore')
 @observer
 class EditLayerPicker extends React.Component {
-    state = {
-        hasCallBack: false
-    };
-
     render() {
         let { DataLayerStore } = this.props;
         let layers = DataLayerStore.layers
@@ -115,71 +108,7 @@ class EditLayerPicker extends React.Component {
     onChange = e => {
         const { DataLayerStore, ToolCtrlStore } = this.props;
         let layer = DataLayerStore.activeEditor(e.target.value);
-        this.installCallBack();
         ToolCtrlStore.updateByEditLayer(layer);
-    };
-
-    installCallBack = () => {
-        const {
-            DataLayerStore,
-            NewFeatureStore,
-            OperateHistoryStore,
-            RightMenuStore
-        } = this.props;
-        if (this.state.hasCallBack) {
-            return;
-        }
-        DataLayerStore.setCreatedCallBack(result => {
-            DataLayerStore.setPointSize(0.5);
-            //console.log(result);
-            if (result.errorCode) {
-                let arr = result.desc.split(':');
-                let desc = arr[arr.length - 1];
-                Modal.error({
-                    title: desc,
-                    okText: '确定'
-                });
-                return;
-            }
-            DataLayerStore.UpdataResult(result)
-                .then(result => {
-                    return NewFeatureStore.init(result);
-                })
-                .then(result => {
-                    let layerName = result.layerName;
-                    let feature = result.data;
-                    OperateHistoryStore.add({
-                        type: 'addFeature',
-                        feature: feature,
-                        layerName: layerName
-                    });
-                })
-                .catch(() => {
-                    let layer = DataLayerStore.getEditLayer();
-                    Modal.error({
-                        title: '请求ID失败',
-                        okText: '确定'
-                    });
-                    layer.layer.removeFeatureById(result.uuid);
-                });
-        });
-
-        DataLayerStore.setEditedCallBack(result => {
-            //console.log(result);
-            DataLayerStore.setPointSize(0.5);
-            let oldFeature = RightMenuStore.getFeature();
-            OperateHistoryStore.add({
-                type: 'updateFeature',
-                oldFeature,
-                feature: result,
-                layerName: result.layerName,
-                uuid: result.uuid
-            });
-        });
-
-        this.setState({
-            hasCallBack: true
-        });
     };
 }
 

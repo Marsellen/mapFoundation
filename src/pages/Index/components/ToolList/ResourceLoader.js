@@ -46,7 +46,7 @@ class ResourceLoader extends React.Component {
                                     required: true,
                                     message: '资料名称必填'
                                 }
-                            ],
+                            ]
                             //initialValue: '123'
                         })(<Input />)}
                     </Form.Item>
@@ -61,7 +61,7 @@ class ResourceLoader extends React.Component {
                                     pattern: /^http:\/\/*|^https:\/\/*/,
                                     message: '资料路径必需为url'
                                 }
-                            ],
+                            ]
                             //initialValue: 'http://10.43.16.80:15001/zhushanhu'
                         })(<Input />)}
                     </Form.Item>
@@ -106,21 +106,12 @@ class ResourceLoader extends React.Component {
             if (err) {
                 return;
             }
-            taskStore.load(
-                values,
-                () => {
-                    this.setState({
-                        visible: false
-                    });
-                    this.clearWorkSpace();
-                },
-                () => {
-                    Modal.error({
-                        title: '此资料已打开',
-                        okText: '确定'
-                    });
-                }
-            );
+            taskStore.load(values).then(() => {
+                this.setState({
+                    visible: false
+                });
+                this.clearWorkSpace();
+            });
         });
     };
 

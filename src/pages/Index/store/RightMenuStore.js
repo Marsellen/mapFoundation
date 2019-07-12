@@ -18,9 +18,9 @@ class RightMenuStore {
         this.visible = false;
     };
 
-    @action delete = callback => {
+    @action delete = () => {
         this.visible = false;
-        callback(this.feature);
+        return this.feature
     };
 
     @action getFeature = () => {

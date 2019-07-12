@@ -48,25 +48,25 @@ class RightMenuModal extends React.Component {
             <Menu.Item
                 key="delete"
                 onClick={this.deleteFeature}
-                style={{ marginTop: 0, marginBottom: 0 }}>
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>删除</span>
             </Menu.Item>,
             <Menu.Item
                 key="insertPoints"
                 onClick={this.insertPoints}
-                style={{ marginTop: 0, marginBottom: 0 }}>
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>新增形状点</span>
             </Menu.Item>,
             <Menu.Item
                 key="changePoints"
                 onClick={this.changePoints}
-                style={{ marginTop: 0, marginBottom: 0 }}>
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>修改形状点</span>
             </Menu.Item>,
             <Menu.Item
                 key="deletePoints"
                 onClick={this.deletePoints}
-                style={{ marginTop: 0, marginBottom: 0 }}>
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>删除形状点</span>
             </Menu.Item>
         ];
@@ -105,17 +105,16 @@ class RightMenuModal extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                RightMenuStore.delete(result => {
-                    let feature = result.data;
-                    let layerName = result.layerName;
-                    let layer = DataLayerStore.getLayerByName(layerName);
-                    layer.layer.removeFeatureById(result.uuid);
-                    DataLayerStore.clearChoose();
-                    OperateHistoryStore.add({
-                        type: 'deleteFeature',
-                        feature,
-                        layerName
-                    });
+                let result = RightMenuStore.delete();
+                let feature = result.data;
+                let layerName = result.layerName;
+                let layer = DataLayerStore.getLayerByName(layerName);
+                layer.layer.removeFeatureById(result.uuid);
+                DataLayerStore.clearChoose();
+                OperateHistoryStore.add({
+                    type: 'deleteFeature',
+                    feature,
+                    layerName
                 });
             }
         });
