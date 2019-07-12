@@ -603,12 +603,6 @@ export const TABLE_DATA_MAP = {
             name: '属性变化点类型',
             type: 'AD_LANEATTRPOINT_TYPE',
             domType: 'RadioIconGroup'
-        },
-        {
-            key: 'REF_LINE',
-            name: '关联参考线ID',
-            type: 'AD_LANEATTRPOINT_REF_LINE',
-            domType: 'Text'
         }
     ],
     TrafficSign: [

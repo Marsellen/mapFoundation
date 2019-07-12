@@ -1,5 +1,11 @@
 import React from 'react';
-import { Map, PointCloudLayer, LayerGroup, TraceLayer } from 'addis-viz-sdk';
+import {
+    Map,
+    DetectorControl,
+    PointCloudLayer,
+    LayerGroup,
+    TraceLayer
+} from 'addis-viz-sdk';
 import { Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
@@ -33,6 +39,11 @@ class VizCompnent extends React.Component {
         const { taskStore } = this.props;
         const div = document.getElementById('viz');
         window.map = new Map(div);
+        const controlManager = window.map.getControlManager();
+        const detector = new DetectorControl();
+        //点选控件放进控件管理器总
+        controlManager.addControl(detector);
+
         taskStore.getTaskFile().then(this.initTask);
     }
 
