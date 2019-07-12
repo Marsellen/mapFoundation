@@ -67,19 +67,22 @@ class MultimediaView extends React.Component {
 
     next = () => {
         const { PictureShowStore } = this.props;
-        const { setPicData } = PictureShowStore;
-        window.traceLayer.nextPoint(item => {
-            window.map.location({ x: item.properties.X, y: item.properties.Y });
-            setPicData(item);
-        });
+        let idx = PictureShowStore.getIdx() + 1;
+        this.jumpToPoint(idx);
     };
 
     previous = () => {
         const { PictureShowStore } = this.props;
-        const { setPicData } = PictureShowStore;
-        window.traceLayer.lastPoint(item => {
+        let idx = PictureShowStore.getIdx() - 1;
+        this.jumpToPoint(idx);
+    };
+
+    jumpToPoint = idx => {
+        const { PictureShowStore } = this.props;
+        window.traceLayer.getPoint(idx, item => {
+            window.traceLayer.select(idx);
             window.map.location({ x: item.properties.X, y: item.properties.Y });
-            setPicData(item);
+            PictureShowStore.setPicData(item);
         });
     };
 

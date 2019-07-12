@@ -39,11 +39,6 @@ class VizCompnent extends React.Component {
         const { taskStore } = this.props;
         const div = document.getElementById('viz');
         window.map = new Map(div);
-        const controlManager = window.map.getControlManager();
-        const detector = new DetectorControl();
-        //点选控件放进控件管理器总
-        controlManager.addControl(detector);
-
         taskStore.getTaskFile().then(this.initTask);
     }
 
@@ -91,11 +86,10 @@ class VizCompnent extends React.Component {
         if (!tracks || tracks.length == 0) {
             return;
         }
+
         window.traceLayer = new TraceLayer(tracks);
-        // traceLayer.showCar(false); //不演示小车
-        // map.getLayerManager().addTraceLayer(window.traceLayer);
-        map.getLayerManager().addLayer('TraceLayer', window.traceLayer);
-        window.traceLayer.setMap(map); //将map注册到图层，用于后续可视化监控点选动作
+        map.getLayerManager().addLayer('TraceLayer', traceLayer);
+
         return {
             layerName: RESOURCE_LAYER_TRACE,
             layer: traceLayer
@@ -144,6 +138,7 @@ class VizCompnent extends React.Component {
         } else {
             if (event.button === 0) {
                 AttributeStore.hide();
+                window.traceLayer.unselect();
             }
         }
     };
@@ -208,7 +203,7 @@ class VizCompnent extends React.Component {
 
     showPictureShowView = obj => {
         const { PictureShowStore } = this.props;
-        PictureShowStore.getPicData(obj);
+        PictureShowStore.setPicData(obj.data);
     };
 
     showAttributesModal = obj => {
