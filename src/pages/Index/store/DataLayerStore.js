@@ -2,7 +2,7 @@ import { action, configure, flow } from 'mobx';
 import LayerStore from './LayerStore';
 import { EditControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
-import { func } from 'prop-types';
+import { Modal } from 'antd';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore extends LayerStore {
@@ -130,7 +130,12 @@ class DataLayerStore extends LayerStore {
                 return result;
             }
             let points = result.data.geometry.coordinates[0];
-            let _result = yield TaskService.creatCircle(points);
+            let _result = yield TaskService.creatCircle(points).catch(e => {
+                Modal.error({
+                    title: '三点画圆服务请求失败',
+                    okText: '确定'
+                });
+            });
             result.data.geometry.coordinates[0] = _result.data;
             return result;
         } catch (e) {
