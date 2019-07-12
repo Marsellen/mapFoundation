@@ -1,4 +1,4 @@
-import { observable, configure, action } from 'mobx';
+import { observable, configure, action, flow } from 'mobx';
 import modelFactory from 'src/utils/mapModel/modelFactory';
 
 configure({ enforceActions: 'always' });
@@ -31,14 +31,15 @@ class AttributeStore {
         );
     };
 
-    @action setAttributes = properties => {
+    setAttributes = flow(function*(properties) {
         // model.data引用sdk要素数据的指针。修改其属性会同步修改sdk的要素数据。
         this.model.data.properties = {
             ...this.model.data.properties,
             ...properties
         };
         this.updataAttributes();
-    };
+        return this.model;
+    });
 }
 
 export default new AttributeStore();

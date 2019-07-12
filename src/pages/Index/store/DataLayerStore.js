@@ -2,6 +2,7 @@ import { action, configure, flow } from 'mobx';
 import LayerStore from './LayerStore';
 import { EditControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
+import { func } from 'prop-types';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore extends LayerStore {
@@ -123,7 +124,7 @@ class DataLayerStore extends LayerStore {
         this.setPointSize(5);
     });
 
-    UpdataResult = flow(function*(result) {
+    updateResult = flow(function*(result) {
         try {
             if (!this.createShouldUpdate) {
                 return result;
@@ -131,11 +132,15 @@ class DataLayerStore extends LayerStore {
             let points = result.data.geometry.coordinates[0];
             let _result = yield TaskService.creatCircle(points);
             result.data.geometry.coordinates[0] = _result.data;
-            this.editor.editLayer.layer.updateFeatures([result]);
             return result;
         } catch (e) {
             console.log(e);
         }
+    });
+
+    updateFeature = flow(function*(result) {
+        this.editor.editLayer.layer.updateFeatures([result]);
+        return result;
     });
 
     @action insertPoints = () => {

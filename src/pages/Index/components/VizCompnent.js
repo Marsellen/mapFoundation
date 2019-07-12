@@ -154,9 +154,12 @@ class VizCompnent extends React.Component {
             });
             return;
         }
-        DataLayerStore.UpdataResult(result)
+        DataLayerStore.updateResult(result)
             .then(result => {
                 return NewFeatureStore.init(result);
+            })
+            .then(result => {
+                return DataLayerStore.updateFeature(result);
             })
             .then(result => {
                 let layerName = result.layerName;
