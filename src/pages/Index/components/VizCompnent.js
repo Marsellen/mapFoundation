@@ -184,6 +184,15 @@ class VizCompnent extends React.Component {
     };
 
     editedCallBack = result => {
+        if (result.errorCode) {
+            let arr = result.desc.split(':');
+            let desc = arr[arr.length - 1];
+            Modal.error({
+                title: desc,
+                okText: '确定'
+            });
+            return;
+        }
         const {
             DataLayerStore,
             OperateHistoryStore,

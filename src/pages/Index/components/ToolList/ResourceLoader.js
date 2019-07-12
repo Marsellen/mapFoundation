@@ -61,7 +61,7 @@ class ResourceLoader extends React.Component {
                                     pattern: /^http:\/\/*|^https:\/\/*/,
                                     message: '资料路径必需为url'
                                 }
-                            ],
+                            ]
                             // initialValue: 'http://10.43.16.80:15001/zhushanhu'
                         })(<Input />)}
                     </Form.Item>
@@ -123,8 +123,8 @@ class ResourceLoader extends React.Component {
             ToolCtrlStore
         } = this.props;
         const { tasks } = taskStore;
+        OperateHistoryStore.destroy();
         if (tasks && tasks.length > 1) {
-            OperateHistoryStore.destroy();
             DataLayerStore.activeEditor();
             ToolCtrlStore.updateByEditLayer();
         }
