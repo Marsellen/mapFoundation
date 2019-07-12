@@ -19,6 +19,7 @@ const formItemLayout = {
 
 @Form.create()
 @inject('AttributeStore')
+@inject('DataLayerStore')
 @observer
 class AttributesModal extends React.Component {
     handleCancel = e => {
@@ -61,12 +62,14 @@ class AttributesModal extends React.Component {
     };
 
     save = () => {
-        const { form, AttributeStore } = this.props;
+        const { form, AttributeStore, DataLayerStore } = this.props;
         form.validateFields((err, values) => {
             if (err) {
                 return;
             }
-            AttributeStore.setAttributes(values);
+            AttributeStore.setAttributes(values).then(result => {
+                DataLayerStore.updateFeature(result);
+            });
             AttributeStore.hide();
         });
     };

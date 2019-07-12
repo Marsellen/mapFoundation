@@ -11,6 +11,11 @@ class NewFeatureStore {
             let layerName = result.layerName;
             const _result = yield IDService.post({
                 id_type: 'AD_' + result.layerName
+            }).catch(e => {
+                Modal.error({
+                    title: '请求ID失败',
+                    okText: '确定'
+                });
             });
             let id = _result.data[0].min;
             const defaultProperties = modelFactory.getDefaultProperties(
@@ -23,10 +28,6 @@ class NewFeatureStore {
             };
             return result;
         } catch (e) {
-            Modal.error({
-                title: '请求ID失败',
-                okText: '确定'
-            });
             console.log(e);
         }
     });

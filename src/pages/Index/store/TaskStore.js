@@ -75,7 +75,12 @@ class TaskStore {
                 fileFormat: 'geojson',
                 fileData: data
             };
-            yield TaskService.saveFile(payload);
+            yield TaskService.saveFile(payload).catch(e => {
+                Modal.error({
+                    title: '保存失败',
+                    okText: '确定'
+                });
+            });
             return;
         } catch (e) {
             console.log(e);
