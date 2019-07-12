@@ -75,12 +75,12 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 29, label: '左侧加速车道', icon: 'zuocejiasuchedao' },
         { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao' }
     ],
-    AD_REFERENCELINE_TYPE: [
+    AD_REFERENCE_LINE_TYPE: [
         { value: 0, label: '未定义' },
         { value: 1, label: '非路口内参考线' },
         { value: 2, label: '路口内参考线' }
     ],
-    AD_REFERENCELINE_RD_STATUS: [
+    AD_REFERENCE_LINE_RD_STATUS: [
         { value: 0, label: '未定义' },
         { value: 1, label: '正常通行' },
         { value: 2, label: '建设中' },
@@ -140,7 +140,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 2, label: '建设中' },
         { value: 3, label: '禁止通行' }
     ],
-    AD_LANEATTRPOINT_TYPE: [
+    AD_LANE_ATTRPOINT_TYPE: [
         { value: 0, label: '未制作', icon: 'weizhizuo' },
         { value: 11, label: '右侧出口', icon: 'youcechukou' },
         { value: 12, label: '左侧出口', icon: 'zuocechukou' },
@@ -458,19 +458,19 @@ export const TABLE_DATA_MAP = {
         {
             key: 'REFLINE_ID',
             name: '用户编号',
-            type: 'AD_REFERENCELINE_REFLINE_ID',
+            type: 'AD_REFERENCE_LINE_REFLINE_ID',
             domType: 'Text'
         },
         {
             key: 'TYPE',
             name: '参考线类型',
-            type: 'AD_REFERENCELINE_TYPE',
+            type: 'AD_REFERENCE_LINE_TYPE',
             domType: 'Select'
         },
         {
             key: 'RD_STATUS',
             name: '通行状态',
-            type: 'AD_REFERENCELINE_RD_STATUS',
+            type: 'AD_REFERENCE_LINE_RD_STATUS',
             domType: 'Select'
         }
     ],
@@ -595,13 +595,13 @@ export const TABLE_DATA_MAP = {
         {
             key: 'ALAP_ID',
             name: '用户编号',
-            type: 'AD_LANEATTRPOINT_ALAP_ID',
+            type: 'AD_LANE_ATTRPOINT_ALAP_ID',
             domType: 'Text'
         },
         {
             key: 'TYPE',
             name: '属性变化点类型',
-            type: 'AD_LANEATTRPOINT_TYPE',
+            type: 'AD_LANE_ATTRPOINT_TYPE',
             domType: 'RadioIconGroup'
         }
     ],
