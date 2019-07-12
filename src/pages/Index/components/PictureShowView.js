@@ -22,7 +22,7 @@ class PictureShowView extends React.Component {
                 zoomIn: 1,
                 zoomOut: 1,
                 oneToOne: 1,
-                reset: 0,
+                reset: 1,
                 prev: 0,
                 play: 0,
                 next: 0,
