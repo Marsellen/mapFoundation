@@ -6,7 +6,7 @@ import { inject, observer } from 'mobx-react';
 @observer
 class AddCircle extends React.Component {
     render() {
-        return <ToolIcon icon="mian" title="三点绘制圆" action={this.action} />;
+        return <ToolIcon icon="process" title="三点绘制圆" action={this.action} />;
     }
 
     action = () => {

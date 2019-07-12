@@ -7,7 +7,7 @@ import { inject, observer } from 'mobx-react';
 class AddFacadeRectangle extends React.Component {
     render() {
         return (
-            <ToolIcon icon="mian" title="添加立面矩形" action={this.action} />
+            <ToolIcon icon="juxing" title="添加立面矩形" action={this.action} />
         );
     }
 
