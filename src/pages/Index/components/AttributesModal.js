@@ -96,7 +96,7 @@ class AttributesModal extends React.Component {
                     })(<Input disabled />)
                 ) : (
                     <span className="ant-form-text">
-                        {item.value ? item.value : '--'}
+                        {this.isPresent(item.value) ? item.value : '--'}
                     </span>
                 )}
             </Form.Item>
@@ -127,7 +127,7 @@ class AttributesModal extends React.Component {
                     })(<Input disabled={readonly} />)
                 ) : (
                     <span className="ant-form-text">
-                        {item.value != '' ? item.value : '--'}
+                        {this.isPresent(item.value) ? item.value : '--'}
                     </span>
                 )}
             </Form.Item>
@@ -182,7 +182,8 @@ class AttributesModal extends React.Component {
     getArrayOption = (value, arr) => {
         let text = '';
         const pos = arr.findIndex(val => val.value === value);
-        text = String(pos) != '' ? arr[pos].label : '--';
+        text =
+            pos != -1 && this.isPresent(arr[pos].label) ? arr[pos].label : '--';
         return text;
     };
 
@@ -205,6 +206,10 @@ class AttributesModal extends React.Component {
             </Form.Item>
         );
     };
+
+    isPresent(obj) {
+        return (!!obj && String(obj) != '') || obj === 0;
+    }
 }
 
 export default AttributesModal;
