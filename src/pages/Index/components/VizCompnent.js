@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-    Map,
-    DetectorControl,
-    PointCloudLayer,
-    LayerGroup,
-    TraceLayer
-} from 'addis-viz-sdk';
+import { Map, PointCloudLayer, LayerGroup, TraceLayer } from 'addis-viz-sdk';
 import { Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
@@ -43,24 +37,47 @@ class VizCompnent extends React.Component {
     }
 
     initTask = task => {
-        let pointClouds = this.initPointCloud(task.point_clouds);
-        let vectors = this.initVectors(task.vectors);
-        let tracks = this.initTracks(task.tracks);
-
-        this.initResouceLayer([pointClouds, vectors, tracks]);
+        const { taskStore } = this.props;
+        Promise.all([
+            this.initPointCloud(task.point_clouds),
+            this.initVectors(task.vectors),
+            this.initTracks(task.tracks)
+        ])
+            .then(results => {
+                let [pointClouds, vectors, tracks] = results;
+                this.initResouceLayer([pointClouds, vectors, tracks]);
+            })
+            .catch(e => {
+                Modal.error({
+                    title: '资料加载失败，请确认输入正确路径。',
+                    okText: '确定'
+                });
+                taskStore.tasksPop();
+            });
     };
 
     initPointCloud = pointClouds => {
         if (!pointClouds) {
             return;
         }
-        const opts = { type: 'pointcloud', layerId: 'pointcloud' };
-        window.pointCloudLayer = new PointCloudLayer(pointClouds, opts);
-        map.getLayerManager().addLayer('PointCloudLayer', pointCloudLayer);
-        return {
-            layerName: RESOURCE_LAYER_POINT_CLOUD,
-            layer: pointCloudLayer
-        };
+        return new Promise((resolve, reject) => {
+            const opts = { type: 'pointcloud', layerId: 'pointcloud' };
+            window.pointCloudLayer = new PointCloudLayer(pointClouds, opts);
+            map.getLayerManager().addLayer(
+                'PointCloudLayer',
+                pointCloudLayer,
+                result => {
+                    if (!result || result.code === 404) {
+                        reject(result);
+                    } else {
+                        resolve({
+                            layerName: RESOURCE_LAYER_POINT_CLOUD,
+                            layer: pointCloudLayer
+                        });
+                    }
+                }
+            );
+        });
     };
 
     initVectors = vectors => {
@@ -68,32 +85,34 @@ class VizCompnent extends React.Component {
             return;
         }
         const { DataLayerStore } = this.props;
-        const layerGroup = new LayerGroup(vectors);
-        map.getLayerManager()
-            .addLayerGroup(layerGroup)
-            .then(layers => {
-                map.setView('U'); // TODO 默认加载为俯视角 需要sdk提供默认初始化视角接口
-                DataLayerStore.init(layers);
-                this.installListener();
+        return new Promise((resolve, reject) => {
+            const layerGroup = new LayerGroup(vectors);
+            map.getLayerManager()
+                .addLayerGroup(layerGroup)
+                .then(layers => {
+                    map.setView('U'); // TODO 默认加载为俯视角 需要sdk提供默认初始化视角接口
+                    DataLayerStore.init(layers);
+                    this.installListener();
+                });
+            resolve({
+                layerName: RESOURCE_LAYER_VETOR,
+                layer: layerGroup
             });
-        return {
-            layerName: RESOURCE_LAYER_VETOR,
-            layer: layerGroup
-        };
+        });
     };
 
     initTracks = tracks => {
         if (!tracks || tracks.length == 0) {
             return;
         }
-
-        window.traceLayer = new TraceLayer(tracks);
-        map.getLayerManager().addLayer('TraceLayer', traceLayer);
-
-        return {
-            layerName: RESOURCE_LAYER_TRACE,
-            layer: traceLayer
-        };
+        return new Promise((resolve, reject) => {
+            window.traceLayer = new TraceLayer(tracks);
+            map.getLayerManager().addLayer('TraceLayer', traceLayer);
+            resolve({
+                layerName: RESOURCE_LAYER_TRACE,
+                layer: traceLayer
+            });
+        });
     };
 
     initResouceLayer = layers => {
