@@ -643,6 +643,7 @@ export const TABLE_DATA_MAP = {
             key: 'REFLINE_ID',
             name: '关联参考线ID',
             type: 'AD_TRAFFIC_LIGHT_REFLINE_ID',
+            validate: 'number',
             domType: 'Input'
         }
     ]
