@@ -50,7 +50,27 @@ module.exports = {
     },
     devServer: {
         historyApiFallback: true,
-        hot: true
+        hot: true,
+        proxy: {
+            '/id_service': {
+                target: 'http://10.43.16.17:13007',
+                pathRewrite: { '^/id_service': '' },
+                changeOrigin: true,
+                logLevel: 'debug'
+            },
+            '/nas_service': {
+                target: 'http://10.43.16.80:16000',
+                pathRewrite: { '^/nas_service': '' },
+                changeOrigin: true,
+                logLevel: 'debug'
+            },
+            '/shp_service': {
+                target: 'http://10.43.16.80:15906',
+                pathRewrite: { '^/shp_service': '' },
+                changeOrigin: true,
+                logLevel: 'debug'
+            }
+        }
     },
     resolve: {
         modules: ['node_modules/'],
@@ -85,8 +105,8 @@ module.exports = {
         new CopyWebpackPlugin([
             //支持输入一个数组
             {
-                from: path.resolve(__dirname, 'mock'), //将mock下的文件
-                to: './mock' // 复制到mock
+                from: path.resolve(__dirname, 'config'), //将config下的文件
+                to: './config' // 复制到config
             }
         ])
     ],
