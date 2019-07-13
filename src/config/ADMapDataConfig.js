@@ -384,7 +384,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         LANE_TYPE: 1,
         LANE_NO: 1
     },
-    RefLine: {
+    ReferenceLine: {
         TYPE: 1,
         RD_STATUS: 0
     },

@@ -2,6 +2,7 @@ import { configure, flow } from 'mobx';
 import modelFactory from 'src/utils/mapModel/modelFactory';
 import IDService from 'src/pages/Index/service/IDService';
 import { Modal } from 'antd';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });
 class NewFeatureStore {
@@ -10,7 +11,7 @@ class NewFeatureStore {
             let feature = result.data;
             let layerName = result.layerName;
             const _result = yield IDService.post({
-                id_type: 'AD_' + result.layerName
+                id_type: DATA_LAYER_MAP[layerName].spec
             }).catch(e => {
                 Modal.error({
                     title: '请求ID失败',
