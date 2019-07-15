@@ -320,8 +320,16 @@ export const TYPE_SELECT_OPTION_MAP = {
             label: '禁止右掉头',
             icon: 'jinzhiyoudiaotou'
         },
-        { value: '00000000100000000000', label: '禁止左转', icon: 'jinzhizuozhuan' },
-        { value: '00000001000000000000', label: '禁止右转', icon: 'jinzhiyouzhuan' },
+        {
+            value: '00000000100000000000',
+            label: '禁止左转',
+            icon: 'jinzhizuozhuan'
+        },
+        {
+            value: '00000001000000000000',
+            label: '禁止右转',
+            icon: 'jinzhiyouzhuan'
+        },
         {
             value: '00000000000000000101',
             label: '直行或左转',
@@ -357,6 +365,39 @@ export const TYPE_SELECT_OPTION_MAP = {
             label: '右转或右掉头',
             icon: 'youzhuanhuoyoudiaotou'
         }
+    ],
+    AD_MAP_QC_FILE_NAME: [
+        { value: 'AD_Arrow', label: '地面引导箭头' },
+        { value: 'AD_LaneAttrPoint', label: '车道属性变化点' },
+        { value: 'AD_LaneDivider', label: '车道线' },
+        { value: 'AD_Polygon', label: '面状要素' },
+        { value: 'AD_StopLocation', label: '停止位置' },
+        { value: 'AD_Lane', label: '车道中心线' },
+        { value: 'AD_TrafficSign', label: '交通标志牌' },
+        { value: 'AD_RefLine', label: '道路参考线' },
+        { value: 'AD_TrafficLight', label: '交通信号灯' }
+    ],
+    AD_MAP_QC_ERROR_TYPE: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '几何形状错误' },
+        { value: 2, label: '拓扑连接错误' },
+        { value: 3, label: '属性错误' },
+        { value: 4, label: '关联关系错误' },
+        { value: 5, label: '打断位置错误' },
+        { value: 6, label: '多做' },
+        { value: 7, label: '制作遗漏' },
+        { value: 8, label: '其他' }
+    ],
+    AD_MAP_QC_FIX_STATUS: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '待修正' },
+        { value: 2, label: '无需修正' },
+        { value: 3, label: '已修正' }
+    ],
+    AD_MAP_QC_QC_STATUS: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '已修正' },
+        { value: 2, label: '未修正' }
     ]
 };
 
@@ -400,6 +441,11 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     StopLocation: {
         TYPE: 1
+    },
+    Map_QC: {
+        ERROR_TYPE: 0,
+        FIX_STATUS: 1,
+        QC_STATUS: 0
     }
 };
 
@@ -644,6 +690,63 @@ export const TABLE_DATA_MAP = {
             name: '关联参考线ID',
             type: 'AD_TRAFFIC_LIGHT_REFLINE_ID',
             validate: 'number',
+            domType: 'Input'
+        }
+    ],
+    Map_QC: [
+        {
+            key: 'ID',
+            name: '用户编号',
+            type: 'AD_MAP_QC_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'FILE_NAME',
+            name: '错误图层名称',
+            type: 'AD_MAP_QC_FILE_NAME',
+            domType: 'Select'
+        },
+        {
+            key: 'FEAT_ID',
+            name: '错误数据ID',
+            type: 'AD_MAP_QC_FEAT_ID',
+            validate: 'number',
+            domType: 'Input'
+        },
+        {
+            key: 'ERROR_TYPE',
+            name: '错误类型',
+            type: 'AD_MAP_QC_ERROR_TYPE',
+            domType: 'Select'
+        },
+        {
+            key: 'ERROR_DESC',
+            name: '错误描述',
+            type: 'AD_MAP_QC_ERROR_DESC',
+            domType: 'Input'
+        },
+        {
+            key: 'FIX_STATUS',
+            name: '修正状态',
+            type: 'AD_MAP_QC_FIX_STATUS',
+            domType: 'Select'
+        },
+        {
+            key: 'QC_STATUS',
+            name: '检查结果',
+            type: 'AD_MAP_QC_QC_STATUS',
+            domType: 'Select'
+        },
+        {
+            key: 'FIX_PERSON',
+            name: '返工修改人员',
+            type: 'AD_MAP_QC_FIX_PERSON',
+            domType: 'Input'
+        },
+        {
+            key: 'QC_PERSON',
+            name: '质检人员',
+            type: 'AD_MAP_QC_QC_PERSON',
             domType: 'Input'
         }
     ]
