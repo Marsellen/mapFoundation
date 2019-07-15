@@ -51,7 +51,7 @@ export const DATA_LAYER_MAP = {
     ReferenceLine: {
         label: '道路参考线',
         id: 'REFLINE_ID',
-        spec: 'AD_ReferenceLine',
+        spec: 'AD_RefLine',
         tools: ['LINE'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },

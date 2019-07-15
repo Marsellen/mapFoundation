@@ -38,6 +38,10 @@ class TaskStore {
         }
     });
 
+    @action tasksPop = () => {
+        this.tasks.pop();
+    };
+
     setActiveTaskId = flow(function*(id) {
         this.activeTaskId = id;
         // TODO 缓存activeTaskId，取id优先级： id > 缓存id > this.tasks[0].id
