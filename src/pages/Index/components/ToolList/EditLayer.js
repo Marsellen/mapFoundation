@@ -67,6 +67,7 @@ class EditLayer extends React.Component {
 
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
+@inject('AttributeStore')
 @observer
 class EditLayerPicker extends React.Component {
     render() {
@@ -106,9 +107,10 @@ class EditLayerPicker extends React.Component {
     };
 
     onChange = e => {
-        const { DataLayerStore, ToolCtrlStore } = this.props;
+        const { DataLayerStore, ToolCtrlStore, AttributeStore } = this.props;
         let layer = DataLayerStore.activeEditor(e.target.value);
         ToolCtrlStore.updateByEditLayer(layer);
+        AttributeStore.hide();
     };
 }
 
