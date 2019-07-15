@@ -80,8 +80,9 @@ class MultimediaView extends React.Component {
     jumpToPoint = idx => {
         const { PictureShowStore } = this.props;
         window.traceLayer.getPoint(idx, item => {
+            window.traceLayer.unselect();
             window.traceLayer.select(idx);
-            window.map.location({ x: item.properties.X, y: item.properties.Y });
+            window.map.look({ x: item.properties.X, y: item.properties.Y, z: item.properties.Z });
             PictureShowStore.setPicData(item);
         });
     };
