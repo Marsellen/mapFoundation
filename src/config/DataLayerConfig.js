@@ -61,6 +61,13 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_TrafficLight',
         tools: ['ADD_FACADEREC_TANGLE'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
+    },
+    Map_QC: {
+        label: '标记图层',
+        id: 'ID',
+        spec: 'AD_Map_QC',
+        tools: ['POINT'],
+        rightTools: ['delete']
     }
 };
 

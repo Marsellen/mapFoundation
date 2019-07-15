@@ -22,6 +22,9 @@ class TaskStore {
             if (this.tasks.map(task => task._id).includes(option.url)) {
                 throw { message: '资料已加载' };
             }
+            if (this.tasks.map(task => task.name).includes(option.name)) {
+                throw { message: '资料名称重复' };
+            }
             this.tasks.push({
                 _id: option.url,
                 name: option.name
