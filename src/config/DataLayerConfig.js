@@ -45,7 +45,7 @@ export const DATA_LAYER_MAP = {
         label: '交通标志牌',
         id: 'OBJECT_ID',
         spec: 'AD_TrafficSign',
-        tools: ['ADD_FACADEREC_TANGLE', 'ADD_CIRCLE'],
+        tools: ['POLYGON', 'ADD_FACADEREC_TANGLE', 'ADD_CIRCLE'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
     ReferenceLine: {

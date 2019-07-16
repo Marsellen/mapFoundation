@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import RadioIconGroup from 'src/components/RadioIconGroup';
-import { Modal, Form, Input, Select, Button } from 'antd';
+import { Modal, Form, Input, InputNumber, Select, Button } from 'antd';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import 'less/components/attributes-modal.less';
@@ -118,16 +118,35 @@ class AttributesModal extends React.Component {
                                 required: item.required,
                                 message: `${item.name}必填`
                             },
-                            {
-                                pattern:
-                                    item.validate === 'number'
-                                        ? '^[0-9]*$'
-                                        : '',
-                                message: '请输入数字'
-                            }
+                            ...(item.validates || []).map(validate => validate)
                         ],
                         initialValue: item.value
                     })(<Input disabled={readonly} />)
+                ) : (
+                    <span className="ant-form-text">
+                        {this.isPresent(item.value) ? item.value : '--'}
+                    </span>
+                )}
+            </Form.Item>
+        );
+    };
+
+    renderInputNumber = (item, index) => {
+        const { form, AttributeStore } = this.props;
+        const { readonly } = AttributeStore;
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
+                {!readonly ? (
+                    form.getFieldDecorator(item.key, {
+                        rules: [
+                            {
+                                required: item.required,
+                                message: `${item.name}必填`
+                            },
+                            ...(item.validates || []).map(validate => validate)
+                        ],
+                        initialValue: item.value
+                    })(<InputNumber disabled={readonly} />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -149,7 +168,13 @@ class AttributesModal extends React.Component {
                             {
                                 required: item.required,
                                 message: `${item.name}必填`
-                            }
+                            },
+                            ...(item.validates || []).map(validate => {
+                                return {
+                                    pattern: validate.pattern,
+                                    message: validate.message
+                                };
+                            })
                         ],
                         initialValue: item.value
                     })(
@@ -202,7 +227,13 @@ class AttributesModal extends React.Component {
                         {
                             required: item.required,
                             message: `${item.name}必填`
-                        }
+                        },
+                        ...(item.validates || []).map(validate => {
+                            return {
+                                pattern: validate.pattern,
+                                message: validate.message
+                            };
+                        })
                     ],
                     initialValue: item.value
                 })(<RadioIconGroup options={options} disabled={readonly} />)}

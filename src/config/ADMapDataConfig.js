@@ -573,7 +573,13 @@ export const TABLE_DATA_MAP = {
             key: 'VALUE',
             name: '限制取值',
             type: 'AD_LANE_VALUE',
-            domType: 'Input'
+            domType: 'Input',
+            validates: [
+                {
+                    pattern: '^.{0,250}$',
+                    message: '长度不能超过250字'
+                }
+            ]
         },
         {
             key: 'STATUS',
@@ -633,7 +639,17 @@ export const TABLE_DATA_MAP = {
             key: 'ALANE_ID',
             name: '关联车道号',
             type: 'AD_ARROW_ALANE_ID',
-            validate: 'number',
+            validates: [
+                {
+                    message: '必须为数字',
+                    type: 'number',
+                    transform(value) {
+                        if (value) {
+                            return Number(value);
+                        }
+                    }
+                }
+            ],
             domType: 'Input'
         }
     ],
@@ -668,7 +684,17 @@ export const TABLE_DATA_MAP = {
             key: 'VALUE',
             name: '类型取值',
             type: 'AD_TRAFFICSIGN_VALUE',
-            validate: 'number',
+            validates: [
+                {
+                    message: '必须为数字',
+                    type: 'number',
+                    transform(value) {
+                        if (value) {
+                            return Number(value);
+                        }
+                    }
+                }
+            ],
             domType: 'Input'
         }
     ],
@@ -689,7 +715,17 @@ export const TABLE_DATA_MAP = {
             key: 'REFLINE_ID',
             name: '关联参考线ID',
             type: 'AD_TRAFFIC_LIGHT_REFLINE_ID',
-            validate: 'number',
+            validates: [
+                {
+                    message: '必须为数字',
+                    type: 'number',
+                    transform(value) {
+                        if (value) {
+                            return Number(value);
+                        }
+                    }
+                }
+            ],
             domType: 'Input'
         }
     ],
@@ -704,13 +740,24 @@ export const TABLE_DATA_MAP = {
             key: 'FILE_NAME',
             name: '错误图层名称',
             type: 'AD_MAP_QC_FILE_NAME',
+            required: true,
             domType: 'Select'
         },
         {
             key: 'FEAT_ID',
             name: '错误数据ID',
             type: 'AD_MAP_QC_FEAT_ID',
-            validate: 'number',
+            validates: [
+                {
+                    message: '必须为数字',
+                    type: 'number',
+                    transform(value) {
+                        if (value) {
+                            return Number(value);
+                        }
+                    }
+                }
+            ],
             domType: 'Input'
         },
         {
@@ -723,7 +770,13 @@ export const TABLE_DATA_MAP = {
             key: 'ERROR_DESC',
             name: '错误描述',
             type: 'AD_MAP_QC_ERROR_DESC',
-            domType: 'Input'
+            domType: 'Input',
+            validates: [
+                {
+                    pattern: '^.{0,250}$',
+                    message: '长度不能超过250字'
+                }
+            ]
         },
         {
             key: 'FIX_STATUS',
@@ -741,13 +794,25 @@ export const TABLE_DATA_MAP = {
             key: 'FIX_PERSON',
             name: '返工修改人员',
             type: 'AD_MAP_QC_FIX_PERSON',
-            domType: 'Input'
+            domType: 'Input',
+            validates: [
+                {
+                    pattern: '^.{0,20}$',
+                    message: '长度不能超过20字'
+                }
+            ]
         },
         {
             key: 'QC_PERSON',
             name: '质检人员',
             type: 'AD_MAP_QC_QC_PERSON',
-            domType: 'Input'
+            domType: 'Input',
+            validates: [
+                {
+                    pattern: '^.{0,20}$',
+                    message: '长度不能超过20字'
+                }
+            ]
         }
     ]
 };
