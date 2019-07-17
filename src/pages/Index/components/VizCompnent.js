@@ -195,6 +195,7 @@ class VizCompnent extends React.Component {
                     feature: feature,
                     layerName: layerName
                 });
+                this.showAttributesModal(result);
             })
             .catch(e => {
                 console.log(e);
