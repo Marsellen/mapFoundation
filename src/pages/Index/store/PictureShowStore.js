@@ -9,10 +9,8 @@ class PictureShowStore {
     @observable visible = false;
 
     @action getPicData = obj => {
-        
-        this.picData = this.model.data.properties.Img.middle
-            ? this.model.data.properties.Img.middle
-            : null;
+        debugger;
+        this.picData = obj ? obj.imgs[0].name : null;
     };
 
     @action setPicData = obj => {
@@ -23,8 +21,8 @@ class PictureShowStore {
     };
 
     @action getIdx = () => {
-        return this.model.properties.idx
-    }
+        return this.model ? this.model.properties.idx : 0;
+    };
 
     @action show = () => {
         this.visible = true;

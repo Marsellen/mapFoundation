@@ -124,9 +124,10 @@ class VizCompnent extends React.Component {
     installListener = () => {
         //禁用浏览器默认右键菜单
         document.oncontextmenu = function(e) {
-            return false;
+            e.preventDefault();
+            // return false;
         };
-
+      
         // attributes 拾取控件
         const { DataLayerStore } = this.props;
         DataLayerStore.initEditor();
@@ -137,7 +138,7 @@ class VizCompnent extends React.Component {
 
     selectedCallBack = (result, event) => {
         const { PictureShowStore, AttributeStore } = this.props;
-        console.log(result, event);
+        // console.log(result, event);
         if (result && result.length > 0) {
             if (event.button === 0) {
                 /**
