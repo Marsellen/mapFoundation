@@ -50,10 +50,8 @@ class DataLayerStore extends LayerStore {
     @action activeEditor = name => {
         let layer = this.getLayerByName(name);
         if (this.editor) {
-            // TODO
-            //this.editor.cancel();
+            this.clearChoose();
             this.editor.editLayer = layer;
-            this.setPointSize(0.5);
         } else {
             this.editor = new EditControl(layer);
             map.getControlManager().addControl(this.editor);
@@ -81,7 +79,10 @@ class DataLayerStore extends LayerStore {
     };
 
     @action clearChoose = () => {
+        if (!this.editor) return;
         this.editor.clear();
+        this.editor.cancel();
+        this.setPointSize(0.5);
     };
 
     @action getLayerByName = name => {
@@ -168,11 +169,6 @@ class DataLayerStore extends LayerStore {
 
     @action setPointSize = size => {
         pointCloudLayer.setPointSize(size);
-    };
-
-    @action stopEdit = () => {
-        if (!this.editor) return;
-        this.editor.toggleMode();
     };
 }
 
