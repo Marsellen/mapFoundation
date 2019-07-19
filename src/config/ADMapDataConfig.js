@@ -576,8 +576,13 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
-                    pattern: '^.{0,250}$',
-                    message: '长度不能超过250字'
+                    max: 20,
+                    message: '长度不能超过20字',
+                    transform(value) {
+                        if (value) {
+                            return String(value);
+                        }
+                    }
                 }
             ]
         },
@@ -648,6 +653,15 @@ export const TABLE_DATA_MAP = {
                             return Number(value);
                         }
                     }
+                },
+                {
+                    max: 20,
+                    message: '长度不能超过20字',
+                    transform(value) {
+                        if (value) {
+                            return String(value);
+                        }
+                    }
                 }
             ],
             domType: 'Input'
@@ -693,6 +707,15 @@ export const TABLE_DATA_MAP = {
                             return Number(value);
                         }
                     }
+                },
+                {
+                    max: 20,
+                    message: '长度不能超过20字',
+                    transform(value) {
+                        if (value) {
+                            return String(value);
+                        }
+                    }
                 }
             ],
             domType: 'Input'
@@ -722,6 +745,15 @@ export const TABLE_DATA_MAP = {
                     transform(value) {
                         if (value) {
                             return Number(value);
+                        }
+                    }
+                },
+                {
+                    max: 20,
+                    message: '长度不能超过20字',
+                    transform(value) {
+                        if (value) {
+                            return String(value);
                         }
                     }
                 }
@@ -756,6 +788,15 @@ export const TABLE_DATA_MAP = {
                             return Number(value);
                         }
                     }
+                },
+                {
+                    max: 20,
+                    message: '长度不能超过20字',
+                    transform(value) {
+                        if (value) {
+                            return String(value);
+                        }
+                    }
                 }
             ],
             domType: 'Input'
@@ -773,8 +814,13 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
-                    pattern: '^.{0,250}$',
-                    message: '长度不能超过250字'
+                    max: 250,
+                    message: '长度不能超过250字',
+                    transform(value) {
+                        if (value) {
+                            return String(value);
+                        }
+                    }
                 }
             ]
         },
@@ -797,8 +843,13 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
-                    pattern: '^.{0,20}$',
-                    message: '长度不能超过20字'
+                    max: 20,
+                    message: '长度不能超过20字',
+                    transform(value) {
+                        if (value) {
+                            return String(value);
+                        }
+                    }
                 }
             ]
         },
@@ -809,8 +860,13 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
-                    pattern: '^.{0,20}$',
-                    message: '长度不能超过20字'
+                    max: 20,
+                    message: '长度不能超过20字',
+                    transform(value) {
+                        if (value) {
+                            return String(value);
+                        }
+                    }
                 }
             ]
         }
