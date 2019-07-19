@@ -5,6 +5,7 @@ import OperateFactory from 'src/utils/OperateFactory';
 
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
+@inject('AttributeStore')
 @observer
 class Undo extends React.Component {
     render() {
@@ -14,7 +15,7 @@ class Undo extends React.Component {
         return (
             <ToolIcon
                 disabled={!shouldUndo}
-                icon="undo"
+                icon="chexiao"
                 title="撤销"
                 action={this.action}
             />
@@ -22,10 +23,16 @@ class Undo extends React.Component {
     }
 
     action = () => {
-        const { OperateHistoryStore, DataLayerStore } = this.props;
+        const {
+            OperateHistoryStore,
+            DataLayerStore,
+            AttributeStore
+        } = this.props;
         OperateHistoryStore.undo(preNode => {
             let layer = DataLayerStore.getLayerByName(preNode.layerName).layer;
             OperateFactory.undo(layer, preNode);
+            DataLayerStore.clearChoose();
+            AttributeStore.hide();
         });
     };
 }

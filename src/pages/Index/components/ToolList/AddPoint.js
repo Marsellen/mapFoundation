@@ -8,7 +8,7 @@ class AddPoint extends React.Component {
     render() {
         return (
             <ToolIcon
-                icon="environment"
+                icon="yuandianzhong"
                 title="添加点要素"
                 action={this.action}
             />

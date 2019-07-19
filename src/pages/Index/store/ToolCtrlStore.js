@@ -15,9 +15,16 @@ class ToolCtrlStore {
             this.tools = TOOLS_MAP.EDIT;
             return;
         }
+        let editTools = DATA_LAYER_MAP[layer.layerName].tools.reduce(
+            (tools, tool) => {
+                tools[tool] = true;
+                return tools
+            },
+            {}
+        );
         this.tools = {
             ...TOOLS_MAP.EDIT,
-            [DATA_LAYER_MAP[layer.layerName].type]: true
+            ...editTools
         };
     };
 }

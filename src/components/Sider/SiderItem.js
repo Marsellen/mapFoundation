@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon, Popover } from 'antd';
 import SiderSwitch from './SiderSwitch';
+import IconFont from '../IconFont';
 
 class SiderItem extends React.Component {
     render() {
@@ -13,7 +14,7 @@ class SiderItem extends React.Component {
                     content={this._renderContent()}
                     trigger="hover"
                     getPopupContainer={triggerNode => triggerNode.parentNode}>
-                    <Icon type={record.icon} className="ad-menu-icon" />
+                    <IconFont type={`icon-${record.icon}`} className="ad-menu-icon" />
                 </Popover>
             </div>
         );

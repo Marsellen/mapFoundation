@@ -9,7 +9,10 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 @observer
 class RightMenuModal extends React.Component {
     render() {
-        const { visible } = this.props.RightMenuStore;
+        const { visible, option } = this.props.RightMenuStore;
+        if (!visible) {
+            return <div />;
+        }
         return (
             <Modal
                 visible={visible}
@@ -26,25 +29,61 @@ class RightMenuModal extends React.Component {
                 bodyStyle={{ padding: 0, fontSize: 12 }}
                 onCancel={this.handleCancel}>
                 <Menu className="menu">
-                    <Menu.Item
-                        key={0}
-                        onClick={this.action}
-                        style={{ marginTop: 0, marginBottom: 0 }}>
-                        <span>删除</span>
-                    </Menu.Item>
+                    {this.getMenus().map(menu => {
+                        return (
+                            option &&
+                            DATA_LAYER_MAP[
+                                option.layerName
+                            ].rightTools.includes(menu.key) &&
+                            menu
+                        );
+                    })}
                 </Menu>
             </Modal>
         );
     }
 
+    getMenus = () => {
+        return [
+            <Menu.Item
+                key="delete"
+                onClick={this.deleteFeature}
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                <span>删除</span>
+            </Menu.Item>,
+            <Menu.Item
+                key="insertPoints"
+                onClick={this.insertPoints}
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                <span>新增形状点</span>
+            </Menu.Item>,
+            <Menu.Item
+                key="changePoints"
+                onClick={this.changePoints}
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                <span>修改形状点</span>
+            </Menu.Item>,
+            <Menu.Item
+                key="deletePoints"
+                onClick={this.deletePoints}
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                <span>删除形状点</span>
+            </Menu.Item>
+        ];
+    };
+
     getPosition = () => {
         const { option } = this.props.RightMenuStore;
+        if (!option) return { top: -1000, left: -1000 };
         let { x, y } = option || { x: 0, y: 0 };
         if (x + 100 > innerWidth) {
             x = x - 100;
         }
-        if (y + 40 > innerHeight) {
-            y = y - 40;
+        let num = DATA_LAYER_MAP[option.layerName]
+            ? DATA_LAYER_MAP[option.layerName].rightTools.length
+            : 0;
+        if (y + 40 * num > innerHeight) {
+            y = y - 40 * num;
         }
         return { top: y, left: x };
     };
@@ -54,7 +93,7 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
     };
 
-    action = () => {
+    deleteFeature = () => {
         const {
             RightMenuStore,
             OperateHistoryStore,
@@ -66,22 +105,37 @@ class RightMenuModal extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                RightMenuStore.delete((feature, layerName) => {
-                    let layer = DataLayerStore.getLayerByName(layerName);
-                    let key = DATA_LAYER_MAP[layerName].id;
-                    let value = feature.properties[key];
-                    layer.layer.removeFeatureByOption({
-                        key,
-                        value
-                    });
-                    OperateHistoryStore.add({
-                        type: 'deleteFeature',
-                        feature,
-                        layerName
-                    });
+                let result = RightMenuStore.delete();
+                let feature = result.data;
+                let layerName = result.layerName;
+                let layer = DataLayerStore.getLayerByName(layerName);
+                layer.layer.removeFeatureById(result.uuid);
+                DataLayerStore.clearChoose();
+                OperateHistoryStore.add({
+                    type: 'deleteFeature',
+                    feature,
+                    layerName
                 });
             }
         });
+    };
+
+    insertPoints = () => {
+        const { DataLayerStore, RightMenuStore } = this.props;
+        DataLayerStore.insertPoints();
+        RightMenuStore.hide();
+    };
+
+    changePoints = () => {
+        const { DataLayerStore, RightMenuStore } = this.props;
+        DataLayerStore.changePoints();
+        RightMenuStore.hide();
+    };
+
+    deletePoints = () => {
+        const { DataLayerStore, RightMenuStore } = this.props;
+        DataLayerStore.deletePoints();
+        RightMenuStore.hide();
     };
 }
 

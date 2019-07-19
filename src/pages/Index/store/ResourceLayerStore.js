@@ -1,5 +1,6 @@
 import { action, configure } from 'mobx';
 import LayerStore from './LayerStore';
+import { RESOURCE_LAYER_VETOR } from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });
 class ResourceLayerStore extends LayerStore {
@@ -7,10 +8,12 @@ class ResourceLayerStore extends LayerStore {
         super();
     }
 
-    @action showVertor = () => {
-        let vetor = this.layers.find(layer => layer.value == 'vector');
-        if (vetor && !vetor.checked) {
-            vetor.checked = true;
+    @action toggleVertor = value => {
+        let vetor = this.layers.find(
+            layer => layer.value == RESOURCE_LAYER_VETOR
+        );
+        if (vetor && vetor.checked != value) {
+            vetor.checked = value;
             this.updateKey = Math.random();
         }
     };

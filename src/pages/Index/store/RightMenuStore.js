@@ -2,13 +2,15 @@ import { observable, configure, action } from 'mobx';
 
 configure({ enforceActions: 'always' });
 class RightMenuStore {
-    feature
+    feature;
+    cloneFeature;
     @observable visible;
     @observable option;
 
     @action show = (feature, option) => {
         this.visible = true;
-        this.feature = feature
+        this.feature = feature;
+        this.cloneFeature = JSON.parse(JSON.stringify(feature));
         this.option = option;
     };
 
@@ -16,9 +18,13 @@ class RightMenuStore {
         this.visible = false;
     };
 
-    @action delete = callback => {
+    @action delete = () => {
         this.visible = false;
-        callback(this.feature.data, this.feature.layerName);
+        return this.feature
+    };
+
+    @action getFeature = () => {
+        return this.cloneFeature;
     };
 }
 

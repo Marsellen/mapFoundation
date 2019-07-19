@@ -1,51 +1,37 @@
-import { observable, configure, action, flow } from 'mobx';
+import { configure, flow } from 'mobx';
 import modelFactory from 'src/utils/mapModel/modelFactory';
-import getID from 'src/pages/Index/service/IDService';
+import IDService from 'src/pages/Index/service/IDService';
+import { Modal } from 'antd';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });
 class NewFeatureStore {
-    feature;
-    @observable visible;
-    @observable fromData = [];
-    @observable fromType;
-
-    @action init = (feature, layerName) => {
-        this.feature = feature;
-        this.fromType = layerName;
-        this.setFromData();
-        this.visible = true;
-    };
-
-    setFromData = flow(function*() {
-        this.fromData = [];
+    init = flow(function*(result) {
         try {
-            const id = yield getID();
-            this.fromData = modelFactory.getTabelData(
-                this.fromType,
-                this.feature.properties,
+            let feature = result.data;
+            let layerName = result.layerName;
+            const _result = yield IDService.post({
+                id_type: DATA_LAYER_MAP[layerName].spec
+            }).catch(e => {
+                Modal.error({
+                    title: '请求ID失败',
+                    okText: '确定'
+                });
+            });
+            let id = _result.data[0].min;
+            const defaultProperties = modelFactory.getDefaultProperties(
+                layerName,
                 id
             );
+            feature.properties = {
+                ...feature.properties,
+                ...defaultProperties
+            };
+            return result;
         } catch (e) {
             console.log(e);
         }
     });
-
-    @action save = (properties, callback) => {
-        this.feature.properties = {
-            ...this.feature.properties,
-            ...properties
-        };
-        this.hide();
-        callback(this.feature, this.fromType);
-    };
-
-    @action hide = () => {
-        this.visible = false;
-    };
-
-    @action getFeatureValue = key => {
-        return this.feature[key];
-    };
 }
 
 export default new NewFeatureStore();

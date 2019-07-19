@@ -5,6 +5,7 @@ import OperateFactory from 'src/utils/OperateFactory';
 
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
+@inject('AttributeStore')
 @observer
 class Redo extends React.Component {
     render() {
@@ -13,8 +14,8 @@ class Redo extends React.Component {
         let shouldRedo = currentNode < finalNode;
         return (
             <ToolIcon
-                icon="redo"
-                title="取消撤销"
+                icon="huitui_"
+                title="回退"
                 disabled={!shouldRedo}
                 action={this.action}
             />
@@ -22,10 +23,16 @@ class Redo extends React.Component {
     }
 
     action = () => {
-        const { OperateHistoryStore, DataLayerStore } = this.props;
+        const {
+            OperateHistoryStore,
+            DataLayerStore,
+            AttributeStore
+        } = this.props;
         OperateHistoryStore.redo(nextNode => {
             let layer = DataLayerStore.getLayerByName(nextNode.layerName).layer;
             OperateFactory.redo(layer, nextNode);
+            DataLayerStore.clearChoose();
+            AttributeStore.hide();
         });
     };
 }

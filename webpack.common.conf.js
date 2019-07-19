@@ -48,10 +48,6 @@ module.exports = {
             }
         ]
     },
-    devServer: {
-        historyApiFallback: true,
-        hot: true
-    },
     resolve: {
         modules: ['node_modules/'],
         alias: {
@@ -85,8 +81,8 @@ module.exports = {
         new CopyWebpackPlugin([
             //支持输入一个数组
             {
-                from: path.resolve(__dirname, 'mock'), //将mock下的文件
-                to: './mock' // 复制到mock
+                from: path.resolve(__dirname, 'config'), //将config下的文件
+                to: './config' // 复制到config
             }
         ])
     ],

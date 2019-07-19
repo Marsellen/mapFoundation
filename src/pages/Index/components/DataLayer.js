@@ -18,7 +18,9 @@ class DataLayer extends React.Component {
                         <Checkbox
                             value={item.value}
                             checked={item.checked}
-                            onChange={this.changeEvent(item)}>
+                            onChange={e => {
+                                this.changeEvent(item, e.target.checked);
+                            }}>
                             {DATA_LAYER_MAP[item.value]
                                 ? DATA_LAYER_MAP[item.value].label
                                 : item.value}
@@ -29,15 +31,11 @@ class DataLayer extends React.Component {
         );
     }
 
-    changeEvent = item => {
+    changeEvent = (item, value) => {
         let { DataLayerStore, ResourceLayerStore } = this.props;
-        let onChange = e => {
-            DataLayerStore.toggle(item.value, e.target.checked);
-            if (e.target.checked) {
-                ResourceLayerStore.showVertor();
-            }
-        };
-        return onChange;
+        DataLayerStore.toggle(item.value, value);
+        let state = DataLayerStore.hasShow() !== -1;
+        ResourceLayerStore.toggleVertor(state);
     };
 }
 

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Popover, Tooltip, Icon, Radio, List } from 'antd';
+import { Popover, Tooltip, Radio, List } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import IconFont from 'src/components/IconFont';
 
 @inject('taskStore')
 @observer
@@ -49,8 +50,8 @@ class EditLayer extends React.Component {
                     title="设置编辑图层"
                     visible={this.state.hovered}
                     onVisibleChange={this.handleHoverChange}>
-                    <Icon
-                        type="sliders"
+                    <IconFont
+                        type="icon-shezhi"
                         className={`ad-icon ${!activeTaskId &&
                             'ad-disabled-icon'}`}
                     />
@@ -66,25 +67,20 @@ class EditLayer extends React.Component {
 
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
-@inject('OperateHistoryStore')
-@inject('NewFeatureStore')
+@inject('AttributeStore')
 @observer
 class EditLayerPicker extends React.Component {
-    state = { value: false };
-
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let { DataLayerStore } = this.props;
         let layers = DataLayerStore.layers
             ? [{ value: false, label: '不启用' }, ...DataLayerStore.layers]
             : [];
+
+        let editLayer = DataLayerStore.getEditLayer();
         return (
             <Radio.Group
                 onChange={this.onChange}
-                value={this.state.value}
+                value={editLayer ? editLayer.layerName : false}
                 style={{ width: '100%' }}>
                 <List
                     key={DataLayerStore.updateKey}
@@ -111,16 +107,10 @@ class EditLayerPicker extends React.Component {
     };
 
     onChange = e => {
-        const { DataLayerStore, ToolCtrlStore, NewFeatureStore } = this.props;
-        this.setState({
-            value: e.target.value
-        });
-        let layer = DataLayerStore.activeEditor(e.target.value, result => {
-            let layerName = result.layerName;
-            let feature = result.data;
-            NewFeatureStore.init(feature, layerName);
-        });
+        const { DataLayerStore, ToolCtrlStore, AttributeStore } = this.props;
+        let layer = DataLayerStore.activeEditor(e.target.value);
         ToolCtrlStore.updateByEditLayer(layer);
+        AttributeStore.hide();
     };
 }
 

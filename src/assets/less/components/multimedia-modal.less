@@ -1,0 +1,111 @@
+.multimedia-container {
+    position: relative;
+    background: #434343;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+.multimedia-header {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 40px;
+    padding-left: 40px;
+    background: #3a3a3a;
+    .multimedia-fun {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 40px;
+        display: flex;
+        .multimedia-i {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin-left: 10px;
+            i {
+                font-size: 25px;
+                color: #dddddd;
+            }
+        }
+    }
+}
+
+.multimedia-menu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #303030;
+    cursor: pointer;
+}
+
+.show {
+    flex: 0 0 600px;
+    max-width: 600px;
+    min-width: 600px;
+    width: 600px;
+    height: 100%;
+    .multimedia-menu {
+        left: 0;
+        right: auto;
+    }
+}
+
+.hide {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.multimedia-view-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px;
+    ul,
+    li,
+    img {
+        margin: 0;
+        padding: 0;
+    }
+    .img-banner {
+        width: 100%;
+        height: 339px;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        ul {
+            li {
+                img {
+                    width: 600px;
+                    text-align: center;
+                }
+            }
+        }
+        .viewer-backdrop {
+            background: #000;
+        }
+        .icondefault {
+            font-size: 62px;
+            color: #2e2e2e;
+            cursor: inherit;
+        }
+    }
+}
+
+.muti-toggle-icon {
+    color: #fff;
+}

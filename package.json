@@ -8,19 +8,21 @@
     ],
     "scripts": {
         "i": "npm i addis-viz-sdk --registry=http://10.43.16.53:8081/repository/npm-all/ --save & npm i",
-        "start": "webpack-dev-server --mode development --hot --config ./webpack.dev.conf.js",
-        "build-start": "webpack-dev-server --mode development --config ./webpack.dev.conf.js --host 0.0.0.0 --port 18000",
-        "build": "webpack --mode production --config ./webpack.prod.conf.js"
+        "start": "webpack-dev-server --mode development --hot --config ./webpack.dev.conf.js --port 15900",
+        "build": "webpack --mode production --config ./webpack.prod.conf.js",
+        "build-sdk": "npm i addis-viz-sdk --registry=http://10.43.16.53:8081/repository/npm-all/ --save"
     },
     "dependencies": {
-        "addis-viz-sdk": "0.0.18",
+        "addis-viz-sdk": "0.0.5-alpha.17",
         "antd": "^3.17.0",
         "axios": "^0.18.0",
+        "dragm": "0.0.5",
         "lodash": "^4.17.11",
         "mobx": "^5.9.4",
         "mobx-react": "^5.4.3",
         "moment": "^2.24.0",
         "nprogress": "^0.2.0",
+        "rc-viewer": "0.0.9",
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
         "react-router-dom": "^5.0.0"

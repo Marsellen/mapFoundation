@@ -1,5 +1,11 @@
-const getID = () => {
-    return Date.now();
-};
+import resource from 'src/utils/resource';
 
-export default getID;
+export default (function() {
+    let service = resource(
+        '/id_service/imppublic/api/idgenerate',
+        {},
+        {}
+    );
+
+    return service;
+})();

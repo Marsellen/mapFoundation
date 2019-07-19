@@ -2,7 +2,7 @@ import { observable, configure, action } from 'mobx';
 
 configure({ enforceActions: 'always' });
 class LayerStore {
-    layerGroup;
+    layerGroup = [];
     @observable layers;
     @observable updateKey;
 
@@ -18,7 +18,8 @@ class LayerStore {
 
     @action toggle = (name, checked) => {
         this.layers.find(layer => layer.value == name).checked = checked;
-        let layer = this.layerGroup.find(layer => layer.layerName == name).layer;
+        let layer = this.layerGroup.find(layer => layer.layerName == name)
+            .layer;
         if (checked) {
             layer.show();
         } else {

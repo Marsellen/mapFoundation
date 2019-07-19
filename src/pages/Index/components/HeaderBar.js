@@ -6,7 +6,7 @@ import ToolList from './ToolList';
 class HeaderBar extends React.Component {
     render() {
         return (
-            <div className="flex">
+            <div className="flex tool-container">
                 <ToolCtrl>{ToolList}</ToolCtrl>
                 <Avatar />
             </div>

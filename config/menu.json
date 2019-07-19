@@ -2,19 +2,19 @@
     {
         "id": 0,
         "label": "任务管理",
-        "icon": "container",
+        "icon": "shezhi1",
         "type": "task-manage"
     },
     {
         "id": 1,
         "label": "资料图层",
-        "icon": "database",
+        "icon": "tuceng",
         "type": "resource-layer"
     },
     {
         "id": 2,
         "label": "数据图层",
-        "icon": "layout",
+        "icon": "dataBase",
         "type": "data-layer"
     }
 ]
