@@ -1,5 +1,4 @@
 import { observable, configure, action } from 'mobx';
-import modelFactory from 'src/utils/mapModel/modelFactory';
 
 configure({ enforceActions: 'always' });
 class PictureShowStore {

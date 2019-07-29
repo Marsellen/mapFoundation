@@ -12,7 +12,9 @@ export const TOOLS_MAP = {
         POLYGON: false,
         RESOURCE_LOADER: true,
         ADD_FACADEREC_TANGLE: false,
-        ADD_CIRCLE: false
+        ADD_CIRCLE: false,
+        ADD_REL: false,
+        DEL_REL: false
     },
     CHECK: {}
 };

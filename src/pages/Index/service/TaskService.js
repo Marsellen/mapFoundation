@@ -1,4 +1,5 @@
 import resource from 'src/utils/resource';
+import { FileApiPath, ShpApiPath } from 'src/utils/Api';
 
 export default (function() {
     let service = resource(
@@ -6,11 +7,11 @@ export default (function() {
         {},
         {
             saveFile: {
-                url: '/nas_service/api/savefile',
+                url: FileApiPath('/api/savefile'),
                 method: 'post'
             },
             creatCircle: {
-                url: '/nas_service/api/creatcircle',
+                url: FileApiPath('/api/creatcircle'),
                 method: 'post'
             }
         }
@@ -21,7 +22,7 @@ export default (function() {
         let searchParams = Object.keys(params).reduce((str, key) => {
             return str + key + '=' + params[key];
         }, '?');
-        let url = '/shp_service/api/v1/geoio/json2Shp' + searchParams;
+        let url = ShpApiPath('/api/v1/geoio/json2Shp' + searchParams);
         link.style.display = 'none';
         link.href = url;
         document.body.appendChild(link);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Map, PointCloudLayer, LayerGroup, TraceLayer } from 'addis-viz-sdk';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
 //import NewFeatureModal from './NewFeatureModal';
@@ -23,6 +23,7 @@ import 'less/components/viz-compnent.less';
 @inject('RightMenuStore')
 @inject('NewFeatureStore')
 @inject('OperateHistoryStore')
+@inject('RelStore')
 @observer
 class VizCompnent extends React.Component {
     constructor(props) {
@@ -38,14 +39,20 @@ class VizCompnent extends React.Component {
 
     initTask = task => {
         const { taskStore } = this.props;
+        console.time('taskLoad');
+        const hide = message.loading('正在加载任务数据...', 0);
         Promise.all([
             this.initPointCloud(task.point_clouds),
             this.initVectors(task.vectors),
-            this.initTracks(task.tracks)
+            this.initTracks(task.tracks),
+            this.installRef(task.rels)
         ])
             .then(results => {
                 let [pointClouds, vectors, tracks] = results;
                 this.initResouceLayer([pointClouds, vectors, tracks]);
+                hide();
+                message.success('加载完成', 1);
+                console.timeEnd('taskLoad');
             })
             .catch(e => {
                 Modal.error({
@@ -90,7 +97,6 @@ class VizCompnent extends React.Component {
             map.getLayerManager()
                 .addLayerGroup(layerGroup)
                 .then(layers => {
-                    map.setView('U'); // TODO 默认加载为俯视角 需要sdk提供默认初始化视角接口
                     DataLayerStore.init(layers);
                     this.installListener();
                 });
@@ -127,7 +133,7 @@ class VizCompnent extends React.Component {
             e.preventDefault();
             // return false;
         };
-      
+
         // attributes 拾取控件
         const { DataLayerStore } = this.props;
         DataLayerStore.initEditor();
@@ -256,6 +262,11 @@ class VizCompnent extends React.Component {
                 layerName: obj.layerName
             });
         }
+    };
+
+    installRef = url => {
+        const { RelStore } = this.props;
+        return RelStore.init(url);
     };
 
     render() {

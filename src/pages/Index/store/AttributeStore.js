@@ -1,5 +1,5 @@
 import { observable, configure, action, flow } from 'mobx';
-import modelFactory from 'src/utils/mapModel/modelFactory';
+import modelFactory from 'src/utils/mapModelFactory';
 
 configure({ enforceActions: 'always' });
 class AttributeStore {
