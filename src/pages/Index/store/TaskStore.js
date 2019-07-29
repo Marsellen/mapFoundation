@@ -43,6 +43,11 @@ class TaskStore {
 
     @action tasksPop = () => {
         this.tasks.pop();
+        if (this.tasks.length == 0) {
+            this.activeTaskId = null;
+        } else {
+            this.activeTaskId = this.tasks[this.tasks.length - 1]._id;
+        }
     };
 
     setActiveTaskId = flow(function*(id) {
@@ -63,7 +68,8 @@ class TaskStore {
             let task = {
                 point_clouds: this.activeTaskId + '/point_clouds/cloud.js',
                 vectors: this.activeTaskId + '/vectors/ads_all.geojson',
-                tracks: this.activeTaskId + '/tracks/tracks.json'
+                tracks: this.activeTaskId + '/tracks/tracks.json',
+                rels: this.activeTaskId + '/rels/rels.geojson'
             };
             return task;
         } catch (e) {

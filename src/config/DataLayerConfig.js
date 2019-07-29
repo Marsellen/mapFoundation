@@ -38,7 +38,7 @@ export const DATA_LAYER_MAP = {
         label: '车道中心线',
         id: 'ALANE_ID',
         spec: 'AD_Lane',
-        tools: ['LINE'],
+        tools: ['LINE', 'ADD_REL'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
     TrafficSign: {
@@ -52,7 +52,7 @@ export const DATA_LAYER_MAP = {
         label: '道路参考线',
         id: 'REFLINE_ID',
         spec: 'AD_RefLine',
-        tools: ['LINE'],
+        tools: ['LINE', 'ADD_REL'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
     TrafficLight: {

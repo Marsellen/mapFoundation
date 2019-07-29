@@ -26,6 +26,25 @@ class IndexedDB {
         });
     };
 
+    openTransaction = () => {
+        return new Promise((resolve, reject) => {
+            let request = window.indexedDB.open(this.dbName);
+            request.onupgradeneeded = event => {
+                var db = request.result;
+                this.onupgradeneeded(db);
+            };
+            request.onsuccess = event => {
+                let db = request.result;
+
+                let transaction = db.transaction([this.tableName], 'readwrite');
+
+                resolve(transaction, event);
+            };
+
+            request.onerror = reject;
+        });
+    };
+
     get = (condition, indexName) => {
         return new Promise((resolve, reject) => {
             this.open().then(objectStore => {
@@ -66,6 +85,28 @@ class IndexedDB {
                 };
 
                 request.onerror = reject;
+            }, reject);
+        });
+    };
+
+    batchAdd = records => {
+        return new Promise((resolve, reject) => {
+            this.openTransaction().then(transaction => {
+                let objectStore = transaction.objectStore(this.tableName);
+                let index = 0;
+                records.map(record => {
+                    objectStore.add(record);
+                    index++;
+                });
+
+                transaction.onabort = error => {
+                    console.warn(transaction.error.message);
+                    reject(error, index);
+                };
+
+                transaction.oncomplete = result => {
+                    resolve(result);
+                };
             }, reject);
         });
     };

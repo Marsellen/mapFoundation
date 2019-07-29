@@ -10,6 +10,7 @@ class DataLayerStore extends LayerStore {
         super();
         this.editor;
         this.createShouldUpdate;
+        this.editType = 'normal';
     }
 
     @action toggle = (name, checked) => {
@@ -61,7 +62,16 @@ class DataLayerStore extends LayerStore {
     };
 
     @action setSelectedCallBack = callback => {
-        this.editor.onFeatureSelected(callback);
+        this.editor.onFeatureSelected((result, event) => {
+            switch (this.editType) {
+                case 'normal':
+                    callback(result, event);
+                    break;
+                case 'newRel':
+                    this.newRelCallback(result, event);
+                    break;
+            }
+        });
     };
 
     @action setCreatedCallBack = callback => {
@@ -116,6 +126,28 @@ class DataLayerStore extends LayerStore {
         this.createShouldUpdate = false;
         this.editor.newMatrix();
         this.setPointSize(3);
+    };
+
+    @action newRel = () => {
+        this.editType = 'newRel';
+        this.newRelStep = 0;
+    };
+
+    @action newRelCallback = (result, event) => {
+        switch (this.newRelStep) {
+            case 0:
+                // xx(result)
+                this.newRelStep++;
+                break;
+            case 1:
+                // xxx(result)
+                this.refreshEditType();
+                break;
+        }
+    };
+
+    @action refreshEditType = () => {
+        this.editType = 'normal';
     };
 
     newCircle = flow(function*() {

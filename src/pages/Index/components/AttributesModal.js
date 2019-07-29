@@ -219,24 +219,30 @@ class AttributesModal extends React.Component {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
         const options = TYPE_SELECT_OPTION_MAP[item.type];
-        //console.log(item);
+        let layout = readonly ? formItemLayout : {};
         return (
-            <Form.Item key={index} label={item.name}>
-                {form.getFieldDecorator(item.key, {
-                    rules: [
-                        {
-                            required: item.required,
-                            message: `${item.name}必填`
-                        },
-                        ...(item.validates || []).map(validate => {
-                            return {
-                                pattern: validate.pattern,
-                                message: validate.message
-                            };
-                        })
-                    ],
-                    initialValue: item.value
-                })(<RadioIconGroup options={options} disabled={readonly} />)}
+            <Form.Item key={index} label={item.name} {...layout}>
+                {!readonly ? (
+                    form.getFieldDecorator(item.key, {
+                        rules: [
+                            {
+                                required: item.required,
+                                message: `${item.name}必填`
+                            },
+                            ...(item.validates || []).map(validate => {
+                                return {
+                                    pattern: validate.pattern,
+                                    message: validate.message
+                                };
+                            })
+                        ],
+                        initialValue: item.value
+                    })(<RadioIconGroup options={options} disabled={readonly} />)
+                ) : (
+                    <span className="ant-form-text">
+                        {this.getArrayOption(item.value, options)}
+                    </span>
+                )}
             </Form.Item>
         );
     };
