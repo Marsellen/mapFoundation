@@ -15,17 +15,17 @@ const formItemLayout = {
     }
 };
 
-@Form.create()
 @inject('AttributeStore')
 @observer
 class BasicAttributesForm extends React.Component {
     render() {
-        const { attributes } = this.props;
+        const { AttributeStore } = this.props;
+        const { attributes } = AttributeStore;
 
         return (
-            <Form colon={false} hideRequiredMark={true}>
+            <div>
                 {attributes.map((item, index) => this.renderItem(item, index))}
-            </Form>
+            </div>
         );
     }
 
@@ -39,7 +39,7 @@ class BasicAttributesForm extends React.Component {
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
-                    form.getFieldDecorator(item.key, {
+                    form.getFieldDecorator('attribute.' + item.key, {
                         initialValue: item.value
                     })(<Input disabled />)
                 ) : (
@@ -57,7 +57,7 @@ class BasicAttributesForm extends React.Component {
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
-                    form.getFieldDecorator(item.key, {
+                    form.getFieldDecorator('attribute.' + item.key, {
                         rules: [
                             {
                                 required: item.required,
@@ -83,7 +83,7 @@ class BasicAttributesForm extends React.Component {
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
-                    form.getFieldDecorator(item.key, {
+                    form.getFieldDecorator('attribute.' + item.key, {
                         rules: [
                             {
                                 required: item.required,
@@ -143,7 +143,7 @@ class BasicAttributesForm extends React.Component {
         return (
             <Form.Item key={index} label={item.name} {...layout}>
                 {!readonly ? (
-                    form.getFieldDecorator(item.key, {
+                    form.getFieldDecorator('attribute.' + item.key, {
                         rules: [
                             {
                                 required: item.required,

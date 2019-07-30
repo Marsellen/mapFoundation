@@ -1,4 +1,4 @@
-import { observable, flow, configure } from 'mobx';
+import { flow, configure } from 'mobx';
 import IndexedDB from 'src/utils/IndexedDB';
 import relFactory from 'src/utils/relCtrl/relFactory';
 import axios from 'axios';

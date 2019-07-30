@@ -164,6 +164,16 @@ class IndexedDB {
         });
     };
 
+    queryByIndex = (store, index, value) => {
+        return new Promise((resolve, reject) => {
+            let request = store.index(index).getAll(value);
+            request.onsuccess = event => {
+                resolve(request.result, event);
+            };
+            request.onerror = reject;
+        });
+    };
+
     clear = () => {
         return new Promise((resolve, reject) => {
             this.open().then(objectStore => {

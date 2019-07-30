@@ -872,3 +872,66 @@ export const TABLE_DATA_MAP = {
         }
     ]
 };
+
+export const REL_TYPE_KEY_MAP = {
+    DEFAULT: {
+        name: '未知关系关联对象',
+        type: 'DEFAULT'
+    },
+    L_DIV: {
+        key: 'L_DIV',
+        name: '关联左侧车道线',
+        type: 'LANE_ATTR_REL_KEY'
+    },
+    R_DIV: {
+        key: 'R_DIV',
+        name: '关联右侧车道线',
+        type: 'LANE_ATTR_REL_KEY'
+    },
+    REFLINE: {
+        key: 'REFLINE',
+        name: '关联参考线',
+        type: 'LANE_ATTR_REL_KEY'
+    },
+    Lane: {
+        key: 'Lane',
+        name: '关联车道中心线',
+        type: 'OBJ_TYPE_KEY'
+    },
+    FROM_ALANE: {
+        key: 'FROM_ALANE',
+        name: '驶入车道中心线',
+        type: 'OBJ_TYPE_KEY'
+    },
+    F_REF_LINE: {
+        key: 'F_REF_LINE',
+        name: '驶入参考线',
+        type: 'OBJ_TYPE_KEY'
+    },
+    TO_ALANE: {
+        key: 'TO_ALANE',
+        name: '驶出车道中心线',
+        type: 'REL_OBJ_TYPE_KEY'
+    },
+    obj: {
+        key: 'obj',
+        name: '关联对象',
+        type: 'REL_OBJ_TYPE_KEY'
+    },
+    T_REF_LINE: {
+        key: 'T_REF_LINE',
+        name: '驶出参考线',
+        type: 'REL_OBJ_TYPE_KEY'
+    }
+};
+
+export const OBJ_REL_KEY_MAP = {
+    Lane: {
+        OBJ_TYPE_KEYS: ['Lane', 'FROM_ALANE'],
+        REL_OBJ_TYPE_KEYS: ['TO_ALANE']
+    },
+    ReferenceLine: {
+        OBJ_TYPE_KEYS: ['F_REF_LINE'],
+        REL_OBJ_TYPE_KEYS: ['F_REF_LINE', 'REFLINE']
+    }
+};

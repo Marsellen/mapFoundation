@@ -29,13 +29,15 @@ class AttributesModal extends React.Component {
                 visible={visible}
                 onCancel={this.handleCancel}>
                 <div className="obscuration" />
-                <AdTabs
-                    tabs={[
-                        { label: '基础属性', key: 'basicAttribute' },
-                        { label: '关联关系', key: 'relation' }
-                    ]}>
-                    {this.renderForm()}
-                </AdTabs>
+                <Form colon={false} hideRequiredMark={true}>
+                    <AdTabs
+                        tabs={[
+                            { label: '基础属性', key: 'basicAttribute' },
+                            { label: '关联关系', key: 'relation' }
+                        ]}>
+                        {this.renderForm()}
+                    </AdTabs>
+                </Form>
             </Modal>
         );
     }
@@ -70,9 +72,9 @@ class AttributesModal extends React.Component {
     };
 
     renderForm() {
-        const { AttributeStore } = this.props;
-        const { attributes } = AttributeStore;
-        return <BasicAttributesForm key="basicAttribute" attributes={attributes} />;
+        return (
+            <BasicAttributesForm key="basicAttribute" form={this.props.form} />
+        );
     }
 }
 

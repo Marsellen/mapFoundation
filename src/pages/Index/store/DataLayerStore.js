@@ -38,11 +38,6 @@ class DataLayerStore extends LayerStore {
         return this.layers.findIndex(layer => layer.checked);
     };
 
-    @action updataAttributes = (name, features) => {
-        let layer = this.getLayerByName(name).layer;
-        layer.updateFeatures(features);
-    };
-
     @action initEditor = () => {
         this.editor = new EditControl();
         map.getControlManager().addControl(this.editor);
