@@ -15,5 +15,3 @@ export const REL_DATA_MAP = {
         func: 'lane'
     }
 };
-
-export const REL_OBJ_SET = ['Lane', 'ReferenceLine'];
