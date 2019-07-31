@@ -3,6 +3,7 @@ import LayerStore from './LayerStore';
 import { EditControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
 import { Modal } from 'antd';
+import newRelCtrl from 'src/utils/relCtrl/newRelCtrl';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore extends LayerStore {
@@ -123,20 +124,22 @@ class DataLayerStore extends LayerStore {
         this.setPointSize(3);
     };
 
-    @action newRel = () => {
+    @action newRel = callback => {
         this.editType = 'newRel';
-        this.newRelStep = 0;
+        this.worker = new newRelCtrl(callback);
     };
 
     @action newRelCallback = (result, event) => {
-        switch (this.newRelStep) {
+        switch (this.worker.step) {
             case 0:
-                // xx(result)
-                this.newRelStep++;
+                this.worker.setObj(result);
+                this.updateKey = Math.random();
+                //this.worker.next(); 可以在其他时机执行，例如点击下一步按钮
                 break;
             case 1:
-                // xxx(result)
-                this.refreshEditType();
+                this.worker.setRelObj(result);
+                //this.worker.finish(); 可以在其他时机执行，例如点击完成按钮
+                //this.refreshEditType();
                 break;
         }
     };

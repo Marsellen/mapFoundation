@@ -1,68 +1,82 @@
 export const DATA_LAYER_MAP = {
-    Arrow: {
+    AD_Arrow: {
         label: '地面引导箭头',
-        id: 'OBJECT_ID',
+        id: 'ARR_ID',
         spec: 'AD_Arrow',
         tools: ['POLYGON'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
-    LaneAttrPoint: {
+    AD_LaneAttrPoint: {
         label: '车道属性变化点',
-        id: 'ALAP_ID',
+        id: 'LAP_ID',
         spec: 'AD_LaneAttrPoint',
         tools: ['POINT'],
         rightTools: ['delete']
     },
-    LaneDivider: {
+    AD_LaneDivider: {
         label: '车道线',
-        id: 'ALDIV_ID',
+        id: 'LDIV_ID',
         spec: 'AD_LaneDivider',
         tools: ['LINE'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
-    Polygon: {
-        label: '面状要素',
-        id: 'OBJECT_ID',
-        spec: 'AD_Polygon',
+    AD_LaneMark_Plg: {
+        label: '面状标识物',
+        id: 'PLG_ID',
+        spec: 'AD_LaneMark_Plg',
         tools: ['POLYGON'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
-    StopLocation: {
+    AD_Text: {
+        label: '道路文字符号',
+        id: 'TEXT_ID',
+        spec: 'AD_Text',
+        tools: ['POLYGON'],
+        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
+    },
+    AD_StopLocation: {
         label: '停止位置',
-        id: 'OBJECT_ID',
+        id: 'STOPL_ID',
         spec: 'AD_StopLocation',
         tools: ['LINE'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
-    Lane: {
+    AD_Lane: {
         label: '车道中心线',
-        id: 'ALANE_ID',
+        id: 'LANE_ID',
         spec: 'AD_Lane',
         tools: ['LINE', 'ADD_REL'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
-    TrafficSign: {
+    AD_TrafficSign: {
         label: '交通标志牌',
-        id: 'OBJECT_ID',
+        id: 'SIGN_ID',
         spec: 'AD_TrafficSign',
         tools: ['POLYGON', 'ADD_FACADEREC_TANGLE', 'ADD_CIRCLE'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
-    ReferenceLine: {
+    AD_Road: {
         label: '道路参考线',
-        id: 'REFLINE_ID',
-        spec: 'AD_RefLine',
+        id: 'ROAD_ID',
+        spec: 'AD_Road',
         tools: ['LINE', 'ADD_REL'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
-    TrafficLight: {
+    AD_TrafficLight: {
         label: '交通信号灯',
-        id: 'OBJECT_ID',
+        id: 'LIGHT_ID',
         spec: 'AD_TrafficLight',
         tools: ['ADD_FACADEREC_TANGLE'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
-    Map_QC: {
+    AD_Pole: {
+        label: '杆状物',
+        id: 'POLE_ID',
+        spec: 'AD_Pole',
+        tools: ['LINE'],
+        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
+    },
+    AD_Map_QC: {
         label: '标记图层',
         id: 'ID',
         spec: 'AD_Map_QC',

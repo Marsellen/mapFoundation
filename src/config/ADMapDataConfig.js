@@ -167,6 +167,11 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '减速带', icon: 'jiansudai' },
         { value: 4, label: '减速警示震荡线', icon: 'jiansujingshizhendangxian' }
     ],
+    AD_TRAFFICSIGN_SIGN_STYLE: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '单个标志牌' },
+        { value: 2, label: '组合标志牌' }
+    ],
     AD_TRAFFICSIGN_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi' },
         { value: 101, label: '交叉路口', icon: 'jiaochalukou' },
@@ -402,47 +407,51 @@ export const TYPE_SELECT_OPTION_MAP = {
 };
 
 export const DEFAULT_PROPERTIES_MAP = {
-    Arrow: {
-        ARR_DIRECT: '00000000000000000001',
-        ALANE_ID: 0
+    AD_Arrow: {
+        ARR_DIRECT: 'A'
     },
-    Polygon: {
+    AD_LaneMark_Plg: {
         TYPE: 1
     },
-    TrafficSign: {
+    AD_Text: {},
+    AD_TrafficSign: {
         TYPE: 101,
         VALUE: 0
     },
-    TrafficLight: {
+    AD_TrafficLight: {
         TYPE: 1
     },
-    LaneDivider: {
+    AD_LaneDivider: {
         TYPE: 2,
         DIRECTION: 2,
-        REF_LINE: 0,
+        RD_LINE: 0,
         SHARE_LINE: 0,
-        RD_STATUS: 1,
+        LANESTATUS: 1,
         LANE_TYPE: 1,
-        LANE_NO: 1
+        LANE_NO: 1,
+        RD_BOUND: 0
     },
-    ReferenceLine: {
+    AD_Road: {
         TYPE: 1,
-        RD_STATUS: 0
+        RD_STATUS: 0,
+        RD_CLASS: 0,
+        RD_FORM: 0,
+        DIRECTION: 0
     },
-    Lane: {
+    AD_Lane: {
         TYPE: 2,
         DIRECTION: 2,
-        LANE_NO: 0,
-        RESTRICT: 0
+        LANE_NO: 0
     },
-    LaneAttrPoint: {
+    AD_LaneAttrPoint: {
         TYPE: 0,
         REF_LINE: 0
     },
-    StopLocation: {
+    AD_StopLocation: {
         TYPE: 1
     },
-    Map_QC: {
+    AD_Pole: {},
+    AD_Map_QC: {
         ERROR_TYPE: 0,
         FIX_STATUS: 1,
         QC_STATUS: 0
@@ -450,9 +459,9 @@ export const DEFAULT_PROPERTIES_MAP = {
 };
 
 export const TABLE_DATA_MAP = {
-    LaneDivider: [
+    AD_LaneDivider: [
         {
-            key: 'ALDIV_ID',
+            key: 'LDIV_ID',
             name: '用户编号',
             type: 'AD_LANE_DIVIDER_ID',
             domType: 'Text'
@@ -470,7 +479,7 @@ export const TABLE_DATA_MAP = {
             domType: 'RadioIconGroup'
         },
         {
-            key: 'REF_LINE',
+            key: 'RD_LINE',
             name: '参考线标识',
             type: 'AD_LANE_DIVIDER_REF_LINE',
             domType: 'Select'
@@ -488,7 +497,7 @@ export const TABLE_DATA_MAP = {
             domType: 'Select'
         },
         {
-            key: 'RD_STATUS',
+            key: 'LANESTATUS',
             name: '通行状态',
             type: 'AD_LANE_DIVIDER_RD_STATUS',
             domType: 'Select'
@@ -500,9 +509,9 @@ export const TABLE_DATA_MAP = {
             domType: 'Text'
         }
     ],
-    ReferenceLine: [
+    AD_Road: [
         {
-            key: 'REFLINE_ID',
+            key: 'ROAD_ID',
             name: '用户编号',
             type: 'AD_REFERENCE_LINE_REFLINE_ID',
             domType: 'Text'
@@ -520,7 +529,7 @@ export const TABLE_DATA_MAP = {
             domType: 'Select'
         }
     ],
-    Lane: [
+    AD_Lane: [
         {
             key: 'TYPE',
             name: '车道类型',
@@ -528,13 +537,13 @@ export const TABLE_DATA_MAP = {
             domType: 'RadioIconGroup'
         },
         {
-            key: 'ALANE_ID',
+            key: 'LANE_ID',
             name: '用户编号',
             type: 'AD_LANE_ALANE_ID',
             domType: 'Text'
         },
         {
-            key: 'REFLINE_ID',
+            key: 'ROAD_ID',
             name: '关联参考线ID',
             type: 'AD_LANE_REFLINE_ID',
             domType: 'Text'
@@ -563,16 +572,16 @@ export const TABLE_DATA_MAP = {
             type: 'AD_LANE_DIRECTION',
             domType: 'Select'
         },
+        // {
+        //     key: 'RESTRICT',
+        //     name: '限制类型',
+        //     type: 'AD_LANE_RESTRICT',
+        //     domType: 'Select'
+        // },
         {
-            key: 'RESTRICT',
-            name: '限制类型',
-            type: 'AD_LANE_RESTRICT',
-            domType: 'Select'
-        },
-        {
-            key: 'VALUE',
-            name: '限制取值',
-            type: 'AD_LANE_VALUE',
+            key: 'MAX_SPEED',
+            name: '最高行驶速度',
+            type: 'AD_LANE_MAX_SPEED',
             domType: 'Input',
             validates: [
                 {
@@ -591,19 +600,13 @@ export const TABLE_DATA_MAP = {
             name: '通行状态',
             type: 'AD_LANE_STATUS',
             domType: 'Select'
-        },
-        {
-            key: 'OBJECT_ID',
-            name: '关联停止位置ID',
-            type: 'AD_LANE_OBJECT_ID',
-            domType: 'Text'
         }
     ],
-    StopLocation: [
+    AD_StopLocation: [
         {
-            key: 'OBJECT_ID',
+            key: 'STOPL_ID',
             name: '用户编号',
-            type: 'AD_STOPLOCATION_OBJECT_ID',
+            type: 'AD_STOPLOCATION_STOPL_ID',
             domType: 'Text'
         },
         {
@@ -613,25 +616,25 @@ export const TABLE_DATA_MAP = {
             domType: 'RadioIconGroup'
         }
     ],
-    Polygon: [
+    AD_LaneMark_Plg: [
         {
-            key: 'OBJECT_ID',
+            key: 'PLG_ID',
             name: '用户编号',
-            type: 'AD_POLYGON_OBJECT_ID',
+            type: 'AD_LANEMARK_PLG_ID',
             domType: 'Text'
         },
         {
             key: 'TYPE',
             name: '面要素类型',
-            type: 'AD_POLYGON_TYPE',
+            type: 'AD_LANEMARK_PLG_TYPE',
             domType: 'RadioIconGroup'
         }
     ],
-    Arrow: [
+    AD_Arrow: [
         {
-            key: 'OBJECT_ID',
+            key: 'ARR_ID',
             name: '用户编号',
-            type: 'AD_ARROW_OBJECT_ID',
+            type: 'AD_ARROW_ID',
             domType: 'Text'
         },
         {
@@ -639,39 +642,13 @@ export const TABLE_DATA_MAP = {
             name: '箭头方向',
             type: 'AD_ARROW_ARR_DIRECT',
             domType: 'RadioIconGroup'
-        },
-        {
-            key: 'ALANE_ID',
-            name: '关联车道号',
-            type: 'AD_ARROW_ALANE_ID',
-            validates: [
-                {
-                    message: '必须为数字',
-                    type: 'number',
-                    transform(value) {
-                        if (value) {
-                            return Number(value);
-                        }
-                    }
-                },
-                {
-                    max: 20,
-                    message: '长度不能超过20字',
-                    transform(value) {
-                        if (value) {
-                            return String(value);
-                        }
-                    }
-                }
-            ],
-            domType: 'Input'
         }
     ],
-    LaneAttrPoint: [
+    AD_LaneAttrPoint: [
         {
-            key: 'ALAP_ID',
+            key: 'LAP_ID',
             name: '用户编号',
-            type: 'AD_LANE_ATTRPOINT_ALAP_ID',
+            type: 'AD_LANE_ATTRPOINT_ID',
             domType: 'Text'
         },
         {
@@ -681,51 +658,25 @@ export const TABLE_DATA_MAP = {
             domType: 'RadioIconGroup'
         }
     ],
-    TrafficSign: [
+    AD_TrafficSign: [
         {
-            key: 'OBJECT_ID',
+            key: 'SIGN_ID',
             name: '用户编号',
-            type: 'AD_TRAFFICSIGN_OBJECT_ID',
+            type: 'AD_TRAFFICSIGN_ID',
             domType: 'Text'
         },
         {
-            key: 'TYPE',
+            key: 'SIGN_STYLE',
             name: '标志牌类型',
-            type: 'AD_TRAFFICSIGN_TYPE',
-            domType: 'RadioIconGroup'
-        },
-        {
-            key: 'VALUE',
-            name: '类型取值',
-            type: 'AD_TRAFFICSIGN_VALUE',
-            validates: [
-                {
-                    message: '必须为数字',
-                    type: 'number',
-                    transform(value) {
-                        if (value) {
-                            return Number(value);
-                        }
-                    }
-                },
-                {
-                    max: 20,
-                    message: '长度不能超过20字',
-                    transform(value) {
-                        if (value) {
-                            return String(value);
-                        }
-                    }
-                }
-            ],
-            domType: 'Input'
+            type: 'AD_TRAFFICSIGN_SIGN_STYLE',
+            domType: 'Select'
         }
     ],
-    TrafficLight: [
+    AD_TrafficLight: [
         {
-            key: 'OBJECT_ID',
+            key: 'LIGHT_ID',
             name: '用户编号',
-            type: 'AD_TRAFFIC_LIGHT_OBJECT_ID',
+            type: 'AD_TRAFFIC_LIGHT_ID',
             domType: 'Text'
         },
         {
@@ -733,35 +684,9 @@ export const TABLE_DATA_MAP = {
             name: '交通灯类型',
             type: 'AD_TRAFFIC_LIGHT_TYPE',
             domType: 'RadioIconGroup'
-        },
-        {
-            key: 'REFLINE_ID',
-            name: '关联参考线ID',
-            type: 'AD_TRAFFIC_LIGHT_REFLINE_ID',
-            validates: [
-                {
-                    message: '必须为数字',
-                    type: 'number',
-                    transform(value) {
-                        if (value) {
-                            return Number(value);
-                        }
-                    }
-                },
-                {
-                    max: 20,
-                    message: '长度不能超过20字',
-                    transform(value) {
-                        if (value) {
-                            return String(value);
-                        }
-                    }
-                }
-            ],
-            domType: 'Input'
         }
     ],
-    Map_QC: [
+    AD_Map_QC: [
         {
             key: 'ID',
             name: '用户编号',
@@ -879,59 +804,64 @@ export const REL_TYPE_KEY_MAP = {
         type: 'DEFAULT'
     },
     L_DIV: {
-        key: 'L_DIV',
         name: '关联左侧车道线',
         type: 'LANE_ATTR_REL_KEY'
     },
     R_DIV: {
-        key: 'R_DIV',
         name: '关联右侧车道线',
         type: 'LANE_ATTR_REL_KEY'
     },
-    REFLINE: {
-        key: 'REFLINE',
+    ROAD: {
         name: '关联参考线',
         type: 'LANE_ATTR_REL_KEY'
     },
-    Lane: {
-        key: 'Lane',
+    LANE: {
         name: '关联车道中心线',
         type: 'OBJ_TYPE_KEY'
     },
-    FROM_ALANE: {
-        key: 'FROM_ALANE',
+    FROM_LANE: {
         name: '驶入车道中心线',
         type: 'OBJ_TYPE_KEY'
     },
-    F_REF_LINE: {
-        key: 'F_REF_LINE',
+    FROM_ROAD: {
         name: '驶入参考线',
         type: 'OBJ_TYPE_KEY'
     },
-    TO_ALANE: {
-        key: 'TO_ALANE',
+    TO_LANE: {
         name: '驶出车道中心线',
         type: 'REL_OBJ_TYPE_KEY'
     },
-    obj: {
-        key: 'obj',
-        name: '关联对象',
+    STOPL: {
+        name: '关联停止位置',
         type: 'REL_OBJ_TYPE_KEY'
     },
-    T_REF_LINE: {
-        key: 'T_REF_LINE',
+    PLG: {
+        name: '关联面状标识物',
+        type: 'REL_OBJ_TYPE_KEY'
+    },
+    LIGHT: {
+        name: '关联交通信号灯',
+        type: 'REL_OBJ_TYPE_KEY'
+    },
+    SIGN: {
+        name: '关联交通标志牌',
+        type: 'REL_OBJ_TYPE_KEY'
+    },
+    TO_ROAD: {
         name: '驶出参考线',
         type: 'REL_OBJ_TYPE_KEY'
     }
 };
 
 export const OBJ_REL_KEY_MAP = {
-    Lane: {
-        OBJ_TYPE_KEYS: ['Lane', 'FROM_ALANE'],
-        REL_OBJ_TYPE_KEYS: ['TO_ALANE']
-    },
-    ReferenceLine: {
-        OBJ_TYPE_KEYS: ['F_REF_LINE'],
-        REL_OBJ_TYPE_KEYS: ['F_REF_LINE', 'REFLINE']
-    }
+    AD_Lane: [
+        { key: 'LANE', type: 'OBJ_TYPE_KEYS' },
+        { key: 'FROM_LANE', type: 'OBJ_TYPE_KEYS' },
+        { key: 'TO_LANE', type: 'REL_OBJ_TYPE_KEYS' }
+    ],
+    AD_Road: [
+        { key: 'FROM_ROAD', type: 'OBJ_TYPE_KEYS' },
+        { key: 'TO_ROAD', type: 'REL_OBJ_TYPE_KEYS' },
+        { key: 'ROAD', type: 'REL_OBJ_TYPE_KEYS' }
+    ]
 };
