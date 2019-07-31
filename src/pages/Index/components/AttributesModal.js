@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { Modal, Form, Button } from 'antd';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import BasicAttributesForm from './AttributesForm/BasicAttributesForm';
+import RelationForm from './AttributesForm/RelationForm';
 import AdTabs from 'src/components/AdTabs/index';
 import 'less/components/attributes-modal.less';
 
@@ -36,6 +37,7 @@ class AttributesModal extends React.Component {
                             { label: '关联关系', key: 'relation' }
                         ]}>
                         {this.renderForm()}
+                        {this.renderRels()}
                     </AdTabs>
                 </Form>
             </Modal>
@@ -75,6 +77,10 @@ class AttributesModal extends React.Component {
         return (
             <BasicAttributesForm key="basicAttribute" form={this.props.form} />
         );
+    }
+
+    renderRels() {
+        return <RelationForm key="relation" form={this.props.form} />;
     }
 }
 
