@@ -10,12 +10,18 @@ class RelStore {
             keyPath: 'id',
             autoIncrement: true
         });
-        objectStore.createIndex('obj', ['objType', 'objId'], { unique: false });
-        objectStore.createIndex('relObj', ['relObjType', 'relObjId'], {
+        objectStore.createIndex('OBJ_TYPE_KEYS', ['objType', 'objId'], {
             unique: false
         });
         objectStore.createIndex(
-            'rel',
+            'REL_OBJ_TYPE_KEYS',
+            ['relObjType', 'relObjId'],
+            {
+                unique: false
+            }
+        );
+        objectStore.createIndex(
+            'REL_KEYS',
             ['objType', 'objId', 'relObjType', 'relObjId'],
             {
                 unique: true

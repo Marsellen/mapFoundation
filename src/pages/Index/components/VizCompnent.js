@@ -133,6 +133,11 @@ class VizCompnent extends React.Component {
             e.preventDefault();
             // return false;
         };
+        //监听浏览器即将离开当前页面事件
+        window.onbeforeunload = function(e) {
+            var e = window.event || e;
+            e.returnValue = '确定离开当前页面吗？';
+        };
 
         // attributes 拾取控件
         const { DataLayerStore } = this.props;

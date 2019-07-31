@@ -1,51 +1,15 @@
-const laneCon = record => {
-    const {
-        objId,
-        relObjId,
-        extraInfo: { ALCN_ID }
-    } = record;
-    return [
-        {
-            type: 'Feature',
-            properties: { ALCN_ID, FROM_ALANE: objId, TO_ALANE: relObjId }
-        }
-    ];
-};
+import { REL_DATA_MAP, ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
 
-const objLaneRel = record => {
-    const {
-        objId,
-        relObjId,
-        extraInfo: { OBJ_TYPE }
-    } = record;
-    return [
-        {
+export default (record, spec) => {
+    return REL_DATA_MAP[spec].map(rel => {
+        let { objId, relObjId, extraInfo } = record;
+        return {
             type: 'Feature',
             properties: {
-                ALANE_ID: objId,
-                OBJECT_ID: relObjId,
-                OBJ_TYPE: OBJ_TYPE
+                ...extraInfo,
+                [rel.objId]: objId,
+                [rel.relObjId]: relObjId
             }
-        }
-    ];
+        };
+    });
 };
-
-const refLineCon = record => {
-    const {
-        objId,
-        relObjId,
-        extraInfo: { REF_REL_ID }
-    } = record;
-    return [
-        {
-            type: 'Feature',
-            properties: {
-                REF_REL_ID,
-                F_REF_LINE: objId,
-                T_REF_LINE: relObjId
-            }
-        }
-    ];
-};
-
-export default { laneCon, objLaneRel, refLineCon };

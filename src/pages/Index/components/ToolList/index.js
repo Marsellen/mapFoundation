@@ -10,7 +10,8 @@ import AddPolygon from './AddPolygon';
 import ResourceLoader from './ResourceLoader';
 import ExportShp from './ExportShp';
 import AddFacadeRectangle from './AddFacadeRectangle';
-import AddCircle from './AddCircle'
+import AddCircle from './AddCircle';
+import AddRel from './AddRel';
 
 export default [
     <Undo key="UNDO" />,
@@ -24,5 +25,6 @@ export default [
     <AddLine key="LINE" />,
     <AddPolygon key="POLYGON" />,
     <AddFacadeRectangle key="ADD_FACADEREC_TANGLE" />,
-    <AddCircle key="ADD_CIRCLE" />
+    <AddCircle key="ADD_CIRCLE" />,
+    <AddRel key="ADD_REL" />
 ];
