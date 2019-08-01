@@ -79,7 +79,7 @@ class BasicAttributesForm extends React.Component {
     renderSelect = (item, index) => {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
-        const options = TYPE_SELECT_OPTION_MAP[item.type];
+        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
@@ -138,7 +138,7 @@ class BasicAttributesForm extends React.Component {
     renderRadioIconGroup = (item, index) => {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
-        const options = TYPE_SELECT_OPTION_MAP[item.type];
+        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         let layout = readonly ? formItemLayout : {};
         return (
             <Form.Item key={index} label={item.name} {...layout}>

@@ -79,3 +79,111 @@ export const REL_DATA_MAP = {
         }
     ]
 };
+
+export const OBJ_REL_DATA_MAP = {
+    AD_Lane: {
+        AD_LaneDivider: {
+            objType: 'LANE',
+            relObjType: ['L_LDIV', 'R_LDIV'],
+            spec: 'AD_Lane'
+        },
+        AD_Road: {
+            objType: 'LANE',
+            relObjType: 'ROAD',
+            spec: 'AD_Lane'
+        },
+        AD_Arrow: {
+            objType: 'LANE',
+            relObjType: 'ARROW',
+            spec: 'AD_Arrow'
+        },
+        AD_Text: {
+            objType: 'LANE',
+            relObjType: 'TEXT',
+            spec: 'AD_Text'
+        },
+        AD_StopLocation: {
+            objType: 'LANE',
+            relObjType: 'STOPL',
+            spec: 'AD_StopL_Lane_Rel'
+        },
+        AD_LaneMark_Plg: {
+            objType: 'LANE',
+            relObjType: 'PLG',
+            spec: 'AD_Plg_Lane_Rel'
+        },
+        AD_TrafficSign: {
+            objType: 'LANE',
+            relObjType: 'SIGN',
+            spec: 'AD_Sign_Lane_Rel'
+        },
+        AD_TrafficLight: {
+            objType: 'LANE',
+            relObjType: 'LIGHT',
+            spec: 'AD_Light_Lane_Rel'
+        }
+    },
+    AD_Arrow: {
+        AD_Lane: {
+            objType: 'LANE',
+            relObjType: 'ARROW',
+            spec: 'AD_Arrow',
+            reverse: true
+        }
+    },
+    AD_Text: {
+        AD_Lane: {
+            objType: 'LANE',
+            relObjType: 'TEXT',
+            spec: 'AD_Text',
+            reverse: true
+        }
+    },
+    AD_LaneMark_Plg: {
+        AD_Lane: {
+            objType: 'LANE',
+            relObjType: 'PLG',
+            spec: 'AD_Plg_Lane_Rel',
+            reverse: true
+        }
+    },
+    AD_StopLocation: {
+        AD_Lane: {
+            objType: 'LANE',
+            relObjType: 'STOPL',
+            spec: 'AD_StopL_Lane_Rel',
+            reverse: true
+        }
+    },
+    AD_TrafficSign: {
+        AD_Lane: {
+            objType: 'LANE',
+            relObjType: 'SIGN',
+            spec: 'AD_Sign_Lane_Rel',
+            reverse: true
+        }
+    },
+    AD_TrafficLight: {
+        AD_Lane: {
+            objType: 'LANE',
+            relObjType: 'LIGHT',
+            spec: 'AD_Light_Lane_Rel',
+            reverse: true
+        }
+    },
+    AD_Road: {
+        AD_LaneAttrPoint: {
+            objType: 'LANEP',
+            relObjType: 'ROAD',
+            spec: 'AD_LaneAttrPoint',
+            reverse: true
+        }
+    },
+    AD_LaneAttrPoint: {
+        AD_Road: {
+            objType: 'LANEP',
+            relObjType: 'ROAD',
+            spec: 'AD_LaneAttrPoint'
+        }
+    }
+};

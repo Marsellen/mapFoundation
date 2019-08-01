@@ -39,7 +39,7 @@ class RelStore {
             let records = relFactory.relDataToTable(response.data);
             // console.timeLog('relDataToTable');
             // console.time('batch add');
-            yield this.relStore.batchAdd(records);
+            // yield this.relStore.batchAdd(records);
             // console.timeLog('batch add');
         } catch (e) {
             console.log(e);

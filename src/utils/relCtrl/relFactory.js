@@ -2,7 +2,11 @@ import { REL_DATA_SET, ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
 import RelDataToTable from './relDataToTable';
 import RelTableToData from './relTableToData';
 import IndexedDB from 'src/utils/IndexedDB';
-import { REL_TYPE_KEY_MAP, OBJ_REL_KEY_MAP } from 'src/config/ADMapDataConfig';
+import {
+    REL_TYPE_KEY_MAP,
+    OBJ_REL_KEY_MAP,
+    REL_OBJ_KEY_MAP
+} from 'src/config/ADMapDataConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 class relFactory {
@@ -72,7 +76,9 @@ class relFactory {
                             relKey.type,
                             [relKey.key, id]
                         );
-                        records = records.map(this.tableFormat);
+                        records = records.map(record => {
+                            return this.tableFormat(record, relKey.type);
+                        });
                         tableData = tableData.concat(records);
                     })
                 );
@@ -84,13 +90,14 @@ class relFactory {
         );
     }
 
-    tableFormat = record => {
+    tableFormat = (record, relType) => {
+        let keyMap = REL_OBJ_KEY_MAP[relType];
         let defRecord =
-            REL_TYPE_KEY_MAP[record.objType] || REL_TYPE_KEY_MAP[DEFAULT];
+            REL_TYPE_KEY_MAP[record[keyMap.type]] || REL_TYPE_KEY_MAP.DEFAULT;
         return {
             ...defRecord,
-            key: record.relObjType,
-            value: record.objId
+            key: record[keyMap.type],
+            value: record[keyMap.id]
         };
     };
 }

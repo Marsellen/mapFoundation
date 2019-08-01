@@ -803,11 +803,11 @@ export const REL_TYPE_KEY_MAP = {
         name: '未知关系关联对象',
         type: 'DEFAULT'
     },
-    L_DIV: {
+    L_LDIV: {
         name: '关联左侧车道线',
         type: 'LANE_ATTR_REL_KEY'
     },
-    R_DIV: {
+    R_LDIV: {
         name: '关联右侧车道线',
         type: 'LANE_ATTR_REL_KEY'
     },
@@ -864,4 +864,9 @@ export const OBJ_REL_KEY_MAP = {
         { key: 'TO_ROAD', type: 'REL_OBJ_TYPE_KEYS' },
         { key: 'ROAD', type: 'REL_OBJ_TYPE_KEYS' }
     ]
+};
+
+export const REL_OBJ_KEY_MAP = {
+    OBJ_TYPE_KEYS: { id: 'relObjId', type: 'relObjType' },
+    REL_OBJ_TYPE_KEYS: { id: 'objId', type: 'objType' }
 };
