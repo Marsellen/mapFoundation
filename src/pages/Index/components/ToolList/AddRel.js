@@ -1,11 +1,28 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import { message, Button } from 'antd';
+import { message } from 'antd';
+import newRel from 'src/utils/relCtrl/newRelCtrl';
 
 @inject('DataLayerStore')
 @observer
 class AddRel extends React.Component {
+    componentDidMount() {
+        const { DataLayerStore } = this.props;
+        DataLayerStore.setNewRelCallback(result => {
+            console.log(result);
+            let layerName = DataLayerStore.getEditLayer().layerName;
+            newRel(result, layerName)
+                .then(() => {
+                    message.destroy();
+                    DataLayerStore.clearChoose();
+                })
+                .catch(e => {
+                    message.warning(e.message, 1);
+                });
+        });
+    }
+
     render() {
         return (
             <ToolIcon
@@ -18,9 +35,8 @@ class AddRel extends React.Component {
 
     action = () => {
         const { DataLayerStore } = this.props;
-        DataLayerStore.newRel(result => {
-            console.log(result);
-        });
+        if (DataLayerStore.editType == 'newRel') return;
+        DataLayerStore.newRel();
         message.open({
             content: this.content(),
             duration: 0
@@ -28,21 +44,7 @@ class AddRel extends React.Component {
     };
 
     content = () => {
-        const { DataLayerStore } = this.props;
-        let visible = DataLayerStore.worker.ready;
-        return (
-            <div>
-                <label>请选择一条车道中心线</label>
-                {visible && (
-                    <Button
-                        key={DataLayerStore.updateKey}
-                        style={{ marginLeft: 16 }}
-                        size="small">
-                        下一步
-                    </Button>
-                )}
-            </div>
-        );
+        return <label>请按顺序选择关联对象</label>;
     };
 }
 

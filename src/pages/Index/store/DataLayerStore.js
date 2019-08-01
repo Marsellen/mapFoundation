@@ -1,18 +1,16 @@
-import { action, configure, flow } from 'mobx';
+import { action, configure, flow, observable } from 'mobx';
 import LayerStore from './LayerStore';
 import { EditControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
 import { Modal } from 'antd';
-import newRelCtrl from 'src/utils/relCtrl/newRelCtrl';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore extends LayerStore {
     constructor() {
         super();
         this.editor;
-        this.createShouldUpdate;
-        this.editType = 'normal';
     }
+    @observable editType = 'normal';
 
     @action toggle = (name, checked) => {
         this.layers.find(layer => layer.value == name).checked = checked;
@@ -71,9 +69,7 @@ class DataLayerStore extends LayerStore {
     };
 
     @action setCreatedCallBack = callback => {
-        this.editor.onFeatureCreated(result => {
-            callback(result, this.createShouldUpdate);
-        });
+        this.editor.onFeatureCreated(callback);
     };
 
     @action setEditedCallBack = callback => {
@@ -86,6 +82,7 @@ class DataLayerStore extends LayerStore {
 
     @action clearChoose = () => {
         if (!this.editor) return;
+        this.editType = 'normal';
         this.editor.clear();
         this.editor.cancel();
         this.setPointSize(0.5);
@@ -97,67 +94,53 @@ class DataLayerStore extends LayerStore {
 
     @action newPoint = () => {
         if (!this.editor) return;
-        this.createShouldUpdate = false;
+        this.editType = 'new_point';
         this.editor.newPoint();
         this.setPointSize(3);
     };
 
     @action newLine = () => {
         if (!this.editor) return;
-        this.createShouldUpdate = false;
-        console.log(this.editor);
+        this.editType = 'new_line';
         this.editor.newLine();
         this.setPointSize(3);
     };
 
     @action newPolygon = () => {
         if (!this.editor) return;
-        this.createShouldUpdate = false;
+        this.editType = 'new_polygon';
         this.editor.newPolygon();
         this.setPointSize(3);
     };
 
     @action newFacadeRectangle = () => {
         if (!this.editor) return;
-        this.createShouldUpdate = false;
+        this.editType = 'new_facade_rectangle';
         this.editor.newMatrix();
         this.setPointSize(3);
     };
 
-    @action newRel = callback => {
+    @action newRel = () => {
+        if (this.editType == 'newRel') return;
         this.editType = 'newRel';
-        this.worker = new newRelCtrl(callback);
+        this.editor.clear();
+        this.editor.toggleMode(61);
     };
 
-    @action newRelCallback = (result, event) => {
-        switch (this.worker.step) {
-            case 0:
-                this.worker.setObj(result);
-                this.updateKey = Math.random();
-                //this.worker.next(); 可以在其他时机执行，例如点击下一步按钮
-                break;
-            case 1:
-                this.worker.setRelObj(result);
-                //this.worker.finish(); 可以在其他时机执行，例如点击完成按钮
-                //this.refreshEditType();
-                break;
-        }
-    };
-
-    @action refreshEditType = () => {
-        this.editType = 'normal';
+    @action setNewRelCallback = callback => {
+        this.newRelCallback = callback;
     };
 
     newCircle = flow(function*() {
         if (!this.editor) return;
-        this.createShouldUpdate = true;
+        this.editType = 'new_circle';
         this.editor.newFixedPolygon(3);
         this.setPointSize(5);
     });
 
     updateResult = flow(function*(result) {
         try {
-            if (!this.createShouldUpdate) {
+            if (!this.editType != 'new_circle') {
                 return result;
             }
             let points = result.data.geometry.coordinates[0];
