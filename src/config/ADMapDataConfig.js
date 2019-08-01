@@ -9,34 +9,49 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 6, label: '左虚右实', icon: 'zuoxuyoushi' },
         { value: 7, label: '短粗虚线', icon: 'duancuxuxian' },
         { value: 8, label: '导流线', icon: 'daoliuxian' },
-        { value: 11, label: '车道虚拟线', icon: 'chedaoxunixian' },
-        { value: 12, label: '路边缘虚拟线', icon: 'lubianyuanxunixian' },
-        { value: 13, label: '防护栏', icon: 'fanghulan' },
-        { value: 14, label: '隧道墙', icon: 'suidaoqiang' },
-        { value: 15, label: '路缘石', icon: 'luyuanshi' },
-        { value: 16, label: '自然边界', icon: 'ziranbianjie' },
-        { value: 17, label: '施工边界', icon: 'shigongbianjie' },
-        { value: 18, label: '路口内待行区', icon: 'lukouneidaixingqu' }
+        { value: 9, label: '车道虚拟线', icon: 'chedaoxunixian' },
+        { value: 10, label: '路边缘虚拟线', icon: 'lubianyuanxunixian' },
+        { value: 11, label: '防护栏', icon: 'fanghulan' },
+        { value: 12, label: '隧道墙', icon: 'suidaoqiang' },
+        { value: 13, label: '路缘石', icon: 'luyuanshi' },
+        { value: 14, label: '自然边界', icon: 'ziranbianjie' },
+        { value: 15, label: '施工边界', icon: 'shigongbianjie' },
+        { value: 16, label: '路中隔离带' },
+        { value: 17, label: '路口内待行区', icon: 'lukouneidaixingqu' },
+        {
+            value: 18,
+            label: '可变导向车道线',
+            icon: 'kebiandaoxiangchedaoxian'
+        },
+        {
+            value: 19,
+            label: '路侧私有路口虚拟线'
+        }
     ],
     AD_LANE_DIVIDER_DIRECTION: [
         { value: 0, label: '未定义' },
-        { value: 1, label: '双向' },
-        { value: 2, label: '正向' },
-        { value: 3, label: '逆向' }
+        { value: 1, label: '正向通行' },
+        { value: 2, label: '逆向通行' },
+        { value: 3, label: '双向通行' },
+        { value: 4, label: '禁止通行' }
     ],
-    AD_LANE_DIVIDER_REF_LINE: [
-        { value: 0, label: '非参考线' },
-        { value: 1, label: '参考线' }
+    AD_LANE_DIVIDER_RD_LINE: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '道路参考线' },
+        { value: 2, label: '非道路参考线' }
     ],
     AD_LANE_DIVIDER_SHARE_LINE: [
-        { value: 0, label: '非共用车道线' },
-        { value: 1, label: '共用车道线' }
+        { value: 0, label: '未定义' },
+        { value: 1, label: '非共用车道线' },
+        { value: 2, label: '逆向交通流共用车道线' },
+        { value: 3, label: '同向交通流共用车道线' }
     ],
-    AD_LANE_DIVIDER_RD_STATUS: [
+    AD_LANE_DIVIDER_LANESTATUS: [
         { value: 0, label: '未定义' },
         { value: 1, label: '正常通行' },
         { value: 2, label: '建设中' },
-        { value: 3, label: '禁止通行' }
+        { value: 3, label: '禁止通行' },
+        { value: 99, label: '其他' }
     ],
     AD_LANE_DIVIDER_LANE_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi' },
@@ -73,19 +88,51 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 27, label: '超车道', icon: 'chaochedao' },
         { value: 28, label: '服务区车道', icon: 'fuwuquchedao' },
         { value: 29, label: '左侧加速车道', icon: 'zuocejiasuchedao' },
-        { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao' }
+        { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao' },
+        { value: 31, label: '复合车道' },
+        { value: 99, label: '其他' }
     ],
-    AD_REFERENCE_LINE_TYPE: [
+    AD_LANE_DIVIDER_RD_BOUND: [
         { value: 0, label: '未定义' },
-        { value: 1, label: '非路口内参考线' },
-        { value: 2, label: '路口内参考线' }
+        { value: 1, label: '道路边界线' },
+        { value: 2, label: '非道路边界线' }
     ],
-    AD_REFERENCE_LINE_RD_STATUS: [
+    AD_ROAD_TYPE: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '非路口内道路' },
+        { value: 2, label: '路口内道路' }
+    ],
+    AD_ROAD_RD_STATUS: [
         { value: 0, label: '未定义' },
         { value: 1, label: '正常通行' },
         { value: 2, label: '建设中' },
-        { value: 3, label: '禁止通行' }
+        { value: 3, label: '禁止通行' },
+        { value: 99, label: '其他' }
     ],
+    AD_ROAD_RD_CLASS: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '高速公路' },
+        { value: 2, label: '城市快速路' },
+        { value: 3, label: '城市道路' },
+        { value: 99, label: '其他' }
+    ],
+    AD_ROAD_RD_FORM: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '普通道路' },
+        { value: 2, label: '隧道道路' },
+        { value: 3, label: '收费站道路' },
+        { value: 4, label: '服务区道路' },
+        { value: 5, label: '匝道道路' },
+        { value: 6, label: '路段中掉头道路' }
+    ],
+    AD_ROAD_DIRECTION: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '正向通行' },
+        { value: 2, label: '逆向通行' },
+        { value: 3, label: '双向通行' },
+        { value: 4, label: '禁止通行' }
+    ],
+
     AD_LANE_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi' },
         { value: 1, label: '普通车道', icon: 'putongchedao' },
@@ -121,58 +168,85 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 27, label: '超车道', icon: 'chaochedao' },
         { value: 28, label: '服务区车道', icon: 'fuwuquchedao' },
         { value: 29, label: '左侧加速车道', icon: 'zuocejiasuchedao' },
-        { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao' }
+        { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao' },
+        { value: 31, label: '复合车道', icon: 'fuhechedao' },
+        { value: 99, label: '其他' }
     ],
     AD_LANE_DIRECTION: [
         { value: 0, label: '未定义' },
-        { value: 1, label: '双向' },
-        { value: 2, label: '正向' },
-        { value: 3, label: '逆向' }
+        { value: 1, label: '正向通行' },
+        { value: 2, label: '逆向通行' },
+        { value: 3, label: '双向通行' },
+        { value: 4, label: '禁止通行' }
     ],
-    AD_LANE_RESTRICT: [
+    AD_LANE_MAX_SP_TYP: [
         { value: 0, label: '未定义' },
-        { value: 1, label: '速度限制' },
-        { value: 2, label: '时间限制' }
+        { value: 1, label: '实地采集' },
+        { value: 2, label: '逻辑推断' },
+        { value: 3, label: '法定推荐' }
     ],
+    AD_LANE_MIN_SP_TYP: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '实地采集' },
+        { value: 2, label: '逻辑推断' },
+        { value: 3, label: '法定推荐' }
+    ],
+    // AD_LANE_RESTRICT: [
+    //     { value: 0, label: '未定义' },
+    //     { value: 1, label: '速度限制' },
+    //     { value: 2, label: '时间限制' }
+    // ],
     AD_LANE_STATUS: [
         { value: 0, label: '未定义' },
         { value: 1, label: '正常通行' },
         { value: 2, label: '建设中' },
-        { value: 3, label: '禁止通行' }
+        { value: 3, label: '禁止通行' },
+        { value: 99, label: '其他' }
     ],
     AD_LANE_ATTRPOINT_TYPE: [
         { value: 0, label: '未制作', icon: 'weizhizuo' },
-        { value: 11, label: '右侧出口', icon: 'youcechukou' },
-        { value: 12, label: '左侧出口', icon: 'zuocechukou' },
-        { value: 15, label: '道路分离点', icon: 'daolufenlidian' },
-        { value: 16, label: '道路合并点', icon: 'daoluhebingdian' },
-        { value: 17, label: '车道合并点', icon: 'chedaohebingdian' },
-        { value: 20, label: '点云不清晰起始', icon: 'dianyunbuqingxiqishi' },
-        { value: 40, label: '点云遮挡起始', icon: 'dianyunzhedangqishi' },
-        { value: 50, label: '精度误差起始', icon: 'jingduwuchaqishi' },
-        { value: 60, label: '道路施工起始', icon: 'daolushigongqishi' },
-        { value: 21, label: '点云不清晰结束', icon: 'dianyunbuqingxijieshu' },
-        { value: 41, label: '点云遮挡结束', icon: 'dianyunzhedangjieshu' },
-        { value: 51, label: '精度误差结束', icon: 'jingduwuchajieshu' },
-        { value: 61, label: '道路施工结束', icon: 'daolushigongjieshu' }
+        { value: 1, label: '右侧出口', icon: 'youcechukou' },
+        { value: 2, label: '左侧出口', icon: 'zuocechukou' },
+        { value: 3, label: '道路分离点', icon: 'daolufenlidian' },
+        { value: 4, label: '道路合并点', icon: 'daoluhebingdian' },
+        { value: 5, label: '车道分离点' },
+        { value: 6, label: '车道合并点', icon: 'chedaohebingdian' },
+        { value: 21, label: '点云不清晰起点', icon: 'dianyunbuqingxiqishi' },
+        { value: 23, label: '点云遮挡起点', icon: 'dianyunzhedangqishi' },
+        { value: 25, label: '精度误差起始', icon: 'jingduwuchaqishi' },
+        { value: 27, label: '道路施工起始', icon: 'daolushigongqishi' },
+        { value: 22, label: '点云不清晰结束点', icon: 'dianyunbuqingxijieshu' },
+        { value: 24, label: '点云遮挡结束', icon: 'dianyunzhedangjieshu' },
+        { value: 26, label: '精度误差结束', icon: 'jingduwuchajieshu' },
+        { value: 28, label: '道路施工结束', icon: 'daolushigongjieshu' }
     ],
     AD_STOPLOCATION_TYPE: [
+        { value: 0, label: '未定义', icon: 'weidingyi' },
         { value: 1, label: '停止线', icon: 'tingzhixian' },
         { value: 2, label: '停车让行线', icon: 'tingcherangxingxian' },
         { value: 3, label: '减速让行线', icon: 'jiansurangxingxian' }
     ],
-    AD_POLYGON_TYPE: [
+    AD_LANEMARK_PLG_TYPE: [
         { value: 1, label: '人行横道', icon: 'renxinghengdao' },
         { value: 2, label: '禁止停车线', icon: 'jinzhitingchexian' },
         { value: 3, label: '减速带', icon: 'jiansudai' },
-        { value: 4, label: '减速警示震荡线', icon: 'jiansujingshizhendangxian' }
+        {
+            value: 4,
+            label: '减速警示震荡线',
+            icon: 'jiansujingshizhendangxian'
+        },
+        {
+            value: 5,
+            label: '斜跨路口的人行横道 ',
+            icon: 'xiekualukouderenxinghengdao'
+        }
     ],
     AD_TRAFFICSIGN_SIGN_STYLE: [
         { value: 0, label: '未定义' },
         { value: 1, label: '单个标志牌' },
         { value: 2, label: '组合标志牌' }
     ],
-    AD_TRAFFICSIGN_TYPE: [
+    AD_TS_CONTENT_SIGN_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi' },
         { value: 101, label: '交叉路口', icon: 'jiaochalukou' },
         // { value: 102, label: '急弯路', icon: 'plus' },
@@ -272,7 +346,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 500, label: '动态标志牌', icon: 'dongtaibiaozhipai' }
     ],
     AD_TRAFFIC_LIGHT_TYPE: [
-        { value: 0, label: '其他', icon: 'qita' },
+        { value: 0, label: '未定义' },
         {
             value: 1,
             label: '普通机动车信号灯',
@@ -287,86 +361,103 @@ export const TYPE_SELECT_OPTION_MAP = {
             value: 3,
             label: '道路与铁路平面交叉道口信号灯',
             icon: 'daoluyutielupingmianjiaochadaokouxinhaodeng'
+        },
+        {
+            value: 4,
+            label: '人行横道信号灯',
+            icon: 'renxinghengdaoxinhaodeng'
+        },
+        {
+            value: 99,
+            label: '其他',
+            icon: 'qita'
         }
     ],
+    AD_TRAFFIC_LIGHT_LAYOUT: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '灯头垂直布局' },
+        { value: 2, label: '灯头水平布局' },
+        { value: 3, label: '单个灯头' }
+    ],
     AD_ARROW_ARR_DIRECT: [
-        { value: '00000000000000000001', label: '直行', icon: 'zhixing' },
-        { value: '00000000000000000100', label: '左转', icon: 'zuozhuan' },
-        { value: '00000000000000000010', label: '右转', icon: 'youzhuan' },
-        { value: '00000000000000001000', label: '左掉头', icon: 'zuodiaotou' },
-        { value: '00000000000000010000', label: '右掉头', icon: 'youdiaotou' },
+        { value: 0, label: '未定义' },
+        { value: 'A', label: '直行', icon: 'zhixing' },
+        { value: 'B', label: '左转', icon: 'zuozhuan' },
+        { value: 'C', label: '右转', icon: 'youzhuan' },
+        { value: 'D', label: '左掉头', icon: 'zuodiaotou' },
+        { value: 'E', label: '右掉头', icon: 'youdiaotou' },
         {
-            value: '00000000000000100000',
+            value: 'F',
             label: '左弯或需向左合流',
             icon: 'zuowanhuoxuxiangzuoheliu'
         },
         {
-            value: '00000000000001000000',
+            value: 'G',
             label: '右弯或需向右合流',
             icon: 'youwanhuoxuxiangyouheliu'
         },
         {
-            value: '00000000000010000000',
+            value: 'H',
             label: '左后方转弯',
             icon: 'zuohoufangzhuanwan'
         },
         {
-            value: '00000000000100000000',
+            value: 'I',
             label: '右后方转弯',
             icon: 'youhoufangzhuanwan'
         },
         {
-            value: '00000000001000000000',
+            value: 'J',
             label: '禁止左掉头',
             icon: 'jinzhizuodiaotou'
         },
         {
-            value: '00000000010000000000',
+            value: 'K',
             label: '禁止右掉头',
             icon: 'jinzhiyoudiaotou'
         },
         {
-            value: '00000000100000000000',
+            value: 'L',
             label: '禁止左转',
             icon: 'jinzhizuozhuan'
         },
         {
-            value: '00000001000000000000',
+            value: 'M',
             label: '禁止右转',
             icon: 'jinzhiyouzhuan'
         },
         {
-            value: '00000000000000000101',
+            value: 'AB',
             label: '直行或左转',
             icon: 'zhixinghuozuozhuan'
         },
         {
-            value: '00000000000000000011',
+            value: 'AC',
             label: '直行或右转',
             icon: 'zhixinghuoyouzhuan'
         },
         {
-            value: '00000000000000000111',
+            value: 'ABC',
             label: '直行或左转或右转',
             icon: 'zhixinghuozuozhuanhuoyouzhuan'
         },
         {
-            value: '00000000000000001001',
+            value: 'AD',
             label: '直行或左掉头',
             icon: 'zhixinghuozuodiaotou'
         },
         {
-            value: '00000000000000010001',
+            value: 'AE',
             label: '直行或右掉头',
             icon: 'zhixinghuoyoudiaotou'
         },
         {
-            value: '00000000000000001100',
+            value: 'BD',
             label: '左转或左掉头',
             icon: 'zuozhuanhuozuodiaotou'
         },
         {
-            value: '00000000000000010010',
+            value: 'CE',
             label: '右转或右掉头',
             icon: 'youzhuanhuoyoudiaotou'
         }
@@ -375,7 +466,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'AD_Arrow', label: '地面引导箭头' },
         { value: 'AD_LaneAttrPoint', label: '车道属性变化点' },
         { value: 'AD_LaneDivider', label: '车道线' },
-        { value: 'AD_Polygon', label: '面状要素' },
+        { value: 'AD_LaneMark_Plg', label: '面状标识物' },
         { value: 'AD_StopLocation', label: '停止位置' },
         { value: 'AD_Lane', label: '车道中心线' },
         { value: 'AD_TrafficSign', label: '交通标志牌' },
@@ -415,18 +506,18 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_Text: {},
     AD_TrafficSign: {
-        TYPE: 101,
-        VALUE: 0
+        // TYPE: 101,
+        SIGN_STYLE: 0
     },
     AD_TrafficLight: {
         TYPE: 1
     },
     AD_LaneDivider: {
-        TYPE: 2,
+        TYPE: 1,
         DIRECTION: 2,
         RD_LINE: 0,
         SHARE_LINE: 0,
-        LANESTATUS: 1,
+        LANESTATUS: '未定义',
         LANE_TYPE: 1,
         LANE_NO: 1,
         RD_BOUND: 0
@@ -436,12 +527,15 @@ export const DEFAULT_PROPERTIES_MAP = {
         RD_STATUS: 0,
         RD_CLASS: 0,
         RD_FORM: 0,
-        DIRECTION: 0
+        DIRECTION: 0,
+        RD_STATUS: 0
     },
     AD_Lane: {
         TYPE: 2,
         DIRECTION: 2,
-        LANE_NO: 0
+        LANE_NO: 0,
+        MAX_SP_TYP: 0,
+        MIN_SP_TYP: 0
     },
     AD_LaneAttrPoint: {
         TYPE: 0,
@@ -463,7 +557,7 @@ export const TABLE_DATA_MAP = {
         {
             key: 'LDIV_ID',
             name: '用户编号',
-            type: 'AD_LANE_DIVIDER_ID',
+            type: 'AD_LANE_DIVIDER_LDIV_ID',
             domType: 'Text'
         },
         {
@@ -481,7 +575,7 @@ export const TABLE_DATA_MAP = {
         {
             key: 'RD_LINE',
             name: '参考线标识',
-            type: 'AD_LANE_DIVIDER_REF_LINE',
+            type: 'AD_LANE_DIVIDER_RD_LINE',
             domType: 'Select'
         },
         {
@@ -492,14 +586,14 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'DIRECTION',
-            name: '交通流方向',
+            name: '车道通行方向',
             type: 'AD_LANE_DIVIDER_DIRECTION',
             domType: 'Select'
         },
         {
             key: 'LANESTATUS',
             name: '通行状态',
-            type: 'AD_LANE_DIVIDER_RD_STATUS',
+            type: 'AD_LANE_DIVIDER_LANESTATUS',
             domType: 'Select'
         },
         {
@@ -507,26 +601,84 @@ export const TABLE_DATA_MAP = {
             name: '车道编号',
             type: 'AD_LANE_DIVIDER_LANE_NO',
             domType: 'Text'
+        },
+        {
+            key: 'RD_BOUND',
+            name: '道路边界标识',
+            type: 'AD_LANE_DIVIDER_RD_BOUND',
+            domType: 'Select'
         }
     ],
     AD_Road: [
         {
             key: 'ROAD_ID',
             name: '用户编号',
-            type: 'AD_REFERENCE_LINE_REFLINE_ID',
+            type: 'AD_ROAD_ID',
             domType: 'Text'
         },
         {
             key: 'TYPE',
             name: '参考线类型',
-            type: 'AD_REFERENCE_LINE_TYPE',
+            type: 'AD_ROAD_TYPE',
             domType: 'Select'
         },
         {
             key: 'RD_STATUS',
             name: '通行状态',
-            type: 'AD_REFERENCE_LINE_RD_STATUS',
+            type: 'AD_ROAD_RD_STATUS',
             domType: 'Select'
+        },
+        {
+            key: 'RD_CLASS',
+            name: '道路等级',
+            type: 'AD_ROAD_RD_CLASS',
+            domType: 'Select'
+        },
+        {
+            key: 'RD_FORM',
+            name: '道路形态',
+            type: 'AD_ROAD_RD_FORM',
+            domType: 'Select'
+        },
+        {
+            key: 'DIRECTION',
+            name: '道路通行方向',
+            type: 'AD_ROAD_DIRECTION',
+            domType: 'Select'
+        },
+        {
+            key: 'LENGTH',
+            name: '道路长度',
+            type: 'AD_ROAD_LENGTH',
+            validates: [
+                {
+                    message: '必须为数字 单位为M',
+                    type: 'number',
+                    transform(value) {
+                        if (value) {
+                            return Number(value);
+                        }
+                    }
+                }
+            ],
+            domType: 'Input'
+        },
+        {
+            key: 'MAX_SPEED',
+            name: '道路最高行驶速度',
+            type: 'AD_ROAD_MAX_SPEED',
+            domType: 'Input',
+            validates: [
+                {
+                    max: 20,
+                    message: '长度不能超过20字',
+                    transform(value) {
+                        if (value) {
+                            return String(value);
+                        }
+                    }
+                }
+            ]
         }
     ],
     AD_Lane: [
@@ -539,7 +691,7 @@ export const TABLE_DATA_MAP = {
         {
             key: 'LANE_ID',
             name: '用户编号',
-            type: 'AD_LANE_ALANE_ID',
+            type: 'AD_LANE_LANE_ID',
             domType: 'Text'
         },
         {
@@ -568,7 +720,7 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'DIRECTION',
-            name: '交通流方向',
+            name: '车道通行方向',
             type: 'AD_LANE_DIRECTION',
             domType: 'Select'
         },
@@ -594,6 +746,35 @@ export const TABLE_DATA_MAP = {
                     }
                 }
             ]
+        },
+        {
+            key: 'MAX_SP_TYP',
+            name: '最高速度来源',
+            type: 'AD_LANE_MAX_SP_TYP',
+            domType: 'Select'
+        },
+        {
+            key: 'MIN_SPEED',
+            name: '最低行驶速度',
+            type: 'AD_LANE_MIN_SPEED',
+            domType: 'Input',
+            validates: [
+                {
+                    max: 20,
+                    message: '长度不能超过20字',
+                    transform(value) {
+                        if (value) {
+                            return String(value);
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            key: 'MIN_SP_TYP',
+            name: '最低速度来源',
+            type: 'AD_LANE_MIN_SP_TYP',
+            domType: 'Select'
         },
         {
             key: 'STATUS',
@@ -684,6 +865,29 @@ export const TABLE_DATA_MAP = {
             name: '交通灯类型',
             type: 'AD_TRAFFIC_LIGHT_TYPE',
             domType: 'RadioIconGroup'
+        },
+        {
+            key: 'LAYOUT',
+            name: '信号灯灯头布局',
+            type: 'AD_TRAFFIC_LIGHT_LAYOUT',
+            domType: 'Select'
+        },
+        {
+            key: 'LAMP_COUNT',
+            name: '信号灯灯头数量',
+            type: 'AD_TRAFFIC_LIGHT_LAMP_COUNT',
+            validates: [
+                {
+                    message: '必须为数字',
+                    type: 'number',
+                    transform(value) {
+                        if (value) {
+                            return Number(value);
+                        }
+                    }
+                }
+            ],
+            domType: 'Input'
         }
     ],
     AD_Map_QC: [
