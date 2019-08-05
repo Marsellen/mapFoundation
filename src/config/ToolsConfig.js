@@ -6,6 +6,7 @@ export const TOOLS_MAP = {
         EXPORT_SHP: true,
         UNDER_VIEW: true,
         INTENSITY: true,
+        RANGING: true,
         EDIT_LAYER: true,
         POINT: false,
         LINE: false,

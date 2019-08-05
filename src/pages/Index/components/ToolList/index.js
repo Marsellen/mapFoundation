@@ -12,6 +12,7 @@ import ExportShp from './ExportShp';
 import AddFacadeRectangle from './AddFacadeRectangle';
 import AddCircle from './AddCircle';
 import AddRel from './AddRel';
+import Ranging from './Ranging';
 
 export default [
     <Undo key="UNDO" />,
@@ -20,6 +21,7 @@ export default [
     <ExportShp key="EXPORT_SHP" />,
     <Save key="SAVE" />,
     <Intensity key="INTENSITY" />,
+    <Ranging key="RANGING" />,
     <EditLayer key="EDIT_LAYER" />,
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,

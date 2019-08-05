@@ -1,6 +1,6 @@
 import { action, configure, flow, observable } from 'mobx';
 import LayerStore from './LayerStore';
-import { EditControl } from 'addis-viz-sdk';
+import { EditControl, MeasureControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
 import { Modal } from 'antd';
 
@@ -9,6 +9,7 @@ class DataLayerStore extends LayerStore {
     constructor() {
         super();
         this.editor;
+        this.measureControl;
     }
     @observable editType = 'normal';
 
@@ -40,6 +41,11 @@ class DataLayerStore extends LayerStore {
     @action initEditor = () => {
         this.editor = new EditControl();
         map.getControlManager().addControl(this.editor);
+    };
+
+    @action initMeasureControl = () => {
+        this.measureControl = new MeasureControl();
+        map.getControlManager().addControl(this.measureControl);
     };
 
     @action activeEditor = name => {
@@ -182,6 +188,11 @@ class DataLayerStore extends LayerStore {
 
     @action setPointSize = size => {
         pointCloudLayer.setPointSize(size);
+    };
+
+    @action startMeatureDistance = () => {
+        this.measureControl.startMeatureDistance();
+        this.editType = 'meature_distance';
     };
 }
 

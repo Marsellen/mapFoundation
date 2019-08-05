@@ -9,24 +9,25 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 6, label: '左虚右实', icon: 'zuoxuyoushi' },
         { value: 7, label: '短粗虚线', icon: 'duancuxuxian' },
         { value: 8, label: '导流线', icon: 'daoliuxian' },
-        { value: 9, label: '车道虚拟线', icon: 'chedaoxunixian' },
-        { value: 10, label: '路边缘虚拟线', icon: 'lubianyuanxunixian' },
-        { value: 11, label: '防护栏', icon: 'fanghulan' },
+        { value: 9, label: '车道虚拟线', icon: 'chedaoxunichedaoxian' },
+        { value: 10, label: '路边缘虚拟线', icon: 'lubianyuanxunichedaoxian' },
+        { value: 11, label: '防护栏', icon: 'lucefanghulan' },
         { value: 12, label: '隧道墙', icon: 'suidaoqiang' },
         { value: 13, label: '路缘石', icon: 'luyuanshi' },
         { value: 14, label: '自然边界', icon: 'ziranbianjie' },
         { value: 15, label: '施工边界', icon: 'shigongbianjie' },
-        { value: 16, label: '路中隔离带' },
+        { value: 16, label: '路中隔离带', icon: 'luzhonggelidai' },
         { value: 17, label: '路口内待行区', icon: 'lukouneidaixingqu' },
-        {
-            value: 18,
-            label: '可变导向车道线',
-            icon: 'kebiandaoxiangchedaoxian'
-        },
-        {
-            value: 19,
-            label: '路侧私有路口虚拟线'
-        }
+        // {
+        //     value: 18,
+        //     label: '可变导向车道线',
+        //     icon: 'kebiandaoxiangchedaoxian'
+        // },
+        // {
+        //     value: 19,
+        //     label: '路侧私有路口虚拟线'
+        // }
+        { value: 99, label: '其他', icon: 'qita' }
     ],
     AD_LANE_DIVIDER_DIRECTION: [
         { value: 0, label: '未定义' },
@@ -90,7 +91,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 29, label: '左侧加速车道', icon: 'zuocejiasuchedao' },
         { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao' },
         { value: 31, label: '复合车道' },
-        { value: 99, label: '其他' }
+        { value: 99, label: '其他', icon: 'qita' }
     ],
     AD_LANE_DIVIDER_RD_BOUND: [
         { value: 0, label: '未定义' },
@@ -205,8 +206,8 @@ export const TYPE_SELECT_OPTION_MAP = {
     ],
     AD_LANE_ATTRPOINT_TYPE: [
         { value: 0, label: '未制作', icon: 'weizhizuo' },
-        { value: 1, label: '右侧出口', icon: 'youcechukou' },
-        { value: 2, label: '左侧出口', icon: 'zuocechukou' },
+        { value: 1, label: '右侧出口', icon: 'daoluzuocechukou' },
+        { value: 2, label: '左侧出口', icon: 'daoluzuocechukou' },
         { value: 3, label: '道路分离点', icon: 'daolufenlidian' },
         { value: 4, label: '道路合并点', icon: 'daoluhebingdian' },
         { value: 5, label: '车道分离点' },
@@ -227,6 +228,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '减速让行线', icon: 'jiansurangxingxian' }
     ],
     AD_LANEMARK_PLG_TYPE: [
+        { value: 0, label: '未定义', icon: 'weidingyi' },
         { value: 1, label: '人行横道', icon: 'renxinghengdao' },
         { value: 2, label: '禁止停车线', icon: 'jinzhitingchexian' },
         { value: 3, label: '减速带', icon: 'jiansudai' },
@@ -380,7 +382,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '单个灯头' }
     ],
     AD_ARROW_ARR_DIRECT: [
-        { value: 0, label: '未定义' },
+        { value: 0, label: '未定义', icon: '未定义' },
         { value: 'A', label: '直行', icon: 'zhixing' },
         { value: 'B', label: '左转', icon: 'zuozhuan' },
         { value: 'C', label: '右转', icon: 'youzhuan' },
@@ -494,6 +496,14 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 0, label: '未定义' },
         { value: 1, label: '已修正' },
         { value: 2, label: '未修正' }
+    ],
+    AD_TEXT_TYPE: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '最高限速' },
+        { value: 2, label: '最低限速' },
+        { value: 3, label: '公交车道时间限制' },
+        { value: 4, label: '公交车道类文字' },
+        { value: 99, label: '其他' }
     ]
 };
 
@@ -504,7 +514,9 @@ export const DEFAULT_PROPERTIES_MAP = {
     AD_LaneMark_Plg: {
         TYPE: 1
     },
-    AD_Text: {},
+    AD_Text: {
+        TYPE: 0
+    },
     AD_TrafficSign: {
         // TYPE: 101,
         SIGN_STYLE: 0
@@ -609,6 +621,26 @@ export const TABLE_DATA_MAP = {
             domType: 'Select'
         }
     ],
+    AD_Text: [
+        {
+            key: 'TEXT_ID',
+            name: '用户编号',
+            type: 'AD_TEXT_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'TYPE',
+            name: '文字符号类型',
+            type: 'AD_TEXT_TYPE',
+            domType: 'RadioIconGroup'
+        },
+        {
+            key: 'VALUE',
+            name: '文字符号类型',
+            type: 'AD_TEXT_VALUE',
+            domType: 'Input'
+        }
+    ],
     AD_Road: [
         {
             key: 'ROAD_ID',
@@ -620,7 +652,7 @@ export const TABLE_DATA_MAP = {
             key: 'TYPE',
             name: '参考线类型',
             type: 'AD_ROAD_TYPE',
-            domType: 'Select'
+            domType: 'RadioIconGroup'
         },
         {
             key: 'RD_STATUS',
@@ -670,11 +702,11 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
-                    max: 20,
-                    message: '长度不能超过20字',
+                    message: '[0,120]的整数',
+                    type: 'number',
                     transform(value) {
                         if (value) {
-                            return String(value);
+                            return Number(value);
                         }
                     }
                 }
@@ -738,10 +770,10 @@ export const TABLE_DATA_MAP = {
             validates: [
                 {
                     max: 20,
-                    message: '长度不能超过20字',
+                    message: '[0,120]的整数',
                     transform(value) {
                         if (value) {
-                            return String(value);
+                            return Number(value);
                         }
                     }
                 }
@@ -760,11 +792,11 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
-                    max: 20,
-                    message: '长度不能超过20字',
+                    message: '[0,120]的整数',
+                    type: 'number',
                     transform(value) {
                         if (value) {
-                            return String(value);
+                            return Number(value);
                         }
                     }
                 }
