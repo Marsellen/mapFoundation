@@ -3,14 +3,23 @@ import LayerStore from './LayerStore';
 import { EditControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
 import { Modal } from 'antd';
+import { getFeatureByRels } from 'src/utils/relCtrl/relCtrl';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore extends LayerStore {
     constructor() {
         super();
         this.editor;
+        document.onkeydown = event => {
+            var e =
+                event || window.event || arguments.callee.caller.arguments[0];
+            if (e && e.keyCode == 27) {
+                this.clearChoose();
+            }
+        };
     }
     @observable editType = 'normal';
+    @observable beenPick;
 
     @action toggle = (name, checked) => {
         this.layers.find(layer => layer.value == name).checked = checked;
@@ -37,8 +46,8 @@ class DataLayerStore extends LayerStore {
         return this.layers.findIndex(layer => layer.checked);
     };
 
-    @action initEditor = () => {
-        this.editor = new EditControl();
+    @action initEditor = layer => {
+        this.editor = new EditControl(layer);
         map.getControlManager().addControl(this.editor);
     };
 
@@ -48,8 +57,7 @@ class DataLayerStore extends LayerStore {
             this.clearChoose();
             this.editor.editLayer = layer;
         } else {
-            this.editor = new EditControl(layer);
-            map.getControlManager().addControl(this.editor);
+            this.initEditor(layer);
         }
         this.updateKey = Math.random();
         return layer;
@@ -63,6 +71,9 @@ class DataLayerStore extends LayerStore {
                     break;
                 case 'newRel':
                     this.newRelCallback(result, event);
+                    break;
+                case 'delRel':
+                    this.delRelCallback(result, event);
                     break;
             }
         });
@@ -127,8 +138,24 @@ class DataLayerStore extends LayerStore {
         this.editor.toggleMode(61);
     };
 
+    @action delRel = rels => {
+        if (this.editType == 'delRel') return;
+        this.editType = 'delRel';
+        this.editor.clear();
+        this.editor.toggleMode(61);
+        // TODO 设置关联关系高亮
+        let features = getFeatureByRels(rels);
+        features.map(feature => {
+            this.editor.highlightFeature(feature.layerName, feature.option);
+        });
+    };
+
     @action setNewRelCallback = callback => {
         this.newRelCallback = callback;
+    };
+
+    @action setDelRelCallback = callback => {
+        this.delRelCallback = callback;
     };
 
     newCircle = flow(function*() {
@@ -182,6 +209,14 @@ class DataLayerStore extends LayerStore {
 
     @action setPointSize = size => {
         pointCloudLayer.setPointSize(size);
+    };
+
+    @action pick = () => {
+        this.beenPick = true;
+    };
+
+    @action unPick = () => {
+        this.beenPick = false;
     };
 }
 

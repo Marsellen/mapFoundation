@@ -45,7 +45,7 @@ class RelationForm extends React.Component {
                     form.getFieldDecorator(filedKey + '.' + item.key, {
                         rules: [
                             {
-                                required: item.required,
+                                required: true,
                                 message: `${item.name}必填`
                             },
                             ...(item.validates || []).map(validate => validate)

@@ -66,7 +66,8 @@ class AttributesModal extends React.Component {
             if (err) {
                 return;
             }
-            AttributeStore.setAttributes(values).then(result => {
+            // console.log(values);
+            AttributeStore.submit(values).then(result => {
                 DataLayerStore.updateFeature(result);
             });
             AttributeStore.hide();

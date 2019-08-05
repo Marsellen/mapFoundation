@@ -2,18 +2,19 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { message } from 'antd';
-import { newRel } from 'src/utils/relCtrl/relCtrl';
+import { delRel } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
 
 @inject('DataLayerStore')
+@inject('AttributeStore')
 @observer
-class AddRel extends React.Component {
+class DelRel extends React.Component {
     componentDidMount() {
-        const { DataLayerStore } = this.props;
-        DataLayerStore.setNewRelCallback(result => {
+        const { DataLayerStore, AttributeStore } = this.props;
+        DataLayerStore.setDelRelCallback(result => {
             console.log(result);
-            let layerName = DataLayerStore.getEditLayer().layerName;
-            newRel(result, layerName)
+            let mainFeature = AttributeStore.getModel();
+            delRel(mainFeature, result)
                 .then(() => {
                     DataLayerStore.clearChoose();
                 })
@@ -25,13 +26,14 @@ class AddRel extends React.Component {
 
     render() {
         const { DataLayerStore } = this.props;
-        let visible = DataLayerStore.editType == 'newRel';
+        let visible = DataLayerStore.editType == 'delRel';
         return (
             <span>
                 <ToolIcon
                     icon="xiankuang1"
-                    title="新增关联关系"
+                    title="删除关联关系"
                     action={this.action}
+                    disabled={!DataLayerStore.beenPick}
                 />
                 <AdMessage visible={visible} content={this.content()} />
             </span>
@@ -39,14 +41,15 @@ class AddRel extends React.Component {
     }
 
     action = () => {
-        const { DataLayerStore } = this.props;
-        if (DataLayerStore.editType == 'newRel') return;
-        DataLayerStore.newRel();
+        const { DataLayerStore, AttributeStore } = this.props;
+        if (DataLayerStore.editType == 'delRel') return;
+        let rels = AttributeStore.rels;
+        DataLayerStore.delRel(rels);
     };
 
     content = () => {
-        return <label>请按顺序选择关联对象</label>;
+        return <label>请从高亮要素中选择要被取消的关联要素</label>;
     };
 }
 
-export default AddRel;
+export default DelRel;

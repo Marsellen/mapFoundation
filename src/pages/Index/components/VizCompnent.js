@@ -148,7 +148,7 @@ class VizCompnent extends React.Component {
     };
 
     selectedCallBack = (result, event) => {
-        const { PictureShowStore, AttributeStore } = this.props;
+        const { PictureShowStore, AttributeStore, DataLayerStore } = this.props;
         // console.log(result, event);
         if (result && result.length > 0) {
             if (event.button === 0) {
@@ -158,6 +158,7 @@ class VizCompnent extends React.Component {
                  * TraceLayer 轨迹点
                  */
                 if (result[0].type === 'VectorLayer') {
+                    DataLayerStore.pick();
                     this.showAttributesModal(result[0]);
                 } else if (result[0].type === 'TraceLayer') {
                     this.showPictureShowView(result[0]);
@@ -167,10 +168,9 @@ class VizCompnent extends React.Component {
                 this.showRightMenu(result[0], event);
             }
         } else {
-            if (event.button === 0) {
-                AttributeStore.hide();
-                window.traceLayer.unselect();
-            }
+            DataLayerStore.unPick();
+            AttributeStore.hide();
+            window.traceLayer.unselect();
         }
     };
 
