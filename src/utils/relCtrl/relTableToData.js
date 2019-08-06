@@ -1,4 +1,4 @@
-import { REL_DATA_MAP, ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
+import { REL_DATA_MAP } from 'src/config/RelsConfig';
 
 export default (record, spec) => {
     return (REL_DATA_MAP[spec] || []).map(rel => {

@@ -2,7 +2,8 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { message, Icon, Modal } from 'antd';
-import newRel from 'src/utils/relCtrl/newRelCtrl';
+import { newRel } from 'src/utils/relCtrl/relCtrl';
+import AdMessage from 'src/components/AdMessage';
 import './AddRel.less';
 
 @inject('DataLayerStore')
@@ -15,22 +16,26 @@ class AddRel extends React.Component {
             let layerName = DataLayerStore.getEditLayer().layerName;
             newRel(result, layerName)
                 .then(() => {
-                    message.destroy();
                     DataLayerStore.clearChoose();
                 })
                 .catch(e => {
-                    message.warning(e.message, 1);
+                    message.warning(e.message, 3);
                 });
         });
     }
 
     render() {
+        const { DataLayerStore } = this.props;
+        let visible = DataLayerStore.editType == 'newRel';
         return (
-            <ToolIcon
-                icon="xiankuang1"
-                title="新增关联关系"
-                action={this.action}
-            />
+            <span>
+                <ToolIcon
+                    icon="xiankuang1"
+                    title="新增关联关系"
+                    action={this.action}
+                />
+                <AdMessage visible={visible} content={this.content()} />
+            </span>
         );
     }
 
@@ -38,10 +43,6 @@ class AddRel extends React.Component {
         const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'newRel') return;
         DataLayerStore.newRel();
-        message.open({
-            content: this.content(),
-            duration: 0
-        });
     };
 
     renderTips() {
@@ -51,28 +52,40 @@ class AddRel extends React.Component {
                 <div>
                     <h3>TIPS : 选择要素的顺序必须严格遵守</h3>
                     <p>
-                        1. 当前可编辑图层为 “车道中心线”时 ：<br/>
-                        &emsp;1). 一个车道中心线+多个某一类obj要素<br/>
-                        &emsp;2). 一个车道中心线+一个地面导向箭头<br/>
-                        &emsp;3). 一个车道中心线+一个地面文字符号<br/>
-                        &emsp;4). 一个车道中心线+一个道路参考线<br/>
-                        &emsp;5). 一个车道中心线+左侧车道线+右侧车道线<br/>
+                        1. 当前可编辑图层为 “车道中心线”时 ：<br />
+                        &emsp;1). 一个车道中心线+多个某一类obj要素
+                        <br />
+                        &emsp;2). 一个车道中心线+一个地面导向箭头
+                        <br />
+                        &emsp;3). 一个车道中心线+一个地面文字符号
+                        <br />
+                        &emsp;4). 一个车道中心线+一个道路参考线
+                        <br />
+                        &emsp;5). 一个车道中心线+左侧车道线+右侧车道线
+                        <br />
                         &emsp;6). 最多只允许建立两类要素之间的关联关系
                     </p>
 
                     <p>
-                        2. 当前可编辑图层为 “道路参考线”时 ：<br/>
+                        2. 当前可编辑图层为 “道路参考线”时 ：<br />
                         &emsp;1). 一个道路参考线+一个车道标记点
                     </p>
                     <p>
-                        3. 当前可编辑图层为 “停止位置”、“面状标识物”、“交通标志牌”、“交通信号灯”时  <br/>
-                        &emsp;例如：当前编辑图层为 “停止位置”时 :<br/>
-                        &emsp;&emsp;一个“停止位置”+ 多个车道中心线——可建立多对关联关系<br/>
+                        3. 当前可编辑图层为
+                        “停止位置”、“面状标识物”、“交通标志牌”、“交通信号灯”时{' '}
+                        <br />
+                        &emsp;例如：当前编辑图层为 “停止位置”时 :<br />
+                        &emsp;&emsp;一个“停止位置”+
+                        多个车道中心线——可建立多对关联关系
+                        <br />
                     </p>
                     <p>
-                        4. 当前可编辑图层为 “地面导向箭头”、“地面文字符号”、“车道标记点”时 ：<br/>
-                        &emsp;1). 一个车道中心线+一个地面导向箭头<br/>
-                        &emsp;2). 一个车道中心线+一个地面文字符号<br/>
+                        4. 当前可编辑图层为
+                        “地面导向箭头”、“地面文字符号”、“车道标记点”时 ：<br />
+                        &emsp;1). 一个车道中心线+一个地面导向箭头
+                        <br />
+                        &emsp;2). 一个车道中心线+一个地面文字符号
+                        <br />
                         &emsp;3). 一个道路参考线+一个车道标记点
                     </p>
                 </div>

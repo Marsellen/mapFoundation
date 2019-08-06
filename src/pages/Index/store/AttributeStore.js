@@ -27,6 +27,10 @@ class AttributeStore {
         this.fetchRels();
     };
 
+    @action getModel = () => {
+        return this.model;
+    };
+
     @action fetchAttributes = () => {
         this.attributes = modelFactory.getTabelData(
             this.model.layerName,
@@ -45,14 +49,24 @@ class AttributeStore {
         }
     });
 
-    setAttributes = flow(function*(properties) {
-        // model.data引用sdk要素数据的指针。修改其属性会同步修改sdk的要素数据。
-        this.model.data.properties = {
-            ...this.model.data.properties,
-            ...properties
-        };
-        this.fetchAttributes();
-        return this.model;
+    submit = flow(function*(data) {
+        try {
+            // model.data引用sdk要素数据的指针。修改其属性会同步修改sdk的要素数据。
+            this.model.data.properties = {
+                ...this.model.data.properties,
+                ...data.attribute
+            };
+            this.fetchAttributes();
+            yield relFactory.updateRels(
+                data.rels,
+                this.model.layerName,
+                this.model.data.properties
+            );
+            this.fetchRels();
+            return this.model;
+        } catch (e) {
+            console.log(e);
+        }
     });
 }
 

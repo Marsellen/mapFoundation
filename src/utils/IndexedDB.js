@@ -101,7 +101,7 @@ class IndexedDB {
 
                 transaction.onabort = error => {
                     console.warn(transaction.error.message);
-                    reject(error, index);
+                    reject({ message: '创建失败：数据重复' }, index);
                 };
 
                 transaction.oncomplete = result => {

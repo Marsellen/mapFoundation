@@ -12,6 +12,7 @@ import ExportShp from './ExportShp';
 import AddFacadeRectangle from './AddFacadeRectangle';
 import AddCircle from './AddCircle';
 import AddRel from './AddRel';
+import DelRel from './DelRel';
 
 export default [
     <Undo key="UNDO" />,
@@ -26,5 +27,6 @@ export default [
     <AddPolygon key="POLYGON" />,
     <AddFacadeRectangle key="ADD_FACADEREC_TANGLE" />,
     <AddCircle key="ADD_CIRCLE" />,
-    <AddRel key="ADD_REL" />
+    <AddRel key="ADD_REL" />,
+    <DelRel key="DEL_REL" />
 ];
