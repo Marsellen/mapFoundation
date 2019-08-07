@@ -142,6 +142,7 @@ class VizCompnent extends React.Component {
         // attributes 拾取控件
         const { DataLayerStore } = this.props;
         DataLayerStore.initEditor();
+        DataLayerStore.initMeasureControl();
         DataLayerStore.setSelectedCallBack(this.selectedCallBack);
         DataLayerStore.setCreatedCallBack(this.createdCallBack);
         DataLayerStore.setEditedCallBack(this.editedCallBack);
