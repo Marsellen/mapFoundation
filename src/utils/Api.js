@@ -21,3 +21,11 @@ export function ShpApiPath(url) {
         return `/shp_service/${url}`;
     }
 }
+
+export function EditorApiPath(url) {
+    if (/^\//.test(url)) {
+        return `/editor_service${url}`;
+    } else {
+        return `/editor_service/${url}`;
+    }
+}

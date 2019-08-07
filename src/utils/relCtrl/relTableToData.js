@@ -1,14 +1,14 @@
-import { REL_DATA_MAP } from 'src/config/RelsConfig';
+import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
 
 export default (record, spec) => {
-    return (REL_DATA_MAP[spec] || []).map(rel => {
-        let { objId, relObjId, extraInfo } = record;
+    let relSpecs = REL_SPEC_CONFIG.filter(relSpec => relSpec.source == spec);
+    return relSpecs.map(relSpec => {
+        let { objId, relObjId } = record;
         return {
             type: 'Feature',
             properties: {
-                ...extraInfo,
-                [rel.objId]: objId,
-                [rel.relObjId]: relObjId
+                [relSpec.objKeyName]: objId,
+                [relSpec.relObjKeyName]: relObjId
             }
         };
     });

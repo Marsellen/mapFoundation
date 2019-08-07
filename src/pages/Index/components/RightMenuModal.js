@@ -1,15 +1,20 @@
 import React from 'react';
-import { Modal, Menu } from 'antd';
+import { Modal, Menu, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import { breakLine, mergeLine } from 'src/utils/relCtrl/operateCtrl';
 
 @inject('RightMenuStore')
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
 @observer
 class RightMenuModal extends React.Component {
+    componentDidMount() {
+        this.installListener();
+    }
+
     render() {
-        const { visible, option } = this.props.RightMenuStore;
+        const { visible, menus } = this.props.RightMenuStore;
         if (!visible) {
             return <div />;
         }
@@ -30,13 +35,7 @@ class RightMenuModal extends React.Component {
                 onCancel={this.handleCancel}>
                 <Menu className="menu">
                     {this.getMenus().map(menu => {
-                        return (
-                            option &&
-                            DATA_LAYER_MAP[
-                                option.layerName
-                            ].rightTools.includes(menu.key) &&
-                            menu
-                        );
+                        return menus.includes(menu.key) && menu;
                     })}
                 </Menu>
             </Modal>
@@ -68,6 +67,24 @@ class RightMenuModal extends React.Component {
                 onClick={this.deletePoints}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>删除形状点</span>
+            </Menu.Item>,
+            <Menu.Item
+                key="break"
+                onClick={this.breakLine}
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                <span>打断</span>
+            </Menu.Item>,
+            <Menu.Item
+                key="breakGroup"
+                onClick={this.breakLine}
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                <span>齐打断</span>
+            </Menu.Item>,
+            <Menu.Item
+                key="merge"
+                onClick={this.mergeLine}
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                <span>合并</span>
             </Menu.Item>
         ];
     };
@@ -93,6 +110,27 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
     };
 
+    installListener = () => {
+        const { DataLayerStore } = this.props;
+        DataLayerStore.setBreakCallback(this.breakCallBack);
+    };
+
+    breakCallBack = result => {
+        const { DataLayerStore, RightMenuStore } = this.props;
+        if (result.errorCode) {
+            let arr = result.desc.split(':');
+            let desc = arr[arr.length - 1];
+            message.warning(desc, 3);
+            DataLayerStore.clearChoose();
+            return;
+        }
+        let features = RightMenuStore.getFeatures();
+        breakLine(result[0], features).then(result => {
+            console.log(result);
+            DataLayerStore.clearChoose();
+        });
+    };
+
     deleteFeature = () => {
         const {
             RightMenuStore,
@@ -105,7 +143,7 @@ class RightMenuModal extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                let result = RightMenuStore.delete();
+                let result = RightMenuStore.delete()[0];
                 let feature = result.data;
                 let layerName = result.layerName;
                 let layer = DataLayerStore.getLayerByName(layerName);
@@ -136,6 +174,20 @@ class RightMenuModal extends React.Component {
         const { DataLayerStore, RightMenuStore } = this.props;
         DataLayerStore.deletePoints();
         RightMenuStore.hide();
+    };
+
+    breakLine = () => {
+        const { DataLayerStore, RightMenuStore } = this.props;
+        DataLayerStore.selectPointFromHighlight();
+        RightMenuStore.hide();
+    };
+
+    mergeLine = () => {
+        const { RightMenuStore } = this.props;
+        let features = RightMenuStore.getFeatures();
+        mergeLine(features).then(result => {
+            console.log(result);
+        });
     };
 }
 

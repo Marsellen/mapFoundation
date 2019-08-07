@@ -24,6 +24,7 @@ import 'less/components/viz-compnent.less';
 @inject('NewFeatureStore')
 @inject('OperateHistoryStore')
 @inject('RelStore')
+@inject('AttrStore')
 @observer
 class VizCompnent extends React.Component {
     constructor(props) {
@@ -166,7 +167,7 @@ class VizCompnent extends React.Component {
                     PictureShowStore.show();
                 }
             } else if (event.button === 2) {
-                this.showRightMenu(result[0], event);
+                this.showRightMenu(result, event);
             }
         } else {
             DataLayerStore.unPick();
@@ -186,10 +187,8 @@ class VizCompnent extends React.Component {
         if (result.errorCode) {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
-            Modal.error({
-                title: desc,
-                okText: '确定'
-            });
+            message.warning(desc, 3);
+            DataLayerStore.clearChoose();
             return;
         }
         DataLayerStore.updateResult(result)
@@ -213,6 +212,7 @@ class VizCompnent extends React.Component {
                 console.log(e);
                 let layer = DataLayerStore.getEditLayer();
                 layer.layer.removeFeatureById(result.uuid);
+                DataLayerStore.clearChoose();
             });
     };
 
@@ -220,10 +220,8 @@ class VizCompnent extends React.Component {
         if (result.errorCode) {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
-            Modal.error({
-                title: desc,
-                okText: '确定'
-            });
+            message.warning(desc, 3);
+            DataLayerStore.clearChoose();
             return;
         }
         const {
@@ -233,7 +231,7 @@ class VizCompnent extends React.Component {
         } = this.props;
         //console.log(result);
         DataLayerStore.setPointSize(0.5);
-        let oldFeature = RightMenuStore.getFeature();
+        let oldFeature = RightMenuStore.getFeatures()[0];
         OperateHistoryStore.add({
             type: 'updateFeature',
             oldFeature,
@@ -257,15 +255,19 @@ class VizCompnent extends React.Component {
         AttributeStore.show(readonly);
     };
 
-    showRightMenu = (obj, event) => {
+    showRightMenu = (features, event) => {
         const { DataLayerStore, RightMenuStore, AttributeStore } = this.props;
         const editLayer = DataLayerStore.getEditLayer();
-        if (editLayer && editLayer.layerName == obj.layerName) {
+        let layerName = editLayer && editLayer.layerName;
+        let hasOtherFeature = features.find(
+            feature => feature.layerName != layerName
+        );
+        if (layerName && !hasOtherFeature) {
             AttributeStore.hide();
-            RightMenuStore.show(obj, {
+            RightMenuStore.show(features, {
                 x: event.x,
                 y: event.y,
-                layerName: obj.layerName
+                layerName
             });
         }
     };
@@ -273,6 +275,11 @@ class VizCompnent extends React.Component {
     installRef = url => {
         const { RelStore } = this.props;
         return RelStore.init(url);
+    };
+
+    installAttr = url => {
+        const { AttrStore } = this.props;
+        return AttrStore.init(url);
     };
 
     render() {

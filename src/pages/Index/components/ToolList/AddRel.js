@@ -7,15 +7,25 @@ import AdMessage from 'src/components/AdMessage';
 import './AddRel.less';
 
 @inject('DataLayerStore')
+@inject('OperateHistoryStore')
 @observer
 class AddRel extends React.Component {
     componentDidMount() {
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, OperateHistoryStore } = this.props;
         DataLayerStore.setNewRelCallback(result => {
             console.log(result);
             let layerName = DataLayerStore.getEditLayer().layerName;
             newRel(result, layerName)
-                .then(() => {
+                .then(rels => {
+                    OperateHistoryStore.add({
+                        type: 'updateFeatureRels',
+                        data: {
+                            rels: {
+                                oldRels: [],
+                                newRels: rels
+                            }
+                        }
+                    });
                     DataLayerStore.clearChoose();
                 })
                 .catch(e => {

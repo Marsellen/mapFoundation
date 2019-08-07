@@ -7,6 +7,7 @@ import AdMessage from 'src/components/AdMessage';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
+@inject('OperateHistoryStore')
 @observer
 class DelRel extends React.Component {
     componentDidMount() {
@@ -41,10 +42,24 @@ class DelRel extends React.Component {
     }
 
     action = () => {
-        const { DataLayerStore, AttributeStore } = this.props;
+        const {
+            DataLayerStore,
+            AttributeStore,
+            OperateHistoryStore
+        } = this.props;
         if (DataLayerStore.editType == 'delRel') return;
         let rels = AttributeStore.rels;
-        DataLayerStore.delRel(rels);
+        DataLayerStore.delRel(rels).then(() => {
+            OperateHistoryStore.add({
+                type: 'updateFeatureRels',
+                data: {
+                    rels: {
+                        oldRels: rels,
+                        newRels: []
+                    }
+                }
+            });
+        });
     };
 
     content = () => {
