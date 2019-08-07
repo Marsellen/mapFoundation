@@ -1,6 +1,6 @@
 import { action, configure, flow, observable } from 'mobx';
 import LayerStore from './LayerStore';
-import { EditControl } from 'addis-viz-sdk';
+import { EditControl, MeasureControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
 import { Modal } from 'antd';
 import { getFeatureByRels } from 'src/utils/relCtrl/relCtrl';
@@ -10,6 +10,8 @@ class DataLayerStore extends LayerStore {
     constructor() {
         super();
         this.editor;
+        this.measureControl;
+
         document.onkeydown = event => {
             var e =
                 event || window.event || arguments.callee.caller.arguments[0];
@@ -49,6 +51,11 @@ class DataLayerStore extends LayerStore {
     @action initEditor = layer => {
         this.editor = new EditControl(layer);
         map.getControlManager().addControl(this.editor);
+    };
+
+    @action initMeasureControl = () => {
+        this.measureControl = new MeasureControl();
+        map.getControlManager().addControl(this.measureControl);
     };
 
     @action activeEditor = name => {
@@ -217,6 +224,11 @@ class DataLayerStore extends LayerStore {
 
     @action unPick = () => {
         this.beenPick = false;
+    };
+
+    @action startMeatureDistance = () => {
+        this.measureControl.startMeatureDistance();
+        this.editType = 'meature_distance';
     };
 }
 
