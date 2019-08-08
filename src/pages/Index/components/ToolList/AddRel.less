@@ -1,6 +1,23 @@
-.ant-modal-confirm-body > .anticon + .ant-modal-confirm-title + .ant-modal-confirm-content {
+.ant-modal-confirm-body
+    > .anticon
+    + .ant-modal-confirm-title
+    + .ant-modal-confirm-content {
     margin-left: 0px;
-    div {
-        margin-top: 20px;
+    .layerScroll {
+        overflow-y: scroll;
+        height: 50vh;
+        padding-right: 14px;
+
+        div {
+            margin-top: 20px;
+        }
     }
+}
+::-webkit-scrollbar {
+    width: 2px;
+    background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #dadada;
 }
