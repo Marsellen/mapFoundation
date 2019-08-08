@@ -41,6 +41,7 @@ class VizCompnent extends React.Component {
     initTask = task => {
         const { taskStore } = this.props;
         console.time('taskLoad');
+        if (!task) return;
         const hide = message.loading('正在加载任务数据...', 0);
         Promise.all([
             this.initPointCloud(task.point_clouds),
@@ -57,6 +58,7 @@ class VizCompnent extends React.Component {
                 console.timeEnd('taskLoad');
             })
             .catch(e => {
+                hide();
                 Modal.error({
                     title: '资料加载失败，请确认输入正确路径。',
                     okText: '确定'

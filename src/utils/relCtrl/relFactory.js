@@ -37,15 +37,9 @@ class relFactory {
         }, {});
 
         return Object.keys(featureMap).map(name => {
-            let features = featureMap[name].map(properties => {
-                return {
-                    properties,
-                    type: 'Feature'
-                };
-            });
             return {
                 name,
-                features,
+                features: featureMap[name],
                 type: 'FeatureCollection'
             };
         });

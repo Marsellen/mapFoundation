@@ -84,7 +84,7 @@ class DataLayerStore extends LayerStore {
         this.editor.onFeatureSelected((result, event) => {
             switch (this.editType) {
                 case 'normal':
-                    console.log(result);
+                    // console.log(result);
                     callback(result, event);
                     break;
                 case 'newRel':
