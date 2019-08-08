@@ -18,8 +18,8 @@ const breakLine = async (breakPoint, features) => {
         features,
         result.data[0].features
     );
-    updateFeatures(features, newFeatures);
-    await updateRels(allRels, rels);
+
+    await updateFeatures(features, newFeatures, allRels, rels);
 
     return {
         features: {
@@ -39,8 +39,7 @@ const mergeLine = async features => {
     let result = await EditorService.mergeLines(option);
 
     let { newFeatures, rels } = fetchFeatureRels(features, result.data.feature);
-    updateFeatures(features, newFeatures);
-    await updateRels(allRels, rels);
+    await updateFeatures(features, newFeatures, allRels, rels);
 
     return {
         features: {
@@ -184,18 +183,21 @@ const calcFeatureRels = (layerName, features) => {
     features = Array.isArray(features) ? features : [features];
     return features.map(feature => {
         return {
-            feature: calcFeatures(feature[layerName]),
+            feature: calcFeatures(feature[layerName], layerName),
             rels: calcRels(layerName, feature.relation, feature[layerName])
         };
     });
 };
 
-const calcFeatures = feature => {
+const calcFeatures = (feature, layerName) => {
     let { geom, ...properties } = feature;
     return {
-        geometry: WKTToGeom(geom),
-        properties,
-        type: 'Feature'
+        layerName,
+        data: {
+            geometry: WKTToGeom(geom),
+            properties,
+            type: 'Feature'
+        }
     };
 };
 
@@ -269,16 +271,26 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
     });
 };
 
-const updateFeatures = (oldFeatures, newFeatures) => {
+const updateFeatures = async (oldFeatures, newFeatures, oldRels, rels) => {
     let layerName = oldFeatures[0].layerName;
     let layer = map
         .getLayerManager()
         .getLayersByType('VectorLayer')
         .find(layer => layer.layerName == layerName).layer;
+    layer.addFeatures(newFeatures.map(f => f.data));
+    await updateRels(oldRels, rels);
     oldFeatures.map(feature => {
-        layer.removeFeatureById(feature.uuid);
+        let layerName = feature.layerName;
+        let properties = feature.data.properties;
+        let IDKey = DATA_LAYER_MAP[layerName]
+            ? DATA_LAYER_MAP[layerName].id
+            : 'id';
+        let id = properties[IDKey];
+        layer.removeFeatureByOption({
+            key: IDKey,
+            value: id
+        });
     });
-    layer.addFeatures(newFeatures);
 };
 
 const updateRels = async (oldRels, newRels) => {
