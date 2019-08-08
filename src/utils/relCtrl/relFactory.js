@@ -7,8 +7,9 @@ import {
     REL_TYPE_KEY_MAP,
     SPEC_REL_KEY_SET,
     REL_OBJ_KEY_MAP,
-    OBJ_TYPE_REL_MAP
+    REL_SPEC_CONFIG
 } from 'src/config/RelsConfig';
+import { updateFeaturesByRels } from './relCtrl';
 
 class relFactory {
     relDataToTable = data => {
@@ -53,8 +54,10 @@ class relFactory {
     };
 
     filterRelData = data => {
-        return ((data && data.features) || []).filter(d =>
-            REL_DATA_SET.includes(d.name)
+        return ((data && data.features) || []).filter(
+            d =>
+                REL_DATA_SET.includes(d.name) ||
+                ATTR_REL_DATA_SET.includes(d.name)
         );
     };
 
@@ -63,14 +66,12 @@ class relFactory {
             return record.spec == type;
         });
         if (relKeyMap.length == 0) return;
+        let IDKey = DATA_LAYER_MAP[type] ? DATA_LAYER_MAP[type].id : 'id';
+        let id = properties[IDKey];
+        let tableData = [];
         let relStore = new IndexedDB('relationships', 'rels');
         return await relStore.open().then(
             async store => {
-                let IDKey = DATA_LAYER_MAP[type]
-                    ? DATA_LAYER_MAP[type].id
-                    : 'id';
-                let id = properties[IDKey];
-                let tableData = [];
                 await Promise.all(
                     relKeyMap.map(async relKey => {
                         let records = await relStore.queryByIndex(
@@ -127,23 +128,43 @@ class relFactory {
     async updateRels(rels, type, properties) {
         let IDKey = DATA_LAYER_MAP[type] ? DATA_LAYER_MAP[type].id : 'id';
         let id = properties[IDKey];
+        if (type == 'AD_Lane') {
+            if ((rels.L_LDIV || rels.R_LDIV) && rels.L_LDIV === rels.R_LDIV) {
+                throw {
+                    message: '车道线关联错误'
+                };
+            }
+        }
         // 关系数据转为IndexDB数据格式
         let newRecords = Object.keys(rels).map(key => {
             let relKey = key.replace(/[0-9]/, '');
-            let { reverse, ...rel } = OBJ_TYPE_REL_MAP[type][relKey];
-            if (reverse) {
-                return {
-                    ...rel,
+
+            let relSpecs = REL_SPEC_CONFIG.filter(relSpec => {
+                return (
+                    (relSpec.objSpec == type && relSpec.relObjType == relKey) ||
+                    (relSpec.relObjSpec == type && relSpec.objType == relKey)
+                );
+            });
+            let relSpec = relSpecs[0];
+            let rel;
+            if (relSpec.objSpec == type) {
+                rel = {
+                    objId: id,
+                    relObjId: rels[key]
+                };
+            } else {
+                rel = {
                     objId: rels[key],
                     relObjId: id
                 };
-            } else {
-                return {
-                    ...rel,
-                    relObjId: rels[key],
-                    objId: id
-                };
             }
+            let { objType, relObjType, source: spec } = relSpec;
+            return {
+                ...rel,
+                objType,
+                relObjType,
+                spec
+            };
         });
         // console.log(newRecords);
 
@@ -165,11 +186,13 @@ class relFactory {
                         ids.map(index => {
                             store.delete(index);
                         });
+                        updateFeaturesByRels(records, true);
                     })
                 );
                 newRecords.map(record => {
                     store.add(record);
                 });
+                updateFeaturesByRels(newRecords);
 
                 transaction.onabort = error => {
                     console.log(transaction.error.message);
@@ -189,6 +212,41 @@ class relFactory {
             key: record[keyMap.type] + fix,
             value: record[keyMap.id]
         };
+    };
+
+    getFeatureRels = async feature => {
+        let layerName = feature.layerName;
+        let IDKey = DATA_LAYER_MAP[layerName]
+            ? DATA_LAYER_MAP[layerName].id
+            : 'id';
+        let id = feature.data.properties[IDKey];
+        let relStore = new IndexedDB('relationships', 'rels');
+        let rels = await relStore.openTransaction().then(
+            async transaction => {
+                transaction.onabort = error => {
+                    console.log(transaction.error.message);
+                };
+
+                let store = transaction.objectStore(relStore.tableName);
+                let relKeyMap = SPEC_REL_KEY_SET.filter(record => {
+                    return record.spec == layerName;
+                });
+                return await relKeyMap.reduce(async (total, relKey) => {
+                    let records = await relStore.queryByIndex(
+                        store,
+                        relKey.relType,
+                        [relKey.relKey, id]
+                    );
+                    total = await total;
+                    total = total.concat(records);
+                    return total;
+                }, []);
+            },
+            error => {
+                console.log(error);
+            }
+        );
+        return rels;
     };
 }
 

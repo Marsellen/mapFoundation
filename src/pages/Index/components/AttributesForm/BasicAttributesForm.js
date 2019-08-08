@@ -20,26 +20,32 @@ const formItemLayout = {
 class BasicAttributesForm extends React.Component {
     render() {
         const { AttributeStore } = this.props;
-        const { attributes } = AttributeStore;
-
+        const { attributes, attrs } = AttributeStore;
         return (
             <div>
-                {attributes.map((item, index) => this.renderItem(item, index))}
+                {attributes.map((item, index) =>
+                    this.renderItem(item, index, 'attributes')
+                )}
+                {Object.keys(attrs).map((key, index) =>
+                    attrs[key].map((item, i) =>
+                        this.renderItem(item, index + '' + i, 'attrs.' + key)
+                    )
+                )}
             </div>
         );
     }
 
-    renderItem = (item, index) => {
-        return this['render' + item.domType](item, index);
+    renderItem = (item, index, name) => {
+        return this['render' + item.domType](item, index, name);
     };
 
-    renderText = (item, index) => {
+    renderText = (item, index, name) => {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
-                    form.getFieldDecorator('attribute.' + item.key, {
+                    form.getFieldDecorator(name + '.' + item.key, {
                         initialValue: item.value
                     })(<Input disabled />)
                 ) : (
@@ -51,13 +57,13 @@ class BasicAttributesForm extends React.Component {
         );
     };
 
-    renderInput = (item, index) => {
+    renderInput = (item, index, name) => {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
-                    form.getFieldDecorator('attribute.' + item.key, {
+                    form.getFieldDecorator(name + '.' + item.key, {
                         rules: [
                             {
                                 required: item.required,
@@ -76,14 +82,14 @@ class BasicAttributesForm extends React.Component {
         );
     };
 
-    renderSelect = (item, index) => {
+    renderSelect = (item, index, name) => {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
-                    form.getFieldDecorator('attribute.' + item.key, {
+                    form.getFieldDecorator(name + '.' + item.key, {
                         rules: [
                             {
                                 required: item.required,
@@ -135,7 +141,7 @@ class BasicAttributesForm extends React.Component {
         return text;
     };
 
-    renderRadioIconGroup = (item, index) => {
+    renderRadioIconGroup = (item, index, name) => {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
@@ -143,7 +149,7 @@ class BasicAttributesForm extends React.Component {
         return (
             <Form.Item key={index} label={item.name} {...layout}>
                 {!readonly ? (
-                    form.getFieldDecorator('attribute.' + item.key, {
+                    form.getFieldDecorator(name + '.' + item.key, {
                         rules: [
                             {
                                 required: item.required,

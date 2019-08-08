@@ -1,6 +1,8 @@
 import { observable, configure, action, flow } from 'mobx';
 import modelFactory from 'src/utils/mapModelFactory';
 import relFactory from 'src/utils/relCtrl/relFactory';
+import attrFactory from 'src/utils/attrCtrl/attrFactory';
+import { message } from 'antd';
 
 configure({ enforceActions: 'always' });
 class AttributeStore {
@@ -9,6 +11,7 @@ class AttributeStore {
     @observable type;
     @observable attributes = [];
     @observable rels = [];
+    @observable attrs = [];
     @observable readonly;
 
     @action show = readonly => {
@@ -25,6 +28,7 @@ class AttributeStore {
         this.type = this.model.layerName;
         this.fetchAttributes();
         this.fetchRels();
+        this.fetchAttrs();
     };
 
     @action getModel = () => {
@@ -49,6 +53,17 @@ class AttributeStore {
         }
     });
 
+    fetchAttrs = flow(function*() {
+        try {
+            this.attrs = yield attrFactory.getTabelData(
+                this.model.layerName,
+                this.model.data.properties
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
     submit = flow(function*(data) {
         try {
             // model.data引用sdk要素数据的指针。修改其属性会同步修改sdk的要素数据。
@@ -56,16 +71,24 @@ class AttributeStore {
                 ...this.model.data.properties,
                 ...data.attribute
             };
-            this.fetchAttributes();
-            yield relFactory.updateRels(
-                data.rels,
+            // this.fetchAttributes();
+            if (data.rels) {
+                yield relFactory.updateRels(
+                    data.rels,
+                    this.model.layerName,
+                    this.model.data.properties
+                );
+            }
+            // this.fetchRels();
+            yield attrFactory.updateAttrs(
+                data.attrs,
                 this.model.layerName,
                 this.model.data.properties
             );
-            this.fetchRels();
+            // this.fetchAttrs();
             return this.model;
         } catch (e) {
-            console.log(e);
+            message.warning(e.message, 3);
         }
     });
 }

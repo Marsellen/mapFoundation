@@ -1,5 +1,6 @@
 import { observable, flow, configure } from 'mobx';
 import IndexedDB from 'src/utils/IndexedDB';
+import OperateFactory from 'src/utils/OperateFactory';
 
 configure({ enforceActions: 'always' });
 class OperateHistoryStore {
@@ -42,21 +43,21 @@ class OperateHistoryStore {
         }
     });
 
-    redo = flow(function*(callback) {
+    redo = flow(function*() {
         try {
             let nextNode = yield this.historyStore.getNext(this.currentNode);
-            callback(nextNode);
+            OperateFactory.redo(nextNode);
             this.currentNode = nextNode.id;
         } catch (e) {
             console.log(e);
         }
     });
 
-    undo = flow(function*(callback) {
+    undo = flow(function*() {
         try {
             let preNode = yield this.historyStore.getPrev(this.currentNode);
             let currentNode = yield this.historyStore.get(this.currentNode);
-            callback(currentNode);
+            OperateFactory.undo(currentNode);
             this.currentNode = preNode ? preNode.id : -1;
         } catch (e) {
             console.log(e);

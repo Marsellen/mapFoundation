@@ -504,6 +504,19 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '公交车道时间限制' },
         { value: 4, label: '公交车道类文字' },
         { value: 99, label: '其他' }
+    ],
+    AD_SUB_LAMP_TYPE: [
+        { value: '0', label: '未定义' },
+        { value: 'A', label: '圆灯' },
+        { value: 'B', label: '方向向左的箭头' },
+        { value: 'C', label: '方向向右的箭头' },
+        { value: 'D', label: '直行' },
+        { value: 'E', label: '掉头' },
+        { value: 'F', label: '车道指示箭头' },
+        { value: 'G', label: '叉形' },
+        { value: 'H', label: '行人' },
+        { value: 'I', label: '非机动车' },
+        { value: 'J', label: '读秒' }
     ]
 };
 
@@ -726,24 +739,24 @@ export const TABLE_DATA_MAP = {
             type: 'AD_LANE_LANE_ID',
             domType: 'Text'
         },
-        {
-            key: 'ROAD_ID',
-            name: '关联参考线ID',
-            type: 'AD_LANE_REFLINE_ID',
-            domType: 'Text'
-        },
-        {
-            key: 'L_DIV_ID',
-            name: '左侧车道线ID',
-            type: 'AD_LANE_L_DIV_ID',
-            domType: 'Text'
-        },
-        {
-            key: 'R_DIV_ID',
-            name: '右侧车道线ID',
-            type: 'AD_LANE_R_DIV_ID',
-            domType: 'Text'
-        },
+        // {
+        //     key: 'ROAD_ID',
+        //     name: '关联参考线ID',
+        //     type: 'AD_LANE_REFLINE_ID',
+        //     domType: 'Text'
+        // },
+        // {
+        //     key: 'L_LDIV_ID',
+        //     name: '左侧车道线ID',
+        //     type: 'AD_LANE_L_LDIV_ID',
+        //     domType: 'Text'
+        // },
+        // {
+        //     key: 'R_LDIV_ID',
+        //     name: '右侧车道线ID',
+        //     type: 'AD_LANE_R_LDIV_ID',
+        //     domType: 'Text'
+        // },
         {
             key: 'LANE_NO',
             name: '车道编号',

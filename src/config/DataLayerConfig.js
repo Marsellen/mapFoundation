@@ -17,8 +17,15 @@ export const DATA_LAYER_MAP = {
         label: '车道线',
         id: 'LDIV_ID',
         spec: 'AD_LaneDivider',
-        tools: ['LINE', 'ADD_REL', 'DEL_REL'],
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
+        tools: ['LINE'],
+        rightTools: [
+            'delete',
+            'insertPoints',
+            'changePoints',
+            'deletePoints',
+            'break'
+        ],
+        groupRightTools: ['breakGroup', 'merge']
     },
     AD_LaneMark_Plg: {
         label: '面状标识物',
@@ -46,7 +53,14 @@ export const DATA_LAYER_MAP = {
         id: 'LANE_ID',
         spec: 'AD_Lane',
         tools: ['LINE', 'ADD_REL', 'DEL_REL'],
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
+        rightTools: [
+            'delete',
+            'insertPoints',
+            'changePoints',
+            'deletePoints',
+            'break'
+        ],
+        groupRightTools: ['breakGroup', 'merge']
     },
     AD_TrafficSign: {
         label: '交通标志牌',
@@ -65,8 +79,9 @@ export const DATA_LAYER_MAP = {
             'insertPoints',
             'changePoints',
             'deletePoints',
-            'ADD_REL'
-        ]
+            'break'
+        ],
+        groupRightTools: ['breakGroup', 'merge']
     },
     AD_TrafficLight: {
         label: '交通信号灯',
@@ -94,6 +109,13 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_Map_QC',
         tools: ['POINT'],
         rightTools: ['delete']
+    },
+    AD_RS_Barrier: {
+        label: '隔离带、护栏',
+        id: 'BARR_ID',
+        spec: 'AD_RS_Barrier',
+        tools: ['LINE'],
+        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     }
 };
 

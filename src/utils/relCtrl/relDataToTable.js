@@ -1,12 +1,13 @@
-import { REL_DATA_MAP, ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
+import { REL_SPEC_CONFIG, ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
 
 export default (properties, spec) => {
-    return (REL_DATA_MAP[spec] || []).map(rel => {
-        const { objId, objType, relObjId, relObjType } = rel;
+    let relSpecs = REL_SPEC_CONFIG.filter(relSpec => relSpec.source == spec);
+    return relSpecs.map(relSpec => {
+        const { objKeyName, objType, relObjKeyName, relObjType } = relSpec;
         let record = {
             spec,
-            objId: properties[objId],
-            relObjId: properties[relObjId],
+            objId: properties[objKeyName],
+            relObjId: properties[relObjKeyName],
             objType,
             relObjType
         };

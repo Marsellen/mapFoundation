@@ -17,6 +17,7 @@ class DataLayerStore extends LayerStore {
                 event || window.event || arguments.callee.caller.arguments[0];
             if (e && e.keyCode == 27) {
                 this.clearChoose();
+                this.measureControl.clear();
             }
         };
     }
@@ -74,6 +75,7 @@ class DataLayerStore extends LayerStore {
         this.editor.onFeatureSelected((result, event) => {
             switch (this.editType) {
                 case 'normal':
+                    console.log(result);
                     callback(result, event);
                     break;
                 case 'newRel':
@@ -81,6 +83,9 @@ class DataLayerStore extends LayerStore {
                     break;
                 case 'delRel':
                     this.delRelCallback(result, event);
+                    break;
+                case 'select_point':
+                    this.breakCallback(result, event);
                     break;
             }
         });
@@ -165,6 +170,10 @@ class DataLayerStore extends LayerStore {
         this.delRelCallback = callback;
     };
 
+    @action setBreakCallback = callback => {
+        this.breakCallback = callback;
+    };
+
     newCircle = flow(function*() {
         if (!this.editor) return;
         this.editType = 'new_circle';
@@ -229,6 +238,11 @@ class DataLayerStore extends LayerStore {
     @action startMeatureDistance = () => {
         this.measureControl.startMeatureDistance();
         this.editType = 'meature_distance';
+    };
+
+    @action selectPointFromHighlight = () => {
+        this.editor.selectPointFromHighlight();
+        this.editType = 'select_point';
     };
 }
 
