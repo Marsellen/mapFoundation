@@ -2,7 +2,7 @@ import { action, configure, flow, observable } from 'mobx';
 import LayerStore from './LayerStore';
 import { EditControl, MeasureControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import { getFeatureByRels } from 'src/utils/relCtrl/relCtrl';
 
 configure({ enforceActions: 'always' });
@@ -11,13 +11,22 @@ class DataLayerStore extends LayerStore {
         super();
         this.editor;
         this.measureControl;
-
         document.onkeydown = event => {
             var e =
                 event || window.event || arguments.callee.caller.arguments[0];
             if (e && e.keyCode == 27) {
-                this.clearChoose();
-                this.measureControl.clear();
+                if (this.editType != 'normal') {
+                    Modal.confirm({
+                        title: '是否退出',
+                        okText: '确定',
+                        cancelText: '取消',
+                        onOk: () => {
+                            this.clearChoose();
+                            this.measureControl.clear();
+                        }
+                    });
+                }
+                return;
             }
         };
     }
