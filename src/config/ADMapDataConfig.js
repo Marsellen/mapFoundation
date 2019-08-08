@@ -16,8 +16,13 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 13, label: '路缘石', icon: 'luyuanshi' },
         { value: 14, label: '自然边界', icon: 'ziranbianjie' },
         { value: 15, label: '施工边界', icon: 'shigongbianjie' },
-        { value: 16, label: '路中隔离带', icon: 'luzhonggelidai' },
+        { value: 16, label: '路中隔离带', icon: 'gelidaichedao ' },
         { value: 17, label: '路口内待行区', icon: 'lukouneidaixingqu' },
+        {
+            value: 18,
+            label: '可变导向车道线',
+            icon: 'kebiandaoxiangchedaoxian'
+        },
         // {
         //     value: 18,
         //     label: '可变导向车道线',
@@ -90,7 +95,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 28, label: '服务区车道', icon: 'fuwuquchedao' },
         { value: 29, label: '左侧加速车道', icon: 'zuocejiasuchedao' },
         { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao' },
-        { value: 31, label: '复合车道' },
+        { value: 31, label: '复合车道', icon: 'jiajiansufuhechedao' },
         { value: 99, label: '其他', icon: 'qita' }
     ],
     AD_LANE_DIVIDER_RD_BOUND: [
@@ -99,9 +104,9 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 2, label: '非道路边界线' }
     ],
     AD_ROAD_TYPE: [
-        { value: 0, label: '未定义' },
-        { value: 1, label: '非路口内道路' },
-        { value: 2, label: '路口内道路' }
+        { value: 0, label: '未定义', icon: 'weidingyi ' },
+        { value: 1, label: '实际道路参考线' },
+        { value: 2, label: '虚拟道路参考线' }
     ],
     AD_ROAD_RD_STATUS: [
         { value: 0, label: '未定义' },
@@ -170,8 +175,8 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 28, label: '服务区车道', icon: 'fuwuquchedao' },
         { value: 29, label: '左侧加速车道', icon: 'zuocejiasuchedao' },
         { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao' },
-        { value: 31, label: '复合车道', icon: 'fuhechedao' },
-        { value: 99, label: '其他' }
+        { value: 31, label: '复合车道', icon: 'jiajiansufuhechedao' },
+        { value: 99, label: '其他', icon: 'qita' }
     ],
     AD_LANE_DIRECTION: [
         { value: 0, label: '未定义' },
@@ -205,21 +210,30 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 99, label: '其他' }
     ],
     AD_LANE_ATTRPOINT_TYPE: [
-        { value: 0, label: '未制作', icon: 'weizhizuo' },
-        { value: 1, label: '右侧出口', icon: 'daoluzuocechukou' },
-        { value: 2, label: '左侧出口', icon: 'daoluzuocechukou' },
+        { value: 0, label: '未定义', icon: 'weidingyi' },
+        { value: 1, label: '左侧出口', icon: 'daoluzuocechukou' },
+        { value: 2, label: '右侧出口', icon: 'daoluyoucechukou' },
         { value: 3, label: '道路分离点', icon: 'daolufenlidian' },
         { value: 4, label: '道路合并点', icon: 'daoluhebingdian' },
-        { value: 5, label: '车道分离点' },
-        { value: 6, label: '车道合并点', icon: 'chedaohebingdian' },
-        { value: 21, label: '点云不清晰起点', icon: 'dianyunbuqingxiqishi' },
-        { value: 23, label: '点云遮挡起点', icon: 'dianyunzhedangqishi' },
-        { value: 25, label: '精度误差起始', icon: 'jingduwuchaqishi' },
-        { value: 27, label: '道路施工起始', icon: 'daolushigongqishi' },
-        { value: 22, label: '点云不清晰结束点', icon: 'dianyunbuqingxijieshu' },
-        { value: 24, label: '点云遮挡结束', icon: 'dianyunzhedangjieshu' },
-        { value: 26, label: '精度误差结束', icon: 'jingduwuchajieshu' },
-        { value: 28, label: '道路施工结束', icon: 'daolushigongjieshu' }
+        { value: 5, label: '车道合并点', icon: 'chedaohebingdian' },
+        {
+            value: 21,
+            label: '服务区道路开始位置',
+            icon: 'fuwuqudaolukaishiweizhi'
+        },
+        {
+            value: 22,
+            label: '服务区道路结束位置',
+            icon: 'fuwuqudaolujieshuweizhi'
+        },
+        { value: 41, label: '点云不清晰起点', icon: 'dianyunbuqingxiqishi' },
+        { value: 42, label: '点云遮挡起点', icon: 'dianyunzhedangqishi' },
+        { value: 43, label: '精度误差起始', icon: 'jingduwuchaqishi' },
+        { value: 44, label: '道路施工起始', icon: 'daolushigongqishi' },
+        { value: 45, label: '点云不清晰结束点', icon: 'dianyunbuqingxijieshu' },
+        { value: 46, label: '点云遮挡结束', icon: 'dianyunzhedangjieshu' },
+        { value: 47, label: '精度误差结束', icon: 'jingduwuchajieshu' },
+        { value: 48, label: '道路施工结束', icon: 'daolushigongjieshu' }
     ],
     AD_STOPLOCATION_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi' },
@@ -240,7 +254,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         {
             value: 5,
             label: '斜跨路口的人行横道 ',
-            icon: 'xiekualukouderenxinghengdao'
+            icon: 'xiekualukourenxinghengdao'
         }
     ],
     AD_TRAFFICSIGN_SIGN_STYLE: [
@@ -279,13 +293,13 @@ export const TYPE_SELECT_OPTION_MAP = {
         // { value: 127, label: '过水路面（漫水桥）', icon: 'plus' },
         // { value: 128, label: '铁路道口', icon: 'plus' },
         // { value: 129, label: '人行横道', icon: 'plus' },
-        { value: 130, label: '注意非机动车', icon: 'zhuyifeijidongche' },
+        { value: 129, label: '注意非机动车', icon: 'zhuyifeijidongche' },
         // { value: 131, label: '注意残疾人', icon: 'plus' },
-        { value: 132, label: '事故易发路段', icon: 'shiguyifaluduan' },
-        { value: 133, label: '慢行', icon: 'manxing' },
+        { value: 131, label: '事故易发路段', icon: 'shiguyifaluduan' },
+        { value: 132, label: '慢行', icon: 'manxing' },
         // { value: 134, label: '注意障碍物绕行', icon: 'plus' },
-        { value: 135, label: '注意危险', icon: 'zhuyiweixian' },
-        { value: 136, label: '施工', icon: 'shigong' },
+        { value: 134, label: '注意危险', icon: 'zhuyiweixian' },
+        { value: 135, label: '施工', icon: 'shigong' },
         // { value: 137, label: '建议速度', icon: 'plus' },
         // { value: 138, label: '注意潮汐车道', icon: 'plus' },
         // { value: 139, label: '避险车道', icon: 'plus' },
@@ -322,7 +336,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         // { value: 222, label: '海关', icon: 'plus' },
         // { value: 223, label: '区域禁止', icon: 'plus' },
         // { value: 224, label: '区域禁止解除', icon: 'plus' },
-        { value: 225, label: '其他禁止标志', icon: 'qitajinzhibiaozhi' },
+        { value: 233, label: '其他禁止标志', icon: 'qitajinzhibiaozhi' },
         // { value: 301, label: '直行', icon: 'plus' },
         // { value: 302, label: '向左转弯', icon: 'plus' },
         // { value: 303, label: '向右转弯', icon: 'plus' },
@@ -344,11 +358,11 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 319, label: '专用道路和车道', icon: 'zhuanyongdaoluhechedao' },
         { value: 320, label: '停车位', icon: 'tingchewei' },
         { value: 321, label: '允许掉头', icon: 'yunxudiaotou' },
-        { value: 400, label: '其他标志', icon: 'qitabiaozhipai' },
-        { value: 500, label: '动态标志牌', icon: 'dongtaibiaozhipai' }
+        { value: 500, label: '其他标志', icon: 'qitabiaozhipai' },
+        { value: 600, label: '动态标志牌', icon: 'dongtaibiaozhipai' }
     ],
     AD_TRAFFIC_LIGHT_TYPE: [
-        { value: 0, label: '未定义' },
+        { value: 0, label: '未定义', icon: 'weidingyi' },
         {
             value: 1,
             label: '普通机动车信号灯',
@@ -382,7 +396,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '单个灯头' }
     ],
     AD_ARROW_ARR_DIRECT: [
-        { value: 0, label: '未定义', icon: '未定义' },
+        { value: 0, label: '未定义', icon: 'weidingyi' },
         { value: 'A', label: '直行', icon: 'zhixing' },
         { value: 'B', label: '左转', icon: 'zuozhuan' },
         { value: 'C', label: '右转', icon: 'youzhuan' },
@@ -482,6 +496,19 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'H', label: '行人' },
         { value: 'I', label: '非机动车' },
         { value: 'J', label: '读秒' }
+    ],
+    AD_RS_BARRIER_TYPE: [
+        { value: '0', label: '未定义' },
+        { value: '1', label: '隧道墙' },
+        { value: '2', label: '路侧防护栏' },
+        { value: '3', label: '路缘石' },
+        { value: '4', label: '隔音墙' }
+    ],
+    AD_RS_BARRIER_MATERIAL: [
+        { value: '0', label: '未定义' },
+        { value: '1', label: '混凝土' },
+        { value: '2', label: '金属' },
+        { value: '3', label: '塑料' }
     ]
 };
 
@@ -534,11 +561,18 @@ export const DEFAULT_PROPERTIES_MAP = {
     AD_StopLocation: {
         TYPE: 1
     },
-    AD_Pole: {},
+    AD_Pole: {
+        RADIUS_UP: 0,
+        RADIUS_DN: 0
+    },
     AD_Map_QC: {
         ERROR_TYPE: 0,
         FIX_STATUS: 1,
         QC_STATUS: 0
+    },
+    AD_RS_Barrier: {
+        TYPE: 0,
+        MATERIAL: 0
     }
 };
 
@@ -1007,6 +1041,68 @@ export const TABLE_DATA_MAP = {
                 {
                     max: 20,
                     message: '长度不能超过20字',
+                    transform(value) {
+                        if (value) {
+                            return String(value);
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    AD_RS_Barrier: [
+        {
+            key: 'BARR_ID',
+            name: '用户编号',
+            type: 'AD_RS_BARRIER_BARR_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'TYPE',
+            name: '护栏类型',
+            type: 'AD_RS_BARRIER_TYPE',
+            domType: 'Select'
+        },
+        {
+            key: 'MATERIAL',
+            name: '护栏材质',
+            type: 'AD_RS_BARRIER_MATERIAL',
+            domType: 'Select'
+        }
+    ],
+    AD_Pole: [
+        {
+            key: 'POLE_ID',
+            name: '用户编号',
+            type: 'AD_POLE_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'RADIUS_UP',
+            name: '杆状物立柱顶部半径',
+            type: 'AD_POLE_RADIUS_UP',
+            domType: 'Input',
+            validates: [
+                {
+                    max: 20,
+                    message: '单位M',
+                    transform(value) {
+                        if (value) {
+                            return String(value);
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            key: 'RADIUS_DN',
+            name: '杆状物立柱底部半径',
+            type: 'AD_POLE_RADIUS_DN',
+            domType: 'Input',
+            validates: [
+                {
+                    max: 20,
+                    message: '单位M',
                     transform(value) {
                         if (value) {
                             return String(value);

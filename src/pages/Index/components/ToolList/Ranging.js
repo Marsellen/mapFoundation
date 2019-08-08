@@ -12,7 +12,7 @@ class Ranging extends React.Component {
         const { activeTaskId } = taskStore;
         return (
             <ToolIcon
-                icon="baocun"
+                icon="ceju"
                 title="测距"
                 action={this.action}
                 disabled={!activeTaskId}
