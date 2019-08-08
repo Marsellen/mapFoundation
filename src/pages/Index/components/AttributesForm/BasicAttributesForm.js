@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Form, Input, Select } from 'antd';
 import RadioIconGroup from 'src/components/RadioIconGroup';
+import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 
 const formItemLayout = {
@@ -141,6 +142,15 @@ class BasicAttributesForm extends React.Component {
         return text;
     };
 
+    getCheckBoxArrayOption = (value, arr) => {
+        const text =
+            arr
+                .filter(val => value.includes(val.value))
+                .map(val => val.label)
+                .join('+') || '--';
+        return text;
+    };
+
     renderRadioIconGroup = (item, index, name) => {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
@@ -167,6 +177,43 @@ class BasicAttributesForm extends React.Component {
                 ) : (
                     <span className="ant-form-text">
                         {this.getArrayOption(item.value, options)}
+                    </span>
+                )}
+            </Form.Item>
+        );
+    };
+
+    renderCheckBoxIconGroup = (item, index, name) => {
+        const { form, AttributeStore } = this.props;
+        const { readonly } = AttributeStore;
+        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+        let layout = readonly ? formItemLayout : {};
+        return (
+            <Form.Item key={index} label={item.name} {...layout}>
+                {!readonly ? (
+                    form.getFieldDecorator(name + '.' + item.key, {
+                        rules: [
+                            {
+                                required: item.required,
+                                message: `${item.name}必填`
+                            },
+                            ...(item.validates || []).map(validate => {
+                                return {
+                                    pattern: validate.pattern,
+                                    message: validate.message
+                                };
+                            })
+                        ],
+                        initialValue: item.value
+                    })(
+                        <CheckBoxIconGroup
+                            options={options}
+                            disabled={readonly}
+                        />
+                    )
+                ) : (
+                    <span className="ant-form-text">
+                        {this.getCheckBoxArrayOption(item.value, options)}
                     </span>
                 )}
             </Form.Item>

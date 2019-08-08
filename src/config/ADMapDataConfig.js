@@ -427,41 +427,6 @@ export const TYPE_SELECT_OPTION_MAP = {
             value: 'M',
             label: '禁止右转',
             icon: 'jinzhiyouzhuan'
-        },
-        {
-            value: 'AB',
-            label: '直行或左转',
-            icon: 'zhixinghuozuozhuan'
-        },
-        {
-            value: 'AC',
-            label: '直行或右转',
-            icon: 'zhixinghuoyouzhuan'
-        },
-        {
-            value: 'ABC',
-            label: '直行或左转或右转',
-            icon: 'zhixinghuozuozhuanhuoyouzhuan'
-        },
-        {
-            value: 'AD',
-            label: '直行或左掉头',
-            icon: 'zhixinghuozuodiaotou'
-        },
-        {
-            value: 'AE',
-            label: '直行或右掉头',
-            icon: 'zhixinghuoyoudiaotou'
-        },
-        {
-            value: 'BD',
-            label: '左转或左掉头',
-            icon: 'zuozhuanhuozuodiaotou'
-        },
-        {
-            value: 'CE',
-            label: '右转或右掉头',
-            icon: 'youzhuanhuoyoudiaotou'
         }
     ],
     AD_MAP_QC_FILE_NAME: [
@@ -715,7 +680,7 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
-                    min:0,
+                    min: 0,
                     max: 120,
                     message: '[0,120]的整数',
                     type: 'integer',
@@ -784,7 +749,7 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
-                    min:0,
+                    min: 0,
                     max: 120,
                     message: '[0,120]的整数',
                     type: 'integer',
@@ -809,8 +774,8 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
-                    min:0,
-                    max:110,
+                    min: 0,
+                    max: 110,
                     message: '[0,110]的整数',
                     type: 'integer',
                     transform(value) {
@@ -873,7 +838,7 @@ export const TABLE_DATA_MAP = {
             key: 'ARR_DIRECT',
             name: '箭头方向',
             type: 'AD_ARROW_ARR_DIRECT',
-            domType: 'RadioIconGroup'
+            domType: 'CheckBoxIconGroup'
         }
     ],
     AD_LaneAttrPoint: [

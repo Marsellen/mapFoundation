@@ -110,7 +110,7 @@ class AttributeStore {
             // model.data引用sdk要素数据的指针。修改其属性会同步修改sdk的要素数据。
             this.model.data.properties = {
                 ...this.model.data.properties,
-                ...data.attribute
+                ...data.attributes
             };
             // this.fetchAttributes();
             if (data.rels) {
