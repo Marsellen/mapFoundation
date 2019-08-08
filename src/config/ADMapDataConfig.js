@@ -715,8 +715,10 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
+                    min:0,
+                    max: 120,
                     message: '[0,120]的整数',
-                    type: 'number',
+                    type: 'integer',
                     transform(value) {
                         if (value) {
                             return Number(value);
@@ -782,8 +784,10 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
-                    max: 20,
+                    min:0,
+                    max: 120,
                     message: '[0,120]的整数',
+                    type: 'integer',
                     transform(value) {
                         if (value) {
                             return Number(value);
@@ -805,8 +809,10 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
-                    message: '[0,120]的整数',
-                    type: 'number',
+                    min:0,
+                    max:110,
+                    message: '[0,110]的整数',
+                    type: 'integer',
                     transform(value) {
                         if (value) {
                             return Number(value);
