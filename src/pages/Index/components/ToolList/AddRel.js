@@ -40,7 +40,7 @@ class AddRel extends React.Component {
         return (
             <span>
                 <ToolIcon
-                    icon="xiankuang1"
+                    icon="xinzengguanxi"
                     title="新增关联关系"
                     action={this.action}
                 />

@@ -49,7 +49,7 @@ class DelRel extends React.Component {
         return (
             <span>
                 <ToolIcon
-                    icon="xiankuang1"
+                    icon="shanchuguanxi"
                     title="删除关联关系"
                     action={this.action}
                     disabled={!DataLayerStore.beenPick}
