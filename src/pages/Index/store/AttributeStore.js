@@ -28,7 +28,7 @@ class AttributeStore {
         this.type = this.model.layerName;
         this.fetchAttributes();
         this.fetchRels();
-        this.fetchAttr();
+        this.fetchAttrs();
     };
 
     @action getModel = () => {
@@ -53,7 +53,7 @@ class AttributeStore {
         }
     });
 
-    fetchAttr = flow(function*() {
+    fetchAttrs = flow(function*() {
         try {
             this.attrs = yield attrFactory.getTabelData(
                 this.model.layerName,
@@ -71,13 +71,21 @@ class AttributeStore {
                 ...this.model.data.properties,
                 ...data.attribute
             };
-            this.fetchAttributes();
-            yield relFactory.updateRels(
-                data.rels,
+            // this.fetchAttributes();
+            if (data.rels) {
+                yield relFactory.updateRels(
+                    data.rels,
+                    this.model.layerName,
+                    this.model.data.properties
+                );
+            }
+            // this.fetchRels();
+            yield attrFactory.updateAttrs(
+                data.attrs,
                 this.model.layerName,
                 this.model.data.properties
             );
-            this.fetchRels();
+            // this.fetchAttrs();
             return this.model;
         } catch (e) {
             message.warning(e.message, 3);

@@ -66,14 +66,12 @@ class relFactory {
             return record.spec == type;
         });
         if (relKeyMap.length == 0) return;
+        let IDKey = DATA_LAYER_MAP[type] ? DATA_LAYER_MAP[type].id : 'id';
+        let id = properties[IDKey];
+        let tableData = [];
         let relStore = new IndexedDB('relationships', 'rels');
         return await relStore.open().then(
             async store => {
-                let IDKey = DATA_LAYER_MAP[type]
-                    ? DATA_LAYER_MAP[type].id
-                    : 'id';
-                let id = properties[IDKey];
-                let tableData = [];
                 await Promise.all(
                     relKeyMap.map(async relKey => {
                         let records = await relStore.queryByIndex(
@@ -214,6 +212,41 @@ class relFactory {
             key: record[keyMap.type] + fix,
             value: record[keyMap.id]
         };
+    };
+
+    getFeatureRels = async feature => {
+        let layerName = feature.layerName;
+        let IDKey = DATA_LAYER_MAP[layerName]
+            ? DATA_LAYER_MAP[layerName].id
+            : 'id';
+        let id = feature.data.properties[IDKey];
+        let relStore = new IndexedDB('relationships', 'rels');
+        let rels = await relStore.openTransaction().then(
+            async transaction => {
+                transaction.onabort = error => {
+                    console.log(transaction.error.message);
+                };
+
+                let store = transaction.objectStore(relStore.tableName);
+                let relKeyMap = SPEC_REL_KEY_SET.filter(record => {
+                    return record.spec == layerName;
+                });
+                return await relKeyMap.reduce(async (total, relKey) => {
+                    let records = await relStore.queryByIndex(
+                        store,
+                        relKey.relType,
+                        [relKey.relKey, id]
+                    );
+                    total = await total;
+                    total = total.concat(records);
+                    return total;
+                }, []);
+            },
+            error => {
+                console.log(error);
+            }
+        );
+        return rels;
     };
 }
 

@@ -212,6 +212,7 @@ const updateFeatureRelAttr = (rel, isDel) => {
         .find(layer => layer.layerName == rel.spec).layer;
     let feature = layer.getFeatureByOption(option).properties;
     feature.data.properties[relKeyName] = isDel ? null : relId;
+    debugger
     layer.updateFeatures([feature]);
 };
 

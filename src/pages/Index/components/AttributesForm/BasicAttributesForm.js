@@ -21,14 +21,15 @@ class BasicAttributesForm extends React.Component {
     render() {
         const { AttributeStore } = this.props;
         const { attributes, attrs } = AttributeStore;
-
         return (
             <div>
                 {attributes.map((item, index) =>
                     this.renderItem(item, index, 'attributes')
                 )}
-                {attrs.map((item, index) =>
-                    this.renderItem(item, index, 'attrs')
+                {Object.keys(attrs).map((key, index) =>
+                    attrs[key].map((item, i) =>
+                        this.renderItem(item, index + '' + i, 'attrs.' + key)
+                    )
                 )}
             </div>
         );

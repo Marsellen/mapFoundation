@@ -37,18 +37,39 @@ class attrFactory {
         let id = properties[IDKey];
         let attrStore = new IndexedDB('attributes', 'attr');
         let records = await attrStore.getAll([type, id], 'SPEC_KEY');
+        if (!ATTR_TABLE_CONFIG[type]) return [];
+        let configs = JSON.parse(JSON.stringify(ATTR_TABLE_CONFIG[type]));
         let ats = records.reduce((total, record) => {
-            if (!ATTR_TABLE_CONFIG[type]) return [];
-            let configs = JSON.parse(JSON.stringify(ATTR_TABLE_CONFIG[type]));
-            let attrs = configs.map(config => {
+            let table = configs[record.source];
+            let attrs = table.map(config => {
                 config.value = record.properties[config.key];
-                config.key = config.key + record.id;
                 return config;
             });
-            total = total.concat(attrs);
+            total[record.source + record.id] = attrs;
             return total;
-        }, []);
+        }, {});
         return ats;
+    };
+
+    updateAttrs = async (attrs, spec, properties) => {
+        let IDKey = DATA_LAYER_MAP[spec] ? DATA_LAYER_MAP[spec].id : 'id';
+        let objId = properties[IDKey];
+        let attrStore = new IndexedDB('attributes', 'attr');
+        Object.keys(attrs).map(key => {
+            let id = key.replace(/[^0-9]/gi, '');
+            let source = key.replace(/[0-9]/gi, '');
+            let record = {
+                id,
+                source,
+                spec,
+                properties: {
+                    [IDKey]: objId,
+                    ...attrs[key]
+                },
+                key: objId
+            };
+            attrStore.edit(record);
+        });
     };
 }
 

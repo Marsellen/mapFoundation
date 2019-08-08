@@ -109,6 +109,13 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_Map_QC',
         tools: ['POINT'],
         rightTools: ['delete']
+    },
+    AD_RS_Barrier: {
+        label: '隔离带、护栏',
+        id: 'BARR_ID',
+        spec: 'AD_RS_Barrier',
+        tools: ['LINE'],
+        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     }
 };
 
