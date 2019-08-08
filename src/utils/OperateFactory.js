@@ -64,9 +64,13 @@ class OperateFactory {
     updateFeatureRels(history) {
         let { features, rels } = history.data;
         if (features) {
-            updateFeatures(features.oldFeature, features.newFeature);
-        }
-        if (rels) {
+            updateFeatures(
+                features.oldFeatures,
+                features.newFeatures,
+                rels.oldRels,
+                rels.newRels
+            );
+        } else {
             updateRels(rels.oldRels, rels.newRels);
         }
     }
@@ -74,9 +78,13 @@ class OperateFactory {
     reUpdateFeatureRels(history) {
         let { features, rels } = history.data;
         if (features) {
-            updateFeatures(features.newFeature, features.oldFeature);
-        }
-        if (rels) {
+            updateFeatures(
+                features.newFeatures,
+                features.oldFeatures,
+                rels.newRels,
+                rels.oldRels
+            );
+        } else {
             updateRels(rels.newRels, rels.oldRels);
         }
     }

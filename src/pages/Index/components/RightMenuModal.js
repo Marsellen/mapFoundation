@@ -116,7 +116,11 @@ class RightMenuModal extends React.Component {
     };
 
     breakCallBack = result => {
-        const { DataLayerStore, RightMenuStore } = this.props;
+        const {
+            DataLayerStore,
+            RightMenuStore,
+            OperateHistoryStore
+        } = this.props;
         if (result.errorCode) {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
@@ -128,10 +132,15 @@ class RightMenuModal extends React.Component {
         breakLine(result[0], features)
             .then(result => {
                 console.log(result);
+                OperateHistoryStore.add({
+                    type: 'updateFeatureRels',
+                    data: result
+                });
                 DataLayerStore.clearChoose();
             })
             .catch(e => {
                 console.log(e);
+                message.warning('操作失败', 3);
                 DataLayerStore.clearChoose();
             });
     };
@@ -188,14 +197,24 @@ class RightMenuModal extends React.Component {
     };
 
     mergeLine = () => {
-        const { RightMenuStore, DataLayerStore } = this.props;
+        const {
+            RightMenuStore,
+            DataLayerStore,
+            OperateHistoryStore
+        } = this.props;
         let features = RightMenuStore.getFeatures();
         mergeLine(features)
             .then(result => {
                 console.log(result);
+                OperateHistoryStore.add({
+                    type: 'updateFeatureRels',
+                    data: result
+                });
+                DataLayerStore.clearChoose();
             })
             .catch(e => {
                 console.log(e);
+                message.warning('操作失败', 3);
                 DataLayerStore.clearChoose();
             });
         RightMenuStore.hide();
