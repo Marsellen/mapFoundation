@@ -26,9 +26,7 @@ class relFactory {
     };
 
     relTableToData = records => {
-        records = records.filter(
-            record => !ATTR_REL_DATA_SET.includes(record.spec)
-        );
+        records = records.filter(record => REL_DATA_SET.includes(record.spec));
 
         let featureMap = records.reduce((total, record) => {
             let spec = record.spec;
@@ -39,15 +37,9 @@ class relFactory {
         }, {});
 
         return Object.keys(featureMap).map(name => {
-            let features = featureMap[name].map(properties => {
-                return {
-                    properties,
-                    type: 'Feature'
-                };
-            });
             return {
                 name,
-                features,
+                features: featureMap[name],
                 type: 'FeatureCollection'
             };
         });

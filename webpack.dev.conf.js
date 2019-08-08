@@ -28,7 +28,7 @@ module.exports = merge(common, {
                 logLevel: 'debug'
             },
             '/editor_service': {
-                target: 'http://10.43.75.17:9292',
+                target: 'http://10.43.75.11:9292',
                 pathRewrite: { '^/editor_service': '' },
                 changeOrigin: true,
                 logLevel: 'debug'

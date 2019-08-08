@@ -68,8 +68,9 @@ class TaskStore {
             let task = {
                 point_clouds: this.activeTaskId + '/point_clouds/cloud.js',
                 vectors: this.activeTaskId + '/vectors/ads_all.geojson',
-                tracks: this.activeTaskId + '/tracks/tracks.json',
-                rels: this.activeTaskId + '/rels/rels.geojson'
+                tracks: this.activeTaskId + '/tracks/track.json',
+                rels: this.activeTaskId + '/vectors/rels.geojson',
+                attrs: this.activeTaskId + '/vectors/attrs.geojson'
             };
             return task;
         } catch (e) {
@@ -86,15 +87,30 @@ class TaskStore {
                 filePath: path + '/vectors/',
                 fileName: 'ads_all',
                 fileFormat: 'geojson',
-                fileData: data
+                fileData: data.vectorData
             };
-            yield TaskService.saveFile(payload).catch(e => {
+            let attrPayload = {
+                filePath: path + '/vectors/',
+                fileName: 'attrs',
+                fileFormat: 'geojson',
+                fileData: data.attrData
+            };
+            let relPayload = {
+                filePath: path + '/vectors/',
+                fileName: 'rels',
+                fileFormat: 'geojson',
+                fileData: data.relData
+            };
+            yield Promise.all([
+                TaskService.saveFile(payload),
+                TaskService.saveFile(attrPayload),
+                TaskService.saveFile(relPayload)
+            ]).catch(e => {
                 Modal.error({
                     title: '保存失败',
                     okText: '确定'
                 });
             });
-            return;
         } catch (e) {
             console.log(e);
         }
