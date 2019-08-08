@@ -16,6 +16,25 @@ class attrFactory {
         }, []);
     };
 
+    attrTableToData = records => {
+        let featureMap = records.reduce((total, record) => {
+            total[record.source] = total[record.source] || [];
+            total[record.source].push({
+                type: 'Feature',
+                properties: record.properties
+            });
+            return total;
+        }, {});
+
+        return Object.keys(featureMap).map(name => {
+            return {
+                name,
+                features: featureMap[name],
+                type: 'FeatureCollection'
+            };
+        });
+    };
+
     filterRelData = data => {
         return ((data && data.features) || []).filter(d =>
             ATTR_SPEC_CONFIG.map(config => config.source).includes(d.name)

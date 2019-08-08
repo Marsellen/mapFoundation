@@ -35,7 +35,7 @@ class AttrStore {
     export = flow(function*() {
         try {
             let records = yield this.attrStore.getAll();
-            let data = relFactory.attrTableToData(records);
+            let data = attrFactory.attrTableToData(records);
             return data;
         } catch (e) {
             console.log(e);

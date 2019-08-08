@@ -26,9 +26,7 @@ class relFactory {
     };
 
     relTableToData = records => {
-        records = records.filter(
-            record => !ATTR_REL_DATA_SET.includes(record.spec)
-        );
+        records = records.filter(record => REL_DATA_SET.includes(record.spec));
 
         let featureMap = records.reduce((total, record) => {
             let spec = record.spec;

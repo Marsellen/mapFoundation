@@ -69,7 +69,8 @@ class TaskStore {
                 point_clouds: this.activeTaskId + '/point_clouds/cloud.js',
                 vectors: this.activeTaskId + '/vectors/ads_all.geojson',
                 tracks: this.activeTaskId + '/tracks/tracks.json',
-                rels: this.activeTaskId + '/rels/rels.geojson'
+                rels: this.activeTaskId + '/vectors/rels.geojson',
+                attrs: this.activeTaskId + '/vectors/attrs.geojson'
             };
             return task;
         } catch (e) {
@@ -86,7 +87,7 @@ class TaskStore {
                 filePath: path + '/vectors/',
                 fileName: 'ads_all',
                 fileFormat: 'geojson',
-                fileData: data
+                fileData: data.vectorData
             };
             yield TaskService.saveFile(payload).catch(e => {
                 Modal.error({

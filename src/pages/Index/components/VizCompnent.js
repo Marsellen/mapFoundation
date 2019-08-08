@@ -46,7 +46,8 @@ class VizCompnent extends React.Component {
             this.initPointCloud(task.point_clouds),
             this.initVectors(task.vectors),
             this.initTracks(task.tracks),
-            this.installRef(task.rels)
+            this.installRef(task.rels),
+            this.installAttr(task.attrs)
         ])
             .then(results => {
                 let [pointClouds, vectors, tracks] = results;
