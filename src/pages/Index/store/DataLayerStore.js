@@ -150,16 +150,11 @@ class DataLayerStore extends LayerStore {
         this.editor.toggleMode(61);
     };
 
-    @action delRel = rels => {
+    @action delRel = () => {
         if (this.editType == 'delRel') return;
         this.editType = 'delRel';
         this.editor.clear();
         this.editor.toggleMode(61);
-        // TODO 设置关联关系高亮
-        let features = getFeatureByRels(rels);
-        features.map(feature => {
-            this.editor.highlightFeature(feature.layerName, feature.option);
-        });
     };
 
     @action setNewRelCallback = callback => {

@@ -172,6 +172,7 @@ class VizCompnent extends React.Component {
         } else {
             DataLayerStore.unPick();
             AttributeStore.hide();
+            AttributeStore.hideRelFeatures();
             window.traceLayer.unselect();
         }
     };
@@ -182,13 +183,12 @@ class VizCompnent extends React.Component {
             NewFeatureStore,
             OperateHistoryStore
         } = this.props;
-        DataLayerStore.setPointSize(0.5);
+        DataLayerStore.clearChoose();
         //console.log(result);
         if (result.errorCode) {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
             message.warning(desc, 3);
-            DataLayerStore.clearChoose();
             return;
         }
         DataLayerStore.updateResult(result)
@@ -212,7 +212,6 @@ class VizCompnent extends React.Component {
                 console.log(e);
                 let layer = DataLayerStore.getEditLayer();
                 layer.layer.removeFeatureById(result.uuid);
-                DataLayerStore.clearChoose();
             });
     };
 

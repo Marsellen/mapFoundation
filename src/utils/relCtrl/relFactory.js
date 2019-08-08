@@ -248,6 +248,38 @@ class relFactory {
         );
         return rels;
     };
+
+    getRelFeatures = async feature => {
+        let rels = await this.getFeatureRels(feature);
+        let layerName = feature.layerName;
+        return rels.map(rel => {
+            let config = REL_SPEC_CONFIG.find(config => {
+                return (
+                    config.relObjType == rel.relObjType &&
+                    config.objType == rel.objType
+                );
+            });
+            if (!config) return;
+            let relLayerName, relIDKey;
+            if (config.objSpec == layerName) {
+                relLayerName = config.relObjSpec;
+                relIDKey = 'relObjId';
+            } else {
+                relLayerName = config.objSpec;
+                relIDKey = 'objId';
+            }
+            let IDKey = DATA_LAYER_MAP[relLayerName]
+                ? DATA_LAYER_MAP[relLayerName].id
+                : 'id';
+            return {
+                layerName: relLayerName,
+                option: {
+                    key: IDKey,
+                    value: rel[relIDKey]
+                }
+            };
+        });
+    };
 }
 
 export default new relFactory();
