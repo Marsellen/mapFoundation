@@ -7,6 +7,7 @@ import { message } from 'antd';
 configure({ enforceActions: 'always' });
 class AttributeStore {
     model;
+    relFeatures = [];
     @observable visible;
     @observable type;
     @observable attributes = [];
@@ -29,6 +30,7 @@ class AttributeStore {
         this.fetchAttributes();
         this.fetchRels();
         this.fetchAttrs();
+        this.fetchRelFeatures();
     };
 
     @action getModel = () => {
@@ -64,6 +66,45 @@ class AttributeStore {
         }
     });
 
+    fetchRelFeatures = flow(function*() {
+        try {
+            this.hideRelFeatures();
+            this.relFeatures = yield relFactory.getRelFeatures(this.model);
+            this.showRelFeatures();
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+    @action hideRelFeatures = () => {
+        try {
+            this.relFeatures.map(feature => {
+                map.getLayerManager()
+                    .getLayersByType('VectorLayer')
+                    .find(layer => layer.layerName == feature.layerName)
+                    .layer.updateFeatureColor(feature.option);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    @action showRelFeatures = () => {
+        try {
+            this.relFeatures.map(feature => {
+                map.getLayerManager()
+                    .getLayersByType('VectorLayer')
+                    .find(layer => layer.layerName == feature.layerName)
+                    .layer.updateFeatureColor(
+                        feature.option,
+                        'rgb(255, 87, 34)'
+                    );
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     submit = flow(function*(data) {
         try {
             // model.data引用sdk要素数据的指针。修改其属性会同步修改sdk的要素数据。
@@ -80,16 +121,19 @@ class AttributeStore {
                 );
             }
             // this.fetchRels();
-            yield attrFactory.updateAttrs(
-                data.attrs,
-                this.model.layerName,
-                this.model.data.properties
-            );
+            if (data.attrs) {
+                yield attrFactory.updateAttrs(
+                    data.attrs,
+                    this.model.layerName,
+                    this.model.data.properties
+                );
+            }
             // this.fetchAttrs();
-            return this.model;
         } catch (e) {
+            console.log(e);
             message.warning(e.message, 3);
         }
+        return this.model;
     });
 }
 

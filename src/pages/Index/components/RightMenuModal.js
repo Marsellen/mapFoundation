@@ -125,10 +125,15 @@ class RightMenuModal extends React.Component {
             return;
         }
         let features = RightMenuStore.getFeatures();
-        breakLine(result[0], features).then(result => {
-            console.log(result);
-            DataLayerStore.clearChoose();
-        });
+        breakLine(result[0], features)
+            .then(result => {
+                console.log(result);
+                DataLayerStore.clearChoose();
+            })
+            .catch(e => {
+                console.log(e);
+                DataLayerStore.clearChoose();
+            });
     };
 
     deleteFeature = () => {
@@ -183,11 +188,17 @@ class RightMenuModal extends React.Component {
     };
 
     mergeLine = () => {
-        const { RightMenuStore } = this.props;
+        const { RightMenuStore, DataLayerStore } = this.props;
         let features = RightMenuStore.getFeatures();
-        mergeLine(features).then(result => {
-            console.log(result);
-        });
+        mergeLine(features)
+            .then(result => {
+                console.log(result);
+            })
+            .catch(e => {
+                console.log(e);
+                DataLayerStore.clearChoose();
+            });
+        RightMenuStore.hide();
     };
 }
 

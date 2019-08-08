@@ -38,10 +38,7 @@ const mergeLine = async features => {
     let option = { lines };
     let result = await EditorService.mergeLines(option);
 
-    let { newFeatures, rels } = fetchFeatureRels(
-        features,
-        result.data[0].features
-    );
+    let { newFeatures, rels } = fetchFeatureRels(features, result.data.feature);
     updateFeatures(features, newFeatures);
     await updateRels(allRels, rels);
 
@@ -139,6 +136,7 @@ const relToSpecData = (record, layerName, total) => {
         key: IDKey,
         value: id
     });
+    if (!feature) return total;
     let geom = geometryToWKT(feature.data.geometry);
     if (ATTR_REL_DATA_SET.includes(record.spec)) {
         total[specKey] = total[specKey] || [];
@@ -162,11 +160,12 @@ const relToSpecData = (record, layerName, total) => {
 };
 
 const queryFeature = (layerName, option) => {
-    return map
+    let feature = map
         .getLayerManager()
         .getLayersByType('VectorLayer')
         .find(layer => layer.layerName == layerName)
-        .layer.getFeatureByOption(option).properties;
+        .layer.getFeatureByOption(option);
+    return feature && feature.properties;
 };
 
 const fetchFeatureRels = (oldFeatures, features) => {
@@ -182,6 +181,7 @@ const fetchFeatureRels = (oldFeatures, features) => {
 };
 
 const calcFeatureRels = (layerName, features) => {
+    features = Array.isArray(features) ? features : [features];
     return features.map(feature => {
         return {
             feature: calcFeatures(feature[layerName]),
@@ -276,7 +276,7 @@ const updateFeatures = (oldFeatures, newFeatures) => {
         .getLayersByType('VectorLayer')
         .find(layer => layer.layerName == layerName).layer;
     oldFeatures.map(feature => {
-        layer.getFeatureById(feature.uuid);
+        layer.removeFeatureById(feature.uuid);
     });
     layer.addFeatures(newFeatures);
 };
@@ -332,7 +332,7 @@ const geometryToWKT = geometry => {
         let geomStr = geometry.coordinates.join(' ');
         return 'POINT(' + geomStr + ')';
     } else if (geometry.type == 'Polygon') {
-        let geomStr = geometry.coordinates
+        let geomStr = geometry.coordinates[0]
             .reduce((arr, coordinate) => {
                 arr.push(coordinate.join(' '));
                 return arr;

@@ -18,7 +18,7 @@ const newRel = async (features, layerName) => {
 };
 
 const delRel = async (mainFeature, features) => {
-    let rels = batchCreateRel(mainFeature, features);
+    let rels = batchCreateAllRel(mainFeature, features);
 
     let relStore = new IndexedDB('relationships', 'rels');
     await relStore.openTransaction().then(
@@ -34,6 +34,7 @@ const delRel = async (mainFeature, features) => {
                 ]);
                 if (records[0]) {
                     store.delete(records[0].id);
+                    total = await total;
                     total.push(records[0]);
                 }
                 return total;
@@ -117,11 +118,17 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
 };
 
 const batchCreateRel = (mainFeature, relFeatures) => {
-    let rels = relFeatures.map((feature, index) => {
+    return relFeatures.map((feature, index) => {
         return createRel(mainFeature, feature, index);
     });
+};
 
-    return rels;
+const batchCreateAllRel = (mainFeature, relFeatures) => {
+    return relFeatures.reduce((arr, feature) => {
+        let rels = createAllRel(mainFeature, feature);
+        arr = arr.concat(rels);
+        return arr;
+    }, []);
 };
 
 const createRel = (mainFeature, feature, index) => {
@@ -155,6 +162,40 @@ const createRel = (mainFeature, feature, index) => {
         relObjType,
         spec
     };
+};
+
+const createAllRel = (mainFeature, feature) => {
+    let mainLayer = mainFeature.layerName;
+    let relLayer = feature.layerName;
+    let mainObjId = mainFeature.data.properties[DATA_LAYER_MAP[mainLayer].id];
+    let relObjId = feature.data.properties[DATA_LAYER_MAP[relLayer].id];
+    let relSpecs = REL_SPEC_CONFIG.filter(rs => {
+        return (
+            (rs.objSpec == mainLayer && rs.relObjSpec == relLayer) ||
+            (rs.relObjSpec == relLayer && rs.objSpec == mainLayer)
+        );
+    });
+    return relSpecs.map(config => {
+        let rel;
+        if (config.objSpec == mainLayer) {
+            rel = {
+                objId: mainObjId,
+                relObjId: relObjId
+            };
+        } else {
+            rel = {
+                objId: relObjId,
+                relObjId: mainObjId
+            };
+        }
+        let { objType, relObjType, source: spec } = config;
+        return {
+            ...rel,
+            objType,
+            relObjType,
+            spec
+        };
+    });
 };
 
 const getFeatureByRels = rels => {
@@ -212,7 +253,6 @@ const updateFeatureRelAttr = (rel, isDel) => {
         .find(layer => layer.layerName == rel.spec).layer;
     let feature = layer.getFeatureByOption(option).properties;
     feature.data.properties[relKeyName] = isDel ? null : relId;
-    debugger
     layer.updateFeatures([feature]);
 };
 
