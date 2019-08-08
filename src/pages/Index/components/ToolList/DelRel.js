@@ -11,12 +11,30 @@ import AdMessage from 'src/components/AdMessage';
 @observer
 class DelRel extends React.Component {
     componentDidMount() {
-        const { DataLayerStore, AttributeStore } = this.props;
+        const {
+            DataLayerStore,
+            AttributeStore,
+            OperateHistoryStore
+        } = this.props;
         DataLayerStore.setDelRelCallback(result => {
             console.log(result);
             let mainFeature = AttributeStore.getModel();
             delRel(mainFeature, result)
-                .then(() => {
+                .then(rels => {
+                    if (rels.length == 0) {
+                        message.warning('没有选中待删除的关联对象', 3);
+                        return;
+                    }
+                    OperateHistoryStore.add({
+                        type: 'updateFeatureRels',
+                        data: {
+                            rels: {
+                                oldRels: rels,
+                                newRels: []
+                            }
+                        }
+                    });
+                    AttributeStore.fetchRelFeatures();
                     DataLayerStore.clearChoose();
                 })
                 .catch(e => {
@@ -42,24 +60,9 @@ class DelRel extends React.Component {
     }
 
     action = () => {
-        const {
-            DataLayerStore,
-            AttributeStore,
-            OperateHistoryStore
-        } = this.props;
+        const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'delRel') return;
-        let rels = AttributeStore.rels;
-        DataLayerStore.delRel(rels).then(() => {
-            OperateHistoryStore.add({
-                type: 'updateFeatureRels',
-                data: {
-                    rels: {
-                        oldRels: rels,
-                        newRels: []
-                    }
-                }
-            });
-        });
+        DataLayerStore.delRel();
     };
 
     content = () => {
