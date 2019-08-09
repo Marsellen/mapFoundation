@@ -7,6 +7,7 @@ export default (record, spec) => {
         return {
             type: 'Feature',
             properties: {
+                ...record.extraInfo,
                 [relSpec.objKeyName]: objId,
                 [relSpec.relObjKeyName]: relObjId
             }

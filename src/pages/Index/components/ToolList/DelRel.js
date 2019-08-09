@@ -1,7 +1,7 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import { message } from 'antd';
+import { message, Modal } from 'antd';
 import { delRel } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
 
@@ -17,29 +17,40 @@ class DelRel extends React.Component {
             OperateHistoryStore
         } = this.props;
         DataLayerStore.setDelRelCallback(result => {
-            console.log(result);
-            let mainFeature = AttributeStore.getModel();
-            delRel(mainFeature, result)
-                .then(rels => {
-                    if (rels.length == 0) {
-                        message.warning('没有选中待删除的关联对象', 3);
-                        return;
-                    }
-                    OperateHistoryStore.add({
-                        type: 'updateFeatureRels',
-                        data: {
-                            rels: {
-                                oldRels: rels,
-                                newRels: []
+            // console.log(result);
+            Modal.confirm({
+                title: '是否删除关联关系?',
+                okText: '确定',
+                okType: 'danger',
+                cancelText: '取消',
+                onOk() {
+                    let mainFeature = AttributeStore.getModel();
+                    delRel(mainFeature, result)
+                        .then(rels => {
+                            if (rels.length == 0) {
+                                message.warning('没有选中待删除的关联对象', 3);
+                                return;
                             }
-                        }
-                    });
-                    AttributeStore.fetchRelFeatures();
+                            OperateHistoryStore.add({
+                                type: 'updateFeatureRels',
+                                data: {
+                                    rels: {
+                                        oldRels: rels,
+                                        newRels: []
+                                    }
+                                }
+                            });
+                            AttributeStore.fetchRelFeatures();
+                            DataLayerStore.clearChoose();
+                        })
+                        .catch(e => {
+                            message.warning(e.message, 3);
+                        });
+                },
+                onCancel() {
                     DataLayerStore.clearChoose();
-                })
-                .catch(e => {
-                    message.warning(e.message, 3);
-                });
+                }
+            });
         });
     }
 

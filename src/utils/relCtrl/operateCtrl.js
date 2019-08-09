@@ -147,7 +147,6 @@ const relToSpecData = (record, layerName, total) => {
         });
     } else {
         total[record.spec] = total[record.spec] || [];
-
         total[record.spec].push({
             ...record.extraInfo,
             [relSpec.objKeyName]: record.objId,
@@ -298,20 +297,23 @@ const updateRels = async (oldRels, newRels) => {
     await relStore.openTransaction().then(
         async transaction => {
             let store = transaction.objectStore(relStore.tableName);
-
             await Promise.all(
                 oldRels.map(async record => {
-                    let records = await relStore.queryByIndex(
-                        store,
-                        'REL_KEYS',
-                        [
-                            record.objType,
-                            record.objId,
-                            record.relObjType,
-                            record.relObjId
-                        ]
-                    );
-                    store.delete(records[0].id);
+                    if (record.id) {
+                        store.delete(record.id);
+                    } else {
+                        let records = await relStore.queryByIndex(
+                            store,
+                            'REL_KEYS',
+                            [
+                                record.objType,
+                                record.objId,
+                                record.relObjType,
+                                record.relObjId
+                            ]
+                        );
+                        store.delete(records[0].id);
+                    }
                 })
             );
 
