@@ -279,7 +279,11 @@ const updateFeatureRelAttr = (rel, isDel) => {
         .getLayersByType('VectorLayer')
         .find(layer => layer.layerName == rel.spec).layer;
     let feature = layer.getFeatureByOption(option).properties;
-    feature.data.properties[relKeyName] = isDel ? null : relId;
+    if (isDel) {
+        delete feature.data.properties[relKeyName];
+    } else {
+        feature.data.properties[relKeyName] = relId;
+    }
     layer.updateFeatures([feature]);
 };
 

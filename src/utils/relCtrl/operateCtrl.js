@@ -253,12 +253,13 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
             relSpec = relSpecs[0];
         }
         const { objType, relObjType } = relSpec;
+        let objId, relObjId;
         if (relSpec.objSpec == spec) {
             objId = property[IDKey1];
-            relObjId = feature[IDKey2];
+            relObjId = property[IDKey2];
         } else {
             objId = property[IDKey2];
-            relObjId = feature[IDKey1];
+            relObjId = property[IDKey1];
         }
         return {
             spec: relSpec.source,
