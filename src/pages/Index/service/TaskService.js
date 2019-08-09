@@ -18,16 +18,17 @@ export default (function() {
     );
 
     service.exportShp = params => {
-        let link = document.createElement('a');
+        // let link = document.createElement('a');
         let searchParams = Object.keys(params).reduce((str, key) => {
             return str + key + '=' + params[key];
         }, '?');
         let url = ShpApiPath('/api/v1/geoio/json2Shp' + searchParams);
-        link.style.display = 'none';
-        link.href = url;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // link.style.display = 'none';
+        // link.href = url;
+        window.open(url);
+        // document.body.appendChild(link);
+        // link.click();
+        // document.body.removeChild(link);
     };
 
     return service;
