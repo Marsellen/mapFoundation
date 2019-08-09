@@ -222,7 +222,7 @@ class RightMenuModal extends React.Component {
                 let features = RightMenuStore.getFeatures();
                 mergeLine(features)
                     .then(result => {
-                        console.log(result);
+                        // console.log(result);
                         OperateHistoryStore.add({
                             type: 'updateFeatureRels',
                             data: result

@@ -35,6 +35,7 @@ class AddRel extends React.Component {
                             DataLayerStore.clearChoose();
                         })
                         .catch(e => {
+                            console.log(e);
                             message.warning(e.message, 3);
                         });
                 },
