@@ -93,15 +93,8 @@ export const DATA_LAYER_MAP = {
         label: '交通信号灯',
         id: 'LIGHT_ID',
         spec: 'AD_TrafficLight',
-        tools: ['ADD_FACADEREC_TANGLE'],
-        rightTools: [
-            'delete',
-            'insertPoints',
-            'changePoints',
-            'deletePoints',
-            'ADD_REL',
-            'DEL_REL'
-        ]
+        tools: ['ADD_FACADEREC_TANGLE', 'ADD_REL', 'DEL_REL'],
+        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
     AD_Pole: {
         label: '杆状物',
