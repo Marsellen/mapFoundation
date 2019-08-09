@@ -32,6 +32,7 @@ class AddRel extends React.Component {
                                     }
                                 }
                             });
+                            message.success('新建成功', 3);
                             DataLayerStore.clearChoose();
                         })
                         .catch(e => {
