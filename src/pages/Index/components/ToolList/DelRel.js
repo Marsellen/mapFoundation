@@ -40,6 +40,7 @@ class DelRel extends React.Component {
                                     }
                                 }
                             });
+                            message.success('删除成功', 3);
                             AttributeStore.fetchRelFeatures();
                             DataLayerStore.clearChoose();
                         })
