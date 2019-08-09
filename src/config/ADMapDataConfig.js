@@ -105,8 +105,8 @@ export const TYPE_SELECT_OPTION_MAP = {
     ],
     AD_ROAD_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi ' },
-        { value: 1, label: '实际道路参考线' },
-        { value: 2, label: '虚拟道路参考线' }
+        { value: 1, label: '实际道路参考线', icon: 'shijidaolucankaoxian' },
+        { value: 2, label: '虚拟道路参考线', icon: 'xunidaolucankaoxian' }
     ],
     AD_ROAD_RD_STATUS: [
         { value: 0, label: '未定义' },
