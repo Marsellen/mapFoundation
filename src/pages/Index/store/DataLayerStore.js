@@ -223,6 +223,7 @@ class DataLayerStore extends LayerStore {
 
     @action deletePoints = () => {
         if (!this.editor) return;
+        this.editType = 'delPoint';
         this.editor.deletePoints();
         this.setPointSize(3);
     };
