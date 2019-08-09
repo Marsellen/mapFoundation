@@ -13,24 +13,35 @@ class AddRel extends React.Component {
     componentDidMount() {
         const { DataLayerStore, OperateHistoryStore } = this.props;
         DataLayerStore.setNewRelCallback(result => {
-            console.log(result);
-            let layerName = DataLayerStore.getEditLayer().layerName;
-            newRel(result, layerName)
-                .then(rels => {
-                    OperateHistoryStore.add({
-                        type: 'updateFeatureRels',
-                        data: {
-                            rels: {
-                                oldRels: [],
-                                newRels: rels
-                            }
-                        }
-                    });
+            // console.log(result);
+            Modal.confirm({
+                title: '是否新建关联关系?',
+                okText: '确定',
+                okType: 'danger',
+                cancelText: '取消',
+                onOk() {
+                    let layerName = DataLayerStore.getEditLayer().layerName;
+                    newRel(result, layerName)
+                        .then(rels => {
+                            OperateHistoryStore.add({
+                                type: 'updateFeatureRels',
+                                data: {
+                                    rels: {
+                                        oldRels: [],
+                                        newRels: rels
+                                    }
+                                }
+                            });
+                            DataLayerStore.clearChoose();
+                        })
+                        .catch(e => {
+                            message.warning(e.message, 3);
+                        });
+                },
+                onCancel() {
                     DataLayerStore.clearChoose();
-                })
-                .catch(e => {
-                    message.warning(e.message, 3);
-                });
+                }
+            });
         });
     }
 

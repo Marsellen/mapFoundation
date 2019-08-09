@@ -128,21 +128,32 @@ class RightMenuModal extends React.Component {
             DataLayerStore.clearChoose();
             return;
         }
-        let features = RightMenuStore.getFeatures();
-        breakLine(result[0], features)
-            .then(result => {
-                console.log(result);
-                OperateHistoryStore.add({
-                    type: 'updateFeatureRels',
-                    data: result
-                });
+        Modal.confirm({
+            title: '您确认执行操作？',
+            okText: '确定',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk() {
+                let features = RightMenuStore.getFeatures();
+                breakLine(result[0], features)
+                    .then(result => {
+                        console.log(result);
+                        OperateHistoryStore.add({
+                            type: 'updateFeatureRels',
+                            data: result
+                        });
+                        message.success('操作完成', 3);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                        message.warning('操作失败', 3);
+                    });
                 DataLayerStore.clearChoose();
-            })
-            .catch(e => {
-                console.log(e);
-                message.warning('操作失败', 3);
+            },
+            onCancel() {
                 DataLayerStore.clearChoose();
-            });
+            }
+        });
     };
 
     deleteFeature = () => {
@@ -202,21 +213,33 @@ class RightMenuModal extends React.Component {
             DataLayerStore,
             OperateHistoryStore
         } = this.props;
-        let features = RightMenuStore.getFeatures();
-        mergeLine(features)
-            .then(result => {
-                console.log(result);
-                OperateHistoryStore.add({
-                    type: 'updateFeatureRels',
-                    data: result
-                });
+        Modal.confirm({
+            title: '您确认执行操作？',
+            okText: '确定',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk() {
+                let features = RightMenuStore.getFeatures();
+                mergeLine(features)
+                    .then(result => {
+                        console.log(result);
+                        OperateHistoryStore.add({
+                            type: 'updateFeatureRels',
+                            data: result
+                        });
+                        message.success('操作完成', 3);
+                        DataLayerStore.clearChoose();
+                    })
+                    .catch(e => {
+                        console.log(e);
+                        message.warning('操作失败', 3);
+                        DataLayerStore.clearChoose();
+                    });
+            },
+            onCancel() {
                 DataLayerStore.clearChoose();
-            })
-            .catch(e => {
-                console.log(e);
-                message.warning('操作失败', 3);
-                DataLayerStore.clearChoose();
-            });
+            }
+        });
         RightMenuStore.hide();
     };
 }
