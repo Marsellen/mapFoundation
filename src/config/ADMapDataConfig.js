@@ -105,8 +105,8 @@ export const TYPE_SELECT_OPTION_MAP = {
     ],
     AD_ROAD_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi ' },
-        { value: 1, label: '实际道路参考线' },
-        { value: 2, label: '虚拟道路参考线' }
+        { value: 1, label: '实际道路参考线', icon:'shijidaolucankaoxian'},
+        { value: 2, label: '虚拟道路参考线', icon:'xunidaolucankaoxian' }
     ],
     AD_ROAD_RD_STATUS: [
         { value: 0, label: '未定义' },
@@ -498,17 +498,29 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'J', label: '读秒' }
     ],
     AD_RS_BARRIER_TYPE: [
-        { value: '0', label: '未定义' },
-        { value: '1', label: '隧道墙' },
-        { value: '2', label: '路侧防护栏' },
-        { value: '3', label: '路缘石' },
-        { value: '4', label: '隔音墙' }
+        { value: '0', label: '未定义', icon: 'weidingyi' },
+        { value: '1', label: '隧道墙', icon: 'suidaoqiang' },
+        { value: '2', label: '路侧防护栏', icon: 'lucefanghulan' },
+        { value: '3', label: '路缘石', icon: 'luyuanshi' },
+        { value: '4', label: '隔音墙', icon: 'geyinqiang' }
     ],
     AD_RS_BARRIER_MATERIAL: [
         { value: '0', label: '未定义' },
         { value: '1', label: '混凝土' },
         { value: '2', label: '金属' },
         { value: '3', label: '塑料' }
+    ],
+    AD_TEXT_TYPE: [
+        { value: '0', label: '未定义', icon: 'weidingyi' },
+        { value: '1', label: '最高限速', icon: 'zuigaoxiansu' },
+        { value: '2', label: '最低限速', icon: 'zuidixiansu' },
+        {
+            value: '3',
+            label: '公交车道时间限制',
+            icon: 'gongjiaochedaoshijianxianzhi'
+        },
+        { value: '4', label: '公交车道类文字', icon: '' },
+        { value: '99', label: '其他', icon: 'qita' }
     ]
 };
 
@@ -1061,7 +1073,7 @@ export const TABLE_DATA_MAP = {
             key: 'TYPE',
             name: '护栏类型',
             type: 'AD_RS_BARRIER_TYPE',
-            domType: 'Select'
+            domType: 'RadioIconGroup'
         },
         {
             key: 'MATERIAL',

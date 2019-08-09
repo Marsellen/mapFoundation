@@ -219,6 +219,11 @@ class VizCompnent extends React.Component {
     };
 
     editedCallBack = result => {
+        const {
+            DataLayerStore,
+            OperateHistoryStore,
+            RightMenuStore
+        } = this.props;
         if (result.errorCode) {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
@@ -226,11 +231,6 @@ class VizCompnent extends React.Component {
             DataLayerStore.clearChoose();
             return;
         }
-        const {
-            DataLayerStore,
-            OperateHistoryStore,
-            RightMenuStore
-        } = this.props;
         //console.log(result);
         DataLayerStore.setPointSize(0.5);
         let oldFeature = RightMenuStore.getFeatures()[0];
