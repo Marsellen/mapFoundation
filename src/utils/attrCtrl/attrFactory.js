@@ -1,6 +1,7 @@
 import { ATTR_SPEC_CONFIG, ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import IndexedDB from 'src/utils/IndexedDB';
+import _ from 'lodash';
 
 class attrFactory {
     attrDataToTable = data => {
@@ -57,14 +58,14 @@ class attrFactory {
         let attrStore = new IndexedDB('attributes', 'attr');
         let records = await attrStore.getAll([type, id], 'SPEC_KEY');
         if (!ATTR_TABLE_CONFIG[type]) return [];
-        let configs = JSON.parse(JSON.stringify(ATTR_TABLE_CONFIG[type]));
+        let configs = _.cloneDeep(ATTR_TABLE_CONFIG[type]);
         let ats = records.reduce((total, record) => {
             let table = configs[record.source];
             let attrs = table.map(config => {
                 config.value = record.properties[config.key];
                 return config;
             });
-            total[record.source + record.id] = attrs;
+            total[record.source + record.id] = _.cloneDeep(attrs);
             return total;
         }, {});
         return ats;
@@ -75,7 +76,7 @@ class attrFactory {
         let objId = properties[IDKey];
         let attrStore = new IndexedDB('attributes', 'attr');
         Object.keys(attrs).map(key => {
-            let id = key.replace(/[^0-9]/gi, '');
+            let id = parseInt(key.replace(/[^0-9]/gi, ''));
             let source = key.replace(/[0-9]/gi, '');
             let record = {
                 id,
