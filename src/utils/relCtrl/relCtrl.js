@@ -89,9 +89,14 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
         let relStore = new IndexedDB('relationships', 'rels');
         let rels;
         if (relSpecs[0].source == relSpecs[0].objSpec) {
-            let layerName = mainFeature.layerName;
-            let id = mainFeature.data.properties[DATA_LAYER_MAP[layerName].id];
             let type = relSpecs[0].objType;
+            let spec = relSpecs[0].objSpec;
+            let layerName = mainFeature.layerName;
+            let IDKey = DATA_LAYER_MAP[spec].id;
+            let id =
+                spec == layerName
+                    ? mainFeature.data.properties[IDKey]
+                    : relFeatures[0].data.properties[IDKey];
             rels = await relStore.getAll([type, id], 'OBJ_TYPE_KEYS');
             rels = rels.filter(rel => {
                 return relSpecs
@@ -99,10 +104,14 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
                     .includes(rel.relObjType);
             });
         } else {
-            let layerName = relFeatures[0].layerName;
-            let IDKey = DATA_LAYER_MAP[layerName].id;
-            let id = relFeatures[0].data.properties[IDKey];
             let type = relSpecs[0].relObjType;
+            let spec = relSpecs[0].relObjSpec;
+            let layerName = mainFeature.layerName;
+            let IDKey = DATA_LAYER_MAP[spec].id;
+            let id =
+                spec == layerName
+                    ? mainFeature.data.properties[IDKey]
+                    : relFeatures[0].data.properties[IDKey];
             rels = await relStore.getAll([type, id], 'REL_OBJ_TYPE_KEYS');
             rels = rels.filter(rel => {
                 return relSpecs
@@ -139,7 +148,7 @@ const createRel = (mainFeature, feature, index) => {
     let relSpecs = REL_SPEC_CONFIG.filter(rs => {
         return (
             (rs.objSpec == mainLayer && rs.relObjSpec == relLayer) ||
-            (rs.relObjSpec == relLayer && rs.objSpec == mainLayer)
+            (rs.relObjSpec == mainLayer && rs.objSpec == relLayer)
         );
     });
     index = relSpecs.length > index ? index : relSpecs.length - 1;
@@ -172,7 +181,7 @@ const createAllRel = (mainFeature, feature) => {
     let relSpecs = REL_SPEC_CONFIG.filter(rs => {
         return (
             (rs.objSpec == mainLayer && rs.relObjSpec == relLayer) ||
-            (rs.relObjSpec == relLayer && rs.objSpec == mainLayer)
+            (rs.relObjSpec == mainLayer && rs.objSpec == relLayer)
         );
     });
     return relSpecs.map(config => {
