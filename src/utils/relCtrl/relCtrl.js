@@ -157,9 +157,15 @@ const createRel = async (mainFeature, feature, index) => {
     });
     let REL_ID;
     if (REL_DATA_SET.includes(relSpecs[0].source)) {
-        REL_ID = await IDService.post({
+        let _result = await IDService.post({
             id_type: relSpecs[0].source
+        }).catch(e => {
+            Modal.error({
+                title: '请求ID失败',
+                okText: '确定'
+            });
         });
+        REL_ID = _result.code == 1 ? _result.data[0].min : null;
     }
     index = relSpecs.length > index ? index : relSpecs.length - 1;
     let rel;
