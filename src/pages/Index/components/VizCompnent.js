@@ -186,7 +186,6 @@ class VizCompnent extends React.Component {
             NewFeatureStore,
             OperateHistoryStore
         } = this.props;
-        DataLayerStore.clearChoose();
         //console.log(result);
         if (result.errorCode) {
             let arr = result.desc.split(':');
@@ -216,6 +215,7 @@ class VizCompnent extends React.Component {
                 let layer = DataLayerStore.getEditLayer();
                 layer.layer.removeFeatureById(result.uuid);
             });
+        DataLayerStore.clearChoose();
     };
 
     editedCallBack = result => {

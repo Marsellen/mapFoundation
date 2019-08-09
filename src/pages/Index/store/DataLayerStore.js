@@ -187,7 +187,7 @@ class DataLayerStore extends LayerStore {
 
     updateResult = flow(function*(result) {
         try {
-            if (!this.editType != 'new_circle') {
+            if (this.editType != 'new_circle') {
                 return result;
             }
             let points = result.data.geometry.coordinates[0];

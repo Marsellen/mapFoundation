@@ -66,7 +66,13 @@ export const DATA_LAYER_MAP = {
         label: '交通标志牌',
         id: 'SIGN_ID',
         spec: 'AD_TrafficSign',
-        tools: ['POLYGON', 'ADD_FACADEREC_TANGLE', 'ADD_CIRCLE', 'ADD_REL'],
+        tools: [
+            'POLYGON',
+            'ADD_FACADEREC_TANGLE',
+            'ADD_CIRCLE',
+            'ADD_REL',
+            'DEL_REL'
+        ],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
     AD_Road: {
@@ -93,7 +99,8 @@ export const DATA_LAYER_MAP = {
             'insertPoints',
             'changePoints',
             'deletePoints',
-            'ADD_REL'
+            'ADD_REL',
+            'DEL_REL'
         ]
     },
     AD_Pole: {

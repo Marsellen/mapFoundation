@@ -2,15 +2,17 @@ import IndexedDB from 'src/utils/IndexedDB';
 import {
     REL_SPEC_CONFIG,
     SPEC_REL_KEY_SET,
-    ATTR_REL_DATA_SET
+    ATTR_REL_DATA_SET,
+    REL_DATA_SET
 } from 'src/config/RelsConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import IDService from 'src/pages/Index/service/IDService';
 
 const newRel = async (features, layerName) => {
     let [mainFeature, ...relFeatures] = features;
     await basicCheck(mainFeature, relFeatures, layerName);
 
-    let rels = batchCreateRel(mainFeature, relFeatures);
+    let rels = await batchCreateRel(mainFeature, relFeatures);
     let relStore = new IndexedDB('relationships', 'rels');
     await relStore.batchAdd(rels);
     updateFeaturesByRels(rels);
@@ -127,9 +129,11 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
 };
 
 const batchCreateRel = (mainFeature, relFeatures) => {
-    return relFeatures.map((feature, index) => {
-        return createRel(mainFeature, feature, index);
-    });
+    return Promise.all(
+        relFeatures.map((feature, index) => {
+            return createRel(mainFeature, feature, index);
+        })
+    );
 };
 
 const batchCreateAllRel = (mainFeature, relFeatures) => {
@@ -140,7 +144,7 @@ const batchCreateAllRel = (mainFeature, relFeatures) => {
     }, []);
 };
 
-const createRel = (mainFeature, feature, index) => {
+const createRel = async (mainFeature, feature, index) => {
     let mainLayer = mainFeature.layerName;
     let relLayer = feature.layerName;
     let mainObjId = mainFeature.data.properties[DATA_LAYER_MAP[mainLayer].id];
@@ -151,6 +155,12 @@ const createRel = (mainFeature, feature, index) => {
             (rs.relObjSpec == mainLayer && rs.objSpec == relLayer)
         );
     });
+    let REL_ID;
+    if (REL_DATA_SET.includes(relSpecs[0].source)) {
+        REL_ID = await IDService.post({
+            id_type: relSpecs[0].source
+        });
+    }
     index = relSpecs.length > index ? index : relSpecs.length - 1;
     let rel;
     if (relSpecs[index].objSpec == mainLayer) {
@@ -165,11 +175,13 @@ const createRel = (mainFeature, feature, index) => {
         };
     }
     let { objType, relObjType, source: spec } = relSpecs[index];
+    let extraInfo = REL_ID ? { REL_ID } : null;
     return {
         ...rel,
         objType,
         relObjType,
-        spec
+        spec,
+        extraInfo
     };
 };
 
