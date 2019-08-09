@@ -17,7 +17,7 @@ export const DATA_LAYER_MAP = {
         label: '车道线',
         id: 'LDIV_ID',
         spec: 'AD_LaneDivider',
-        tools: ['LINE'],
+        tools: ['LINE', 'ADD_REL', 'DEL_REL'],
         rightTools: [
             'delete',
             'insertPoints',
