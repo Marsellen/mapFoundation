@@ -1,11 +1,15 @@
-const LOGIN_COOKIE_NAME = 'sessionId';
+const LOGIN_COOKIE_NAME = 'Authentication';
 
 export function isAuthenticated() {
     return _getCookie(LOGIN_COOKIE_NAME);
 }
 
-export function authenticateSuccess(token) {
-    _setCookie(LOGIN_COOKIE_NAME, token);
+export function authenticateSuccess(token, autoLogin) {
+    if (autoLogin) {
+        _setCookie(LOGIN_COOKIE_NAME, token);
+    } else {
+        logout();
+    }
 }
 
 export function logout() {
@@ -31,6 +35,7 @@ function _getCookie(name) {
 function _setCookie(name, value, expire) {
     let date = new Date();
     date.setDate(date.getDate() + expire);
+
     document.cookie =
         name +
         '=' +

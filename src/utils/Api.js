@@ -1,3 +1,11 @@
+export function ApiPath(url) {
+    if (/^\//.test(url)) {
+        return `/gateway${url}`;
+    } else {
+        return `/gateway/${url}`;
+    }
+}
+
 export function IdApiPath(url) {
     if (/^\//.test(url)) {
         return `/id_service${url}`;
