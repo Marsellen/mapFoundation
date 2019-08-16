@@ -2,7 +2,6 @@ import React from 'react';
 import { Modal, Button } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import Authed from 'src/store/Authed';
 
 @withRouter
 @inject('appStore')

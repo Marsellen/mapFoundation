@@ -4,8 +4,8 @@ export function isAuthenticated() {
     return _getCookie(LOGIN_COOKIE_NAME);
 }
 
-export function authenticateSuccess(token, autoLogin, rememberMe) {
-    if (autoLogin || rememberMe) {
+export function authenticateSuccess(token, autoLogin) {
+    if (autoLogin) {
         _setCookie(LOGIN_COOKIE_NAME, token);
     } else {
         logout();

@@ -24,7 +24,7 @@ class LoginForm extends React.Component {
 
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                appStore.login(values).then(() => {
+                appStore.login(values, this.state).then(() => {
                     const { from } = this.props.location.state || {
                         from: { pathname: '/' }
                     };

@@ -1,6 +1,7 @@
-import { observable, flow, configure } from 'mobx';
+import { observable, flow, configure, action } from 'mobx';
 import { isAuthenticated, authenticateSuccess, logout } from '../utils/Session';
 import AppService from '../services/AppService';
+import { message } from 'antd';
 
 configure({ enforceActions: 'always' });
 class AppStore {
@@ -9,12 +10,19 @@ class AppStore {
 
     login = flow(function*(userInfo, option) {
         let result = yield AppService.login(userInfo);
-        console.log(result.data);
-        console.log(this.loginUser);
-        console.log(userInfo);
-        
-        
+        // console.log(result);
+        if (result.code !== 1) {
+            message.error(result.message, 3);
+            return;
+        }
+        authenticateSuccess(result.data.token, option.autoLogin);
+        this.isLogin = true;
+        this.loginUser = result.data;
     });
+
+    @action logout = () => {
+        logout();
+    };
 }
 
 export default new AppStore();
