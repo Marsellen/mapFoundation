@@ -116,6 +116,30 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_RS_Barrier',
         tools: ['LINE'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
+    },
+    AD_Lane_RS: {
+        label: '车道中心线交通限制信息',
+        id: 'RS_ID',
+        spec: 'AD_Lane_RS'
+    },
+    AD_Lane_Con_RS: {
+        label: '车道中心线的连接关系交通限制',
+        id: 'RS_ID',
+        spec: 'AD_Lane_Con_RS'
+    },
+    AD_LaneShape: {
+        label: '车道中心线曲率坡度信息',
+        spec: 'AD_LaneShape'
+    },
+    AD_TS_Content: {
+        label: '交通标志牌相关属性',
+        id: 'CONT_ID',
+        spec: 'AD_TS_Content'
+    },
+    AD_Sub_Lamp: {
+        label: '交通信号灯灯头相关属性',
+        id: 'LAMP_ID',
+        spec: 'AD_Sub_Lamp'
     }
 };
 

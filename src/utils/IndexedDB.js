@@ -17,6 +17,11 @@ class IndexedDB {
 
                 let transaction = db.transaction([this.tableName], 'readwrite');
 
+                transaction.onabort = error => {
+                    console.log(transaction.error.message);
+                    reject(transaction.error);
+                };
+
                 let objectStore = transaction.objectStore(this.tableName);
 
                 resolve(objectStore, event);
@@ -156,6 +161,18 @@ class IndexedDB {
             this.open().then(objectStore => {
                 let keyRange = IDBKeyRange.bound(start, end, true, false);
                 let request = objectStore.delete(keyRange);
+                request.onsuccess = event => {
+                    resolve(request.result, event);
+                };
+                request.onerror = reject;
+            }, reject);
+        });
+    };
+
+    deleteById = (id) => {
+        return new Promise((resolve, reject) => {
+            this.open().then(objectStore => {
+                let request = objectStore.delete(id);
                 request.onsuccess = event => {
                     resolve(request.result, event);
                 };

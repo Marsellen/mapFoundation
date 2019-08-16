@@ -520,6 +520,32 @@ export const TYPE_SELECT_OPTION_MAP = {
             icon: 'gongjiaochedaoshijianxianzhi'
         },
         { value: '99', label: '其他', icon: 'qita' }
+    ],
+    AD_LANE_RS_TYPE: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '禁止驶入' },
+        { value: 2, label: '潮汐车道限制' },
+        { value: 3, label: '禁止停车限制' }
+    ],
+    AD_LANE_RS_VALUE0: [],
+    AD_LANE_RS_VALUE1: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '公交车道禁止驶入' },
+        { value: 2, label: '外埠车辆禁止驶入' },
+        { value: 3, label: '禁止驶入' },
+        { value: 4, label: 'HOV车道禁止驶入' }
+    ],
+    AD_LANE_RS_VALUE2: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '正向通行' },
+        { value: 2, label: '逆向通行' },
+        { value: 3, label: '禁止通行' }
+    ],
+    AD_LANE_RS_VALUE3: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '禁止停车' },
+        { value: 2, label: '禁止长时间停车' },
+        { value: 3, label: '禁止停车时间' }
     ]
 };
 

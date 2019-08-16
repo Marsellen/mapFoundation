@@ -2,8 +2,7 @@ import { action, configure, flow, observable } from 'mobx';
 import LayerStore from './LayerStore';
 import { EditControl, MeasureControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
-import { Modal, message } from 'antd';
-import { getFeatureByRels } from 'src/utils/relCtrl/relCtrl';
+import { Modal } from 'antd';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore extends LayerStore {
