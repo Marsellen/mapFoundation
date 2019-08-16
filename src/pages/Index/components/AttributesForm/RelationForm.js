@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Empty, Form, Input, message } from 'antd';
+import { Empty, Form, Input } from 'antd';
 
 const formItemLayout = {
     labelCol: {
@@ -32,17 +32,22 @@ class RelationForm extends React.Component {
     }
 
     renderItem = (item, index) => {
-        return this.renderInput(item, index, 'rels');
+        if (item.withAttr) {
+            return this.renderGroupItem(item, index);
+        } else {
+            return this.renderInput(item, index, 'rels');
+        }
     };
 
     renderInput = (item, index, filedKey) => {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
+        let key = filedKey + '.id' + item.id + '.' + item.key;
 
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
-                    form.getFieldDecorator(filedKey + '.' + item.key, {
+                    form.getFieldDecorator(key, {
                         rules: [
                             {
                                 required: true,
@@ -58,6 +63,15 @@ class RelationForm extends React.Component {
                     </span>
                 )}
             </Form.Item>
+        );
+    };
+
+    renderGroupItem = (item, index) => {
+        return (
+            <div key={index}>
+                {this.renderInput(item, index, 'rels')}
+                {}
+            </div>
         );
     };
 

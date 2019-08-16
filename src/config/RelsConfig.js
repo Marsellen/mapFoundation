@@ -29,13 +29,20 @@ export const REL_TYPE_KEY_MAP = {
         name: '关联车道中心线'
     },
     FROM_LANE: {
-        name: '驶入车道中心线'
-    },
-    FROM_ROAD: {
-        name: '驶入参考线'
+        name: '驶入车道中心线',
+        withAttr: true
     },
     TO_LANE: {
-        name: '驶出车道中心线'
+        name: '驶出车道中心线',
+        withAttr: true
+    },
+    FROM_ROAD: {
+        name: '驶入参考线',
+        withAttr: true
+    },
+    TO_ROAD: {
+        name: '驶出参考线',
+        withAttr: true
     },
     STOPL: {
         name: '关联停止位置'
@@ -48,9 +55,6 @@ export const REL_TYPE_KEY_MAP = {
     },
     SIGN: {
         name: '关联交通标志牌'
-    },
-    TO_ROAD: {
-        name: '驶出参考线'
     },
     ARROW: {
         name: '关联地面箭头'

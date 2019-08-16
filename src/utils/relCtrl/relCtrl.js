@@ -5,7 +5,7 @@ import {
     ATTR_REL_DATA_SET,
     REL_DATA_SET
 } from 'src/config/RelsConfig';
-import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import { getLayerIDKey } from 'src/utils/vectorUtils';
 import IDService from 'src/pages/Index/service/IDService';
 
 const newRel = async (features, layerName) => {
@@ -94,7 +94,7 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
             let type = relSpecs[0].objType;
             let spec = relSpecs[0].objSpec;
             let layerName = mainFeature.layerName;
-            let IDKey = DATA_LAYER_MAP[spec].id;
+            let IDKey = getLayerIDKey(spec);
             let id =
                 spec == layerName
                     ? mainFeature.data.properties[IDKey]
@@ -109,7 +109,7 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
             let type = relSpecs[0].relObjType;
             let spec = relSpecs[0].relObjSpec;
             let layerName = mainFeature.layerName;
-            let IDKey = DATA_LAYER_MAP[spec].id;
+            let IDKey = getLayerIDKey(spec);
             let id =
                 spec == layerName
                     ? mainFeature.data.properties[IDKey]
@@ -147,8 +147,8 @@ const batchCreateAllRel = (mainFeature, relFeatures) => {
 const createRel = async (mainFeature, feature, index) => {
     let mainLayer = mainFeature.layerName;
     let relLayer = feature.layerName;
-    let mainObjId = mainFeature.data.properties[DATA_LAYER_MAP[mainLayer].id];
-    let relObjId = feature.data.properties[DATA_LAYER_MAP[relLayer].id];
+    let mainObjId = mainFeature.data.properties[getLayerIDKey(mainLayer)];
+    let relObjId = feature.data.properties[getLayerIDKey(relLayer)];
     let relSpecs = REL_SPEC_CONFIG.filter(rs => {
         return (
             (rs.objSpec == mainLayer && rs.relObjSpec == relLayer) ||
@@ -194,8 +194,8 @@ const createRel = async (mainFeature, feature, index) => {
 const createAllRel = (mainFeature, feature) => {
     let mainLayer = mainFeature.layerName;
     let relLayer = feature.layerName;
-    let mainObjId = mainFeature.data.properties[DATA_LAYER_MAP[mainLayer].id];
-    let relObjId = feature.data.properties[DATA_LAYER_MAP[relLayer].id];
+    let mainObjId = mainFeature.data.properties[getLayerIDKey(mainLayer)];
+    let relObjId = feature.data.properties[getLayerIDKey(relLayer)];
     let relSpecs = REL_SPEC_CONFIG.filter(rs => {
         return (
             (rs.objSpec == mainLayer && rs.relObjSpec == relLayer) ||
@@ -235,7 +235,7 @@ const getFeatureByRels = rels => {
         let spec = specRelKey && specRelKey.spec;
         if (!spec) return map;
 
-        let IDKey = DATA_LAYER_MAP[spec].id;
+        let IDKey = getLayerIDKey(spec);
         let option = {
             layerName: spec,
             option: { key: IDKey, value: rel.value }

@@ -4,6 +4,7 @@ import { Modal, Form, Button } from 'antd';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import BasicAttributesForm from './AttributesForm/BasicAttributesForm';
 import RelationForm from './AttributesForm/RelationForm';
+import AttrsForm from './AttributesForm/AttrsForm';
 import AdTabs from 'src/components/AdTabs/index';
 import 'less/components/attributes-modal.less';
 
@@ -76,7 +77,10 @@ class AttributesModal extends React.Component {
 
     renderForm() {
         return (
-            <BasicAttributesForm key="basicAttribute" form={this.props.form} />
+            <div key="basicAttribute">
+                <BasicAttributesForm form={this.props.form} />
+                <AttrsForm form={this.props.form} />
+            </div>
         );
     }
 

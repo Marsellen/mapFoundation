@@ -1,8 +1,8 @@
 import React from 'react';
-import { inject, observer } from 'mobx-react';
-import { Form, Input, Select } from 'antd';
+import { Button, Input, Select, Modal, Form } from 'antd';
 import RadioIconGroup from 'src/components/RadioIconGroup';
-import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
+import _ from 'lodash';
+import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 
 const formItemLayout = {
@@ -16,32 +16,119 @@ const formItemLayout = {
     }
 };
 
-@inject('AttributeStore')
-@observer
-class BasicAttributesForm extends React.Component {
+@Form.create()
+class EditableCard extends React.Component {
+    state = {
+        visible: false,
+        attrs: []
+    };
+
+    static getDerivedStateFromProps(props, state) {
+        const { value } = props;
+        let config = _.cloneDeep(ATTR_TABLE_CONFIG[value.source]);
+        config.forEach(item => {
+            item.value = value.properties[item.key];
+        });
+        return {
+            ...state,
+            attrs: config
+        };
+    }
+
     render() {
-        const { AttributeStore } = this.props;
-        const { attributes, attrs } = AttributeStore;
+        const { visible, attrs } = this.state;
         return (
             <div>
-                {attributes.map((item, index) =>
-                    this.renderItem(item, index, 'attributes')
-                )}
+                {attrs.map((item, index) => this.renderItem(item, index, true))}
+                <Button onClick={this.edit} />
+                <Button onClick={this.onDelete} />
+                <Modal
+                    visible={visible}
+                    title="新建"
+                    okText="保存"
+                    cancelText="取消"
+                    onCancel={this.onCancel}
+                    onOk={this.onCreate}>
+                    {this.renderContent()}
+                </Modal>
             </div>
         );
     }
 
-    renderItem = (item, index, name) => {
-        return this['render' + item.domType](item, index, name);
+    edit = () => {
+        this.setState({
+            visible: true
+        });
     };
 
-    renderText = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+    onCreate = () => {
+        const { value, onChange, form } = this.props;
+        const { attrs } = this.state;
+
+        form.validateFields((err, values) => {
+            if (err) {
+                return;
+            }
+            console.log(values);
+            onChange({
+                ...value,
+                properties: {
+                    ...values
+                }
+            });
+            attrs.forEach(item => {
+                item.value = values[item.key];
+            });
+            this.setState({ attrs });
+            this.hide();
+        });
+    };
+
+    onCancel = () => {
+        const { form } = this.props;
+        form.validateFields((err, values) => {
+            if (err) {
+                return;
+            }
+            this.hide();
+        });
+    };
+
+    onDelete = () => {
+        const { onDelete, index } = this.props;
+        Modal.confirm({
+            title: '删除后无法撤回，确认删除？',
+            onOk: () => {
+                onDelete(index);
+            }
+        });
+    };
+
+    hide = () => {
+        this.setState({
+            visible: false
+        });
+    };
+
+    renderContent = () => {
+        const { attrs } = this.state;
+        return (
+            <Form layout="vertical">
+                {attrs.map((item, index) => this.renderItem(item, index))}
+            </Form>
+        );
+    };
+
+    renderItem = (item, index, readonly) => {
+        return this['render' + item.domType](item, index, readonly);
+    };
+
+    renderText = (item, index, readonly) => {
+        const { form } = this.props;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
-                    form.getFieldDecorator(name + '.' + item.key, {
+                    form.getFieldDecorator(item.key, {
                         initialValue: item.value
                     })(<Input disabled />)
                 ) : (
@@ -53,13 +140,12 @@ class BasicAttributesForm extends React.Component {
         );
     };
 
-    renderInput = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+    renderInput = (item, index, readonly) => {
+        const { form } = this.props;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
-                    form.getFieldDecorator(name + '.' + item.key, {
+                    form.getFieldDecorator(item.key, {
                         rules: [
                             {
                                 required: item.required,
@@ -78,14 +164,13 @@ class BasicAttributesForm extends React.Component {
         );
     };
 
-    renderSelect = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+    renderSelect = (item, index, readonly) => {
+        const { form } = this.props;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
-                    form.getFieldDecorator(name + '.' + item.key, {
+                    form.getFieldDecorator(item.key, {
                         rules: [
                             {
                                 required: item.required,
@@ -108,7 +193,8 @@ class BasicAttributesForm extends React.Component {
                                 option.props.children
                                     .toLowerCase()
                                     .indexOf(input.toLowerCase()) >= 0
-                            }>
+                            }
+                            onChange={this.attrOnChange(item.link)}>
                             {options.map((option, index) => {
                                 return (
                                     <Select.Option
@@ -129,32 +215,14 @@ class BasicAttributesForm extends React.Component {
         );
     };
 
-    getArrayOption = (value, arr) => {
-        let text = '';
-        const pos = arr.findIndex(val => val.value === value);
-        text =
-            pos != -1 && this.isPresent(arr[pos].label) ? arr[pos].label : '--';
-        return text;
-    };
-
-    getCheckBoxArrayOption = (value, arr) => {
-        const text =
-            arr
-                .filter(val => value.includes(val.value))
-                .map(val => val.label)
-                .join('+') || '--';
-        return text;
-    };
-
-    renderRadioIconGroup = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+    renderRadioIconGroup = (item, index, readonly) => {
+        const { form } = this.props;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         let layout = readonly ? formItemLayout : {};
         return (
             <Form.Item key={index} label={item.name} {...layout}>
                 {!readonly ? (
-                    form.getFieldDecorator(name + '.' + item.key, {
+                    form.getFieldDecorator(item.key, {
                         rules: [
                             {
                                 required: item.required,
@@ -178,41 +246,32 @@ class BasicAttributesForm extends React.Component {
         );
     };
 
-    renderCheckBoxIconGroup = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
-        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
-        let layout = readonly ? formItemLayout : {};
-        return (
-            <Form.Item key={index} label={item.name} {...layout}>
-                {!readonly ? (
-                    form.getFieldDecorator(name + '.' + item.key, {
-                        rules: [
-                            {
-                                required: item.required,
-                                message: `${item.name}必填`
-                            },
-                            ...(item.validates || []).map(validate => {
-                                return {
-                                    pattern: validate.pattern,
-                                    message: validate.message
-                                };
-                            })
-                        ],
-                        initialValue: item.value
-                    })(
-                        <CheckBoxIconGroup
-                            options={options}
-                            disabled={readonly}
-                        />
-                    )
-                ) : (
-                    <span className="ant-form-text">
-                        {this.getCheckBoxArrayOption(item.value, options)}
-                    </span>
-                )}
-            </Form.Item>
-        );
+    attrOnChange = key => {
+        if (key) {
+            return value => {
+                const { attrs } = this.state;
+                const { form } = this.props;
+                let index = attrs.findIndex(attr => attr.key == key);
+                attrs[index].type =
+                    attrs[index].type.replace(/[0-9]/, '') + value;
+                form.setFieldsValue({
+                    [attrs[index].key]: null
+                });
+                this.setState({
+                    attrs
+                });
+            };
+        } else {
+            return () => {};
+        }
+    };
+
+    getArrayOption = (value, arr) => {
+        let text = '';
+        const pos = arr.findIndex(val => val.value === value);
+        text =
+            pos != -1 && this.isPresent(arr[pos].label) ? arr[pos].label : '--';
+        return text;
     };
 
     isPresent(obj) {
@@ -220,4 +279,4 @@ class BasicAttributesForm extends React.Component {
     }
 }
 
-export default BasicAttributesForm;
+export default EditableCard;
