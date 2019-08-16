@@ -9,8 +9,14 @@ module.exports = merge(common, {
         historyApiFallback: true,
         hot: true,
         proxy: {
+            '/gateway': {
+                target: 'http://10.43.75.58:13003',
+                pathRewrite: { '^/gateway': '' },
+                changeOrigin: true,
+                logLevel: 'debug'
+            },
             '/id_service': {
-                target: 'http://10.43.75.17:13007',
+                target: 'http://10.43.75.58:13101',
                 pathRewrite: { '^/id_service': '' },
                 changeOrigin: true,
                 logLevel: 'debug'
