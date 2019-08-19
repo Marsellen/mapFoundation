@@ -16,7 +16,7 @@ module.exports = merge(common, {
                 logLevel: 'debug'
             },
             '/id_service': {
-                target: 'http://10.43.75.58:13101',
+                target: 'http://10.43.75.17:13007',
                 pathRewrite: { '^/id_service': '' },
                 changeOrigin: true,
                 logLevel: 'debug'

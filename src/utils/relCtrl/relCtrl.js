@@ -7,6 +7,7 @@ import {
 } from 'src/config/RelsConfig';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
 import IDService from 'src/pages/Index/service/IDService';
+import { Modal } from 'antd';
 
 const newRel = async (features, layerName) => {
     let [mainFeature, ...relFeatures] = features;
@@ -165,7 +166,7 @@ const createRel = async (mainFeature, feature, index) => {
                 okText: '确定'
             });
         });
-        REL_ID = _result.code == 1 ? _result.data[0].min : null;
+        REL_ID = _result.data[0].min;
     }
     index = relSpecs.length > index ? index : relSpecs.length - 1;
     let rel;
@@ -181,7 +182,7 @@ const createRel = async (mainFeature, feature, index) => {
         };
     }
     let { objType, relObjType, source: spec } = relSpecs[index];
-    let extraInfo = REL_ID ? { REL_ID } : null;
+    let extraInfo = { REL_ID };
     return {
         ...rel,
         objType,
