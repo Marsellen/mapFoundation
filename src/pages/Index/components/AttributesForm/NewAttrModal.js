@@ -45,10 +45,11 @@ class NewAttrModal extends React.Component {
         );
     }
 
-    show = key => {
+    show = (key, properties) => {
         let config = _.cloneDeep(ATTR_TABLE_CONFIG[key]);
         this.setState({
-            key: key,
+            key,
+            properties,
             visible: true,
             attrs: config
         });
@@ -56,13 +57,13 @@ class NewAttrModal extends React.Component {
 
     onOk = () => {
         const { AttributeStore, form } = this.props;
-        const { key } = this.state;
+        const { key, properties } = this.state;
         form.validateFields((err, values) => {
             if (err) {
                 return;
             }
             console.log(values);
-            AttributeStore.newAttr(key, values).then(() => {
+            AttributeStore.newAttr(key, values, properties).then(() => {
                 this.onCancel();
             });
         });

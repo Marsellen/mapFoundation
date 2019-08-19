@@ -47,7 +47,7 @@ class VizCompnent extends React.Component {
             this.initPointCloud(task.point_clouds),
             this.initVectors(task.vectors),
             this.initTracks(task.tracks),
-            this.installRef(task.rels),
+            this.installRel(task.rels),
             this.installAttr(task.attrs)
         ])
             .then(results => {
@@ -274,7 +274,7 @@ class VizCompnent extends React.Component {
         }
     };
 
-    installRef = url => {
+    installRel = url => {
         const { RelStore } = this.props;
         return RelStore.init(url);
     };

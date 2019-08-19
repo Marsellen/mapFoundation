@@ -17,20 +17,19 @@ export const geojsonToDbData = (properties, spec) => {
     let relSpecs = REL_SPEC_CONFIG.filter(relSpec => relSpec.source == spec);
     return relSpecs.map(relSpec => {
         const { objKeyName, objType, relObjKeyName, relObjType } = relSpec;
-        let record = {
+        let {
+            [objKeyName]: objId,
+            [relObjKeyName]: relObjId,
+            ...extraInfo
+        } = properties;
+        return {
             spec,
-            objId: properties[objKeyName],
-            relObjId: properties[relObjKeyName],
+            objId,
+            relObjId,
             objType,
-            relObjType
+            relObjType,
+            extraInfo
         };
-        if (REL_DATA_SET.includes(spec)) {
-            record = {
-                ...record,
-                extraInfo: properties
-            };
-        }
-        return record;
     });
 };
 

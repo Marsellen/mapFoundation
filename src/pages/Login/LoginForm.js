@@ -31,6 +31,7 @@ class LoginForm extends React.Component {
 
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                values.password = btoa(values.password); //base64编码
                 appStore.login(values, this.state).then(() => {
                     localStorage.setItem('rememberMe', this.state.rememberMe);
                     localStorage.setItem('autoLogin', this.state.autoLogin);

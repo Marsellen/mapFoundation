@@ -4,6 +4,7 @@ import relFactory from 'src/utils/relCtrl/relFactory';
 import attrFactory from 'src/utils/attrCtrl/attrFactory';
 import IDService from 'src/pages/Index/service/IDService';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
+import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
 import { message } from 'antd';
 
 configure({ enforceActions: 'always' });
@@ -68,6 +69,7 @@ class AttributeStore {
                 this.model.layerName,
                 this.model.data.properties
             );
+            console.log(this.attrs);
         } catch (error) {
             console.log(error);
         }
@@ -151,7 +153,7 @@ class AttributeStore {
         }
     });
 
-    newAttr = flow(function*(key, value) {
+    newAttr = flow(function*(key, value, properties) {
         try {
             const _result = yield IDService.post({
                 id_type: key
@@ -163,9 +165,11 @@ class AttributeStore {
             });
             let id = _result.data[0].min;
             let IDKey = getLayerIDKey(key);
-            let MainFId = getLayerIDKey(this.type);
+            let MainKey = ATTR_SPEC_CONFIG.find(config => config.source == key);
+            let MainFId = MainKey.key;
             value[IDKey] = id;
-            value[MainFId] = this.model.data.properties[MainFId];
+            properties = properties || this.model.data.properties;
+            value[MainFId] = properties[MainFId];
             let record = attrFactory.dataToTable(value, key);
             this.attrs[key] = this.attrs[key] || [];
             this.attrs[key].push(record);
