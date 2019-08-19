@@ -10,10 +10,17 @@ import { Form, Input, Icon, Checkbox } from 'antd';
 @Form.create()
 class LoginForm extends React.Component {
     state = {
-        focusItem: -1, //保存当前聚焦的input
-        rememberMe: true, // 记住用户名
-        autoLogin: true //自动登录
+        focusItem: -1 //保存当前聚焦的input
     };
+
+    componentDidMount() {
+        let rememberMe = localStorage.getItem('rememberMe') === 'true';
+        let autoLogin = localStorage.getItem('autoLogin') === 'true';
+        this.setState({
+            rememberMe, // 记住用户名
+            autoLogin //自动登录
+        });
+    }
 
     loginSubmit = e => {
         e.preventDefault();
@@ -25,6 +32,10 @@ class LoginForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 appStore.login(values, this.state).then(() => {
+                    localStorage.setItem('rememberMe', this.state.rememberMe);
+                    localStorage.setItem('autoLogin', this.state.autoLogin);
+                    let userName = this.state.rememberMe ? values.username : '';
+                    localStorage.setItem('userName', userName);
                     const { from } = this.props.location.state || {
                         from: { pathname: '/' }
                     };
@@ -53,13 +64,17 @@ class LoginForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         const { focusItem, autoLogin, rememberMe } = this.state;
+        let userName = localStorage.getItem('userName');
         return (
             <div className={this.props.className}>
                 <h3 className="title">管理员登录</h3>
                 <Form onSubmit={this.loginSubmit}>
                     <Form.Item>
                         {getFieldDecorator('username', {
-                            rules: [{ required: true, message: '请输入用户名' }]
+                            rules: [
+                                { required: true, message: '请输入用户名' }
+                            ],
+                            initialValue: userName
                         })(
                             <Input
                                 onFocus={() => this.setState({ focusItem: 0 })}
