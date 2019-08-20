@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getAuthentication } from './Session';
 
 const BASIC_METHODS = ['get', 'post', 'put'];
 
@@ -39,11 +40,15 @@ function request(defaultUrl, extraParams, option) {
             } else {
                 key = 'data';
             }
+
+            // TODO
+            let userInfo = getAuthentication();
+            let Authentication = userInfo ? userInfo.token : '';
             let config = {
                 ...option,
                 url: urlFormat(option.url || defaultUrl, params),
                 [key]: params,
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json', Authentication }
             };
             axios(config)
                 .then(response => {

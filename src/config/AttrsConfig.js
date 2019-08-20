@@ -94,5 +94,24 @@ export const ATTR_TABLE_CONFIG = {
             key: 'TIMEDOM',
             domType: 'Input'
         }
+    ],
+    AD_Lane_Con_RS: [
+        {
+            key: 'RS_ID',
+            name: '用户编号',
+            domType: 'Text',
+            placeholder: '系统自动生成'
+        },
+        {
+            key: 'RS_TYPE',
+            name: '限制类型',
+            type: 'AD_LANE_CON_RS_TYPE',
+            domType: 'Select'
+        },
+        {
+            name: '限制时间描述',
+            key: 'TIMEDOM',
+            domType: 'Input'
+        }
     ]
 };

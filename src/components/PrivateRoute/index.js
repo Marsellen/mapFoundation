@@ -12,8 +12,8 @@ class PrivateRoute extends React.Component {
 
     renderComponent = props => {
         const { component: Component, appStore } = this.props;
-        const { isLogin } = appStore;
-        return isLogin ? (
+        const { loginUser } = appStore;
+        return loginUser ? (
             <Component {...props} />
         ) : (
             <Redirect

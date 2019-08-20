@@ -21,7 +21,6 @@ class DataLayerStore extends LayerStore {
                         cancelText: '取消',
                         onOk: () => {
                             this.clearChoose();
-                            this.measureControl.clear();
                         }
                     });
                 }
@@ -116,6 +115,7 @@ class DataLayerStore extends LayerStore {
         this.editType = 'normal';
         this.editor.clear();
         this.editor.cancel();
+        this.measureControl.clear();
         this.setPointSize(0.5);
     };
 
@@ -125,6 +125,7 @@ class DataLayerStore extends LayerStore {
 
     @action newPoint = () => {
         if (!this.editor) return;
+        this.measureControl.clear();
         this.editType = 'new_point';
         this.editor.newPoint();
         this.setPointSize(3);
@@ -132,6 +133,7 @@ class DataLayerStore extends LayerStore {
 
     @action newLine = () => {
         if (!this.editor) return;
+        this.measureControl.clear();
         this.editType = 'new_line';
         this.editor.newLine();
         this.setPointSize(3);
@@ -139,6 +141,7 @@ class DataLayerStore extends LayerStore {
 
     @action newPolygon = () => {
         if (!this.editor) return;
+        this.measureControl.clear();
         this.editType = 'new_polygon';
         this.editor.newPolygon();
         this.setPointSize(3);
@@ -146,6 +149,7 @@ class DataLayerStore extends LayerStore {
 
     @action newFacadeRectangle = () => {
         if (!this.editor) return;
+        this.measureControl.clear();
         this.editType = 'new_facade_rectangle';
         this.editor.newMatrix();
         this.setPointSize(3);
@@ -153,6 +157,7 @@ class DataLayerStore extends LayerStore {
 
     @action newRel = () => {
         if (this.editType == 'newRel') return;
+        this.measureControl.clear();
         this.editType = 'newRel';
         this.editor.clear();
         this.editor.toggleMode(61);
@@ -160,6 +165,7 @@ class DataLayerStore extends LayerStore {
 
     @action delRel = () => {
         if (this.editType == 'delRel') return;
+        this.measureControl.clear();
         this.editType = 'delRel';
         this.editor.clear();
         this.editor.toggleMode(61);
@@ -179,6 +185,7 @@ class DataLayerStore extends LayerStore {
 
     newCircle = flow(function*() {
         if (!this.editor) return;
+        this.measureControl.clear();
         this.editType = 'new_circle';
         this.editor.newFixedPolygon(3);
         this.setPointSize(5);
@@ -210,18 +217,23 @@ class DataLayerStore extends LayerStore {
 
     @action insertPoints = () => {
         if (!this.editor) return;
+        this.measureControl.clear();
+        this.editType = 'insertPoints';
         this.editor.insertPoints();
         this.setPointSize(3);
     };
 
     @action changePoints = () => {
         if (!this.editor) return;
+        this.measureControl.clear();
+        this.editType = 'changePoints';
         this.editor.changePoints();
         this.setPointSize(3);
     };
 
     @action deletePoints = () => {
         if (!this.editor) return;
+        this.measureControl.clear();
         this.editType = 'delPoint';
         this.editor.deletePoints();
         this.setPointSize(3);
@@ -240,13 +252,14 @@ class DataLayerStore extends LayerStore {
     };
 
     @action startMeatureDistance = () => {
-        this.measureControl.startMeatureDistance();
         this.editType = 'meature_distance';
+        this.measureControl.startMeatureDistance();
     };
 
     @action selectPointFromHighlight = () => {
-        this.editor.selectPointFromHighlight();
+        this.measureControl.clear();
         this.editType = 'select_point';
+        this.editor.selectPointFromHighlight();
     };
 }
 

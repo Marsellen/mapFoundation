@@ -546,6 +546,10 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 1, label: '禁止停车' },
         { value: 2, label: '禁止长时间停车' },
         { value: 3, label: '禁止停车时间' }
+    ],
+    AD_LANE_CON_RS_TYPE: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '禁止转向限制' }
     ]
 };
 

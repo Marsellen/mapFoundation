@@ -218,13 +218,18 @@ const relDataFormat = (spec, properties) => {
     let relSpec = REL_SPEC_CONFIG.find(relSpec => relSpec.source == spec);
     const { objKeyName, objType, relObjKeyName, relObjType } = relSpec;
     return properties.map(property => {
+        let {
+            [objKeyName]: objId,
+            [relObjKeyName]: relObjId,
+            ...extraInfo
+        } = property;
         return {
             spec,
-            objId: property[objKeyName],
-            relObjId: property[relObjKeyName],
+            objId,
+            relObjId,
             objType,
             relObjType,
-            extraInfo: property
+            extraInfo
         };
     });
 };

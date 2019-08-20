@@ -37,12 +37,10 @@ export const REL_TYPE_KEY_MAP = {
         withAttr: true
     },
     FROM_ROAD: {
-        name: '驶入参考线',
-        withAttr: true
+        name: '驶入参考线'
     },
     TO_ROAD: {
-        name: '驶出参考线',
-        withAttr: true
+        name: '驶出参考线'
     },
     STOPL: {
         name: '关联停止位置'

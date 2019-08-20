@@ -51,12 +51,55 @@ const dataToTable = (properties, spec) => {
     };
 };
 
+const REL_RS = [
+    {
+        spec: 'AD_Lane',
+        relKey: 'FROM_LANE',
+        relType: 'OBJ_TYPE_KEYS',
+        source: 'AD_Lane_Con'
+    },
+    {
+        spec: 'AD_Lane',
+        relKey: 'TO_LANE',
+        relType: 'REL_OBJ_TYPE_KEYS',
+        source: 'AD_Lane_Con'
+    }
+];
+
 const getTabelData = async (layerName, properties) => {
     let IDKey = getLayerIDKey(layerName);
     let id = properties[IDKey];
     let attrStore = new IndexedDB('attributes', 'attr');
-    let records = await attrStore.getAll([layerName, id], 'SPEC_KEY');
-    return records.reduce((total, record) => {
+    let attrs = await attrStore.getAll([layerName, id], 'SPEC_KEY');
+
+    let configs = REL_RS.filter(config => layerName == config.spec);
+    if (configs.length > 0) {
+        let relStore = new IndexedDB('relationships', 'rels');
+        let rels = await configs.reduce(async (total, config) => {
+            total = await total;
+            let records = await relStore.getAll(
+                [config.relKey, id],
+                config.relType
+            );
+            let data = records.map(record => {
+                return {
+                    id: record.extraInfo.REL_ID,
+                    layerName: config.source
+                };
+            });
+            total = total.concat(data);
+            return total;
+        }, []);
+        let relAttrs = await rels.reduce(async (total, { layerName, id }) => {
+            total = await total;
+            let data = await attrStore.getAll([layerName, id], 'SPEC_KEY');
+            total = total.concat(data);
+            return total;
+        }, []);
+        attrs = attrs.concat(relAttrs);
+    }
+
+    return attrs.reduce((total, record) => {
         total[record.source] = total[record.source] || [];
         total[record.source].push(record);
         return total;

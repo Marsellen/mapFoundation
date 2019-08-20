@@ -1,6 +1,8 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Empty, Form, Input } from 'antd';
+import { Empty, Form, Input, Button } from 'antd';
+import EditableCard from './EditableCard';
+import NewAttrModal from './NewAttrModal';
 
 const formItemLayout = {
     labelCol: {
@@ -70,9 +72,66 @@ class RelationForm extends React.Component {
         return (
             <div key={index}>
                 {this.renderInput(item, index, 'rels')}
-                {}
+                {this.renderRs(item)}
             </div>
         );
+    };
+
+    renderRs = ({ spec, extraInfo } = {}) => {
+        switch (spec) {
+            case 'AD_Lane_Con':
+                return this.renderADLaneConRs(extraInfo);
+            default:
+                break;
+        }
+    };
+
+    renderADLaneConRs = extraInfo => {
+        const { form, AttributeStore } = this.props;
+        const { attrs } = AttributeStore;
+        return (
+            <div>
+                {(attrs.AD_Lane_Con_RS || []).map((rs, index) =>
+                    form.getFieldDecorator(
+                        'attrs.AD_Lane_Con_RS[' + index + ']',
+                        {
+                            initialValue: {
+                                ...rs,
+                                properties: {
+                                    ...rs.properties
+                                }
+                            }
+                        }
+                    )(
+                        <EditableCard
+                            key={index}
+                            index={index}
+                            onDelete={this.onDelete('AD_Lane_Con_RS')}
+                        />
+                    )
+                )}
+                <Button onClick={this.newAttrs('AD_Lane_Con_RS', extraInfo)} />
+                <NewAttrModal onRef={modal => (this.modal = modal)} />
+            </div>
+        );
+    };
+
+    newAttrs = (key, properties) => {
+        return () => {
+            this.modal.show(key, properties);
+        };
+    };
+
+    onDelete = key => {
+        const { form, AttributeStore } = this.props;
+        return index => {
+            AttributeStore.spliceAttrs(key, index);
+            let fieldKey = 'attrs.' + key;
+            const records = form.getFieldValue(fieldKey);
+            form.setFieldsValue({
+                [fieldKey]: records.filter((item, i) => i !== index)
+            });
+        };
     };
 
     isPresent(obj) {
