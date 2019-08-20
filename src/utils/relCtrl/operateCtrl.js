@@ -1,63 +1,72 @@
 import IndexedDB from 'src/utils/IndexedDB';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import {
-    SPEC_REL_KEY_SET,
     REL_DATA_SET,
     ATTR_REL_DATA_SET,
     REL_SPEC_CONFIG
 } from 'src/config/RelsConfig';
+import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
 import { updateFeaturesByRels } from './relCtrl';
 import EditorService from 'src/pages/Index/service/EditorService';
+import { getFeatureRels } from './utils';
+import attrFactory from '../attrCtrl/attrFactory';
 
 const breakLine = async (breakPoint, features) => {
     let point = geometryToWKT(breakPoint.data.geometry);
-    let { lines, allRels } = await getLines(features);
+    let { lines, oldRels, oldAttrs } = await getLines(features);
     let option = { point, lines };
     let result = await EditorService.breakLines(option);
-    let { newFeatures, rels } = fetchFeatureRels(
-        features,
-        result.data[0].features
+    if (result.code !== 1) throw result;
+    let { newFeatures, rels, attrs } = result.data.reduce(
+        (total, data) => {
+            let { newFeatures, rels, attrs } = fetchFeatureRels(
+                features,
+                data.features
+            );
+            total.newFeatures = total.newFeatures.concat(newFeatures);
+            total.rels = total.rels.concat(rels);
+            total.attrs = total.attrs.concat(attrs);
+            return total;
+        },
+        { newFeatures: [], rels: [], attrs: [] }
     );
 
-    await updateFeatures(features, newFeatures, allRels, rels);
-
-    return {
-        features: {
-            oldFeatures: features,
-            newFeatures: newFeatures
-        },
-        rels: {
-            oldRels: allRels,
-            newRels: rels
-        }
+    let historyLog = {
+        features: [features, newFeatures],
+        rels: [oldRels, rels],
+        attrs: [oldAttrs, attrs]
     };
+    await updateFeatures(historyLog);
+
+    return historyLog;
 };
 
 const mergeLine = async features => {
-    let { lines, allRels } = await getLines(features);
+    let { lines, oldRels, oldAttrs } = await getLines(features);
     let option = { lines };
     let result = await EditorService.mergeLines(option);
-
-    let { newFeatures, rels } = fetchFeatureRels(features, result.data.feature);
-    await updateFeatures(features, newFeatures, allRels, rels);
-
-    return {
-        features: {
-            oldFeatures: features,
-            newFeatures: newFeatures
-        },
-        rels: {
-            oldRels: allRels,
-            newRels: rels
-        }
+    if (result.code !== 1) throw result;
+    let { newFeatures, rels, attrs } = fetchFeatureRels(
+        features,
+        result.data.feature
+    );
+    let historyLog = {
+        features: [features, newFeatures],
+        rels: [oldRels, rels],
+        attrs: [oldAttrs, attrs]
     };
+    await updateFeatures(historyLog);
+
+    return historyLog;
 };
 
 const getLines = async features => {
-    let allRels = [];
+    let oldRels = [];
+    let oldAttrs = [];
     let lines = await features.reduce(async (total, feature) => {
-        let { relation, rels } = await getRelation(feature);
-        allRels = allRels.concat(rels);
+        let { relation, rels, attrs } = await getRelation(feature);
+        oldRels = oldRels.concat(rels);
+        oldAttrs = oldAttrs.concat(attrs);
         let line = {
             type: feature.layerName,
             attr: {
@@ -72,47 +81,31 @@ const getLines = async features => {
     }, []);
     return {
         lines,
-        allRels
+        oldRels,
+        oldAttrs
     };
 };
 
 const getRelation = async feature => {
     let layerName = feature.layerName;
-    let IDKey = DATA_LAYER_MAP[layerName] ? DATA_LAYER_MAP[layerName].id : 'id';
-    let id = feature.data.properties[IDKey];
-    let relStore = new IndexedDB('relationships', 'rels');
-    let rels = await relStore.openTransaction().then(
-        async transaction => {
-            transaction.onabort = error => {
-                console.log(transaction.error.message);
-            };
-
-            let store = transaction.objectStore(relStore.tableName);
-            let relKeyMap = SPEC_REL_KEY_SET.filter(record => {
-                return record.spec == layerName;
-            });
-            return await relKeyMap.reduce(async (total, relKey) => {
-                let records = await relStore.queryByIndex(
-                    store,
-                    relKey.relType,
-                    [relKey.relKey, id]
-                );
-                total = await total;
-                total = total.concat(records);
-                return total;
-            }, []);
-        },
-        error => {
-            console.log(error);
-        }
+    let rels = await getFeatureRels(layerName, feature.data.properties);
+    let attrs = await attrFactory.getFeatureAttrs(
+        layerName,
+        feature.data.properties
     );
+    let relRelation = relRelationFormat(rels, layerName);
+    let attrRelation = attrRelationFormat(attrs);
     return {
-        relation: relsFormat(rels, layerName),
-        rels: rels
+        relation: {
+            ...relRelation,
+            ...attrRelation
+        },
+        rels: rels,
+        attrs: attrs
     };
 };
 
-const relsFormat = (rels, layerName) => {
+const relRelationFormat = (rels, layerName) => {
     return rels.reduce((total, record) => {
         return relToSpecData(record, layerName, total);
     }, {});
@@ -157,6 +150,14 @@ const relToSpecData = (record, layerName, total) => {
     return total;
 };
 
+const attrRelationFormat = attrs => {
+    return attrs.reduce((total, attr) => {
+        total[attr.source] = total[attr.source] || [];
+        total[attr.source].push(attr.properties);
+        return total;
+    }, {});
+};
+
 const queryFeature = (layerName, option) => {
     let feature = map
         .getLayerManager()
@@ -172,9 +173,10 @@ const fetchFeatureRels = (oldFeatures, features) => {
         (total, fr) => {
             total.newFeatures.push(fr.feature);
             total.rels = total.rels.concat(fr.rels);
+            total.attrs = total.attrs.concat(fr.attrs);
             return total;
         },
-        { newFeatures: [], rels: [] }
+        { newFeatures: [], rels: [], attrs: [] }
     );
 };
 
@@ -183,7 +185,8 @@ const calcFeatureRels = (layerName, features) => {
     return features.map(feature => {
         return {
             feature: calcFeatures(feature[layerName], layerName),
-            rels: calcRels(layerName, feature.relation, feature[layerName])
+            rels: calcRels(layerName, feature.relation, feature[layerName]),
+            attrs: calcAttrs(feature.relation)
         };
     });
 };
@@ -205,10 +208,19 @@ const calcRels = (layerName, relation, feature) => {
         let properties = relation[spec];
         if (REL_DATA_SET.includes(spec)) {
             arr = arr.concat(relDataFormat(spec, properties));
-        } else {
+        } else if (ATTR_REL_DATA_SET.includes(spec)) {
             arr = arr.concat(
                 attrRelDataFormat(layerName, spec, properties, feature)
             );
+        }
+        return arr;
+    }, []);
+};
+
+const calcAttrs = relation => {
+    return Object.keys(relation).reduce((arr, spec) => {
+        if (ATTR_SPEC_CONFIG.map(config => config.source).includes(spec)) {
+            arr = arr.concat(attrsDataFormat(relation[spec], spec));
         }
         return arr;
     }, []);
@@ -276,14 +288,29 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
     });
 };
 
-const updateFeatures = async (oldFeatures, newFeatures, oldRels, rels) => {
+const attrsDataFormat = (data, source) => {
+    return data.map(d => {
+        let config = ATTR_SPEC_CONFIG.find(c => c.source == source);
+        return {
+            source,
+            spec: config.relSpec,
+            properties: d,
+            key: d[config.key],
+            sourceId: d[config.sourceId]
+        };
+    });
+};
+
+const updateFeatures = async ({ features, rels, attrs } = {}) => {
+    let [oldFeatures, newFeatures] = features;
     let layerName = oldFeatures[0].layerName;
     let layer = map
         .getLayerManager()
         .getLayersByType('VectorLayer')
         .find(layer => layer.layerName == layerName).layer;
     layer.addFeatures(newFeatures.map(f => f.data));
-    await updateRels(oldRels, rels);
+    await updateRels(rels);
+    await attrFactory.replaceAttrs(attrs);
     oldFeatures.map(feature => {
         let layerName = feature.layerName;
         let properties = feature.data.properties;
@@ -298,38 +325,31 @@ const updateFeatures = async (oldFeatures, newFeatures, oldRels, rels) => {
     });
 };
 
-const updateRels = async (oldRels, newRels) => {
+const updateRels = async ([oldRels, newRels] = []) => {
     let relStore = new IndexedDB('relationships', 'rels');
-    await relStore.openTransaction().then(
-        async transaction => {
-            let store = transaction.objectStore(relStore.tableName);
-            await Promise.all(
-                oldRels.map(async record => {
-                    if (record.id) {
-                        store.delete(record.id);
-                    } else {
-                        let records = await relStore.queryByIndex(
-                            store,
-                            'REL_KEYS',
-                            [
-                                record.objType,
-                                record.objId,
-                                record.relObjType,
-                                record.relObjId
-                            ]
-                        );
-                        store.delete(records[0].id);
-                    }
-                })
-            );
+    await relStore.open().then(
+        async store => {
+            oldRels.map(async record => {
+                if (record.id) {
+                    store.delete(record.id);
+                } else {
+                    let records = await relStore.queryByIndex(
+                        store,
+                        'REL_KEYS',
+                        [
+                            record.objType,
+                            record.objId,
+                            record.relObjType,
+                            record.relObjId
+                        ]
+                    );
+                    store.delete(records[0].id);
+                }
+            });
 
             newRels.map(record => {
                 store.add(record);
             });
-
-            transaction.onabort = error => {
-                console.log(transaction.error.message);
-            };
         },
         error => {
             console.log(error);

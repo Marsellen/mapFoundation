@@ -146,7 +146,7 @@ class RightMenuModal extends React.Component {
                     })
                     .catch(e => {
                         console.log(e);
-                        message.warning('操作失败', 3);
+                        message.warning('操作失败:' + e.message, 3);
                     });
                 DataLayerStore.clearChoose();
             },
@@ -232,7 +232,7 @@ class RightMenuModal extends React.Component {
                     })
                     .catch(e => {
                         console.log(e);
-                        message.warning('操作失败', 3);
+                        message.warning('操作失败:' + e.message, 3);
                         DataLayerStore.clearChoose();
                     });
             },

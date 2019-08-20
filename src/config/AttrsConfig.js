@@ -1,9 +1,29 @@
 export const ATTR_SPEC_CONFIG = [
-    { source: 'AD_LaneShape', key: 'LANE_ID', relSpec: 'AD_Lane' },
-    { source: 'AD_Lane_RS', key: 'LANE_ID', relSpec: 'AD_Lane' },
-    { source: 'AD_Lane_Con_RS', key: 'REL_ID', relSpec: 'AD_Lane_Con' },
-    { source: 'AD_TS_Content', key: 'SIGN_ID', relSpec: 'AD_TrafficSign' },
-    { source: 'AD_Sub_Lamp', key: 'LIGHT_ID', relSpec: 'AD_TrafficLight' }
+    // { source: 'AD_LaneShape', key: 'LANE_ID', relSpec: 'AD_Lane' },
+    {
+        source: 'AD_Lane_RS',
+        sourceId: 'RS_ID',
+        key: 'LANE_ID',
+        relSpec: 'AD_Lane'
+    },
+    {
+        source: 'AD_Lane_Con_RS',
+        sourceId: 'RS_ID',
+        key: 'REL_ID',
+        relSpec: 'AD_Lane_Con'
+    },
+    {
+        source: 'AD_TS_Content',
+        sourceId: 'CONT_ID',
+        key: 'SIGN_ID',
+        relSpec: 'AD_TrafficSign'
+    },
+    {
+        source: 'AD_Sub_Lamp',
+        sourceId: 'LAMP_ID',
+        key: 'LIGHT_ID',
+        relSpec: 'AD_TrafficLight'
+    }
     //{ source: 'AD_Data_Confidence', key: 'FEAT_ID', relSpec: 'FEAT_TYPE' }
 ];
 

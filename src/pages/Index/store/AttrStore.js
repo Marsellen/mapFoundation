@@ -13,6 +13,9 @@ class AttrStore {
         objectStore.createIndex('SPEC_KEY', ['spec', 'key'], {
             unique: false
         });
+        objectStore.createIndex('SOURCE_ID', ['source', 'sourceId'], {
+            unique: true
+        });
     });
 
     init = flow(function*(url) {

@@ -45,6 +45,7 @@ const dataToTable = (properties, spec) => {
     let attrConfig = ATTR_SPEC_CONFIG.find(config => config.source == spec);
     return {
         key: properties[attrConfig.key],
+        sourceId: properties[attrConfig.sourceId],
         spec: attrConfig.relSpec,
         source: attrConfig.source,
         properties
@@ -67,6 +68,16 @@ const REL_RS = [
 ];
 
 const getTabelData = async (layerName, properties) => {
+    let attrs = await getFeatureAttrs(layerName, properties);
+
+    return attrs.reduce((total, record) => {
+        total[record.source] = total[record.source] || [];
+        total[record.source].push(record);
+        return total;
+    }, {});
+};
+
+const getFeatureAttrs = async (layerName, properties) => {
     let IDKey = getLayerIDKey(layerName);
     let id = properties[IDKey];
     let attrStore = new IndexedDB('attributes', 'attr');
@@ -98,12 +109,7 @@ const getTabelData = async (layerName, properties) => {
         }, []);
         attrs = attrs.concat(relAttrs);
     }
-
-    return attrs.reduce((total, record) => {
-        total[record.source] = total[record.source] || [];
-        total[record.source].push(record);
-        return total;
-    }, {});
+    return attrs;
 };
 
 const updateAttrs = async attrs => {
@@ -127,11 +133,42 @@ const deleteRecord = records => {
     });
 };
 
+const replaceAttrs = async ([oldAttrs, newAttrs] = []) => {
+    let attrStore = new IndexedDB('attributes', 'attr');
+    await attrStore.open().then(
+        async store => {
+            await Promise.all(
+                oldAttrs.map(async record => {
+                    if (record.id) {
+                        return store.delete(record.id);
+                    } else {
+                        let records = await attrStore.queryByIndex(
+                            store,
+                            'SOURCE_ID',
+                            [record.source, record.sourceId]
+                        );
+                        return store.delete(records[0].id);
+                    }
+                })
+            );
+
+            newAttrs.map(record => {
+                store.add(record);
+            });
+        },
+        error => {
+            console.log(error);
+        }
+    );
+};
+
 export default {
     attrDataToTable,
     attrTableToData,
     dataToTable,
     getTabelData,
+    getFeatureAttrs,
     updateAttrs,
+    replaceAttrs,
     deleteRecord
 };

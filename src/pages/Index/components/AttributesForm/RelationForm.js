@@ -110,7 +110,10 @@ class RelationForm extends React.Component {
 
     renderADLaneConRs = extraInfo => {
         const { form, AttributeStore } = this.props;
-        const { attrs } = AttributeStore;
+        const { attrs, readonly } = AttributeStore;
+        let newEnable =
+            !readonly &&
+            (!attrs.AD_Lane_Con_RS || attrs.AD_Lane_Con_RS.length == 0);
         return (
             <div>
                 {(attrs.AD_Lane_Con_RS || []).map((rs, index) =>
@@ -128,11 +131,16 @@ class RelationForm extends React.Component {
                         <EditableCard
                             key={index}
                             index={index}
+                            readonly={readonly}
                             onDelete={this.onDelete('AD_Lane_Con_RS')}
                         />
                     )
                 )}
-                <Button onClick={this.newAttrs('AD_Lane_Con_RS', extraInfo)} />
+                {newEnable && (
+                    <Button
+                        onClick={this.newAttrs('AD_Lane_Con_RS', extraInfo)}
+                    />
+                )}
                 <NewAttrModal onRef={modal => (this.modal = modal)} />
             </div>
         );
