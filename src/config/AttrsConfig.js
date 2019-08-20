@@ -42,6 +42,10 @@ export const ATTR_TABLE_CONFIG = {
                     }
                 }
             ],
+            getValueFromEvent: e => {
+                let value = Number(e.target.value);
+                return !value ? e.target.value : value;
+            },
             domType: 'Input'
         },
         {

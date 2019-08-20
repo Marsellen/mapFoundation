@@ -746,6 +746,10 @@ export const TABLE_DATA_MAP = {
                     }
                 }
             ],
+            getValueFromEvent: e => {
+                let value = Number(e.target.value);
+                return !value ? e.target.value : value;
+            },
             domType: 'Input'
         },
         {
@@ -978,6 +982,10 @@ export const TABLE_DATA_MAP = {
                     }
                 }
             ],
+            getValueFromEvent: e => {
+                let value = Number(e.target.value);
+                return !value ? e.target.value : value;
+            },
             domType: 'Input'
         }
     ],
@@ -1019,6 +1027,10 @@ export const TABLE_DATA_MAP = {
                     }
                 }
             ],
+            getValueFromEvent: e => {
+                let value = Number(e.target.value);
+                return !value ? e.target.value : value;
+            },
             domType: 'Input'
         },
         {
