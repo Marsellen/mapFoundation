@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Button } from 'antd';
+import { Button, Icon } from 'antd';
 import EditableCard from './EditableCard';
 import _ from 'lodash';
 import NewAttrModal from './NewAttrModal';
@@ -56,7 +56,9 @@ class AttrsForm extends React.Component {
                         />
                     )
                 )}
-                <Button onClick={this.newAttrs('AD_Lane_RS')} />
+                <Button onClick={this.newAttrs('AD_Lane_RS')}>
+                    <Icon type="plus" />
+                </Button>
                 <NewAttrModal onRef={modal => (this.modal = modal)} />
             </div>
         );
@@ -86,7 +88,9 @@ class AttrsForm extends React.Component {
                         />
                     )
                 )}
-                <Button onClick={this.newAttrs('AD_TS_Content')} />
+                <Button onClick={this.newAttrs('AD_TS_Content')}>
+                    <Icon type="plus" />
+                </Button>
                 <NewAttrModal onRef={modal => (this.modal = modal)} />
             </div>
         );
@@ -113,7 +117,9 @@ class AttrsForm extends React.Component {
                         />
                     )
                 )}
-                <Button onClick={this.newAttrs('AD_Sub_Lamp')} />
+                <Button onClick={this.newAttrs('AD_Sub_Lamp')}>
+                    <Icon type="plus" />
+                </Button>
                 <NewAttrModal onRef={modal => (this.modal = modal)} />
             </div>
         );
