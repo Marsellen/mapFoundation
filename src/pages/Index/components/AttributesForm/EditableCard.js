@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Input, Select, Modal, Form } from 'antd';
+import { Button, Input, Select, Modal, Form, Icon } from 'antd';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import _ from 'lodash';
 import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
+import './style.less';
 
 const formItemLayout = {
     labelCol: {
@@ -38,10 +39,16 @@ class EditableCard extends React.Component {
     render() {
         const { visible, attrs } = this.state;
         return (
-            <div>
+            <div id="newEdit">
                 {attrs.map((item, index) => this.renderItem(item, index, true))}
-                <Button onClick={this.edit} />
-                <Button onClick={this.onDelete} />
+                <div className="attr">
+                    <Button onClick={this.edit} id="newEdit-edit">
+                        <Icon type="edit" />{' '}
+                    </Button>
+                    <Button onClick={this.onDelete} id="newEdit-del">
+                        <Icon type="delete" />
+                    </Button>
+                </div>
                 <Modal
                     visible={visible}
                     title="新建"
