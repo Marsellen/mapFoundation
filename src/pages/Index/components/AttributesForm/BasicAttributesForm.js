@@ -67,6 +67,7 @@ class BasicAttributesForm extends React.Component {
                             },
                             ...(item.validates || []).map(validate => validate)
                         ],
+                        getValueFromEvent: item.getValueFromEvent,
                         initialValue: item.value
                     })(<Input disabled={readonly} />)
                 ) : (

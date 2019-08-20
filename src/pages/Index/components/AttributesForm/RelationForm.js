@@ -55,8 +55,30 @@ class RelationForm extends React.Component {
                                 required: true,
                                 message: `${item.name}必填`
                             },
+                            {
+                                message: '必须为数字',
+                                type: 'number',
+                                transform(value) {
+                                    if (value) {
+                                        return Number(value);
+                                    }
+                                }
+                            },
+                            {
+                                max: 20,
+                                message: '长度不能超过20字',
+                                transform(value) {
+                                    if (value) {
+                                        return String(value);
+                                    }
+                                }
+                            },
                             ...(item.validates || []).map(validate => validate)
                         ],
+                        getValueFromEvent: e => {
+                            let value = Number(e.target.value);
+                            return !value ? e.target.value : value;
+                        },
                         initialValue: item.value
                     })(<Input disabled={readonly} />)
                 ) : (
