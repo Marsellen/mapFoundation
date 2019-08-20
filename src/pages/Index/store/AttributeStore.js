@@ -69,7 +69,7 @@ class AttributeStore {
                 this.model.layerName,
                 this.model.data.properties
             );
-            console.log(this.attrs);
+            // console.log(this.attrs);
         } catch (error) {
             console.log(error);
         }

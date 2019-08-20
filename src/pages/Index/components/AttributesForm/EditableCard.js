@@ -38,16 +38,21 @@ class EditableCard extends React.Component {
 
     render() {
         const { visible, attrs } = this.state;
+        const { readonly } = this.props;
         return (
             <div id="newEdit">
                 {attrs.map((item, index) => this.renderItem(item, index, true))}
                 <div className="attr">
-                    <Button onClick={this.edit} id="newEdit-edit">
-                        <Icon type="edit" />{' '}
-                    </Button>
-                    <Button onClick={this.onDelete} id="newEdit-del">
-                        <Icon type="delete" />
-                    </Button>
+                    {!readonly && (
+                        <Button onClick={this.edit} id="newEdit-edit">
+                            <Icon type="edit" />{' '}
+                        </Button>
+                    )}
+                    {!readonly && (
+                        <Button onClick={this.onDelete} id="newEdit-del">
+                            <Icon type="delete" />
+                        </Button>
+                    )}
                 </div>
                 <Modal
                     visible={visible}

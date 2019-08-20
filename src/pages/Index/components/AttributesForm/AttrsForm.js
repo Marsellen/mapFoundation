@@ -5,17 +5,6 @@ import EditableCard from './EditableCard';
 import _ from 'lodash';
 import NewAttrModal from './NewAttrModal';
 
-const formItemLayout = {
-    labelCol: {
-        xs: { span: 16 },
-        sm: { span: 10 }
-    },
-    wrapperCol: {
-        xs: { span: 16 },
-        sm: { span: 14 }
-    }
-};
-
 @inject('AttributeStore')
 @observer
 class AttrsForm extends React.Component {
@@ -37,7 +26,9 @@ class AttrsForm extends React.Component {
 
     renderADLaneAttr = () => {
         const { form, AttributeStore } = this.props;
-        const { attrs } = AttributeStore;
+        const { attrs, readonly } = AttributeStore;
+        let newEnable =
+            (!attrs.AD_Lane_RS || attrs.AD_Lane_RS.length == 0) && !readonly;
         return (
             <div>
                 {(attrs.AD_Lane_RS || []).map((rs, index) =>
@@ -52,13 +43,16 @@ class AttrsForm extends React.Component {
                         <EditableCard
                             key={index}
                             index={index}
+                            readonly={readonly}
                             onDelete={this.onDelete('AD_Lane_RS')}
                         />
                     )
                 )}
-                <Button onClick={this.newAttrs('AD_Lane_RS')}>
-                    <Icon type="plus" />
-                </Button>
+                {newEnable && (
+                    <Button onClick={this.newAttrs('AD_Lane_RS')}>
+                        <Icon type="plus" />
+                    </Button>
+                )}
                 <NewAttrModal onRef={modal => (this.modal = modal)} />
             </div>
         );
@@ -66,7 +60,7 @@ class AttrsForm extends React.Component {
 
     renderADTrafficSignAttr = () => {
         const { form, AttributeStore } = this.props;
-        const { attrs } = AttributeStore;
+        const { attrs, readonly } = AttributeStore;
         return (
             <div>
                 {(attrs.AD_TS_Content || []).map((rs, index) =>
@@ -84,13 +78,16 @@ class AttrsForm extends React.Component {
                         <EditableCard
                             key={index}
                             index={index}
+                            readonly={readonly}
                             onDelete={this.onDelete('AD_TS_Content')}
                         />
                     )
                 )}
-                <Button onClick={this.newAttrs('AD_TS_Content')}>
-                    <Icon type="plus" />
-                </Button>
+                {!readonly && (
+                    <Button onClick={this.newAttrs('AD_TS_Content')}>
+                        <Icon type="plus" />
+                    </Button>
+                )}
                 <NewAttrModal onRef={modal => (this.modal = modal)} />
             </div>
         );
@@ -98,7 +95,7 @@ class AttrsForm extends React.Component {
 
     renderADTrafficLightAttr = () => {
         const { form, AttributeStore } = this.props;
-        const { attrs } = AttributeStore;
+        const { attrs, readonly } = AttributeStore;
         return (
             <div>
                 {(attrs.AD_Sub_Lamp || []).map((rs, index) =>
@@ -113,13 +110,16 @@ class AttrsForm extends React.Component {
                         <EditableCard
                             key={index}
                             index={index}
+                            readonly={readonly}
                             onDelete={this.onDelete('AD_Sub_Lamp')}
                         />
                     )
                 )}
-                <Button onClick={this.newAttrs('AD_Sub_Lamp')}>
-                    <Icon type="plus" />
-                </Button>
+                {!readonly && (
+                    <Button onClick={this.newAttrs('AD_Sub_Lamp')}>
+                        <Icon type="plus" />
+                    </Button>
+                )}
                 <NewAttrModal onRef={modal => (this.modal = modal)} />
             </div>
         );

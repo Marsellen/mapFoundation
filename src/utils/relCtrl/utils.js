@@ -15,22 +15,25 @@ import IndexedDB from 'src/utils/IndexedDB';
  */
 export const geojsonToDbData = (properties, spec) => {
     let relSpecs = REL_SPEC_CONFIG.filter(relSpec => relSpec.source == spec);
-    return relSpecs.map(relSpec => {
+    return relSpecs.reduce((total, relSpec) => {
         const { objKeyName, objType, relObjKeyName, relObjType } = relSpec;
         let {
             [objKeyName]: objId,
             [relObjKeyName]: relObjId,
             ...extraInfo
         } = properties;
-        return {
-            spec,
-            objId,
-            relObjId,
-            objType,
-            relObjType,
-            extraInfo
-        };
-    });
+        if (objId && relObjId) {
+            total.push({
+                spec,
+                objId,
+                relObjId,
+                objType,
+                relObjType,
+                extraInfo
+            });
+        }
+        return total;
+    }, []);
 };
 
 /**
