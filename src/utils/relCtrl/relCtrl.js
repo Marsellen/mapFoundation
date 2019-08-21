@@ -281,7 +281,7 @@ const updateFeatureRelAttr = (rel, isDel) => {
         .find(layer => layer.layerName == rel.spec).layer;
     let feature = layer.getFeatureByOption(option).properties;
     if (isDel) {
-        delete feature.data.properties[relKeyName];
+        feature.data.properties[relKeyName] = 0;
     } else {
         feature.data.properties[relKeyName] = relId;
     }

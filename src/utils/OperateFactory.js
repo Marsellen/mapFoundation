@@ -64,28 +64,24 @@ class OperateFactory {
     updateFeatureRels(history) {
         let { features, rels } = history.data;
         if (features) {
-            updateFeatures(
-                features.oldFeatures,
-                features.newFeatures,
-                rels.oldRels,
-                rels.newRels
-            );
+            updateFeatures(history.data);
         } else {
-            updateRels(rels.oldRels, rels.newRels);
+            updateRels(rels);
         }
     }
 
     reUpdateFeatureRels(history) {
-        let { features, rels } = history.data;
+        let { features, rels, attrs } = history.data;
         if (features) {
-            updateFeatures(
-                features.newFeatures,
-                features.oldFeatures,
-                rels.newRels,
-                rels.oldRels
-            );
+            let log = {
+                features: features.reverse(),
+                rels: rels.reverse(),
+                attrs: attrs.reverse()
+            };
+            updateFeatures(log);
         } else {
-            updateRels(rels.newRels, rels.oldRels);
+            // 只变更了关联关系
+            updateRels(rels.reverse());
         }
     }
 }

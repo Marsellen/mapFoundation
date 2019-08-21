@@ -55,8 +55,30 @@ class RelationForm extends React.Component {
                                 required: true,
                                 message: `${item.name}必填`
                             },
+                            {
+                                message: '必须为数字',
+                                type: 'number',
+                                transform(value) {
+                                    if (value) {
+                                        return Number(value);
+                                    }
+                                }
+                            },
+                            {
+                                max: 20,
+                                message: '长度不能超过20字',
+                                transform(value) {
+                                    if (value) {
+                                        return String(value);
+                                    }
+                                }
+                            },
                             ...(item.validates || []).map(validate => validate)
                         ],
+                        getValueFromEvent: e => {
+                            let value = Number(e.target.value);
+                            return !value ? e.target.value : value;
+                        },
                         initialValue: item.value
                     })(<Input disabled={readonly} />)
                 ) : (
@@ -88,7 +110,10 @@ class RelationForm extends React.Component {
 
     renderADLaneConRs = extraInfo => {
         const { form, AttributeStore } = this.props;
-        const { attrs } = AttributeStore;
+        const { attrs, readonly } = AttributeStore;
+        let newEnable =
+            !readonly &&
+            (!attrs.AD_Lane_Con_RS || attrs.AD_Lane_Con_RS.length == 0);
         return (
             <div>
                 {(attrs.AD_Lane_Con_RS || []).map((rs, index) =>
@@ -106,11 +131,16 @@ class RelationForm extends React.Component {
                         <EditableCard
                             key={index}
                             index={index}
+                            readonly={readonly}
                             onDelete={this.onDelete('AD_Lane_Con_RS')}
                         />
                     )
                 )}
-                <Button onClick={this.newAttrs('AD_Lane_Con_RS', extraInfo)} />
+                {newEnable && (
+                    <Button
+                        onClick={this.newAttrs('AD_Lane_Con_RS', extraInfo)}
+                    />
+                )}
                 <NewAttrModal onRef={modal => (this.modal = modal)} />
             </div>
         );

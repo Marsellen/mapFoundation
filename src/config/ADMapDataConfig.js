@@ -555,13 +555,15 @@ export const TYPE_SELECT_OPTION_MAP = {
 
 export const DEFAULT_PROPERTIES_MAP = {
     AD_Arrow: {
-        ARR_DIRECT: 'A'
+        ARR_DIRECT: 'A',
+        LANE_ID: 0
     },
     AD_LaneMark_Plg: {
         TYPE: 1
     },
     AD_Text: {
-        TYPE: 0
+        TYPE: 0,
+        LANE_ID: 0
     },
     AD_TrafficSign: {
         // TYPE: 101,
@@ -593,11 +595,15 @@ export const DEFAULT_PROPERTIES_MAP = {
         DIRECTION: 2,
         LANE_NO: 0,
         MAX_SP_TYP: 0,
-        MIN_SP_TYP: 0
+        MIN_SP_TYP: 0,
+        L_LDIV_ID: 0,
+        R_LDIV_ID: 0,
+        ROAD_ID: 0
     },
     AD_LaneAttrPoint: {
         TYPE: 0,
-        REF_LINE: 0
+        REF_LINE: 0,
+        ROAD_ID: 0
     },
     AD_StopLocation: {
         TYPE: 1
@@ -746,6 +752,10 @@ export const TABLE_DATA_MAP = {
                     }
                 }
             ],
+            getValueFromEvent: e => {
+                let value = Number(e.target.value);
+                return !value ? e.target.value : value;
+            },
             domType: 'Input'
         },
         {
@@ -978,6 +988,10 @@ export const TABLE_DATA_MAP = {
                     }
                 }
             ],
+            getValueFromEvent: e => {
+                let value = Number(e.target.value);
+                return !value ? e.target.value : value;
+            },
             domType: 'Input'
         }
     ],
@@ -1019,6 +1033,10 @@ export const TABLE_DATA_MAP = {
                     }
                 }
             ],
+            getValueFromEvent: e => {
+                let value = Number(e.target.value);
+                return !value ? e.target.value : value;
+            },
             domType: 'Input'
         },
         {
