@@ -15,7 +15,8 @@ export const TOOLS_MAP = {
         ADD_FACADEREC_TANGLE: false,
         ADD_CIRCLE: false,
         ADD_REL: false,
-        DEL_REL: false
+        DEL_REL: false,
+        ADJUST_POINT_SIZE: true
     },
     CHECK: {}
 };
