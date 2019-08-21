@@ -135,31 +135,21 @@ const deleteRecord = records => {
 
 const replaceAttrs = async ([oldAttrs, newAttrs] = []) => {
     let attrStore = new IndexedDB('attributes', 'attr');
-    await attrStore.open().then(
-        async store => {
-            await Promise.all(
-                oldAttrs.map(async record => {
-                    if (record.id) {
-                        return store.delete(record.id);
-                    } else {
-                        let records = await attrStore.queryByIndex(
-                            store,
-                            'SOURCE_ID',
-                            [record.source, record.sourceId]
-                        );
-                        return store.delete(records[0].id);
-                    }
-                })
-            );
-
-            newAttrs.map(record => {
-                store.add(record);
-            });
-        },
-        error => {
-            console.log(error);
+    let oldAttrIds = await oldAttrs.reduce(async (total, record) => {
+        total = await total;
+        if (record.id) {
+            total.push(record.id);
+        } else {
+            let records = await attrStore.queryByIndex(store, 'SOURCE_ID', [
+                record.source,
+                record.sourceId
+            ]);
+            total.push(records[0].id);
         }
-    );
+        return total;
+    }, []);
+    await Promise.all(oldAttrIds.map(id => attrStore.deleteById(id)));
+    await attrStore.batchAdd(newAttrs);
 };
 
 export default {

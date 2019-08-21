@@ -2,11 +2,16 @@ import React from 'react';
 import { Modal, Menu, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
-import { breakLine, mergeLine } from 'src/utils/relCtrl/operateCtrl';
+import {
+    deleteLine,
+    breakLine,
+    mergeLine
+} from 'src/utils/relCtrl/operateCtrl';
 
 @inject('RightMenuStore')
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
+@inject('AttributeStore')
 @observer
 class RightMenuModal extends React.Component {
     componentDidMount() {
@@ -119,7 +124,8 @@ class RightMenuModal extends React.Component {
         const {
             DataLayerStore,
             RightMenuStore,
-            OperateHistoryStore
+            OperateHistoryStore,
+            AttributeStore
         } = this.props;
         if (result.errorCode) {
             let arr = result.desc.split(':');
@@ -149,9 +155,11 @@ class RightMenuModal extends React.Component {
                         message.warning('操作失败:' + e.message, 3);
                     });
                 DataLayerStore.clearChoose();
+                AttributeStore.hideRelFeatures();
             },
             onCancel() {
                 DataLayerStore.clearChoose();
+                AttributeStore.hideRelFeatures();
             }
         });
     };
@@ -160,24 +168,22 @@ class RightMenuModal extends React.Component {
         const {
             RightMenuStore,
             OperateHistoryStore,
-            DataLayerStore
+            DataLayerStore,
+            AttributeStore
         } = this.props;
         Modal.confirm({
             title: '您确认删除该要素？',
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
-            onOk() {
-                let result = RightMenuStore.delete()[0];
-                let feature = result.data;
-                let layerName = result.layerName;
-                let layer = DataLayerStore.getLayerByName(layerName);
-                layer.layer.removeFeatureById(result.uuid);
+            onOk: async () => {
+                let result = RightMenuStore.delete();
+                let historyLog = await deleteLine(result);
                 DataLayerStore.clearChoose();
+                AttributeStore.hideRelFeatures();
                 OperateHistoryStore.add({
-                    type: 'deleteFeature',
-                    feature,
-                    layerName
+                    type: 'updateFeatureRels',
+                    data: historyLog
                 });
             }
         });
@@ -211,7 +217,8 @@ class RightMenuModal extends React.Component {
         const {
             RightMenuStore,
             DataLayerStore,
-            OperateHistoryStore
+            OperateHistoryStore,
+            AttributeStore
         } = this.props;
         Modal.confirm({
             title: '您确认执行操作？',
@@ -228,16 +235,17 @@ class RightMenuModal extends React.Component {
                             data: result
                         });
                         message.success('操作完成', 3);
-                        DataLayerStore.clearChoose();
                     })
                     .catch(e => {
                         console.log(e);
                         message.warning('操作失败:' + e.message, 3);
-                        DataLayerStore.clearChoose();
                     });
+                DataLayerStore.clearChoose();
+                AttributeStore.hideRelFeatures();
             },
             onCancel() {
                 DataLayerStore.clearChoose();
+                AttributeStore.hideRelFeatures();
             }
         });
         RightMenuStore.hide();
