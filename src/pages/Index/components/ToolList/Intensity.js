@@ -1,5 +1,5 @@
 import React from 'react';
-import { Popover, Tooltip, Icon, Slider } from 'antd';
+import { Popover, Tooltip, Slider } from 'antd';
 import { inject, observer } from 'mobx-react';
 import IconFont from 'src/components/IconFont';
 

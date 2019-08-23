@@ -1,6 +1,6 @@
-import { action, configure, flow } from 'mobx';
+import { action, configure, flow, observable } from 'mobx';
 import LayerStore from './LayerStore';
-import { EditControl } from 'addis-viz-sdk';
+import { EditControl, MeasureControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
 import { Modal } from 'antd';
 
@@ -9,8 +9,27 @@ class DataLayerStore extends LayerStore {
     constructor() {
         super();
         this.editor;
-        this.createShouldUpdate;
+        this.measureControl;
+        document.onkeydown = event => {
+            var e =
+                event || window.event || arguments.callee.caller.arguments[0];
+            if (e && e.keyCode == 27) {
+                if (this.editType != 'normal') {
+                    Modal.confirm({
+                        title: '是否退出',
+                        okText: '确定',
+                        cancelText: '取消',
+                        onOk: () => {
+                            this.clearChoose();
+                        }
+                    });
+                }
+                return;
+            }
+        };
     }
+    @observable editType = 'normal';
+    @observable beenPick;
 
     @action toggle = (name, checked) => {
         this.layers.find(layer => layer.value == name).checked = checked;
@@ -37,14 +56,14 @@ class DataLayerStore extends LayerStore {
         return this.layers.findIndex(layer => layer.checked);
     };
 
-    @action updataAttributes = (name, features) => {
-        let layer = this.getLayerByName(name).layer;
-        layer.updateFeatures(features);
+    @action initEditor = layer => {
+        this.editor = new EditControl(layer);
+        map.getControlManager().addControl(this.editor);
     };
 
-    @action initEditor = () => {
-        this.editor = new EditControl();
-        map.getControlManager().addControl(this.editor);
+    @action initMeasureControl = () => {
+        this.measureControl = new MeasureControl();
+        map.getControlManager().addControl(this.measureControl);
     };
 
     @action activeEditor = name => {
@@ -53,21 +72,34 @@ class DataLayerStore extends LayerStore {
             this.clearChoose();
             this.editor.editLayer = layer;
         } else {
-            this.editor = new EditControl(layer);
-            map.getControlManager().addControl(this.editor);
+            this.initEditor(layer);
         }
         this.updateKey = Math.random();
         return layer;
     };
 
     @action setSelectedCallBack = callback => {
-        this.editor.onFeatureSelected(callback);
+        this.editor.onFeatureSelected((result, event) => {
+            switch (this.editType) {
+                case 'normal':
+                    // console.log(result);
+                    callback(result, event);
+                    break;
+                case 'newRel':
+                    this.newRelCallback(result, event);
+                    break;
+                case 'delRel':
+                    this.delRelCallback(result, event);
+                    break;
+                case 'select_point':
+                    this.breakCallback(result, event);
+                    break;
+            }
+        });
     };
 
     @action setCreatedCallBack = callback => {
-        this.editor.onFeatureCreated(result => {
-            callback(result, this.createShouldUpdate);
-        });
+        this.editor.onFeatureCreated(callback);
     };
 
     @action setEditedCallBack = callback => {
@@ -80,8 +112,10 @@ class DataLayerStore extends LayerStore {
 
     @action clearChoose = () => {
         if (!this.editor) return;
+        this.editType = 'normal';
         this.editor.clear();
         this.editor.cancel();
+        this.measureControl.clear();
         this.setPointSize(0.5);
     };
 
@@ -91,43 +125,75 @@ class DataLayerStore extends LayerStore {
 
     @action newPoint = () => {
         if (!this.editor) return;
-        this.createShouldUpdate = false;
+        this.measureControl.clear();
+        this.editType = 'new_point';
         this.editor.newPoint();
         this.setPointSize(3);
     };
 
     @action newLine = () => {
         if (!this.editor) return;
-        this.createShouldUpdate = false;
-        console.log(this.editor);
+        this.measureControl.clear();
+        this.editType = 'new_line';
         this.editor.newLine();
         this.setPointSize(3);
     };
 
     @action newPolygon = () => {
         if (!this.editor) return;
-        this.createShouldUpdate = false;
+        this.measureControl.clear();
+        this.editType = 'new_polygon';
         this.editor.newPolygon();
         this.setPointSize(3);
     };
 
     @action newFacadeRectangle = () => {
         if (!this.editor) return;
-        this.createShouldUpdate = false;
+        this.measureControl.clear();
+        this.editType = 'new_facade_rectangle';
         this.editor.newMatrix();
         this.setPointSize(3);
     };
 
+    @action newRel = () => {
+        if (this.editType == 'newRel') return;
+        this.measureControl.clear();
+        this.editType = 'newRel';
+        this.editor.clear();
+        this.editor.toggleMode(61);
+    };
+
+    @action delRel = () => {
+        if (this.editType == 'delRel') return;
+        this.measureControl.clear();
+        this.editType = 'delRel';
+        this.editor.clear();
+        this.editor.toggleMode(61);
+    };
+
+    @action setNewRelCallback = callback => {
+        this.newRelCallback = callback;
+    };
+
+    @action setDelRelCallback = callback => {
+        this.delRelCallback = callback;
+    };
+
+    @action setBreakCallback = callback => {
+        this.breakCallback = callback;
+    };
+
     newCircle = flow(function*() {
         if (!this.editor) return;
-        this.createShouldUpdate = true;
+        this.measureControl.clear();
+        this.editType = 'new_circle';
         this.editor.newFixedPolygon(3);
         this.setPointSize(5);
     });
 
     updateResult = flow(function*(result) {
         try {
-            if (!this.createShouldUpdate) {
+            if (this.editType != 'new_circle') {
                 return result;
             }
             let points = result.data.geometry.coordinates[0];
@@ -151,24 +217,49 @@ class DataLayerStore extends LayerStore {
 
     @action insertPoints = () => {
         if (!this.editor) return;
+        this.measureControl.clear();
+        this.editType = 'insertPoints';
         this.editor.insertPoints();
         this.setPointSize(3);
     };
 
     @action changePoints = () => {
         if (!this.editor) return;
+        this.measureControl.clear();
+        this.editType = 'changePoints';
         this.editor.changePoints();
         this.setPointSize(3);
     };
 
     @action deletePoints = () => {
         if (!this.editor) return;
+        this.measureControl.clear();
+        this.editType = 'delPoint';
         this.editor.deletePoints();
         this.setPointSize(3);
     };
 
     @action setPointSize = size => {
         pointCloudLayer.setPointSize(size);
+    };
+
+    @action pick = () => {
+        this.beenPick = true;
+    };
+
+    @action unPick = () => {
+        this.beenPick = false;
+    };
+
+    @action startMeatureDistance = () => {
+        this.editType = 'meature_distance';
+        this.measureControl.startMeatureDistance();
+    };
+
+    @action selectPointFromHighlight = () => {
+        this.measureControl.clear();
+        this.editType = 'select_point';
+        this.editor.selectPointFromHighlight();
     };
 }
 

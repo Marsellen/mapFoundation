@@ -1,8 +1,9 @@
 import resource from 'src/utils/resource';
+import { IdApiPath } from 'src/utils/Api';
 
 export default (function() {
     let service = resource(
-        '/id_service/imppublic/api/idgenerate',
+        IdApiPath('/imppublic/api/idgenerate'),
         {},
         {}
     );

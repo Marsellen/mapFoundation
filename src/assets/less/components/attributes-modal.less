@@ -10,6 +10,7 @@
         top: 0;
         padding-bottom: 0;
         width: 320px !important;
+        margin: 0;
     }
 
     .ant-modal-header {
@@ -38,9 +39,38 @@
         overflow-y: auto;
         max-height: calc(100vh - 130px);
         .ant-form {
-            label, .ant-select, .ant-input {
+            margin: 0;
+            padding: 0 !important;
+            label,
+            .ant-select,
+            .ant-input {
                 font-size: 13px;
             }
+        }
+        .ant-tabs-nav-wrap {
+            padding-left: 0 !important;
+        }
+        .ant-tabs-bar {
+            margin: 0 !important;
+        }
+        .ant-tabs-nav-container {
+            height: 34px !important;
+        }
+
+        .ant-tabs-tab {
+            height: 34px !important;
+            padding: 0 16px !important;
+            line-height: 32px !important;
+            background-color: unset !important;
+            border: unset !important;
+            border-radius: 10px 10px 0 0 !important;
+        }
+
+        .ant-tabs-tab-active {
+            height: 34px !important;
+            background-color: #f9f9f9 !important;
+            border-color: unset !important;
+            border-bottom: unset !important;
         }
     }
 
@@ -72,7 +102,7 @@
         width: 100%;
         height: 100%;
         background-color: #fff;
-        opacity: .93;
+        opacity: 0.93;
         z-index: -1;
     }
 

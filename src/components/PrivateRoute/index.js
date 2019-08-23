@@ -1,23 +1,29 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { isAuthenticated } from '../../utils/Session';
+import { inject, observer } from 'mobx-react';
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route
-        {...rest}
-        render={props =>
-            !!isAuthenticated() ? (
-                <Component {...props} />
-            ) : (
-                <Redirect
-                    to={{
-                        pathname: '/login',
-                        state: { from: props.location }
-                    }}
-                />
-            )
-        }
-    />
-);
+@inject('appStore')
+@observer
+class PrivateRoute extends React.Component {
+    render() {
+        const { component, ...rest } = this.props;
+        return <Route {...rest} render={this.renderComponent} />;
+    }
+
+    renderComponent = props => {
+        const { component: Component, appStore } = this.props;
+        const { loginUser } = appStore;
+        return loginUser ? (
+            <Component {...props} />
+        ) : (
+            <Redirect
+                to={{
+                    pathname: '/login',
+                    state: { from: props.location }
+                }}
+            />
+        );
+    };
+}
 
 export default PrivateRoute;

@@ -7,13 +7,13 @@
         "flexible"
     ],
     "scripts": {
-        "i": "npm i addis-viz-sdk --registry=http://10.43.16.53:8081/repository/npm-all/ --save & npm i",
+        "i": "npm i addis-viz-sdk --registry=http://10.43.75.53:8081/repository/npm-all/ --save & npm i",
         "start": "webpack-dev-server --mode development --hot --config ./webpack.dev.conf.js --port 15900",
         "build": "webpack --mode production --config ./webpack.prod.conf.js",
-        "build-sdk": "npm i addis-viz-sdk --registry=http://10.43.16.53:8081/repository/npm-all/ --save"
+        "build-sdk": "npm i addis-viz-sdk --registry=http://10.43.75.53:8081/repository/npm-all/ --save"
     },
     "dependencies": {
-        "addis-viz-sdk": "0.0.5-alpha.17",
+        "addis-viz-sdk": "^0.1.4-alpha.1",
         "antd": "^3.17.0",
         "axios": "^0.18.0",
         "dragm": "0.0.5",
