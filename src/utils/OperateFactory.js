@@ -1,33 +1,27 @@
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { Modal } from 'antd';
-import { updateFeatures, updateRels } from './relCtrl/operateCtrl';
 
 const UNDO_MAP = {
     addFeature: 'deleteFeature',
     deleteFeature: 'addFeature',
-    updateFeature: 'reUpdateFeature',
-    updateFeatureRels: 'reUpdateFeatureRels'
+    updateFeature: 'reUpdateFeature'
 };
 
 class OperateFactory {
-    redo(history) {
-        this[history.type](history);
+    redo(layer, history) {
+        this[history.type](layer, history);
     }
 
-    undo(history) {
+    undo(layer, history) {
         let action = UNDO_MAP[history.type];
-        this[action](history);
+        this[action](layer, history);
     }
 
-    addFeature(history) {
-        let layer = map
-            .getLayerManager()
-            .getLayersByType('VectorLayer')
-            .find(layer => layer.layerName == history.layerName).layer;
+    addFeature(layer, history) {
         layer.addFeatures([history.feature]);
     }
 
-    deleteFeature(history) {
+    deleteFeature(layer, history) {
         let key = DATA_LAYER_MAP[history.layerName].id;
         if (!history.feature.properties[key]) {
             return Modal.error({
@@ -35,54 +29,18 @@ class OperateFactory {
                 okText: '确定'
             });
         }
-        let layer = map
-            .getLayerManager()
-            .getLayersByType('VectorLayer')
-            .find(layer => layer.layerName == history.layerName).layer;
         layer.removeFeatureByOption({
             key: key,
             value: history.feature.properties[key]
         });
     }
 
-    updateFeature(history) {
-        let layer = map
-            .getLayerManager()
-            .getLayersByType('VectorLayer')
-            .find(layer => layer.layerName == history.layerName).layer;
+    updateFeature(layer, history) {
         layer.updateFeatures([history.feature]);
     }
 
-    reUpdateFeature(history) {
-        let layer = map
-            .getLayerManager()
-            .getLayersByType('VectorLayer')
-            .find(layer => layer.layerName == history.layerName).layer;
+    reUpdateFeature(layer, history) {
         layer.updateFeatures([history.oldFeature]);
-    }
-
-    updateFeatureRels(history) {
-        let { features, rels } = history.data;
-        if (features) {
-            updateFeatures(history.data);
-        } else {
-            updateRels(rels);
-        }
-    }
-
-    reUpdateFeatureRels(history) {
-        let { features, rels, attrs } = history.data;
-        if (features) {
-            let log = {
-                features: features.reverse(),
-                rels: rels.reverse(),
-                attrs: attrs.reverse()
-            };
-            updateFeatures(log);
-        } else {
-            // 只变更了关联关系
-            updateRels(rels.reverse());
-        }
     }
 }
 

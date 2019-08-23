@@ -1,46 +1,30 @@
 import { observable, configure, action } from 'mobx';
-import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });
 class RightMenuStore {
-    features;
-    cloneFeatures;
+    feature;
+    cloneFeature;
     @observable visible;
     @observable option;
-    @observable menus;
 
-    @action show = (features, option) => {
+    @action show = (feature, option) => {
         this.visible = true;
-        this.features = features;
-        this.cloneFeatures = JSON.parse(JSON.stringify(this.features));
+        this.feature = feature;
+        this.cloneFeature = JSON.parse(JSON.stringify(feature));
         this.option = option;
-        this.fetchMenus();
     };
 
     @action hide = () => {
         this.visible = false;
     };
 
-    @action fetchMenus = () => {
-        if (this.features.length == 1) {
-            this.menus = DATA_LAYER_MAP[this.option.layerName].rightTools;
-        } else {
-            let menus = DATA_LAYER_MAP[this.option.layerName].groupRightTools;
-            if (menus) {
-                this.menus = menus;
-            } else {
-                this.visible = false;
-            }
-        }
-    };
-
     @action delete = () => {
         this.visible = false;
-        return this.features;
+        return this.feature
     };
 
-    @action getFeatures = () => {
-        return this.cloneFeatures;
+    @action getFeature = () => {
+        return this.cloneFeature;
     };
 }
 

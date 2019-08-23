@@ -3,7 +3,6 @@ import { Popover, Tooltip, Radio, List } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import IconFont from 'src/components/IconFont';
-import { getEditLayers } from 'src/utils/permissionCtrl';
 
 @inject('taskStore')
 @observer
@@ -69,13 +68,13 @@ class EditLayer extends React.Component {
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
 @inject('AttributeStore')
-@inject('appStore')
 @observer
 class EditLayerPicker extends React.Component {
     render() {
-        let { DataLayerStore, appStore } = this.props;
-        let userInfo = appStore.loginUser;
-        let layers = getEditLayers(DataLayerStore.layers, userInfo);
+        let { DataLayerStore } = this.props;
+        let layers = DataLayerStore.layers
+            ? [{ value: false, label: '不启用' }, ...DataLayerStore.layers]
+            : [];
 
         let editLayer = DataLayerStore.getEditLayer();
         return (
@@ -88,7 +87,7 @@ class EditLayerPicker extends React.Component {
                     dataSource={layers}
                     renderItem={item => (
                         <div>
-                            <Radio value={item.value} disabled={item.disabled}>
+                            <Radio value={item.value}>
                                 {this.getLabel(item)}
                             </Radio>
                         </div>

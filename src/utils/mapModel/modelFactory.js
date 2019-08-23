@@ -2,19 +2,19 @@ import {
     DEFAULT_PROPERTIES_MAP,
     TABLE_DATA_MAP
 } from 'src/config/ADMapDataConfig';
-import { getLayerIDKey } from 'src/utils/vectorUtils';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 class modelFactory {
-    getTabelData = (layerName, properties) => {
-        return TABLE_DATA_MAP[layerName].map(record => {
+    getTabelData = (type, properties) => {
+        return TABLE_DATA_MAP[type].map(record => {
             record.value = properties[record.key];
             return record;
         });
     };
 
-    getDefaultProperties = (layerName, id) => {
-        let defaultProperties = DEFAULT_PROPERTIES_MAP[layerName] || {};
-        let IDKey = getLayerIDKey(layerName);
+    getDefaultProperties = (type, id) => {
+        let defaultProperties = DEFAULT_PROPERTIES_MAP[type] || {};
+        let IDKey = DATA_LAYER_MAP[type] ? DATA_LAYER_MAP[type].id : 'id';
         return {
             ...defaultProperties,
             [IDKey]: id

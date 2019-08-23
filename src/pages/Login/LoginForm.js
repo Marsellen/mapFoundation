@@ -1,8 +1,8 @@
 import React from 'react';
-// import { randomNum } from '../../utils/utils';
+import { randomNum } from '../../utils/utils';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import { Form, Input, Icon, Checkbox } from 'antd';
+import { Form, Input, Row, Col, Icon } from 'antd';
 
 @withRouter
 @inject('appStore')
@@ -10,72 +10,174 @@ import { Form, Input, Icon, Checkbox } from 'antd';
 @Form.create()
 class LoginForm extends React.Component {
     state = {
-        focusItem: -1 //保存当前聚焦的input
+        focusItem: -1, //保存当前聚焦的input
+        code: '' //验证码
     };
 
     componentDidMount() {
-        let rememberMe = localStorage.getItem('rememberMe') === 'true';
-        let autoLogin = localStorage.getItem('autoLogin') === 'true';
-        this.setState({
-            rememberMe, // 记住用户名
-            autoLogin //自动登录
-        });
+        this.createCode();
     }
 
+    /**
+     * 生成验证码
+     */
+    createCode = () => {
+        const ctx = this.canvas.getContext('2d');
+        const chars = [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f',
+            'g',
+            'h',
+            'j',
+            'k',
+            'l',
+            'm',
+            'n',
+            'p',
+            'q',
+            'r',
+            's',
+            't',
+            'u',
+            'v',
+            'w',
+            'x',
+            'y',
+            'z',
+            'A',
+            'B',
+            'C',
+            'D',
+            'E',
+            'F',
+            'G',
+            'H',
+            'J',
+            'K',
+            'L',
+            'M',
+            'N',
+            'P',
+            'Q',
+            'R',
+            'S',
+            'T',
+            'U',
+            'V',
+            'W',
+            'X',
+            'Y',
+            'Z'
+        ];
+        let code = '';
+        ctx.clearRect(0, 0, 80, 39);
+        for (let i = 0; i < 4; i++) {
+            const char = chars[randomNum(0, 57)];
+            code += char;
+            ctx.font = randomNum(20, 25) + 'px SimHei'; //设置字体随机大小
+            ctx.fillStyle = '#D3D7F7';
+            ctx.textBaseline = 'middle';
+            ctx.shadowOffsetX = randomNum(-3, 3);
+            ctx.shadowOffsetY = randomNum(-3, 3);
+            ctx.shadowBlur = randomNum(-3, 3);
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+            let x = (80 / 5) * (i + 1);
+            let y = 39 / 2;
+            let deg = randomNum(-25, 25);
+            /**设置旋转角度和坐标原点**/
+            ctx.translate(x, y);
+            ctx.rotate((deg * Math.PI) / 180);
+            ctx.fillText(char, 0, 0);
+            /**恢复旋转角度和坐标原点**/
+            ctx.rotate((-deg * Math.PI) / 180);
+            ctx.translate(-x, -y);
+        }
+        this.setState({
+            code
+        });
+    };
     loginSubmit = e => {
         e.preventDefault();
         this.setState({
             focusItem: -1
         });
-        const { appStore } = this.props;
-
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                values.password = btoa(values.password); //base64编码
-                appStore.login(values, this.state).then(() => {
-                    localStorage.setItem('rememberMe', this.state.rememberMe);
-                    localStorage.setItem('autoLogin', this.state.autoLogin);
-                    let userName = this.state.rememberMe ? values.username : '';
-                    localStorage.setItem('userName', userName);
-                    const { from } = this.props.location.state || {
-                        from: { pathname: '/' }
-                    };
-                    this.props.history.push(from);
-                });
-            }
-        });
-    };
-    changeAutoLogin = e => {
-        let rememberMe =
-            !e.target.checked && !this.state.rememberMe ? false : true;
-        this.setState({
-            autoLogin: e.target.checked,
-            rememberMe
-        });
-    };
+                // 表单登录时，若验证码长度小于4则不会验证，所以我们这里要手动验证一次，线上的未修复
+                if (
+                    this.state.code.toUpperCase() !==
+                    values.verification.toUpperCase()
+                ) {
+                    this.props.form.setFields({
+                        verification: {
+                            value: values.verification,
+                            errors: [new Error('验证码错误')]
+                        }
+                    });
+                    return;
+                }
 
-    changeRememberMe = e => {
-        let autoLogin = e.target.checked ? this.state.autoLogin : false;
-        this.setState({
-            rememberMe: e.target.checked,
-            autoLogin
+                const users = this.props.appStore.users;
+                // 检测用户名是否存在
+                const result = users.find(
+                    item => item.username === values.username
+                );
+                if (!result) {
+                    this.props.form.setFields({
+                        username: {
+                            value: values.username,
+                            errors: [new Error('用户名不存在')]
+                        }
+                    });
+                    return;
+                } else {
+                    //检测密码是否错误
+                    if (result.password !== values.password) {
+                        this.props.form.setFields({
+                            password: {
+                                value: values.password,
+                                errors: [new Error('密码错误')]
+                            }
+                        });
+                        return;
+                    }
+                }
+
+                this.props.appStore.toggleLogin(true, {
+                    username: values.username
+                });
+
+                const { from } = this.props.location.state || {
+                    from: { pathname: '/' }
+                };
+                this.props.history.push(from);
+            }
         });
     };
 
     render() {
-        const { getFieldDecorator } = this.props.form;
-        const { focusItem, autoLogin, rememberMe } = this.state;
-        let userName = localStorage.getItem('userName');
+        const { getFieldDecorator, getFieldError } = this.props.form;
+        const { focusItem, code } = this.state;
         return (
             <div className={this.props.className}>
                 <h3 className="title">管理员登录</h3>
                 <Form onSubmit={this.loginSubmit}>
                     <Form.Item>
                         {getFieldDecorator('username', {
-                            rules: [
-                                { required: true, message: '请输入用户名' }
-                            ],
-                            initialValue: userName
+                            rules: [{ required: true, message: '请输入用户名' }]
                         })(
                             <Input
                                 onFocus={() => this.setState({ focusItem: 0 })}
@@ -119,25 +221,63 @@ class LoginForm extends React.Component {
                         )}
                     </Form.Item>
                     <Form.Item>
-                        <div id="checkbox-color">
-                            <Checkbox
-                                checked={rememberMe}
-                                onChange={this.changeRememberMe}>
-                                记住用户名
-                            </Checkbox>
-                            <Checkbox
-                                checked={autoLogin}
-                                onChange={this.changeAutoLogin}>
-                                下次自动登录
-                            </Checkbox>
-                        </div>
+                        {getFieldDecorator('verification', {
+                            validateFirst: true,
+                            rules: [
+                                { required: true, message: '请输入验证码' },
+                                {
+                                    validator: (rule, value, callback) => {
+                                        if (
+                                            value.length >= 4 &&
+                                            code.toUpperCase() !==
+                                                value.toUpperCase()
+                                        ) {
+                                            callback('验证码错误');
+                                        }
+                                        callback();
+                                    }
+                                }
+                            ]
+                        })(
+                            <Row>
+                                <Col span={15}>
+                                    <Input
+                                        onFocus={() =>
+                                            this.setState({ focusItem: 2 })
+                                        }
+                                        onBlur={() =>
+                                            this.setState({ focusItem: -1 })
+                                        }
+                                        maxLength={4}
+                                        placeholder="验证码"
+                                        addonBefore={
+                                            <Icon
+                                                type="key"
+                                                style={
+                                                    focusItem === 2
+                                                        ? styles.focus
+                                                        : styles.normal
+                                                }
+                                            />
+                                        }
+                                    />
+                                </Col>
+                                <Col span={9}>
+                                    <canvas
+                                        onClick={this.createCode}
+                                        width="80"
+                                        height="39"
+                                        ref={el => (this.canvas = el)}
+                                    />
+                                </Col>
+                            </Row>
+                        )}
                     </Form.Item>
                     <div className="bottom">
                         <input
                             className="loginBtn"
                             type="submit"
                             value="登录"
-                            width="100%"
                         />
                     </div>
                 </Form>
