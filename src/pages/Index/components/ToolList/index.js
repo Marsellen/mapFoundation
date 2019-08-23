@@ -10,7 +10,11 @@ import AddPolygon from './AddPolygon';
 import ResourceLoader from './ResourceLoader';
 import ExportShp from './ExportShp';
 import AddFacadeRectangle from './AddFacadeRectangle';
-import AddCircle from './AddCircle'
+import AddCircle from './AddCircle';
+import AddRel from './AddRel';
+import DelRel from './DelRel';
+import Ranging from './Ranging';
+import AdjustPointSize from './AdjustPointSize';
 
 export default [
     <Undo key="UNDO" />,
@@ -19,10 +23,14 @@ export default [
     <ExportShp key="EXPORT_SHP" />,
     <Save key="SAVE" />,
     <Intensity key="INTENSITY" />,
+    <AdjustPointSize key="ADJUST_POINT_SIZE" />,
+    <Ranging key="RANGING" />,
     <EditLayer key="EDIT_LAYER" />,
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,
     <AddPolygon key="POLYGON" />,
     <AddFacadeRectangle key="ADD_FACADEREC_TANGLE" />,
-    <AddCircle key="ADD_CIRCLE" />
+    <AddCircle key="ADD_CIRCLE" />,
+    <AddRel key="ADD_REL" />,
+    <DelRel key="DEL_REL" />
 ];

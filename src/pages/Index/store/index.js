@@ -8,6 +8,8 @@ import PictureShowStore from './PictureShowStore';
 import ToolCtrlStore from './ToolCtrlStore';
 import NewFeatureStore from './NewFeatureStore';
 import RightMenuStore from './RightMenuStore';
+import RelStore from './RelStore';
+import AttrStore from './AttrStore';
 
 export default {
     menuStore,
@@ -19,5 +21,7 @@ export default {
     PictureShowStore,
     ToolCtrlStore,
     NewFeatureStore,
-    RightMenuStore
+    RightMenuStore,
+    RelStore,
+    AttrStore
 };
