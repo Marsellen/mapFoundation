@@ -1,6 +1,6 @@
 import React from 'react';
 import { Map, PointCloudLayer, LayerGroup, TraceLayer } from 'addis-viz-sdk';
-import { Modal, message } from 'antd';
+import { Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
 //import NewFeatureModal from './NewFeatureModal';
@@ -23,8 +23,6 @@ import 'less/components/viz-compnent.less';
 @inject('RightMenuStore')
 @inject('NewFeatureStore')
 @inject('OperateHistoryStore')
-@inject('RelStore')
-@inject('AttrStore')
 @observer
 class VizCompnent extends React.Component {
     constructor(props) {
@@ -40,25 +38,16 @@ class VizCompnent extends React.Component {
 
     initTask = task => {
         const { taskStore } = this.props;
-        console.time('taskLoad');
-        if (!task) return;
-        const hide = message.loading('正在加载任务数据...', 0);
         Promise.all([
             this.initPointCloud(task.point_clouds),
             this.initVectors(task.vectors),
-            this.initTracks(task.tracks),
-            this.installRel(task.rels),
-            this.installAttr(task.attrs)
+            this.initTracks(task.tracks)
         ])
             .then(results => {
                 let [pointClouds, vectors, tracks] = results;
                 this.initResouceLayer([pointClouds, vectors, tracks]);
-                hide();
-                message.success('加载完成', 1);
-                console.timeEnd('taskLoad');
             })
             .catch(e => {
-                hide();
                 Modal.error({
                     title: '资料加载失败，请确认输入正确路径。',
                     okText: '确定'
@@ -101,6 +90,7 @@ class VizCompnent extends React.Component {
             map.getLayerManager()
                 .addLayerGroup(layerGroup)
                 .then(layers => {
+                    map.setView('U'); // TODO 默认加载为俯视角 需要sdk提供默认初始化视角接口
                     DataLayerStore.init(layers);
                     this.installListener();
                 });
@@ -137,23 +127,17 @@ class VizCompnent extends React.Component {
             e.preventDefault();
             // return false;
         };
-        //监听浏览器即将离开当前页面事件
-        window.onbeforeunload = function(e) {
-            var e = window.event || e;
-            e.returnValue = '确定离开当前页面吗？';
-        };
-
+      
         // attributes 拾取控件
         const { DataLayerStore } = this.props;
         DataLayerStore.initEditor();
-        DataLayerStore.initMeasureControl();
         DataLayerStore.setSelectedCallBack(this.selectedCallBack);
         DataLayerStore.setCreatedCallBack(this.createdCallBack);
         DataLayerStore.setEditedCallBack(this.editedCallBack);
     };
 
     selectedCallBack = (result, event) => {
-        const { PictureShowStore, AttributeStore, DataLayerStore } = this.props;
+        const { PictureShowStore, AttributeStore } = this.props;
         // console.log(result, event);
         if (result && result.length > 0) {
             if (event.button === 0) {
@@ -163,20 +147,19 @@ class VizCompnent extends React.Component {
                  * TraceLayer 轨迹点
                  */
                 if (result[0].type === 'VectorLayer') {
-                    DataLayerStore.pick();
                     this.showAttributesModal(result[0]);
                 } else if (result[0].type === 'TraceLayer') {
                     this.showPictureShowView(result[0]);
                     PictureShowStore.show();
                 }
             } else if (event.button === 2) {
-                this.showRightMenu(result, event);
+                this.showRightMenu(result[0], event);
             }
         } else {
-            DataLayerStore.unPick();
-            AttributeStore.hide();
-            AttributeStore.hideRelFeatures();
-            window.traceLayer.unselect();
+            if (event.button === 0) {
+                AttributeStore.hide();
+                window.traceLayer.unselect();
+            }
         }
     };
 
@@ -186,11 +169,15 @@ class VizCompnent extends React.Component {
             NewFeatureStore,
             OperateHistoryStore
         } = this.props;
+        DataLayerStore.setPointSize(0.5);
         //console.log(result);
         if (result.errorCode) {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
-            message.warning(desc, 3);
+            Modal.error({
+                title: desc,
+                okText: '确定'
+            });
             return;
         }
         DataLayerStore.updateResult(result)
@@ -215,25 +202,26 @@ class VizCompnent extends React.Component {
                 let layer = DataLayerStore.getEditLayer();
                 layer.layer.removeFeatureById(result.uuid);
             });
-        DataLayerStore.clearChoose();
     };
 
     editedCallBack = result => {
+        if (result.errorCode) {
+            let arr = result.desc.split(':');
+            let desc = arr[arr.length - 1];
+            Modal.error({
+                title: desc,
+                okText: '确定'
+            });
+            return;
+        }
         const {
             DataLayerStore,
             OperateHistoryStore,
             RightMenuStore
         } = this.props;
-        if (result.errorCode) {
-            let arr = result.desc.split(':');
-            let desc = arr[arr.length - 1];
-            message.warning(desc, 3);
-            DataLayerStore.clearChoose();
-            return;
-        }
         //console.log(result);
         DataLayerStore.setPointSize(0.5);
-        let oldFeature = RightMenuStore.getFeatures()[0];
+        let oldFeature = RightMenuStore.getFeature();
         OperateHistoryStore.add({
             type: 'updateFeature',
             oldFeature,
@@ -257,31 +245,17 @@ class VizCompnent extends React.Component {
         AttributeStore.show(readonly);
     };
 
-    showRightMenu = (features, event) => {
+    showRightMenu = (obj, event) => {
         const { DataLayerStore, RightMenuStore, AttributeStore } = this.props;
         const editLayer = DataLayerStore.getEditLayer();
-        let layerName = editLayer && editLayer.layerName;
-        let hasOtherFeature = features.find(
-            feature => feature.layerName != layerName
-        );
-        if (layerName && !hasOtherFeature) {
+        if (editLayer && editLayer.layerName == obj.layerName) {
             AttributeStore.hide();
-            RightMenuStore.show(features, {
+            RightMenuStore.show(obj, {
                 x: event.x,
                 y: event.y,
-                layerName
+                layerName: obj.layerName
             });
         }
-    };
-
-    installRel = url => {
-        const { RelStore } = this.props;
-        return RelStore.init(url);
-    };
-
-    installAttr = url => {
-        const { AttrStore } = this.props;
-        return AttrStore.init(url);
     };
 
     render() {

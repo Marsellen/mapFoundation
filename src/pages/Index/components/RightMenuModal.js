@@ -1,25 +1,15 @@
 import React from 'react';
-import { Modal, Menu, message } from 'antd';
+import { Modal, Menu } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
-import {
-    deleteLine,
-    breakLine,
-    mergeLine
-} from 'src/utils/relCtrl/operateCtrl';
 
 @inject('RightMenuStore')
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
-@inject('AttributeStore')
 @observer
 class RightMenuModal extends React.Component {
-    componentDidMount() {
-        this.installListener();
-    }
-
     render() {
-        const { visible, menus } = this.props.RightMenuStore;
+        const { visible, option } = this.props.RightMenuStore;
         if (!visible) {
             return <div />;
         }
@@ -40,7 +30,13 @@ class RightMenuModal extends React.Component {
                 onCancel={this.handleCancel}>
                 <Menu className="menu">
                     {this.getMenus().map(menu => {
-                        return menus.includes(menu.key) && menu;
+                        return (
+                            option &&
+                            DATA_LAYER_MAP[
+                                option.layerName
+                            ].rightTools.includes(menu.key) &&
+                            menu
+                        );
                     })}
                 </Menu>
             </Modal>
@@ -72,24 +68,6 @@ class RightMenuModal extends React.Component {
                 onClick={this.deletePoints}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>删除形状点</span>
-            </Menu.Item>,
-            <Menu.Item
-                key="break"
-                onClick={this.breakLine}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
-                <span>打断</span>
-            </Menu.Item>,
-            <Menu.Item
-                key="breakGroup"
-                onClick={this.breakLine}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
-                <span>齐打断</span>
-            </Menu.Item>,
-            <Menu.Item
-                key="merge"
-                onClick={this.mergeLine}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
-                <span>合并</span>
             </Menu.Item>
         ];
     };
@@ -115,75 +93,28 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
     };
 
-    installListener = () => {
-        const { DataLayerStore } = this.props;
-        DataLayerStore.setBreakCallback(this.breakCallBack);
-    };
-
-    breakCallBack = result => {
-        const {
-            DataLayerStore,
-            RightMenuStore,
-            OperateHistoryStore,
-            AttributeStore
-        } = this.props;
-        if (result.errorCode) {
-            let arr = result.desc.split(':');
-            let desc = arr[arr.length - 1];
-            message.warning(desc, 3);
-            DataLayerStore.clearChoose();
-            return;
-        }
-        Modal.confirm({
-            title: '您确认执行操作？',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk() {
-                let features = RightMenuStore.getFeatures();
-                breakLine(result[0], features)
-                    .then(result => {
-                        console.log(result);
-                        OperateHistoryStore.add({
-                            type: 'updateFeatureRels',
-                            data: result
-                        });
-                        message.success('操作完成', 3);
-                    })
-                    .catch(e => {
-                        console.log(e);
-                        message.warning('操作失败:' + e.message, 3);
-                    });
-                DataLayerStore.clearChoose();
-                AttributeStore.hideRelFeatures();
-            },
-            onCancel() {
-                DataLayerStore.clearChoose();
-                AttributeStore.hideRelFeatures();
-            }
-        });
-    };
-
     deleteFeature = () => {
         const {
             RightMenuStore,
             OperateHistoryStore,
-            DataLayerStore,
-            AttributeStore
+            DataLayerStore
         } = this.props;
         Modal.confirm({
             title: '您确认删除该要素？',
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
-            onOk: async () => {
+            onOk() {
                 let result = RightMenuStore.delete();
-                let historyLog = await deleteLine(result);
+                let feature = result.data;
+                let layerName = result.layerName;
+                let layer = DataLayerStore.getLayerByName(layerName);
+                layer.layer.removeFeatureById(result.uuid);
                 DataLayerStore.clearChoose();
-                AttributeStore.hideRelFeatures();
                 OperateHistoryStore.add({
-                    type: 'updateFeatureRels',
-                    data: historyLog
+                    type: 'deleteFeature',
+                    feature,
+                    layerName
                 });
             }
         });
@@ -204,50 +135,6 @@ class RightMenuModal extends React.Component {
     deletePoints = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
         DataLayerStore.deletePoints();
-        RightMenuStore.hide();
-    };
-
-    breakLine = () => {
-        const { DataLayerStore, RightMenuStore } = this.props;
-        DataLayerStore.selectPointFromHighlight();
-        RightMenuStore.hide();
-    };
-
-    mergeLine = () => {
-        const {
-            RightMenuStore,
-            DataLayerStore,
-            OperateHistoryStore,
-            AttributeStore
-        } = this.props;
-        Modal.confirm({
-            title: '您确认执行操作？',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk() {
-                let features = RightMenuStore.getFeatures();
-                mergeLine(features)
-                    .then(result => {
-                        // console.log(result);
-                        OperateHistoryStore.add({
-                            type: 'updateFeatureRels',
-                            data: result
-                        });
-                        message.success('操作完成', 3);
-                    })
-                    .catch(e => {
-                        console.log(e);
-                        message.warning('操作失败:' + e.message, 3);
-                    });
-                DataLayerStore.clearChoose();
-                AttributeStore.hideRelFeatures();
-            },
-            onCancel() {
-                DataLayerStore.clearChoose();
-                AttributeStore.hideRelFeatures();
-            }
-        });
         RightMenuStore.hide();
     };
 }

@@ -35,7 +35,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    padding: 60px 40px 40px 40px;
+    padding: 90px 40px 40px 40px;
     backface-visibility: hidden;
     background: linear-gradient(
         230deg,
@@ -60,7 +60,6 @@
     font-size: 11px;
     color: #4fa1d9;
     transition: all 0.2s;
-    width: 100%;
 }
 #login-page .bottom {
     display: flex;
@@ -141,10 +140,6 @@
 }
 .login-notification .ant-notification-notice-close {
     color: #d3d7f7;
-}
-
-#login-page #checkbox-color .ant-checkbox-wrapper {
-    color: #bfbfbf;
 }
 /*更改谷歌浏览器input背景*/
 input:-webkit-autofill,

@@ -17,33 +17,9 @@ class IndexedDB {
 
                 let transaction = db.transaction([this.tableName], 'readwrite');
 
-                transaction.onabort = error => {
-                    console.log(transaction.error.message);
-                    reject(transaction.error);
-                };
-
                 let objectStore = transaction.objectStore(this.tableName);
 
                 resolve(objectStore, event);
-            };
-
-            request.onerror = reject;
-        });
-    };
-
-    openTransaction = () => {
-        return new Promise((resolve, reject) => {
-            let request = window.indexedDB.open(this.dbName);
-            request.onupgradeneeded = event => {
-                var db = request.result;
-                this.onupgradeneeded(db);
-            };
-            request.onsuccess = event => {
-                let db = request.result;
-
-                let transaction = db.transaction([this.tableName], 'readwrite');
-
-                resolve(transaction, event);
             };
 
             request.onerror = reject;
@@ -90,28 +66,6 @@ class IndexedDB {
                 };
 
                 request.onerror = reject;
-            }, reject);
-        });
-    };
-
-    batchAdd = records => {
-        return new Promise((resolve, reject) => {
-            this.openTransaction().then(transaction => {
-                let objectStore = transaction.objectStore(this.tableName);
-                let index = 0;
-                records.map(record => {
-                    objectStore.add(record);
-                    index++;
-                });
-
-                transaction.onabort = error => {
-                    console.warn(transaction.error.message);
-                    reject({ message: '创建失败：数据重复' }, index);
-                };
-
-                transaction.oncomplete = result => {
-                    resolve(result);
-                };
             }, reject);
         });
     };
@@ -166,28 +120,6 @@ class IndexedDB {
                 };
                 request.onerror = reject;
             }, reject);
-        });
-    };
-
-    deleteById = (id) => {
-        return new Promise((resolve, reject) => {
-            this.open().then(objectStore => {
-                let request = objectStore.delete(id);
-                request.onsuccess = event => {
-                    resolve(request.result, event);
-                };
-                request.onerror = reject;
-            }, reject);
-        });
-    };
-
-    queryByIndex = (store, index, value) => {
-        return new Promise((resolve, reject) => {
-            let request = store.index(index).getAll(value);
-            request.onsuccess = event => {
-                resolve(request.result, event);
-            };
-            request.onerror = reject;
         });
     };
 

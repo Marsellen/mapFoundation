@@ -1,6 +1,7 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
+import OperateFactory from 'src/utils/OperateFactory';
 
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
@@ -27,7 +28,9 @@ class Undo extends React.Component {
             DataLayerStore,
             AttributeStore
         } = this.props;
-        OperateHistoryStore.undo().then(() => {
+        OperateHistoryStore.undo(preNode => {
+            let layer = DataLayerStore.getLayerByName(preNode.layerName).layer;
+            OperateFactory.undo(layer, preNode);
             DataLayerStore.clearChoose();
             AttributeStore.hide();
         });
