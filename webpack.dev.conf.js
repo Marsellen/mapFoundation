@@ -1,6 +1,6 @@
 const path = require('path');
-const webpack = require("webpack");
-const merge = require("webpack-merge");
+const webpack = require('webpack');
+const merge = require('webpack-merge');
 const common = require('./webpack.common.conf');
 
 module.exports = merge(common, {
@@ -9,24 +9,36 @@ module.exports = merge(common, {
         historyApiFallback: true,
         hot: true,
         proxy: {
+            '/gateway': {
+                target: 'http://10.43.75.58:13003',
+                pathRewrite: { '^/gateway': '' },
+                changeOrigin: true,
+                logLevel: 'debug'
+            },
             '/id_service': {
-                target: 'http://10.43.16.17:13007',
+                target: 'http://10.43.75.17:13007',
                 pathRewrite: { '^/id_service': '' },
                 changeOrigin: true,
                 logLevel: 'debug'
             },
             '/nas_service': {
-                target: 'http://10.43.16.80:16000',
+                target: 'http://10.43.75.80:16000',
                 pathRewrite: { '^/nas_service': '' },
                 changeOrigin: true,
                 logLevel: 'debug'
             },
             '/shp_service': {
-                target: 'http://10.43.16.80:15906',
+                target: 'http://10.43.75.80:16906',
                 pathRewrite: { '^/shp_service': '' },
+                changeOrigin: true,
+                logLevel: 'debug'
+            },
+            '/editor_service': {
+                target: 'http://10.43.75.17:9292',
+                pathRewrite: { '^/editor_service': '' },
                 changeOrigin: true,
                 logLevel: 'debug'
             }
         }
-    },
+    }
 });

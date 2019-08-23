@@ -1,5 +1,4 @@
 import { observable, configure, action } from 'mobx';
-import modelFactory from 'src/utils/mapModel/modelFactory';
 
 configure({ enforceActions: 'always' });
 class PictureShowStore {
@@ -10,15 +9,15 @@ class PictureShowStore {
 
     @action getPicData = obj => {
         this.model = obj;
-        this.picData = obj.properties.Img.middle
-            ? obj.properties.Img.middle
+        this.picData = obj.properties.imgs[0]
+            ? obj.properties.imgs[0].name
             : null;
     };
 
     @action setPicData = obj => {
         this.model = obj;
-        this.picData = obj.properties.Img.middle
-            ? obj.properties.Img.middle
+        this.picData = obj.properties.imgs[0]
+            ? obj.properties.imgs[0].name
             : null;
     };
 
