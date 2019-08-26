@@ -30,6 +30,7 @@ class Redo extends React.Component {
         OperateHistoryStore.redo().then(() => {
             DataLayerStore.clearChoose();
             AttributeStore.hide();
+            AttributeStore.hideRelFeatures();
         });
     };
 }

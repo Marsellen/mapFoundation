@@ -1,5 +1,4 @@
 import IndexedDB from 'src/utils/IndexedDB';
-import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import {
     REL_DATA_SET,
     ATTR_REL_DATA_SET,
@@ -10,6 +9,43 @@ import { updateFeaturesByRels } from './relCtrl';
 import EditorService from 'src/pages/Index/service/EditorService';
 import { getFeatureRels } from './utils';
 import attrFactory from '../attrCtrl/attrFactory';
+import { getFeatureOption, getLayerIDKey } from '../vectorUtils';
+
+const deleteLine = async features => {
+    let { rels, attrs } = await features.reduce(
+        async (total, feature) => {
+            let layerName = feature.layerName;
+            let layer = map
+                .getLayerManager()
+                .getLayersByType('VectorLayer')
+                .find(layer => layer.layerName == layerName).layer;
+            layer.removeFeatureById(feature.uuid);
+            let rels = await getFeatureRels(layerName, feature.data.properties);
+            let attrs = await attrFactory.getFeatureAttrs(
+                layerName,
+                feature.data.properties
+            );
+            total = await total;
+            total.rels = total.rels.concat(rels);
+            total.attrs = total.attrs.concat(attrs);
+            return total;
+        },
+        { rels: [], attrs: [] }
+    );
+
+    let relStore = new IndexedDB('relationships', 'rels');
+    await Promise.all(rels.map(rel => relStore.deleteById(rel.id)));
+
+    let attrStore = new IndexedDB('attributes', 'attr');
+    await Promise.all(attrs.map(attr => attrStore.deleteById(attr.id)));
+
+    let historyLog = {
+        features: [features, []],
+        rels: [rels, []],
+        attrs: [attrs, []]
+    };
+    return historyLog;
+};
 
 const breakLine = async (breakPoint, features) => {
     let point = geometryToWKT(breakPoint.data.geometry);
@@ -123,7 +159,7 @@ const relToSpecData = (record, layerName, total) => {
         specKey = relSpec.objSpec;
         id = record.objId;
     }
-    let IDKey = DATA_LAYER_MAP[specKey] ? DATA_LAYER_MAP[specKey].id : 'id';
+    let IDKey = getLayerIDKey(specKey);
     let feature = queryFeature(specKey, {
         key: IDKey,
         value: id
@@ -253,10 +289,8 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
             (rs.relObjSpec == spec && rs.objSpec == layerName)
     );
     let relSpec;
-    let IDKey1 = DATA_LAYER_MAP[spec] ? DATA_LAYER_MAP[spec].id : 'id';
-    let IDKey2 = DATA_LAYER_MAP[layerName]
-        ? DATA_LAYER_MAP[layerName].id
-        : 'id';
+    let IDKey1 = getLayerIDKey(spec);
+    let IDKey2 = getLayerIDKey(layerName);
     return properties.map(property => {
         if (relSpecs.length > 1) {
             relSpec = relSpecs.find(rs => {
@@ -303,58 +337,58 @@ const attrsDataFormat = (data, source) => {
 
 const updateFeatures = async ({ features, rels, attrs } = {}) => {
     let [oldFeatures, newFeatures] = features;
-    let layerName = oldFeatures[0].layerName;
+    let layerName = (oldFeatures[0] || newFeatures[0]).layerName;
     let layer = map
         .getLayerManager()
         .getLayersByType('VectorLayer')
         .find(layer => layer.layerName == layerName).layer;
     layer.addFeatures(newFeatures.map(f => f.data));
-    await updateRels(rels);
-    await attrFactory.replaceAttrs(attrs);
+    newFeatures.map(feature => {
+        let option = getFeatureOption(feature);
+        let _feature = layer.getFeatureByOption(option);
+        if (_feature) {
+            layer.updateFeatures([feature]);
+        } else {
+            layer.addFeatures([feature.data]);
+        }
+    });
+    if (rels) {
+        await updateRels(rels);
+    }
+    if (attrs) {
+        await attrFactory.replaceAttrs(attrs);
+    }
     oldFeatures.map(feature => {
-        let layerName = feature.layerName;
-        let properties = feature.data.properties;
-        let IDKey = DATA_LAYER_MAP[layerName]
-            ? DATA_LAYER_MAP[layerName].id
-            : 'id';
-        let id = properties[IDKey];
-        layer.removeFeatureByOption({
-            key: IDKey,
-            value: id
-        });
+        let option = getFeatureOption(feature);
+        let _feature = layer.getFeatureByOption(option);
+        if (_feature) {
+            layer.removeFeatureById(_feature.properties.uuid);
+        }
     });
 };
 
 const updateRels = async ([oldRels, newRels] = []) => {
     let relStore = new IndexedDB('relationships', 'rels');
-    await relStore.open().then(
-        async store => {
-            oldRels.map(async record => {
-                if (record.id) {
-                    store.delete(record.id);
-                } else {
-                    let records = await relStore.queryByIndex(
-                        store,
-                        'REL_KEYS',
-                        [
-                            record.objType,
-                            record.objId,
-                            record.relObjType,
-                            record.relObjId
-                        ]
-                    );
-                    store.delete(records[0].id);
-                }
-            });
-
-            newRels.map(record => {
-                store.add(record);
-            });
-        },
-        error => {
-            console.log(error);
+    let oldRelIds = await oldRels.reduce(async (total, record) => {
+        total = await total;
+        if (record.id) {
+            total.push(record.id);
+        } else {
+            let _record = await relStore.get(
+                [
+                    record.objType,
+                    record.objId,
+                    record.relObjType,
+                    record.relObjId
+                ],
+                'REL_KEYS'
+            );
+            total.push(_record.id);
         }
-    );
+        return total;
+    }, []);
+    await Promise.all(oldRelIds.map(id => relStore.deleteById(id)));
+    await relStore.batchAdd(newRels);
     updateFeaturesByRels(oldRels, true);
     updateFeaturesByRels(newRels);
 };
@@ -412,4 +446,4 @@ const WKTToGeom = wkt => {
     return geoJson;
 };
 
-export { breakLine, mergeLine, updateFeatures, updateRels };
+export { deleteLine, breakLine, mergeLine, updateFeatures, updateRels };

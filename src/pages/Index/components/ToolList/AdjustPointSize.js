@@ -3,9 +3,14 @@ import { Popover, Tooltip, Slider } from 'antd';
 import { inject, observer } from 'mobx-react';
 import IconFont from 'src/components/IconFont';
 
+const marks = {
+    5: '0.5',
+    30: '3'
+};
+
 @inject('taskStore')
 @observer
-class Intensity extends React.Component {
+class AdjustPointSize extends React.Component {
     state = {
         clicked: false,
         hovered: false,
@@ -47,7 +52,7 @@ class Intensity extends React.Component {
                 onVisibleChange={this.handleClickChange}>
                 <Tooltip
                     placement="bottom"
-                    title="设置点云反射率"
+                    title="设置点云大小"
                     visible={this.state.hovered}
                     onVisibleChange={this.handleHoverChange}>
                     <IconFont
@@ -61,12 +66,16 @@ class Intensity extends React.Component {
     }
 
     _renderContent() {
-        let value = window.pointCloudLayer ? pointCloudLayer.getIntensity() : 0;
+        let value = window.pointCloudLayer
+            ? pointCloudLayer.material.size * 10
+            : 5;
         return (
             <div className="flex flex-row">
                 <Slider
                     className="flex-1"
                     value={value}
+                    step={5}
+                    marks={marks}
                     onChange={this.onChange}
                     tipFormatter={this.formatter}
                     style={{ width: 100 }}
@@ -85,15 +94,15 @@ class Intensity extends React.Component {
     }
 
     formatter = value => {
-        return `${parseInt(value)}%`;
+        return value / 10;
     };
 
     onChange = value => {
         this.setState({
             updateKey: Math.random()
         });
-        pointCloudLayer.setIntensity(value);
+        pointCloudLayer.setPointSize(value / 10);
     };
 }
 
-export default Intensity;
+export default AdjustPointSize;

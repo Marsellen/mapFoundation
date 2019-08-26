@@ -17,6 +17,7 @@ export const TOOLS_MAP = {
         ADD_CIRCLE: false,
         ADD_REL: false,
         DEL_REL: false,
+        ADJUST_POINT_SIZE: true
     },
     CHECK: {}
 };

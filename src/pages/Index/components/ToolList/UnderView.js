@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tooltip, Icon } from 'antd';
+import { Tooltip } from 'antd';
 import { inject, observer } from 'mobx-react';
 import IconFont from 'src/components/IconFont';
 

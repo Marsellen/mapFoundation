@@ -15,6 +15,7 @@ import AddRel from './AddRel';
 import DelRel from './DelRel';
 import Ranging from './Ranging';
 import AddOutsideRectangle from './AddOutsideRectangle';
+import AdjustPointSize from './AdjustPointSize';
 
 export default [
     <Undo key="UNDO" />,
@@ -23,6 +24,7 @@ export default [
     <ExportShp key="EXPORT_SHP" />,
     <Save key="SAVE" />,
     <Intensity key="INTENSITY" />,
+    <AdjustPointSize key="ADJUST_POINT_SIZE" />,
     <Ranging key="RANGING" />,
     <EditLayer key="EDIT_LAYER" />,
     <AddPoint key="POINT" />,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Empty, Form, Input, Button } from 'antd';
+import { Empty, Form, Input, Button, Icon } from 'antd';
 import EditableCard from './EditableCard';
 import NewAttrModal from './NewAttrModal';
 
@@ -138,8 +138,9 @@ class RelationForm extends React.Component {
                 )}
                 {newEnable && (
                     <Button
-                        onClick={this.newAttrs('AD_Lane_Con_RS', extraInfo)}
-                    />
+                        onClick={this.newAttrs('AD_Lane_Con_RS', extraInfo)}>
+                        <Icon type="plus" />
+                    </Button>
                 )}
                 <NewAttrModal onRef={modal => (this.modal = modal)} />
             </div>

@@ -26,10 +26,7 @@ class AddRel extends React.Component {
                             OperateHistoryStore.add({
                                 type: 'updateFeatureRels',
                                 data: {
-                                    rels: {
-                                        oldRels: [],
-                                        newRels: rels
-                                    }
+                                    rels: [[], rels]
                                 }
                             });
                             message.success('新建成功', 3);
