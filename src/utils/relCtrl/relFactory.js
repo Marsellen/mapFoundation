@@ -116,6 +116,7 @@ export const updateRels = async (rels, type) => {
         return total;
     }, []);
     updateFeaturesByRels(newRecords);
+    return newRecords;
 };
 
 export const tableFormat = (record, config, count) => {
