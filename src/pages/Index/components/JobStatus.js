@@ -6,7 +6,6 @@ import 'less/components/jobstatus.less';
 
 @withRouter
 @inject('appStore')
-@inject('GetTaskStore')
 @inject('OperateHistoryStore')
 @observer
 class JobStatus extends React.Component {
@@ -16,35 +15,17 @@ class JobStatus extends React.Component {
     }
 
     render() {
-        const { GetTaskStore } = this.props;
-        const { tasks } = GetTaskStore;
-
         return (
             <div className="flex flex-center">
-                <Button
-                    onClick={this.getJobs}
-                    disabled={
-                        tasks.data &&
-                        tasks.data.taskList &&
-                        tasks.data.taskList.length > 4
-                            ? true
-                            : false
-                    }>
-                    获取任务
-                </Button>
+                <Button onClick={this.getJobs}>获取任务</Button>
                 <Button onClick={this.submitJob}>提交任务</Button>
                 <Modal
                     title="当前任务是否通过质检？"
                     visible={this.state.visible}
-                    footer={null}
-                    onCancel={this.handleCancel}>
-                    <div id="quality" className='flex'>
-                        <Button onClick={this.handleCancel}>取消取消</Button>
-                        <Button>质检通过</Button>
-                        <Button>任务返修</Button>
-                        <Button>任务返工</Button>
-                    </div>
-                </Modal>
+                    footer={this.renderFooter()}
+                    onCancel={this.handleCancel}
+                    className="qualitySub"
+                />
             </div>
         );
     }
@@ -66,6 +47,17 @@ class JobStatus extends React.Component {
         } else if (roleCode === 'quality') {
             this.showModal();
         }
+    };
+
+    renderFooter = () => {
+        return (
+            <div id="quality" className="flex">
+                <Button onClick={this.handleCancel}>取消</Button>
+                <Button>质检通过</Button>
+                <Button>任务返修</Button>
+                <Button>任务返工</Button>
+            </div>
+        );
     };
 
     showModal = () => {
@@ -90,12 +82,9 @@ class JobStatus extends React.Component {
                 okText: '确定',
                 cancelText: '取消',
                 okType: 'danger',
-                onOk: () => {
-                    this.props.GetTaskStore.initTasks();
-                }
+                onOk: () => {}
             });
         } else {
-            this.props.GetTaskStore.initTasks();
         }
     };
 }

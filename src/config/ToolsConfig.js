@@ -12,10 +12,11 @@ export const TOOLS_MAP = {
         LINE: false,
         POLYGON: false,
         RESOURCE_LOADER: true,
+        ADD_OUTSIDE_RECTANGLE: false,
         ADD_FACADEREC_TANGLE: false,
         ADD_CIRCLE: false,
         ADD_REL: false,
-        DEL_REL: false
+        DEL_REL: false,
     },
     CHECK: {}
 };
