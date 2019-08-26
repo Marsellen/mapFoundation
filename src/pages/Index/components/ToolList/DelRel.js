@@ -34,10 +34,7 @@ class DelRel extends React.Component {
                             OperateHistoryStore.add({
                                 type: 'updateFeatureRels',
                                 data: {
-                                    rels: {
-                                        oldRels: rels,
-                                        newRels: []
-                                    }
+                                    rels: [rels, []]
                                 }
                             });
                             message.success('删除成功', 3);

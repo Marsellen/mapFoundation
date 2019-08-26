@@ -73,13 +73,16 @@ class OperateFactory {
     reUpdateFeatureRels(history) {
         let { features, rels, attrs } = history.data;
         if (features) {
-            let log = {
-                features: features.reverse(),
-                rels: rels.reverse(),
-                attrs: attrs.reverse()
-            };
+            let log = {};
+            log.features = features.reverse();
+            if (rels) {
+                log.rels = rels.reverse();
+            }
+            if (attrs) {
+                log.attrs = attrs.reverse();
+            }
             updateFeatures(log);
-        } else {
+        } else if (rels) {
             // 只变更了关联关系
             updateRels(rels.reverse());
         }
