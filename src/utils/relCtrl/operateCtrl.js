@@ -19,7 +19,8 @@ const deleteLine = async features => {
                 .getLayerManager()
                 .getLayersByType('VectorLayer')
                 .find(layer => layer.layerName == layerName).layer;
-            layer.removeFeatureById(feature.uuid);
+            let option = getFeatureOption(feature);
+            layer.removeFeatureByOption(option);
             let rels = await getFeatureRels(layerName, feature.data.properties);
             let attrs = await attrFactory.getFeatureAttrs(
                 layerName,
@@ -342,7 +343,6 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
         .getLayerManager()
         .getLayersByType('VectorLayer')
         .find(layer => layer.layerName == layerName).layer;
-    layer.addFeatures(newFeatures.map(f => f.data));
     newFeatures.map(feature => {
         let option = getFeatureOption(feature);
         let _feature = layer.getFeatureByOption(option);
@@ -360,10 +360,7 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
     }
     oldFeatures.map(feature => {
         let option = getFeatureOption(feature);
-        let _feature = layer.getFeatureByOption(option);
-        if (_feature) {
-            layer.removeFeatureById(_feature.properties.uuid);
-        }
+        layer.removeFeatureByOption(option);
     });
 };
 

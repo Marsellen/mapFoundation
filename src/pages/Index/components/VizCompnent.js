@@ -14,6 +14,7 @@ import {
 import MultimediaView from './MultimediaView';
 
 import 'less/components/viz-compnent.less';
+import { addClass, removeClass } from '../../../utils/utils';
 
 @inject('taskStore')
 @inject('ResourceLayerStore')
@@ -141,6 +142,15 @@ class VizCompnent extends React.Component {
         window.onbeforeunload = function(e) {
             var e = window.event || e;
             e.returnValue = '确定离开当前页面吗？';
+        };
+
+        let viz = document.querySelector('#viz');
+        viz.onmousedown = () => {
+            addClass(viz, 'ative-viz');
+        };
+
+        viz.onmouseup = () => {
+            removeClass(viz, 'ative-viz');
         };
 
         // attributes 拾取控件

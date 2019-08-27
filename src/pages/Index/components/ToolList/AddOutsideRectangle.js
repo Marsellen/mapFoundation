@@ -1,6 +1,9 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
+import { inject, observer } from 'mobx-react';
 
+@inject('DataLayerStore')
+@observer
 class AddOutsideRectangle extends React.Component {
     render() {
         return (
@@ -13,7 +16,8 @@ class AddOutsideRectangle extends React.Component {
     }
 
     action = () => {
-        console.log('任意外接立面矩形半自动绘制开启');
+        const { DataLayerStore } = this.props;
+        DataLayerStore.newVerticalMatrix();
     };
 }
 
