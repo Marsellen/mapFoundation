@@ -37,7 +37,9 @@ class NewAttrModal extends React.Component {
                 visible={visible}
                 onOk={this.onOk}
                 onCancel={this.onCancel}
-                destroyOnClose={true}>
+                destroyOnClose={true}
+                okText="确定"
+                cancelText="取消">
                 <Form colon={false} hideRequiredMark={true}>
                     {attrs.map((item, index) => this.renderItem(item, index))}
                 </Form>
