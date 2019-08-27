@@ -27,12 +27,13 @@ class Ranging extends React.Component {
 
     action = () => {
         const { DataLayerStore } = this.props;
-        if (DataLayerStore.editType == 'meature_distance') return;
+        let mode = DataLayerStore.getMeasureControlMode();
+        if (mode == 71) return;
         DataLayerStore.startMeatureDistance();
     };
 
     content = () => {
-        return <label>请选择一个点开始测距</label>;
+        return <label>开始测距，按esc退出</label>;
     };
 }
 
