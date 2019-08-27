@@ -80,7 +80,7 @@ class AttributeStore {
         try {
             this.hideRelFeatures();
             if (!relRecords) {
-                relRecords = yield relFactory.getRelFeatures(
+                relRecords = yield relFactory.getFeatureRels(
                     this.model.layerName,
                     this.model.data.properties
                 );
@@ -106,6 +106,7 @@ class AttributeStore {
         } catch (error) {
             console.log(error);
         }
+        this.relFeatures = [];
     };
 
     @action showRelFeatures = () => {
@@ -140,7 +141,7 @@ class AttributeStore {
         if (data.attrs) {
             let newAttrs = yield attrFactory.updateAttrs(data.attrs);
             historyLog.attrs = [this.attrRecords, newAttrs];
-        } else if (this.delAttrs.length > 0) {
+        } else if (this.delAttrs && this.delAttrs.length > 0) {
             let delIds = this.delAttrs.map(record => record.id);
             let newAttrs = this.attrRecords.filter(
                 record => !delIds.includes(record.id)
