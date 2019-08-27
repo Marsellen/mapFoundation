@@ -138,7 +138,8 @@ class RelationForm extends React.Component {
                 )}
                 {newEnable && (
                     <Button
-                        onClick={this.newAttrs('AD_Lane_Con_RS', extraInfo)}>
+                        onClick={this.newAttrs('AD_Lane_Con_RS', extraInfo)}
+                        title="添加连接关系交通限制">
                         <Icon type="plus" />
                     </Button>
                 )}
