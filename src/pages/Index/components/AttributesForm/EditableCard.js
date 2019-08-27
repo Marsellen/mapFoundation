@@ -44,12 +44,18 @@ class EditableCard extends React.Component {
                 {attrs.map((item, index) => this.renderItem(item, index, true))}
                 <div className="attr">
                     {!readonly && (
-                        <Button onClick={this.edit} id="newEdit-edit">
+                        <Button
+                            onClick={this.edit}
+                            id="newEdit-edit"
+                            title="编辑">
                             <Icon type="edit" />{' '}
                         </Button>
                     )}
                     {!readonly && (
-                        <Button onClick={this.onDelete} id="newEdit-del">
+                        <Button
+                            onClick={this.onDelete}
+                            id="newEdit-del"
+                            title="删除">
                             <Icon type="delete" />
                         </Button>
                     )}
