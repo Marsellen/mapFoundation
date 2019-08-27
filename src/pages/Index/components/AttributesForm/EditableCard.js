@@ -116,6 +116,8 @@ class EditableCard extends React.Component {
         const { onDelete, index } = this.props;
         Modal.confirm({
             title: '删除后无法撤回，确认删除？',
+            okText:'确定',
+            cancelText:'取消',
             onOk: () => {
                 onDelete(index);
             }
