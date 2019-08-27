@@ -149,13 +149,12 @@ class RightMenuModal extends React.Component {
                         data: historyLog
                     });
                     message.success('操作完成', 3);
-
-                    DataLayerStore.clearChoose();
-                    AttributeStore.hideRelFeatures();
                 } catch (e) {
                     console.log(e);
                     message.warning('操作失败:' + e.message, 3);
                 }
+                DataLayerStore.clearChoose();
+                AttributeStore.hideRelFeatures();
             },
             onCancel() {
                 DataLayerStore.clearChoose();
@@ -234,12 +233,12 @@ class RightMenuModal extends React.Component {
                         data: historyLog
                     });
                     message.success('操作完成', 3);
-                    DataLayerStore.clearChoose();
-                    AttributeStore.hideRelFeatures();
                 } catch (e) {
                     console.log(e);
                     message.warning('操作失败:' + e.message, 3);
                 }
+                DataLayerStore.clearChoose();
+                AttributeStore.hideRelFeatures();
             },
             onCancel() {
                 DataLayerStore.clearChoose();

@@ -254,6 +254,10 @@ class DataLayerStore extends LayerStore {
         this.measureControl.startMeatureDistance();
     };
 
+    @action getMeasureControlMode = () => {
+        return this.measureControl.mode;
+    };
+
     @action selectPointFromHighlight = () => {
         this.measureControl.clear();
         this.editType = 'select_point';
