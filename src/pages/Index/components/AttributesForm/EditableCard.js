@@ -26,14 +26,44 @@ class EditableCard extends React.Component {
 
     static getDerivedStateFromProps(props, state) {
         const { value } = props;
-        let config = _.cloneDeep(ATTR_TABLE_CONFIG[value.source]);
-        config.forEach(item => {
+        let attrs = _.cloneDeep(ATTR_TABLE_CONFIG[value.source]);
+        attrs.forEach(item => {
             item.value = value.properties[item.key];
+        });
+        attrs.forEach(attr => {
+            if (attr.link) {
+                let index = attrs.findIndex(item => item.key == attr.link);
+                attrs[index].type =
+                    attrs[index].type.replace(/[0-9]/, '') + attr.value;
+            }
         });
         return {
             ...state,
-            attrs: config
+            attrs
         };
+    }
+
+    componentDidUpdate() {
+        const { form } = this.props;
+        let attrs = _.cloneDeep(this.state.attrs);
+        let flags = attrs.map(attr => {
+            if (attr.link) {
+                let index = attrs.findIndex(item => item.key == attr.link);
+                let type = attrs[index].type.replace(/[0-9]/, '') + attr.value;
+                if (attrs[index].type != type) {
+                    attrs[index].type = type;
+                    form.setFieldsValue({
+                        [attrs[index].key]: null
+                    });
+                    return true;
+                }
+            }
+        });
+        if ((flags.reduce((sum, flag) => sum || flag), false)) {
+            this.setState({
+                attrs
+            });
+        }
     }
 
     render() {
@@ -62,7 +92,7 @@ class EditableCard extends React.Component {
                 </div>
                 <Modal
                     visible={visible}
-                    title="新建"
+                    title="修改"
                     okText="保存"
                     cancelText="取消"
                     onCancel={this.onCancel}
@@ -271,14 +301,15 @@ class EditableCard extends React.Component {
             return value => {
                 const { attrs } = this.state;
                 const { form } = this.props;
-                let index = attrs.findIndex(attr => attr.key == key);
-                attrs[index].type =
-                    attrs[index].type.replace(/[0-9]/, '') + value;
+                let _attrs = _.cloneDeep(attrs);
+                let index = _attrs.findIndex(attr => attr.key == key);
+                _attrs[index].type =
+                    _attrs[index].type.replace(/[0-9]/, '') + value;
                 form.setFieldsValue({
-                    [attrs[index].key]: null
+                    [_attrs[index].key]: null
                 });
                 this.setState({
-                    attrs
+                    attrs: _attrs
                 });
             };
         } else {

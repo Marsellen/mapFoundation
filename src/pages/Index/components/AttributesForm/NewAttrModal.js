@@ -38,6 +38,7 @@ class NewAttrModal extends React.Component {
                 onOk={this.onOk}
                 onCancel={this.onCancel}
                 destroyOnClose={true}
+                title="新增"
                 okText="确定"
                 cancelText="取消">
                 <Form colon={false} hideRequiredMark={true}>
