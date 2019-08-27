@@ -201,6 +201,7 @@ class VizCompnent extends React.Component {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
             message.warning(desc, 3);
+            DataLayerStore.clearChoose();
             return;
         }
         DataLayerStore.updateResult(result)
@@ -242,7 +243,7 @@ class VizCompnent extends React.Component {
             return;
         }
         //console.log(result);
-        DataLayerStore.setPointSize(0.5);
+        DataLayerStore.clearChoose();
         let oldFeature = RightMenuStore.getFeatures()[0];
         OperateHistoryStore.add({
             type: 'updateFeature',
