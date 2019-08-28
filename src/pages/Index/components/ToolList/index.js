@@ -14,6 +14,7 @@ import AddCircle from './AddCircle';
 import AddRel from './AddRel';
 import DelRel from './DelRel';
 import Ranging from './Ranging';
+import AddOutsideRectangle from './AddOutsideRectangle';
 import AdjustPointSize from './AdjustPointSize';
 
 export default [
@@ -30,6 +31,7 @@ export default [
     <AddLine key="LINE" />,
     <AddPolygon key="POLYGON" />,
     <AddFacadeRectangle key="ADD_FACADEREC_TANGLE" />,
+    <AddOutsideRectangle key="ADD_OUTSIDE_RECTANGLE" />,
     <AddCircle key="ADD_CIRCLE" />,
     <AddRel key="ADD_REL" />,
     <DelRel key="DEL_REL" />

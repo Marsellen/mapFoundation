@@ -14,6 +14,7 @@ import {
 import MultimediaView from './MultimediaView';
 
 import 'less/components/viz-compnent.less';
+import { addClass, removeClass } from '../../../utils/utils';
 
 @inject('taskStore')
 @inject('ResourceLayerStore')
@@ -143,6 +144,15 @@ class VizCompnent extends React.Component {
             e.returnValue = '确定离开当前页面吗？';
         };
 
+        let viz = document.querySelector('#viz');
+        viz.onmousedown = () => {
+            addClass(viz, 'ative-viz');
+        };
+
+        viz.onmouseup = () => {
+            removeClass(viz, 'ative-viz');
+        };
+
         // attributes 拾取控件
         const { DataLayerStore } = this.props;
         DataLayerStore.initEditor();
@@ -191,6 +201,7 @@ class VizCompnent extends React.Component {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
             message.warning(desc, 3);
+            DataLayerStore.clearChoose();
             return;
         }
         DataLayerStore.updateResult(result)
@@ -232,7 +243,7 @@ class VizCompnent extends React.Component {
             return;
         }
         //console.log(result);
-        DataLayerStore.setPointSize(0.5);
+        DataLayerStore.clearChoose();
         let oldFeature = RightMenuStore.getFeatures()[0];
         OperateHistoryStore.add({
             type: 'updateFeature',

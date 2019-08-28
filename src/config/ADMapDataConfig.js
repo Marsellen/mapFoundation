@@ -98,10 +98,11 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 31, label: '复合车道', icon: 'jiajiansufuhechedao' },
         { value: 99, label: '其他', icon: 'qita' }
     ],
-    AD_LANE_DIVIDER_RD_BOUND: [
+    AD_LANE_DIVIDER_RD_FORM: [
         { value: 0, label: '未定义' },
-        { value: 1, label: '道路边界线' },
-        { value: 2, label: '非道路边界线' }
+        { value: 1, label: '普通道路' },
+        { value: 2, label: '隧道道路' },
+        { value: 3, label: '收费站道路' }
     ],
     AD_ROAD_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi ' },
@@ -674,9 +675,9 @@ export const TABLE_DATA_MAP = {
             domType: 'Text'
         },
         {
-            key: 'RD_BOUND',
-            name: '道路边界标识',
-            type: 'AD_LANE_DIVIDER_RD_BOUND',
+            key: 'RD_FORM',
+            name: '道路形态',
+            type: 'AD_LANE_DIVIDER_RD_FORM',
             domType: 'Select'
         }
     ],

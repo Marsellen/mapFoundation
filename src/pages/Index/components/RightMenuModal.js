@@ -7,6 +7,28 @@ import {
     breakLine,
     mergeLine
 } from 'src/utils/relCtrl/operateCtrl';
+import AdMessage from 'src/components/AdMessage';
+
+const EDIT_TYPE = ['delPoint', 'changePoints', 'insertPoints', 'select_point'];
+
+const CHINESE_EDIT_TYPE = [
+    {
+        type: 'delPoint',
+        value: '删除形状点'
+    },
+    {
+        type: 'changePoints',
+        value: '修改形状点'
+    },
+    {
+        type: 'insertPoints',
+        value: '新增形状点'
+    },
+    {
+        type: 'select_point',
+        value: '选择一个点进行打断'
+    }
+];
 
 @inject('RightMenuStore')
 @inject('OperateHistoryStore')
@@ -19,10 +41,17 @@ class RightMenuModal extends React.Component {
     }
 
     render() {
-        const { visible, menus } = this.props.RightMenuStore;
+        const {
+            RightMenuStore: { visible, menus },
+            DataLayerStore: { editType }
+        } = this.props;
         if (!visible) {
-            return <div />;
+            let messageVisible = EDIT_TYPE.includes(editType);
+            return (
+                <AdMessage visible={messageVisible} content={this.content()} />
+            );
         }
+
         return (
             <Modal
                 visible={visible}
@@ -94,6 +123,15 @@ class RightMenuModal extends React.Component {
         ];
     };
 
+    content = () => {
+        const {
+            DataLayerStore: { editType }
+        } = this.props;
+        let config = CHINESE_EDIT_TYPE.find(item => item.type == editType);
+        const text = config ? config.value : '';
+        return <div>{text}</div>;
+    };
+
     getPosition = () => {
         const { option } = this.props.RightMenuStore;
         if (!option) return { top: -1000, left: -1000 };
@@ -139,21 +177,20 @@ class RightMenuModal extends React.Component {
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
-            onOk() {
-                let features = RightMenuStore.getFeatures();
-                breakLine(result[0], features)
-                    .then(result => {
-                        console.log(result);
-                        OperateHistoryStore.add({
-                            type: 'updateFeatureRels',
-                            data: result
-                        });
-                        message.success('操作完成', 3);
-                    })
-                    .catch(e => {
-                        console.log(e);
-                        message.warning('操作失败:' + e.message, 3);
+            onOk: async () => {
+                try {
+                    let features = RightMenuStore.getFeatures();
+                    let historyLog = await breakLine(result[0], features);
+                    // console.log(result);
+                    OperateHistoryStore.add({
+                        type: 'updateFeatureRels',
+                        data: historyLog
                     });
+                    message.success('操作完成', 3);
+                } catch (e) {
+                    console.log(e);
+                    message.warning('操作失败:' + e.message, 3);
+                }
                 DataLayerStore.clearChoose();
                 AttributeStore.hideRelFeatures();
             },
@@ -225,21 +262,19 @@ class RightMenuModal extends React.Component {
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
-            onOk() {
-                let features = RightMenuStore.getFeatures();
-                mergeLine(features)
-                    .then(result => {
-                        // console.log(result);
-                        OperateHistoryStore.add({
-                            type: 'updateFeatureRels',
-                            data: result
-                        });
-                        message.success('操作完成', 3);
-                    })
-                    .catch(e => {
-                        console.log(e);
-                        message.warning('操作失败:' + e.message, 3);
+            onOk: async () => {
+                try {
+                    let features = RightMenuStore.getFeatures();
+                    let historyLog = await mergeLine(features);
+                    OperateHistoryStore.add({
+                        type: 'updateFeatureRels',
+                        data: historyLog
                     });
+                    message.success('操作完成', 3);
+                } catch (e) {
+                    console.log(e);
+                    message.warning('操作失败:' + e.message, 3);
+                }
                 DataLayerStore.clearChoose();
                 AttributeStore.hideRelFeatures();
             },

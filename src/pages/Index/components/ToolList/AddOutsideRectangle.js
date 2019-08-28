@@ -5,15 +5,15 @@ import AdMessage from 'src/components/AdMessage';
 
 @inject('DataLayerStore')
 @observer
-class AddLine extends React.Component {
+class AddOutsideRectangle extends React.Component {
     render() {
         const { DataLayerStore } = this.props;
-        let visible = DataLayerStore.editType == 'new_line';
+        let visible = DataLayerStore.editType == 'new_vertical_matrix';
         return (
             <span>
                 <ToolIcon
-                    icon="icon-line-graph"
-                    title="添加线要素"
+                    icon="renyiwaijiejuxing"
+                    title="任意外接立面矩形"
                     action={this.action}
                 />
                 <AdMessage visible={visible} content={this.content()} />
@@ -23,13 +23,13 @@ class AddLine extends React.Component {
 
     action = () => {
         const { DataLayerStore } = this.props;
-        if (DataLayerStore.editType == 'new_line') return;
-        DataLayerStore.newLine();
+        if (DataLayerStore.editType == 'new_vertical_matrix') return;
+        DataLayerStore.newVerticalMatrix();
     };
 
     content = () => {
-        return <label>添加线要素</label>;
+        return <label>添加外接立面矩形</label>;
     };
 }
 
-export default AddLine;
+export default AddOutsideRectangle;

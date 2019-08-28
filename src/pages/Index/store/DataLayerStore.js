@@ -116,7 +116,6 @@ class DataLayerStore extends LayerStore {
         this.editor.clear();
         this.editor.cancel();
         this.measureControl.clear();
-        this.setPointSize(0.5);
     };
 
     @action getLayerByName = name => {
@@ -128,7 +127,6 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'new_point';
         this.editor.newPoint();
-        this.setPointSize(3);
     };
 
     @action newLine = () => {
@@ -136,7 +134,6 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'new_line';
         this.editor.newLine();
-        this.setPointSize(3);
     };
 
     @action newPolygon = () => {
@@ -144,7 +141,6 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'new_polygon';
         this.editor.newPolygon();
-        this.setPointSize(3);
     };
 
     @action newFacadeRectangle = () => {
@@ -152,7 +148,13 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'new_facade_rectangle';
         this.editor.newMatrix();
-        this.setPointSize(3);
+    };
+
+    @action newVerticalMatrix = () => {
+        if (!this.editor) return;
+        this.measureControl.clear();
+        this.editType = 'new_vertical_matrix';
+        this.editor.newVerticalMatrix();
     };
 
     @action newRel = () => {
@@ -188,7 +190,6 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'new_circle';
         this.editor.newFixedPolygon(3);
-        this.setPointSize(5);
     });
 
     updateResult = flow(function*(result) {
@@ -220,7 +221,6 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'insertPoints';
         this.editor.insertPoints();
-        this.setPointSize(3);
     };
 
     @action changePoints = () => {
@@ -228,7 +228,6 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'changePoints';
         this.editor.changePoints();
-        this.setPointSize(3);
     };
 
     @action deletePoints = () => {
@@ -236,7 +235,6 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'delPoint';
         this.editor.deletePoints();
-        this.setPointSize(3);
     };
 
     @action setPointSize = size => {
@@ -254,6 +252,10 @@ class DataLayerStore extends LayerStore {
     @action startMeatureDistance = () => {
         this.editType = 'meature_distance';
         this.measureControl.startMeatureDistance();
+    };
+
+    @action getMeasureControlMode = () => {
+        return this.measureControl.mode;
     };
 
     @action selectPointFromHighlight = () => {
