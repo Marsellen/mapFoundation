@@ -498,6 +498,13 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'I', label: '非机动车' },
         { value: 'J', label: '读秒' }
     ],
+    AD_TS_CONTENT_CONT_TYPE:[
+        { value: 0, label: '未定义' },
+        { value: 1, label: '禁止转向' },
+        { value: 2, label: '限制转向' },
+        { value: 3, label: '最大速度限制' },
+        { value: 4, label: '最低速度限制' },
+    ],
     AD_RS_BARRIER_TYPE: [
         { value: '0', label: '未定义', icon: 'weidingyi' },
         { value: '1', label: '隧道墙', icon: 'suidaoqiang' },
