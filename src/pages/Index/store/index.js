@@ -10,6 +10,8 @@ import NewFeatureStore from './NewFeatureStore';
 import RightMenuStore from './RightMenuStore';
 import RelStore from './RelStore';
 import AttrStore from './AttrStore';
+import JobStore from './JobStore';
+import ReferStore from './ReferStore';
 
 export default {
     menuStore,
@@ -23,5 +25,7 @@ export default {
     NewFeatureStore,
     RightMenuStore,
     RelStore,
-    AttrStore
+    AttrStore,
+    JobStore,
+    ReferStore
 };

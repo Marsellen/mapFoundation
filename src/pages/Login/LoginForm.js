@@ -6,6 +6,7 @@ import { Form, Input, Icon, Checkbox } from 'antd';
 
 @withRouter
 @inject('appStore')
+@inject('JobStore')
 @observer
 @Form.create()
 class LoginForm extends React.Component {
@@ -27,7 +28,7 @@ class LoginForm extends React.Component {
         this.setState({
             focusItem: -1
         });
-        const { appStore } = this.props;
+        const { appStore, JobStore } = this.props;
 
         this.props.form.validateFields((err, values) => {
             if (!err) {
@@ -40,7 +41,9 @@ class LoginForm extends React.Component {
                     const { from } = this.props.location.state || {
                         from: { pathname: '/' }
                     };
-                    this.props.history.push(from);
+                    this.props.history.push(from);                                              
+                }).then(() => {
+                    JobStore.initJob({ type: 1 });
                 });
             }
         });

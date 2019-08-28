@@ -6,6 +6,9 @@ configure({ enforceActions: 'always' });
 class TaskStore {
     @observable tasks = [];
     @observable activeTaskId;
+    @observable workData = [];
+    @observable activeTaskNames = {};
+    @observable firstTaskValues = {};
 
     init = flow(function*() {
         try {
@@ -16,6 +19,62 @@ class TaskStore {
             console.log(e);
         }
     });
+
+    // 任务列表
+    initTask = flow(function*(option) {
+        try {
+            const workData = yield JobService.listTask(option);
+
+            this.workData = workData.data.taskList;
+            this.setActiveTaskNames();
+        } catch (e) {
+            console.log(e);
+        }
+    })
+
+    setActiveTaskNames = flow(function*(id) {
+        if (id) {
+            this.jobData.forEach(item => {
+                if (item.taskId === id) {
+                    this.activeTaskNames.taskId = id;
+                    this.activeTaskNames.process_name = item.processName;
+                }
+            });
+        } else {
+            this.activeTaskNames.taskId = this.jobData[0].taskId;
+            this.activeTaskNames.process_name = this.jobData[0].processName;
+        }
+    });
+
+    initSubmit = flow(function*(result) {
+        this.state = 'pending';
+        this.activeTaskNames.result = result;
+        this.activeTaskNames.instance_name = 'task_person_edit';
+        this.activeTaskNames.ip = '';
+        this.activeTaskNames.port = '';
+        try {
+            const submitData = yield JobService.submitTask(
+                this.activeTaskNames
+            );
+
+            this.state = 'done';
+            this.submitData = submitData;
+        } catch (e) {
+            this.state = 'error';
+        }
+    });
+
+    @action submitTask = (result, param) => {
+        this.initSubmit(result);
+        this.initJob(param);
+    }
+
+    @action getFirstTaskValues = () => {
+        this.firstTaskValues.name = `${this.jobData[0].taskId}-${this.jobData[0].nodeDesc}-${this.jobData[0].manualStatusDesc}`;
+        this.firstTaskValues.url = this.jobData[0].Input_imp_data_path;
+        
+        return this.firstTaskValues;
+    }
 
     load = flow(function*(option) {
         try {
@@ -29,7 +88,7 @@ class TaskStore {
                 _id: option.url,
                 name: option.name
             });
-
+            
             this.setActiveTaskId(option.url);
             return;
         } catch (e) {

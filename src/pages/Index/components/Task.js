@@ -7,25 +7,30 @@ import { inject, observer } from 'mobx-react';
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
+@inject('JobStore')
 @observer
 class Task extends React.Component {
     componentDidMount() {
-        //this.props.taskStore.init();
+        // this.props.taskStore.init();
     }
 
     render() {
-        const { taskStore } = this.props;
+        const { taskStore, JobStore } = this.props;
+        const { jobData } = JobStore;
         const { activeTaskId } = taskStore;
-        if (taskStore.tasks && taskStore.tasks.length > 0) {
+
+        console.log('jobData:', jobData);
+
+        if (jobData && jobData.length > 0) {
             return (
                 <Menu className="menu" selectedKeys={[activeTaskId]}>
-                    {taskStore.tasks.map(item => (
+                    {jobData.map(item => (
                         <Menu.Item
-                            key={item._id}
+                            key={item.taskId}
                             onClick={() => {
-                                this.chooseTask(item._id);
+                                this.chooseTask(item.Input_imp_data_path);
                             }}>
-                            <span>{item.name}</span>
+                            <span>{`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}</span>
                         </Menu.Item>
                     ))}
                 </Menu>
@@ -33,6 +38,24 @@ class Task extends React.Component {
         } else {
             return this.renderNoData();
         }
+
+        // if (taskStore.tasks && taskStore.tasks.length > 0) {
+        //     return (
+        //         <Menu className="menu" selectedKeys={[activeTaskId]}>
+        //             {taskStore.tasks.map(item => (
+        //                 <Menu.Item
+        //                     key={item._id}
+        //                     onClick={() => {
+        //                         this.chooseTask(item._id);
+        //                     }}>
+        //                     <span>{item.name}</span>
+        //                 </Menu.Item>
+        //             ))}
+        //         </Menu>
+        //     );
+        // } else {
+        //     return this.renderNoData();
+        // }
     }
 
     renderNoData = () => {
@@ -40,6 +63,8 @@ class Task extends React.Component {
     };
 
     chooseTask = id => {
+        const { JobStore } = this.props;
+        JobStore.setActiveTaskNames(id);
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
