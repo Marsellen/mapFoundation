@@ -112,8 +112,7 @@ class DataLayerStore extends LayerStore {
     };
 
     @action clearChoose = () => {
-        let viz = document.querySelector('#viz');
-        removeClass(viz, 'edit-viz');
+        this.removeCur();
         if (!this.editor) return;
         this.editType = 'normal';
         this.editor.clear();
@@ -121,9 +120,14 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
     };
 
-    @action changeCur = () => {
+    changeCur = () => {
         let viz = document.querySelector('#viz');
         addClass(viz, 'edit-viz');
+    };
+
+    removeCur = () => {
+        let viz = document.querySelector('#viz');
+        removeClass(viz, 'edit-viz');
     };
 
     @action newPoint = () => {
