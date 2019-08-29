@@ -3,6 +3,7 @@ import LayerStore from './LayerStore';
 import { EditControl, MeasureControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
 import { Modal } from 'antd';
+import { addClass, removeClass } from '../../../utils/utils';
 import { getLayerExByName } from 'src/utils/vectorUtils';
 
 configure({ enforceActions: 'always' });
@@ -111,6 +112,7 @@ class DataLayerStore extends LayerStore {
     };
 
     @action clearChoose = () => {
+        this.removeCur();
         if (!this.editor) return;
         this.editType = 'normal';
         this.editor.clear();
@@ -118,10 +120,21 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
     };
 
+    changeCur = () => {
+        let viz = document.querySelector('#viz');
+        addClass(viz, 'edit-viz');
+    };
+
+    removeCur = () => {
+        let viz = document.querySelector('#viz');
+        removeClass(viz, 'edit-viz');
+    };
+
     @action newPoint = () => {
         if (!this.editor) return;
         this.measureControl.clear();
         this.editType = 'new_point';
+        this.changeCur();
         this.editor.newPoint();
     };
 
@@ -130,6 +143,7 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'new_line';
         this.editor.newLine();
+        this.changeCur();
     };
 
     @action newPolygon = () => {
@@ -137,6 +151,7 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'new_polygon';
         this.editor.newPolygon();
+        this.changeCur();
     };
 
     @action newFacadeRectangle = () => {
@@ -144,6 +159,7 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'new_facade_rectangle';
         this.editor.newMatrix();
+        this.changeCur();
     };
 
     @action newVerticalMatrix = () => {
@@ -151,6 +167,7 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'new_vertical_matrix';
         this.editor.newVerticalMatrix();
+        this.changeCur();
     };
 
     @action newRel = () => {
@@ -186,6 +203,7 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'new_circle';
         this.editor.newFixedPolygon(3);
+        this.changeCur();
     });
 
     updateResult = flow(function*(result) {
@@ -248,6 +266,7 @@ class DataLayerStore extends LayerStore {
     @action startMeatureDistance = () => {
         this.editType = 'meature_distance';
         this.measureControl.startMeatureDistance();
+        this.changeCur();
     };
 
     @action getMeasureControlMode = () => {

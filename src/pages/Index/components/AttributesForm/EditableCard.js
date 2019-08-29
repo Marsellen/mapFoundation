@@ -146,8 +146,8 @@ class EditableCard extends React.Component {
         const { onDelete, index } = this.props;
         Modal.confirm({
             title: '删除后无法撤回，确认删除？',
-            okText:'确定',
-            cancelText:'取消',
+            okText: '确定',
+            cancelText: '取消',
             onOk: () => {
                 onDelete(index);
             }
@@ -163,7 +163,7 @@ class EditableCard extends React.Component {
     renderContent = () => {
         const { attrs } = this.state;
         return (
-            <Form layout="vertical">
+            <Form layout="vertical" className="svg-style">
                 {attrs.map((item, index) => this.renderItem(item, index))}
             </Form>
         );
