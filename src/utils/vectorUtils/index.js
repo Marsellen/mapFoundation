@@ -15,7 +15,10 @@ export const getFeatureOption = feature => {
     };
 };
 
+export const getLayerExByName = layerName => {
+    return vectorLayerGroup.layers.find(layer => layer.layerName == layerName);
+};
+
 export const getLayerByName = layerName => {
-    return vectorLayerGroup.layers.find(layer => layer.layerName == layerName)
-        .layer;
+    return getLayerExByName(layerName).layer;
 };

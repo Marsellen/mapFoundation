@@ -9,7 +9,7 @@ class CheckBoxIconGroup extends React.Component {
         return (
             <div className="attr-icon-box">
                 {options.map((option, index) => {
-                    let active = value.includes(option.value);
+                    let active = value && value.includes(option.value);
                     return (
                         <RadioIcon
                             key={index}

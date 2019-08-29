@@ -3,7 +3,7 @@ import LayerStore from './LayerStore';
 import { EditControl, MeasureControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
 import { Modal } from 'antd';
-import { getLayerByName } from 'src/utils/vectorUtils';
+import { getLayerExByName } from 'src/utils/vectorUtils';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore extends LayerStore {
@@ -34,7 +34,7 @@ class DataLayerStore extends LayerStore {
 
     @action toggle = (name, checked) => {
         this.layers.find(layer => layer.value == name).checked = checked;
-        let layer = getLayerByName(name);
+        let layer = getLayerExByName(name).layer;
         if (checked) {
             layer.show();
         } else {
@@ -67,7 +67,7 @@ class DataLayerStore extends LayerStore {
     };
 
     @action activeEditor = name => {
-        let layer = name ? getLayerByName(name) : null;
+        let layer = name ? getLayerExByName(name) : null;
         if (this.editor) {
             this.clearChoose();
             this.editor.editLayer = layer;
