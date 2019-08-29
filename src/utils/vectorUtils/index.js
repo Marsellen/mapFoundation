@@ -14,3 +14,8 @@ export const getFeatureOption = feature => {
         value: id
     };
 };
+
+export const getLayerByName = layerName => {
+    return vectorLayerGroup.layers.find(layer => layer.layerName == layerName)
+        .layer;
+};

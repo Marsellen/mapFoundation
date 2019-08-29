@@ -51,9 +51,7 @@ class PictureShowView extends React.Component {
                     <RcViewer options={options} ref="viewer">
                         <ul id="images">
                             <li>
-                                <img
-                                    src={`${activeTaskId}/tracks/middle/${picData}`}
-                                />
+                                <img src={`${activeTaskId}/${picData}`} />
                             </li>
                         </ul>
                     </RcViewer>

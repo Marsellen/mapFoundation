@@ -92,38 +92,32 @@ class VizCompnent extends React.Component {
         });
     };
 
-    initVectors = vectors => {
+    initVectors = async vectors => {
         if (!vectors) {
             return;
         }
         const { DataLayerStore } = this.props;
-        return new Promise((resolve, reject) => {
-            const layerGroup = new LayerGroup(vectors);
-            map.getLayerManager()
-                .addLayerGroup(layerGroup)
-                .then(layers => {
-                    DataLayerStore.init(layers);
-                    this.installListener();
-                });
-            resolve({
-                layerName: RESOURCE_LAYER_VETOR,
-                layer: layerGroup
-            });
-        });
+        window.vectorLayerGroup = new LayerGroup(vectors);
+        await map.getLayerManager().addLayerGroup(vectorLayerGroup);
+        let layers = vectorLayerGroup.layers;
+        DataLayerStore.init(layers);
+        this.installListener();
+        return {
+            layerName: RESOURCE_LAYER_VETOR,
+            layer: vectorLayerGroup
+        };
     };
 
-    initTracks = tracks => {
+    initTracks = async tracks => {
         if (!tracks || tracks.length == 0) {
             return;
         }
-        return new Promise((resolve, reject) => {
-            window.traceLayer = new TraceLayer(tracks);
-            map.getLayerManager().addLayer('TraceLayer', traceLayer);
-            resolve({
-                layerName: RESOURCE_LAYER_TRACE,
-                layer: traceLayer
-            });
-        });
+        window.traceLayer = new TraceLayer(tracks);
+        map.getLayerManager().addLayer('TraceLayer', traceLayer);
+        return {
+            layerName: RESOURCE_LAYER_TRACE,
+            layer: traceLayer
+        };
     };
 
     initResouceLayer = layers => {
