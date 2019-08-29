@@ -2,8 +2,7 @@ export const COLUMNS_CONFIG = {
     AD_LaneDivider: [
         {
             dataIndex: 'LDIV_ID',
-            title: '用户编号',
-            filterBy: 'AD_LANE_DIVIDER_LDIV_ID'
+            title: '用户编号'
         },
         {
             dataIndex: 'TYPE',
@@ -37,8 +36,7 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'LANE_NO',
-            title: '车道编号',
-            filterBy: 'AD_LANE_DIVIDER_LANE_NO'
+            title: '车道编号'
         },
         {
             dataIndex: 'RD_FORM',
@@ -49,8 +47,7 @@ export const COLUMNS_CONFIG = {
     AD_Text: [
         {
             dataIndex: 'TEXT_ID',
-            title: '用户编号',
-            filterBy: 'AD_TEXT_ID'
+            title: '用户编号'
         },
         {
             dataIndex: 'TYPE',
@@ -59,15 +56,13 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'VALUE',
-            title: '文字符号类型',
-            filterBy: 'AD_TEXT_VALUE'
+            title: '文字符号类型'
         }
     ],
     AD_Road: [
         {
             dataIndex: 'ROAD_ID',
-            title: '用户编号',
-            filterBy: 'AD_ROAD_ID'
+            title: '用户编号'
         },
         {
             dataIndex: 'TYPE',
@@ -96,13 +91,11 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'LENGTH',
-            title: '道路长度',
-            filterBy: 'AD_ROAD_LENGTH',
+            title: '道路长度'
         },
         {
             dataIndex: 'MAX_SPEED',
-            title: '道路最高行驶速度',
-            filterBy: 'AD_ROAD_MAX_SPEED',
+            title: '道路最高行驶速度'
         }
     ],
     AD_Lane: [
@@ -113,13 +106,11 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'LANE_ID',
-            title: '用户编号',
-            filterBy: 'AD_LANE_LANE_ID'
+            title: '用户编号'
         },
         {
             dataIndex: 'LANE_NO',
-            title: '车道编号',
-            filterBy: 'AD_LANE_LANE_NO'
+            title: '车道编号'
         },
         {
             dataIndex: 'DIRECTION',
@@ -128,8 +119,7 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'MAX_SPEED',
-            title: '最高行驶速度',
-            filterBy: 'AD_LANE_MAX_SPEED',
+            title: '最高行驶速度'
         },
         {
             dataIndex: 'MAX_SP_TYP',
@@ -138,8 +128,7 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'MIN_SPEED',
-            title: '最低行驶速度',
-            filterBy: 'AD_LANE_MIN_SPEED',
+            title: '最低行驶速度'
         },
         {
             dataIndex: 'MIN_SP_TYP',
@@ -155,8 +144,7 @@ export const COLUMNS_CONFIG = {
     AD_StopLocation: [
         {
             dataIndex: 'STOPL_ID',
-            title: '用户编号',
-            filterBy: 'AD_STOPLOCATION_STOPL_ID'
+            title: '用户编号'
         },
         {
             dataIndex: 'TYPE',
@@ -167,8 +155,7 @@ export const COLUMNS_CONFIG = {
     AD_LaneMark_Plg: [
         {
             dataIndex: 'PLG_ID',
-            title: '用户编号',
-            filterBy: 'AD_LANEMARK_PLG_ID'
+            title: '用户编号'
         },
         {
             dataIndex: 'TYPE',
@@ -180,7 +167,6 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'ARR_ID',
             title: '用户编号',
-            filterBy: 'AD_ARROW_ID'
         },
         {
             dataIndex: 'ARR_DIRECT',
@@ -192,7 +178,6 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'LAP_ID',
             title: '用户编号',
-            filterBy: 'AD_LANE_ATTRPOINT_ID'
         },
         {
             dataIndex: 'TYPE',
@@ -204,7 +189,6 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'SIGN_ID',
             title: '用户编号',
-            filterBy: 'AD_TRAFFICSIGN_ID'
         },
         {
             dataIndex: 'SIGN_STYLE',
@@ -216,7 +200,6 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'LIGHT_ID',
             title: '用户编号',
-            filterBy: 'AD_TRAFFIC_LIGHT_ID'
         },
         {
             dataIndex: 'TYPE',
@@ -231,24 +214,21 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'LAMP_COUNT',
             title: '信号灯灯头数量',
-            filterBy: 'AD_TRAFFIC_LIGHT_LAMP_COUNT'
         }
     ],
     AD_Map_QC: [
         {
             dataIndex: 'ID',
             title: '用户编号',
-            filterBy: 'AD_MAP_QC_ID'
         },
         {
             dataIndex: 'FILE_NAME',
             title: '错误图层名称',
-            filterBy: 'AD_MAP_QC_FILE_NAME',
+            filterBy: 'AD_MAP_QC_FILE_NAME'
         },
         {
             dataIndex: 'FEAT_ID',
             title: '错误数据ID',
-            filterBy: 'AD_MAP_QC_FEAT_ID'
         },
         {
             dataIndex: 'ERROR_TYPE',
@@ -258,7 +238,6 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'ERROR_DESC',
             title: '错误描述',
-            filterBy: 'AD_MAP_QC_ERROR_DESC'
         },
         {
             dataIndex: 'FIX_STATUS',
@@ -273,19 +252,16 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'FIX_PERSON',
             title: '返工修改人员',
-            filterBy: 'AD_MAP_QC_FIX_PERSON'
         },
         {
             dataIndex: 'QC_PERSON',
             title: '质检人员',
-            filterBy: 'AD_MAP_QC_QC_PERSON'
         }
     ],
     AD_RS_Barrier: [
         {
             dataIndex: 'BARR_ID',
             title: '用户编号',
-            filterBy: 'AD_RS_BARRIER_BARR_ID'
         },
         {
             dataIndex: 'TYPE',
@@ -302,17 +278,14 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'POLE_ID',
             title: '用户编号',
-            filterBy: 'AD_POLE_ID'
         },
         {
             dataIndex: 'RADIUS_UP',
             title: '杆状物立柱顶部半径',
-            filterBy: 'AD_POLE_RADIUS_UP'
         },
         {
             dataIndex: 'RADIUS_DN',
             title: '杆状物立柱底部半径',
-            filterBy: 'AD_POLE_RADIUS_DN'
         }
     ]
 };
