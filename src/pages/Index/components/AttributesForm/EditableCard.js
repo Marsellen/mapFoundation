@@ -163,7 +163,7 @@ class EditableCard extends React.Component {
     renderContent = () => {
         const { attrs } = this.state;
         return (
-            <Form layout="vertical" className="svgStyle">
+            <Form layout="vertical" className="svg-style">
                 {attrs.map((item, index) => this.renderItem(item, index))}
             </Form>
         );

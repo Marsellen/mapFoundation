@@ -45,7 +45,7 @@ class NewAttrModal extends React.Component {
                     colon={false}
                     hideRequiredMark={true}
                     layout="vertical"
-                    className="svgStyle">
+                    className="svg-style">
                     {attrs.map((item, index) => this.renderItem(item, index))}
                 </Form>
             </Modal>
