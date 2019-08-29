@@ -67,7 +67,7 @@ class DataLayerStore extends LayerStore {
     };
 
     @action activeEditor = name => {
-        let layer = getLayerByName(name);
+        let layer = name ? getLayerByName(name) : null;
         if (this.editor) {
             this.clearChoose();
             this.editor.editLayer = layer;

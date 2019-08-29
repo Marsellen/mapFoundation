@@ -54,6 +54,7 @@ class VizCompnent extends React.Component {
             .then(results => {
                 let [pointClouds, vectors, tracks] = results;
                 this.initResouceLayer([pointClouds, vectors, tracks]);
+                this.installListener();
                 hide();
                 message.success('加载完成', 1);
                 console.timeEnd('taskLoad');
@@ -101,7 +102,7 @@ class VizCompnent extends React.Component {
         await map.getLayerManager().addLayerGroup(vectorLayerGroup);
         let layers = vectorLayerGroup.layers;
         DataLayerStore.init(layers);
-        this.installListener();
+
         return {
             layerName: RESOURCE_LAYER_VETOR,
             layer: vectorLayerGroup
