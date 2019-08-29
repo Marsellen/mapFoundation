@@ -267,6 +267,7 @@ class DataLayerStore extends LayerStore {
     @action startMeatureDistance = () => {
         this.editType = 'meature_distance';
         this.measureControl.startMeatureDistance();
+        this.changeCur();
     };
 
     @action getMeasureControlMode = () => {
