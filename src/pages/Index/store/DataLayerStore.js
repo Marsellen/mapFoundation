@@ -125,9 +125,15 @@ class DataLayerStore extends LayerStore {
         addClass(viz, 'edit-viz');
     };
 
+    ruler = () => {
+        let viz = document.querySelector('#viz');
+        addClass(viz, 'ruler-viz');
+    }
+
     removeCur = () => {
         let viz = document.querySelector('#viz');
         removeClass(viz, 'edit-viz');
+        removeClass(viz, 'ruler-viz');
     };
 
     @action newPoint = () => {
@@ -266,7 +272,7 @@ class DataLayerStore extends LayerStore {
     @action startMeatureDistance = () => {
         this.editType = 'meature_distance';
         this.measureControl.startMeatureDistance();
-        this.changeCur();
+        this.ruler();
     };
 
     @action getMeasureControlMode = () => {
