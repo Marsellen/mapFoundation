@@ -39,12 +39,12 @@ class Save extends React.Component {
             let relData = {
                 features: attrRels.concat(rels),
                 type: 'FeatureCollection',
-                properties: map.getLayerManager().layerGroup.properties
+                properties: vectorLayerGroup.properties
             };
             let attrData = {
                 features: attrs,
                 type: 'FeatureCollection',
-                properties: map.getLayerManager().layerGroup.properties
+                properties: vectorLayerGroup.properties
             };
             taskStore
                 .submit({

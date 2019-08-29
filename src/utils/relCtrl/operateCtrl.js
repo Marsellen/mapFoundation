@@ -9,16 +9,17 @@ import { updateFeaturesByRels } from './relCtrl';
 import EditorService from 'src/pages/Index/service/EditorService';
 import { getFeatureRels } from './utils';
 import attrFactory from '../attrCtrl/attrFactory';
-import { getFeatureOption, getLayerIDKey } from '../vectorUtils';
+import {
+    getFeatureOption,
+    getLayerIDKey,
+    getLayerByName
+} from '../vectorUtils';
 
 const deleteLine = async features => {
     let { rels, attrs } = await features.reduce(
         async (total, feature) => {
             let layerName = feature.layerName;
-            let layer = map
-                .getLayerManager()
-                .getLayersByType('VectorLayer')
-                .find(layer => layer.layerName == layerName).layer;
+            let layer = getLayerByName(layerName);
             let option = getFeatureOption(feature);
             layer.removeFeatureByOption(option);
             let rels = await getFeatureRels(layerName, feature.data.properties);
@@ -196,11 +197,7 @@ const attrRelationFormat = attrs => {
 };
 
 const queryFeature = (layerName, option) => {
-    let feature = map
-        .getLayerManager()
-        .getLayersByType('VectorLayer')
-        .find(layer => layer.layerName == layerName)
-        .layer.getFeatureByOption(option);
+    let feature = getLayerByName(layerName).getFeatureByOption(option);
     return feature && feature.properties;
 };
 
@@ -339,10 +336,7 @@ const attrsDataFormat = (data, source) => {
 const updateFeatures = async ({ features, rels, attrs } = {}) => {
     let [oldFeatures, newFeatures] = features;
     let layerName = (oldFeatures[0] || newFeatures[0]).layerName;
-    let layer = map
-        .getLayerManager()
-        .getLayersByType('VectorLayer')
-        .find(layer => layer.layerName == layerName).layer;
+    let layer = getLayerByName(layerName);
     newFeatures.map(feature => {
         let option = getFeatureOption(feature);
         let _feature = layer.getFeatureByOption(option);

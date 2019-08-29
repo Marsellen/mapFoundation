@@ -1,6 +1,7 @@
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { Modal } from 'antd';
 import { updateFeatures, updateRels } from './relCtrl/operateCtrl';
+import { getLayerByName } from './vectorUtils';
 
 const UNDO_MAP = {
     addFeature: 'deleteFeature',
@@ -20,10 +21,7 @@ class OperateFactory {
     }
 
     addFeature(history) {
-        let layer = map
-            .getLayerManager()
-            .getLayersByType('VectorLayer')
-            .find(layer => layer.layerName == history.layerName).layer;
+        let layer = getLayerByName(history.layerName);
         layer.addFeatures([history.feature]);
     }
 
@@ -35,10 +33,7 @@ class OperateFactory {
                 okText: '确定'
             });
         }
-        let layer = map
-            .getLayerManager()
-            .getLayersByType('VectorLayer')
-            .find(layer => layer.layerName == history.layerName).layer;
+        let layer = getLayerByName(history.layerName);
         layer.removeFeatureByOption({
             key: key,
             value: history.feature.properties[key]
@@ -46,18 +41,12 @@ class OperateFactory {
     }
 
     updateFeature(history) {
-        let layer = map
-            .getLayerManager()
-            .getLayersByType('VectorLayer')
-            .find(layer => layer.layerName == history.layerName).layer;
+        let layer = getLayerByName(history.layerName);
         layer.updateFeatures([history.feature]);
     }
 
     reUpdateFeature(history) {
-        let layer = map
-            .getLayerManager()
-            .getLayersByType('VectorLayer')
-            .find(layer => layer.layerName == history.layerName).layer;
+        let layer = getLayerByName(history.layerName);
         layer.updateFeatures([history.oldFeature]);
     }
 
