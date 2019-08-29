@@ -3,12 +3,12 @@ import {
     geojsonToDbData,
     dbDataToGeojson,
     getFeatureRels,
-    getRelOptions,
-    matchRelSpecByRecord
+    getRelOptions
 } from './utils';
 import IndexedDB from 'src/utils/IndexedDB';
 import { REL_TYPE_KEY_MAP } from 'src/config/RelsConfig';
 import { updateFeaturesByRels } from './relCtrl';
+import { getLayerIDKey } from '../vectorUtils';
 
 export const relDataToTable = data => {
     let relData = filterRelData(data);
@@ -49,11 +49,12 @@ export const filterRelData = data => {
     );
 };
 
-export const getTabelData = async (layerName, relRecords) => {
+export const getTabelData = async (layerName, relRecords, properties) => {
     let relMap = relRecords.reduce((total, record) => {
-        let config = matchRelSpecByRecord(record);
+        let IDKey = getLayerIDKey(layerName);
+        let isRelObj = record.relObjId == properties[IDKey];
         let keyMap = {};
-        if (config.objSpec == layerName) {
+        if (isRelObj) {
             keyMap.type = 'relObjType';
             keyMap.id = 'relObjId';
         } else {

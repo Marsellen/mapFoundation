@@ -122,7 +122,7 @@ class VizCompnent extends React.Component {
             return;
         }
         window.traceLayer = new TraceLayer(tracks);
-        map.getLayerManager().addLayer('TraceLayer', traceLayer);
+        await map.getLayerManager().addLayer('TraceLayer', traceLayer);
         return {
             layerName: RESOURCE_LAYER_TRACE,
             layer: traceLayer
