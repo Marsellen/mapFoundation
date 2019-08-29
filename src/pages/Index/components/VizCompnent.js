@@ -39,33 +39,42 @@ class VizCompnent extends React.Component {
         taskStore.getTaskFile().then(this.initTask);
     }
 
-    initTask = task => {
+    initTask = async task => {
+        if (!task) return;
         const { taskStore } = this.props;
         console.time('taskLoad');
-        if (!task) return;
         const hide = message.loading('正在加载任务数据...', 0);
-        Promise.all([
-            this.initPointCloud(task.point_clouds),
-            this.initVectors(task.vectors),
-            this.initTracks(task.tracks),
-            this.installRel(task.rels),
-            this.installAttr(task.attrs)
+        await Promise.all([
+            this.initSdkResource(task),
+            this.initExResource(task)
         ])
-            .then(results => {
-                let [pointClouds, vectors, tracks] = results;
-                this.initResouceLayer([pointClouds, vectors, tracks]);
-                hide();
-                message.success('加载完成', 1);
-                console.timeEnd('taskLoad');
-            })
+            .then(() => message.success('加载完成', 1))
             .catch(e => {
-                hide();
                 Modal.error({
                     title: '资料加载失败，请确认输入正确路径。',
                     okText: '确定'
                 });
                 taskStore.tasksPop();
             });
+        hide();
+        console.timeEnd('taskLoad');
+    };
+
+    initSdkResource = async task => {
+        let [pointClouds, vectors, tracks] = await Promise.all([
+            this.initPointCloud(task.point_clouds),
+            this.initVectors(task.vectors),
+            this.initTracks(task.tracks)
+        ]);
+        this.initResouceLayer([pointClouds, vectors, tracks]);
+        this.installListener();
+    };
+
+    initExResource = async task => {
+        await Promise.all([
+            this.installRel(task.rels),
+            this.installAttr(task.attrs)
+        ]);
     };
 
     initPointCloud = pointClouds => {
@@ -92,38 +101,32 @@ class VizCompnent extends React.Component {
         });
     };
 
-    initVectors = vectors => {
+    initVectors = async vectors => {
         if (!vectors) {
             return;
         }
         const { DataLayerStore } = this.props;
-        return new Promise((resolve, reject) => {
-            const layerGroup = new LayerGroup(vectors);
-            map.getLayerManager()
-                .addLayerGroup(layerGroup)
-                .then(layers => {
-                    DataLayerStore.init(layers);
-                    this.installListener();
-                });
-            resolve({
-                layerName: RESOURCE_LAYER_VETOR,
-                layer: layerGroup
-            });
-        });
+        window.vectorLayerGroup = new LayerGroup(vectors);
+        await map.getLayerManager().addLayerGroup(vectorLayerGroup);
+        let layers = vectorLayerGroup.layers;
+        DataLayerStore.init(layers);
+
+        return {
+            layerName: RESOURCE_LAYER_VETOR,
+            layer: vectorLayerGroup
+        };
     };
 
-    initTracks = tracks => {
+    initTracks = async tracks => {
         if (!tracks || tracks.length == 0) {
             return;
         }
-        return new Promise((resolve, reject) => {
-            window.traceLayer = new TraceLayer(tracks);
-            map.getLayerManager().addLayer('TraceLayer', traceLayer);
-            resolve({
-                layerName: RESOURCE_LAYER_TRACE,
-                layer: traceLayer
-            });
-        });
+        window.traceLayer = new TraceLayer(tracks);
+        map.getLayerManager().addLayer('TraceLayer', traceLayer);
+        return {
+            layerName: RESOURCE_LAYER_TRACE,
+            layer: traceLayer
+        };
     };
 
     initResouceLayer = layers => {

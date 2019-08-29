@@ -3,7 +3,7 @@ import modelFactory from 'src/utils/vectorCtrl/modelFactory';
 import relFactory from 'src/utils/relCtrl/relFactory';
 import attrFactory from 'src/utils/attrCtrl/attrFactory';
 import IDService from 'src/pages/Index/service/IDService';
-import { getLayerIDKey } from 'src/utils/vectorUtils';
+import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
 import _ from 'lodash';
 
@@ -98,10 +98,9 @@ class AttributeStore {
     @action hideRelFeatures = () => {
         try {
             this.relFeatures.map(feature => {
-                map.getLayerManager()
-                    .getLayersByType('VectorLayer')
-                    .find(layer => layer.layerName == feature.layerName)
-                    .layer.updateFeatureColor(feature.option);
+                getLayerByName(feature.layerName).updateFeatureColor(
+                    feature.option
+                );
             });
         } catch (error) {
             console.log(error);
@@ -112,13 +111,10 @@ class AttributeStore {
     @action showRelFeatures = () => {
         try {
             this.relFeatures.map(feature => {
-                map.getLayerManager()
-                    .getLayersByType('VectorLayer')
-                    .find(layer => layer.layerName == feature.layerName)
-                    .layer.updateFeatureColor(
-                        feature.option,
-                        'rgb(255, 87, 34)'
-                    );
+                getLayerByName(feature.layerName).updateFeatureColor(
+                    feature.option,
+                    'rgb(255, 87, 34)'
+                );
             });
         } catch (error) {
             console.log(error);

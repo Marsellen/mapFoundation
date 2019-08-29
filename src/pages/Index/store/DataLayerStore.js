@@ -4,6 +4,7 @@ import { EditControl, MeasureControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
 import { Modal } from 'antd';
 import { addClass, removeClass } from '../../../utils/utils';
+import { getLayerExByName } from 'src/utils/vectorUtils';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore extends LayerStore {
@@ -34,8 +35,7 @@ class DataLayerStore extends LayerStore {
 
     @action toggle = (name, checked) => {
         this.layers.find(layer => layer.value == name).checked = checked;
-        let layer = this.layerGroup.find(layer => layer.layerName == name)
-            .layer;
+        let layer = getLayerExByName(name).layer;
         if (checked) {
             layer.show();
         } else {
@@ -68,7 +68,7 @@ class DataLayerStore extends LayerStore {
     };
 
     @action activeEditor = name => {
-        let layer = this.getLayerByName(name);
+        let layer = name ? getLayerExByName(name) : null;
         if (this.editor) {
             this.clearChoose();
             this.editor.editLayer = layer;
@@ -123,12 +123,7 @@ class DataLayerStore extends LayerStore {
 
     @action changeCur = () => {
         let viz = document.querySelector('#viz');
-
         addClass(viz, 'edit-viz');
-    };
-
-    @action getLayerByName = name => {
-        return this.layerGroup.find(layer => layer.layerName == name);
     };
 
     @action newPoint = () => {
