@@ -19,6 +19,6 @@ const components = {
     }
 };
 
-export function AdTable(props) {
+export default function AdTable(props) {
     return <Table components={components} {...props} />;
 }
