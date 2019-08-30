@@ -52,9 +52,9 @@ export const filterRelData = data => {
 export const getTabelData = async (layerName, relRecords, properties) => {
     let relMap = relRecords.reduce((total, record) => {
         let IDKey = getLayerIDKey(layerName);
-        let isRelObj = record.relObjId == properties[IDKey];
+        let isObj = record.objId == properties[IDKey];
         let keyMap = {};
-        if (isRelObj) {
+        if (isObj) {
             keyMap.type = 'relObjType';
             keyMap.id = 'relObjId';
         } else {
