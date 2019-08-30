@@ -54,15 +54,18 @@ class VizCompnent extends React.Component {
             this.initSdkResource(task),
             this.initExResource(task)
         ])
-            .then(() => message.success('加载完成', 1))
+            .then(() => {
+                hide();
+                message.success('加载完成', 1);
+            })
             .catch(e => {
+                hide();
                 Modal.error({
                     title: '资料加载失败，请确认输入正确路径。',
                     okText: '确定'
                 });
                 taskStore.tasksPop();
             });
-        hide();
         console.timeEnd('taskLoad');
     };
 

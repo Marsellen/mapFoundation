@@ -1,11 +1,15 @@
 import React, { Fragment } from 'react';
 import ToolIcon from 'src/components/ToolIcon';
-import { Modal } from 'antd';
+import { Modal, Select } from 'antd';
+import { inject, observer } from 'mobx-react';
 import AdTable from 'src/components/AdTable';
 import { COLUMNS_CONFIG } from 'src/config/PropertiesTableConfig';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { getLayerItems } from 'src/utils/vectorCtrl/propertyTableCtrl';
-import 'less/components/ViewAttribute.less';
+import 'less/components/view-attribute.less';
 
+@inject('DataLayerStore')
+@observer
 class ViewAttribute extends React.Component {
     constructor() {
         super();
@@ -23,10 +27,8 @@ class ViewAttribute extends React.Component {
                     visible={this.state.visible}
                     title="标记图层"
                     footer={null}
-                    // content={this.renderContent()}
                     onCancel={this.handleCancel}
-                    className="layerScroll"
-                    >
+                    className="layerScroll">
                     {this.renderContent()}
                 </Modal>
             </Fragment>
@@ -37,15 +39,39 @@ class ViewAttribute extends React.Component {
         const { columns, dataSource } = this.state;
         return (
             <AdTable
-                className="layerScroll"
+                className="layer-scroll"
                 columns={columns}
                 dataSource={dataSource}
+                footer={this.renderFooter}
             />
         );
     };
 
-    getData = () => {
-        let _columns = COLUMNS_CONFIG['AD_LaneDivider'];
+    renderFooter = () => {
+        const { DataLayerStore } = this.props;
+        let options = DataLayerStore.layers || [];
+        return (
+            <div>
+                <Select onChange={this.getData} className="layer-select">
+                    {options.map((option, index) => {
+                        return (
+                            <Select.Option key={index} value={option.value}>
+                                {this.getLabel(option)}
+                            </Select.Option>
+                        );
+                    })}
+                </Select>
+            </div>
+        );
+    };
+
+    getData = layerName => {
+        if (!layerName) {
+            const { DataLayerStore } = this.props;
+            let editLayer = DataLayerStore.getEditLayer();
+            layerName = editLayer ? editLayer.layerName : null;
+        }
+        let _columns = layerName ? COLUMNS_CONFIG[layerName] : [];
         let columns = _columns.map(col => {
             return {
                 ...col,
@@ -57,7 +83,7 @@ class ViewAttribute extends React.Component {
                 })
             };
         });
-        let dataSource = getLayerItems('AD_LaneDivider');
+        let dataSource = getLayerItems(layerName);
         this.setState({ columns, dataSource });
     };
 
@@ -72,6 +98,15 @@ class ViewAttribute extends React.Component {
         this.setState({
             visible: false
         });
+    };
+
+    getLabel = item => {
+        if (!item.value) {
+            return item.label;
+        }
+        return DATA_LAYER_MAP[item.value]
+            ? DATA_LAYER_MAP[item.value].label
+            : item.value;
     };
 }
 
