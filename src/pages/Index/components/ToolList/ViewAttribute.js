@@ -35,7 +35,7 @@ class ViewAttribute extends React.Component {
                 />
                 <Modal
                     visible={this.state.visible}
-                    title="标记图层"
+                    title="属性列表"
                     footer={null}
                     onCancel={this.handleCancel}
                     destroyOnClose={true}
@@ -74,10 +74,10 @@ class ViewAttribute extends React.Component {
                         showSizeChanger: true,
                         showTotal: () => `共${dataSource.length}页`
                     }}
-                    scroll={{ x: columns.length * 80, y: 400 }}
+                    scroll={{ x: 'max-content', y: 400 }}
                     title={() => (
                         <Search
-                            placeholder="请输入..."
+                            placeholder="请输入用户编号..."
                             onSearch={this.AdSearch}
                             style={{ width: '100%' }}
                         />
@@ -137,7 +137,13 @@ class ViewAttribute extends React.Component {
                     dataIndex: col.dataIndex,
                     title: col.title,
                     filterBy: col.filterBy
-                })
+                }),
+                sorter: (a, b) => {
+                    if (a[col.dataIndex] > b[col.dataIndex]) {
+                        return 1;
+                    }
+                    return -1;
+                }
             };
         });
         let dataSource = getLayerItems(layerName);
