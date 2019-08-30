@@ -3,7 +3,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'index',
             title: '序号',
-            width: 30
+            width: 80
         },
         {
             dataIndex: 'LDIV_ID',
@@ -63,7 +63,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'index',
             title: '序号',
-            width: 30
+            width: 80
         },
         {
             dataIndex: 'TEXT_ID',
@@ -86,7 +86,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'index',
             title: '序号',
-            width: 30
+            width: 80
         },
         {
             dataIndex: 'ROAD_ID',
@@ -138,7 +138,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'index',
             title: '序号',
-            width: 30
+            width: 80
         },
         {
             dataIndex: 'LANE_ID',
@@ -195,7 +195,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'index',
             title: '序号',
-            width: 30
+            width: 80
         },
         {
             dataIndex: 'STOPL_ID',
@@ -213,7 +213,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'index',
             title: '序号',
-            width: 30
+            width: 80
         },
         {
             dataIndex: 'PLG_ID',
@@ -231,7 +231,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'index',
             title: '序号',
-            width: 30
+            width: 80
         },
         {
             dataIndex: 'ARR_ID',
@@ -249,7 +249,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'index',
             title: '序号',
-            width: 30
+            width: 80
         },
         {
             dataIndex: 'LAP_ID',
@@ -267,7 +267,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'index',
             title: '序号',
-            width: 30
+            width: 80
         },
         {
             dataIndex: 'SIGN_ID',
@@ -285,7 +285,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'index',
             title: '序号',
-            width: 30
+            width: 80
         },
         {
             dataIndex: 'LIGHT_ID',
@@ -314,7 +314,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'index',
             title: '序号',
-            width: 30
+            width: 80
         },
         {
             dataIndex: 'ID',
@@ -370,7 +370,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'index',
             title: '序号',
-            width: 30
+            width: 80
         },
         {
             dataIndex: 'BARR_ID',
@@ -394,7 +394,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'index',
             title: '序号',
-            width: 30
+            width: 80
         },
         {
             dataIndex: 'POLE_ID',
