@@ -23,7 +23,6 @@ const components = {
 export default function AdTable(props) {
     return (
         <Table
-            scroll={{ x: 1500, y: 300 }}
             components={components}
             {...props}
         />

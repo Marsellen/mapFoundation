@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import ToolIcon from 'src/components/ToolIcon';
-import { Modal, Select } from 'antd';
+import { Modal, Select, Input, ConfigProvider } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdTable from 'src/components/AdTable';
 import { COLUMNS_CONFIG } from 'src/config/PropertiesTableConfig';
@@ -8,6 +8,10 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { getLayerItems } from 'src/utils/vectorCtrl/propertyTableCtrl';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import 'less/components/view-attribute.less';
+import zh_CN from 'antd/es/locale-provider/zh_CN';
+import 'moment/locale/zh-cn';
+
+const { Search } = Input;
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -44,20 +48,52 @@ class ViewAttribute extends React.Component {
 
     renderContent = () => {
         const { columns, dataSource } = this.state;
+
         return (
-            <AdTable
-                className="layer-scroll"
-                columns={columns}
-                dataSource={dataSource}
-                footer={this.renderFooter}
-                onRow={record => {
-                    return {
-                        onClick: this.tableOnClick(record),
-                        onDoubleClick: this.tableOnDoubleClick(record)
-                    };
-                }}
-            />
+            <ConfigProvider locale={zh_CN}>
+                <AdTable
+                    className="layer-scroll"
+                    columns={columns}
+                    dataSource={dataSource}
+                    footer={this.renderFooter}
+                    onRow={record => {
+                        return {
+                            onClick: this.tableOnClick(record),
+                            onDoubleClick: this.tableOnDoubleClick(record)
+                        };
+                    }}
+                    bordered
+                    size="small"
+                    pagination={{
+                        total: dataSource.length,
+                        pageSize: 10,
+                        pageSizeOptions: ['10', '30', '50'],
+                        showQuickJumper: true,
+                        showSizeChanger: true
+                    }}
+                    scroll={{ x: 1500, y: 400 }}
+                    title={() => (
+                        <Search
+                            placeholder="请输入..."
+                            onSearch={this.AdSearch}
+                            style={{ width: '100%' }}
+                        />
+                    )}
+                />
+            </ConfigProvider>
         );
+    };
+
+    AdSearch = val => {
+        const { layerName } = this.state;
+        let dataSource = getLayerItems(layerName);
+        let IDKey = getLayerIDKey(layerName);
+        if (val) {
+            dataSource = (dataSource || []).filter(
+                record => record[IDKey] == val
+            );
+        }
+        this.setState({ dataSource });
     };
 
     renderFooter = () => {
