@@ -3,15 +3,15 @@ import { Table } from 'antd';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 
 function AdTableCell(props) {
-    const { filterBy, record, dataIndex, children, ...restProps } = props;
+    const { filterBy, record, dataIndex, ...restProps } = props;
     let value = record[dataIndex];
-    let text = filterBy ? filterText(filterBy, value) : children;
+    let text = value ? (filterBy ? filterText(filterBy, value) : value) : '--';
     return <td {...restProps}>{text}</td>;
 }
 
 function filterText(type, value) {
     let config = TYPE_SELECT_OPTION_MAP[type].find(c => c.value == value);
-    return config.label;
+    return config ? config.label : value;
 }
 
 const components = {
@@ -25,7 +25,7 @@ export default function AdTable(props) {
         <Table
             scroll={{ x: 1500, y: 300 }}
             components={components}
-           {...props}
+            {...props}
         />
     );
 }

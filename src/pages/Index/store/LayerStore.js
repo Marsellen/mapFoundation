@@ -1,5 +1,4 @@
 import { observable, configure, action } from 'mobx';
-import { getLayerByName } from 'src/utils/vectorUtils';
 
 configure({ enforceActions: 'always' });
 class LayerStore {
@@ -9,6 +8,7 @@ class LayerStore {
     @action init = layers => {
         this.layers = (layers || []).map(layer => {
             return {
+                layer: layer.layer,
                 value: layer.layerName,
                 checked: true
             };
@@ -16,12 +16,12 @@ class LayerStore {
     };
 
     @action toggle = (name, checked) => {
-        this.layers.find(layer => layer.value == name).checked = checked;
-        let layer = getLayerByName(name);
+        let layerEx = this.layers.find(layer => layer.value == name);
+        layerEx.checked = checked;
         if (checked) {
-            layer.show();
+            layerEx.layer.show();
         } else {
-            layer.hide();
+            layerEx.layer.hide();
         }
         this.updateKey = Math.random();
     };

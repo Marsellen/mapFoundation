@@ -128,7 +128,7 @@ class DataLayerStore extends LayerStore {
     ruler = () => {
         let viz = document.querySelector('#viz');
         addClass(viz, 'ruler-viz');
-    }
+    };
 
     removeCur = () => {
         let viz = document.querySelector('#viz');
