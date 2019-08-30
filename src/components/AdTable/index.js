@@ -6,7 +6,13 @@ function AdTableCell(props) {
     const { filterBy, record, dataIndex, ...restProps } = props;
     let value = record[dataIndex];
     let text = value ? (filterBy ? filterText(filterBy, value) : value) : '--';
-    return <td {...restProps}>{text}</td>;
+    return (
+        <td
+            {...restProps}
+            style={{ wordWrap: 'break-word', wordBreak: 'break-all' }}>
+            {text}
+        </td>
+    );
 }
 
 function filterText(type, value) {
@@ -21,10 +27,5 @@ const components = {
 };
 
 export default function AdTable(props) {
-    return (
-        <Table
-            components={components}
-            {...props}
-        />
-    );
+    return <Table components={components} {...props} />;
 }

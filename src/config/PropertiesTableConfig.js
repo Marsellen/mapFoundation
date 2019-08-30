@@ -141,14 +141,14 @@ export const COLUMNS_CONFIG = {
             width: 30
         },
         {
-            dataIndex: 'TYPE',
-            title: '车道类型',
-            filterBy: 'AD_LANE_TYPE',
+            dataIndex: 'LANE_ID',
+            title: '用户编号',
             width: 80
         },
         {
-            dataIndex: 'LANE_ID',
-            title: '用户编号',
+            dataIndex: 'TYPE',
+            title: '车道类型',
+            filterBy: 'AD_LANE_TYPE',
             width: 80
         },
         {
