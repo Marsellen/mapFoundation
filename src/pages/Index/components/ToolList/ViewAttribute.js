@@ -39,7 +39,8 @@ class ViewAttribute extends React.Component {
                     footer={null}
                     onCancel={this.handleCancel}
                     destroyOnClose={true}
-                    className="layerScroll">
+                    width={780}
+                    className="layer-scroll">
                     {this.renderContent()}
                 </Modal>
             </Fragment>
@@ -70,9 +71,10 @@ class ViewAttribute extends React.Component {
                         pageSize: 10,
                         pageSizeOptions: ['10', '30', '50'],
                         showQuickJumper: true,
-                        showSizeChanger: true
+                        showSizeChanger: true,
+                        showTotal: () => `共${dataSource.length}页`
                     }}
-                    scroll={{ x: 1500, y: 400 }}
+                    scroll={{ x: columns.length * 80, y: 400 }}
                     title={() => (
                         <Search
                             placeholder="请输入..."
