@@ -53,6 +53,7 @@ class ViewAttribute extends React.Component {
             <ConfigProvider locale={zh_CN}>
                 <AdTable
                     className="layer-scroll"
+                    rowKey="index"
                     columns={columns}
                     dataSource={dataSource}
                     footer={this.renderFooter}
