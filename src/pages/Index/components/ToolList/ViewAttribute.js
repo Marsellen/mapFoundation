@@ -4,9 +4,9 @@ import { Modal } from 'antd';
 import AdTable from 'src/components/AdTable';
 import { COLUMNS_CONFIG } from 'src/config/PropertiesTableConfig';
 import { getLayerItems } from 'src/utils/vectorCtrl/propertyTableCtrl';
-import 'less/components/AddAttribute.less';
+import 'less/components/ViewAttribute.less';
 
-class AddAttribute extends React.Component {
+class ViewAttribute extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -24,7 +24,9 @@ class AddAttribute extends React.Component {
                     title="标记图层"
                     footer={null}
                     // content={this.renderContent()}
-                    onCancel={this.handleCancel}>
+                    onCancel={this.handleCancel}
+                    className="layerScroll"
+                    >
                     {this.renderContent()}
                 </Modal>
             </Fragment>
@@ -33,7 +35,9 @@ class AddAttribute extends React.Component {
 
     renderContent = () => {
         const { columns, dataSource } = this.state;
-        return <AdTable className="layerScroll" columns={columns} dataSource={dataSource} />;
+        console.log('columns:', columns);
+        
+        return <AdTable columns={columns} dataSource={dataSource} />;
     };
 
     getData = () => {
@@ -56,4 +60,4 @@ class AddAttribute extends React.Component {
     };
 }
 
-export default AddAttribute;
+export default ViewAttribute;

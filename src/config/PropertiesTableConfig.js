@@ -2,46 +2,55 @@ export const COLUMNS_CONFIG = {
     AD_LaneDivider: [
         {
             dataIndex: 'LDIV_ID',
-            title: '用户编号'
+            title: '用户编号',
+            width: 100
         },
         {
             dataIndex: 'TYPE',
             title: '车道线类型',
-            filterBy: 'AD_LANE_DIVIDER_TYPE'
+            filterBy: 'AD_LANE_DIVIDER_TYPE',
+            width: 100
         },
         {
             dataIndex: 'LANE_TYPE',
             title: '车道类型',
-            filterBy: 'AD_LANE_DIVIDER_LANE_TYPE'
+            filterBy: 'AD_LANE_DIVIDER_LANE_TYPE',
+            width: 100
         },
         {
             dataIndex: 'RD_LINE',
             title: '参考线标识',
-            filterBy: 'AD_LANE_DIVIDER_RD_LINE'
+            filterBy: 'AD_LANE_DIVIDER_RD_LINE',
+            width: 100
         },
         {
             dataIndex: 'SHARE_LINE',
             title: '共用车道线标识',
-            filterBy: 'AD_LANE_DIVIDER_SHARE_LINE'
+            filterBy: 'AD_LANE_DIVIDER_SHARE_LINE',
+            width: 100
         },
         {
             dataIndex: 'DIRECTION',
             title: '车道通行方向',
-            filterBy: 'AD_LANE_DIVIDER_DIRECTION'
+            filterBy: 'AD_LANE_DIVIDER_DIRECTION',
+            width: 100
         },
         {
             dataIndex: 'LANESTATUS',
             title: '通行状态',
-            filterBy: 'AD_LANE_DIVIDER_LANESTATUS'
+            filterBy: 'AD_LANE_DIVIDER_LANESTATUS',
+            width: 100
         },
         {
             dataIndex: 'LANE_NO',
-            title: '车道编号'
+            title: '车道编号',
+            width: 100
         },
         {
             dataIndex: 'RD_FORM',
             title: '道路形态',
-            filterBy: 'AD_LANE_DIVIDER_RD_FORM'
+            filterBy: 'AD_LANE_DIVIDER_RD_FORM',
+            width: 100
         }
     ],
     AD_Text: [
