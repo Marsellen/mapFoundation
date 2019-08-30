@@ -94,7 +94,12 @@ export const DATA_LAYER_MAP = {
         label: '交通信号灯',
         id: 'LIGHT_ID',
         spec: 'AD_TrafficLight',
-        tools: ['ADD_FACADEREC_TANGLE', 'ADD_OUTSIDE_RECTANGLE', 'ADD_REL', 'DEL_REL'],
+        tools: [
+            'ADD_FACADEREC_TANGLE',
+            'ADD_OUTSIDE_RECTANGLE',
+            'ADD_REL',
+            'DEL_REL'
+        ],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
     AD_Pole: {
@@ -105,7 +110,7 @@ export const DATA_LAYER_MAP = {
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
     AD_Map_QC: {
-        label: '标记图层',
+        label: '更新标记图层',
         id: 'ID',
         spec: 'AD_Map_QC',
         tools: ['POINT'],
