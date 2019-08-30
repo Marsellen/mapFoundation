@@ -6,9 +6,11 @@ import AdTable from 'src/components/AdTable';
 import { COLUMNS_CONFIG } from 'src/config/PropertiesTableConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { getLayerItems } from 'src/utils/vectorCtrl/propertyTableCtrl';
+import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import 'less/components/view-attribute.less';
 
 @inject('DataLayerStore')
+@inject('AttributeStore')
 @observer
 class ViewAttribute extends React.Component {
     constructor() {
@@ -22,12 +24,17 @@ class ViewAttribute extends React.Component {
     render() {
         return (
             <Fragment>
-                <ToolIcon icon="huitui_" title="属性列表" action={this.show} />
+                <ToolIcon
+                    icon="shuxingliebiao"
+                    title="属性列表"
+                    action={this.show}
+                />
                 <Modal
                     visible={this.state.visible}
                     title="标记图层"
                     footer={null}
                     onCancel={this.handleCancel}
+                    destroyOnClose={true}
                     className="layerScroll">
                     {this.renderContent()}
                 </Modal>
@@ -43,6 +50,12 @@ class ViewAttribute extends React.Component {
                 columns={columns}
                 dataSource={dataSource}
                 footer={this.renderFooter}
+                onRow={record => {
+                    return {
+                        onClick: this.tableOnClick(record),
+                        onDoubleClick: this.tableOnDoubleClick(record)
+                    };
+                }}
             />
         );
     };
@@ -50,9 +63,14 @@ class ViewAttribute extends React.Component {
     renderFooter = () => {
         const { DataLayerStore } = this.props;
         let options = DataLayerStore.layers || [];
+        let editLayer = DataLayerStore.getEditLayer();
+        let defaultValue = editLayer ? editLayer.layerName : null;
         return (
             <div>
-                <Select onChange={this.getData} className="layer-select">
+                <Select
+                    defaultValue={defaultValue}
+                    onChange={this.getData}
+                    className="layer-select">
                     {options.map((option, index) => {
                         return (
                             <Select.Option key={index} value={option.value}>
@@ -84,7 +102,7 @@ class ViewAttribute extends React.Component {
             };
         });
         let dataSource = getLayerItems(layerName);
-        this.setState({ columns, dataSource });
+        this.setState({ layerName, columns, dataSource });
     };
 
     show = () => {
@@ -107,6 +125,47 @@ class ViewAttribute extends React.Component {
         return DATA_LAYER_MAP[item.value]
             ? DATA_LAYER_MAP[item.value].label
             : item.value;
+    };
+
+    tableOnClick = record => {
+        return e => {
+            let { layerName } = this.state;
+            this.showAttributesModal({
+                layerName,
+                data: {
+                    properties: record
+                }
+            });
+        };
+    };
+
+    tableOnDoubleClick = record => {
+        return e => {
+            let { layerName } = this.state;
+            let IDKey = getLayerIDKey(layerName);
+            let id = record[IDKey];
+            let option = {
+                key: IDKey,
+                value: id
+            };
+            let layer = getLayerByName(layerName);
+            let feature = layer.getFeatureByOption(option).properties;
+            let extent = map.getExtent(feature.data.geometry, {
+                tolerance: 40
+            });
+            console.log(extent);
+            map.setExtent(extent);
+        };
+    };
+
+    showAttributesModal = obj => {
+        const { AttributeStore, DataLayerStore } = this.props;
+        let editLayer = DataLayerStore.getEditLayer();
+        let readonly =
+            !editLayer || (editLayer && editLayer.layerName !== obj.layerName);
+        AttributeStore.setModel(obj);
+        DataLayerStore.setFeatureColor(obj, 0xcc00ff);
+        AttributeStore.show(readonly);
     };
 }
 

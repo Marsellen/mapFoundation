@@ -163,12 +163,17 @@ class VizCompnent extends React.Component {
         };
 
         let viz = document.querySelector('#viz');
-        viz.onmousedown = () => {
-            addClass(viz, 'ative-viz');
+        viz.onmousedown = e => {
+            if (e.button === 0) {
+                addClass(viz, 'ative-viz');
+            } else if (e.button === 2) {
+                addClass(viz, 'ative-right-viz');
+            }
         };
 
         viz.onmouseup = () => {
             removeClass(viz, 'ative-viz');
+            removeClass(viz, 'ative-right-viz');
         };
 
         // attributes 拾取控件

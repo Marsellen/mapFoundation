@@ -107,19 +107,20 @@ export const getRelOptions = (layerName, dbData, properties) => {
         if (!config) return;
         let IDKey = getLayerIDKey(layerName);
         let isObj = record.objId == properties[IDKey];
-        let relLayerName, relIDKey;
+        let relLayerName, relKey;
         if (isObj) {
             relLayerName = config.relObjSpec;
-            relIDKey = 'relObjId';
+            relKey = 'relObjId';
         } else {
             relLayerName = config.objSpec;
-            relIDKey = 'objId';
+            relKey = 'objId';
         }
+        let relIDKey = getLayerIDKey(relLayerName);
         return {
             layerName: relLayerName,
             option: {
-                key: IDKey,
-                value: record[relIDKey]
+                key: relIDKey,
+                value: record[relKey]
             }
         };
     });
