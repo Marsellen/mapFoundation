@@ -1,5 +1,11 @@
 import React from 'react';
-import { Map, PointCloudLayer, LayerGroup, TraceLayer } from 'addis-viz-sdk';
+import {
+    Map,
+    PointCloudLayer,
+    LayerGroup,
+    TraceLayer,
+    VectorLayer
+} from 'addis-viz-sdk';
 import { Modal, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
@@ -72,6 +78,7 @@ class VizCompnent extends React.Component {
 
     initExResource = async task => {
         await Promise.all([
+            this.initRegion(task.region),
             this.installRel(task.rels),
             this.installAttr(task.attrs)
         ]);
@@ -127,6 +134,11 @@ class VizCompnent extends React.Component {
             layerName: RESOURCE_LAYER_TRACE,
             layer: traceLayer
         };
+    };
+
+    initRegion = async regionUrl => {
+        const vectorLayer = new VectorLayer(regionUrl);
+        await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
     };
 
     initResouceLayer = layers => {

@@ -33,11 +33,28 @@ class AddAttribute extends React.Component {
 
     renderContent = () => {
         const { columns, dataSource } = this.state;
-        return <AdTable className="layerScroll" columns={columns} dataSource={dataSource} />;
+        return (
+            <AdTable
+                className="layerScroll"
+                columns={columns}
+                dataSource={dataSource}
+            />
+        );
     };
 
     getData = () => {
-        let columns = COLUMNS_CONFIG['AD_LaneDivider'];
+        let _columns = COLUMNS_CONFIG['AD_LaneDivider'];
+        let columns = _columns.map(col => {
+            return {
+                ...col,
+                onCell: record => ({
+                    record,
+                    dataIndex: col.dataIndex,
+                    title: col.title,
+                    filterBy: col.filterBy
+                })
+            };
+        });
         let dataSource = getLayerItems('AD_LaneDivider');
         this.setState({ columns, dataSource });
     };
