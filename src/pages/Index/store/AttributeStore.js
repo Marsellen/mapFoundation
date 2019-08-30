@@ -54,7 +54,8 @@ class AttributeStore {
             );
             this.rels = yield relFactory.getTabelData(
                 this.model.layerName,
-                this.relRecords
+                this.relRecords,
+                this.model.data.properties
             );
 
             this.fetchRelFeatures(this.relRecords);
@@ -87,7 +88,8 @@ class AttributeStore {
             }
             this.relFeatures = yield relFactory.getRelOptions(
                 this.model.layerName,
-                relRecords
+                relRecords,
+                this.model.data.properties
             );
             this.showRelFeatures();
         } catch (error) {
