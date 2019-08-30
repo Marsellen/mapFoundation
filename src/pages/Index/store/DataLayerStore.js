@@ -4,7 +4,11 @@ import { EditControl, MeasureControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
 import { Modal } from 'antd';
 import { addClass, removeClass } from '../../../utils/utils';
-import { getLayerExByName } from 'src/utils/vectorUtils';
+import {
+    getLayerExByName,
+    getFeatureOption,
+    getLayerByName
+} from 'src/utils/vectorUtils';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore extends LayerStore {
@@ -12,6 +16,7 @@ class DataLayerStore extends LayerStore {
         super();
         this.editor;
         this.measureControl;
+        this.highLightFeatures = [];
         document.onkeydown = event => {
             var e =
                 event || window.event || arguments.callee.caller.arguments[0];
@@ -267,6 +272,8 @@ class DataLayerStore extends LayerStore {
 
     @action unPick = () => {
         this.beenPick = false;
+
+        this.clearHighLightFeatures();
     };
 
     @action startMeatureDistance = () => {
@@ -283,6 +290,19 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'select_point';
         this.editor.selectPointFromHighlight();
+    };
+
+    setFeatureColor = (obj, color) => {
+        let option = getFeatureOption(obj);
+        getLayerByName(obj.layerName).updateFeatureColor(option, color);
+        this.highLightFeatures.push(obj);
+    };
+
+    clearHighLightFeatures = () => {
+        this.highLightFeatures.map(feature => {
+            this.setFeatureColor(feature);
+        });
+        this.highLightFeatures = [];
     };
 }
 
