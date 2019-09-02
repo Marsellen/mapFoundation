@@ -14,7 +14,7 @@
     },
     "dependencies": {
         "addis-viz-sdk": "^0.1.4-alpha.3",
-        "antd": "^3.17.0",
+        "antd": "^3.22.2",
         "axios": "^0.18.0",
         "dragm": "0.0.5",
         "lodash": "^4.17.11",

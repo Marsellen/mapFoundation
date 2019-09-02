@@ -69,6 +69,7 @@ const breakLine = async (breakPoint, features) => {
         { newFeatures: [], rels: [], attrs: [] }
     );
 
+    rels = uniqRels(rels);
     let historyLog = {
         features: [features, newFeatures],
         rels: [oldRels, rels],
@@ -247,6 +248,18 @@ const calcRels = (layerName, relation, feature) => {
             );
         }
         return arr;
+    }, []);
+};
+
+const uniqRels = rels => {
+    let REL_IDS = [];
+    return rels.reduce((total, rel) => {
+        let relId = rel.extraInfo.REL_ID;
+        if (!(relId && REL_IDS.includes(relId))) {
+            if (relId) REL_IDS.push(relId);
+            total.push(rel);
+        }
+        return total;
     }, []);
 };
 
