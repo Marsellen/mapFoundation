@@ -1,8 +1,10 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import AdMessage from 'src/components/AdMessage'; 
+import AdMessage from 'src/components/AdMessage';
+
 @inject('DataLayerStore')
+@inject('AttributeStore')
 @observer
 class AddPoint extends React.Component {
     render() {
@@ -21,8 +23,9 @@ class AddPoint extends React.Component {
     }
 
     action = () => {
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_point') return;
+        AttributeStore.hideRelFeatures();
         DataLayerStore.newPoint();
     };
 

@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/components/AdMessage';
 
 @inject('DataLayerStore')
+@inject('AttributeStore')
 @observer
 class AddOutsideRectangle extends React.Component {
     render() {
@@ -22,8 +23,9 @@ class AddOutsideRectangle extends React.Component {
     }
 
     action = () => {
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_vertical_matrix') return;
+        AttributeStore.hideRelFeatures();
         DataLayerStore.newVerticalMatrix();
     };
 
