@@ -7,18 +7,15 @@ class PictureShowStore {
 
     @observable visible = false;
 
-    @action getPicData = obj => {
-        this.model = obj;
-        this.picData = obj.properties.imgs[0]
-            ? obj.properties.imgs[0].name
-            : null;
-    };
-
     @action setPicData = obj => {
         this.model = obj;
-        this.picData = obj.properties.imgs[0]
-            ? obj.properties.imgs[0].name
-            : null;
+        if (obj.properties.imgs) {
+            this.picData = [
+                obj.properties.imgs.Forward_Ahead,
+                obj.properties.imgs.Forward_Right,
+                obj.properties.imgs.Forward_Left
+            ];
+        }
     };
 
     @action getIdx = () => {

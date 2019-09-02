@@ -23,9 +23,9 @@ class PictureShowView extends React.Component {
                 zoomOut: 1,
                 oneToOne: 1,
                 reset: 1,
-                prev: 0,
+                prev: 1,
                 play: 0,
-                next: 0,
+                next: 1,
                 rotateLeft: 0,
                 rotateRight: 0,
                 flipHorizontal: 0,
@@ -42,7 +42,7 @@ class PictureShowView extends React.Component {
             maxZoomRatio: 3, //最大比例
             viewed: function() {
                 //设置相对比例0.6=展示宽度/图片实际宽度
-                this.viewer.zoomTo(0.6).move(0, -6.2);
+                this.viewer.zoomTo(0.28).move(0, -6.2);
             }
         };
         return (
@@ -50,9 +50,13 @@ class PictureShowView extends React.Component {
                 {picData ? (
                     <RcViewer options={options} ref="viewer">
                         <ul id="images">
-                            <li>
-                                <img src={`${activeTaskId}/${picData}`} />
-                            </li>
+                            {picData.map((url, index) => {
+                                return (
+                                    <li key={index}>
+                                        <img src={`${activeTaskId}/${url}`} />
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </RcViewer>
                 ) : (
