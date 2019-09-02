@@ -16,6 +16,7 @@ import DelRel from './DelRel';
 import Ranging from './Ranging';
 import AddOutsideRectangle from './AddOutsideRectangle';
 import AdjustPointSize from './AdjustPointSize';
+import ViewAttribute from './ViewAttribute';
 
 export default [
     <Undo key="UNDO" />,
@@ -34,5 +35,6 @@ export default [
     <AddOutsideRectangle key="ADD_OUTSIDE_RECTANGLE" />,
     <AddCircle key="ADD_CIRCLE" />,
     <AddRel key="ADD_REL" />,
-    <DelRel key="DEL_REL" />
+    <DelRel key="DEL_REL" />,
+    <ViewAttribute key="VIEW_ATTRIBUTE" />
 ];

@@ -41,7 +41,11 @@ class NewAttrModal extends React.Component {
                 title="新增"
                 okText="确定"
                 cancelText="取消">
-                <Form colon={false} hideRequiredMark={true}>
+                <Form
+                    colon={false}
+                    hideRequiredMark={true}
+                    layout="vertical"
+                    className="svg-style">
                     {attrs.map((item, index) => this.renderItem(item, index))}
                 </Form>
             </Modal>

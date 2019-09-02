@@ -14,3 +14,11 @@ export const getFeatureOption = feature => {
         value: id
     };
 };
+
+export const getLayerExByName = layerName => {
+    return vectorLayerGroup.layers.find(layer => layer.layerName == layerName);
+};
+
+export const getLayerByName = layerName => {
+    return getLayerExByName(layerName).layer;
+};

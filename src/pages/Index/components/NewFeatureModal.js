@@ -3,11 +3,11 @@ import { Modal, Form, Input, Select, Button } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import { getLayerByName } from 'src/utils/vectorUtils';
 
 @Form.create()
 @inject('NewFeatureStore')
 @inject('OperateHistoryStore')
-@inject('DataLayerStore')
 @observer
 class NewFeatureModal extends React.Component {
     render() {
@@ -131,7 +131,7 @@ class NewFeatureModal extends React.Component {
     };
 
     cancel = () => {
-        const { DataLayerStore, NewFeatureStore } = this.props;
+        const { NewFeatureStore } = this.props;
         const { fromType } = NewFeatureStore;
         Modal.confirm({
             title: '您确定放弃正在新建的内容?',
@@ -139,7 +139,7 @@ class NewFeatureModal extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                let layer = DataLayerStore.getLayerByName(fromType);
+                let layer = getLayerByName(fromType);
                 let key = DATA_LAYER_MAP[fromType].id;
                 let value = NewFeatureStore.getFeatureValue(key);
                 layer.layer.removeFeatureByOption({

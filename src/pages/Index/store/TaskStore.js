@@ -129,7 +129,8 @@ class TaskStore {
                 vectors: this.activeTaskId + '/vectors/ads_all.geojson',
                 tracks: this.activeTaskId + '/tracks/track.json',
                 rels: this.activeTaskId + '/vectors/rels.geojson',
-                attrs: this.activeTaskId + '/vectors/attrs.geojson'
+                attrs: this.activeTaskId + '/vectors/attrs.geojson',
+                region: this.activeTaskId + '/region.geojson'
             };
             return task;
         } catch (e) {

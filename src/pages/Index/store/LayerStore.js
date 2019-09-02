@@ -2,14 +2,13 @@ import { observable, configure, action } from 'mobx';
 
 configure({ enforceActions: 'always' });
 class LayerStore {
-    layerGroup = [];
     @observable layers;
     @observable updateKey;
 
     @action init = layers => {
-        this.layerGroup = layers || [];
-        this.layers = this.layerGroup.map(layer => {
+        this.layers = (layers || []).map(layer => {
             return {
+                layer: layer.layer,
                 value: layer.layerName,
                 checked: true
             };
@@ -17,13 +16,12 @@ class LayerStore {
     };
 
     @action toggle = (name, checked) => {
-        this.layers.find(layer => layer.value == name).checked = checked;
-        let layer = this.layerGroup.find(layer => layer.layerName == name)
-            .layer;
+        let layerEx = this.layers.find(layer => layer.value == name);
+        layerEx.checked = checked;
         if (checked) {
-            layer.show();
+            layerEx.layer.show();
         } else {
-            layer.hide();
+            layerEx.layer.hide();
         }
         this.updateKey = Math.random();
     };

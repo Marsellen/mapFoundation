@@ -87,7 +87,7 @@ class MultimediaView extends React.Component {
                 y: item.properties.y,
                 z: item.properties.z
             });
-            PictureShowStore.getPicData(item);
+            PictureShowStore.setPicData(item);
         });
     };
 

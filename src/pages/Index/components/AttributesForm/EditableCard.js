@@ -4,6 +4,7 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import _ from 'lodash';
 import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
+import { getLayerIDKey } from 'src/utils/vectorUtils';
 import './style.less';
 
 const formItemLayout = {
@@ -118,10 +119,13 @@ class EditableCard extends React.Component {
                 return;
             }
             console.log(values);
+            let id = value.key;
+            let IDKey = getLayerIDKey(value.spec);
             onChange({
                 ...value,
                 properties: {
-                    ...values
+                    ...values,
+                    [IDKey]: id
                 }
             });
             attrs.forEach(item => {
@@ -146,8 +150,8 @@ class EditableCard extends React.Component {
         const { onDelete, index } = this.props;
         Modal.confirm({
             title: '删除后无法撤回，确认删除？',
-            okText:'确定',
-            cancelText:'取消',
+            okText: '确定',
+            cancelText: '取消',
             onOk: () => {
                 onDelete(index);
             }
@@ -163,7 +167,7 @@ class EditableCard extends React.Component {
     renderContent = () => {
         const { attrs } = this.state;
         return (
-            <Form layout="vertical">
+            <Form layout="vertical" className="svg-style">
                 {attrs.map((item, index) => this.renderItem(item, index))}
             </Form>
         );

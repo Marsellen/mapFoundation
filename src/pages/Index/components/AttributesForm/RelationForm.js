@@ -56,20 +56,12 @@ class RelationForm extends React.Component {
                                 message: `${item.name}必填`
                             },
                             {
-                                message: '必须为数字',
+                                max: Math.pow(10, 15),
+                                message: '必须为15位以内数字',
                                 type: 'number',
                                 transform(value) {
                                     if (value) {
                                         return Number(value);
-                                    }
-                                }
-                            },
-                            {
-                                max: 20,
-                                message: '长度不能超过20字',
-                                transform(value) {
-                                    if (value) {
-                                        return String(value);
                                     }
                                 }
                             },

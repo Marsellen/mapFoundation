@@ -13,16 +13,21 @@ const PERMISSION_CONFIG = {
 };
 
 export const getEditLayers = (layers, { roleCode } = {}) => {
-    layers = _.cloneDeep(layers);
+    layers = _.cloneDeep(
+        (layers || []).map(layer => {
+            let { value, label } = layer;
+            return { value, label };
+        })
+    );
     let config = PERMISSION_CONFIG[roleCode];
     if (config && config.reject) {
-        (layers || []).forEach(layer => {
+        layers.forEach(layer => {
             if (config.reject.includes(layer.value)) {
                 layer.disabled = true;
             }
         });
     } else if (config && config.enable) {
-        (layers || []).forEach(layer => {
+        layers.forEach(layer => {
             if (!config.enable.includes(layer.value)) {
                 layer.disabled = true;
             }
