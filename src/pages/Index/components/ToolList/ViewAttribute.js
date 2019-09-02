@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import ToolIcon from 'src/components/ToolIcon';
-import { Modal, Select, Input, ConfigProvider } from 'antd';
+import { Select, Input, ConfigProvider } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdTable from 'src/components/AdTable';
 import { COLUMNS_CONFIG } from 'src/config/PropertiesTableConfig';
@@ -10,6 +10,7 @@ import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import 'less/components/view-attribute.less';
 import zh_CN from 'antd/es/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
+import SeniorModal from 'src/components/SeniorModal';
 
 const { Search } = Input;
 
@@ -31,9 +32,9 @@ class ViewAttribute extends React.Component {
                 <ToolIcon
                     icon="shuxingliebiao"
                     title="属性列表"
-                    action={this.show}
+                    action={this.toggle}
                 />
-                <Modal
+                <SeniorModal
                     visible={this.state.visible}
                     title="属性列表"
                     footer={null}
@@ -46,7 +47,7 @@ class ViewAttribute extends React.Component {
                     bodyStyle={{ padding: 8 }}
                     className="layer-scroll">
                     {this.renderContent()}
-                </Modal>
+                </SeniorModal>
             </Fragment>
         );
     }
@@ -155,11 +156,17 @@ class ViewAttribute extends React.Component {
         this.setState({ layerName, columns, dataSource });
     };
 
-    show = () => {
-        this.setState({
-            visible: true
-        });
-        this.getData();
+    toggle = () => {
+        if (this.state.visible) {
+            this.setState({
+                visible: false
+            });
+        } else {
+            this.setState({
+                visible: true
+            });
+            this.getData();
+        }
     };
 
     handleCancel = () => {
