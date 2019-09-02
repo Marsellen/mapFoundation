@@ -8,6 +8,7 @@ import './AddRel.less';
 
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
+@inject('AttributeStore')
 @observer
 class AddRel extends React.Component {
     componentDidMount() {
@@ -60,8 +61,9 @@ class AddRel extends React.Component {
     }
 
     action = () => {
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'newRel') return;
+        AttributeStore.hideRelFeatures();
         DataLayerStore.newRel();
     };
 

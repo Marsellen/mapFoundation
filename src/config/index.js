@@ -1,4 +1,4 @@
 export default {
     title: 'Ecarx React App',
-    version: 'v1.0.1-sprint4'
+    version: 'v1.4.2'
 };
