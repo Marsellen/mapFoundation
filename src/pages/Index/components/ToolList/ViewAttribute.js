@@ -206,9 +206,7 @@ class ViewAttribute extends React.Component {
             };
             let layer = getLayerByName(layerName);
             let feature = layer.getFeatureByOption(option).properties;
-            let extent = map.getExtent(feature.data.geometry, {
-                tolerance: 40
-            });
+            let extent = map.getExtent(feature.data.geometry);
             console.log(extent);
             map.setExtent(extent);
         };
