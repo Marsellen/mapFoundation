@@ -8,8 +8,7 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { getLayerItems } from 'src/utils/vectorCtrl/propertyTableCtrl';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import 'less/components/view-attribute.less';
-import zh_CN from 'antd/es/locale-provider/zh_CN';
-import 'moment/locale/zh-cn';
+import zh_CN from 'antd/es/locale/zh_CN';
 import SeniorModal from 'src/components/SeniorModal';
 
 const { Search } = Input;
