@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/components/AdMessage';
 
 @inject('DataLayerStore')
+@inject('AttributeStore')
 @observer
 class AddLine extends React.Component {
     render() {
@@ -22,8 +23,9 @@ class AddLine extends React.Component {
     }
 
     action = () => {
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_line') return;
+        AttributeStore.hideRelFeatures();
         DataLayerStore.newLine();
     };
 

@@ -95,6 +95,7 @@ export const DATA_LAYER_MAP = {
         id: 'LIGHT_ID',
         spec: 'AD_TrafficLight',
         tools: [
+            'POLYGON',
             'ADD_FACADEREC_TANGLE',
             'ADD_OUTSIDE_RECTANGLE',
             'ADD_REL',

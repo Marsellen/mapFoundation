@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/components/AdMessage';
 
 @inject('DataLayerStore')
+@inject('AttributeStore')
 @observer
 class AddPolygon extends React.Component {
     render() {
@@ -22,8 +23,9 @@ class AddPolygon extends React.Component {
     }
 
     action = () => {
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_polygon') return;
+        AttributeStore.hideRelFeatures();
         DataLayerStore.newPolygon();
     };
 

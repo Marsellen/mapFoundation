@@ -38,8 +38,12 @@ class ViewAttribute extends React.Component {
                     title="属性列表"
                     footer={null}
                     onCancel={this.handleCancel}
+                    mask={false}
+                    zIndex={999}
+                    maskClosable={false}
                     destroyOnClose={true}
                     width={780}
+                    bodyStyle={{ padding: 8 }}
                     className="layer-scroll">
                     {this.renderContent()}
                 </Modal>
@@ -50,6 +54,7 @@ class ViewAttribute extends React.Component {
     renderContent = () => {
         const { columns, dataSource } = this.state;
 
+        let height = window.innerHeight * 0.8 - 185;
         return (
             <ConfigProvider locale={zh_CN}>
                 <AdTable
@@ -74,7 +79,7 @@ class ViewAttribute extends React.Component {
                         showSizeChanger: true,
                         showTotal: () => `共${dataSource.length}页`
                     }}
-                    scroll={{ x: 'max-content', y: 400 }}
+                    scroll={{ x: 'max-content', y: height }}
                     title={() => (
                         <Search
                             placeholder="请输入用户编号..."
