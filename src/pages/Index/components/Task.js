@@ -7,7 +7,6 @@ import { inject, observer } from 'mobx-react';
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
-@inject('JobStore')
 @observer
 class Task extends React.Component {
     componentDidMount() {
@@ -15,16 +14,16 @@ class Task extends React.Component {
     }
 
     render() {
-        const { taskStore, JobStore } = this.props;
-        const { jobData } = JobStore;
+        const { taskStore } = this.props;
+        const { workData } = taskStore;
         const { activeTaskId } = taskStore;
 
-        console.log('jobData:', jobData);
+        // console.log('workData:', workData);
 
-        if (jobData && jobData.length > 0) {
+        if (workData && workData.length > 0) {
             return (
                 <Menu className="menu" selectedKeys={[activeTaskId]}>
-                    {jobData.map(item => (
+                    {workData.map(item => (
                         <Menu.Item
                             key={item.taskId}
                             onClick={() => {
@@ -63,8 +62,8 @@ class Task extends React.Component {
     };
 
     chooseTask = id => {
-        const { JobStore } = this.props;
-        JobStore.setActiveTaskNames(id);
+        const { taskStore } = this.props;
+        taskStore.setActiveTaskNames(id);
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;

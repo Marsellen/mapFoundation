@@ -6,7 +6,7 @@
         "taskList":[
             {
                 "manualStatusDesc":"已领取",
-                "Input_imp_data_path":"http://10.43.75.80:15001/zhushanhu",
+                "Input_imp_data_path":"http://10.43.75.80:15001/10minute/08_EDIT_JSON",
                 "processName":"imp_recognition",
                 "nodeDesc":"人工识别",
                 "projectName":null,

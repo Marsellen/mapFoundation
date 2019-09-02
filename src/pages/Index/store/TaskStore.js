@@ -1,5 +1,6 @@
 import { observable, flow, configure, action } from 'mobx';
 import TaskService from '../service/TaskService';
+import JobService from '../service/JobService';
 import { Modal } from 'antd';
 
 configure({ enforceActions: 'always' });
@@ -34,15 +35,15 @@ class TaskStore {
 
     setActiveTaskNames = flow(function*(id) {
         if (id) {
-            this.jobData.forEach(item => {
+            this.workData.forEach(item => {
                 if (item.taskId === id) {
                     this.activeTaskNames.taskId = id;
                     this.activeTaskNames.process_name = item.processName;
                 }
             });
         } else {
-            this.activeTaskNames.taskId = this.jobData[0].taskId;
-            this.activeTaskNames.process_name = this.jobData[0].processName;
+            this.activeTaskNames.taskId = this.workData[0].taskId;
+            this.activeTaskNames.process_name = this.workData[0].processName;
         }
     });
 
@@ -66,12 +67,12 @@ class TaskStore {
 
     @action submitTask = (result, param) => {
         this.initSubmit(result);
-        this.initJob(param);
+        this.initTask(param);
     }
 
     @action getFirstTaskValues = () => {
-        this.firstTaskValues.name = `${this.jobData[0].taskId}-${this.jobData[0].nodeDesc}-${this.jobData[0].manualStatusDesc}`;
-        this.firstTaskValues.url = this.jobData[0].Input_imp_data_path;
+        this.firstTaskValues.name = `${this.workData[0].taskId}-${this.workData[0].nodeDesc}-${this.workData[0].manualStatusDesc}`;
+        this.firstTaskValues.url = this.workData[0].Input_imp_data_path;
         
         return this.firstTaskValues;
     }

@@ -10,7 +10,6 @@ import { ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
-@inject('JobStore')
 @inject('taskStore')
 @inject('ReferStore')
 @observer
@@ -35,14 +34,14 @@ class JobStatus extends React.Component {
 
     // 获取
     getJob = shouldSave => {
-        const { JobStore, taskStore } = this.props;
+        const { taskStore } = this.props;
 
-        const firstTaskValues = JobStore.getFirstTaskValues();
+        const firstTaskValues = taskStore.getFirstTaskValues();
 
         if (shouldSave) {
             this.action();
         }
-        JobStore.initJob({ type: 2 });
+        taskStore.initTask({ type: 2 });
 
         taskStore.load(firstTaskValues).then(() => {
             this.setState({
@@ -70,13 +69,13 @@ class JobStatus extends React.Component {
     };
 
     taskSubmit = (submitResult, shouldSave, visible) => {
-        const { JobStore, taskStore } = this.props;
-        const firstTaskValues = JobStore.getFirstTaskValues();
+        const { taskStore } = this.props;
+        const firstTaskValues = taskStore.getFirstTaskValues();
         // 自动保存
         if (shouldSave) {
             this.action();
         }
-        JobStore.submitTask(submitResult, this.listParam);
+        taskStore.submitTask(submitResult, this.listParam);
         if (visible) {
             this.setState({
                 visible: false
@@ -166,8 +165,8 @@ class JobStatus extends React.Component {
     };
 
     render() {
-        const { appStore, JobStore, OperateHistoryStore } = this.props;
-        const { jobData } = JobStore;
+        const { appStore, taskStore, OperateHistoryStore } = this.props;
+        const { workData } = taskStore;
         const { loginUser } = appStore;
         const { visible } = this.state;
         let { currentNode, savedNode } = OperateHistoryStore;
@@ -177,7 +176,7 @@ class JobStatus extends React.Component {
         return (
             <div className="flex flex-center">
                 <Button
-                    disabled={jobData && jobData.length >= 5 ? true : false}
+                    disabled={workData && workData.length >= 5 ? true : false}
                     onClick={() => this.getJob(shouldSave)}>
                     获取任务
                 </Button>

@@ -11,13 +11,14 @@ import logo from 'src/assets/img/logo.png';
 const { Header } = Layout;
 
 @inject('menuStore')
-@inject('JobStore')
+@inject('taskStore')
 @observer
 class Index extends React.Component {
     state = {};
 
     componentDidMount() {
-        this.props.JobStore.initJob({ type: 4 });
+        const { taskStore } = this.props;
+        taskStore.initTask({ type: 4 });
         this.props.menuStore.initMenus();
     }
 
