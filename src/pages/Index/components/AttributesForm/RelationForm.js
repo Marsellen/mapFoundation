@@ -58,7 +58,12 @@ class RelationForm extends React.Component {
                             {
                                 max: Math.pow(10, 15),
                                 message: '必须为15位以内数字',
-                                type: 'number'
+                                type: 'number',
+                                transform(value) {
+                                    if (value) {
+                                        return Number(value);
+                                    }
+                                }
                             },
                             ...(item.validates || []).map(validate => validate)
                         ],

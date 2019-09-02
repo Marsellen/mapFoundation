@@ -84,10 +84,9 @@ const mergeLine = async features => {
     let option = { lines };
     let result = await EditorService.mergeLines(option);
     if (result.code !== 1) throw result;
-    let { newFeatures, rels, attrs } = fetchFeatureRels(
-        features,
+    let { newFeatures, rels, attrs } = fetchFeatureRels(features, [
         result.data.feature
-    );
+    ]);
     let historyLog = {
         features: [features, newFeatures],
         rels: [oldRels, rels],
@@ -289,7 +288,7 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
     let relSpec;
     let IDKey1 = getLayerIDKey(spec);
     let IDKey2 = getLayerIDKey(layerName);
-    return properties.map(property => {
+    return properties.reduce((arr, property) => {
         if (relSpecs.length > 1) {
             relSpec = relSpecs.find(rs => {
                 if (rs.objSpec == spec) {
@@ -301,23 +300,26 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
         } else {
             relSpec = relSpecs[0];
         }
-        const { objType, relObjType } = relSpec;
-        let objId, relObjId;
-        if (relSpec.objSpec == spec) {
-            objId = property[IDKey1];
-            relObjId = property[IDKey2];
-        } else {
-            objId = property[IDKey2];
-            relObjId = property[IDKey1];
+        if (relSpec) {
+            const { objType, relObjType } = relSpec;
+            let objId, relObjId;
+            if (relSpec.objSpec == spec) {
+                objId = property[IDKey1];
+                relObjId = property[IDKey2];
+            } else {
+                objId = property[IDKey2];
+                relObjId = property[IDKey1];
+            }
+            arr.push({
+                spec: relSpec.source,
+                objId,
+                relObjId,
+                objType,
+                relObjType
+            });
         }
-        return {
-            spec: relSpec.source,
-            objId,
-            relObjId,
-            objType,
-            relObjType
-        };
-    });
+        return arr;
+    }, []);
 };
 
 const attrsDataFormat = (data, source) => {

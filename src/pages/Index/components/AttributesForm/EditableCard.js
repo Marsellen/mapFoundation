@@ -4,6 +4,7 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import _ from 'lodash';
 import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
+import { getLayerIDKey } from 'src/utils/vectorUtils';
 import './style.less';
 
 const formItemLayout = {
@@ -118,10 +119,13 @@ class EditableCard extends React.Component {
                 return;
             }
             console.log(values);
+            let id = value.key;
+            let IDKey = getLayerIDKey(value.spec);
             onChange({
                 ...value,
                 properties: {
-                    ...values
+                    ...values,
+                    [IDKey]: id
                 }
             });
             attrs.forEach(item => {
