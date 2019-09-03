@@ -11,7 +11,6 @@ import { ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
 @inject('taskStore')
-@inject('ReferStore')
 @observer
 class JobStatus extends React.Component {
     constructor(props) {
