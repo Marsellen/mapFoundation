@@ -5,7 +5,12 @@ import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 function AdTableCell(props) {
     const { filterBy, record, dataIndex, ...restProps } = props;
     let value = record[dataIndex];
-    let text = value ? (filterBy ? filterText(filterBy, value) : value) : '--';
+    let text =
+        value !== null && value !== undefined
+            ? filterBy
+                ? filterText(filterBy, value)
+                : value
+            : '--';
     return (
         <td
             {...restProps}

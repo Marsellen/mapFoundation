@@ -160,6 +160,12 @@ class ViewAttribute extends React.Component {
                             parseInt(b[col.dataIndex])
                         );
                     } else {
+                        if (!a[col.dataIndex] && a[col.dataIndex] !== 0) {
+                            return 1;
+                        }
+                        if (!b[col.dataIndex] && b[col.dataIndex] !== 0) {
+                            return -1;
+                        }
                         return a[col.dataIndex] > b[col.dataIndex] ? 1 : -1;
                     }
                 }
