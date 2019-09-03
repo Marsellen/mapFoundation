@@ -352,10 +352,12 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
     let [oldFeatures, newFeatures] = features;
     let layerName = (oldFeatures[0] || newFeatures[0]).layerName;
     let layer = getLayerByName(layerName);
-    newFeatures.map(feature => {
+    let updateFeatures = [];
+    newFeatures.forEach(feature => {
         let option = getFeatureOption(feature);
         let _feature = layer.getFeatureByOption(option);
         if (_feature) {
+            updateFeatures.push(option.key + option.value);
             layer.updateFeatures([feature]);
         } else {
             layer.addFeatures([feature.data]);
@@ -367,8 +369,9 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
     if (attrs) {
         await attrFactory.replaceAttrs(attrs);
     }
-    oldFeatures.map(feature => {
+    oldFeatures.forEach(feature => {
         let option = getFeatureOption(feature);
+        if (updateFeatures.includes(option.key + option.value)) return;
         layer.removeFeatureByOption(option);
     });
 };

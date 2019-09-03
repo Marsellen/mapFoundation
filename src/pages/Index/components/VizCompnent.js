@@ -51,7 +51,7 @@ class VizCompnent extends React.Component {
         console.time('taskLoad');
         const hide = message.loading('正在加载任务数据...', 0);
         await Promise.all([
-            this.initSdkResource(task),
+            this.initEditResource(task),
             this.initExResource(task)
         ])
             .then(() => {
@@ -59,6 +59,7 @@ class VizCompnent extends React.Component {
                 message.success('加载完成', 1);
             })
             .catch(e => {
+                console.log(e);
                 hide();
                 Modal.error({
                     title: '资料加载失败，请确认输入正确路径。',
@@ -69,11 +70,13 @@ class VizCompnent extends React.Component {
         console.timeEnd('taskLoad');
     };
 
-    initSdkResource = async task => {
+    initEditResource = async task => {
         let [pointClouds, vectors, tracks] = await Promise.all([
             this.initPointCloud(task.point_clouds),
             this.initVectors(task.vectors),
-            this.initTracks(task.tracks)
+            this.initTracks(task.tracks),
+            this.initRegion(task.region),
+            this.initBoundary(task.boundary)
         ]);
         this.initResouceLayer([pointClouds, vectors, tracks]);
         this.installListener();
@@ -81,7 +84,6 @@ class VizCompnent extends React.Component {
 
     initExResource = async task => {
         await Promise.all([
-            this.initRegion(task.region),
             this.installRel(task.rels),
             this.installAttr(task.attrs)
         ]);
@@ -140,8 +142,29 @@ class VizCompnent extends React.Component {
     };
 
     initRegion = async regionUrl => {
-        const vectorLayer = new VectorLayer(regionUrl);
-        await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
+        try {
+            const vectorLayer = new VectorLayer(regionUrl);
+            vectorLayer.setDefaultStyle({ color: '#00FF00' });
+            await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
+        } catch (e) {
+            message.error('作业范围数据加载失败', 3);
+        }
+    };
+
+    initBoundary = async boundaryUrl => {
+        try {
+            const { DataLayerStore } = this.props;
+            const layerGroup = new LayerGroup(boundaryUrl);
+            await map.getLayerManager().addLayerGroup(layerGroup);
+            let layers = layerGroup.layers;
+            DataLayerStore.initDetectorControl(layers);
+            DataLayerStore.setBoundarySelectedCallback(
+                this.boundarySelectedCallback
+            );
+        } catch (e) {
+            console.log(e);
+            message.error('作业边界数据加载失败', 3);
+        }
     };
 
     initResouceLayer = layers => {
@@ -178,7 +201,11 @@ class VizCompnent extends React.Component {
 
         // attributes 拾取控件
         const { DataLayerStore } = this.props;
-        DataLayerStore.initEditor();
+        DataLayerStore.initEditor([
+            { layer: pointCloudLayer },
+            ...vectorLayerGroup.layers,
+            { layer: traceLayer }
+        ]);
         DataLayerStore.initMeasureControl();
         DataLayerStore.setSelectedCallBack(this.selectedCallBack);
         DataLayerStore.setCreatedCallBack(this.createdCallBack);
@@ -275,6 +302,16 @@ class VizCompnent extends React.Component {
             layerName: result.layerName,
             uuid: result.uuid
         });
+    };
+
+    boundarySelectedCallback = result => {
+        const { AttributeStore, DataLayerStore } = this.props;
+        if (result && result.length > 0) {
+            DataLayerStore.unPick();
+            AttributeStore.setModel(result[0]);
+            AttributeStore.show(true);
+        } else {
+        }
     };
 
     showPictureShowView = obj => {

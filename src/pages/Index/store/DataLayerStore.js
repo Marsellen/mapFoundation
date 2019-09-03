@@ -1,6 +1,6 @@
 import { action, configure, flow, observable } from 'mobx';
 import LayerStore from './LayerStore';
-import { EditControl, MeasureControl } from 'addis-viz-sdk';
+import { EditControl, MeasureControl, DetectorControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
 import { Modal } from 'antd';
 import { addClass, removeClass } from '../../../utils/utils';
@@ -16,6 +16,7 @@ class DataLayerStore extends LayerStore {
         super();
         this.editor;
         this.measureControl;
+        this.detectorControl;
         this.highLightFeatures = [];
         document.onkeydown = event => {
             var e =
@@ -64,8 +65,9 @@ class DataLayerStore extends LayerStore {
         return this.layers.findIndex(layer => layer.checked);
     };
 
-    @action initEditor = layer => {
-        this.editor = new EditControl(layer);
+    @action initEditor = layers => {
+        this.editor = new EditControl();
+        layers && this.editor.setTargetLayers(layers);
         map.getControlManager().addControl(this.editor);
     };
 
@@ -74,12 +76,20 @@ class DataLayerStore extends LayerStore {
         map.getControlManager().addControl(this.measureControl);
     };
 
+    @action initDetectorControl = layers => {
+        this.detectorControl = new DetectorControl();
+        layers && this.detectorControl.setTargetLayers(layers);
+        map.getControlManager().addControl(this.detectorControl);
+    };
+
     @action activeEditor = name => {
         let layer = name ? getLayerExByName(name) : null;
         if (this.editor) {
             this.clearChoose();
-            this.editor.editLayer = layer;
+        } else {
+            this.initEditor();
         }
+        this.editor.editLayer = layer;
         this.updateKey = Math.random();
         return layer;
     };
@@ -112,6 +122,13 @@ class DataLayerStore extends LayerStore {
         this.editor.onFeatureEdited(callback);
     };
 
+    @action setBoundarySelectedCallback = callback => {
+        this.detectorControl.onFeaturesSelected(result => {
+            if (this.editType !== 'normal') return;
+            callback(result);
+        });
+    };
+
     @action getEditLayer = () => {
         return this.editor && this.editor.editLayer;
     };
@@ -128,6 +145,7 @@ class DataLayerStore extends LayerStore {
     changeCur = () => {
         let viz = document.querySelector('#viz');
         addClass(viz, 'edit-viz');
+        this.detectorControl.disable();
     };
 
     ruler = () => {
@@ -139,6 +157,7 @@ class DataLayerStore extends LayerStore {
         let viz = document.querySelector('#viz');
         removeClass(viz, 'edit-viz');
         removeClass(viz, 'ruler-viz');
+        this.detectorControl.enable();
     };
 
     @action newPoint = () => {

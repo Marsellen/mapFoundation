@@ -3,6 +3,7 @@ import TaskService from '../service/TaskService';
 import JobService from '../service/JobService';
 // import ReferService from '../service/ReferService';
 import { Modal } from 'antd';
+import CONFIG from 'src/config';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -138,12 +139,13 @@ class TaskStore {
             }
             //const task = yield TaskService.get({ id: this.activeTaskId });
             let task = {
-                point_clouds: this.activeTaskId + '/point_clouds/cloud.js',
-                vectors: this.activeTaskId + '/vectors/ads_all.geojson',
-                tracks: this.activeTaskId + '/tracks/track.json',
-                rels: this.activeTaskId + '/vectors/rels.geojson',
-                attrs: this.activeTaskId + '/vectors/attrs.geojson',
-                region: this.activeTaskId + '/region.geojson'
+                point_clouds: this.activeTaskId + CONFIG.urlConfig.point_clouds,
+                vectors: this.activeTaskId + CONFIG.urlConfig.vectors,
+                tracks: this.activeTaskId + CONFIG.urlConfig.track,
+                rels: this.activeTaskId + CONFIG.urlConfig.rels,
+                attrs: this.activeTaskId + CONFIG.urlConfig.attrs,
+                region: this.activeTaskId + CONFIG.urlConfig.region,
+                boundary: this.activeTaskId + CONFIG.urlConfig.boundary
             };
             return task;
         } catch (e) {
