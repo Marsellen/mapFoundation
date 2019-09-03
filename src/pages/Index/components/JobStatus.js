@@ -141,17 +141,6 @@ class JobStatus extends React.Component {
         }
     };
 
-    renderFooter = () => {
-        return (
-            <div id="quality" className="flex">
-                <Button onClick={this.handleCancel}>取消</Button>
-                <Button>质检通过</Button>
-                <Button>任务返修</Button>
-                <Button>任务返工</Button>
-            </div>
-        );
-    };
-
     showModal = () => {
         this.setState({
             visible: true
