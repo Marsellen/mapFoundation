@@ -59,6 +59,7 @@ class VizCompnent extends React.Component {
                 message.success('加载完成', 1);
             })
             .catch(e => {
+                console.log(e);
                 hide();
                 Modal.error({
                     title: '资料加载失败，请确认输入正确路径。',
@@ -140,8 +141,13 @@ class VizCompnent extends React.Component {
     };
 
     initRegion = async regionUrl => {
-        const vectorLayer = new VectorLayer(regionUrl);
-        await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
+        try {
+            const vectorLayer = new VectorLayer(regionUrl);
+            vectorLayer.setStyle({ color: '#00FF00' });
+            await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
+        } catch (e) {
+            message.error('作业范围数据加载失败', 3);
+        }
     };
 
     initResouceLayer = layers => {
