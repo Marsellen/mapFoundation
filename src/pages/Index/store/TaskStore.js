@@ -8,10 +8,9 @@ configure({ enforceActions: 'always' });
 class TaskStore {
     @observable tasks = [];
     @observable activeTaskId;
-    @observable currentId;
     @observable workData = [];
-    @observable activeTaskNames = {};
-    @observable firstTaskValues = {};
+    @observable activeTaskNamesObj = {};
+    @observable firstTaskValuesObj = {};
 
     init = flow(function*() {
         try {
@@ -31,41 +30,34 @@ class TaskStore {
 
             this.workData = workData.data.taskList;
             this.setActiveTaskNames();
-            this.setCurrentId();
         } catch (e) {
             console.log(e);
         }
     })
 
-    setCurrentId = flow(function*(id) {
-        this.currentId = id;
-        // TODO 缓存activeTaskId，取id优先级： id > 缓存id > this.tasks[0].id
-    });
-
     setActiveTaskNames = flow(function*(id) {
-        this.setCurrentId(id);
         if (id) {
             this.workData.forEach(item => {
                 if (item.taskId === id) {
-                    this.activeTaskNames.taskId = id;
-                    this.activeTaskNames.process_name = item.processName;
+                    this.activeTaskNamesObj.taskId = id;
+                    this.activeTaskNamesObj.process_name = item.processName;
                 }
             });
         } else {
-            this.activeTaskNames.taskId = this.workData[0].taskId;
-            this.activeTaskNames.process_name = this.workData[0].processName;
+            this.activeTaskNamesObj.taskId = this.workData[0].taskId;
+            this.activeTaskNamesObj.process_name = this.workData[0].processName;
         }
     });
 
     initSubmit = flow(function*(result) {
         this.state = 'pending';
-        this.activeTaskNames.result = result;
-        this.activeTaskNames.instance_name = 'task_person_edit';
-        this.activeTaskNames.ip = '';
-        this.activeTaskNames.port = '';
+        this.activeTaskNamesObj.result = result;
+        this.activeTaskNamesObj.instance_name = 'task_person_edit';
+        this.activeTaskNamesObj.ip = '';
+        this.activeTaskNamesObj.port = '';
         try {
             // const submitData = yield ReferService.submitTask(
-            //     this.activeTaskNames
+            //     this.activeTaskNamesObj
             // );
             const submitData = yield JobService.submitTask(
                 this.activeTaskNames
@@ -84,10 +76,10 @@ class TaskStore {
     }
 
     @action getFirstTaskValues = () => {
-        this.firstTaskValues.name = `${this.workData[0].taskId}-${this.workData[0].nodeDesc}-${this.workData[0].manualStatusDesc}`;
-        this.firstTaskValues.url = this.workData[0].Input_imp_data_path;
+        this.firstTaskValuesObj.name = `${this.workData[0].taskId}-${this.workData[0].nodeDesc}-${this.workData[0].manualStatusDesc}`;
+        this.firstTaskValuesObj.url = this.workData[0].Input_imp_data_path;
         
-        return this.firstTaskValues;
+        return this.firstTaskValuesObj;
     }
 
     load = flow(function*(option) {
