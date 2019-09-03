@@ -124,7 +124,7 @@ class TaskStore {
             let patt1 = /(\w+):\/\/([^/:]+)(:\d*)?([^# ]*)/;
             let arr = this.activeTaskId.match(patt1);
             let path = arr[arr.length - 1].replace(/\//, '');
-            let url = path + '/vectors/ads_all.geojson';
+            let url = path + CONFIG.urlConfig.vectors;
             yield TaskService.exportShp({
                 jsonPath: url
             });

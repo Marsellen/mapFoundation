@@ -3,7 +3,7 @@ import { observable, configure, action } from 'mobx';
 configure({ enforceActions: 'always' });
 class PictureShowStore {
     model;
-    @observable picData;
+    @observable picData = [];
 
     @observable visible = false;
 
