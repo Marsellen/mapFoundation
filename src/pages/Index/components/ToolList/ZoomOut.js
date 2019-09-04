@@ -9,9 +9,9 @@ class ZoomOut extends React.Component {
         const { taskStore } = this.props;
         const { activeTaskId } = taskStore;
         return activeTaskId ? (
-            <div placement="bottom" title="放大比例尺" className="zoom-scale">
+            <div placement="bottom" title="缩小比例尺" className="zoom-scale">
                 <IconFont
-                    type="icon-fangda"
+                    type="icon-suoxiao"
                     className="ad-icon"
                     onClick={this.action}
                 />
@@ -22,7 +22,8 @@ class ZoomOut extends React.Component {
     }
 
     action = () => {
-        console.log('放大比例尺');
+        console.log('缩小比例尺');
+        map.zoomOut();
     };
 }
 
