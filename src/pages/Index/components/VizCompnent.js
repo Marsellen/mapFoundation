@@ -11,6 +11,8 @@ import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
 //import NewFeatureModal from './NewFeatureModal';
 import RightMenuModal from './RightMenuModal';
+import ZoomIn from './ToolList/ZoomIn'
+import ZoomOut from './ToolList/ZoomOut'
 import UnderView from './ToolList/UnderView';
 import {
     RESOURCE_LAYER_POINT_CLOUD,
@@ -362,6 +364,8 @@ class VizCompnent extends React.Component {
             <React.Fragment>
                 <div id="viz" key={taskStore.activeTaskId} className="viz-box">
                     <div className="set-compass">
+                        <ZoomOut key='ZOOM_OUT' />
+                        <ZoomIn key='ZOOM_IN' />
                         <UnderView key="UNDER_VIEW" />
                     </div>
                 </div>

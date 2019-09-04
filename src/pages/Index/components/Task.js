@@ -9,23 +9,37 @@ import { inject, observer } from 'mobx-react';
 @inject('ToolCtrlStore')
 @observer
 class Task extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            current: null
+        };
+    }
     componentDidMount() {
-        //this.props.taskStore.init();
+        // this.props.taskStore.init();
+    }
+
+    handleClick = (e) => {
+        this.setState({
+            current: e.key
+        })
     }
 
     render() {
         const { taskStore } = this.props;
-        const { activeTaskId } = taskStore;
-        if (taskStore.tasks && taskStore.tasks.length > 0) {
+        const { workData } = taskStore;
+        // const { activeTaskId } = taskStore;
+
+        if (workData && workData.length > 0) {
             return (
-                <Menu className="menu" selectedKeys={[activeTaskId]}>
-                    {taskStore.tasks.map(item => (
+                <Menu className="menu" selectedKeys={[workData.filter(item => item.taskId.toString() === this.state.current).length > 0 ? this.state.current : workData[0].taskId.toString()]}  onClick={this.handleClick}>
+                    {workData.map(item => (
                         <Menu.Item
-                            key={item._id}
+                            key={item.taskId}
                             onClick={() => {
-                                this.chooseTask(item._id);
+                                this.chooseTask(item.Input_imp_data_path, item.taskId);
                             }}>
-                            <span>{item.name}</span>
+                            <span>{`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}</span>
                         </Menu.Item>
                     ))}
                 </Menu>
@@ -33,13 +47,33 @@ class Task extends React.Component {
         } else {
             return this.renderNoData();
         }
+
+        // if (taskStore.tasks && taskStore.tasks.length > 0) {
+        //     return (
+        //         <Menu className="menu" selectedKeys={[activeTaskId]}>
+        //             {taskStore.tasks.map(item => (
+        //                 <Menu.Item
+        //                     key={item._id}
+        //                     onClick={() => {
+        //                         this.chooseTask(item._id);
+        //                     }}>
+        //                     <span>{item.name}</span>
+        //                 </Menu.Item>
+        //             ))}
+        //         </Menu>
+        //     );
+        // } else {
+        //     return this.renderNoData();
+        // }
     }
 
     renderNoData = () => {
         return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
     };
 
-    chooseTask = id => {
+    chooseTask = (path, id) => {
+        const { taskStore } = this.props;
+        taskStore.setActiveTaskNames(id);
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
@@ -50,15 +84,18 @@ class Task extends React.Component {
                 cancelText: '取消',
                 okType: 'danger',
                 onOk: () => {
-                    this.toggleTask(id);
+                    this.toggleTask(path);
                 }
             });
         } else {
-            this.toggleTask(id);
+            this.toggleTask(path);
         }
+        this.setState({
+            current: id
+        })
     };
 
-    toggleTask = id => {
+    toggleTask = path => {
         const {
             taskStore,
             AttributeStore,
@@ -66,7 +103,7 @@ class Task extends React.Component {
             DataLayerStore,
             ToolCtrlStore
         } = this.props;
-        taskStore.setActiveTaskId(id);
+        taskStore.setActiveTaskId(path);
         OperateHistoryStore.destroy();
         DataLayerStore.activeEditor();
         ToolCtrlStore.updateByEditLayer();

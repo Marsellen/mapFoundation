@@ -40,6 +40,7 @@ class DataLayerStore extends LayerStore {
     @observable beenPick;
 
     @action toggle = (name, checked) => {
+
         this.layers.find(layer => layer.value == name).checked = checked;
         let layer = getLayerExByName(name).layer;
         if (checked) {
@@ -48,6 +49,7 @@ class DataLayerStore extends LayerStore {
             layer.hide();
             this.clearChoose();
         }
+
         this.updateKey = Math.random();
     };
 

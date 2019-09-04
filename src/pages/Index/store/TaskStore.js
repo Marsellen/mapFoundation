@@ -1,5 +1,7 @@
 import { observable, flow, configure, action } from 'mobx';
 import TaskService from '../service/TaskService';
+import JobService from '../service/JobService';
+// import ReferService from '../service/ReferService';
 import { Modal } from 'antd';
 import CONFIG from 'src/config';
 
@@ -7,30 +9,93 @@ configure({ enforceActions: 'always' });
 class TaskStore {
     @observable tasks = [];
     @observable activeTaskId;
+    @observable workData = [];
+    @observable activeTaskNamesObj = {};
+    @observable firstTaskValuesObj = {};
 
     init = flow(function*() {
         try {
             const tasks = yield TaskService.get();
             this.tasks = tasks;
-            this.setActiveTaskId();
+            // this.setActiveTaskId();
         } catch (e) {
             console.log(e);
         }
     });
 
+    // 任务列表
+    initTask = flow(function*(option) {
+        try {
+            const workData = yield JobService.listTask(option);
+            // const workData = yield JobService.get(option);
+
+            this.workData = workData.data.taskList;
+            this.setActiveTaskNames();
+        } catch (e) {
+            console.log(e);
+        }
+    })
+
+    setActiveTaskNames = flow(function*(id) {
+        if (id) {
+            this.workData.forEach(item => {
+                if (item.taskId === id) {
+                    this.activeTaskNamesObj.taskId = id;
+                    this.activeTaskNamesObj.process_name = item.processName;
+                }
+            });
+        } else {
+            this.activeTaskNamesObj.taskId = this.workData[0].taskId;
+            this.activeTaskNamesObj.process_name = this.workData[0].processName;
+        }
+    });
+
+    initSubmit = flow(function*(result) {
+        this.state = 'pending';
+        this.activeTaskNamesObj.result = result;
+        this.activeTaskNamesObj.instance_name = 'task_person_edit';
+        this.activeTaskNamesObj.ip = '';
+        this.activeTaskNamesObj.port = '';
+        try {
+            // const submitData = yield ReferService.submitTask(
+            //     this.activeTaskNamesObj
+            // );
+            const submitData = yield JobService.submitTask(
+                this.activeTaskNames
+            );
+
+            this.state = 'done';
+            this.submitData = submitData;
+        } catch (e) {
+            this.state = 'error';
+        }
+    });
+
+    @action submitTask = (result, param) => {
+        this.initSubmit(result);
+        this.initTask(param);
+    }
+
+    @action getFirstTaskValues = () => {
+        this.firstTaskValuesObj.name = `${this.workData[0].taskId}-${this.workData[0].nodeDesc}-${this.workData[0].manualStatusDesc}`;
+        this.firstTaskValuesObj.url = this.workData[0].Input_imp_data_path;
+        
+        return this.firstTaskValuesObj;
+    }
+
     load = flow(function*(option) {
         try {
-            if (this.tasks.map(task => task._id).includes(option.url)) {
-                throw { message: '资料已加载' };
-            }
-            if (this.tasks.map(task => task.name).includes(option.name)) {
-                throw { message: '资料名称重复' };
-            }
+            // if (this.tasks.map(task => task._id).includes(option.url)) {
+            //     throw { message: '资料已加载' };
+            // }
+            // if (this.tasks.map(task => task.name).includes(option.name)) {
+            //     throw { message: '资料名称重复' };
+            // }
             this.tasks.push({
                 _id: option.url,
                 name: option.name
             });
-
+            
             this.setActiveTaskId(option.url);
             return;
         } catch (e) {
@@ -43,11 +108,17 @@ class TaskStore {
     });
 
     @action tasksPop = () => {
-        this.tasks.pop();
-        if (this.tasks.length == 0) {
+        // this.tasks.pop();
+        this.workData.pop();
+        // if (this.tasks.length == 0) {
+        //     this.activeTaskId = null;
+        // } else {
+        //     this.activeTaskId = this.tasks[this.tasks.length - 1]._id;
+        // }
+        if (this.workData.length == 0) {
             this.activeTaskId = null;
         } else {
-            this.activeTaskId = this.tasks[this.tasks.length - 1]._id;
+            this.activeTaskId = this.workData[this.workData.length - 1].taskId;
         }
     };
 
@@ -57,7 +128,8 @@ class TaskStore {
     });
 
     @action getActiveTask = () => {
-        return this.tasks.find(task => task._id == this.activeTaskId);
+        // return this.tasks.find(task => task._id == this.activeTaskId);
+        return this.workData.find(workData => workData.taskId == this.activeTaskId);
     };
 
     getTaskFile = flow(function*() {
