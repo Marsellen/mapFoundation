@@ -133,6 +133,7 @@ class DataLayerStore extends LayerStore {
 
     @action clearChoose = () => {
         this.removeCur();
+        this.detectorControl.enable();
         if (!this.editor) return;
         this.editType = 'normal';
         this.editor.clear();
@@ -143,7 +144,6 @@ class DataLayerStore extends LayerStore {
     changeCur = () => {
         let viz = document.querySelector('#viz');
         addClass(viz, 'edit-viz');
-        this.detectorControl.disable();
     };
 
     ruler = () => {
@@ -155,7 +155,6 @@ class DataLayerStore extends LayerStore {
         let viz = document.querySelector('#viz');
         removeClass(viz, 'edit-viz');
         removeClass(viz, 'ruler-viz');
-        this.detectorControl.enable();
     };
 
     @action newPoint = () => {
@@ -163,6 +162,7 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'new_point';
         this.changeCur();
+        this.detectorControl.disable();
         this.editor.newPoint();
     };
 
@@ -170,32 +170,36 @@ class DataLayerStore extends LayerStore {
         if (!this.editor) return;
         this.measureControl.clear();
         this.editType = 'new_line';
-        this.editor.newLine();
         this.changeCur();
+        this.detectorControl.disable();
+        this.editor.newLine();
     };
 
     @action newPolygon = () => {
         if (!this.editor) return;
         this.measureControl.clear();
         this.editType = 'new_polygon';
-        this.editor.newPolygon();
         this.changeCur();
+        this.detectorControl.disable();
+        this.editor.newPolygon();
     };
 
     @action newFacadeRectangle = () => {
         if (!this.editor) return;
         this.measureControl.clear();
         this.editType = 'new_facade_rectangle';
-        this.editor.newMatrix();
         this.changeCur();
+        this.detectorControl.disable();
+        this.editor.newMatrix();
     };
 
     @action newVerticalMatrix = () => {
         if (!this.editor) return;
         this.measureControl.clear();
         this.editType = 'new_vertical_matrix';
-        this.editor.newVerticalMatrix();
         this.changeCur();
+        this.detectorControl.disable();
+        this.editor.newVerticalMatrix();
     };
 
     @action newRel = () => {
@@ -203,6 +207,7 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'newRel';
         this.editor.clear();
+        this.detectorControl.disable();
         this.editor.toggleMode(61);
     };
 
@@ -211,6 +216,7 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'delRel';
         this.editor.clear();
+        this.detectorControl.disable();
         this.editor.toggleMode(61);
     };
 
@@ -230,8 +236,9 @@ class DataLayerStore extends LayerStore {
         if (!this.editor) return;
         this.measureControl.clear();
         this.editType = 'new_circle';
-        this.editor.newFixedPolygon(3);
         this.changeCur();
+        this.detectorControl.disable();
+        this.editor.newFixedPolygon(3);
     });
 
     updateResult = flow(function*(result) {
@@ -268,6 +275,7 @@ class DataLayerStore extends LayerStore {
     @action changePoints = () => {
         if (!this.editor) return;
         this.measureControl.clear();
+        this.detectorControl.disable();
         this.editType = 'changePoints';
         this.editor.changePoints();
     };
@@ -275,6 +283,7 @@ class DataLayerStore extends LayerStore {
     @action deletePoints = () => {
         if (!this.editor) return;
         this.measureControl.clear();
+        this.detectorControl.disable();
         this.editType = 'delPoint';
         this.editor.deletePoints();
     };
@@ -305,6 +314,7 @@ class DataLayerStore extends LayerStore {
 
     @action selectPointFromHighlight = () => {
         this.measureControl.clear();
+        this.detectorControl.disable();
         this.editType = 'select_point';
         this.editor.selectPointFromHighlight();
     };
