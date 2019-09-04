@@ -4,6 +4,8 @@ export const TOOLS_MAP = {
         REDO: true,
         SAVE: true,
         EXPORT_SHP: true,
+        ZOOM_IN:true,
+        ZOOM_OUT:true,
         UNDER_VIEW: true,
         INTENSITY: true,
         RANGING: true,
