@@ -11,8 +11,8 @@ import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
 //import NewFeatureModal from './NewFeatureModal';
 import RightMenuModal from './RightMenuModal';
-import ZoomIn from './ToolList/ZoomIn'
-import ZoomOut from './ToolList/ZoomOut'
+import ZoomIn from './ToolList/ZoomIn';
+import ZoomOut from './ToolList/ZoomOut';
 import UnderView from './ToolList/UnderView';
 import {
     RESOURCE_LAYER_POINT_CLOUD,
@@ -226,6 +226,7 @@ class VizCompnent extends React.Component {
                  */
                 if (result[0].type === 'VectorLayer') {
                     DataLayerStore.pick();
+                    this.modalType = 'vector';
                     this.showAttributesModal(result[0]);
                 } else if (result[0].type === 'TraceLayer') {
                     this.showPictureShowView(result[0]);
@@ -235,6 +236,8 @@ class VizCompnent extends React.Component {
                 this.showRightMenu(result, event);
             }
         } else {
+            if (this.modalType == 'boundary') return;
+            this.modalType = null;
             DataLayerStore.unPick();
             AttributeStore.hide();
             AttributeStore.hideRelFeatures();
@@ -312,7 +315,15 @@ class VizCompnent extends React.Component {
             DataLayerStore.unPick();
             AttributeStore.setModel(result[0]);
             AttributeStore.show(true);
+            this.modalType = 'boundary';
         } else {
+            // 强行更改执行顺序，使之在任务数据点击事件触发后执行
+            setTimeout(() => {
+                if (this.modalType == 'boundary') {
+                    this.modalType = null;
+                    AttributeStore.hide();
+                }
+            });
         }
     };
 
@@ -326,8 +337,8 @@ class VizCompnent extends React.Component {
         let editLayer = DataLayerStore.getEditLayer();
         let readonly =
             !editLayer || (editLayer && editLayer.layerName !== obj.layerName);
-        AttributeStore.setModel(obj);
         AttributeStore.show(readonly);
+        AttributeStore.setModel(obj);
     };
 
     showRightMenu = (features, event) => {
@@ -364,8 +375,8 @@ class VizCompnent extends React.Component {
             <React.Fragment>
                 <div id="viz" key={taskStore.activeTaskId} className="viz-box">
                     <div className="set-compass">
-                        <ZoomOut key='ZOOM_OUT' />
-                        <ZoomIn key='ZOOM_IN' />
+                        <ZoomOut key="ZOOM_OUT" />
+                        <ZoomIn key="ZOOM_IN" />
                         <UnderView key="UNDER_VIEW" />
                     </div>
                 </div>
