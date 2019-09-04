@@ -11,6 +11,7 @@ configure({ enforceActions: 'always' });
 class AttributeStore {
     model;
     relFeatures = [];
+    afterSave;
     @observable visible;
     @observable type;
     @observable attributes = [];
@@ -155,6 +156,7 @@ class AttributeStore {
             ...data.attributes
         };
         historyLog.features = [[oldFeature], [this.model]];
+        this.afterSave && this.afterSave();
         return historyLog;
     });
 
@@ -190,6 +192,10 @@ class AttributeStore {
             console.log(e);
         }
     });
+
+    @action setAfterSave = action => {
+        this.afterSave = action;
+    };
 }
 
 export default new AttributeStore();
