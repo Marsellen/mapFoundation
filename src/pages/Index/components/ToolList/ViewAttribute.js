@@ -25,6 +25,7 @@ class ViewAttribute extends React.Component {
             dataSource: []
         };
     }
+
     render() {
         return (
             <Fragment>
@@ -35,13 +36,14 @@ class ViewAttribute extends React.Component {
                 />
                 <SeniorModal
                     visible={this.state.visible}
-                    title="属性列表"
+                    title={this.getTitle()}
                     footer={null}
                     onCancel={this.handleCancel}
                     mask={false}
                     zIndex={999}
                     maskClosable={false}
                     destroyOnClose={true}
+                    afterClose={this.destroyAction}
                     width={780}
                     bodyStyle={{ padding: 8 }}
                     className="layer-scroll">
@@ -50,6 +52,11 @@ class ViewAttribute extends React.Component {
             </Fragment>
         );
     }
+
+    getTitle = () => {
+        const { layerName } = this.state;
+        return layerName ? DATA_LAYER_MAP[layerName].label : '属性列表';
+    };
 
     renderContent = () => {
         const { columns, dataSource } = this.state;
@@ -77,7 +84,7 @@ class ViewAttribute extends React.Component {
                         pageSizeOptions: ['10', '30', '50'],
                         showQuickJumper: true,
                         showSizeChanger: true,
-                        showTotal: () => `共${dataSource.length}页`
+                        showTotal: () => `共${dataSource.length}条`
                     }}
                     scroll={{ x: 'max-content', y: height }}
                     title={() => (
@@ -144,10 +151,23 @@ class ViewAttribute extends React.Component {
                     filterBy: col.filterBy
                 }),
                 sorter: (a, b) => {
-                    if (a[col.dataIndex] > b[col.dataIndex]) {
-                        return 1;
+                    if (
+                        /[0-9]/.test(a[col.dataIndex]) &&
+                        /[0-9]/.test(b[col.dataIndex])
+                    ) {
+                        return (
+                            parseInt(a[col.dataIndex]) -
+                            parseInt(b[col.dataIndex])
+                        );
+                    } else {
+                        if (!a[col.dataIndex] && a[col.dataIndex] !== 0) {
+                            return 1;
+                        }
+                        if (!b[col.dataIndex] && b[col.dataIndex] !== 0) {
+                            return -1;
+                        }
+                        return a[col.dataIndex] > b[col.dataIndex] ? 1 : -1;
                     }
-                    return -1;
                 }
             };
         });
@@ -186,12 +206,15 @@ class ViewAttribute extends React.Component {
     tableOnClick = record => {
         return e => {
             let { layerName } = this.state;
-            this.showAttributesModal({
-                layerName,
-                data: {
-                    properties: record
-                }
-            });
+            let IDKey = getLayerIDKey(layerName);
+            let id = record[IDKey];
+            let option = {
+                key: IDKey,
+                value: id
+            };
+            let layer = getLayerByName(layerName);
+            let feature = layer.getFeatureByOption(option).properties;
+            this.showAttributesModal(feature);
         };
     };
 
@@ -220,6 +243,12 @@ class ViewAttribute extends React.Component {
         AttributeStore.setModel(obj);
         DataLayerStore.setFeatureColor(obj, 0xcc00ff);
         AttributeStore.show(readonly);
+        AttributeStore.setAfterSave(this.getData);
+    };
+
+    destroyAction = () => {
+        const { AttributeStore } = this.props;
+        AttributeStore.setAfterSave();
     };
 }
 
