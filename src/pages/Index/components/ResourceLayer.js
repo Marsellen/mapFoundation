@@ -9,7 +9,7 @@ import { RESOURCE_LAYER_VETOR } from 'src/config/DataLayerConfig';
 class ResourceLayer extends React.Component {
     render() {
         let { ResourceLayerStore } = this.props;
-        
+
         return (
             <List
                 key={ResourceLayerStore.updateKey}
@@ -32,6 +32,7 @@ class ResourceLayer extends React.Component {
         let { ResourceLayerStore, DataLayerStore } = this.props;
         let onChange = e => {
             ResourceLayerStore.toggle(item.value, e.target.checked);
+            DataLayerStore.clearChoose();
             if (item.value == RESOURCE_LAYER_VETOR) {
                 DataLayerStore.toggleAll(e.target.checked);
             }
