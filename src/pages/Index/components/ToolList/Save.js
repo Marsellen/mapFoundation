@@ -30,7 +30,7 @@ class Save extends React.Component {
             RelStore,
             AttrStore
         } = this.props;
-        let vectorData = map.getLayerManager().getAllVectorData();
+        let vectorData = vectorLayerGroup.getAllVectorData();
         let attrRels = vectorData.features.filter(features =>
             ATTR_REL_DATA_SET.includes(features.name)
         );
