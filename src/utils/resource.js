@@ -35,7 +35,11 @@ function request(defaultUrl, extraParams, option) {
                 };
             }
             let key;
-            if (option.method === 'get' || !option.method) {
+            if (
+                option.method === 'get' ||
+                !option.method ||
+                option.payload === 'params'
+            ) {
                 key = 'params';
             } else {
                 key = 'data';
