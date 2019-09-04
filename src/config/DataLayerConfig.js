@@ -111,7 +111,7 @@ export const DATA_LAYER_MAP = {
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
     },
     AD_Map_QC: {
-        label: '更新标记图层',
+        label: '标记图层',
         id: 'ID',
         spec: 'AD_Map_QC',
         tools: ['POINT'],
