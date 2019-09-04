@@ -11,8 +11,8 @@ import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
 //import NewFeatureModal from './NewFeatureModal';
 import RightMenuModal from './RightMenuModal';
-import ZoomIn from './ToolList/ZoomIn'
-import ZoomOut from './ToolList/ZoomOut'
+import ZoomIn from './ToolList/ZoomIn';
+import ZoomOut from './ToolList/ZoomOut';
 import UnderView from './ToolList/UnderView';
 import {
     RESOURCE_LAYER_POINT_CLOUD,
@@ -20,7 +20,8 @@ import {
     RESOURCE_LAYER_TRACE
 } from 'src/config/DataLayerConfig';
 import MultimediaView from './MultimediaView';
-
+import VectorsConfig from '../../../config/VectorsConfig';
+import SDKConfig from '../../../config/SDKConfig';
 import 'less/components/viz-compnent.less';
 import { addClass, removeClass } from '../../../utils/utils';
 
@@ -120,7 +121,9 @@ class VizCompnent extends React.Component {
             return;
         }
         const { DataLayerStore } = this.props;
-        window.vectorLayerGroup = new LayerGroup(vectors);
+        window.vectorLayerGroup = new LayerGroup(vectors, {
+            styleConifg: VectorsConfig
+        });
         await map.getLayerManager().addLayerGroup(vectorLayerGroup);
         let layers = vectorLayerGroup.layers;
         DataLayerStore.init(layers);
@@ -156,7 +159,9 @@ class VizCompnent extends React.Component {
     initBoundary = async boundaryUrl => {
         try {
             const { DataLayerStore } = this.props;
-            const layerGroup = new LayerGroup(boundaryUrl);
+            const layerGroup = new LayerGroup(boundaryUrl, {
+                styleConifg: SDKConfig
+            });
             await map.getLayerManager().addLayerGroup(layerGroup);
             let layers = layerGroup.layers;
             DataLayerStore.initDetectorControl(layers);
@@ -364,8 +369,8 @@ class VizCompnent extends React.Component {
             <React.Fragment>
                 <div id="viz" key={taskStore.activeTaskId} className="viz-box">
                     <div className="set-compass">
-                        <ZoomOut key='ZOOM_OUT' />
-                        <ZoomIn key='ZOOM_IN' />
+                        <ZoomOut key="ZOOM_OUT" />
+                        <ZoomIn key="ZOOM_IN" />
                         <UnderView key="UNDER_VIEW" />
                     </div>
                 </div>
