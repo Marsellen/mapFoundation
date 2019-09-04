@@ -9,6 +9,6 @@ export default {
         rels: '/vectors/rels.geojson',
         attrs: '/vectors/attrs.geojson',
         region: '/region.geojson',
-        boundary: '../06_NEARBY_JSON/boundary.geojson'
+        boundary: '/../06_NEARBY_JSON/boundary.geojson'
     }
 };

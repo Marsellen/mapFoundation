@@ -22,7 +22,7 @@ class ZoomIn extends React.Component {
     }
 
     action = () => {
-        console.log('缩小比例尺');
+        map.ZoomIn();
     };
 }
 
