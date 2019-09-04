@@ -9,6 +9,7 @@ import { RESOURCE_LAYER_VETOR } from 'src/config/DataLayerConfig';
 class ResourceLayer extends React.Component {
     render() {
         let { ResourceLayerStore } = this.props;
+        
         return (
             <List
                 key={ResourceLayerStore.updateKey}

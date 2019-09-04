@@ -37,3 +37,11 @@ export function EditorApiPath(url) {
         return `/editor_service/${url}`;
     }
 }
+
+export function TaskApiPath(url) {
+    if (/^\//.test(url)) {
+        return `/task_service${url}`;
+    } else {
+        return `/task_service/${url}`;
+    }
+}
