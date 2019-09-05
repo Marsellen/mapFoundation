@@ -40,7 +40,7 @@ class JobStatus extends React.Component {
         if (shouldSave) {
             this.action();
         }
-        
+
         taskStore.initTask({ type: 2 }).then(() => {
             this.openMap();
         });
@@ -50,7 +50,7 @@ class JobStatus extends React.Component {
         const { taskStore } = this.props;
         const { workData } = taskStore;
         const firstTaskValues = taskStore.getFirstTaskValues();
-        
+
         if (firstTaskValues) {
             taskStore.load(firstTaskValues);
             if (workData && workData.length > 0) {
@@ -59,7 +59,7 @@ class JobStatus extends React.Component {
                 message.warning('暂无任务', 3);
             }
         }
-    }
+    };
 
     // 提交
     submitJob = (submitResult, shouldSave, visible) => {

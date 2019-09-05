@@ -150,29 +150,30 @@ class ViewAttribute extends React.Component {
                     title: col.title,
                     filterBy: col.filterBy
                 }),
-                sorter: (a, b) => {
-                    if (
-                        /[0-9]/.test(a[col.dataIndex]) &&
-                        /[0-9]/.test(b[col.dataIndex])
-                    ) {
-                        return (
-                            parseInt(a[col.dataIndex]) -
-                            parseInt(b[col.dataIndex])
-                        );
-                    } else {
-                        if (!a[col.dataIndex] && a[col.dataIndex] !== 0) {
-                            return 1;
-                        }
-                        if (!b[col.dataIndex] && b[col.dataIndex] !== 0) {
-                            return -1;
-                        }
-                        return a[col.dataIndex] > b[col.dataIndex] ? 1 : -1;
-                    }
-                }
+                sorter: this.sorter(col)
             };
         });
         let dataSource = getLayerItems(layerName);
         this.setState({ layerName, columns, dataSource });
+    };
+
+    sorter = col => {
+        return (a, b) => {
+            if (
+                /[0-9]/.test(a[col.dataIndex]) &&
+                /[0-9]/.test(b[col.dataIndex])
+            ) {
+                return parseInt(a[col.dataIndex]) - parseInt(b[col.dataIndex]);
+            } else {
+                if (!a[col.dataIndex] && a[col.dataIndex] !== 0) {
+                    return 1;
+                }
+                if (!b[col.dataIndex] && b[col.dataIndex] !== 0) {
+                    return -1;
+                }
+                return a[col.dataIndex] > b[col.dataIndex] ? 1 : -1;
+            }
+        };
     };
 
     toggle = () => {
@@ -231,6 +232,7 @@ class ViewAttribute extends React.Component {
             let feature = layer.getFeatureByOption(option).properties;
             let extent = map.getExtent(feature.data.geometry);
             console.log(extent);
+            map.setView('U');
             map.setExtent(extent);
         };
     };
