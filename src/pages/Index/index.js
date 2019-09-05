@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from 'antd';
+import { Layout, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import Sider from 'src/components/Sider';
 import SiderView from './components/SiderView';
@@ -12,6 +12,9 @@ const { Header } = Layout;
 
 @inject('menuStore')
 @inject('taskStore')
+@inject('OperateHistoryStore')
+@inject('DataLayerStore')
+@inject('ToolCtrlStore')
 @observer
 class Index extends React.Component {
     state = {};
@@ -26,14 +29,15 @@ class Index extends React.Component {
 
     openMap = () => {
         const { taskStore } = this.props;
+        const { workData } = taskStore;
 
         const firstTaskValues = taskStore.getFirstTaskValues();
-        taskStore.load(firstTaskValues).then(() => {
-            this.setState({
-                visible: false
-            });
+        taskStore.load(firstTaskValues);
+        if (workData && workData.length > 0) {
             this.clearWorkSpace();
-        });
+        } else {
+            message.warning('暂无任务', 3);
+        }
     }
 
     // 默认打开
@@ -44,9 +48,9 @@ class Index extends React.Component {
             DataLayerStore,
             ToolCtrlStore
         } = this.props;
-        const { tasks } = taskStore;
+        const { workData } = taskStore;
         OperateHistoryStore.destroy();
-        if (tasks && tasks.length > 1) {
+        if (workData && workData.length > 1) {
             DataLayerStore.activeEditor();
             ToolCtrlStore.updateByEditLayer();
         }

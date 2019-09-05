@@ -4,6 +4,7 @@ import JobService from '../service/JobService';
 // import ReferService from '../service/ReferService';
 import { Modal } from 'antd';
 import CONFIG from 'src/config';
+import { logout } from 'src/utils/Session';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -33,23 +34,39 @@ class TaskStore {
             this.setActiveTaskNames();
         } catch (e) {
             console.log(e);
+            Modal.confirm({
+                title: 'token失效，请重新获取',
+                okText: '确定',
+                cancelText: '取消',
+                onOk: () => {
+                    // this.props.history.push({ pathname: './../Login' });
+                    logout();
+                    window.location.reload();
+                }
+            });
         }
     })
 
+    // 提交任务参数
     setActiveTaskNames = flow(function*(id) {
-        if (id) {
-            this.workData.forEach(item => {
-                if (item.taskId === id) {
-                    this.activeTaskNamesObj.taskId = id;
-                    this.activeTaskNamesObj.process_name = item.processName;
-                }
-            });
+        if (this.workData && this.workData.length > 0) {
+            if (id) {
+                this.workData.forEach(item => {
+                    if (item.taskId === id) {
+                        this.activeTaskNamesObj.taskId = id;
+                        this.activeTaskNamesObj.process_name = item.processName;
+                    }
+                });
+            } else {
+                this.activeTaskNamesObj.taskId = this.workData[0].taskId;
+                this.activeTaskNamesObj.process_name = this.workData[0].processName;
+            }
         } else {
-            this.activeTaskNamesObj.taskId = this.workData[0].taskId;
-            this.activeTaskNamesObj.process_name = this.workData[0].processName;
+            return;
         }
     });
 
+    // 提交任务
     initSubmit = flow(function*(result) {
         this.state = 'pending';
         this.activeTaskNamesObj.result = result;
@@ -77,8 +94,10 @@ class TaskStore {
     }
 
     @action getFirstTaskValues = () => {
-        this.firstTaskValuesObj.name = `${this.workData[0].taskId}-${this.workData[0].nodeDesc}-${this.workData[0].manualStatusDesc}`;
-        this.firstTaskValuesObj.url = this.workData[0].Input_imp_data_path;
+        if (this.workData && this.workData.length > 0) {
+            this.firstTaskValuesObj.name = `${this.workData[0].taskId}-${this.workData[0].nodeDesc}-${this.workData[0].manualStatusDesc}`;
+            this.firstTaskValuesObj.url = this.workData[0].Input_imp_data_path;
+        }
         
         return this.firstTaskValuesObj;
     }

@@ -106,7 +106,6 @@ class ResourceLoader extends React.Component {
             if (err) {
                 return;
             }
-            console.log('values加载数据:', values)
             taskStore.load(values).then(() => {
                 this.setState({
                     visible: false
@@ -123,9 +122,9 @@ class ResourceLoader extends React.Component {
             DataLayerStore,
             ToolCtrlStore
         } = this.props;
-        const { tasks } = taskStore;
+        const { workData } = taskStore;
         OperateHistoryStore.destroy();
-        if (tasks && tasks.length > 1) {
+        if (workData && workData.length > 1) {
             DataLayerStore.activeEditor();
             ToolCtrlStore.updateByEditLayer();
         }
