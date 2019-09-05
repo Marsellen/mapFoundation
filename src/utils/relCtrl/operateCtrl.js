@@ -238,7 +238,7 @@ const calcFeatures = (feature, layerName) => {
 };
 
 const calcRels = (layerName, relation, feature) => {
-    return Object.keys(relation).reduce((arr, spec) => {
+    return Object.keys(relation || {}).reduce((arr, spec) => {
         let properties = relation[spec];
         if (REL_DATA_SET.includes(spec)) {
             arr = arr.concat(relDataFormat(spec, properties));
@@ -264,7 +264,7 @@ const uniqRels = rels => {
 };
 
 const calcAttrs = relation => {
-    return Object.keys(relation).reduce((arr, spec) => {
+    return Object.keys(relation || {}).reduce((arr, spec) => {
         if (ATTR_SPEC_CONFIG.map(config => config.source).includes(spec)) {
             arr = arr.concat(attrsDataFormat(relation[spec], spec));
         }
@@ -433,7 +433,7 @@ const WKTToGeom = wkt => {
         let str = wkt.substring(firstLeftIndex + 2, wkt.length - 2);
         // 去掉首尾括号
         geoJson['coordinates'] = str.split(',').reduce((arr, pointStr) => {
-            arr.push(pointStr.split(' '));
+            arr.push(pointStr.split(' ').map(parseFloat));
             return arr;
         }, []);
     } else if (wkt.startsWith('POINT')) {
@@ -441,14 +441,14 @@ const WKTToGeom = wkt => {
         let firstLeftIndex = wkt.indexOf('(');
         // 去掉首尾括号
         let str = wkt.substring(firstLeftIndex + 1, wkt.length - 1);
-        geoJson['coordinates'] = str.split(' ');
+        geoJson['coordinates'] = str.split(' ').map(parseFloat);
     } else if (wkt.startsWith('LINESTRING')) {
         geoJson['type'] = 'LineString';
         let firstLeftIndex = wkt.indexOf('(');
         // 去掉首尾括号
         let str = wkt.substring(firstLeftIndex + 1, wkt.length - 1);
         geoJson['coordinates'] = str.split(',').reduce((arr, pointStr) => {
-            arr.push(pointStr.split(' '));
+            arr.push(pointStr.split(' ').map(parseFloat));
             return arr;
         }, []);
     }
