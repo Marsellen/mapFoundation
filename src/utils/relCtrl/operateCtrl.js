@@ -49,10 +49,10 @@ const deleteLine = async features => {
     return historyLog;
 };
 
-const breakLine = async (breakPoint, features) => {
+const breakLine = async (breakPoint, features, task_id) => {
     let point = geometryToWKT(breakPoint.data.geometry);
     let { lines, oldRels, oldAttrs } = await getLines(features);
-    let option = { point, lines };
+    let option = { point, lines, task_id };
     let result = await EditorService.breakLines(option);
     if (result.code !== 1) throw result;
     let { newFeatures, rels, attrs } = result.data.reduce(
@@ -80,9 +80,9 @@ const breakLine = async (breakPoint, features) => {
     return historyLog;
 };
 
-const mergeLine = async features => {
+const mergeLine = async (features, task_id) => {
     let { lines, oldRels, oldAttrs } = await getLines(features);
-    let option = { lines };
+    let option = { lines, task_id };
     let result = await EditorService.mergeLines(option);
     if (result.code !== 1) throw result;
     let { newFeatures, rels, attrs } = fetchFeatureRels(features, [
@@ -433,7 +433,7 @@ const WKTToGeom = wkt => {
         let str = wkt.substring(firstLeftIndex + 2, wkt.length - 2);
         // 去掉首尾括号
         geoJson['coordinates'] = str.split(',').reduce((arr, pointStr) => {
-            arr.push(pointStr.split(' '));
+            arr.push(pointStr.split(' ').map(parseFloat));
             return arr;
         }, []);
     } else if (wkt.startsWith('POINT')) {
@@ -441,14 +441,14 @@ const WKTToGeom = wkt => {
         let firstLeftIndex = wkt.indexOf('(');
         // 去掉首尾括号
         let str = wkt.substring(firstLeftIndex + 1, wkt.length - 1);
-        geoJson['coordinates'] = str.split(' ');
+        geoJson['coordinates'] = str.split(' ').map(parseFloat);
     } else if (wkt.startsWith('LINESTRING')) {
         geoJson['type'] = 'LineString';
         let firstLeftIndex = wkt.indexOf('(');
         // 去掉首尾括号
         let str = wkt.substring(firstLeftIndex + 1, wkt.length - 1);
         geoJson['coordinates'] = str.split(',').reduce((arr, pointStr) => {
-            arr.push(pointStr.split(' '));
+            arr.push(pointStr.split(' ').map(parseFloat));
             return arr;
         }, []);
     }
