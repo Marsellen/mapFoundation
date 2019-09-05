@@ -11,6 +11,8 @@ import { ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
 @inject('taskStore')
+@inject('RelStore')
+@inject('AttrStore')
 @observer
 class JobStatus extends React.Component {
     constructor(props) {
@@ -111,12 +113,12 @@ class JobStatus extends React.Component {
             let relData = {
                 features: attrRels.concat(rels),
                 type: 'FeatureCollection',
-                properties: map.getLayerManager().layerGroup.properties
+                properties: vectorLayerGroup.properties
             };
             let attrData = {
                 features: attrs,
                 type: 'FeatureCollection',
-                properties: map.getLayerManager().layerGroup.properties
+                properties: vectorLayerGroup.properties
             };
             taskStore
                 .submit({
