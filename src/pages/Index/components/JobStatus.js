@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button } from 'antd';
+import { Modal, Button, message } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import 'less/components/jobstatus.less';
@@ -35,20 +35,29 @@ class JobStatus extends React.Component {
     getJob = shouldSave => {
         const { taskStore } = this.props;
 
-        const firstTaskValues = taskStore.getFirstTaskValues();
-
         if (shouldSave) {
             this.action();
         }
-        taskStore.initTask({ type: 2 });
-
-        taskStore.load(firstTaskValues).then(() => {
-            this.setState({
-                visible: false
-            });
-            this.clearWorkSpace();
+        
+        taskStore.initTask({ type: 2 }).then(() => {
+            this.openMap();
         });
     };
+
+    openMap = () => {
+        const { taskStore } = this.props;
+        const { workData } = taskStore;
+        const firstTaskValues = taskStore.getFirstTaskValues();
+        
+        if (firstTaskValues) {
+            taskStore.load(firstTaskValues);
+            if (workData && workData.length > 0) {
+                this.clearWorkSpace();
+            } else {
+                message.warning('暂无任务', 3);
+            }
+        }
+    }
 
     // 提交
     submitJob = (submitResult, shouldSave, visible) => {
@@ -81,9 +90,6 @@ class JobStatus extends React.Component {
             });
         }
         taskStore.load(firstTaskValues).then(() => {
-            this.setState({
-                visible: false
-            });
             this.clearWorkSpace();
         });
     };
@@ -132,9 +138,9 @@ class JobStatus extends React.Component {
             DataLayerStore,
             ToolCtrlStore
         } = this.props;
-        const { tasks } = taskStore;
+        const { workData } = taskStore;
         OperateHistoryStore.destroy();
-        if (tasks && tasks.length > 1) {
+        if (workData && workData.length > 1) {
             DataLayerStore.activeEditor();
             ToolCtrlStore.updateByEditLayer();
         }
@@ -150,6 +156,36 @@ class JobStatus extends React.Component {
         this.setState({
             visible: false
         });
+    };
+
+    renderFooter = () => {
+        const { OperateHistoryStore } = this.props;
+        const { visible } = this.state;
+        let { currentNode, savedNode } = OperateHistoryStore;
+        let shouldSave = currentNode > savedNode;
+        return (
+            <div id="quality" className="flex">
+                <Button onClick={this.handleCancel}>取消</Button>
+                <Button
+                    onClick={() =>
+                        this.submitJob(this.passResult, shouldSave, visible)
+                    }>
+                    质检通过
+                </Button>
+                <Button
+                    onClick={() =>
+                        this.submitJob(this.repairResult, shouldSave, visible)
+                    }>
+                    任务返修
+                </Button>
+                <Button
+                    onClick={() =>
+                        this.submitJob(this.remadeResult, shouldSave, visible)
+                    }>
+                    任务返工
+                </Button>
+            </div>
+        );
     };
 
     render() {
@@ -178,44 +214,11 @@ class JobStatus extends React.Component {
                     提交任务
                 </Button>
                 <Modal
+                    className="qualitySub"
                     title="当前任务是否通过质检？"
                     visible={visible}
-                    footer={null}
-                    onCancel={this.handleCancel}>
-                    <div id="quality" className="flex">
-                        <Button onClick={this.handleCancel}>取消</Button>
-                        <Button
-                            onClick={() =>
-                                this.submitJob(
-                                    this.passResult,
-                                    shouldSave,
-                                    visible
-                                )
-                            }>
-                            质检通过
-                        </Button>
-                        <Button
-                            onClick={() =>
-                                this.submitJob(
-                                    this.repairResult,
-                                    shouldSave,
-                                    visible
-                                )
-                            }>
-                            任务返修
-                        </Button>
-                        <Button
-                            onClick={() =>
-                                this.submitJob(
-                                    this.remadeResult,
-                                    shouldSave,
-                                    visible
-                                )
-                            }>
-                            任务返工
-                        </Button>
-                    </div>
-                </Modal>
+                    footer={this.renderFooter()}
+                    onCancel={this.handleCancel}></Modal>
             </div>
         );
     }
