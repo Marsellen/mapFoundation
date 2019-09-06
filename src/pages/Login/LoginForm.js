@@ -2,7 +2,7 @@ import React from 'react';
 // import { randomNum } from '../../utils/utils';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import { Form, Input, Icon, Checkbox } from 'antd';
+import { Form, Input, Icon, Checkbox, message } from 'antd';
 
 @withRouter
 @inject('appStore')
@@ -33,18 +33,29 @@ class LoginForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 values.password = btoa(values.password); //base64编码
-                appStore.login(values, this.state).then(() => {
-                    localStorage.setItem('rememberMe', this.state.rememberMe);
-                    localStorage.setItem('autoLogin', this.state.autoLogin);
-                    let userName = this.state.rememberMe ? values.username : '';
-                    localStorage.setItem('userName', userName);
-                    const { from } = this.props.location.state || {
-                        from: { pathname: '/' }
-                    };
-                    this.props.history.push(from);                                              
-                }).then(() => {
-                    taskStore.initTask({ type: 1 });
-                });
+                appStore
+                    .login(values, this.state)
+                    .then(() => {
+                        localStorage.setItem(
+                            'rememberMe',
+                            this.state.rememberMe
+                        );
+                        localStorage.setItem('autoLogin', this.state.autoLogin);
+                        let userName = this.state.rememberMe
+                            ? values.username
+                            : '';
+                        localStorage.setItem('userName', userName);
+                        const { from } = this.props.location.state || {
+                            from: { pathname: '/' }
+                        };
+                        this.props.history.push(from);
+                    })
+                    .then(() => {
+                        taskStore.initTask({ type: 1 });
+                    })
+                    .catch(e => {
+                        message.error(e.message, 3);
+                    });
             }
         });
     };
