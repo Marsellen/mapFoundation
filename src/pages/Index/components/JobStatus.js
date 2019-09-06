@@ -17,122 +17,137 @@ import { ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
 class JobStatus extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { visible: false };
-        this.listParam = { type: 3 };
-        this.submitResult = { resultCode: 1 };
-        this.passResult = { resultCode: 1, inspection_pass: 1 };
-        this.repairResult = {
+        this.state = { qualityVisible: false };
+        this.submitOption = { resultCode: 1 };
+        this.passOption = { resultCode: 1, inspection_pass: 1 };
+        this.repairOption = {
             resultCode: 1,
             inspection_pass: 0,
             manualStatus: 4
         };
-        this.remadeResult = {
+        this.remadeOption = {
             resultCode: 1,
             inspection_pass: 0,
             manualStatus: 5
         };
     }
 
-    // 获取
-    getJob = shouldSave => {
+    render() {
         const { taskStore } = this.props;
+        const { tasks } = taskStore;
+        const { qualityVisible } = this.state;
+
+        return (
+            <div className="flex flex-center">
+                <Button
+                    disabled={tasks && tasks.length >= 5 ? true : false}
+                    onClick={this.getJob}>
+                    获取任务
+                </Button>
+                <Button onClick={this.submitTask}>提交任务</Button>
+                <Modal
+                    className="quality-sub"
+                    title="当前任务是否通过质检？"
+                    visible={qualityVisible}
+                    footer={this.renderFooter()}
+                    onCancel={this.closeQualityComfirm}></Modal>
+            </div>
+        );
+    }
+
+    // 获取
+    getJob = async () => {
+        const { taskStore, OperateHistoryStore } = this.props;
+        let { currentNode, savedNode } = OperateHistoryStore;
+        let shouldSave = currentNode > savedNode;
 
         if (shouldSave) {
-            this.action();
+            Modal.confirm({
+                title: '提示',
+                content: '当前任务未保存，是否自动保存',
+                okText: '确定',
+                cancelText: '取消',
+                onOk: async () => {
+                    await this.action();
+                    await taskStore.initTask({ type: 2 });
+                    this.clearWorkSpace();
+                }
+            });
+            return;
         }
 
-        taskStore.initTask({ type: 2 }).then(() => {
-            this.openMap();
-        });
-    };
-
-    openMap = () => {
-        const { taskStore } = this.props;
-        const { workData } = taskStore;
-        const firstTaskValues = taskStore.getFirstTaskValues();
-
-        if (firstTaskValues) {
-            taskStore.load(firstTaskValues);
-            if (workData && workData.length > 0) {
-                this.clearWorkSpace();
-            } else {
-                message.warning('暂无任务', 3);
-            }
-        }
+        await taskStore.initTask({ type: 2 });
+        this.clearWorkSpace();
     };
 
     // 提交
-    submitJob = (submitResult, shouldSave, visible) => {
-        if (!visible) {
-            Modal.confirm({
-                title: '提交任务',
-                content: '是否提交当前任务',
-                okText: '确定',
-                cancelText: '取消',
-                onOk: () => {
-                    this.taskSubmit(submitResult, shouldSave);
-                }
-            });
-        } else {
-            this.taskSubmit(submitResult, shouldSave, visible);
-        }
-    };
-
-    taskSubmit = (submitResult, shouldSave, visible) => {
-        const { taskStore } = this.props;
-        const firstTaskValues = taskStore.getFirstTaskValues();
-        // 自动保存
-        if (shouldSave) {
-            this.action();
-        }
-        taskStore.submitTask(submitResult, this.listParam);
-        if (visible) {
-            this.setState({
-                visible: false
-            });
-        }
-        taskStore.load(firstTaskValues).then(() => {
-            this.clearWorkSpace();
+    submitJob = option => {
+        Modal.confirm({
+            title: '提交任务',
+            content: '是否提交当前任务',
+            okText: '确定',
+            cancelText: '取消',
+            onOk: () => this.taskSubmit(option)
         });
     };
 
+    taskSubmit = async option => {
+        const { OperateHistoryStore } = this.props;
+        let { currentNode, savedNode } = OperateHistoryStore;
+        let shouldSave = currentNode > savedNode;
+        const { taskStore } = this.props;
+        // 自动保存
+        if (shouldSave) {
+            await this.action();
+        }
+        try {
+            await taskStore.initSubmit(option);
+            // 提交后重新获取任务
+            await taskStore.initTask({ type: 3 });
+            this.clearWorkSpace();
+        } catch (e) {
+            message.error(e.message, 3);
+        }
+    };
+
     // 自动保存
-    action = () => {
+    action = async () => {
         const {
             taskStore,
             OperateHistoryStore,
             RelStore,
             AttrStore
         } = this.props;
-        let vectorData = map.getLayerManager().getAllVectorData();
+        let vectorData = vectorLayerGroup.getAllVectorData();
         let attrRels = vectorData.features.filter(features =>
             ATTR_REL_DATA_SET.includes(features.name)
         );
-        Promise.all([RelStore.exportRel(), AttrStore.export()]).then(result => {
-            let [rels, attrs] = result;
-            let relData = {
-                features: attrRels.concat(rels),
-                type: 'FeatureCollection',
-                properties: vectorLayerGroup.properties
-            };
-            let attrData = {
-                features: attrs,
-                type: 'FeatureCollection',
-                properties: vectorLayerGroup.properties
-            };
-            taskStore
-                .submit({
-                    vectorData,
-                    relData,
-                    attrData
-                })
-                .then(() => {
-                    OperateHistoryStore.save();
-                });
-        });
+        await Promise.all([RelStore.exportRel(), AttrStore.export()]).then(
+            result => {
+                let [rels, attrs] = result;
+                let relData = {
+                    features: attrRels.concat(rels),
+                    type: 'FeatureCollection',
+                    properties: vectorLayerGroup.properties
+                };
+                let attrData = {
+                    features: attrs,
+                    type: 'FeatureCollection',
+                    properties: vectorLayerGroup.properties
+                };
+                taskStore
+                    .submit({
+                        vectorData,
+                        relData,
+                        attrData
+                    })
+                    .then(() => {
+                        OperateHistoryStore.save();
+                    });
+            }
+        );
     };
 
-    // 默认打开
     clearWorkSpace = () => {
         const {
             taskStore,
@@ -140,90 +155,59 @@ class JobStatus extends React.Component {
             DataLayerStore,
             ToolCtrlStore
         } = this.props;
-        const { workData } = taskStore;
+        const { tasks } = taskStore;
         OperateHistoryStore.destroy();
-        if (workData && workData.length > 1) {
+        if (!tasks || tasks.length == 0) {
+            message.warning('暂无任务', 3);
+            return;
+        }
+        if (tasks && tasks.length > 1) {
             DataLayerStore.activeEditor();
             ToolCtrlStore.updateByEditLayer();
         }
     };
 
-    showModal = () => {
-        this.setState({
-            visible: true
-        });
-    };
-
-    handleCancel = () => {
-        this.setState({
-            visible: false
-        });
-    };
-
     renderFooter = () => {
-        const { OperateHistoryStore } = this.props;
-        const { visible } = this.state;
-        let { currentNode, savedNode } = OperateHistoryStore;
-        let shouldSave = currentNode > savedNode;
         return (
-            <div id="quality" className="flex">
-                <Button onClick={this.handleCancel}>取消</Button>
-                <Button
-                    onClick={() =>
-                        this.submitJob(this.passResult, shouldSave, visible)
-                    }>
+            <div className="flex">
+                <Button onClick={this.closeQualityComfirm}>取消</Button>
+                <Button onClick={() => this.submitJob(this.passOption)}>
                     质检通过
                 </Button>
-                <Button
-                    onClick={() =>
-                        this.submitJob(this.repairResult, shouldSave, visible)
-                    }>
+                <Button onClick={() => this.submitJob(this.repairOption)}>
                     任务返修
                 </Button>
-                <Button
-                    onClick={() =>
-                        this.submitJob(this.remadeResult, shouldSave, visible)
-                    }>
+                <Button onClick={() => this.submitJob(this.remadeOption)}>
                     任务返工
                 </Button>
             </div>
         );
     };
 
-    render() {
-        const { appStore, taskStore, OperateHistoryStore } = this.props;
-        const { workData } = taskStore;
+    submitTask = () => {
+        const { appStore } = this.props;
         const { loginUser } = appStore;
-        const { visible } = this.state;
-        let { currentNode, savedNode } = OperateHistoryStore;
-        let shouldSave = currentNode > savedNode;
-        console.log('this.props:', this.props);
+        switch (loginUser.roleCode) {
+            case 'quality':
+                this.showQualityComfirm();
+                break;
+            default:
+                this.submitJob(this.submitOption);
+                break;
+        }
+    };
 
-        return (
-            <div className="flex flex-center">
-                <Button
-                    disabled={workData && workData.length >= 5 ? true : false}
-                    onClick={() => this.getJob(shouldSave)}>
-                    获取任务
-                </Button>
-                <Button
-                    onClick={
-                        loginUser.roleCode === 'quality'
-                            ? this.showModal
-                            : () =>
-                                  this.submitJob(this.submitResult, shouldSave)
-                    }>
-                    提交任务
-                </Button>
-                <Modal
-                    className="qualitySub"
-                    title="当前任务是否通过质检？"
-                    visible={visible}
-                    footer={this.renderFooter()}
-                    onCancel={this.handleCancel}></Modal>
-            </div>
-        );
-    }
+    showQualityComfirm = () => {
+        this.setState({
+            qualityVisible: true
+        });
+    };
+
+    closeQualityComfirm = () => {
+        this.setState({
+            qualityVisible: false
+        });
+    };
 }
 
 export default JobStatus;

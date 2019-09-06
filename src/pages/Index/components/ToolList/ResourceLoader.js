@@ -122,9 +122,9 @@ class ResourceLoader extends React.Component {
             DataLayerStore,
             ToolCtrlStore
         } = this.props;
-        const { workData } = taskStore;
+        const { tasks } = taskStore;
         OperateHistoryStore.destroy();
-        if (workData && workData.length > 1) {
+        if (tasks && tasks.length > 1) {
             DataLayerStore.activeEditor();
             ToolCtrlStore.updateByEditLayer();
         }

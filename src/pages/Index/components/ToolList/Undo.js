@@ -11,8 +11,7 @@ class Undo extends React.Component {
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldUndo = currentNode > savedNode;
-        console.log('currentNode, savedNode:', currentNode, savedNode);
-        console.log('shouldUndo:', shouldUndo);
+
         return (
             <ToolIcon
                 disabled={!shouldUndo}
