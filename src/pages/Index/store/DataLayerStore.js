@@ -73,6 +73,9 @@ class DataLayerStore extends LayerStore {
     @action initMeasureControl = () => {
         this.measureControl = new MeasureControl();
         map.getControlManager().addControl(this.measureControl);
+        this.measureControl.onMeasureFinish(() => {
+            this.removeCur();
+        });
     };
 
     @action initDetectorControl = layers => {

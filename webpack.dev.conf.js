@@ -28,13 +28,13 @@ module.exports = merge(common, {
                 logLevel: 'debug'
             },
             '/nas_service': {
-                target: 'http://10.43.75.80:16000',
+                target: 'http://10.43.75.119:13250',
                 pathRewrite: { '^/nas_service': '' },
                 changeOrigin: true,
                 logLevel: 'debug'
             },
             '/shp_service': {
-                target: 'http://10.43.75.80:16906',
+                target: 'http://10.43.75.119:13250',
                 pathRewrite: { '^/shp_service': '' },
                 changeOrigin: true,
                 logLevel: 'debug'
