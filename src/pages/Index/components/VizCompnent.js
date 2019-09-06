@@ -41,6 +41,18 @@ class VizCompnent extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        const { taskStore } = this.props;
+        taskStore.initTask({ type: 4 }).then(() => {
+            const { tasks } = taskStore;
+            if (!tasks || tasks.length == 0) {
+                message.warning('暂无任务', 3);
+                return;
+            }
+            //taskStore.getTaskFile().then(this.initTask);
+        });
+    }
+
     componentDidUpdate() {
         const { taskStore } = this.props;
         const div = document.getElementById('viz');
@@ -50,7 +62,6 @@ class VizCompnent extends React.Component {
 
     initTask = async task => {
         if (!task) return;
-        const { taskStore } = this.props;
         console.time('taskLoad');
         const hide = message.loading('正在加载任务数据...', 0);
         await Promise.all([
@@ -68,7 +79,6 @@ class VizCompnent extends React.Component {
                     title: '资料加载失败，请确认输入正确路径。',
                     okText: '确定'
                 });
-                taskStore.tasksPop();
             });
         console.timeEnd('taskLoad');
     };

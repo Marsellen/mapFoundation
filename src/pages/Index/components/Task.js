@@ -19,25 +19,38 @@ class Task extends React.Component {
         // this.props.taskStore.init();
     }
 
-    handleClick = (e) => {
+    handleClick = e => {
         this.setState({
             current: e.key
-        })
-    }
+        });
+    };
 
     render() {
         const { taskStore } = this.props;
-        const { workData } = taskStore;
+        const { tasks } = taskStore;
         // const { activeTaskId } = taskStore;
 
-        if (workData && workData.length > 0) {
+        if (tasks && tasks.length > 0) {
             return (
-                <Menu className="menu" selectedKeys={[workData.filter(item => item.taskId.toString() === this.state.current).length > 0 ? this.state.current : workData[0].taskId.toString()]}  onClick={this.handleClick}>
-                    {workData.map(item => (
+                <Menu
+                    className="menu"
+                    selectedKeys={[
+                        tasks.filter(
+                            item =>
+                                item.taskId.toString() === this.state.current
+                        ).length > 0
+                            ? this.state.current
+                            : tasks[0].taskId.toString()
+                    ]}
+                    onClick={this.handleClick}>
+                    {tasks.map(item => (
                         <Menu.Item
                             key={item.taskId}
                             onClick={() => {
-                                this.chooseTask(item.Input_imp_data_path, item.taskId);
+                                this.chooseTask(
+                                    item.Input_imp_data_path,
+                                    item.taskId
+                                );
                             }}>
                             <span>{`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}</span>
                         </Menu.Item>
@@ -47,24 +60,6 @@ class Task extends React.Component {
         } else {
             return this.renderNoData();
         }
-
-        // if (taskStore.tasks && taskStore.tasks.length > 0) {
-        //     return (
-        //         <Menu className="menu" selectedKeys={[activeTaskId]}>
-        //             {taskStore.tasks.map(item => (
-        //                 <Menu.Item
-        //                     key={item._id}
-        //                     onClick={() => {
-        //                         this.chooseTask(item._id);
-        //                     }}>
-        //                     <span>{item.name}</span>
-        //                 </Menu.Item>
-        //             ))}
-        //         </Menu>
-        //     );
-        // } else {
-        //     return this.renderNoData();
-        // }
     }
 
     renderNoData = () => {
@@ -73,7 +68,7 @@ class Task extends React.Component {
 
     chooseTask = (path, id) => {
         const { taskStore } = this.props;
-        taskStore.setActiveTaskNames(id);
+        taskStore.setActiveTask(id);
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
@@ -92,7 +87,7 @@ class Task extends React.Component {
         }
         this.setState({
             current: id
-        })
+        });
     };
 
     toggleTask = path => {
