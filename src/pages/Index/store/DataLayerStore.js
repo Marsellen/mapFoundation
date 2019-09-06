@@ -40,7 +40,6 @@ class DataLayerStore extends LayerStore {
     @observable beenPick;
 
     @action toggle = (name, checked) => {
-
         this.layers.find(layer => layer.value == name).checked = checked;
         let layer = getLayerExByName(name).layer;
         if (checked) {
@@ -219,7 +218,6 @@ class DataLayerStore extends LayerStore {
         this.editType = 'delRel';
         this.editor.clear();
         this.detectorControl.disable();
-        this.editor.toggleMode(61);
     };
 
     @action setNewRelCallback = callback => {
@@ -332,6 +330,16 @@ class DataLayerStore extends LayerStore {
             this.setFeatureColor(feature);
         });
         this.highLightFeatures = [];
+    };
+
+    selectFormFeatrues = featrueOptions => {
+        let options = featrueOptions.map(option => {
+            return {
+                layerName: option.layerName,
+                ...option.option
+            };
+        });
+        this.editor.selectFeaturesFromSpecified(options);
     };
 }
 

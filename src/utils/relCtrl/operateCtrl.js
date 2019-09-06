@@ -238,7 +238,7 @@ const calcFeatures = (feature, layerName) => {
 };
 
 const calcRels = (layerName, relation, feature) => {
-    return Object.keys(relation).reduce((arr, spec) => {
+    return Object.keys(relation || {}).reduce((arr, spec) => {
         let properties = relation[spec];
         if (REL_DATA_SET.includes(spec)) {
             arr = arr.concat(relDataFormat(spec, properties));
@@ -264,7 +264,7 @@ const uniqRels = rels => {
 };
 
 const calcAttrs = relation => {
-    return Object.keys(relation).reduce((arr, spec) => {
+    return Object.keys(relation || {}).reduce((arr, spec) => {
         if (ATTR_SPEC_CONFIG.map(config => config.source).includes(spec)) {
             arr = arr.concat(attrsDataFormat(relation[spec], spec));
         }
