@@ -1,4 +1,4 @@
-import { observable, flow, configure } from 'mobx';
+import { observable, flow, configure, action } from 'mobx';
 import TaskService from '../service/TaskService';
 import JobService from '../service/JobService';
 import { Modal } from 'antd';
@@ -17,7 +17,6 @@ class TaskStore {
             const result = yield JobService.listTask(option);
 
             this.tasks = result.data.taskList;
-            this.setActiveTask();
         } catch (e) {
             console.log(e);
             Modal.confirm({
@@ -33,7 +32,7 @@ class TaskStore {
     });
 
     // 任务切换
-    setActiveTask = flow(function*(id) {
+    @action setActiveTask = id => {
         if (this.tasks && this.tasks.length > 0) {
             if (id) {
                 this.activeTask = this.tasks.find(item => {
@@ -47,7 +46,7 @@ class TaskStore {
             this.setActiveTaskId();
             return;
         }
-    });
+    };
 
     // 提交任务
     initSubmit = flow(function*(result) {

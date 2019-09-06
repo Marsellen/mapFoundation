@@ -70,6 +70,7 @@ class JobStatus extends React.Component {
                 onOk: async () => {
                     await this.action();
                     await taskStore.initTask({ type: 2 });
+                    taskStore.setActiveTask();
                     this.clearWorkSpace();
                 }
             });
@@ -81,6 +82,7 @@ class JobStatus extends React.Component {
         if (tasks && tasks.length > 0) {
             message.success('获取完成', 3);
         }
+        taskStore.setActiveTask();
         this.clearWorkSpace();
     };
 
@@ -108,6 +110,7 @@ class JobStatus extends React.Component {
             await taskStore.initSubmit(option);
             // 提交后重新获取任务
             await taskStore.initTask({ type: 3 });
+            taskStore.setActiveTask();
             this.clearWorkSpace();
         } catch (e) {
             message.error(e.message, 3);
