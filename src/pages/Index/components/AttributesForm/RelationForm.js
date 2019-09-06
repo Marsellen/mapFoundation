@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Empty, Form, Input, Button } from 'antd';
+import { Empty, Form, Input, Button, Icon } from 'antd';
 import EditableCard from './EditableCard';
 import NewAttrModal from './NewAttrModal';
 
@@ -56,20 +56,12 @@ class RelationForm extends React.Component {
                                 message: `${item.name}必填`
                             },
                             {
-                                message: '必须为数字',
+                                max: Math.pow(10, 15),
+                                message: '必须为15位以内数字',
                                 type: 'number',
                                 transform(value) {
                                     if (value) {
                                         return Number(value);
-                                    }
-                                }
-                            },
-                            {
-                                max: 20,
-                                message: '长度不能超过20字',
-                                transform(value) {
-                                    if (value) {
-                                        return String(value);
                                     }
                                 }
                             },
@@ -139,7 +131,9 @@ class RelationForm extends React.Component {
                 {newEnable && (
                     <Button
                         onClick={this.newAttrs('AD_Lane_Con_RS', extraInfo)}
-                    />
+                        title="添加连接关系交通限制">
+                        <Icon type="plus" />
+                    </Button>
                 )}
                 <NewAttrModal onRef={modal => (this.modal = modal)} />
             </div>

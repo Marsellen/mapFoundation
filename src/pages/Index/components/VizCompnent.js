@@ -1,5 +1,11 @@
 import React from 'react';
-import { Map, PointCloudLayer, LayerGroup, TraceLayer } from 'addis-viz-sdk';
+import {
+    Map,
+    PointCloudLayer,
+    LayerGroup,
+    TraceLayer,
+    VectorLayer
+} from 'addis-viz-sdk';
 import { Modal, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
@@ -14,6 +20,7 @@ import {
 import MultimediaView from './MultimediaView';
 
 import 'less/components/viz-compnent.less';
+import { addClass, removeClass } from '../../../utils/utils';
 
 @inject('taskStore')
 @inject('ResourceLayerStore')
@@ -38,24 +45,18 @@ class VizCompnent extends React.Component {
         taskStore.getTaskFile().then(this.initTask);
     }
 
-    initTask = task => {
+    initTask = async task => {
+        if (!task) return;
         const { taskStore } = this.props;
         console.time('taskLoad');
-        if (!task) return;
         const hide = message.loading('正在加载任务数据...', 0);
-        Promise.all([
-            this.initPointCloud(task.point_clouds),
-            this.initVectors(task.vectors),
-            this.initTracks(task.tracks),
-            this.installRel(task.rels),
-            this.installAttr(task.attrs)
+        await Promise.all([
+            this.initSdkResource(task),
+            this.initExResource(task)
         ])
-            .then(results => {
-                let [pointClouds, vectors, tracks] = results;
-                this.initResouceLayer([pointClouds, vectors, tracks]);
+            .then(() => {
                 hide();
                 message.success('加载完成', 1);
-                console.timeEnd('taskLoad');
             })
             .catch(e => {
                 hide();
@@ -65,6 +66,25 @@ class VizCompnent extends React.Component {
                 });
                 taskStore.tasksPop();
             });
+        console.timeEnd('taskLoad');
+    };
+
+    initSdkResource = async task => {
+        let [pointClouds, vectors, tracks] = await Promise.all([
+            this.initPointCloud(task.point_clouds),
+            this.initVectors(task.vectors),
+            this.initTracks(task.tracks)
+        ]);
+        this.initResouceLayer([pointClouds, vectors, tracks]);
+        this.installListener();
+    };
+
+    initExResource = async task => {
+        await Promise.all([
+            this.initRegion(task.region),
+            this.installRel(task.rels),
+            this.installAttr(task.attrs)
+        ]);
     };
 
     initPointCloud = pointClouds => {
@@ -91,38 +111,37 @@ class VizCompnent extends React.Component {
         });
     };
 
-    initVectors = vectors => {
+    initVectors = async vectors => {
         if (!vectors) {
             return;
         }
         const { DataLayerStore } = this.props;
-        return new Promise((resolve, reject) => {
-            const layerGroup = new LayerGroup(vectors);
-            map.getLayerManager()
-                .addLayerGroup(layerGroup)
-                .then(layers => {
-                    DataLayerStore.init(layers);
-                    this.installListener();
-                });
-            resolve({
-                layerName: RESOURCE_LAYER_VETOR,
-                layer: layerGroup
-            });
-        });
+        window.vectorLayerGroup = new LayerGroup(vectors);
+        await map.getLayerManager().addLayerGroup(vectorLayerGroup);
+        let layers = vectorLayerGroup.layers;
+        DataLayerStore.init(layers);
+
+        return {
+            layerName: RESOURCE_LAYER_VETOR,
+            layer: vectorLayerGroup
+        };
     };
 
-    initTracks = tracks => {
+    initTracks = async tracks => {
         if (!tracks || tracks.length == 0) {
             return;
         }
-        return new Promise((resolve, reject) => {
-            window.traceLayer = new TraceLayer(tracks);
-            map.getLayerManager().addLayer('TraceLayer', traceLayer);
-            resolve({
-                layerName: RESOURCE_LAYER_TRACE,
-                layer: traceLayer
-            });
-        });
+        window.traceLayer = new TraceLayer(tracks);
+        await map.getLayerManager().addLayer('TraceLayer', traceLayer);
+        return {
+            layerName: RESOURCE_LAYER_TRACE,
+            layer: traceLayer
+        };
+    };
+
+    initRegion = async regionUrl => {
+        const vectorLayer = new VectorLayer(regionUrl);
+        await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
     };
 
     initResouceLayer = layers => {
@@ -141,6 +160,20 @@ class VizCompnent extends React.Component {
         window.onbeforeunload = function(e) {
             var e = window.event || e;
             e.returnValue = '确定离开当前页面吗？';
+        };
+
+        let viz = document.querySelector('#viz');
+        viz.onmousedown = e => {
+            if (e.button === 0) {
+                addClass(viz, 'ative-viz');
+            } else if (e.button === 2) {
+                addClass(viz, 'ative-right-viz');
+            }
+        };
+
+        viz.onmouseup = () => {
+            removeClass(viz, 'ative-viz');
+            removeClass(viz, 'ative-right-viz');
         };
 
         // attributes 拾取控件
@@ -191,6 +224,7 @@ class VizCompnent extends React.Component {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
             message.warning(desc, 3);
+            DataLayerStore.clearChoose();
             return;
         }
         DataLayerStore.updateResult(result)
@@ -232,7 +266,7 @@ class VizCompnent extends React.Component {
             return;
         }
         //console.log(result);
-        DataLayerStore.setPointSize(0.5);
+        DataLayerStore.clearChoose();
         let oldFeature = RightMenuStore.getFeatures()[0];
         OperateHistoryStore.add({
             type: 'updateFeature',

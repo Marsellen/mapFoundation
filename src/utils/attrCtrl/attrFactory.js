@@ -67,9 +67,7 @@ const REL_RS = [
     }
 ];
 
-const getTabelData = async (layerName, properties) => {
-    let attrs = await getFeatureAttrs(layerName, properties);
-
+const getTabelData = attrs => {
     return attrs.reduce((total, record) => {
         total[record.source] = total[record.source] || [];
         total[record.source].push(record);
@@ -114,8 +112,10 @@ const getFeatureAttrs = async (layerName, properties) => {
 
 const updateAttrs = async attrs => {
     let attrStore = new IndexedDB('attributes', 'attr');
+    let newRecords = [];
     Object.keys(attrs).map(key => {
         let records = attrs[key];
+        newRecords = newRecords.concat(records);
         records.map(record => {
             if (record.id) {
                 attrStore.edit(record);
@@ -124,6 +124,7 @@ const updateAttrs = async attrs => {
             }
         });
     });
+    return newRecords;
 };
 
 const deleteRecord = records => {
@@ -140,11 +141,11 @@ const replaceAttrs = async ([oldAttrs, newAttrs] = []) => {
         if (record.id) {
             total.push(record.id);
         } else {
-            let records = await attrStore.queryByIndex(store, 'SOURCE_ID', [
-                record.source,
-                record.sourceId
-            ]);
-            total.push(records[0].id);
+            let _record = await attrStore.get(
+                [record.source, record.sourceId],
+                'SOURCE_ID'
+            );
+            total.push(_record.id);
         }
         return total;
     }, []);

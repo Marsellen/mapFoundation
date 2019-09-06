@@ -98,10 +98,11 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 31, label: '复合车道', icon: 'jiajiansufuhechedao' },
         { value: 99, label: '其他', icon: 'qita' }
     ],
-    AD_LANE_DIVIDER_RD_BOUND: [
+    AD_LANE_DIVIDER_RD_FORM: [
         { value: 0, label: '未定义' },
-        { value: 1, label: '道路边界线' },
-        { value: 2, label: '非道路边界线' }
+        { value: 1, label: '普通道路' },
+        { value: 2, label: '隧道道路' },
+        { value: 3, label: '收费站道路' }
     ],
     AD_ROAD_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi ' },
@@ -456,20 +457,17 @@ export const TYPE_SELECT_OPTION_MAP = {
     ],
     AD_MAP_QC_ERROR_TYPE: [
         { value: 0, label: '未定义' },
-        { value: 1, label: '几何形状错误' },
-        { value: 2, label: '拓扑连接错误' },
-        { value: 3, label: '属性错误' },
-        { value: 4, label: '关联关系错误' },
-        { value: 5, label: '打断位置错误' },
-        { value: 6, label: '多做' },
-        { value: 7, label: '制作遗漏' },
-        { value: 8, label: '其他' }
+        { value: 1, label: '新增' },
+        { value: 2, label: '删除' },
+        { value: 3, label: '几何变化' },
+        { value: 4, label: '属性变化' },
+        { value: 5, label: '图属变化' }
     ],
     AD_MAP_QC_FIX_STATUS: [
         { value: 0, label: '未定义' },
-        { value: 1, label: '待修正' },
-        { value: 2, label: '无需修正' },
-        { value: 3, label: '已修正' }
+        { value: 1, label: '待更新' },
+        { value: 2, label: '无需更新' },
+        { value: 3, label: '已更新' }
     ],
     AD_MAP_QC_QC_STATUS: [
         { value: 0, label: '未定义' },
@@ -496,6 +494,13 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'H', label: '行人' },
         { value: 'I', label: '非机动车' },
         { value: 'J', label: '读秒' }
+    ],
+    AD_TS_CONTENT_CONT_TYPE: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '禁止转向' },
+        { value: 2, label: '限制转向' },
+        { value: 3, label: '最大速度限制' },
+        { value: 4, label: '最低速度限制' }
     ],
     AD_RS_BARRIER_TYPE: [
         { value: '0', label: '未定义', icon: 'weidingyi' },
@@ -574,13 +579,13 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_LaneDivider: {
         TYPE: 1,
-        DIRECTION: 2,
-        RD_LINE: 0,
-        SHARE_LINE: 0,
-        LANESTATUS: '未定义',
+        DIRECTION: 1,
+        RD_LINE: 2,
+        SHARE_LINE: 1,
+        LANESTATUS: 1,
         LANE_TYPE: 1,
-        LANE_NO: 1,
-        RD_BOUND: 0
+        LANE_NO: 0,
+        RD_FORM: 1
     },
     AD_Road: {
         TYPE: 1,
@@ -674,9 +679,9 @@ export const TABLE_DATA_MAP = {
             domType: 'Text'
         },
         {
-            key: 'RD_BOUND',
-            name: '道路边界标识',
-            type: 'AD_LANE_DIVIDER_RD_BOUND',
+            key: 'RD_FORM',
+            name: '道路形态',
+            type: 'AD_LANE_DIVIDER_RD_FORM',
             domType: 'Select'
         }
     ],
@@ -1004,31 +1009,23 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'FILE_NAME',
-            name: '错误图层名称',
+            name: '待更新图层',
             type: 'AD_MAP_QC_FILE_NAME',
             required: true,
             domType: 'Select'
         },
         {
             key: 'FEAT_ID',
-            name: '错误数据ID',
+            name: '待更新数据ID',
             type: 'AD_MAP_QC_FEAT_ID',
             validates: [
                 {
-                    message: '必须为数字',
+                    max: Math.pow(10, 15),
+                    message: '必须为15位以内数字',
                     type: 'number',
                     transform(value) {
                         if (value) {
                             return Number(value);
-                        }
-                    }
-                },
-                {
-                    max: 20,
-                    message: '长度不能超过20字',
-                    transform(value) {
-                        if (value) {
-                            return String(value);
                         }
                     }
                 }
@@ -1041,13 +1038,13 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'ERROR_TYPE',
-            name: '错误类型',
+            name: '更新类型',
             type: 'AD_MAP_QC_ERROR_TYPE',
             domType: 'Select'
         },
         {
             key: 'ERROR_DESC',
-            name: '错误描述',
+            name: '工程编号',
             type: 'AD_MAP_QC_ERROR_DESC',
             domType: 'Input',
             validates: [
@@ -1064,7 +1061,7 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'FIX_STATUS',
-            name: '修正状态',
+            name: '更新状态',
             type: 'AD_MAP_QC_FIX_STATUS',
             domType: 'Select'
         },
@@ -1076,7 +1073,7 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'FIX_PERSON',
-            name: '返工修改人员',
+            name: '作业人员',
             type: 'AD_MAP_QC_FIX_PERSON',
             domType: 'Input',
             validates: [

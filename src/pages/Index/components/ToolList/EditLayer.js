@@ -112,6 +112,7 @@ class EditLayerPicker extends React.Component {
         let layer = DataLayerStore.activeEditor(e.target.value);
         ToolCtrlStore.updateByEditLayer(layer);
         AttributeStore.hide();
+        AttributeStore.hideRelFeatures();
     };
 }
 

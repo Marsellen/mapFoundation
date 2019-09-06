@@ -56,7 +56,7 @@ class AdjustPointSize extends React.Component {
                     visible={this.state.hovered}
                     onVisibleChange={this.handleHoverChange}>
                     <IconFont
-                        type="icon-dengpaobulb"
+                        type="icon-shezhidianyundaxiao"
                         className={`ad-icon ${!activeTaskId &&
                             'ad-disabled-icon'}`}
                     />

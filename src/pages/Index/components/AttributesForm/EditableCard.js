@@ -4,6 +4,7 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import _ from 'lodash';
 import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
+import { getLayerIDKey } from 'src/utils/vectorUtils';
 import './style.less';
 
 const formItemLayout = {
@@ -26,14 +27,44 @@ class EditableCard extends React.Component {
 
     static getDerivedStateFromProps(props, state) {
         const { value } = props;
-        let config = _.cloneDeep(ATTR_TABLE_CONFIG[value.source]);
-        config.forEach(item => {
+        let attrs = _.cloneDeep(ATTR_TABLE_CONFIG[value.source]);
+        attrs.forEach(item => {
             item.value = value.properties[item.key];
+        });
+        attrs.forEach(attr => {
+            if (attr.link) {
+                let index = attrs.findIndex(item => item.key == attr.link);
+                attrs[index].type =
+                    attrs[index].type.replace(/[0-9]/, '') + attr.value;
+            }
         });
         return {
             ...state,
-            attrs: config
+            attrs
         };
+    }
+
+    componentDidUpdate() {
+        const { form } = this.props;
+        let attrs = _.cloneDeep(this.state.attrs);
+        let flags = attrs.map(attr => {
+            if (attr.link) {
+                let index = attrs.findIndex(item => item.key == attr.link);
+                let type = attrs[index].type.replace(/[0-9]/, '') + attr.value;
+                if (attrs[index].type != type) {
+                    attrs[index].type = type;
+                    form.setFieldsValue({
+                        [attrs[index].key]: null
+                    });
+                    return true;
+                }
+            }
+        });
+        if ((flags.reduce((sum, flag) => sum || flag), false)) {
+            this.setState({
+                attrs
+            });
+        }
     }
 
     render() {
@@ -44,19 +75,25 @@ class EditableCard extends React.Component {
                 {attrs.map((item, index) => this.renderItem(item, index, true))}
                 <div className="attr">
                     {!readonly && (
-                        <Button onClick={this.edit} id="newEdit-edit">
+                        <Button
+                            onClick={this.edit}
+                            id="newEdit-edit"
+                            title="编辑">
                             <Icon type="edit" />{' '}
                         </Button>
                     )}
                     {!readonly && (
-                        <Button onClick={this.onDelete} id="newEdit-del">
+                        <Button
+                            onClick={this.onDelete}
+                            id="newEdit-del"
+                            title="删除">
                             <Icon type="delete" />
                         </Button>
                     )}
                 </div>
                 <Modal
                     visible={visible}
-                    title="新建"
+                    title="修改"
                     okText="保存"
                     cancelText="取消"
                     onCancel={this.onCancel}
@@ -82,10 +119,13 @@ class EditableCard extends React.Component {
                 return;
             }
             console.log(values);
+            let id = value.key;
+            let IDKey = getLayerIDKey(value.spec);
             onChange({
                 ...value,
                 properties: {
-                    ...values
+                    ...values,
+                    [IDKey]: id
                 }
             });
             attrs.forEach(item => {
@@ -110,6 +150,8 @@ class EditableCard extends React.Component {
         const { onDelete, index } = this.props;
         Modal.confirm({
             title: '删除后无法撤回，确认删除？',
+            okText: '确定',
+            cancelText: '取消',
             onOk: () => {
                 onDelete(index);
             }
@@ -125,7 +167,7 @@ class EditableCard extends React.Component {
     renderContent = () => {
         const { attrs } = this.state;
         return (
-            <Form layout="vertical">
+            <Form layout="vertical" className="svg-style">
                 {attrs.map((item, index) => this.renderItem(item, index))}
             </Form>
         );
@@ -263,14 +305,15 @@ class EditableCard extends React.Component {
             return value => {
                 const { attrs } = this.state;
                 const { form } = this.props;
-                let index = attrs.findIndex(attr => attr.key == key);
-                attrs[index].type =
-                    attrs[index].type.replace(/[0-9]/, '') + value;
+                let _attrs = _.cloneDeep(attrs);
+                let index = _attrs.findIndex(attr => attr.key == key);
+                _attrs[index].type =
+                    _attrs[index].type.replace(/[0-9]/, '') + value;
                 form.setFieldsValue({
-                    [attrs[index].key]: null
+                    [_attrs[index].key]: null
                 });
                 this.setState({
-                    attrs
+                    attrs: _attrs
                 });
             };
         } else {

@@ -8,6 +8,7 @@ import './AddRel.less';
 
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
+@inject('AttributeStore')
 @observer
 class AddRel extends React.Component {
     componentDidMount() {
@@ -26,10 +27,7 @@ class AddRel extends React.Component {
                             OperateHistoryStore.add({
                                 type: 'updateFeatureRels',
                                 data: {
-                                    rels: {
-                                        oldRels: [],
-                                        newRels: rels
-                                    }
+                                    rels: [[], rels]
                                 }
                             });
                             message.success('新建成功', 3);
@@ -63,8 +61,9 @@ class AddRel extends React.Component {
     }
 
     action = () => {
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'newRel') return;
+        AttributeStore.hideRelFeatures();
         DataLayerStore.newRel();
     };
 

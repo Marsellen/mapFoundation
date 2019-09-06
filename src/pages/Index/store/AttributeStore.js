@@ -3,14 +3,15 @@ import modelFactory from 'src/utils/vectorCtrl/modelFactory';
 import relFactory from 'src/utils/relCtrl/relFactory';
 import attrFactory from 'src/utils/attrCtrl/attrFactory';
 import IDService from 'src/pages/Index/service/IDService';
-import { getLayerIDKey } from 'src/utils/vectorUtils';
+import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
-import { message } from 'antd';
+import _ from 'lodash';
 
 configure({ enforceActions: 'always' });
 class AttributeStore {
     model;
     relFeatures = [];
+    afterSave;
     @observable visible;
     @observable type;
     @observable attributes = [];
@@ -48,16 +49,17 @@ class AttributeStore {
 
     fetchRels = flow(function*() {
         try {
-            let relRecords = yield relFactory.getFeatureRels(
+            this.relRecords = yield relFactory.getFeatureRels(
                 this.model.layerName,
                 this.model.data.properties
             );
             this.rels = yield relFactory.getTabelData(
                 this.model.layerName,
-                relRecords
+                this.relRecords,
+                this.model.data.properties
             );
 
-            this.fetchRelFeatures(relRecords);
+            this.fetchRelFeatures(this.relRecords);
         } catch (error) {
             console.log(error);
         }
@@ -65,10 +67,11 @@ class AttributeStore {
 
     fetchAttrs = flow(function*() {
         try {
-            this.attrs = yield attrFactory.getTabelData(
+            this.attrRecords = yield attrFactory.getFeatureAttrs(
                 this.model.layerName,
                 this.model.data.properties
             );
+            this.attrs = attrFactory.getTabelData(this.attrRecords);
             // console.log(this.attrs);
         } catch (error) {
             console.log(error);
@@ -79,14 +82,15 @@ class AttributeStore {
         try {
             this.hideRelFeatures();
             if (!relRecords) {
-                relRecords = yield relFactory.getRelFeatures(
+                relRecords = yield relFactory.getFeatureRels(
                     this.model.layerName,
                     this.model.data.properties
                 );
             }
             this.relFeatures = yield relFactory.getRelOptions(
                 this.model.layerName,
-                relRecords
+                relRecords,
+                this.model.data.properties
             );
             this.showRelFeatures();
         } catch (error) {
@@ -97,26 +101,23 @@ class AttributeStore {
     @action hideRelFeatures = () => {
         try {
             this.relFeatures.map(feature => {
-                map.getLayerManager()
-                    .getLayersByType('VectorLayer')
-                    .find(layer => layer.layerName == feature.layerName)
-                    .layer.updateFeatureColor(feature.option);
+                getLayerByName(feature.layerName).updateFeatureColor(
+                    feature.option
+                );
             });
         } catch (error) {
             console.log(error);
         }
+        this.relFeatures = [];
     };
 
     @action showRelFeatures = () => {
         try {
             this.relFeatures.map(feature => {
-                map.getLayerManager()
-                    .getLayersByType('VectorLayer')
-                    .find(layer => layer.layerName == feature.layerName)
-                    .layer.updateFeatureColor(
-                        feature.option,
-                        'rgb(255, 87, 34)'
-                    );
+                getLayerByName(feature.layerName).updateFeatureColor(
+                    feature.option,
+                    'rgb(255, 87, 34)'
+                );
             });
         } catch (error) {
             console.log(error);
@@ -124,32 +125,46 @@ class AttributeStore {
     };
 
     submit = flow(function*(data) {
-        try {
-            // model.data引用sdk要素数据的指针。修改其属性会同步修改sdk的要素数据。
-            this.model.data.properties = {
-                ...this.model.data.properties,
-                ...data.attributes
-            };
-            // this.fetchAttributes();
-            if (data.rels) {
-                yield relFactory.updateRels(data.rels, this.model.layerName);
-            }
-            // this.fetchRels();
-            if (data.attrs) {
-                yield attrFactory.updateAttrs(data.attrs);
-            }
-            // this.fetchAttrs();
-        } catch (e) {
-            console.log(e);
-            message.warning(e.message, 3);
+        let historyLog = {};
+        let oldFeature = _.cloneDeep(this.model);
+        // this.fetchAttributes();
+        if (data.rels) {
+            let newRels = yield relFactory.updateRels(
+                data.rels,
+                this.model.layerName
+            );
+            historyLog.rels = [this.relRecords, newRels];
         }
-        return this.model;
+
+        // this.fetchRels();
+        if (data.attrs) {
+            let newAttrs = yield attrFactory.updateAttrs(data.attrs);
+            historyLog.attrs = [this.attrRecords, newAttrs];
+        } else if (this.delAttrs && this.delAttrs.length > 0) {
+            let delIds = this.delAttrs.map(record => record.id);
+            let newAttrs = this.attrRecords.filter(
+                record => !delIds.includes(record.id)
+            );
+            historyLog.attrs = [this.attrRecords, newAttrs];
+            this.delAttrs = [];
+        }
+        // this.fetchAttrs();
+
+        // model.data引用sdk要素数据的指针。修改其属性会同步修改sdk的要素数据。
+        this.model.data.properties = {
+            ...this.model.data.properties,
+            ...data.attributes
+        };
+        historyLog.features = [[oldFeature], [this.model]];
+        this.afterSave && this.afterSave();
+        return historyLog;
     });
 
     spliceAttrs = flow(function*(key, index) {
         let records = this.attrs[key].splice(index, 1);
         if (records[0].id) {
             yield attrFactory.deleteRecord(records);
+            this.delAttrs = (this.delAttrs || []).concat(records);
         }
     });
 
@@ -177,6 +192,10 @@ class AttributeStore {
             console.log(e);
         }
     });
+
+    @action setAfterSave = action => {
+        this.afterSave = action;
+    };
 }
 
 export default new AttributeStore();

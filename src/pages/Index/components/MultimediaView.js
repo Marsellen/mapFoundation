@@ -83,11 +83,11 @@ class MultimediaView extends React.Component {
             window.traceLayer.unselect();
             window.traceLayer.select(idx);
             window.map.look({
-                x: item.properties.X,
-                y: item.properties.Y,
-                z: item.properties.Z
+                x: item.properties.x,
+                y: item.properties.y,
+                z: item.properties.z
             });
-            PictureShowStore.getPicData(item);
+            PictureShowStore.setPicData(item);
         });
     };
 

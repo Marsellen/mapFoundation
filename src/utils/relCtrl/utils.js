@@ -101,24 +101,26 @@ export const getFeatureRels = (layerName, properties) => {
  * @params {Object} dbData IndexedDB关联关系记录
  * @return {Array<Object>} 关联要素的参数集合
  */
-export const getRelOptions = (layerName, dbData) => {
+export const getRelOptions = (layerName, dbData, properties) => {
     return dbData.map(record => {
         let config = matchRelSpecByRecord(record);
         if (!config) return;
-        let relLayerName, relIDKey;
-        if (config.objSpec == layerName) {
+        let IDKey = getLayerIDKey(layerName);
+        let isObj = record.objId == properties[IDKey];
+        let relLayerName, relKey;
+        if (isObj) {
             relLayerName = config.relObjSpec;
-            relIDKey = 'relObjId';
+            relKey = 'relObjId';
         } else {
             relLayerName = config.objSpec;
-            relIDKey = 'objId';
+            relKey = 'objId';
         }
-        let IDKey = getLayerIDKey(relLayerName);
+        let relIDKey = getLayerIDKey(relLayerName);
         return {
             layerName: relLayerName,
             option: {
-                key: IDKey,
-                value: record[relIDKey]
+                key: relIDKey,
+                value: record[relKey]
             }
         };
     });

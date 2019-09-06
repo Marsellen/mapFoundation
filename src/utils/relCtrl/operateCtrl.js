@@ -1,5 +1,4 @@
 import IndexedDB from 'src/utils/IndexedDB';
-import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import {
     REL_DATA_SET,
     ATTR_REL_DATA_SET,
@@ -10,16 +9,19 @@ import { updateFeaturesByRels } from './relCtrl';
 import EditorService from 'src/pages/Index/service/EditorService';
 import { getFeatureRels } from './utils';
 import attrFactory from '../attrCtrl/attrFactory';
+import {
+    getFeatureOption,
+    getLayerIDKey,
+    getLayerByName
+} from '../vectorUtils';
 
 const deleteLine = async features => {
     let { rels, attrs } = await features.reduce(
         async (total, feature) => {
             let layerName = feature.layerName;
-            let layer = map
-                .getLayerManager()
-                .getLayersByType('VectorLayer')
-                .find(layer => layer.layerName == layerName).layer;
-            layer.removeFeatureById(feature.uuid);
+            let layer = getLayerByName(layerName);
+            let option = getFeatureOption(feature);
+            layer.removeFeatureByOption(option);
             let rels = await getFeatureRels(layerName, feature.data.properties);
             let attrs = await attrFactory.getFeatureAttrs(
                 layerName,
@@ -67,6 +69,7 @@ const breakLine = async (breakPoint, features) => {
         { newFeatures: [], rels: [], attrs: [] }
     );
 
+    rels = uniqRels(rels);
     let historyLog = {
         features: [features, newFeatures],
         rels: [oldRels, rels],
@@ -82,10 +85,9 @@ const mergeLine = async features => {
     let option = { lines };
     let result = await EditorService.mergeLines(option);
     if (result.code !== 1) throw result;
-    let { newFeatures, rels, attrs } = fetchFeatureRels(
-        features,
+    let { newFeatures, rels, attrs } = fetchFeatureRels(features, [
         result.data.feature
-    );
+    ]);
     let historyLog = {
         features: [features, newFeatures],
         rels: [oldRels, rels],
@@ -159,7 +161,7 @@ const relToSpecData = (record, layerName, total) => {
         specKey = relSpec.objSpec;
         id = record.objId;
     }
-    let IDKey = DATA_LAYER_MAP[specKey] ? DATA_LAYER_MAP[specKey].id : 'id';
+    let IDKey = getLayerIDKey(specKey);
     let feature = queryFeature(specKey, {
         key: IDKey,
         value: id
@@ -195,11 +197,7 @@ const attrRelationFormat = attrs => {
 };
 
 const queryFeature = (layerName, option) => {
-    let feature = map
-        .getLayerManager()
-        .getLayersByType('VectorLayer')
-        .find(layer => layer.layerName == layerName)
-        .layer.getFeatureByOption(option);
+    let feature = getLayerByName(layerName).getFeatureByOption(option);
     return feature && feature.properties;
 };
 
@@ -240,7 +238,7 @@ const calcFeatures = (feature, layerName) => {
 };
 
 const calcRels = (layerName, relation, feature) => {
-    return Object.keys(relation).reduce((arr, spec) => {
+    return Object.keys(relation || {}).reduce((arr, spec) => {
         let properties = relation[spec];
         if (REL_DATA_SET.includes(spec)) {
             arr = arr.concat(relDataFormat(spec, properties));
@@ -253,8 +251,20 @@ const calcRels = (layerName, relation, feature) => {
     }, []);
 };
 
+const uniqRels = rels => {
+    let REL_IDS = [];
+    return rels.reduce((total, rel) => {
+        let relId = rel.extraInfo.REL_ID;
+        if (!(relId && REL_IDS.includes(relId))) {
+            if (relId) REL_IDS.push(relId);
+            total.push(rel);
+        }
+        return total;
+    }, []);
+};
+
 const calcAttrs = relation => {
-    return Object.keys(relation).reduce((arr, spec) => {
+    return Object.keys(relation || {}).reduce((arr, spec) => {
         if (ATTR_SPEC_CONFIG.map(config => config.source).includes(spec)) {
             arr = arr.concat(attrsDataFormat(relation[spec], spec));
         }
@@ -289,11 +299,9 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
             (rs.relObjSpec == spec && rs.objSpec == layerName)
     );
     let relSpec;
-    let IDKey1 = DATA_LAYER_MAP[spec] ? DATA_LAYER_MAP[spec].id : 'id';
-    let IDKey2 = DATA_LAYER_MAP[layerName]
-        ? DATA_LAYER_MAP[layerName].id
-        : 'id';
-    return properties.map(property => {
+    let IDKey1 = getLayerIDKey(spec);
+    let IDKey2 = getLayerIDKey(layerName);
+    return properties.reduce((arr, property) => {
         if (relSpecs.length > 1) {
             relSpec = relSpecs.find(rs => {
                 if (rs.objSpec == spec) {
@@ -305,23 +313,26 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
         } else {
             relSpec = relSpecs[0];
         }
-        const { objType, relObjType } = relSpec;
-        let objId, relObjId;
-        if (relSpec.objSpec == spec) {
-            objId = property[IDKey1];
-            relObjId = property[IDKey2];
-        } else {
-            objId = property[IDKey2];
-            relObjId = property[IDKey1];
+        if (relSpec) {
+            const { objType, relObjType } = relSpec;
+            let objId, relObjId;
+            if (relSpec.objSpec == spec) {
+                objId = property[IDKey1];
+                relObjId = property[IDKey2];
+            } else {
+                objId = property[IDKey2];
+                relObjId = property[IDKey1];
+            }
+            arr.push({
+                spec: relSpec.source,
+                objId,
+                relObjId,
+                objType,
+                relObjType
+            });
         }
-        return {
-            spec: relSpec.source,
-            objId,
-            relObjId,
-            objType,
-            relObjType
-        };
-    });
+        return arr;
+    }, []);
 };
 
 const attrsDataFormat = (data, source) => {
@@ -340,24 +351,28 @@ const attrsDataFormat = (data, source) => {
 const updateFeatures = async ({ features, rels, attrs } = {}) => {
     let [oldFeatures, newFeatures] = features;
     let layerName = (oldFeatures[0] || newFeatures[0]).layerName;
-    let layer = map
-        .getLayerManager()
-        .getLayersByType('VectorLayer')
-        .find(layer => layer.layerName == layerName).layer;
-    layer.addFeatures(newFeatures.map(f => f.data));
-    await updateRels(rels);
-    await attrFactory.replaceAttrs(attrs);
-    oldFeatures.map(feature => {
-        let layerName = feature.layerName;
-        let properties = feature.data.properties;
-        let IDKey = DATA_LAYER_MAP[layerName]
-            ? DATA_LAYER_MAP[layerName].id
-            : 'id';
-        let id = properties[IDKey];
-        layer.removeFeatureByOption({
-            key: IDKey,
-            value: id
-        });
+    let layer = getLayerByName(layerName);
+    let updateFeatures = [];
+    newFeatures.forEach(feature => {
+        let option = getFeatureOption(feature);
+        let _feature = layer.getFeatureByOption(option);
+        if (_feature) {
+            updateFeatures.push(option.key + option.value);
+            layer.updateFeatures([feature]);
+        } else {
+            layer.addFeatures([feature.data]);
+        }
+    });
+    if (rels) {
+        await updateRels(rels);
+    }
+    if (attrs) {
+        await attrFactory.replaceAttrs(attrs);
+    }
+    oldFeatures.forEach(feature => {
+        let option = getFeatureOption(feature);
+        if (updateFeatures.includes(option.key + option.value)) return;
+        layer.removeFeatureByOption(option);
     });
 };
 
@@ -368,13 +383,16 @@ const updateRels = async ([oldRels, newRels] = []) => {
         if (record.id) {
             total.push(record.id);
         } else {
-            let records = await relStore.queryByIndex(store, 'REL_KEYS', [
-                record.objType,
-                record.objId,
-                record.relObjType,
-                record.relObjId
-            ]);
-            total.push(records[0].id);
+            let _record = await relStore.get(
+                [
+                    record.objType,
+                    record.objId,
+                    record.relObjType,
+                    record.relObjId
+                ],
+                'REL_KEYS'
+            );
+            total.push(_record.id);
         }
         return total;
     }, []);
@@ -415,7 +433,7 @@ const WKTToGeom = wkt => {
         let str = wkt.substring(firstLeftIndex + 2, wkt.length - 2);
         // 去掉首尾括号
         geoJson['coordinates'] = str.split(',').reduce((arr, pointStr) => {
-            arr.push(pointStr.split(' '));
+            arr.push(pointStr.split(' ').map(parseFloat));
             return arr;
         }, []);
     } else if (wkt.startsWith('POINT')) {
@@ -423,14 +441,14 @@ const WKTToGeom = wkt => {
         let firstLeftIndex = wkt.indexOf('(');
         // 去掉首尾括号
         let str = wkt.substring(firstLeftIndex + 1, wkt.length - 1);
-        geoJson['coordinates'] = str.split(' ');
+        geoJson['coordinates'] = str.split(' ').map(parseFloat);
     } else if (wkt.startsWith('LINESTRING')) {
         geoJson['type'] = 'LineString';
         let firstLeftIndex = wkt.indexOf('(');
         // 去掉首尾括号
         let str = wkt.substring(firstLeftIndex + 1, wkt.length - 1);
         geoJson['coordinates'] = str.split(',').reduce((arr, pointStr) => {
-            arr.push(pointStr.split(' '));
+            arr.push(pointStr.split(' ').map(parseFloat));
             return arr;
         }, []);
     }
