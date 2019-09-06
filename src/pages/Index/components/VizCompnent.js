@@ -49,6 +49,7 @@ class VizCompnent extends React.Component {
                 message.warning('暂无任务', 3);
                 return;
             }
+            taskStore.setActiveTask()
             //taskStore.getTaskFile().then(this.initTask);
         });
     }
