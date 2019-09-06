@@ -15,9 +15,6 @@ class Task extends React.Component {
             current: null
         };
     }
-    componentDidMount() {
-        // this.props.taskStore.init();
-    }
 
     handleClick = e => {
         this.setState({
@@ -47,10 +44,7 @@ class Task extends React.Component {
                         <Menu.Item
                             key={item.taskId}
                             onClick={() => {
-                                this.chooseTask(
-                                    item.Input_imp_data_path,
-                                    item.taskId
-                                );
+                                this.chooseTask(item.taskId);
                             }}>
                             <span>{`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}</span>
                         </Menu.Item>
@@ -66,9 +60,7 @@ class Task extends React.Component {
         return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
     };
 
-    chooseTask = (path, id) => {
-        const { taskStore } = this.props;
-        taskStore.setActiveTask(id);
+    chooseTask = id => {
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
@@ -79,18 +71,15 @@ class Task extends React.Component {
                 cancelText: '取消',
                 okType: 'danger',
                 onOk: () => {
-                    this.toggleTask(path);
+                    this.toggleTask(id);
                 }
             });
         } else {
-            this.toggleTask(path);
+            this.toggleTask(id);
         }
-        this.setState({
-            current: id
-        });
     };
 
-    toggleTask = path => {
+    toggleTask = id => {
         const {
             taskStore,
             AttributeStore,
@@ -98,11 +87,14 @@ class Task extends React.Component {
             DataLayerStore,
             ToolCtrlStore
         } = this.props;
-        taskStore.setActiveTaskId(path);
+        taskStore.setActiveTask(id);
         OperateHistoryStore.destroy();
         DataLayerStore.activeEditor();
         ToolCtrlStore.updateByEditLayer();
         AttributeStore.hide();
+        this.setState({
+            current: id
+        });
     };
 }
 

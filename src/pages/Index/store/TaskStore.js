@@ -44,6 +44,7 @@ class TaskStore {
             }
             this.setActiveTaskId(this.activeTask.Input_imp_data_path);
         } else {
+            this.setActiveTaskId();
             return;
         }
     });
