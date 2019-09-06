@@ -77,6 +77,10 @@ class JobStatus extends React.Component {
         }
 
         await taskStore.initTask({ type: 2 });
+        const { tasks } = taskStore;
+        if (tasks && tasks.length > 0) {
+            message.success('获取完成', 3);
+        }
         this.clearWorkSpace();
     };
 
@@ -171,13 +175,25 @@ class JobStatus extends React.Component {
         return (
             <div className="flex">
                 <Button onClick={this.closeQualityComfirm}>取消</Button>
-                <Button onClick={() => this.submitJob(this.passOption)}>
+                <Button
+                    onClick={() => {
+                        this.submitJob(this.passOption);
+                        this.closeQualityComfirm();
+                    }}>
                     质检通过
                 </Button>
-                <Button onClick={() => this.submitJob(this.repairOption)}>
+                <Button
+                    onClick={() => {
+                        this.submitJob(this.repairOption);
+                        this.closeQualityComfirm();
+                    }}>
                     任务返修
                 </Button>
-                <Button onClick={() => this.submitJob(this.remadeOption)}>
+                <Button
+                    onClick={() => {
+                        this.submitJob(this.remadeOption);
+                        this.closeQualityComfirm();
+                    }}>
                     任务返工
                 </Button>
             </div>
