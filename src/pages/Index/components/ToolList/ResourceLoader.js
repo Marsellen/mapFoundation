@@ -106,7 +106,7 @@ class ResourceLoader extends React.Component {
             if (err) {
                 return;
             }
-            taskStore.load(values).then(() => {
+            taskStore.setActiveTaskId(values.url).then(() => {
                 this.setState({
                     visible: false
                 });
