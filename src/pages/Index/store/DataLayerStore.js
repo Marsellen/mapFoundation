@@ -143,6 +143,7 @@ class DataLayerStore extends LayerStore {
         this.editor.clear();
         this.editor.cancel();
         this.measureControl.clear();
+        this.unPick()
     };
 
     changeCur = () => {
