@@ -34,6 +34,7 @@ const CHINESE_EDIT_TYPE = [
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
 @inject('AttributeStore')
+@inject('TaskStore')
 @observer
 class RightMenuModal extends React.Component {
     componentDidMount() {
@@ -163,7 +164,8 @@ class RightMenuModal extends React.Component {
             DataLayerStore,
             RightMenuStore,
             OperateHistoryStore,
-            AttributeStore
+            AttributeStore,
+            TaskStore
         } = this.props;
         if (result.errorCode) {
             let arr = result.desc.split(':');
@@ -172,7 +174,9 @@ class RightMenuModal extends React.Component {
             DataLayerStore.clearChoose();
             return;
         }
-        let task_id;
+        let {
+            activeTask: { taskId: task_id }
+        } = TaskStore;
         Modal.confirm({
             title: '您确认执行操作？',
             okText: '确定',
@@ -260,9 +264,12 @@ class RightMenuModal extends React.Component {
             RightMenuStore,
             DataLayerStore,
             OperateHistoryStore,
-            AttributeStore
+            AttributeStore,
+            TaskStore
         } = this.props;
-        let task_id;
+        let {
+            activeTask: { taskId: task_id }
+        } = TaskStore;
         Modal.confirm({
             title: '您确认执行操作？',
             okText: '确定',

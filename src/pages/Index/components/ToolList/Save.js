@@ -3,7 +3,7 @@ import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
 
-@inject('taskStore')
+@inject('TaskStore')
 @inject('OperateHistoryStore')
 @inject('RelStore')
 @inject('AttrStore')
@@ -25,7 +25,7 @@ class Save extends React.Component {
 
     action = () => {
         const {
-            taskStore,
+            TaskStore,
             OperateHistoryStore,
             RelStore,
             AttrStore
@@ -46,7 +46,7 @@ class Save extends React.Component {
                 type: 'FeatureCollection',
                 properties: vectorLayerGroup.properties
             };
-            taskStore
+            TaskStore
                 .submit({
                     vectorData,
                     relData,

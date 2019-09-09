@@ -25,7 +25,7 @@ import SDKConfig from '../../../config/SDKConfig';
 import 'less/components/viz-compnent.less';
 import { addClass, removeClass } from '../../../utils/utils';
 
-@inject('taskStore')
+@inject('TaskStore')
 @inject('ResourceLayerStore')
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -42,23 +42,23 @@ class VizCompnent extends React.Component {
     }
 
     componentDidMount() {
-        const { taskStore } = this.props;
-        taskStore.initTask({ type: 4 }).then(() => {
-            const { tasks } = taskStore;
+        const { TaskStore } = this.props;
+        TaskStore.initTask({ type: 4 }).then(() => {
+            const { tasks } = TaskStore;
             if (!tasks || tasks.length == 0) {
                 message.warning('暂无任务', 3);
                 return;
             }
-            taskStore.setActiveTask()
-            //taskStore.getTaskFile().then(this.initTask);
+            TaskStore.setActiveTask()
+            //TaskStore.getTaskFile().then(this.initTask);
         });
     }
 
     componentDidUpdate() {
-        const { taskStore } = this.props;
+        const { TaskStore } = this.props;
         const div = document.getElementById('viz');
         window.map = new Map(div);
-        taskStore.getTaskFile().then(this.initTask);
+        TaskStore.getTaskFile().then(this.initTask);
     }
 
     initTask = async task => {
@@ -385,18 +385,18 @@ class VizCompnent extends React.Component {
     };
 
     render() {
-        const { taskStore } = this.props;
+        const { TaskStore } = this.props;
 
         return (
             <React.Fragment>
-                <div id="viz" key={taskStore.activeTaskId} className="viz-box">
+                <div id="viz" key={TaskStore.activeTaskId} className="viz-box">
                     <div className="set-compass">
                         <ZoomOut key="ZOOM_OUT" />
                         <ZoomIn key="ZOOM_IN" />
                         <UnderView key="UNDER_VIEW" />
                     </div>
                 </div>
-                {taskStore.activeTaskId ? <MultimediaView /> : <span />}
+                {TaskStore.activeTaskId ? <MultimediaView /> : <span />}
                 <AttributesModal />
                 <RightMenuModal />
                 {/* <NewFeatureModal /> */}

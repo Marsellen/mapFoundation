@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 
-@inject('taskStore')
+@inject('TaskStore')
 @inject('AttributeStore')
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
@@ -23,9 +23,9 @@ class Task extends React.Component {
     };
 
     render() {
-        const { taskStore } = this.props;
-        const { tasks } = taskStore;
-        // const { activeTaskId } = taskStore;
+        const { TaskStore } = this.props;
+        const { tasks } = TaskStore;
+        // const { activeTaskId } = TaskStore;
 
         if (tasks && tasks.length > 0) {
             return (
@@ -81,13 +81,13 @@ class Task extends React.Component {
 
     toggleTask = id => {
         const {
-            taskStore,
+            TaskStore,
             AttributeStore,
             OperateHistoryStore,
             DataLayerStore,
             ToolCtrlStore
         } = this.props;
-        taskStore.setActiveTask(id);
+        TaskStore.setActiveTask(id);
         OperateHistoryStore.destroy();
         DataLayerStore.activeEditor();
         ToolCtrlStore.updateByEditLayer();

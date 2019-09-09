@@ -13,7 +13,7 @@ export const TOOLS_MAP = {
         POINT: false,
         LINE: false,
         POLYGON: false,
-        RESOURCE_LOADER: false,
+        RESOURCE_LOADER: true,
         ADD_OUTSIDE_RECTANGLE: false,
         ADD_FACADEREC_TANGLE: false,
         ADD_CIRCLE: false,
