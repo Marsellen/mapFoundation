@@ -8,7 +8,7 @@ const marks = {
     30: '3'
 };
 
-@inject('taskStore')
+@inject('TaskStore')
 @observer
 class AdjustPointSize extends React.Component {
     state = {
@@ -33,8 +33,8 @@ class AdjustPointSize extends React.Component {
     };
 
     handleClickChange = visible => {
-        const { taskStore } = this.props;
-        const { activeTaskId } = taskStore;
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
         if (!activeTaskId) return;
         this.setState({
             clicked: visible,
@@ -42,8 +42,8 @@ class AdjustPointSize extends React.Component {
         });
     };
     render() {
-        const { taskStore } = this.props;
-        const { activeTaskId } = taskStore;
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
         return (
             <Popover
                 content={this._renderContent()}

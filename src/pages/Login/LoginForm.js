@@ -6,7 +6,7 @@ import { Form, Input, Icon, Checkbox, message } from 'antd';
 
 @withRouter
 @inject('appStore')
-@inject('taskStore')
+@inject('TaskStore')
 @observer
 @Form.create()
 class LoginForm extends React.Component {
@@ -28,7 +28,7 @@ class LoginForm extends React.Component {
         this.setState({
             focusItem: -1
         });
-        const { appStore, taskStore } = this.props;
+        const { appStore, TaskStore } = this.props;
 
         this.props.form.validateFields((err, values) => {
             if (!err) {
@@ -51,7 +51,7 @@ class LoginForm extends React.Component {
                         this.props.history.push(from);
                     })
                     .then(() => {
-                        taskStore.initTask({ type: 1 });
+                        TaskStore.initTask({ type: 1 });
                     })
                     .catch(e => {
                         message.error(e.message, 3);

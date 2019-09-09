@@ -5,7 +5,7 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import IconFont from 'src/components/IconFont';
 import { getEditLayers } from 'src/utils/permissionCtrl';
 
-@inject('taskStore')
+@inject('TaskStore')
 @observer
 class EditLayer extends React.Component {
     state = {
@@ -29,8 +29,8 @@ class EditLayer extends React.Component {
     };
 
     handleClickChange = visible => {
-        const { taskStore } = this.props;
-        const { activeTaskId } = taskStore;
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
         if (!activeTaskId) return;
         this.setState({
             clicked: visible,
@@ -38,8 +38,8 @@ class EditLayer extends React.Component {
         });
     };
     render() {
-        const { taskStore } = this.props;
-        const { activeTaskId } = taskStore;
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
         return (
             <Popover
                 content={this._renderContent()}

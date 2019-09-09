@@ -2,12 +2,12 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 
-@inject('taskStore')
+@inject('TaskStore')
 @observer
 class ExportShp extends React.Component {
     render() {
-        const { taskStore } = this.props;
-        const { activeTaskId } = taskStore;
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
         return (
             <ToolIcon
                 icon="daochu"
@@ -19,8 +19,8 @@ class ExportShp extends React.Component {
     }
 
     action = () => {
-        const { taskStore } = this.props;
-        taskStore.exportShp();
+        const { TaskStore } = this.props;
+        TaskStore.exportShp();
     };
 }
 

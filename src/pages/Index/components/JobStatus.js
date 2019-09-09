@@ -10,7 +10,7 @@ import { ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
-@inject('taskStore')
+@inject('TaskStore')
 @inject('RelStore')
 @inject('AttrStore')
 @observer
@@ -33,8 +33,8 @@ class JobStatus extends React.Component {
     }
 
     render() {
-        const { taskStore } = this.props;
-        const { tasks } = taskStore;
+        const { TaskStore } = this.props;
+        const { tasks } = TaskStore;
         const { qualityVisible } = this.state;
 
         return (
@@ -57,7 +57,7 @@ class JobStatus extends React.Component {
 
     // 获取
     getJob = async () => {
-        const { taskStore, OperateHistoryStore } = this.props;
+        const { TaskStore, OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
 
@@ -69,20 +69,20 @@ class JobStatus extends React.Component {
                 cancelText: '取消',
                 onOk: async () => {
                     await this.action();
-                    await taskStore.initTask({ type: 2 });
-                    taskStore.setActiveTask();
+                    await TaskStore.initTask({ type: 2 });
+                    TaskStore.setActiveTask();
                     this.clearWorkSpace();
                 }
             });
             return;
         }
 
-        await taskStore.initTask({ type: 2 });
-        const { tasks } = taskStore;
+        await TaskStore.initTask({ type: 2 });
+        const { tasks } = TaskStore;
         if (tasks && tasks.length > 0) {
             message.success('获取完成', 3);
         }
-        taskStore.setActiveTask();
+        TaskStore.setActiveTask();
         this.clearWorkSpace();
     };
 
@@ -101,16 +101,16 @@ class JobStatus extends React.Component {
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
-        const { taskStore } = this.props;
+        const { TaskStore } = this.props;
         // 自动保存
         if (shouldSave) {
             await this.action();
         }
         try {
-            await taskStore.initSubmit(option);
+            await TaskStore.initSubmit(option);
             // 提交后重新获取任务
-            await taskStore.initTask({ type: 3 });
-            taskStore.setActiveTask();
+            await TaskStore.initTask({ type: 3 });
+            TaskStore.setActiveTask();
             this.clearWorkSpace();
         } catch (e) {
             message.error(e.message, 3);
@@ -120,7 +120,7 @@ class JobStatus extends React.Component {
     // 自动保存
     action = async () => {
         const {
-            taskStore,
+            TaskStore,
             OperateHistoryStore,
             RelStore,
             AttrStore
@@ -142,7 +142,7 @@ class JobStatus extends React.Component {
                     type: 'FeatureCollection',
                     properties: vectorLayerGroup.properties
                 };
-                taskStore
+                TaskStore
                     .submit({
                         vectorData,
                         relData,
@@ -157,12 +157,12 @@ class JobStatus extends React.Component {
 
     clearWorkSpace = () => {
         const {
-            taskStore,
+            TaskStore,
             OperateHistoryStore,
             DataLayerStore,
             ToolCtrlStore
         } = this.props;
-        const { tasks } = taskStore;
+        const { tasks } = TaskStore;
         OperateHistoryStore.destroy();
         if (!tasks || tasks.length == 0) {
             message.warning('暂无任务', 3);
