@@ -220,7 +220,7 @@ class DataLayerStore extends LayerStore {
         if (this.editType == 'delRel') return;
         this.measureControl.clear();
         this.editType = 'delRel';
-        this.editor.clear();
+        //this.editor.clear();
         this.detectorControl.disable();
     };
 
