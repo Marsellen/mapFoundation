@@ -16,9 +16,9 @@ export function getCurrentEditingTaskId() {
 export function authenticateSuccess(userInfo, autoLogin) {
     
     if (autoLogin) {
-        _setCookie(LOGIN_COOKIE_NAME, JSON.stringify(userInfo));
+        _setCookie(LOGIN_COOKIE_NAME, JSON.stringify(userInfo), 1);
     } else {
-        logout();
+        _setCookie(LOGIN_COOKIE_NAME, JSON.stringify(userInfo));
     }
 }
 

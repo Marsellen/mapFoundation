@@ -88,18 +88,22 @@ class TaskStore {
             //const task = yield TaskService.get({ id: this.activeTaskId });
             let task = {
                 point_clouds: this.activeTaskId + CONFIG.urlConfig.point_clouds,
-                vectors: this.activeTaskId + CONFIG.urlConfig.vectors,
-                tracks: this.activeTaskId + CONFIG.urlConfig.track,
-                rels: this.activeTaskId + CONFIG.urlConfig.rels,
-                attrs: this.activeTaskId + CONFIG.urlConfig.attrs,
-                region: this.activeTaskId + CONFIG.urlConfig.region,
-                boundary: this.activeTaskId + CONFIG.urlConfig.boundary
+                vectors: this.urlFormat(CONFIG.urlConfig.vectors),
+                tracks: this.urlFormat(CONFIG.urlConfig.track),
+                rels: this.urlFormat(CONFIG.urlConfig.rels),
+                attrs: this.urlFormat(CONFIG.urlConfig.attrs),
+                region: this.urlFormat(CONFIG.urlConfig.region),
+                boundary: this.urlFormat(CONFIG.urlConfig.boundary)
             };
             return task;
         } catch (e) {
             console.log(e);
         }
     });
+
+    urlFormat = path => {
+        return this.activeTaskId + path + '?time=' + Date.now();
+    };
 
     submit = flow(function*(data) {
         try {
