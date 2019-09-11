@@ -38,9 +38,7 @@ function _setCookie(name, value, expire) {
         let date = new Date();
         date.setDate(date.getDate() + expire);
         document.cookie =
-            str +
-            '; path=/' +
-            (expire ? ';expires=' + date.toGMTString() + 1 : '');
+            str + '; path=/' + ';expires=' + date.toGMTString() + expire;
     } else {
         document.cookie = str;
     }
