@@ -10,17 +10,17 @@ import logo from 'src/assets/img/logo.png';
 
 const { Header } = Layout;
 
-@inject('menuStore')
+@inject('MenuStore')
 @observer
 class Index extends React.Component {
     state = {};
 
     componentDidMount() {
-        this.props.menuStore.initMenus();
+        this.props.MenuStore.initMenus();
     }
 
     render() {
-        const { menus } = this.props.menuStore;
+        const { menus } = this.props.MenuStore;
         return (
             <Layout id="home">
                 <Header className="header">

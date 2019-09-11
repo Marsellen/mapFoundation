@@ -9,7 +9,7 @@ const formLayout = {
 };
 
 @Form.create()
-@inject('taskStore')
+@inject('TaskStore')
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
@@ -100,13 +100,13 @@ class ResourceLoader extends React.Component {
     };
 
     save = () => {
-        const { form, taskStore } = this.props;
+        const { form, TaskStore } = this.props;
 
         form.validateFields((err, values) => {
             if (err) {
                 return;
             }
-            taskStore.load(values).then(() => {
+            TaskStore.setActiveTaskId(values.url).then(() => {
                 this.setState({
                     visible: false
                 });
@@ -117,12 +117,12 @@ class ResourceLoader extends React.Component {
 
     clearWorkSpace = () => {
         const {
-            taskStore,
+            TaskStore,
             OperateHistoryStore,
             DataLayerStore,
             ToolCtrlStore
         } = this.props;
-        const { tasks } = taskStore;
+        const { tasks } = TaskStore;
         OperateHistoryStore.destroy();
         if (tasks && tasks.length > 1) {
             DataLayerStore.activeEditor();
