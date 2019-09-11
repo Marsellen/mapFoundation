@@ -70,12 +70,14 @@ class EditLayer extends React.Component {
 @inject('ToolCtrlStore')
 @inject('AttributeStore')
 @inject('appStore')
+@inject('TaskStore')
 @observer
 class EditLayerPicker extends React.Component {
     render() {
-        let { DataLayerStore, appStore } = this.props;
+        let { DataLayerStore, appStore, TaskStore } = this.props;
         let userInfo = appStore.loginUser;
-        let layers = getEditLayers(DataLayerStore.layers, userInfo);
+        const { activeTask } = TaskStore;
+        let layers = getEditLayers(DataLayerStore.layers, userInfo, activeTask);
 
         let editLayer = DataLayerStore.getEditLayer();
         return (
@@ -108,9 +110,15 @@ class EditLayerPicker extends React.Component {
     };
 
     onChange = e => {
-        const { DataLayerStore, ToolCtrlStore, AttributeStore } = this.props;
+        const {
+            DataLayerStore,
+            ToolCtrlStore,
+            AttributeStore,
+            appStore
+        } = this.props;
+        let userInfo = appStore.loginUser;
         let layer = DataLayerStore.activeEditor(e.target.value);
-        ToolCtrlStore.updateByEditLayer(layer);
+        ToolCtrlStore.updateByEditLayer(layer, userInfo);
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
     };
