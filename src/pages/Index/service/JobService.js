@@ -14,6 +14,11 @@ export default (function() {
             listTask: {
                 url: TaskApiPath('/outside/task/list'),
                 method: 'get'
+            },
+            updateTask: {
+                url: TaskApiPath('/outside/task/update'),
+                payload: 'params',
+                method: 'post'
             }
         }
     );

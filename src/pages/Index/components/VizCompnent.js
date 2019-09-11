@@ -19,6 +19,7 @@ import {
     RESOURCE_LAYER_VETOR,
     RESOURCE_LAYER_TRACE
 } from 'src/config/DataLayerConfig';
+import { getAuthentication, getCurrentEditingTaskId } from 'src/utils/Session';
 import MultimediaView from './MultimediaView';
 import VectorsConfig from '../../../config/VectorsConfig';
 import SDKConfig from '../../../config/SDKConfig';
@@ -43,13 +44,21 @@ class VizCompnent extends React.Component {
 
     componentDidMount() {
         const { TaskStore } = this.props;
+        const userInfo = getAuthentication();
+        const currentTask = getCurrentEditingTaskId();
+        
+        
         TaskStore.initTask({ type: 4 }).then(() => {
             const { tasks } = TaskStore;
             if (!tasks || tasks.length == 0) {
                 message.warning('暂无任务', 3);
                 return;
             }
-            TaskStore.setActiveTask()
+            if (userInfo.username === currentTask.userName) {
+                TaskStore.setActiveTask(currentTask.taskId)
+            } else {
+                TaskStore.setActiveTask()
+            }
             //TaskStore.getTaskFile().then(this.initTask);
         });
     }
