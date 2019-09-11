@@ -7,6 +7,7 @@ import { inject, observer } from 'mobx-react';
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
+@inject('PictureShowStore')
 @observer
 class Task extends React.Component {
     constructor(props) {
@@ -85,13 +86,15 @@ class Task extends React.Component {
             AttributeStore,
             OperateHistoryStore,
             DataLayerStore,
-            ToolCtrlStore
+            ToolCtrlStore,
+            PictureShowStore
         } = this.props;
         TaskStore.setActiveTask(id);
         OperateHistoryStore.destroy();
         DataLayerStore.activeEditor();
         ToolCtrlStore.updateByEditLayer();
         AttributeStore.hide();
+        PictureShowStore.hide();
         this.setState({
             current: id
         });

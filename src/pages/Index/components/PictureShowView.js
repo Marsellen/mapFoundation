@@ -8,7 +8,6 @@ import IconFont from 'src/components/IconFont';
 @observer
 class PictureShowView extends React.Component {
     render() {
-        activeTaskId;
         const { PictureShowStore, TaskStore } = this.props;
         const { picData } = PictureShowStore;
         const { activeTaskId } = TaskStore;

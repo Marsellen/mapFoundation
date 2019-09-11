@@ -13,6 +13,8 @@ import { ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
 @inject('TaskStore')
 @inject('RelStore')
 @inject('AttrStore')
+@inject('AttributeStore')
+@inject('PictureShowStore')
 @observer
 class JobStatus extends React.Component {
     constructor(props) {
@@ -142,15 +144,13 @@ class JobStatus extends React.Component {
                     type: 'FeatureCollection',
                     properties: vectorLayerGroup.properties
                 };
-                TaskStore
-                    .submit({
-                        vectorData,
-                        relData,
-                        attrData
-                    })
-                    .then(() => {
-                        OperateHistoryStore.save();
-                    });
+                TaskStore.submit({
+                    vectorData,
+                    relData,
+                    attrData
+                }).then(() => {
+                    OperateHistoryStore.save();
+                });
             }
         );
     };
@@ -160,7 +160,9 @@ class JobStatus extends React.Component {
             TaskStore,
             OperateHistoryStore,
             DataLayerStore,
-            ToolCtrlStore
+            ToolCtrlStore,
+            AttributeStore,
+            PictureShowStore
         } = this.props;
         const { tasks } = TaskStore;
         OperateHistoryStore.destroy();
@@ -171,6 +173,8 @@ class JobStatus extends React.Component {
         if (tasks && tasks.length > 1) {
             DataLayerStore.activeEditor();
             ToolCtrlStore.updateByEditLayer();
+            AttributeStore.hide();
+            PictureShowStore.hide();
         }
     };
 

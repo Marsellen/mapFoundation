@@ -679,7 +679,7 @@ export const TABLE_DATA_MAP = {
             key: 'LANE_NO',
             name: '车道编号',
             type: 'AD_LANE_DIVIDER_LANE_NO',
-            domType: 'Text'
+            domType: 'Input'
         },
         {
             key: 'RD_FORM',
@@ -821,7 +821,7 @@ export const TABLE_DATA_MAP = {
             key: 'LANE_NO',
             name: '车道编号',
             type: 'AD_LANE_LANE_NO',
-            domType: 'Text'
+            domType: 'Input'
         },
         {
             key: 'DIRECTION',
