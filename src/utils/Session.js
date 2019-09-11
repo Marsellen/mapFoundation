@@ -8,9 +8,9 @@ export function getAuthentication() {
 
 export function authenticateSuccess(userInfo, autoLogin) {
     if (autoLogin) {
-        _setCookie(LOGIN_COOKIE_NAME, JSON.stringify(userInfo));
+        _setCookie(LOGIN_COOKIE_NAME, JSON.stringify(userInfo), 1);
     } else {
-        logout();
+        _setCookie(LOGIN_COOKIE_NAME, JSON.stringify(userInfo));
     }
 }
 
@@ -33,13 +33,15 @@ function _getCookie(name) {
 }
 
 function _setCookie(name, value, expire) {
-    let date = new Date();
-    date.setDate(date.getDate() + expire);
-
-    document.cookie =
-        name +
-        '=' +
-        escape(value) +
-        '; path=/' +
-        (expire ? ';expires=' + date.toGMTString() : '');
+    let str = name + '=' + escape(value);
+    if (expire > 0) {
+        let date = new Date();
+        date.setDate(date.getDate() + expire);
+        document.cookie =
+            str +
+            '; path=/' +
+            (expire ? ';expires=' + date.toGMTString() + 1 : '');
+    } else {
+        document.cookie = str;
+    }
 }
