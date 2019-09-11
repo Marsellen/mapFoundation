@@ -1,6 +1,7 @@
 import React from 'react';
 import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
+import { getAuthentication, getCurrentEditingTaskId } from 'src/utils/Session';
 
 @inject('TaskStore')
 @inject('AttributeStore')
@@ -14,6 +15,15 @@ class Task extends React.Component {
         this.state = {
             current: null
         };
+    }
+    componentDidMount() {
+        const userInfo = getAuthentication();
+        const currentTask = getCurrentEditingTaskId();
+        if (userInfo.username === currentTask.userName) {
+            this.setState({
+                current: currentTask.taskId.toString()
+            })
+        }
     }
 
     handleClick = e => {
@@ -34,7 +44,7 @@ class Task extends React.Component {
                     selectedKeys={[
                         tasks.filter(
                             item =>
-                                item.taskId.toString() === this.state.current
+                            item.taskId.toString() === this.state.current
                         ).length > 0
                             ? this.state.current
                             : tasks[0].taskId.toString()
@@ -44,7 +54,7 @@ class Task extends React.Component {
                         <Menu.Item
                             key={item.taskId}
                             onClick={() => {
-                                this.chooseTask(item.taskId);
+                                this.chooseTask(item.taskId, item.taskFetchId);
                             }}>
                             <span>{`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}</span>
                         </Menu.Item>
@@ -60,7 +70,7 @@ class Task extends React.Component {
         return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
     };
 
-    chooseTask = id => {
+    chooseTask = (id, taskFetchId) => {
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
@@ -71,15 +81,15 @@ class Task extends React.Component {
                 cancelText: '取消',
                 okType: 'danger',
                 onOk: () => {
-                    this.toggleTask(id);
+                    this.toggleTask(id, taskFetchId);
                 }
             });
         } else {
-            this.toggleTask(id);
+            this.toggleTask(id, taskFetchId);
         }
     };
 
-    toggleTask = id => {
+    toggleTask = (id, taskFetchId) => {
         const {
             TaskStore,
             AttributeStore,
@@ -87,6 +97,13 @@ class Task extends React.Component {
             DataLayerStore,
             ToolCtrlStore
         } = this.props;
+        const param = {
+            taskFechId: taskFetchId,
+            manualStatus: '2'
+        }
+        TaskStore.initUpdate(param).then(() => {
+            TaskStore.initTask({ type: 4 });
+        });
         TaskStore.setActiveTask(id);
         OperateHistoryStore.destroy();
         DataLayerStore.activeEditor();

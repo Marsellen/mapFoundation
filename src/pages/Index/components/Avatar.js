@@ -5,6 +5,7 @@ import { inject, observer } from 'mobx-react';
 import CONFIG from 'src/config';
 
 @inject('appStore')
+@inject('TaskStore')
 @observer
 class Avatar extends React.Component {
     state = {
@@ -54,14 +55,18 @@ class Avatar extends React.Component {
     };
 
     logout = () => {
-        const { appStore } = this.props;
+        const { appStore, TaskStore } = this.props;
+        const currentUserInfo = {
+            taskId: TaskStore.activeTask.taskId,
+            userName: appStore.loginUser.username
+        }
         Modal.confirm({
             title: '您确定要退出登录？',
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                appStore.logout();
+                appStore.logout(currentUserInfo);
                 location.reload();
             }
         });
