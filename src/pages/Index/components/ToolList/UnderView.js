@@ -10,14 +10,16 @@ class UnderView extends React.Component {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         return activeTaskId ? (
-            <Tooltip placement="bottom" title="视角还原">
+            // <Tooltip placement="bottom" title="视角还原">
+            <div placement="bottom" title="视角还原">
                 <IconFont
                     type="icon-compass"
                     className="ad-icon"
                     onClick={this.action}
                 />
-            </Tooltip>
+            </div>
         ) : (
+            // </Tooltip>
             <span />
         );
     }
