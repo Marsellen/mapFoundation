@@ -8,6 +8,7 @@ import { getAuthentication, getCurrentEditingTaskId } from 'src/utils/Session';
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
+@inject('PictureShowStore')
 @observer
 class Task extends React.Component {
     constructor(props) {
@@ -95,7 +96,8 @@ class Task extends React.Component {
             AttributeStore,
             OperateHistoryStore,
             DataLayerStore,
-            ToolCtrlStore
+            ToolCtrlStore,
+            PictureShowStore
         } = this.props;
         const param = {
             taskFechId: taskFetchId,
@@ -109,6 +111,7 @@ class Task extends React.Component {
         DataLayerStore.activeEditor();
         ToolCtrlStore.updateByEditLayer();
         AttributeStore.hide();
+        PictureShowStore.hide();
         this.setState({
             current: id
         });
