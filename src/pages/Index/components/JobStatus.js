@@ -79,13 +79,21 @@ class JobStatus extends React.Component {
             return;
         }
 
+        const { tasks: oldTasks } = TaskStore;
         await TaskStore.initTask({ type: 2 });
         const { tasks } = TaskStore;
         if (tasks && tasks.length > 0) {
-            message.success('获取完成', 3);
+            if (oldTasks && oldTasks.length == tasks.length) {
+                message.success('暂无新任务', 3);
+                return;
+            } else {
+                message.success('获取完成', 3);
+            }
         }
-        TaskStore.setActiveTask();
-        this.clearWorkSpace();
+        if (!oldTasks || !oldTasks.length) {
+            TaskStore.setActiveTask();
+            this.clearWorkSpace();
+        }
     };
 
     // 提交
