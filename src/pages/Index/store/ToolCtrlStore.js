@@ -10,15 +10,21 @@ class ToolCtrlStore {
         this.tools = TOOLS_MAP.EDIT;
     };
 
-    @action updateByEditLayer = layer => {
-        if (!layer || !DATA_LAYER_MAP[layer.layerName]) {
+    @action updateByEditLayer = ({ layerName } = {}, { roleCode } = {}) => {
+        if (!DATA_LAYER_MAP[layerName]) {
             this.tools = TOOLS_MAP.EDIT;
             return;
         }
-        let editTools = DATA_LAYER_MAP[layer.layerName].tools.reduce(
+
+        if (roleCode == 'producer' && layerName == 'AD_Map_QC') {
+            this.tools = TOOLS_MAP.EDIT;
+            return;
+        }
+
+        let editTools = DATA_LAYER_MAP[layerName].tools.reduce(
             (tools, tool) => {
                 tools[tool] = true;
-                return tools
+                return tools;
             },
             {}
         );

@@ -94,7 +94,6 @@ class LoginForm extends React.Component {
                             <Input
                                 onFocus={() => this.setState({ focusItem: 0 })}
                                 onBlur={() => this.setState({ focusItem: -1 })}
-                                maxLength={16}
                                 placeholder="用户名"
                                 addonBefore={
                                     <Icon

@@ -35,6 +35,7 @@ import { addClass, removeClass } from '../../../utils/utils';
 @inject('OperateHistoryStore')
 @inject('RelStore')
 @inject('AttrStore')
+@inject('appStore')
 @observer
 class VizCompnent extends React.Component {
     constructor(props) {
@@ -49,7 +50,7 @@ class VizCompnent extends React.Component {
                 message.warning('暂无任务', 3);
                 return;
             }
-            TaskStore.setActiveTask()
+            TaskStore.setActiveTask();
             //TaskStore.getTaskFile().then(this.initTask);
         });
     }
@@ -358,9 +359,20 @@ class VizCompnent extends React.Component {
     };
 
     showRightMenu = (features, event) => {
-        const { DataLayerStore, RightMenuStore, AttributeStore } = this.props;
+        const {
+            DataLayerStore,
+            RightMenuStore,
+            AttributeStore,
+            appStore
+        } = this.props;
         const editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
+
+        let userInfo = appStore.loginUser;
+        if (userInfo.roleCode == 'producer' && layerName == 'AD_Map_QC') {
+            return;
+        }
+
         let hasOtherFeature = features.find(
             feature => feature.layerName != layerName
         );
