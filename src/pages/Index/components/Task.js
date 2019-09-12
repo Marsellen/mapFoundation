@@ -19,11 +19,11 @@ class Task extends React.Component {
     }
     componentDidMount() {
         const userInfo = getAuthentication();
-        const currentTask = getCurrentEditingTaskId();
-        if (userInfo.username === currentTask.userName) {
+        const { userName, taskId } = getCurrentEditingTaskId();
+        if (userInfo.username === userName && taskId) {
             this.setState({
-                current: currentTask.taskId.toString()
-            })
+                current: taskId.toString()
+            });
         }
     }
 
@@ -45,7 +45,7 @@ class Task extends React.Component {
                     selectedKeys={[
                         tasks.filter(
                             item =>
-                            item.taskId.toString() === this.state.current
+                                item.taskId.toString() === this.state.current
                         ).length > 0
                             ? this.state.current
                             : tasks[0].taskId.toString()
@@ -102,7 +102,7 @@ class Task extends React.Component {
         const param = {
             taskFechId: taskFetchId,
             manualStatus: '2'
-        }
+        };
         TaskStore.initUpdate(param).then(() => {
             TaskStore.initTask({ type: 4 });
         });

@@ -9,12 +9,11 @@ export function getAuthentication() {
 
 export function getCurrentEditingTaskId() {
     let currentTask = _getCookie(CURRENT_EDITING_TASK);
-    currentTask = currentTask ? JSON.parse(currentTask) : '';
+    currentTask = currentTask ? JSON.parse(currentTask) : {};
     return currentTask;
 }
 
 export function authenticateSuccess(userInfo, autoLogin) {
-    
     if (autoLogin) {
         _setCookie(LOGIN_COOKIE_NAME, JSON.stringify(userInfo), 1);
     } else {
