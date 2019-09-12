@@ -10,14 +10,20 @@ class ToolCtrlStore {
         this.tools = TOOLS_MAP.EDIT;
     };
 
+    // @param toolItem={RESOURCE_LOADER: false}
+    @action updateEditTool = toolItem => {
+        if (!toolItem) return;
+        this.tools = { ...this.tools, ...toolItem };
+    };
+
     @action updateByEditLayer = ({ layerName } = {}, { roleCode } = {}) => {
         if (!DATA_LAYER_MAP[layerName]) {
-            this.tools = TOOLS_MAP.EDIT;
+            this.tools = this.tools;
             return;
         }
 
         if (roleCode == 'producer' && layerName == 'AD_Map_QC') {
-            this.tools = TOOLS_MAP.EDIT;
+            this.tools = this.tools;
             return;
         }
 
@@ -29,7 +35,7 @@ class ToolCtrlStore {
             {}
         );
         this.tools = {
-            ...TOOLS_MAP.EDIT,
+            ...this.tools,
             ...editTools
         };
     };
