@@ -3,7 +3,6 @@ import TaskService from '../service/TaskService';
 import JobService from '../service/JobService';
 import { Modal, message } from 'antd';
 import CONFIG from 'src/config';
-import { logout } from 'src/utils/Session';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -14,21 +13,8 @@ class TaskStore {
     // 任务列表
     initTask = flow(function*(option) {
         const result = yield JobService.listTask(option).catch(error => {
-            if (error.code === 1001 || error.code === 401) {
-                //判断是否token失效
-                Modal.confirm({
-                    title: 'token失效，请重新获取',
-                    okText: '确定',
-                    cancelText: '取消',
-                    onOk: () => {
-                        logout();
-                        window.location.reload();
-                    }
-                });
-            } else {
-                message.warning('网络错误', 3);
-                throw error;
-            }
+            message.error('任务加载失败', 3);
+            throw error;
         });
 
         this.tasks = result.data.taskList;
