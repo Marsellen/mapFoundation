@@ -20,8 +20,8 @@ class AppStore {
         this.loginUser = result.data;
     });
 
-    @action logout = () => {
-        logout();
+    @action logout = (task) => {
+        logout(task);
     };
 }
 

@@ -143,6 +143,7 @@ class DataLayerStore extends LayerStore {
         this.editor.clear();
         this.editor.cancel();
         this.measureControl.clear();
+        this.unPick()
     };
 
     changeCur = () => {
@@ -219,7 +220,7 @@ class DataLayerStore extends LayerStore {
         if (this.editType == 'delRel') return;
         this.measureControl.clear();
         this.editType = 'delRel';
-        this.editor.clear();
+        //this.editor.clear();
         this.detectorControl.disable();
     };
 

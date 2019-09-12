@@ -1,5 +1,5 @@
-import menuStore from './MenuStore';
-import taskStore from './TaskStore';
+import MenuStore from './MenuStore';
+import TaskStore from './TaskStore';
 import DataLayerStore from './DataLayerStore';
 import ResourceLayerStore from './ResourceLayerStore';
 import OperateHistoryStore from './OperateHistoryStore';
@@ -12,8 +12,8 @@ import RelStore from './RelStore';
 import AttrStore from './AttrStore';
 
 export default {
-    menuStore,
-    taskStore,
+    MenuStore,
+    TaskStore,
     DataLayerStore,
     ResourceLayerStore,
     OperateHistoryStore,

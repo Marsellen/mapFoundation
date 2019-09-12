@@ -3,21 +3,23 @@ import { Tooltip } from 'antd';
 import { inject, observer } from 'mobx-react';
 import IconFont from 'src/components/IconFont';
 
-@inject('taskStore')
+@inject('TaskStore')
 @observer
 class UnderView extends React.Component {
     render() {
-        const { taskStore } = this.props;
-        const { activeTaskId } = taskStore;
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
         return activeTaskId ? (
-            <Tooltip placement="bottom" title="视角还原">
+            // <Tooltip placement="bottom" title="视角还原">
+            <div placement="bottom" title="视角还原">
                 <IconFont
                     type="icon-compass"
                     className="ad-icon"
                     onClick={this.action}
                 />
-            </Tooltip>
+            </div>
         ) : (
+            // </Tooltip>
             <span />
         );
     }

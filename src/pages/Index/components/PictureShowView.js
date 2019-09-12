@@ -3,15 +3,14 @@ import { inject, observer } from 'mobx-react';
 import RcViewer from 'rc-viewer';
 import IconFont from 'src/components/IconFont';
 
-@inject('taskStore')
+@inject('TaskStore')
 @inject('PictureShowStore')
 @observer
 class PictureShowView extends React.Component {
     render() {
-        activeTaskId;
-        const { PictureShowStore, taskStore } = this.props;
+        const { PictureShowStore, TaskStore } = this.props;
         const { picData } = PictureShowStore;
-        const { activeTaskId } = taskStore;
+        const { activeTaskId } = TaskStore;
         const options = {
             inline: true, //内联模式
             // button: false,//右上角全屏

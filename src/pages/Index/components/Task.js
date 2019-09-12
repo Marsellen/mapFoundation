@@ -1,12 +1,14 @@
 import React from 'react';
 import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
+import { getAuthentication, getCurrentEditingTaskId } from 'src/utils/Session';
 
-@inject('taskStore')
+@inject('TaskStore')
 @inject('AttributeStore')
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
+@inject('PictureShowStore')
 @observer
 class Task extends React.Component {
     constructor(props) {
@@ -14,6 +16,15 @@ class Task extends React.Component {
         this.state = {
             current: null
         };
+    }
+    componentDidMount() {
+        const userInfo = getAuthentication();
+        const { userName, taskId } = getCurrentEditingTaskId();
+        if (userInfo.username === userName && taskId) {
+            this.setState({
+                current: taskId.toString()
+            });
+        }
     }
 
     handleClick = e => {
@@ -23,9 +34,9 @@ class Task extends React.Component {
     };
 
     render() {
-        const { taskStore } = this.props;
-        const { tasks } = taskStore;
-        // const { activeTaskId } = taskStore;
+        const { TaskStore } = this.props;
+        const { tasks } = TaskStore;
+        // const { activeTaskId } = TaskStore;
 
         if (tasks && tasks.length > 0) {
             return (
@@ -81,17 +92,26 @@ class Task extends React.Component {
 
     toggleTask = id => {
         const {
-            taskStore,
+            TaskStore,
             AttributeStore,
             OperateHistoryStore,
             DataLayerStore,
-            ToolCtrlStore
+            ToolCtrlStore,
+            PictureShowStore
         } = this.props;
-        taskStore.setActiveTask(id);
+        // const param = {
+        //     taskFechId: taskFetchId,
+        //     manualStatus: '2'
+        // };
+        // TaskStore.initUpdate(param);
+        TaskStore.setActiveTask(id).then(() => {
+            TaskStore.initTask({ type: 4 });
+        });
         OperateHistoryStore.destroy();
         DataLayerStore.activeEditor();
         ToolCtrlStore.updateByEditLayer();
         AttributeStore.hide();
+        PictureShowStore.hide();
         this.setState({
             current: id
         });
