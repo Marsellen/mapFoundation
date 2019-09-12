@@ -172,6 +172,7 @@ class RightMenuModal extends React.Component {
             DataLayerStore.clearChoose();
             return;
         }
+        let task_id;
         Modal.confirm({
             title: '您确认执行操作？',
             okText: '确定',
@@ -180,7 +181,11 @@ class RightMenuModal extends React.Component {
             onOk: async () => {
                 try {
                     let features = RightMenuStore.getFeatures();
-                    let historyLog = await breakLine(result[0], features);
+                    let historyLog = await breakLine(
+                        result[0],
+                        features,
+                        task_id
+                    );
                     // console.log(result);
                     OperateHistoryStore.add({
                         type: 'updateFeatureRels',
@@ -257,6 +262,7 @@ class RightMenuModal extends React.Component {
             OperateHistoryStore,
             AttributeStore
         } = this.props;
+        let task_id;
         Modal.confirm({
             title: '您确认执行操作？',
             okText: '确定',
@@ -265,7 +271,7 @@ class RightMenuModal extends React.Component {
             onOk: async () => {
                 try {
                     let features = RightMenuStore.getFeatures();
-                    let historyLog = await mergeLine(features);
+                    let historyLog = await mergeLine(features, task_id);
                     OperateHistoryStore.add({
                         type: 'updateFeatureRels',
                         data: historyLog

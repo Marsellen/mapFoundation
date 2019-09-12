@@ -197,33 +197,32 @@ const createAllRel = (mainFeature, feature) => {
     let relLayer = feature.layerName;
     let mainObjId = mainFeature.data.properties[getLayerIDKey(mainLayer)];
     let relObjId = feature.data.properties[getLayerIDKey(relLayer)];
-    let relSpecs = REL_SPEC_CONFIG.filter(rs => {
-        return (
-            (rs.objSpec == mainLayer && rs.relObjSpec == relLayer) ||
-            (rs.relObjSpec == mainLayer && rs.objSpec == relLayer)
-        );
-    });
-    return relSpecs.map(config => {
-        let rel;
-        if (config.objSpec == mainLayer) {
-            rel = {
-                objId: mainObjId,
-                relObjId: relObjId
-            };
-        } else {
-            rel = {
-                objId: relObjId,
-                relObjId: mainObjId
-            };
-        }
+
+    let rel1 = REL_SPEC_CONFIG.filter(rs => {
+        return rs.objSpec == mainLayer && rs.relObjSpec == relLayer;
+    }).map(config => {
         let { objType, relObjType, source: spec } = config;
         return {
-            ...rel,
+            objId: mainObjId,
+            relObjId: relObjId,
             objType,
             relObjType,
             spec
         };
     });
+    let rel2 = REL_SPEC_CONFIG.filter(rs => {
+        return rs.relObjSpec == mainLayer && rs.objSpec == relLayer;
+    }).map(config => {
+        let { objType, relObjType, source: spec } = config;
+        return {
+            objId: relObjId,
+            relObjId: mainObjId,
+            objType,
+            relObjType,
+            spec
+        };
+    });
+    return rel1.concat(rel2);
 };
 
 const getFeatureByRels = rels => {

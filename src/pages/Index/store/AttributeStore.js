@@ -116,7 +116,7 @@ class AttributeStore {
             this.relFeatures.map(feature => {
                 getLayerByName(feature.layerName).updateFeatureColor(
                     feature.option,
-                    'rgb(255, 87, 34)'
+                    'rgb(31, 255, 255)'
                 );
             });
         } catch (error) {

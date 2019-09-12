@@ -42,12 +42,22 @@ class OperateFactory {
 
     updateFeature(history) {
         let layer = getLayerByName(history.layerName);
-        layer.updateFeatures([history.feature]);
+        let key = DATA_LAYER_MAP[history.layerName].id;
+        layer.removeFeatureByOption({
+            key: key,
+            value: history.feature.data.properties[key]
+        });
+        layer.addFeatures([history.feature.data]);
     }
 
     reUpdateFeature(history) {
         let layer = getLayerByName(history.layerName);
-        layer.updateFeatures([history.oldFeature]);
+        let key = DATA_LAYER_MAP[history.layerName].id;
+        layer.removeFeatureByOption({
+            key: key,
+            value: history.oldFeature.data.properties[key]
+        });
+        layer.addFeatures([history.oldFeature.data]);
     }
 
     updateFeatureRels(history) {

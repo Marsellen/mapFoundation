@@ -5,7 +5,6 @@ import {
     logout
 } from '../utils/Session';
 import AppService from '../services/AppService';
-import { message } from 'antd';
 
 configure({ enforceActions: 'always' });
 class AppStore {
@@ -15,8 +14,7 @@ class AppStore {
         let result = yield AppService.login(userInfo);
         // console.log(result);
         if (result.code !== 1) {
-            message.error(result.message, 3);
-            return;
+            throw result;
         }
         authenticateSuccess(result.data, option.autoLogin);
         this.loginUser = result.data;

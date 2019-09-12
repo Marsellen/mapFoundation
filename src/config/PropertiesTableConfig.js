@@ -323,29 +323,29 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'FILE_NAME',
-            title: '待更新图层',
+            title: '错误图层名称',
             filterBy: 'AD_MAP_QC_FILE_NAME',
             width: 122
         },
         {
             dataIndex: 'FEAT_ID',
-            title: '待更新数据ID',
+            title: '错误数据ID',
             width: 108
         },
         {
             dataIndex: 'ERROR_TYPE',
-            title: '更新类型',
+            title: '错误类型',
             filterBy: 'AD_MAP_QC_ERROR_TYPE',
             width: 93
         },
         {
             dataIndex: 'ERROR_DESC',
-            title: '工程编号',
+            title: '错误描述',
             width: 93
         },
         {
             dataIndex: 'FIX_STATUS',
-            title: '更新状态',
+            title: '修正状态',
             filterBy: 'AD_MAP_QC_FIX_STATUS',
             width: 93
         },
@@ -357,7 +357,7 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'FIX_PERSON',
-            title: '作业人员',
+            title: '返工修改人员',
             width: 122
         },
         {

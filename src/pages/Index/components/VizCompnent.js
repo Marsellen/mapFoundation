@@ -11,6 +11,8 @@ import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
 //import NewFeatureModal from './NewFeatureModal';
 import RightMenuModal from './RightMenuModal';
+import ZoomIn from './ToolList/ZoomIn';
+import ZoomOut from './ToolList/ZoomOut';
 import UnderView from './ToolList/UnderView';
 import {
     RESOURCE_LAYER_POINT_CLOUD,
@@ -18,7 +20,8 @@ import {
     RESOURCE_LAYER_TRACE
 } from 'src/config/DataLayerConfig';
 import MultimediaView from './MultimediaView';
-
+import VectorsConfig from '../../../config/VectorsConfig';
+import SDKConfig from '../../../config/SDKConfig';
 import 'less/components/viz-compnent.less';
 import { addClass, removeClass } from '../../../utils/utils';
 
@@ -38,6 +41,19 @@ class VizCompnent extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        const { taskStore } = this.props;
+        taskStore.initTask({ type: 4 }).then(() => {
+            const { tasks } = taskStore;
+            if (!tasks || tasks.length == 0) {
+                message.warning('暂无任务', 3);
+                return;
+            }
+            taskStore.setActiveTask()
+            //taskStore.getTaskFile().then(this.initTask);
+        });
+    }
+
     componentDidUpdate() {
         const { taskStore } = this.props;
         const div = document.getElementById('viz');
@@ -47,11 +63,10 @@ class VizCompnent extends React.Component {
 
     initTask = async task => {
         if (!task) return;
-        const { taskStore } = this.props;
         console.time('taskLoad');
         const hide = message.loading('正在加载任务数据...', 0);
         await Promise.all([
-            this.initSdkResource(task),
+            this.initEditResource(task),
             this.initExResource(task)
         ])
             .then(() => {
@@ -59,21 +74,23 @@ class VizCompnent extends React.Component {
                 message.success('加载完成', 1);
             })
             .catch(e => {
+                console.log(e);
                 hide();
                 Modal.error({
                     title: '资料加载失败，请确认输入正确路径。',
                     okText: '确定'
                 });
-                taskStore.tasksPop();
             });
         console.timeEnd('taskLoad');
     };
 
-    initSdkResource = async task => {
+    initEditResource = async task => {
         let [pointClouds, vectors, tracks] = await Promise.all([
             this.initPointCloud(task.point_clouds),
             this.initVectors(task.vectors),
-            this.initTracks(task.tracks)
+            this.initTracks(task.tracks),
+            this.initRegion(task.region),
+            this.initBoundary(task.boundary)
         ]);
         this.initResouceLayer([pointClouds, vectors, tracks]);
         this.installListener();
@@ -81,7 +98,6 @@ class VizCompnent extends React.Component {
 
     initExResource = async task => {
         await Promise.all([
-            this.initRegion(task.region),
             this.installRel(task.rels),
             this.installAttr(task.attrs)
         ]);
@@ -116,7 +132,9 @@ class VizCompnent extends React.Component {
             return;
         }
         const { DataLayerStore } = this.props;
-        window.vectorLayerGroup = new LayerGroup(vectors);
+        window.vectorLayerGroup = new LayerGroup(vectors, {
+            styleConifg: VectorsConfig
+        });
         await map.getLayerManager().addLayerGroup(vectorLayerGroup);
         let layers = vectorLayerGroup.layers;
         DataLayerStore.init(layers);
@@ -140,8 +158,31 @@ class VizCompnent extends React.Component {
     };
 
     initRegion = async regionUrl => {
-        const vectorLayer = new VectorLayer(regionUrl);
-        await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
+        try {
+            const vectorLayer = new VectorLayer(regionUrl);
+            vectorLayer.setDefaultStyle({ color: '#00FF00' });
+            await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
+        } catch (e) {
+            message.error('作业范围数据加载失败', 3);
+        }
+    };
+
+    initBoundary = async boundaryUrl => {
+        try {
+            const { DataLayerStore } = this.props;
+            const layerGroup = new LayerGroup(boundaryUrl, {
+                styleConifg: SDKConfig
+            });
+            await map.getLayerManager().addLayerGroup(layerGroup);
+            let layers = layerGroup.layers;
+            DataLayerStore.initDetectorControl(layers);
+            DataLayerStore.setBoundarySelectedCallback(
+                this.boundarySelectedCallback
+            );
+        } catch (e) {
+            console.log(e);
+            message.error('作业边界数据加载失败', 3);
+        }
     };
 
     initResouceLayer = layers => {
@@ -178,7 +219,11 @@ class VizCompnent extends React.Component {
 
         // attributes 拾取控件
         const { DataLayerStore } = this.props;
-        DataLayerStore.initEditor();
+        DataLayerStore.initEditor([
+            { layer: pointCloudLayer },
+            ...vectorLayerGroup.layers,
+            { layer: traceLayer }
+        ]);
         DataLayerStore.initMeasureControl();
         DataLayerStore.setSelectedCallBack(this.selectedCallBack);
         DataLayerStore.setCreatedCallBack(this.createdCallBack);
@@ -197,6 +242,7 @@ class VizCompnent extends React.Component {
                  */
                 if (result[0].type === 'VectorLayer') {
                     DataLayerStore.pick();
+                    this.modalType = 'vector';
                     this.showAttributesModal(result[0]);
                 } else if (result[0].type === 'TraceLayer') {
                     this.showPictureShowView(result[0]);
@@ -206,6 +252,8 @@ class VizCompnent extends React.Component {
                 this.showRightMenu(result, event);
             }
         } else {
+            if (this.modalType == 'boundary') return;
+            this.modalType = null;
             DataLayerStore.unPick();
             AttributeStore.hide();
             AttributeStore.hideRelFeatures();
@@ -277,6 +325,24 @@ class VizCompnent extends React.Component {
         });
     };
 
+    boundarySelectedCallback = result => {
+        const { AttributeStore, DataLayerStore } = this.props;
+        if (result && result.length > 0) {
+            DataLayerStore.unPick();
+            AttributeStore.setModel(result[0]);
+            AttributeStore.show(true);
+            this.modalType = 'boundary';
+        } else {
+            // 强行更改执行顺序，使之在任务数据点击事件触发后执行
+            setTimeout(() => {
+                if (this.modalType == 'boundary') {
+                    this.modalType = null;
+                    AttributeStore.hide();
+                }
+            });
+        }
+    };
+
     showPictureShowView = obj => {
         const { PictureShowStore } = this.props;
         PictureShowStore.setPicData(obj.data);
@@ -287,8 +353,8 @@ class VizCompnent extends React.Component {
         let editLayer = DataLayerStore.getEditLayer();
         let readonly =
             !editLayer || (editLayer && editLayer.layerName !== obj.layerName);
-        AttributeStore.setModel(obj);
         AttributeStore.show(readonly);
+        AttributeStore.setModel(obj);
     };
 
     showRightMenu = (features, event) => {
@@ -325,6 +391,8 @@ class VizCompnent extends React.Component {
             <React.Fragment>
                 <div id="viz" key={taskStore.activeTaskId} className="viz-box">
                     <div className="set-compass">
+                        <ZoomOut key="ZOOM_OUT" />
+                        <ZoomIn key="ZOOM_IN" />
                         <UnderView key="UNDER_VIEW" />
                     </div>
                 </div>

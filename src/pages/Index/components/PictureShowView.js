@@ -47,7 +47,7 @@ class PictureShowView extends React.Component {
         };
         return (
             <div className="img-banner">
-                {picData ? (
+                {this.isArrPresent(picData) ? (
                     <RcViewer options={options} ref="viewer">
                         <ul id="images">
                             {picData.map((url, index) => {
@@ -57,6 +57,7 @@ class PictureShowView extends React.Component {
                                     </li>
                                 );
                             })}
+                            )
                         </ul>
                     </RcViewer>
                 ) : (
@@ -64,6 +65,12 @@ class PictureShowView extends React.Component {
                 )}
             </div>
         );
+    }
+
+    isArrPresent(arr) {
+        return arr.reduce((sum, item) => {
+            return sum || !!item;
+        }, false);
     }
 }
 export default PictureShowView;

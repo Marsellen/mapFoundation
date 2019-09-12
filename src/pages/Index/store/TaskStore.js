@@ -1,63 +1,72 @@
 import { observable, flow, configure, action } from 'mobx';
 import TaskService from '../service/TaskService';
+import JobService from '../service/JobService';
 import { Modal } from 'antd';
+import CONFIG from 'src/config';
+import { logout } from 'src/utils/Session';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
-    @observable tasks = [];
     @observable activeTaskId;
+    @observable tasks = [];
+    @observable activeTask = {};
 
-    init = flow(function*() {
+    // 任务列表
+    initTask = flow(function*(option) {
         try {
-            const tasks = yield TaskService.get();
-            this.tasks = tasks;
-            this.setActiveTaskId();
+            const result = yield JobService.listTask(option);
+
+            this.tasks = result.data.taskList;
         } catch (e) {
             console.log(e);
-        }
-    });
-
-    load = flow(function*(option) {
-        try {
-            if (this.tasks.map(task => task._id).includes(option.url)) {
-                throw { message: '资料已加载' };
-            }
-            if (this.tasks.map(task => task.name).includes(option.name)) {
-                throw { message: '资料名称重复' };
-            }
-            this.tasks.push({
-                _id: option.url,
-                name: option.name
-            });
-
-            this.setActiveTaskId(option.url);
-            return;
-        } catch (e) {
-            console.log(e);
-            Modal.error({
-                title: e.message,
-                okText: '确定'
+            Modal.confirm({
+                title: 'token失效，请重新获取',
+                okText: '确定',
+                cancelText: '取消',
+                onOk: () => {
+                    logout();
+                    window.location.reload();
+                }
             });
         }
     });
 
-    @action tasksPop = () => {
-        this.tasks.pop();
-        if (this.tasks.length == 0) {
-            this.activeTaskId = null;
+    // 任务切换
+    @action setActiveTask = id => {
+        if (this.tasks && this.tasks.length > 0) {
+            if (id) {
+                this.activeTask = this.tasks.find(item => {
+                    return item.taskId === id;
+                });
+            } else {
+                this.activeTask = this.tasks[0];
+            }
+            this.setActiveTaskId(this.activeTask.Input_imp_data_path);
         } else {
-            this.activeTaskId = this.tasks[this.tasks.length - 1]._id;
+            this.setActiveTaskId();
+            return;
         }
     };
+
+    // 提交任务
+    initSubmit = flow(function*(result) {
+        let { taskId, processName: process_name } = this.activeTask;
+        let payload = {
+            instance_name: 'task_person_edit',
+            result,
+            taskId,
+            process_name
+        };
+        let response = yield JobService.submitTask(payload);
+        if (response.code != 1) {
+            throw response;
+        }
+    });
 
     setActiveTaskId = flow(function*(id) {
         this.activeTaskId = id;
         // TODO 缓存activeTaskId，取id优先级： id > 缓存id > this.tasks[0].id
     });
-
-    @action getActiveTask = () => {
-        return this.tasks.find(task => task._id == this.activeTaskId);
-    };
 
     getTaskFile = flow(function*() {
         try {
@@ -66,12 +75,13 @@ class TaskStore {
             }
             //const task = yield TaskService.get({ id: this.activeTaskId });
             let task = {
-                point_clouds: this.activeTaskId + '/point_clouds/cloud.js',
-                vectors: this.activeTaskId + '/vectors/ads_all.geojson',
-                tracks: this.activeTaskId + '/tracks/track.json',
-                rels: this.activeTaskId + '/vectors/rels.geojson',
-                attrs: this.activeTaskId + '/vectors/attrs.geojson',
-                region: this.activeTaskId + '/region.geojson'
+                point_clouds: this.activeTaskId + CONFIG.urlConfig.point_clouds,
+                vectors: this.activeTaskId + CONFIG.urlConfig.vectors,
+                tracks: this.activeTaskId + CONFIG.urlConfig.track,
+                rels: this.activeTaskId + CONFIG.urlConfig.rels,
+                attrs: this.activeTaskId + CONFIG.urlConfig.attrs,
+                region: this.activeTaskId + CONFIG.urlConfig.region,
+                boundary: this.activeTaskId + CONFIG.urlConfig.boundary
             };
             return task;
         } catch (e) {
@@ -81,9 +91,7 @@ class TaskStore {
 
     submit = flow(function*(data) {
         try {
-            let patt1 = /(\w+):\/\/([^/:]+)(:\d*)?([^# ]*)/;
-            let arr = this.activeTaskId.match(patt1);
-            let path = arr[arr.length - 1].replace(/\//, '');
+            let path = this.activeTask.Input_imp_data_relpath;
             let payload = {
                 filePath: path + '/vectors/',
                 fileName: 'ads_all',
@@ -119,10 +127,8 @@ class TaskStore {
 
     exportShp = flow(function*() {
         try {
-            let patt1 = /(\w+):\/\/([^/:]+)(:\d*)?([^# ]*)/;
-            let arr = this.activeTaskId.match(patt1);
-            let path = arr[arr.length - 1].replace(/\//, '');
-            let url = path + '/vectors/ads_all.geojson';
+            let path = this.activeTask.Input_imp_data_relpath;
+            let url = path + CONFIG.urlConfig.vectors;
             yield TaskService.exportShp({
                 jsonPath: url
             });

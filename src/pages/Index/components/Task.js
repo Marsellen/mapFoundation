@@ -9,23 +9,44 @@ import { inject, observer } from 'mobx-react';
 @inject('ToolCtrlStore')
 @observer
 class Task extends React.Component {
-    componentDidMount() {
-        //this.props.taskStore.init();
+    constructor(props) {
+        super(props);
+        this.state = {
+            current: null
+        };
     }
+
+    handleClick = e => {
+        this.setState({
+            current: e.key
+        });
+    };
 
     render() {
         const { taskStore } = this.props;
-        const { activeTaskId } = taskStore;
-        if (taskStore.tasks && taskStore.tasks.length > 0) {
+        const { tasks } = taskStore;
+        // const { activeTaskId } = taskStore;
+
+        if (tasks && tasks.length > 0) {
             return (
-                <Menu className="menu" selectedKeys={[activeTaskId]}>
-                    {taskStore.tasks.map(item => (
+                <Menu
+                    className="menu"
+                    selectedKeys={[
+                        tasks.filter(
+                            item =>
+                                item.taskId.toString() === this.state.current
+                        ).length > 0
+                            ? this.state.current
+                            : tasks[0].taskId.toString()
+                    ]}
+                    onClick={this.handleClick}>
+                    {tasks.map(item => (
                         <Menu.Item
-                            key={item._id}
+                            key={item.taskId}
                             onClick={() => {
-                                this.chooseTask(item._id);
+                                this.chooseTask(item.taskId);
                             }}>
-                            <span>{item.name}</span>
+                            <span>{`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}</span>
                         </Menu.Item>
                     ))}
                 </Menu>
@@ -66,11 +87,14 @@ class Task extends React.Component {
             DataLayerStore,
             ToolCtrlStore
         } = this.props;
-        taskStore.setActiveTaskId(id);
+        taskStore.setActiveTask(id);
         OperateHistoryStore.destroy();
         DataLayerStore.activeEditor();
         ToolCtrlStore.updateByEditLayer();
         AttributeStore.hide();
+        this.setState({
+            current: id
+        });
     };
 }
 

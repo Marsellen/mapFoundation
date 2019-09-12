@@ -1,6 +1,6 @@
 import { action, configure, flow, observable } from 'mobx';
 import LayerStore from './LayerStore';
-import { EditControl, MeasureControl } from 'addis-viz-sdk';
+import { EditControl, MeasureControl, DetectorControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
 import { Modal } from 'antd';
 import { addClass, removeClass } from '../../../utils/utils';
@@ -16,6 +16,7 @@ class DataLayerStore extends LayerStore {
         super();
         this.editor;
         this.measureControl;
+        this.detectorControl;
         this.highLightFeatures = [];
         document.onkeydown = event => {
             var e =
@@ -47,6 +48,7 @@ class DataLayerStore extends LayerStore {
             layer.hide();
             this.clearChoose();
         }
+
         this.updateKey = Math.random();
     };
 
@@ -62,24 +64,34 @@ class DataLayerStore extends LayerStore {
         return this.layers.findIndex(layer => layer.checked);
     };
 
-    @action initEditor = layer => {
-        this.editor = new EditControl(layer);
+    @action initEditor = layers => {
+        this.editor = new EditControl();
+        layers && this.editor.setTargetLayers(layers);
         map.getControlManager().addControl(this.editor);
     };
 
     @action initMeasureControl = () => {
         this.measureControl = new MeasureControl();
         map.getControlManager().addControl(this.measureControl);
+        this.measureControl.onMeasureFinish(() => {
+            this.removeCur();
+        });
+    };
+
+    @action initDetectorControl = layers => {
+        this.detectorControl = new DetectorControl();
+        layers && this.detectorControl.setTargetLayers(layers);
+        map.getControlManager().addControl(this.detectorControl);
     };
 
     @action activeEditor = name => {
         let layer = name ? getLayerExByName(name) : null;
         if (this.editor) {
             this.clearChoose();
-            this.editor.editLayer = layer;
         } else {
-            this.initEditor(layer);
+            this.initEditor();
         }
+        this.editor.editLayer = layer;
         this.updateKey = Math.random();
         return layer;
     };
@@ -112,12 +124,20 @@ class DataLayerStore extends LayerStore {
         this.editor.onFeatureEdited(callback);
     };
 
+    @action setBoundarySelectedCallback = callback => {
+        this.detectorControl.onFeaturesSelected(result => {
+            if (this.editType !== 'normal') return;
+            callback(result);
+        });
+    };
+
     @action getEditLayer = () => {
         return this.editor && this.editor.editLayer;
     };
 
     @action clearChoose = () => {
         this.removeCur();
+        this.detectorControl.enable();
         if (!this.editor) return;
         this.editType = 'normal';
         this.editor.clear();
@@ -146,6 +166,7 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'new_point';
         this.changeCur();
+        this.detectorControl.disable();
         this.editor.newPoint();
     };
 
@@ -153,32 +174,36 @@ class DataLayerStore extends LayerStore {
         if (!this.editor) return;
         this.measureControl.clear();
         this.editType = 'new_line';
-        this.editor.newLine();
         this.changeCur();
+        this.detectorControl.disable();
+        this.editor.newLine();
     };
 
     @action newPolygon = () => {
         if (!this.editor) return;
         this.measureControl.clear();
         this.editType = 'new_polygon';
-        this.editor.newPolygon();
         this.changeCur();
+        this.detectorControl.disable();
+        this.editor.newPolygon();
     };
 
     @action newFacadeRectangle = () => {
         if (!this.editor) return;
         this.measureControl.clear();
         this.editType = 'new_facade_rectangle';
-        this.editor.newMatrix();
         this.changeCur();
+        this.detectorControl.disable();
+        this.editor.newMatrix();
     };
 
     @action newVerticalMatrix = () => {
         if (!this.editor) return;
         this.measureControl.clear();
         this.editType = 'new_vertical_matrix';
-        this.editor.newVerticalMatrix();
         this.changeCur();
+        this.detectorControl.disable();
+        this.editor.newVerticalMatrix();
     };
 
     @action newRel = () => {
@@ -186,6 +211,7 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'newRel';
         this.editor.clear();
+        this.detectorControl.disable();
         this.editor.toggleMode(61);
     };
 
@@ -194,7 +220,7 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'delRel';
         this.editor.clear();
-        this.editor.toggleMode(61);
+        this.detectorControl.disable();
     };
 
     @action setNewRelCallback = callback => {
@@ -213,8 +239,9 @@ class DataLayerStore extends LayerStore {
         if (!this.editor) return;
         this.measureControl.clear();
         this.editType = 'new_circle';
-        this.editor.newFixedPolygon(3);
         this.changeCur();
+        this.detectorControl.disable();
+        this.editor.newFixedPolygon(3);
     });
 
     updateResult = flow(function*(result) {
@@ -251,6 +278,7 @@ class DataLayerStore extends LayerStore {
     @action changePoints = () => {
         if (!this.editor) return;
         this.measureControl.clear();
+        this.detectorControl.disable();
         this.editType = 'changePoints';
         this.editor.changePoints();
     };
@@ -258,6 +286,7 @@ class DataLayerStore extends LayerStore {
     @action deletePoints = () => {
         if (!this.editor) return;
         this.measureControl.clear();
+        this.detectorControl.disable();
         this.editType = 'delPoint';
         this.editor.deletePoints();
     };
@@ -288,6 +317,7 @@ class DataLayerStore extends LayerStore {
 
     @action selectPointFromHighlight = () => {
         this.measureControl.clear();
+        this.detectorControl.disable();
         this.editType = 'select_point';
         this.editor.selectPointFromHighlight();
     };
@@ -303,6 +333,16 @@ class DataLayerStore extends LayerStore {
             this.setFeatureColor(feature);
         });
         this.highLightFeatures = [];
+    };
+
+    selectFormFeatrues = featrueOptions => {
+        let options = featrueOptions.map(option => {
+            return {
+                layerName: option.layerName,
+                ...option.option
+            };
+        });
+        this.editor.selectFeaturesFromSpecified(options);
     };
 }
 
