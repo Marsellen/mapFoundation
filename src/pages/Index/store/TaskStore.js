@@ -74,14 +74,15 @@ class TaskStore {
     });
 
     setActiveTaskId = flow(function*(task = {}) {
-        let { Input_imp_data_path, taskFetchId } = task;
+        let { Input_imp_data_path, taskFetchId, manualStatus } = task;
         this.activeTaskId = Input_imp_data_path;
 
-        if (taskFetchId) {
+        const status = [4, 5]; //返修-4、返工-5
+        if (taskFetchId && !status.includes(manualStatus)) {
             // TODO taskFechId 少了一个t，后台接口定义问题
             yield this.updateTaskStatus({
                 taskFechId: taskFetchId,
-                manualStatus: '2'
+                manualStatus: 2
             });
         }
     });
