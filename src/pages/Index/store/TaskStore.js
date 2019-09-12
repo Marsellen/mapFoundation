@@ -14,7 +14,7 @@ class TaskStore {
     // 任务列表
     initTask = flow(function*(option) {
         const result = yield JobService.listTask(option).catch(error => {
-            if (error.code === 401) {
+            if (error.code === 1001 || error.code === 401) {
                 //判断是否token失效
                 Modal.confirm({
                     title: 'token失效，请重新获取',
