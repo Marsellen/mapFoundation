@@ -13,13 +13,9 @@ class TaskStore {
 
     // 任务列表
     initTask = flow(function*(option) {
-        try {
-            const result = yield JobService.listTask(option);
-
-            this.tasks = result.data.taskList;
-        } catch (e) {
-            console.log(e);
-            if (code === 401) { //判断是否token失效
+        const result = yield JobService.listTask(option).catch(error => {
+            if (error.code === 401) {
+                //判断是否token失效
                 Modal.confirm({
                     title: 'token失效，请重新获取',
                     okText: '确定',
@@ -30,9 +26,12 @@ class TaskStore {
                     }
                 });
             } else {
-                message.warning('网络错误', 3)
+                message.warning('网络错误', 3);
+                throw error;
             }
-        }
+        });
+
+        this.tasks = result.data.taskList;
     });
 
     // 任务切换
@@ -71,9 +70,9 @@ class TaskStore {
     initUpdate = flow(function*(option) {
         let response = yield JobService.updateTask(option);
         if (response.code != 1) {
-            message.warning('更新状态失败', 3)
+            message.warning('更新状态失败', 3);
         }
-    })
+    });
 
     setActiveTaskId = flow(function*(id) {
         this.activeTaskId = id;
