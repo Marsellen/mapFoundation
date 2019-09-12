@@ -55,7 +55,7 @@ class Task extends React.Component {
                         <Menu.Item
                             key={item.taskId}
                             onClick={() => {
-                                this.chooseTask(item.taskId, item.taskFetchId);
+                                this.chooseTask(item.taskId);
                             }}>
                             <span>{`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}</span>
                         </Menu.Item>
@@ -71,7 +71,7 @@ class Task extends React.Component {
         return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
     };
 
-    chooseTask = (id, taskFetchId) => {
+    chooseTask = id => {
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
@@ -82,15 +82,15 @@ class Task extends React.Component {
                 cancelText: '取消',
                 okType: 'danger',
                 onOk: () => {
-                    this.toggleTask(id, taskFetchId);
+                    this.toggleTask(id);
                 }
             });
         } else {
-            this.toggleTask(id, taskFetchId);
+            this.toggleTask(id);
         }
     };
 
-    toggleTask = (id, taskFetchId) => {
+    toggleTask = id => {
         const {
             TaskStore,
             AttributeStore,
@@ -99,14 +99,14 @@ class Task extends React.Component {
             ToolCtrlStore,
             PictureShowStore
         } = this.props;
-        const param = {
-            taskFechId: taskFetchId,
-            manualStatus: '2'
-        };
-        TaskStore.initUpdate(param).then(() => {
+        // const param = {
+        //     taskFechId: taskFetchId,
+        //     manualStatus: '2'
+        // };
+        // TaskStore.initUpdate(param);
+        TaskStore.setActiveTask(id).then(() => {
             TaskStore.initTask({ type: 4 });
         });
-        TaskStore.setActiveTask(id);
         OperateHistoryStore.destroy();
         DataLayerStore.activeEditor();
         ToolCtrlStore.updateByEditLayer();

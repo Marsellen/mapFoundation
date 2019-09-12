@@ -106,12 +106,14 @@ class ResourceLoader extends React.Component {
             if (err) {
                 return;
             }
-            TaskStore.setActiveTaskId(values.url).then(() => {
-                this.setState({
-                    visible: false
-                });
-                this.clearWorkSpace();
-            });
+            TaskStore.setActiveTaskId({ Input_imp_data_path: values.url }).then(
+                () => {
+                    this.setState({
+                        visible: false
+                    });
+                    this.clearWorkSpace();
+                }
+            );
         });
     };
 

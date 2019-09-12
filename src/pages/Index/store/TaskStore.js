@@ -44,10 +44,9 @@ class TaskStore {
             } else {
                 this.activeTask = this.tasks[0];
             }
-            this.setActiveTaskId(this.activeTask.Input_imp_data_path);
+            return this.setActiveTaskId(this.activeTask);
         } else {
-            this.setActiveTaskId();
-            return;
+            return this.setActiveTaskId();
         }
     };
 
@@ -67,16 +66,24 @@ class TaskStore {
     });
 
     // 更新任务状态
-    initUpdate = flow(function*(option) {
+    updateTaskStatus = flow(function*(option) {
         let response = yield JobService.updateTask(option);
         if (response.code != 1) {
             message.warning('更新状态失败', 3);
         }
     });
 
-    setActiveTaskId = flow(function*(id) {
-        this.activeTaskId = id;
-        // TODO 缓存activeTaskId，取id优先级： id > 缓存id > this.tasks[0].id
+    setActiveTaskId = flow(function*(task = {}) {
+        let { Input_imp_data_path, taskFetchId } = task;
+        this.activeTaskId = Input_imp_data_path;
+
+        if (taskFetchId) {
+            // TODO taskFechId 少了一个t，后台接口定义问题
+            yield this.updateTaskStatus({
+                taskFechId: taskFetchId,
+                manualStatus: '2'
+            });
+        }
     });
 
     getTaskFile = flow(function*() {
