@@ -5,23 +5,6 @@ import { Modal } from 'antd';
 const BASIC_METHODS = ['get', 'post', 'put'];
 
 //捕获401
-// http request 拦截器
-axios.interceptors.request.use(
-    config => {
-        let userInfo = getAuthentication();
-        let token = userInfo ? userInfo.token : '';
-        if (token) {
-            // 判断是否存在token，如果存在的话，则每个http header都加上token
-            // console.log(token)
-            config.headers.Authentication = token;
-        }
-        return config;
-    },
-    err => {
-        return Promise.reject(err);
-    }
-);
-
 // http response 拦截器
 axios.interceptors.response.use(
     response => {
@@ -89,11 +72,15 @@ function request(defaultUrl, extraParams, option) {
                 key = 'data';
             }
 
+            // TODO
+            let userInfo = getAuthentication();
+            let Authentication = userInfo ? userInfo.token : '';
+
             let config = {
                 ...option,
                 url: urlFormat(option.url || defaultUrl, params),
                 [key]: params,
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json', Authentication }
             };
             axios(config)
                 .then(response => {
