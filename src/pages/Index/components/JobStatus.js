@@ -103,6 +103,7 @@ class JobStatus extends React.Component {
             content: '是否提交当前任务',
             okText: '确定',
             cancelText: '取消',
+            autoFocusButton: null,
             onOk: () => this.taskSubmit(option)
         });
     };
@@ -215,7 +216,9 @@ class JobStatus extends React.Component {
         );
     };
 
-    submitTask = () => {
+    submitTask = e => {
+        e.target.blur(); //在click事件中主动去掉button的焦点，回车就不会触发click
+
         const { appStore } = this.props;
         const { loginUser } = appStore;
         switch (loginUser.roleCode) {
