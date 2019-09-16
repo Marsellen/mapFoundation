@@ -1,7 +1,51 @@
 import axios from 'axios';
-import { getAuthentication } from './Session';
+import { getAuthentication, logout } from './Session';
+import { Modal } from 'antd';
 
 const BASIC_METHODS = ['get', 'post', 'put'];
+
+//捕获401
+// http request 拦截器
+axios.interceptors.request.use(
+    config => {
+        let userInfo = getAuthentication();
+        let token = userInfo ? userInfo.token : '';
+        if (token) {
+            // 判断是否存在token，如果存在的话，则每个http header都加上token
+            // console.log(token)
+            config.headers.Authentication = token;
+        }
+        return config;
+    },
+    err => {
+        return Promise.reject(err);
+    }
+);
+
+// http response 拦截器
+axios.interceptors.response.use(
+    response => {
+        return response;
+    },
+    error => {
+        if (error.response) {
+            switch (error.response.status) {
+                case 401:
+                    // 返回 401 清除token信息并跳转到登录页面
+                    Modal.error({
+                        title: 'token失效，请重新获取',
+                        okText: '确定',
+                        cancelText: '取消',
+                        onOk: () => {
+                            logout();
+                            window.location.reload();
+                        }
+                    });
+            }
+        }
+        return Promise.reject(error.response.data); // 返回接口返回的错误信息
+    }
+);
 
 /**
  * url format
@@ -45,14 +89,11 @@ function request(defaultUrl, extraParams, option) {
                 key = 'data';
             }
 
-            // TODO
-            let userInfo = getAuthentication();
-            let Authentication = userInfo ? userInfo.token : '';
             let config = {
                 ...option,
                 url: urlFormat(option.url || defaultUrl, params),
                 [key]: params,
-                headers: { 'Content-Type': 'application/json', Authentication }
+                headers: { 'Content-Type': 'application/json' }
             };
             axios(config)
                 .then(response => {
