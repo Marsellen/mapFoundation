@@ -63,13 +63,15 @@ class TaskStore {
         let { Input_imp_data_path, taskFetchId, manualStatus } = task;
         this.activeTaskId = Input_imp_data_path;
 
-        const status = [4, 5]; //返修-4、返工-5
+        const status = [2, 4, 5]; //进行中-2、返修-4、返工-5
         if (taskFetchId && !status.includes(manualStatus)) {
             // TODO taskFechId 少了一个t，后台接口定义问题
             yield this.updateTaskStatus({
                 taskFechId: taskFetchId,
                 manualStatus: 2
             });
+            // 更新完后 刷新任务列表
+            this.initTask({ type: 4 });
         }
     });
 
