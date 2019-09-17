@@ -254,7 +254,7 @@ const calcRels = (layerName, relation, feature) => {
 const uniqRels = rels => {
     let REL_IDS = [];
     return rels.reduce((total, rel) => {
-        let relId = rel.extraInfo.REL_ID;
+        let relId = rel.extraInfo && rel.extraInfo.REL_ID;
         if (!(relId && REL_IDS.includes(relId))) {
             if (relId) REL_IDS.push(relId);
             total.push(rel);
