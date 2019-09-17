@@ -720,7 +720,7 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'VALUE',
-            name: '文字符号类型',
+            name: '文字内容',
             type: 'AD_TEXT_VALUE',
             domType: 'Input'
         }
