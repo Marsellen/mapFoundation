@@ -3,6 +3,7 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/components/AdMessage';
+import 'less/components/tool-icon.less';
 
 @inject('DataLayerStore')
 @inject('TaskStore')
@@ -13,7 +14,7 @@ class Ranging extends React.Component {
         const { activeTaskId } = TaskStore;
         let visible = DataLayerStore.editType == 'meature_distance';
         return (
-            <span>
+            <span className={visible ? "ad-icon-active" : ''}>
                 <ToolIcon
                     icon="ceju"
                     title="测距"

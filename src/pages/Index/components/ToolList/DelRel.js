@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { message, Modal } from 'antd';
 import { delRel } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
+import 'less/components/tool-icon.less';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -56,7 +57,7 @@ class DelRel extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'delRel';
         return (
-            <span>
+            <span className={visible ? "ad-icon-active" : ''}>
                 <ToolIcon
                     icon="shanchuguanxi"
                     title="删除关联关系"
