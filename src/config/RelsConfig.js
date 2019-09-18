@@ -9,7 +9,12 @@ export const REL_DATA_SET = [
 ];
 
 // 属性关联关系图层
-export const ATTR_REL_DATA_SET = ['AD_Lane', 'AD_Arrow', 'AD_Text'];
+export const ATTR_REL_DATA_SET = [
+    'AD_Lane',
+    'AD_Arrow',
+    'AD_Text',
+    'AD_LaneAttrPoint'
+];
 
 // IndexDB对象类型描述映射
 export const REL_TYPE_KEY_MAP = {
@@ -59,6 +64,9 @@ export const REL_TYPE_KEY_MAP = {
     },
     TEXT: {
         name: '关联地面文字'
+    },
+    LANEP: {
+        name: '关联属性变化点'
     }
 };
 
