@@ -101,9 +101,13 @@ class AttributeStore {
     @action hideRelFeatures = () => {
         try {
             this.relFeatures.map(feature => {
-                getLayerByName(feature.layerName).updateFeatureColor(
-                    feature.option
-                );
+                try {
+                    getLayerByName(feature.layerName).updateFeatureColor(
+                        feature.option
+                    );
+                } catch (e) {
+                    console.log(e);
+                }
             });
         } catch (error) {
             console.log(error);
