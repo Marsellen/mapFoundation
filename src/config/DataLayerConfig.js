@@ -160,3 +160,4 @@ export const DATA_LAYER_MAP = {
 export const RESOURCE_LAYER_POINT_CLOUD = '点云';
 export const RESOURCE_LAYER_VETOR = '高精地图';
 export const RESOURCE_LAYER_TRACE = '轨迹';
+export const RESOURCE_LAYER_TASK_SCOPE = '任务范围';
