@@ -10,7 +10,9 @@ class ToolCtrlStore {
         this.tools = TOOLS_MAP.EDIT;
     };
 
-    @action updateByEditLayer = ({ layerName } = {}, { roleCode } = {}) => {
+    @action updateByEditLayer = (layer, uerInfo) => {
+        let layerName = layer && layer.layerName;
+        let roleCode = uerInfo && uerInfo.roleCode;
         if (!DATA_LAYER_MAP[layerName]) {
             this.tools = TOOLS_MAP.EDIT;
             return;
