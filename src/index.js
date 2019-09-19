@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
 import store from './store';
-import App from './App';
+import Routers from './routers';
 import 'less/index.less';
 
 //offline
@@ -13,7 +13,7 @@ import { BrowserRouter } from 'react-router-dom';
 ReactDOM.render(
     <BrowserRouter>
         <Provider {...store}>
-            <App />
+            <Routers />
         </Provider>
     </BrowserRouter>,
     document.getElementById('root')
