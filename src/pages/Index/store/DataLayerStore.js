@@ -18,23 +18,8 @@ class DataLayerStore extends LayerStore {
         this.measureControl;
         this.detectorControl;
         this.highLightFeatures = [];
-        document.onkeydown = event => {
-            var e =
-                event || window.event || arguments.callee.caller.arguments[0];
-            if (e && e.keyCode == 27) {
-                if (this.editType != 'normal') {
-                    Modal.confirm({
-                        title: '是否退出',
-                        okText: '确定',
-                        cancelText: '取消',
-                        onOk: () => {
-                            this.clearChoose();
-                        }
-                    });
-                }
-                return;
-            }
-        };
+
+        this.bindKeyEvent();
     }
     @observable editType = 'normal';
     @observable beenPick;
@@ -143,7 +128,7 @@ class DataLayerStore extends LayerStore {
         this.editor.clear();
         this.editor.cancel();
         this.measureControl.clear();
-        this.unPick()
+        this.unPick();
     };
 
     changeCur = () => {
@@ -344,6 +329,32 @@ class DataLayerStore extends LayerStore {
             };
         });
         this.editor.selectFeaturesFromSpecified(options);
+    };
+
+    bindKeyEvent = () => {
+        document.onkeydown = event => {
+            var e = event || window.event;
+            if (e && e.keyCode == 27) {
+                // esc
+                if (this.editType != 'normal') {
+                    Modal.confirm({
+                        title: '是否退出',
+                        okText: '确定',
+                        cancelText: '取消',
+                        onOk: () => {
+                            this.clearChoose();
+                        }
+                    });
+                }
+                return;
+            }
+            if (e && e.keyCode == 90) {
+                //Z
+                if (this.editType.includes('new_')) {
+                    this.editor.undo();
+                }
+            }
+        };
     };
 }
 
