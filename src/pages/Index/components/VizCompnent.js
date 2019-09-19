@@ -18,7 +18,8 @@ import TopView from './ToolList/TopView';
 import {
     RESOURCE_LAYER_POINT_CLOUD,
     RESOURCE_LAYER_VETOR,
-    RESOURCE_LAYER_TRACE
+    RESOURCE_LAYER_TRACE,
+    RESOURCE_LAYER_TASK_SCOPE
 } from 'src/config/DataLayerConfig';
 import { getAuthentication, getCurrentEditingTaskId } from 'src/utils/Session';
 import MultimediaView from './MultimediaView';
@@ -48,8 +49,7 @@ class VizCompnent extends React.Component {
         const { TaskStore } = this.props;
         const userInfo = getAuthentication();
         const currentTask = getCurrentEditingTaskId();
-        
-        
+
         TaskStore.initTask({ type: 4 }).then(() => {
             const { tasks } = TaskStore;
             if (!tasks || tasks.length == 0) {
@@ -57,9 +57,9 @@ class VizCompnent extends React.Component {
                 return;
             }
             if (userInfo.username === currentTask.userName) {
-                TaskStore.setActiveTask(currentTask.taskId)
+                TaskStore.setActiveTask(currentTask.taskId);
             } else {
-                TaskStore.setActiveTask()
+                TaskStore.setActiveTask();
             }
             //TaskStore.getTaskFile().then(this.initTask);
         });
@@ -96,14 +96,14 @@ class VizCompnent extends React.Component {
     };
 
     initEditResource = async task => {
-        let [pointClouds, vectors, tracks] = await Promise.all([
+        let [pointClouds, vectors, tracks, taskScope] = await Promise.all([
             this.initPointCloud(task.point_clouds),
             this.initVectors(task.vectors),
             this.initTracks(task.tracks),
             this.initRegion(task.region),
             this.initBoundary(task.boundary)
         ]);
-        this.initResouceLayer([pointClouds, vectors, tracks]);
+        this.initResouceLayer([pointClouds, vectors, tracks, taskScope]);
         this.installListener();
     };
 
@@ -173,6 +173,10 @@ class VizCompnent extends React.Component {
             const vectorLayer = new VectorLayer(regionUrl);
             vectorLayer.setDefaultStyle({ color: '#00FF00' });
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
+            return {
+                layerName: RESOURCE_LAYER_TASK_SCOPE,
+                layer: vectorLayer
+            };
         } catch (e) {
             message.error('作业范围数据加载失败', 3);
         }
