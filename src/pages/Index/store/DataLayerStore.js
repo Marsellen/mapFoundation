@@ -141,10 +141,24 @@ class DataLayerStore extends LayerStore {
         addClass(viz, 'ruler-viz');
     };
 
+    // 新增，打断形状点鼠标样式
+    addShapePoint = () => {
+        let viz = document.querySelector('#viz');
+        addClass(viz, 'shape-viz');
+    }
+
+    // 修改，删除形状点鼠标样式
+    delShapePoint = () => {
+        let viz = document.querySelector('#viz');
+        addClass(viz, 'del-viz');
+    }
+
     removeCur = () => {
         let viz = document.querySelector('#viz');
         removeClass(viz, 'edit-viz');
         removeClass(viz, 'ruler-viz');
+        removeClass(viz, 'shape-viz');
+        removeClass(viz, 'del-viz');
     };
 
     @action newPoint = () => {
@@ -259,6 +273,7 @@ class DataLayerStore extends LayerStore {
         this.measureControl.clear();
         this.editType = 'insertPoints';
         this.editor.insertPoints();
+        this.addShapePoint();
     };
 
     @action changePoints = () => {
@@ -267,6 +282,7 @@ class DataLayerStore extends LayerStore {
         this.detectorControl.disable();
         this.editType = 'changePoints';
         this.editor.changePoints();
+        this.delShapePoint();
     };
 
     @action deletePoints = () => {
@@ -275,6 +291,7 @@ class DataLayerStore extends LayerStore {
         this.detectorControl.disable();
         this.editType = 'delPoint';
         this.editor.deletePoints();
+        this.delShapePoint();
     };
 
     @action setPointSize = size => {
@@ -306,6 +323,7 @@ class DataLayerStore extends LayerStore {
         this.detectorControl.disable();
         this.editType = 'select_point';
         this.editor.selectPointFromHighlight();
+        this.addShapePoint();
     };
 
     setFeatureColor = (obj, color) => {

@@ -2,6 +2,7 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/components/AdMessage';
+import 'less/components/tool-icon.less';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -11,7 +12,7 @@ class AddPoint extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'new_point';
         return (
-            <span>
+            <span className={visible ? "ad-icon-active" : ''}>
                 <ToolIcon
                     icon="yuandianzhong"
                     title="添加点要素"

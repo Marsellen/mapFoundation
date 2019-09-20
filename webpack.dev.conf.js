@@ -5,6 +5,7 @@ const common = require('./webpack.common.conf');
 
 module.exports = merge(common, {
     mode: 'development',
+    devtool: 'cheap-module-source-map',
     devServer: {
         historyApiFallback: true,
         hot: true,

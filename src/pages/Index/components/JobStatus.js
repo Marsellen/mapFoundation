@@ -46,7 +46,11 @@ class JobStatus extends React.Component {
                     onClick={this.getJob}>
                     获取任务
                 </Button>
-                <Button onClick={this.submitTask}>提交任务</Button>
+                <Button
+                    disabled={tasks && tasks.length === 0 ? true : false}
+                    onClick={this.submitTask}>
+                    提交任务
+                </Button>
                 <Modal
                     className="quality-sub"
                     title="当前任务是否通过质检？"
@@ -84,7 +88,7 @@ class JobStatus extends React.Component {
         const { tasks } = TaskStore;
         if (tasks && tasks.length > 0) {
             if (oldTasks && oldTasks.length == tasks.length) {
-                message.success('暂无新任务', 3);
+                message.warning('暂无新任务', 3);
                 return;
             } else {
                 message.success('获取完成', 3);
