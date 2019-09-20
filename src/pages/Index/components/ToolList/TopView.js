@@ -11,7 +11,7 @@ class TopView extends React.Component {
         return activeTaskId ? (
             <div placement="bottom" title="俯视图模式" className="zoom-scale">
                 <IconFont
-                    type="icon-suoxiao"
+                    type="icon-compass"
                     className="ad-icon"
                     onClick={this.action}
                 />
@@ -22,7 +22,8 @@ class TopView extends React.Component {
     }
 
     action = () => {
-        map.setView('U');
+        // map.setView('U');
+        map.setCurrentView('U');
     }
 }
 
