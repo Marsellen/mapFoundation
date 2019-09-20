@@ -567,15 +567,16 @@ export const DEFAULT_PROPERTIES_MAP = {
         TYPE: 1
     },
     AD_Text: {
-        TYPE: 0,
+        TYPE: 99,
         LANE_ID: 0
     },
     AD_TrafficSign: {
         // TYPE: 101,
-        SIGN_STYLE: 0
+        SIGN_STYLE: 1
     },
     AD_TrafficLight: {
-        TYPE: 1
+        TYPE: 1,
+        LAYOUT: 1
     },
     AD_LaneDivider: {
         TYPE: 1,
@@ -596,14 +597,23 @@ export const DEFAULT_PROPERTIES_MAP = {
         RD_STATUS: 0
     },
     AD_Lane: {
-        TYPE: 2,
-        DIRECTION: 2,
+        TYPE: 1,
+        DIRECTION: 1,
         LANE_NO: 0,
+        STATUS: 1,
+        MAX_SPEED: 0,
+        MIN_SPEED: 0,
         MAX_SP_TYP: 0,
         MIN_SP_TYP: 0,
         L_LDIV_ID: 0,
         R_LDIV_ID: 0,
         ROAD_ID: 0
+    },
+    AD_Lane_RS: {
+        RS_TYPE: 0
+    },
+    AD_Lane_CON_RS: {
+        RS_TYPE: 1
     },
     AD_LaneAttrPoint: {
         TYPE: 0,
@@ -619,12 +629,19 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_Map_QC: {
         ERROR_TYPE: 0,
-        FIX_STATUS: 1,
+        FIX_STATUS: 0,
         QC_STATUS: 0
     },
     AD_RS_Barrier: {
-        TYPE: 0,
-        MATERIAL: 0
+        TYPE: 2,
+        MATERIAL: 2
+    },
+    AD_TS_Content: {
+        SIGN_TYPE: 0,
+        CONT_TYPE: 0
+    },
+    AD_Sub_Lamp: {
+        LAMP_TYPE: 'A'
     }
 };
 
@@ -700,7 +717,7 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'VALUE',
-            name: '文字符号类型',
+            name: '文字内容',
             type: 'AD_TEXT_VALUE',
             domType: 'Input'
         }
