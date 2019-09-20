@@ -1,6 +1,5 @@
 import React from 'react';
 import { Dropdown, Menu, Modal } from 'antd';
-import { isAuthenticated } from 'src/utils/Session';
 import { inject, observer } from 'mobx-react';
 import CONFIG from 'src/config';
 
@@ -59,7 +58,7 @@ class Avatar extends React.Component {
         const currentUserInfo = {
             taskId: TaskStore.activeTask.taskId,
             userName: appStore.loginUser.username
-        }
+        };
         Modal.confirm({
             title: '您确定要退出登录？',
             okText: '确定',

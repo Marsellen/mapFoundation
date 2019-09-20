@@ -1,8 +1,4 @@
-import {
-    REL_SPEC_CONFIG,
-    REL_DATA_SET,
-    SPEC_REL_KEY_SET
-} from 'src/config/RelsConfig';
+import { REL_SPEC_CONFIG, SPEC_REL_KEY_SET } from 'src/config/RelsConfig';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
 import IndexedDB from 'src/utils/IndexedDB';
 

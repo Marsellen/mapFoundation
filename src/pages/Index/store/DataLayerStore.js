@@ -18,23 +18,8 @@ class DataLayerStore extends LayerStore {
         this.measureControl;
         this.detectorControl;
         this.highLightFeatures = [];
-        document.onkeydown = event => {
-            var e =
-                event || window.event || arguments.callee.caller.arguments[0];
-            if (e && e.keyCode == 27) {
-                if (this.editType != 'normal') {
-                    Modal.confirm({
-                        title: '是否退出',
-                        okText: '确定',
-                        cancelText: '取消',
-                        onOk: () => {
-                            this.clearChoose();
-                        }
-                    });
-                }
-                return;
-            }
-        };
+
+        this.bindKeyEvent();
     }
     @observable editType = 'normal';
     @observable beenPick;
@@ -144,7 +129,7 @@ class DataLayerStore extends LayerStore {
         this.editor.clear();
         this.editor.cancel();
         this.measureControl.clear();
-        this.unPick()
+        this.unPick();
     };
 
     changeCur = () => {
@@ -161,13 +146,13 @@ class DataLayerStore extends LayerStore {
     addShapePoint = () => {
         let viz = document.querySelector('#viz');
         addClass(viz, 'shape-viz');
-    }
+    };
 
     // 修改，删除形状点鼠标样式
     delShapePoint = () => {
         let viz = document.querySelector('#viz');
         addClass(viz, 'del-viz');
-    }
+    };
 
     removeCur = () => {
         let viz = document.querySelector('#viz');
@@ -260,14 +245,14 @@ class DataLayerStore extends LayerStore {
         this.breakCallback = callback;
     };
 
-    newCircle = flow(function*() {
+    @action newCircle = () => {
         if (!this.editor) return;
         this.measureControl.clear();
         this.editType = 'new_circle';
         this.changeCur();
         this.detectorControl.disable();
         this.editor.newFixedPolygon(3);
-    });
+    };
 
     updateResult = flow(function*(result) {
         try {
@@ -288,10 +273,10 @@ class DataLayerStore extends LayerStore {
         }
     });
 
-    updateFeature = flow(function*(result) {
+    @action updateFeature = result => {
         this.editor.editLayer.layer.updateFeatures([result]);
         return result;
-    });
+    };
 
     @action insertPoints = () => {
         if (!this.editor) return;
@@ -372,6 +357,32 @@ class DataLayerStore extends LayerStore {
             };
         });
         this.editor.selectFeaturesFromSpecified(options);
+    };
+
+    bindKeyEvent = () => {
+        document.onkeydown = event => {
+            var e = event || window.event;
+            if (e && e.keyCode == 27) {
+                // esc
+                if (this.editType != 'normal') {
+                    Modal.confirm({
+                        title: '是否退出',
+                        okText: '确定',
+                        cancelText: '取消',
+                        onOk: () => {
+                            this.clearChoose();
+                        }
+                    });
+                }
+                return;
+            }
+            if (e && e.keyCode == 90) {
+                //Z
+                if (this.editType.includes('new_')) {
+                    this.editor.undo();
+                }
+            }
+        };
     };
 }
 

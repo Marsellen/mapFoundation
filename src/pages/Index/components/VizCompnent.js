@@ -14,7 +14,6 @@ import RightMenuModal from './RightMenuModal';
 import ZoomIn from './ToolList/ZoomIn';
 import ZoomOut from './ToolList/ZoomOut';
 import UnderView from './ToolList/UnderView';
-import TopView from './ToolList/TopView';
 import {
     RESOURCE_LAYER_POINT_CLOUD,
     RESOURCE_LAYER_VETOR,
@@ -61,7 +60,6 @@ class VizCompnent extends React.Component {
             } else {
                 TaskStore.setActiveTask();
             }
-            //TaskStore.getTaskFile().then(this.initTask);
         });
     }
 
@@ -69,7 +67,8 @@ class VizCompnent extends React.Component {
         const { TaskStore } = this.props;
         const div = document.getElementById('viz');
         window.map = new Map(div);
-        TaskStore.getTaskFile().then(this.initTask);
+        let task = TaskStore.getTaskFile();
+        this.initTask(task);
     }
 
     initTask = async task => {
@@ -291,21 +290,19 @@ class VizCompnent extends React.Component {
             return;
         }
         DataLayerStore.updateResult(result)
-            .then(result => {
-                return NewFeatureStore.init(result);
+            .then(data => {
+                return NewFeatureStore.init(data);
             })
-            .then(result => {
-                return DataLayerStore.updateFeature(result);
-            })
-            .then(result => {
-                let layerName = result.layerName;
-                let feature = result.data;
+            .then(data => {
+                DataLayerStore.updateFeature(data);
+                let layerName = data.layerName;
+                let feature = data.data;
                 OperateHistoryStore.add({
                     type: 'addFeature',
                     feature: feature,
                     layerName: layerName
                 });
-                this.showAttributesModal(result);
+                this.showAttributesModal(data);
             })
             .catch(e => {
                 console.log(e);
@@ -417,7 +414,6 @@ class VizCompnent extends React.Component {
             <React.Fragment>
                 <div id="viz" key={TaskStore.activeTaskId} className="viz-box">
                     <div className="set-compass">
-                        <TopView key="TOP_VIEW" />
                         <ZoomOut key="ZOOM_OUT" />
                         <ZoomIn key="ZOOM_IN" />
                         <UnderView key="UNDER_VIEW" />

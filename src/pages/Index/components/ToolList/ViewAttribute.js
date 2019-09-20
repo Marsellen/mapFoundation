@@ -29,7 +29,7 @@ class ViewAttribute extends React.Component {
 
     render() {
         return (
-            <span className={this.state.visible ? "ad-icon-active" : ''}>
+            <span className={this.state.visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
                     icon="shuxingliebiao"
                     title="属性列表"
