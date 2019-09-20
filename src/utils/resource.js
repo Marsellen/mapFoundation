@@ -37,7 +37,7 @@ axios.interceptors.response.use(
  */
 function urlFormat(url, params) {
     // 根据params内容替换对应的占位符
-    Object.keys(params).map(key => {
+    Object.keys(params).forEach(key => {
         let reg = new RegExp(':' + key + '\\b', 'g');
         if (reg.test(url)) {
             url = url.replace(reg, params[key]);

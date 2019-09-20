@@ -477,14 +477,6 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 1, label: '已修正' },
         { value: 2, label: '未修正' }
     ],
-    AD_TEXT_TYPE: [
-        { value: 0, label: '未定义' },
-        { value: 1, label: '最高限速' },
-        { value: 2, label: '最低限速' },
-        { value: 3, label: '公交车道时间限制' },
-        { value: 4, label: '公交车道类文字' },
-        { value: 99, label: '其他' }
-    ],
     AD_SUB_LAMP_TYPE: [
         { value: '0', label: '未定义' },
         { value: 'A', label: '圆灯' },
@@ -596,8 +588,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         RD_STATUS: 0,
         RD_CLASS: 0,
         RD_FORM: 0,
-        DIRECTION: 0,
-        RD_STATUS: 0
+        DIRECTION: 0
     },
     AD_Lane: {
         TYPE: 1,
