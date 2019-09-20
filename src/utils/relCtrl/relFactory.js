@@ -70,6 +70,29 @@ export const getTabelData = async (layerName, relRecords, properties) => {
         });
         return total;
     }, {});
+    if (layerName == 'AD_Lane') {
+        relMap = {
+            L_LDIV: [
+                {
+                    key: 'L_LDIV',
+                    id: ''
+                }
+            ],
+            R_LDIV: [
+                {
+                    key: 'R_LDIV',
+                    id: ''
+                }
+            ],
+            ROAD: [
+                {
+                    key: 'ROAD',
+                    id: ''
+                }
+            ],
+            ...relMap
+        };
+    }
     return Object.keys(relMap).reduce((total, key) => {
         let config = REL_TYPE_KEY_MAP[key] || REL_TYPE_KEY_MAP.DEFAULT;
         if (relMap[key].length == 1) {
@@ -85,8 +108,8 @@ export const getTabelData = async (layerName, relRecords, properties) => {
     }, []);
 };
 
-export const updateRels = async (rels, type) => {
-    if (type == 'AD_Lane') {
+export const updateRels = async (rels, feature) => {
+    if (feature.layerName == 'AD_Lane') {
         let map = Object.keys(rels).reduce((total, key) => {
             return {
                 ...total,
@@ -103,17 +126,34 @@ export const updateRels = async (rels, type) => {
     let relStore = new IndexedDB('relationships', 'rels');
     let newRecords = await Object.keys(rels).reduce(async (total, key) => {
         let id = parseInt(key.replace(/\D/g, ''));
-        let record = await relStore.get(id);
-        let isRelObj = Object.keys(rels[key]).includes(record.relObjType);
-        let typeKey = isRelObj ? 'relObjId' : 'objId';
-        let relType = isRelObj ? 'relObjType' : 'objType';
-        let newRecord = {
-            ...record,
-            [typeKey]: rels[key][record[relType]]
-        };
-        await relStore.edit(newRecord);
+        let relKey = key.replace(/[0-9]/g, '');
+        let newRecord;
+        if (id) {
+            if (rels[key]) {
+                let record = await relStore.get(id);
+                let isRelObj = relKey == record.relObjType;
+                let typeKey = isRelObj ? 'relObjId' : 'objId';
+                newRecord = {
+                    ...record,
+                    [typeKey]: rels[key]
+                };
+                await relStore.edit(newRecord);
+            } else {
+                await relStore.deleteById(id);
+            }
+        } else if (rels[key]) {
+            // AD_Lane 默认显示的属性关联关系 没有 id。需要新建
+            newRecord = {
+                objId: feature.data.properties.LANE_ID,
+                objType: 'LANE',
+                relObjType: relKey,
+                relObjId: rels[key],
+                spec: 'AD_Lane'
+            };
+            await relStore.add(newRecord);
+        }
         total = await total;
-        total.push(newRecord);
+        newRecord && total.push(newRecord);
         return total;
     }, []);
     updateFeaturesByRels(newRecords);
