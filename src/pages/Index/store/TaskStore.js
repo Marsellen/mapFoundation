@@ -75,12 +75,11 @@ class TaskStore {
         }
     });
 
-    getTaskFile = flow(function*() {
+    @action getTaskFile = () => {
         try {
             if (!this.activeTaskId) {
                 return;
             }
-            //const task = yield TaskService.get({ id: this.activeTaskId });
             let task = {
                 point_clouds: this.activeTaskId + CONFIG.urlConfig.point_clouds,
                 vectors: this.urlFormat(CONFIG.urlConfig.vectors),
@@ -94,7 +93,7 @@ class TaskStore {
         } catch (e) {
             console.log(e);
         }
-    });
+    };
 
     urlFormat = path => {
         return this.activeTaskId + path + '?time=' + Date.now();
