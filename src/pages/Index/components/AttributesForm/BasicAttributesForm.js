@@ -21,7 +21,7 @@ const formItemLayout = {
 class BasicAttributesForm extends React.Component {
     render() {
         const { AttributeStore } = this.props;
-        const { attributes, attrs } = AttributeStore;
+        const { attributes } = AttributeStore;
         return (
             <div>
                 {attributes.map((item, index) =>

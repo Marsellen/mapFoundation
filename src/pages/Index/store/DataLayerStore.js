@@ -145,13 +145,13 @@ class DataLayerStore extends LayerStore {
     addShapePoint = () => {
         let viz = document.querySelector('#viz');
         addClass(viz, 'shape-viz');
-    }
+    };
 
     // 修改，删除形状点鼠标样式
     delShapePoint = () => {
         let viz = document.querySelector('#viz');
         addClass(viz, 'del-viz');
-    }
+    };
 
     removeCur = () => {
         let viz = document.querySelector('#viz');
@@ -235,14 +235,14 @@ class DataLayerStore extends LayerStore {
         this.breakCallback = callback;
     };
 
-    newCircle = flow(function*() {
+    @action newCircle = () => {
         if (!this.editor) return;
         this.measureControl.clear();
         this.editType = 'new_circle';
         this.changeCur();
         this.detectorControl.disable();
         this.editor.newFixedPolygon(3);
-    });
+    };
 
     updateResult = flow(function*(result) {
         try {
@@ -263,10 +263,10 @@ class DataLayerStore extends LayerStore {
         }
     });
 
-    updateFeature = flow(function*(result) {
+    @action updateFeature = result => {
         this.editor.editLayer.layer.updateFeatures([result]);
         return result;
-    });
+    };
 
     @action insertPoints = () => {
         if (!this.editor) return;
