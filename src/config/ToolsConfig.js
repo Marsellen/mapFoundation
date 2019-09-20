@@ -7,7 +7,6 @@ export const TOOLS_MAP = {
         ZOOM_IN: true,
         ZOOM_OUT: true,
         UNDER_VIEW: true,
-        TOP_VIEW: true,
         INTENSITY: true,
         RANGING: true,
         EDIT_LAYER: true,
