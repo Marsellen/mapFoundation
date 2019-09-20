@@ -38,6 +38,7 @@ class DataLayerStore extends LayerStore {
     }
     @observable editType = 'normal';
     @observable beenPick;
+    @observable disable = true;
 
     @action toggle = (name, checked) => {
         this.layers.find(layer => layer.value == name).checked = checked;
@@ -211,6 +212,15 @@ class DataLayerStore extends LayerStore {
         this.detectorControl.disable();
         this.editor.newMatrix();
     };
+
+    @action btnGray = (opt) => {
+        
+        if (opt) {
+            this.disable = true;
+        } else {
+            this.disable = false;
+        }
+    }
 
     @action newVerticalMatrix = () => {
         if (!this.editor) return;
