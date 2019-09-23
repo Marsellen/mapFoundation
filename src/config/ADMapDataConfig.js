@@ -452,11 +452,11 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'AD_Arrow', label: '地面引导箭头' },
         { value: 'AD_StopLocation', label: '停止位置' },
         { value: 'AD_LaneMark_Plg', label: '面状标识物' },
-        { value: 'AD_Text', label: '地面文字' },
+        { value: 'AD_Text', label: '道路文字符号' },
         { value: 'AD_TrafficSign', label: '交通标志牌' },
         { value: 'AD_TrafficLight', label: '交通信号灯' },
         { value: 'AD_Pole', label: '杆状物' },
-        { value: 'AD_RS_Barrier', label: '道路隔离带' }
+        { value: 'AD_RS_Barrier', label: '隔离带、护栏' }
     ],
     AD_MAP_QC_ERROR_TYPE: [
         { value: 0, label: '未定义' },
