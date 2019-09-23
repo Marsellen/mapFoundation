@@ -445,15 +445,18 @@ export const TYPE_SELECT_OPTION_MAP = {
         }
     ],
     AD_MAP_QC_FILE_NAME: [
-        { value: 'AD_Arrow', label: '地面引导箭头' },
-        { value: 'AD_LaneAttrPoint', label: '车道属性变化点' },
+        { value: 'AD_Road', label: '道路参考线' },
         { value: 'AD_LaneDivider', label: '车道线' },
-        { value: 'AD_LaneMark_Plg', label: '面状标识物' },
-        { value: 'AD_StopLocation', label: '停止位置' },
         { value: 'AD_Lane', label: '车道中心线' },
+        { value: 'AD_LaneAttrPoint', label: '车道属性变化点' },
+        { value: 'AD_Arrow', label: '地面引导箭头' },
+        { value: 'AD_StopLocation', label: '停止位置' },
+        { value: 'AD_LaneMark_Plg', label: '面状标识物' },
+        { value: 'AD_Text', label: '地面文字' },
         { value: 'AD_TrafficSign', label: '交通标志牌' },
-        { value: 'AD_RefLine', label: '道路参考线' },
-        { value: 'AD_TrafficLight', label: '交通信号灯' }
+        { value: 'AD_TrafficLight', label: '交通信号灯' },
+        { value: 'AD_Pole', label: '杆状物' },
+        { value: 'AD_RS_Barrier', label: '道路隔离带' }
     ],
     AD_MAP_QC_ERROR_TYPE: [
         { value: 0, label: '未定义' },
