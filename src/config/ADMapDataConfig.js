@@ -492,8 +492,8 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'J', label: '读秒' }
     ],
     AD_TS_CONTENT_CONT_TYPE: [
-        { value: 0, label: '未定义' },
         { value: 1, label: '禁止转向' },
+        { value: 0, label: '未定义' },
         { value: 2, label: '限制转向' },
         { value: 3, label: '最大速度限制' },
         { value: 4, label: '最低速度限制' }
@@ -590,8 +590,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         RD_STATUS: 0,
         RD_CLASS: 0,
         RD_FORM: 0,
-        DIRECTION: 0,
-        RD_STATUS: 0
+        DIRECTION: 0
     },
     AD_Lane: {
         TYPE: 1,
@@ -799,16 +798,16 @@ export const TABLE_DATA_MAP = {
     ],
     AD_Lane: [
         {
-            key: 'TYPE',
-            name: '车道类型',
-            type: 'AD_LANE_TYPE',
-            domType: 'RadioIconGroup'
-        },
-        {
             key: 'LANE_ID',
             name: '用户编号',
             type: 'AD_LANE_LANE_ID',
             domType: 'Text'
+        },
+        {
+            key: 'TYPE',
+            name: '车道类型',
+            type: 'AD_LANE_TYPE',
+            domType: 'RadioIconGroup'
         },
         // {
         //     key: 'ROAD_ID',

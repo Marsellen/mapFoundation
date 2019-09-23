@@ -1,4 +1,4 @@
-import { observable, flow, configure } from 'mobx';
+import { observable, flow, configure, action } from 'mobx';
 import IndexedDB from 'src/utils/IndexedDB';
 import OperateFactory from 'src/utils/OperateFactory';
 
@@ -64,9 +64,9 @@ class OperateHistoryStore {
         }
     });
 
-    save = flow(function*() {
+    @action save = () => {
         this.savedNode = this.currentNode;
-    });
+    };
 
     destroy = flow(function*() {
         try {

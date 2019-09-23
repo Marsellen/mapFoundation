@@ -2,7 +2,11 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Form, Input, Modal, Select } from 'antd';
 import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
-import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
+
+import {
+    TYPE_SELECT_OPTION_MAP,
+    DEFAULT_PROPERTIES_MAP
+} from 'src/config/ADMapDataConfig';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import _ from 'lodash';
 
@@ -54,6 +58,9 @@ class NewAttrModal extends React.Component {
 
     show = (key, properties) => {
         let config = _.cloneDeep(ATTR_TABLE_CONFIG[key]);
+        config.forEach(item => {
+            item.value = DEFAULT_PROPERTIES_MAP[key][item.key];
+        });
         this.setState({
             key,
             properties,

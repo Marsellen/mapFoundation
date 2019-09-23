@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { Select, Input, ConfigProvider } from 'antd';
 import { inject, observer } from 'mobx-react';
@@ -8,6 +8,7 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { getLayerItems } from 'src/utils/vectorCtrl/propertyTableCtrl';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import 'less/components/view-attribute.less';
+import 'less/components/tool-icon.less';
 import zh_CN from 'antd/es/locale/zh_CN';
 import SeniorModal from 'src/components/SeniorModal';
 
@@ -28,7 +29,7 @@ class ViewAttribute extends React.Component {
 
     render() {
         return (
-            <Fragment>
+            <span className={this.state.visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
                     icon="shuxingliebiao"
                     title="属性列表"
@@ -49,7 +50,7 @@ class ViewAttribute extends React.Component {
                     className="layer-scroll">
                     {this.renderContent()}
                 </SeniorModal>
-            </Fragment>
+            </span>
         );
     }
 

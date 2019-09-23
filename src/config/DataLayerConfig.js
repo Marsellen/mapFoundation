@@ -122,7 +122,14 @@ export const DATA_LAYER_MAP = {
         id: 'BARR_ID',
         spec: 'AD_RS_Barrier',
         tools: ['LINE'],
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
+        rightTools: [
+            'delete',
+            'insertPoints',
+            'changePoints',
+            'deletePoints',
+            'break'
+        ],
+        groupRightTools: ['breakGroup', 'merge']
     },
     AD_Lane_RS: {
         label: '车道中心线交通限制信息',
@@ -153,3 +160,4 @@ export const DATA_LAYER_MAP = {
 export const RESOURCE_LAYER_POINT_CLOUD = '点云';
 export const RESOURCE_LAYER_VETOR = '高精地图';
 export const RESOURCE_LAYER_TRACE = '轨迹';
+export const RESOURCE_LAYER_TASK_SCOPE = '任务范围';

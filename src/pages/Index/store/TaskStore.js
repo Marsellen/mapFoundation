@@ -3,7 +3,6 @@ import TaskService from '../service/TaskService';
 import JobService from '../service/JobService';
 import { Modal, message } from 'antd';
 import CONFIG from 'src/config';
-import { logout } from 'src/utils/Session';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -14,21 +13,8 @@ class TaskStore {
     // 任务列表
     initTask = flow(function*(option) {
         const result = yield JobService.listTask(option).catch(error => {
-            if (error.code === 1001 || error.code === 401) {
-                //判断是否token失效
-                Modal.confirm({
-                    title: 'token失效，请重新获取',
-                    okText: '确定',
-                    cancelText: '取消',
-                    onOk: () => {
-                        logout();
-                        window.location.reload();
-                    }
-                });
-            } else {
-                message.warning('网络错误', 3);
-                throw error;
-            }
+            message.error('任务加载失败', 3);
+            throw error;
         });
 
         this.tasks = result.data.taskList;
@@ -77,22 +63,23 @@ class TaskStore {
         let { Input_imp_data_path, taskFetchId, manualStatus } = task;
         this.activeTaskId = Input_imp_data_path;
 
-        const status = [4, 5]; //返修-4、返工-5
+        const status = [2, 4, 5]; //进行中-2、返修-4、返工-5
         if (taskFetchId && !status.includes(manualStatus)) {
             // TODO taskFechId 少了一个t，后台接口定义问题
             yield this.updateTaskStatus({
                 taskFechId: taskFetchId,
                 manualStatus: 2
             });
+            // 更新完后 刷新任务列表
+            this.initTask({ type: 4 });
         }
     });
 
-    getTaskFile = flow(function*() {
+    @action getTaskFile = () => {
         try {
             if (!this.activeTaskId) {
                 return;
             }
-            //const task = yield TaskService.get({ id: this.activeTaskId });
             let task = {
                 point_clouds: this.activeTaskId + CONFIG.urlConfig.point_clouds,
                 vectors: this.urlFormat(CONFIG.urlConfig.vectors),
@@ -106,7 +93,7 @@ class TaskStore {
         } catch (e) {
             console.log(e);
         }
-    });
+    };
 
     urlFormat = path => {
         return this.activeTaskId + path + '?time=' + Date.now();

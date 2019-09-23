@@ -17,7 +17,8 @@ import UnderView from './ToolList/UnderView';
 import {
     RESOURCE_LAYER_POINT_CLOUD,
     RESOURCE_LAYER_VETOR,
-    RESOURCE_LAYER_TRACE
+    RESOURCE_LAYER_TRACE,
+    RESOURCE_LAYER_TASK_SCOPE
 } from 'src/config/DataLayerConfig';
 import { getAuthentication, getCurrentEditingTaskId } from 'src/utils/Session';
 import MultimediaView from './MultimediaView';
@@ -47,8 +48,7 @@ class VizCompnent extends React.Component {
         const { TaskStore } = this.props;
         const userInfo = getAuthentication();
         const currentTask = getCurrentEditingTaskId();
-        
-        
+
         TaskStore.initTask({ type: 4 }).then(() => {
             const { tasks } = TaskStore;
             if (!tasks || tasks.length == 0) {
@@ -56,11 +56,10 @@ class VizCompnent extends React.Component {
                 return;
             }
             if (userInfo.username === currentTask.userName) {
-                TaskStore.setActiveTask(currentTask.taskId)
+                TaskStore.setActiveTask(currentTask.taskId);
             } else {
-                TaskStore.setActiveTask()
+                TaskStore.setActiveTask();
             }
-            //TaskStore.getTaskFile().then(this.initTask);
         });
     }
 
@@ -68,7 +67,8 @@ class VizCompnent extends React.Component {
         const { TaskStore } = this.props;
         const div = document.getElementById('viz');
         window.map = new Map(div);
-        TaskStore.getTaskFile().then(this.initTask);
+        let task = TaskStore.getTaskFile();
+        this.initTask(task);
     }
 
     initTask = async task => {
@@ -95,14 +95,14 @@ class VizCompnent extends React.Component {
     };
 
     initEditResource = async task => {
-        let [pointClouds, vectors, tracks] = await Promise.all([
+        let [pointClouds, vectors, tracks, taskScope] = await Promise.all([
             this.initPointCloud(task.point_clouds),
             this.initVectors(task.vectors),
             this.initTracks(task.tracks),
             this.initRegion(task.region),
             this.initBoundary(task.boundary)
         ]);
-        this.initResouceLayer([pointClouds, vectors, tracks]);
+        this.initResouceLayer([pointClouds, vectors, tracks, taskScope]);
         this.installListener();
     };
 
@@ -172,6 +172,10 @@ class VizCompnent extends React.Component {
             const vectorLayer = new VectorLayer(regionUrl);
             vectorLayer.setDefaultStyle({ color: '#00FF00' });
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
+            return {
+                layerName: RESOURCE_LAYER_TASK_SCOPE,
+                layer: vectorLayer
+            };
         } catch (e) {
             message.error('作业范围数据加载失败', 3);
         }
@@ -286,21 +290,19 @@ class VizCompnent extends React.Component {
             return;
         }
         DataLayerStore.updateResult(result)
-            .then(result => {
-                return NewFeatureStore.init(result);
+            .then(data => {
+                return NewFeatureStore.init(data);
             })
-            .then(result => {
-                return DataLayerStore.updateFeature(result);
-            })
-            .then(result => {
-                let layerName = result.layerName;
-                let feature = result.data;
+            .then(data => {
+                DataLayerStore.updateFeature(data);
+                let layerName = data.layerName;
+                let feature = data.data;
                 OperateHistoryStore.add({
                     type: 'addFeature',
                     feature: feature,
                     layerName: layerName
                 });
-                this.showAttributesModal(result);
+                this.showAttributesModal(data);
             })
             .catch(e => {
                 console.log(e);
