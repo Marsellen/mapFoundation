@@ -9,11 +9,6 @@ class ToolCtrl extends React.Component {
     componentDidMount() {
         const { ToolCtrlStore, match } = this.props;
         ToolCtrlStore.init();
-
-        //判断是/source路由，即显示资料加载
-        if (match.path.includes('source')) {
-            ToolCtrlStore.updateEditTool({ RESOURCE_LOADER: true });
-        }
     }
 
     render() {
