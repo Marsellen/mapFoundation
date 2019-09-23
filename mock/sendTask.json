@@ -1,0 +1,50 @@
+{
+    "code":1,
+    "message":"OK",
+    "nowTime":"2019-08-28 09:59:08",
+    "data":{
+        "taskList":[
+            {
+                "manualStatusDesc":"已领取",
+                "Input_imp_data_path":"http://10.43.75.80:15001/10minute/08_EDIT_JSON",
+                "processName":"imp_recognition",
+                "nodeDesc":"人工识别",
+                "projectName":null,
+                "projectId":null,
+                "taskId":20038,
+                "manualStatus":1,
+                "taskFetchId":7074
+            }, {
+                "manualStatusDesc":"已领取1",
+                "Input_imp_data_path":"http://10.43.75.80:15001/zhushanhu",
+                "processName":"imp_recognition",
+                "nodeDesc":"人工识别1",
+                "projectName":null,
+                "projectId":null,
+                "taskId":20039,
+                "manualStatus":1,
+                "taskFetchId":7074
+            }, {
+                "manualStatusDesc":"已领取2",
+                "Input_imp_data_path":"http://10.43.75.80:15001/10minute/08_EDIT_JSON",
+                "processName":"imp_recognition",
+                "nodeDesc":"人工识别2",
+                "projectName":null,
+                "projectId":null,
+                "taskId":20040,
+                "manualStatus":1,
+                "taskFetchId":7074
+            }, {
+                "manualStatusDesc":"已领取3",
+                "Input_imp_data_path":"http://10.43.75.80:15001/zhushanhu",
+                "processName":"imp_recognition",
+                "nodeDesc":"人工识别3",
+                "projectName":null,
+                "projectId":null,
+                "taskId":20041,
+                "manualStatus":1,
+                "taskFetchId":7074
+            }
+        ]
+    }
+}

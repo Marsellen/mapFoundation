@@ -9,7 +9,7 @@ const formLayout = {
 };
 
 @Form.create()
-@inject('taskStore')
+@inject('TaskStore')
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
@@ -46,7 +46,7 @@ class ResourceLoader extends React.Component {
                                     required: true,
                                     message: '资料名称必填'
                                 }
-                            ],
+                            ]
                             // initialValue: '123'
                         })(<Input />)}
                     </Form.Item>
@@ -61,7 +61,7 @@ class ResourceLoader extends React.Component {
                                     pattern: /^http:\/\/*|^https:\/\/*/,
                                     message: '资料路径必需为url'
                                 }
-                            ],
+                            ]
                             // initialValue: 'http://10.43.16.80:15001/zhushanhu'
                         })(<Input />)}
                     </Form.Item>
@@ -100,29 +100,31 @@ class ResourceLoader extends React.Component {
     };
 
     save = () => {
-        const { form, taskStore } = this.props;
+        const { form, TaskStore } = this.props;
 
         form.validateFields((err, values) => {
             if (err) {
                 return;
             }
-            taskStore.load(values).then(() => {
-                this.setState({
-                    visible: false
-                });
-                this.clearWorkSpace();
-            });
+            TaskStore.setActiveTaskId({ Input_imp_data_path: values.url }).then(
+                () => {
+                    this.setState({
+                        visible: false
+                    });
+                    this.clearWorkSpace();
+                }
+            );
         });
     };
 
     clearWorkSpace = () => {
         const {
-            taskStore,
+            TaskStore,
             OperateHistoryStore,
             DataLayerStore,
             ToolCtrlStore
         } = this.props;
-        const { tasks } = taskStore;
+        const { tasks } = TaskStore;
         OperateHistoryStore.destroy();
         if (tasks && tasks.length > 1) {
             DataLayerStore.activeEditor();

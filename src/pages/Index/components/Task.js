@@ -1,31 +1,63 @@
 import React from 'react';
 import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
+import { getAuthentication, getCurrentEditingTaskId } from 'src/utils/Session';
 
-@inject('taskStore')
+@inject('TaskStore')
 @inject('AttributeStore')
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
+@inject('PictureShowStore')
 @observer
 class Task extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            current: null
+        };
+    }
     componentDidMount() {
-        //this.props.taskStore.init();
+        const userInfo = getAuthentication();
+        const { userName, taskId } = getCurrentEditingTaskId();
+        if (userInfo.username === userName && taskId) {
+            this.setState({
+                current: taskId.toString()
+            });
+        }
     }
 
+    handleClick = e => {
+        this.setState({
+            current: e.key
+        });
+    };
+
     render() {
-        const { taskStore } = this.props;
-        const { activeTaskId } = taskStore;
-        if (taskStore.tasks && taskStore.tasks.length > 0) {
+        const { TaskStore } = this.props;
+        const { tasks } = TaskStore;
+        // const { activeTaskId } = TaskStore;
+
+        if (tasks && tasks.length > 0) {
             return (
-                <Menu className="menu" selectedKeys={[activeTaskId]}>
-                    {taskStore.tasks.map(item => (
+                <Menu
+                    className="menu"
+                    selectedKeys={[
+                        tasks.filter(
+                            item =>
+                                item.taskId.toString() === this.state.current
+                        ).length > 0
+                            ? this.state.current
+                            : tasks[0].taskId.toString()
+                    ]}
+                    onClick={this.handleClick}>
+                    {tasks.map(item => (
                         <Menu.Item
-                            key={item._id}
+                            key={item.taskId}
                             onClick={() => {
-                                this.chooseTask(item._id);
+                                this.chooseTask(item.taskId);
                             }}>
-                            <span>{item.name}</span>
+                            <span>{`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}</span>
                         </Menu.Item>
                     ))}
                 </Menu>
@@ -60,17 +92,29 @@ class Task extends React.Component {
 
     toggleTask = id => {
         const {
-            taskStore,
+            TaskStore,
             AttributeStore,
             OperateHistoryStore,
             DataLayerStore,
-            ToolCtrlStore
+            ToolCtrlStore,
+            PictureShowStore
         } = this.props;
-        taskStore.setActiveTaskId(id);
+        // const param = {
+        //     taskFechId: taskFetchId,
+        //     manualStatus: '2'
+        // };
+        // TaskStore.initUpdate(param);
+        TaskStore.setActiveTask(id).then(() => {
+            TaskStore.initTask({ type: 4 });
+        });
         OperateHistoryStore.destroy();
         DataLayerStore.activeEditor();
         ToolCtrlStore.updateByEditLayer();
         AttributeStore.hide();
+        PictureShowStore.hide();
+        this.setState({
+            current: id
+        });
     };
 }
 

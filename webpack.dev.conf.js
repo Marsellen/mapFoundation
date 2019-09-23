@@ -15,6 +15,12 @@ module.exports = merge(common, {
                 changeOrigin: true,
                 logLevel: 'debug'
             },
+            '/task_service': {
+                target: 'http://10.43.75.58:13151',
+                pathRewrite: { '^/task_service': 'task' },
+                changeOrigin: true,
+                logLevel: 'debug'
+            },
             '/id_service': {
                 target: 'http://10.43.75.17:13251',
                 pathRewrite: { '^/id_service': '' },
@@ -22,13 +28,13 @@ module.exports = merge(common, {
                 logLevel: 'debug'
             },
             '/nas_service': {
-                target: 'http://10.43.75.80:16000',
+                target: 'http://10.43.75.119:13250',
                 pathRewrite: { '^/nas_service': '' },
                 changeOrigin: true,
                 logLevel: 'debug'
             },
             '/shp_service': {
-                target: 'http://10.43.75.80:16906',
+                target: 'http://10.43.75.119:13250',
                 pathRewrite: { '^/shp_service': '' },
                 changeOrigin: true,
                 logLevel: 'debug'

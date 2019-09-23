@@ -1,32 +1,30 @@
 import React from 'react';
-import { Tooltip } from 'antd';
 import { inject, observer } from 'mobx-react';
 import IconFont from 'src/components/IconFont';
 
 @inject('TaskStore')
 @observer
-class UnderView extends React.Component {
+class ZoomOut extends React.Component {
     render() {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         return activeTaskId ? (
-            // <Tooltip placement="bottom" title="视角还原">
-            <div placement="bottom" title="视角还原">
+            <div placement="bottom" title="缩小比例尺" className="zoom-scale">
                 <IconFont
-                    type="icon-compass"
+                    type="icon-suoxiao"
                     className="ad-icon"
                     onClick={this.action}
                 />
             </div>
         ) : (
-            // </Tooltip>
             <span />
         );
     }
 
     action = () => {
-        map.setView('U');
+        console.log('缩小比例尺');
+        map.zoomOut();
     };
 }
 
-export default UnderView;
+export default ZoomOut;

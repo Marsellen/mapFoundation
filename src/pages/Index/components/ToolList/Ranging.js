@@ -5,12 +5,12 @@ import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/components/AdMessage';
 
 @inject('DataLayerStore')
-@inject('taskStore')
+@inject('TaskStore')
 @observer
 class Ranging extends React.Component {
     render() {
-        const { taskStore, DataLayerStore } = this.props;
-        const { activeTaskId } = taskStore;
+        const { TaskStore, DataLayerStore } = this.props;
+        const { activeTaskId } = TaskStore;
         let visible = DataLayerStore.editType == 'meature_distance';
         return (
             <span>

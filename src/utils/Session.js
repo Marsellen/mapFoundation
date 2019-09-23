@@ -1,4 +1,5 @@
 const LOGIN_COOKIE_NAME = 'Authentication';
+const CURRENT_EDITING_TASK = 'CurrentEditingTask';
 
 export function getAuthentication() {
     let userInfo = _getCookie(LOGIN_COOKIE_NAME);
@@ -6,16 +7,28 @@ export function getAuthentication() {
     return userInfo;
 }
 
+export function getCurrentEditingTaskId() {
+    let currentTask = _getCookie(CURRENT_EDITING_TASK);
+    currentTask = currentTask ? JSON.parse(currentTask) : {};
+    return currentTask;
+}
+
 export function authenticateSuccess(userInfo, autoLogin) {
     if (autoLogin) {
-        _setCookie(LOGIN_COOKIE_NAME, JSON.stringify(userInfo));
+        _setCookie(LOGIN_COOKIE_NAME, JSON.stringify(userInfo), 1);
     } else {
-        logout();
+        _setCookie(LOGIN_COOKIE_NAME, JSON.stringify(userInfo));
     }
 }
 
-export function logout() {
-    _setCookie(LOGIN_COOKIE_NAME, '', 0);
+export function logout(task) {
+    if (task) {
+        _setCookie(LOGIN_COOKIE_NAME, '', 0);
+        _setCookie(CURRENT_EDITING_TASK, JSON.stringify(task), 0);
+    } else {
+        _setCookie(CURRENT_EDITING_TASK, '', 0);
+        _setCookie(LOGIN_COOKIE_NAME, '', 0);
+    }
 }
 
 function _getCookie(name) {
@@ -33,13 +46,13 @@ function _getCookie(name) {
 }
 
 function _setCookie(name, value, expire) {
-    let date = new Date();
-    date.setDate(date.getDate() + expire);
-
-    document.cookie =
-        name +
-        '=' +
-        escape(value) +
-        '; path=/' +
-        (expire ? ';expires=' + date.toGMTString() : '');
+    let str = name + '=' + escape(value);
+    if (expire > 0) {
+        let date = new Date();
+        date.setDate(date.getDate() + expire);
+        document.cookie =
+            str + '; path=/' + ';expires=' + date.toGMTString() + expire;
+    } else {
+        document.cookie = str;
+    }
 }

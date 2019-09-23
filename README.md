@@ -33,7 +33,7 @@ const Home = LoadableComponent(() => import('src/pages/Home/index')); //参数�
 @withRouter
 class ContentMain extends React.Component {
     componentDidMount() {
-        this.props.menuStore.initMenus();
+        this.props.MenuStore.initMenus();
     }
 
     render() {
@@ -85,12 +85,12 @@ registerServiceWorker();
 
 ```javascript
 import appStore from './appStore';
-import menuStore from './menuStore';
+import MenuStore from './MenuStore';
 import stepFormStore from 'src/demo/Entry/FormDemo/store';
 
 const store = {
     appStore,
-    menuStore,
+    MenuStore,
     stepFormStore
 };
 export default store;
@@ -134,15 +134,15 @@ import React from 'react';
 import CustomMenu from '../CustomMenu/index';
 import { inject, observer } from 'mobx-react';
 
-@inject('menuStore') //注入menuStore
+@inject('MenuStore') //注入MenuStore
 @observer //将组件设置为观察者
 class SiderNav extends React.Component {
     componentDidMount() {
-        this.props.menuStore.initMenus(); //组件第一次渲染前获取数据
+        this.props.MenuStore.initMenus(); //组件第一次渲染前获取数据
     }
 
     render() {
-        const { state, menus } = this.props.menuStore; //根据获取到的menus数据渲染页面
+        const { state, menus } = this.props.MenuStore; //根据获取到的menus数据渲染页面
         return (
             <div>
                 <CustomMenu menus={menus} />

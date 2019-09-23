@@ -5,6 +5,7 @@ import PictureShowView from './PictureShowView';
 import 'less/components/multimedia-modal.less';
 
 @inject('PictureShowStore')
+@inject('DataLayerStore')
 @observer
 class MultimediaView extends React.Component {
     render() {
@@ -78,7 +79,7 @@ class MultimediaView extends React.Component {
     };
 
     jumpToPoint = idx => {
-        const { PictureShowStore } = this.props;
+        const { PictureShowStore, DataLayerStore } = this.props;
         window.traceLayer.getPoint(idx, item => {
             window.traceLayer.unselect();
             window.traceLayer.select(idx);
@@ -89,6 +90,7 @@ class MultimediaView extends React.Component {
             });
             PictureShowStore.setPicData(item);
         });
+        DataLayerStore.clearChoose();
     };
 
     toggle = () => {
