@@ -4,14 +4,16 @@ export const DATA_LAYER_MAP = {
         id: 'ARR_ID',
         spec: 'AD_Arrow',
         tools: ['POLYGON', 'ADD_REL', 'DEL_REL'],
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
+        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
+        groupRightTools: ['batchAssign']
     },
     AD_LaneAttrPoint: {
         label: '车道属性变化点',
         id: 'LAP_ID',
         spec: 'AD_LaneAttrPoint',
         tools: ['POINT', 'ADD_REL', 'DEL_REL'],
-        rightTools: ['delete']
+        rightTools: ['delete'],
+        groupRightTools: ['batchAssign']
     },
     AD_LaneDivider: {
         label: '车道线',
@@ -25,28 +27,31 @@ export const DATA_LAYER_MAP = {
             'deletePoints',
             'break'
         ],
-        groupRightTools: ['breakGroup', 'merge']
+        groupRightTools: ['breakGroup', 'merge', 'batchAssign']
     },
     AD_LaneMark_Plg: {
         label: '面状标识物',
         id: 'PLG_ID',
         spec: 'AD_LaneMark_Plg',
         tools: ['POLYGON', 'ADD_REL', 'DEL_REL'],
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
+        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
+        groupRightTools: ['batchAssign']
     },
     AD_Text: {
         label: '道路文字符号',
         id: 'TEXT_ID',
         spec: 'AD_Text',
         tools: ['POLYGON', 'ADD_REL', 'DEL_REL'],
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
+        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
+        groupRightTools: ['batchAssign']
     },
     AD_StopLocation: {
         label: '停止位置',
         id: 'STOPL_ID',
         spec: 'AD_StopLocation',
         tools: ['LINE', 'ADD_REL', 'DEL_REL'],
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
+        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
+        groupRightTools: ['batchAssign']
     },
     AD_Lane: {
         label: '车道中心线',
@@ -60,7 +65,7 @@ export const DATA_LAYER_MAP = {
             'deletePoints',
             'break'
         ],
-        groupRightTools: ['breakGroup', 'merge']
+        groupRightTools: ['breakGroup', 'merge', 'batchAssign']
     },
     AD_TrafficSign: {
         label: '交通标志牌',
@@ -74,7 +79,8 @@ export const DATA_LAYER_MAP = {
             'ADD_REL',
             'DEL_REL'
         ],
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
+        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
+        groupRightTools: ['batchAssign']
     },
     AD_Road: {
         label: '道路参考线',
@@ -88,7 +94,7 @@ export const DATA_LAYER_MAP = {
             'deletePoints',
             'break'
         ],
-        groupRightTools: ['breakGroup', 'merge']
+        groupRightTools: ['breakGroup', 'merge', 'batchAssign']
     },
     AD_TrafficLight: {
         label: '交通信号灯',
@@ -101,21 +107,24 @@ export const DATA_LAYER_MAP = {
             'ADD_REL',
             'DEL_REL'
         ],
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
+        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
+        groupRightTools: ['batchAssign']
     },
     AD_Pole: {
         label: '杆状物',
         id: 'POLE_ID',
         spec: 'AD_Pole',
         tools: ['LINE'],
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints']
+        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
+        groupRightTools: ['batchAssign']
     },
     AD_Map_QC: {
         label: '标记图层',
         id: 'ID',
         spec: 'AD_Map_QC',
         tools: ['POINT'],
-        rightTools: ['delete']
+        rightTools: ['delete'],
+        groupRightTools: ['batchAssign']
     },
     AD_RS_Barrier: {
         label: '隔离带、护栏',
@@ -129,7 +138,7 @@ export const DATA_LAYER_MAP = {
             'deletePoints',
             'break'
         ],
-        groupRightTools: ['breakGroup', 'merge']
+        groupRightTools: ['breakGroup', 'merge', 'batchAssign']
     },
     AD_Lane_RS: {
         label: '车道中心线交通限制信息',
