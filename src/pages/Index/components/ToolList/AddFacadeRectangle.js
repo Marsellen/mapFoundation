@@ -9,7 +9,7 @@ import AdMessage from 'src/components/AdMessage';
 class AddFacadeRectangle extends React.Component {
     render() {
         const { DataLayerStore } = this.props;
-        const { disable } = DataLayerStore;
+        const { isTopView } = DataLayerStore;
         
         let visible = DataLayerStore.editType == 'new_facade_rectangle';
         return (
@@ -17,7 +17,7 @@ class AddFacadeRectangle extends React.Component {
                 <ToolIcon
                     icon="limianjuxing"
                     title="添加立面矩形"
-                    disabled={!disable}
+                    disabled={!isTopView}
                     action={this.action}
                 />
                 <AdMessage visible={visible} content={this.content()} />

@@ -38,7 +38,7 @@ class TopView extends React.Component {
         this.setState({
             iconActive: !iconActive
         });
-        DataLayerStore.btnGray(iconActive);
+        DataLayerStore.topViewMode(iconActive);
         map.setCurrentView('U');
     };
 }
