@@ -16,7 +16,7 @@ class AddCircle extends React.Component {
                 <ToolIcon
                     icon="sandianhuayuan"
                     title="三点绘制圆"
-                    disabled={!isTopView}
+                    disabled={isTopView}
                     action={this.action}
                 />
                 <AdMessage visible={visible} content={this.content()} />

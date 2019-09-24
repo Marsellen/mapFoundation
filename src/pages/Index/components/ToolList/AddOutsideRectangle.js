@@ -16,7 +16,7 @@ class AddOutsideRectangle extends React.Component {
                 <ToolIcon
                     icon="renyiwaijiejuxing"
                     title="任意外接立面矩形"
-                    disabled={!isTopView}
+                    disabled={isTopView}
                     action={this.action}
                 />
                 <AdMessage visible={visible} content={this.content()} />

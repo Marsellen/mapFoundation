@@ -6,21 +6,15 @@ import IconFont from 'src/components/IconFont';
 @inject('DataLayerStore')
 @observer
 class TopView extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            iconActive: false
-        };
-    }
     render() {
-        const { TaskStore } = this.props;
+        const { TaskStore, DataLayerStore } = this.props;
         const { activeTaskId } = TaskStore;
-        const { iconActive } = this.state;
+        const { isTopView } = DataLayerStore;
         return activeTaskId ? (
             <div placement="bottom" title="俯视图模式" className="zoom-scale">
                 <IconFont
                     type="icon-fushitu"
-                    className={!iconActive ? "ad-icon" : 'ad-icon-active-topview'}
+                    className={!isTopView ? "ad-icon" : 'ad-icon-active-topview'}
                     onClick={this.action}
                 />
             </div>
@@ -33,12 +27,9 @@ class TopView extends React.Component {
         // map.setView('U');
         // 按钮选中状态
         const { DataLayerStore } = this.props;
-        const iconActive = this.state.iconActive;
-
-        this.setState({
-            iconActive: !iconActive
-        });
-        DataLayerStore.topViewMode(iconActive);
+        const { isTopView } = DataLayerStore;
+        
+        DataLayerStore.topViewMode(!isTopView);
         map.setCurrentView('U');
     };
 }

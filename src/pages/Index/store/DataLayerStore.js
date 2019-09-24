@@ -23,7 +23,7 @@ class DataLayerStore extends LayerStore {
     }
     @observable editType = 'normal';
     @observable beenPick;
-    @observable isTopView = true;
+    @observable isTopView = false;
 
     @action toggle = (name, checked) => {
         this.layers.find(layer => layer.value == name).checked = checked;
