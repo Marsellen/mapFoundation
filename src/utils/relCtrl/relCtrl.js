@@ -267,7 +267,7 @@ const updateFeatureRelAttr = (rel, isDel) => {
     } else {
         id = rel.relObjId;
         keyName = relSpec.relObjKeyName;
-        relId = rel.relObjId;
+        relId = rel.objId;
         relKeyName = relSpec.objKeyName;
     }
     let option = {

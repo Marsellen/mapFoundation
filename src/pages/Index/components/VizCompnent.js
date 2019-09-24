@@ -27,6 +27,7 @@ import VectorsConfig from '../../../config/VectorsConfig';
 import SDKConfig from '../../../config/SDKConfig';
 import 'less/components/viz-compnent.less';
 import { addClass, removeClass } from '../../../utils/utils';
+import BatchAssignModal from './BatchAssignModal';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -39,6 +40,7 @@ import { addClass, removeClass } from '../../../utils/utils';
 @inject('RelStore')
 @inject('AttrStore')
 @inject('appStore')
+@inject('BatchAssignStore')
 @observer
 class VizCompnent extends React.Component {
     constructor(props) {
@@ -246,7 +248,12 @@ class VizCompnent extends React.Component {
     };
 
     selectedCallBack = (result, event) => {
-        const { PictureShowStore, AttributeStore, DataLayerStore } = this.props;
+        const {
+            PictureShowStore,
+            AttributeStore,
+            DataLayerStore,
+            BatchAssignStore
+        } = this.props;
         // console.log(result, event);
         if (result && result.length > 0) {
             if (event.button === 0) {
@@ -274,6 +281,7 @@ class VizCompnent extends React.Component {
             AttributeStore.hideRelFeatures();
             window.traceLayer.unselect();
         }
+        BatchAssignStore.hide();
     };
 
     createdCallBack = result => {
@@ -424,6 +432,7 @@ class VizCompnent extends React.Component {
                 {TaskStore.activeTaskId ? <MultimediaView /> : <span />}
                 <AttributesModal />
                 <RightMenuModal />
+                <BatchAssignModal />
                 {/* <NewFeatureModal /> */}
             </React.Fragment>
         );

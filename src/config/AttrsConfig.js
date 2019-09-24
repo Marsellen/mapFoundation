@@ -47,8 +47,8 @@ export const ATTR_TABLE_CONFIG = {
             domType: 'RadioIconGroup'
         },
         {
-            key: 'CONT_TYPE ',
-            name: '交通标志牌语义类型 ',
+            key: 'CONT_TYPE',
+            name: '交通标志牌语义类型',
             type: 'AD_TS_CONTENT_CONT_TYPE',
             domType: 'Select'
         },
