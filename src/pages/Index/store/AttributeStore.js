@@ -101,9 +101,13 @@ class AttributeStore {
     @action hideRelFeatures = () => {
         try {
             this.relFeatures.map(feature => {
-                getLayerByName(feature.layerName).updateFeatureColor(
-                    feature.option
-                );
+                try {
+                    getLayerByName(feature.layerName).updateFeatureColor(
+                        feature.option
+                    );
+                } catch (e) {
+                    console.log(e);
+                }
             });
         } catch (error) {
             console.log(error);
@@ -114,10 +118,14 @@ class AttributeStore {
     @action showRelFeatures = () => {
         try {
             this.relFeatures.map(feature => {
-                getLayerByName(feature.layerName).updateFeatureColor(
-                    feature.option,
-                    'rgb(31, 255, 255)'
-                );
+                try {
+                    getLayerByName(feature.layerName).updateFeatureColor(
+                        feature.option,
+                        'rgb(255, 87, 34)'
+                    );
+                } catch (e) {
+                    console.log(e);
+                }
             });
         } catch (error) {
             console.log(error);
@@ -129,10 +137,7 @@ class AttributeStore {
         let oldFeature = _.cloneDeep(this.model);
         // this.fetchAttributes();
         if (data.rels) {
-            let newRels = yield relFactory.updateRels(
-                data.rels,
-                this.model.layerName
-            );
+            let newRels = yield relFactory.updateRels(data.rels, this.model);
             historyLog.rels = [this.relRecords, newRels];
         }
 

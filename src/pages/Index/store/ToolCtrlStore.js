@@ -2,30 +2,29 @@ import { observable, configure, action } from 'mobx';
 import { TOOLS_MAP } from 'src/config/ToolsConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
+const initEditTools = TOOLS_MAP.EDIT;
+if (location.pathname.includes('source')) {
+    initEditTools.RESOURCE_LOADER = true;
+}
+
 configure({ enforceActions: 'always' });
 class ToolCtrlStore {
     @observable tools;
 
     @action init = () => {
-        this.tools = TOOLS_MAP.EDIT;
-    };
-
-    // @param toolItem={RESOURCE_LOADER: false}
-    @action updateEditTool = toolItem => {
-        if (!toolItem) return;
-        this.tools = { ...this.tools, ...toolItem };
+        this.tools = initEditTools;
     };
 
     @action updateByEditLayer = (layer, userInfo) => {
         let layerName = layer && layer.layerName;
         let roleCode = userInfo && userInfo.roleCode;
         if (!DATA_LAYER_MAP[layerName]) {
-            this.tools = this.tools;
+            this.tools = initEditTools;
             return;
         }
 
         if (roleCode == 'producer' && layerName == 'AD_Map_QC') {
-            this.tools = this.tools;
+            this.tools = initEditTools;
             return;
         }
 
@@ -37,7 +36,7 @@ class ToolCtrlStore {
             {}
         );
         this.tools = {
-            ...this.tools,
+            ...initEditTools,
             ...editTools
         };
     };
