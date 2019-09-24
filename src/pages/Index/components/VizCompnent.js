@@ -14,6 +14,7 @@ import RightMenuModal from './RightMenuModal';
 import ZoomIn from './ToolList/ZoomIn';
 import ZoomOut from './ToolList/ZoomOut';
 import UnderView from './ToolList/UnderView';
+import TopView from './ToolList/TopView';
 import {
     RESOURCE_LAYER_POINT_CLOUD,
     RESOURCE_LAYER_VETOR,
@@ -414,6 +415,7 @@ class VizCompnent extends React.Component {
             <React.Fragment>
                 <div id="viz" key={TaskStore.activeTaskId} className="viz-box">
                     <div className="set-compass">
+                        <TopView key="TOP_VIEW" />
                         <ZoomOut key="ZOOM_OUT" />
                         <ZoomIn key="ZOOM_IN" />
                         <UnderView key="UNDER_VIEW" />
