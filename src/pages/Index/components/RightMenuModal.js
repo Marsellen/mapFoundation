@@ -35,6 +35,7 @@ const CHINESE_EDIT_TYPE = [
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('TaskStore')
+@inject('BatchAssignStore')
 @observer
 class RightMenuModal extends React.Component {
     componentDidMount() {
@@ -54,26 +55,28 @@ class RightMenuModal extends React.Component {
         }
 
         return (
-            <Modal
-                visible={visible}
-                footer={null}
-                title={null}
-                mask={false}
-                closable={false}
-                style={{
-                    position: 'absolute',
-                    paddingBottom: 0,
-                    ...this.getPosition()
-                }}
-                width={100}
-                bodyStyle={{ padding: 0, fontSize: 12 }}
-                onCancel={this.handleCancel}>
-                <Menu className="menu">
-                    {this.getMenus().map(menu => {
-                        return menus.includes(menu.key) && menu;
-                    })}
-                </Menu>
-            </Modal>
+            <div>
+                <Modal
+                    visible={visible}
+                    footer={null}
+                    title={null}
+                    mask={false}
+                    closable={false}
+                    style={{
+                        position: 'absolute',
+                        paddingBottom: 0,
+                        ...this.getPosition()
+                    }}
+                    width={100}
+                    bodyStyle={{ padding: 0, fontSize: 12 }}
+                    onCancel={this.handleCancel}>
+                    <Menu className="menu">
+                        {this.getMenus().map(menu => {
+                            return menus.includes(menu.key) && menu;
+                        })}
+                    </Menu>
+                </Modal>
+            </div>
         );
     }
 
@@ -120,6 +123,12 @@ class RightMenuModal extends React.Component {
                 onClick={this.mergeLine}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>合并</span>
+            </Menu.Item>,
+            <Menu.Item
+                key="batchAssign"
+                onClick={this.batchAssign}
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                <span>批量赋值</span>
             </Menu.Item>
         ];
     };
@@ -136,7 +145,7 @@ class RightMenuModal extends React.Component {
     getPosition = () => {
         const { option } = this.props.RightMenuStore;
         if (!option) return { top: -1000, left: -1000 };
-        let { x, y } = option || { x: 0, y: 0 };
+        let { x, y } = option;
         if (x + 100 > innerWidth) {
             x = x - 100;
         }
@@ -296,6 +305,13 @@ class RightMenuModal extends React.Component {
                 AttributeStore.hideRelFeatures();
             }
         });
+        RightMenuStore.hide();
+    };
+
+    batchAssign = () => {
+        const { RightMenuStore, BatchAssignStore } = this.props;
+        let features = RightMenuStore.getFeatures();
+        BatchAssignStore.show(features);
         RightMenuStore.hide();
     };
 }
