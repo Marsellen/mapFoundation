@@ -47,7 +47,7 @@ class ViewAttribute extends React.Component {
                     afterClose={this.destroyAction}
                     width={780}
                     bodyStyle={{ padding: 8 }}
-                    className="layer-scroll">
+                    wrapClassName="view-attribute-modal">
                     {this.renderContent()}
                 </SeniorModal>
             </span>
