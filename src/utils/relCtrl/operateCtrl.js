@@ -254,9 +254,9 @@ const calcRels = (layerName, relation, feature) => {
 const uniqRels = rels => {
     let REL_IDS = [];
     return rels.reduce((total, rel) => {
-        let relId = rel.extraInfo && rel.extraInfo.REL_ID;
-        if (!(relId && REL_IDS.includes(relId))) {
-            if (relId) REL_IDS.push(relId);
+        let relId = rel.objType + rel.objId + rel.relObjType + rel.relObjId;
+        if (!REL_IDS.includes(relId)) {
+            REL_IDS.push(relId);
             total.push(rel);
         }
         return total;
@@ -323,13 +323,16 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
                 objId = property[IDKey2];
                 relObjId = property[IDKey1];
             }
-            arr.push({
-                spec: relSpec.source,
-                objId,
-                relObjId,
-                objType,
-                relObjType
-            });
+            // 关联要素id为空或0时不建关联关系
+            if (objId && relObjId) {
+                arr.push({
+                    spec: relSpec.source,
+                    objId,
+                    relObjId,
+                    objType,
+                    relObjType
+                });
+            }
         }
         return arr;
     }, []);
