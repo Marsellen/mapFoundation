@@ -33,7 +33,7 @@ export default class SeniorModal extends React.Component {
             <Modal
                 {...this.props}
                 afterClose={this.afterClose(this.props.afterClose)}
-                wrapClassName={this.key}
+                wrapClassName={this.props.wrapClassName + ' ' + this.key}
                 title={title}>
                 {this.props.children}
             </Modal>
