@@ -23,6 +23,7 @@ class DataLayerStore extends LayerStore {
     }
     @observable editType = 'normal';
     @observable beenPick;
+    @observable isTopView = false;
 
     @action toggle = (name, checked) => {
         this.layers.find(layer => layer.value == name).checked = checked;
@@ -196,6 +197,15 @@ class DataLayerStore extends LayerStore {
         this.detectorControl.disable();
         this.editor.newMatrix();
     };
+
+    @action topViewMode = (opt) => {
+        
+        if (opt) {
+            this.isTopView = true;
+        } else {
+            this.isTopView = false;
+        }
+    }
 
     @action newVerticalMatrix = () => {
         if (!this.editor) return;

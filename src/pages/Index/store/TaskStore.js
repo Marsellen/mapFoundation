@@ -67,7 +67,7 @@ class TaskStore {
         if (taskFetchId && !status.includes(manualStatus)) {
             // TODO taskFechId 少了一个t，后台接口定义问题
             yield this.updateTaskStatus({
-                taskFechId: taskFetchId,
+                taskFetchId: taskFetchId,
                 manualStatus: 2
             });
             // 更新完后 刷新任务列表
