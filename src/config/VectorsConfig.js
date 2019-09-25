@@ -618,6 +618,48 @@ export default {
                 }
             }
         ],
+        AD_RS_BARRIER_TYPE: [
+            {
+                value: 0,
+                label: '未定义',
+                style: {
+                    color: 'rgb(65,105,225)',
+                    linewidth: 1
+                }
+            },
+            {
+                value: 1,
+                label: '隧道墙',
+                style: {
+                    color: 'rgb(65,105,225)',
+                    linewidth: 1
+                }
+            },
+            {
+                value: 2,
+                label: '路侧防护栏',
+                style: {
+                    color: 'rgb(65,105,225)',
+                    linewidth: 1
+                }
+            },
+            {
+                value: 3,
+                label: '路缘石',
+                style: {
+                    color: 'rgb(65,105,225)',
+                    linewidth: 1
+                }
+            },
+            {
+                value: 4,
+                label: '隔音墙',
+                style: {
+                    color: 'rgb(65,105,225)',
+                    linewidth: 1
+                }
+            }
+        ],
 
         AD_MAP_QC_TYPE: [
             {
