@@ -60,7 +60,7 @@ class DataLayerStore extends LayerStore {
         this.measureControl = new MeasureControl();
         map.getControlManager().addControl(this.measureControl);
         this.measureControl.onMeasureFinish(() => {
-            this.removeCur();
+            this.measureControl.startMeatureDistance();
         });
     };
 
@@ -198,14 +198,13 @@ class DataLayerStore extends LayerStore {
         this.editor.newMatrix();
     };
 
-    @action topViewMode = (opt) => {
-        
+    @action topViewMode = opt => {
         if (opt) {
             this.isTopView = true;
         } else {
             this.isTopView = false;
         }
-    }
+    };
 
     @action newVerticalMatrix = () => {
         if (!this.editor) return;
