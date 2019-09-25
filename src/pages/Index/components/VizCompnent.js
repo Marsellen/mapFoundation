@@ -28,6 +28,7 @@ import SDKConfig from '../../../config/SDKConfig';
 import 'less/components/viz-compnent.less';
 import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
+import { isRegionContainsElement } from 'src/utils/vectorUtils';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -43,6 +44,8 @@ import BatchAssignModal from './BatchAssignModal';
 @inject('BatchAssignStore')
 @observer
 class VizCompnent extends React.Component {
+    regionGeojson = {};
+
     constructor(props) {
         super(props);
     }
@@ -175,6 +178,10 @@ class VizCompnent extends React.Component {
             const vectorLayer = new VectorLayer(regionUrl);
             vectorLayer.setDefaultStyle({ color: '#00FF00' });
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
+            //保存任务范围geojson
+            const getRegionRes = vectorLayer.getVectorData();
+            this.regionGeojson = getRegionRes.features[0];
+
             return {
                 layerName: RESOURCE_LAYER_TASK_SCOPE,
                 layer: vectorLayer
@@ -291,6 +298,8 @@ class VizCompnent extends React.Component {
             OperateHistoryStore
         } = this.props;
         //console.log(result);
+
+        //判断是否绘制成功
         if (result.errorCode) {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
@@ -298,6 +307,20 @@ class VizCompnent extends React.Component {
             DataLayerStore.clearChoose();
             return;
         }
+
+        //判断要素是否在任务范围内
+        const isInRegion = isRegionContainsElement(
+            result.data,
+            this.regionGeojson
+        );
+        if (!isInRegion) {
+            message.warning('请在任务范围内绘制要素');
+            DataLayerStore.clearChoose();
+            let layer = DataLayerStore.getEditLayer();
+            layer.layer.removeFeatureById(result.uuid);
+            return false;
+        }
+
         DataLayerStore.updateResult(result)
             .then(data => {
                 return NewFeatureStore.init(data);
@@ -327,6 +350,7 @@ class VizCompnent extends React.Component {
             OperateHistoryStore,
             RightMenuStore
         } = this.props;
+
         if (result.errorCode) {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
@@ -334,9 +358,25 @@ class VizCompnent extends React.Component {
             DataLayerStore.clearChoose();
             return;
         }
-        //console.log(result);
+
+        const oldFeature = RightMenuStore.getFeatures()[0];
+
+        //修改形状点时，判断要素不在任务范围内，则撤销本次操作
+        if (DataLayerStore.editType === 'changePoints') {
+            const isInRegion = isRegionContainsElement(
+                result.data,
+                this.regionGeojson
+            );
+            if (!isInRegion) {
+                message.warning('请在任务范围内绘制要素');
+                //恢复要素
+                DataLayerStore.updateFeature(oldFeature);
+                DataLayerStore.clearChoose();
+                return false;
+            }
+        }
+
         DataLayerStore.clearChoose();
-        let oldFeature = RightMenuStore.getFeatures()[0];
         OperateHistoryStore.add({
             type: 'updateFeature',
             oldFeature,
