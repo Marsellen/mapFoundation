@@ -13,7 +13,7 @@ class AddFacadeRectangle extends React.Component {
         
         let visible = DataLayerStore.editType == 'new_facade_rectangle';
         return (
-            <span>
+            <span className={visible ? "ad-icon-active" : ''}>
                 <ToolIcon
                     icon="limianjuxing"
                     title="添加立面矩形"
