@@ -16,7 +16,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 13, label: '路缘石', icon: 'luyuanshi' },
         { value: 14, label: '自然边界', icon: 'ziranbianjie' },
         { value: 15, label: '施工边界', icon: 'shigongbianjie' },
-        { value: 16, label: '路中隔离带', icon: 'gelidaichedao ' },
+        { value: 16, label: '路中隔离带', icon: 'gelidaichedao' },
         { value: 17, label: '路口内待行区', icon: 'lukouneidaixingqu' },
         {
             value: 18,
@@ -105,7 +105,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '收费站道路' }
     ],
     AD_ROAD_TYPE: [
-        { value: 0, label: '未定义', icon: 'weidingyi ' },
+        { value: 0, label: '未定义', icon: 'weidingyi' },
         { value: 1, label: '实际道路参考线', icon: 'shijidaolucankaoxian' },
         { value: 2, label: '虚拟道路参考线', icon: 'xunidaolucankaoxian' }
     ],
@@ -139,7 +139,11 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '双向通行' },
         { value: 4, label: '禁止通行' }
     ],
-
+    AD_ROAD_CROSSING: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '交叉路口内' },
+        { value: 2, label: '非交叉路口内' }
+    ],
     AD_LANE_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi' },
         { value: 1, label: '普通车道', icon: 'putongchedao' },
@@ -355,7 +359,11 @@ export const TYPE_SELECT_OPTION_MAP = {
         // { value: 315, label: '路口优先通行', icon: 'plus' },
         // { value: 316, label: '会车先行', icon: 'plus' },
         // { value: 317, label: '人行横道', icon: 'plus' },
-        { value: 318, label: '车道行驶方向', icon: 'chedaoxingshifangxiang' },
+        {
+            value: 318,
+            label: '车道行驶方向--直行',
+            icon: 'chedaoxingshifangxiang'
+        },
         { value: 319, label: '专用道路和车道', icon: 'zhuanyongdaoluhechedao' },
         { value: 320, label: '停车位', icon: 'tingchewei' },
         { value: 321, label: '允许掉头', icon: 'yunxudiaotou' },
@@ -509,28 +517,29 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 4, label: '最低速度限制' }
     ],
     AD_RS_BARRIER_TYPE: [
-        { value: '0', label: '未定义', icon: 'weidingyi' },
-        { value: '1', label: '隧道墙', icon: 'suidaoqiang' },
-        { value: '2', label: '路侧防护栏', icon: 'lucefanghulan' },
-        { value: '3', label: '路缘石', icon: 'luyuanshi' },
-        { value: '4', label: '隔音墙', icon: 'geyinqiang' }
+        { value: 0, label: '未定义', icon: 'weidingyi' },
+        { value: 1, label: '隧道墙', icon: 'suidaoqiang' },
+        { value: 2, label: '路侧防护栏', icon: 'lucefanghulan' },
+        { value: 3, label: '路缘石', icon: 'luyuanshi' },
+        { value: 4, label: '隔音墙', icon: 'geyinqiang' }
     ],
     AD_RS_BARRIER_MATERIAL: [
-        { value: '0', label: '未定义' },
-        { value: '1', label: '混凝土' },
-        { value: '2', label: '金属' },
-        { value: '3', label: '塑料' }
+        { value: 0, label: '未定义' },
+        { value: 1, label: '混凝土' },
+        { value: 2, label: '金属' },
+        { value: 3, label: '塑料' },
+        { value: 4, label: '其他' }
     ],
     AD_TEXT_TYPE: [
-        { value: '0', label: '未定义', icon: 'weidingyi' },
-        { value: '1', label: '最高限速', icon: 'zuigaoxiansu' },
-        { value: '2', label: '最低限速', icon: 'zuidixiansu' },
+        { value: 0, label: '未定义', icon: 'weidingyi' },
+        { value: 1, label: '最高限速', icon: 'zuigaoxiansu' },
+        { value: 2, label: '最低限速', icon: 'zuidixiansu' },
         {
-            value: '3',
+            value: 3,
             label: '公交车道时间限制',
             icon: 'gongjiaochedaoshijianxianzhi'
         },
-        { value: '99', label: '其他', icon: 'qita' }
+        { value: 99, label: '其他', icon: 'qita' }
     ],
     AD_LANE_RS_TYPE: [
         { value: 0, label: '未定义' },
@@ -538,7 +547,8 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 2, label: '潮汐车道限制' },
         { value: 3, label: '禁止停车限制' }
     ],
-    AD_LANE_RS_VALUE0: [],
+    AD_LANE_RS_VALUE: [{ value: 0, label: '未定义' }],
+    AD_LANE_RS_VALUE0: [{ value: 0, label: '未定义' }],
     AD_LANE_RS_VALUE1: [
         { value: 0, label: '未定义' },
         { value: 1, label: '公交车道禁止驶入' },
@@ -574,7 +584,8 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_Text: {
         TYPE: 99,
-        LANE_ID: 0
+        LANE_ID: 0,
+        VALUE: ''
     },
     AD_TrafficSign: {
         // TYPE: 101,
@@ -582,7 +593,8 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_TrafficLight: {
         TYPE: 1,
-        LAYOUT: 1
+        LAYOUT: 1,
+        LAMP_COUNT: 0
     },
     AD_LaneDivider: {
         TYPE: 1,
@@ -596,11 +608,13 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_Road: {
         TYPE: 1,
-        RD_STATUS: 0,
         RD_CLASS: 0,
+        CROSSING: 0,
+        RD_STATUS: 0,
         RD_FORM: 0,
         DIRECTION: 0,
-        RD_STATUS: 0
+        LENGTH: 0,
+        MAX_SPEED: 0
     },
     AD_Lane: {
         TYPE: 1,
@@ -616,14 +630,16 @@ export const DEFAULT_PROPERTIES_MAP = {
         ROAD_ID: 0
     },
     AD_Lane_RS: {
-        RS_TYPE: 0
+        RS_TYPE: 0,
+        RS_VALUE: 0,
+        TIMEDOM: ''
     },
-    AD_Lane_CON_RS: {
-        RS_TYPE: 1
+    AD_Lane_Con_RS: {
+        RS_TYPE: 1,
+        TIMEDOM: ''
     },
     AD_LaneAttrPoint: {
         TYPE: 0,
-        REF_LINE: 0,
         ROAD_ID: 0
     },
     AD_StopLocation: {
@@ -634,9 +650,14 @@ export const DEFAULT_PROPERTIES_MAP = {
         RADIUS_DN: 0
     },
     AD_Map_QC: {
+        FILE_NAME: '',
+        FEAT_ID: 0,
         ERROR_TYPE: 0,
+        ERROR_DESC: '',
         FIX_STATUS: 0,
-        QC_STATUS: 0
+        QC_STATUS: 0,
+        FIX_PERSON: '',
+        QC_PERSON: ''
     },
     AD_RS_Barrier: {
         TYPE: 2,
@@ -644,10 +665,14 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_TS_Content: {
         SIGN_TYPE: 0,
-        CONT_TYPE: 0
+        CONT_TYPE: 0,
+        TIMEDOM: '',
+        CONT_VALUE: 0,
+        SIGN_NO: 0
     },
     AD_Sub_Lamp: {
-        LAMP_TYPE: 'A'
+        LAMP_TYPE: 'A',
+        LAMP_NO: 0
     }
 };
 
@@ -751,6 +776,12 @@ export const TABLE_DATA_MAP = {
             key: 'RD_CLASS',
             name: '道路等级',
             type: 'AD_ROAD_RD_CLASS',
+            domType: 'Select'
+        },
+        {
+            key: 'CROSSING',
+            name: '交叉路口标识',
+            type: 'AD_ROAD_CROSSING',
             domType: 'Select'
         },
         {
