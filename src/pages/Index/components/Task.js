@@ -2,6 +2,7 @@ import React from 'react';
 import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { getAuthentication, getCurrentEditingTaskId } from 'src/utils/Session';
+import { setTaskScaleStorage } from 'src/utils/vectorUtils';
 
 @inject('TaskStore')
 @inject('AttributeStore')
@@ -93,6 +94,11 @@ class Task extends React.Component {
         ToolCtrlStore.updateByEditLayer();
         AttributeStore.hide();
         PictureShowStore.hide();
+
+        // 切换任务时，保存上一个任务的缩放比例
+        const preTaskScale = map.getEyeView();
+        setTaskScaleStorage(this.state.current, preTaskScale);
+
         this.setState({
             current: id
         });

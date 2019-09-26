@@ -28,7 +28,12 @@ import SDKConfig from '../../../config/SDKConfig';
 import 'less/components/viz-compnent.less';
 import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
-import { isRegionContainsElement } from 'src/utils/vectorUtils';
+import {
+    isRegionContainsElement,
+    setTaskScaleStorage,
+    getTaskScaleStorage,
+    filterTaskScaleStorage
+} from 'src/utils/vectorUtils';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -56,8 +61,13 @@ class VizCompnent extends React.Component {
         const currentTask = getCurrentEditingTaskId();
 
         TaskStore.initTask({ type: 4 }).then(() => {
-            const { tasks } = TaskStore;
-            if (!tasks || tasks.length == 0) {
+            const { tasks = [] } = TaskStore;
+
+            //清除多余任务比例记录
+            const taskIdArr = tasks.map(item => Number(item.taskId));
+            filterTaskScaleStorage(taskIdArr);
+
+            if (tasks.length == 0) {
                 message.warning('暂无任务', 3);
                 return;
             }
@@ -88,6 +98,13 @@ class VizCompnent extends React.Component {
             .then(() => {
                 hide();
                 message.success('加载完成', 1);
+
+                //获取任务比例记录，设置比例
+                const { TaskStore } = this.props;
+                const { activeTask } = TaskStore;
+                const { taskId } = activeTask;
+                const taskScale = getTaskScaleStorage(taskId);
+                taskScale && map.setEyeView(taskScale);
             })
             .catch(e => {
                 console.log(e);
@@ -216,15 +233,23 @@ class VizCompnent extends React.Component {
     };
 
     installListener = () => {
+        const { TaskStore } = this.props;
+
         //禁用浏览器默认右键菜单
         document.oncontextmenu = function(e) {
             e.preventDefault();
             // return false;
         };
+
         //监听浏览器即将离开当前页面事件
         window.onbeforeunload = function(e) {
             var e = window.event || e;
-            e.returnValue = '确定离开当前页面吗？';
+            e.returnValue = `确定离开当前页面吗？`;
+
+            //保存当前任务比例
+            const { taskId } = TaskStore.activeTask;
+            const preTaskScale = map.getEyeView();
+            setTaskScaleStorage(taskId, preTaskScale);
         };
 
         let viz = document.querySelector('#viz');
