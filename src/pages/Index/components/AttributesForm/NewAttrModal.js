@@ -2,7 +2,6 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Form, Input, Modal, Select } from 'antd';
 import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
-
 import {
     TYPE_SELECT_OPTION_MAP,
     DEFAULT_PROPERTIES_MAP
