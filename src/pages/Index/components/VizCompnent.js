@@ -443,6 +443,8 @@ class VizCompnent extends React.Component {
                 y: event.y,
                 layerName
             });
+        } else {
+            message.warning('只能选取当前编辑图层要素！', 3);
         }
     };
 
