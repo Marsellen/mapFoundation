@@ -1,7 +1,6 @@
 import React from 'react';
 import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { getAuthentication, getCurrentEditingTaskId } from 'src/utils/Session';
 
 @inject('TaskStore')
 @inject('AttributeStore')
@@ -16,15 +15,6 @@ class Task extends React.Component {
         this.state = {
             current: null
         };
-    }
-    componentDidMount() {
-        const userInfo = getAuthentication();
-        const { userName, taskId } = getCurrentEditingTaskId();
-        if (userInfo.username === userName && taskId) {
-            this.setState({
-                current: taskId
-            });
-        }
     }
 
     render() {

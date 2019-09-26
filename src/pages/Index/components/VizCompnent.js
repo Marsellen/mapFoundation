@@ -21,7 +21,6 @@ import {
     RESOURCE_LAYER_TRACE,
     RESOURCE_LAYER_TASK_SCOPE
 } from 'src/config/DataLayerConfig';
-import { getAuthentication, getCurrentEditingTaskId } from 'src/utils/Session';
 import MultimediaView from './MultimediaView';
 import VectorsConfig from '../../../config/VectorsConfig';
 import SDKConfig from '../../../config/SDKConfig';
@@ -52,8 +51,6 @@ class VizCompnent extends React.Component {
 
     componentDidMount() {
         const { TaskStore } = this.props;
-        const userInfo = getAuthentication();
-        const currentTask = getCurrentEditingTaskId();
 
         TaskStore.initTask({ type: 4 }).then(() => {
             const { tasks } = TaskStore;
@@ -61,11 +58,7 @@ class VizCompnent extends React.Component {
                 message.warning('暂无任务', 3);
                 return;
             }
-            if (userInfo.username === currentTask.userName) {
-                TaskStore.setActiveTask(currentTask.taskId);
-            } else {
-                TaskStore.setActiveTask();
-            }
+            TaskStore.setActiveTask();
         });
     }
 
