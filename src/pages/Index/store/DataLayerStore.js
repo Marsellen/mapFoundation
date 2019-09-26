@@ -53,7 +53,7 @@ class DataLayerStore extends LayerStore {
     @action initEditor = layers => {
         this.editor = new EditControl();
         layers && this.editor.setTargetLayers(layers);
-        map.getControlManager().addControl(this.editor);
+        map && map.getControlManager().addControl(this.editor);
     };
 
     @action initMeasureControl = () => {
