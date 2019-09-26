@@ -544,6 +544,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 2, label: '潮汐车道限制' },
         { value: 3, label: '禁止停车限制' }
     ],
+    AD_LANE_RS_VALUE: [{ value: 0, label: '未定义' }],
     AD_LANE_RS_VALUE0: [{ value: 0, label: '未定义' }],
     AD_LANE_RS_VALUE1: [
         { value: 0, label: '未定义' },
