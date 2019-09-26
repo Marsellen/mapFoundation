@@ -12,14 +12,26 @@ const PERMISSION_CONFIG = {
     }
 };
 
-export const getEditLayers = (layers, { roleCode } = {}) => {
+export const getEditLayers = (
+    layers,
+    { roleCode } = {},
+    { manualStatus } = {}
+) => {
     layers = _.cloneDeep(
         (layers || []).map(layer => {
             let { value, label } = layer;
             return { value, label };
         })
     );
-    let config = PERMISSION_CONFIG[roleCode];
+    let configs = PERMISSION_CONFIG;
+    if (roleCode == 'producer' && [4, 5].includes(manualStatus)) {
+        configs = {
+            ...PERMISSION_CONFIG,
+            producer: {}
+        };
+    }
+
+    let config = configs[roleCode];
     if (config && config.reject) {
         layers.forEach(layer => {
             if (config.reject.includes(layer.value)) {

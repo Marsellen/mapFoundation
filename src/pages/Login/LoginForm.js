@@ -2,10 +2,11 @@ import React from 'react';
 // import { randomNum } from '../../utils/utils';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import { Form, Input, Icon, Checkbox } from 'antd';
+import { Form, Input, Icon, Checkbox, message } from 'antd';
 
 @withRouter
 @inject('appStore')
+@inject('TaskStore')
 @observer
 @Form.create()
 class LoginForm extends React.Component {
@@ -27,21 +28,34 @@ class LoginForm extends React.Component {
         this.setState({
             focusItem: -1
         });
-        const { appStore } = this.props;
+        const { appStore, TaskStore } = this.props;
 
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 values.password = btoa(values.password); //base64编码
-                appStore.login(values, this.state).then(() => {
-                    localStorage.setItem('rememberMe', this.state.rememberMe);
-                    localStorage.setItem('autoLogin', this.state.autoLogin);
-                    let userName = this.state.rememberMe ? values.username : '';
-                    localStorage.setItem('userName', userName);
-                    const { from } = this.props.location.state || {
-                        from: { pathname: '/' }
-                    };
-                    this.props.history.push(from);
-                });
+                appStore
+                    .login(values, this.state)
+                    .then(() => {
+                        localStorage.setItem(
+                            'rememberMe',
+                            this.state.rememberMe
+                        );
+                        localStorage.setItem('autoLogin', this.state.autoLogin);
+                        let userName = this.state.rememberMe
+                            ? values.username
+                            : '';
+                        localStorage.setItem('userName', userName);
+                        const { from } = this.props.location.state || {
+                            from: { pathname: '/' }
+                        };
+                        this.props.history.push(from);
+                    })
+                    .then(() => {
+                        TaskStore.initTask({ type: 1 });
+                    })
+                    .catch(e => {
+                        message.error(e.message, 3);
+                    });
             }
         });
     };
@@ -80,7 +94,6 @@ class LoginForm extends React.Component {
                             <Input
                                 onFocus={() => this.setState({ focusItem: 0 })}
                                 onBlur={() => this.setState({ focusItem: -1 })}
-                                maxLength={16}
                                 placeholder="用户名"
                                 addonBefore={
                                     <Icon

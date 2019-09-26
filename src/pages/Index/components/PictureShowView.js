@@ -3,15 +3,14 @@ import { inject, observer } from 'mobx-react';
 import RcViewer from 'rc-viewer';
 import IconFont from 'src/components/IconFont';
 
-@inject('taskStore')
+@inject('TaskStore')
 @inject('PictureShowStore')
 @observer
 class PictureShowView extends React.Component {
     render() {
-        activeTaskId;
-        const { PictureShowStore, taskStore } = this.props;
+        const { PictureShowStore, TaskStore } = this.props;
         const { picData } = PictureShowStore;
-        const { activeTaskId } = taskStore;
+        const { activeTaskId } = TaskStore;
         const options = {
             inline: true, //内联模式
             // button: false,//右上角全屏
@@ -47,7 +46,7 @@ class PictureShowView extends React.Component {
         };
         return (
             <div className="img-banner">
-                {picData ? (
+                {this.isArrPresent(picData) ? (
                     <RcViewer options={options} ref="viewer">
                         <ul id="images">
                             {picData.map((url, index) => {
@@ -57,6 +56,7 @@ class PictureShowView extends React.Component {
                                     </li>
                                 );
                             })}
+                            )
                         </ul>
                     </RcViewer>
                 ) : (
@@ -64,6 +64,12 @@ class PictureShowView extends React.Component {
                 )}
             </div>
         );
+    }
+
+    isArrPresent(arr) {
+        return arr.reduce((sum, item) => {
+            return sum || !!item;
+        }, false);
     }
 }
 export default PictureShowView;

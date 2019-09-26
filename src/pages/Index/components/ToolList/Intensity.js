@@ -3,7 +3,7 @@ import { Popover, Tooltip, Slider } from 'antd';
 import { inject, observer } from 'mobx-react';
 import IconFont from 'src/components/IconFont';
 
-@inject('taskStore')
+@inject('TaskStore')
 @observer
 class Intensity extends React.Component {
     state = {
@@ -28,8 +28,8 @@ class Intensity extends React.Component {
     };
 
     handleClickChange = visible => {
-        const { taskStore } = this.props;
-        const { activeTaskId } = taskStore;
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
         if (!activeTaskId) return;
         this.setState({
             clicked: visible,
@@ -37,8 +37,8 @@ class Intensity extends React.Component {
         });
     };
     render() {
-        const { taskStore } = this.props;
-        const { activeTaskId } = taskStore;
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
         return (
             <Popover
                 content={this._renderContent()}

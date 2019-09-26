@@ -3,7 +3,7 @@ import { observable, configure, action } from 'mobx';
 configure({ enforceActions: 'always' });
 class PictureShowStore {
     model;
-    @observable picData;
+    @observable picData = [];
 
     @observable visible = false;
 
@@ -11,9 +11,9 @@ class PictureShowStore {
         this.model = obj;
         if (obj.properties.imgs) {
             this.picData = [
-                obj.properties.imgs.Forward_Ahead,
                 obj.properties.imgs.Forward_Right,
-                obj.properties.imgs.Forward_Left
+                obj.properties.imgs.Forward_Left,
+                obj.properties.imgs.Forward_Ahead
             ];
         }
     };

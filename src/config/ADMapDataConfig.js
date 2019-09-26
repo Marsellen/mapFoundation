@@ -468,17 +468,20 @@ export const TYPE_SELECT_OPTION_MAP = {
     ],
     AD_MAP_QC_ERROR_TYPE: [
         { value: 0, label: '未定义' },
-        { value: 1, label: '新增' },
-        { value: 2, label: '删除' },
-        { value: 3, label: '几何变化' },
-        { value: 4, label: '属性变化' },
-        { value: 5, label: '图属变化' }
+        { value: 1, label: '几何形状错误' },
+        { value: 2, label: '拓扑连接错误' },
+        { value: 3, label: '属性错误' },
+        { value: 4, label: '关联关系错误' },
+        { value: 5, label: '打断位置错误' },
+        { value: 6, label: '多做' },
+        { value: 7, label: '制作遗漏' },
+        { value: 8, label: '其他' }
     ],
     AD_MAP_QC_FIX_STATUS: [
         { value: 0, label: '未定义' },
-        { value: 1, label: '待更新' },
-        { value: 2, label: '无需更新' },
-        { value: 3, label: '已更新' }
+        { value: 1, label: '待修正' },
+        { value: 2, label: '无需修正' },
+        { value: 3, label: '已修正' }
     ],
     AD_MAP_QC_QC_STATUS: [
         { value: 0, label: '未定义' },
@@ -721,7 +724,7 @@ export const TABLE_DATA_MAP = {
             key: 'LANE_NO',
             name: '车道编号',
             type: 'AD_LANE_DIVIDER_LANE_NO',
-            domType: 'Text'
+            domType: 'Input'
         },
         {
             key: 'RD_FORM',
@@ -869,7 +872,7 @@ export const TABLE_DATA_MAP = {
             key: 'LANE_NO',
             name: '车道编号',
             type: 'AD_LANE_LANE_NO',
-            domType: 'Text'
+            domType: 'Input'
         },
         {
             key: 'DIRECTION',
@@ -1060,14 +1063,14 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'FILE_NAME',
-            name: '待更新图层',
+            name: '错误图层名称',
             type: 'AD_MAP_QC_FILE_NAME',
             required: true,
             domType: 'Select'
         },
         {
             key: 'FEAT_ID',
-            name: '待更新数据ID',
+            name: '错误数据ID',
             type: 'AD_MAP_QC_FEAT_ID',
             validates: [
                 {
@@ -1089,13 +1092,13 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'ERROR_TYPE',
-            name: '更新类型',
+            name: '错误类型',
             type: 'AD_MAP_QC_ERROR_TYPE',
             domType: 'Select'
         },
         {
             key: 'ERROR_DESC',
-            name: '工程编号',
+            name: '错误描述',
             type: 'AD_MAP_QC_ERROR_DESC',
             domType: 'Input',
             validates: [
@@ -1112,7 +1115,7 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'FIX_STATUS',
-            name: '更新状态',
+            name: '修正状态',
             type: 'AD_MAP_QC_FIX_STATUS',
             domType: 'Select'
         },
@@ -1124,7 +1127,7 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'FIX_PERSON',
-            name: '作业人员',
+            name: '返工修改人员',
             type: 'AD_MAP_QC_FIX_PERSON',
             domType: 'Input',
             validates: [
