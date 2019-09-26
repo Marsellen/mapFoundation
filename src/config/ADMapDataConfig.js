@@ -399,7 +399,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '单个灯头' }
     ],
     AD_ARROW_ARR_DIRECT: [
-        { value: 0, label: '未定义', icon: 'weidingyi' },
+        { value: '0', label: '未定义', icon: 'weidingyi' },
         { value: 'A', label: '直行', icon: 'zhixing' },
         { value: 'B', label: '左转', icon: 'zuozhuan' },
         { value: 'C', label: '右转', icon: 'youzhuan' },
@@ -483,7 +483,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 2, label: '未修正' }
     ],
     AD_SUB_LAMP_TYPE: [
-        { value: 0, label: '未定义' },
+        { value: '0', label: '未定义' },
         { value: 'A', label: '圆灯' },
         { value: 'B', label: '方向向左的箭头' },
         { value: 'C', label: '方向向右的箭头' },
