@@ -13,7 +13,7 @@
         "build-sdk": "npm i addis-viz-sdk --registry=http://10.43.75.53:8081/repository/npm-all/ --save"
     },
     "dependencies": {
-        "addis-viz-sdk": "^0.1.5-alpha.2",
+        "addis-viz-sdk": "^0.1.6-alpha.1",
         "antd": "^3.22.2",
         "axios": "^0.18.0",
         "dragm": "0.0.5",
@@ -44,10 +44,10 @@
         "cross-env": "^5.2.0",
         "css-loader": "^2.1.1",
         "html-webpack-plugin": "^3.2.0",
+        "jsts": "^2.0.8",
         "less": "^3.9.0",
         "less-loader": "^5.0.0",
         "mini-css-extract-plugin": "^0.6.0",
-        "node-sass": "^4.12.0",
         "sass-loader": "^7.1.0",
         "style-loader": "^0.23.1",
         "url-loader": "^1.1.2",

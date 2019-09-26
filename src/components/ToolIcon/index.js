@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tooltip, Icon } from 'antd';
+import { Tooltip } from 'antd';
 import 'less/components/tool-icon.less';
 import IconFont from '../IconFont';
 

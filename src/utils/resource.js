@@ -1,7 +1,34 @@
 import axios from 'axios';
-import { getAuthentication } from './Session';
+import { getAuthentication, logout } from './Session';
+import { Modal } from 'antd';
 
 const BASIC_METHODS = ['get', 'post', 'put'];
+
+//捕获401
+// http response 拦截器
+axios.interceptors.response.use(
+    response => {
+        return response;
+    },
+    error => {
+        if (error.response) {
+            switch (error.response.status) {
+                case 401:
+                    // 返回 401 清除token信息并跳转到登录页面
+                    Modal.error({
+                        title: 'token失效，请重新获取',
+                        okText: '确定',
+                        cancelText: '取消',
+                        onOk: () => {
+                            logout();
+                            window.location.reload();
+                        }
+                    });
+            }
+        }
+        return Promise.reject(error.response.data); // 返回接口返回的错误信息
+    }
+);
 
 /**
  * url format
@@ -10,7 +37,7 @@ const BASIC_METHODS = ['get', 'post', 'put'];
  */
 function urlFormat(url, params) {
     // 根据params内容替换对应的占位符
-    Object.keys(params).map(key => {
+    Object.keys(params).forEach(key => {
         let reg = new RegExp(':' + key + '\\b', 'g');
         if (reg.test(url)) {
             url = url.replace(reg, params[key]);
@@ -48,6 +75,7 @@ function request(defaultUrl, extraParams, option) {
             // TODO
             let userInfo = getAuthentication();
             let Authentication = userInfo ? userInfo.token : '';
+
             let config = {
                 ...option,
                 url: urlFormat(option.url || defaultUrl, params),

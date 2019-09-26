@@ -14,10 +14,12 @@ import RightMenuModal from './RightMenuModal';
 import ZoomIn from './ToolList/ZoomIn';
 import ZoomOut from './ToolList/ZoomOut';
 import UnderView from './ToolList/UnderView';
+import TopView from './ToolList/TopView';
 import {
     RESOURCE_LAYER_POINT_CLOUD,
     RESOURCE_LAYER_VETOR,
-    RESOURCE_LAYER_TRACE
+    RESOURCE_LAYER_TRACE,
+    RESOURCE_LAYER_TASK_SCOPE
 } from 'src/config/DataLayerConfig';
 import { getAuthentication, getCurrentEditingTaskId } from 'src/utils/Session';
 import MultimediaView from './MultimediaView';
@@ -25,6 +27,8 @@ import VectorsConfig from '../../../config/VectorsConfig';
 import SDKConfig from '../../../config/SDKConfig';
 import 'less/components/viz-compnent.less';
 import { addClass, removeClass } from '../../../utils/utils';
+import BatchAssignModal from './BatchAssignModal';
+import { isRegionContainsElement } from 'src/utils/vectorUtils';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -37,8 +41,11 @@ import { addClass, removeClass } from '../../../utils/utils';
 @inject('RelStore')
 @inject('AttrStore')
 @inject('appStore')
+@inject('BatchAssignStore')
 @observer
 class VizCompnent extends React.Component {
+    regionGeojson = {};
+
     constructor(props) {
         super(props);
     }
@@ -47,8 +54,7 @@ class VizCompnent extends React.Component {
         const { TaskStore } = this.props;
         const userInfo = getAuthentication();
         const currentTask = getCurrentEditingTaskId();
-        
-        
+
         TaskStore.initTask({ type: 4 }).then(() => {
             const { tasks } = TaskStore;
             if (!tasks || tasks.length == 0) {
@@ -56,11 +62,10 @@ class VizCompnent extends React.Component {
                 return;
             }
             if (userInfo.username === currentTask.userName) {
-                TaskStore.setActiveTask(currentTask.taskId)
+                TaskStore.setActiveTask(currentTask.taskId);
             } else {
-                TaskStore.setActiveTask()
+                TaskStore.setActiveTask();
             }
-            //TaskStore.getTaskFile().then(this.initTask);
         });
     }
 
@@ -68,7 +73,8 @@ class VizCompnent extends React.Component {
         const { TaskStore } = this.props;
         const div = document.getElementById('viz');
         window.map = new Map(div);
-        TaskStore.getTaskFile().then(this.initTask);
+        let task = TaskStore.getTaskFile();
+        this.initTask(task);
     }
 
     initTask = async task => {
@@ -95,14 +101,14 @@ class VizCompnent extends React.Component {
     };
 
     initEditResource = async task => {
-        let [pointClouds, vectors, tracks] = await Promise.all([
+        let [pointClouds, vectors, tracks, taskScope] = await Promise.all([
             this.initPointCloud(task.point_clouds),
             this.initVectors(task.vectors),
             this.initTracks(task.tracks),
             this.initRegion(task.region),
             this.initBoundary(task.boundary)
         ]);
-        this.initResouceLayer([pointClouds, vectors, tracks]);
+        this.initResouceLayer([pointClouds, vectors, tracks, taskScope]);
         this.installListener();
     };
 
@@ -172,6 +178,14 @@ class VizCompnent extends React.Component {
             const vectorLayer = new VectorLayer(regionUrl);
             vectorLayer.setDefaultStyle({ color: '#00FF00' });
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
+            //保存任务范围geojson
+            const getRegionRes = vectorLayer.getVectorData();
+            this.regionGeojson = getRegionRes.features[0];
+
+            return {
+                layerName: RESOURCE_LAYER_TASK_SCOPE,
+                layer: vectorLayer
+            };
         } catch (e) {
             message.error('作业范围数据加载失败', 3);
         }
@@ -241,7 +255,12 @@ class VizCompnent extends React.Component {
     };
 
     selectedCallBack = (result, event) => {
-        const { PictureShowStore, AttributeStore, DataLayerStore } = this.props;
+        const {
+            PictureShowStore,
+            AttributeStore,
+            DataLayerStore,
+            BatchAssignStore
+        } = this.props;
         // console.log(result, event);
         if (result && result.length > 0) {
             if (event.button === 0) {
@@ -269,6 +288,7 @@ class VizCompnent extends React.Component {
             AttributeStore.hideRelFeatures();
             window.traceLayer.unselect();
         }
+        BatchAssignStore.hide();
     };
 
     createdCallBack = result => {
@@ -278,6 +298,8 @@ class VizCompnent extends React.Component {
             OperateHistoryStore
         } = this.props;
         //console.log(result);
+
+        //判断是否绘制成功
         if (result.errorCode) {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
@@ -285,22 +307,34 @@ class VizCompnent extends React.Component {
             DataLayerStore.clearChoose();
             return;
         }
+
+        //判断要素是否在任务范围内
+        const isInRegion = isRegionContainsElement(
+            result.data,
+            this.regionGeojson
+        );
+        if (!isInRegion) {
+            message.warning('请在任务范围内绘制要素');
+            DataLayerStore.clearChoose();
+            let layer = DataLayerStore.getEditLayer();
+            layer.layer.removeFeatureById(result.uuid);
+            return false;
+        }
+
         DataLayerStore.updateResult(result)
-            .then(result => {
-                return NewFeatureStore.init(result);
+            .then(data => {
+                return NewFeatureStore.init(data);
             })
-            .then(result => {
-                return DataLayerStore.updateFeature(result);
-            })
-            .then(result => {
-                let layerName = result.layerName;
-                let feature = result.data;
+            .then(data => {
+                DataLayerStore.updateFeature(data);
+                let layerName = data.layerName;
+                let feature = data.data;
                 OperateHistoryStore.add({
                     type: 'addFeature',
                     feature: feature,
                     layerName: layerName
                 });
-                this.showAttributesModal(result);
+                this.showAttributesModal(data);
             })
             .catch(e => {
                 console.log(e);
@@ -316,6 +350,7 @@ class VizCompnent extends React.Component {
             OperateHistoryStore,
             RightMenuStore
         } = this.props;
+
         if (result.errorCode) {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
@@ -323,9 +358,25 @@ class VizCompnent extends React.Component {
             DataLayerStore.clearChoose();
             return;
         }
-        //console.log(result);
+
+        const oldFeature = RightMenuStore.getFeatures()[0];
+
+        //修改形状点时，判断要素不在任务范围内，则撤销本次操作
+        if (DataLayerStore.editType === 'changePoints') {
+            const isInRegion = isRegionContainsElement(
+                result.data,
+                this.regionGeojson
+            );
+            if (!isInRegion) {
+                message.warning('请在任务范围内绘制要素');
+                //恢复要素
+                DataLayerStore.updateFeature(oldFeature);
+                DataLayerStore.clearChoose();
+                return false;
+            }
+        }
+
         DataLayerStore.clearChoose();
-        let oldFeature = RightMenuStore.getFeatures()[0];
         OperateHistoryStore.add({
             type: 'updateFeature',
             oldFeature,
@@ -412,6 +463,7 @@ class VizCompnent extends React.Component {
             <React.Fragment>
                 <div id="viz" key={TaskStore.activeTaskId} className="viz-box">
                     <div className="set-compass">
+                        <TopView key="TOP_VIEW" />
                         <ZoomOut key="ZOOM_OUT" />
                         <ZoomIn key="ZOOM_IN" />
                         <UnderView key="UNDER_VIEW" />
@@ -420,6 +472,7 @@ class VizCompnent extends React.Component {
                 {TaskStore.activeTaskId ? <MultimediaView /> : <span />}
                 <AttributesModal />
                 <RightMenuModal />
+                <BatchAssignModal />
                 {/* <NewFeatureModal /> */}
             </React.Fragment>
         );

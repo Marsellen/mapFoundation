@@ -124,13 +124,11 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 99, label: '其他' }
     ],
     AD_ROAD_RD_FORM: [
+        //???
         { value: 0, label: '未定义' },
         { value: 1, label: '普通道路' },
         { value: 2, label: '隧道道路' },
-        { value: 3, label: '收费站道路' },
-        { value: 4, label: '服务区道路' },
-        { value: 5, label: '匝道道路' },
-        { value: 6, label: '路段中掉头道路' }
+        { value: 3, label: '收费站道路' }
     ],
     AD_ROAD_DIRECTION: [
         { value: 0, label: '未定义' },
@@ -232,12 +230,12 @@ export const TYPE_SELECT_OPTION_MAP = {
             icon: 'fuwuqudaolujieshuweizhi'
         },
         { value: 41, label: '点云不清晰起点', icon: 'dianyunbuqingxiqishi' },
-        { value: 42, label: '点云遮挡起点', icon: 'dianyunzhedangqishi' },
-        { value: 43, label: '精度误差起始', icon: 'jingduwuchaqishi' },
-        { value: 44, label: '道路施工起始', icon: 'daolushigongqishi' },
-        { value: 45, label: '点云不清晰结束点', icon: 'dianyunbuqingxijieshu' },
-        { value: 46, label: '点云遮挡结束', icon: 'dianyunzhedangjieshu' },
-        { value: 47, label: '精度误差结束', icon: 'jingduwuchajieshu' },
+        { value: 42, label: '点云不清晰结束点', icon: 'dianyunbuqingxijieshu' },
+        { value: 43, label: '点云遮挡起点', icon: 'dianyunzhedangqishi' },
+        { value: 44, label: '点云遮挡结束', icon: 'dianyunzhedangjieshu' },
+        { value: 45, label: '精度误差起始', icon: 'jingduwuchaqishi' },
+        { value: 46, label: '精度误差结束', icon: 'jingduwuchajieshu' },
+        { value: 47, label: '道路施工起始', icon: 'daolushigongqishi' },
         { value: 48, label: '道路施工结束', icon: 'daolushigongjieshu' }
     ],
     AD_STOPLOCATION_TYPE: [
@@ -405,7 +403,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '单个灯头' }
     ],
     AD_ARROW_ARR_DIRECT: [
-        { value: 0, label: '未定义', icon: 'weidingyi' },
+        { value: '0', label: '未定义', icon: 'weidingyi' },
         { value: 'A', label: '直行', icon: 'zhixing' },
         { value: 'B', label: '左转', icon: 'zuozhuan' },
         { value: 'C', label: '右转', icon: 'youzhuan' },
@@ -488,14 +486,6 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 1, label: '已修正' },
         { value: 2, label: '未修正' }
     ],
-    AD_TEXT_TYPE: [
-        { value: 0, label: '未定义' },
-        { value: 1, label: '最高限速' },
-        { value: 2, label: '最低限速' },
-        { value: 3, label: '公交车道时间限制' },
-        { value: 4, label: '公交车道类文字' },
-        { value: 99, label: '其他' }
-    ],
     AD_SUB_LAMP_TYPE: [
         { value: '0', label: '未定义' },
         { value: 'A', label: '圆灯' },
@@ -510,8 +500,8 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'J', label: '读秒' }
     ],
     AD_TS_CONTENT_CONT_TYPE: [
-        { value: 0, label: '未定义' },
         { value: 1, label: '禁止转向' },
+        { value: 0, label: '未定义' },
         { value: 2, label: '限制转向' },
         { value: 3, label: '最大速度限制' },
         { value: 4, label: '最低速度限制' }
@@ -839,16 +829,16 @@ export const TABLE_DATA_MAP = {
     ],
     AD_Lane: [
         {
-            key: 'TYPE',
-            name: '车道类型',
-            type: 'AD_LANE_TYPE',
-            domType: 'RadioIconGroup'
-        },
-        {
             key: 'LANE_ID',
             name: '用户编号',
             type: 'AD_LANE_LANE_ID',
             domType: 'Text'
+        },
+        {
+            key: 'TYPE',
+            name: '车道类型',
+            type: 'AD_LANE_TYPE',
+            domType: 'RadioIconGroup'
         },
         // {
         //     key: 'ROAD_ID',
