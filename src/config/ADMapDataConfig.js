@@ -16,7 +16,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 13, label: '路缘石', icon: 'luyuanshi' },
         { value: 14, label: '自然边界', icon: 'ziranbianjie' },
         { value: 15, label: '施工边界', icon: 'shigongbianjie' },
-        { value: 16, label: '路中隔离带', icon: 'gelidaichedao ' },
+        { value: 16, label: '路中隔离带', icon: 'gelidaichedao' },
         { value: 17, label: '路口内待行区', icon: 'lukouneidaixingqu' },
         {
             value: 18,
@@ -105,7 +105,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '收费站道路' }
     ],
     AD_ROAD_TYPE: [
-        { value: 0, label: '未定义', icon: 'weidingyi ' },
+        { value: 0, label: '未定义', icon: 'weidingyi' },
         { value: 1, label: '实际道路参考线', icon: 'shijidaolucankaoxian' },
         { value: 2, label: '虚拟道路参考线', icon: 'xunidaolucankaoxian' }
     ],
@@ -139,7 +139,11 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '双向通行' },
         { value: 4, label: '禁止通行' }
     ],
-
+    AD_ROAD_CROSSING: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '交叉路口内' },
+        { value: 2, label: '非交叉路口内' }
+    ],
     AD_LANE_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi' },
         { value: 1, label: '普通车道', icon: 'putongchedao' },
@@ -768,6 +772,12 @@ export const TABLE_DATA_MAP = {
             key: 'RD_CLASS',
             name: '道路等级',
             type: 'AD_ROAD_RD_CLASS',
+            domType: 'Select'
+        },
+        {
+            key: 'CROSSING',
+            name: '交叉路口标识',
+            type: 'AD_ROAD_CROSSING',
             domType: 'Select'
         },
         {
