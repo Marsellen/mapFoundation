@@ -353,7 +353,11 @@ export const TYPE_SELECT_OPTION_MAP = {
         // { value: 315, label: '路口优先通行', icon: 'plus' },
         // { value: 316, label: '会车先行', icon: 'plus' },
         // { value: 317, label: '人行横道', icon: 'plus' },
-        { value: 318, label: '车道行驶方向--直行', icon: 'chedaoxingshifangxiang' },
+        {
+            value: 318,
+            label: '车道行驶方向--直行',
+            icon: 'chedaoxingshifangxiang'
+        },
         { value: 319, label: '专用道路和车道', icon: 'zhuanyongdaoluhechedao' },
         { value: 320, label: '停车位', icon: 'tingchewei' },
         { value: 321, label: '允许掉头', icon: 'yunxudiaotou' },
@@ -479,7 +483,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 2, label: '未修正' }
     ],
     AD_SUB_LAMP_TYPE: [
-        { value: '0', label: '未定义' },
+        { value: 0, label: '未定义' },
         { value: 'A', label: '圆灯' },
         { value: 'B', label: '方向向左的箭头' },
         { value: 'C', label: '方向向右的箭头' },
@@ -499,29 +503,29 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 4, label: '最低速度限制' }
     ],
     AD_RS_BARRIER_TYPE: [
-        { value: '0', label: '未定义', icon: 'weidingyi' },
-        { value: '1', label: '隧道墙', icon: 'suidaoqiang' },
-        { value: '2', label: '路侧防护栏', icon: 'lucefanghulan' },
-        { value: '3', label: '路缘石', icon: 'luyuanshi' },
-        { value: '4', label: '隔音墙', icon: 'geyinqiang' }
+        { value: 0, label: '未定义', icon: 'weidingyi' },
+        { value: 1, label: '隧道墙', icon: 'suidaoqiang' },
+        { value: 2, label: '路侧防护栏', icon: 'lucefanghulan' },
+        { value: 3, label: '路缘石', icon: 'luyuanshi' },
+        { value: 4, label: '隔音墙', icon: 'geyinqiang' }
     ],
     AD_RS_BARRIER_MATERIAL: [
-        { value: '0', label: '未定义' },
-        { value: '1', label: '混凝土' },
-        { value: '2', label: '金属' },
-        { value: '3', label: '塑料' },
-        { value: '4', label: '其他' }
+        { value: 0, label: '未定义' },
+        { value: 1, label: '混凝土' },
+        { value: 2, label: '金属' },
+        { value: 3, label: '塑料' },
+        { value: 4, label: '其他' }
     ],
     AD_TEXT_TYPE: [
-        { value: '0', label: '未定义', icon: 'weidingyi' },
-        { value: '1', label: '最高限速', icon: 'zuigaoxiansu' },
-        { value: '2', label: '最低限速', icon: 'zuidixiansu' },
+        { value: 0, label: '未定义', icon: 'weidingyi' },
+        { value: 1, label: '最高限速', icon: 'zuigaoxiansu' },
+        { value: 2, label: '最低限速', icon: 'zuidixiansu' },
         {
-            value: '3',
+            value: 3,
             label: '公交车道时间限制',
             icon: 'gongjiaochedaoshijianxianzhi'
         },
-        { value: '99', label: '其他', icon: 'qita' }
+        { value: 99, label: '其他', icon: 'qita' }
     ],
     AD_LANE_RS_TYPE: [
         { value: 0, label: '未定义' },
@@ -608,7 +612,7 @@ export const DEFAULT_PROPERTIES_MAP = {
     AD_Lane_RS: {
         RS_TYPE: 0
     },
-    AD_Lane_CON_RS: {
+    AD_Lane_Con_RS: {
         RS_TYPE: 1
     },
     AD_LaneAttrPoint: {
