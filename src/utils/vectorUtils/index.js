@@ -25,6 +25,34 @@ export const getLayerByName = layerName => {
     return getLayerExByName(layerName).layer;
 };
 
+//处理多维数组，[[[1,2]]]=>[1,2]
+const getSingleDimensionArray = arr => {
+    try {
+        if (arr[0] && arr[0][0] && typeof arr[0][0] === 'number') {
+            return arr;
+        } else {
+            return getSingleDimensionArray(arr[0]);
+        }
+    } catch {
+        console.error('请传入多维数组，例：[[[1,2]]]');
+    }
+};
+
+//polygon geojson 转换成 lineString geojson
+const toLineStringGeojson = geojson => {
+    try {
+        if (geojson.geometry.type === 'Polygon') {
+            geojson.geometry.type = 'LineString';
+            geojson.geometry.coordinates = getSingleDimensionArray(
+                geojson.geometry.coordinates
+            );
+        }
+        return geojson;
+    } catch {
+        console.error('请传到有效的geojson');
+    }
+};
+
 /*
  * 判断要素是否在任务范围内，返回true/false
  * @params element 要素的geojson
@@ -34,15 +62,15 @@ export const isRegionContainsElement = (element, region) => {
     console.time('Is region contains element');
 
     if (!element || !region) {
-        console.warn('缺少要素或者任务范围');
+        console.error('缺少要素或者任务范围');
         return false;
     }
 
-    const { geometry: elementGeometry } = element;
+    const { geometry: elementGeometry } = toLineStringGeojson(element);
     const { geometry: regionGeometry } = region;
 
     if (!elementGeometry || !regionGeometry) {
-        console.warn('无效的要素或者任务范围');
+        console.error('无效的要素或者任务范围');
         return false;
     }
 
