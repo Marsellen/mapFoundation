@@ -832,6 +832,13 @@ export default {
                 label: '未定义',
                 style: { color: 'rgb(110,10,30)', radius: 0.1 }
             }
+        ],
+        AD_POLE_TYPE: [
+            {
+                value: 0,
+                label: '',
+                style: { color: 'rgb(32,52,127)', radius: 0.1 }
+            }
         ]
     }
 };
