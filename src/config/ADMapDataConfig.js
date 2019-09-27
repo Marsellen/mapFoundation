@@ -123,11 +123,6 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '城市道路' },
         { value: 99, label: '其他' }
     ],
-    AD_ROAD_CROSSING: [
-        { value: 0, label: '未定义' },
-        { value: 1, label: '交叉路口内' },
-        { value: 2, label: '非交叉路口内' }
-    ],
 
     AD_ROAD_RD_FORM: [
         //???
