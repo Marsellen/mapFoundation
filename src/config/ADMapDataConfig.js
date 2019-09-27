@@ -123,7 +123,6 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '城市道路' },
         { value: 99, label: '其他' }
     ],
-
     AD_ROAD_RD_FORM: [
         //???
         { value: 0, label: '未定义' },
