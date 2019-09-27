@@ -1,7 +1,6 @@
 import React from 'react';
 import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { getAuthentication, getCurrentEditingTaskId } from 'src/utils/Session';
 import { setTaskScaleStorage } from 'src/utils/vectorUtils';
 
 @inject('TaskStore')
