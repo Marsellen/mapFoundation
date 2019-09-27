@@ -333,21 +333,20 @@ class VizCompnent extends React.Component {
             return;
         }
 
-        //判断要素是否在任务范围内
-        const isInRegion = isRegionContainsElement(
-            result.data,
-            this.regionGeojson
-        );
-        if (!isInRegion) {
-            message.warning('请在任务范围内绘制要素');
-            DataLayerStore.clearChoose();
-            let layer = DataLayerStore.getEditLayer();
-            layer.layer.removeFeatureById(result.uuid);
-            return false;
-        }
-
         DataLayerStore.updateResult(result)
             .then(data => {
+                //判断要素是否在任务范围内
+                const isInRegion = isRegionContainsElement(
+                    data.data,
+                    this.regionGeojson
+                );
+                if (!isInRegion) {
+                    message.warning('请在任务范围内绘制要素');
+                    DataLayerStore.clearChoose();
+                    let layer = DataLayerStore.getEditLayer();
+                    layer.layer.removeFeatureById(data.uuid);
+                    return false;
+                }
                 return NewFeatureStore.init(data);
             })
             .then(data => {
