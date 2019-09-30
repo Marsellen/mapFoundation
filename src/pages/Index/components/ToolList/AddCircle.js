@@ -9,12 +9,14 @@ import AdMessage from 'src/components/AdMessage';
 class AddCircle extends React.Component {
     render() {
         const { DataLayerStore } = this.props;
+        const { isTopView } = DataLayerStore;
         let visible = DataLayerStore.editType == 'new_circle';
         return (
-            <span>
+            <span className={visible ? "ad-icon-active" : ''}>
                 <ToolIcon
                     icon="sandianhuayuan"
                     title="三点绘制圆"
+                    disabled={isTopView}
                     action={this.action}
                 />
                 <AdMessage visible={visible} content={this.content()} />

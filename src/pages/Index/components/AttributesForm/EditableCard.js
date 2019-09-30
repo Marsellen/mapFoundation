@@ -60,7 +60,8 @@ class EditableCard extends React.Component {
                 }
             }
         });
-        if ((flags.reduce((sum, flag) => sum || flag), false)) {
+        let shouldUpdate = flags.reduce((sum, flag) => sum || flag, false);
+        if (shouldUpdate) {
             this.setState({
                 attrs
             });

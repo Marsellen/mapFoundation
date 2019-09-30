@@ -1,6 +1,6 @@
 import React from 'react';
-import { inject, observer } from 'mobx-react';
-import { Form, Input, Select } from 'antd';
+import { Form, Modal, Input, Select, Button } from 'antd';
+import { observer, inject } from 'mobx-react';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
@@ -16,28 +16,81 @@ const formItemLayout = {
     }
 };
 
-@inject('AttributeStore')
+@Form.create()
+@inject('BatchAssignStore')
+@inject('OperateHistoryStore')
 @observer
-class BasicAttributesForm extends React.Component {
+class BatchAssignModal extends React.Component {
     render() {
-        const { AttributeStore } = this.props;
-        const { attributes } = AttributeStore;
+        const { BatchAssignStore } = this.props;
+        const { visible } = BatchAssignStore;
+        return (
+            <Modal
+                footer={this._renderFooter()}
+                mask={false}
+                destroyOnClose={true}
+                wrapClassName="ad-attributes-modal"
+                title={this._renderTitle()}
+                visible={visible}
+                onCancel={this.handleCancel}>
+                <div className="obscuration" />
+                <Form colon={false} hideRequiredMark={true}>
+                    {this._renderForm()}
+                </Form>
+            </Modal>
+        );
+    }
+
+    _renderTitle = () => {
+        return '批量赋值';
+    };
+
+    _renderForm = () => {
+        const { BatchAssignStore } = this.props;
+        const { attributes } = BatchAssignStore;
         return (
             <div>
-                {attributes.map((item, index) =>
+                {(attributes || []).map((item, index) =>
                     this.renderItem(item, index, 'attributes')
                 )}
             </div>
         );
-    }
+    };
+
+    _renderFooter = () => {
+        return (
+            <Button type="primary" onClick={this.save} size="small" ghost>
+                保存
+            </Button>
+        );
+    };
+
+    save = () => {
+        const { form, BatchAssignStore, OperateHistoryStore } = this.props;
+        form.validateFields((err, values) => {
+            if (err) {
+                return;
+            }
+            let history = BatchAssignStore.submit(values);
+            OperateHistoryStore.add({
+                type: 'updateFeatureRels',
+                data: history
+            });
+        });
+    };
+
+    handleCancel = () => {
+        const { BatchAssignStore } = this.props;
+        BatchAssignStore.hide();
+    };
 
     renderItem = (item, index, name) => {
         return this['render' + item.domType](item, index, name);
     };
 
     renderText = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form } = this.props;
+        const { readonly } = item;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
@@ -54,8 +107,8 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderInput = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form } = this.props;
+        const { readonly } = item;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
@@ -80,8 +133,8 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderSelect = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form } = this.props;
+        const { readonly } = item;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
@@ -148,8 +201,8 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderRadioIconGroup = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form } = this.props;
+        const { readonly } = item;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         let layout = readonly ? formItemLayout : {};
         return (
@@ -180,8 +233,8 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderCheckBoxIconGroup = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form } = this.props;
+        const { readonly } = item;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         let layout = readonly ? formItemLayout : {};
         return (
@@ -221,4 +274,4 @@ class BasicAttributesForm extends React.Component {
     }
 }
 
-export default BasicAttributesForm;
+export default BatchAssignModal;

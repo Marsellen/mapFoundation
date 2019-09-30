@@ -44,17 +44,13 @@ class RelationForm extends React.Component {
     renderInput = (item, index, filedKey) => {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
-        let key = filedKey + '.id' + item.id + '.' + item.key;
+        let key = filedKey + '.' + item.key + item.id;
 
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
                     form.getFieldDecorator(key, {
                         rules: [
-                            {
-                                required: true,
-                                message: `${item.name}必填`
-                            },
                             {
                                 max: Math.pow(10, 15),
                                 message: '必须为15位以内数字',
@@ -92,12 +88,15 @@ class RelationForm extends React.Component {
     };
 
     renderRs = ({ spec, extraInfo } = {}) => {
-        switch (spec) {
-            case 'AD_Lane_Con':
-                return this.renderADLaneConRs(extraInfo);
-            default:
-                break;
+        if (spec == 'AD_Lane_Con') {
+            return this.renderADLaneConRs(extraInfo);
         }
+        // switch (spec) {
+        //     case 'AD_Lane_Con':
+        //         return this.renderADLaneConRs(extraInfo);
+        //     default:
+        //         break;
+        // }
     };
 
     renderADLaneConRs = extraInfo => {

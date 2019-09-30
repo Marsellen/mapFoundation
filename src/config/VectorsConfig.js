@@ -32,14 +32,14 @@ export default {
     ],
 
     layers: {
-        AD_ROAD: { type: 'Line', filter: ['TYPE'], order: 15 },
-
+        AD_ROAD: { type: 'Line', filter: ['TYPE'], order: 15, showFirstLastPoint: true },
         AD_LANEDIVIDER: {
             type: 'Line',
             filter: ['TYPE', 'SHARE_LINE'],
-            order: 14
+            order: 14,
+            showFirstLastPoint: true
         },
-        AD_LANE: { type: 'Line', filter: ['TYPE'], order: 13 },
+        AD_LANE: { type: 'Line', filter: ['TYPE'], order: 13, showFirstLastPoint: true },
         AD_LANE_SHAPE: { type: 'Line', filter: [], order: 12 },
         AD_LANEATTRPOINT: { type: 'Point', filter: ['TYPE'], order: 11 },
         AD_ARROW: { type: 'Polygon', filter: ['ARR_DIRECT'], order: 10 },
@@ -50,7 +50,7 @@ export default {
         AD_TRAFFICSIGN: { type: 'Polygon', filter: ['SIGN_STYPE'], order: 6 },
         AD_TRAFFICLIGHT: { type: 'Polygon', filter: ['TYPE'], order: 5 },
         AD_POLE: { type: 'Line', filter: ['TYPE'], order: 4 },
-        AD_RS_BARRIER: { type: 'Line', filter: ['TYPE'], order: 3 },
+        AD_RS_BARRIER: { type: 'Line', filter: ['TYPE'], order: 3, showFirstLastPoint: true },
 
         AD_MAP_QC: { type: 'Point', filter: ['TYPE'], order: 2 }
     },
@@ -618,12 +618,61 @@ export default {
                 }
             }
         ],
+        AD_RS_BARRIER_TYPE: [
+            {
+                value: 0,
+                label: '未定义',
+                style: {
+                    color: 'rgb(65,105,225)',
+                    linewidth: 1
+                }
+            },
+            {
+                value: 1,
+                label: '隧道墙',
+                style: {
+                    color: 'rgb(65,105,225)',
+                    linewidth: 1
+                }
+            },
+            {
+                value: 2,
+                label: '路侧防护栏',
+                style: {
+                    color: 'rgb(65,105,225)',
+                    linewidth: 1
+                }
+            },
+            {
+                value: 3,
+                label: '路缘石',
+                style: {
+                    color: 'rgb(65,105,225)',
+                    linewidth: 1
+                }
+            },
+            {
+                value: 4,
+                label: '隔音墙',
+                style: {
+                    color: 'rgb(65,105,225)',
+                    linewidth: 1
+                }
+            }
+        ],
 
         AD_MAP_QC_TYPE: [
             {
                 value: 0,
                 label: '未定义',
                 style: { color: 'rgb(220,20,60)', radius: 0.1 }
+            }
+        ],
+        AD_POLE_TYPE: [
+            {
+                value: 0,
+                label: '',
+                style: { color: 'rgb(65,105,225)', radius: 0.1 }
             }
         ]
     }
