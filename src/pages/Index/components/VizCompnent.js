@@ -33,6 +33,7 @@ import {
     getTaskScaleStorage,
     filterTaskScaleStorage
 } from 'src/utils/vectorUtils';
+import _ from 'lodash';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -329,8 +330,9 @@ class VizCompnent extends React.Component {
         DataLayerStore.updateResult(result)
             .then(data => {
                 //判断要素是否在任务范围内
+                const elementGeojson = _.cloneDeep(data.data);
                 const isInRegion = isRegionContainsElement(
-                    data.data,
+                    elementGeojson,
                     this.regionGeojson
                 );
                 if (!isInRegion) {
@@ -380,8 +382,9 @@ class VizCompnent extends React.Component {
 
         //修改形状点时，判断要素不在任务范围内，则撤销本次操作
         if (DataLayerStore.editType === 'changePoints') {
+            const elementGeojson = _.cloneDeep(result.data);
             const isInRegion = isRegionContainsElement(
-                result.data,
+                elementGeojson,
                 this.regionGeojson
             );
             if (!isInRegion) {
