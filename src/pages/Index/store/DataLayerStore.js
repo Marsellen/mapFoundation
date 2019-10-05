@@ -401,7 +401,7 @@ class DataLayerStore extends LayerStore {
 
     @action readCoordinate = event => {
         let result = map.detectPointObjFromPointCloud(event);
-        console.log(result && result.point.position);
+        //console.log(result && result.point.position);
         this.readCoordinateResult = result && result.point.position;
         this.coordinateViewPosition = event;
     };
