@@ -28,7 +28,7 @@ class Redo extends React.Component {
             AttributeStore
         } = this.props;
         OperateHistoryStore.redo().then(() => {
-            DataLayerStore.clearChoose();
+            DataLayerStore.exitEdit();
             AttributeStore.hide();
             AttributeStore.hideRelFeatures();
         });
