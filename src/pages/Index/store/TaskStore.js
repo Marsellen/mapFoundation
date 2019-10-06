@@ -21,7 +21,7 @@ class TaskStore {
     });
 
     // 任务切换
-    @action setActiveTask = id => {
+    @action setActiveTask = (id, update) => {
         if (this.tasks && this.tasks.length > 0) {
             if (id) {
                 this.activeTask = this.tasks.find(item => {
@@ -30,7 +30,8 @@ class TaskStore {
             } else {
                 this.activeTask = this.tasks[0];
             }
-            return this.setActiveTaskId(this.activeTask);
+            
+            return this.setActiveTaskId(this.activeTask, update);
         } else {
             return this.setActiveTaskId();
         }
@@ -59,12 +60,14 @@ class TaskStore {
         }
     });
 
-    setActiveTaskId = flow(function*(task = {}) {
+    setActiveTaskId = flow(function*(task = {}, update) {
+        
         let { Input_imp_data_path, taskFetchId, manualStatus } = task;
         this.activeTaskId = Input_imp_data_path;
 
         const status = [2, 4, 5]; //进行中-2、返修-4、返工-5
-        if (taskFetchId && !status.includes(manualStatus)) {
+        
+        if (taskFetchId && !status.includes(manualStatus) && update) {
             // TODO taskFechId 少了一个t，后台接口定义问题
             yield this.updateTaskStatus({
                 taskFetchId: taskFetchId,
