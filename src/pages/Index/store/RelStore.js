@@ -5,28 +5,31 @@ import axios from 'axios';
 
 configure({ enforceActions: 'always' });
 class RelStore {
-    relStore = new IndexedDB('relationships', 'rels', db => {
-        let objectStore = db.createObjectStore('rels', {
-            keyPath: 'id',
-            autoIncrement: true
-        });
-        objectStore.createIndex('OBJ_TYPE_KEYS', ['objType', 'objId'], {
-            unique: false
-        });
-        objectStore.createIndex(
-            'REL_OBJ_TYPE_KEYS',
-            ['relObjType', 'relObjId'],
-            {
+    relStore = new IndexedDB('relationships', 'rels', (request, event) => {
+        let db = request.result;
+        if (event.oldVersion < 1) {
+            let objectStore = db.createObjectStore('rels', {
+                keyPath: 'id',
+                autoIncrement: true
+            });
+            objectStore.createIndex('OBJ_TYPE_KEYS', ['objType', 'objId'], {
                 unique: false
-            }
-        );
-        objectStore.createIndex(
-            'REL_KEYS',
-            ['objType', 'objId', 'relObjType', 'relObjId'],
-            {
-                unique: true
-            }
-        );
+            });
+            objectStore.createIndex(
+                'REL_OBJ_TYPE_KEYS',
+                ['relObjType', 'relObjId'],
+                {
+                    unique: false
+                }
+            );
+            objectStore.createIndex(
+                'REL_KEYS',
+                ['objType', 'objId', 'relObjType', 'relObjId'],
+                {
+                    unique: true
+                }
+            );
+        }
     });
 
     init = flow(function*(url) {
