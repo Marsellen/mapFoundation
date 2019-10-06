@@ -5,12 +5,15 @@ class IndexedDB {
         this.onupgradeneeded = onupgradeneeded;
     }
 
+    openIndexedDB = dbName => {
+        return window.indexedDB.open(dbName, 2); // 版本号统一管理
+    };
+
     open = () => {
         return new Promise((resolve, reject) => {
-            let request = window.indexedDB.open(this.dbName);
+            let request = this.openIndexedDB(this.dbName);
             request.onupgradeneeded = event => {
-                var db = request.result;
-                this.onupgradeneeded(db);
+                this.onupgradeneeded(request, event);
             };
             request.onsuccess = event => {
                 let db = request.result;
@@ -33,7 +36,7 @@ class IndexedDB {
 
     openTransaction = () => {
         return new Promise((resolve, reject) => {
-            let request = window.indexedDB.open(this.dbName);
+            let request = this.openIndexedDB(this.dbName);
             request.onupgradeneeded = event => {
                 var db = request.result;
                 this.onupgradeneeded(db);
@@ -169,7 +172,7 @@ class IndexedDB {
         });
     };
 
-    deleteById = (id) => {
+    deleteById = id => {
         return new Promise((resolve, reject) => {
             this.open().then(objectStore => {
                 let request = objectStore.delete(id);
