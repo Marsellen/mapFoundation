@@ -37,10 +37,6 @@ class IndexedDB {
     openTransaction = () => {
         return new Promise((resolve, reject) => {
             let request = this.openIndexedDB(this.dbName);
-            request.onupgradeneeded = event => {
-                var db = request.result;
-                this.onupgradeneeded(db);
-            };
             request.onsuccess = event => {
                 let db = request.result;
 
