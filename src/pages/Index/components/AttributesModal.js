@@ -12,6 +12,7 @@ import 'less/components/attributes-modal.less';
 @inject('AttributeStore')
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
+@inject('EditLogStore')
 @observer
 class AttributesModal extends React.Component {
     handleCancel = e => {
@@ -67,7 +68,8 @@ class AttributesModal extends React.Component {
             form,
             AttributeStore,
             DataLayerStore,
-            OperateHistoryStore
+            OperateHistoryStore,
+            EditLogStore
         } = this.props;
         form.validateFields((err, values) => {
             if (err) {
@@ -77,10 +79,17 @@ class AttributesModal extends React.Component {
             AttributeStore.submit(values).then(result => {
                 let feature = result.features[1][0];
                 DataLayerStore.updateFeature(feature);
-                OperateHistoryStore.add({
+                let history = {
                     type: 'updateFeatureRels',
                     data: result
-                });
+                };
+                let log = {
+                    operateHistory: history,
+                    action: 'updateAttributes',
+                    result: 'success'
+                };
+                OperateHistoryStore.add(history);
+                EditLogStore.add(log);
             });
             AttributeStore.hide();
         });

@@ -55,6 +55,7 @@ class OperateHistoryStore {
             let nextNode = yield this.historyStore.getNext(this.currentNode);
             OperateFactory.redo(nextNode);
             this.currentNode = nextNode.id;
+            return nextNode;
         } catch (e) {
             console.log(e);
         }
@@ -66,6 +67,7 @@ class OperateHistoryStore {
             let currentNode = yield this.historyStore.get(this.currentNode);
             OperateFactory.undo(currentNode);
             this.currentNode = preNode ? preNode.id : -1;
+            return currentNode;
         } catch (e) {
             console.log(e);
         }

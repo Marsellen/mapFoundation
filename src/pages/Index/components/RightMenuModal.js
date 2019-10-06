@@ -36,6 +36,7 @@ const CHINESE_EDIT_TYPE = [
 @inject('AttributeStore')
 @inject('TaskStore')
 @inject('BatchAssignStore')
+@inject('EditLogStore')
 @observer
 class RightMenuModal extends React.Component {
     componentDidMount() {
@@ -174,7 +175,8 @@ class RightMenuModal extends React.Component {
             RightMenuStore,
             OperateHistoryStore,
             AttributeStore,
-            TaskStore
+            TaskStore,
+            EditLogStore
         } = this.props;
         if (result.errorCode) {
             let arr = result.desc.split(':');
@@ -192,22 +194,39 @@ class RightMenuModal extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk: async () => {
+                let features = RightMenuStore.getFeatures();
                 try {
-                    let features = RightMenuStore.getFeatures();
                     let historyLog = await breakLine(
                         result[0],
                         features,
                         task_id
                     );
-                    // console.log(result);
-                    OperateHistoryStore.add({
+                    let history = {
                         type: 'updateFeatureRels',
                         data: historyLog
-                    });
+                    };
+                    let log = {
+                        operateHistory: history,
+                        action: 'breakLine',
+                        result: 'success'
+                    };
+                    OperateHistoryStore.add(history);
+                    EditLogStore.add(log);
                     message.success('操作完成', 3);
                 } catch (e) {
                     console.log(e);
                     message.warning('操作失败:' + e.message, 3);
+                    let history = {
+                        features,
+                        breakNode: result[0]
+                    };
+                    let log = {
+                        operateHistory: history,
+                        action: 'breakLine',
+                        result: 'fail',
+                        failReason: e.message
+                    };
+                    EditLogStore.add(log);
                 }
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
@@ -224,7 +243,8 @@ class RightMenuModal extends React.Component {
             RightMenuStore,
             OperateHistoryStore,
             DataLayerStore,
-            AttributeStore
+            AttributeStore,
+            EditLogStore
         } = this.props;
         Modal.confirm({
             title: '您确认删除该要素？',
@@ -236,10 +256,17 @@ class RightMenuModal extends React.Component {
                 let historyLog = await deleteLine(result);
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
-                OperateHistoryStore.add({
+                let history = {
                     type: 'updateFeatureRels',
                     data: historyLog
-                });
+                };
+                let log = {
+                    operateHistory: history,
+                    action: 'deleteFeature',
+                    result: 'success'
+                };
+                OperateHistoryStore.add(history);
+                EditLogStore.add(log);
             }
         });
     };
@@ -274,7 +301,8 @@ class RightMenuModal extends React.Component {
             DataLayerStore,
             OperateHistoryStore,
             AttributeStore,
-            TaskStore
+            TaskStore,
+            EditLogStore
         } = this.props;
         let {
             activeTask: { taskId: task_id }
@@ -285,17 +313,32 @@ class RightMenuModal extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk: async () => {
+                let features = RightMenuStore.getFeatures();
                 try {
-                    let features = RightMenuStore.getFeatures();
                     let historyLog = await mergeLine(features, task_id);
-                    OperateHistoryStore.add({
+                    let history = {
                         type: 'updateFeatureRels',
                         data: historyLog
-                    });
+                    };
+                    let log = {
+                        operateHistory: history,
+                        action: 'mergeLine',
+                        result: 'success'
+                    };
+                    OperateHistoryStore.add(history);
+                    EditLogStore.add(log);
                     message.success('操作完成', 3);
                 } catch (e) {
                     console.log(e);
                     message.warning('操作失败:' + e.message, 3);
+                    let history = { features };
+                    let log = {
+                        operateHistory: history,
+                        action: 'mergeLine',
+                        result: 'fail',
+                        failReason: e.message
+                    };
+                    EditLogStore.add(log);
                 }
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();

@@ -8,6 +8,7 @@ import { getLayerByName } from 'src/utils/vectorUtils';
 @Form.create()
 @inject('NewFeatureStore')
 @inject('OperateHistoryStore')
+@inject('EditLogStore')
 @observer
 class NewFeatureModal extends React.Component {
     render() {
@@ -115,17 +116,29 @@ class NewFeatureModal extends React.Component {
     };
 
     save = () => {
-        const { form, NewFeatureStore, OperateHistoryStore } = this.props;
+        const {
+            form,
+            NewFeatureStore,
+            OperateHistoryStore,
+            EditLogStore
+        } = this.props;
         form.validateFields((err, values) => {
             if (err) {
                 return;
             }
             NewFeatureStore.save(values, (feature, layerName) => {
-                OperateHistoryStore.add({
+                let history = {
                     type: 'addFeature',
                     feature: feature,
                     layerName: layerName
-                });
+                };
+                let log = {
+                    operateHistory: history,
+                    action: 'newFeature',
+                    result: 'success'
+                };
+                OperateHistoryStore.add(history);
+                EditLogStore.add(log);
             });
         });
     };

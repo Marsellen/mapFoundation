@@ -46,6 +46,7 @@ import {
 @inject('AttrStore')
 @inject('appStore')
 @inject('BatchAssignStore')
+@inject('EditLogStore')
 @observer
 class VizCompnent extends React.Component {
     regionGeojson = {};
@@ -313,7 +314,8 @@ class VizCompnent extends React.Component {
         const {
             DataLayerStore,
             NewFeatureStore,
-            OperateHistoryStore
+            OperateHistoryStore,
+            EditLogStore
         } = this.props;
         //console.log(result);
 
@@ -344,13 +346,18 @@ class VizCompnent extends React.Component {
             })
             .then(data => {
                 DataLayerStore.updateFeature(data);
-                let layerName = data.layerName;
-                let feature = data.data;
-                OperateHistoryStore.add({
+                let history = {
                     type: 'addFeature',
-                    feature: feature,
-                    layerName: layerName
-                });
+                    feature: data.data,
+                    layerName: data.layerName
+                };
+                let log = {
+                    operateHistory: history,
+                    action: 'addFeature',
+                    result: 'success'
+                };
+                OperateHistoryStore.add(history);
+                EditLogStore.add(log);
                 this.showAttributesModal(data);
             })
             .catch(e => {
@@ -365,7 +372,8 @@ class VizCompnent extends React.Component {
         const {
             DataLayerStore,
             OperateHistoryStore,
-            RightMenuStore
+            RightMenuStore,
+            EditLogStore
         } = this.props;
 
         if (result.errorCode) {
@@ -394,13 +402,20 @@ class VizCompnent extends React.Component {
         }
 
         DataLayerStore.exitEdit();
-        OperateHistoryStore.add({
+        let history = {
             type: 'updateFeature',
             oldFeature,
             feature: result,
             layerName: result.layerName,
             uuid: result.uuid
-        });
+        };
+        let log = {
+            operateHistory: history,
+            action: 'updateGeometry',
+            result: 'success'
+        };
+        OperateHistoryStore.add(history);
+        EditLogStore.add(log);
     };
 
     boundarySelectedCallback = result => {

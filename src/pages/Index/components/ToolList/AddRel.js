@@ -10,10 +10,15 @@ import './AddRel.less';
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
 @inject('AttributeStore')
+@inject('EditLogStore')
 @observer
 class AddRel extends React.Component {
     componentDidMount() {
-        const { DataLayerStore, OperateHistoryStore } = this.props;
+        const {
+            DataLayerStore,
+            OperateHistoryStore,
+            EditLogStore
+        } = this.props;
         DataLayerStore.setNewRelCallback(result => {
             // console.log(result);
             Modal.confirm({
@@ -25,12 +30,19 @@ class AddRel extends React.Component {
                     let layerName = DataLayerStore.getEditLayer().layerName;
                     newRel(result, layerName)
                         .then(rels => {
-                            OperateHistoryStore.add({
+                            let history = {
                                 type: 'updateFeatureRels',
                                 data: {
                                     rels: [[], rels]
                                 }
-                            });
+                            };
+                            let log = {
+                                operateHistory: history,
+                                action: 'addRel',
+                                result: 'success'
+                            };
+                            OperateHistoryStore.add(history);
+                            EditLogStore.add(log);
                             message.success('新建成功', 3);
                             DataLayerStore.exitEdit();
                         })
@@ -50,7 +62,7 @@ class AddRel extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'newRel';
         return (
-            <span className={visible ? "ad-icon-active" : ''}>
+            <span className={visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
                     icon="xinzengguanxi"
                     title="新增关联关系"

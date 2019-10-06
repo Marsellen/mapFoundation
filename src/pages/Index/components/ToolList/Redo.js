@@ -5,6 +5,7 @@ import { inject, observer } from 'mobx-react';
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
 @inject('AttributeStore')
+@inject('EditLogStore')
 @observer
 class Redo extends React.Component {
     render() {
@@ -25,9 +26,16 @@ class Redo extends React.Component {
         const {
             OperateHistoryStore,
             DataLayerStore,
-            AttributeStore
+            AttributeStore,
+            EditLogStore
         } = this.props;
-        OperateHistoryStore.redo().then(() => {
+        OperateHistoryStore.redo().then(history => {
+            let log = {
+                operateHistory: history,
+                action: 'undo',
+                result: 'success'
+            };
+            EditLogStore.add(log);
             DataLayerStore.exitEdit();
             AttributeStore.hide();
             AttributeStore.hideRelFeatures();

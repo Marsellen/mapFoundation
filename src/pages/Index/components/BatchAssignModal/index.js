@@ -19,6 +19,7 @@ const formItemLayout = {
 @Form.create()
 @inject('BatchAssignStore')
 @inject('OperateHistoryStore')
+@inject('EditLogStore')
 @observer
 class BatchAssignModal extends React.Component {
     render() {
@@ -66,16 +67,28 @@ class BatchAssignModal extends React.Component {
     };
 
     save = () => {
-        const { form, BatchAssignStore, OperateHistoryStore } = this.props;
+        const {
+            form,
+            BatchAssignStore,
+            OperateHistoryStore,
+            EditLogStore
+        } = this.props;
         form.validateFields((err, values) => {
             if (err) {
                 return;
             }
-            let history = BatchAssignStore.submit(values);
-            OperateHistoryStore.add({
+            let result = BatchAssignStore.submit(values);
+            let history = {
                 type: 'updateFeatureRels',
-                data: history
-            });
+                data: result
+            };
+            let log = {
+                operateHistory: history,
+                action: 'batchAssign',
+                result: 'success'
+            };
+            OperateHistoryStore.add(history);
+            EditLogStore.add(log);
         });
     };
 
