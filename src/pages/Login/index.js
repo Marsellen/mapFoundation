@@ -12,7 +12,7 @@ class Login extends React.Component {
     state = {};
 
     componentDidMount() {
-        const loginUser = this.props.appStore;
+        const { loginUser } = this.props.appStore;
         if (loginUser) {
             this.props.history.push({ pathname: '/' }); //当浏览器用后退按钮回到登录页时，判断登录页是否登录，是登录就重定向主页面
         }
