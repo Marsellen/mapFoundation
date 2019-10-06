@@ -3,12 +3,12 @@ import LayerStore from './LayerStore';
 import { EditControl, MeasureControl, DetectorControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
 import { Modal } from 'antd';
-import { addClass, removeClass } from '../../../utils/utils';
 import {
     getLayerExByName,
     getFeatureOption,
     getLayerByName
 } from 'src/utils/vectorUtils';
+import { addClass, removeClass, throttle } from 'src/utils/utils';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore extends LayerStore {
@@ -20,10 +20,12 @@ class DataLayerStore extends LayerStore {
         this.highLightFeatures = [];
 
         this.bindKeyEvent();
+        this.readCoordinateEvent = throttle(this.readCoordinate, 100);
     }
     @observable editType = 'normal';
     @observable beenPick;
     @observable isTopView = false;
+    @observable readCoordinateResult;
 
     @action toggle = (name, checked) => {
         this.layers.find(layer => layer.value == name).checked = checked;
@@ -32,7 +34,7 @@ class DataLayerStore extends LayerStore {
             layer.show();
         } else {
             layer.hide();
-            this.clearChoose();
+            this.exitEdit();
         }
 
         this.updateKey = Math.random();
@@ -41,7 +43,7 @@ class DataLayerStore extends LayerStore {
     @action toggleAll = checked => {
         this.layers.map(layer => (layer.checked = checked));
         if (!checked) {
-            this.clearChoose();
+            this.exitEdit();
         }
         this.updateKey = Math.random();
     };
@@ -73,7 +75,7 @@ class DataLayerStore extends LayerStore {
     @action activeEditor = name => {
         let layer = name ? getLayerExByName(name) : null;
         if (this.editor) {
-            this.clearChoose();
+            this.exitEdit();
         } else {
             this.initEditor();
         }
@@ -128,7 +130,6 @@ class DataLayerStore extends LayerStore {
         this.editType = 'normal';
         this.editor.clear();
         this.editor.cancel();
-        this.measureControl.clear();
         this.unPick();
     };
 
@@ -160,41 +161,38 @@ class DataLayerStore extends LayerStore {
         removeClass(viz, 'ruler-viz');
         removeClass(viz, 'shape-viz');
         removeClass(viz, 'del-viz');
+        removeClass(viz, 'crosshair-viz');
     };
 
     @action newPoint = () => {
         if (!this.editor) return;
-        this.measureControl.clear();
+        this.disableOtherCtrl();
         this.editType = 'new_point';
         this.changeCur();
-        this.detectorControl.disable();
         this.editor.newPoint();
     };
 
     @action newLine = () => {
         if (!this.editor) return;
-        this.measureControl.clear();
+        this.disableOtherCtrl();
         this.editType = 'new_line';
         this.changeCur();
-        this.detectorControl.disable();
         this.editor.newLine();
     };
 
     @action newPolygon = () => {
         if (!this.editor) return;
-        this.measureControl.clear();
+        this.disableOtherCtrl();
         this.editType = 'new_polygon';
         this.changeCur();
-        this.detectorControl.disable();
         this.editor.newPolygon();
     };
 
     @action newFacadeRectangle = () => {
         if (!this.editor) return;
-        this.measureControl.clear();
+        this.disableOtherCtrl();
         this.editType = 'new_facade_rectangle';
         this.changeCur();
-        this.detectorControl.disable();
         this.editor.newMatrix();
     };
 
@@ -208,28 +206,24 @@ class DataLayerStore extends LayerStore {
 
     @action newVerticalMatrix = () => {
         if (!this.editor) return;
-        this.measureControl.clear();
+        this.disableOtherCtrl();
         this.editType = 'new_vertical_matrix';
         this.changeCur();
-        this.detectorControl.disable();
         this.editor.newVerticalMatrix();
     };
 
     @action newRel = () => {
         if (this.editType == 'newRel') return;
-        this.measureControl.clear();
+        this.disableOtherCtrl();
         this.editType = 'newRel';
         this.editor.clear();
-        this.detectorControl.disable();
         this.editor.toggleMode(61);
     };
 
     @action delRel = () => {
         if (this.editType == 'delRel') return;
-        this.measureControl.clear();
+        this.disableOtherCtrl();
         this.editType = 'delRel';
-        //this.editor.clear();
-        this.detectorControl.disable();
     };
 
     @action setNewRelCallback = callback => {
@@ -246,10 +240,9 @@ class DataLayerStore extends LayerStore {
 
     @action newCircle = () => {
         if (!this.editor) return;
-        this.measureControl.clear();
+        this.disableOtherCtrl();
         this.editType = 'new_circle';
         this.changeCur();
-        this.detectorControl.disable();
         this.editor.newFixedPolygon(3);
     };
 
@@ -279,7 +272,7 @@ class DataLayerStore extends LayerStore {
 
     @action insertPoints = () => {
         if (!this.editor) return;
-        this.measureControl.clear();
+        this.disableOtherCtrl();
         this.editType = 'insertPoints';
         this.editor.insertPoints();
         this.addShapePoint();
@@ -287,8 +280,7 @@ class DataLayerStore extends LayerStore {
 
     @action changePoints = () => {
         if (!this.editor) return;
-        this.measureControl.clear();
-        this.detectorControl.disable();
+        this.disableOtherCtrl();
         this.editType = 'changePoints';
         this.editor.changePoints();
         this.delShapePoint();
@@ -296,8 +288,7 @@ class DataLayerStore extends LayerStore {
 
     @action deletePoints = () => {
         if (!this.editor) return;
-        this.measureControl.clear();
-        this.detectorControl.disable();
+        this.disableOtherCtrl();
         this.editType = 'delPoint';
         this.editor.deletePoints();
         this.delShapePoint();
@@ -318,9 +309,16 @@ class DataLayerStore extends LayerStore {
     };
 
     @action startMeatureDistance = () => {
+        this.disableOtherCtrl();
         this.editType = 'meature_distance';
         this.measureControl.startMeatureDistance();
         this.ruler();
+    };
+
+    @action startReadCoordinate = () => {
+        this.disableOtherCtrl();
+        this.editType = 'read_coordinate';
+        this.addReadCoordinateLinstener();
     };
 
     @action getMeasureControlMode = () => {
@@ -328,8 +326,7 @@ class DataLayerStore extends LayerStore {
     };
 
     @action selectPointFromHighlight = () => {
-        this.measureControl.clear();
-        this.detectorControl.disable();
+        this.disableOtherCtrl();
         this.editType = 'select_point';
         this.editor.selectPointFromHighlight();
         this.addShapePoint();
@@ -358,6 +355,21 @@ class DataLayerStore extends LayerStore {
         this.editor.selectFeaturesFromSpecified(options);
     };
 
+    //启用编辑控件时禁用测距和拾取控件
+    disableOtherCtrl = () => {
+        switch (this.editType) {
+            case 'meature_distance':
+                this.measureControl.clear();
+                break;
+            case 'read_coordinate':
+                this.removeReadCoordinateLinstener();
+                break;
+            default:
+                break;
+        }
+        this.detectorControl.disable();
+    };
+
     bindKeyEvent = () => {
         document.onkeydown = event => {
             var e = event || window.event;
@@ -368,9 +380,7 @@ class DataLayerStore extends LayerStore {
                         title: '是否退出',
                         okText: '确定',
                         cancelText: '取消',
-                        onOk: () => {
-                            this.clearChoose();
-                        }
+                        onOk: this.exitEdit
                     });
                 }
                 return;
@@ -382,6 +392,31 @@ class DataLayerStore extends LayerStore {
                 }
             }
         };
+    };
+
+    exitEdit = () => {
+        this.disableOtherCtrl();
+        this.clearChoose();
+    };
+
+    @action readCoordinate = event => {
+        let result = map.detectPointObjFromPointCloud(event);
+        //console.log(result && result.point.position);
+        this.readCoordinateResult = result && result.point.position;
+        this.coordinateViewPosition = event;
+    };
+
+    addReadCoordinateLinstener = () => {
+        let viz = document.querySelector('#viz');
+        viz.addEventListener('mousemove', this.readCoordinateEvent);
+        addClass(viz, 'crosshair-viz');
+    };
+
+    @action removeReadCoordinateLinstener = () => {
+        let viz = document.querySelector('#viz');
+        viz.removeEventListener('mousemove', this.readCoordinateEvent);
+        removeClass(viz, 'crosshair-viz');
+        this.readCoordinateResult = null;
     };
 }
 

@@ -35,8 +35,10 @@ class Avatar extends React.Component {
             <Menu className="submenu-title-wrapper">
                 <Menu.Item>{loginUser ? loginUser.name : '未登录'}</Menu.Item>
                 <Menu.Divider />
-                <Menu.Item onClick={this.about}>
-                    <span>版本信息</span>
+                <Menu.Item>
+                    {/* onClick={this.about} */}
+                    {loginUser ? loginUser.roleName : '未登录'}
+                    {/* <span>版本信息</span> */}
                 </Menu.Item>
                 <Menu.Item onClick={this.logout}>
                     <span>退出登录</span>
@@ -45,13 +47,13 @@ class Avatar extends React.Component {
         );
     }
 
-    about = () => {
-        Modal.info({
-            title: '版本号',
-            content: CONFIG.version,
-            okText: '确定'
-        });
-    };
+    // about = () => {
+    //     Modal.info({
+    //         title: '版本号',
+    //         content: CONFIG.version,
+    //         okText: '确定'
+    //     });
+    // };
 
     logout = () => {
         const { appStore, TaskStore } = this.props;

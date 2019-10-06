@@ -29,7 +29,7 @@ class Undo extends React.Component {
             AttributeStore
         } = this.props;
         OperateHistoryStore.undo().then(() => {
-            DataLayerStore.clearChoose();
+            DataLayerStore.exitEdit();
             AttributeStore.hide();
             AttributeStore.hideRelFeatures();
         });

@@ -32,7 +32,7 @@ class AddRel extends React.Component {
                                 }
                             });
                             message.success('新建成功', 3);
-                            DataLayerStore.clearChoose();
+                            DataLayerStore.exitEdit();
                         })
                         .catch(e => {
                             console.log(e);
@@ -40,7 +40,7 @@ class AddRel extends React.Component {
                         });
                 },
                 onCancel() {
-                    DataLayerStore.clearChoose();
+                    DataLayerStore.exitEdit();
                 }
             });
         });

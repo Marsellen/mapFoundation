@@ -17,6 +17,7 @@ import Ranging from './Ranging';
 import AddOutsideRectangle from './AddOutsideRectangle';
 import AdjustPointSize from './AdjustPointSize';
 import ViewAttribute from './ViewAttribute';
+import ReadCoordinate from './ReadCoordinate';
 
 export default [
     <Undo key="UNDO" />,
@@ -27,6 +28,7 @@ export default [
     <Intensity key="INTENSITY" />,
     <AdjustPointSize key="ADJUST_POINT_SIZE" />,
     <Ranging key="RANGING" />,
+    <ReadCoordinate key="READ_COORDINATE" />,
     <EditLayer key="EDIT_LAYER" />,
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,
