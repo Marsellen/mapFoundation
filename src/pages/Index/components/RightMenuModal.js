@@ -180,7 +180,7 @@ class RightMenuModal extends React.Component {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
             message.warning(desc, 3);
-            DataLayerStore.clearChoose();
+            DataLayerStore.exitEdit();
             return;
         }
         let {
@@ -209,11 +209,11 @@ class RightMenuModal extends React.Component {
                     console.log(e);
                     message.warning('操作失败:' + e.message, 3);
                 }
-                DataLayerStore.clearChoose();
+                DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
             },
             onCancel() {
-                DataLayerStore.clearChoose();
+                DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
             }
         });
@@ -234,7 +234,7 @@ class RightMenuModal extends React.Component {
             onOk: async () => {
                 let result = RightMenuStore.delete();
                 let historyLog = await deleteLine(result);
-                DataLayerStore.clearChoose();
+                DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
                 OperateHistoryStore.add({
                     type: 'updateFeatureRels',
@@ -297,11 +297,11 @@ class RightMenuModal extends React.Component {
                     console.log(e);
                     message.warning('操作失败:' + e.message, 3);
                 }
-                DataLayerStore.clearChoose();
+                DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
             },
             onCancel() {
-                DataLayerStore.clearChoose();
+                DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
             }
         });

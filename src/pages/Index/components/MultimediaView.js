@@ -90,7 +90,7 @@ class MultimediaView extends React.Component {
             });
             PictureShowStore.setPicData(item);
         });
-        DataLayerStore.clearChoose();
+        DataLayerStore.exitEdit();
     };
 
     toggle = () => {

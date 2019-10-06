@@ -322,7 +322,7 @@ class VizCompnent extends React.Component {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
             message.warning(desc, 3);
-            DataLayerStore.clearChoose();
+            DataLayerStore.exitEdit();
             return;
         }
 
@@ -335,7 +335,7 @@ class VizCompnent extends React.Component {
                 );
                 if (!isInRegion) {
                     message.warning('请在任务范围内绘制要素');
-                    DataLayerStore.clearChoose();
+                    DataLayerStore.exitEdit();
                     let layer = DataLayerStore.getEditLayer();
                     layer.layer.removeFeatureById(data.uuid);
                     return false;
@@ -358,7 +358,7 @@ class VizCompnent extends React.Component {
                 let layer = DataLayerStore.getEditLayer();
                 layer.layer.removeFeatureById(result.uuid);
             });
-        DataLayerStore.clearChoose();
+        DataLayerStore.exitEdit();
     };
 
     editedCallBack = result => {
@@ -372,7 +372,7 @@ class VizCompnent extends React.Component {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
             message.warning(desc, 3);
-            DataLayerStore.clearChoose();
+            DataLayerStore.exitEdit();
             return;
         }
 
@@ -388,12 +388,12 @@ class VizCompnent extends React.Component {
                 message.warning('请在任务范围内绘制要素');
                 //恢复要素
                 DataLayerStore.updateFeature(oldFeature);
-                DataLayerStore.clearChoose();
+                DataLayerStore.exitEdit();
                 return false;
             }
         }
 
-        DataLayerStore.clearChoose();
+        DataLayerStore.exitEdit();
         OperateHistoryStore.add({
             type: 'updateFeature',
             oldFeature,
