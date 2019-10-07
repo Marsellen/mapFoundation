@@ -10,14 +10,14 @@ import 'less/components/data-layer.less';
 @observer
 class DataLayer extends React.Component {
     render() {
-        let { DataLayerStore, ResourceLayerStore } = this.props;
+        let { DataLayerStore } = this.props;
         let { updateKey, layers } = DataLayerStore;
         return (
             <div>
                 {layers && (
                     <Checkbox
                         value="all"
-                        checked={ResourceLayerStore.checkAllState}
+                        checked={DataLayerStore.isCheckedAll}
                         onChange={this.checkAllChangeEvent}>
                         全选
                     </Checkbox>
@@ -48,8 +48,6 @@ class DataLayer extends React.Component {
     checkAllChangeEvent = e => {
         const value = e.target.checked;
         const { DataLayerStore, ResourceLayerStore } = this.props;
-        // 全选切换
-        ResourceLayerStore.checkAlltoggle(value);
         // 控制高精地图的显示隐藏
         ResourceLayerStore.toggle(RESOURCE_LAYER_VETOR, value, true);
         // 控制数据图层全部按钮的是否选中状态

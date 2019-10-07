@@ -1,4 +1,4 @@
-import { action, configure, flow, observable } from 'mobx';
+import { action, configure, flow, observable, computed } from 'mobx';
 import LayerStore from './LayerStore';
 import { EditControl, MeasureControl, DetectorControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
@@ -26,6 +26,9 @@ class DataLayerStore extends LayerStore {
     @observable beenPick;
     @observable isTopView = false;
     @observable readCoordinateResult;
+    @computed get isCheckedAll() {
+        return this.layers.every(layer => layer.checked);
+    }
 
     @action toggle = (name, checked) => {
         this.layers.find(layer => layer.value == name).checked = checked;
