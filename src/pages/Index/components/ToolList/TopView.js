@@ -30,7 +30,10 @@ class TopView extends React.Component {
         const { isTopView } = DataLayerStore;
         
         DataLayerStore.topViewMode(!isTopView);
-        map.setCurrentView('U');
+        
+        if (!isTopView) {
+            map.setCurrentView('U');
+        }
     };
 }
 
