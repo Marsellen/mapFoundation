@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { getLayerByName } from 'src/utils/vectorUtils';
+import editLog from 'src/models/editLog';
 
 @Form.create()
 @inject('NewFeatureStore')
@@ -121,11 +122,18 @@ class NewFeatureModal extends React.Component {
                 return;
             }
             NewFeatureStore.save(values, (feature, layerName) => {
-                OperateHistoryStore.add({
+                let history = {
                     type: 'addFeature',
                     feature: feature,
                     layerName: layerName
-                });
+                };
+                let log = {
+                    operateHistory: history,
+                    action: 'newFeature',
+                    result: 'success'
+                };
+                OperateHistoryStore.add(history);
+                editLog.store.add(log);
             });
         });
     };

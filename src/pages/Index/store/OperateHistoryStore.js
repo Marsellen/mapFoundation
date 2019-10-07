@@ -1,5 +1,5 @@
 import { observable, flow, configure, action } from 'mobx';
-import IndexedDB from 'src/utils/IndexedDB';
+import operateHistory from 'src/models/operateHistory';
 import OperateFactory from 'src/utils/OperateFactory';
 
 configure({ enforceActions: 'always' });
@@ -8,23 +8,10 @@ class OperateHistoryStore {
     @observable savedNode = -1;
     @observable finalNode = -1;
     @observable nodes = [];
-    historyStore = new IndexedDB(
-        'adEditor',
-        'operateHistories',
-        (request, event) => {
-            let db = request.result;
-            if (event.oldVersion < 1) {
-                db.createObjectStore('operateHistories', {
-                    keyPath: 'id',
-                    autoIncrement: true
-                });
-            }
-        }
-    );
 
     init = flow(function*() {
         try {
-            const nodes = yield this.historyStore.getAll();
+            const nodes = yield operateHistory.store.getAll();
             // 异步代码块会被自动包装成动作并修改状态
             this.nodes = nodes;
         } catch (e) {
@@ -35,12 +22,12 @@ class OperateHistoryStore {
     add = flow(function*(history) {
         try {
             if (this.currentNode < this.finalNode) {
-                this.historyStore.deleteByRange(
+                operateHistory.store.deleteByRange(
                     this.currentNode,
                     this.finalNode
                 );
             }
-            let result = yield this.historyStore.add(history);
+            let result = yield operateHistory.store.add(history);
             this.currentNode = result;
             this.finalNode = result;
             console.log('currentNode:', this.currentNode);
@@ -52,9 +39,10 @@ class OperateHistoryStore {
 
     redo = flow(function*() {
         try {
-            let nextNode = yield this.historyStore.getNext(this.currentNode);
+            let nextNode = yield operateHistory.store.getNext(this.currentNode);
             OperateFactory.redo(nextNode);
             this.currentNode = nextNode.id;
+            return nextNode;
         } catch (e) {
             console.log(e);
         }
@@ -62,10 +50,11 @@ class OperateHistoryStore {
 
     undo = flow(function*() {
         try {
-            let preNode = yield this.historyStore.getPrev(this.currentNode);
-            let currentNode = yield this.historyStore.get(this.currentNode);
+            let preNode = yield operateHistory.store.getPrev(this.currentNode);
+            let currentNode = yield operateHistory.store.get(this.currentNode);
             OperateFactory.undo(currentNode);
             this.currentNode = preNode ? preNode.id : -1;
+            return currentNode;
         } catch (e) {
             console.log(e);
         }
@@ -77,7 +66,7 @@ class OperateHistoryStore {
 
     destroy = flow(function*() {
         try {
-            yield this.historyStore.clear();
+            yield operateHistory.store.clear();
             this.nodes = [];
             this.currentNode = -1;
             this.savedNode = -1;

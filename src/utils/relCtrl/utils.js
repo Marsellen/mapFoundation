@@ -1,6 +1,6 @@
 import { REL_SPEC_CONFIG, SPEC_REL_KEY_SET } from 'src/config/RelsConfig';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
-import IndexedDB from 'src/utils/IndexedDB';
+import Relevance from 'src/models/Relevance';
 
 /**
  * geojson数据格式转为IndexedDB存储数据格式
@@ -64,7 +64,7 @@ export const dbDataToGeojson = (record, spec) => {
 export const getFeatureRels = (layerName, properties) => {
     let IDKey = getLayerIDKey(layerName);
     let id = properties[IDKey];
-    let relStore = new IndexedDB('relationships', 'rels');
+    let relStore = Relevance.store;
     let relKeyMap = SPEC_REL_KEY_SET.filter(record => {
         return record.spec == layerName;
     });

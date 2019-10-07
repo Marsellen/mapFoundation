@@ -1,5 +1,5 @@
 import resource from 'src/utils/resource';
-import { FileApiPath, ShpApiPath } from 'src/utils/Api';
+import { EditApiPath } from 'src/utils/Api';
 
 export default (function() {
     let service = resource(
@@ -7,11 +7,15 @@ export default (function() {
         {},
         {
             saveFile: {
-                url: FileApiPath('/api/savefile'),
+                url: EditApiPath('/api/savefile'),
                 method: 'post'
             },
             creatCircle: {
-                url: FileApiPath('/api/creatcircle'),
+                url: EditApiPath('/api/creatcircle'),
+                method: 'post'
+            },
+            writeEditLog: {
+                url: EditApiPath('api/writeeditlog'),
                 method: 'post'
             }
         }
@@ -22,7 +26,7 @@ export default (function() {
         let searchParams = Object.keys(params).reduce((str, key) => {
             return str + key + '=' + params[key];
         }, '?');
-        let url = ShpApiPath('/api/v1/geoio/json2Shp' + searchParams);
+        let url = EditApiPath('/api/v1/geoio/json2Shp' + searchParams);
         // link.style.display = 'none';
         // link.href = url;
         window.open(url);

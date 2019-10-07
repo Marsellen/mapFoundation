@@ -3,7 +3,6 @@ import { Modal, Button, message } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import 'less/components/jobstatus.less';
-import { ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
 
 @withRouter
 @inject('appStore')
@@ -134,38 +133,11 @@ class JobStatus extends React.Component {
 
     // 自动保存
     action = async () => {
-        const {
-            TaskStore,
-            OperateHistoryStore,
-            RelStore,
-            AttrStore
-        } = this.props;
-        let vectorData = vectorLayerGroup.getAllVectorData();
-        let attrRels = vectorData.features.filter(features =>
-            ATTR_REL_DATA_SET.includes(features.name)
-        );
-        await Promise.all([RelStore.exportRel(), AttrStore.export()]).then(
-            result => {
-                let [rels, attrs] = result;
-                let relData = {
-                    features: attrRels.concat(rels),
-                    type: 'FeatureCollection',
-                    properties: vectorLayerGroup.properties
-                };
-                let attrData = {
-                    features: attrs,
-                    type: 'FeatureCollection',
-                    properties: vectorLayerGroup.properties
-                };
-                TaskStore.submit({
-                    vectorData,
-                    relData,
-                    attrData
-                }).then(() => {
-                    OperateHistoryStore.save();
-                });
-            }
-        );
+        const { TaskStore, OperateHistoryStore } = this.props;
+
+        await TaskStore.submit();
+        await TaskStore.writeEditLog();
+        OperateHistoryStore.save();
     };
 
     clearWorkSpace = () => {

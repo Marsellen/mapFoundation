@@ -34,6 +34,7 @@ import {
     filterTaskScaleStorage
 } from 'src/utils/vectorUtils';
 import _ from 'lodash';
+import editLog from 'src/models/editLog';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -346,13 +347,18 @@ class VizCompnent extends React.Component {
             })
             .then(data => {
                 DataLayerStore.updateFeature(data);
-                let layerName = data.layerName;
-                let feature = data.data;
-                OperateHistoryStore.add({
+                let history = {
                     type: 'addFeature',
-                    feature: feature,
-                    layerName: layerName
-                });
+                    feature: data.data,
+                    layerName: data.layerName
+                };
+                let log = {
+                    operateHistory: history,
+                    action: 'addFeature',
+                    result: 'success'
+                };
+                OperateHistoryStore.add(history);
+                editLog.store.add(log);
                 this.showAttributesModal(data);
             })
             .catch(e => {
@@ -397,13 +403,20 @@ class VizCompnent extends React.Component {
         }
 
         DataLayerStore.exitEdit();
-        OperateHistoryStore.add({
+        let history = {
             type: 'updateFeature',
             oldFeature,
             feature: result,
             layerName: result.layerName,
             uuid: result.uuid
-        });
+        };
+        let log = {
+            operateHistory: history,
+            action: 'updateGeometry',
+            result: 'success'
+        };
+        OperateHistoryStore.add(history);
+        editLog.store.add(log);
     };
 
     boundarySelectedCallback = result => {

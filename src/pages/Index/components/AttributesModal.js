@@ -6,6 +6,7 @@ import BasicAttributesForm from './AttributesForm/BasicAttributesForm';
 import RelationForm from './AttributesForm/RelationForm';
 import AttrsForm from './AttributesForm/AttrsForm';
 import AdTabs from 'src/components/AdTabs/index';
+import editLog from 'src/models/editLog';
 import 'less/components/attributes-modal.less';
 
 @Form.create()
@@ -77,10 +78,17 @@ class AttributesModal extends React.Component {
             AttributeStore.submit(values).then(result => {
                 let feature = result.features[1][0];
                 DataLayerStore.updateFeature(feature);
-                OperateHistoryStore.add({
+                let history = {
                     type: 'updateFeatureRels',
                     data: result
-                });
+                };
+                let log = {
+                    operateHistory: history,
+                    action: 'updateAttributes',
+                    result: 'success'
+                };
+                OperateHistoryStore.add(history);
+                editLog.store.add(log);
             });
             AttributeStore.hide();
         });

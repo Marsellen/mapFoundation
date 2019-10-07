@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { message, Icon, Modal } from 'antd';
 import { newRel } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
+import editLog from 'src/models/editLog';
 import 'less/components/tool-icon.less';
 import './AddRel.less';
 
@@ -25,12 +26,19 @@ class AddRel extends React.Component {
                     let layerName = DataLayerStore.getEditLayer().layerName;
                     newRel(result, layerName)
                         .then(rels => {
-                            OperateHistoryStore.add({
+                            let history = {
                                 type: 'updateFeatureRels',
                                 data: {
                                     rels: [[], rels]
                                 }
-                            });
+                            };
+                            let log = {
+                                operateHistory: history,
+                                action: 'addRel',
+                                result: 'success'
+                            };
+                            OperateHistoryStore.add(history);
+                            editLog.store.add(log);
                             message.success('新建成功', 3);
                             DataLayerStore.exitEdit();
                         })
@@ -50,7 +58,7 @@ class AddRel extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'newRel';
         return (
-            <span className={visible ? "ad-icon-active" : ''}>
+            <span className={visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
                     icon="xinzengguanxi"
                     title="新增关联关系"

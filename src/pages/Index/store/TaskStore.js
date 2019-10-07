@@ -3,6 +3,14 @@ import TaskService from '../service/TaskService';
 import JobService from '../service/JobService';
 import { Modal, message } from 'antd';
 import CONFIG from 'src/config';
+import {
+    getAllVectorData,
+    getAllRelData,
+    getAllAttrData
+} from 'src/utils/vectorUtils';
+import { getAuthentication } from 'src/utils/Session';
+import editLog from 'src/models/editLog';
+import moment from 'moment';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -102,26 +110,29 @@ class TaskStore {
         return this.activeTaskId + path + '?time=' + Date.now();
     };
 
-    submit = flow(function*(data) {
+    submit = flow(function*() {
         try {
+            let vectorData = getAllVectorData();
+            let relData = yield getAllRelData();
+            let attrData = yield getAllAttrData();
             let path = this.activeTask.Input_imp_data_relpath;
             let payload = {
                 filePath: path + '/vectors/',
                 fileName: 'ads_all',
                 fileFormat: 'geojson',
-                fileData: data.vectorData
+                fileData: vectorData
             };
             let attrPayload = {
                 filePath: path + '/vectors/',
                 fileName: 'attrs',
                 fileFormat: 'geojson',
-                fileData: data.attrData
+                fileData: attrData
             };
             let relPayload = {
                 filePath: path + '/vectors/',
                 fileName: 'rels',
                 fileFormat: 'geojson',
-                fileData: data.relData
+                fileData: relData
             };
             yield Promise.all([
                 TaskService.saveFile(payload),
@@ -146,6 +157,30 @@ class TaskStore {
                 jsonPath: url
             });
             return;
+        } catch (e) {
+            console.log(e);
+        }
+    });
+
+    writeEditLog = flow(function*() {
+        try {
+            let log = yield editLog.store.getAll();
+            let {
+                taskId,
+                processName,
+                Input_imp_data_path: inputImpDataPath
+            } = this.activeTask;
+            const { username: userName } = getAuthentication();
+            let payload = {
+                taskId,
+                processName,
+                inputImpDataPath,
+                userName,
+                time: moment().format('YYYY-MM-DD HH:mm:ss SSS'),
+                log
+            };
+            yield TaskService.writeEditLog(payload);
+            yield editLog.store.clear();
         } catch (e) {
             console.log(e);
         }

@@ -1,17 +1,18 @@
 class IndexedDB {
-    constructor(dbName, tableName, onupgradeneeded) {
+    constructor(dbName, tableName, onupgradeneeded, version) {
         this.dbName = dbName;
         this.tableName = tableName;
         this.onupgradeneeded = onupgradeneeded;
+        this.version = version || 1;
     }
 
-    openIndexedDB = dbName => {
-        return window.indexedDB.open(dbName, 2); // 版本号统一管理
+    _openIndexedDB = dbName => {
+        return window.indexedDB.open(dbName, this.version); // 版本号统一管理
     };
 
     open = () => {
         return new Promise((resolve, reject) => {
-            let request = this.openIndexedDB(this.dbName);
+            let request = this._openIndexedDB(this.dbName);
             request.onupgradeneeded = event => {
                 this.onupgradeneeded(request, event);
             };
@@ -36,7 +37,7 @@ class IndexedDB {
 
     openTransaction = () => {
         return new Promise((resolve, reject) => {
-            let request = this.openIndexedDB(this.dbName);
+            let request = this._openIndexedDB(this.dbName);
             request.onsuccess = event => {
                 let db = request.result;
 

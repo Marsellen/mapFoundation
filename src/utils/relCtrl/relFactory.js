@@ -5,7 +5,7 @@ import {
     getFeatureRels,
     getRelOptions
 } from './utils';
-import IndexedDB from 'src/utils/IndexedDB';
+import Relevance from 'src/models/Relevance';
 import { REL_TYPE_KEY_MAP } from 'src/config/RelsConfig';
 import { updateFeaturesByRels } from './relCtrl';
 import { getLayerIDKey } from '../vectorUtils';
@@ -123,7 +123,7 @@ export const updateRels = async (rels, feature) => {
         }
     }
 
-    let relStore = new IndexedDB('relationships', 'rels');
+    let relStore = Relevance.store;
     let newRecords = await Object.keys(rels).reduce(async (total, key) => {
         let id = parseInt(key.replace(/\D/g, ''));
         let relKey = key.replace(/[0-9]/g, '');

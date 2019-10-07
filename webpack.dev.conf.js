@@ -28,21 +28,9 @@ module.exports = merge(common, {
                 changeOrigin: true,
                 logLevel: 'debug'
             },
-            '/nas_service': {
-                target: 'http://10.43.75.119:13250',
-                pathRewrite: { '^/nas_service': '' },
-                changeOrigin: true,
-                logLevel: 'debug'
-            },
-            '/shp_service': {
-                target: 'http://10.43.75.119:13250',
-                pathRewrite: { '^/shp_service': '' },
-                changeOrigin: true,
-                logLevel: 'debug'
-            },
-            '/editor_service': {
+            '/edit_service': {
                 target: 'http://10.43.75.11:13250',
-                pathRewrite: { '^/editor_service': '' },
+                pathRewrite: { '^/edit_service': '' },
                 changeOrigin: true,
                 logLevel: 'debug'
             }

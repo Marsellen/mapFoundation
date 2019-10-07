@@ -4,6 +4,7 @@ import { observer, inject } from 'mobx-react';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
+import editLog from 'src/models/editLog';
 
 const formItemLayout = {
     labelCol: {
@@ -71,11 +72,18 @@ class BatchAssignModal extends React.Component {
             if (err) {
                 return;
             }
-            let history = BatchAssignStore.submit(values);
-            OperateHistoryStore.add({
+            let result = BatchAssignStore.submit(values);
+            let history = {
                 type: 'updateFeatureRels',
-                data: history
-            });
+                data: result
+            };
+            let log = {
+                operateHistory: history,
+                action: 'batchAssign',
+                result: 'success'
+            };
+            OperateHistoryStore.add(history);
+            editLog.store.add(log);
         });
     };
 

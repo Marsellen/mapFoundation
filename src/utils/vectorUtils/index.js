@@ -1,5 +1,10 @@
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { getAuthentication } from 'src/utils/Session';
+import { ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
+import Relevance from 'src/models/relevance';
+import Attr from 'src/models/attr';
+import attrFactory from 'src/utils/attrCtrl/attrFactory';
+import relFactory from 'src/utils/relCtrl/relFactory';
 const jsts = require('jsts');
 
 export const getLayerIDKey = layerName => {
@@ -145,4 +150,33 @@ export const filterTaskScaleStorage = taskIdArr => {
             setLocalStorage('taskScalesCenter', taskScalesCenter);
         }
     }
+};
+
+export const getAllVectorData = () => {
+    return vectorLayerGroup.getAllVectorData();
+};
+
+export const getAllRelData = async () => {
+    let attrRels = getAllVectorData().features.filter(features =>
+        ATTR_REL_DATA_SET.includes(features.name)
+    );
+    let records = await Relevance.store.getAll();
+    let data = relFactory.relTableToData(records);
+
+    return {
+        features: attrRels.concat(data),
+        type: 'FeatureCollection',
+        properties: vectorLayerGroup.properties
+    };
+};
+
+export const getAllAttrData = async () => {
+    let records = await Attr.store.getAll();
+    let data = attrFactory.attrTableToData(records);
+
+    return {
+        features: data,
+        type: 'FeatureCollection',
+        properties: vectorLayerGroup.properties
+    };
 };

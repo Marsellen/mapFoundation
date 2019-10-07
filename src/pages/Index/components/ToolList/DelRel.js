@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { message, Modal } from 'antd';
 import { delRel } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
+import editLog from 'src/models/editLog';
 import 'less/components/tool-icon.less';
 
 @inject('DataLayerStore')
@@ -32,12 +33,19 @@ class DelRel extends React.Component {
                                 message.warning('没有选中待删除的关联对象', 3);
                                 return;
                             }
-                            OperateHistoryStore.add({
+                            let history = {
                                 type: 'updateFeatureRels',
                                 data: {
                                     rels: [rels, []]
                                 }
-                            });
+                            };
+                            let log = {
+                                operateHistory: history,
+                                action: 'delRel',
+                                result: 'success'
+                            };
+                            OperateHistoryStore.add(history);
+                            editLog.store.add(log);
                             message.success('删除成功', 3);
                             AttributeStore.fetchRelFeatures();
                             DataLayerStore.exitEdit();
@@ -57,7 +65,7 @@ class DelRel extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'delRel';
         return (
-            <span className={visible ? "ad-icon-active" : ''}>
+            <span className={visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
                     icon="shanchuguanxi"
                     title="删除关联关系"
