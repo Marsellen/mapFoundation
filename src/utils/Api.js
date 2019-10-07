@@ -14,27 +14,11 @@ export function IdApiPath(url) {
     }
 }
 
-export function FileApiPath(url) {
+export function EditApiPath(url) {
     if (/^\//.test(url)) {
-        return `/nas_service${url}`;
+        return `/edit_service${url}`;
     } else {
-        return `/nas_service/${url}`;
-    }
-}
-
-export function ShpApiPath(url) {
-    if (/^\//.test(url)) {
-        return `/shp_service${url}`;
-    } else {
-        return `/shp_service/${url}`;
-    }
-}
-
-export function EditorApiPath(url) {
-    if (/^\//.test(url)) {
-        return `/editor_service${url}`;
-    } else {
-        return `/editor_service/${url}`;
+        return `/edit_service/${url}`;
     }
 }
 

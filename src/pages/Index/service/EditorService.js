@@ -1,5 +1,5 @@
 import resource from 'src/utils/resource';
-import { EditorApiPath } from 'src/utils/Api';
+import { EditApiPath } from 'src/utils/Api';
 
 export default (function() {
     let service = resource(
@@ -7,11 +7,11 @@ export default (function() {
         {},
         {
             breakLines: {
-                url: EditorApiPath('/adcommon/batchcut'),
+                url: EditApiPath('/adcommon/batchcut'),
                 method: 'post'
             },
             mergeLines: {
-                url: EditorApiPath('/adcommon/join'),
+                url: EditApiPath('/adcommon/join'),
                 method: 'post'
             }
         }
