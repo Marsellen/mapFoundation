@@ -1,7 +1,8 @@
 import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
-import IndexedDB from 'src/utils/IndexedDB';
 import _ from 'lodash';
+import Relevance from 'src/models/Relevance';
+import Attr from 'src/models/attr';
 
 const attrDataToTable = data => {
     let attrData = filterRelData(data);
@@ -78,12 +79,12 @@ const getTabelData = attrs => {
 const getFeatureAttrs = async (layerName, properties) => {
     let IDKey = getLayerIDKey(layerName);
     let id = properties[IDKey];
-    let attrStore = new IndexedDB('attributes', 'attr');
+    let attrStore = Attr.store;
     let attrs = await attrStore.getAll([layerName, id], 'SPEC_KEY');
 
     let configs = REL_RS.filter(config => layerName == config.spec);
     if (configs.length > 0) {
-        let relStore = new IndexedDB('relationships', 'rels');
+        let relStore = Relevance.store;
         let rels = await configs.reduce(async (total, config) => {
             total = await total;
             let records = await relStore.getAll(
@@ -111,7 +112,7 @@ const getFeatureAttrs = async (layerName, properties) => {
 };
 
 const updateAttrs = async attrs => {
-    let attrStore = new IndexedDB('attributes', 'attr');
+    let attrStore = Attr.store;
     let newRecords = [];
     Object.keys(attrs).forEach(key => {
         let records = attrs[key];
@@ -128,14 +129,14 @@ const updateAttrs = async attrs => {
 };
 
 const deleteRecord = records => {
-    let attrStore = new IndexedDB('attributes', 'attr');
+    let attrStore = Attr.store;
     return records.map(record => {
         attrStore.deleteById(record.id);
     });
 };
 
 const replaceAttrs = async ([oldAttrs, newAttrs] = []) => {
-    let attrStore = new IndexedDB('attributes', 'attr');
+    let attrStore = Attr.store;
     let oldAttrIds = await oldAttrs.reduce(async (total, record) => {
         total = await total;
         if (record.id) {

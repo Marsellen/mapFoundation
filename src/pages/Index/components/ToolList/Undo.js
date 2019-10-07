@@ -1,11 +1,11 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
+import editLog from 'src/models/editLog';
 
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
 @inject('AttributeStore')
-@inject('EditLogStore')
 @observer
 class Undo extends React.Component {
     render() {
@@ -27,8 +27,7 @@ class Undo extends React.Component {
         const {
             OperateHistoryStore,
             DataLayerStore,
-            AttributeStore,
-            EditLogStore
+            AttributeStore
         } = this.props;
         OperateHistoryStore.undo().then(history => {
             let log = {
@@ -36,7 +35,7 @@ class Undo extends React.Component {
                 action: 'undo',
                 result: 'success'
             };
-            EditLogStore.add(log);
+            editLog.store.add(log);
             DataLayerStore.exitEdit();
             AttributeStore.hide();
             AttributeStore.hideRelFeatures();

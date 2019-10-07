@@ -4,6 +4,7 @@ import { observer, inject } from 'mobx-react';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
+import editLog from 'src/models/editLog';
 
 const formItemLayout = {
     labelCol: {
@@ -19,7 +20,6 @@ const formItemLayout = {
 @Form.create()
 @inject('BatchAssignStore')
 @inject('OperateHistoryStore')
-@inject('EditLogStore')
 @observer
 class BatchAssignModal extends React.Component {
     render() {
@@ -67,12 +67,7 @@ class BatchAssignModal extends React.Component {
     };
 
     save = () => {
-        const {
-            form,
-            BatchAssignStore,
-            OperateHistoryStore,
-            EditLogStore
-        } = this.props;
+        const { form, BatchAssignStore, OperateHistoryStore } = this.props;
         form.validateFields((err, values) => {
             if (err) {
                 return;
@@ -88,7 +83,7 @@ class BatchAssignModal extends React.Component {
                 result: 'success'
             };
             OperateHistoryStore.add(history);
-            EditLogStore.add(log);
+            editLog.store.add(log);
         });
     };
 

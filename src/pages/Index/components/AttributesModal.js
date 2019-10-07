@@ -6,13 +6,13 @@ import BasicAttributesForm from './AttributesForm/BasicAttributesForm';
 import RelationForm from './AttributesForm/RelationForm';
 import AttrsForm from './AttributesForm/AttrsForm';
 import AdTabs from 'src/components/AdTabs/index';
+import editLog from 'src/models/editLog';
 import 'less/components/attributes-modal.less';
 
 @Form.create()
 @inject('AttributeStore')
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
-@inject('EditLogStore')
 @observer
 class AttributesModal extends React.Component {
     handleCancel = e => {
@@ -68,8 +68,7 @@ class AttributesModal extends React.Component {
             form,
             AttributeStore,
             DataLayerStore,
-            OperateHistoryStore,
-            EditLogStore
+            OperateHistoryStore
         } = this.props;
         form.validateFields((err, values) => {
             if (err) {
@@ -89,7 +88,7 @@ class AttributesModal extends React.Component {
                     result: 'success'
                 };
                 OperateHistoryStore.add(history);
-                EditLogStore.add(log);
+                editLog.store.add(log);
             });
             AttributeStore.hide();
         });

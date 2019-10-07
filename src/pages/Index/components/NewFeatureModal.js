@@ -4,11 +4,11 @@ import { inject, observer } from 'mobx-react';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { getLayerByName } from 'src/utils/vectorUtils';
+import editLog from 'src/models/editLog';
 
 @Form.create()
 @inject('NewFeatureStore')
 @inject('OperateHistoryStore')
-@inject('EditLogStore')
 @observer
 class NewFeatureModal extends React.Component {
     render() {
@@ -116,12 +116,7 @@ class NewFeatureModal extends React.Component {
     };
 
     save = () => {
-        const {
-            form,
-            NewFeatureStore,
-            OperateHistoryStore,
-            EditLogStore
-        } = this.props;
+        const { form, NewFeatureStore, OperateHistoryStore } = this.props;
         form.validateFields((err, values) => {
             if (err) {
                 return;
@@ -138,7 +133,7 @@ class NewFeatureModal extends React.Component {
                     result: 'success'
                 };
                 OperateHistoryStore.add(history);
-                EditLogStore.add(log);
+                editLog.store.add(log);
             });
         });
     };

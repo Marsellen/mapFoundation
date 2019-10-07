@@ -4,21 +4,17 @@ import { inject, observer } from 'mobx-react';
 import { message, Icon, Modal } from 'antd';
 import { newRel } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
+import editLog from 'src/models/editLog';
 import 'less/components/tool-icon.less';
 import './AddRel.less';
 
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
 @inject('AttributeStore')
-@inject('EditLogStore')
 @observer
 class AddRel extends React.Component {
     componentDidMount() {
-        const {
-            DataLayerStore,
-            OperateHistoryStore,
-            EditLogStore
-        } = this.props;
+        const { DataLayerStore, OperateHistoryStore } = this.props;
         DataLayerStore.setNewRelCallback(result => {
             // console.log(result);
             Modal.confirm({
@@ -42,7 +38,7 @@ class AddRel extends React.Component {
                                 result: 'success'
                             };
                             OperateHistoryStore.add(history);
-                            EditLogStore.add(log);
+                            editLog.store.add(log);
                             message.success('新建成功', 3);
                             DataLayerStore.exitEdit();
                         })

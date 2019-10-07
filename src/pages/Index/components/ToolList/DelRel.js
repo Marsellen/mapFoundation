@@ -4,20 +4,19 @@ import { inject, observer } from 'mobx-react';
 import { message, Modal } from 'antd';
 import { delRel } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
+import editLog from 'src/models/editLog';
 import 'less/components/tool-icon.less';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('OperateHistoryStore')
-@inject('EditLogStore')
 @observer
 class DelRel extends React.Component {
     componentDidMount() {
         const {
             DataLayerStore,
             AttributeStore,
-            OperateHistoryStore,
-            EditLogStore
+            OperateHistoryStore
         } = this.props;
         DataLayerStore.setDelRelCallback(result => {
             // console.log(result);
@@ -46,7 +45,7 @@ class DelRel extends React.Component {
                                 result: 'success'
                             };
                             OperateHistoryStore.add(history);
-                            EditLogStore.add(log);
+                            editLog.store.add(log);
                             message.success('删除成功', 3);
                             AttributeStore.fetchRelFeatures();
                             DataLayerStore.exitEdit();

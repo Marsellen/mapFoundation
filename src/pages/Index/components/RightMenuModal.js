@@ -8,6 +8,7 @@ import {
     mergeLine
 } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
+import editLog from 'src/models/editLog';
 
 const EDIT_TYPE = ['delPoint', 'changePoints', 'insertPoints', 'select_point'];
 
@@ -36,7 +37,6 @@ const CHINESE_EDIT_TYPE = [
 @inject('AttributeStore')
 @inject('TaskStore')
 @inject('BatchAssignStore')
-@inject('EditLogStore')
 @observer
 class RightMenuModal extends React.Component {
     componentDidMount() {
@@ -175,8 +175,7 @@ class RightMenuModal extends React.Component {
             RightMenuStore,
             OperateHistoryStore,
             AttributeStore,
-            TaskStore,
-            EditLogStore
+            TaskStore
         } = this.props;
         if (result.errorCode) {
             let arr = result.desc.split(':');
@@ -211,7 +210,7 @@ class RightMenuModal extends React.Component {
                         result: 'success'
                     };
                     OperateHistoryStore.add(history);
-                    EditLogStore.add(log);
+                    editLog.store.add(log);
                     message.success('操作完成', 3);
                 } catch (e) {
                     console.log(e);
@@ -226,7 +225,7 @@ class RightMenuModal extends React.Component {
                         result: 'fail',
                         failReason: e.message
                     };
-                    EditLogStore.add(log);
+                    editLog.store.add(log);
                 }
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
@@ -243,8 +242,7 @@ class RightMenuModal extends React.Component {
             RightMenuStore,
             OperateHistoryStore,
             DataLayerStore,
-            AttributeStore,
-            EditLogStore
+            AttributeStore
         } = this.props;
         Modal.confirm({
             title: '您确认删除该要素？',
@@ -266,7 +264,7 @@ class RightMenuModal extends React.Component {
                     result: 'success'
                 };
                 OperateHistoryStore.add(history);
-                EditLogStore.add(log);
+                editLog.store.add(log);
             }
         });
     };
@@ -301,8 +299,7 @@ class RightMenuModal extends React.Component {
             DataLayerStore,
             OperateHistoryStore,
             AttributeStore,
-            TaskStore,
-            EditLogStore
+            TaskStore
         } = this.props;
         let {
             activeTask: { taskId: task_id }
@@ -326,7 +323,7 @@ class RightMenuModal extends React.Component {
                         result: 'success'
                     };
                     OperateHistoryStore.add(history);
-                    EditLogStore.add(log);
+                    editLog.store.add(log);
                     message.success('操作完成', 3);
                 } catch (e) {
                     console.log(e);
@@ -338,7 +335,7 @@ class RightMenuModal extends React.Component {
                         result: 'fail',
                         failReason: e.message
                     };
-                    EditLogStore.add(log);
+                    editLog.store.add(log);
                 }
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();

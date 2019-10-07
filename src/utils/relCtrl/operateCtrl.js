@@ -1,4 +1,5 @@
-import IndexedDB from 'src/utils/IndexedDB';
+import Relevance from 'src/models/Relevance';
+import Attr from 'src/models/attr';
 import {
     REL_DATA_SET,
     ATTR_REL_DATA_SET,
@@ -35,10 +36,10 @@ const deleteLine = async features => {
         { rels: [], attrs: [] }
     );
 
-    let relStore = new IndexedDB('relationships', 'rels');
+    let relStore = Relevance.store;
     await Promise.all(rels.map(rel => relStore.deleteById(rel.id)));
 
-    let attrStore = new IndexedDB('attributes', 'attr');
+    let attrStore = Attr.store;
     await Promise.all(attrs.map(attr => attrStore.deleteById(attr.id)));
 
     let historyLog = {
@@ -380,7 +381,7 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
 };
 
 const updateRels = async ([oldRels, newRels] = []) => {
-    let relStore = new IndexedDB('relationships', 'rels');
+    let relStore = Relevance.store;
     let oldRelIds = await oldRels.reduce(async (total, record) => {
         total = await total;
         if (record.id) {

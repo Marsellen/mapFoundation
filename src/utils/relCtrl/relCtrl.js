@@ -1,4 +1,4 @@
-import IndexedDB from 'src/utils/IndexedDB';
+import Relevance from 'src/models/Relevance';
 import {
     REL_SPEC_CONFIG,
     SPEC_REL_KEY_SET,
@@ -14,7 +14,7 @@ const newRel = async (features, layerName) => {
     await basicCheck(mainFeature, relFeatures, layerName);
 
     let rels = await batchCreateRel(mainFeature, relFeatures);
-    let relStore = new IndexedDB('relationships', 'rels');
+    let relStore = Relevance.store;
     await relStore.batchAdd(rels);
     updateFeaturesByRels(rels);
     return rels;
@@ -23,7 +23,7 @@ const newRel = async (features, layerName) => {
 const delRel = async (mainFeature, features) => {
     let rels = batchCreateAllRel(mainFeature, features);
 
-    let relStore = new IndexedDB('relationships', 'rels');
+    let relStore = Relevance.store;
     await relStore.openTransaction().then(
         async transaction => {
             let store = transaction.objectStore(relStore.tableName);
@@ -89,7 +89,7 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
         };
     }
     if (ATTR_REL_DATA_SET.includes(relSpecs[0].source)) {
-        let relStore = new IndexedDB('relationships', 'rels');
+        let relStore = Relevance.store;
         let rels;
         if (relSpecs[0].source == relSpecs[0].objSpec) {
             let type = relSpecs[0].objType;

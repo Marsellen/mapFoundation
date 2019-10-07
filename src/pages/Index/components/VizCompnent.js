@@ -33,6 +33,7 @@ import {
     getTaskScaleStorage,
     filterTaskScaleStorage
 } from 'src/utils/vectorUtils';
+import editLog from 'src/models/editLog';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -46,7 +47,6 @@ import {
 @inject('AttrStore')
 @inject('appStore')
 @inject('BatchAssignStore')
-@inject('EditLogStore')
 @observer
 class VizCompnent extends React.Component {
     regionGeojson = {};
@@ -314,8 +314,7 @@ class VizCompnent extends React.Component {
         const {
             DataLayerStore,
             NewFeatureStore,
-            OperateHistoryStore,
-            EditLogStore
+            OperateHistoryStore
         } = this.props;
         //console.log(result);
 
@@ -357,7 +356,7 @@ class VizCompnent extends React.Component {
                     result: 'success'
                 };
                 OperateHistoryStore.add(history);
-                EditLogStore.add(log);
+                editLog.store.add(log);
                 this.showAttributesModal(data);
             })
             .catch(e => {
@@ -372,8 +371,7 @@ class VizCompnent extends React.Component {
         const {
             DataLayerStore,
             OperateHistoryStore,
-            RightMenuStore,
-            EditLogStore
+            RightMenuStore
         } = this.props;
 
         if (result.errorCode) {
@@ -415,7 +413,7 @@ class VizCompnent extends React.Component {
             result: 'success'
         };
         OperateHistoryStore.add(history);
-        EditLogStore.add(log);
+        editLog.store.add(log);
     };
 
     boundarySelectedCallback = result => {
