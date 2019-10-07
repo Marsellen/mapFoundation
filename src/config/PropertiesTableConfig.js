@@ -43,9 +43,9 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'LANESTATUS',
-            title: '通行状态',
+            title: '车道通行状态',
             filterBy: 'AD_LANE_DIVIDER_LANESTATUS',
-            width: 93
+            width: 121
         },
         {
             dataIndex: 'LANE_NO',
@@ -101,15 +101,21 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'RD_STATUS',
-            title: '通行状态',
+            title: '道路通行状态',
             filterBy: 'AD_ROAD_RD_STATUS',
-            width: 93
+            width: 121
         },
         {
             dataIndex: 'RD_CLASS',
             title: '道路等级',
             filterBy: 'AD_ROAD_RD_CLASS',
             width: 93
+        },
+        {
+            dataIndex: 'CROSSING',
+            title: '交叉路口标识',
+            filterBy: 'AD_ROAD_CROSSING',
+            width: 121
         },
         {
             dataIndex: 'RD_FORM',
@@ -186,9 +192,9 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'STATUS',
-            title: '通行状态',
+            title: '车道通行状态',
             filterBy: 'AD_LANE_STATUS',
-            width: 93
+            width: 121
         }
     ],
     AD_StopLocation: [
