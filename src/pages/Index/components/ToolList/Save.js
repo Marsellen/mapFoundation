@@ -1,13 +1,10 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import { ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
 import { message } from 'antd';
 
 @inject('TaskStore')
 @inject('OperateHistoryStore')
-@inject('RelStore')
-@inject('AttrStore')
 @observer
 class Save extends React.Component {
     render() {
@@ -24,40 +21,12 @@ class Save extends React.Component {
         );
     }
 
-    action = () => {
-        const {
-            TaskStore,
-            OperateHistoryStore,
-            RelStore,
-            AttrStore
-        } = this.props;
-        let vectorData = vectorLayerGroup.getAllVectorData();
-        let attrRels = vectorData.features.filter(features =>
-            ATTR_REL_DATA_SET.includes(features.name)
-        );
-        Promise.all([RelStore.exportRel(), AttrStore.export()]).then(result => {
-            let [rels, attrs] = result;
-            let relData = {
-                features: attrRels.concat(rels),
-                type: 'FeatureCollection',
-                properties: vectorLayerGroup.properties
-            };
-            let attrData = {
-                features: attrs,
-                type: 'FeatureCollection',
-                properties: vectorLayerGroup.properties
-            };
-            TaskStore
-                .submit({
-                    vectorData,
-                    relData,
-                    attrData
-                })
-                .then(() => {
-                    OperateHistoryStore.save();
-                    message.success('保存成功', 3);
-                });
-        });
+    action = async () => {
+        const { TaskStore, OperateHistoryStore } = this.props;
+
+        await TaskStore.submit();
+        OperateHistoryStore.save();
+        message.success('保存成功', 3);
     };
 }
 

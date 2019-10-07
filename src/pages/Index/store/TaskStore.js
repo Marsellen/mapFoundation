@@ -3,6 +3,11 @@ import TaskService from '../service/TaskService';
 import JobService from '../service/JobService';
 import { Modal, message } from 'antd';
 import CONFIG from 'src/config';
+import {
+    getAllVectorData,
+    getAllRelData,
+    getAllAttrData
+} from 'src/utils/vectorUtils';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -99,26 +104,29 @@ class TaskStore {
         return this.activeTaskId + path + '?time=' + Date.now();
     };
 
-    submit = flow(function*(data) {
+    submit = flow(function*() {
         try {
+            let vectorData = getAllVectorData();
+            let relData = yield getAllRelData();
+            let attrData = yield getAllAttrData();
             let path = this.activeTask.Input_imp_data_relpath;
             let payload = {
                 filePath: path + '/vectors/',
                 fileName: 'ads_all',
                 fileFormat: 'geojson',
-                fileData: data.vectorData
+                fileData: vectorData
             };
             let attrPayload = {
                 filePath: path + '/vectors/',
                 fileName: 'attrs',
                 fileFormat: 'geojson',
-                fileData: data.attrData
+                fileData: attrData
             };
             let relPayload = {
                 filePath: path + '/vectors/',
                 fileName: 'rels',
                 fileFormat: 'geojson',
-                fileData: data.relData
+                fileData: relData
             };
             yield Promise.all([
                 TaskService.saveFile(payload),

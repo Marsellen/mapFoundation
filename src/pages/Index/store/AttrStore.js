@@ -22,16 +22,6 @@ class AttrStore {
         }
     });
 
-    export = flow(function*() {
-        try {
-            let records = yield Attr.store.getAll();
-            let data = attrFactory.attrTableToData(records);
-            return data;
-        } catch (e) {
-            console.log(e);
-        }
-    });
-
     destroy = flow(function*() {
         try {
             yield Attr.store.clear();

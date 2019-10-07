@@ -22,16 +22,6 @@ class RelStore {
         }
     });
 
-    exportRel = flow(function*() {
-        try {
-            let records = yield Relevance.store.getAll();
-            let data = relFactory.relTableToData(records);
-            return data;
-        } catch (e) {
-            console.log(e);
-        }
-    });
-
     destroy = flow(function*() {
         try {
             yield Relevance.store.clear();
