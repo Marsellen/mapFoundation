@@ -8,6 +8,9 @@ import {
     getAllRelData,
     getAllAttrData
 } from 'src/utils/vectorUtils';
+import { getAuthentication } from 'src/utils/Session';
+import editLog from 'src/models/editLog';
+import moment from 'moment';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -151,6 +154,30 @@ class TaskStore {
                 jsonPath: url
             });
             return;
+        } catch (e) {
+            console.log(e);
+        }
+    });
+
+    writeEditLog = flow(function*() {
+        try {
+            let log = yield editLog.store.getAll();
+            let {
+                taskId,
+                processName,
+                Input_imp_data_path: inputImpDataPath
+            } = this.activeTask;
+            const { username: userName } = getAuthentication();
+            let payload = {
+                taskId,
+                processName,
+                inputImpDataPath,
+                userName,
+                time: moment().format('YYYY-MM-DD HH:mm:ss SSS'),
+                log
+            };
+            yield TaskService.writeEditLog(payload);
+            yield editLog.store.clear();
         } catch (e) {
             console.log(e);
         }

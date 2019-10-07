@@ -136,6 +136,7 @@ class JobStatus extends React.Component {
         const { TaskStore, OperateHistoryStore } = this.props;
 
         await TaskStore.submit();
+        await TaskStore.writeEditLog();
         OperateHistoryStore.save();
     };
 

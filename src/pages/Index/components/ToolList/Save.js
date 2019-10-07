@@ -25,6 +25,7 @@ class Save extends React.Component {
         const { TaskStore, OperateHistoryStore } = this.props;
 
         await TaskStore.submit();
+        await TaskStore.writeEditLog();
         OperateHistoryStore.save();
         message.success('保存成功', 3);
     };

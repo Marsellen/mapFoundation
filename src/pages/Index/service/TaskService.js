@@ -13,6 +13,10 @@ export default (function() {
             creatCircle: {
                 url: EditApiPath('/api/creatcircle'),
                 method: 'post'
+            },
+            writeEditLog: {
+                url: EditApiPath('api/writeeditlog'),
+                method: 'post'
             }
         }
     );
