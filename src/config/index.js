@@ -10,5 +10,7 @@ export default {
         attrs: '/vectors/attrs.geojson',
         region: '/region.geojson',
         boundary: '/../06_NEARBY_JSON/boundary.geojson'
-    }
+    },
+
+    autoSaveTime: 6000000
 };

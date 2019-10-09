@@ -35,6 +35,7 @@ import {
 } from 'src/utils/vectorUtils';
 import _ from 'lodash';
 import editLog from 'src/models/editLog';
+import SaveTimeView from './SaveTimeView';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -57,7 +58,7 @@ class VizCompnent extends React.Component {
     }
 
     componentDidMount() {
-        const { TaskStore } = this.props;
+        const { TaskStore, OperateHistoryStore } = this.props;
 
         TaskStore.initTask({ type: 4 }).then(() => {
             const { tasks = [] } = TaskStore;
@@ -70,6 +71,9 @@ class VizCompnent extends React.Component {
                 message.warning('暂无任务', 3);
                 return;
             }
+
+            OperateHistoryStore.destroy();
+            editLog.store.clear();
             TaskStore.setActiveTask();
         });
     }
@@ -503,6 +507,7 @@ class VizCompnent extends React.Component {
                         <ZoomIn key="ZOOM_IN" />
                         <UnderView key="UNDER_VIEW" />
                     </div>
+                    <SaveTimeView />
                 </div>
                 {TaskStore.activeTaskId ? <MultimediaView /> : <span />}
                 <AttributesModal />

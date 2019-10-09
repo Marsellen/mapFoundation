@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Button, message } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
+import editLog from 'src/models/editLog';
 import 'less/components/jobstatus.less';
 
 @withRouter
@@ -151,6 +152,7 @@ class JobStatus extends React.Component {
         } = this.props;
         const { tasks } = TaskStore;
         OperateHistoryStore.destroy();
+        editLog.store.clear();
         if (!tasks || tasks.length == 0) {
             message.warning('暂无任务', 3);
             return;
