@@ -1,8 +1,9 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import { message } from 'antd';
+import { message, Modal } from 'antd';
 import config from 'src/config';
+import { getAuthentication, logout } from 'src/utils/Session';
 
 @inject('TaskStore')
 @inject('OperateHistoryStore')
@@ -41,10 +42,11 @@ class Save extends React.Component {
     };
 
     loop = () => {
-        this.intervalId = window.setInterval(
-            this.autoSave,
-            config.autoSaveTime
-        );
+        let { timestamp, expireTime = 82800 } = getAuthentication();
+        let time = new Date(timestamp) - new Date() + expireTime * 1000;
+        window.setTimeout(this.expireConfirm, time);
+
+        window.setInterval(this.autoSave, config.autoSaveTime);
     };
 
     autoSave = async () => {
@@ -55,6 +57,22 @@ class Save extends React.Component {
             await this.save();
             message.success('自动保存成功', 3);
         }
+    };
+
+    expireConfirm = () => {
+        Modal.warning({
+            title: '提示',
+            content: '登录超时，请重新登录',
+            okText: '保存并退出',
+            keyboard: false,
+            onOk: this.quitWithSave
+        });
+    };
+
+    quitWithSave = async () => {
+        await this.save();
+        logout();
+        location.reload();
     };
 }
 
