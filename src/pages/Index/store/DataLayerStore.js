@@ -368,6 +368,9 @@ class DataLayerStore extends LayerStore {
                 this.removeReadCoordinateLinstener();
                 break;
             default:
+                this.removeCur();
+                this.editor.clear();
+                this.editor.cancel();
                 break;
         }
         this.detectorControl.disable();
