@@ -362,6 +362,7 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
         let _feature = layer.getFeatureByOption(option);
         if (_feature) {
             updateFeatures.push(option.key + option.value);
+            feature.uuid = _feature.properties.uuid;
             layer.updateFeatures([feature]);
         } else {
             layer.addFeatures([feature.data]);
