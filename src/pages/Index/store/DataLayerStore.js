@@ -312,14 +312,16 @@ class DataLayerStore extends LayerStore {
     };
 
     @action startMeatureDistance = () => {
-        this.disableOtherCtrl();
+        this.exitEdit();
+
         this.editType = 'meature_distance';
         this.measureControl.startMeatureDistance();
         this.ruler();
     };
 
     @action startReadCoordinate = () => {
-        this.disableOtherCtrl();
+        this.exitEdit();
+
         this.editType = 'read_coordinate';
         this.addReadCoordinateLinstener();
     };
@@ -368,9 +370,6 @@ class DataLayerStore extends LayerStore {
                 this.removeReadCoordinateLinstener();
                 break;
             default:
-                this.removeCur();
-                this.editor.clear();
-                this.editor.cancel();
                 break;
         }
         this.detectorControl.disable();
