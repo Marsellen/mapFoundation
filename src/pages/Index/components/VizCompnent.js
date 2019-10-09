@@ -34,6 +34,7 @@ import {
     filterTaskScaleStorage
 } from 'src/utils/vectorUtils';
 import editLog from 'src/models/editLog';
+import SaveTimeView from './SaveTimeView';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -500,6 +501,7 @@ class VizCompnent extends React.Component {
                         <ZoomIn key="ZOOM_IN" />
                         <UnderView key="UNDER_VIEW" />
                     </div>
+                    <SaveTimeView />
                 </div>
                 {TaskStore.activeTaskId ? <MultimediaView /> : <span />}
                 <AttributesModal />
