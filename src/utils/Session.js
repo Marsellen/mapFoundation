@@ -1,5 +1,4 @@
 const LOGIN_COOKIE_NAME = 'Authentication';
-const CURRENT_EDITING_TASK = 'CurrentEditingTask';
 
 export function getAuthentication() {
     let userInfo = _getCookie(LOGIN_COOKIE_NAME);
@@ -7,13 +6,8 @@ export function getAuthentication() {
     return userInfo;
 }
 
-export function getCurrentEditingTaskId() {
-    let currentTask = _getCookie(CURRENT_EDITING_TASK);
-    currentTask = currentTask ? JSON.parse(currentTask) : {};
-    return currentTask;
-}
-
 export function authenticateSuccess(userInfo, autoLogin) {
+    userInfo = { ...userInfo, timestamp: new Date().valueOf() };
     if (autoLogin) {
         _setCookie(LOGIN_COOKIE_NAME, JSON.stringify(userInfo), 1);
     } else {
@@ -24,9 +18,7 @@ export function authenticateSuccess(userInfo, autoLogin) {
 export function logout(task) {
     if (task) {
         _setCookie(LOGIN_COOKIE_NAME, '', 0);
-        _setCookie(CURRENT_EDITING_TASK, JSON.stringify(task), 0);
     } else {
-        _setCookie(CURRENT_EDITING_TASK, '', 0);
         _setCookie(LOGIN_COOKIE_NAME, '', 0);
     }
 }
