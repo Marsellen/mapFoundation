@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { message, Icon, Modal } from 'antd';
 import { newRel } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
+import 'less/components/tool-icon.less';
 import './AddRel.less';
 
 @inject('DataLayerStore')
@@ -49,7 +50,7 @@ class AddRel extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'newRel';
         return (
-            <span>
+            <span className={visible ? "ad-icon-active" : ''}>
                 <ToolIcon
                     icon="xinzengguanxi"
                     title="新增关联关系"

@@ -10,6 +10,7 @@ import NewFeatureStore from './NewFeatureStore';
 import RightMenuStore from './RightMenuStore';
 import RelStore from './RelStore';
 import AttrStore from './AttrStore';
+import BatchAssignStore from './BatchAssignStore';
 
 export default {
     MenuStore,
@@ -23,5 +24,6 @@ export default {
     NewFeatureStore,
     RightMenuStore,
     RelStore,
-    AttrStore
+    AttrStore,
+    BatchAssignStore
 };

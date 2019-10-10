@@ -2,6 +2,7 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
+import { message } from 'antd';
 
 @inject('TaskStore')
 @inject('OperateHistoryStore')
@@ -54,6 +55,7 @@ class Save extends React.Component {
                 })
                 .then(() => {
                     OperateHistoryStore.save();
+                    message.success('保存成功', 3);
                 });
         });
     };

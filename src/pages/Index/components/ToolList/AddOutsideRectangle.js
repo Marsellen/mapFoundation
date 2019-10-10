@@ -9,12 +9,14 @@ import AdMessage from 'src/components/AdMessage';
 class AddOutsideRectangle extends React.Component {
     render() {
         const { DataLayerStore } = this.props;
+        const { isTopView } = DataLayerStore;
         let visible = DataLayerStore.editType == 'new_vertical_matrix';
         return (
-            <span>
+            <span className={visible ? "ad-icon-active" : ''}>
                 <ToolIcon
                     icon="renyiwaijiejuxing"
                     title="任意外接立面矩形"
+                    disabled={isTopView}
                     action={this.action}
                 />
                 <AdMessage visible={visible} content={this.content()} />

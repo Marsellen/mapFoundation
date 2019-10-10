@@ -1,11 +1,13 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
+@withRouter
 @inject('ToolCtrlStore')
 @observer
 class ToolCtrl extends React.Component {
     componentDidMount() {
-        const { ToolCtrlStore } = this.props;
+        const { ToolCtrlStore, match } = this.props;
         ToolCtrlStore.init();
     }
 

@@ -88,12 +88,15 @@ class RelationForm extends React.Component {
     };
 
     renderRs = ({ spec, extraInfo } = {}) => {
-        switch (spec) {
-            case 'AD_Lane_Con':
-                return this.renderADLaneConRs(extraInfo);
-            default:
-                break;
+        if (spec == 'AD_Lane_Con') {
+            return this.renderADLaneConRs(extraInfo);
         }
+        // switch (spec) {
+        //     case 'AD_Lane_Con':
+        //         return this.renderADLaneConRs(extraInfo);
+        //     default:
+        //         break;
+        // }
     };
 
     renderADLaneConRs = extraInfo => {

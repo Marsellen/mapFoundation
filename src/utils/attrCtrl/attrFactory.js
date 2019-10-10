@@ -8,7 +8,7 @@ const attrDataToTable = data => {
     return attrData.reduce((total, feature) => {
         let spec = feature.name;
 
-        feature.features.map(f => {
+        feature.features.forEach(f => {
             let record = dataToTable(f.properties, spec);
             total.push(record);
         });
@@ -113,10 +113,10 @@ const getFeatureAttrs = async (layerName, properties) => {
 const updateAttrs = async attrs => {
     let attrStore = new IndexedDB('attributes', 'attr');
     let newRecords = [];
-    Object.keys(attrs).map(key => {
+    Object.keys(attrs).forEach(key => {
         let records = attrs[key];
         newRecords = newRecords.concat(records);
-        records.map(record => {
+        records.forEach(record => {
             if (record.id) {
                 attrStore.edit(record);
             } else {

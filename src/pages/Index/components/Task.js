@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { getAuthentication, getCurrentEditingTaskId } from 'src/utils/Session';
+import { setTaskScaleStorage } from 'src/utils/vectorUtils';
 
 @inject('TaskStore')
 @inject('AttributeStore')
@@ -17,21 +17,6 @@ class Task extends React.Component {
             current: null
         };
     }
-    componentDidMount() {
-        const userInfo = getAuthentication();
-        const { userName, taskId } = getCurrentEditingTaskId();
-        if (userInfo.username === userName && taskId) {
-            this.setState({
-                current: taskId.toString()
-            });
-        }
-    }
-
-    handleClick = e => {
-        this.setState({
-            current: e.key
-        });
-    };
 
     render() {
         const { TaskStore } = this.props;
@@ -39,21 +24,15 @@ class Task extends React.Component {
         // const { activeTaskId } = TaskStore;
 
         if (tasks && tasks.length > 0) {
+            let index = tasks.findIndex(
+                item => item.taskId === this.state.current
+            );
+            index = index === -1 ? '0' : index.toString();
             return (
-                <Menu
-                    className="menu"
-                    selectedKeys={[
-                        tasks.filter(
-                            item =>
-                                item.taskId.toString() === this.state.current
-                        ).length > 0
-                            ? this.state.current
-                            : tasks[0].taskId.toString()
-                    ]}
-                    onClick={this.handleClick}>
-                    {tasks.map(item => (
+                <Menu className="menu" selectedKeys={[index]}>
+                    {tasks.map((item, index) => (
                         <Menu.Item
-                            key={item.taskId}
+                            key={index}
                             onClick={() => {
                                 this.chooseTask(item.taskId);
                             }}>
@@ -99,19 +78,17 @@ class Task extends React.Component {
             ToolCtrlStore,
             PictureShowStore
         } = this.props;
-        // const param = {
-        //     taskFechId: taskFetchId,
-        //     manualStatus: '2'
-        // };
-        // TaskStore.initUpdate(param);
-        TaskStore.setActiveTask(id).then(() => {
-            TaskStore.initTask({ type: 4 });
-        });
+        TaskStore.setActiveTask(id);
         OperateHistoryStore.destroy();
         DataLayerStore.activeEditor();
         ToolCtrlStore.updateByEditLayer();
         AttributeStore.hide();
         PictureShowStore.hide();
+
+        // 切换任务时，保存上一个任务的缩放比例
+        const preTaskScale = map.getEyeView();
+        setTaskScaleStorage(this.state.current, preTaskScale);
+
         this.setState({
             current: id
         });

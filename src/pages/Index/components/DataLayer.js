@@ -2,6 +2,8 @@ import React from 'react';
 import { Checkbox, List } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import { RESOURCE_LAYER_VETOR } from 'src/config/DataLayerConfig';
+import 'less/components/data-layer.less';
 
 @inject('ResourceLayerStore')
 @inject('DataLayerStore')
@@ -9,27 +11,49 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 class DataLayer extends React.Component {
     render() {
         let { DataLayerStore } = this.props;
+        let { updateKey, layers } = DataLayerStore;
         return (
-            <List
-                key={DataLayerStore.updateKey}
-                dataSource={DataLayerStore.layers}
-                renderItem={item => (
-                    <div>
-                        <Checkbox
-                            value={item.value}
-                            checked={item.checked}
-                            onChange={e => {
-                                this.changeEvent(item, e.target.checked);
-                            }}>
-                            {DATA_LAYER_MAP[item.value]
-                                ? DATA_LAYER_MAP[item.value].label
-                                : item.value}
-                        </Checkbox>
-                    </div>
+            <div>
+                {layers && (
+                    <Checkbox
+                        value="all"
+                        indeterminate={DataLayerStore.indeterminate}
+                        checked={DataLayerStore.isCheckedAll}
+                        onChange={this.checkAllChangeEvent}>
+                        全选
+                    </Checkbox>
                 )}
-            />
+                <List
+                    className="check-group"
+                    key={updateKey}
+                    dataSource={layers}
+                    renderItem={item => (
+                        <div>
+                            <Checkbox
+                                value={item.value}
+                                checked={item.checked}
+                                onChange={e => {
+                                    this.changeEvent(item, e.target.checked);
+                                }}>
+                                {DATA_LAYER_MAP[item.value]
+                                    ? DATA_LAYER_MAP[item.value].label
+                                    : item.value}
+                            </Checkbox>
+                        </div>
+                    )}
+                />
+            </div>
         );
     }
+
+    checkAllChangeEvent = e => {
+        const value = e.target.checked;
+        const { DataLayerStore, ResourceLayerStore } = this.props;
+        // 控制高精地图的显示隐藏
+        ResourceLayerStore.toggle(RESOURCE_LAYER_VETOR, value, true);
+        // 控制数据图层全部按钮的是否选中状态
+        DataLayerStore.toggleAll(value);
+    };
 
     changeEvent = (item, value) => {
         let { DataLayerStore, ResourceLayerStore } = this.props;

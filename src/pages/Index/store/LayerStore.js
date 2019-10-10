@@ -15,7 +15,7 @@ class LayerStore {
         });
     };
 
-    @action toggle = (name, checked) => {
+    @action toggle = (name, checked, isDataLayer) => {
         let layerEx = this.layers.find(layer => layer.value == name);
         layerEx.checked = checked;
         if (checked) {

@@ -784,11 +784,60 @@ export default {
             }
         ],
 
+        AD_RS_BARRIER_TYPE: [
+            {
+                value: 0,
+                label: '未定义',
+                style: {
+                    color: 'rgb(32,52,127)',
+                    linewidth: 1
+                }
+            },
+            {
+                value: 1,
+                label: '隧道墙',
+                style: {
+                    color: 'rgb(32,52,127)',
+                    linewidth: 1
+                }
+            },
+            {
+                value: 2,
+                label: '路侧防护栏',
+                style: {
+                    color: 'rgb(32,52,127)',
+                    linewidth: 1
+                }
+            },
+            {
+                value: 3,
+                label: '路缘石',
+                style: {
+                    color: 'rgb(32,52,127)',
+                    linewidth: 1
+                }
+            },
+            {
+                value: 4,
+                label: '隔音墙',
+                style: {
+                    color: 'rgb(32,52,127)',
+                    linewidth: 1
+                }
+            }
+        ],
         AD_MAP_QC_TYPE: [
             {
                 value: 0,
                 label: '未定义',
                 style: { color: 'rgb(110,10,30)', radius: 0.1 }
+            }
+        ],
+        AD_POLE_TYPE: [
+            {
+                value: 0,
+                label: '',
+                style: { color: 'rgb(32,52,127)', radius: 0.1 }
             }
         ]
     }

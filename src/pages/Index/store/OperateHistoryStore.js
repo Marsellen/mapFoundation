@@ -1,4 +1,4 @@
-import { observable, flow, configure } from 'mobx';
+import { observable, flow, configure, action } from 'mobx';
 import IndexedDB from 'src/utils/IndexedDB';
 import OperateFactory from 'src/utils/OperateFactory';
 
@@ -8,12 +8,19 @@ class OperateHistoryStore {
     @observable savedNode = -1;
     @observable finalNode = -1;
     @observable nodes = [];
-    historyStore = new IndexedDB('adEditor', 'operateHistories', db => {
-        db.createObjectStore('operateHistories', {
-            keyPath: 'id',
-            autoIncrement: true
-        });
-    });
+    historyStore = new IndexedDB(
+        'adEditor',
+        'operateHistories',
+        (request, event) => {
+            let db = request.result;
+            if (event.oldVersion < 1) {
+                db.createObjectStore('operateHistories', {
+                    keyPath: 'id',
+                    autoIncrement: true
+                });
+            }
+        }
+    );
 
     init = flow(function*() {
         try {
@@ -64,9 +71,9 @@ class OperateHistoryStore {
         }
     });
 
-    save = flow(function*() {
+    @action save = () => {
         this.savedNode = this.currentNode;
-    });
+    };
 
     destroy = flow(function*() {
         try {
