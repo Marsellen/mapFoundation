@@ -12,7 +12,7 @@ class PictureShowStore {
         if (obj.properties.imgs) {
             this.picData = [
                 obj.properties.imgs.Forward_Right,
-                obj.properties.imgs.Forward_Left,
+                obj.properties.imgs.Forward_Left
                 // obj.properties.imgs.Forward_Ahead //不显示中间图片
             ];
         }

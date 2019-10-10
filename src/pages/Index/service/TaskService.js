@@ -15,7 +15,7 @@ export default (function() {
                 method: 'post'
             },
             writeEditLog: {
-                url: EditApiPath('api/writeeditlog'),
+                url: EditApiPath('/api/writeeditlog'),
                 method: 'post'
             }
         }
