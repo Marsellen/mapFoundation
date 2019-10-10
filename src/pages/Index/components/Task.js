@@ -2,6 +2,7 @@ import React from 'react';
 import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { setTaskScaleStorage } from 'src/utils/vectorUtils';
+import editLog from 'src/models/editLog';
 
 @inject('TaskStore')
 @inject('AttributeStore')
@@ -80,6 +81,7 @@ class Task extends React.Component {
         } = this.props;
         TaskStore.setActiveTask(id);
         OperateHistoryStore.destroy();
+        editLog.store.clear();
         DataLayerStore.activeEditor();
         ToolCtrlStore.updateByEditLayer();
         AttributeStore.hide();

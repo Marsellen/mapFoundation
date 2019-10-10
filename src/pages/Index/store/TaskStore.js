@@ -17,6 +17,7 @@ class TaskStore {
     @observable activeTaskId;
     @observable tasks = [];
     @observable activeTask = {};
+    @observable taskSaveTime;
 
     // 任务列表
     initTask = flow(function*(option) {
@@ -72,6 +73,7 @@ class TaskStore {
         
         let { Input_imp_data_path, taskFetchId, manualStatus } = task;
         this.activeTaskId = Input_imp_data_path;
+        this.taskSaveTime = null;
 
         const status = [2, 4, 5]; //进行中-2、返修-4、返工-5
         
@@ -144,6 +146,8 @@ class TaskStore {
                     okText: '确定'
                 });
             });
+
+            this.taskSaveTime = moment().format('YYYY-MM-DD HH:mm:ss');
         } catch (e) {
             console.log(e);
         }
