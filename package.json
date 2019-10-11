@@ -22,7 +22,6 @@
         "mobx-react": "^5.4.3",
         "moment": "^2.24.0",
         "nprogress": "^0.2.0",
-        "rc-viewer": "0.0.9",
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
         "react-router-dom": "^5.0.0"

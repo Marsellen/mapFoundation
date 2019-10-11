@@ -1,7 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import RcViewer from 'rc-viewer';
-import IconFont from 'src/components/IconFont';
+import RcViewer from 'src/components/RcViewer';
 import noImg from 'src/assets/img/no-img.png';
 
 @inject('TaskStore')
@@ -36,10 +35,30 @@ class PictureShowView extends React.Component {
         zoomRatio: 0.1, //通过旋转鼠标缩放图像时定义比率
         minZoomRatio: 0.1, //最小比例
         maxZoomRatio: 3, //最大比例
+        title: [4, image => `${image.alt}`],
         viewed: function() {
             //设置相对比例0.6=展示宽度/图片实际宽度
             this.viewer.zoomTo(0.28).move(0, -6.2);
         }
+    };
+
+    componentDidMount() {
+        this.addListener();
+    }
+
+    componentDidUpdate() {
+        this.addListener();
+    }
+
+    addListener = () => {
+        let element = this.refs.viewer.getViewer().container;
+        let imgs = element.querySelectorAll('img');
+        imgs.forEach(img => {
+            img.onerror = function() {
+                this.src = noImg;
+                this.alt = '暂无图片';
+            };
+        });
     };
 
     render() {
@@ -48,13 +67,11 @@ class PictureShowView extends React.Component {
 
         return (
             <div className="img-banner">
-                {this.isArrPresent(picData) ? (
-                    <RcViewer options={this.options} ref="viewer">
-                        <ul id="images">{picData.map(this._renderImg)}</ul>
-                    </RcViewer>
-                ) : (
-                    <IconFont className="icondefault" type="icon-zanwutupian" />
-                )}
+                <RcViewer options={this.options} ref="viewer">
+                    <ul id="images" style={{ display: 'none' }}>
+                        {picData.map(this._renderImg)}
+                    </ul>
+                </RcViewer>
             </div>
         );
     }
@@ -65,19 +82,9 @@ class PictureShowView extends React.Component {
 
         return (
             <li key={index}>
-                {url ? (
-                    <img src={`${activeTaskId}/${url}`} />
-                ) : (
-                    <img src={noImg} alt="暂无图片"></img>
-                )}
+                <img src={`${activeTaskId}/${url}`} />
             </li>
         );
     };
-
-    isArrPresent(arr) {
-        return arr.reduce((sum, item) => {
-            return sum || !!item;
-        }, false);
-    }
 }
 export default PictureShowView;

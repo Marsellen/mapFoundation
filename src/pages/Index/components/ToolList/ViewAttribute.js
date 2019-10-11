@@ -244,6 +244,7 @@ class ViewAttribute extends React.Component {
         let readonly =
             !editLayer || (editLayer && editLayer.layerName !== obj.layerName);
         AttributeStore.setModel(obj);
+        DataLayerStore.clearHighLightFeatures();
         DataLayerStore.setFeatureColor(obj, 0xcc00ff);
         AttributeStore.show(readonly);
         AttributeStore.setAfterSave(this.getData);
