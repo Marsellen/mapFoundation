@@ -256,13 +256,13 @@ export default {
             {
                 value: 0,
                 label: '未定义',
-                style: { color: 'rgb(127,127,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 1,
                 label: '普通车道',
                 style: {
-                    color: 'rgb(127,127,0)',
+                    color: 'rgb(127,118,69)',
                     linewidth: 1
                 }
             },
@@ -278,133 +278,133 @@ export default {
             {
                 value: 3,
                 label: '应急车道',
-                style: { color: 'rgb(127,50,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 4,
                 label: '非机动车道',
-                style: { color: 'rgb(127,55,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 5,
                 label: '机非混合车道',
-                style: { color: 'rgb(127,60,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 6,
                 label: '公交车道',
-                style: { color: 'rgb(127,65,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 7,
                 label: '人行道',
-                style: { color: 'rgb(127,70,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 8,
                 label: 'ETC车道',
-                style: { color: 'rgb(127,75,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 9,
                 label: '收费站车道',
-                style: { color: 'rgb(127,80,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 10,
                 label: '检查站车道',
-                style: { color: 'rgb(127,85,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 11,
                 label: '右侧加速车道',
-                style: { color: 'rgb(127,90,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 12,
                 label: '右侧减速车道',
-                style: { color: 'rgb(127,95,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 13,
                 label: '匝道',
-                style: { color: 'rgb(127,100,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 14,
                 label: '隔离带车道',
-                style: { color: 'rgb(127,105,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 15,
                 label: '紧急停车道',
-                style: { color: 'rgb(127,110,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 16,
                 label: 'HOV车道',
-                style: { color: 'rgb(127,115,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 17,
                 label: '危险用品专用车道',
-                style: { color: 'rgb(127,120,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 18,
                 label: '爬坡车道',
-                style: { color: 'rgb(127,125,0)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 19,
                 label: '可变导向车道',
-                style: { color: 'rgb((127,50,5))', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 20,
                 label: '海关监管车道',
-                style: { color: 'rgb(127,50,10)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 21,
                 label: '避险车道引道',
-                style: { color: 'rgb(127,50,15)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 22,
                 label: '停车道',
-                style: { color: 'rgb(127,50,20)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 23,
                 label: '潮汐车道',
-                style: { color: 'rgb(127,50,25)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 24,
                 label: '左转待转车道',
-                style: { color: 'rgb(127,50,30)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 25,
                 label: '直行待行车道',
-                style: { color: 'rgb(127,50,35)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 26,
                 label: '掉头车道',
-                style: { color: 'rgb(127,50,40)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 27,
                 label: '超车道',
-                style: { color: 'rgb(127,50,45)', linewidth: 1 }
+                style: { color: 'rgb(127,118,69)', linewidth: 1 }
             },
             {
                 value: 28,
                 label: '服务区车道',
                 style: {
-                    color: 'rgb(127,50,50)',
+                    color: 'rgb(127,118,69)',
                     linewidth: 1
                 }
             },
@@ -412,7 +412,7 @@ export default {
                 value: 29,
                 label: '左侧加速车道',
                 style: {
-                    color: 'rgb(127,50,55)',
+                    color: 'rgb(127,118,69)',
                     linewidth: 1
                 }
             },
@@ -420,7 +420,7 @@ export default {
                 value: 30,
                 label: '左侧减速车道',
                 style: {
-                    color: 'rgb(127,50,60)',
+                    color: 'rgb(127,118,69)',
                     linewidth: 1
                 }
             },
@@ -428,7 +428,7 @@ export default {
                 value: 31,
                 label: '加减速复合车道',
                 style: {
-                    color: 'rgb(127,50,65)',
+                    color: 'rgb(127,118,69)',
                     linewidth: 1
                 }
             },
@@ -436,7 +436,7 @@ export default {
                 value: 99,
                 label: '其他',
                 style: {
-                    color: 'rgb(127,50,70)',
+                    color: 'rgb(127,118,69)',
                     linewidth: 1
                 }
             }
@@ -454,7 +454,7 @@ export default {
             {
                 value: 1,
                 label: '道路左侧出口',
-                style: { color: 'rgb(0,0,127)', radius: 0.01 }
+                style: { color: 'rgb(127,96,51)', radius: 0.01 }
             },
             {
                 value: 2,
@@ -467,24 +467,24 @@ export default {
             {
                 value: 3,
                 label: '道路分离点',
-                style: { color: 'rgb(0,127,127)', radius: 0.01 }
+                style: { color: 'rgb(127,96,51)', radius: 0.01 }
             },
             {
                 value: 4,
                 label: '道路合并点',
-                style: { color: 'rgb(127,82,0)', radius: 0.01 }
+                style: { color: 'rgb(127,96,51)', radius: 0.01 }
             },
             {
                 value: 5,
                 label: '车道合并点',
-                style: { color: 'rgb(127,0,0)', radius: 0.01 }
+                style: { color: 'rgb(127,96,51)', radius: 0.01 }
             },
 
             {
                 value: 21,
                 label: '服务区道路开始位置',
                 style: {
-                    color: 'rgb(87,119,125)',
+                    color: 'rgb(127,96,51)',
                     radius: 0.01
                 }
             },
@@ -492,7 +492,7 @@ export default {
                 value: 22,
                 label: '服务区道路结束位置',
                 style: {
-                    color: 'rgb(72,119,125)',
+                    color: 'rgb(127,96,51)',
                     radius: 0.01
                 }
             },
@@ -501,7 +501,7 @@ export default {
                 value: 41,
                 label: '点云不清晰起点',
                 style: {
-                    color: 'rgb(87,119,199)',
+                    color: 'rgb(127,96,51)',
                     radius: 0.01
                 }
             },
@@ -509,7 +509,7 @@ export default {
                 value: 42,
                 label: '点云不清晰结束点',
                 style: {
-                    color: 'rgb(72,119,72)',
+                    color: 'rgb(127,96,51)',
                     radius: 0.01
                 }
             },
@@ -517,7 +517,7 @@ export default {
                 value: 43,
                 label: '点云遮挡起点',
                 style: {
-                    color: 'rgb(87,112,115)',
+                    color: 'rgb(127,96,51)',
                     radius: 0.01
                 }
             },
@@ -525,33 +525,33 @@ export default {
                 value: 44,
                 label: '点云遮挡结束点',
                 style: {
-                    color: 'rgb(120,115,70)',
+                    color: 'rgb(127,96,51)',
                     radius: 0.01
                 }
             },
             {
                 value: 45,
                 label: '精度误差起点',
-                style: { color: 'rgb(36,104,102)', radius: 0.01 }
+                style: { color: 'rgb(127,96,51)', radius: 0.01 }
             },
             {
                 value: 46,
                 label: '精度误差结束点',
                 style: {
-                    color: 'rgb(126,122,115)',
+                    color: 'rgb(127,96,51)',
                     radius: 0.01
                 }
             },
             {
                 value: 47,
                 label: '道路施工起点',
-                style: { color: 'rgb(32,112,104)', radius: 0.01 }
+                style: { color: 'rgb(127,96,51)', radius: 0.01 }
             },
             {
                 value: 48,
                 label: '道路施工结束点',
                 style: {
-                    color: 'rgb(122,111,89)',
+                    color: 'rgb(127,96,51)',
                     radius: 0.01
                 }
             }
