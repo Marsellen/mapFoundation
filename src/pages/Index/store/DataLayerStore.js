@@ -30,6 +30,13 @@ class DataLayerStore extends LayerStore {
         return this.layers.every(layer => layer.checked);
     }
 
+    @computed get indeterminate() {
+        let checkedLayers = this.layers.filter(layer => layer.checked);
+        return (
+            checkedLayers.length && checkedLayers.length !== this.layers.length
+        );
+    }
+
     @action toggle = (name, checked) => {
         this.layers.find(layer => layer.value == name).checked = checked;
         let layer = getLayerExByName(name).layer;

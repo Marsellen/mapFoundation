@@ -38,7 +38,7 @@ export const DATA_LAYER_MAP = {
         groupRightTools: ['batchAssign']
     },
     AD_Text: {
-        label: '道路文字符号',
+        label: '地面文字符号',
         id: 'TEXT_ID',
         spec: 'AD_Text',
         tools: ['POLYGON', 'ADD_REL', 'DEL_REL'],
