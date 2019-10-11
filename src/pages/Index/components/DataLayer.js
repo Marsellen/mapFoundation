@@ -17,6 +17,7 @@ class DataLayer extends React.Component {
                 {layers && (
                     <Checkbox
                         value="all"
+                        indeterminate={DataLayerStore.indeterminate}
                         checked={DataLayerStore.isCheckedAll}
                         onChange={this.checkAllChangeEvent}>
                         全选
