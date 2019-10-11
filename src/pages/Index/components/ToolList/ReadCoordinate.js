@@ -25,7 +25,7 @@ class ReadCoordinate extends React.Component {
         return (
             <span className={visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
-                    icon="ceju"
+                    icon="zuobiaoshiqu"
                     title="坐标拾取"
                     action={this.action}
                     disabled={!activeTaskId}
