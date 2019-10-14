@@ -17,7 +17,7 @@ class VersionInfo extends React.Component {
                     position: 'absolute',
                     bottom: '0px'
                 }}>
-                <ToolIcon icon="yuandianzhong" />
+                <ToolIcon icon="banbenxinxi" />
             </div>
         );
     }

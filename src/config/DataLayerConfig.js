@@ -33,7 +33,7 @@ export const DATA_LAYER_MAP = {
         label: '面状标识物',
         id: 'PLG_ID',
         spec: 'AD_LaneMark_Plg',
-        tools: ['POLYGON', 'ADD_REL', 'DEL_REL'],
+        tools: ['POLYGON', 'ADD_GROUND_RECTANGLE', 'ADD_REL', 'DEL_REL'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign']
     },
@@ -41,7 +41,7 @@ export const DATA_LAYER_MAP = {
         label: '地面文字符号',
         id: 'TEXT_ID',
         spec: 'AD_Text',
-        tools: ['POLYGON', 'ADD_REL', 'DEL_REL'],
+        tools: ['POLYGON', 'ADD_GROUND_RECTANGLE', 'ADD_REL', 'DEL_REL'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign']
     },

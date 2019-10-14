@@ -197,6 +197,13 @@ class DataLayerStore extends LayerStore {
         this.changeCur();
         this.editor.newPolygon();
     };
+    @action newGroundRectangle = () => {
+        if (!this.editor) return;
+        this.disableOtherCtrl();
+        this.editType = 'new_ground_rectangle';
+        this.changeCur();
+        this.editor.newPlaneTextMatrix();
+    };
 
     @action newFacadeRectangle = () => {
         if (!this.editor) return;
