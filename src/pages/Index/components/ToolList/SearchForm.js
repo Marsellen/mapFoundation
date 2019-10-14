@@ -24,9 +24,9 @@ class SearchForm extends React.Component {
                         <FormItem label="要素所在图层：">
                         {form.getFieldDecorator('currentLayer', {
                             rules: [{ required: true, message: '请选择要素所在图层!' }],
+                            initialValue: defaultValue
                         })(
                             <Select
-                                initialValue={defaultValue}
                                 onChange={this.getData}
                                 className="layer-select">
                                 {options.map((option, index) => {
