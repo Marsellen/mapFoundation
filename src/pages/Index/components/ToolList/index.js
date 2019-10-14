@@ -18,6 +18,8 @@ import AddOutsideRectangle from './AddOutsideRectangle';
 import AdjustPointSize from './AdjustPointSize';
 import ViewAttribute from './ViewAttribute';
 import ReadCoordinate from './ReadCoordinate';
+import PointStratification from './PointStratification';
+import AddGroundRectangle from './AddGroundRectangle';
 import SearchInfo from './SearchInfo';
 
 export default [
@@ -28,12 +30,14 @@ export default [
     <Save key="SAVE" />,
     <Intensity key="INTENSITY" />,
     <AdjustPointSize key="ADJUST_POINT_SIZE" />,
+    <PointStratification key="POINT_STRATIFICATION" />,
     <Ranging key="RANGING" />,
     <ReadCoordinate key="READ_COORDINATE" />,
     <EditLayer key="EDIT_LAYER" />,
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,
     <AddPolygon key="POLYGON" />,
+    <AddGroundRectangle key="ADD_GROUND_RECTANGLE" />,
     <AddFacadeRectangle key="ADD_FACADEREC_TANGLE" />,
     <AddOutsideRectangle key="ADD_OUTSIDE_RECTANGLE" />,
     <AddCircle key="ADD_CIRCLE" />,

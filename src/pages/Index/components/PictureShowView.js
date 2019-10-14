@@ -78,11 +78,11 @@ class PictureShowView extends React.Component {
 
     _renderImg = (url, index) => {
         const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
+        const { activeTaskUrl } = TaskStore;
 
         return (
             <li key={index}>
-                <img src={`${activeTaskId}/${url}`} />
+                <img src={`${activeTaskUrl}/${url}`} />
             </li>
         );
     };
