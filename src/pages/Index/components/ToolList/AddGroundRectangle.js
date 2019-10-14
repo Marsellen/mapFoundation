@@ -15,6 +15,7 @@ class AddGroundRectangle extends React.Component {
         return (
             <span className={visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
+                    id="add-ground-rectangle-btn"
                     icon="dimianjuxing"
                     title="添加地面矩形"
                     disabled={isTopView}

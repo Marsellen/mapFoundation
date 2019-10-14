@@ -45,7 +45,7 @@ class RightMenuModal extends React.Component {
 
     render() {
         const {
-            RightMenuStore: { visible, menus },
+            RightMenuStore: { visible, menus, zIndex },
             DataLayerStore: { editType }
         } = this.props;
         if (!visible) {
@@ -63,6 +63,7 @@ class RightMenuModal extends React.Component {
                     title={null}
                     mask={false}
                     closable={false}
+                    zIndex={zIndex}
                     style={{
                         position: 'absolute',
                         paddingBottom: 0,
@@ -73,7 +74,11 @@ class RightMenuModal extends React.Component {
                     onCancel={this.handleCancel}>
                     <Menu className="menu">
                         {this.getMenus().map(menu => {
-                            return menus.includes(menu.key) && menu;
+                            if (menus) {
+                                return menus.includes(menu.key) && menu;
+                            } else {
+                                return zIndex && menu;
+                            }
                         })}
                     </Menu>
                 </Modal>
@@ -84,42 +89,49 @@ class RightMenuModal extends React.Component {
     getMenus = () => {
         return [
             <Menu.Item
+                id="delete-btn"
                 key="delete"
                 onClick={this.deleteFeature}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>删除</span>
             </Menu.Item>,
             <Menu.Item
+                id="insert-points-btn"
                 key="insertPoints"
                 onClick={this.insertPoints}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>新增形状点</span>
             </Menu.Item>,
             <Menu.Item
+                id="change-points-btn"
                 key="changePoints"
                 onClick={this.changePoints}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>修改形状点</span>
             </Menu.Item>,
             <Menu.Item
+                id="delete-points-btn"
                 key="deletePoints"
                 onClick={this.deletePoints}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>删除形状点</span>
             </Menu.Item>,
             <Menu.Item
+                id="break-line-btn"
                 key="break"
                 onClick={this.breakLine}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>打断</span>
             </Menu.Item>,
             <Menu.Item
+                id="break-group-btn"
                 key="breakGroup"
                 onClick={this.breakLine}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>齐打断</span>
             </Menu.Item>,
             <Menu.Item
+                id="merge-line-btn"
                 key="merge"
                 onClick={this.mergeLine}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
@@ -160,8 +172,10 @@ class RightMenuModal extends React.Component {
     };
 
     handleCancel = e => {
-        const { RightMenuStore } = this.props;
+        const { RightMenuStore, DataLayerStore } = this.props;
         RightMenuStore.hide();
+        //关闭右键菜单时，取消选择
+        DataLayerStore.exitEdit();
     };
 
     installListener = () => {
@@ -177,6 +191,12 @@ class RightMenuModal extends React.Component {
             AttributeStore,
             TaskStore
         } = this.props;
+
+        if (!RightMenuStore.isCurrentLayer) {
+            message.warning('只能选取当前编辑图层要素！', 3);
+            return false;
+        }
+
         if (result.errorCode) {
             let arr = result.desc.split(':');
             let desc = arr[arr.length - 1];
@@ -244,6 +264,12 @@ class RightMenuModal extends React.Component {
             DataLayerStore,
             AttributeStore
         } = this.props;
+
+        if (!RightMenuStore.isCurrentLayer) {
+            message.warning('只能选取当前编辑图层要素！', 3);
+            return false;
+        }
+
         Modal.confirm({
             title: '您确认删除该要素？',
             okText: '确定',
@@ -265,30 +291,59 @@ class RightMenuModal extends React.Component {
                 };
                 OperateHistoryStore.add(history);
                 editLog.store.add(log);
+            },
+            onCancel() {
+                DataLayerStore.exitEdit();
+                AttributeStore.hideRelFeatures();
             }
         });
+        RightMenuStore.hide();
     };
 
     insertPoints = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
+
+        if (!RightMenuStore.isCurrentLayer) {
+            message.warning('只能选取当前编辑图层要素！', 3);
+            return false;
+        }
+
         DataLayerStore.insertPoints();
         RightMenuStore.hide();
     };
 
     changePoints = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
+
+        if (!RightMenuStore.isCurrentLayer) {
+            message.warning('只能选取当前编辑图层要素！', 3);
+            return false;
+        }
+
         DataLayerStore.changePoints();
         RightMenuStore.hide();
     };
 
     deletePoints = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
+
+        if (!RightMenuStore.isCurrentLayer) {
+            message.warning('只能选取当前编辑图层要素！', 3);
+            return false;
+        }
+
         DataLayerStore.deletePoints();
         RightMenuStore.hide();
     };
 
     breakLine = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
+
+        if (!RightMenuStore.isCurrentLayer) {
+            message.warning('只能选取当前编辑图层要素！', 3);
+            return false;
+        }
+
         DataLayerStore.selectPointFromHighlight();
         RightMenuStore.hide();
     };
@@ -301,6 +356,12 @@ class RightMenuModal extends React.Component {
             AttributeStore,
             TaskStore
         } = this.props;
+
+        if (!RightMenuStore.isCurrentLayer) {
+            message.warning('只能选取当前编辑图层要素！', 3);
+            return false;
+        }
+
         let {
             activeTask: { taskId: task_id }
         } = TaskStore;
@@ -350,6 +411,12 @@ class RightMenuModal extends React.Component {
 
     batchAssign = () => {
         const { RightMenuStore, BatchAssignStore } = this.props;
+
+        if (!RightMenuStore.isCurrentLayer) {
+            message.warning('只能选取当前编辑图层要素！', 3);
+            return false;
+        }
+
         let features = RightMenuStore.getFeatures();
         BatchAssignStore.show(features);
         RightMenuStore.hide();

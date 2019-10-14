@@ -13,8 +13,11 @@ class TopView extends React.Component {
         return activeTaskId ? (
             <div placement="bottom" title="俯视图模式" className="zoom-scale">
                 <IconFont
+                    id="top-view-btn"
                     type="icon-fushitu"
-                    className={!isTopView ? "ad-icon" : 'ad-icon-active-topview'}
+                    className={
+                        !isTopView ? 'ad-icon' : 'ad-icon-active-topview'
+                    }
                     onClick={this.action}
                 />
             </div>
@@ -28,7 +31,7 @@ class TopView extends React.Component {
         // 按钮选中状态
         const { DataLayerStore } = this.props;
         const { isTopView } = DataLayerStore;
-        
+
         DataLayerStore.topViewMode(!isTopView);
         
         if (!isTopView) {
