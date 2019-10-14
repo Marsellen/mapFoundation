@@ -102,7 +102,6 @@ class VizCompnent extends React.Component {
                 const { TaskStore } = this.props;
                 const { activeTask } = TaskStore;
                 const taskScale = getTaskScaleStorage(activeTask.taskId);
-                console.log(taskScale);
                 taskScale && map.setEyeView(taskScale);
             })
             .catch(e => {
