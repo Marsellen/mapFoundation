@@ -18,6 +18,7 @@ import AddOutsideRectangle from './AddOutsideRectangle';
 import AdjustPointSize from './AdjustPointSize';
 import ViewAttribute from './ViewAttribute';
 import ReadCoordinate from './ReadCoordinate';
+import SearchInfo from './SearchInfo';
 
 export default [
     <Undo key="UNDO" />,
@@ -38,5 +39,6 @@ export default [
     <AddCircle key="ADD_CIRCLE" />,
     <AddRel key="ADD_REL" />,
     <DelRel key="DEL_REL" />,
-    <ViewAttribute key="VIEW_ATTRIBUTE" />
+    <ViewAttribute key="VIEW_ATTRIBUTE" />,
+    <SearchInfo key="SEARCH_INFO" />
 ];

@@ -33,7 +33,7 @@ class AddFacadeRectangle extends React.Component {
     };
 
     content = () => {
-        return <label>添加立面矩形</label>;
+        return <label>添加两点立面矩形，选择两个点绘制</label>;
     };
 }
 

@@ -65,7 +65,7 @@ class TaskStore {
     updateTaskStatus = flow(function*(option) {
         let response = yield JobService.updateTask(option);
         if (response.code != 1) {
-            message.warning('更新状态失败', 3);
+            message.warning('更新任务状态失败', 3);
         }
     });
 
@@ -142,7 +142,7 @@ class TaskStore {
                 TaskService.saveFile(relPayload)
             ]).catch(e => {
                 Modal.error({
-                    title: '保存失败',
+                    title: '数据保存失败，请稍后再试',
                     okText: '确定'
                 });
             });

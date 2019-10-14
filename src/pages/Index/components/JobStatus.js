@@ -91,7 +91,7 @@ class JobStatus extends React.Component {
                 message.warning('暂无新任务', 3);
                 return;
             } else {
-                message.success('获取完成', 3);
+                message.success('成功获取任务', 3);
             }
         }
         if (!oldTasks || !oldTasks.length) {

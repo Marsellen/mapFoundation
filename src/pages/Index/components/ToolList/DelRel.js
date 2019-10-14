@@ -46,7 +46,7 @@ class DelRel extends React.Component {
                             };
                             OperateHistoryStore.add(history);
                             editLog.store.add(log);
-                            message.success('删除成功', 3);
+                            message.success('删除关联关系成功', 3);
                             AttributeStore.fetchRelFeatures();
                             DataLayerStore.exitEdit();
                         })

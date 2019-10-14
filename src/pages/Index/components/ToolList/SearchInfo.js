@@ -1,11 +1,9 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
-import { Select, Input, Modal, Tabs } from 'antd';
+import { Input, Modal, Tabs, message } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { getLayerItems } from 'src/utils/vectorCtrl/propertyTableCtrl';
-import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
-import { COLUMNS_CONFIG } from 'src/config/PropertiesTableConfig';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
+import SearchForm from './SearchForm';
 import 'less/components/search-info.less';
 
 const TabPane = Tabs.TabPane;
@@ -28,7 +26,7 @@ class SearchInfo extends React.Component {
         return (
             <span className={this.state.visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
-                    icon="shuxingliebiao"
+                    icon="chaxun"
                     title="查询"
                     action={this.toggle}
                 />
@@ -42,54 +40,23 @@ class SearchInfo extends React.Component {
                     title="查询"
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
-                    onOk={record => {
-                        this.SearchClick(record);
-                    }}>
+                    onOk={() => {
+                        this.SearchClick();
+                    }}
+                    >
                     {this.renderContent()}
                 </Modal>
             </span>
         );
     }
 
-    renderContent = () => {
-        const { DataLayerStore } = this.props;
-        let options = DataLayerStore.layers || [];
-        let editLayer = DataLayerStore.getEditLayer();
-        let defaultValue = editLayer ? editLayer.layerName : null;
+    renderContent = () => {        
         return (
             <Tabs type="card" defaultActiveKey="IDsearch">
                 <TabPane tab="ID查询" key="IDsearch">
-                    <div style={{ height: 40 }}>
-                        要素所在图层：
-                        <Select
-                            style={{ width: '55%' }}
-                            defaultValue={defaultValue}
-                            onChange={this.getData}
-                            className="layer-select">
-                            {options.map((option, index) => {
-                                return (
-                                    <Select.Option
-                                        key={index}
-                                        value={option.value}>
-                                        {this.getLabel(option)}
-                                    </Select.Option>
-                                );
-                            })}
-                        </Select>
-                    </div>
-                    <div style={{ display: 'flex', height: 40 }}>
-                        <span>要素用户编号：</span>
-                        <Input
-                            onChange={this.handleChange}
-                            value={this.state.value}
-                            style={{
-                                width: '55%',
-                                marginTop: '4px'
-                            }}
-                        />
-                    </div>
+                    <SearchForm ref="getFormVlaue" wrappedComponentRef={(inst)=>{this.cityForm = inst;}} />
                 </TabPane>
-                <TabPane tab="坐标查询" key="coordinate ">
+                <TabPane tab="坐标查询" key="coordinate">
                     <div style={{ display: 'flex', height: 40 }}>
                         <span>x坐标：</span>
                         <Input
@@ -126,44 +93,56 @@ class SearchInfo extends React.Component {
     };
 
     handleChange = e => {
+        const reg = /^\d+(\.\d*)?$|^\.\d+$/;
+        
+        if (!reg.test(e.target.value)) {
+            message.warning('请输入正整数！', 3);
+            return;
+        }
         this.setState({
-            value: e.target.value
+            value: Number(e.target.value)
         });
     };
 
-    SearchClick = record => {
-        return e => {
-            let { layerName } = this.state;
-            let IDKey = getLayerIDKey(layerName);
-            let option = {
+    SearchClick = () => { 
+        let demo=this.refs.getFormVlaue; 
+        let cityInfo = this.cityForm.props.form.getFieldsValue();      
+        let layerName = cityInfo.currentLayer;
+        let IDKey = getLayerIDKey(layerName);
+        let option = {};
+        demo.validateFields((err, values) => {
+          if(!err){
+            option = {
                 key: IDKey,
-                value: this.state.value
+                value: Number(values.No)
             };
+          }
+        });
 
-            let layer = getLayerByName(layerName);
-            let feature = layer.getFeatureByOption(option).properties;
-            let extent = map.getExtent(feature.data.geometry);
-            console.log(extent);
-            map.setView('U');
-            map.setExtent(extent);
-        };
+        let layer = getLayerByName(layerName);
+        
+        let feature = layer.getFeatureByOption(option).properties;
+        let extent = map.getExtent(feature.data.geometry);
+        console.log(extent);
+        map.setView('U');
+        map.setExtent(extent);
+        this.showAttributesModal(feature);
     };
 
-    AdSearch = val => {
-        const { layerName } = this.state;
-        let dataSource = getLayerItems(layerName);
-        let IDKey = getLayerIDKey(layerName);
-        console.log(val);
-
-        if (val) {
-            dataSource = (dataSource || []).filter(
-                record => record[IDKey] == val
-            );
-        }
-        this.setState({ dataSource });
+    showAttributesModal = obj => {
+        const { AttributeStore, DataLayerStore } = this.props;
+        let editLayer = DataLayerStore.getEditLayer();
+        let readonly =
+            !editLayer || (editLayer && editLayer.layerName !== obj.layerName);
+        AttributeStore.setModel(obj);
+        DataLayerStore.clearHighLightFeatures();
+        DataLayerStore.setFeatureColor(obj, 0xcc00ff);
+        AttributeStore.show(readonly);
+        // AttributeStore.setAfterSave(this.getData);
     };
 
     toggle = () => {
+        
         if (this.state.visible) {
             this.setState({
                 visible: false
@@ -172,7 +151,7 @@ class SearchInfo extends React.Component {
             this.setState({
                 visible: true
             });
-            this.getData();
+            // this.getData();
         }
     };
 
@@ -180,57 +159,6 @@ class SearchInfo extends React.Component {
         this.setState({
             visible: false
         });
-    };
-
-    getData = layerName => {
-        if (!layerName) {
-            const { DataLayerStore } = this.props;
-            let editLayer = DataLayerStore.getEditLayer();
-            layerName = editLayer ? editLayer.layerName : null;
-        }
-        let _columns = layerName ? COLUMNS_CONFIG[layerName] : [];
-        let columns = _columns.map(col => {
-            return {
-                ...col,
-                onCell: record => ({
-                    record,
-                    dataIndex: col.dataIndex,
-                    title: col.title,
-                    filterBy: col.filterBy
-                }),
-                sorter: this.sorter(col)
-            };
-        });
-        let dataSource = getLayerItems(layerName);
-        this.setState({ layerName, columns, dataSource });
-    };
-
-    getLabel = item => {
-        if (!item.value) {
-            return item.label;
-        }
-        return DATA_LAYER_MAP[item.value]
-            ? DATA_LAYER_MAP[item.value].label
-            : item.value;
-    };
-
-    sorter = col => {
-        return (a, b) => {
-            if (
-                /[0-9]/.test(a[col.dataIndex]) &&
-                /[0-9]/.test(b[col.dataIndex])
-            ) {
-                return parseInt(a[col.dataIndex]) - parseInt(b[col.dataIndex]);
-            } else {
-                if (!a[col.dataIndex] && a[col.dataIndex] !== 0) {
-                    return 1;
-                }
-                if (!b[col.dataIndex] && b[col.dataIndex] !== 0) {
-                    return -1;
-                }
-                return a[col.dataIndex] > b[col.dataIndex] ? 1 : -1;
-            }
-        };
     };
 }
 

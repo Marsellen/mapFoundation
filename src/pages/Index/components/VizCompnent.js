@@ -96,7 +96,7 @@ class VizCompnent extends React.Component {
         ])
             .then(() => {
                 hide();
-                message.success('加载完成', 1);
+                message.success('任务加载成功', 1);
 
                 //获取任务比例记录，设置比例
                 const { TaskStore } = this.props;
