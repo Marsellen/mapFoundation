@@ -22,7 +22,6 @@ class Task extends React.Component {
     render() {
         const { TaskStore } = this.props;
         const { tasks } = TaskStore;
-        // const { activeTaskId } = TaskStore;
 
         if (tasks && tasks.length > 0) {
             let index = tasks.findIndex(
@@ -88,8 +87,10 @@ class Task extends React.Component {
         PictureShowStore.hide();
 
         // 切换任务时，保存上一个任务的缩放比例
-        const preTaskScale = map.getEyeView();
-        setTaskScaleStorage(this.state.current, preTaskScale);
+        if (this.state.current) {
+            const preTaskScale = map.getEyeView();
+            setTaskScaleStorage(this.state.current, preTaskScale);
+        }
 
         this.setState({
             current: id
