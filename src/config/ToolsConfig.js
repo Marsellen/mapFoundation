@@ -25,7 +25,8 @@ export const TOOLS_MAP = {
         DEL_REL: false,
         ADJUST_POINT_SIZE: true,
         VIEW_ATTRIBUTE: true,
-        READ_COORDINATE: true
+        READ_COORDINATE: true,
+        SEARCH_INFO: true
     },
     CHECK: {}
 };

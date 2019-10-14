@@ -32,7 +32,7 @@ class AddCircle extends React.Component {
     };
 
     content = () => {
-        return <label>选择三个点绘制</label>;
+        return <label>添加立面三点圆形，选择三个点绘制</label>;
     };
 }
 

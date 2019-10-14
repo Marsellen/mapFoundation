@@ -31,7 +31,6 @@ export default [
     <Intensity key="INTENSITY" />,
     <AdjustPointSize key="ADJUST_POINT_SIZE" />,
     <PointStratification key="POINT_STRATIFICATION" />,
-    <SearchInfo key="SEARCHINFO" />,
     <Ranging key="RANGING" />,
     <ReadCoordinate key="READ_COORDINATE" />,
     <EditLayer key="EDIT_LAYER" />,
@@ -44,5 +43,6 @@ export default [
     <AddCircle key="ADD_CIRCLE" />,
     <AddRel key="ADD_REL" />,
     <DelRel key="DEL_REL" />,
-    <ViewAttribute key="VIEW_ATTRIBUTE" />
+    <ViewAttribute key="VIEW_ATTRIBUTE" />,
+    <SearchInfo key="SEARCH_INFO" />
 ];

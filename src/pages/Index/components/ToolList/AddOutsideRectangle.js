@@ -32,7 +32,7 @@ class AddOutsideRectangle extends React.Component {
     };
 
     content = () => {
-        return <label>添加外接立面矩形</label>;
+        return <label>添加外接立面矩形，选择至少三个点绘制</label>;
     };
 }
 
