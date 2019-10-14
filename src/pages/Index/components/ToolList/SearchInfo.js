@@ -25,11 +25,7 @@ class SearchInfo extends React.Component {
     render() {
         return (
             <span className={this.state.visible ? 'ad-icon-active' : ''}>
-                <ToolIcon
-                    icon="chaxun"
-                    title="查询"
-                    action={this.toggle}
-                />
+                <ToolIcon icon="chaxun" title="查询" action={this.toggle} />
 
                 <Modal
                     okText={'查询'}
@@ -42,19 +38,23 @@ class SearchInfo extends React.Component {
                     onCancel={this.handleCancel}
                     onOk={() => {
                         this.SearchClick();
-                    }}
-                    >
+                    }}>
                     {this.renderContent()}
                 </Modal>
             </span>
         );
     }
 
-    renderContent = () => {        
+    renderContent = () => {
         return (
             <Tabs type="card" defaultActiveKey="IDsearch">
                 <TabPane tab="ID查询" key="IDsearch">
-                    <SearchForm ref="getFormVlaue" wrappedComponentRef={(inst)=>{this.cityForm = inst;}} />
+                    <SearchForm
+                        ref="getFormVlaue"
+                        wrappedComponentRef={inst => {
+                            this.cityForm = inst;
+                        }}
+                    />
                 </TabPane>
                 <TabPane tab="坐标查询" key="coordinate">
                     <div style={{ display: 'flex', height: 40 }}>
@@ -94,7 +94,7 @@ class SearchInfo extends React.Component {
 
     handleChange = e => {
         const reg = /^\d+(\.\d*)?$|^\.\d+$/;
-        
+
         if (!reg.test(e.target.value)) {
             message.warning('请输入正整数！', 3);
             return;
@@ -104,19 +104,19 @@ class SearchInfo extends React.Component {
         });
     };
 
-    SearchClick = () => { 
-        let demo=this.refs.getFormVlaue; 
-        let cityInfo = this.cityForm.props.form.getFieldsValue();      
+    SearchClick = () => {
+        let demo = this.refs.getFormVlaue;
+        let cityInfo = this.cityForm.props.form.getFieldsValue();
         let layerName = cityInfo.currentLayer;
         let IDKey = getLayerIDKey(layerName);
         let option = {};
         demo.validateFields((err, values) => {
-          if(!err){
-            option = {
-                key: IDKey,
-                value: Number(values.No)
-            };
-          }
+            if (!err) {
+                option = {
+                    key: IDKey,
+                    value: Number(values.No)
+                };
+            }
         });
 
         let layer = getLayerByName(layerName);
@@ -128,7 +128,7 @@ class SearchInfo extends React.Component {
             map.setExtent(extent);
             this.showAttributesModal(feature);
         } else {
-            message.warning('所在图层与用户编号不匹配！', 3)
+            message.warning('所在图层与用户编号不匹配！', 3);
         }
     };
 
@@ -145,7 +145,6 @@ class SearchInfo extends React.Component {
     };
 
     toggle = () => {
-        
         if (this.state.visible) {
             this.setState({
                 visible: false
