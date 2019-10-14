@@ -8,13 +8,17 @@ class RightMenuStore {
     @observable visible;
     @observable option;
     @observable menus;
+    @observable zIndex;
+    @observable isCurrentLayer;
 
-    @action show = (features, option) => {
+    @action show = (features, option, zIndex, isCurrentLayer) => {
+        this.zIndex = zIndex || 'auto'; //让右键弹窗隐藏起来
+        this.isCurrentLayer = isCurrentLayer; //当前选中要素和当前编辑图层是否一致
         this.visible = true;
         this.features = features;
         this.cloneFeatures = JSON.parse(JSON.stringify(this.features));
         this.option = option;
-        this.fetchMenus();
+        option.layerName && this.fetchMenus();
     };
 
     @action hide = () => {
@@ -25,12 +29,7 @@ class RightMenuStore {
         if (this.features.length == 1) {
             this.menus = DATA_LAYER_MAP[this.option.layerName].rightTools;
         } else {
-            let menus = DATA_LAYER_MAP[this.option.layerName].groupRightTools;
-            if (menus) {
-                this.menus = menus;
-            } else {
-                this.visible = false;
-            }
+            this.menus = DATA_LAYER_MAP[this.option.layerName].groupRightTools;
         }
     };
 

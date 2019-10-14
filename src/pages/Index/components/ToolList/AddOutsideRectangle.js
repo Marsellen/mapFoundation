@@ -12,8 +12,9 @@ class AddOutsideRectangle extends React.Component {
         const { isTopView } = DataLayerStore;
         let visible = DataLayerStore.editType == 'new_vertical_matrix';
         return (
-            <span className={visible ? "ad-icon-active" : ''}>
+            <span className={visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
+                    id="add-outside-rectangle-btn"
                     icon="renyiwaijiejuxing"
                     title="任意外接立面矩形"
                     disabled={isTopView}

@@ -15,10 +15,14 @@ class LayerStore {
         });
     };
 
-    @action toggle = (name, checked, isDataLayer) => {
+    @action toggle = (name, checked, isKeyCode) => {
         let layerEx = this.layers.find(layer => layer.value == name);
-        layerEx.checked = checked;
-        if (checked) {
+        if (isKeyCode) {
+            layerEx.checked = !layerEx.checked;
+        } else {
+            layerEx.checked = checked;
+        }
+        if (layerEx.checked) {
             layerEx.layer.show();
         } else {
             layerEx.layer.hide();

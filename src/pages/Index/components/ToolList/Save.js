@@ -20,6 +20,7 @@ class Save extends React.Component {
         let shouldSave = currentNode > savedNode;
         return (
             <ToolIcon
+                id="save-btn"
                 icon="baocun"
                 title="保存"
                 disabled={!shouldSave}

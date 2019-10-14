@@ -12,8 +12,9 @@ class AddCircle extends React.Component {
         const { isTopView } = DataLayerStore;
         let visible = DataLayerStore.editType == 'new_circle';
         return (
-            <span className={visible ? "ad-icon-active" : ''}>
+            <span className={visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
+                    id="add-circle-btn"
                     icon="sandianhuayuan"
                     title="三点绘制圆"
                     disabled={isTopView}

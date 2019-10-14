@@ -12,6 +12,7 @@ class UnderView extends React.Component {
             // <Tooltip placement="bottom" title="视角还原">
             <div placement="bottom" title="视角还原">
                 <IconFont
+                    id="under-view-btn"
                     type="icon-compass"
                     className="ad-icon"
                     onClick={this.action}

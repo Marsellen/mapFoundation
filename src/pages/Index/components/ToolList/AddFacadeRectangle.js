@@ -10,11 +10,12 @@ class AddFacadeRectangle extends React.Component {
     render() {
         const { DataLayerStore } = this.props;
         const { isTopView } = DataLayerStore;
-        
+
         let visible = DataLayerStore.editType == 'new_facade_rectangle';
         return (
-            <span className={visible ? "ad-icon-active" : ''}>
+            <span className={visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
+                    id="add-facade-rectangle-btn"
                     icon="limianjuxing"
                     title="添加立面矩形"
                     disabled={isTopView}
