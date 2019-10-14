@@ -42,7 +42,8 @@ class Save extends React.Component {
     };
 
     loop = () => {
-        let { timestamp, expireTime = 82800 } = getAuthentication();
+        let { timestamp, expireTime = 86400 } = getAuthentication();
+        expireTime = expireTime > 3600 ? expireTime - 3600 : 0; // 提前一小时提醒
         let time = new Date(timestamp) - new Date() + expireTime * 1000;
         window.setTimeout(this.expireConfirm, time);
 

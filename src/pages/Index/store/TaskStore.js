@@ -1,4 +1,4 @@
-import { observable, flow, configure, action } from 'mobx';
+import { observable, flow, configure, action, computed } from 'mobx';
 import TaskService from '../service/TaskService';
 import JobService from '../service/JobService';
 import { Modal, message } from 'antd';
@@ -14,10 +14,17 @@ import moment from 'moment';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
-    @observable activeTaskId;
     @observable tasks = [];
     @observable activeTask = {};
     @observable taskSaveTime;
+
+    @computed get activeTaskId() {
+        return this.activeTask.taskId;
+    }
+
+    @computed get activeTaskUrl() {
+        return this.activeTask.Input_imp_data_path;
+    }
 
     // 任务列表
     initTask = flow(function*(option) {
@@ -30,7 +37,7 @@ class TaskStore {
     });
 
     // 任务切换
-    @action setActiveTask = (id, update) => {
+    @action setActiveTask = id => {
         if (this.tasks && this.tasks.length > 0) {
             if (id) {
                 this.activeTask = this.tasks.find(item => {
@@ -39,12 +46,26 @@ class TaskStore {
             } else {
                 this.activeTask = this.tasks[0];
             }
-            
-            return this.setActiveTaskId(this.activeTask, update);
-        } else {
-            return this.setActiveTaskId();
+
+            this.taskSaveTime = null;
+            this.fetchTask();
         }
     };
+
+    fetchTask = flow(function*() {
+        let { taskFetchId, manualStatus } = this.activeTask;
+
+        const status = [2, 4, 5]; //进行中-2、返修-4、返工-5
+
+        if (taskFetchId && !status.includes(manualStatus)) {
+            yield this.updateTaskStatus({
+                taskFetchId: taskFetchId,
+                manualStatus: 2
+            });
+            // 更新完后 刷新任务列表
+            this.initTask({ type: 4 });
+        }
+    });
 
     // 提交任务
     initSubmit = flow(function*(result) {
@@ -69,32 +90,14 @@ class TaskStore {
         }
     });
 
-    setActiveTaskId = flow(function*(task = {}, update) {
-        
-        let { Input_imp_data_path, taskFetchId, manualStatus } = task;
-        this.activeTaskId = Input_imp_data_path;
-        this.taskSaveTime = null;
-
-        const status = [2, 4, 5]; //进行中-2、返修-4、返工-5
-        
-        if (taskFetchId && !status.includes(manualStatus) && update) {
-            // TODO taskFechId 少了一个t，后台接口定义问题
-            yield this.updateTaskStatus({
-                taskFetchId: taskFetchId,
-                manualStatus: 2
-            });
-            // 更新完后 刷新任务列表
-            this.initTask({ type: 4 });
-        }
-    });
-
     @action getTaskFile = () => {
         try {
-            if (!this.activeTaskId) {
+            if (!this.activeTaskUrl) {
                 return;
             }
             let task = {
-                point_clouds: this.activeTaskId + CONFIG.urlConfig.point_clouds,
+                point_clouds:
+                    this.activeTaskUrl + CONFIG.urlConfig.point_clouds,
                 vectors: this.urlFormat(CONFIG.urlConfig.vectors),
                 tracks: this.urlFormat(CONFIG.urlConfig.track),
                 rels: this.urlFormat(CONFIG.urlConfig.rels),
@@ -109,7 +112,7 @@ class TaskStore {
     };
 
     urlFormat = path => {
-        return this.activeTaskId + path + '?time=' + Date.now();
+        return this.activeTaskUrl + path + '?time=' + Date.now();
     };
 
     submit = flow(function*() {
@@ -189,6 +192,10 @@ class TaskStore {
             console.log(e);
         }
     });
+
+    @action loadLocalTask = task => {
+        this.activeTask = task;
+    };
 }
 
 export default new TaskStore();
