@@ -29,17 +29,14 @@ class EditLayer extends React.Component {
     };
 
     handleClickChange = visible => {
-        const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
-        if (!activeTaskId) return;
+        if (this.disEditable()) return;
         this.setState({
             clicked: visible,
             hovered: false
         });
     };
+
     render() {
-        const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
         return (
             <Popover
                 content={this._renderContent()}
@@ -53,7 +50,7 @@ class EditLayer extends React.Component {
                     onVisibleChange={this.handleHoverChange}>
                     <IconFont
                         type="icon-shezhi"
-                        className={`ad-icon ${!activeTaskId &&
+                        className={`ad-icon ${this.disEditable() &&
                             'ad-disabled-icon'}`}
                     />
                 </Tooltip>
@@ -64,6 +61,12 @@ class EditLayer extends React.Component {
     _renderContent() {
         return <EditLayerPicker />;
     }
+
+    disEditable = () => {
+        const { TaskStore } = this.props;
+        const { activeTaskId, taskEditable } = TaskStore;
+        return !activeTaskId || !taskEditable;
+    };
 }
 
 @inject('DataLayerStore')

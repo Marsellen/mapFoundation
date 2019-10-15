@@ -10,6 +10,7 @@ const TabPane = Tabs.TabPane;
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
+@inject('TaskStore')
 @observer
 class SearchInfo extends React.Component {
     constructor() {
@@ -23,9 +24,16 @@ class SearchInfo extends React.Component {
     }
 
     render() {
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
         return (
             <span className={this.state.visible ? 'ad-icon-active' : ''}>
-                <ToolIcon icon="chaxun" title="查询" action={this.toggle} />
+                <ToolIcon
+                    id="search-btn"
+                    icon="chaxun"
+                    title="查询"
+                    action={this.toggle}
+                />
 
                 <Modal
                     okText={'查询'}
