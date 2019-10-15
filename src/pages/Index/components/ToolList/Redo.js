@@ -14,6 +14,7 @@ class Redo extends React.Component {
         let shouldRedo = currentNode < finalNode;
         return (
             <ToolIcon
+                id="redo-btn"
                 icon="huitui_"
                 title="回退"
                 disabled={!shouldRedo}

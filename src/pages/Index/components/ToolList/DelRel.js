@@ -18,8 +18,9 @@ class DelRel extends React.Component {
             AttributeStore,
             OperateHistoryStore
         } = this.props;
-        DataLayerStore.setDelRelCallback(result => {
+        DataLayerStore.setDelRelCallback((result, event) => {
             // console.log(result);
+            if (event.button !== 2) return false;
             Modal.confirm({
                 title: '是否删除关联关系?',
                 okText: '确定',
@@ -67,6 +68,7 @@ class DelRel extends React.Component {
         return (
             <span className={visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
+                    id="del-rel-btn"
                     icon="shanchuguanxi"
                     title="删除关联关系"
                     action={this.action}

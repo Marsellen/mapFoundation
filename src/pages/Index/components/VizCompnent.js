@@ -33,6 +33,7 @@ import {
     getTaskScaleStorage,
     filterTaskScaleStorage
 } from 'src/utils/vectorUtils';
+import Shortcut from 'src/utils/shortcuts';
 import _ from 'lodash';
 import editLog from 'src/models/editLog';
 import SaveTimeView from './SaveTimeView';
@@ -58,7 +59,12 @@ class VizCompnent extends React.Component {
     }
 
     componentDidMount() {
-        const { TaskStore, OperateHistoryStore } = this.props;
+        const {
+            TaskStore,
+            OperateHistoryStore,
+            ResourceLayerStore,
+            DataLayerStore
+        } = this.props;
 
         TaskStore.initTask({ type: 4 }).then(() => {
             const { tasks } = TaskStore;
@@ -66,6 +72,46 @@ class VizCompnent extends React.Component {
             //清除多余任务比例记录
             const taskIdArr = (tasks || []).map(item => Number(item.taskId));
             filterTaskScaleStorage(taskIdArr);
+
+            //任务加载完成，添加显隐图层快捷键
+            const shortcutMap = [
+                {
+                    ctrl: false,
+                    alt: false,
+                    shift: false,
+                    keyCode: 49,
+                    callback: () => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        ResourceLayerStore.toggle(
+                            RESOURCE_LAYER_POINT_CLOUD,
+                            true,
+                            true
+                        );
+                        DataLayerStore.exitEdit();
+                    },
+                    describe: '开关点云图层 1'
+                },
+                {
+                    ctrl: false,
+                    alt: false,
+                    shift: false,
+                    keyCode: 50,
+                    callback: () => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        ResourceLayerStore.toggle(
+                            RESOURCE_LAYER_VETOR,
+                            true,
+                            true
+                        );
+                        DataLayerStore.toggleAll(true);
+                        DataLayerStore.exitEdit();
+                    },
+                    describe: '开关轨迹图层 2'
+                }
+            ];
+            new Shortcut(shortcutMap);
 
             if (tasks.length == 0) {
                 message.warning('暂无任务', 3);
@@ -286,23 +332,21 @@ class VizCompnent extends React.Component {
         } = this.props;
         // console.log(result, event);
         if (result && result.length > 0) {
-            if (event.button === 0) {
-                /**
-                 * 判断是轨迹或轨迹点
-                 * VectorLayer 轨迹
-                 * TraceLayer 轨迹点
-                 */
-                if (result[0].type === 'VectorLayer') {
-                    DataLayerStore.pick();
-                    this.modalType = 'vector';
-                    this.showAttributesModal(result[0]);
-                } else if (result[0].type === 'TraceLayer') {
-                    this.showPictureShowView(result[0]);
-                    PictureShowStore.show();
-                }
-            } else if (event.button === 2) {
-                this.showRightMenu(result, event);
+            /**
+             * 判断是轨迹或轨迹点
+             * VectorLayer 轨迹
+             * TraceLayer 轨迹点
+             */
+            if (result[0].type === 'VectorLayer') {
+                DataLayerStore.pick();
+                this.modalType = 'vector';
+                this.showAttributesModal(result[0], event);
+            } else if (result[0].type === 'TraceLayer') {
+                this.showPictureShowView(result[0]);
+                PictureShowStore.show();
             }
+
+            this.showRightMenu(result, event);
         } else {
             if (this.modalType == 'boundary') return;
             this.modalType = null;
@@ -445,7 +489,9 @@ class VizCompnent extends React.Component {
         PictureShowStore.setPicData(obj.data);
     };
 
-    showAttributesModal = obj => {
+    showAttributesModal = (obj, event) => {
+        //判断没有按住ctrl左击
+        if ((event && event.ctrlKey) || (event && event.button === 2)) return;
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let readonly =
@@ -472,15 +518,41 @@ class VizCompnent extends React.Component {
         let hasOtherFeature = features.find(
             feature => feature.layerName != layerName
         );
-        if (layerName && !hasOtherFeature) {
-            AttributeStore.hide();
-            RightMenuStore.show(features, {
-                x: event.x,
-                y: event.y,
-                layerName
-            });
-        } else {
-            message.warning('只能选取当前编辑图层要素！', 3);
+
+        const isCurrentLayer = layerName && !hasOtherFeature;
+
+        // 左键，加载“右键菜单”，隐藏起来
+        console.log('features', features);
+        if (event.button === 0) {
+            RightMenuStore.show(
+                features,
+                {
+                    x: event.x,
+                    y: event.y,
+                    layerName
+                },
+                -1,
+                isCurrentLayer
+            );
+        }
+
+        //右键，加载“右键菜单”，显示出来
+        if (event.button === 2) {
+            if (isCurrentLayer) {
+                AttributeStore.hide();
+                RightMenuStore.show(
+                    features,
+                    {
+                        x: event.x,
+                        y: event.y,
+                        layerName
+                    },
+                    'auto',
+                    isCurrentLayer
+                );
+            } else {
+                message.warning('只能选取当前编辑图层要素！', 3);
+            }
         }
     };
 
