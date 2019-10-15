@@ -437,6 +437,10 @@ class DataLayerStore extends LayerStore {
         removeClass(viz, 'crosshair-viz');
         this.readCoordinateResult = null;
     };
+
+    @action setRegionGeojson = RegionGeojson => {
+        this.regionGeojson = RegionGeojson;
+    };
 }
 
 export default new DataLayerStore();
