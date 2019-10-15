@@ -275,6 +275,14 @@ class VizCompnent extends React.Component {
         DataLayerStore.setSelectedCallBack(this.selectedCallBack);
         DataLayerStore.setCreatedCallBack(this.createdCallBack);
         DataLayerStore.setEditedCallBack(this.editedCallBack);
+
+        window.map.getEventManager().register('webglcontextlost', e => {
+            let log = {
+                action: 'webglcontextlost',
+                result: 'fail'
+            };
+            editLog.store.add(log);
+        });
     };
 
     selectedCallBack = (result, event) => {
@@ -442,6 +450,7 @@ class VizCompnent extends React.Component {
 
     showPictureShowView = obj => {
         const { PictureShowStore } = this.props;
+        window.traceLayer.unselect();
         PictureShowStore.setPicData(obj.data);
     };
 

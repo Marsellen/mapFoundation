@@ -16,6 +16,7 @@ const { Search } = Input;
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
+@inject('TaskStore')
 @observer
 class ViewAttribute extends React.Component {
     constructor() {
@@ -28,11 +29,14 @@ class ViewAttribute extends React.Component {
     }
 
     render() {
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
         return (
             <span className={this.state.visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
                     icon="shuxingliebiao"
                     title="属性列表"
+                    disabled={!activeTaskId}
                     action={this.toggle}
                 />
                 <SeniorModal
