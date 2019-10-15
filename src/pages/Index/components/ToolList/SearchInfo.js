@@ -32,6 +32,7 @@ class SearchInfo extends React.Component {
                     id="search-btn"
                     icon="chaxun"
                     title="查询"
+                    disabled={!activeTaskId}
                     action={this.toggle}
                 />
 
