@@ -15,10 +15,7 @@ class SearchInfo extends React.Component {
     constructor() {
         super();
         this.state = {
-            visible: false,
-            columns: [],
-            dataSource: [],
-            value: null
+            visible: false
         };
     }
 
@@ -95,18 +92,6 @@ class SearchInfo extends React.Component {
                 </TabPane>
             </Tabs>
         );
-    };
-
-    handleChange = e => {
-        const reg = /^\d+(\.\d*)?$|^\.\d+$/;
-
-        if (!reg.test(e.target.value)) {
-            message.warning('请输入正整数！', 3);
-            return;
-        }
-        this.setState({
-            value: Number(e.target.value)
-        });
     };
 
     SearchClick = () => {
