@@ -52,8 +52,6 @@ import SaveTimeView from './SaveTimeView';
 @inject('BatchAssignStore')
 @observer
 class VizCompnent extends React.Component {
-    regionGeojson = {};
-
     constructor(props) {
         super(props);
     }
@@ -244,12 +242,13 @@ class VizCompnent extends React.Component {
 
     initRegion = async regionUrl => {
         try {
+            const { DataLayerStore } = this.props;
             const vectorLayer = new VectorLayer(regionUrl);
             vectorLayer.setDefaultStyle({ color: '#00FF00' });
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
             //保存任务范围geojson
             const getRegionRes = vectorLayer.getVectorData();
-            this.regionGeojson = getRegionRes.features[0];
+            DataLayerStore.setRegionGeojson(getRegionRes.features[0]);
 
             return {
                 layerName: RESOURCE_LAYER_TASK_SCOPE,
@@ -397,7 +396,7 @@ class VizCompnent extends React.Component {
                 const elementGeojson = _.cloneDeep(data.data);
                 const isInRegion = isRegionContainsElement(
                     elementGeojson,
-                    this.regionGeojson
+                    DataLayerStore.regionGeojson
                 );
                 if (!isInRegion) {
                     message.warning('请在任务范围内绘制要素');
@@ -454,7 +453,7 @@ class VizCompnent extends React.Component {
             const elementGeojson = _.cloneDeep(result.data);
             const isInRegion = isRegionContainsElement(
                 elementGeojson,
-                this.regionGeojson
+                DataLayerStore.regionGeojson
             );
             if (!isInRegion) {
                 message.warning('请在任务范围内绘制要素');
