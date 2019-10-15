@@ -12,5 +12,7 @@ export default {
         boundary: '/../06_NEARBY_JSON/boundary.geojson'
     },
 
-    autoSaveTime: 6000000
+    expireTime: 86400,
+    autoSaveTime: 600000,
+    loopTaskTime: 60000
 };

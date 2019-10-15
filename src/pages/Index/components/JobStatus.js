@@ -41,11 +41,7 @@ class JobStatus extends React.Component {
 
         return (
             <div className="flex flex-center">
-                <Button
-                    disabled={tasks && tasks.length >= 5 ? true : false}
-                    onClick={this.getJob}>
-                    获取任务
-                </Button>
+                <Button onClick={this.getJob}>获取任务</Button>
                 <Button
                     disabled={tasks && tasks.length === 0 ? true : false}
                     onClick={this.submitTask}>
@@ -63,28 +59,35 @@ class JobStatus extends React.Component {
 
     // 获取
     getJob = async () => {
-        const { TaskStore, OperateHistoryStore } = this.props;
+        const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
 
         if (shouldSave) {
-            Modal.confirm({
+            return Modal.confirm({
                 title: '提示',
                 content: '当前任务未保存，是否自动保存',
                 okText: '确定',
                 cancelText: '取消',
                 onOk: async () => {
                     await this.action();
-                    await TaskStore.initTask({ type: 2 });
-                    TaskStore.setActiveTask();
-                    this.clearWorkSpace();
+                    await this.fetchTask();
                 }
             });
+        }
+        await this.fetchTask();
+    };
+
+    fetchTask = async () => {
+        const { TaskStore } = this.props;
+        const { tasks: oldTasks } = TaskStore;
+        let result = await TaskStore.initTask({ type: 2 });
+
+        if (result.overLimit) {
+            message.warning('任务已达领取上限', 3);
             return;
         }
 
-        const { tasks: oldTasks } = TaskStore;
-        await TaskStore.initTask({ type: 2 });
         const { tasks } = TaskStore;
         if (tasks && tasks.length > 0) {
             if (oldTasks && oldTasks.length == tasks.length) {

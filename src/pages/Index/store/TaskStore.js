@@ -26,6 +26,10 @@ class TaskStore {
         return this.activeTask.Input_imp_data_path;
     }
 
+    @computed get taskEditable() {
+        return this.activeTask.manualStatus !== 3;
+    }
+
     // 任务列表
     initTask = flow(function*(option) {
         const result = yield JobService.listTask(option).catch(error => {
@@ -34,6 +38,7 @@ class TaskStore {
         });
 
         this.tasks = result.data.taskList;
+        return result.data;
     });
 
     // 任务切换
@@ -44,7 +49,11 @@ class TaskStore {
                     return item.taskId === id;
                 });
             } else {
-                this.activeTask = this.tasks[0];
+                let tasks = this.tasks.filter(task => task.manualStatus !== 3);
+                if (!tasks.length) {
+                    tasks = this.tasks;
+                }
+                this.activeTask = tasks[0];
             }
 
             this.taskSaveTime = null;
