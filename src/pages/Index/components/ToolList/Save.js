@@ -48,10 +48,14 @@ class Save extends React.Component {
         let { timestamp, expireTime = config.expireTime } = getAuthentication();
         expireTime = expireTime > 3600 ? expireTime - 3600 : 0; // 提前一小时提醒
         let time = new Date(timestamp) - new Date() + expireTime * 1000;
-        // window.setTimeout(this.expireConfirm, time);
+        window.setTimeout(this.expireConfirm, time);
 
         window.setInterval(this.autoSave, config.autoSaveTime);
-        window.setInterval(this.loadTask, config.loopTaskTime);
+        this.loopLoadTask();
+    };
+
+    loopLoadTask = () => {
+        window.setTimeout(this.loadTask, config.loopTaskTime);
     };
 
     autoSave = async () => {
@@ -139,15 +143,19 @@ class Save extends React.Component {
             return Modal.info({
                 title: '提示',
                 content: `任务【${ids}】已恢复`,
-                okText: '好的'
+                okText: '好的',
+                onOk: this.loopLoadTask
             });
         }
+
+        this.loopLoadTask();
     };
 
     switchWithSave = async () => {
         const { TaskStore } = this.props;
         await this.save();
         TaskStore.setActiveTask();
+        this.loopLoadTask();
     };
 }
 
