@@ -72,6 +72,22 @@ export const shortcutMap = [
         describe: '添加线要素 Alt+1'
     },
     {
+        id: 'add-polygon-btn',
+        ctrl: false,
+        alt: true,
+        shift: false,
+        keyCode: 49,
+        describe: '添加面要素 Alt+1'
+    },
+    {
+        id: 'add-point-btn',
+        ctrl: false,
+        alt: true,
+        shift: false,
+        keyCode: 49,
+        describe: '添加点要素 Alt+1'
+    },
+    {
         id: 'add-facade-rectangle-btn',
         ctrl: false,
         alt: true,

@@ -1,16 +1,13 @@
 import React from 'react';
-import { Form, Input, Select, message } from 'antd';
+import { Form, Input, Select } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 const FormItem = Form.Item;
 
+@Form.create()
 @inject('DataLayerStore')
-@inject('AttributeStore')
 @observer
-class SearchForm extends React.Component {
-    constructor() {
-        super();
-    }
+class IDSearchForm extends React.Component {
     render() {
         const { DataLayerStore, form } = this.props;
         let options = DataLayerStore.layers || [];
@@ -18,9 +15,9 @@ class SearchForm extends React.Component {
         let defaultValue = editLayer ? editLayer.layerName : null;
 
         return (
-            <Form labelCol={{ span: 12 }} wrapperCol={{ span: 12 }}>
+            <Form labelCol={{ span: 10 }} wrapperCol={{ span: 12 }}>
                 <FormItem label="要素所在图层：">
-                    {form.getFieldDecorator('currentLayer', {
+                    {form.getFieldDecorator('layerName', {
                         rules: [
                             { required: true, message: '请选择要素所在图层!' }
                         ],
@@ -40,19 +37,14 @@ class SearchForm extends React.Component {
                     )}
                 </FormItem>
                 <FormItem label="要素用户编号：">
-                    {form.getFieldDecorator('No', {
+                    {form.getFieldDecorator('id', {
                         rules: [
-                            { required: true, message: '请选择要素用户编号!' },
-                             //自定义的检验函数
-                            {
-                                validator: (rule, value, callback) =>
-                                    this.handleSelfCheck(
-                                        rule,
-                                        value,
-                                        callback
-                                    )
-                            }
-                        ]
+                            { required: true, message: '请选择要素用户编号!' }
+                        ],
+                        getValueFromEvent: e => {
+                            let value = Number(e.target.value);
+                            return !value ? e.target.value : value;
+                        }
                     })(<Input />)}
                 </FormItem>
             </Form>
@@ -67,17 +59,6 @@ class SearchForm extends React.Component {
             ? DATA_LAYER_MAP[item.value].label
             : item.value;
     };
-
-    handleSelfCheck = (rule, value, callback) => {
-        const reg = /^\d+(\.\d*)?$|^\.\d+$/;
-        if (!reg.test(value)) {
-            message.warning('请输入正整数！', 3);
-            return;
-        }
-        callback()
-    }
 }
 
-const FormInfo = Form.create()(SearchForm);
-
-export default FormInfo;
+export default IDSearchForm;

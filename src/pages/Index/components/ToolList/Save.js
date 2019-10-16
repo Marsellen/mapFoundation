@@ -7,6 +7,8 @@ import { getAuthentication, logout } from 'src/utils/Session';
 
 @inject('TaskStore')
 @inject('OperateHistoryStore')
+@inject('DataLayerStore')
+@inject('ToolCtrlStore')
 @observer
 class Save extends React.Component {
     constructor(props) {
@@ -43,12 +45,17 @@ class Save extends React.Component {
     };
 
     loop = () => {
-        let { timestamp, expireTime = 86400 } = getAuthentication();
+        let { timestamp, expireTime = config.expireTime } = getAuthentication();
         expireTime = expireTime > 3600 ? expireTime - 3600 : 0; // 提前一小时提醒
         let time = new Date(timestamp) - new Date() + expireTime * 1000;
         window.setTimeout(this.expireConfirm, time);
 
         window.setInterval(this.autoSave, config.autoSaveTime);
+        this.loopLoadTask();
+    };
+
+    loopLoadTask = () => {
+        window.setTimeout(this.loadTask, config.loopTaskTime);
     };
 
     autoSave = async () => {
@@ -75,6 +82,80 @@ class Save extends React.Component {
         await this.save();
         logout();
         location.reload();
+    };
+
+    loadTask = async () => {
+        const { TaskStore, DataLayerStore, ToolCtrlStore } = this.props;
+        const { tasks: oldTasks } = TaskStore;
+        await TaskStore.initTask({ type: 4 });
+        const { tasks: newTasks, activeTask } = TaskStore;
+
+        let isTransfer =
+            activeTask.taskId &&
+            newTasks.length &&
+            !newTasks.some(task => task.taskId == activeTask.taskId);
+
+        if (isTransfer) {
+            return Modal.warning({
+                title: '提示',
+                content: '当前任务已移交',
+                okText: '保存并切换任务',
+                keyboard: false,
+                onOk: this.switchWithSave
+            });
+        }
+
+        let newTasksMap = newTasks.reduce((total, task) => {
+            total[task.taskId] = task;
+            return total;
+        }, {});
+        let taskChangeList = oldTasks.map(task => {
+            let newTask = newTasksMap[task.taskId];
+            let newTaskStatus = newTask ? newTask.manualStatus : 'x';
+            let oldTaskStatus = task.manualStatus;
+            return {
+                taskId: task.taskId,
+                change: `${oldTaskStatus}-${newTaskStatus}`
+            };
+        });
+
+        let activeTaskChange = taskChangeList.find(task => {
+            return task.taskId == activeTask.taskId;
+        });
+        if (/-3/.test(activeTaskChange) && !/3-3/.test(activeTaskChange)) {
+            DataLayerStore.activeEditor();
+            ToolCtrlStore.updateByEditLayer();
+
+            return Modal.warning({
+                title: '提示',
+                content: '当前任务已挂起',
+                okText: '保存并切换任务',
+                keyboard: false,
+                onOk: this.switchWithSave
+            });
+        }
+
+        let restoreTasks = taskChangeList.filter(change => {
+            return /3-/.test(change) && !/3-3/.test(change);
+        });
+        if (restoreTasks.length) {
+            let ids = restoreTasks.map(task => task.taskId).join('、');
+            return Modal.info({
+                title: '提示',
+                content: `任务【${ids}】已恢复`,
+                okText: '好的',
+                onOk: this.loopLoadTask
+            });
+        }
+
+        this.loopLoadTask();
+    };
+
+    switchWithSave = async () => {
+        const { TaskStore } = this.props;
+        await this.save();
+        TaskStore.setActiveTask();
+        this.loopLoadTask();
     };
 }
 

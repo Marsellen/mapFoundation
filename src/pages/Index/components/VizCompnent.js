@@ -52,8 +52,6 @@ import SaveTimeView from './SaveTimeView';
 @inject('BatchAssignStore')
 @observer
 class VizCompnent extends React.Component {
-    regionGeojson = {};
-
     constructor(props) {
         super(props);
     }
@@ -145,10 +143,18 @@ class VizCompnent extends React.Component {
                 message.success('任务加载成功', 1);
 
                 //获取任务比例记录，设置比例
-                const { TaskStore } = this.props;
+                const { TaskStore, DataLayerStore } = this.props;
                 const { activeTask } = TaskStore;
                 const taskScale = getTaskScaleStorage(activeTask.taskId);
                 taskScale && map.setEyeView(taskScale);
+
+                //获取点云高度范围
+                const pointCloudLayerHeightRange = window.pointCloudLayer
+                    ? window.pointCloudLayer.getElevationRange()
+                    : [];
+                DataLayerStore.initPointCloudLayerHeightRange(
+                    pointCloudLayerHeightRange
+                );
             })
             .catch(e => {
                 console.log(e);
@@ -236,12 +242,13 @@ class VizCompnent extends React.Component {
 
     initRegion = async regionUrl => {
         try {
+            const { DataLayerStore } = this.props;
             const vectorLayer = new VectorLayer(regionUrl);
             vectorLayer.setDefaultStyle({ color: '#00FF00' });
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
             //保存任务范围geojson
             const getRegionRes = vectorLayer.getVectorData();
-            this.regionGeojson = getRegionRes.features[0];
+            DataLayerStore.setRegionGeojson(getRegionRes.features[0]);
 
             return {
                 layerName: RESOURCE_LAYER_TASK_SCOPE,
@@ -321,6 +328,14 @@ class VizCompnent extends React.Component {
         DataLayerStore.setSelectedCallBack(this.selectedCallBack);
         DataLayerStore.setCreatedCallBack(this.createdCallBack);
         DataLayerStore.setEditedCallBack(this.editedCallBack);
+
+        window.map.getEventManager().register('webglcontextlost', e => {
+            let log = {
+                action: 'webglcontextlost',
+                result: 'fail'
+            };
+            editLog.store.add(log);
+        });
     };
 
     selectedCallBack = (result, event) => {
@@ -381,7 +396,7 @@ class VizCompnent extends React.Component {
                 const elementGeojson = _.cloneDeep(data.data);
                 const isInRegion = isRegionContainsElement(
                     elementGeojson,
-                    this.regionGeojson
+                    DataLayerStore.regionGeojson
                 );
                 if (!isInRegion) {
                     message.warning('请在任务范围内绘制要素');
@@ -438,7 +453,7 @@ class VizCompnent extends React.Component {
             const elementGeojson = _.cloneDeep(result.data);
             const isInRegion = isRegionContainsElement(
                 elementGeojson,
-                this.regionGeojson
+                DataLayerStore.regionGeojson
             );
             if (!isInRegion) {
                 message.warning('请在任务范围内绘制要素');
@@ -486,6 +501,7 @@ class VizCompnent extends React.Component {
 
     showPictureShowView = obj => {
         const { PictureShowStore } = this.props;
+        window.traceLayer.unselect();
         PictureShowStore.setPicData(obj.data);
     };
 

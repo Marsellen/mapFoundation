@@ -17,7 +17,7 @@ module.exports = merge(common, {
                 logLevel: 'debug'
             },
             '/task_service': {
-                target: 'http://10.43.75.58:13151',
+                target: 'http://10.43.75.58:13003',
                 pathRewrite: { '^/task_service': 'task' },
                 changeOrigin: true,
                 logLevel: 'debug'
