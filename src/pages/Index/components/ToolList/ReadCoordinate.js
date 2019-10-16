@@ -6,12 +6,14 @@ import AdTips from 'src/components/AdTips';
 import 'less/components/tool-icon.less';
 
 @inject('DataLayerStore')
+@inject('ResourceLayerStore')
 @inject('TaskStore')
 @observer
 class ReadCoordinate extends React.Component {
     render() {
-        const { TaskStore, DataLayerStore } = this.props;
+        const { TaskStore, DataLayerStore, ResourceLayerStore } = this.props;
         const { activeTaskId } = TaskStore;
+        const { pointCloudChecked } = ResourceLayerStore;
         const {
             coordinateViewPosition,
             readCoordinateResult: coordinate
@@ -29,7 +31,7 @@ class ReadCoordinate extends React.Component {
                     icon="zuobiaoshiqu"
                     title="坐标拾取"
                     action={this.action}
-                    disabled={!activeTaskId}
+                    disabled={!activeTaskId || !pointCloudChecked}
                 />
                 <AdMessage visible={visible} content={this.content()} />
                 <AdTips

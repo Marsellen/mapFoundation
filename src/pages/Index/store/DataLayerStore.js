@@ -426,23 +426,51 @@ class DataLayerStore extends LayerStore {
     };
 
     @action readCoordinate = event => {
+        if (this.readCoordinateClosed) {
+            return;
+        }
         let result = map.detectPointObjFromPointCloud(event);
-        //console.log(result && result.point.position);
-        this.readCoordinateResult = result && result.point.position;
+        let position = result && result.point.position;
         this.coordinateViewPosition = event;
+        this.setReadCoordinateResult(position);
     };
 
     addReadCoordinateLinstener = () => {
         let viz = document.querySelector('#viz');
         viz.addEventListener('mousemove', this.readCoordinateEvent);
+        viz.addEventListener('mousedown', this.closeReadCoordinate);
+        viz.addEventListener('mouseup', this.openReadCoordinate);
         addClass(viz, 'crosshair-viz');
     };
 
-    @action removeReadCoordinateLinstener = () => {
+    closeReadCoordinate = () => {
+        this.readCoordinateClosed = true;
+        let viz = document.querySelector('#viz');
+        removeClass(viz, 'crosshair-viz');
+        this.setReadCoordinateResult();
+    };
+
+    openReadCoordinate = event => {
+        this.readCoordinateClosed = false;
+        let viz = document.querySelector('#viz');
+        addClass(viz, 'crosshair-viz');
+        let result = map.detectPointObjFromPointCloud(event);
+        let position = result && result.point.position;
+        this.coordinateViewPosition = event;
+        this.setReadCoordinateResult(position);
+    };
+
+    removeReadCoordinateLinstener = () => {
         let viz = document.querySelector('#viz');
         viz.removeEventListener('mousemove', this.readCoordinateEvent);
+        viz.removeEventListener('mousedown', this.closeReadCoordinate);
+        viz.removeEventListener('mouseup', this.openReadCoordinate);
         removeClass(viz, 'crosshair-viz');
-        this.readCoordinateResult = null;
+        this.setReadCoordinateResult();
+    };
+
+    @action setReadCoordinateResult = result => {
+        this.readCoordinateResult = result;
     };
 
     @action setRegionGeojson = RegionGeojson => {
