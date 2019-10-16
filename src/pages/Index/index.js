@@ -8,7 +8,6 @@ import HeaderBar from './components/HeaderBar';
 import 'less/home.less';
 import logo from 'src/assets/img/logo.png';
 import Shortcut from 'src/utils/shortcuts';
-import { shortcutMap } from 'src/utils/shortcuts/shortcutsMap';
 
 const { Header } = Layout;
 
@@ -19,8 +18,6 @@ class Index extends React.Component {
 
     componentDidMount() {
         this.props.MenuStore.initMenus();
-        //快捷键
-        new Shortcut(shortcutMap);
     }
 
     render() {
@@ -35,7 +32,7 @@ class Index extends React.Component {
                 </Header>
                 <div className="flex flex-row">
                     <Sider menus={menus}>{SiderView}</Sider>
-                    <div className="flex-1 viz-content">
+                    <div className="flex-1 viz-content" id="viz-content">
                         <VizCompnent />
                     </div>
                 </div>

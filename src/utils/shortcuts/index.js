@@ -1,11 +1,10 @@
 export default class Shortcut {
-    constructor(shortcutMap) {
-        this.shortcutMap = shortcutMap;
-        this.add();
+    constructor() {
+        this.dom = document.getElementById('viz-content');
     }
-    add() {
-        document.addEventListener('keydown', event => {
-            this.shortcutMap.forEach(item => {
+    add(shortcutMap) {
+        this.dom.addEventListener('keydown', event => {
+            shortcutMap.forEach(item => {
                 const { id, ctrl, alt, shift, keyCode, callback } = item;
                 const {
                     altKey: eAltKey,
