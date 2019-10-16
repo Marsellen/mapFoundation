@@ -16,7 +16,6 @@ class HotKey extends React.Component {
         return (
             <div
                 title="快捷键列表"
-                onClick={this.toggle}
                 style={{
                     width: '60px',
                     height: '45px',
@@ -25,7 +24,7 @@ class HotKey extends React.Component {
                     position: 'absolute',
                     bottom: '30px'
                 }}>
-                <ToolIcon icon="kuaijiejian" />
+                <ToolIcon icon="kuaijiejian" action={this.toggle} />
                 <Modal
                     title={
                         <span style={{ fontSize: 20, fontWeight: 600 }}>
@@ -33,6 +32,8 @@ class HotKey extends React.Component {
                         </span>
                     }
                     visible={this.state.visible}
+                    maskClosable={false}
+                    onCancel={this.handleCancel}
                     width={780}
                     bodyStyle={{ padding: '10px 30px' }}
                     footer={null}>
@@ -50,9 +51,7 @@ class HotKey extends React.Component {
                         <p className="hotkey-title">{elem.title}</p>
                         {HOT_KEYS_CONFIG[elem.dataIndex].map((item, j) => (
                             <div key={`${index}-child-${j}`}>
-                                <p
-                                    style={{ marginLeft: '30px' }}
-                                    >
+                                <p style={{ marginLeft: '30px' }}>
                                     <span className="hotkey-label">
                                         {item.label}
                                     </span>
@@ -68,15 +67,15 @@ class HotKey extends React.Component {
     };
 
     toggle = () => {
-        if (this.state.visible) {
-            this.setState({
-                visible: false
-            });
-        } else {
-            this.setState({
-                visible: true
-            });
-        }
+        this.setState({
+            visible: true
+        });
+    };
+
+    handleCancel = () => {
+        this.setState({
+            visible: false
+        });
     };
 }
 
