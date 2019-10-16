@@ -2,8 +2,6 @@ import React from 'react';
 import SiderBar from './SiderBar';
 import SiderItem from './SiderItem';
 import 'less/components/sider.less';
-import VersionInfo from '../../pages/Index/components/VersionInfo';
-import HotKey from '../../pages/Index/components/HotKey';
 
 class Sider extends React.Component {
     render() {
@@ -18,8 +16,6 @@ class Sider extends React.Component {
                             content={this.props.children}
                         />
                     ))}
-                    <HotKey />
-                    <VersionInfo />
                 </SiderBar>
             </div>
         );
