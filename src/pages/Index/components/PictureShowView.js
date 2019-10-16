@@ -54,9 +54,12 @@ class PictureShowView extends React.Component {
         let element = this.refs.viewer.getViewer().container;
         let imgs = element.querySelectorAll('img');
         imgs.forEach(img => {
+            let viewer = this.refs.viewer.getViewer().viewer;
             img.onerror = function() {
                 this.src = noImg;
-                this.alt = '暂无图片';
+                this.setAttribute('data-original-Url', noImg);
+                viewer.update();
+                viewer.view();
             };
         });
     };
