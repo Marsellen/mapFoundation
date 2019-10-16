@@ -33,6 +33,7 @@ import {
     getTaskScaleStorage,
     filterTaskScaleStorage
 } from 'src/utils/vectorUtils';
+import { shortcutMap } from 'src/utils/shortcuts/shortcutsMap';
 import Shortcut from 'src/utils/shortcuts';
 import _ from 'lodash';
 import editLog from 'src/models/editLog';
@@ -57,12 +58,7 @@ class VizCompnent extends React.Component {
     }
 
     componentDidMount() {
-        const {
-            TaskStore,
-            OperateHistoryStore,
-            ResourceLayerStore,
-            DataLayerStore
-        } = this.props;
+        const { TaskStore, OperateHistoryStore } = this.props;
 
         TaskStore.initTask({ type: 4 }).then(() => {
             const { tasks } = TaskStore;
@@ -71,50 +67,13 @@ class VizCompnent extends React.Component {
             const taskIdArr = (tasks || []).map(item => Number(item.taskId));
             filterTaskScaleStorage(taskIdArr);
 
-            //任务加载完成，添加显隐图层快捷键
-            const shortcutMap = [
-                {
-                    ctrl: false,
-                    alt: false,
-                    shift: false,
-                    keyCode: 49,
-                    callback: () => {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        ResourceLayerStore.toggle(
-                            RESOURCE_LAYER_POINT_CLOUD,
-                            true,
-                            true
-                        );
-                        DataLayerStore.exitEdit();
-                    },
-                    describe: '开关点云图层 1'
-                },
-                {
-                    ctrl: false,
-                    alt: false,
-                    shift: false,
-                    keyCode: 50,
-                    callback: () => {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        ResourceLayerStore.toggle(
-                            RESOURCE_LAYER_VETOR,
-                            true,
-                            true
-                        );
-                        DataLayerStore.toggleAll(true);
-                        DataLayerStore.exitEdit();
-                    },
-                    describe: '开关轨迹图层 2'
-                }
-            ];
-            new Shortcut(shortcutMap);
-
             if (tasks.length == 0) {
                 message.warning('暂无任务', 3);
                 return;
             }
+
+            //任务加载完成，添加快捷键
+            this.addShortcut();
 
             OperateHistoryStore.destroy();
             editLog.store.clear();
@@ -129,6 +88,46 @@ class VizCompnent extends React.Component {
         let task = TaskStore.getTaskFile();
         this.initTask(task);
     }
+
+    addShortcut = () => {
+        const { ResourceLayerStore, DataLayerStore } = this.props;
+        const callbackShortcutMap = [
+            {
+                ctrl: false,
+                alt: false,
+                shift: false,
+                keyCode: 49,
+                callback: () => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    ResourceLayerStore.toggle(
+                        RESOURCE_LAYER_POINT_CLOUD,
+                        true,
+                        true
+                    );
+                    DataLayerStore.exitEdit();
+                },
+                describe: '开关点云图层 1'
+            },
+            {
+                ctrl: false,
+                alt: false,
+                shift: false,
+                keyCode: 50,
+                callback: () => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    ResourceLayerStore.toggle(RESOURCE_LAYER_VETOR, true, true);
+                    DataLayerStore.toggleAll(true);
+                    DataLayerStore.exitEdit();
+                },
+                describe: '开关轨迹图层 2'
+            }
+        ];
+        const shortcut = new Shortcut();
+        shortcut.add(shortcutMap);
+        shortcut.add(callbackShortcutMap);
+    };
 
     initTask = async task => {
         if (!task) return;
