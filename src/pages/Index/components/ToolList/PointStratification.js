@@ -9,30 +9,32 @@ import 'src/assets/less/components/tool-icon.less';
 @observer
 class PointStratification extends React.Component {
     state = {
+        currentTaskId: 0,
         popoverVisible: false,
-        sliderMinValue: 0,
-        sliderMaxValue: 100,
-        sliderValue: null
+        sliderValue: []
+    };
+
+    sliderFormatter = value => {
+        return `${value}米`;
     };
 
     handlePopoverChange = visible => {
         if (visible) {
-            const { DataLayerStore } = this.props;
+            const { DataLayerStore, TaskStore } = this.props;
             const { pointCloudLayerHeightRange } = DataLayerStore;
-            const [
-                pointCloudLayerMinHeight,
-                pointCloudLayerMaxHeight
-            ] = pointCloudLayerHeightRange;
-            let { sliderValue, sliderMinValue } = this.state;
-            if (sliderValue || sliderMinValue !== pointCloudLayerMinHeight) {
-                sliderValue = pointCloudLayerHeightRange;
+            const { activeTaskId } = TaskStore;
+            const { currentTaskId } = this.state;
+            if (activeTaskId !== currentTaskId) {
+                this.setState({
+                    popoverVisible: true,
+                    currentTaskId: activeTaskId,
+                    sliderValue: pointCloudLayerHeightRange
+                });
+            } else {
+                this.setState({
+                    popoverVisible: true
+                });
             }
-            this.setState({
-                popoverVisible: true,
-                sliderMinValue: pointCloudLayerMinHeight,
-                sliderMaxValue: pointCloudLayerMaxHeight,
-                sliderValue
-            });
         } else {
             this.setState({
                 popoverVisible: false
@@ -53,21 +55,24 @@ class PointStratification extends React.Component {
     };
 
     _renderContent() {
-        const { sliderValue, sliderMinValue, sliderMaxValue } = this.state;
+        const { DataLayerStore } = this.props;
+        const { pointCloudLayerHeightRange } = DataLayerStore;
+        const { sliderValue } = this.state;
         return (
             <div className="ad-slider-box">
-                <p>{sliderMaxValue}米</p>
+                <p>{pointCloudLayerHeightRange[1]}米</p>
                 <Slider
                     className="ad-slider-vertical"
                     onChange={this.handleSlideChange}
-                    min={sliderMinValue}
-                    max={sliderMaxValue}
+                    min={pointCloudLayerHeightRange[0]}
+                    max={pointCloudLayerHeightRange[1]}
+                    tipFormatter={this.sliderFormatter}
                     value={sliderValue}
                     step={0.01}
                     vertical
                     range
                 />
-                <p>{sliderMinValue}米</p>
+                <p>{pointCloudLayerHeightRange[0]}米</p>
             </div>
         );
     }
