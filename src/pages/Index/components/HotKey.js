@@ -14,28 +14,15 @@ class HotKey extends React.Component {
 
     render() {
         return (
-            <div
-                title="快捷键列表"
-                style={{
-                    width: '60px',
-                    height: '45px',
-                    color: '#abc',
-                    textAlign: 'center',
-                    position: 'absolute',
-                    bottom: '30px'
-                }}>
+            <div title="快捷键列表" className="hotkey-list">
                 <ToolIcon icon="kuaijiejian" action={this.toggle} />
                 <Modal
-                    title={
-                        <span style={{ fontSize: 20, fontWeight: 600 }}>
-                            快捷键列表
-                        </span>
-                    }
+                    className="hotkey-modal"
+                    title={<span className="modal-title">快捷键列表</span>}
                     visible={this.state.visible}
                     maskClosable={false}
                     onCancel={this.handleCancel}
                     width={780}
-                    bodyStyle={{ padding: '10px 30px' }}
                     footer={null}>
                     {this.hotkeyList()}
                 </Modal>
@@ -50,14 +37,14 @@ class HotKey extends React.Component {
                     <div key={`${index}-parent`}>
                         <p className="hotkey-title">{elem.title}</p>
                         {HOT_KEYS_CONFIG[elem.dataIndex].map((item, j) => (
-                            <div key={`${index}-child-${j}`}>
-                                <p style={{ marginLeft: '30px' }}>
-                                    <span className="hotkey-label">
-                                        {item.label}
-                                    </span>
-                                    <span>{item.value}</span>
-                                </p>
-                            </div>
+                            <p
+                                key={`${index}-child-${j}`}
+                                className="child-text">
+                                <span className="hotkey-label">
+                                    {item.label}
+                                </span>
+                                <span>{item.value}</span>
+                            </p>
                         ))}
                     </div>
                 ))}
