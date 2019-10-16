@@ -9,6 +9,7 @@ const marks = {
 };
 
 @inject('TaskStore')
+@inject('ResourceLayerStore')
 @observer
 class AdjustPointSize extends React.Component {
     state = {
@@ -33,17 +34,13 @@ class AdjustPointSize extends React.Component {
     };
 
     handleClickChange = visible => {
-        const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
-        if (!activeTaskId) return;
+        if (this.isDisabled()) return;
         this.setState({
             clicked: visible,
             hovered: false
         });
     };
     render() {
-        const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
         return (
             <Popover
                 content={this._renderContent()}
@@ -57,7 +54,7 @@ class AdjustPointSize extends React.Component {
                     onVisibleChange={this.handleHoverChange}>
                     <IconFont
                         type="icon-shezhidianyundaxiao"
-                        className={`ad-icon ${!activeTaskId &&
+                        className={`ad-icon ${this.isDisabled() &&
                             'ad-disabled-icon'}`}
                     />
                 </Tooltip>
@@ -102,6 +99,14 @@ class AdjustPointSize extends React.Component {
             updateKey: Math.random()
         });
         pointCloudLayer.setPointSize(value / 10);
+    };
+
+    isDisabled = () => {
+        const { TaskStore, ResourceLayerStore } = this.props;
+        const { activeTaskId } = TaskStore;
+        const { pointCloudChecked } = ResourceLayerStore;
+
+        return !activeTaskId || !pointCloudChecked;
     };
 }
 

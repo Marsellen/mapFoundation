@@ -1,11 +1,21 @@
-import { action, configure } from 'mobx';
+import { action, configure, computed } from 'mobx';
 import LayerStore from './LayerStore';
-import { RESOURCE_LAYER_VETOR } from 'src/config/DataLayerConfig';
+import {
+    RESOURCE_LAYER_VETOR,
+    RESOURCE_LAYER_POINT_CLOUD
+} from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });
 class ResourceLayerStore extends LayerStore {
     constructor() {
         super();
+    }
+
+    @computed get pointCloudChecked() {
+        let pointCloud = (this.layers || []).find(
+            layer => layer.value == RESOURCE_LAYER_POINT_CLOUD
+        );
+        return pointCloud && pointCloud.checked;
     }
 
     @action toggleVertor = value => {
