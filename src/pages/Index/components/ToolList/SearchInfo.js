@@ -47,6 +47,8 @@ class SearchInfo extends React.Component {
                     title="查询"
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
+                    maskClosable={false}
+                    destroyOnClose={true}
                     onOk={() => {
                         this.SearchClick();
                     }}>
@@ -170,6 +172,7 @@ class SearchInfo extends React.Component {
         this.setState({
             visible: false
         });
+        this.activeKey = null;
     };
 }
 
