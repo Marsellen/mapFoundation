@@ -26,6 +26,7 @@ class DataLayerStore extends LayerStore {
     @observable beenPick;
     @observable isTopView = false;
     @observable readCoordinateResult;
+    @observable pointCloudLayerHeightRange = [0, 100];
     @computed get isCheckedAll() {
         return this.layers.every(layer => layer.checked);
     }
@@ -92,6 +93,12 @@ class DataLayerStore extends LayerStore {
         this.editor.editLayer = layer;
         this.updateKey = Math.random();
         return layer;
+    };
+
+    @action initPointCloudLayerHeightRange = range => {
+        this.pointCloudLayerHeightRange = range.map(item =>
+            Number(item.toFixed(2))
+        );
     };
 
     @action setSelectedCallBack = callback => {
@@ -436,6 +443,10 @@ class DataLayerStore extends LayerStore {
         viz.removeEventListener('mousemove', this.readCoordinateEvent);
         removeClass(viz, 'crosshair-viz');
         this.readCoordinateResult = null;
+    };
+
+    @action setRegionGeojson = RegionGeojson => {
+        this.regionGeojson = RegionGeojson;
     };
 }
 

@@ -12,8 +12,9 @@ class AddPoint extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'new_point';
         return (
-            <span className={visible ? "ad-icon-active" : ''}>
+            <span className={visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
+                    id="add-point-btn"
                     icon="yuandianzhong"
                     title="添加点要素"
                     action={this.action}
