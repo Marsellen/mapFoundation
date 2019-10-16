@@ -18,6 +18,10 @@ class TaskStore {
     @observable activeTask = {};
     @observable taskSaveTime;
 
+    @computed get validTasks() {
+        return this.tasks.filter(task => task.manualStatus !== 3);
+    }
+
     @computed get activeTaskId() {
         return this.activeTask.taskId;
     }
@@ -49,11 +53,7 @@ class TaskStore {
                     return item.taskId === id;
                 });
             } else {
-                let tasks = this.tasks.filter(task => task.manualStatus !== 3);
-                if (!tasks.length) {
-                    tasks = this.tasks;
-                }
-                this.activeTask = tasks[0];
+                this.activeTask = this.validTasks[0];
             }
 
             this.taskSaveTime = null;

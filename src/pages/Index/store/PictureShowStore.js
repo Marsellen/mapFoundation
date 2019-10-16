@@ -29,6 +29,10 @@ class PictureShowStore {
     @action hide = () => {
         this.visible = false;
     };
+
+    @action destory = () => {
+        this.picData = [];
+    };
 }
 
 export default new PictureShowStore();
