@@ -18,9 +18,9 @@ class Sider extends React.Component {
                             content={this.props.children}
                         />
                     ))}
-                    <HotKey />
-                    <VersionInfo />
                 </SiderBar>
+                <HotKey />
+                <VersionInfo />
             </div>
         );
     }

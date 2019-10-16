@@ -79,18 +79,6 @@ class SearchInfo extends React.Component {
         this.activeKey = activeKey;
     };
 
-    handleChange = e => {
-        const reg = /^\d+(\.\d*)?$|^\.\d+$/;
-
-        if (!reg.test(e.target.value)) {
-            message.warning('请输入正整数！', 3);
-            return;
-        }
-        this.setState({
-            value: Number(e.target.value)
-        });
-    };
-
     SearchClick = () => {
         if (this.activeKey == 'PositionSearch') {
             this.searchByPosition();
@@ -101,6 +89,7 @@ class SearchInfo extends React.Component {
 
     searchByID = () => {
         let IDSForm = this.IDSForm.props.form;
+        const reg = /^\d+(\.\d*)?$|^\.\d+$/;
 
         IDSForm.validateFields((err, values) => {
             if (!err) {
@@ -110,6 +99,10 @@ class SearchInfo extends React.Component {
                     key: IDKey,
                     value: values.id
                 };
+                if (!reg.test(values.id)) {
+                    message.warning('请输入正整数！', 3);
+                    return;
+                }
                 let layer = getLayerByName(layerName);
                 if (layer.getFeatureByOption(option)) {
                     let feature = layer.getFeatureByOption(option).properties;
