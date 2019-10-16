@@ -165,6 +165,7 @@ class JobStatus extends React.Component {
             ToolCtrlStore.updateByEditLayer();
             AttributeStore.hide();
             PictureShowStore.hide();
+            PictureShowStore.destory();
         }
     };
 

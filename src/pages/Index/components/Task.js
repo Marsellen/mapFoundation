@@ -21,16 +21,16 @@ class Task extends React.Component {
 
     render() {
         const { TaskStore } = this.props;
-        const { tasks } = TaskStore;
+        const { validTasks } = TaskStore;
 
-        if (tasks && tasks.length > 0) {
-            let index = tasks.findIndex(
+        if (validTasks && validTasks.length > 0) {
+            let index = validTasks.findIndex(
                 item => item.taskId === this.state.current
             );
             index = index === -1 ? '0' : index.toString();
             return (
                 <Menu className="menu" selectedKeys={[index]}>
-                    {tasks.map((item, index) => (
+                    {validTasks.map((item, index) => (
                         <Menu.Item
                             key={index}
                             onClick={() => {
@@ -85,6 +85,7 @@ class Task extends React.Component {
         ToolCtrlStore.updateByEditLayer();
         AttributeStore.hide();
         PictureShowStore.hide();
+        PictureShowStore.destory();
 
         // 切换任务时，保存上一个任务的缩放比例
         if (this.state.current) {
