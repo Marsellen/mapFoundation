@@ -9,6 +9,8 @@ import 'less/home.less';
 import logo from 'src/assets/img/logo.png';
 import Shortcut from 'src/utils/shortcuts';
 import { shortcutMap } from 'src/utils/shortcuts/shortcutsMap';
+import VersionInfo from './components/VersionInfo';
+import HotKey from './components/HotKey';
 
 const { Header } = Layout;
 
@@ -35,6 +37,8 @@ class Index extends React.Component {
                 </Header>
                 <div className="flex flex-row">
                     <Sider menus={menus}>{SiderView}</Sider>
+                    <HotKey />
+                    <VersionInfo />
                     <div className="flex-1 viz-content">
                         <VizCompnent />
                     </div>
