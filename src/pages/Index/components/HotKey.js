@@ -1,7 +1,6 @@
 import React from 'react';
 import { HOT_KEYS_CONFIG, HOT_KEYS_TITLE } from 'src/config/HotKeysConfig';
-import { Modal, Button } from 'antd';
-import ToolIcon from 'src/components/ToolIcon';
+import { Modal } from 'antd';
 import 'src/assets/less/components/hotkey.less';
 
 class HotKey extends React.Component {
