@@ -132,7 +132,7 @@ class Save extends React.Component {
             return Modal.warning({
                 title: '提示',
                 content: '当前任务已挂起',
-                okText: '保存并切换任务',
+                okText: '保存并退出任务',
                 keyboard: false,
                 onOk: this.switchWithSave
             });
