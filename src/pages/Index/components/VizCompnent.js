@@ -302,20 +302,6 @@ class VizCompnent extends React.Component {
             setTaskScaleStorage(activeTaskId, preTaskScale);
         };
 
-        let viz = document.querySelector('#viz');
-        viz.onmousedown = e => {
-            if (e.button === 0) {
-                addClass(viz, 'ative-viz');
-            } else if (e.button === 2) {
-                addClass(viz, 'ative-right-viz');
-            }
-        };
-
-        viz.onmouseup = () => {
-            removeClass(viz, 'ative-viz');
-            removeClass(viz, 'ative-right-viz');
-        };
-
         // attributes 拾取控件
         const { DataLayerStore } = this.props;
         DataLayerStore.initEditor([
@@ -335,6 +321,19 @@ class VizCompnent extends React.Component {
             };
             editLog.store.add(log);
         });
+
+        let viz = document.querySelector('#viz');
+        window.map
+            .getEventManager()
+            .register('editor_event_regionselect_start', e => {
+                addClass(viz, 'crosshair-viz');
+            });
+
+        window.map
+            .getEventManager()
+            .register('editor_event_regionselect_end', e => {
+                removeClass(viz, 'crosshair-viz');
+            });
     };
 
     selectedCallBack = (result, event) => {
