@@ -33,9 +33,12 @@ class TopView extends React.Component {
         const { isTopView } = DataLayerStore;
 
         DataLayerStore.topViewMode(!isTopView);
-        
+
         if (!isTopView) {
-            map.setCurrentView('U');
+            window.map.setCurrentView('U');
+            window.map.disableRotate();
+        } else {
+            window.map.enableRotate();
         }
     };
 }
