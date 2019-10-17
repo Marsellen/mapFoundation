@@ -1,7 +1,6 @@
 import React from 'react';
 import { HOT_KEYS_CONFIG, HOT_KEYS_TITLE } from 'src/config/HotKeysConfig';
 import { Modal } from 'antd';
-import ToolIcon from 'src/components/ToolIcon';
 import 'src/assets/less/components/hotkey.less';
 
 class HotKey extends React.Component {
@@ -14,8 +13,8 @@ class HotKey extends React.Component {
 
     render() {
         return (
-            <div title="快捷键列表" className="hotkey-list">
-                <ToolIcon icon="kuaijiejian" action={this.toggle} />
+            <div className="hotkey-list">
+                <span onClick={this.toggle}>快捷键列表</span>
                 <Modal
                     className="hotkey-modal"
                     title={<span className="modal-title">快捷键列表</span>}
