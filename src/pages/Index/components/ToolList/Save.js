@@ -123,8 +123,8 @@ class Save extends React.Component {
             return task.taskId == activeTask.taskId;
         });
 
-        let isStop =
-            /-3/.test(activeTaskChange) && !/3-3/.test(activeTaskChange);
+        let change = activeTaskChange && activeTaskChange.change;
+        let isStop = /-3/.test(change) && !/3-3/.test(change);
         if (isStop) {
             DataLayerStore.activeEditor();
             ToolCtrlStore.updateByEditLayer();
