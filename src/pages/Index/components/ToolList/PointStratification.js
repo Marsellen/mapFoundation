@@ -5,6 +5,7 @@ import IconFont from 'src/components/IconFont';
 import 'src/assets/less/components/tool-icon.less';
 
 @inject('DataLayerStore')
+@inject('ResourceLayerStore')
 @inject('TaskStore')
 @observer
 class PointStratification extends React.Component {
@@ -19,6 +20,7 @@ class PointStratification extends React.Component {
     };
 
     handlePopoverChange = visible => {
+        if (this.isDisabled()) return;
         if (visible) {
             const { DataLayerStore, TaskStore } = this.props;
             const { pointCloudLayerHeightRange } = DataLayerStore;
@@ -78,8 +80,6 @@ class PointStratification extends React.Component {
     }
 
     render() {
-        const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
         const { popoverVisible } = this.state;
         return (
             <Popover
@@ -89,11 +89,20 @@ class PointStratification extends React.Component {
                 visible={popoverVisible}>
                 <IconFont
                     type="icon-dianyunfengaochengxianshi"
-                    className={`ad-icon ${!activeTaskId && 'ad-disabled-icon'}`}
+                    className={`ad-icon ${this.isDisabled() &&
+                        'ad-disabled-icon'}`}
                 />
             </Popover>
         );
     }
+
+    isDisabled = () => {
+        const { TaskStore, ResourceLayerStore } = this.props;
+        const { activeTaskId } = TaskStore;
+        const { pointCloudChecked } = ResourceLayerStore;
+
+        return !activeTaskId || !pointCloudChecked;
+    };
 }
 
 export default PointStratification;

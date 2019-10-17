@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import IconFont from 'src/components/IconFont';
 
 @inject('TaskStore')
+@inject('ResourceLayerStore')
 @observer
 class Intensity extends React.Component {
     state = {
@@ -28,17 +29,13 @@ class Intensity extends React.Component {
     };
 
     handleClickChange = visible => {
-        const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
-        if (!activeTaskId) return;
+        if (this.isDisabled()) return;
         this.setState({
             clicked: visible,
             hovered: false
         });
     };
     render() {
-        const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
         return (
             <Popover
                 content={this._renderContent()}
@@ -52,7 +49,7 @@ class Intensity extends React.Component {
                     onVisibleChange={this.handleHoverChange}>
                     <IconFont
                         type="icon-dengpaobulb"
-                        className={`ad-icon ${!activeTaskId &&
+                        className={`ad-icon ${this.isDisabled() &&
                             'ad-disabled-icon'}`}
                     />
                 </Tooltip>
@@ -93,6 +90,14 @@ class Intensity extends React.Component {
             updateKey: Math.random()
         });
         pointCloudLayer.setIntensity(value);
+    };
+
+    isDisabled = () => {
+        const { TaskStore, ResourceLayerStore } = this.props;
+        const { activeTaskId } = TaskStore;
+        const { pointCloudChecked } = ResourceLayerStore;
+
+        return !activeTaskId || !pointCloudChecked;
     };
 }
 
