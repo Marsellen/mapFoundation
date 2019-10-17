@@ -123,8 +123,8 @@ class Save extends React.Component {
             return task.taskId == activeTask.taskId;
         });
 
-        let isStop =
-            /-3/.test(activeTaskChange) && !/3-3/.test(activeTaskChange);
+        let change = activeTaskChange && activeTaskChange.change;
+        let isStop = /-3/.test(change) && !/3-3/.test(change);
         if (isStop) {
             DataLayerStore.activeEditor();
             ToolCtrlStore.updateByEditLayer();
@@ -132,13 +132,14 @@ class Save extends React.Component {
             return Modal.warning({
                 title: '提示',
                 content: '当前任务已挂起',
-                okText: '保存并切换任务',
+                okText: '保存并退出任务',
                 keyboard: false,
                 onOk: this.switchWithSave
             });
         }
 
-        let restoreTasks = taskChangeList.filter(change => {
+        let restoreTasks = taskChangeList.filter(task => {
+            let change = task.change;
             return /3-/.test(change) && !/3-3/.test(change);
         });
         if (restoreTasks.length) {
