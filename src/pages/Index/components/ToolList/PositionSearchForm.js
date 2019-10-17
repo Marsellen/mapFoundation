@@ -31,7 +31,6 @@ class PositionSearchForm extends React.Component {
                 </FormItem>
                 <FormItem label="z坐标：">
                     {form.getFieldDecorator('z', {
-                        rules: [{ required: true, message: 'z坐标必填!' }],
                         getValueFromEvent: e => {
                             let value = Number(e.target.value);
                             return !value ? e.target.value : value;
