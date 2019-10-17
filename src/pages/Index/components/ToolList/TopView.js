@@ -37,8 +37,10 @@ class TopView extends React.Component {
         if (!isTopView) {
             window.map.setCurrentView('U');
             window.map.disableRotate();
+            DataLayerStore.enableRegionSelect();
         } else {
             window.map.enableRotate();
+            DataLayerStore.disableRegionSelect();
         }
     };
 }

@@ -41,7 +41,7 @@ class SearchInfo extends React.Component {
                     cancelText={'取消'}
                     wrapClassName="search-info-modal"
                     mask={false}
-                    width={'30vh'}
+                    width={320}
                     title="查询"
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
