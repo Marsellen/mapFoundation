@@ -60,7 +60,7 @@ class AdLocalStorage {
             if (!taskIdArr || taskIdArr.length === 0) {
                 delete taskInfos[this.username];
             } else {
-                Object.keys(taskInfos[this.username]).forEach(item => {
+                Object.keys(taskInfos[this.username] || {}).forEach(item => {
                     if (!taskIdArr.includes(Number(item))) {
                         delete taskInfos[this.username][item];
                     }
