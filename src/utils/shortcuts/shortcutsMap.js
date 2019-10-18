@@ -5,6 +5,7 @@ export const shortcutMap = [
         alt: false,
         shift: false,
         keyCode: 83,
+        preventDefault: true,
         describe: '保存 Ctrl+S'
     },
     {
@@ -37,6 +38,7 @@ export const shortcutMap = [
         alt: false,
         shift: false,
         keyCode: 70,
+        preventDefault: true,
         describe: 'ID查询/坐标查询 Ctrl+f'
     },
     {
@@ -45,6 +47,7 @@ export const shortcutMap = [
         alt: false,
         shift: false,
         keyCode: 80,
+        preventDefault: true,
         describe: '坐标拾取 Ctrl+P'
     },
     {
@@ -53,6 +56,7 @@ export const shortcutMap = [
         alt: false,
         shift: false,
         keyCode: 71,
+        preventDefault: true,
         describe: '缩放至全图 Ctrl+G'
     },
     {
@@ -189,6 +193,7 @@ export const shortcutMap = [
         alt: true,
         shift: false,
         keyCode: 70,
+        preventDefault: true,
         describe: '删除形状点 Alt+F'
     }
 ];

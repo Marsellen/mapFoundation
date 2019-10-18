@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Form, Input, Modal, Select } from 'antd';
+import { Form, Modal, Select } from 'antd';
 import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
 import {
     TYPE_SELECT_OPTION_MAP,
@@ -8,6 +8,7 @@ import {
 } from 'src/config/ADMapDataConfig';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import _ from 'lodash';
+import AdInput from 'src/components/Form/Input';
 
 const formItemLayout = {
     labelCol: {
@@ -98,7 +99,7 @@ class NewAttrModal extends React.Component {
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {form.getFieldDecorator(item.key, {
                     initialValue: item.value
-                })(<Input disabled placeholder={item.placeholder} />)}
+                })(<AdInput disabled placeholder={item.placeholder} />)}
             </Form.Item>
         );
     };
@@ -116,7 +117,7 @@ class NewAttrModal extends React.Component {
                         ...(item.validates || []).map(validate => validate)
                     ],
                     initialValue: item.value
-                })(<Input />)}
+                })(<AdInput />)}
             </Form.Item>
         );
     };

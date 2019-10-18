@@ -1,9 +1,10 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Form, Input, Select } from 'antd';
+import { Form, Select } from 'antd';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
+import AdInput from 'src/components/Form/Input';
 
 const formItemLayout = {
     labelCol: {
@@ -43,7 +44,7 @@ class BasicAttributesForm extends React.Component {
                 {!readonly ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         initialValue: item.value
-                    })(<Input disabled />)
+                    })(<AdInput disabled />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -69,7 +70,7 @@ class BasicAttributesForm extends React.Component {
                         ],
                         getValueFromEvent: item.getValueFromEvent,
                         initialValue: item.value
-                    })(<Input disabled={readonly} />)
+                    })(<AdInput disabled={readonly} />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}

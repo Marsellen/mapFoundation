@@ -29,8 +29,7 @@ import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
 import { isRegionContainsElement } from 'src/utils/vectorUtils';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
-import { shortcutMap } from 'src/utils/shortcuts/shortcutsMap';
-import Shortcut from 'src/utils/shortcuts';
+import { shortcut } from 'src/utils/shortcuts';
 import _ from 'lodash';
 import editLog from 'src/models/editLog';
 import SaveTimeView from './SaveTimeView';
@@ -68,9 +67,6 @@ class VizCompnent extends React.Component {
                 return;
             }
 
-            //任务加载完成，添加快捷键
-            this.addShortcut();
-
             OperateHistoryStore.destroy();
             editLog.store.clear();
         });
@@ -85,7 +81,7 @@ class VizCompnent extends React.Component {
         this.initTask(task);
     }
 
-    addShortcut = () => {
+    addShortcut = event => {
         const { ResourceLayerStore, DataLayerStore } = this.props;
         const callbackShortcutMap = [
             {
@@ -120,9 +116,12 @@ class VizCompnent extends React.Component {
                 describe: '开关轨迹图层 2'
             }
         ];
-        const shortcut = new Shortcut();
-        shortcut.add(shortcutMap);
-        shortcut.add(callbackShortcutMap);
+
+        shortcut.add(event, callbackShortcutMap);
+    };
+
+    handleKeyUp = event => {
+        this.addShortcut(event);
     };
 
     initTask = async task => {
@@ -585,7 +584,11 @@ class VizCompnent extends React.Component {
 
         return (
             <React.Fragment>
-                <div id="viz" key={TaskStore.activeTaskId} className="viz-box">
+                <div
+                    id="viz"
+                    key={TaskStore.activeTaskId}
+                    className="viz-box"
+                    onKeyUp={e => this.handleKeyUp(e)}>
                     <div className="set-compass">
                         <TopView key="TOP_VIEW" />
                         <ZoomOut key="ZOOM_OUT" />

@@ -1,10 +1,11 @@
 import React from 'react';
-import { Modal, Form, Input, Select, Button } from 'antd';
+import { Modal, Form, Select, Button } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { getLayerByName } from 'src/utils/vectorUtils';
 import editLog from 'src/models/editLog';
+import AdInput from 'src/components/Form/Input';
 
 @Form.create()
 @inject('NewFeatureStore')
@@ -58,7 +59,7 @@ class NewFeatureModal extends React.Component {
             <Form.Item key={index} label={item.name}>
                 {form.getFieldDecorator(item.key, {
                     initialValue: item.value
-                })(<Input disabled />)}
+                })(<AdInput disabled />)}
             </Form.Item>
         );
     };
@@ -75,7 +76,7 @@ class NewFeatureModal extends React.Component {
                         }
                     ],
                     initialValue: item.value
-                })(<Input />)}
+                })(<AdInput />)}
             </Form.Item>
         );
     };

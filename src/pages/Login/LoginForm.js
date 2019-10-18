@@ -2,7 +2,8 @@ import React from 'react';
 // import { randomNum } from '../../utils/utils';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import { Form, Input, Icon, Checkbox, message } from 'antd';
+import { Form, Icon, Checkbox, message } from 'antd';
+import AdInput from 'src/components/Form/Input';
 
 @withRouter
 @inject('appStore')
@@ -91,7 +92,7 @@ class LoginForm extends React.Component {
                             ],
                             initialValue: userName
                         })(
-                            <Input
+                            <AdInput
                                 onFocus={() => this.setState({ focusItem: 0 })}
                                 onBlur={() => this.setState({ focusItem: -1 })}
                                 placeholder="用户名"
@@ -112,7 +113,7 @@ class LoginForm extends React.Component {
                         {getFieldDecorator('password', {
                             rules: [{ required: true, message: '请输入密码' }]
                         })(
-                            <Input
+                            <AdInput
                                 onFocus={() => this.setState({ focusItem: 1 })}
                                 onBlur={() => this.setState({ focusItem: -1 })}
                                 type="password"
@@ -146,7 +147,7 @@ class LoginForm extends React.Component {
                         </div>
                     </Form.Item>
                     <div className="bottom">
-                        <input
+                        <AdInput
                             className="loginBtn"
                             type="submit"
                             value="登录"

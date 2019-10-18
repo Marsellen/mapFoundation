@@ -1,11 +1,12 @@
 import React from 'react';
-import { Button, Input, Select, Modal, Form, Icon } from 'antd';
+import { Button, Select, Modal, Form, Icon } from 'antd';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import _ from 'lodash';
 import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
 import './style.less';
+import AdInput from 'src/components/Form/Input';
 
 const formItemLayout = {
     labelCol: {
@@ -185,7 +186,7 @@ class EditableCard extends React.Component {
                 {!readonly ? (
                     form.getFieldDecorator(item.key, {
                         initialValue: item.value
-                    })(<Input disabled />)
+                    })(<AdInput disabled />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -209,7 +210,7 @@ class EditableCard extends React.Component {
                             ...(item.validates || []).map(validate => validate)
                         ],
                         initialValue: item.value
-                    })(<Input disabled={readonly} />)
+                    })(<AdInput disabled={readonly} />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}

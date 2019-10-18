@@ -1,8 +1,9 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Empty, Form, Input, Button, Icon } from 'antd';
+import { Empty, Form, Button, Icon } from 'antd';
 import EditableCard from './EditableCard';
 import NewAttrModal from './NewAttrModal';
+import AdInput from 'src/components/Form/Input';
 
 const formItemLayout = {
     labelCol: {
@@ -68,7 +69,7 @@ class RelationForm extends React.Component {
                             return !value ? e.target.value : value;
                         },
                         initialValue: item.value
-                    })(<Input disabled={readonly} />)
+                    })(<AdInput disabled={readonly} />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}

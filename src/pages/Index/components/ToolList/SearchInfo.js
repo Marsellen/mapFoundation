@@ -123,6 +123,9 @@ class SearchInfo extends React.Component {
         let PSForm = this.PSForm.props.form;
         PSForm.validateFields((err, values) => {
             if (!err) {
+                Object.keys(values).forEach(item => {
+                    values[item] = Number(values[item]);
+                });
                 let elementGeojson = {
                     geometry: {
                         coordinates: [values.x, values.y, values.z],
