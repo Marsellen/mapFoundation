@@ -77,7 +77,9 @@ class RightMenuModal extends React.Component {
                             if (menus) {
                                 return menus.includes(menu.key) && menu;
                             } else {
-                                return zIndex && menu;
+                                return (
+                                    zIndex && menu.key !== 'breakGroup' && menu
+                                );
                             }
                         })}
                     </Menu>
