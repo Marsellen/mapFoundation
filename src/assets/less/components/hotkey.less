@@ -1,17 +1,26 @@
 .hotkey-list {
     width: 60px;
     height: 45px;
-    color: #abc;
     text-align: center;
-    position: absolute;
     bottom: 30px;
+    position: fixed;
     .modal-title {
         font-size: 20;
         font-weight: 600;
     }
 }
+
+.hotkey-modal {
+    .ant-modal-content {
+        height: 80vh;
+        position: relative;
+    }
+}
+
 .hotkey {
-    height: 500px;
+    position: absolute;
+    height: 85%;
+    width: 95%;
     overflow: auto;
     color: #000;
     .hotkey-title {
