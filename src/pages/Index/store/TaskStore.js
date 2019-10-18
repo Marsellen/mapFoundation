@@ -11,6 +11,9 @@ import {
 import { getAuthentication } from 'src/utils/Session';
 import editLog from 'src/models/editLog';
 import moment from 'moment';
+import AdLocalStorage from 'src/utils/AdLocalStorage';
+import SDKConfig from 'src/config/SDKConfig';
+import { LayerGroup } from 'addis-viz-sdk';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -30,8 +33,16 @@ class TaskStore {
         return this.activeTask && this.activeTask.Input_imp_data_path;
     }
 
-    @computed get taskEditable() {
+    @computed get activeTaskStatus() {
+        return this.activeTask.manualStatus;
+    }
+
+    @computed get isValidTask() {
         return this.activeTask && this.activeTask.manualStatus !== 3;
+    }
+
+    @computed get isEditableTask() {
+        return this.activeTask.isEditableTask;
     }
 
     // 任务列表
@@ -56,23 +67,33 @@ class TaskStore {
                 this.activeTask = this.validTasks[0];
             }
 
+            if (isEditableTask) {
+                this.activeTask.isEditableTask = isEditableTask;
+                this.fetchTask();
+                if (id === this.activeTask && this.isGetTaskBoundaryFile()) {
+                    this.getTaskBoundaryFile();
+                }
+            }
+
             this.taskSaveTime = null;
-            this.fetchTask();
         }
     };
 
     fetchTask = flow(function*() {
-        let { taskFetchId, manualStatus } = this.activeTask;
+        const { taskFetchId, manualStatus, isEditableTask } = this.activeTask;
+        const status = [2, 4, 5]; //已领取-1、进行中-2、返修-4、返工-5
 
-        const status = [2, 4, 5]; //进行中-2、返修-4、返工-5
-
-        if (taskFetchId && !status.includes(manualStatus)) {
-            yield this.updateTaskStatus({
+        if (taskFetchId && !status.includes(manualStatus) && isEditableTask) {
+            // “开始”编辑任务时，“已领取”任务，更新成"进行中"，同时更新底图
+            this.updateTaskStatus({
                 taskFetchId: taskFetchId,
                 manualStatus: 2
             });
-            // 更新完后 刷新任务列表
-            this.initTask({ type: 4 });
+        }
+        if (isEditableTask && !this.isGetTaskBoundaryFile()) {
+            this.updateTaskBoundaryFile({
+                taskId: this.activeTaskId
+            });
         }
     });
 
@@ -94,8 +115,44 @@ class TaskStore {
     // 更新任务状态
     updateTaskStatus = flow(function*(option) {
         let response = yield JobService.updateTask(option);
-        if (response.code != 1) {
+        if (response.code === 1) {
+            // 更新完后 刷新任务列表
+            this.initTask({ type: 4 });
+        } else {
             message.warning('更新任务状态失败', 3);
+        }
+    });
+
+    isGetTaskBoundaryFile = () => {
+        const { taskBoundaryIsUpdate } =
+            AdLocalStorage.getTaskInfosStorage(this.activeTaskId) || {};
+        return taskBoundaryIsUpdate;
+    };
+
+    getTaskBoundaryFile = flow(function*() {
+        const boundaryUrl = this.urlFormat(CONFIG.urlConfig.boundary);
+        const layerGroup = new LayerGroup(boundaryUrl, {
+            styleConifg: SDKConfig
+        });
+        yield map.getLayerManager().addLayerGroup(layerGroup);
+    });
+
+    updateTaskBoundaryFile = flow(function*(option) {
+        const response = yield TaskService.updateTaskBoundaryFile(option);
+        // 浏览器缓存记录更新底图状态
+        if (response.code === 1) {
+            AdLocalStorage.setTaskInfosStorage({
+                taskId: this.activeTaskId,
+                taskBoundaryIsUpdate: true
+            });
+            this.getTaskBoundaryFile();
+            return 'success';
+        } else {
+            AdLocalStorage.setTaskInfosStorage({
+                taskId: this.activeTaskId,
+                taskBoundaryIsUpdate: false
+            });
+            return '更新底图状态失败';
         }
     });
 
@@ -111,9 +168,13 @@ class TaskStore {
                 tracks: this.urlFormat(CONFIG.urlConfig.track),
                 rels: this.urlFormat(CONFIG.urlConfig.rels),
                 attrs: this.urlFormat(CONFIG.urlConfig.attrs),
-                region: this.urlFormat(CONFIG.urlConfig.region),
-                boundary: this.urlFormat(CONFIG.urlConfig.boundary)
+                region: this.urlFormat(CONFIG.urlConfig.region)
             };
+            if (this.isEditableTask && this.isGetTaskBoundaryFile()) {
+                Object.assign(task, {
+                    boundary: this.urlFormat(CONFIG.urlConfig.boundary)
+                });
+            }
             return task;
         } catch (e) {
             console.log(e);

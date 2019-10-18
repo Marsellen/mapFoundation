@@ -23,13 +23,19 @@ module.exports = merge(common, {
                 logLevel: 'debug'
             },
             '/id_service': {
-                target: 'http://10.43.75.17:13251',
-                pathRewrite: { '^/id_service': '' },
+                target: 'http://10.43.75.58:13003',
+                pathRewrite: { '^/id_service': 'imppublic' },
+                changeOrigin: true,
+                logLevel: 'debug'
+            },
+            '/update_boundary_service': {
+                target: 'http://10.43.75.58:13003',
+                pathRewrite: { '^/update_boundary_service': 'querydb' },
                 changeOrigin: true,
                 logLevel: 'debug'
             },
             '/edit_service': {
-                target: 'http://10.43.75.119:13250',
+                target: 'http://10.43.75.58:13003',
                 pathRewrite: { '^/edit_service': 'edit' },
                 changeOrigin: true,
                 logLevel: 'debug'

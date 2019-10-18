@@ -98,7 +98,6 @@ class JobStatus extends React.Component {
             }
         }
         if (!oldTasks || !oldTasks.length) {
-            TaskStore.setActiveTask();
             this.clearWorkSpace();
         }
     };
@@ -128,6 +127,7 @@ class JobStatus extends React.Component {
             await TaskStore.initSubmit(option);
             // 提交后重新获取任务
             await TaskStore.initTask({ type: 3 });
+            // 等SDK提供清空画布接口
             TaskStore.setActiveTask();
             this.clearWorkSpace();
         } catch (e) {

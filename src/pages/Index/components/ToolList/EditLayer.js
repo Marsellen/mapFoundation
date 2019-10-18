@@ -64,8 +64,8 @@ class EditLayer extends React.Component {
 
     disEditable = () => {
         const { TaskStore } = this.props;
-        const { activeTaskId, taskEditable } = TaskStore;
-        return !activeTaskId || !taskEditable;
+        const { activeTaskId, isValidTask, isEditableTask } = TaskStore;
+        return !activeTaskId || !isValidTask || !isEditableTask;
     };
 }
 

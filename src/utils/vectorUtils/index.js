@@ -1,5 +1,4 @@
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
-import { getAuthentication } from 'src/utils/Session';
 import { ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
 import Relevance from 'src/models/relevance';
 import Attr from 'src/models/attr';
@@ -87,69 +86,6 @@ export const isRegionContainsElement = (element, region) => {
     console.timeEnd('Is region contains element');
 
     return isRegionContainsElementRes;
-};
-
-export const setLocalStorage = (key, value) => {
-    if (typeof value === 'object') {
-        value = JSON.stringify(value);
-    }
-    localStorage.setItem(key, value);
-};
-
-export const getLocalStorage = (key, isToJsonObj) => {
-    const value = localStorage.getItem(key);
-    if (isToJsonObj) {
-        return JSON.parse(value);
-    } else {
-        return value;
-    }
-};
-
-export const removeLocalStorage = key => {
-    localStorage.removeItem(key);
-};
-
-export const setTaskScaleStorage = (taskId, taskScale) => {
-    const { username } = getAuthentication();
-    const taskScalesCenter = getLocalStorage('taskScalesCenter', true) || {};
-    taskScalesCenter[username] = taskScalesCenter[username] || {};
-    taskScalesCenter[username][taskId] = taskScale;
-    setLocalStorage('taskScalesCenter', taskScalesCenter);
-};
-
-export const getTaskScaleStorage = taskId => {
-    const { username } = getAuthentication();
-    const taskScalesCenter = getLocalStorage('taskScalesCenter', true) || null;
-    if (
-        taskScalesCenter &&
-        taskScalesCenter[username] &&
-        taskScalesCenter[username][taskId]
-    ) {
-        return taskScalesCenter[username][taskId];
-    } else {
-        return false;
-    }
-};
-
-export const filterTaskScaleStorage = taskIdArr => {
-    const { username } = getAuthentication();
-    const taskScalesCenter = getLocalStorage('taskScalesCenter', true) || null;
-    if (taskScalesCenter) {
-        if (!taskIdArr || taskIdArr.length === 0) {
-            delete taskScalesCenter[username];
-        } else {
-            Object.keys(taskScalesCenter[username]).forEach(item => {
-                if (!taskIdArr.includes(Number(item))) {
-                    delete taskScalesCenter[username][item];
-                }
-            });
-        }
-        if (Object.keys(taskScalesCenter).length === 0) {
-            removeLocalStorage('taskScalesCenter');
-        } else {
-            setLocalStorage('taskScalesCenter', taskScalesCenter);
-        }
-    }
 };
 
 export const getAllVectorData = () => {

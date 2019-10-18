@@ -3,7 +3,7 @@ import { Checkbox, List } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { RESOURCE_LAYER_VETOR } from 'src/config/DataLayerConfig';
-import 'less/components/data-layer.less';
+import 'less/components/sider.less';
 
 @inject('ResourceLayerStore')
 @inject('DataLayerStore')
