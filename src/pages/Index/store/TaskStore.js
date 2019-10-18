@@ -20,6 +20,7 @@ class TaskStore {
     @observable tasks = [];
     @observable activeTask = {};
     @observable taskSaveTime;
+    @observable editTaskId;
 
     @computed get validTasks() {
         return this.tasks.filter(task => task.manualStatus !== 3);
@@ -72,7 +73,9 @@ class TaskStore {
     @action startTaskEdit = id => {
         this.editTaskId = id;
         this.fetchTask();
-        if (!this.isGetTaskBoundaryFile()) {
+        if (this.isGetTaskBoundaryFile()) {
+            this.getTaskBoundaryFile();
+        } else {
             this.updateTaskBoundaryFile({
                 taskId: this.activeTaskId
             });
