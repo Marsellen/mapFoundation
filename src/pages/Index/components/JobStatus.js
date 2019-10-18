@@ -36,14 +36,14 @@ class JobStatus extends React.Component {
 
     render() {
         const { TaskStore } = this.props;
-        const { tasks } = TaskStore;
+        const { activeTaskId } = TaskStore;
         const { qualityVisible } = this.state;
 
         return (
             <div className="flex flex-center">
                 <Button onClick={this.getJob}>获取任务</Button>
                 <Button
-                    disabled={tasks && tasks.length === 0 ? true : false}
+                    disabled={activeTaskId ? false : true}
                     onClick={this.submitTask}>
                     提交任务
                 </Button>
