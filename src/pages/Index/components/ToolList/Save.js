@@ -99,7 +99,7 @@ class Save extends React.Component {
             return Modal.warning({
                 title: '提示',
                 content: '当前任务已移交',
-                okText: '保存并切换任务',
+                okText: '保存并退出任务',
                 keyboard: false,
                 onOk: this.switchWithSave
             });
@@ -158,6 +158,7 @@ class Save extends React.Component {
     switchWithSave = async () => {
         const { TaskStore } = this.props;
         await this.save();
+        TaskStore.setActiveTask();
         this.loopLoadTask();
     };
 }

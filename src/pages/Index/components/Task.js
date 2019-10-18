@@ -102,7 +102,8 @@ class Task extends React.Component {
             current: id
         });
 
-        TaskStore.setActiveTask(id, isEditableTask);
+        TaskStore.setActiveTask(id);
+        isEditableTask && TaskStore.startTaskEdit();
         OperateHistoryStore.destroy();
         editLog.store.clear();
         DataLayerStore.activeEditor();
