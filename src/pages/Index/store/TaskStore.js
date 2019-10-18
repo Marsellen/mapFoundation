@@ -42,7 +42,7 @@ class TaskStore {
     }
 
     @computed get isEditableTask() {
-        return this.activeTask && this.activeTask.isEditableTask;
+        return this.activeTaskId && this.activeTaskId == this.editTaskId;
     }
 
     // 任务列表
@@ -69,8 +69,8 @@ class TaskStore {
         this.taskSaveTime = null;
     };
 
-    @action startTaskEdit = () => {
-        this.activeTask.isEditableTask = true;
+    @action startTaskEdit = id => {
+        this.editTaskId = id;
         this.fetchTask();
         if (!this.isGetTaskBoundaryFile()) {
             this.updateTaskBoundaryFile({

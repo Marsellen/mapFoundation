@@ -66,7 +66,7 @@ class Task extends React.Component {
         return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
     };
 
-    chooseTask = (e, id, isEditableTask) => {
+    chooseTask = (e, id, isEdit) => {
         e.stopPropagation();
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
@@ -78,16 +78,16 @@ class Task extends React.Component {
                 cancelText: '取消',
                 okType: 'danger',
                 onOk: () => {
-                    this.toggleTask(id, isEditableTask);
+                    this.toggleTask(id, isEdit);
                     document.getElementById('save-btn').click();
                 }
             });
         } else {
-            this.toggleTask(id, isEditableTask);
+            this.toggleTask(id, isEdit);
         }
     };
 
-    toggleTask(id, isEditableTask) {
+    toggleTask(id, isEdit) {
         const {
             TaskStore,
             AttributeStore,
@@ -103,7 +103,7 @@ class Task extends React.Component {
         });
 
         TaskStore.setActiveTask(id);
-        isEditableTask && TaskStore.startTaskEdit();
+        isEdit && TaskStore.startTaskEdit(id);
         OperateHistoryStore.destroy();
         editLog.store.clear();
         DataLayerStore.activeEditor();
