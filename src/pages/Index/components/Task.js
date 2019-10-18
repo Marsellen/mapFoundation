@@ -33,7 +33,7 @@ class Task extends React.Component {
                 <Menu className="menu" selectedKeys={[taskIndex]}>
                     {validTasks.map((item, index) => (
                         <Menu.Item key={index}>
-                            <p>
+                            <p className="menu-item-box">
                                 <span
                                     onClick={e =>
                                         this.chooseTask(e, item.taskId, false)

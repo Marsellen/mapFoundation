@@ -1,7 +1,8 @@
 import React from 'react';
-import { Form, Input, Select } from 'antd';
+import { Form, Select } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import AdInput from 'src/components/Form/Input';
 const FormItem = Form.Item;
 
 @Form.create()
@@ -45,7 +46,7 @@ class IDSearchForm extends React.Component {
                             let value = Number(e.target.value);
                             return !value ? e.target.value : value;
                         }
-                    })(<Input />)}
+                    })(<AdInput />)}
                 </FormItem>
             </Form>
         );
