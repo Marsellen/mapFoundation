@@ -14,6 +14,14 @@ export function IdApiPath(url) {
     }
 }
 
+export function updateBoundaryApiPath(url) {
+    if (/^\//.test(url)) {
+        return `/update_boundary_service${url}`;
+    } else {
+        return `/update_boundary_service/${url}`;
+    }
+}
+
 export function EditApiPath(url) {
     if (/^\//.test(url)) {
         return `/edit_service${url}`;

@@ -27,12 +27,8 @@ import SDKConfig from '../../../config/SDKConfig';
 import 'less/components/viz-compnent.less';
 import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
-import {
-    isRegionContainsElement,
-    setTaskScaleStorage,
-    getTaskScaleStorage,
-    filterTaskScaleStorage
-} from 'src/utils/vectorUtils';
+import { isRegionContainsElement } from 'src/utils/vectorUtils';
+import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { shortcutMap } from 'src/utils/shortcuts/shortcutsMap';
 import Shortcut from 'src/utils/shortcuts';
 import _ from 'lodash';
@@ -65,7 +61,7 @@ class VizCompnent extends React.Component {
 
             //清除多余任务比例记录
             const taskIdArr = (tasks || []).map(item => Number(item.taskId));
-            filterTaskScaleStorage(taskIdArr);
+            AdLocalStorage.filterTaskInfosStorage(taskIdArr);
 
             if (tasks.length == 0) {
                 message.warning('暂无任务', 3);
@@ -77,7 +73,6 @@ class VizCompnent extends React.Component {
 
             OperateHistoryStore.destroy();
             editLog.store.clear();
-            TaskStore.setActiveTask();
         });
     }
 
@@ -143,8 +138,10 @@ class VizCompnent extends React.Component {
 
                 //获取任务比例记录，设置比例
                 const { TaskStore, DataLayerStore } = this.props;
-                const { activeTask } = TaskStore;
-                const taskScale = getTaskScaleStorage(activeTask.taskId);
+                const { activeTaskId } = TaskStore;
+                const { taskScale } = AdLocalStorage.getTaskInfosStorage(
+                    activeTaskId
+                );
                 taskScale && map.setEyeView(taskScale);
 
                 //获取点云高度范围
@@ -299,7 +296,10 @@ class VizCompnent extends React.Component {
             //保存当前任务比例
             const { activeTaskId } = TaskStore;
             const preTaskScale = map.getEyeView();
-            setTaskScaleStorage(activeTaskId, preTaskScale);
+            AdLocalStorage.setTaskInfosStorage({
+                taskId: activeTaskId,
+                taskScale: preTaskScale
+            });
         };
 
         // attributes 拾取控件

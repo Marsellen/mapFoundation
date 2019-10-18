@@ -1,5 +1,5 @@
 import resource from 'src/utils/resource';
-import { EditApiPath } from 'src/utils/Api';
+import { EditApiPath, updateBoundaryApiPath } from 'src/utils/Api';
 
 export default (function() {
     let service = resource(
@@ -16,6 +16,10 @@ export default (function() {
             },
             writeEditLog: {
                 url: EditApiPath('/api/writelog'),
+                method: 'post'
+            },
+            updateTaskBoundaryFile: {
+                url: updateBoundaryApiPath('/queryforoutside'),
                 method: 'post'
             }
         }

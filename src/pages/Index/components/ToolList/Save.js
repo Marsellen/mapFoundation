@@ -158,7 +158,6 @@ class Save extends React.Component {
     switchWithSave = async () => {
         const { TaskStore } = this.props;
         await this.save();
-        TaskStore.setActiveTask();
         this.loopLoadTask();
     };
 }

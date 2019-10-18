@@ -1,8 +1,9 @@
 import React from 'react';
-import { Menu, Empty, Modal } from 'antd';
+import { Menu, Empty, Modal, Button } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { setTaskScaleStorage } from 'src/utils/vectorUtils';
+import AdLocalStorage from 'src/utils/AdLocalStorage';
 import editLog from 'src/models/editLog';
+import 'less/components/sider.less';
 
 @inject('TaskStore')
 @inject('AttributeStore')
@@ -21,22 +22,37 @@ class Task extends React.Component {
 
     render() {
         const { TaskStore } = this.props;
-        const { validTasks } = TaskStore;
+        const { activeTaskId, validTasks, isEditableTask } = TaskStore;
 
         if (validTasks && validTasks.length > 0) {
-            let index = validTasks.findIndex(
-                item => item.taskId === this.state.current
+            let taskIndex = TaskStore.validTasks.findIndex(
+                item => item.taskId === activeTaskId
             );
-            index = index === -1 ? '0' : index.toString();
+            taskIndex = taskIndex > -1 ? taskIndex.toString() : '';
             return (
-                <Menu className="menu" selectedKeys={[index]}>
+                <Menu className="menu" selectedKeys={[taskIndex]}>
                     {validTasks.map((item, index) => (
-                        <Menu.Item
-                            key={index}
-                            onClick={() => {
-                                this.chooseTask(item.taskId);
-                            }}>
-                            <span>{`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}</span>
+                        <Menu.Item key={index}>
+                            <p>
+                                <span
+                                    onClick={e =>
+                                        this.chooseTask(e, item.taskId, false)
+                                    }>
+                                    {`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}
+                                </span>
+                                <Button
+                                    className="task-start-button"
+                                    disabled={
+                                        isEditableTask &&
+                                        taskIndex &&
+                                        index == taskIndex
+                                    }
+                                    onClick={e =>
+                                        this.chooseTask(e, item.taskId, true)
+                                    }>
+                                    开始
+                                </Button>
+                            </p>
                         </Menu.Item>
                     ))}
                 </Menu>
@@ -50,7 +66,8 @@ class Task extends React.Component {
         return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
     };
 
-    chooseTask = id => {
+    chooseTask = (e, id, isEditableTask) => {
+        e.stopPropagation();
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
@@ -61,15 +78,16 @@ class Task extends React.Component {
                 cancelText: '取消',
                 okType: 'danger',
                 onOk: () => {
-                    this.toggleTask(id);
+                    this.toggleTask(id, isEditableTask);
+                    document.getElementById('save-btn').click();
                 }
             });
         } else {
-            this.toggleTask(id);
+            this.toggleTask(id, isEditableTask);
         }
     };
 
-    toggleTask = id => {
+    toggleTask(id, isEditableTask) {
         const {
             TaskStore,
             AttributeStore,
@@ -78,7 +96,13 @@ class Task extends React.Component {
             ToolCtrlStore,
             PictureShowStore
         } = this.props;
-        TaskStore.setActiveTask(id);
+        const { current: currentTaskId } = this.state;
+
+        this.setState({
+            current: id
+        });
+
+        TaskStore.setActiveTask(id, isEditableTask);
         OperateHistoryStore.destroy();
         editLog.store.clear();
         DataLayerStore.activeEditor();
@@ -88,15 +112,14 @@ class Task extends React.Component {
         PictureShowStore.destory();
 
         // 切换任务时，保存上一个任务的缩放比例
-        if (this.state.current) {
+        if (currentTaskId) {
             const preTaskScale = map.getEyeView();
-            setTaskScaleStorage(this.state.current, preTaskScale);
+            AdLocalStorage.setTaskInfosStorage({
+                taskId: currentTaskId,
+                taskScale: preTaskScale
+            });
         }
-
-        this.setState({
-            current: id
-        });
-    };
+    }
 }
 
 export default Task;
