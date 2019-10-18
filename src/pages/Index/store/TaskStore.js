@@ -68,6 +68,7 @@ class TaskStore {
         }
 
         this.taskSaveTime = null;
+        this.editTaskId = null;
     };
 
     @action startTaskEdit = id => {
