@@ -128,11 +128,13 @@ class TaskStore {
     };
 
     getTaskBoundaryFile = flow(function*() {
-        const boundaryUrl = this.urlFormat(CONFIG.urlConfig.boundary);
-        const layerGroup = new LayerGroup(boundaryUrl, {
-            styleConifg: SDKConfig
-        });
-        yield map.getLayerManager().addLayerGroup(layerGroup);
+        if (window.map) {
+            const boundaryUrl = this.urlFormat(CONFIG.urlConfig.boundary);
+            const layerGroup = new LayerGroup(boundaryUrl, {
+                styleConifg: SDKConfig
+            });
+            yield window.map.getLayerManager().addLayerGroup(layerGroup);
+        }
     });
 
     updateTaskBoundaryFile = flow(function*(option) {
