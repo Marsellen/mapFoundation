@@ -6,6 +6,7 @@ import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import IDSearchForm from './IDSearchForm';
 import PositionSearchForm from './PositionSearchForm';
 import { isRegionContainsElement } from 'src/utils/vectorUtils';
+import SeniorModal from 'src/components/SeniorModal';
 import 'less/components/search-info.less';
 
 const TabPane = Tabs.TabPane;
@@ -35,12 +36,12 @@ class SearchInfo extends React.Component {
                     action={this.toggle}
                 />
 
-                <Modal
+                <SeniorModal
                     okText={'查询'}
                     cancelText={'取消'}
-                    className="searchinfo"
+                    wrapClassName="search-info-modal"
                     mask={false}
-                    width={'30vh'}
+                    width={320}
                     title="查询"
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
@@ -50,7 +51,7 @@ class SearchInfo extends React.Component {
                         this.SearchClick();
                     }}>
                     {this.renderContent()}
-                </Modal>
+                </SeniorModal>
             </span>
         );
     }
@@ -120,19 +121,26 @@ class SearchInfo extends React.Component {
     searchByPosition = () => {
         const { DataLayerStore } = this.props;
         let PSForm = this.PSForm.props.form;
-        let PSearchInfo = PSForm.getFieldsValue();
-        let elementGeojson = {
-            geometry: {
-                coordinates: [PSearchInfo.x, PSearchInfo.y, PSearchInfo.z],
-                type: 'Point'
-            },
-            type: 'Feature'
-        };
-        const isInRegion = isRegionContainsElement(
-            elementGeojson,
-            DataLayerStore.regionGeojson
-        );
-        console.log(isInRegion);
+        PSForm.validateFields((err, values) => {
+            if (!err) {
+                let elementGeojson = {
+                    geometry: {
+                        coordinates: [values.x, values.y, values.z],
+                        type: 'Point'
+                    },
+                    type: 'Feature'
+                };
+                const isInRegion = isRegionContainsElement(
+                    elementGeojson,
+                    DataLayerStore.regionGeojson
+                );
+                if (isInRegion) {
+                    window.map.lookDownOn(values.x, values.y, values.z);
+                } else {
+                    message.warning('坐标不在任务范围内！', 3);
+                }
+            }
+        });
     };
 
     showAttributesModal = obj => {

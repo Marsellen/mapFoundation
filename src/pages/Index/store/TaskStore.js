@@ -23,15 +23,15 @@ class TaskStore {
     }
 
     @computed get activeTaskId() {
-        return this.activeTask.taskId;
+        return this.activeTask && this.activeTask.taskId;
     }
 
     @computed get activeTaskUrl() {
-        return this.activeTask.Input_imp_data_path;
+        return this.activeTask && this.activeTask.Input_imp_data_path;
     }
 
     @computed get taskEditable() {
-        return this.activeTask.manualStatus !== 3;
+        return this.activeTask && this.activeTask.manualStatus !== 3;
     }
 
     // 任务列表
@@ -47,9 +47,9 @@ class TaskStore {
 
     // 任务切换
     @action setActiveTask = id => {
-        if (this.tasks && this.tasks.length > 0) {
+        if (this.validTasks && this.validTasks.length > 0) {
             if (id) {
-                this.activeTask = this.tasks.find(item => {
+                this.activeTask = this.validTasks.find(item => {
                     return item.taskId === id;
                 });
             } else {

@@ -476,6 +476,14 @@ class DataLayerStore extends LayerStore {
     @action setRegionGeojson = RegionGeojson => {
         this.regionGeojson = RegionGeojson;
     };
+
+    enableRegionSelect = () => {
+        this.editor.enableRegionSelect();
+    };
+
+    disableRegionSelect = () => {
+        this.editor.disableRegionSelect();
+    };
 }
 
 export default new DataLayerStore();

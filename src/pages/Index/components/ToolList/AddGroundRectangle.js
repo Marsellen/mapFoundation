@@ -34,7 +34,7 @@ class AddGroundRectangle extends React.Component {
     };
 
     content = () => {
-        return <label>添加地面矩形</label>;
+        return <label>添加地面矩形，选择四个点进行绘制</label>;
     };
 }
 
