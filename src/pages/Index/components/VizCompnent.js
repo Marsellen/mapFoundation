@@ -78,9 +78,10 @@ class VizCompnent extends React.Component {
 
     componentDidUpdate() {
         const { TaskStore } = this.props;
+        let task = TaskStore.getTaskFile();
+        if (!task) return;
         const div = document.getElementById('viz');
         window.map = new Map(div);
-        let task = TaskStore.getTaskFile();
         this.initTask(task);
     }
 
@@ -125,7 +126,6 @@ class VizCompnent extends React.Component {
     };
 
     initTask = async task => {
-        if (!task) return;
         console.time('taskLoad');
         const hide = message.loading('正在加载任务数据...', 0);
         await Promise.all([
@@ -536,7 +536,7 @@ class VizCompnent extends React.Component {
         const isCurrentLayer = layerName && !hasOtherFeature;
 
         // 左键，加载“右键菜单”，隐藏起来
-        console.log('features', features);
+        // console.log('features', features);
         if (event.button === 0) {
             RightMenuStore.show(
                 features,

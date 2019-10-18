@@ -42,7 +42,7 @@ class TaskStore {
     }
 
     @computed get isEditableTask() {
-        return this.activeTask.isEditableTask;
+        return this.activeTask && this.activeTask.isEditableTask;
     }
 
     // 任务列表
@@ -58,41 +58,36 @@ class TaskStore {
 
     // 任务切换
     @action setActiveTask = id => {
-        if (this.validTasks && this.validTasks.length > 0) {
-            if (id) {
-                this.activeTask = this.validTasks.find(item => {
-                    return item.taskId === id;
-                });
-            } else {
-                this.activeTask = this.validTasks[0];
-            }
+        if (this.validTasks && this.validTasks.length && id) {
+            this.activeTask = this.validTasks.find(item => {
+                return item.taskId === id;
+            });
+        } else {
+            this.activeTask = {};
+        }
 
-            if (isEditableTask) {
-                this.activeTask.isEditableTask = isEditableTask;
-                this.fetchTask();
-                if (id === this.activeTask && this.isGetTaskBoundaryFile()) {
-                    this.getTaskBoundaryFile();
-                }
-            }
+        this.taskSaveTime = null;
+    };
 
-            this.taskSaveTime = null;
+    @action startTaskEdit = () => {
+        this.activeTask.isEditableTask = true;
+        this.fetchTask();
+        if (!this.isGetTaskBoundaryFile()) {
+            this.updateTaskBoundaryFile({
+                taskId: this.activeTaskId
+            });
         }
     };
 
     fetchTask = flow(function*() {
-        const { taskFetchId, manualStatus, isEditableTask } = this.activeTask;
+        const { taskFetchId, manualStatus } = this.activeTask;
         const status = [2, 4, 5]; //已领取-1、进行中-2、返修-4、返工-5
 
-        if (taskFetchId && !status.includes(manualStatus) && isEditableTask) {
-            // “开始”编辑任务时，“已领取”任务，更新成"进行中"，同时更新底图
+        if (taskFetchId && !status.includes(manualStatus)) {
+            // “开始”编辑任务时，“已领取”任务，更新成"进行中"
             this.updateTaskStatus({
                 taskFetchId: taskFetchId,
                 manualStatus: 2
-            });
-        }
-        if (isEditableTask && !this.isGetTaskBoundaryFile()) {
-            this.updateTaskBoundaryFile({
-                taskId: this.activeTaskId
             });
         }
     });
