@@ -594,15 +594,15 @@ export const DEFAULT_PROPERTIES_MAP = {
         LANESTATUS: 1,
         LANE_TYPE: 1,
         LANE_NO: 0,
-        RD_FORM: 1
+        RD_FORM: 0
     },
     AD_Road: {
         TYPE: 1,
         RD_CLASS: 0,
-        CROSSING: 0,
-        RD_STATUS: 0,
-        RD_FORM: 0,
-        DIRECTION: 0,
+        CROSSING: 2,
+        RD_STATUS: 1,
+        RD_FORM: 1,
+        DIRECTION: 1,
         LENGTH: 0,
         MAX_SPEED: 0
     },

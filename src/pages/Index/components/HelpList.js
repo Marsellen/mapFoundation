@@ -4,7 +4,7 @@ import HotKey from './HotKey';
 import IconFont from 'src/components/IconFont';
 import 'src/assets/less/components/hotkey.less';
 
-class Help extends React.Component {
+class HelpList extends React.Component {
     state = {
         clicked: false,
         hovered: false
@@ -62,4 +62,4 @@ class Help extends React.Component {
     }
 }
 
-export default Help;
+export default HelpList;

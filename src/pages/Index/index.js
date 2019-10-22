@@ -8,9 +8,9 @@ import HeaderBar from './components/HeaderBar';
 import 'less/home.less';
 import logo from 'src/assets/img/logo.png';
 import VersionInfo from './components/VersionInfo';
-import Help from './components/Help';
 import { shortcutMap } from 'src/utils/shortcuts/shortcutsMap';
 import { shortcut } from 'src/utils/shortcuts';
+import HelpList from './components/HelpList';
 
 const { Header } = Layout;
 
@@ -43,7 +43,7 @@ class Index extends React.Component {
                 </Header>
                 <div className="flex flex-row">
                     <Sider menus={menus}>{SiderView}</Sider>
-                    <Help />
+                    <HelpList />
                     <VersionInfo />
                     <div className="flex-1 viz-content" id="viz-content">
                         <VizCompnent />
