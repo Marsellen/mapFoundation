@@ -5,6 +5,7 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import AdInput from 'src/components/Form/Input';
+import { getValidator } from 'src/utils/form/validator';
 
 const formItemLayout = {
     labelCol: {
@@ -66,7 +67,9 @@ class BasicAttributesForm extends React.Component {
                                 required: item.required,
                                 message: `${item.name}必填`
                             },
-                            ...(item.validates || []).map(validate => validate)
+                            {
+                                validator: getValidator(item.validates)
+                            }
                         ],
                         getValueFromEvent: item.getValueFromEvent,
                         initialValue: item.value
