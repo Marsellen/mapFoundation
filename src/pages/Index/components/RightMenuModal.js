@@ -5,12 +5,21 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import {
     deleteLine,
     breakLine,
-    mergeLine
+    mergeLine,
+    updateFeatures
 } from 'src/utils/relCtrl/operateCtrl';
+import { getLayerByName } from 'src/utils/vectorUtils';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
+import _ from 'lodash';
 
-const EDIT_TYPE = ['delPoint', 'changePoints', 'insertPoints', 'select_point'];
+const EDIT_TYPE = [
+    'delPoint',
+    'changePoints',
+    'insertPoints',
+    'select_point',
+    'reverseOrderLine'
+];
 
 const CHINESE_EDIT_TYPE = [
     {
@@ -28,6 +37,10 @@ const CHINESE_EDIT_TYPE = [
     {
         type: 'select_point',
         value: '选择一个点进行打断'
+    },
+    {
+        type: 'reverseOrderLine',
+        value: '点击进行线要素逆序'
     }
 ];
 
@@ -124,6 +137,13 @@ class RightMenuModal extends React.Component {
                 onClick={this.breakLine}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>打断</span>
+            </Menu.Item>,
+            <Menu.Item
+                id="reverse-order-line-btn"
+                key="reverseOrderLine"
+                onClick={this.reverseOrderLine}
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                <span>线要素逆序</span>
             </Menu.Item>,
             <Menu.Item
                 id="break-group-btn"
@@ -280,6 +300,8 @@ class RightMenuModal extends React.Component {
             onOk: async () => {
                 let result = RightMenuStore.delete();
                 let historyLog = await deleteLine(result);
+                console.log(result, historyLog);
+
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
                 let history = {
@@ -347,6 +369,60 @@ class RightMenuModal extends React.Component {
         }
 
         DataLayerStore.selectPointFromHighlight();
+        RightMenuStore.hide();
+    };
+
+    reverseOrderLine = () => {
+        const {
+            RightMenuStore,
+            DataLayerStore,
+            AttributeStore,
+            OperateHistoryStore
+        } = this.props;
+
+        if (!RightMenuStore.isCurrentLayer) {
+            message.warning('只能选取当前编辑图层要素！', 3);
+            return false;
+        }
+        Modal.confirm({
+            title: '您确认执行线要素逆序操作？',
+            okText: '确定',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk: async () => {
+                let features = RightMenuStore.getFeatures();
+
+                let oldFeatures = _.cloneDeep(features);
+                let newFeatures = features.map(item => {
+                    item.data.geometry.coordinates.reverse();
+                    return item;
+                });
+                let layer = getLayerByName(newFeatures[0].layerName);
+                layer.updateFeatures(newFeatures);
+
+                DataLayerStore.exitEdit();
+                AttributeStore.hideRelFeatures();
+                let historyLog = {
+                    features: [oldFeatures, newFeatures]
+                };
+                let history = {
+                    type: 'updateFeatureRels',
+                    data: historyLog
+                };
+                let log = {
+                    operateHistory: history,
+                    action: 'reverseOrderLine',
+                    result: 'success'
+                };
+                OperateHistoryStore.add(history);
+                editLog.store.add(log);
+            },
+            onCancel() {
+                DataLayerStore.exitEdit();
+                AttributeStore.hideRelFeatures();
+            }
+        });
+
         RightMenuStore.hide();
     };
 

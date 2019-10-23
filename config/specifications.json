@@ -60,9 +60,15 @@
             "insertPoints",
             "changePoints",
             "deletePoints",
+            "reverseOrderLine",
             "break"
         ],
-        "groupRightTools": ["breakGroup", "merge", "batchAssign"],
+        "groupRightTools": [
+            "breakGroup",
+            "merge",
+            "reverseOrderLine",
+            "batchAssign"
+        ],
         "attributes": [
             {
                 "key": "LDIV_ID",
@@ -230,9 +236,15 @@
             "insertPoints",
             "changePoints",
             "deletePoints",
+            "reverseOrderLine",
             "break"
         ],
-        "groupRightTools": ["breakGroup", "merge", "batchAssign"],
+        "groupRightTools": [
+            "breakGroup",
+            "merge",
+            "reverseOrderLine",
+            "batchAssign"
+        ],
         "attributes": [
             {
                 "key": "LANE_ID",
@@ -364,9 +376,15 @@
             "insertPoints",
             "changePoints",
             "deletePoints",
+            "reverseOrderLine",
             "break"
         ],
-        "groupRightTools": ["breakGroup", "merge", "batchAssign"],
+        "groupRightTools": [
+            "breakGroup",
+            "merge",
+            "reverseOrderLine",
+            "batchAssign"
+        ],
         "attributes": [
             {
                 "key": "ROAD_ID",
