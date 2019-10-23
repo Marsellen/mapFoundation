@@ -19,7 +19,8 @@ import {
     RESOURCE_LAYER_POINT_CLOUD,
     RESOURCE_LAYER_VETOR,
     RESOURCE_LAYER_TRACE,
-    RESOURCE_LAYER_TASK_SCOPE
+    RESOURCE_LAYER_TASK_SCOPE,
+    RESOURCE_LAYER_BOUNDARY
 } from 'src/config/DataLayerConfig';
 import MultimediaView from './MultimediaView';
 import VectorsConfig from '../../../config/VectorsConfig';
@@ -163,14 +164,14 @@ class VizCompnent extends React.Component {
     };
 
     initEditResource = async task => {
-        let [pointClouds, vectors, tracks, taskScope] = await Promise.all([
+        let resources = await Promise.all([
             this.initPointCloud(task.point_clouds),
             this.initVectors(task.vectors),
             this.initTracks(task.tracks),
             this.initRegion(task.region),
             this.initBoundary(task.boundary)
         ]);
-        this.initResouceLayer([pointClouds, vectors, tracks, taskScope]);
+        this.initResouceLayer(resources);
         this.installListener();
     };
 
@@ -256,16 +257,15 @@ class VizCompnent extends React.Component {
 
     initBoundary = async boundaryUrl => {
         try {
-            const { DataLayerStore } = this.props;
-            const layerGroup = new LayerGroup(boundaryUrl, {
+            window.boundaryLayerGroup = new LayerGroup(boundaryUrl, {
                 styleConifg: SDKConfig
             });
-            await map.getLayerManager().addLayerGroup(layerGroup);
-            let layers = layerGroup.layers;
-            DataLayerStore.initDetectorControl(layers);
-            DataLayerStore.setBoundarySelectedCallback(
-                this.boundarySelectedCallback
-            );
+            await map.getLayerManager().addLayerGroup(boundaryLayerGroup);
+
+            return {
+                layerName: RESOURCE_LAYER_BOUNDARY,
+                layer: boundaryLayerGroup
+            };
         } catch (e) {
             console.log(e);
             message.error('作业边界数据加载失败', 3);
@@ -306,7 +306,8 @@ class VizCompnent extends React.Component {
         DataLayerStore.initEditor([
             { layer: pointCloudLayer },
             ...vectorLayerGroup.layers,
-            { layer: traceLayer }
+            { layer: traceLayer },
+            ...boundaryLayerGroup.layers
         ]);
         DataLayerStore.initMeasureControl();
         DataLayerStore.setSelectedCallBack(this.selectedCallBack);
@@ -478,24 +479,6 @@ class VizCompnent extends React.Component {
         editLog.store.add(log);
     };
 
-    boundarySelectedCallback = result => {
-        const { AttributeStore, DataLayerStore } = this.props;
-        if (result && result.length > 0) {
-            DataLayerStore.unPick();
-            AttributeStore.setModel(result[0]);
-            AttributeStore.show(true);
-            this.modalType = 'boundary';
-        } else {
-            // 强行更改执行顺序，使之在任务数据点击事件触发后执行
-            setTimeout(() => {
-                if (this.modalType == 'boundary') {
-                    this.modalType = null;
-                    AttributeStore.hide();
-                }
-            });
-        }
-    };
-
     showPictureShowView = obj => {
         const { PictureShowStore } = this.props;
         window.traceLayer.unselect();
@@ -508,7 +491,7 @@ class VizCompnent extends React.Component {
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let readonly =
-            !editLayer || (editLayer && editLayer.layerName !== obj.layerName);
+            !editLayer || (editLayer && editLayer.layerId !== obj.layerId);
         AttributeStore.show(readonly);
         AttributeStore.setModel(obj);
     };
@@ -522,6 +505,7 @@ class VizCompnent extends React.Component {
         } = this.props;
         const editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
+        let layerId = editLayer && editLayer.layerId;
 
         let userInfo = appStore.loginUser;
         if (userInfo.roleCode == 'producer' && layerName == 'AD_Map_QC') {
@@ -529,7 +513,7 @@ class VizCompnent extends React.Component {
         }
 
         let hasOtherFeature = features.find(
-            feature => feature.layerName != layerName
+            feature => feature.layerId != layerId
         );
 
         const isCurrentLayer = layerName && !hasOtherFeature;

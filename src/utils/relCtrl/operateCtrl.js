@@ -280,7 +280,7 @@ const relDataFormat = (spec, properties) => {
         let {
             [objKeyName]: objId,
             [relObjKeyName]: relObjId,
-            ...extraInfo
+            REL_ID
         } = property;
         return {
             spec,
@@ -288,7 +288,9 @@ const relDataFormat = (spec, properties) => {
             relObjId,
             objType,
             relObjType,
-            extraInfo
+            extraInfo: {
+                REL_ID
+            }
         };
     });
 };
