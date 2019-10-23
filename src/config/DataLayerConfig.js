@@ -25,9 +25,15 @@ export const DATA_LAYER_MAP = {
             'insertPoints',
             'changePoints',
             'deletePoints',
+            'reverseOrderLine',
             'break'
         ],
-        groupRightTools: ['breakGroup', 'merge', 'batchAssign']
+        groupRightTools: [
+            'breakGroup',
+            'merge',
+            'batchAssign',
+            'reverseOrderLine'
+        ]
     },
     AD_LaneMark_Plg: {
         label: '面状标识物',
@@ -63,9 +69,15 @@ export const DATA_LAYER_MAP = {
             'insertPoints',
             'changePoints',
             'deletePoints',
+            'reverseOrderLine',
             'break'
         ],
-        groupRightTools: ['breakGroup', 'merge', 'batchAssign']
+        groupRightTools: [
+            'breakGroup',
+            'merge',
+            'batchAssign',
+            'reverseOrderLine'
+        ]
     },
     AD_TrafficSign: {
         label: '交通标志牌',
@@ -92,9 +104,15 @@ export const DATA_LAYER_MAP = {
             'insertPoints',
             'changePoints',
             'deletePoints',
+            'reverseOrderLine',
             'break'
         ],
-        groupRightTools: ['breakGroup', 'merge', 'batchAssign']
+        groupRightTools: [
+            'breakGroup',
+            'merge',
+            'batchAssign',
+            'reverseOrderLine'
+        ]
     },
     AD_TrafficLight: {
         label: '交通信号灯',
