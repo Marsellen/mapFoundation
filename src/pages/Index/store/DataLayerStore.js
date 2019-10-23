@@ -1,6 +1,6 @@
 import { action, configure, flow, observable, computed } from 'mobx';
 import LayerStore from './LayerStore';
-import { EditControl, MeasureControl, DetectorControl } from 'addis-viz-sdk';
+import { EditControl, MeasureControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
 import { Modal } from 'antd';
 import {
@@ -16,7 +16,6 @@ class DataLayerStore extends LayerStore {
         super();
         this.editor;
         this.measureControl;
-        this.detectorControl;
         this.highLightFeatures = [];
 
         this.bindKeyEvent();
@@ -77,12 +76,6 @@ class DataLayerStore extends LayerStore {
         });
     };
 
-    @action initDetectorControl = layers => {
-        this.detectorControl = new DetectorControl();
-        layers && this.detectorControl.setTargetLayers(layers);
-        map.getControlManager().addControl(this.detectorControl);
-    };
-
     @action activeEditor = name => {
         let layer = name ? getLayerExByName(name) : null;
         if (this.editor) {
@@ -129,20 +122,12 @@ class DataLayerStore extends LayerStore {
         this.editor.onFeatureEdited(callback);
     };
 
-    @action setBoundarySelectedCallback = callback => {
-        this.detectorControl.onFeaturesSelected(result => {
-            if (this.editType !== 'normal') return;
-            callback(result);
-        });
-    };
-
     @action getEditLayer = () => {
         return this.editor && this.editor.editLayer;
     };
 
     @action clearChoose = () => {
         this.removeCur();
-        this.detectorControl.enable();
         if (!this.editor) return;
         this.editType = 'normal';
         this.editor.clear();
@@ -393,7 +378,6 @@ class DataLayerStore extends LayerStore {
             default:
                 break;
         }
-        this.detectorControl.disable();
     };
 
     bindKeyEvent = () => {
