@@ -714,7 +714,8 @@ export const TABLE_DATA_MAP = {
             key: 'LANE_NO',
             name: '车道编号',
             type: 'AD_LANE_DIVIDER_LANE_NO',
-            domType: 'Input'
+            domType: 'Input',
+            validates: 'Char|5'
         },
         {
             key: 'RD_FORM',
@@ -812,19 +813,19 @@ export const TABLE_DATA_MAP = {
             name: '道路最高行驶速度',
             type: 'AD_ROAD_MAX_SPEED',
             domType: 'Input',
-            validates: [
-                {
-                    min: 0,
-                    max: 120,
-                    message: '[0,120]的整数',
-                    type: 'integer',
-                    transform(value) {
-                        if (value) {
-                            return Number(value);
-                        }
-                    }
-                }
-            ]
+            validates: 'Numeric|range|0|120'
+            // [
+            //     {
+            //         range: [0, 120],
+            //         message: '[0,120]的整数',
+            //         type: 'integer',
+            //         transform(value) {
+            //             if (value) {
+            //                 return Number(value);
+            //             }
+            //         }
+            //     }
+            // ]
         }
     ],
     AD_Lane: [
@@ -883,8 +884,7 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
-                    min: 0,
-                    max: 120,
+                    range: [0, 120],
                     message: '[0,120]的整数',
                     type: 'integer',
                     transform(value) {
@@ -908,8 +908,7 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
-                    min: 0,
-                    max: 110,
+                    range: [0, 110],
                     message: '[0,110]的整数',
                     type: 'integer',
                     transform(value) {
@@ -1064,7 +1063,7 @@ export const TABLE_DATA_MAP = {
             type: 'AD_MAP_QC_FEAT_ID',
             validates: [
                 {
-                    max: Math.pow(10, 15),
+                    max: 15,
                     message: '必须为15位以内数字',
                     type: 'number',
                     transform(value) {
@@ -1094,12 +1093,7 @@ export const TABLE_DATA_MAP = {
             validates: [
                 {
                     max: 250,
-                    message: '长度不能超过250字',
-                    transform(value) {
-                        if (value) {
-                            return String(value);
-                        }
-                    }
+                    message: '长度不能超过250字'
                 }
             ]
         },
@@ -1123,12 +1117,7 @@ export const TABLE_DATA_MAP = {
             validates: [
                 {
                     max: 20,
-                    message: '长度不能超过20字',
-                    transform(value) {
-                        if (value) {
-                            return String(value);
-                        }
-                    }
+                    message: '长度不能超过20字'
                 }
             ]
         },
@@ -1140,12 +1129,7 @@ export const TABLE_DATA_MAP = {
             validates: [
                 {
                     max: 20,
-                    message: '长度不能超过20字',
-                    transform(value) {
-                        if (value) {
-                            return String(value);
-                        }
-                    }
+                    message: '长度不能超过20字'
                 }
             ]
         }
@@ -1184,13 +1168,8 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
-                    max: 20,
-                    message: '单位M',
-                    transform(value) {
-                        if (value) {
-                            return String(value);
-                        }
-                    }
+                    max: 10,
+                    message: '最大长度10'
                 }
             ]
         },
@@ -1201,13 +1180,8 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             validates: [
                 {
-                    max: 20,
-                    message: '单位M',
-                    transform(value) {
-                        if (value) {
-                            return String(value);
-                        }
-                    }
+                    max: 10,
+                    message: '最大长度10'
                 }
             ]
         }
