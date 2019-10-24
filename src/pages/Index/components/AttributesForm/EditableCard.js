@@ -7,6 +7,7 @@ import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
 import './style.less';
 import AdInput from 'src/components/Form/Input';
+import { getValidator } from 'src/utils/form/validator';
 
 const formItemLayout = {
     labelCol: {
@@ -207,7 +208,7 @@ class EditableCard extends React.Component {
                                 required: item.required,
                                 message: `${item.name}必填`
                             },
-                            ...(item.validates || []).map(validate => validate)
+                            ...this.getValidatorSetting(item.validates)
                         ],
                         initialValue: item.value
                     })(<AdInput disabled={readonly} />)
@@ -334,6 +335,16 @@ class EditableCard extends React.Component {
     isPresent(obj) {
         return (!!obj && String(obj) != '') || obj === 0;
     }
+
+    getValidatorSetting = validates => {
+        return validates
+            ? [
+                  {
+                      validator: getValidator(validates)
+                  }
+              ]
+            : [];
+    };
 }
 
 export default EditableCard;

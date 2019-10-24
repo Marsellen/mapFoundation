@@ -38,7 +38,8 @@ export const ATTR_TABLE_CONFIG = {
         {
             key: 'SIGN_NO',
             name: '标志牌编号',
-            domType: 'Input'
+            domType: 'Input',
+            validates: 'Numeric|range|0|99'
         },
         {
             key: 'SIGN_TYPE',
@@ -78,7 +79,8 @@ export const ATTR_TABLE_CONFIG = {
         {
             key: 'TIMEDOM',
             name: '中心线限制时间描述',
-            domType: 'Input'
+            domType: 'Input',
+            validates: 'Char|250'
         }
     ],
     AD_Sub_Lamp: [
@@ -91,7 +93,8 @@ export const ATTR_TABLE_CONFIG = {
         {
             key: 'LAMP_NO',
             name: '信号灯灯头编号',
-            domType: 'Input'
+            domType: 'Input',
+            validates: 'Numeric|range|0|99'
         },
         {
             key: 'LAMP_TYPE',
@@ -123,7 +126,8 @@ export const ATTR_TABLE_CONFIG = {
         {
             name: '限制时间描述',
             key: 'TIMEDOM',
-            domType: 'Input'
+            domType: 'Input',
+            validates: 'Char|250'
         }
     ],
     AD_Lane_Con_RS: [
@@ -142,7 +146,8 @@ export const ATTR_TABLE_CONFIG = {
         {
             name: '限制时间描述',
             key: 'TIMEDOM',
-            domType: 'Input'
+            domType: 'Input',
+            validates: 'Char|250'
         }
     ]
 };
