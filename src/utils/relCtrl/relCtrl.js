@@ -5,7 +5,10 @@ import {
     ATTR_REL_DATA_SET,
     REL_DATA_SET
 } from 'src/config/RelsConfig';
-import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
+import {
+    getLayerIDKey,
+    getFeatureByOptionFormAll
+} from 'src/utils/vectorUtils';
 import IDService from 'src/pages/Index/service/IDService';
 import { Modal } from 'antd';
 
@@ -274,8 +277,7 @@ const updateFeatureRelAttr = (rel, isDel) => {
         key: keyName,
         value: id
     };
-    let layer = getLayerByName(rel.spec);
-    let feature = layer.getFeatureByOption(option).properties;
+    let [layer, feature] = getFeatureByOptionFormAll(rel.spec, option);
     if (isDel) {
         feature.data.properties[relKeyName] = 0;
     } else {
