@@ -19,7 +19,7 @@ class DataLayerStore extends LayerStore {
         this.highLightFeatures = [];
 
         this.bindKeyEvent();
-        this.readCoordinateEvent = throttle(this.readCoordinate, 100);
+        this.readCoordinateEvent = throttle(this.readCoordinate, 50);
     }
     @observable editType = 'normal';
     @observable beenPick;
@@ -424,6 +424,9 @@ class DataLayerStore extends LayerStore {
         viz.addEventListener('mousemove', this.readCoordinateEvent);
         viz.addEventListener('mousedown', this.closeReadCoordinate);
         viz.addEventListener('mouseup', this.openReadCoordinate);
+        viz.addEventListener('mouseout', () => {
+            setTimeout(this.setReadCoordinateResult, 0);
+        });
         addClass(viz, 'crosshair-viz');
     };
 
