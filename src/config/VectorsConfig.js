@@ -236,7 +236,7 @@ export default {
             {
                 value: 6,
                 label: '公交车道',
-                style: { color: 'rgb(255,130,0)', linewidth: 1 }
+                style: { color: 'rgb(255,255,0)', linewidth: 1 }
             },
             {
                 value: 7,

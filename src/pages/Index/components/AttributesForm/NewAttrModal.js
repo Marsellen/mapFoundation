@@ -9,6 +9,7 @@ import {
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import _ from 'lodash';
 import AdInput from 'src/components/Form/Input';
+import { getValidator } from 'src/utils/form/validator';
 
 const formItemLayout = {
     labelCol: {
@@ -114,7 +115,8 @@ class NewAttrModal extends React.Component {
                             required: item.required,
                             message: `${item.name}必填`
                         },
-                        ...(item.validates || []).map(validate => validate)
+
+                        ...this.getValidatorSetting(item.validates)
                     ],
                     initialValue: item.value
                 })(<AdInput />)}
@@ -206,6 +208,15 @@ class NewAttrModal extends React.Component {
         } else {
             return () => {};
         }
+    };
+    getValidatorSetting = validates => {
+        return validates
+            ? [
+                  {
+                      validator: getValidator(validates)
+                  }
+              ]
+            : [];
     };
 }
 

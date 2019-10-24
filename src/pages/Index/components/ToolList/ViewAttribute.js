@@ -32,7 +32,12 @@ class ViewAttribute extends React.Component {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         return (
-            <span className={this.state.visible ? 'ad-icon-active' : ''}>
+            <span
+                className={
+                    this.state.visible
+                        ? 'ad-icon-active flex flex-center ad-sider-item data-layer'
+                        : ' flex flex-center ad-sider-item data-layer'
+                }>
                 <ToolIcon
                     icon="shuxingliebiao"
                     title="属性列表"

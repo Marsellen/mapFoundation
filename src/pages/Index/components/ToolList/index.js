@@ -16,7 +16,6 @@ import DelRel from './DelRel';
 import Ranging from './Ranging';
 import AddOutsideRectangle from './AddOutsideRectangle';
 import AdjustPointSize from './AdjustPointSize';
-import ViewAttribute from './ViewAttribute';
 import ReadCoordinate from './ReadCoordinate';
 import PointStratification from './PointStratification';
 import AddGroundRectangle from './AddGroundRectangle';
@@ -43,6 +42,5 @@ export default [
     <AddCircle key="ADD_CIRCLE" />,
     <AddRel key="ADD_REL" />,
     <DelRel key="DEL_REL" />,
-    <ViewAttribute key="VIEW_ATTRIBUTE" />,
     <SearchInfo key="SEARCH_INFO" />
 ];

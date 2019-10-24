@@ -67,11 +67,8 @@ class BasicAttributesForm extends React.Component {
                                 required: item.required,
                                 message: `${item.name}必填`
                             },
-                            {
-                                validator: getValidator(item.validates)
-                            }
+                            ...this.getValidatorSetting(item.validates)
                         ],
-                        getValueFromEvent: item.getValueFromEvent,
                         initialValue: item.value
                     })(<AdInput disabled={readonly} />)
                 ) : (
@@ -223,6 +220,16 @@ class BasicAttributesForm extends React.Component {
     isPresent(obj) {
         return (!!obj && String(obj) != '') || obj === 0;
     }
+
+    getValidatorSetting = validates => {
+        return validates
+            ? [
+                  {
+                      validator: getValidator(validates)
+                  }
+              ]
+            : [];
+    };
 }
 
 export default BasicAttributesForm;
