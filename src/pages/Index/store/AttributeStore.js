@@ -3,7 +3,7 @@ import modelFactory from 'src/utils/vectorCtrl/modelFactory';
 import relFactory from 'src/utils/relCtrl/relFactory';
 import attrFactory from 'src/utils/attrCtrl/attrFactory';
 import IDService from 'src/pages/Index/service/IDService';
-import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
+import { getLayerIDKey, updateFeatureColor } from 'src/utils/vectorUtils';
 import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
 import _ from 'lodash';
 
@@ -102,9 +102,7 @@ class AttributeStore {
         try {
             this.relFeatures.map(feature => {
                 try {
-                    getLayerByName(feature.layerName).updateFeatureColor(
-                        feature.option
-                    );
+                    updateFeatureColor(feature.layerName, feature.option);
                 } catch (e) {
                     console.log(e);
                 }
@@ -119,7 +117,8 @@ class AttributeStore {
         try {
             this.relFeatures.map(feature => {
                 try {
-                    getLayerByName(feature.layerName).updateFeatureColor(
+                    updateFeatureColor(
+                        feature.layerName,
                         feature.option,
                         'rgb(31, 255, 255)'
                     );
