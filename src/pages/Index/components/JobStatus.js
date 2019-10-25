@@ -125,11 +125,10 @@ class JobStatus extends React.Component {
         }
         try {
             await TaskStore.initSubmit(option);
-            // 提交后重新获取任务
-            await TaskStore.initTask({ type: 3 });
-            // 等SDK提供清空画布接口
             TaskStore.setActiveTask();
             this.clearWorkSpace();
+            // 提交后重新获取任务
+            await TaskStore.initTask({ type: 3 });
         } catch (e) {
             message.error(e.message, 3);
         }
