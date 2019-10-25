@@ -68,6 +68,10 @@ class Task extends React.Component {
 
     chooseTask = (e, id, isEdit) => {
         e.stopPropagation();
+        const { current: currentTaskId } = this.state;
+        if (currentTaskId == id && !isEdit) {
+            return;
+        }
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
@@ -121,6 +125,31 @@ class Task extends React.Component {
             });
         }
     }
+
+    clearWorkSpace = () => {
+        const {
+            TaskStore,
+            OperateHistoryStore,
+            DataLayerStore,
+            ToolCtrlStore,
+            AttributeStore,
+            PictureShowStore
+        } = this.props;
+        const { tasks } = TaskStore;
+        OperateHistoryStore.destroy();
+        editLog.store.clear();
+        if (!tasks || tasks.length == 0) {
+            message.warning('暂无任务', 3);
+            return;
+        }
+        if (tasks && tasks.length > 1) {
+            DataLayerStore.activeEditor();
+            ToolCtrlStore.updateByEditLayer();
+            AttributeStore.hide();
+            PictureShowStore.hide();
+            PictureShowStore.destory();
+        }
+    };
 }
 
 export default Task;
