@@ -89,6 +89,9 @@ class SearchInfo extends React.Component {
     };
 
     searchByID = () => {
+        const {
+            DataLayerStore: { layers }
+        } = this.props;
         let IDSForm = this.IDSForm.props.form;
         const reg = /^\d+(\.\d*)?$|^\.\d+$/;
 
@@ -104,9 +107,14 @@ class SearchInfo extends React.Component {
                     message.warning('请输入正整数！', 3);
                     return;
                 }
-                let layer = getLayerByName(layerName);
-                if (layer.getFeatureByOption(option)) {
-                    let feature = layer.getFeatureByOption(option).properties;
+                let layer = layers.find(layer => layer.value == layerName);
+                if (!layer.checked) {
+                    message.warning('请打开被查询的数据图层！', 3);
+                    return;
+                }
+                if (layer.layer.getFeatureByOption(option)) {
+                    let feature = layer.layer.getFeatureByOption(option)
+                        .properties;
                     let extent = map.getExtent(feature.data.geometry);
                     map.setView('U');
                     map.setExtent(extent);
