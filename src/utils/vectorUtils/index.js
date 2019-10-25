@@ -31,7 +31,7 @@ export const getLayerByName = layerName => {
 
 export const updateFeatureColor = (layerName, option, color) => {
     let [layer] = getFeatureByOptionFormAll(layerName, option);
-    layer.updateFeatureColor(option, color);
+    layer && layer.updateFeatureColor(option, color);
 };
 
 export const getFeatureByOptionFormAll = (layerName, option) => {
@@ -50,6 +50,7 @@ export const getFeatureByOptionFormAll = (layerName, option) => {
     if (boundaryFeature) {
         return [boundaryLayer, boundaryFeature.properties];
     }
+    return [];
 };
 
 //处理多维数组，[[[1,2]]]=>[1,2]

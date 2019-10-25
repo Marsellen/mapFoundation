@@ -1,5 +1,6 @@
 import resource from 'src/utils/resource';
 import { EditApiPath, updateBoundaryApiPath } from 'src/utils/Api';
+import { getAuthentication } from 'src/utils/Session';
 
 export default (function() {
     let service = resource(
@@ -27,10 +28,18 @@ export default (function() {
 
     service.exportShp = params => {
         // let link = document.createElement('a');
+        let userInfo = getAuthentication();
+        let Authentication = userInfo ? userInfo.token : '';
+        params = {
+            ...params,
+            Authentication
+        };
         let searchParams = Object.keys(params).reduce((str, key) => {
-            return str + key + '=' + params[key];
+            return str + key + '=' + params[key] + '&';
         }, '?');
+
         let url = EditApiPath('/api/v1/geoio/json2Shp' + searchParams);
+
         // link.style.display = 'none';
         // link.href = url;
         window.open(url);
