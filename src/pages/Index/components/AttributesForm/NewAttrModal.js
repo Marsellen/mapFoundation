@@ -10,6 +10,7 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import _ from 'lodash';
 import AdInput from 'src/components/Form/Input';
 import { getValidator } from 'src/utils/form/validator';
+import AdInputNumber from 'src/components/Form/InputNumber';
 
 const formItemLayout = {
     labelCol: {
@@ -124,6 +125,25 @@ class NewAttrModal extends React.Component {
         );
     };
 
+    renderInputNumber = (item, index) => {
+        const { form } = this.props;
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
+                {form.getFieldDecorator(item.key, {
+                    rules: [
+                        {
+                            required: item.required,
+                            message: `${item.name}必填`
+                        },
+
+                        ...this.getValidatorSetting(item.validates)
+                    ],
+                    initialValue: item.value
+                })(<AdInputNumber type="number" />)}
+            </Form.Item>
+        );
+    };
+
     renderSelect = (item, index) => {
         const { form } = this.props;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
@@ -209,6 +229,7 @@ class NewAttrModal extends React.Component {
             return () => {};
         }
     };
+
     getValidatorSetting = validates => {
         return validates
             ? [

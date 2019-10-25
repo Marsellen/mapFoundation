@@ -1,5 +1,5 @@
 import React from 'react';
-import { Popover, Slider } from 'antd';
+import { Popover, Slider, Tooltip } from 'antd';
 import { inject, observer } from 'mobx-react';
 import IconFont from 'src/components/IconFont';
 import 'src/assets/less/components/tool-icon.less';
@@ -16,7 +16,7 @@ class PointStratification extends React.Component {
     };
 
     sliderFormatter = value => {
-        return `${value}米`;
+        return `${value.toFixed(2)}米`;
     };
 
     handlePopoverChange = visible => {
@@ -87,11 +87,13 @@ class PointStratification extends React.Component {
                 trigger="click"
                 onVisibleChange={this.handlePopoverChange}
                 visible={popoverVisible}>
-                <IconFont
-                    type="icon-dianyunfengaochengxianshi"
-                    className={`ad-icon ${this.isDisabled() &&
-                        'ad-disabled-icon'}`}
-                />
+                <Tooltip placement="bottom" title="设置点云分高程展示">
+                    <IconFont
+                        type="icon-dianyunfengaochengxianshi"
+                        className={`ad-icon ${this.isDisabled() &&
+                            'ad-disabled-icon'}`}
+                    />
+                </Tooltip>
             </Popover>
         );
     }

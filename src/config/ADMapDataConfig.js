@@ -714,8 +714,8 @@ export const TABLE_DATA_MAP = {
             key: 'LANE_NO',
             name: '车道编号',
             type: 'AD_LANE_DIVIDER_LANE_NO',
-            domType: 'Input',
-            validates: 'Char|5'
+            domType: 'InputNumber',
+            validates: 'Numeric|range|-99|99'
         },
         {
             key: 'RD_FORM',
@@ -792,6 +792,7 @@ export const TABLE_DATA_MAP = {
             key: 'LENGTH',
             name: '道路长度',
             type: 'AD_ROAD_LENGTH',
+            required: true,
             validates: 'Decimal|10|2',
             // [
             //     {
@@ -808,13 +809,13 @@ export const TABLE_DATA_MAP = {
             //     let value = Number(e.target.value);
             //     return !value ? e.target.value : value;
             // },
-            domType: 'Input'
+            domType: 'InputNumber'
         },
         {
             key: 'MAX_SPEED',
             name: '道路最高行驶速度',
             type: 'AD_ROAD_MAX_SPEED',
-            domType: 'Input',
+            domType: 'InputNumber',
             validates: 'Numeric|range|0|120'
             // [
             //     {
@@ -865,8 +866,8 @@ export const TABLE_DATA_MAP = {
             key: 'LANE_NO',
             name: '车道编号',
             type: 'AD_LANE_LANE_NO',
-            domType: 'Input',
-            validates: 'Char|5'
+            domType: 'InputNumber',
+            validates: 'Numeric|range|-99|99'
         },
         {
             key: 'DIRECTION',
@@ -884,7 +885,7 @@ export const TABLE_DATA_MAP = {
             key: 'MAX_SPEED',
             name: '最高行驶速度',
             type: 'AD_LANE_MAX_SPEED',
-            domType: 'Input',
+            domType: 'InputNumber',
             validates: 'Numeric|range|0|120'
             // [
             //     {
@@ -909,7 +910,7 @@ export const TABLE_DATA_MAP = {
             key: 'MIN_SPEED',
             name: '最低行驶速度',
             type: 'AD_LANE_MIN_SPEED',
-            domType: 'Input',
+            domType: 'InputNumber',
             validates: 'Numeric|range|0|110'
             // validates: [
             //     {
@@ -1030,6 +1031,7 @@ export const TABLE_DATA_MAP = {
             key: 'LAMP_COUNT',
             name: '信号灯灯头数量',
             type: 'AD_TRAFFIC_LIGHT_LAMP_COUNT',
+            required: true,
             validates: 'Numeric|range|1|99',
             // [
             //     {
@@ -1046,7 +1048,7 @@ export const TABLE_DATA_MAP = {
             //     let value = Number(e.target.value);
             //     return !value ? e.target.value : value;
             // },
-            domType: 'Input'
+            domType: 'InputNumber'
         }
     ],
     AD_Map_QC: [
@@ -1067,6 +1069,7 @@ export const TABLE_DATA_MAP = {
             key: 'FEAT_ID',
             name: '错误数据ID',
             type: 'AD_MAP_QC_FEAT_ID',
+            required: true,
             validates: 'Numeric|maxLength|15',
             // [
             //     {
@@ -1084,7 +1087,7 @@ export const TABLE_DATA_MAP = {
             //     let value = Number(e.target.value);
             //     return !value ? e.target.value : value;
             // },
-            domType: 'Input'
+            domType: 'InputNumber'
         },
         {
             key: 'ERROR_TYPE',
@@ -1175,7 +1178,7 @@ export const TABLE_DATA_MAP = {
             key: 'RADIUS_UP',
             name: '杆状物立柱顶部半径',
             type: 'AD_POLE_RADIUS_UP',
-            domType: 'Input',
+            domType: 'InputNumber',
             validates: 'Decimal|10|4'
             // [
             //     {
@@ -1188,7 +1191,7 @@ export const TABLE_DATA_MAP = {
             key: 'RADIUS_DN',
             name: '杆状物立柱底部半径',
             type: 'AD_POLE_RADIUS_DN',
-            domType: 'Input',
+            domType: 'InputNumber',
             validates: 'Decimal|10|4'
             // [
             //     {

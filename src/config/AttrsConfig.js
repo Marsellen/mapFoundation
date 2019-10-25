@@ -38,7 +38,8 @@ export const ATTR_TABLE_CONFIG = {
         {
             key: 'SIGN_NO',
             name: '标志牌编号',
-            domType: 'Input',
+            domType: 'InputNumber',
+            required: true,
             validates: 'Numeric|range|0|99'
         },
         {
@@ -56,24 +57,25 @@ export const ATTR_TABLE_CONFIG = {
         {
             key: 'CONT_VALUE',
             name: '标志牌语义内容',
-            validates: [
-                {
-                    message: '[0,120]的整数',
-                    type: 'integer',
-                    max: 120,
-                    min: 0,
-                    transform(value) {
-                        if (value) {
-                            return Number(value);
-                        }
-                    }
-                }
-            ],
-            getValueFromEvent: e => {
-                let value = Number(e.target.value);
-                return !value ? e.target.value : value;
-            },
-            domType: 'Input'
+            validates: 'Numeric|range|0|99',
+            //  [
+            //     {
+            //         message: '[0,120]的整数',
+            //         type: 'integer',
+            //         max: 120,
+            //         min: 0,
+            //         transform(value) {
+            //             if (value) {
+            //                 return Number(value);
+            //             }
+            //         }
+            //     }
+            // ],
+            // getValueFromEvent: e => {
+            //     let value = Number(e.target.value);
+            //     return !value ? e.target.value : value;
+            // },
+            domType: 'InputNumber'
         },
 
         {
@@ -93,7 +95,8 @@ export const ATTR_TABLE_CONFIG = {
         {
             key: 'LAMP_NO',
             name: '信号灯灯头编号',
-            domType: 'Input',
+            domType: 'InputNumber',
+            required: true,
             validates: 'Numeric|range|0|99'
         },
         {
