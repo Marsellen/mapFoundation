@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Select } from 'antd';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import AdInput from 'src/components/Form/Input';
+import AdInputNumber from 'src/components/Form/InputNumber';
 
 @Form.create()
 class EditItem extends React.Component {
@@ -26,6 +27,33 @@ class EditItem extends React.Component {
                 onClick={action ? action : () => {}}>
                 {text}
             </div>
+        );
+    }
+
+    renderInputNumber() {
+        const { record, form, dataIndex, title } = this.props;
+        const { editing } = this.state;
+        return editing ? (
+            <Form.Item style={{ margin: 0 }}>
+                {form.getFieldDecorator(dataIndex, {
+                    rules: [
+                        {
+                            required: true,
+                            message: `${title}必填`
+                        }
+                    ],
+                    initialValue: record[dataIndex]
+                })(
+                    <AdInputNumber
+                        type="number"
+                        ref={node => (this.node = node)}
+                        onPressEnter={this.save}
+                        onBlur={this.save}
+                    />
+                )}
+            </Form.Item>
+        ) : (
+            this.renderText(true, this.toggleEdit)
         );
     }
 
