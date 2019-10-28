@@ -110,6 +110,18 @@ class DataLayerStore extends LayerStore {
                 case 'select_point':
                     this.breakCallback(result, event);
                     break;
+                case 'new_around_line':
+                    this.aroundCallback(result, event);
+                    break;
+                case 'new_straight_line':
+                    this.straightCallback(result, event);
+                    break;
+                case 'new_turn_line':
+                    this.turnCallback(result, event);
+                    break;
+                case 'new_Uturn_line':
+                    this.uturnCallback(result, event);
+                    break;
             }
         });
     };
@@ -205,6 +217,43 @@ class DataLayerStore extends LayerStore {
         this.editor.newMatrix();
     };
 
+    // 左右车道线生成中心线
+    @action newAroundLine = () => {
+        if (!this.editor) return;
+        this.disableOtherCtrl();
+        this.editType = 'new_around_line';
+        this.editor.clear();
+        this.editor.toggleMode(61);
+        console.log('this.editType左右:', this.editType);
+    };
+
+    // 路口内直行中心线生成
+    @action newStraightLine = () => {
+        if (!this.editor) return;
+        this.disableOtherCtrl();
+        this.editType = 'new_straight_line';
+        this.editor.clear();
+        this.editor.toggleMode(61);
+    };
+
+    // 路口内转弯中心线生成
+    @action newTurnLine = () => {
+        if (!this.editor) return;
+        this.disableOtherCtrl();
+        this.editType = 'new_turn_line';
+        this.editor.clear();
+        this.editor.toggleMode(61);
+    };
+
+    // 路口内掉头中心线生成
+    @action newUTurnLine = () => {
+        if (!this.editor) return;
+        this.disableOtherCtrl();
+        this.editType = 'new_Uturn_line';
+        this.editor.clear();
+        this.editor.toggleMode(61);
+    };
+
     @action topViewMode = opt => {
         if (opt) {
             this.isTopView = true;
@@ -245,6 +294,28 @@ class DataLayerStore extends LayerStore {
 
     @action setBreakCallback = callback => {
         this.breakCallback = callback;
+    };
+
+    // 两条车道线自动生成中心线
+    @action setStraightCallback = callback => {
+        this.straightCallback = callback;
+        this.turnCallback = callback;
+        this.uturnCallback = callback;
+    };
+
+    // 路口内直行中心线生成
+    @action setAroundCallback = callback => {
+        this.aroundCallback = callback;
+    };
+
+    // 路口内转弯中心线生成
+    @action setTurnCallback = callback => {
+        this.turnCallback = callback;
+    };
+
+    // 输入两条路口进出中心线生成路口内中心线
+    @action setUTurnCallback = callback => {
+        this.uturnCallback = callback;
     };
 
     @action newCircle = () => {

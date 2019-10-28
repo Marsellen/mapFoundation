@@ -8,6 +8,7 @@ import {
 import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
 import { updateFeaturesByRels } from './relCtrl';
 import EditorService from 'src/pages/Index/service/EditorService';
+import AdLineService from 'src/pages/Index/service/AdLineService';
 import { getFeatureRels } from './utils';
 import attrFactory from '../attrCtrl/attrFactory';
 import {
@@ -94,6 +95,38 @@ const mergeLine = async (features, task_id) => {
         rels: [oldRels, rels],
         attrs: [oldAttrs, attrs]
     };
+    await updateFeatures(historyLog);
+
+    return historyLog;
+};
+
+const getNewLine = async (layer, params) => {
+    let result;
+    const lines = layer ? 'AD_Lane' : 'AD_Road';
+    if (layer && params.AD_LaneDivider) {
+        //左右车道线生成车道中心线
+        result = await AdLineService.aroundLines(params);
+    } else if (layer && params.AD_Lane) {
+        //车道中心线
+        result = await AdLineService.straightLines(params);
+    } else if (!layer && params.AD_LaneDivider) {
+        //车道线生成道路参考线
+        result = await AdLineService.adRoadLines(params);
+    } else if (!layer && params.AD_Road) {
+        //道路参考线
+        result = await AdLineService.adTwoRoadLines(params);
+    }
+    let { newFeatures } = result.data[lines].features.reduce(
+        (total, feature) => {
+            total.newFeatures = [{ data: feature, layerName: lines }];
+            return total;
+        },
+        { newFeatures: [] }
+    );
+    let historyLog = {
+        features: [[], newFeatures]
+    };
+
     await updateFeatures(historyLog);
 
     return historyLog;
@@ -462,4 +495,11 @@ const WKTToGeom = wkt => {
     return geoJson;
 };
 
-export { deleteLine, breakLine, mergeLine, updateFeatures, updateRels };
+export {
+    deleteLine,
+    breakLine,
+    mergeLine,
+    getNewLine,
+    updateFeatures,
+    updateRels
+};
