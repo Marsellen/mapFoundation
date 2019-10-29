@@ -39,7 +39,7 @@ class EditItem extends React.Component {
                     rules: [
                         {
                             required: true,
-                            message: `${title}必填`
+                            message: `${title}必填,请输入合法的数字`
                         }
                     ],
                     initialValue: record[dataIndex]

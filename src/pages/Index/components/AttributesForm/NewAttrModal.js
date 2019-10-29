@@ -133,7 +133,7 @@ class NewAttrModal extends React.Component {
                     rules: [
                         {
                             required: item.required,
-                            message: `${item.name}必填`
+                            message: `${item.name}必填,请输入合法的数字`
                         },
 
                         ...this.getValidatorSetting(item.validates)

@@ -38,10 +38,11 @@ const getNumericRangeValidator = params => {
     let [min, max] = params;
     min = Number(min);
     max = Number(max);
+    let reg = /(^[\-0-9][0-9]*([0-9]+)?)$/;
     return (rule, value, callback) => {
         let number = Number(value);
-        if (number < min || number > max) {
-            callback(new Error(`取值范围应在[${min}, ${max}]`));
+        if (!reg.test(number) || number < min || number > max) {
+            callback(new Error(`取值范围应在[${min}, ${max}]的整数`));
         }
         callback();
     };
@@ -82,8 +83,11 @@ const getDecimalValidator = option => {
             '})?$'
     );
     return (rule, value, callback) => {
+        if (!value && value !== 0) {
+            return callback();
+        }
         if (!reg.test(value)) {
-            callback(
+            return callback(
                 new Error(
                     `整数部分不超过${integerLength +
                         1}位数字,小数部分不超过${floatLength}位小数`

@@ -19,54 +19,86 @@ export const ATTR_REL_DATA_SET = [
 // IndexDB对象类型描述映射
 export const REL_TYPE_KEY_MAP = {
     DEFAULT: {
-        name: '未知关系关联对象'
+        name: '未知关系关联对象',
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     },
     L_LDIV: {
-        name: '关联左侧车道线'
+        name: '关联左侧车道线',
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     },
     R_LDIV: {
-        name: '关联右侧车道线'
+        name: '关联右侧车道线',
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     },
     ROAD: {
-        name: '关联参考线'
+        name: '关联参考线',
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     },
     LANE: {
-        name: '关联车道中心线'
+        name: '关联车道中心线',
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     },
     FROM_LANE: {
         name: '驶入车道中心线',
-        withAttr: true
+        withAttr: true,
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     },
     TO_LANE: {
         name: '驶出车道中心线',
-        withAttr: true
+        withAttr: true,
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     },
     FROM_ROAD: {
-        name: '驶入参考线'
+        name: '驶入参考线',
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     },
     TO_ROAD: {
-        name: '驶出参考线'
+        name: '驶出参考线',
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     },
     STOPL: {
-        name: '关联停止位置'
+        name: '关联停止位置',
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     },
     PLG: {
-        name: '关联面状标识物'
+        name: '关联面状标识物',
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     },
     LIGHT: {
-        name: '关联交通信号灯'
+        name: '关联交通信号灯',
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     },
     SIGN: {
-        name: '关联交通标志牌'
+        name: '关联交通标志牌',
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     },
     ARROW: {
-        name: '关联地面箭头'
+        name: '关联地面箭头',
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     },
     TEXT: {
-        name: '关联地面文字'
+        name: '关联地面文字',
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     },
     LANEP: {
-        name: '关联属性变化点'
+        name: '关联属性变化点',
+        validates: 'Numeric|maxLength|15',
+        domType: 'InputNumber'
     }
 };
 
