@@ -63,7 +63,7 @@ export const DATA_LAYER_MAP = {
         label: '车道中心线',
         id: 'LANE_ID',
         spec: 'AD_Lane',
-        tools: ['LINE', 'ADD_REL', 'DEL_REL'],
+        tools: ['LINE', 'ADD_REL', 'DEL_REL', 'ADD_AD_LINE', 'ADD_AROUND_LINE'],
         rightTools: [
             'delete',
             'insertPoints',
@@ -98,7 +98,7 @@ export const DATA_LAYER_MAP = {
         label: '道路参考线',
         id: 'ROAD_ID',
         spec: 'AD_Road',
-        tools: ['LINE', 'ADD_REL', 'DEL_REL'],
+        tools: ['LINE', 'ADD_REL', 'DEL_REL', 'ADD_AD_LINE', 'ADD_AROUND_LINE'],
         rightTools: [
             'delete',
             'insertPoints',

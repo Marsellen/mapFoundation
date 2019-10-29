@@ -107,6 +107,7 @@ class Task extends React.Component {
         OperateHistoryStore.destroy();
         editLog.store.clear();
         DataLayerStore.activeEditor();
+        DataLayerStore.topViewMode(false);
         ToolCtrlStore.updateByEditLayer();
         AttributeStore.hide();
         PictureShowStore.hide();
