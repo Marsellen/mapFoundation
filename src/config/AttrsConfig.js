@@ -52,32 +52,15 @@ export const ATTR_TABLE_CONFIG = {
             key: 'CONT_TYPE',
             name: '交通标志牌语义类型',
             type: 'AD_TS_CONTENT_CONT_TYPE',
-            domType: 'Select'
+            domType: 'Select',
+            link: 'CONT_VALUE'
         },
         {
             key: 'CONT_VALUE',
             name: '标志牌语义内容',
-            validates: 'Numeric|range|0|99',
-            //  [
-            //     {
-            //         message: '[0,120]的整数',
-            //         type: 'integer',
-            //         max: 120,
-            //         min: 0,
-            //         transform(value) {
-            //             if (value) {
-            //                 return Number(value);
-            //             }
-            //         }
-            //     }
-            // ],
-            // getValueFromEvent: e => {
-            //     let value = Number(e.target.value);
-            //     return !value ? e.target.value : value;
-            // },
+            disabled: true,
             domType: 'InputNumber'
         },
-
         {
             key: 'TIMEDOM',
             name: '中心线限制时间描述',

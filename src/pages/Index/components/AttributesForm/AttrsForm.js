@@ -49,7 +49,9 @@ class AttrsForm extends React.Component {
                     )
                 )}
                 {newEnable && (
-                    <Button onClick={this.newAttrs('AD_Lane_RS')} title='添加交通限制'> 
+                    <Button
+                        onClick={this.newAttrs('AD_Lane_RS')}
+                        title="添加交通限制">
                         <Icon type="plus" />
                     </Button>
                 )}
@@ -84,7 +86,9 @@ class AttrsForm extends React.Component {
                     )
                 )}
                 {!readonly && (
-                    <Button onClick={this.newAttrs('AD_TS_Content')} title='添加标志牌信息'>
+                    <Button
+                        onClick={this.newAttrs('AD_TS_Content')}
+                        title="添加标志牌信息">
                         <Icon type="plus" />
                     </Button>
                 )}
@@ -116,7 +120,9 @@ class AttrsForm extends React.Component {
                     )
                 )}
                 {!readonly && (
-                    <Button onClick={this.newAttrs('AD_Sub_Lamp')} title='添加信号灯属性'>
+                    <Button
+                        onClick={this.newAttrs('AD_Sub_Lamp')}
+                        title="添加信号灯属性">
                         <Icon type="plus" />
                     </Button>
                 )}
