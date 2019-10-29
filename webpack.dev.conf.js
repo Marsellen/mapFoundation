@@ -28,6 +28,12 @@ module.exports = merge(common, {
                 changeOrigin: true,
                 logLevel: 'debug'
             },
+            '/manualBuild_service': {
+                target: 'http://10.43.75.17:13201',
+                pathRewrite: { '^/manualBuild_service': 'manualBuild' },
+                changeOrigin: true,
+                logLevel: 'debug'
+            },
             '/update_boundary_service': {
                 target: 'http://10.43.75.58:13003',
                 pathRewrite: { '^/update_boundary_service': 'querydb' },

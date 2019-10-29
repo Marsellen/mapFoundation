@@ -20,6 +20,8 @@ import ReadCoordinate from './ReadCoordinate';
 import PointStratification from './PointStratification';
 import AddGroundRectangle from './AddGroundRectangle';
 import SearchInfo from './SearchInfo';
+import AddAdLine from './AddAdLine';
+import AddAroundLine from './AddAroundLine';
 
 export default [
     <Undo key="UNDO" />,
@@ -35,6 +37,8 @@ export default [
     <EditLayer key="EDIT_LAYER" />,
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,
+    <AddAdLine key="ADD_AD_LINE" />,
+    <AddAroundLine key="ADD_AROUND_LINE" />,
     <AddPolygon key="POLYGON" />,
     <AddGroundRectangle key="ADD_GROUND_RECTANGLE" />,
     <AddFacadeRectangle key="ADD_FACADEREC_TANGLE" />,
