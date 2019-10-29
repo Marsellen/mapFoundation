@@ -68,7 +68,7 @@ class AddAroundLine extends React.Component {
             <span>
                 <span className={visible ? 'ad-icon-active' : ''}>
                     <ToolIcon
-                        icon="xinzengguanxi"
+                        icon="zhixing"
                         title={
                             editLayer && editLayer.layerName == 'AD_Lane'
                                 ? '路口内直行中心线生成'
@@ -79,7 +79,7 @@ class AddAroundLine extends React.Component {
                 </span>
                 <span className={visibleTurn ? 'ad-icon-active' : ''}>
                     <ToolIcon
-                        icon="xinzengguanxi"
+                        icon="zhuanwan"
                         title={
                             editLayer && editLayer.layerName == 'AD_Lane'
                                 ? '路口内转弯中心线生成'
@@ -90,7 +90,7 @@ class AddAroundLine extends React.Component {
                 </span>
                 <span className={visibleUTurn ? 'ad-icon-active' : ''}>
                     <ToolIcon
-                        icon="xinzengguanxi"
+                        icon="diaotou"
                         title={
                             editLayer && editLayer.layerName == 'AD_Lane'
                                 ? '掉头中心线生成'

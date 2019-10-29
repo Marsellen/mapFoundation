@@ -55,7 +55,11 @@ class AddAdLine extends React.Component {
         return (
             <span className={visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
-                    icon="xinzengguanxi"
+                    icon={
+                        editLayer && editLayer.layerName == 'AD_Lane'
+                            ? 'zuoyouchedaoxianshengchengzhongxinxian'
+                            : 'luduanzhongcankaoxianshengcheng'
+                    }
                     title={
                         editLayer && editLayer.layerName == 'AD_Lane'
                             ? '左右车道线生成中心线'
