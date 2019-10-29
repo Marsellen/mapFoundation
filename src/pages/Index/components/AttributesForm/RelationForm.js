@@ -39,10 +39,8 @@ class RelationForm extends React.Component {
     renderItem = (item, index) => {
         if (item.withAttr) {
             return this.renderGroupItem(item, index);
-        } else if (item.domType) {
-            return this.renderInputNumber(item, index, 'rels');
         } else {
-            return this.renderInput(item, index, 'rels');
+            return this.renderInputNumber(item, index, 'rels');
         }
     };
 
