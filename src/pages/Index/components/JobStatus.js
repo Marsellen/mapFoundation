@@ -125,11 +125,10 @@ class JobStatus extends React.Component {
         }
         try {
             await TaskStore.initSubmit(option);
-            // 提交后重新获取任务
-            await TaskStore.initTask({ type: 3 });
-            // 等SDK提供清空画布接口
             TaskStore.setActiveTask();
             this.clearWorkSpace();
+            // 提交后重新获取任务
+            await TaskStore.initTask({ type: 3 });
         } catch (e) {
             message.error(e.message, 3);
         }
@@ -146,27 +145,24 @@ class JobStatus extends React.Component {
 
     clearWorkSpace = () => {
         const {
-            TaskStore,
             OperateHistoryStore,
             DataLayerStore,
             ToolCtrlStore,
             AttributeStore,
             PictureShowStore
         } = this.props;
-        const { tasks } = TaskStore;
         OperateHistoryStore.destroy();
         editLog.store.clear();
-        if (!tasks || tasks.length == 0) {
-            message.warning('暂无任务', 3);
-            return;
-        }
-        if (tasks && tasks.length > 1) {
-            DataLayerStore.activeEditor();
-            ToolCtrlStore.updateByEditLayer();
-            AttributeStore.hide();
-            PictureShowStore.hide();
-            PictureShowStore.destory();
-        }
+        DataLayerStore.activeEditor();
+        ToolCtrlStore.updateByEditLayer();
+        AttributeStore.hide();
+        PictureShowStore.hide();
+        PictureShowStore.destory();
+
+        //切换任务 关闭所有弹框
+        document.querySelectorAll('.ant-modal-close').forEach(element => {
+            element.click();
+        });
     };
 
     renderFooter = () => {

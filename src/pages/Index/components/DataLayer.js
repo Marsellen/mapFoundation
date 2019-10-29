@@ -50,7 +50,7 @@ class DataLayer extends React.Component {
         const value = e.target.checked;
         const { DataLayerStore, ResourceLayerStore } = this.props;
         // 控制高精地图的显示隐藏
-        ResourceLayerStore.toggle(RESOURCE_LAYER_VETOR, value, true);
+        ResourceLayerStore.toggle(RESOURCE_LAYER_VETOR, value);
         // 控制数据图层全部按钮的是否选中状态
         DataLayerStore.toggleAll(value);
     };
