@@ -19,54 +19,70 @@ export const ATTR_REL_DATA_SET = [
 // IndexDB对象类型描述映射
 export const REL_TYPE_KEY_MAP = {
     DEFAULT: {
-        name: '未知关系关联对象'
+        name: '未知关系关联对象',
+        validates: 'Numeric|maxLength|15'
     },
     L_LDIV: {
-        name: '关联左侧车道线'
+        name: '关联左侧车道线',
+        validates: 'Numeric|maxLength|15'
     },
     R_LDIV: {
-        name: '关联右侧车道线'
+        name: '关联右侧车道线',
+        validates: 'Numeric|maxLength|15'
     },
     ROAD: {
-        name: '关联参考线'
+        name: '关联参考线',
+        validates: 'Numeric|maxLength|15'
     },
     LANE: {
-        name: '关联车道中心线'
+        name: '关联车道中心线',
+        validates: 'Numeric|maxLength|15'
     },
     FROM_LANE: {
         name: '驶入车道中心线',
-        withAttr: true
+        withAttr: true,
+        validates: 'Numeric|maxLength|15'
     },
     TO_LANE: {
         name: '驶出车道中心线',
-        withAttr: true
+        withAttr: true,
+        validates: 'Numeric|maxLength|15'
     },
     FROM_ROAD: {
-        name: '驶入参考线'
+        name: '驶入参考线',
+        validates: 'Numeric|maxLength|15'
     },
     TO_ROAD: {
-        name: '驶出参考线'
+        name: '驶出参考线',
+        validates: 'Numeric|maxLength|15'
     },
     STOPL: {
-        name: '关联停止位置'
+        name: '关联停止位置',
+        validates: 'Numeric|maxLength|15'
     },
     PLG: {
-        name: '关联面状标识物'
+        name: '关联面状标识物',
+        validates: 'Numeric|maxLength|15'
     },
     LIGHT: {
-        name: '关联交通信号灯'
+        name: '关联交通信号灯',
+        validates: 'Numeric|maxLength|15'
     },
     SIGN: {
-        name: '关联交通标志牌'
+        name: '关联交通标志牌',
+        validates: 'Numeric|maxLength|15'
     },
     ARROW: {
-        name: '关联地面箭头'
+        name: '关联地面箭头',
+        validates: 'Numeric|maxLength|15'
     },
     TEXT: {
-        name: '关联地面文字'
+        name: '关联地面文字',
+        validates: 'Numeric|maxLength|15'
     },
     LANEP: {
-        name: '关联属性变化点'
+        name: '关联属性变化点',
+        validates: 'Numeric|maxLength|15'
     }
 };
 

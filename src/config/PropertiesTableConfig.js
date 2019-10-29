@@ -36,6 +36,12 @@ export const COLUMNS_CONFIG = {
             width: 135
         },
         {
+            dataIndex: 'RD_EDGE',
+            title: '道路边界标识',
+            filterBy: 'AD_LANE_DIVIDER_RD_EDGE',
+            width: 135
+        },
+        {
             dataIndex: 'DIRECTION',
             title: '车道通行方向',
             filterBy: 'AD_LANE_DIVIDER_DIRECTION',
