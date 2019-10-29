@@ -37,3 +37,11 @@ export function TaskApiPath(url) {
         return `/task_service/${url}`;
     }
 }
+
+export function ManualBuildApiPath(url) {
+    if (/^\//.test(url)) {
+        return `/manualBuild_service${url}`;
+    } else {
+        return `/manualBuild_service/${url}`;
+    }
+}

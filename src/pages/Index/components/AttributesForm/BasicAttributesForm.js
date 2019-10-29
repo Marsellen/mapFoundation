@@ -5,6 +5,7 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import AdInput from 'src/components/Form/Input';
+import AdInputNumber from 'src/components/Form/InputNumber';
 import { getValidator } from 'src/utils/form/validator';
 
 const formItemLayout = {
@@ -46,6 +47,31 @@ class BasicAttributesForm extends React.Component {
                     form.getFieldDecorator(name + '.' + item.key, {
                         initialValue: item.value
                     })(<AdInput disabled />)
+                ) : (
+                    <span className="ant-form-text">
+                        {this.isPresent(item.value) ? item.value : '--'}
+                    </span>
+                )}
+            </Form.Item>
+        );
+    };
+
+    renderInputNumber = (item, index, name) => {
+        const { form, AttributeStore } = this.props;
+        const { readonly } = AttributeStore;
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
+                {!readonly ? (
+                    form.getFieldDecorator(name + '.' + item.key, {
+                        rules: [
+                            {
+                                required: item.required,
+                                message: `${item.name}必填,请输入合法的数字`
+                            },
+                            ...this.getValidatorSetting(item.validates)
+                        ],
+                        initialValue: item.value
+                    })(<AdInputNumber type="number" />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}

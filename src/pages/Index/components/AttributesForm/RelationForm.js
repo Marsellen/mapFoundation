@@ -4,6 +4,8 @@ import { Empty, Form, Button, Icon } from 'antd';
 import EditableCard from './EditableCard';
 import NewAttrModal from './NewAttrModal';
 import AdInput from 'src/components/Form/Input';
+import { getValidator } from 'src/utils/form/validator';
+import AdInputNumber from 'src/components/Form/InputNumber';
 
 const formItemLayout = {
     labelCol: {
@@ -38,7 +40,7 @@ class RelationForm extends React.Component {
         if (item.withAttr) {
             return this.renderGroupItem(item, index);
         } else {
-            return this.renderInput(item, index, 'rels');
+            return this.renderInputNumber(item, index, 'rels');
         }
     };
 
@@ -70,6 +72,27 @@ class RelationForm extends React.Component {
                         },
                         initialValue: item.value
                     })(<AdInput disabled={readonly} />)
+                ) : (
+                    <span className="ant-form-text">
+                        {this.isPresent(item.value) ? item.value : '--'}
+                    </span>
+                )}
+            </Form.Item>
+        );
+    };
+
+    renderInputNumber = (item, index, filedKey) => {
+        const { form, AttributeStore } = this.props;
+        const { readonly } = AttributeStore;
+        let key = filedKey + '.' + item.key + item.id;
+
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
+                {!readonly ? (
+                    form.getFieldDecorator(key, {
+                        rules: [...this.getValidatorSetting(item.validates)],
+                        initialValue: item.value
+                    })(<AdInputNumber disabled={readonly} type="number" />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -161,6 +184,16 @@ class RelationForm extends React.Component {
     isPresent(obj) {
         return (!!obj && String(obj) != '') || obj === 0;
     }
+
+    getValidatorSetting = validates => {
+        return validates
+            ? [
+                  {
+                      validator: getValidator(validates)
+                  }
+              ]
+            : [];
+    };
 }
 
 export default RelationForm;
