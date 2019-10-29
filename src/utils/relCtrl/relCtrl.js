@@ -60,15 +60,25 @@ const delRel = async (mainFeature, features) => {
 };
 
 const basicCheck = async (mainFeature, relFeatures, layerName) => {
+    if (!mainFeature) {
+        throw { message: '请选择要素' };
+    }
+
     if (mainFeature.layerName != layerName) {
         throw {
             message: '首选要素所在图层和编辑图层不一致'
         };
     }
+
+    if (!relFeatures.length) {
+        throw { message: '新建关联关系至少选择两个要素' };
+    }
+
     let relFeatureTypes = relFeatures.reduce((total, feature) => {
         if (!total.includes(feature.layerName)) total.push(feature.layerName);
         return total;
     }, []);
+    
     if (relFeatureTypes.length !== 1) {
         throw {
             message: '只允许建立两类要素之间的关联关系'

@@ -68,6 +68,10 @@ class Task extends React.Component {
 
     chooseTask = (e, id, isEdit) => {
         e.stopPropagation();
+        const { current: currentTaskId } = this.state;
+        if (currentTaskId == id && !isEdit) {
+            return;
+        }
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
@@ -88,22 +92,33 @@ class Task extends React.Component {
     };
 
     toggleTask(id, isEdit) {
-        const {
-            TaskStore,
-            AttributeStore,
-            OperateHistoryStore,
-            DataLayerStore,
-            ToolCtrlStore,
-            PictureShowStore
-        } = this.props;
-        const { current: currentTaskId } = this.state;
+        const { TaskStore } = this.props;
+        const { current } = this.state;
 
-        this.setState({
-            current: id
-        });
+        this.setState({ current: id });
 
         TaskStore.setActiveTask(id);
         isEdit && TaskStore.startTaskEdit(id);
+
+        this.clearWorkSpace();
+        // 切换任务时，保存上一个任务的缩放比例
+        if (current) {
+            const preTaskScale = map.getEyeView();
+            AdLocalStorage.setTaskInfosStorage({
+                taskId: current,
+                taskScale: preTaskScale
+            });
+        }
+    }
+
+    clearWorkSpace = () => {
+        const {
+            OperateHistoryStore,
+            DataLayerStore,
+            ToolCtrlStore,
+            AttributeStore,
+            PictureShowStore
+        } = this.props;
         OperateHistoryStore.destroy();
         editLog.store.clear();
         DataLayerStore.activeEditor();
@@ -113,15 +128,11 @@ class Task extends React.Component {
         PictureShowStore.hide();
         PictureShowStore.destory();
 
-        // 切换任务时，保存上一个任务的缩放比例
-        if (currentTaskId) {
-            const preTaskScale = map.getEyeView();
-            AdLocalStorage.setTaskInfosStorage({
-                taskId: currentTaskId,
-                taskScale: preTaskScale
-            });
-        }
-    }
+        //切换任务 关闭所有弹框
+        document.querySelectorAll('.ant-modal-close').forEach(element => {
+            element.click();
+        });
+    };
 }
 
 export default Task;
