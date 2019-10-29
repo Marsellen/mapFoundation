@@ -25,50 +25,34 @@ const formItemLayout = {
 class EditableCard extends React.Component {
     state = {
         visible: false,
-        attrs: []
+        attrs: [],
+        editAttrs: []
     };
 
     static getDerivedStateFromProps(props, state) {
         const { value } = props;
-        let attrs = _.cloneDeep(ATTR_TABLE_CONFIG[value.source]);
+        let _attrs = state.attrs.length
+            ? state.attrs
+            : ATTR_TABLE_CONFIG[value.source];
+        let attrs = _.cloneDeep(_attrs);
         attrs.forEach(item => {
-            item.value = value.properties[item.key];
+            item.value = item.value || value.properties[item.key];
         });
         attrs.forEach(attr => {
-            if (attr.link) {
+            if (attr.link == 'RS_VALUE') {
                 let index = attrs.findIndex(item => item.key == attr.link);
                 attrs[index].type =
                     attrs[index].type.replace(/[0-9]/, '') + attr.value;
+            }
+            if (attr.link == 'CONT_VALUE') {
+                let index = attrs.findIndex(item => item.key == attr.link);
+                attrs[index].disabled = [0, 1, 2].includes(index.value);
             }
         });
         return {
             ...state,
             attrs
         };
-    }
-
-    componentDidUpdate() {
-        const { form } = this.props;
-        let attrs = _.cloneDeep(this.state.attrs);
-        let flags = attrs.map(attr => {
-            if (attr.link) {
-                let index = attrs.findIndex(item => item.key == attr.link);
-                let type = attrs[index].type.replace(/[0-9]/, '') + attr.value;
-                if (attrs[index].type != type) {
-                    attrs[index].type = type;
-                    form.setFieldsValue({
-                        [attrs[index].key]: null
-                    });
-                    return true;
-                }
-            }
-        });
-        let shouldUpdate = flags.reduce((sum, flag) => sum || flag, false);
-        if (shouldUpdate) {
-            this.setState({
-                attrs
-            });
-        }
     }
 
     render() {
@@ -110,13 +94,14 @@ class EditableCard extends React.Component {
 
     edit = () => {
         this.setState({
-            visible: true
+            visible: true,
+            editAttrs: this.state.attrs
         });
     };
 
     onCreate = () => {
         const { value, onChange, form } = this.props;
-        const { attrs } = this.state;
+        const { editAttrs } = this.state;
 
         form.validateFields((err, values) => {
             if (err) {
@@ -132,10 +117,10 @@ class EditableCard extends React.Component {
                     [IDKey]: id
                 }
             });
-            attrs.forEach(item => {
+            editAttrs.forEach(item => {
                 item.value = values[item.key];
             });
-            this.setState({ attrs });
+            this.setState({ attrs: editAttrs });
             this.hide();
         });
     };
@@ -169,10 +154,10 @@ class EditableCard extends React.Component {
     };
 
     renderContent = () => {
-        const { attrs } = this.state;
+        const { editAttrs } = this.state;
         return (
             <Form layout="vertical" className="svg-style">
-                {attrs.map((item, index) => this.renderItem(item, index))}
+                {editAttrs.map((item, index) => this.renderItem(item, index))}
             </Form>
         );
     };
@@ -198,13 +183,12 @@ class EditableCard extends React.Component {
         );
     };
 
-    renderInputNumber = (item, index, name, readonly) => {
+    renderInputNumber = (item, index, readonly) => {
         const { form } = this.props;
-        // const { readonly } = AttributeStore;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
-                    form.getFieldDecorator(name + '.' + item.key, {
+                    form.getFieldDecorator(item.key, {
                         rules: [
                             {
                                 required: item.required,
@@ -213,7 +197,7 @@ class EditableCard extends React.Component {
                             ...this.getValidatorSetting(item.validates)
                         ],
                         initialValue: item.value
-                    })(<AdInputNumber type="number" />)
+                    })(<AdInputNumber type="number" disabled={item.disabled} />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -237,7 +221,7 @@ class EditableCard extends React.Component {
                             ...this.getValidatorSetting(item.validates)
                         ],
                         initialValue: item.value
-                    })(<AdInput disabled={readonly} />)
+                    })(<AdInput disabled={item.disabled} />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -271,7 +255,6 @@ class EditableCard extends React.Component {
                         <Select
                             showSearch
                             optionFilterProp="children"
-                            disabled={readonly}
                             filterOption={(input, option) =>
                                 option.props.children
                                     .toLowerCase()
@@ -319,7 +302,7 @@ class EditableCard extends React.Component {
                             })
                         ],
                         initialValue: item.value
-                    })(<RadioIconGroup options={options} disabled={readonly} />)
+                    })(<RadioIconGroup options={options} />)
                 ) : (
                     <span className="ant-form-text">
                         {this.getArrayOption(item.value, options)}
@@ -330,24 +313,56 @@ class EditableCard extends React.Component {
     };
 
     attrOnChange = key => {
-        if (key) {
-            return value => {
-                const { attrs } = this.state;
-                const { form } = this.props;
-                let _attrs = _.cloneDeep(attrs);
-                let index = _attrs.findIndex(attr => attr.key == key);
-                _attrs[index].type =
-                    _attrs[index].type.replace(/[0-9]/, '') + value;
-                form.setFieldsValue({
-                    [_attrs[index].key]: null
-                });
-                this.setState({
-                    attrs: _attrs
-                });
-            };
-        } else {
-            return () => {};
+        switch (key) {
+            case 'RS_VALUE':
+                return this.linkRsValueChangeEvent;
+            case 'CONT_VALUE':
+                return this.linkContValueChangeEvent;
+            default:
+                return () => {};
         }
+    };
+
+    linkRsValueChangeEvent = value => {
+        const { editAttrs } = this.state;
+        const { form } = this.props;
+        let _attrs = _.cloneDeep(editAttrs);
+        let index = _attrs.findIndex(attr => attr.key == 'RS_VALUE');
+        _attrs[index].type = _attrs[index].type.replace(/[0-9]/, '') + value;
+        form.setFieldsValue({
+            RS_VALUE: null
+        });
+        this.setState({
+            editAttrs: _attrs
+        });
+    };
+
+    linkContValueChangeEvent = value => {
+        const { editAttrs } = this.state;
+        const { form } = this.props;
+        let _attrs = _.cloneDeep(editAttrs);
+        let index = _attrs.findIndex(attr => attr.key == 'CONT_VALUE');
+        switch (value) {
+            case 0:
+            case 1:
+            case 2:
+                _attrs[index].disabled = true;
+                break;
+            case 3:
+                _attrs[index].disabled = false;
+                _attrs[index].validates = 'Numeric|range|0|120';
+                break;
+            case 4:
+                _attrs[index].disabled = false;
+                _attrs[index].validates = 'Numeric|range|0|110';
+                break;
+        }
+        form.setFieldsValue({
+            CONT_VALUE: 0
+        });
+        this.setState({
+            editAttrs: _attrs
+        });
     };
 
     getArrayOption = (value, arr) => {

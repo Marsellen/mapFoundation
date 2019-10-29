@@ -135,11 +135,10 @@ class NewAttrModal extends React.Component {
                             required: item.required,
                             message: `${item.name}必填,请输入合法的数字`
                         },
-
                         ...this.getValidatorSetting(item.validates)
                     ],
                     initialValue: item.value
-                })(<AdInputNumber type="number" />)}
+                })(<AdInputNumber type="number" disabled={item.disabled} />)}
             </Form.Item>
         );
     };
@@ -211,23 +210,56 @@ class NewAttrModal extends React.Component {
     };
 
     attrOnChange = key => {
-        if (key) {
-            return value => {
-                const { attrs } = this.state;
-                const { form } = this.props;
-                let index = attrs.findIndex(attr => attr.key == key);
-                attrs[index].type =
-                    attrs[index].type.replace(/[0-9]/, '') + value;
-                form.setFieldsValue({
-                    [attrs[index].key]: null
-                });
-                this.setState({
-                    attrs
-                });
-            };
-        } else {
-            return () => {};
+        switch (key) {
+            case 'RS_VALUE':
+                return this.linkRsValueChangeEvent;
+            case 'CONT_VALUE':
+                return this.linkContValueChangeEvent;
+            default:
+                return () => {};
         }
+    };
+
+    linkRsValueChangeEvent = value => {
+        const { attrs } = this.state;
+        const { form } = this.props;
+        let _attrs = _.cloneDeep(attrs);
+        let index = _attrs.findIndex(attr => attr.key == 'RS_VALUE');
+        _attrs[index].type = _attrs[index].type.replace(/[0-9]/, '') + value;
+        form.setFieldsValue({
+            [_attrs[index].key]: null
+        });
+        this.setState({
+            attrs: _attrs
+        });
+    };
+
+    linkContValueChangeEvent = value => {
+        const { attrs } = this.state;
+        const { form } = this.props;
+        let _attrs = _.cloneDeep(attrs);
+        let index = _attrs.findIndex(attr => attr.key == 'CONT_VALUE');
+        switch (value) {
+            case 0:
+            case 1:
+            case 2:
+                _attrs[index].disabled = true;
+                break;
+            case 3:
+                _attrs[index].disabled = false;
+                _attrs[index].validates = 'Numeric|range|0|120';
+                break;
+            case 4:
+                _attrs[index].disabled = false;
+                _attrs[index].validates = 'Numeric|range|0|110';
+                break;
+        }
+        form.setFieldsValue({
+            [_attrs[index].key]: 0
+        });
+        this.setState({
+            attrs: _attrs
+        });
     };
 
     getValidatorSetting = validates => {

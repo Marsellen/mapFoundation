@@ -23,15 +23,6 @@ export const TYPE_SELECT_OPTION_MAP = {
             label: '可变导向车道线',
             icon: 'kebiandaoxiangchedaoxian'
         },
-        // {
-        //     value: 18,
-        //     label: '可变导向车道线',
-        //     icon: 'kebiandaoxiangchedaoxian'
-        // },
-        // {
-        //     value: 19,
-        //     label: '路侧私有路口虚拟线'
-        // }
         { value: 99, label: '其他', icon: 'qita' }
     ],
     AD_LANE_DIVIDER_DIRECTION: [
@@ -129,7 +120,6 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 99, label: '其他' }
     ],
     AD_ROAD_RD_FORM: [
-        //???
         { value: 0, label: '未定义' },
         { value: 1, label: '普通道路' },
         { value: 2, label: '隧道道路' },
@@ -205,11 +195,6 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 2, label: '逻辑推断' },
         { value: 3, label: '法定推荐' }
     ],
-    // AD_LANE_RESTRICT: [
-    //     { value: 0, label: '未定义' },
-    //     { value: 1, label: '速度限制' },
-    //     { value: 2, label: '时间限制' }
-    // ],
     AD_LANE_STATUS: [
         { value: 0, label: '未定义' },
         { value: 1, label: '正常通行' },
@@ -505,8 +490,8 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'J', label: '读秒' }
     ],
     AD_TS_CONTENT_CONT_TYPE: [
-        { value: 1, label: '禁止转向' },
         { value: 0, label: '未定义' },
+        { value: 1, label: '禁止转向' },
         { value: 2, label: '限制转向' },
         { value: 3, label: '最大速度限制' },
         { value: 4, label: '最低速度限制' }
@@ -583,7 +568,6 @@ export const DEFAULT_PROPERTIES_MAP = {
         VALUE: ''
     },
     AD_TrafficSign: {
-        // TYPE: 101,
         SIGN_STYLE: 1
     },
     AD_TrafficLight: {
@@ -807,21 +791,6 @@ export const TABLE_DATA_MAP = {
             type: 'AD_ROAD_LENGTH',
             required: true,
             validates: 'Decimal|10|2',
-            // [
-            //     {
-            //         message: '必须为数字 单位为M',
-            //         type: 'number',
-            //         transform(value) {
-            //             if (value) {
-            //                 return Number(value);
-            //             }
-            //         }
-            //     }
-            // ],
-            // getValueFromEvent: e => {
-            //     let value = Number(e.target.value);
-            //     return !value ? e.target.value : value;
-            // },
             domType: 'InputNumber'
         },
         {
@@ -831,18 +800,6 @@ export const TABLE_DATA_MAP = {
             domType: 'InputNumber',
             required: true,
             validates: 'Numeric|range|0|120'
-            // [
-            //     {
-            //         range: [0, 120],
-            //         message: '[0,120]的整数',
-            //         type: 'integer',
-            //         transform(value) {
-            //             if (value) {
-            //                 return Number(value);
-            //             }
-            //         }
-            //     }
-            // ]
         }
     ],
     AD_Lane: [
@@ -858,24 +815,6 @@ export const TABLE_DATA_MAP = {
             type: 'AD_LANE_TYPE',
             domType: 'RadioIconGroup'
         },
-        // {
-        //     key: 'ROAD_ID',
-        //     name: '关联参考线ID',
-        //     type: 'AD_LANE_REFLINE_ID',
-        //     domType: 'Text'
-        // },
-        // {
-        //     key: 'L_LDIV_ID',
-        //     name: '左侧车道线ID',
-        //     type: 'AD_LANE_L_LDIV_ID',
-        //     domType: 'Text'
-        // },
-        // {
-        //     key: 'R_LDIV_ID',
-        //     name: '右侧车道线ID',
-        //     type: 'AD_LANE_R_LDIV_ID',
-        //     domType: 'Text'
-        // },
         {
             key: 'LANE_NO',
             name: '车道编号',
@@ -890,12 +829,6 @@ export const TABLE_DATA_MAP = {
             type: 'AD_LANE_DIRECTION',
             domType: 'Select'
         },
-        // {
-        //     key: 'RESTRICT',
-        //     name: '限制类型',
-        //     type: 'AD_LANE_RESTRICT',
-        //     domType: 'Select'
-        // },
         {
             key: 'MAX_SPEED',
             name: '最高行驶速度',
@@ -903,18 +836,6 @@ export const TABLE_DATA_MAP = {
             domType: 'InputNumber',
             required: true,
             validates: 'Numeric|range|0|120'
-            // [
-            //     {
-            //         range: [0, 120],
-            //         message: '[0,120]的整数',
-            //         type: 'integer',
-            //         transform(value) {
-            //             if (value) {
-            //                 return Number(value);
-            //             }
-            //         }
-            //     }
-            // ]
         },
         {
             key: 'MAX_SP_TYP',
@@ -929,18 +850,6 @@ export const TABLE_DATA_MAP = {
             domType: 'InputNumber',
             required: true,
             validates: 'Numeric|range|0|110'
-            // validates: [
-            //     {
-            //         range: [0, 110],
-            //         message: '[0,110]的整数',
-            //         type: 'integer',
-            //         transform(value) {
-            //             if (value) {
-            //                 return Number(value);
-            //             }
-            //         }
-            //     }
-            // ]
         },
         {
             key: 'MIN_SP_TYP',
@@ -1050,21 +959,6 @@ export const TABLE_DATA_MAP = {
             type: 'AD_TRAFFIC_LIGHT_LAMP_COUNT',
             required: true,
             validates: 'Numeric|range|1|99',
-            // [
-            //     {
-            //         message: '必须为数字',
-            //         type: 'number',
-            //         transform(value) {
-            //             if (value) {
-            //                 return Number(value);
-            //             }
-            //         }
-            //     }
-            // ],
-            // getValueFromEvent: e => {
-            //     let value = Number(e.target.value);
-            //     return !value ? e.target.value : value;
-            // },
             domType: 'InputNumber'
         }
     ],
@@ -1087,22 +981,6 @@ export const TABLE_DATA_MAP = {
             name: '错误数据ID',
             type: 'AD_MAP_QC_FEAT_ID',
             validates: 'Numeric|maxLength|15',
-            // [
-            //     {
-            //         max: 15,
-            //         message: '必须为15位以内数字',
-            //         type: 'number',
-            //         transform(value) {
-            //             if (value) {
-            //                 return Number(value);
-            //             }
-            //         }
-            //     }
-            // ],
-            // getValueFromEvent: e => {
-            //     let value = Number(e.target.value);
-            //     return !value ? e.target.value : value;
-            // },
             domType: 'InputNumber'
         },
         {
@@ -1117,12 +995,6 @@ export const TABLE_DATA_MAP = {
             type: 'AD_MAP_QC_ERROR_DESC',
             domType: 'Input',
             validates: 'Char|250'
-            // [
-            //     {
-            //         max: 250,
-            //         message: '长度不能超过250字'
-            //     }
-            // ]
         },
         {
             key: 'FIX_STATUS',
@@ -1142,12 +1014,6 @@ export const TABLE_DATA_MAP = {
             type: 'AD_MAP_QC_FIX_PERSON',
             domType: 'Input',
             validates: 'Char|20'
-            //  [
-            //     {
-            //         max: 20,
-            //         message: '长度不能超过20字'
-            //     }
-            // ]
         },
         {
             key: 'QC_PERSON',
@@ -1156,12 +1022,6 @@ export const TABLE_DATA_MAP = {
             domType: 'Input',
             required: true,
             validates: 'Char|20'
-            // [
-            //     {
-            //         max: 20,
-            //         message: '长度不能超过20字'
-            //     }
-            // ]
         }
     ],
     AD_RS_Barrier: [
@@ -1198,12 +1058,6 @@ export const TABLE_DATA_MAP = {
             domType: 'InputNumber',
             required: true,
             validates: 'Decimal|10|4'
-            // [
-            //     {
-            //         max: 10,
-            //         message: '最大长度10'
-            //     }
-            // ]
         },
         {
             key: 'RADIUS_DN',
@@ -1212,12 +1066,6 @@ export const TABLE_DATA_MAP = {
             domType: 'InputNumber',
             required: true,
             validates: 'Decimal|10|4'
-            // [
-            //     {
-            //         max: 10,
-            //         message: '最大长度10'
-            //     }
-            // ]
         }
     ]
 };
