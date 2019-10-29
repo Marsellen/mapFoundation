@@ -54,7 +54,7 @@ class VizCompnent extends React.Component {
     }
 
     componentDidMount() {
-        const { TaskStore, OperateHistoryStore } = this.props;
+        const { TaskStore } = this.props;
 
         TaskStore.initTask({ type: 4 }).then(() => {
             const { tasks } = TaskStore;
@@ -62,14 +62,6 @@ class VizCompnent extends React.Component {
             //清除多余任务比例记录
             const taskIdArr = (tasks || []).map(item => Number(item.taskId));
             AdLocalStorage.filterTaskInfosStorage(taskIdArr);
-
-            if (tasks.length == 0) {
-                message.warning('暂无任务', 3);
-                return;
-            }
-
-            OperateHistoryStore.destroy();
-            editLog.store.clear();
         });
     }
 

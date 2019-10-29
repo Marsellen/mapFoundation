@@ -145,27 +145,24 @@ class JobStatus extends React.Component {
 
     clearWorkSpace = () => {
         const {
-            TaskStore,
             OperateHistoryStore,
             DataLayerStore,
             ToolCtrlStore,
             AttributeStore,
             PictureShowStore
         } = this.props;
-        const { tasks } = TaskStore;
         OperateHistoryStore.destroy();
         editLog.store.clear();
-        if (!tasks || tasks.length == 0) {
-            message.warning('暂无任务', 3);
-            return;
-        }
-        if (tasks && tasks.length > 1) {
-            DataLayerStore.activeEditor();
-            ToolCtrlStore.updateByEditLayer();
-            AttributeStore.hide();
-            PictureShowStore.hide();
-            PictureShowStore.destory();
-        }
+        DataLayerStore.activeEditor();
+        ToolCtrlStore.updateByEditLayer();
+        AttributeStore.hide();
+        PictureShowStore.hide();
+        PictureShowStore.destory();
+
+        //切换任务 关闭所有弹框
+        document.querySelectorAll('.ant-modal-close').forEach(element => {
+            element.click();
+        });
     };
 
     renderFooter = () => {
