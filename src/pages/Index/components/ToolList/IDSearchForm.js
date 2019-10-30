@@ -41,11 +41,7 @@ class IDSearchForm extends React.Component {
                     {form.getFieldDecorator('id', {
                         rules: [
                             { required: true, message: '请选择要素用户编号!' }
-                        ],
-                        getValueFromEvent: e => {
-                            let value = Number(e.target.value);
-                            return !value ? e.target.value : value;
-                        }
+                        ]
                     })(<AdInputNumber type="number" />)}
                 </FormItem>
             </Form>
