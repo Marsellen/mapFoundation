@@ -15,7 +15,8 @@ export const getValidator = validate => {
 const getCharValidator = option => {
     let [length] = option;
     return (rule, value, callback) => {
-        if (value.length > length) {
+        let valueString = value + '';
+        if (valueString.length > length) {
             callback(new Error(`字符长度应小于${length}`));
         }
         callback();
@@ -62,7 +63,8 @@ const getNumericMaxValidator = params => {
 const getNumericMaxLengthValidator = params => {
     let [maxLength] = params;
     return (rule, value, callback) => {
-        if (value.length > maxLength) {
+        let valueString = value + '';
+        if (valueString.length > maxLength) {
             callback(new Error(`最大长度应为${maxLength}位数字`));
         }
         callback();

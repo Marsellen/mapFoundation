@@ -44,43 +44,6 @@ class RelationForm extends React.Component {
         }
     };
 
-    renderInput = (item, index, filedKey) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
-        let key = filedKey + '.' + item.key + item.id;
-
-        return (
-            <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {!readonly ? (
-                    form.getFieldDecorator(key, {
-                        rules: [
-                            {
-                                max: Math.pow(10, 15),
-                                message: '必须为15位以内数字',
-                                type: 'number',
-                                transform(value) {
-                                    if (value) {
-                                        return Number(value);
-                                    }
-                                }
-                            },
-                            ...(item.validates || []).map(validate => validate)
-                        ],
-                        getValueFromEvent: e => {
-                            let value = Number(e.target.value);
-                            return !value ? e.target.value : value;
-                        },
-                        initialValue: item.value
-                    })(<AdInput disabled={readonly} />)
-                ) : (
-                    <span className="ant-form-text">
-                        {this.isPresent(item.value) ? item.value : '--'}
-                    </span>
-                )}
-            </Form.Item>
-        );
-    };
-
     renderInputNumber = (item, index, filedKey) => {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
@@ -105,7 +68,7 @@ class RelationForm extends React.Component {
     renderGroupItem = (item, index) => {
         return (
             <div key={index}>
-                {this.renderInput(item, index, 'rels')}
+                {this.renderInputNumber(item, index, 'rels')}
                 {this.renderRs(item)}
             </div>
         );

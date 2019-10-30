@@ -118,13 +118,7 @@ class BasicAttributesForm extends React.Component {
                             {
                                 required: item.required,
                                 message: `${item.name}必填`
-                            },
-                            ...(item.validates || []).map(validate => {
-                                return {
-                                    pattern: validate.pattern,
-                                    message: validate.message
-                                };
-                            })
+                            }
                         ],
                         initialValue: item.value
                     })(
@@ -187,13 +181,7 @@ class BasicAttributesForm extends React.Component {
                             {
                                 required: item.required,
                                 message: `${item.name}必填`
-                            },
-                            ...(item.validates || []).map(validate => {
-                                return {
-                                    pattern: validate.pattern,
-                                    message: validate.message
-                                };
-                            })
+                            }
                         ],
                         initialValue: item.value
                     })(<RadioIconGroup options={options} disabled={readonly} />)
@@ -219,13 +207,7 @@ class BasicAttributesForm extends React.Component {
                             {
                                 required: item.required,
                                 message: `${item.name}必填`
-                            },
-                            ...(item.validates || []).map(validate => {
-                                return {
-                                    pattern: validate.pattern,
-                                    message: validate.message
-                                };
-                            })
+                            }
                         ],
                         initialValue: item.value
                     })(

@@ -193,12 +193,12 @@ export default {
             {
                 value: 2,
                 label: '逆向交通流共用车道线',
-                style: { color: 'rgb(255,215,0)' }
+                style: { color: 'rgb(255,250,250)' }
             },
             {
                 value: 3,
                 label: '同向交通流共用车道线',
-                style: { color: 'rgb(255,215,0)' }
+                style: { color: 'rgb(255,250,250)' }
             }
         ],
 
