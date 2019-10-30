@@ -32,7 +32,7 @@ class Redo extends React.Component {
         OperateHistoryStore.redo().then(history => {
             let log = {
                 operateHistory: history,
-                action: 'undo',
+                action: 'redo',
                 result: 'success'
             };
             editLog.store.add(log);
