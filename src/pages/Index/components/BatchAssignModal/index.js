@@ -6,6 +6,8 @@ import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import editLog from 'src/models/editLog';
 import AdInput from 'src/components/Form/Input';
+import AdInputNumber from 'src/components/Form/InputNumber';
+import { getValidator } from 'src/utils/form/validator';
 
 const formItemLayout = {
     labelCol: {
@@ -115,6 +117,31 @@ class BatchAssignModal extends React.Component {
         );
     };
 
+    renderInputNumber = (item, index, name) => {
+        const { form } = this.props;
+        const { readonly } = item;
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
+                {!readonly ? (
+                    form.getFieldDecorator(name + '.' + item.key, {
+                        rules: [
+                            {
+                                required: item.required,
+                                message: `${item.name}必填,请输入合法的数字`
+                            },
+                            ...this.getValidatorSetting(item.validates)
+                        ],
+                        initialValue: item.value
+                    })(<AdInputNumber type="number" />)
+                ) : (
+                    <span className="ant-form-text">
+                        {this.isPresent(item.value) ? item.value : '--'}
+                    </span>
+                )}
+            </Form.Item>
+        );
+    };
+
     renderInput = (item, index, name) => {
         const { form } = this.props;
         const { readonly } = item;
@@ -127,9 +154,8 @@ class BatchAssignModal extends React.Component {
                                 required: item.required,
                                 message: `${item.name}必填`
                             },
-                            ...(item.validates || []).map(validate => validate)
+                            ...this.getValidatorSetting(item.validates)
                         ],
-                        getValueFromEvent: item.getValueFromEvent,
                         initialValue: item.value
                     })(<AdInput disabled={readonly} />)
                 ) : (
@@ -153,13 +179,7 @@ class BatchAssignModal extends React.Component {
                             {
                                 required: item.required,
                                 message: `${item.name}必填`
-                            },
-                            ...(item.validates || []).map(validate => {
-                                return {
-                                    pattern: validate.pattern,
-                                    message: validate.message
-                                };
-                            })
+                            }
                         ],
                         initialValue: item.value
                     })(
@@ -222,13 +242,7 @@ class BatchAssignModal extends React.Component {
                             {
                                 required: item.required,
                                 message: `${item.name}必填`
-                            },
-                            ...(item.validates || []).map(validate => {
-                                return {
-                                    pattern: validate.pattern,
-                                    message: validate.message
-                                };
-                            })
+                            }
                         ],
                         initialValue: item.value
                     })(<RadioIconGroup options={options} disabled={readonly} />)
@@ -254,13 +268,7 @@ class BatchAssignModal extends React.Component {
                             {
                                 required: item.required,
                                 message: `${item.name}必填`
-                            },
-                            ...(item.validates || []).map(validate => {
-                                return {
-                                    pattern: validate.pattern,
-                                    message: validate.message
-                                };
-                            })
+                            }
                         ],
                         initialValue: item.value
                     })(
@@ -281,6 +289,16 @@ class BatchAssignModal extends React.Component {
     isPresent(obj) {
         return (!!obj && String(obj) != '') || obj === 0;
     }
+
+    getValidatorSetting = validates => {
+        return validates
+            ? [
+                  {
+                      validator: getValidator(validates)
+                  }
+              ]
+            : [];
+    };
 }
 
 export default BatchAssignModal;

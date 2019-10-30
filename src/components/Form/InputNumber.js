@@ -10,12 +10,14 @@ export default class AdInputNumber extends React.Component {
     };
     render() {
         return (
-            <InputNumber
-                className="ad-input-number ant-col-xs-16 ant-col-sm-14"
-                {...this.props}
-                onKeyUp={e => this.handleKeyUp(e)}
-                onKeyDown={e => this.handleKeyDown(e)}
-            />
+            <div className="rels-input-number">
+                <InputNumber
+                    className="ad-input-number ant-col-xs-16 ant-col-sm-14"
+                    {...this.props}
+                    onKeyUp={e => this.handleKeyUp(e)}
+                    onKeyDown={e => this.handleKeyDown(e)}
+                />
+            </div>
         );
     }
     handleKeyDown = e => {
