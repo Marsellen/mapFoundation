@@ -29,8 +29,6 @@ class AddAroundLine extends React.Component {
         const active = editLayer && editLayer.layerName == 'AD_Lane';
 
         DataLayerStore.setStraightCallback((result, event) => {
-            this.getParams(active, result);
-
             if (event.button !== 2) return false;
             if (result.length !== 2) {
                 message.warning(
@@ -50,14 +48,36 @@ class AddAroundLine extends React.Component {
                     });
                     this.result = result;
                 } else {
-                    DataLayerStore.exitEdit();
-                    this.addLines(result);
+                    if (
+                        active &&
+                        result[0].data.properties.LANE_ID >
+                            result[1].data.properties.LANE_ID
+                    ) {
+                        //判断顺序
+                        message.warning('两条车道中心线顺序错误', 3);
+                        DataLayerStore.exitEdit();
+                        return false;
+                    } else if (
+                        !active &&
+                        result[0].data.properties.ROAD_ID >
+                            result[1].data.properties.ROAD_ID
+                    ) {
+                        //判断顺序
+                        message.warning('两条道路参考线顺序错误', 3);
+                        DataLayerStore.exitEdit();
+                        return false;
+                    } else {
+                        this.getParams(active, result);
+                        DataLayerStore.exitEdit();
+                        this.addLines(result);
+                    }
                 }
             }
         });
     }
     render() {
-        const { visibleModal } = this.state;
+        const reg = new RegExp('^[0-9]+.?[0-9]*$');
+        const { visibleModal, num } = this.state;
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'new_straight_line'; //直行
         let visibleTurn = DataLayerStore.editType == 'new_turn_line'; //转弯
@@ -110,15 +130,22 @@ class AddAroundLine extends React.Component {
                     width={226}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
+                    maskClosable={false}
                     okText="确定"
                     cancelText="取消">
                     <InputNumber
-                        value={this.state.num}
+                        value={num}
                         step={0.01}
                         onChange={this.inputChange}
                     />
                     <span className="unit">m</span>
-                    <p id="checkNumber">延伸长度必须大于0</p>
+                    <p id="checkNumber">
+                        {num < 0
+                            ? '延伸长度必须大于0'
+                            : !reg.test(num)
+                            ? '请输入数字'
+                            : ''}
+                    </p>
                 </Modal>
             </span>
         );
@@ -126,6 +153,7 @@ class AddAroundLine extends React.Component {
 
     // 获得接口传参
     getParams = (active, result) => {
+        const { DataLayerStore } = this.props;
         if (active) {
             this.params.AD_Lane = {};
             this.params.AD_Lane.type = 'FeatureCollection';
@@ -134,7 +162,7 @@ class AddAroundLine extends React.Component {
                 this.params.AD_Lane.features.push(item.data);
             });
             if (result[0].layerName !== 'AD_Lane') {
-                message.warning('车道中心线生成失败', 3);
+                message.warning('应选择车道中心线，车道中心线生成失败', 3);
                 DataLayerStore.exitEdit();
             }
         } else {
@@ -145,7 +173,7 @@ class AddAroundLine extends React.Component {
                 this.params.AD_Road.features.push(item.data);
             });
             if (result[0].layerName !== 'AD_Road') {
-                message.warning('道路参考线生成失败', 3);
+                message.warning('应选择道路参考线，道路参考线生成失败', 3);
                 DataLayerStore.exitEdit();
             }
         }
@@ -174,13 +202,19 @@ class AddAroundLine extends React.Component {
     };
 
     handleOk = () => {
+        const { DataLayerStore } = this.props;
+        const reg = new RegExp('^[0-9]+.?[0-9]*$');
+        let editLayer = DataLayerStore.getEditLayer();
+        const active = editLayer && editLayer.layerName == 'AD_Lane';
         const { num } = this.state;
         this.params.extDistance = num;
-        if (num < 0) return false;
+        if (num < 0 || !reg.test(num)) return false;
         this.setState({
             visibleModal: false
         });
 
+        this.getParams(active, this.result);
+        DataLayerStore.exitEdit();
         this.addLines(this.result);
     };
 
@@ -193,8 +227,9 @@ class AddAroundLine extends React.Component {
     };
 
     inputChange = val => {
+        const reg = new RegExp('^[0-9]+.?[0-9]*$');
         const checkNumber = document.getElementById('checkNumber');
-        if (val < 0) {
+        if (val < 0 || !reg.test(val)) {
             checkNumber.style.display = 'block';
         } else {
             checkNumber.style.display = 'none';

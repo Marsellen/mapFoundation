@@ -26,11 +26,12 @@ import MultimediaView from './MultimediaView';
 import VectorsConfig from '../../../config/VectorsConfig';
 import SDKConfig from '../../../config/SDKConfig';
 import 'less/components/viz-compnent.less';
-import { addClass, removeClass } from '../../../utils/utils';
+// import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
 import { isRegionContainsElement } from 'src/utils/vectorUtils';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { shortcut } from 'src/utils/shortcuts';
+import getEvent from 'src/utils/map/event';
 import _ from 'lodash';
 import editLog from 'src/models/editLog';
 import SaveTimeView from './SaveTimeView';
@@ -314,17 +315,28 @@ class VizCompnent extends React.Component {
         });
 
         let viz = document.querySelector('#viz');
-        window.map
-            .getEventManager()
-            .register('editor_event_regionselect_start', e => {
-                addClass(viz, 'crosshair-viz');
-            });
-
-        window.map
-            .getEventManager()
-            .register('editor_event_regionselect_end', e => {
-                removeClass(viz, 'crosshair-viz');
-            });
+        getEvent.addManager(
+            'editor_event_regionselect_start',
+            viz,
+            'crosshair-viz'
+        );
+        getEvent.removeManager(
+            'editor_event_regionselect_end',
+            viz,
+            'crosshair-viz'
+        );
+        getEvent.addManager('editor_event_changepoints_start', viz, 'del-viz');
+        getEvent.removeManager(
+            'editor_event_changepoints_start',
+            viz,
+            'del-viz'
+        );
+        getEvent.addManager('editor_event_deletepoints_start', viz, 'del-viz');
+        getEvent.removeManager(
+            'editor_event_deletepoints_start',
+            viz,
+            'del-viz'
+        );
     };
 
     selectedCallBack = (result, event) => {
