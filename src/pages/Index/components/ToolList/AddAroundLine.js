@@ -202,7 +202,10 @@ class AddAroundLine extends React.Component {
     };
 
     handleOk = () => {
+        const { DataLayerStore } = this.props;
         const reg = new RegExp('^[0-9]+.?[0-9]*$');
+        let editLayer = DataLayerStore.getEditLayer();
+        const active = editLayer && editLayer.layerName == 'AD_Lane';
         const { num } = this.state;
         this.params.extDistance = num;
         if (num < 0 || !reg.test(num)) return false;
@@ -210,6 +213,8 @@ class AddAroundLine extends React.Component {
             visibleModal: false
         });
 
+        this.getParams(active, this.result);
+        DataLayerStore.exitEdit();
         this.addLines(this.result);
     };
 
