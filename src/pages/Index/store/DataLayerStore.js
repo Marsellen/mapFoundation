@@ -19,7 +19,7 @@ class DataLayerStore extends LayerStore {
         this.highLightFeatures = [];
 
         this.bindKeyEvent();
-        this.readCoordinateEvent = throttle(this.readCoordinate, 50);
+        this.readCoordinateEvent = throttle(this.readCoordinate, 10);
     }
     @observable editType = 'normal';
     @observable beenPick;
