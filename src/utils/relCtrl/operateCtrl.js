@@ -137,7 +137,7 @@ const getLines = async features => {
     let oldAttrs = [];
     let lines = await features.reduce(async (total, feature) => {
         let { relation, rels, attrs } = await getRelation(feature);
-        oldRels = uniConcatRel(oldRels, rels);
+        oldRels = uniConcatRel(oldRels, rels, 'id');
         oldAttrs = oldAttrs.concat(attrs);
         let line = {
             type: feature.layerName,
@@ -489,8 +489,11 @@ const WKTToGeom = wkt => {
 const uniConcatRel = (arrayA, arrayB) => {
     let all = arrayA.concat(arrayB);
     return all.reduce((total, item) => {
-        !total.some(t => t.extraInfo.REL_ID === item.extraInfo.REL_ID) &&
-            total.push(item);
+        !total.some(
+            t =>
+                item.extraInfo.REL_ID &&
+                t.extraInfo.REL_ID === item.extraInfo.REL_ID
+        ) && total.push(item);
         return total;
     }, []);
 };
