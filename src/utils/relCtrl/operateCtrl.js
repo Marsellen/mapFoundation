@@ -137,7 +137,7 @@ const getLines = async features => {
     let oldAttrs = [];
     let lines = await features.reduce(async (total, feature) => {
         let { relation, rels, attrs } = await getRelation(feature);
-        oldRels = uniConcatRel(oldRels, rels, 'id');
+        oldRels = uniConcatRel(oldRels, rels);
         oldAttrs = oldAttrs.concat(attrs);
         let line = {
             type: feature.layerName,
