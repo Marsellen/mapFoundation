@@ -17,8 +17,6 @@ class AddAdLine extends React.Component {
         const { DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         DataLayerStore.setAroundCallback((result, event) => {
-            console.log('this.getParams(result):', this.getParams(result));
-
             if (event.button !== 2) return false;
             if (editLayer && editLayer.layerName == 'AD_Lane') {
                 //车道中心线
@@ -26,9 +24,18 @@ class AddAdLine extends React.Component {
                     message.warning('应选择 2 条车道线，车道中心线生成失败', 3);
                     DataLayerStore.exitEdit();
                 } else if (result[0].layerName !== 'AD_LaneDivider') {
-                    message.warning('车道中心线生成失败', 3);
+                    message.warning('应选择车道中心线，车道中心线生成失败', 3);
                     DataLayerStore.exitEdit();
                 } else {
+                    if (
+                        result[0].data.properties.LDIV_ID >
+                        result[1].data.properties.LDIV_ID
+                    ) {
+                        //判断顺序
+                        message.warning('两条车道线顺序错误', 3);
+                        DataLayerStore.exitEdit();
+                        return false;
+                    }
                     this.addLines(result, this.getParams(result));
                     DataLayerStore.exitEdit();
                 }
@@ -38,7 +45,7 @@ class AddAdLine extends React.Component {
                     message.warning('应选择 1 条车道线，道路参考线生成失败', 3);
                     DataLayerStore.exitEdit();
                 } else if (result[0].layerName !== 'AD_LaneDivider') {
-                    message.warning('道路参考线生成失败', 3);
+                    message.warning('应选择道路参考线，道路参考线生成失败', 3);
                     DataLayerStore.exitEdit();
                 } else {
                     this.addLines(result, this.getParams(result));

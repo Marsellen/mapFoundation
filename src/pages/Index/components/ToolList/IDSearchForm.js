@@ -21,8 +21,8 @@ class IDSearchForm extends React.Component {
                     {form.getFieldDecorator('layerName', {
                         rules: [
                             { required: true, message: '请选择要素所在图层!' }
-                        ],
-                        initialValue: defaultValue
+                        ]
+                        //initialValue: defaultValue
                     })(
                         <Select className="layer-select">
                             {options.map((option, index) => {
