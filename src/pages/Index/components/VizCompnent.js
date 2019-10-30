@@ -313,30 +313,7 @@ class VizCompnent extends React.Component {
             };
             editLog.store.add(log);
         });
-
-        let viz = document.querySelector('#viz');
-        getEvent.addManager(
-            'editor_event_regionselect_start',
-            viz,
-            'crosshair-viz'
-        );
-        getEvent.removeManager(
-            'editor_event_regionselect_end',
-            viz,
-            'crosshair-viz'
-        );
-        getEvent.addManager('editor_event_changepoints_start', viz, 'del-viz');
-        getEvent.removeManager(
-            'editor_event_changepoints_start',
-            viz,
-            'del-viz'
-        );
-        getEvent.addManager('editor_event_deletepoints_start', viz, 'del-viz');
-        getEvent.removeManager(
-            'editor_event_deletepoints_start',
-            viz,
-            'del-viz'
-        );
+        getEvent.getManager();
     };
 
     selectedCallBack = (result, event) => {

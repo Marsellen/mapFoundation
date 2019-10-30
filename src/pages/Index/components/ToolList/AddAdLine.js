@@ -56,11 +56,12 @@ class AddAdLine extends React.Component {
     }
     render() {
         const { DataLayerStore } = this.props;
+        const { updateKey } = DataLayerStore;
         let visible = DataLayerStore.editType == 'new_around_line';
         let editLayer = DataLayerStore.getEditLayer();
 
         return (
-            <span className={visible ? 'ad-icon-active' : ''}>
+            <span className={visible ? 'ad-icon-active' : ''} key={updateKey}>
                 <ToolIcon
                     icon={
                         editLayer && editLayer.layerName == 'AD_Lane'
