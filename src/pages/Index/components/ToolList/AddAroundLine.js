@@ -127,7 +127,7 @@ class AddAroundLine extends React.Component {
                     className="set-length"
                     title="跨路口延伸长度设置"
                     visible={visibleModal}
-                    width={226}
+                    width={255}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     maskClosable={false}
