@@ -4,15 +4,13 @@ import { inject, observer } from 'mobx-react';
 import IconFont from 'src/components/IconFont';
 import 'src/assets/less/components/tool-icon.less';
 
-@inject('DataLayerStore')
 @inject('ResourceLayerStore')
 @inject('TaskStore')
+@inject('PointCloudStore')
 @observer
 class PointStratification extends React.Component {
     state = {
-        currentTaskId: 0,
-        popoverVisible: false,
-        sliderValue: []
+        visible: false
     };
 
     sliderFormatter = value => {
@@ -21,72 +19,49 @@ class PointStratification extends React.Component {
 
     handlePopoverChange = visible => {
         if (this.isDisabled()) return;
-        if (visible) {
-            const { DataLayerStore, TaskStore } = this.props;
-            const { pointCloudLayerHeightRange } = DataLayerStore;
-            const { activeTaskId } = TaskStore;
-            const { currentTaskId } = this.state;
-            if (activeTaskId !== currentTaskId) {
-                this.setState({
-                    popoverVisible: true,
-                    currentTaskId: activeTaskId,
-                    sliderValue: pointCloudLayerHeightRange
-                });
-            } else {
-                this.setState({
-                    popoverVisible: true
-                });
-            }
-        } else {
-            this.setState({
-                popoverVisible: false
-            });
-        }
+        this.setState({
+            visible: visible
+        });
     };
 
-    handleSlideChange = sliderValue => {
-        this.setState(
-            {
-                sliderValue
-            },
-            () => {
-                pointCloudLayer.setDisplayAltitudeMin(sliderValue[0]);
-                pointCloudLayer.setDisplayAltitudeMax(sliderValue[1]);
-            }
-        );
+    handleSlideChange = value => {
+        const { PointCloudStore } = this.props;
+        PointCloudStore.setViewedHeightRange(value);
+
+        pointCloudLayer.setDisplayAltitudeMin(value[0]);
+        pointCloudLayer.setDisplayAltitudeMax(value[1]);
     };
 
     _renderContent() {
-        const { DataLayerStore } = this.props;
-        const { pointCloudLayerHeightRange } = DataLayerStore;
-        const { sliderValue } = this.state;
+        const { PointCloudStore } = this.props;
+        const { maxHeightRange, viewedHeightRange } = PointCloudStore;
         return (
             <div className="ad-slider-box">
-                <p>{pointCloudLayerHeightRange[1]}米</p>
+                <p>{maxHeightRange[1]}米</p>
                 <Slider
                     className="ad-slider-vertical"
                     onChange={this.handleSlideChange}
-                    min={pointCloudLayerHeightRange[0]}
-                    max={pointCloudLayerHeightRange[1]}
+                    min={maxHeightRange[0]}
+                    max={maxHeightRange[1]}
                     tipFormatter={this.sliderFormatter}
-                    value={sliderValue}
+                    value={viewedHeightRange}
                     step={0.01}
                     vertical
                     range
                 />
-                <p>{pointCloudLayerHeightRange[0]}米</p>
+                <p>{maxHeightRange[0]}米</p>
             </div>
         );
     }
 
     render() {
-        const { popoverVisible } = this.state;
+        const { visible } = this.state;
         return (
             <Popover
                 content={this._renderContent()}
                 trigger="click"
                 onVisibleChange={this.handlePopoverChange}
-                visible={popoverVisible}>
+                visible={visible}>
                 <Tooltip placement="bottom" title="设置点云分高程展示">
                     <IconFont
                         type="icon-dianyunfengaochengxianshi"

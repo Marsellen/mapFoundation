@@ -47,6 +47,7 @@ import SaveTimeView from './SaveTimeView';
 @inject('AttrStore')
 @inject('appStore')
 @inject('BatchAssignStore')
+@inject('PointCloudStore')
 @observer
 class VizCompnent extends React.Component {
     constructor(props) {
@@ -129,7 +130,7 @@ class VizCompnent extends React.Component {
                 message.success('任务加载成功', 1);
 
                 //获取任务比例记录，设置比例
-                const { TaskStore, DataLayerStore } = this.props;
+                const { TaskStore, PointCloudStore } = this.props;
                 const { activeTaskId } = TaskStore;
                 const { taskScale } = AdLocalStorage.getTaskInfosStorage(
                     activeTaskId
@@ -137,12 +138,10 @@ class VizCompnent extends React.Component {
                 taskScale && map.setEyeView(taskScale);
 
                 //获取点云高度范围
-                const pointCloudLayerHeightRange = window.pointCloudLayer
+                const range = window.pointCloudLayer
                     ? window.pointCloudLayer.getElevationRange()
                     : [];
-                DataLayerStore.initPointCloudLayerHeightRange(
-                    pointCloudLayerHeightRange
-                );
+                PointCloudStore.initHeightRange(range);
             })
             .catch(e => {
                 console.log(e);

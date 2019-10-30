@@ -11,6 +11,7 @@ import RightMenuStore from './RightMenuStore';
 import RelStore from './RelStore';
 import AttrStore from './AttrStore';
 import BatchAssignStore from './BatchAssignStore';
+import PointCloudStore from './PointCloudStore';
 
 export default {
     MenuStore,
@@ -25,5 +26,6 @@ export default {
     RightMenuStore,
     RelStore,
     AttrStore,
-    BatchAssignStore
+    BatchAssignStore,
+    PointCloudStore
 };
