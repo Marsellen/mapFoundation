@@ -6,7 +6,7 @@ export default {
         point_clouds: '1301_RAW_DATA/point_clouds/cloud.js',
         track: '1301_RAW_DATA/track.json',
         region: '1301_RAW_DATA/region.geojson',
-        boundary: '1301_RAW_DATA/ads_all.geojson',
+        boundary: '1301_RAW_DATA/around/ads_all.geojson',
         vectors: 'ads_all.geojson',
         rels: 'rels.geojson',
         attrs: 'attrs.geojson'

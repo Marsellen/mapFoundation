@@ -84,7 +84,9 @@ class TaskStore {
             this.getTaskBoundaryFile();
         } else {
             this.updateTaskBoundaryFile({
-                taskId: this.activeTaskId
+                taskId: this.activeTaskId,
+                '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
+                '1301_RAW_DATA': this.activeTask['1301_RAW_DATA']
             });
         }
     };
