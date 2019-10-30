@@ -304,6 +304,7 @@ class RightMenuModal extends React.Component {
 
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
+                AttributeStore.hide();
                 let history = {
                     type: 'updateFeatureRels',
                     data: historyLog
