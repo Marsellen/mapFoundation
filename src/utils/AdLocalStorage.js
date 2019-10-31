@@ -28,7 +28,7 @@ class AdLocalStorage {
         localStorage.removeItem(key);
     };
 
-    // 参数说明 currentTaskInfo {taskId:123,taskScale:{},taskBoundaryIsUpdate:true}
+    // 参数说明 currentTaskInfo {taskId:123,taskScale:{},taskBoundaryIsUpdate:true,checkReport:{}}
     setTaskInfosStorage = currentTaskInfo => {
         const { taskId } = currentTaskInfo;
         const taskInfos = this.getLocalStorage('taskInfos', true) || {};
@@ -67,7 +67,7 @@ class AdLocalStorage {
                 });
             }
             if (Object.keys(taskInfos).length === 0) {
-                removeLocalStorage('taskInfos');
+                this.removeLocalStorage('taskInfos');
             } else {
                 this.setLocalStorage('taskInfos', taskInfos);
             }

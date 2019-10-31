@@ -22,6 +22,7 @@ import AddGroundRectangle from './AddGroundRectangle';
 import SearchInfo from './SearchInfo';
 import AddAdLine from './AddAdLine';
 import AddAroundLine from './AddAroundLine';
+import QualityCheck from './QualityCheck';
 
 export default [
     <Undo key="UNDO" />,
@@ -46,5 +47,6 @@ export default [
     <AddCircle key="ADD_CIRCLE" />,
     <AddRel key="ADD_REL" />,
     <DelRel key="DEL_REL" />,
-    <SearchInfo key="SEARCH_INFO" />
+    <SearchInfo key="SEARCH_INFO" />,
+    <QualityCheck key="QUALITY_TEST" />
 ];

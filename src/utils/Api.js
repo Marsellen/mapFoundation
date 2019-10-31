@@ -45,3 +45,11 @@ export function ManualBuildApiPath(url) {
         return `/manualBuild_service/${url}`;
     }
 }
+
+export function CheckApiPath(url) {
+    if (/^\//.test(url)) {
+        return `/check_service${url}`;
+    } else {
+        return `/check_service/${url}`;
+    }
+}

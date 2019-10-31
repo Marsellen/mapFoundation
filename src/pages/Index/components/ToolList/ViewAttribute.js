@@ -32,15 +32,11 @@ class ViewAttribute extends React.Component {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         return (
-            <span
-                className={
-                    this.state.visible
-                        ? 'ad-icon-active flex flex-center ad-sider-item data-layer'
-                        : ' flex flex-center ad-sider-item data-layer'
-                }>
+            <span>
                 <ToolIcon
                     icon="shuxingliebiao"
                     title="属性列表"
+                    className="ad-menu-icon"
                     disabled={!activeTaskId}
                     action={this.toggle}
                 />

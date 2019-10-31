@@ -4,8 +4,15 @@ import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import editLog from 'src/models/editLog';
 import 'less/components/jobstatus.less';
+import { breakLine } from 'src/utils/relCtrl/operateCtrl';
+
+const MANUALSTATUS = {
+    4: '返修',
+    5: '返工'
+};
 
 @withRouter
+@inject('QualityCheckStore')
 @inject('appStore')
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
@@ -114,15 +121,100 @@ class JobStatus extends React.Component {
         });
     };
 
+    //质量检查
+    check = async () => {
+        const { QualityCheckStore, TaskStore, appStore } = this.props;
+        const {
+            handleProducerCheck,
+            handleProducerGetReport
+        } = QualityCheckStore;
+        const { activeTask } = TaskStore;
+        const { taskId, processName, Input_imp_data_path } = activeTask;
+        const { loginUser } = appStore;
+        const { roleCode, username } = loginUser;
+
+        //质量检查
+        const checkRes = await handleProducerCheck({
+            task_id: taskId,
+            process_name: processName,
+            data_path: Input_imp_data_path,
+            project_id: taskId,
+            user_name: username,
+            user_type: roleCode
+        });
+        if (!checkRes) return false;
+        return await handleProducerGetReport({ task_id: taskId });
+    };
+
+    //质检结果提示
+    checkModal = content => {
+        const { QualityCheckStore } = this.props;
+        const { openCheckReport } = QualityCheckStore;
+
+        Modal.confirm({
+            title: '质检提示',
+            content,
+            okText: '确定',
+            cancelText: '取消',
+            autoFocusButton: null,
+            onOk: openCheckReport
+        });
+    };
+
+    handleCheck = async option => {
+        const { QualityCheckStore, appStore } = this.props;
+        const { loginUser } = appStore;
+        const { roleCode } = loginUser;
+        const { isAllVisited, hasChecked } = QualityCheckStore;
+        const { manualStatus } = option;
+        const taskStatus = MANUALSTATUS[manualStatus] || '提交';
+
+        switch (roleCode) {
+            case 'producer':
+                const reportList = await this.check();
+                if (!reportList) return false;
+
+                const reportListL = reportList.length;
+                if (reportListL > 0) {
+                    const modalContent = `质量检查结束，发现${reportListL}个错误，是否查看？`;
+                    this.checkModal(modalContent);
+                    return false;
+                }
+                return true;
+                break;
+            case 'quality':
+                if (isAllVisited) {
+                    if (hasChecked && taskStatus === '提交') {
+                        const modalContent = `存在需返修条目，当前任务不允许提交`;
+                        this.checkModal(modalContent);
+                        return false;
+                    }
+                    return true;
+                } else {
+                    const modalContent = `存在未查看检查条目，当前任务不允许${taskStatus}`;
+                    this.checkModal(modalContent);
+                    return false;
+                }
+                break;
+            default:
+                break;
+        }
+    };
+
     taskSubmit = async option => {
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
         const { TaskStore } = this.props;
-        // 自动保存
+
         if (shouldSave) {
             await this.action();
         }
+
+        //质检
+        const res = await this.handleCheck(option);
+        if (!res) return false;
+
         try {
             await TaskStore.initSubmit(option);
             TaskStore.setActiveTask();
