@@ -18,7 +18,7 @@ class QualityCheck extends React.Component {
             case 'producer':
                 return (
                     <ToolIcon
-                        icon="baocun"
+                        icon="zhiliangjiancha"
                         title="质量检查"
                         disabled={!shouldQuality}
                         action={() =>

@@ -26,7 +26,8 @@ class QualityCheckResult extends React.Component {
             <div>
                 <ToolIcon
                     id="check-result-btn"
-                    icon="baocun"
+                    icon="jianchajieguoliebiao"
+                    title="检查结果"
                     disabled={!activeTaskId}
                     className="ad-menu-icon"
                     action={this.handleClick}
