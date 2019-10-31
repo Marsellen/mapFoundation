@@ -2,7 +2,7 @@ import React from 'react';
 import DragM from 'dragm';
 import { Modal } from 'antd';
 
-class ModalTitle extends React.Component {
+class DragDom extends React.Component {
     updateTransform = transformStr => {
         this.modalDom.style.transform = transformStr;
     };
@@ -13,10 +13,10 @@ class ModalTitle extends React.Component {
     }
 
     render() {
-        const { title } = this.props;
+        const { content } = this.props;
         return (
-            <DragM updateTransform={this.updateTransform}>
-                <div>{title}</div>
+            <DragM updateTransform={this.updateTransform} className="clearfix">
+                <div>{content}</div>
             </DragM>
         );
     }
@@ -25,17 +25,29 @@ class ModalTitle extends React.Component {
 export default class SeniorModal extends React.Component {
     key = guid();
 
+    _dragDom = content => {
+        if (!content) return null;
+        return <DragDom content={content} modalClassName={this.key} />;
+    };
+
     render() {
-        const title = (
-            <ModalTitle title={this.props.title} modalClassName={this.key} />
-        );
+        const {
+            title,
+            dragDom,
+            wrapClassName,
+            children,
+            afterClose
+        } = this.props;
         return (
             <Modal
                 {...this.props}
-                afterClose={this.afterClose(this.props.afterClose)}
-                wrapClassName={this.props.wrapClassName + ' ' + this.key}
-                title={title}>
-                {this.props.children}
+                afterClose={this.afterClose(afterClose)}
+                wrapClassName={wrapClassName + ' ' + this.key}
+                title={this._dragDom(title)}>
+                <div>
+                    {this._dragDom(dragDom)}
+                    {children}
+                </div>
             </Modal>
         );
     }

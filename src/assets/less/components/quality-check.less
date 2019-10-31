@@ -1,0 +1,49 @@
+.quality-check-result-modal-wrap {
+    top: unset !important;
+    bottom: 10px !important;
+    left: calc(50% - 420px) !important;
+    .close-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 45px;
+        width: 45px;
+        font-size: 16px;
+        color: #666;
+    }
+
+    .drag-dom {
+        position: absolute;
+        top: 0;
+        z-index: 99999;
+    }
+
+    .check-result-table {
+        height: 220px;
+        th,
+        td {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        th.ant-table-column-has-actions.ant-table-column-has-filters {
+            padding-right: 12px !important;
+        }
+
+        .ant-table {
+            color: #000;
+        }
+
+        .visited {
+            color: #1890ff;
+        }
+    }
+
+    .ant-modal-content {
+        overflow: hidden;
+    }
+
+    .ant-checkbox-group-item {
+        display: block;
+    }
+}

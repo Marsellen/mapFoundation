@@ -8,17 +8,22 @@ class SiderItem extends React.Component {
         const { record } = this.props;
         return (
             <div className={`flex flex-center ad-sider-item ${record.type}`}>
-                <Popover
-                    placement="rightTop"
-                    title={record.label}
-                    content={this._renderContent()}
-                    trigger="hover"
-                    getPopupContainer={triggerNode => triggerNode.parentNode}>
-                    <IconFont
-                        type={`icon-${record.icon}`}
-                        className="ad-menu-icon"
-                    />
-                </Popover>
+                {record.isPopover && (
+                    <Popover
+                        placement="rightTop"
+                        title={record.label}
+                        content={this._renderContent()}
+                        trigger="hover"
+                        getPopupContainer={triggerNode =>
+                            triggerNode.parentNode
+                        }>
+                        <IconFont
+                            type={`icon-${record.icon}`}
+                            className="ad-menu-icon"
+                        />
+                    </Popover>
+                )}
+                {!record.isPopover && this._renderContent()}
             </div>
         );
     }
