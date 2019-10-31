@@ -26,10 +26,10 @@ class AddAroundLine extends React.Component {
     }
     componentDidMount() {
         const { DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getEditLayer();
-        const active = editLayer && editLayer.layerName == 'AD_Lane';
-
         DataLayerStore.setStraightCallback((result, event) => {
+            let editLayer = DataLayerStore.getEditLayer();
+            const active = editLayer && editLayer.layerName == 'AD_Lane';
+
             if (event.button !== 2) return false;
             if (result.length !== 2) {
                 message.warning(

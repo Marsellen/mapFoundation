@@ -15,8 +15,8 @@ import 'less/components/tool-icon.less';
 class AddAdLine extends React.Component {
     componentDidMount() {
         const { DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getEditLayer();
         DataLayerStore.setAroundCallback((result, event) => {
+            let editLayer = DataLayerStore.getEditLayer();
             if (event.button !== 2) return false;
             if (editLayer && editLayer.layerName == 'AD_Lane') {
                 //车道中心线
