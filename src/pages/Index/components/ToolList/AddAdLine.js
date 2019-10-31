@@ -36,7 +36,7 @@ class AddAdLine extends React.Component {
                         DataLayerStore.exitEdit();
                         return false;
                     }
-                    this.addLines(result, this.getParams(result));
+                    this.addLines(result, this.getParams(result), 'adLine');
                     DataLayerStore.exitEdit();
                 }
             } else {
@@ -48,7 +48,7 @@ class AddAdLine extends React.Component {
                     message.warning('应选择道路参考线，道路参考线生成失败', 3);
                     DataLayerStore.exitEdit();
                 } else {
-                    this.addLines(result, this.getParams(result));
+                    this.addLines(result, this.getParams(result), 'adRoad');
                     DataLayerStore.exitEdit();
                 }
             }
@@ -105,7 +105,7 @@ class AddAdLine extends React.Component {
     };
 
     // 新建
-    addLines = async (result, params) => {
+    addLines = async (result, params, lines) => {
         const {
             DataLayerStore,
             AttributeStore,
@@ -115,7 +115,7 @@ class AddAdLine extends React.Component {
         const layerLine = editLayer && editLayer.layerName == 'AD_Lane';
 
         try {
-            let historyLog = await getNewLine(layerLine, params);
+            let historyLog = await getNewLine(layerLine, params, lines);
             this.activeLine(layerLine, historyLog);
 
             // 日志与历史

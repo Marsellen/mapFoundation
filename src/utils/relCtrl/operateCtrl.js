@@ -100,7 +100,7 @@ const mergeLine = async (features, task_id) => {
     return historyLog;
 };
 
-const getNewLine = async (layer, params) => {
+const getNewLine = async (layer, params, getRels) => {
     let result;
     const lines = layer ? 'AD_Lane' : 'AD_Road';
     if (layer && params.AD_LaneDivider) {
@@ -123,8 +123,44 @@ const getNewLine = async (layer, params) => {
         },
         { newFeatures: [] }
     );
+    let relation = {},
+        rels;
+    if (getRels === 'adLine') {
+        let properties = result.data[lines].features[0].properties;
+        rels = [
+            {
+                extraInfo: {},
+                objId: properties.LANE_ID,
+                objType: 'LANE',
+                relObjId: properties.L_LDIV_ID,
+                relObjType: 'L_LDIV',
+                spec: 'AD_Lane'
+            },
+            {
+                extraInfo: {},
+                objId: properties.LANE_ID,
+                objType: 'LANE',
+                relObjId: properties.R_LDIV_ID,
+                relObjType: 'R_LDIV',
+                spec: 'AD_Lane'
+            }
+        ];
+    } else if (getRels === 'adRoad') {
+        rels = [];
+    } else {
+        let relationLayer = `${lines}_Con`;
+        relation[relationLayer] = [];
+        relation[relationLayer] = result.data[relationLayer].features.map(
+            feature => {
+                return feature.properties;
+            }
+        );
+        rels = calcRels(relationLayer, relation);
+    }
+
     let historyLog = {
-        features: [[], newFeatures]
+        features: [[], newFeatures],
+        rels: [[], rels]
     };
 
     await updateFeatures(historyLog);
@@ -274,6 +310,7 @@ const calcFeatures = (feature, layerName) => {
 const calcRels = (layerName, relation, feature) => {
     return Object.keys(relation || {}).reduce((arr, spec) => {
         let properties = relation[spec];
+
         if (REL_DATA_SET.includes(spec)) {
             arr = uniConcatRel(arr, relDataFormat(spec, properties));
         } else if (ATTR_REL_DATA_SET.includes(spec)) {
@@ -281,6 +318,7 @@ const calcRels = (layerName, relation, feature) => {
                 attrRelDataFormat(layerName, spec, properties, feature)
             );
         }
+
         return arr;
     }, []);
 };
