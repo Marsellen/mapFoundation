@@ -9,7 +9,7 @@ const THIRD_PATH_MAP = {
 };
 
 export const getExportShpUrl = task => {
-    return `${getEditPath(task)}${CONFIG.urlConfig.vectors}`;
+    return `${getEditPath(task)}/${CONFIG.urlConfig.vectors}`;
 };
 
 export const getEditPath = task => {
