@@ -40,8 +40,8 @@ class Task extends React.Component {
                                     }>
                                     {`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}
                                 </span>
-                                <Button
-                                    className="task-start-button"
+                                <span
+                                    className="task-start-button ant-btn"
                                     disabled={
                                         isEditableTask &&
                                         taskIndex &&
@@ -51,7 +51,7 @@ class Task extends React.Component {
                                         this.chooseTask(e, item.taskId, true)
                                     }>
                                     开始
-                                </Button>
+                                </span>
                             </p>
                         </Menu.Item>
                     ))}

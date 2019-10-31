@@ -8,6 +8,7 @@ import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import 'less/components/tool-icon.less';
 import 'less/components/uturn-line.less';
+import AdInputNumber from 'src/components/Form/InputNumber';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -76,7 +77,9 @@ class AddAroundLine extends React.Component {
         });
     }
     render() {
-        const reg = new RegExp('^[0-9]+.?[0-9]*$');
+        const reg = new RegExp(
+            '^[1-9]\\d{0,9}(\\.\\d{1,2})?$|^0(\\.\\d{1,2})?$'
+        );
         const { visibleModal, num } = this.state;
         const { DataLayerStore } = this.props;
         const { updateKey } = DataLayerStore;
@@ -136,17 +139,21 @@ class AddAroundLine extends React.Component {
                     maskClosable={false}
                     okText="确定"
                     cancelText="取消">
-                    <InputNumber
-                        value={num}
-                        step={0.01}
-                        onChange={this.inputChange}
-                    />
+                    <div className="set-length-number">
+                        <AdInputNumber
+                            width="66%"
+                            type="number"
+                            value={num}
+                            step={0.01}
+                            onChange={this.inputChange}
+                        />
+                    </div>
                     <span className="unit">m</span>
                     <p id="checkNumber">
                         {num < 0
                             ? '延伸长度必须大于0'
                             : !reg.test(num)
-                            ? '请输入数字'
+                            ? ' 请输入数字，如有小数请精确到小数点后两位'
                             : ''}
                     </p>
                 </Modal>
@@ -224,13 +231,16 @@ class AddAroundLine extends React.Component {
     handleCancel = () => {
         const { DataLayerStore } = this.props;
         this.setState({
-            visibleModal: false
+            visibleModal: false,
+            num: 8.0
         });
         DataLayerStore.exitEdit();
     };
 
     inputChange = val => {
-        const reg = new RegExp('^[0-9]+.?[0-9]*$');
+        const reg = new RegExp(
+            '^[1-9]\\d{0,9}(\\.\\d{1,2})?$|^0(\\.\\d{1,2})?$'
+        );
         const checkNumber = document.getElementById('checkNumber');
         if (val < 0 || !reg.test(val)) {
             checkNumber.style.display = 'block';
