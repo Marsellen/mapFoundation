@@ -21,7 +21,7 @@ const addEditorExitListener = (eventType, className) => {
     });
 };
 
-const inStallMapListener = () => {
+const installMapListener = () => {
     addEditorListener('editor_event_regionselect_start', 'crosshair-viz');
     addEditorExitListener('editor_event_regionselect_end', 'crosshair-viz');
     addEditorListener('editor_event_changepoints_start', 'del-viz');
@@ -34,5 +34,5 @@ const inStallMapListener = () => {
 export default {
     addEditorListener,
     addEditorExitListener,
-    inStallMapListener
+    installMapListener
 };

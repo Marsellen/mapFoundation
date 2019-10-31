@@ -313,7 +313,7 @@ class VizCompnent extends React.Component {
             };
             editLog.store.add(log);
         });
-        getEvent.inStallMapListener();
+        getEvent.installMapListener();
     };
 
     selectedCallBack = (result, event) => {
