@@ -18,7 +18,7 @@ export const getEditPath = task => {
 
 // 补齐点云、轨迹、照片、周边任务数据（不可编辑）数据路径
 export const completeSecendUrl = (path, task) => {
-    return `/${task.Input_imp_data_path}/${SECEND_PATH}/${path}`;
+    return `${task.Input_imp_data_path}/${SECEND_PATH}/${path}`;
 };
 
 // 补齐矢量（可编辑）数据路径
@@ -27,7 +27,7 @@ export const completeEditUrl = (path, task) => {
 };
 
 const getEditUrl = task => {
-    return `/${task.Input_imp_data_path}/${SECEND_PATH}/${getThirdPath(task)}`;
+    return `${task.Input_imp_data_path}/${SECEND_PATH}/${getThirdPath(task)}`;
 };
 
 const getThirdPath = task => {
