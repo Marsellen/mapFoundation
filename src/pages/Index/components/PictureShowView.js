@@ -2,7 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import RcViewer from 'src/components/RcViewer';
 import noImg from 'src/assets/img/no-img.png';
-import { getEditPath } from 'src/utils/taskUtils';
+import { completeSecendUrl } from 'src/utils/taskUtils';
 
 @inject('TaskStore')
 @inject('PictureShowStore')
@@ -86,7 +86,7 @@ class PictureShowView extends React.Component {
 
         return (
             <li key={index}>
-                <img src={`${getEditPath(activeTask)}/${url}`} />
+                <img src={`${completeSecendUrl(url, activeTask)}`} />
             </li>
         );
     };

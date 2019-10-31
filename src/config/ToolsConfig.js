@@ -28,7 +28,8 @@ export const TOOLS_MAP = {
         READ_COORDINATE: true,
         SEARCH_INFO: true,
         ADD_AD_LINE: false,
-        ADD_AROUND_LINE: false
+        ADD_AROUND_LINE: false,
+        QUALITY_TEST: true
     },
     CHECK: {}
 };

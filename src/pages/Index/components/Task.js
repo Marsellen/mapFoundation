@@ -5,6 +5,8 @@ import AdLocalStorage from 'src/utils/AdLocalStorage';
 import editLog from 'src/models/editLog';
 import 'less/components/sider.less';
 
+@inject('QualityCheckStore')
+@inject('appStore')
 @inject('TaskStore')
 @inject('AttributeStore')
 @inject('OperateHistoryStore')
@@ -40,8 +42,8 @@ class Task extends React.Component {
                                     }>
                                     {`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}
                                 </span>
-                                <Button
-                                    className="task-start-button"
+                                <span
+                                    className="task-start-button ant-btn"
                                     disabled={
                                         isEditableTask &&
                                         taskIndex &&
@@ -51,7 +53,7 @@ class Task extends React.Component {
                                         this.chooseTask(e, item.taskId, true)
                                     }>
                                     开始
-                                </Button>
+                                </span>
                             </p>
                         </Menu.Item>
                     ))}
@@ -91,16 +93,41 @@ class Task extends React.Component {
         }
     };
 
+    openCheckReport = () => {
+        const { appStore, TaskStore } = this.props;
+        const checkResultBtn = document.getElementById('check-result-btn');
+
+        switch (appStore.roleCode) {
+            case 'producer':
+                if (
+                    TaskStore.activeTaskStatus === 4 ||
+                    TaskStore.activeTaskStatus === 5
+                ) {
+                    checkResultBtn.click();
+                }
+                break;
+            case 'quality':
+                checkResultBtn.click();
+                break;
+            default:
+                break;
+        }
+    };
+
     toggleTask(id, isEdit) {
-        const { TaskStore } = this.props;
+        const { TaskStore, QualityCheckStore } = this.props;
         const { current } = this.state;
+
+        QualityCheckStore.closeCheckReport();
+        TaskStore.setActiveTask(id);
+        this.clearWorkSpace();
+        if (isEdit) {
+            TaskStore.startTaskEdit(id);
+            this.openCheckReport();
+        }
 
         this.setState({ current: id });
 
-        TaskStore.setActiveTask(id);
-        isEdit && TaskStore.startTaskEdit(id);
-
-        this.clearWorkSpace();
         // 切换任务时，保存上一个任务的缩放比例
         if (current) {
             const preTaskScale = map.getEyeView();

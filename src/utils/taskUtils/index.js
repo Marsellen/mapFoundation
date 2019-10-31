@@ -1,6 +1,7 @@
 import CONFIG from 'src/config';
 
 const SECEND_PATH = '13_ED_DATA';
+const THIRD_PATH = '1301_RAW_DATA';
 const THIRD_PATH_MAP = {
     imp_recognition: '1312_MS_VEC_DES',
     imp_check_after_recognition: '1312_MS_VEC_DES',
@@ -9,7 +10,7 @@ const THIRD_PATH_MAP = {
 };
 
 export const getExportShpUrl = task => {
-    return `${getEditPath(task)}${CONFIG.urlConfig.vectors}`;
+    return `${getEditPath(task)}/${CONFIG.urlConfig.vectors}`;
 };
 
 export const getEditPath = task => {
@@ -18,7 +19,7 @@ export const getEditPath = task => {
 
 // 补齐点云、轨迹、照片、周边任务数据（不可编辑）数据路径
 export const completeSecendUrl = (path, task) => {
-    return `${task.Input_imp_data_path}/${SECEND_PATH}/${path}`;
+    return `${task.Input_imp_data_path}/${SECEND_PATH}/${THIRD_PATH}/${path}`;
 };
 
 // 补齐矢量（可编辑）数据路径

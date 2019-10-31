@@ -1,4 +1,4 @@
-import { observable, flow, configure, action } from 'mobx';
+import { observable, flow, configure, action, computed } from 'mobx';
 import {
     getAuthentication,
     authenticateSuccess,
@@ -9,6 +9,9 @@ import AppService from '../services/AppService';
 configure({ enforceActions: 'always' });
 class AppStore {
     @observable loginUser = getAuthentication(); //当前登录用户信息
+    @computed get roleCode() {
+        return this.loginUser.roleCode;
+    }
 
     login = flow(function*(userInfo, option) {
         let result = yield AppService.login(userInfo);

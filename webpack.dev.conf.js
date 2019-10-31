@@ -45,6 +45,12 @@ module.exports = merge(common, {
                 pathRewrite: { '^/edit_service': 'edit' },
                 changeOrigin: true,
                 logLevel: 'debug'
+            },
+            '/check_service': {
+                target: 'http://10.43.75.58:13003',
+                pathRewrite: { '^/check_service': 'check' },
+                changeOrigin: true,
+                logLevel: 'debug'
             }
         }
     }
