@@ -14,6 +14,12 @@ import moment from 'moment';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import SDKConfig from 'src/config/SDKConfig';
 import { LayerGroup } from 'addis-viz-sdk';
+import {
+    getExportShpUrl,
+    getEditPath,
+    completeSecendUrl,
+    completeEditUrl
+} from 'src/utils/taskUtils';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -78,7 +84,9 @@ class TaskStore {
             this.getTaskBoundaryFile();
         } else {
             this.updateTaskBoundaryFile({
-                taskId: this.activeTaskId
+                taskId: this.activeTaskId,
+                '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
+                '1301_RAW_DATA': this.activeTask['1301_RAW_DATA']
             });
         }
     };
@@ -130,7 +138,10 @@ class TaskStore {
 
     getTaskBoundaryFile = flow(function*() {
         if (window.map) {
-            const boundaryUrl = this.urlFormat(CONFIG.urlConfig.boundary);
+            const boundaryUrl = completeSecendUrl(
+                CONFIG.urlConfig.boundary,
+                this.activeTask
+            );
             const layerGroup = new LayerGroup(boundaryUrl, {
                 styleConifg: SDKConfig
             });
@@ -163,17 +174,31 @@ class TaskStore {
                 return;
             }
             let task = {
-                point_clouds:
-                    this.activeTaskUrl + CONFIG.urlConfig.point_clouds,
-                vectors: this.urlFormat(CONFIG.urlConfig.vectors),
-                tracks: this.urlFormat(CONFIG.urlConfig.track),
-                rels: this.urlFormat(CONFIG.urlConfig.rels),
-                attrs: this.urlFormat(CONFIG.urlConfig.attrs),
-                region: this.urlFormat(CONFIG.urlConfig.region)
+                point_clouds: completeSecendUrl(
+                    CONFIG.urlConfig.point_clouds,
+                    this.activeTask
+                ),
+                tracks: completeSecendUrl(
+                    CONFIG.urlConfig.track,
+                    this.activeTask
+                ),
+                region: completeSecendUrl(
+                    CONFIG.urlConfig.region,
+                    this.activeTask
+                ),
+                vectors: completeEditUrl(
+                    CONFIG.urlConfig.vectors,
+                    this.activeTask
+                ),
+                rels: completeEditUrl(CONFIG.urlConfig.rels, this.activeTask),
+                attrs: completeEditUrl(CONFIG.urlConfig.attrs, this.activeTask)
             };
             if (this.isEditableTask && this.isGetTaskBoundaryFile()) {
                 Object.assign(task, {
-                    boundary: this.urlFormat(CONFIG.urlConfig.boundary)
+                    boundary: completeSecendUrl(
+                        CONFIG.urlConfig.boundary,
+                        this.activeTask
+                    )
                 });
             }
             return task;
@@ -182,30 +207,26 @@ class TaskStore {
         }
     };
 
-    urlFormat = path => {
-        return this.activeTaskUrl + path + '?time=' + Date.now();
-    };
-
     submit = flow(function*() {
         try {
             let vectorData = getAllVectorData();
             let relData = yield getAllRelData();
             let attrData = yield getAllAttrData();
-            let path = this.activeTask.Input_imp_data_relpath;
+            let path = getEditPath(this.activeTask);
             let payload = {
-                filePath: path + '/vectors/',
+                filePath: path,
                 fileName: 'ads_all',
                 fileFormat: 'geojson',
                 fileData: vectorData
             };
             let attrPayload = {
-                filePath: path + '/vectors/',
+                filePath: path,
                 fileName: 'attrs',
                 fileFormat: 'geojson',
                 fileData: attrData
             };
             let relPayload = {
-                filePath: path + '/vectors/',
+                filePath: path,
                 fileName: 'rels',
                 fileFormat: 'geojson',
                 fileData: relData
@@ -229,8 +250,7 @@ class TaskStore {
 
     exportShp = flow(function*() {
         try {
-            let path = this.activeTask.Input_imp_data_relpath;
-            let url = path + CONFIG.urlConfig.vectors;
+            let url = getExportShpUrl(this.activeTask);
             yield TaskService.exportShp({
                 jsonPath: url
             });

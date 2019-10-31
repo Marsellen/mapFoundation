@@ -3,13 +3,13 @@ export default {
     version: 'v1.0.7.1-sprint7',
 
     urlConfig: {
-        point_clouds: '/point_clouds/cloud.js',
-        track: '/tracks/track.json',
-        vectors: '/vectors/ads_all.geojson',
-        rels: '/vectors/rels.geojson',
-        attrs: '/vectors/attrs.geojson',
-        region: '/region.geojson',
-        boundary: '/../06_NEARBY_GEOJSON/ads_all.geojson'
+        point_clouds: '1301_RAW_DATA/point_clouds/cloud.js',
+        track: '1301_RAW_DATA/track.json',
+        region: '1301_RAW_DATA/region.geojson',
+        boundary: '1301_RAW_DATA/around/ads_all.geojson',
+        vectors: 'ads_all.geojson',
+        rels: 'rels.geojson',
+        attrs: 'attrs.geojson'
     },
 
     expireTime: 86400,
