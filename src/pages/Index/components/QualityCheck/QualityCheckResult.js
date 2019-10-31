@@ -26,9 +26,9 @@ class QualityCheckResult extends React.Component {
             <div>
                 <ToolIcon
                     id="check-result-btn"
-                    icon="jianchajieguoliebiao"
                     title="检查结果"
-                    disabled={!activeTaskId}
+                    icon="jianchajieguoliebiao"
+                    disabled={false}
                     className="ad-menu-icon"
                     action={this.handleClick}
                 />
@@ -41,7 +41,7 @@ class QualityCheckResult extends React.Component {
                     maskClosable={false}
                     destroyOnClose={true}
                     closable={false}
-                    width={900}
+                    width={1000}
                     bodyStyle={{ padding: 0 }}
                     className="quality-check-result-modal"
                     wrapClassName="quality-check-result-modal-wrap view-attribute-modal">

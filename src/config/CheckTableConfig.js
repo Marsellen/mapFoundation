@@ -2,20 +2,21 @@ export const COLUMNS_CONFIG = [
     {
         title: '序号',
         dataIndex: 'index',
-        key: 'index'
+        key: 'index',
+        width: '60px'
     },
     {
         title: '任务号',
         dataIndex: 'taskId',
         key: 'taskId',
-        width: '8%'
+        width: '60px'
     },
     {
         title: '检查项编号',
         dataIndex: 'checkId',
         key: 'checkId',
         isFilter: true,
-        width: '15%'
+        width: '120px'
     },
     {
         title: '检查名称',
@@ -27,19 +28,18 @@ export const COLUMNS_CONFIG = [
         title: '要素id',
         dataIndex: 'featureId',
         key: 'featureId',
-        width: '10%'
+        width: '60px'
     },
     {
         title: '图层',
         dataIndex: 'layerName',
         key: 'layerName',
         isFilter: true,
-        width: '12%'
+        width: '160px'
     },
     {
         title: '错误描述',
         dataIndex: 'errorDesc',
-        key: 'errorDesc',
-        width: '25%'
+        key: 'errorDesc'
     }
 ];

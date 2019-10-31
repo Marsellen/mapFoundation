@@ -3,7 +3,7 @@ import { Table, Checkbox } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { COLUMNS_CONFIG } from 'src/config/CheckTableConfig';
-import AdLocalStorage from 'src/utils/AdLocalStorage';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 const CheckboxGroup = Checkbox.Group;
 
@@ -120,7 +120,17 @@ class QualityCheckResultTable extends React.Component {
                 render: (text, record, index) => {
                     return (
                         <div className={record.visited && 'visited'}>
-                            {key === 'index' ? index + 1 : text}
+                            {(() => {
+                                switch (key) {
+                                    case 'index':
+                                        return index + 1;
+                                    case 'layerName':
+                                        if (!DATA_LAYER_MAP[text]) return text;
+                                        return DATA_LAYER_MAP[text].label;
+                                    default:
+                                        return text;
+                                }
+                            })()}
                         </div>
                     );
                 }
