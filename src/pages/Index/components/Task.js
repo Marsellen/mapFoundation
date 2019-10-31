@@ -67,7 +67,7 @@ class Task extends React.Component {
     };
 
     chooseTask = (e, id, isEdit) => {
-        e.stopPropagation();
+        // e.stopPropagation();
         const { current: currentTaskId } = this.state;
         if (currentTaskId == id && !isEdit) {
             return;

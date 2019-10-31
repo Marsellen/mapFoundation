@@ -79,6 +79,7 @@ class AddAroundLine extends React.Component {
         const reg = new RegExp('^[0-9]+.?[0-9]*$');
         const { visibleModal, num } = this.state;
         const { DataLayerStore } = this.props;
+        const { updateKey } = DataLayerStore;
         let visible = DataLayerStore.editType == 'new_straight_line'; //直行
         let visibleTurn = DataLayerStore.editType == 'new_turn_line'; //转弯
         let visibleUTurn = DataLayerStore.editType == 'new_Uturn_line'; //掉头
@@ -86,7 +87,9 @@ class AddAroundLine extends React.Component {
 
         return (
             <span>
-                <span className={visible ? 'ad-icon-active' : ''}>
+                <span
+                    className={visible ? 'ad-icon-active' : ''}
+                    key={updateKey}>
                     <ToolIcon
                         icon="zhixing"
                         title={
@@ -127,7 +130,7 @@ class AddAroundLine extends React.Component {
                     className="set-length"
                     title="跨路口延伸长度设置"
                     visible={visibleModal}
-                    width={226}
+                    width={255}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     maskClosable={false}
