@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import RcViewer from 'src/components/RcViewer';
 import noImg from 'src/assets/img/no-img.png';
+import { getEditPath } from 'src/utils/taskUtils';
 
 @inject('TaskStore')
 @inject('PictureShowStore')
@@ -81,11 +82,11 @@ class PictureShowView extends React.Component {
 
     _renderImg = (url, index) => {
         const { TaskStore } = this.props;
-        const { activeTaskUrl } = TaskStore;
+        const { activeTask } = TaskStore;
 
         return (
             <li key={index}>
-                <img src={`${activeTaskUrl}/${url}`} />
+                <img src={`${getEditPath(activeTask)}/${url}`} />
             </li>
         );
     };
