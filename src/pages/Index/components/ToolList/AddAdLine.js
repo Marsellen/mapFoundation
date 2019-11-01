@@ -23,9 +23,11 @@ class AddAdLine extends React.Component {
                 if (result.length !== 2) {
                     message.warning('应选择 2 条车道线，车道中心线生成失败', 3);
                     DataLayerStore.exitEdit();
+                    return false;
                 } else if (result[0].layerName !== 'AD_LaneDivider') {
                     message.warning('应选择车道中心线，车道中心线生成失败', 3);
                     DataLayerStore.exitEdit();
+                    return false;
                 } else {
                     if (
                         result[0].data.properties.LDIV_ID >
@@ -44,9 +46,11 @@ class AddAdLine extends React.Component {
                 if (result.length !== 1) {
                     message.warning('应选择 1 条车道线，道路参考线生成失败', 3);
                     DataLayerStore.exitEdit();
+                    return false;
                 } else if (result[0].layerName !== 'AD_LaneDivider') {
                     message.warning('应选择道路参考线，道路参考线生成失败', 3);
                     DataLayerStore.exitEdit();
+                    return false;
                 } else {
                     this.addLines(result, this.getParams(result), 'adRoad');
                     DataLayerStore.exitEdit();
