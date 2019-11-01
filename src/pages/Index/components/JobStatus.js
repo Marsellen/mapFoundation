@@ -212,8 +212,8 @@ class JobStatus extends React.Component {
         }
 
         //质检
-        const res = await this.handleCheck(option);
-        if (!res) return false;
+        // const res = await this.handleCheck(option);
+        // if (!res) return false;
 
         try {
             await TaskStore.initSubmit(option);
