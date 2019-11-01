@@ -45,10 +45,22 @@ class AddAroundLine extends React.Component {
                     (active && this.params.crsLaneType === 3) ||
                     (!active && this.params.crsRoadType === 3)
                 ) {
-                    this.setState({
-                        visibleModal: true
-                    });
-                    this.result = result;
+                    if (
+                        //选择其他线要素
+                        (result[0].layerName !== 'AD_Lane' &&
+                            result[1].layerName !== 'AD_Lane') ||
+                        (result[0].layerName !== 'AD_Road' &&
+                            result[1].layerName !== 'AD_Road')
+                    ) {
+                        message.warning('请选择正确的线要素', 3);
+                        DataLayerStore.exitEdit();
+                        return false;
+                    } else {
+                        this.setState({
+                            visibleModal: true
+                        });
+                        this.result = result;
+                    }
                 } else {
                     if (
                         active &&
