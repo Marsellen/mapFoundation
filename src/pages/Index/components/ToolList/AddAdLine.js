@@ -152,7 +152,6 @@ class AddAdLine extends React.Component {
             };
             editLog.store.add(log);
         }
-        DataLayerStore.exitEdit();
         AttributeStore.hideRelFeatures();
     };
 
