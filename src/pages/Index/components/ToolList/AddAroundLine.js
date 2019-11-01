@@ -40,27 +40,25 @@ class AddAroundLine extends React.Component {
                 );
                 DataLayerStore.exitEdit();
                 return false;
+            } else if (
+                //选择其他线要素
+                ((active && result[0].layerName !== 'AD_Lane') ||
+                    (active && result[1].layerName !== 'AD_Lane')) &&
+                ((!active && result[0].layerName !== 'AD_Road') ||
+                    (!active && result[1].layerName !== 'AD_Road'))
+            ) {
+                message.warning('请选择正确的线要素', 3);
+                DataLayerStore.exitEdit();
+                return false;
             } else {
                 if (
                     (active && this.params.crsLaneType === 3) ||
                     (!active && this.params.crsRoadType === 3)
                 ) {
-                    if (
-                        //选择其他线要素
-                        (result[0].layerName !== 'AD_Lane' &&
-                            result[1].layerName !== 'AD_Lane') ||
-                        (result[0].layerName !== 'AD_Road' &&
-                            result[1].layerName !== 'AD_Road')
-                    ) {
-                        message.warning('请选择正确的线要素', 3);
-                        DataLayerStore.exitEdit();
-                        return false;
-                    } else {
-                        this.setState({
-                            visibleModal: true
-                        });
-                        this.result = result;
-                    }
+                    this.setState({
+                        visibleModal: true
+                    });
+                    this.result = result;
                 } else {
                     if (
                         active &&
@@ -80,26 +78,9 @@ class AddAroundLine extends React.Component {
                         message.warning('两条道路参考线顺序错误', 3);
                         DataLayerStore.exitEdit();
                         return false;
-                    } else if (
-                        //选择其他线要素
-                        (active && result[0].layerName !== 'AD_Lane') ||
-                        (active && result[1].layerName !== 'AD_Lane')
-                    ) {
-                        message.warning('请选择正确的线要素', 3);
-                        DataLayerStore.exitEdit();
-                        return false;
-                    } else if (
-                        //选择其他线要素
-                        (!active && result[0].layerName !== 'AD_Road') ||
-                        (!active && result[1].layerName !== 'AD_Road')
-                    ) {
-                        message.warning('请选择正确的线要素', 3);
-                        DataLayerStore.exitEdit();
-                        return false;
                     } else {
                         this.getParams(active, result);
                         DataLayerStore.exitEdit();
-                        this.addLines(result);
                     }
                 }
             }
@@ -203,6 +184,7 @@ class AddAroundLine extends React.Component {
             if (result[0].layerName !== 'AD_Lane') {
                 message.warning('应选择车道中心线，车道中心线生成失败', 3);
                 DataLayerStore.exitEdit();
+                return false;
             }
             if (
                 this.params.hasOwnProperty('crsRoadType') ||
@@ -224,6 +206,7 @@ class AddAroundLine extends React.Component {
             if (result[0].layerName !== 'AD_Road') {
                 message.warning('应选择道路参考线，道路参考线生成失败', 3);
                 DataLayerStore.exitEdit();
+                return false;
             }
             if (
                 this.params.hasOwnProperty('crsLaneType') ||
@@ -237,6 +220,7 @@ class AddAroundLine extends React.Component {
             }
         }
 
+        this.addLines(result);
         return this.params;
     };
 
@@ -274,7 +258,7 @@ class AddAroundLine extends React.Component {
 
         this.getParams(active, this.result);
         DataLayerStore.exitEdit();
-        this.addLines(this.result);
+        // this.addLines(this.result);
     };
 
     handleCancel = () => {
