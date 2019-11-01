@@ -39,6 +39,7 @@ class AddAroundLine extends React.Component {
                     3
                 );
                 DataLayerStore.exitEdit();
+                return false;
             } else {
                 if (
                     (active && this.params.crsLaneType === 3) ||
@@ -65,6 +66,22 @@ class AddAroundLine extends React.Component {
                     ) {
                         //判断顺序
                         message.warning('两条道路参考线顺序错误', 3);
+                        DataLayerStore.exitEdit();
+                        return false;
+                    } else if (
+                        //选择其他线要素
+                        (active && result[0].layerName !== 'AD_Lane') ||
+                        (active && result[1].layerName !== 'AD_Lane')
+                    ) {
+                        message.warning('请选择正确的线要素', 3);
+                        DataLayerStore.exitEdit();
+                        return false;
+                    } else if (
+                        //选择其他线要素
+                        (!active && result[0].layerName !== 'AD_Road') ||
+                        (!active && result[1].layerName !== 'AD_Road')
+                    ) {
+                        message.warning('请选择正确的线要素', 3);
                         DataLayerStore.exitEdit();
                         return false;
                     } else {
@@ -150,7 +167,7 @@ class AddAroundLine extends React.Component {
                     </div>
                     <span className="unit">m</span>
                     <p id="checkNumber">
-                        {num < 0
+                        {num < 0.01
                             ? '延伸长度必须大于0'
                             : !reg.test(num)
                             ? ' 请输入数字，如有小数请精确到小数点后两位'
@@ -238,7 +255,7 @@ class AddAroundLine extends React.Component {
         const active = editLayer && editLayer.layerName == 'AD_Lane';
         const { num } = this.state;
         this.params.extDistance = num;
-        if (num < 0 || !reg.test(num)) return false;
+        if (num < 0.01 || !reg.test(num)) return false;
         this.setState({
             visibleModal: false
         });
@@ -262,7 +279,7 @@ class AddAroundLine extends React.Component {
             '^[1-9]\\d{0,9}(\\.\\d{1,2})?$|^0(\\.\\d{1,2})?$'
         );
         const checkNumber = document.getElementById('checkNumber');
-        if (val < 0 || !reg.test(val)) {
+        if (val < 0.01 || !reg.test(val)) {
             checkNumber.style.display = 'block';
         } else {
             checkNumber.style.display = 'none';
