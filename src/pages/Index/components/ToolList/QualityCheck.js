@@ -10,17 +10,16 @@ import { Modal } from 'antd';
 @observer
 class QualityCheck extends React.Component {
     render() {
-        const { OperateHistoryStore, appStore } = this.props;
+        const { TaskStore, appStore } = this.props;
         const { loginUser } = appStore;
-        const { currentNode, savedNode } = OperateHistoryStore;
-        const shouldQuality = currentNode > savedNode;
+        const { activeTaskId } = TaskStore;
         switch (loginUser.roleCode) {
             case 'producer':
                 return (
                     <ToolIcon
                         icon="zhiliangjiancha"
                         title="质量检查"
-                        disabled={!shouldQuality}
+                        disabled={!activeTaskId}
                         action={() =>
                             this.checkModal(`是否质检当前任务`, this.taskCheck)
                         }
