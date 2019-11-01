@@ -415,11 +415,13 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'RADIUS_UP',
-            title: '杆状物立柱顶部半径'
+            title: '杆状物立柱顶部半径',
+            width: 70
         },
         {
             dataIndex: 'RADIUS_DN',
-            title: '杆状物立柱底部半径'
+            title: '杆状物立柱底部半径',
+            width: 70
         }
     ]
 };
