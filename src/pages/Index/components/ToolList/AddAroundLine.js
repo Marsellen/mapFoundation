@@ -41,8 +41,8 @@ class AddAroundLine extends React.Component {
                 DataLayerStore.exitEdit();
             } else {
                 if (
-                    this.params.crsLaneType === 3 ||
-                    this.params.crsRoadType === 3
+                    (active && this.params.crsLaneType === 3) ||
+                    (!active && this.params.crsRoadType === 3)
                 ) {
                     this.setState({
                         visibleModal: true
@@ -175,6 +175,16 @@ class AddAroundLine extends React.Component {
                 message.warning('应选择车道中心线，车道中心线生成失败', 3);
                 DataLayerStore.exitEdit();
             }
+            if (
+                this.params.hasOwnProperty('crsRoadType') ||
+                this.params.hasOwnProperty('AD_Road')
+            ) {
+                delete this.params.crsRoadType;
+                delete this.params.AD_Road;
+            }
+            if (this.params.crsLaneType !== 3) {
+                delete this.params.extDistance;
+            }
         } else {
             this.params.AD_Road = {};
             this.params.AD_Road.type = 'FeatureCollection';
@@ -185,6 +195,16 @@ class AddAroundLine extends React.Component {
             if (result[0].layerName !== 'AD_Road') {
                 message.warning('应选择道路参考线，道路参考线生成失败', 3);
                 DataLayerStore.exitEdit();
+            }
+            if (
+                this.params.hasOwnProperty('crsLaneType') ||
+                this.params.hasOwnProperty('AD_Lane')
+            ) {
+                delete this.params.crsLaneType;
+                delete this.params.AD_Lane;
+            }
+            if (this.params.crsRoadType !== 3) {
+                delete this.params.extDistance;
             }
         }
 
