@@ -20,8 +20,8 @@ import ReadCoordinate from './ReadCoordinate';
 import PointStratification from './PointStratification';
 import AddGroundRectangle from './AddGroundRectangle';
 import SearchInfo from './SearchInfo';
-import AddAdLine from './AddAdLine';
-import AddAroundLine from './AddAroundLine';
+import DividerToAutoCreate from './DividerToAutoCreate';
+import HalfAutoCreate from './HalfAutoCreate';
 import QualityCheck from './QualityCheck';
 
 export default [
@@ -38,8 +38,8 @@ export default [
     <EditLayer key="EDIT_LAYER" />,
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,
-    <AddAdLine key="ADD_AD_LINE" />,
-    <AddAroundLine key="ADD_AROUND_LINE" />,
+    <DividerToAutoCreate key="DIVIDER_TO_AUTO_CREATE" />,
+    <HalfAutoCreate key="HALF_AUTO_CREATE" />,
     <AddPolygon key="POLYGON" />,
     <AddGroundRectangle key="ADD_GROUND_RECTANGLE" />,
     <AddFacadeRectangle key="ADD_FACADEREC_TANGLE" />,
