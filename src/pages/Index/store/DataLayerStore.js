@@ -250,6 +250,8 @@ class DataLayerStore extends LayerStore {
     @action topViewMode = opt => {
         if (opt) {
             this.isTopView = true;
+            this.editType = 'normal';
+            this.exitEdit();
         } else {
             this.isTopView = false;
         }
