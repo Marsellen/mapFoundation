@@ -18,7 +18,6 @@ class AddGroundRectangle extends React.Component {
                     id="add-ground-rectangle-btn"
                     icon="dimianjuxing"
                     title="添加地面矩形"
-                    disabled={isTopView}
                     action={this.action}
                 />
                 <AdMessage visible={visible} content={this.content()} />

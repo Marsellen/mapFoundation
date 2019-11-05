@@ -81,8 +81,27 @@ class EditLayerPicker extends React.Component {
         let userInfo = appStore.loginUser;
         const { activeTask } = TaskStore;
         let layers = getEditLayers(DataLayerStore.layers, userInfo, activeTask);
-
         let editLayer = DataLayerStore.getEditLayer();
+        const { isTopView } = DataLayerStore;
+
+        if (isTopView) {
+            layers
+                .filter(item => {
+                    return (
+                        item.value == 'AD_TrafficLight' ||
+                        item.value == 'AD_TrafficSign' ||
+                        item.value == 'AD_Pole' ||
+                        item.value == 'AD_RS_Barrier'
+                    );
+                })
+                .forEach(item => {
+                    item.disabled = true;
+                });
+
+            // layers.filter(item => {
+            //     return item.value != false
+            // })
+        }
         return (
             <Radio.Group
                 onChange={this.onChange}
