@@ -317,7 +317,9 @@ class AddAroundLine extends React.Component {
             );
         } catch (e) {
             console.log(e);
-            message.warning('操作失败:' + e.message, 3);
+            e
+                ? message.warning('操作失败:' + e.message, 3)
+                : message.warning('操作失败，请求失败', 3);
             let history = {
                 result
             };
