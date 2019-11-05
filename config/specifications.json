@@ -234,8 +234,8 @@
             "LINE",
             "ADD_REL",
             "DEL_REL",
-            "ADD_AD_LINE",
-            "ADD_AROUND_LINE"
+            "DIVIDER_TO_AUTO_CREATE",
+            "HALF_AUTO_CREATE"
         ],
         "rightTools": [
             "delete",
@@ -380,8 +380,8 @@
             "LINE",
             "ADD_REL",
             "DEL_REL",
-            "ADD_AD_LINE",
-            "ADD_AROUND_LINE"
+            "DIVIDER_TO_AUTO_CREATE",
+            "HALF_AUTO_CREATE"
         ],
         "rightTools": [
             "delete",

@@ -217,7 +217,6 @@ class DataLayerStore extends LayerStore {
         this.editType = 'new_around_line';
         this.editor.clear();
         this.editor.toggleMode(61);
-        console.log('this.editType左右:', this.editType);
     };
 
     // 路口内直行中心线生成

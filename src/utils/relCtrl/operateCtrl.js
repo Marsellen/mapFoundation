@@ -100,33 +100,34 @@ const mergeLine = async (features, task_id) => {
     return historyLog;
 };
 
-const getNewLine = async (layer, params, getRels) => {
+const autoCreateLine = async (editLayer, params, lines) => {
     let result;
-    const lines = layer ? 'AD_Lane' : 'AD_Road';
-    if (layer && params.AD_LaneDivider) {
-        //左右车道线生成车道中心线
-        result = await AdLineService.aroundLines(params);
-    } else if (layer && params.AD_Lane) {
+    let relation = {},
+        rels;
+    if (editLayer === 'AD_Lane') {
         //车道中心线
-        result = await AdLineService.straightLines(params);
-    } else if (!layer && params.AD_LaneDivider) {
-        //车道线生成道路参考线
-        result = await AdLineService.adRoadLines(params);
-    } else if (!layer && params.AD_Road) {
+        result = params.AD_LaneDivider
+            ? await AdLineService.aroundLines(params)
+            : params.AD_Lane
+            ? await AdLineService.straightLines(params)
+            : [];
+    } else if (editLayer === 'AD_Road') {
         //道路参考线
-        result = await AdLineService.adTwoRoadLines(params);
+        result = params.AD_LaneDivider
+            ? await AdLineService.adRoadLines(params)
+            : params.AD_Road
+            ? await AdLineService.adTwoRoadLines(params)
+            : [];
     }
-    let { newFeatures } = result.data[lines].features.reduce(
+    let { newFeatures } = result.data[editLayer].features.reduce(
         (total, feature) => {
-            total.newFeatures = [{ data: feature, layerName: lines }];
+            total.newFeatures = [{ data: feature, layerName: editLayer }];
             return total;
         },
         { newFeatures: [] }
     );
-    let relation = {},
-        rels;
-    if (getRels === 'adLine') {
-        let properties = result.data[lines].features[0].properties;
+    if (lines === 'adLine') {
+        let properties = result.data[editLayer].features[0].properties;
         rels = [
             {
                 extraInfo: {},
@@ -145,10 +146,10 @@ const getNewLine = async (layer, params, getRels) => {
                 spec: 'AD_Lane'
             }
         ];
-    } else if (getRels === 'adRoad') {
+    } else if (lines === 'adRoad') {
         rels = [];
     } else {
-        let relationLayer = `${lines}_Con`;
+        let relationLayer = `${editLayer}_Con`;
         relation[relationLayer] = [];
         relation[relationLayer] = result.data[relationLayer].features.map(
             feature => {
@@ -540,7 +541,7 @@ export {
     deleteLine,
     breakLine,
     mergeLine,
-    getNewLine,
+    autoCreateLine,
     updateFeatures,
     updateRels
 };
