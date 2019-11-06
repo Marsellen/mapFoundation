@@ -34,6 +34,7 @@ class ViewAttribute extends React.Component {
         return (
             <span>
                 <ToolIcon
+                    placement="right"
                     icon="shuxingliebiao"
                     title="属性列表"
                     className="ad-menu-icon"
