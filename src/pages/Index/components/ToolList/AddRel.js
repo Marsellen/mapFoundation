@@ -89,7 +89,7 @@ class AddRel extends React.Component {
                             1. 当前可编辑图层为 “车道中心线”时 ：<br />
                             &emsp;1). 一个车道中心线+多个某一类obj要素
                             <br />
-                            &emsp;2). 一个车道中心线+一个地面引导箭头
+                            &emsp;2). 一个车道中心线+一个地面导向箭头
                             <br />
                             &emsp;3). 一个车道中心线+一个地面文字符号
                             <br />
