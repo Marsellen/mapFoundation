@@ -129,7 +129,7 @@ class JobStatus extends React.Component {
             handleProducerGetReport
         } = QualityCheckStore;
         const { activeTask } = TaskStore;
-        const { taskId, processName, Input_imp_data_path } = activeTask;
+        const { taskId, processName, projectId } = activeTask;
         const { loginUser } = appStore;
         const { roleCode, username } = loginUser;
 
@@ -137,8 +137,8 @@ class JobStatus extends React.Component {
         const checkRes = await handleProducerCheck({
             task_id: taskId,
             process_name: processName,
-            data_path: Input_imp_data_path,
-            project_id: taskId,
+            project_id: projectId,
+            data_path: taskId,
             user_name: username,
             user_type: roleCode
         });
@@ -165,7 +165,7 @@ class JobStatus extends React.Component {
         const { QualityCheckStore, appStore } = this.props;
         const { loginUser } = appStore;
         const { roleCode } = loginUser;
-        const { isAllVisited, hasChecked } = QualityCheckStore;
+        const { isAllVisited, isAllChecked } = QualityCheckStore;
         const { manualStatus } = option;
         const taskStatus = MANUALSTATUS[manualStatus] || '提交';
 
@@ -184,7 +184,7 @@ class JobStatus extends React.Component {
                 break;
             case 'quality':
                 if (isAllVisited) {
-                    if (hasChecked && taskStatus === '提交') {
+                    if (!isAllChecked && taskStatus === '提交') {
                         const modalContent = `存在需返修条目，当前任务不允许提交`;
                         this.checkModal(modalContent);
                         return false;
@@ -202,9 +202,10 @@ class JobStatus extends React.Component {
     };
 
     taskSubmit = async option => {
-        const { OperateHistoryStore } = this.props;
-        let { currentNode, savedNode } = OperateHistoryStore;
-        let shouldSave = currentNode > savedNode;
+        const { OperateHistoryStore, QualityCheckStore } = this.props;
+        const { currentNode, savedNode } = OperateHistoryStore;
+        const { closeCheckReport } = QualityCheckStore;
+        const shouldSave = currentNode > savedNode;
         const { TaskStore } = this.props;
 
         if (shouldSave) {
@@ -212,8 +213,8 @@ class JobStatus extends React.Component {
         }
 
         //质检
-        // const res = await this.handleCheck(option);
-        // if (!res) return false;
+        const res = await this.handleCheck(option);
+        if (!res) return false;
 
         try {
             await TaskStore.initSubmit(option);
@@ -221,9 +222,11 @@ class JobStatus extends React.Component {
             this.clearWorkSpace();
             // 提交后重新获取任务
             await TaskStore.initTask({ type: 3 });
+            message.success('提交成功');
         } catch (e) {
             message.error(e.message, 3);
         }
+        closeCheckReport(); //关闭质检弹窗
     };
 
     // 自动保存

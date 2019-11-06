@@ -195,5 +195,13 @@ export const shortcutMap = [
         keyCode: 70,
         preventDefault: true,
         describe: '删除形状点 Alt+F'
+    },
+    {
+        id: 'check-result-close-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 27,
+        describe: '关闭质检列表弹窗'
     }
 ];
