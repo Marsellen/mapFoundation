@@ -471,6 +471,7 @@ class DataLayerStore extends LayerStore {
     exitEdit = () => {
         this.disableOtherCtrl();
         this.clearChoose();
+        this.triggerEscEvent();
     };
 
     @action readCoordinate = event => {
@@ -534,6 +535,15 @@ class DataLayerStore extends LayerStore {
 
     disableRegionSelect = () => {
         this.editor.disableRegionSelect();
+    };
+
+    registerEscEvent = event => {
+        this.escEvent = event;
+    };
+
+    triggerEscEvent = () => {
+        this.escEvent && this.escEvent();
+        this.escEvent = null;
     };
 }
 
