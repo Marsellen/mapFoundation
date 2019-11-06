@@ -5,9 +5,17 @@ import IconFont from '../IconFont';
 
 class ToolIcon extends React.Component {
     render() {
-        const { title, icon, action, disabled, id, className } = this.props;
+        const {
+            title,
+            icon,
+            action,
+            disabled,
+            id,
+            className,
+            placement
+        } = this.props;
         return (
-            <Tooltip placement="bottom" title={title}>
+            <Tooltip placement={placement || 'bottom'} title={title}>
                 <IconFont
                     id={id}
                     type={`icon-${icon}`}
