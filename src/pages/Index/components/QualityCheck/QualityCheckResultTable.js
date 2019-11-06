@@ -44,7 +44,7 @@ class QualityCheckResultTable extends React.Component {
                     className="check-result-table"
                     onChange={this.handleTableChange}
                     rowKey={record => `checkResult_${record.index}`}
-                    scroll={{ y: 170 }}
+                    scroll={{ y: 240 }}
                 />
             </div>
         );

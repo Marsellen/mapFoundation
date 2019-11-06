@@ -1,6 +1,6 @@
 export default {
     title: 'Ecarx React App',
-    version: 'v1.0.8.1-sprint8',
+    version: 'v1.0.8.2-sprint8-rc2',
 
     urlConfig: {
         point_clouds: 'point_clouds/cloud.js',
