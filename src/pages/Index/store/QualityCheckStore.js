@@ -55,7 +55,7 @@ class QualityCheckStore {
                 return false;
             }
         } catch (e) {
-            message.error(`请求失败: ${e.path} ${e.status} ${e.error}`);
+            message.error(`请求失败 ${e}`);
         }
     }).bind(this);
 
@@ -109,7 +109,7 @@ class QualityCheckStore {
                             );
                         });
                 } catch (e) {
-                    message.error(`请求失败: ${e.path} ${e.status} ${e.error}`);
+                    message.error(`请求失败 ${e}`);
                 }
             }).bind(this),
             1000
@@ -195,7 +195,7 @@ class QualityCheckStore {
                 message.warning('请求失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`请求失败: ${e.path} ${e.status} ${e.error}`);
+            message.error(`请求失败 ${e}`);
         }
     }).bind(this);
 
@@ -214,7 +214,7 @@ class QualityCheckStore {
                 message.warning('请求失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`请求失败: ${e.path} ${e.status} ${e.error}`);
+            message.error(`请求失败 ${e}`);
         }
     }).bind(this);
 
@@ -235,7 +235,7 @@ class QualityCheckStore {
                 message.warn('获取质检结果失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`请求失败: ${e.path} ${e.status} ${e.error}`);
+            message.error(`请求失败 ${e}`);
         }
     });
 
@@ -257,7 +257,7 @@ class QualityCheckStore {
                 message.warning('请求失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`请求失败: ${e.path} ${e.status} ${e.error}`);
+            message.error(`请求失败 ${e}`);
         }
     }).bind(this);
 }
