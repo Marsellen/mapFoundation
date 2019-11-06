@@ -22,6 +22,9 @@ class QualityCheckStore {
     @computed get isAllChecked() {
         return this.reportListInit.every(item => item.checked);
     }
+    @computed get reportListL() {
+        return this.reportList.length;
+    }
 
     @action openCheckReport = () => {
         this.checkReportVisible = true;
@@ -29,6 +32,14 @@ class QualityCheckStore {
 
     @action closeCheckReport = () => {
         this.checkReportVisible = false;
+    };
+
+    @action clearCheckReport = () => {
+        this.reportListInit = [];
+        this.reportList = [];
+        this.checkIdArr = [];
+        this.layerNameTextArr = [];
+        this.checkReportIsVisited = {};
     };
 
     //作业员质检
@@ -44,7 +55,7 @@ class QualityCheckStore {
                 return false;
             }
         } catch (e) {
-            message.error(e.message);
+            message.error(`请求失败: ${e.path} ${e.status} ${e.error}`);
         }
     }).bind(this);
 
@@ -72,24 +83,33 @@ class QualityCheckStore {
         return setTimeout(
             (() => {
                 try {
-                    QualityCheckService.getReport(option).then(res => {
-                        const { code, data, message } = res;
-                        switch (code) {
-                            case 1:
-                                this.handleReportRes(data, option.task_id);
-                                resolve && resolve(data);
-                                break;
-                            case 201:
-                                this.pollingGetReport(option);
-                                break;
-                            default:
-                                message.warning(`${code} : ${message}`);
-                                resolve && resolve(false);
-                                break;
-                        }
-                    });
+                    QualityCheckService.getReport(option)
+                        .then(res => {
+                            const { code, data, message } = res;
+                            switch (code) {
+                                case 1:
+                                    this.handleReportRes(data, option.task_id);
+                                    resolve && resolve(data);
+                                    break;
+                                case 201:
+                                    this.pollingGetReport(option);
+                                    break;
+                                case 509:
+                                    // message.warning(`${code} : 没有质检结果`);
+                                    break;
+                                default:
+                                    message.warning(`${code} : ${message}`);
+                                    resolve && resolve(false);
+                                    break;
+                            }
+                        })
+                        .catch(e => {
+                            message.error(
+                                `请求失败: ${e.path} ${e.status} ${e.error}`
+                            );
+                        });
                 } catch (e) {
-                    message.error(e.message);
+                    message.error(`请求失败: ${e.path} ${e.status} ${e.error}`);
                 }
             }).bind(this),
             1000
@@ -175,7 +195,7 @@ class QualityCheckStore {
                 message.warning('请求失败，请稍后重试');
             }
         } catch (e) {
-            message.error(e.message);
+            message.error(`请求失败: ${e.path} ${e.status} ${e.error}`);
         }
     }).bind(this);
 
@@ -194,7 +214,7 @@ class QualityCheckStore {
                 message.warning('请求失败，请稍后重试');
             }
         } catch (e) {
-            message.error(e.message);
+            message.error(`请求失败: ${e.path} ${e.status} ${e.error}`);
         }
     }).bind(this);
 
@@ -215,7 +235,7 @@ class QualityCheckStore {
                 message.warn('获取质检结果失败，请稍后重试');
             }
         } catch (e) {
-            message.error(e.message);
+            message.error(`请求失败: ${e.path} ${e.status} ${e.error}`);
         }
     });
 
@@ -237,7 +257,7 @@ class QualityCheckStore {
                 message.warning('请求失败，请稍后重试');
             }
         } catch (e) {
-            message.error(e.message);
+            message.error(`请求失败: ${e.path} ${e.status} ${e.error}`);
         }
     }).bind(this);
 }

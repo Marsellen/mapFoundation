@@ -12,6 +12,9 @@ const CheckboxGroup = Checkbox.Group;
 @inject('QualityCheckStore')
 @observer
 class QualityCheckResultTable extends React.Component {
+    checkReportTable = null;
+    checkReportTableRow = null;
+    checkReportTableRowH = null;
     state = {
         indeterminate: false,
         checkAll: true,
@@ -22,7 +25,9 @@ class QualityCheckResultTable extends React.Component {
         const { QualityCheckStore } = this.props;
         const { reportList } = QualityCheckStore;
         return (
-            <div onKeyUp={e => this.handleKeyUp(e)}>
+            <div
+                onKeyUp={e => this.handleKeyUp(e)}
+                onKeyDown={e => this.handleKeyDown(e)}>
                 <Table
                     dataSource={reportList.slice()}
                     columns={this.qualityCheckTabelColumns()}
@@ -45,6 +50,17 @@ class QualityCheckResultTable extends React.Component {
         );
     }
 
+    componentDidMount() {
+        this.checkReportTable = document.querySelector(
+            '.check-result-table .ant-table-body'
+        );
+    }
+
+    handleKeyDown = event => {
+        event.preventDefault();
+        event.stopPropagation();
+    };
+
     //方向快捷键
     handleKeyUp = event => {
         shortcut.add(event, [
@@ -56,8 +72,10 @@ class QualityCheckResultTable extends React.Component {
                 callback: () => {
                     const { currentIndex } = this.state;
                     const prevIndex = currentIndex - 1;
+                    if (prevIndex < 0) return;
                     this.activeRowStyle(prevIndex);
                     this.setState({ currentIndex: prevIndex });
+                    this.checkReportTable.scrollTop -= this.checkReportTableRowH;
                 },
                 describe: '↑'
             },
@@ -67,10 +85,14 @@ class QualityCheckResultTable extends React.Component {
                 shift: false,
                 keyCode: 40,
                 callback: () => {
+                    const { QualityCheckStore } = this.props;
                     const { currentIndex } = this.state;
+                    const { reportListL } = QualityCheckStore;
                     const nextIndex = currentIndex + 1;
+                    if (nextIndex >= reportListL) return;
                     this.activeRowStyle(nextIndex);
                     this.setState({ currentIndex: nextIndex });
+                    this.checkReportTable.scrollTop += this.checkReportTableRowH;
                 },
                 describe: '↓'
             },
@@ -252,7 +274,7 @@ class QualityCheckResultTable extends React.Component {
         const currentRow = document.querySelector(`.check-table-row-${index}`);
         const activeRow = document.querySelector('.check-table-row-active');
         activeRow && activeRow.classList.remove('check-table-row-active');
-        currentRow.classList.add('check-table-row-active');
+        currentRow && currentRow.classList.add('check-table-row-active');
         this.setState({
             currentIndex: index
         });
@@ -261,6 +283,10 @@ class QualityCheckResultTable extends React.Component {
     //单击
     tableOnClick = record => {
         return e => {
+            this.checkReportTableRow = document.querySelector(
+                '.check-table-row'
+            );
+            this.checkReportTableRowH = this.checkReportTableRow.offsetHeight;
             this.activeRowStyle(record.index);
         };
     };
