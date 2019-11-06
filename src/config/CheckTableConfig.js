@@ -32,8 +32,8 @@ export const COLUMNS_CONFIG = [
     },
     {
         title: '图层',
-        dataIndex: 'layerName',
-        key: 'layerName',
+        dataIndex: 'layerNameText',
+        key: 'layerNameText',
         isFilter: true,
         width: '160px'
     },

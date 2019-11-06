@@ -120,6 +120,7 @@ class Task extends React.Component {
         const { current } = this.state;
 
         QualityCheckStore.closeCheckReport();
+        QualityCheckStore.clearCheckReport();
         TaskStore.setActiveTask(id);
         this.clearWorkSpace();
         if (isEdit) {
