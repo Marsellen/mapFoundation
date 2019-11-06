@@ -147,6 +147,7 @@ class AddAroundLine extends React.Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     maskClosable={false}
+                    keyboard={false}
                     okText="确定"
                     cancelText="取消">
                     <div className="set-length-number">
@@ -240,6 +241,12 @@ class AddAroundLine extends React.Component {
         } else if (type === 3) {
             if (DataLayerStore.editType == 'new_Uturn_line') return;
             DataLayerStore.newUTurnLine();
+            DataLayerStore.registerEscEvent(() => {
+                this.setState({
+                    visibleModal: false,
+                    num: 8.0
+                });
+            });
         }
         AttributeStore.hideRelFeatures();
     };

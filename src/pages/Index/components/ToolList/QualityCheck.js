@@ -34,7 +34,10 @@ class QualityCheck extends React.Component {
 
     save = async () => {
         const { TaskStore, OperateHistoryStore } = this.props;
+        const { currentNode, savedNode } = OperateHistoryStore;
+        const shouldSave = currentNode > savedNode;
 
+        if (!shouldSave) return;
         await TaskStore.submit();
         await TaskStore.writeEditLog();
         OperateHistoryStore.save();
@@ -62,7 +65,7 @@ class QualityCheck extends React.Component {
             openCheckReport
         } = QualityCheckStore;
         const { activeTask } = TaskStore;
-        const { taskId, processName, Input_imp_data_path } = activeTask;
+        const { taskId, processName, projectId } = activeTask;
         const { loginUser } = appStore;
         const { roleCode, username } = loginUser;
 
@@ -70,8 +73,8 @@ class QualityCheck extends React.Component {
         const checkRes = await handleProducerCheck({
             task_id: taskId,
             process_name: processName,
-            data_path: Input_imp_data_path,
-            project_id: taskId,
+            project_id: projectId,
+            data_path: taskId,
             user_name: username,
             user_type: roleCode
         });
