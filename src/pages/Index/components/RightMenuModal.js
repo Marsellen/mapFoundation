@@ -393,30 +393,44 @@ class RightMenuModal extends React.Component {
             onOk: async () => {
                 let features = RightMenuStore.getFeatures();
 
-                let oldFeatures = _.cloneDeep(features);
-                let newFeatures = features.map(item => {
-                    item.data.geometry.coordinates.reverse();
-                    return item;
-                });
-                let layer = getLayerByName(newFeatures[0].layerName);
-                layer.updateFeatures(newFeatures);
+                try {
+                    let oldFeatures = _.cloneDeep(features);
+                    let newFeatures = features.map(item => {
+                        item.data.geometry.coordinates.reverse();
+                        return item;
+                    });
+                    let layer = getLayerByName(newFeatures[0].layerName);
+                    layer.updateFeatures(newFeatures);
 
-                DataLayerStore.exitEdit();
-                AttributeStore.hideRelFeatures();
-                let historyLog = {
-                    features: [oldFeatures, newFeatures]
-                };
-                let history = {
-                    type: 'updateFeatureRels',
-                    data: historyLog
-                };
-                let log = {
-                    operateHistory: history,
-                    action: 'reverseOrderLine',
-                    result: 'success'
-                };
-                OperateHistoryStore.add(history);
-                editLog.store.add(log);
+                    DataLayerStore.exitEdit();
+                    AttributeStore.hideRelFeatures();
+                    let historyLog = {
+                        features: [oldFeatures, newFeatures]
+                    };
+                    let history = {
+                        type: 'updateFeatureRels',
+                        data: historyLog
+                    };
+                    let log = {
+                        operateHistory: history,
+                        action: 'reverseOrderLine',
+                        result: 'success'
+                    };
+                    OperateHistoryStore.add(history);
+                    editLog.store.add(log);
+                    message.success('操作完成', 3);
+                } catch (e) {
+                    console.log(e);
+                    message.warning('操作失败:' + e.message, 3);
+                    let history = { features };
+                    let log = {
+                        operateHistory: history,
+                        action: 'reverseOrderLine',
+                        result: 'fail',
+                        failReason: e.message
+                    };
+                    editLog.store.add(log);
+                }
             },
             onCancel() {
                 DataLayerStore.exitEdit();

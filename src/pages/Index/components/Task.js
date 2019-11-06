@@ -74,6 +74,7 @@ class Task extends React.Component {
         if (currentTaskId == id && !isEdit) {
             return;
         }
+
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
@@ -115,7 +116,7 @@ class Task extends React.Component {
     };
 
     toggleTask(id, isEdit) {
-        const { TaskStore, QualityCheckStore } = this.props;
+        const { TaskStore, QualityCheckStore, DataLayerStore } = this.props;
         const { current } = this.state;
 
         QualityCheckStore.closeCheckReport();
@@ -125,6 +126,8 @@ class Task extends React.Component {
         if (isEdit) {
             TaskStore.startTaskEdit(id);
             this.openCheckReport();
+            window.map && window.map.enableRotate();
+            DataLayerStore.disableRegionSelect();
         }
 
         this.setState({ current: id });

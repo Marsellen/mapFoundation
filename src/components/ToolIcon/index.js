@@ -14,8 +14,9 @@ class ToolIcon extends React.Component {
             className,
             placement
         } = this.props;
+
         return (
-            <Tooltip placement={placement || 'bottom'} title={title}>
+            <Tooltip placement={placement ? placement : 'bottom'} title={title}>
                 <IconFont
                     id={id}
                     type={`icon-${icon}`}

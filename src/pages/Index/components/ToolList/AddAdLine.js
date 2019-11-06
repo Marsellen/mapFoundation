@@ -48,7 +48,7 @@ class AddAdLine extends React.Component {
                     DataLayerStore.exitEdit();
                     return false;
                 } else if (result[0].layerName !== 'AD_LaneDivider') {
-                    message.warning('应选择道路参考线，道路参考线生成失败', 3);
+                    message.warning('应选择一条车道线，道路参考线生成失败', 3);
                     DataLayerStore.exitEdit();
                     return false;
                 } else {

@@ -1,6 +1,6 @@
 export const DATA_LAYER_MAP = {
     AD_Arrow: {
-        label: '地面引导箭头',
+        label: '地面导向箭头',
         id: 'ARR_ID',
         spec: 'AD_Arrow',
         tools: ['POLYGON', 'ADD_REL', 'DEL_REL'],

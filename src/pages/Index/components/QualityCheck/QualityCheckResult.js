@@ -25,6 +25,7 @@ class QualityCheckResult extends React.Component {
         return (
             <div>
                 <ToolIcon
+                    placement="right"
                     id="check-result-btn"
                     title="检查结果"
                     placement="right"
