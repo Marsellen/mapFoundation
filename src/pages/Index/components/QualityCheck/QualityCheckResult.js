@@ -69,7 +69,12 @@ class QualityCheckResult extends React.Component {
     };
 
     _closeIcon = () => (
-        <Icon type="close" className="close-icon" onClick={this.handleClose} />
+        <Icon
+            type="close"
+            className="close-icon"
+            onClick={this.handleClose}
+            id="check-result-close-btn"
+        />
     );
 
     setDragDomStyle = async () => {
@@ -126,7 +131,7 @@ class QualityCheckResult extends React.Component {
             case 'quality':
                 handleQualityGetMisreport({
                     taskId: activeTaskId,
-                    status: 1
+                    status: '1,4'
                 });
                 break;
             default:
