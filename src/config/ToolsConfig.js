@@ -27,8 +27,8 @@ export const TOOLS_MAP = {
         VIEW_ATTRIBUTE: true,
         READ_COORDINATE: true,
         SEARCH_INFO: true,
-        ADD_AD_LINE: false,
-        ADD_AROUND_LINE: false,
+        DIVIDER_TO_AUTO_CREATE: false,
+        HALF_AUTO_CREATE: false,
         QUALITY_TEST: true
     },
     CHECK: {}

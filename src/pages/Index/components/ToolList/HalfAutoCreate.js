@@ -2,8 +2,8 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
-import { Modal, Icon, InputNumber, message } from 'antd';
-import { getNewLine } from 'src/utils/relCtrl/operateCtrl';
+import { Modal, Icon, message } from 'antd';
+import { autoCreateLine } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import 'less/components/tool-icon.less';
@@ -14,76 +14,21 @@ import AdInputNumber from 'src/components/Form/InputNumber';
 @inject('AttributeStore')
 @inject('OperateHistoryStore')
 @observer
-class AddAroundLine extends React.Component {
+class HalfAutoCreate extends React.Component {
     constructor() {
         super();
         this.state = {
             visibleModal: false,
-            num: 8.0
+            num: 8.0,
+            params: {}
         };
-        this.params = {};
-        this.result = [];
     }
     componentDidMount() {
         const { DataLayerStore } = this.props;
         DataLayerStore.setStraightCallback((result, event) => {
             let editLayer = DataLayerStore.getEditLayer();
-            const active = editLayer && editLayer.layerName == 'AD_Lane';
-
             if (event.button !== 2) return false;
-            if (result.length !== 2) {
-                message.warning(
-                    active
-                        ? '应选择 2 条道路中心线，车道中心线生成失败'
-                        : '应选择 2 条道路参考线，道路参考线生成失败',
-                    3
-                );
-                DataLayerStore.exitEdit();
-                return false;
-            } else if (
-                //选择其他线要素
-                ((active && result[0].layerName !== 'AD_Lane') ||
-                    (active && result[1].layerName !== 'AD_Lane')) &&
-                ((!active && result[0].layerName !== 'AD_Road') ||
-                    (!active && result[1].layerName !== 'AD_Road'))
-            ) {
-                message.warning('请选择正确的线要素', 3);
-                DataLayerStore.exitEdit();
-                return false;
-            } else {
-                if (
-                    (active && this.params.crsLaneType === 3) ||
-                    (!active && this.params.crsRoadType === 3)
-                ) {
-                    this.setState({
-                        visibleModal: true
-                    });
-                    this.result = result;
-                } else {
-                    if (
-                        active &&
-                        result[0].data.properties.LANE_ID >
-                            result[1].data.properties.LANE_ID
-                    ) {
-                        //判断顺序
-                        message.warning('两条车道中心线顺序错误', 3);
-                        DataLayerStore.exitEdit();
-                        return false;
-                    } else if (
-                        !active &&
-                        result[0].data.properties.ROAD_ID >
-                            result[1].data.properties.ROAD_ID
-                    ) {
-                        //判断顺序
-                        message.warning('两条道路参考线顺序错误', 3);
-                        DataLayerStore.exitEdit();
-                        return false;
-                    } else {
-                        this.getParams(active, result);
-                        DataLayerStore.exitEdit();
-                    }
-                }
-            }
+            this.getParams(editLayer, result);
         });
     }
     render() {
@@ -110,7 +55,7 @@ class AddAroundLine extends React.Component {
                                 ? '路口内直行中心线生成'
                                 : '路口内直行参考线生成'
                         }
-                        action={() => this.action(editLayer, 1)}
+                        action={() => this.action(1)}
                     />
                 </span>
                 <span className={visibleTurn ? 'ad-icon-active' : ''}>
@@ -121,7 +66,7 @@ class AddAroundLine extends React.Component {
                                 ? '路口内转弯中心线生成'
                                 : '路口内转弯参考线生成'
                         }
-                        action={() => this.action(editLayer, 2)}
+                        action={() => this.action(2)}
                     />
                 </span>
                 <span className={visibleUTurn ? 'ad-icon-active' : ''}>
@@ -132,12 +77,12 @@ class AddAroundLine extends React.Component {
                                 ? '掉头中心线生成'
                                 : '掉头参考线生成'
                         }
-                        action={() => this.action(editLayer, 3)}
+                        action={() => this.action(3)}
                     />
                 </span>
                 <AdMessage
                     visible={visible || visibleTurn || visibleUTurn}
-                    content={this.content(editLayer)}
+                    content={this.content(editLayer && editLayer.layerName)}
                 />
                 <Modal
                     className="set-length"
@@ -173,65 +118,87 @@ class AddAroundLine extends React.Component {
     }
 
     // 获得接口传参
-    getParams = (active, result) => {
+    getParams = (editLayer, res = []) => {
         const { DataLayerStore } = this.props;
-        if (active) {
-            this.params.AD_Lane = {};
-            this.params.AD_Lane.type = 'FeatureCollection';
-            this.params.AD_Lane.features = [];
-            result.forEach(item => {
-                this.params.AD_Lane.features.push(item.data);
-            });
-            if (result[0].layerName !== 'AD_Lane') {
-                message.warning('应选择车道中心线，车道中心线生成失败', 3);
-                DataLayerStore.exitEdit();
-                return false;
-            }
+        let layerName = editLayer && editLayer.layerName;
+        const params = {};
+        // 选中两条的情况
+        if (res.length === 2) {
+            // 判断选中线要素是否为当前编辑图层需要的线要素
             if (
-                this.params.hasOwnProperty('crsRoadType') ||
-                this.params.hasOwnProperty('AD_Road')
+                res[0].layerName !== layerName ||
+                res[1].layerName !== layerName
             ) {
-                delete this.params.crsRoadType;
-                delete this.params.AD_Road;
+                message.warning(
+                    `应选${
+                        layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
+                    },${
+                        layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
+                    }生成失败`,
+                    3
+                );
+                DataLayerStore.exitEdit();
+            } else {
+                //参数
+                params[layerName] = {};
+                params[layerName].type = 'FeatureCollection';
+                params[layerName].features = [];
+                res.forEach(item => {
+                    params[layerName].features.push(item.data);
+                });
+                if (DataLayerStore.editType == 'new_straight_line') {
+                    //直行
+                    params[
+                        layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
+                    ] = 1;
+                    this.addLines(params);
+                    DataLayerStore.exitEdit();
+                } else if (DataLayerStore.editType == 'new_turn_line') {
+                    //转弯
+                    params[
+                        layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
+                    ] = 2;
+                    this.addLines(params);
+                    DataLayerStore.exitEdit();
+                } else if (DataLayerStore.editType == 'new_Uturn_line') {
+                    //掉头
+                    params[
+                        layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
+                    ] = 3;
+                    this.setState({
+                        visibleModal: true,
+                        params: params
+                    });
+                    DataLayerStore.exitEdit();
+                }
             }
-            if (this.params.crsLaneType !== 3) {
-                delete this.params.extDistance;
+        } else if (res.length === 1) {
+            //选中一条的情况
+            if (res[0].layerName !== layerName) {
+                message.warning(
+                    `应选择 2 条${
+                        layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
+                    },${
+                        layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
+                    }生成失败`,
+                    3
+                );
+                DataLayerStore.exitEdit();
             }
         } else {
-            this.params.AD_Road = {};
-            this.params.AD_Road.type = 'FeatureCollection';
-            this.params.AD_Road.features = [];
-            result.forEach(item => {
-                this.params.AD_Road.features.push(item.data);
-            });
-            if (result[0].layerName !== 'AD_Road') {
-                message.warning('应选择道路参考线，道路参考线生成失败', 3);
-                DataLayerStore.exitEdit();
-                return false;
-            }
-            if (
-                this.params.hasOwnProperty('crsLaneType') ||
-                this.params.hasOwnProperty('AD_Lane')
-            ) {
-                delete this.params.crsLaneType;
-                delete this.params.AD_Lane;
-            }
-            if (this.params.crsRoadType !== 3) {
-                delete this.params.extDistance;
-            }
+            message.warning(
+                `${
+                    layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
+                }生成失败`,
+                3
+            );
+            DataLayerStore.exitEdit();
         }
-
-        this.addLines(result);
-        return this.params;
+        return params;
     };
 
-    action = (editLayer, type) => {
+    action = type => {
         const { DataLayerStore, AttributeStore } = this.props;
-        if (editLayer && editLayer.layerName == 'AD_Lane') {
-            this.params.crsLaneType = type;
-        } else {
-            this.params.crsRoadType = type;
-        }
         if (type === 1) {
             if (DataLayerStore.editType == 'new_straight_line') return;
             DataLayerStore.newStraightLine();
@@ -252,20 +219,14 @@ class AddAroundLine extends React.Component {
     };
 
     handleOk = () => {
-        const { DataLayerStore } = this.props;
         const reg = new RegExp('^[0-9]+.?[0-9]*$');
-        let editLayer = DataLayerStore.getEditLayer();
-        const active = editLayer && editLayer.layerName == 'AD_Lane';
-        const { num } = this.state;
-        this.params.extDistance = num;
+        const { num, params } = this.state;
         if (num < 0.01 || !reg.test(num)) return false;
+        params.extDistance = num;
         this.setState({
             visibleModal: false
         });
-
-        this.getParams(active, this.result);
-        DataLayerStore.exitEdit();
-        // this.addLines(this.result);
+        this.addLines(params);
     };
 
     handleCancel = () => {
@@ -293,18 +254,20 @@ class AddAroundLine extends React.Component {
     };
 
     // 新建
-    addLines = async result => {
+    addLines = async params => {
         const {
             DataLayerStore,
             AttributeStore,
             OperateHistoryStore
         } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
-        const layerLine = editLayer && editLayer.layerName == 'AD_Lane';
 
         try {
-            let historyLog = await getNewLine(layerLine, this.params);
-            this.activeLine(layerLine, historyLog);
+            let historyLog = await autoCreateLine(
+                editLayer && editLayer.layerName,
+                params
+            );
+            this.activeLine(editLayer && editLayer.layerName, historyLog);
 
             // 日志与历史
             let history = {
@@ -313,13 +276,15 @@ class AddAroundLine extends React.Component {
             };
             let log = {
                 operateHistory: history,
-                action: 'getNewLine',
+                action: 'autoCreateLine',
                 result: 'success'
             };
             OperateHistoryStore.add(history);
             editLog.store.add(log);
             message.success(
-                layerLine ? '成功生成车道中心线' : '成功生成道路参考线',
+                editLayer && editLayer.layerName === 'AD_Lane'
+                    ? '成功生成车道中心线'
+                    : '成功生成道路参考线',
                 3
             );
         } catch (e) {
@@ -328,11 +293,11 @@ class AddAroundLine extends React.Component {
                 ? message.warning('操作失败:' + e.message, 3)
                 : message.warning('操作失败，请求失败', 3);
             let history = {
-                result
+                params
             };
             let log = {
                 operateHistory: history,
-                action: 'getNewLine',
+                action: 'autoCreateLine',
                 result: 'fail',
                 failReason: e.message
             };
@@ -344,9 +309,10 @@ class AddAroundLine extends React.Component {
     // 显示新构建出的道路线并为选中状态
     activeLine = (layerLine, historyLog) => {
         let layerName = historyLog.features[1][0].layerName;
-        let value = layerLine
-            ? historyLog.features[1][0].data.properties.LANE_ID
-            : historyLog.features[1][0].data.properties.ROAD_ID;
+        let value =
+            historyLog.features[1][0].data.properties[
+                layerLine === 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
+            ];
         let IDKey = getLayerIDKey(layerName);
         let option = {
             key: IDKey,
@@ -377,7 +343,7 @@ class AddAroundLine extends React.Component {
 
     content = editLayer => {
         const text =
-            editLayer && editLayer.layerName == 'AD_Lane'
+            editLayer == 'AD_Lane'
                 ? '先选择一条进入中心线，再选择一条退出中心线'
                 : '先选择一条进入参考线，再选择一条退出参考线';
         return (
@@ -388,4 +354,4 @@ class AddAroundLine extends React.Component {
     };
 }
 
-export default AddAroundLine;
+export default HalfAutoCreate;

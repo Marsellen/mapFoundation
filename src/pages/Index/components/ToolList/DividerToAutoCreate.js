@@ -3,7 +3,7 @@ import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { Icon, message } from 'antd';
-import { getNewLine } from 'src/utils/relCtrl/operateCtrl';
+import { autoCreateLine } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import 'less/components/tool-icon.less';
@@ -12,50 +12,13 @@ import 'less/components/tool-icon.less';
 @inject('AttributeStore')
 @inject('OperateHistoryStore')
 @observer
-class AddAdLine extends React.Component {
+class DividerToAutoCreate extends React.Component {
     componentDidMount() {
         const { DataLayerStore } = this.props;
         DataLayerStore.setAroundCallback((result, event) => {
             let editLayer = DataLayerStore.getEditLayer();
             if (event.button !== 2) return false;
-            if (editLayer && editLayer.layerName == 'AD_Lane') {
-                //车道中心线
-                if (result.length !== 2) {
-                    message.warning('应选择 2 条车道线，车道中心线生成失败', 3);
-                    DataLayerStore.exitEdit();
-                    return false;
-                } else if (result[0].layerName !== 'AD_LaneDivider') {
-                    message.warning('应选择车道中心线，车道中心线生成失败', 3);
-                    DataLayerStore.exitEdit();
-                    return false;
-                } else {
-                    if (
-                        result[0].data.properties.LDIV_ID >
-                        result[1].data.properties.LDIV_ID
-                    ) {
-                        //判断顺序
-                        message.warning('两条车道线顺序错误', 3);
-                        DataLayerStore.exitEdit();
-                        return false;
-                    }
-                    this.addLines(result, this.getParams(result), 'adLine');
-                    DataLayerStore.exitEdit();
-                }
-            } else {
-                //道路参考线
-                if (result.length !== 1) {
-                    message.warning('应选择 1 条车道线，道路参考线生成失败', 3);
-                    DataLayerStore.exitEdit();
-                    return false;
-                } else if (result[0].layerName !== 'AD_LaneDivider') {
-                    message.warning('应选择一条车道线，道路参考线生成失败', 3);
-                    DataLayerStore.exitEdit();
-                    return false;
-                } else {
-                    this.addLines(result, this.getParams(result), 'adRoad');
-                    DataLayerStore.exitEdit();
-                }
-            }
+            this.getParams(editLayer && editLayer.layerName, result);
         });
     }
     render() {
@@ -95,32 +58,80 @@ class AddAdLine extends React.Component {
     };
 
     // 获得接口传参
-    getParams = result => {
+    getParams = (editLayer, res) => {
         let AD_LaneDivider = {};
         AD_LaneDivider.type = 'FeatureCollection';
         AD_LaneDivider.features = [];
-        result.forEach(item => {
+        res.forEach(item => {
             AD_LaneDivider.features.push(item.data);
         });
-        const params = {
-            AD_LaneDivider: AD_LaneDivider
-        };
-        return params;
+        const { DataLayerStore } = this.props;
+        if (res.length === 2) {
+            //选择两条时
+            if (editLayer == 'AD_Lane') {
+                //车道中心线
+                if (
+                    res[0].layerName !== 'AD_LaneDivider' ||
+                    res[1].layerName !== 'AD_LaneDivider'
+                ) {
+                    // 判断选中线要素是否为当前编辑图层需要的线要素
+                    message.warning('应选择 2 条车道线，车道中心线生成失败', 3);
+                    DataLayerStore.exitEdit();
+                } else {
+                    this.addLines({ AD_LaneDivider: AD_LaneDivider }, 'adLine');
+                    DataLayerStore.exitEdit();
+                }
+            } else {
+                message.warning('道路参考线生成失败', 3);
+                DataLayerStore.exitEdit();
+            }
+        } else if (res.length === 1) {
+            //选择一条时
+            if (editLayer == 'AD_Road') {
+                if (res[0].layerName !== 'AD_LaneDivider') {
+                    message.warning('应选择车道线，道路参考线生成失败', 3);
+                    DataLayerStore.exitEdit();
+                } else {
+                    this.addLines({ AD_LaneDivider: AD_LaneDivider }, 'adRoad');
+                    DataLayerStore.exitEdit();
+                }
+            } else {
+                message.warning(
+                    `${
+                        editLayer == 'AD_Road' ? '道路参考线' : '车道中心线'
+                    }生成失败`,
+                    3
+                );
+                DataLayerStore.exitEdit();
+            }
+        } else {
+            //其他
+            message.warning(
+                `${
+                    editLayer == 'AD_Lane' ? '车道中心线' : '道路参考线'
+                }生成失败`,
+                3
+            );
+            DataLayerStore.exitEdit();
+        }
     };
 
     // 新建
-    addLines = async (result, params, lines) => {
+    addLines = async (params, lines) => {
         const {
             DataLayerStore,
             AttributeStore,
             OperateHistoryStore
         } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
-        const layerLine = editLayer && editLayer.layerName == 'AD_Lane';
 
         try {
-            let historyLog = await getNewLine(layerLine, params, lines);
-            this.activeLine(layerLine, historyLog);
+            let historyLog = await autoCreateLine(
+                editLayer && editLayer.layerName,
+                params,
+                lines
+            );
+            this.activeLine(editLayer && editLayer.layerName, historyLog);
 
             // 日志与历史
             let history = {
@@ -129,24 +140,26 @@ class AddAdLine extends React.Component {
             };
             let log = {
                 operateHistory: history,
-                action: 'getNewLine',
+                action: 'autoCreateLine',
                 result: 'success'
             };
             OperateHistoryStore.add(history);
             editLog.store.add(log);
             message.success(
-                layerLine ? '成功生成车道中心线' : '成功生成道路参考线',
+                editLayer && editLayer.layerName === 'AD_Lane'
+                    ? '成功生成车道中心线'
+                    : '成功生成道路参考线',
                 3
             );
         } catch (e) {
             console.log(e);
             message.warning('操作失败:' + e.msg, 3);
             let history = {
-                result
+                params
             };
             let log = {
                 operateHistory: history,
-                action: 'getNewLine',
+                action: 'autoCreateLine',
                 result: 'fail',
                 failReason: e.message
             };
@@ -158,9 +171,10 @@ class AddAdLine extends React.Component {
     // 显示新构建出的道路线并为选中状态
     activeLine = (layerLine, historyLog) => {
         let layerName = historyLog.features[1][0].layerName;
-        let value = layerLine
-            ? historyLog.features[1][0].data.properties.LANE_ID
-            : historyLog.features[1][0].data.properties.ROAD_ID;
+        let value =
+            historyLog.features[1][0].data.properties[
+                layerLine === 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
+            ];
         let IDKey = getLayerIDKey(layerName);
         let option = {
             key: IDKey,
@@ -202,4 +216,4 @@ class AddAdLine extends React.Component {
     };
 }
 
-export default AddAdLine;
+export default DividerToAutoCreate;
