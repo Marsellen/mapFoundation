@@ -152,14 +152,12 @@ class HalfAutoCreate extends React.Component {
                         layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
                     ] = 1;
                     this.addLines(params);
-                    DataLayerStore.exitEdit();
                 } else if (DataLayerStore.editType == 'new_turn_line') {
                     //转弯
                     params[
                         layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
                     ] = 2;
                     this.addLines(params);
-                    DataLayerStore.exitEdit();
                 } else if (DataLayerStore.editType == 'new_Uturn_line') {
                     //掉头
                     params[
@@ -169,7 +167,6 @@ class HalfAutoCreate extends React.Component {
                         visibleModal: true,
                         params: params
                     });
-                    DataLayerStore.exitEdit();
                 }
             }
         } else if (res.length === 1) {
@@ -267,6 +264,7 @@ class HalfAutoCreate extends React.Component {
                 editLayer && editLayer.layerName,
                 params
             );
+            DataLayerStore.exitEdit();
             this.activeLine(editLayer && editLayer.layerName, historyLog);
 
             // 日志与历史
