@@ -418,10 +418,9 @@ class RightMenuModal extends React.Component {
                     };
                     OperateHistoryStore.add(history);
                     editLog.store.add(log);
-                    message.success('操作完成', 3);
+                    message.success('线要素逆序已完成', 3);
                 } catch (e) {
-                    console.log(e);
-                    message.warning('操作失败:' + e.message, 3);
+                    message.warning('线要素逆序处理失败', 3);
                     let history = { features };
                     let log = {
                         operateHistory: history,
