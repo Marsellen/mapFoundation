@@ -405,7 +405,8 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
                     objId,
                     relObjId,
                     objType,
-                    relObjType
+                    relObjType,
+                    extraInfo: {}
                 });
             }
         }
@@ -528,11 +529,10 @@ const WKTToGeom = wkt => {
 const uniConcatRel = (arrayA, arrayB) => {
     let all = arrayA.concat(arrayB);
     return all.reduce((total, item) => {
-        !total.some(
-            t =>
-                item.extraInfo.REL_ID &&
-                t.extraInfo.REL_ID === item.extraInfo.REL_ID
-        ) && total.push(item);
+        let isUnique =
+            !item.extraInfo.REL_ID ||
+            !total.some(t => t.extraInfo.REL_ID === item.extraInfo.REL_ID);
+        isUnique && total.push(item);
         return total;
     }, []);
 };
