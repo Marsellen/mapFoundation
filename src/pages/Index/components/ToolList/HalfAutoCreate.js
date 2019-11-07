@@ -152,14 +152,12 @@ class HalfAutoCreate extends React.Component {
                         layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
                     ] = 1;
                     this.addLines(params);
-                    DataLayerStore.exitEdit();
                 } else if (DataLayerStore.editType == 'new_turn_line') {
                     //转弯
                     params[
                         layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
                     ] = 2;
                     this.addLines(params);
-                    DataLayerStore.exitEdit();
                 } else if (DataLayerStore.editType == 'new_Uturn_line') {
                     //掉头
                     params[
@@ -169,7 +167,6 @@ class HalfAutoCreate extends React.Component {
                         visibleModal: true,
                         params: params
                     });
-                    DataLayerStore.exitEdit();
                 }
             }
         } else if (res.length === 1) {
@@ -208,12 +205,12 @@ class HalfAutoCreate extends React.Component {
         } else if (type === 3) {
             if (DataLayerStore.editType == 'new_Uturn_line') return;
             DataLayerStore.newUTurnLine();
-            DataLayerStore.registerEscEvent(() => {
-                this.setState({
-                    visibleModal: false,
-                    num: 8.0
-                });
-            });
+            // DataLayerStore.registerEscEvent(() => {
+            //     this.setState({
+            //         visibleModal: false,
+            //         num: 8.0
+            //     });
+            // });
         }
         AttributeStore.hideRelFeatures();
     };
@@ -287,6 +284,7 @@ class HalfAutoCreate extends React.Component {
                     : '成功生成道路参考线',
                 3
             );
+            DataLayerStore.exitEdit();
         } catch (e) {
             console.log(e);
             e
