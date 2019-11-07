@@ -1,5 +1,5 @@
 import { flow, configure } from 'mobx';
-import Relevance from 'src/models/Relevance';
+import Relevance from 'src/models/relevance';
 import relFactory from 'src/utils/relCtrl/relFactory';
 import axios from 'axios';
 
