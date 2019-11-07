@@ -217,6 +217,7 @@ class DataLayerStore extends LayerStore {
         this.editType = 'new_around_line';
         this.editor.clear();
         this.editor.toggleMode(61);
+        this.removeCur();
     };
 
     // 路口内直行中心线生成
@@ -226,6 +227,7 @@ class DataLayerStore extends LayerStore {
         this.editType = 'new_straight_line';
         this.editor.clear();
         this.editor.toggleMode(61);
+        this.removeCur();
     };
 
     // 路口内转弯中心线生成
@@ -235,6 +237,7 @@ class DataLayerStore extends LayerStore {
         this.editType = 'new_turn_line';
         this.editor.clear();
         this.editor.toggleMode(61);
+        this.removeCur();
     };
 
     // 路口内掉头中心线生成
@@ -244,6 +247,7 @@ class DataLayerStore extends LayerStore {
         this.editType = 'new_Uturn_line';
         this.editor.clear();
         this.editor.toggleMode(61);
+        this.removeCur();
     };
 
     @action topViewMode = opt => {
