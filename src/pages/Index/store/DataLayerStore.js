@@ -449,7 +449,7 @@ class DataLayerStore extends LayerStore {
     };
 
     bindKeyEvent = () => {
-        document.onkeydown = event => {
+        document.onkeyup = event => {
             var e = event || window.event;
             if (e && e.keyCode == 27) {
                 // esc
