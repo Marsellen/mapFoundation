@@ -78,19 +78,8 @@ class DividerToAutoCreate extends React.Component {
                     message.warning('应选择 2 条车道线，车道中心线生成失败', 3);
                     DataLayerStore.exitEdit();
                 } else {
-                    if (
-                        res[0].data.properties.LDIV_ID >
-                        res[1].data.properties.LDIV_ID
-                    ) {
-                        message.warning('两条车道线顺序错误', 3);
-                        DataLayerStore.exitEdit();
-                    } else {
-                        this.addLines(
-                            { AD_LaneDivider: AD_LaneDivider },
-                            'adLine'
-                        );
-                        DataLayerStore.exitEdit();
-                    }
+                    this.addLines({ AD_LaneDivider: AD_LaneDivider }, 'adLine');
+                    DataLayerStore.exitEdit();
                 }
             } else {
                 message.warning('道路参考线生成失败', 3);

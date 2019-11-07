@@ -139,62 +139,37 @@ class HalfAutoCreate extends React.Component {
                 );
                 DataLayerStore.exitEdit();
             } else {
-                if (
-                    res[0].layerName === res[1].layerName &&
-                    res[0].data.properties[
-                        layerName == 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
-                    ] >
-                        res[1].data.properties[
-                            layerName == 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
-                        ]
-                ) {
-                    //选中线要素正确的话判断顺序
-                    message.warning(
-                        `两条${
-                            layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
-                        }顺序错误`,
-                        3
-                    );
+                //参数
+                params[layerName] = {};
+                params[layerName].type = 'FeatureCollection';
+                params[layerName].features = [];
+                res.forEach(item => {
+                    params[layerName].features.push(item.data);
+                });
+                if (DataLayerStore.editType == 'new_straight_line') {
+                    //直行
+                    params[
+                        layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
+                    ] = 1;
+                    this.addLines(params);
                     DataLayerStore.exitEdit();
-                } else {
-                    //参数
-                    params[layerName] = {};
-                    params[layerName].type = 'FeatureCollection';
-                    params[layerName].features = [];
-                    res.forEach(item => {
-                        params[layerName].features.push(item.data);
+                } else if (DataLayerStore.editType == 'new_turn_line') {
+                    //转弯
+                    params[
+                        layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
+                    ] = 2;
+                    this.addLines(params);
+                    DataLayerStore.exitEdit();
+                } else if (DataLayerStore.editType == 'new_Uturn_line') {
+                    //掉头
+                    params[
+                        layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
+                    ] = 3;
+                    this.setState({
+                        visibleModal: true,
+                        params: params
                     });
-                    if (DataLayerStore.editType == 'new_straight_line') {
-                        //直行
-                        params[
-                            layerName == 'AD_Lane'
-                                ? 'crsLaneType'
-                                : 'crsRoadType'
-                        ] = 1;
-                        this.addLines(params);
-                        DataLayerStore.exitEdit();
-                    } else if (DataLayerStore.editType == 'new_turn_line') {
-                        //转弯
-                        params[
-                            layerName == 'AD_Lane'
-                                ? 'crsLaneType'
-                                : 'crsRoadType'
-                        ] = 2;
-                        this.addLines(params);
-                        DataLayerStore.exitEdit();
-                    } else if (DataLayerStore.editType == 'new_Uturn_line') {
-                        //掉头
-                        params[
-                            layerName == 'AD_Lane'
-                                ? 'crsLaneType'
-                                : 'crsRoadType'
-                        ] = 3;
-                        this.setState({
-                            visibleModal: true,
-                            params: params
-                        });
-                        DataLayerStore.exitEdit();
-                    }
+                    DataLayerStore.exitEdit();
                 }
             }
         } else if (res.length === 1) {
