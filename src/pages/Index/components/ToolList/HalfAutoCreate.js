@@ -205,12 +205,12 @@ class HalfAutoCreate extends React.Component {
         } else if (type === 3) {
             if (DataLayerStore.editType == 'new_Uturn_line') return;
             DataLayerStore.newUTurnLine();
-            // DataLayerStore.registerEscEvent(() => {
-            //     this.setState({
-            //         visibleModal: false,
-            //         num: 8.0
-            //     });
-            // });
+            DataLayerStore.registerEscEvent(() => {
+                this.setState({
+                    visibleModal: false,
+                    num: 8.0
+                });
+            });
         }
         AttributeStore.hideRelFeatures();
     };
@@ -264,6 +264,7 @@ class HalfAutoCreate extends React.Component {
                 editLayer && editLayer.layerName,
                 params
             );
+            DataLayerStore.exitEdit();
             this.activeLine(editLayer && editLayer.layerName, historyLog);
 
             // 日志与历史
@@ -284,7 +285,6 @@ class HalfAutoCreate extends React.Component {
                     : '成功生成道路参考线',
                 3
             );
-            DataLayerStore.exitEdit();
         } catch (e) {
             console.log(e);
             e
