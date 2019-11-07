@@ -1,7 +1,7 @@
 import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
 import _ from 'lodash';
-import Relevance from 'src/models/Relevance';
+import Relevance from 'src/models/relevance';
 import Attr from 'src/models/attr';
 
 const attrDataToTable = data => {

@@ -1,4 +1,4 @@
-import Relevance from 'src/models/Relevance';
+import Relevance from 'src/models/relevance';
 import Attr from 'src/models/attr';
 import {
     REL_DATA_SET,

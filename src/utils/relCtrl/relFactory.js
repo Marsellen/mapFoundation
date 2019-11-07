@@ -5,7 +5,7 @@ import {
     getFeatureRels,
     getRelOptions
 } from './utils';
-import Relevance from 'src/models/Relevance';
+import Relevance from 'src/models/relevance';
 import { REL_TYPE_KEY_MAP } from 'src/config/RelsConfig';
 import { updateFeaturesByRels } from './relCtrl';
 import { getLayerIDKey } from '../vectorUtils';
