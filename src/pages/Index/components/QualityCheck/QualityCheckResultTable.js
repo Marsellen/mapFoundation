@@ -9,6 +9,8 @@ const CheckboxGroup = Checkbox.Group;
 
 @inject('TaskStore')
 @inject('appStore')
+@inject('DataLayerStore')
+@inject('AttributeStore')
 @inject('QualityCheckStore')
 @observer
 class QualityCheckResultTable extends React.Component {
@@ -311,7 +313,20 @@ class QualityCheckResultTable extends React.Component {
             let extent = map.getExtent(feature.data.geometry);
             map.setView('U');
             map.setExtent(extent);
+            this.showAttributesModal(feature);
         };
+    };
+
+    showAttributesModal = obj => {
+        const { AttributeStore, DataLayerStore } = this.props;
+        let editLayer = DataLayerStore.getEditLayer();
+        let readonly =
+            !editLayer || (editLayer && editLayer.layerName !== obj.layerName);
+        AttributeStore.setModel(obj);
+        DataLayerStore.clearHighLightFeatures();
+        DataLayerStore.setFeatureColor(obj, 0xcc00ff);
+        AttributeStore.show(readonly);
+        AttributeStore.setAfterSave(this.getData);
     };
 
     handleChange = (e, record, index) => {
