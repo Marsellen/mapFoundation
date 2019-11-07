@@ -186,13 +186,13 @@ class JobStatus extends React.Component {
                 if (isAllVisited) {
                     if (!isAllChecked && taskStatus === '提交') {
                         const modalContent = `存在需返修条目，当前任务不允许提交`;
-                        this.checkModal(modalContent);
+                        message.warning(modalContent);
                         return false;
                     }
                     return true;
                 } else {
                     const modalContent = `存在未查看检查条目，当前任务不允许${taskStatus}`;
-                    this.checkModal(modalContent);
+                    message.warning(modalContent);
                     return false;
                 }
                 break;
