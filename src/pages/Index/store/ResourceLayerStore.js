@@ -27,6 +27,11 @@ class ResourceLayerStore extends LayerStore {
             this.updateKey = Math.random();
         }
     };
+
+    @action updateLayerByName = (name, layer) => {
+        this.layers.find(layer => layer.value === name).layer = layer;
+        this.updateKey = Math.random();
+    };
 }
 
 export default new ResourceLayerStore();
