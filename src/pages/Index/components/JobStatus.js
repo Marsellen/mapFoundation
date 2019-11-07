@@ -171,6 +171,7 @@ class JobStatus extends React.Component {
 
         switch (roleCode) {
             case 'producer':
+                // if (isAllVisited) {
                 const reportList = await this.check();
                 if (!reportList) return false;
 
@@ -181,20 +182,25 @@ class JobStatus extends React.Component {
                     return false;
                 }
                 return true;
+                // } else {
+                //     const modalContent = `存在未查看检查条目，当前任务不允许${taskStatus}`;
+                //     message.warning(modalContent);
+                //     return false;
+                // }
                 break;
             case 'quality':
-                if (isAllVisited) {
-                    if (!isAllChecked && taskStatus === '提交') {
-                        const modalContent = `存在需返修条目，当前任务不允许提交`;
-                        message.warning(modalContent);
-                        return false;
-                    }
-                    return true;
-                } else {
-                    const modalContent = `存在未查看检查条目，当前任务不允许${taskStatus}`;
+                // if (isAllVisited) {
+                if (!isAllChecked && taskStatus === '提交') {
+                    const modalContent = `存在需返修条目，当前任务不允许提交`;
                     message.warning(modalContent);
                     return false;
                 }
+                return true;
+                // } else {
+                //     const modalContent = `存在未查看检查条目，当前任务不允许${taskStatus}`;
+                //     message.warning(modalContent);
+                //     return false;
+                // }
                 break;
             default:
                 break;
