@@ -431,6 +431,7 @@ class DataLayerStore extends LayerStore {
 
     //启用编辑控件时禁用测距和拾取控件
     disableOtherCtrl = () => {
+        this.triggerEscEvent();
         switch (this.editType) {
             case 'meature_distance':
                 this.measureControl.clear();
@@ -470,7 +471,6 @@ class DataLayerStore extends LayerStore {
     exitEdit = () => {
         this.disableOtherCtrl();
         this.clearChoose();
-        this.triggerEscEvent();
     };
 
     @action readCoordinate = event => {
