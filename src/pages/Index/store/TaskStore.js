@@ -81,9 +81,9 @@ class TaskStore {
         this.editTaskId = id;
         this.fetchTask();
         if (this.isGetTaskBoundaryFile()) {
-            this.getTaskBoundaryFile();
+            return this.getTaskBoundaryFile();
         } else {
-            this.updateTaskBoundaryFile({
+            return this.updateTaskBoundaryFile({
                 taskId: this.activeTaskId,
                 '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
                 '1301_RAW_DATA': this.activeTask['1301_RAW_DATA']
@@ -146,6 +146,7 @@ class TaskStore {
                 styleConifg: SDKConfig
             });
             yield window.map.getLayerManager().addLayerGroup(layerGroup);
+            return layerGroup;
         }
     });
 
@@ -157,14 +158,13 @@ class TaskStore {
                 taskId: this.activeTaskId,
                 taskBoundaryIsUpdate: true
             });
-            this.getTaskBoundaryFile();
-            return 'success';
+            return this.getTaskBoundaryFile();
         } else {
             AdLocalStorage.setTaskInfosStorage({
                 taskId: this.activeTaskId,
                 taskBoundaryIsUpdate: false
             });
-            return '更新底图状态失败';
+            message.warning('更新底图状态失败', 3);
         }
     });
 

@@ -3,6 +3,7 @@ import { Menu, Empty, Modal, Button } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import editLog from 'src/models/editLog';
+import { RESOURCE_LAYER_BOUNDARY } from 'src/config/DataLayerConfig';
 import 'less/components/sider.less';
 
 @inject('QualityCheckStore')
@@ -13,6 +14,7 @@ import 'less/components/sider.less';
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
 @inject('PictureShowStore')
+@inject('ResourceLayerStore')
 @observer
 class Task extends React.Component {
     constructor(props) {
@@ -115,7 +117,7 @@ class Task extends React.Component {
         }
     };
 
-    toggleTask(id, isEdit) {
+    toggleTask = async (id, isEdit) => {
         const { TaskStore, QualityCheckStore, DataLayerStore } = this.props;
         const { current } = this.state;
 
@@ -124,7 +126,8 @@ class Task extends React.Component {
         TaskStore.setActiveTask(id);
         this.clearWorkSpace();
         if (isEdit) {
-            TaskStore.startTaskEdit(id);
+            let boundaryLayerGroup = await TaskStore.startTaskEdit(id);
+            this.fetchLayerGroup(boundaryLayerGroup);
             this.openCheckReport();
             window.map && window.map.enableRotate();
             DataLayerStore.disableRegionSelect();
@@ -140,7 +143,7 @@ class Task extends React.Component {
                 taskScale: preTaskScale
             });
         }
-    }
+    };
 
     clearWorkSpace = () => {
         const {
@@ -163,6 +166,18 @@ class Task extends React.Component {
         document.querySelectorAll('.ant-modal-close').forEach(element => {
             element.click();
         });
+    };
+
+    fetchLayerGroup = boundaryLayerGroup => {
+        if (!boundaryLayerGroup) {
+            return;
+        }
+        const { DataLayerStore, ResourceLayerStore } = this.props;
+        DataLayerStore.addTargetLayers(boundaryLayerGroup.layers);
+        ResourceLayerStore.updateLayerByName(
+            RESOURCE_LAYER_BOUNDARY,
+            boundaryLayerGroup
+        );
     };
 }
 
