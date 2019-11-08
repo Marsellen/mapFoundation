@@ -253,7 +253,8 @@ const relToSpecData = (record, layerName, total) => {
             ...record.extraInfo,
             [relSpec.objKeyName]: record.objId,
             [relSpec.relObjKeyName]: record.relObjId,
-            geom
+            geom,
+            properties: feature.data.properties
         });
     }
     return total;
