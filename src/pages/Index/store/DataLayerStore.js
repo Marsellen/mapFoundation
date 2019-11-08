@@ -124,7 +124,10 @@ class DataLayerStore extends LayerStore {
     };
 
     @action setCreatedCallBack = callback => {
-        this.editor.onFeatureCreated(callback);
+        this.editor.onFeatureCreated(result => {
+            callback && callback(result);
+            this.updateAttributeEvent && this.updateAttributeEvent();
+        });
     };
 
     @action setEditedCallBack = callback => {
@@ -551,6 +554,10 @@ class DataLayerStore extends LayerStore {
     triggerEscEvent = () => {
         this.escEvent && this.escEvent();
         this.escEvent = null;
+    };
+
+    registerUpdateAttributeEvent = action => {
+        this.updateAttributeEvent = action;
     };
 }
 
