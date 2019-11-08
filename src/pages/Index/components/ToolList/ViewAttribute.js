@@ -149,7 +149,7 @@ class ViewAttribute extends React.Component {
             layerName = editLayer ? editLayer.layerName : null;
         }
         let _columns = layerName ? COLUMNS_CONFIG[layerName] : [];
-        let columns = _columns.map(col => {
+        let columns = _columns.map((col, index) => {
             return {
                 ...col,
                 onCell: record => ({
@@ -158,11 +158,26 @@ class ViewAttribute extends React.Component {
                     title: col.title,
                     filterBy: col.filterBy
                 }),
+                onHeaderCell: column => ({
+                    width: column.width,
+                    onResize: this.handleResize(index)
+                }),
                 sorter: this.sorter(col)
             };
         });
         let dataSource = getLayerItems(layerName);
         this.setState({ layerName, columns, dataSource });
+    };
+
+    handleResize = index => (e, { size }) => {
+        this.setState(({ columns }) => {
+            const nextColumns = [...columns];
+            nextColumns[index] = {
+                ...nextColumns[index],
+                width: size.width
+            };
+            return { columns: nextColumns };
+        });
     };
 
     sorter = col => {
