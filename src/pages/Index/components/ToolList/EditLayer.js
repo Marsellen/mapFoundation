@@ -97,10 +97,6 @@ class EditLayerPicker extends React.Component {
                 .forEach(item => {
                     item.disabled = true;
                 });
-
-            // layers.filter(item => {
-            //     return item.value != false
-            // })
         }
         return (
             <Radio.Group
