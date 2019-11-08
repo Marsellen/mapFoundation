@@ -9,6 +9,7 @@ import {
     getLayerByName
 } from 'src/utils/vectorUtils';
 import { addClass, removeClass, throttle } from 'src/utils/utils';
+import AdEmitter from 'src/models/event';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore extends LayerStore {
@@ -124,9 +125,9 @@ class DataLayerStore extends LayerStore {
     };
 
     @action setCreatedCallBack = callback => {
-        this.editor.onFeatureCreated(result => {
-            callback && callback(result);
-            this.updateAttributeEvent && this.updateAttributeEvent();
+        this.editor.onFeatureCreated(async result => {
+            callback && (await callback(result));
+            AdEmitter.emit('fetchViewAttributeData');
         });
     };
 
@@ -554,10 +555,6 @@ class DataLayerStore extends LayerStore {
     triggerEscEvent = () => {
         this.escEvent && this.escEvent();
         this.escEvent = null;
-    };
-
-    registerUpdateAttributeEvent = action => {
-        this.updateAttributeEvent = action;
     };
 }
 

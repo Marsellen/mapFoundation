@@ -300,7 +300,7 @@ class RightMenuModal extends React.Component {
             onOk: async () => {
                 let result = RightMenuStore.delete();
                 let historyLog = await deleteLine(result);
-                console.log(result, historyLog);
+                //console.log(result, historyLog);
 
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();

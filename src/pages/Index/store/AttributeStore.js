@@ -6,6 +6,7 @@ import IDService from 'src/pages/Index/service/IDService';
 import { getLayerIDKey, updateFeatureColor } from 'src/utils/vectorUtils';
 import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
 import _ from 'lodash';
+import AdEmitter from 'src/models/event';
 
 configure({ enforceActions: 'always' });
 class AttributeStore {
@@ -160,7 +161,7 @@ class AttributeStore {
             ...data.attributes
         };
         historyLog.features = [[oldFeature], [this.model]];
-        this.afterSave && this.afterSave();
+        AdEmitter.emit('fetchViewAttributeData');
         return historyLog;
     });
 
@@ -196,10 +197,6 @@ class AttributeStore {
             console.log(e);
         }
     });
-
-    @action setAfterSave = action => {
-        this.afterSave = action;
-    };
 }
 
 export default new AttributeStore();
