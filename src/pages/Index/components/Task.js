@@ -121,6 +121,15 @@ class Task extends React.Component {
         const { TaskStore, QualityCheckStore, DataLayerStore } = this.props;
         const { current } = this.state;
 
+        // 切换任务时，保存上一个任务的缩放比例，该方法需最先执行
+        if (current) {
+            const preTaskScale = map.getEyeView();
+            AdLocalStorage.setTaskInfosStorage({
+                taskId: current,
+                taskScale: preTaskScale
+            });
+        }
+
         QualityCheckStore.closeCheckReport();
         QualityCheckStore.clearCheckReport();
         TaskStore.setActiveTask(id);
@@ -134,15 +143,6 @@ class Task extends React.Component {
         }
 
         this.setState({ current: id });
-
-        // 切换任务时，保存上一个任务的缩放比例
-        if (current) {
-            const preTaskScale = map.getEyeView();
-            AdLocalStorage.setTaskInfosStorage({
-                taskId: current,
-                taskScale: preTaskScale
-            });
-        }
     };
 
     clearWorkSpace = () => {
