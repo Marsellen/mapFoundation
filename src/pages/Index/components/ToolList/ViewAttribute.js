@@ -28,6 +28,12 @@ class ViewAttribute extends React.Component {
         };
     }
 
+    componentDidMount() {
+        const { AttributeStore, DataLayerStore } = this.props;
+        AttributeStore.setAfterSave(this.getData);
+        DataLayerStore.registerUpdateAttributeEvent(this.getData);
+    }
+
     render() {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
@@ -254,7 +260,6 @@ class ViewAttribute extends React.Component {
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.setFeatureColor(obj, 0xcc00ff);
         AttributeStore.show(readonly);
-        AttributeStore.setAfterSave(this.getData);
     };
 
     destroyAction = () => {
