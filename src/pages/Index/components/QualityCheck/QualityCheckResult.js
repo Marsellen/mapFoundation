@@ -45,6 +45,7 @@ class QualityCheckResult extends React.Component {
                     closable={false}
                     width={1000}
                     bodyStyle={{ padding: 0 }}
+                    onCancel={this.handleClose}
                     className="quality-check-result-modal"
                     wrapClassName="quality-check-result-modal-wrap view-attribute-modal">
                     {this._renderContent()}
