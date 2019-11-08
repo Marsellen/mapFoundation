@@ -351,7 +351,7 @@ class VizCompnent extends React.Component {
         BatchAssignStore.hide();
     };
 
-    createdCallBack = result => {
+    createdCallBack = async result => {
         const {
             DataLayerStore,
             NewFeatureStore,
@@ -368,7 +368,7 @@ class VizCompnent extends React.Component {
             return;
         }
 
-        DataLayerStore.updateResult(result)
+        await DataLayerStore.updateResult(result)
             .then(data => {
                 //判断要素是否在任务范围内
                 const elementGeojson = _.cloneDeep(data.data);

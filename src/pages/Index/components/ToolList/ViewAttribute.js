@@ -11,6 +11,7 @@ import 'less/components/view-attribute.less';
 import 'less/components/tool-icon.less';
 import zh_CN from 'antd/es/locale/zh_CN';
 import SeniorModal from 'src/components/SeniorModal';
+import AdEmitter from 'src/models/event';
 
 const { Search } = Input;
 
@@ -29,9 +30,7 @@ class ViewAttribute extends React.Component {
     }
 
     componentDidMount() {
-        const { AttributeStore, DataLayerStore } = this.props;
-        AttributeStore.setAfterSave(this.getData);
-        DataLayerStore.registerUpdateAttributeEvent(this.getData);
+        AdEmitter.on('fetchViewAttributeData', this.getData);
     }
 
     render() {
@@ -57,7 +56,6 @@ class ViewAttribute extends React.Component {
                     zIndex={999}
                     maskClosable={false}
                     destroyOnClose={true}
-                    afterClose={this.destroyAction}
                     width={780}
                     bodyStyle={{ padding: 8 }}
                     wrapClassName="view-attribute-modal">
@@ -275,11 +273,6 @@ class ViewAttribute extends React.Component {
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.setFeatureColor(obj, 0xcc00ff);
         AttributeStore.show(readonly);
-    };
-
-    destroyAction = () => {
-        const { AttributeStore } = this.props;
-        AttributeStore.setAfterSave();
     };
 }
 
