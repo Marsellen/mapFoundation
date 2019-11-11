@@ -5,13 +5,13 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import {
     deleteLine,
     breakLine,
-    mergeLine,
-    updateFeatures
+    mergeLine
 } from 'src/utils/relCtrl/operateCtrl';
 import { getLayerByName } from 'src/utils/vectorUtils';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import _ from 'lodash';
+import AdEmitter from 'src/models/event';
 
 const EDIT_TYPE = [
     'delPoint',
@@ -253,6 +253,7 @@ class RightMenuModal extends React.Component {
                     };
                     OperateHistoryStore.add(history);
                     editLog.store.add(log);
+                    AdEmitter.emit('fetchViewAttributeData');
                     message.success('操作完成', 3);
                 } catch (e) {
                     console.log(e);
@@ -316,6 +317,7 @@ class RightMenuModal extends React.Component {
                 };
                 OperateHistoryStore.add(history);
                 editLog.store.add(log);
+                AdEmitter.emit('fetchViewAttributeData');
             },
             onCancel() {
                 DataLayerStore.exitEdit();
@@ -477,6 +479,7 @@ class RightMenuModal extends React.Component {
                     };
                     OperateHistoryStore.add(history);
                     editLog.store.add(log);
+                    AdEmitter.emit('fetchViewAttributeData');
                     message.success('操作完成', 3);
                 } catch (e) {
                     console.log(e);
