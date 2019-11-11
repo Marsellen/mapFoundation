@@ -3,7 +3,8 @@ import { Checkbox, List } from 'antd';
 import { inject, observer } from 'mobx-react';
 import {
     RESOURCE_LAYER_VETOR,
-    RESOURCE_LAYER_BOUNDARY
+    RESOURCE_LAYER_BOUNDARY,
+    RESOURCE_LAYER_POINT_CLOUD
 } from 'src/config/DataLayerConfig';
 
 @inject('ResourceLayerStore')
@@ -42,6 +43,11 @@ class ResourceLayer extends React.Component {
 
             if (item.value == RESOURCE_LAYER_BOUNDARY) {
                 DataLayerStore.clearChoose();
+            }
+
+            if (item.value == RESOURCE_LAYER_POINT_CLOUD) {
+                DataLayerStore.removeReadCoordinateLinstener();
+                DataLayerStore.setEditType();
             }
         };
         return onChange;
