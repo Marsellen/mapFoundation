@@ -81,8 +81,8 @@ class EditLayerPicker extends React.Component {
         let userInfo = appStore.loginUser;
         const { activeTask } = TaskStore;
         let layers = getEditLayers(DataLayerStore.layers, userInfo, activeTask);
-
         let editLayer = DataLayerStore.getEditLayer();
+
         return (
             <Radio.Group
                 onChange={this.onChange}
@@ -90,7 +90,7 @@ class EditLayerPicker extends React.Component {
                 style={{ width: '100%' }}>
                 <List
                     key={DataLayerStore.updateKey}
-                    dataSource={layers}
+                    dataSource={this.topViewLayerDisabled()}
                     renderItem={item => (
                         <div>
                             <Radio value={item.value} disabled={item.disabled}>
@@ -102,6 +102,30 @@ class EditLayerPicker extends React.Component {
             </Radio.Group>
         );
     }
+
+    topViewLayerDisabled = () => {
+        let { DataLayerStore, appStore, TaskStore } = this.props;
+        let userInfo = appStore.loginUser;
+        const { activeTask } = TaskStore;
+        let layers = getEditLayers(DataLayerStore.layers, userInfo, activeTask);
+        const { isTopView } = DataLayerStore;
+
+        if (isTopView) {
+            layers
+                .filter(item => {
+                    return (
+                        item.value == 'AD_TrafficLight' ||
+                        item.value == 'AD_TrafficSign' ||
+                        item.value == 'AD_Pole' ||
+                        item.value == 'AD_RS_Barrier'
+                    );
+                })
+                .forEach(item => {
+                    item.disabled = true;
+                });
+        }
+        return layers;
+    };
 
     getLabel = item => {
         if (!item.value) {

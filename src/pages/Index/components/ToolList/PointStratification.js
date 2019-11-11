@@ -37,7 +37,7 @@ class PointStratification extends React.Component {
         const { maxHeightRange, viewedHeightRange } = PointCloudStore;
         return (
             <div className="ad-slider-box">
-                <p>{maxHeightRange[1]}米</p>
+                <p>{maxHeightRange[1].toFixed(2)}米</p>
                 <Slider
                     className="ad-slider-vertical"
                     onChange={this.handleSlideChange}
@@ -49,7 +49,7 @@ class PointStratification extends React.Component {
                     vertical
                     range
                 />
-                <p>{maxHeightRange[0]}米</p>
+                <p>{maxHeightRange[0].toFixed(2)}米</p>
             </div>
         );
     }
