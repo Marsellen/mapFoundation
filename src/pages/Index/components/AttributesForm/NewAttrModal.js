@@ -7,6 +7,7 @@ import {
     DEFAULT_PROPERTIES_MAP
 } from 'src/config/ADMapDataConfig';
 import RadioIconGroup from 'src/components/RadioIconGroup';
+import SearchIconGroup from 'src/components/SearchIconGroup';
 import _ from 'lodash';
 import AdInput from 'src/components/Form/Input';
 import { getValidator } from 'src/utils/form/validator';
@@ -29,7 +30,8 @@ const formItemLayout = {
 class NewAttrModal extends React.Component {
     state = {
         visible: false,
-        attrs: []
+        attrs: [],
+        content: '未定义'
     };
 
     componentDidMount() {
@@ -87,7 +89,8 @@ class NewAttrModal extends React.Component {
 
     onCancel = () => {
         this.setState({
-            visible: false
+            visible: false,
+            content: '未定义'
         });
     };
 
@@ -207,6 +210,53 @@ class NewAttrModal extends React.Component {
                 })(<RadioIconGroup options={options} />)}
             </Form.Item>
         );
+    };
+
+    renderSpan = (item, index) => {
+        const { form } = this.props;
+        const { content } = this.state;
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
+                {form.getFieldDecorator(item.key, {
+                    initialValue: item.value
+                })(<span>{content}</span>)}
+            </Form.Item>
+        );
+    };
+
+    renderSearchIconGroup = (item, index) => {
+        const { form } = this.props;
+        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+        return (
+            <Form.Item key={index} label={item.name}>
+                {form.getFieldDecorator(item.key, {
+                    rules: [
+                        {
+                            required: item.required,
+                            message: `${item.name}必填`
+                        },
+                        ...(item.validates || []).map(validate => {
+                            return {
+                                pattern: validate.pattern,
+                                message: validate.message
+                            };
+                        })
+                    ],
+                    initialValue: item.value
+                })(
+                    <SearchIconGroup
+                        getContent={this.getContent}
+                        options={options}
+                    />
+                )}
+            </Form.Item>
+        );
+    };
+
+    getContent = val => {
+        this.setState({
+            content: val
+        });
     };
 
     attrOnChange = key => {

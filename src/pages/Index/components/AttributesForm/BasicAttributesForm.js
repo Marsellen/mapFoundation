@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Form, Select } from 'antd';
 import RadioIconGroup from 'src/components/RadioIconGroup';
+import SearchIconGroup from 'src/components/SearchIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import AdInput from 'src/components/Form/Input';
@@ -192,6 +193,57 @@ class BasicAttributesForm extends React.Component {
                 )}
             </Form.Item>
         );
+    };
+
+    renderSpan = (item, index) => {
+        const { form } = this.props;
+        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
+                {form.getFieldDecorator(item.key, {
+                    initialValue: item.value
+                })(<span>{this.getArrayOption(item.value, options)}</span>)}
+            </Form.Item>
+        );
+    };
+
+    renderSearchIconGroup = (item, index) => {
+        const { form, AttributeStore } = this.props;
+        const { readonly } = AttributeStore;
+        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+        let layout = readonly ? formItemLayout : {};
+        return (
+            <Form.Item key={index} label={item.name} {...layout}>
+                {!readonly ? (
+                    form.getFieldDecorator(item.key, {
+                        rules: [
+                            {
+                                required: item.required,
+                                message: `${item.name}必填`
+                            },
+                            ...(item.validates || []).map(validate => {
+                                return {
+                                    pattern: validate.pattern,
+                                    message: validate.message
+                                };
+                            })
+                        ],
+                        initialValue: item.value
+                    })(
+                        <SearchIconGroup
+                            getContent={this.getContent}
+                            options={options}
+                        />
+                    )
+                ) : (
+                    <span />
+                )}
+            </Form.Item>
+        );
+    };
+
+    getContent = val => {
+        return val;
     };
 
     renderCheckBoxIconGroup = (item, index, name) => {

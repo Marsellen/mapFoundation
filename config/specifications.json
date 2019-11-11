@@ -753,7 +753,7 @@
                 "key": "SIGN_TYPE",
                 "name": "标志牌类型",
                 "type": "AD_TS_CONTENT_SIGN_TYPE",
-                "domType": "RadioIconGroup"
+                "domType": "Span"
             },
             {
                 "key": "CONT_TYPE",
