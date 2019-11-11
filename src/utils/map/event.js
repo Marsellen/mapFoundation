@@ -39,10 +39,10 @@ const mapErrorListener = () => {
 const installMapListener = () => {
     addEditorListener('editor_event_regionselect_start', 'crosshair-viz');
     addEditorExitListener('editor_event_regionselect_end', 'crosshair-viz');
-    addEditorListener('editor_event_changepoints_start', 'del-viz');
-    addEditorExitListener('editor_event_changepoints_end', 'del-viz');
-    addEditorListener('editor_event_deletepoints_start', 'del-viz');
-    addEditorExitListener('editor_event_deletepoints_start', 'del-viz');
+    addEditorListener('editor_event_changepoints_node_picked', 'move-point-viz');
+    addEditorExitListener('editor_event_changepoints_node_release', 'move-point-viz');
+    addEditorListener('editor_event_deletepoints_start', 'move-point-viz');
+    addEditorExitListener('editor_event_deletepoints_start', 'move-point-viz');
     pointsTooCloseListener();
     mapErrorListener();
 };
