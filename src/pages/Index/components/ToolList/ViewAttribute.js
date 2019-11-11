@@ -20,12 +20,13 @@ const { Search } = Input;
 @inject('TaskStore')
 @observer
 class ViewAttribute extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             visible: false,
             columns: [],
-            dataSource: []
+            dataSource: [],
+            layerName: null
         };
     }
 
@@ -126,12 +127,11 @@ class ViewAttribute extends React.Component {
     renderFooter = () => {
         const { DataLayerStore } = this.props;
         let options = DataLayerStore.layers || [];
-        let editLayer = DataLayerStore.getEditLayer();
-        let defaultValue = editLayer ? editLayer.layerName : null;
+        const { layerName } = this.state;
         return (
             <div>
                 <Select
-                    defaultValue={defaultValue}
+                    value={layerName}
                     onChange={this.getData}
                     className="layer-select">
                     {options.map((option, index) => {
@@ -147,6 +147,9 @@ class ViewAttribute extends React.Component {
     };
 
     getData = layerName => {
+        // 属性列表框隐藏时不更新属性列表数据
+        if (!this.state.visible) return;
+
         if (!layerName) {
             const { DataLayerStore } = this.props;
             let editLayer = DataLayerStore.getEditLayer();
@@ -209,10 +212,12 @@ class ViewAttribute extends React.Component {
                 visible: false
             });
         } else {
-            this.setState({
-                visible: true
-            });
-            this.getData();
+            this.setState(
+                {
+                    visible: true
+                },
+                this.getData
+            );
         }
     };
 
