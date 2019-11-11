@@ -47,6 +47,4 @@ const installMapListener = () => {
     mapErrorListener();
 };
 
-export default {
-    installMapListener
-};
+export { installMapListener };
