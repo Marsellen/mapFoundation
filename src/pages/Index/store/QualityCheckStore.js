@@ -104,9 +104,7 @@ class QualityCheckStore {
                             }
                         })
                         .catch(e => {
-                            message.error(
-                                `请求失败: ${e.path} ${e.status} ${e.error}`
-                            );
+                            message.error(`请求失败 ${e}`);
                         });
                 } catch (e) {
                     message.error(`请求失败 ${e}`);

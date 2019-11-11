@@ -31,7 +31,7 @@ import BatchAssignModal from './BatchAssignModal';
 import { isRegionContainsElement } from 'src/utils/vectorUtils';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { shortcut } from 'src/utils/shortcuts';
-import getEvent from 'src/utils/map/event';
+import { installMapListener } from 'src/utils/map/event';
 import _ from 'lodash';
 import editLog from 'src/models/editLog';
 import SaveTimeView from './SaveTimeView';
@@ -306,14 +306,7 @@ class VizCompnent extends React.Component {
         DataLayerStore.setCreatedCallBack(this.createdCallBack);
         DataLayerStore.setEditedCallBack(this.editedCallBack);
 
-        window.map.getEventManager().register('webglcontextlost', e => {
-            let log = {
-                action: 'webglcontextlost',
-                result: 'fail'
-            };
-            editLog.store.add(log);
-        });
-        getEvent.installMapListener();
+        installMapListener();
     };
 
     selectedCallBack = (result, event) => {
@@ -332,17 +325,13 @@ class VizCompnent extends React.Component {
              */
             if (result[0].type === 'VectorLayer') {
                 DataLayerStore.pick();
-                this.modalType = 'vector';
                 this.showAttributesModal(result[0], event);
+                this.showRightMenu(result, event);
             } else if (result[0].type === 'TraceLayer') {
                 this.showPictureShowView(result[0]);
                 PictureShowStore.show();
             }
-
-            this.showRightMenu(result, event);
         } else {
-            if (this.modalType == 'boundary') return;
-            this.modalType = null;
             DataLayerStore.unPick();
             AttributeStore.hide();
             AttributeStore.hideRelFeatures();
@@ -359,53 +348,44 @@ class VizCompnent extends React.Component {
         } = this.props;
         //console.log(result);
 
-        //判断是否绘制成功
-        if (result.errorCode) {
-            let arr = result.desc.split(':');
-            let desc = arr[arr.length - 1];
-            message.warning(desc, 3);
-            DataLayerStore.exitEdit();
-            return;
+        let data;
+        try {
+            //判断是否绘制成功
+            if (result.errorCode) {
+                // 解析sdk抛出异常信息
+                let arr = result.desc.split(':');
+                let desc = arr[arr.length - 1];
+                throw desc;
+            }
+
+            data = await DataLayerStore.updateResult(result);
+            this.regionCheck(data);
+
+            // 请求id服务，申请id
+            data = await NewFeatureStore.init(data);
+            // 更新id到sdk
+            DataLayerStore.updateFeature(data);
+            let history = {
+                type: 'addFeature',
+                feature: data.data,
+                layerName: data.layerName
+            };
+            let log = {
+                operateHistory: history,
+                action: 'addFeature',
+                result: 'success'
+            };
+            OperateHistoryStore.add(history);
+            editLog.store.add(log);
+            this.showAttributesModal(data);
+        } catch (e) {
+            if (data) {
+                let layer = DataLayerStore.getEditLayer();
+                layer.layer.removeFeatureById(data.uuid);
+            }
+            message.warning(e);
         }
 
-        await DataLayerStore.updateResult(result)
-            .then(data => {
-                //判断要素是否在任务范围内
-                const elementGeojson = _.cloneDeep(data.data);
-                const isInRegion = isRegionContainsElement(
-                    elementGeojson,
-                    DataLayerStore.regionGeojson
-                );
-                if (!isInRegion) {
-                    message.warning('请在任务范围内绘制要素');
-                    DataLayerStore.exitEdit();
-                    let layer = DataLayerStore.getEditLayer();
-                    layer.layer.removeFeatureById(data.uuid);
-                    return false;
-                }
-                return NewFeatureStore.init(data);
-            })
-            .then(data => {
-                DataLayerStore.updateFeature(data);
-                let history = {
-                    type: 'addFeature',
-                    feature: data.data,
-                    layerName: data.layerName
-                };
-                let log = {
-                    operateHistory: history,
-                    action: 'addFeature',
-                    result: 'success'
-                };
-                OperateHistoryStore.add(history);
-                editLog.store.add(log);
-                this.showAttributesModal(data);
-            })
-            .catch(e => {
-                console.log(e);
-                let layer = DataLayerStore.getEditLayer();
-                layer.layer.removeFeatureById(result.uuid);
-            });
         DataLayerStore.exitEdit();
     };
 
@@ -416,47 +396,52 @@ class VizCompnent extends React.Component {
             RightMenuStore
         } = this.props;
 
-        if (result.errorCode) {
-            let arr = result.desc.split(':');
-            let desc = arr[arr.length - 1];
-            message.warning(desc, 3);
-            DataLayerStore.exitEdit();
-            return;
-        }
-
         const oldFeature = RightMenuStore.getFeatures()[0];
-
-        //修改形状点时，判断要素不在任务范围内，则撤销本次操作
-        if (DataLayerStore.editType === 'changePoints') {
-            const elementGeojson = _.cloneDeep(result.data);
-            const isInRegion = isRegionContainsElement(
-                elementGeojson,
-                DataLayerStore.regionGeojson
-            );
-            if (!isInRegion) {
-                message.warning('请在任务范围内绘制要素');
-                //恢复要素
-                DataLayerStore.updateFeature(oldFeature);
-                DataLayerStore.exitEdit();
-                return false;
+        try {
+            //判断是否绘制成功
+            if (result.errorCode) {
+                // 解析sdk抛出异常信息
+                let arr = result.desc.split(':');
+                let desc = arr[arr.length - 1];
+                throw desc;
             }
+
+            this.regionCheck(result);
+
+            let history = {
+                type: 'updateFeature',
+                oldFeature,
+                feature: result,
+                layerName: result.layerName,
+                uuid: result.uuid
+            };
+            let log = {
+                operateHistory: history,
+                action: 'updateGeometry',
+                result: 'success'
+            };
+            OperateHistoryStore.add(history);
+            editLog.store.add(log);
+        } catch (e) {
+            //恢复要素
+            DataLayerStore.updateFeature(oldFeature);
+            message.warning(e);
         }
 
         DataLayerStore.exitEdit();
-        let history = {
-            type: 'updateFeature',
-            oldFeature,
-            feature: result,
-            layerName: result.layerName,
-            uuid: result.uuid
-        };
-        let log = {
-            operateHistory: history,
-            action: 'updateGeometry',
-            result: 'success'
-        };
-        OperateHistoryStore.add(history);
-        editLog.store.add(log);
+    };
+
+    regionCheck = data => {
+        const { DataLayerStore } = this.props;
+        //判断要素是否在任务范围内
+        const elementGeojson = _.cloneDeep(data.data);
+        let isInRegion = isRegionContainsElement(
+            elementGeojson,
+            DataLayerStore.regionGeojson
+        );
+        if (!isInRegion) {
+            throw '请在任务范围内绘制要素';
+        }
     };
 
     showPictureShowView = obj => {
