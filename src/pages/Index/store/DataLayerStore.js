@@ -58,11 +58,11 @@ class DataLayerStore extends LayerStore {
         this.updateKey = Math.random();
     };
 
-    @action hasShow = () => {
+    hasShow = () => {
         return this.layers.findIndex(layer => layer.checked);
     };
 
-    @action initEditor = layers => {
+    initEditor = layers => {
         this.editor = new EditControl();
         window.map && window.map.getControlManager().addControl(this.editor);
         layers && this.editor.setTargetLayers(layers);
@@ -72,7 +72,7 @@ class DataLayerStore extends LayerStore {
         this.editor.setTargetLayers([...this.editor.targetLayers, ...layers]);
     };
 
-    @action initMeasureControl = () => {
+    initMeasureControl = () => {
         this.measureControl = new MeasureControl();
         map.getControlManager().addControl(this.measureControl);
         this.measureControl.onMeasureFinish(() => {
@@ -92,7 +92,7 @@ class DataLayerStore extends LayerStore {
         return layer;
     };
 
-    @action setSelectedCallBack = callback => {
+    setSelectedCallBack = callback => {
         this.editor.onFeatureSelected((result, event) => {
             switch (this.editType) {
                 case 'normal':
@@ -124,28 +124,32 @@ class DataLayerStore extends LayerStore {
         });
     };
 
-    @action setCreatedCallBack = callback => {
+    setCreatedCallBack = callback => {
         this.editor.onFeatureCreated(async result => {
             callback && (await callback(result));
             AdEmitter.emit('fetchViewAttributeData');
         });
     };
 
-    @action setEditedCallBack = callback => {
+    setEditedCallBack = callback => {
         this.editor.onFeatureEdited(callback);
     };
 
-    @action getEditLayer = () => {
+    getEditLayer = () => {
         return this.editor && this.editor.editLayer;
     };
 
-    @action clearChoose = () => {
+    clearChoose = () => {
         this.removeCur();
         if (!this.editor) return;
-        this.editType = 'normal';
+        this.setEditType();
         this.editor.clear();
         this.editor.cancel();
         this.unPick();
+    };
+
+    @action setEditType = type => {
+        this.editType = type || 'normal';
     };
 
     changeCur = () => {
@@ -172,80 +176,81 @@ class DataLayerStore extends LayerStore {
         removeClass(viz, 'crosshair-viz');
     };
 
-    @action newPoint = () => {
+    newPoint = () => {
         if (!this.editor) return;
         this.disableOtherCtrl();
-        this.editType = 'new_point';
+        this.setEditType('new_point');
         this.changeCur();
         this.editor.newPoint();
     };
 
-    @action newLine = () => {
+    newLine = () => {
         if (!this.editor) return;
         this.disableOtherCtrl();
-        this.editType = 'new_line';
+        this.setEditType('new_line');
         this.changeCur();
         this.editor.newLine();
     };
 
-    @action newPolygon = () => {
+    newPolygon = () => {
         if (!this.editor) return;
         this.disableOtherCtrl();
-        this.editType = 'new_polygon';
+        this.setEditType('new_polygon');
         this.changeCur();
         this.editor.newPolygon();
     };
-    @action newGroundRectangle = () => {
+
+    newGroundRectangle = () => {
         if (!this.editor) return;
         this.disableOtherCtrl();
-        this.editType = 'new_ground_rectangle';
+        this.setEditType('new_ground_rectangle');
         this.changeCur();
         this.editor.newPlaneTextMatrix();
     };
 
-    @action newFacadeRectangle = () => {
+    newFacadeRectangle = () => {
         if (!this.editor) return;
         this.disableOtherCtrl();
-        this.editType = 'new_facade_rectangle';
+        this.setEditType('new_facade_rectangle');
         this.changeCur();
         this.editor.newMatrix();
     };
 
     // 左右车道线生成中心线
-    @action newAroundLine = () => {
+    newAroundLine = () => {
         if (!this.editor) return;
         this.disableOtherCtrl();
-        this.editType = 'new_around_line';
+        this.setEditType('new_around_line');
         this.editor.clear();
         this.editor.toggleMode(61);
         this.removeCur();
     };
 
     // 路口内直行中心线生成
-    @action newStraightLine = () => {
+    newStraightLine = () => {
         if (!this.editor) return;
         this.disableOtherCtrl();
-        this.editType = 'new_straight_line';
+        this.setEditType('new_straight_line');
         this.editor.clear();
         this.editor.toggleMode(61);
         this.removeCur();
     };
 
     // 路口内转弯中心线生成
-    @action newTurnLine = () => {
+    newTurnLine = () => {
         if (!this.editor) return;
         this.disableOtherCtrl();
-        this.editType = 'new_turn_line';
+        this.setEditType('new_turn_line');
         this.editor.clear();
         this.editor.toggleMode(61);
         this.removeCur();
     };
 
     // 路口内掉头中心线生成
-    @action newUTurnLine = () => {
+    newUTurnLine = () => {
         if (!this.editor) return;
         this.disableOtherCtrl();
-        this.editType = 'new_Uturn_line';
+        this.setEditType('new_Uturn_line');
         this.editor.clear();
         this.editor.toggleMode(61);
         this.removeCur();
@@ -259,66 +264,66 @@ class DataLayerStore extends LayerStore {
         }
     };
 
-    @action newVerticalMatrix = () => {
+    newVerticalMatrix = () => {
         if (!this.editor) return;
         this.disableOtherCtrl();
-        this.editType = 'new_vertical_matrix';
+        this.setEditType('new_vertical_matrix');
         this.changeCur();
         this.editor.newVerticalMatrix();
     };
 
-    @action newRel = () => {
+    newRel = () => {
         if (this.editType == 'newRel') return;
         this.disableOtherCtrl();
-        this.editType = 'newRel';
+        this.setEditType('newRel');
         this.editor.clear();
         this.editor.toggleMode(61);
     };
 
-    @action delRel = () => {
+    delRel = () => {
         if (this.editType == 'delRel') return;
         this.disableOtherCtrl();
-        this.editType = 'delRel';
+        this.setEditType('delRel');
     };
 
-    @action setNewRelCallback = callback => {
+    setNewRelCallback = callback => {
         this.newRelCallback = callback;
     };
 
-    @action setDelRelCallback = callback => {
+    setDelRelCallback = callback => {
         this.delRelCallback = callback;
     };
 
-    @action setBreakCallback = callback => {
+    setBreakCallback = callback => {
         this.breakCallback = callback;
     };
 
     // 两条车道线自动生成中心线
-    @action setStraightCallback = callback => {
+    setStraightCallback = callback => {
         this.straightCallback = callback;
         this.turnCallback = callback;
         this.uturnCallback = callback;
     };
 
     // 路口内直行中心线生成
-    @action setAroundCallback = callback => {
+    setAroundCallback = callback => {
         this.aroundCallback = callback;
     };
 
     // 路口内转弯中心线生成
-    @action setTurnCallback = callback => {
+    setTurnCallback = callback => {
         this.turnCallback = callback;
     };
 
     // 输入两条路口进出中心线生成路口内中心线
-    @action setUTurnCallback = callback => {
+    setUTurnCallback = callback => {
         this.uturnCallback = callback;
     };
 
-    @action newCircle = () => {
+    newCircle = () => {
         if (!this.editor) return;
         this.disableOtherCtrl();
-        this.editType = 'new_circle';
+        this.setEditType('new_circle');
         this.changeCur();
         this.editor.newFixedPolygon(3);
     };
@@ -342,34 +347,34 @@ class DataLayerStore extends LayerStore {
         }
     });
 
-    @action updateFeature = result => {
+    updateFeature = result => {
         this.editor.editLayer.layer.updateFeatures([result]);
         return result;
     };
 
-    @action insertPoints = () => {
+    insertPoints = () => {
         if (!this.editor) return;
         this.disableOtherCtrl();
-        this.editType = 'insertPoints';
+        this.setEditType('insertPoints');
         this.editor.insertPoints();
         this.addShapePoint();
     };
 
-    @action changePoints = () => {
+    changePoints = () => {
         if (!this.editor) return;
         this.disableOtherCtrl();
-        this.editType = 'changePoints';
+        this.setEditType('changePoints');
         this.editor.changePoints();
     };
 
-    @action deletePoints = () => {
+    deletePoints = () => {
         if (!this.editor) return;
         this.disableOtherCtrl();
-        this.editType = 'delPoint';
+        this.setEditType('delPoint');
         this.editor.deletePoints();
     };
 
-    @action setPointSize = size => {
+    setPointSize = size => {
         pointCloudLayer.setPointSize(size);
     };
 
@@ -383,28 +388,28 @@ class DataLayerStore extends LayerStore {
         this.clearHighLightFeatures();
     };
 
-    @action startMeatureDistance = () => {
+    startMeatureDistance = () => {
         this.exitEdit();
 
-        this.editType = 'meature_distance';
+        this.setEditType('meature_distance');
         this.measureControl.startMeatureDistance();
         this.ruler();
     };
 
-    @action startReadCoordinate = () => {
+    startReadCoordinate = () => {
         this.exitEdit();
 
-        this.editType = 'read_coordinate';
+        this.setEditType('read_coordinate');
         this.addReadCoordinateLinstener();
     };
 
-    @action getMeasureControlMode = () => {
+    getMeasureControlMode = () => {
         return this.measureControl.mode;
     };
 
-    @action selectPointFromHighlight = () => {
+    selectPointFromHighlight = () => {
         this.disableOtherCtrl();
-        this.editType = 'select_point';
+        this.setEditType('select_point');
         this.editor.selectPointFromHighlight();
         this.addShapePoint();
     };
@@ -476,7 +481,7 @@ class DataLayerStore extends LayerStore {
         this.clearChoose();
     };
 
-    @action readCoordinate = event => {
+    readCoordinate = event => {
         if (this.readCoordinateClosed) {
             return;
         }
