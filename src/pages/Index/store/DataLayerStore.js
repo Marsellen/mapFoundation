@@ -164,18 +164,11 @@ class DataLayerStore extends LayerStore {
         addClass(viz, 'shape-viz');
     };
 
-    // 修改，删除形状点鼠标样式
-    delShapePoint = () => {
-        let viz = document.querySelector('#viz');
-        addClass(viz, 'del-viz');
-    };
-
     removeCur = () => {
         let viz = document.querySelector('#viz');
         removeClass(viz, 'edit-viz');
         removeClass(viz, 'ruler-viz');
         removeClass(viz, 'shape-viz');
-        removeClass(viz, 'del-viz');
         removeClass(viz, 'crosshair-viz');
     };
 
@@ -369,7 +362,6 @@ class DataLayerStore extends LayerStore {
         this.disableOtherCtrl();
         this.editType = 'changePoints';
         this.editor.changePoints();
-        this.delShapePoint();
     };
 
     @action deletePoints = () => {
@@ -377,7 +369,6 @@ class DataLayerStore extends LayerStore {
         this.disableOtherCtrl();
         this.editType = 'delPoint';
         this.editor.deletePoints();
-        this.delShapePoint();
     };
 
     @action setPointSize = size => {
