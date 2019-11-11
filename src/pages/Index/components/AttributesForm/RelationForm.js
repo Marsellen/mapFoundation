@@ -75,15 +75,14 @@ class RelationForm extends React.Component {
     };
 
     renderRs = ({ spec, extraInfo } = {}) => {
-        if (spec == 'AD_Lane_Con') {
-            return this.renderADLaneConRs(extraInfo);
+        switch (spec) {
+            case 'AD_Road_Con':
+                return this.renderADRoadConRs(extraInfo);
+            case 'AD_Lane_Con':
+                return this.renderADLaneConRs(extraInfo);
+            default:
+                break;
         }
-        // switch (spec) {
-        //     case 'AD_Lane_Con':
-        //         return this.renderADLaneConRs(extraInfo);
-        //     default:
-        //         break;
-        // }
     };
 
     renderADLaneConRs = extraInfo => {
@@ -117,6 +116,46 @@ class RelationForm extends React.Component {
                 {newEnable && (
                     <Button
                         onClick={this.newAttrs('AD_Lane_Con_RS', extraInfo)}
+                        title="添加连接关系交通限制">
+                        <Icon type="plus" />
+                    </Button>
+                )}
+                <NewAttrModal onRef={modal => (this.modal = modal)} />
+            </div>
+        );
+    };
+
+    renderADRoadConRs = extraInfo => {
+        const { form, AttributeStore } = this.props;
+        const { attrs, readonly } = AttributeStore;
+        let newEnable =
+            !readonly &&
+            (!attrs.AD_Road_Con_RS || attrs.AD_Road_Con_RS.length == 0);
+        return (
+            <div>
+                {(attrs.AD_Road_Con_RS || []).map((rs, index) =>
+                    form.getFieldDecorator(
+                        'attrs.AD_Road_Con_RS[' + index + ']',
+                        {
+                            initialValue: {
+                                ...rs,
+                                properties: {
+                                    ...rs.properties
+                                }
+                            }
+                        }
+                    )(
+                        <EditableCard
+                            key={index}
+                            index={index}
+                            readonly={readonly}
+                            onDelete={this.onDelete('AD_Road_Con_RS')}
+                        />
+                    )
+                )}
+                {newEnable && (
+                    <Button
+                        onClick={this.newAttrs('AD_Road_Con_RS', extraInfo)}
                         title="添加连接关系交通限制">
                         <Icon type="plus" />
                     </Button>

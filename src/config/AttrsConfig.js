@@ -13,6 +13,12 @@ export const ATTR_SPEC_CONFIG = [
         relSpec: 'AD_Lane_Con'
     },
     {
+        source: 'AD_Road_Con_RS',
+        sourceId: 'RS_ID',
+        key: 'REL_ID',
+        relSpec: 'AD_Road_Con'
+    },
+    {
         source: 'AD_TS_Content',
         sourceId: 'CONT_ID',
         key: 'SIGN_ID',
@@ -127,6 +133,26 @@ export const ATTR_TABLE_CONFIG = {
             key: 'RS_TYPE',
             name: '限制类型',
             type: 'AD_LANE_CON_RS_TYPE',
+            domType: 'Select'
+        },
+        {
+            name: '限制时间描述',
+            key: 'TIMEDOM',
+            domType: 'Input',
+            validates: 'Char|250'
+        }
+    ],
+    AD_Road_Con_RS: [
+        {
+            key: 'RS_ID',
+            name: '用户编号',
+            domType: 'Text',
+            placeholder: '系统自动生成'
+        },
+        {
+            key: 'RS_TYPE',
+            name: '限制类型',
+            type: 'AD_Road_Con_RS_TYPE',
             domType: 'Select'
         },
         {

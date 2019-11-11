@@ -33,7 +33,7 @@ export default {
 
         AD_LANEDIVIDER: {
             type: 'Line',
-            filter: ['TYPE', 'SHARE_LINE'],
+            filter: ['RD_LINE'],
             order: 14
         },
         AD_LANE: { type: 'Line', filter: ['TYPE'], order: 13 },
@@ -66,188 +66,16 @@ export default {
             { value: 2, label: '虚拟道路参考线' }
         ],
 
-        AD_LANEDIVIDER_TYPE: [
-            {
-                value: 0,
-                label: '未定义',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 1,
-                label: '单实线',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 2,
-                label: '单虚线',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    dashSize: 1,
-                    gapSize: 1
-                }
-            },
-            {
-                value: 3,
-                label: '双实线',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 4,
-                label: '双虚线',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 5,
-                label: '左实右虚',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 6,
-                label: '左虚右实',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 7,
-                label: '短粗虚线',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 8,
-                label: '导流线',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 9,
-                label: '车道虚拟车道线',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 10,
-                label: '路边缘虚拟车道线',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 11,
-                label: '路测防护栏',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 12,
-                label: '隧道墙',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 13,
-                label: '路石、路缘石',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 14,
-                label: '自然边界',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 15,
-                label: '施工边界',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 16,
-                label: '路中隔离带',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 17,
-                label: '待转待行区车道线',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 18,
-                label: '可变导向车道线',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            },
-            {
-                value: 99,
-                label: '其他',
-                style: {
-                    color: 'rgb(127,125,125)',
-                    linewidth: 1
-                }
-            }
-        ],
-        AD_LANEDIVIDER_SHARE_LINE: [
-            {
-                value: 0,
-                label: '未定义',
-                style: { color: 'rgb(127,125,125)' }
-            },
+        AD_LANEDIVIDER_RD_LINE: [
+            { value: 0, label: '未定义', style: { color: 'rgb(127,125,125)' } },
             {
                 value: 1,
                 label: '非共用车道线',
-                style: { color: 'rgb(127,125,125)' }
+                style: { color: 'rgb(127,25,76)' }
             },
             {
                 value: 2,
-                label: '逆向交通流共用车道线',
-                style: { color: 'rgb(127,125,125)' }
-            },
-            {
-                value: 3,
-                label: '同向交通流共用车道线',
+                label: '非道路参考线',
                 style: { color: 'rgb(127,125,125)' }
             }
         ],

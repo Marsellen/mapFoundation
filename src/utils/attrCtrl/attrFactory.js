@@ -65,6 +65,18 @@ const REL_RS = [
         relKey: 'TO_LANE',
         relType: 'REL_OBJ_TYPE_KEYS',
         source: 'AD_Lane_Con'
+    },
+    {
+        spec: 'AD_Road',
+        relKey: 'FROM_LANE',
+        relType: 'OBJ_TYPE_KEYS',
+        source: 'AD_Road_Con'
+    },
+    {
+        spec: 'AD_Road',
+        relKey: 'TO_LANE',
+        relType: 'REL_OBJ_TYPE_KEYS',
+        source: 'AD_Road_Con'
     }
 ];
 
