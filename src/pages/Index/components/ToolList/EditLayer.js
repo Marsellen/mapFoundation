@@ -82,6 +82,32 @@ class EditLayerPicker extends React.Component {
         const { activeTask } = TaskStore;
         let layers = getEditLayers(DataLayerStore.layers, userInfo, activeTask);
         let editLayer = DataLayerStore.getEditLayer();
+
+        return (
+            <Radio.Group
+                onChange={this.onChange}
+                value={editLayer ? editLayer.layerName : false}
+                style={{ width: '100%' }}>
+                <List
+                    key={DataLayerStore.updateKey}
+                    dataSource={this.topViewLayerDisabled()}
+                    renderItem={item => (
+                        <div>
+                            <Radio value={item.value} disabled={item.disabled}>
+                                {this.getLabel(item)}
+                            </Radio>
+                        </div>
+                    )}
+                />
+            </Radio.Group>
+        );
+    }
+
+    topViewLayerDisabled = () => {
+        let { DataLayerStore, appStore, TaskStore } = this.props;
+        let userInfo = appStore.loginUser;
+        const { activeTask } = TaskStore;
+        let layers = getEditLayers(DataLayerStore.layers, userInfo, activeTask);
         const { isTopView } = DataLayerStore;
 
         if (isTopView) {
@@ -98,25 +124,8 @@ class EditLayerPicker extends React.Component {
                     item.disabled = true;
                 });
         }
-        return (
-            <Radio.Group
-                onChange={this.onChange}
-                value={editLayer ? editLayer.layerName : false}
-                style={{ width: '100%' }}>
-                <List
-                    key={DataLayerStore.updateKey}
-                    dataSource={layers}
-                    renderItem={item => (
-                        <div>
-                            <Radio value={item.value} disabled={item.disabled}>
-                                {this.getLabel(item)}
-                            </Radio>
-                        </div>
-                    )}
-                />
-            </Radio.Group>
-        );
-    }
+        return layers;
+    };
 
     getLabel = item => {
         if (!item.value) {
