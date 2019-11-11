@@ -232,7 +232,8 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 0, label: '未定义', icon: 'weidingyi' },
         { value: 1, label: '停止线', icon: 'tingzhixian' },
         { value: 2, label: '停车让行线', icon: 'tingcherangxingxian' },
-        { value: 3, label: '减速让行线', icon: 'jiansurangxingxian' }
+        { value: 3, label: '减速让行线', icon: 'jiansurangxingxian' },
+        { value: 11, label: '虚拟停止线', icon: 'xunitingzhixian' }
     ],
     AD_LANEMARK_PLG_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi' },
@@ -248,6 +249,16 @@ export const TYPE_SELECT_OPTION_MAP = {
             value: 5,
             label: '斜跨路口的人行横道 ',
             icon: 'xiekualukourenxinghengdao'
+        },
+        {
+            value: 11,
+            label: '虚拟人行横道 ',
+            icon: 'xunirenxinghengdao'
+        },
+        {
+            value: 12,
+            label: '虚拟禁止停车区 ',
+            icon: 'xunijinzhitingchequ'
         }
     ],
     AD_TRAFFICSIGN_SIGN_STYLE: [
@@ -285,15 +296,15 @@ export const TYPE_SELECT_OPTION_MAP = {
         // { value: 126, label: '路面低洼', icon: 'plus' },
         // { value: 127, label: '过水路面（漫水桥）', icon: 'plus' },
         // { value: 128, label: '铁路道口', icon: 'plus' },
-        // { value: 129, label: '人行横道', icon: 'plus' },
         { value: 129, label: '注意非机动车', icon: 'zhuyifeijidongche' },
-        // { value: 131, label: '注意残疾人', icon: 'plus' },
+        // { value: 130, label: '注意残疾人', icon: 'plus' },
         { value: 131, label: '事故易发路段', icon: 'shiguyifaluduan' },
         { value: 132, label: '慢行', icon: 'manxing' },
-        // { value: 134, label: '注意障碍物绕行', icon: 'plus' },
+        // { value: 133, label: '注意障碍物绕行-两侧绕行', icon: 'plus' },
         { value: 134, label: '注意危险', icon: 'zhuyiweixian' },
         { value: 135, label: '施工', icon: 'shigong' },
-        // { value: 137, label: '建议速度', icon: 'plus' },
+        // { value: 136, label: '建议速度', icon: 'plus' },
+        // { value: 137, label: '隧道开车灯', icon: 'plus' },
         // { value: 138, label: '注意潮汐车道', icon: 'plus' },
         // { value: 139, label: '避险车道', icon: 'plus' },
         { value: 140, label: '注意合流', icon: 'zhuyiheliu' },
@@ -301,6 +312,10 @@ export const TYPE_SELECT_OPTION_MAP = {
         // { value: 142, label: '注意保持车距', icon: 'plus' },
         // { value: 143, label: '注意前方车辆排队', icon: 'plus' },
         // { value: 144, label: '注意路面结冰、雨（雪）天气', icon: 'plus' },
+        // { value: 145, label: '注意障碍物绕行-右侧绕行', icon: 'plus' },
+        // { value: 146, label: '注意障碍物绕行-左侧绕行', icon: 'plus' },
+        // { value: 147, label: '注意合流–右侧合流', icon: 'plus' },
+        // { value: 148, label: '其他警告标志', icon: 'plus' },
         { value: 201, label: '停车让行', icon: 'tingcherangxing' },
         { value: 202, label: '减速让行', icon: 'jiansurangxing' },
         // { value: 203, label: '会车让行', icon: 'plus' },
@@ -327,8 +342,16 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 220, label: '解除限制速度', icon: 'jiechuxianzhisudu' },
         // { value: 221, label: '停车检查', icon: 'plus' },
         // { value: 222, label: '海关', icon: 'plus' },
-        // { value: 223, label: '区域禁止', icon: 'plus' },
-        // { value: 224, label: '区域禁止解除', icon: 'plus' },
+        // { value: 223, label: '区域禁止—禁止长时停车', icon: 'plus' },
+        // { value: 224, label: '区域禁止解除—解除禁止长时停车', icon: 'plus' },
+        // { value: 225, label: '区域禁止—禁止停车', icon: 'plus' },
+        // { value: 226, label: '区域禁止解除—解除禁止停车', icon: 'plus' },
+        // { value: 227, label: '区域禁止—速度限制', icon: 'plus' },
+        // { value: 228, label: '区域禁止解除—解除速度限制', icon: 'plus' },
+        // { value: 229, label: '限制宽度', icon: 'plus' },
+        // { value: 230, label: '限制高度', icon: 'plus' },
+        // { value: 231, label: '限制质量', icon: 'plus' },
+        // { value: 232, label: '限制轴重', icon: 'plus' },
         { value: 233, label: '其他禁止标志', icon: 'qitajinzhibiaozhi' },
         // { value: 301, label: '直行', icon: 'plus' },
         // { value: 302, label: '向左转弯', icon: 'plus' },
@@ -355,8 +378,23 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 319, label: '专用道路和车道', icon: 'zhuanyongdaoluhechedao' },
         { value: 320, label: '停车位', icon: 'tingchewei' },
         { value: 321, label: '允许掉头', icon: 'yunxudiaotou' },
+        // { value: 322, label: '车道行驶方向--左转', icon: 'plus' },
+        // { value: 323, label: '车道行驶方向--右转', icon: 'plus' },
+        // { value: 324, label: '车道行驶方向--直行和左转', icon: 'plus' },
+        // { value: 325, label: '车道行驶方向--直行和右转', icon: 'plus' },
+        // { value: 326, label: '车道行驶方向--左转和掉头', icon: 'plus' },
+        // { value: 327, label: '车道行驶方向--掉头', icon: 'plus' },
+        // { value: 328, label: '车道行驶方--其他', icon: 'plus' },
+        // { value: 329, label: '其他指示标志', icon: 'plus' },
+        // { value: 401, label: '区间测速起点', icon: 'plus' },
+        // { value: 402, label: '区间测速终点', icon: 'plus' },
+        // { value: 403, label: '区间测速起点和距离', icon: 'plus' },
+        // { value: 404, label: '表示时间标志', icon: 'plus' },
+        // { value: 405, label: '特殊天气辅助标志', icon: 'plus' },
+        // { value: 406, label: '特殊路段辅助标志', icon: 'plus' },
         { value: 500, label: '其他标志', icon: 'qitabiaozhipai' },
         { value: 600, label: '动态标志牌', icon: 'dongtaibiaozhipai' }
+        // { value: 601, label: '其他电子标志牌', icon: 'dongtaibiaozhipai' }
     ],
     AD_TRAFFIC_LIGHT_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi' },
@@ -438,6 +476,11 @@ export const TYPE_SELECT_OPTION_MAP = {
             value: 'M',
             label: '禁止右转',
             icon: 'jinzhiyouzhuan'
+        },
+        {
+            value: 'X',
+            label: '待确认',
+            icon: 'daiqueren'
         }
     ],
     AD_MAP_QC_FILE_NAME: [
@@ -487,7 +530,11 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'G', label: '叉形' },
         { value: 'H', label: '行人' },
         { value: 'I', label: '非机动车' },
-        { value: 'J', label: '读秒' }
+        { value: 'J', label: '读秒' },
+        { value: 'X', label: '灯头未启用' },
+        { value: 'BD', label: '方向向左的箭头+直行' },
+        { value: 'CD', label: '方向向右的箭头+直行' },
+        { value: 'BE', label: '方向向左的箭头+掉头' }
     ],
     AD_TS_CONTENT_CONT_TYPE: [
         { value: 0, label: '未定义' },
@@ -501,7 +548,9 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 1, label: '隧道墙', icon: 'suidaoqiang' },
         { value: 2, label: '路侧防护栏', icon: 'lucefanghulan' },
         { value: 3, label: '路缘石', icon: 'luyuanshi' },
-        { value: 4, label: '隔音墙', icon: 'geyinqiang' }
+        { value: 4, label: '隔音墙', icon: 'geyinqiang' },
+        { value: 5, label: '其他墙体', icon: 'qitaqiangti' },
+        { value: 6, label: '道路轮廓标', icon: 'daolulunkuobiao' }
     ],
     AD_RS_BARRIER_MATERIAL: [
         { value: 0, label: '未定义' },
@@ -551,6 +600,10 @@ export const TYPE_SELECT_OPTION_MAP = {
     AD_LANE_CON_RS_TYPE: [
         { value: 0, label: '未定义' },
         { value: 1, label: '禁止转向限制' }
+    ],
+    AD_Road_Con_RS_TYPE: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '禁止转向' }
     ]
 };
 
@@ -615,6 +668,10 @@ export const DEFAULT_PROPERTIES_MAP = {
         TIMEDOM: ''
     },
     AD_Lane_Con_RS: {
+        RS_TYPE: 1,
+        TIMEDOM: ''
+    },
+    AD_Road_Con_RS: {
         RS_TYPE: 1,
         TIMEDOM: ''
     },

@@ -50,10 +50,12 @@ export const REL_TYPE_KEY_MAP = {
     },
     FROM_ROAD: {
         name: '驶入参考线',
+        withAttr: true,
         validates: 'Numeric|maxLength|15'
     },
     TO_ROAD: {
         name: '驶出参考线',
+        withAttr: true,
         validates: 'Numeric|maxLength|15'
     },
     STOPL: {
