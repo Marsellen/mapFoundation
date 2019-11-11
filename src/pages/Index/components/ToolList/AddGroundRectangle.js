@@ -9,8 +9,6 @@ import AdMessage from 'src/components/AdMessage';
 class AddGroundRectangle extends React.Component {
     render() {
         const { DataLayerStore } = this.props;
-        const { isTopView } = DataLayerStore;
-
         let visible = DataLayerStore.editType == 'new_ground_rectangle';
         return (
             <span className={visible ? 'ad-icon-active' : ''}>
@@ -18,7 +16,6 @@ class AddGroundRectangle extends React.Component {
                     id="add-ground-rectangle-btn"
                     icon="dimianjuxing"
                     title="添加地面矩形"
-                    disabled={isTopView}
                     action={this.action}
                 />
                 <AdMessage visible={visible} content={this.content()} />

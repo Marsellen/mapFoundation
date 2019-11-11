@@ -1,38 +1,50 @@
 import { addClass, removeClass } from '../utils';
 import { message } from 'antd';
+import editLog from 'src/models/editLog';
+
+const mapEventManager = () => {
+    return window.map.getEventManager();
+};
 
 const addEditorListener = (eventType, className) => {
     let viz = document.querySelector('#viz');
-    window.map.getEventManager().register(eventType, e => {
+    mapEventManager().register(eventType, e => {
         addClass(viz, className);
     });
 };
 
 const pointsTooCloseListener = () => {
-    window.map.getEventManager().register('editor_event_points_tooclose', e => {
+    mapEventManager().register('editor_event_points_tooclose', e => {
         message.warn('形状点距离过近', 3);
     });
 };
 
 const addEditorExitListener = (eventType, className) => {
     let viz = document.querySelector('#viz');
-    window.map.getEventManager().register(eventType, e => {
+    mapEventManager().register(eventType, e => {
         removeClass(viz, className);
+    });
+};
+
+const mapErrorListener = () => {
+    mapEventManager().register('webglcontextlost', e => {
+        let log = {
+            action: 'webglcontextlost',
+            result: 'fail'
+        };
+        editLog.store.add(log);
     });
 };
 
 const installMapListener = () => {
     addEditorListener('editor_event_regionselect_start', 'crosshair-viz');
     addEditorExitListener('editor_event_regionselect_end', 'crosshair-viz');
-    addEditorListener('editor_event_changepoints_start', 'del-viz');
-    addEditorExitListener('editor_event_changepoints_end', 'del-viz');
-    addEditorListener('editor_event_deletepoints_start', 'del-viz');
-    addEditorExitListener('editor_event_deletepoints_start', 'del-viz');
+    addEditorListener('editor_event_changepoints_node_picked', 'move-point-viz');
+    addEditorExitListener('editor_event_changepoints_node_release', 'move-point-viz');
+    addEditorListener('editor_event_deletepoints_start', 'move-point-viz');
+    addEditorExitListener('editor_event_deletepoints_start', 'move-point-viz');
     pointsTooCloseListener();
+    mapErrorListener();
 };
 
-export default {
-    addEditorListener,
-    addEditorExitListener,
-    installMapListener
-};
+export { installMapListener };
