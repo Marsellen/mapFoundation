@@ -46,8 +46,7 @@ class ResourceLayer extends React.Component {
             }
 
             if (item.value == RESOURCE_LAYER_POINT_CLOUD) {
-                DataLayerStore.removeReadCoordinateLinstener();
-                DataLayerStore.setEditType();
+                DataLayerStore.exitReadCoordinate();
             }
         };
         return onChange;

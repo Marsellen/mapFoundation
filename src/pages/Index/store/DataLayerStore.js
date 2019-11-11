@@ -528,6 +528,13 @@ class DataLayerStore extends LayerStore {
         this.setReadCoordinateResult();
     };
 
+    exitReadCoordinate = () => {
+        if (this.editType === 'read_coordinate') {
+            this.removeReadCoordinateLinstener();
+            this.setEditType();
+        }
+    };
+
     @action setReadCoordinateResult = result => {
         this.readCoordinateResult = result;
     };
