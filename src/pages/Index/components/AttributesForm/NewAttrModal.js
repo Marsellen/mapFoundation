@@ -30,8 +30,7 @@ const formItemLayout = {
 class NewAttrModal extends React.Component {
     state = {
         visible: false,
-        attrs: [],
-        content: '未定义'
+        attrs: []
     };
 
     componentDidMount() {
@@ -89,8 +88,7 @@ class NewAttrModal extends React.Component {
 
     onCancel = () => {
         this.setState({
-            visible: false,
-            content: '未定义'
+            visible: false
         });
     };
 
@@ -212,18 +210,6 @@ class NewAttrModal extends React.Component {
         );
     };
 
-    renderSpan = (item, index) => {
-        const { form } = this.props;
-        const { content } = this.state;
-        return (
-            <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {form.getFieldDecorator(item.key, {
-                    initialValue: item.value
-                })(<span>{content}</span>)}
-            </Form.Item>
-        );
-    };
-
     renderSearchIconGroup = (item, index) => {
         const { form } = this.props;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
@@ -243,20 +229,9 @@ class NewAttrModal extends React.Component {
                         })
                     ],
                     initialValue: item.value
-                })(
-                    <SearchIconGroup
-                        getContent={this.getContent}
-                        options={options}
-                    />
-                )}
+                })(<SearchIconGroup options={options} />)}
             </Form.Item>
         );
-    };
-
-    getContent = val => {
-        this.setState({
-            content: val
-        });
     };
 
     attrOnChange = key => {

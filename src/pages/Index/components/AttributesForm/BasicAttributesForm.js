@@ -195,18 +195,6 @@ class BasicAttributesForm extends React.Component {
         );
     };
 
-    renderSpan = (item, index) => {
-        const { form } = this.props;
-        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
-        return (
-            <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {form.getFieldDecorator(item.key, {
-                    initialValue: item.value
-                })(<span>{this.getArrayOption(item.value, options)}</span>)}
-            </Form.Item>
-        );
-    };
-
     renderSearchIconGroup = (item, index) => {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
@@ -229,21 +217,14 @@ class BasicAttributesForm extends React.Component {
                             })
                         ],
                         initialValue: item.value
-                    })(
-                        <SearchIconGroup
-                            getContent={this.getContent}
-                            options={options}
-                        />
-                    )
+                    })(<SearchIconGroup options={options} />)
                 ) : (
-                    <span />
+                    <span className="ant-form-text">
+                        {this.getArrayOption(item.value, options)}
+                    </span>
                 )}
             </Form.Item>
         );
-    };
-
-    getContent = val => {
-        return val;
     };
 
     renderCheckBoxIconGroup = (item, index, name) => {
