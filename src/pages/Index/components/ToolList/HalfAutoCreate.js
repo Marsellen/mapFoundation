@@ -9,6 +9,7 @@ import editLog from 'src/models/editLog';
 import 'less/components/tool-icon.less';
 import 'less/components/uturn-line.less';
 import AdInputNumber from 'src/components/Form/InputNumber';
+import AdEmitter from 'src/models/event';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -279,6 +280,8 @@ class HalfAutoCreate extends React.Component {
             };
             OperateHistoryStore.add(history);
             editLog.store.add(log);
+            // 刷新属性列表
+            AdEmitter.emit('fetchViewAttributeData');
             message.success(
                 editLayer && editLayer.layerName === 'AD_Lane'
                     ? '成功生成车道中心线'
