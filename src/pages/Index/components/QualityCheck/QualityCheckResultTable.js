@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { COLUMNS_CONFIG } from 'src/config/CheckTableConfig';
 import { shortcut } from 'src/utils/shortcuts';
+import AdTable from 'src/components/AdTable';
 
 const CheckboxGroup = Checkbox.Group;
 
@@ -20,19 +21,21 @@ class QualityCheckResultTable extends React.Component {
     state = {
         indeterminate: false,
         checkAll: true,
-        currentIndex: -1
+        currentIndex: -1,
+        columns: []
     };
 
     render() {
+        const { columns } = this.state;
         const { QualityCheckStore } = this.props;
         const { reportList } = QualityCheckStore;
         return (
             <div
                 onKeyUp={e => this.handleKeyUp(e)}
                 onKeyDown={e => this.handleKeyDown(e)}>
-                <Table
+                <AdTable
                     dataSource={reportList.slice()}
-                    columns={this.qualityCheckTabelColumns()}
+                    columns={columns}
                     onRow={record => {
                         return {
                             onClick: this.tableOnClick(record),
@@ -47,6 +50,7 @@ class QualityCheckResultTable extends React.Component {
                     onChange={this.handleTableChange}
                     rowKey={record => `checkResult_${record.index}`}
                     scroll={{ y: 240 }}
+                    isHandleBody={true}
                 />
             </div>
         );
@@ -56,6 +60,8 @@ class QualityCheckResultTable extends React.Component {
         this.checkReportTable = document.querySelector(
             '.check-result-table .ant-table-body'
         );
+
+        this.qualityCheckTabelColumns();
     }
 
     handleKeyDown = event => {
@@ -214,15 +220,30 @@ class QualityCheckResultTable extends React.Component {
         };
     };
 
+    handleResize = index => (e, { size }) => {
+        this.setState(({ columns }) => {
+            const nextColumns = [...columns];
+            nextColumns[index] = {
+                ...nextColumns[index],
+                width: size.width
+            };
+            return { columns: nextColumns };
+        });
+    };
+
     qualityCheckTabelColumns = () => {
         const _ = this;
         const { QualityCheckStore } = this.props;
 
-        const columns = COLUMNS_CONFIG.map(item => {
+        const columns = COLUMNS_CONFIG.map((item, index) => {
             const { key, isFilter, dataIndex } = item;
             item = {
                 ...item,
                 align: 'center',
+                onHeaderCell: column => ({
+                    width: column.width,
+                    onResize: this.handleResize(index)
+                }),
                 render: (text, record, index) => {
                     return (
                         <div className={record.visited && 'visited'}>
@@ -254,7 +275,7 @@ class QualityCheckResultTable extends React.Component {
             title: '是否无需修改',
             dataIndex: 'misrepId',
             key: 'misrepId',
-            width: '12%',
+            width: 60,
             align: 'center',
             render(text, record, index) {
                 return (
@@ -268,6 +289,7 @@ class QualityCheckResultTable extends React.Component {
             }
         });
 
+        this.setState({ columns });
         return columns;
     };
 

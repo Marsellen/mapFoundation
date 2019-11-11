@@ -47,12 +47,21 @@ function ResizeableTitle(props) {
 const components = {
     header: {
         cell: ResizeableTitle
-    },
+    }
+};
+
+const handleBodyComponents = {
+    ...components,
     body: {
         cell: AdTableCell
     }
 };
 
 export default function AdTable(props) {
-    return <Table components={components} {...props} />;
+    return (
+        <Table
+            components={props.isHandleBody ? components : handleBodyComponents}
+            {...props}
+        />
+    );
 }
