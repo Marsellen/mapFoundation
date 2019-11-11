@@ -3,39 +3,39 @@ export const COLUMNS_CONFIG = [
         title: '序号',
         dataIndex: 'index',
         key: 'index',
-        width: '60px'
+        width: 60
     },
     {
         title: '任务号',
         dataIndex: 'taskId',
         key: 'taskId',
-        width: '60px'
+        width: 60
     },
     {
         title: '检查项编号',
         dataIndex: 'checkId',
         key: 'checkId',
         isFilter: true,
-        width: '120px'
+        width: 120
     },
     {
         title: '检查名称',
         dataIndex: 'checkName',
         key: 'checkName',
-        width: '10%'
+        width: 70
     },
     {
         title: '要素id',
         dataIndex: 'featureId',
         key: 'featureId',
-        width: '60px'
+        width: 70
     },
     {
         title: '图层',
         dataIndex: 'layerNameText',
         key: 'layerNameText',
         isFilter: true,
-        width: '160px'
+        width: 160
     },
     {
         title: '错误描述',
