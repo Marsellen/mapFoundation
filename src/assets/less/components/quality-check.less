@@ -19,7 +19,14 @@
     }
 
     .check-result-table {
-        height: 220px;
+        padding: 0 10px 10px;
+
+        table {
+            overflow: hidden;
+            max-height: 270px;
+            border-collapse: collapse;
+        }
+
         th,
         td {
             padding: 6px 12px;
@@ -34,8 +41,12 @@
             color: #000;
         }
 
-        .visited {
-            color: #1890ff;
+        // .visited {
+        //     color: #1890ff;
+        // }
+
+        .check-table-row-active {
+            border: 2px solid red;
         }
     }
 

@@ -1,4 +1,4 @@
-import Relevance from 'src/models/Relevance';
+import Relevance from 'src/models/relevance';
 import Attr from 'src/models/attr';
 import {
     REL_DATA_SET,
@@ -253,7 +253,8 @@ const relToSpecData = (record, layerName, total) => {
             ...record.extraInfo,
             [relSpec.objKeyName]: record.objId,
             [relSpec.relObjKeyName]: record.relObjId,
-            geom
+            geom,
+            properties: feature.data.properties
         });
     }
     return total;
@@ -405,7 +406,8 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
                     objId,
                     relObjId,
                     objType,
-                    relObjType
+                    relObjType,
+                    extraInfo: {}
                 });
             }
         }
@@ -528,11 +530,10 @@ const WKTToGeom = wkt => {
 const uniConcatRel = (arrayA, arrayB) => {
     let all = arrayA.concat(arrayB);
     return all.reduce((total, item) => {
-        !total.some(
-            t =>
-                item.extraInfo.REL_ID &&
-                t.extraInfo.REL_ID === item.extraInfo.REL_ID
-        ) && total.push(item);
+        let isUnique =
+            !item.extraInfo.REL_ID ||
+            !total.some(t => t.extraInfo.REL_ID === item.extraInfo.REL_ID);
+        isUnique && total.push(item);
         return total;
     }, []);
 };

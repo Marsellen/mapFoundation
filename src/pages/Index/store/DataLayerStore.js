@@ -9,6 +9,7 @@ import {
     getLayerByName
 } from 'src/utils/vectorUtils';
 import { addClass, removeClass, throttle } from 'src/utils/utils';
+import AdEmitter from 'src/models/event';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore extends LayerStore {
@@ -63,8 +64,12 @@ class DataLayerStore extends LayerStore {
 
     @action initEditor = layers => {
         this.editor = new EditControl();
-        layers && this.editor.setTargetLayers(layers);
         window.map && window.map.getControlManager().addControl(this.editor);
+        layers && this.editor.setTargetLayers(layers);
+    };
+
+    addTargetLayers = layers => {
+        this.editor.setTargetLayers([...this.editor.targetLayers, ...layers]);
     };
 
     @action initMeasureControl = () => {
@@ -120,7 +125,10 @@ class DataLayerStore extends LayerStore {
     };
 
     @action setCreatedCallBack = callback => {
-        this.editor.onFeatureCreated(callback);
+        this.editor.onFeatureCreated(async result => {
+            callback && (await callback(result));
+            AdEmitter.emit('fetchViewAttributeData');
+        });
     };
 
     @action setEditedCallBack = callback => {
@@ -217,6 +225,7 @@ class DataLayerStore extends LayerStore {
         this.editType = 'new_around_line';
         this.editor.clear();
         this.editor.toggleMode(61);
+        this.removeCur();
     };
 
     // 路口内直行中心线生成
@@ -226,6 +235,7 @@ class DataLayerStore extends LayerStore {
         this.editType = 'new_straight_line';
         this.editor.clear();
         this.editor.toggleMode(61);
+        this.removeCur();
     };
 
     // 路口内转弯中心线生成
@@ -235,6 +245,7 @@ class DataLayerStore extends LayerStore {
         this.editType = 'new_turn_line';
         this.editor.clear();
         this.editor.toggleMode(61);
+        this.removeCur();
     };
 
     // 路口内掉头中心线生成
@@ -244,6 +255,7 @@ class DataLayerStore extends LayerStore {
         this.editType = 'new_Uturn_line';
         this.editor.clear();
         this.editor.toggleMode(61);
+        this.removeCur();
     };
 
     @action topViewMode = opt => {
@@ -431,6 +443,7 @@ class DataLayerStore extends LayerStore {
 
     //启用编辑控件时禁用测距和拾取控件
     disableOtherCtrl = () => {
+        this.triggerEscEvent();
         switch (this.editType) {
             case 'meature_distance':
                 this.measureControl.clear();
@@ -444,7 +457,7 @@ class DataLayerStore extends LayerStore {
     };
 
     bindKeyEvent = () => {
-        document.onkeydown = event => {
+        document.onkeyup = event => {
             var e = event || window.event;
             if (e && e.keyCode == 27) {
                 // esc
@@ -533,6 +546,15 @@ class DataLayerStore extends LayerStore {
 
     disableRegionSelect = () => {
         this.editor.disableRegionSelect();
+    };
+
+    registerEscEvent = event => {
+        this.escEvent = event;
+    };
+
+    triggerEscEvent = () => {
+        this.escEvent && this.escEvent();
+        this.escEvent = null;
     };
 }
 

@@ -1,4 +1,4 @@
-import Relevance from 'src/models/Relevance';
+import Relevance from 'src/models/relevance';
 import {
     REL_SPEC_CONFIG,
     SPEC_REL_KEY_SET,

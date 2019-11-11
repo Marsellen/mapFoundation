@@ -1,6 +1,6 @@
 import { REL_SPEC_CONFIG, SPEC_REL_KEY_SET } from 'src/config/RelsConfig';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
-import Relevance from 'src/models/Relevance';
+import Relevance from 'src/models/relevance';
 
 /**
  * geojson数据格式转为IndexedDB存储数据格式

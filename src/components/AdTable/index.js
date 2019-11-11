@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
+import { Resizable } from 'react-resizable';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 
 function AdTableCell(props) {
@@ -25,7 +26,28 @@ function filterText(type, value) {
     return config ? config.label : value;
 }
 
+function ResizeableTitle(props) {
+    const { onResize, width, ...restProps } = props;
+
+    if (!width) {
+        return <th {...restProps} />;
+    }
+
+    return (
+        <Resizable
+            width={width}
+            height={0}
+            onResize={onResize}
+            draggableOpts={{ enableUserSelectHack: false }}>
+            <th {...restProps} />
+        </Resizable>
+    );
+}
+
 const components = {
+    header: {
+        cell: ResizeableTitle
+    },
     body: {
         cell: AdTableCell
     }

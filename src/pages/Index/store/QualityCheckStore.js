@@ -2,6 +2,7 @@ import { observable, configure, action, flow, computed } from 'mobx';
 import QualityCheckService from 'src/pages/Index/service/QualityCheck';
 import { message } from 'antd';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });
 class QualityCheckStore {
@@ -9,7 +10,7 @@ class QualityCheckStore {
     @observable reportList = [];
     @observable batchId;
     @observable checkIdArr = [];
-    @observable layerNameArr = [];
+    @observable layerNameTextArr = [];
     @observable checkReportIsVisited = {};
     @observable checkReportVisible = false;
     @computed get isAllVisited() {
@@ -17,6 +18,12 @@ class QualityCheckStore {
     }
     @computed get hasChecked() {
         return this.reportListInit.some(item => item.checked);
+    }
+    @computed get isAllChecked() {
+        return this.reportListInit.every(item => item.checked);
+    }
+    @computed get reportListL() {
+        return this.reportList.length;
     }
 
     @action openCheckReport = () => {
@@ -27,14 +34,28 @@ class QualityCheckStore {
         this.checkReportVisible = false;
     };
 
+    @action clearCheckReport = () => {
+        this.reportListInit = [];
+        this.reportList = [];
+        this.checkIdArr = [];
+        this.layerNameTextArr = [];
+        this.checkReportIsVisited = {};
+    };
+
     //作业员质检
     producerCheck = flow(function*(option) {
-        const { code, data, message } = yield QualityCheckService.check(option);
-        if (code === 1) {
-            return data;
-        } else {
-            message.warning(`${code} : ${message}`);
-            return false;
+        try {
+            const { code, data, message } = yield QualityCheckService.check(
+                option
+            );
+            if (code === 1) {
+                return data;
+            } else {
+                message.warning(`${code} : ${message}`);
+                return false;
+            }
+        } catch (e) {
+            message.error(`请求失败 ${e}`);
         }
     }).bind(this);
 
@@ -61,22 +82,35 @@ class QualityCheckStore {
     @action pollingGetReport = (option, resolve) => {
         return setTimeout(
             (() => {
-                QualityCheckService.getReport(option).then(res => {
-                    const { code, data, message } = res;
-                    switch (code) {
-                        case 1:
-                            this.handleReportRes(data, option.task_id);
-                            resolve && resolve(data);
-                            break;
-                        case 201:
-                            this.pollingGetReport(option);
-                            break;
-                        default:
-                            message.warning(`${code} : ${message}`);
-                            resolve && resolve(false);
-                            break;
-                    }
-                });
+                try {
+                    QualityCheckService.getReport(option)
+                        .then(res => {
+                            const { code, data, message } = res;
+                            switch (code) {
+                                case 1:
+                                    this.handleReportRes(data, option.task_id);
+                                    resolve && resolve(data);
+                                    break;
+                                case 201:
+                                    this.pollingGetReport(option);
+                                    break;
+                                case 509:
+                                    // message.warning(`${code} : 没有质检结果`);
+                                    break;
+                                default:
+                                    message.warning(`${code} : ${message}`);
+                                    resolve && resolve(false);
+                                    break;
+                            }
+                        })
+                        .catch(e => {
+                            message.error(
+                                `请求失败: ${e.path} ${e.status} ${e.error}`
+                            );
+                        });
+                } catch (e) {
+                    message.error(`请求失败 ${e}`);
+                }
             }).bind(this),
             1000
         );
@@ -103,18 +137,22 @@ class QualityCheckStore {
         const layerNameObj = {};
 
         data.map((item, index) => {
-            const { checkId, layerName } = item;
+            const { checkId, layerName, misrepId } = item;
+            const layerNameText =
+                DATA_LAYER_MAP[layerName] && DATA_LAYER_MAP[layerName].label;
             checkIdObj[checkId] = checkId;
-            layerNameObj[layerName] = layerName;
+            layerNameObj[layerName] = layerNameText;
             item.index = index;
             item.visited = checkReport[index];
+            item.layerNameText = layerNameText;
+            // item.checked = misrepId ? true : false;
             return item;
         });
 
         this.reportListInit = data;
         this.reportList = data.concat();
         this.checkIdArr = Object.values(checkIdObj);
-        this.layerNameArr = Object.values(layerNameObj);
+        this.layerNameTextArr = Object.values(layerNameObj);
     };
 
     //记录访问状态
@@ -142,33 +180,41 @@ class QualityCheckStore {
 
     //作业员新增一条误报
     @action producerInsertMisreport = flow(function*(record, index, checked) {
-        const { code, data } = yield QualityCheckService.insertMisreport(
-            record
-        );
-        if (code === 1) {
-            this.reportListInit[index] = {
-                ...this.reportListInit[index],
-                ...data
-            };
-            this.reportList = this.reportListInit.concat();
-            this.handleReportChecked(index, checked);
-        } else {
-            message.warning('请求失败，请稍后重试');
+        try {
+            const { code, data } = yield QualityCheckService.insertMisreport(
+                record
+            );
+            if (code === 1) {
+                this.reportListInit[index] = {
+                    ...this.reportListInit[index],
+                    ...data
+                };
+                this.reportList = this.reportListInit.concat();
+                this.handleReportChecked(index, checked);
+            } else {
+                message.warning('请求失败，请稍后重试');
+            }
+        } catch (e) {
+            message.error(`请求失败 ${e}`);
         }
     }).bind(this);
 
     //作业员删除一条误报
     @action producerDeleteMisreport = flow(function*(record, index, checked) {
-        const { code } = yield QualityCheckService.deleteMisreport(record);
-        if (code === 1) {
-            this.reportListInit[index] = {
-                ...this.reportListInit[index],
-                misrepId: null
-            };
-            this.reportList = this.reportListInit.concat();
-            this.handleReportChecked(index, checked);
-        } else {
-            message.warning('请求失败，请稍后重试');
+        try {
+            const { code } = yield QualityCheckService.deleteMisreport(record);
+            if (code === 1) {
+                this.reportListInit[index] = {
+                    ...this.reportListInit[index],
+                    misrepId: null
+                };
+                this.reportList = this.reportListInit.concat();
+                this.handleReportChecked(index, checked);
+            } else {
+                message.warning('请求失败，请稍后重试');
+            }
+        } catch (e) {
+            message.error(`请求失败 ${e}`);
         }
     }).bind(this);
 
@@ -179,11 +225,17 @@ class QualityCheckStore {
 
     //质检员查询误报
     qualityGetMisreport = flow(function*(option) {
-        const { code, data } = yield QualityCheckService.getMisreport(option);
-        if (code === 1) {
-            return data;
-        } else {
-            message.warn('获取质检结果失败，请稍后重试');
+        try {
+            const { code, data } = yield QualityCheckService.getMisreport(
+                option
+            );
+            if (code === 1) {
+                return data;
+            } else {
+                message.warn('获取质检结果失败，请稍后重试');
+            }
+        } catch (e) {
+            message.error(`请求失败 ${e}`);
         }
     });
 
@@ -197,11 +249,15 @@ class QualityCheckStore {
 
     //质检员更新单条误报
     @action qualityUpdateMisreport = flow(function*(option, index, checked) {
-        const { code } = yield QualityCheckService.updateMisreport(option);
-        if (code === 1) {
-            this.handleReportChecked(index, checked);
-        } else {
-            message.warning('请求失败，请稍后重试');
+        try {
+            const { code } = yield QualityCheckService.updateMisreport(option);
+            if (code === 1) {
+                this.handleReportChecked(index, checked);
+            } else {
+                message.warning('请求失败，请稍后重试');
+            }
+        } catch (e) {
+            message.error(`请求失败 ${e}`);
         }
     }).bind(this);
 }

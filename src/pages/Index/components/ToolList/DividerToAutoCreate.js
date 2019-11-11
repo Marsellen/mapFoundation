@@ -6,6 +6,7 @@ import { Icon, message } from 'antd';
 import { autoCreateLine } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
+import AdEmitter from 'src/models/event';
 import 'less/components/tool-icon.less';
 
 @inject('DataLayerStore')
@@ -78,19 +79,8 @@ class DividerToAutoCreate extends React.Component {
                     message.warning('应选择 2 条车道线，车道中心线生成失败', 3);
                     DataLayerStore.exitEdit();
                 } else {
-                    if (
-                        res[0].data.properties.LDIV_ID >
-                        res[1].data.properties.LDIV_ID
-                    ) {
-                        message.warning('两条车道线顺序错误', 3);
-                        DataLayerStore.exitEdit();
-                    } else {
-                        this.addLines(
-                            { AD_LaneDivider: AD_LaneDivider },
-                            'adLine'
-                        );
-                        DataLayerStore.exitEdit();
-                    }
+                    this.addLines({ AD_LaneDivider: AD_LaneDivider }, 'adLine');
+                    DataLayerStore.exitEdit();
                 }
             } else {
                 message.warning('道路参考线生成失败', 3);
@@ -156,6 +146,8 @@ class DividerToAutoCreate extends React.Component {
             };
             OperateHistoryStore.add(history);
             editLog.store.add(log);
+            // 刷新属性列表
+            AdEmitter.emit('fetchViewAttributeData');
             message.success(
                 editLayer && editLayer.layerName === 'AD_Lane'
                     ? '成功生成车道中心线'

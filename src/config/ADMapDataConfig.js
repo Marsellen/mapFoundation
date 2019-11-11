@@ -445,7 +445,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'AD_LaneDivider', label: '车道线' },
         { value: 'AD_Lane', label: '车道中心线' },
         { value: 'AD_LaneAttrPoint', label: '车道属性变化点' },
-        { value: 'AD_Arrow', label: '地面引导箭头' },
+        { value: 'AD_Arrow', label: '地面导向箭头' },
         { value: 'AD_StopLocation', label: '停止位置' },
         { value: 'AD_LaneMark_Plg', label: '面状标识物' },
         { value: 'AD_Text', label: '地面文字符号' },
@@ -611,7 +611,7 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_Lane_RS: {
         RS_TYPE: 0,
-        RS_VALUE: 0,
+        RS_VALUE: '',
         TIMEDOM: ''
     },
     AD_Lane_Con_RS: {

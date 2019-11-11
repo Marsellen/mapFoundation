@@ -9,6 +9,7 @@ import editLog from 'src/models/editLog';
 import 'less/components/tool-icon.less';
 import 'less/components/uturn-line.less';
 import AdInputNumber from 'src/components/Form/InputNumber';
+import AdEmitter from 'src/models/event';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -92,6 +93,7 @@ class HalfAutoCreate extends React.Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     maskClosable={false}
+                    keyboard={false}
                     okText="确定"
                     cancelText="取消">
                     <div className="set-length-number">
@@ -138,62 +140,34 @@ class HalfAutoCreate extends React.Component {
                 );
                 DataLayerStore.exitEdit();
             } else {
-                if (
-                    res[0].layerName === res[1].layerName &&
-                    res[0].data.properties[
-                        layerName == 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
-                    ] >
-                        res[1].data.properties[
-                            layerName == 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
-                        ]
-                ) {
-                    //选中线要素正确的话判断顺序
-                    message.warning(
-                        `两条${
-                            layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
-                        }顺序错误`,
-                        3
-                    );
-                    DataLayerStore.exitEdit();
-                } else {
-                    //参数
-                    params[layerName] = {};
-                    params[layerName].type = 'FeatureCollection';
-                    params[layerName].features = [];
-                    res.forEach(item => {
-                        params[layerName].features.push(item.data);
+                //参数
+                params[layerName] = {};
+                params[layerName].type = 'FeatureCollection';
+                params[layerName].features = [];
+                res.forEach(item => {
+                    params[layerName].features.push(item.data);
+                });
+                if (DataLayerStore.editType == 'new_straight_line') {
+                    //直行
+                    params[
+                        layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
+                    ] = 1;
+                    this.addLines(params);
+                } else if (DataLayerStore.editType == 'new_turn_line') {
+                    //转弯
+                    params[
+                        layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
+                    ] = 2;
+                    this.addLines(params);
+                } else if (DataLayerStore.editType == 'new_Uturn_line') {
+                    //掉头
+                    params[
+                        layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
+                    ] = 3;
+                    this.setState({
+                        visibleModal: true,
+                        params: params
                     });
-                    if (DataLayerStore.editType == 'new_straight_line') {
-                        //直行
-                        params[
-                            layerName == 'AD_Lane'
-                                ? 'crsLaneType'
-                                : 'crsRoadType'
-                        ] = 1;
-                        this.addLines(params);
-                        DataLayerStore.exitEdit();
-                    } else if (DataLayerStore.editType == 'new_turn_line') {
-                        //转弯
-                        params[
-                            layerName == 'AD_Lane'
-                                ? 'crsLaneType'
-                                : 'crsRoadType'
-                        ] = 2;
-                        this.addLines(params);
-                        DataLayerStore.exitEdit();
-                    } else if (DataLayerStore.editType == 'new_Uturn_line') {
-                        //掉头
-                        params[
-                            layerName == 'AD_Lane'
-                                ? 'crsLaneType'
-                                : 'crsRoadType'
-                        ] = 3;
-                        this.setState({
-                            visibleModal: true,
-                            params: params
-                        });
-                        DataLayerStore.exitEdit();
-                    }
                 }
             }
         } else if (res.length === 1) {
@@ -232,6 +206,12 @@ class HalfAutoCreate extends React.Component {
         } else if (type === 3) {
             if (DataLayerStore.editType == 'new_Uturn_line') return;
             DataLayerStore.newUTurnLine();
+            DataLayerStore.registerEscEvent(() => {
+                this.setState({
+                    visibleModal: false,
+                    num: 8.0
+                });
+            });
         }
         AttributeStore.hideRelFeatures();
     };
@@ -285,6 +265,7 @@ class HalfAutoCreate extends React.Component {
                 editLayer && editLayer.layerName,
                 params
             );
+            DataLayerStore.exitEdit();
             this.activeLine(editLayer && editLayer.layerName, historyLog);
 
             // 日志与历史
@@ -299,6 +280,8 @@ class HalfAutoCreate extends React.Component {
             };
             OperateHistoryStore.add(history);
             editLog.store.add(log);
+            // 刷新属性列表
+            AdEmitter.emit('fetchViewAttributeData');
             message.success(
                 editLayer && editLayer.layerName === 'AD_Lane'
                     ? '成功生成车道中心线'
@@ -307,7 +290,9 @@ class HalfAutoCreate extends React.Component {
             );
         } catch (e) {
             console.log(e);
-            message.warning('操作失败:' + e.message, 3);
+            e
+                ? message.warning('操作失败:' + e.message, 3)
+                : message.warning('操作失败，请求失败', 3);
             let history = {
                 params
             };

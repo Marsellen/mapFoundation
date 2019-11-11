@@ -5,13 +5,13 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import {
     deleteLine,
     breakLine,
-    mergeLine,
-    updateFeatures
+    mergeLine
 } from 'src/utils/relCtrl/operateCtrl';
 import { getLayerByName } from 'src/utils/vectorUtils';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import _ from 'lodash';
+import AdEmitter from 'src/models/event';
 
 const EDIT_TYPE = [
     'delPoint',
@@ -253,6 +253,7 @@ class RightMenuModal extends React.Component {
                     };
                     OperateHistoryStore.add(history);
                     editLog.store.add(log);
+                    AdEmitter.emit('fetchViewAttributeData');
                     message.success('操作完成', 3);
                 } catch (e) {
                     console.log(e);
@@ -300,7 +301,7 @@ class RightMenuModal extends React.Component {
             onOk: async () => {
                 let result = RightMenuStore.delete();
                 let historyLog = await deleteLine(result);
-                console.log(result, historyLog);
+                //console.log(result, historyLog);
 
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
@@ -316,6 +317,7 @@ class RightMenuModal extends React.Component {
                 };
                 OperateHistoryStore.add(history);
                 editLog.store.add(log);
+                AdEmitter.emit('fetchViewAttributeData');
             },
             onCancel() {
                 DataLayerStore.exitEdit();
@@ -393,30 +395,43 @@ class RightMenuModal extends React.Component {
             onOk: async () => {
                 let features = RightMenuStore.getFeatures();
 
-                let oldFeatures = _.cloneDeep(features);
-                let newFeatures = features.map(item => {
-                    item.data.geometry.coordinates.reverse();
-                    return item;
-                });
-                let layer = getLayerByName(newFeatures[0].layerName);
-                layer.updateFeatures(newFeatures);
+                try {
+                    let oldFeatures = _.cloneDeep(features);
+                    let newFeatures = features.map(item => {
+                        item.data.geometry.coordinates.reverse();
+                        return item;
+                    });
+                    let layer = getLayerByName(newFeatures[0].layerName);
+                    layer.updateFeatures(newFeatures);
 
-                DataLayerStore.exitEdit();
-                AttributeStore.hideRelFeatures();
-                let historyLog = {
-                    features: [oldFeatures, newFeatures]
-                };
-                let history = {
-                    type: 'updateFeatureRels',
-                    data: historyLog
-                };
-                let log = {
-                    operateHistory: history,
-                    action: 'reverseOrderLine',
-                    result: 'success'
-                };
-                OperateHistoryStore.add(history);
-                editLog.store.add(log);
+                    DataLayerStore.exitEdit();
+                    AttributeStore.hideRelFeatures();
+                    let historyLog = {
+                        features: [oldFeatures, newFeatures]
+                    };
+                    let history = {
+                        type: 'updateFeatureRels',
+                        data: historyLog
+                    };
+                    let log = {
+                        operateHistory: history,
+                        action: 'reverseOrderLine',
+                        result: 'success'
+                    };
+                    OperateHistoryStore.add(history);
+                    editLog.store.add(log);
+                    message.success('线要素逆序已完成', 3);
+                } catch (e) {
+                    message.warning('线要素逆序处理失败', 3);
+                    let history = { features };
+                    let log = {
+                        operateHistory: history,
+                        action: 'reverseOrderLine',
+                        result: 'fail',
+                        failReason: e.message
+                    };
+                    editLog.store.add(log);
+                }
             },
             onCancel() {
                 DataLayerStore.exitEdit();
@@ -464,6 +479,7 @@ class RightMenuModal extends React.Component {
                     };
                     OperateHistoryStore.add(history);
                     editLog.store.add(log);
+                    AdEmitter.emit('fetchViewAttributeData');
                     message.success('操作完成', 3);
                 } catch (e) {
                     console.log(e);

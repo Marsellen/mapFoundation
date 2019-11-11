@@ -25,8 +25,10 @@ class QualityCheckResult extends React.Component {
         return (
             <div>
                 <ToolIcon
+                    placement="right"
                     id="check-result-btn"
                     title="检查结果"
+                    placement="right"
                     icon="jianchajieguoliebiao"
                     disabled={false}
                     className="ad-menu-icon"
@@ -43,6 +45,7 @@ class QualityCheckResult extends React.Component {
                     closable={false}
                     width={1000}
                     bodyStyle={{ padding: 0 }}
+                    onCancel={this.handleClose}
                     className="quality-check-result-modal"
                     wrapClassName="quality-check-result-modal-wrap view-attribute-modal">
                     {this._renderContent()}
@@ -69,7 +72,12 @@ class QualityCheckResult extends React.Component {
     };
 
     _closeIcon = () => (
-        <Icon type="close" className="close-icon" onClick={this.handleClose} />
+        <Icon
+            type="close"
+            className="close-icon"
+            onClick={this.handleClose}
+            id="check-result-close-btn"
+        />
     );
 
     setDragDomStyle = async () => {
@@ -126,7 +134,7 @@ class QualityCheckResult extends React.Component {
             case 'quality':
                 handleQualityGetMisreport({
                     taskId: activeTaskId,
-                    status: 1
+                    status: '1,4'
                 });
                 break;
             default:

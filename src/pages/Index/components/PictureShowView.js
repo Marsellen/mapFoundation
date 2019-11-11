@@ -1,6 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import RcViewer from 'src/components/RcViewer';
+import IconFont from 'src/components/IconFont';
 import noImg from 'src/assets/img/no-img.png';
 import { completeSecendUrl } from 'src/utils/taskUtils';
 
@@ -52,6 +53,7 @@ class PictureShowView extends React.Component {
     }
 
     addListener = () => {
+        if (!this.refs.viewer) return;
         let element = this.refs.viewer.getViewer().container;
         let imgs = element.querySelectorAll('img');
         imgs.forEach((img, index) => {
@@ -69,13 +71,19 @@ class PictureShowView extends React.Component {
         const { PictureShowStore } = this.props;
         const { picData } = PictureShowStore;
 
+        let imgs = picData.filter(img => !!img);
+
         return (
             <div className="img-banner">
-                <RcViewer options={this.options} ref="viewer">
-                    <ul id="images" style={{ display: 'none' }}>
-                        {picData.map(this._renderImg)}
-                    </ul>
-                </RcViewer>
+                {imgs.length ? (
+                    <RcViewer options={this.options} ref="viewer">
+                        <ul id="images" style={{ display: 'none' }}>
+                            {imgs.map(this._renderImg)}
+                        </ul>
+                    </RcViewer>
+                ) : (
+                    <IconFont className="icondefault" type="icon-zanwutupian" />
+                )}
             </div>
         );
     }

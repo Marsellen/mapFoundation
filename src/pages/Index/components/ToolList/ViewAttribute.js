@@ -11,6 +11,7 @@ import 'less/components/view-attribute.less';
 import 'less/components/tool-icon.less';
 import zh_CN from 'antd/es/locale/zh_CN';
 import SeniorModal from 'src/components/SeniorModal';
+import AdEmitter from 'src/models/event';
 
 const { Search } = Input;
 
@@ -19,13 +20,18 @@ const { Search } = Input;
 @inject('TaskStore')
 @observer
 class ViewAttribute extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             visible: false,
             columns: [],
-            dataSource: []
+            dataSource: [],
+            layerName: null
         };
+    }
+
+    componentDidMount() {
+        AdEmitter.on('fetchViewAttributeData', this.getData);
     }
 
     render() {
@@ -34,8 +40,10 @@ class ViewAttribute extends React.Component {
         return (
             <span>
                 <ToolIcon
+                    placement="right"
                     icon="shuxingliebiao"
                     title="属性列表"
+                    placement="right"
                     className="ad-menu-icon"
                     disabled={!activeTaskId}
                     action={this.toggle}
@@ -49,7 +57,6 @@ class ViewAttribute extends React.Component {
                     zIndex={999}
                     maskClosable={false}
                     destroyOnClose={true}
-                    afterClose={this.destroyAction}
                     width={780}
                     bodyStyle={{ padding: 8 }}
                     wrapClassName="view-attribute-modal">
@@ -120,12 +127,11 @@ class ViewAttribute extends React.Component {
     renderFooter = () => {
         const { DataLayerStore } = this.props;
         let options = DataLayerStore.layers || [];
-        let editLayer = DataLayerStore.getEditLayer();
-        let defaultValue = editLayer ? editLayer.layerName : null;
+        const { layerName } = this.state;
         return (
             <div>
                 <Select
-                    defaultValue={defaultValue}
+                    value={layerName}
                     onChange={this.getData}
                     className="layer-select">
                     {options.map((option, index) => {
@@ -141,13 +147,16 @@ class ViewAttribute extends React.Component {
     };
 
     getData = layerName => {
+        // 属性列表框隐藏时不更新属性列表数据
+        if (!this.state.visible) return;
+
         if (!layerName) {
             const { DataLayerStore } = this.props;
             let editLayer = DataLayerStore.getEditLayer();
             layerName = editLayer ? editLayer.layerName : null;
         }
         let _columns = layerName ? COLUMNS_CONFIG[layerName] : [];
-        let columns = _columns.map(col => {
+        let columns = _columns.map((col, index) => {
             return {
                 ...col,
                 onCell: record => ({
@@ -156,11 +165,26 @@ class ViewAttribute extends React.Component {
                     title: col.title,
                     filterBy: col.filterBy
                 }),
+                onHeaderCell: column => ({
+                    width: column.width,
+                    onResize: this.handleResize(index)
+                }),
                 sorter: this.sorter(col)
             };
         });
         let dataSource = getLayerItems(layerName);
         this.setState({ layerName, columns, dataSource });
+    };
+
+    handleResize = index => (e, { size }) => {
+        this.setState(({ columns }) => {
+            const nextColumns = [...columns];
+            nextColumns[index] = {
+                ...nextColumns[index],
+                width: size.width
+            };
+            return { columns: nextColumns };
+        });
     };
 
     sorter = col => {
@@ -188,10 +212,12 @@ class ViewAttribute extends React.Component {
                 visible: false
             });
         } else {
-            this.setState({
-                visible: true
-            });
-            this.getData();
+            this.setState(
+                {
+                    visible: true
+                },
+                this.getData
+            );
         }
     };
 
@@ -252,12 +278,6 @@ class ViewAttribute extends React.Component {
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.setFeatureColor(obj, 0xcc00ff);
         AttributeStore.show(readonly);
-        AttributeStore.setAfterSave(this.getData);
-    };
-
-    destroyAction = () => {
-        const { AttributeStore } = this.props;
-        AttributeStore.setAfterSave();
     };
 }
 
