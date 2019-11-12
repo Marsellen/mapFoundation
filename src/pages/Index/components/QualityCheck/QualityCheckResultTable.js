@@ -1,12 +1,14 @@
 import React from 'react';
-import { Table, Checkbox } from 'antd';
+import { ConfigProvider, Checkbox } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { COLUMNS_CONFIG } from 'src/config/CheckTableConfig';
 import { shortcut } from 'src/utils/shortcuts';
 import AdTable from 'src/components/AdTable';
+import zh_CN from 'antd/es/locale/zh_CN';
 
 const CheckboxGroup = Checkbox.Group;
+const showTotal = total => `共${total}条`;
 
 @inject('TaskStore')
 @inject('appStore')
@@ -22,36 +24,48 @@ class QualityCheckResultTable extends React.Component {
         indeterminate: false,
         checkAll: true,
         currentIndex: -1,
-        columns: []
+        columns: [],
+        currentPage: 1,
+        pageSize: 10
     };
 
     render() {
-        const { columns } = this.state;
+        const { columns, currentPage } = this.state;
         const { QualityCheckStore } = this.props;
-        const { reportList } = QualityCheckStore;
+        const { reportList, reportListL } = QualityCheckStore;
         return (
             <div
                 onKeyUp={e => this.handleKeyUp(e)}
                 onKeyDown={e => this.handleKeyDown(e)}>
-                <AdTable
-                    dataSource={reportList.slice()}
-                    columns={columns}
-                    onRow={record => {
-                        return {
-                            onClick: this.tableOnClick(record),
-                            onDoubleClick: this.tableOnDoubleClick(record)
-                        };
-                    }}
-                    rowClassName={record =>
-                        `check-table-row check-table-row-${record.index}`
-                    }
-                    pagination={false}
-                    className="check-result-table"
-                    onChange={this.handleTableChange}
-                    rowKey={record => `checkResult_${record.index}`}
-                    scroll={{ y: 170 }}
-                    isHandleBody={true}
-                />
+                <ConfigProvider locale={zh_CN}>
+                    <AdTable
+                        dataSource={reportList.slice()}
+                        columns={columns}
+                        onRow={record => {
+                            return {
+                                onClick: this.tableOnClick(record),
+                                onDoubleClick: this.tableOnDoubleClick(record)
+                            };
+                        }}
+                        rowClassName={record =>
+                            `check-table-row check-table-row-${record.index}`
+                        }
+                        pagination={{
+                            current: currentPage,
+                            size: 'small',
+                            total: reportListL,
+                            showTotal: showTotal,
+                            showSizeChanger: true,
+                            onChange: this.handlePagination,
+                            onShowSizeChange: this.handlePagination
+                        }}
+                        className="check-result-table"
+                        onChange={this.handleTableChange}
+                        rowKey={record => `checkResult_${record.index}`}
+                        scroll={{ y: 170 }}
+                        isHandleBody={true}
+                    />
+                </ConfigProvider>
             </div>
         );
     }
@@ -80,9 +94,10 @@ class QualityCheckResultTable extends React.Component {
                 shift: false,
                 keyCode: 38,
                 callback: () => {
-                    const { currentIndex } = this.state;
+                    const { currentIndex, currentPage, pageSize } = this.state;
+                    const minPage = currentPage * pageSize - pageSize + 1;
+                    if (currentIndex < minPage) return;
                     const prevIndex = currentIndex - 1;
-                    if (prevIndex < 0) return;
                     this.activeRowStyle(prevIndex);
                     this.setState({ currentIndex: prevIndex });
                     this.checkReportTable.scrollTop -= this.checkReportTableRowH;
@@ -95,11 +110,16 @@ class QualityCheckResultTable extends React.Component {
                 shift: false,
                 keyCode: 40,
                 callback: () => {
+                    const { currentIndex, currentPage, pageSize } = this.state;
                     const { QualityCheckStore } = this.props;
-                    const { currentIndex } = this.state;
                     const { reportListL } = QualityCheckStore;
+                    const maxPageSize = Math.ceil(reportListL / pageSize);
+                    const maxPage =
+                        currentPage === maxPageSize
+                            ? reportListL
+                            : currentPage * pageSize;
                     const nextIndex = currentIndex + 1;
-                    if (nextIndex >= reportListL) return;
+                    if (nextIndex >= maxPage) return;
                     this.activeRowStyle(nextIndex);
                     this.setState({ currentIndex: nextIndex });
                     this.checkReportTable.scrollTop += this.checkReportTableRowH;
@@ -112,7 +132,14 @@ class QualityCheckResultTable extends React.Component {
                 shift: false,
                 keyCode: 37,
                 callback: () => {
-                    console.log('快捷键：左方向键');
+                    let { currentPage } = this.state;
+                    if (currentPage <= 1) return;
+                    this.setState(
+                        {
+                            currentPage: --currentPage
+                        },
+                        this.qualityCheckTabelColumns
+                    );
                 },
                 describe: '←'
             },
@@ -122,11 +149,25 @@ class QualityCheckResultTable extends React.Component {
                 shift: false,
                 keyCode: 39,
                 callback: () => {
-                    console.log('快捷键：右方向键');
+                    let { currentPage, pageSize } = this.state;
+                    const { QualityCheckStore } = this.props;
+                    const { reportListL } = QualityCheckStore;
+                    const maxPageSize = Math.ceil(reportListL / pageSize);
+                    if (currentPage >= maxPageSize) return;
+                    this.setState({
+                        currentPage: ++currentPage
+                    });
                 },
                 describe: '→'
             }
         ]);
+    };
+
+    handlePagination = (current, size) => {
+        this.setState({
+            currentPage: current,
+            pageSize: size
+        });
     };
 
     getCurrentCheckedList = dataIndex => {
@@ -237,8 +278,8 @@ class QualityCheckResultTable extends React.Component {
     qualityCheckTabelColumns = () => {
         const _ = this;
         const { QualityCheckStore } = this.props;
-        const { toggleEllipsis, reportList } = QualityCheckStore;
-        if (reportList <= 0) return;
+        const { reportListL } = QualityCheckStore;
+        if (reportListL <= 0) return;
 
         const currentColumns = COLUMNS_CONFIG.map((item, index) => {
             const { key, isFilter, dataIndex } = item;
@@ -255,15 +296,13 @@ class QualityCheckResultTable extends React.Component {
                 render: (text, record, index) => {
                     switch (key) {
                         case 'index':
-                            return index + 1;
+                            return text + 1;
                         case 'errorDesc':
                             return (
                                 <div
-                                    className={
-                                        record.ellipsis ? 'ellipsis' : ''
-                                    }
-                                    // 唯一标识有
-                                    onClick={() => toggleEllipsis(record)}>
+                                    onClick={() =>
+                                        this.openRowStyle(record.index)
+                                    }>
                                     {text}
                                 </div>
                             );
@@ -291,10 +330,11 @@ class QualityCheckResultTable extends React.Component {
             dataIndex: 'misrepId',
             key: 'misrepId',
             align: 'center',
-            render(text, record, index) {
+            render(text, record) {
+                const { index, checked } = record;
                 return (
                     <Checkbox
-                        checked={record.checked}
+                        checked={checked}
                         onChange={e => {
                             _.handleChange(e, record, index);
                         }}
@@ -309,12 +349,26 @@ class QualityCheckResultTable extends React.Component {
         });
     };
 
+    //展开哪一行
+    openRowStyle = index => {
+        const currentRow = document.querySelector(`.check-table-row-${index}`);
+        const activeRow = document.querySelector('.open');
+
+        if (currentRow != activeRow) {
+            activeRow && activeRow.classList.remove('open');
+        }
+        currentRow && currentRow.classList.toggle('open');
+        this.setState({
+            currentIndex: index
+        });
+    };
+
     //选中哪一行
     activeRowStyle = index => {
         const currentRow = document.querySelector(`.check-table-row-${index}`);
-        const activeRow = document.querySelector('.check-table-row-active');
-        activeRow && activeRow.classList.remove('check-table-row-active');
-        currentRow && currentRow.classList.add('check-table-row-active');
+        const activeRow = document.querySelector('.active');
+        activeRow && activeRow.classList.remove('active');
+        currentRow && currentRow.classList.add('active');
         this.setState({
             currentIndex: index
         });
