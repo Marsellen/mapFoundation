@@ -34,15 +34,6 @@ class QualityCheckStore {
         this.checkReportVisible = false;
     };
 
-    @action toggleEllipsis = record => {
-        const { index } = record;
-        if (!this.reportList[index]) return;
-        if (!this.reportListInit[index]) return;
-        const { ellipsis } = this.reportList[index];
-        this.reportList[index].ellipsis = !ellipsis;
-        this.reportListInit[index].ellipsis = !ellipsis;
-    };
-
     @action clearCheckReport = () => {
         this.reportListInit = [];
         this.reportList = [];
