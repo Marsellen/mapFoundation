@@ -180,6 +180,11 @@ export const DATA_LAYER_MAP = {
         id: 'RS_ID',
         spec: 'AD_Lane_Con_RS'
     },
+    AD_Road_Con_RS: {
+        label: '道路参考线线的连接关系交通限制',
+        id: 'RS_ID',
+        spec: 'AD_Road_Con_RS'
+    },
     AD_LaneShape: {
         label: '车道中心线曲率坡度信息',
         spec: 'AD_LaneShape'
