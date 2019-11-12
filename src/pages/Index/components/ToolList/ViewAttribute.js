@@ -40,6 +40,7 @@ class ViewAttribute extends React.Component {
         return (
             <span>
                 <ToolIcon
+                    id="view-attribute-btn"
                     placement="right"
                     icon="shuxingliebiao"
                     title="属性列表"
