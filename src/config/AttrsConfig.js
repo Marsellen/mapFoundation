@@ -52,7 +52,7 @@ export const ATTR_TABLE_CONFIG = {
             key: 'SIGN_TYPE',
             name: '标志牌类型',
             type: 'AD_TS_CONTENT_SIGN_TYPE',
-            domType: 'RadioIconGroup'
+            domType: 'SearchIconGroup'
         },
         {
             key: 'CONT_TYPE',

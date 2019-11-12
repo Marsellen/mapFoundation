@@ -7,6 +7,7 @@ import {
     DEFAULT_PROPERTIES_MAP
 } from 'src/config/ADMapDataConfig';
 import RadioIconGroup from 'src/components/RadioIconGroup';
+import SearchIconGroup from 'src/components/SearchIconGroup';
 import _ from 'lodash';
 import AdInput from 'src/components/Form/Input';
 import { getValidator } from 'src/utils/form/validator';
@@ -205,6 +206,30 @@ class NewAttrModal extends React.Component {
                     ],
                     initialValue: item.value
                 })(<RadioIconGroup options={options} />)}
+            </Form.Item>
+        );
+    };
+
+    renderSearchIconGroup = (item, index) => {
+        const { form } = this.props;
+        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+        return (
+            <Form.Item key={index} label={item.name}>
+                {form.getFieldDecorator(item.key, {
+                    rules: [
+                        {
+                            required: item.required,
+                            message: `${item.name}必填`
+                        },
+                        ...(item.validates || []).map(validate => {
+                            return {
+                                pattern: validate.pattern,
+                                message: validate.message
+                            };
+                        })
+                    ],
+                    initialValue: item.value
+                })(<SearchIconGroup options={options} />)}
             </Form.Item>
         );
     };
