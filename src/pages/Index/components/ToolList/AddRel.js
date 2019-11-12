@@ -2,7 +2,7 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { message, Icon, Modal } from 'antd';
-import { newRel } from 'src/utils/relCtrl/relCtrl';
+import { newRel, basicCheck } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import 'less/components/tool-icon.less';
@@ -14,45 +14,8 @@ import './AddRel.less';
 @observer
 class AddRel extends React.Component {
     componentDidMount() {
-        const { DataLayerStore, OperateHistoryStore } = this.props;
-        DataLayerStore.setNewRelCallback((result, event) => {
-            // console.log(result);
-            if (event.button !== 2) return false;
-            Modal.confirm({
-                title: '是否新建关联关系?',
-                okText: '确定',
-                okType: 'danger',
-                cancelText: '取消',
-                onOk() {
-                    let layerName = DataLayerStore.getEditLayer().layerName;
-                    newRel(result, layerName)
-                        .then(rels => {
-                            let history = {
-                                type: 'updateFeatureRels',
-                                data: {
-                                    rels: [[], rels]
-                                }
-                            };
-                            let log = {
-                                operateHistory: history,
-                                action: 'addRel',
-                                result: 'success'
-                            };
-                            OperateHistoryStore.add(history);
-                            editLog.store.add(log);
-                            message.success('新建成功', 3);
-                            DataLayerStore.exitEdit();
-                        })
-                        .catch(e => {
-                            console.log(e);
-                            message.warning(e.message, 3);
-                        });
-                },
-                onCancel() {
-                    DataLayerStore.exitEdit();
-                }
-            });
-        });
+        const { DataLayerStore } = this.props;
+        DataLayerStore.setNewRelCallback(this.newRelCallBack);
     }
 
     render() {
@@ -137,6 +100,58 @@ class AddRel extends React.Component {
                 请按顺序选择关联对象
             </label>
         );
+    };
+
+    newRelCallBack = async (result, event) => {
+        // console.log(result);
+        if (event.button !== 2) return false;
+        const { DataLayerStore } = this.props;
+        try {
+            let [mainFeature, ...relFeatures] = result;
+            let layerName = DataLayerStore.getEditLayer().layerName;
+            await basicCheck(mainFeature, relFeatures, layerName);
+            this.comfirmNewRel(mainFeature, relFeatures);
+        } catch (e) {
+            console.log(e);
+            message.warning(e.message, 3);
+        }
+    };
+
+    comfirmNewRel = (mainFeature, relFeatures) => {
+        const { DataLayerStore, OperateHistoryStore } = this.props;
+        Modal.confirm({
+            title: '是否新建关联关系?',
+            okText: '确定',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk: async () => {
+                try {
+                    let rels = await newRel(mainFeature, relFeatures);
+
+                    let history = {
+                        type: 'updateFeatureRels',
+                        data: {
+                            rels: [[], rels]
+                        }
+                    };
+                    let log = {
+                        operateHistory: history,
+                        action: 'addRel',
+                        result: 'success'
+                    };
+                    OperateHistoryStore.add(history);
+                    editLog.store.add(log);
+                    message.success('新建成功', 3);
+                    DataLayerStore.exitEdit();
+                } catch (e) {
+                    console.log(e);
+                    message.warning(e.message, 3);
+                }
+            },
+            onCancel() {
+                DataLayerStore.exitEdit();
+            }
+        });
     };
 }
 

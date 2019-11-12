@@ -12,10 +12,7 @@ import {
 import IDService from 'src/pages/Index/service/IDService';
 import { Modal } from 'antd';
 
-const newRel = async (features, layerName) => {
-    let [mainFeature, ...relFeatures] = features;
-    await basicCheck(mainFeature, relFeatures, layerName);
-
+const newRel = async (mainFeature, relFeatures) => {
     let rels = await batchCreateRel(mainFeature, relFeatures);
     let relStore = Relevance.store;
     await relStore.batchAdd(rels);
@@ -78,7 +75,7 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
         if (!total.includes(feature.layerName)) total.push(feature.layerName);
         return total;
     }, []);
-    
+
     if (relFeatureTypes.length !== 1) {
         throw {
             message: '只允许建立两类要素之间的关联关系'
@@ -142,12 +139,27 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
     }
 };
 
-const batchCreateRel = (mainFeature, relFeatures) => {
-    return Promise.all(
-        relFeatures.map((feature, index) => {
-            return createRel(mainFeature, feature, index);
+const batchCreateRel = async (mainFeature, relFeatures) => {
+    let mainLayer = mainFeature.layerName;
+    let relLayer = relFeatures[0].layerName;
+    let relSpecs = REL_SPEC_CONFIG.filter(rs => {
+        return (
+            (rs.objSpec == mainLayer && rs.relObjSpec == relLayer) ||
+            (rs.relObjSpec == mainLayer && rs.objSpec == relLayer)
+        );
+    });
+    let rels = relFeatures.map((feature, index) => {
+        index = relSpecs.length > index ? index : relSpecs.length - 1;
+        return createRelBySpecConfig(relSpecs[index], mainFeature, feature);
+    });
+
+    await Promise.all(
+        rels.map(rel => {
+            return getRelId(rel);
         })
     );
+
+    return rels;
 };
 
 const batchCreateAllRel = (mainFeature, relFeatures) => {
@@ -158,32 +170,22 @@ const batchCreateAllRel = (mainFeature, relFeatures) => {
     }, []);
 };
 
-const createRel = async (mainFeature, feature, index) => {
+/**
+ * 通过关联关系规格配置新建关联关系
+ * @method createRelBySpecConfig
+ * @params {Object} specConfig 关联关系规格配置
+ * @params {Object} mainFeature 关联要素数据
+ * @params {Object} feature 被关联要素数据
+ * @return {Object} IndexedDB rels表记录（不包含REL_ID）
+ */
+const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
+    let { objType, relObjType, source: spec } = specConfig;
     let mainLayer = mainFeature.layerName;
     let relLayer = feature.layerName;
     let mainObjId = mainFeature.data.properties[getLayerIDKey(mainLayer)];
     let relObjId = feature.data.properties[getLayerIDKey(relLayer)];
-    let relSpecs = REL_SPEC_CONFIG.filter(rs => {
-        return (
-            (rs.objSpec == mainLayer && rs.relObjSpec == relLayer) ||
-            (rs.relObjSpec == mainLayer && rs.objSpec == relLayer)
-        );
-    });
-    let REL_ID;
-    if (REL_DATA_SET.includes(relSpecs[0].source)) {
-        let _result = await IDService.post({
-            id_type: relSpecs[0].source
-        }).catch(e => {
-            Modal.error({
-                title: '请求ID失败',
-                okText: '确定'
-            });
-        });
-        REL_ID = _result.data[0].min;
-    }
-    index = relSpecs.length > index ? index : relSpecs.length - 1;
     let rel;
-    if (relSpecs[index].objSpec == mainLayer) {
+    if (specConfig.objSpec == mainLayer) {
         rel = {
             objId: mainObjId,
             relObjId: relObjId
@@ -194,17 +196,36 @@ const createRel = async (mainFeature, feature, index) => {
             relObjId: mainObjId
         };
     }
-    let { objType, relObjType, source: spec } = relSpecs[index];
-    let extraInfo = { REL_ID };
     return {
-        ...rel,
         objType,
         relObjType,
         spec,
-        extraInfo
+        extraInfo: {},
+        ...rel
     };
 };
 
+const getRelId = async rel => {
+    if (REL_DATA_SET.includes(rel.spec)) {
+        let result = await IDService.post({
+            id_type: rel.spec
+        }).catch(e => {
+            Modal.error({
+                title: '请求ID失败',
+                okText: '确定'
+            });
+        });
+        rel.extraInfo.REL_ID = result.data[0].min;
+    }
+};
+
+/**
+ * 创建两类要素所有规格中存在的关联关系
+ * @method createAllRel
+ * @params {Object} mainFeature 关联要素数据
+ * @params {Object} feature 被关联要素数据
+ * @return {Array<Object>} IndexedDB rels表记录集合（不包含REL_ID）
+ */
 const createAllRel = (mainFeature, feature) => {
     let mainLayer = mainFeature.layerName;
     let relLayer = feature.layerName;
@@ -238,35 +259,28 @@ const createAllRel = (mainFeature, feature) => {
     return rel1.concat(rel2);
 };
 
-const getFeatureByRels = rels => {
-    let featureMap = [];
-    rels.reduce((map, rel) => {
-        let relKey = rel.key.replace(/[0-9]/, '');
-        let specRelKey = SPEC_REL_KEY_SET.find(record => {
-            return record.relKey == relKey;
-        });
-        let spec = specRelKey && specRelKey.spec;
-        if (!spec) return map;
-
-        let IDKey = getLayerIDKey(spec);
-        let option = {
-            layerName: spec,
-            option: { key: IDKey, value: rel.value }
-        };
-        map.push(option);
-        return map;
-    }, featureMap);
-    return featureMap;
-};
-
+/**
+ * 通过‘要素属性关联关系记录’更新‘要素属性’
+ * @method updateFeaturesByRels
+ * @params {Array<Object>} rels 要素属性关联关系记录
+ * @params {Boolean} isDel 是否删除
+ * @return {null}
+ */
 const updateFeaturesByRels = (rels, isDel) => {
-    rels.map(rel => {
+    rels.forEach(rel => {
         if (ATTR_REL_DATA_SET.includes(rel.spec)) {
             updateFeatureRelAttr(rel, isDel);
         }
     });
 };
 
+/**
+ * 通过‘要素属性关联关系记录’更新‘要素属性’
+ * @method updateFeatureRelAttr
+ * @params {Object} rel 要素属性关联关系记录
+ * @params {Boolean} isDel 是否删除
+ * @return {null}
+ */
 const updateFeatureRelAttr = (rel, isDel) => {
     let relSpec = REL_SPEC_CONFIG.find(rs => {
         return rs.objType == rel.objType && rs.relObjType == rel.relObjType;
@@ -296,4 +310,4 @@ const updateFeatureRelAttr = (rel, isDel) => {
     layer.updateFeatures([feature]);
 };
 
-export { newRel, delRel, getFeatureByRels, updateFeaturesByRels };
+export { newRel, delRel, updateFeaturesByRels, basicCheck };
