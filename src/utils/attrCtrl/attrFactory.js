@@ -68,13 +68,13 @@ const REL_RS = [
     },
     {
         spec: 'AD_Road',
-        relKey: 'FROM_LANE',
+        relKey: 'FROM_ROAD',
         relType: 'OBJ_TYPE_KEYS',
         source: 'AD_Road_Con'
     },
     {
         spec: 'AD_Road',
-        relKey: 'TO_LANE',
+        relKey: 'TO_ROAD',
         relType: 'REL_OBJ_TYPE_KEYS',
         source: 'AD_Road_Con'
     }
@@ -93,7 +93,6 @@ const getFeatureAttrs = async (layerName, properties) => {
     let id = properties[IDKey];
     let attrStore = Attr.store;
     let attrs = await attrStore.getAll([layerName, id], 'SPEC_KEY');
-
     let configs = REL_RS.filter(config => layerName == config.spec);
     if (configs.length > 0) {
         let relStore = Relevance.store;
