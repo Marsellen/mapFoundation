@@ -69,31 +69,32 @@ class RelationForm extends React.Component {
         return (
             <div key={index}>
                 {this.renderInputNumber(item, index, 'rels')}
-                {this.renderRs(item)}
+                {this.renderRs(item, index)}
             </div>
         );
     };
 
-    renderRs = ({ spec, extraInfo } = {}) => {
+    renderRs = ({ spec, extraInfo } = {}, index) => {
         switch (spec) {
             case 'AD_Road_Con':
-                return this.renderADRoadConRs(extraInfo);
+                return this.renderADRoadConRs(extraInfo, index);
             case 'AD_Lane_Con':
-                return this.renderADLaneConRs(extraInfo);
+                return this.renderADLaneConRs(extraInfo, index);
             default:
                 break;
         }
     };
 
-    renderADLaneConRs = extraInfo => {
+    renderADLaneConRs = (extraInfo, index) => {
         const { form, AttributeStore } = this.props;
         const { attrs, readonly } = AttributeStore;
-        let newEnable =
-            !readonly &&
-            (!attrs.AD_Lane_Con_RS || attrs.AD_Lane_Con_RS.length == 0);
+        let AD_Lane_Con_RS = (attrs.AD_Lane_Con_RS || []).filter(
+            rs => rs.key === extraInfo.REL_ID
+        );
+        let newEnable = !readonly && AD_Lane_Con_RS.length == 0;
         return (
             <div>
-                {(attrs.AD_Lane_Con_RS || []).map((rs, index) =>
+                {AD_Lane_Con_RS.map(rs =>
                     form.getFieldDecorator(
                         'attrs.AD_Lane_Con_RS[' + index + ']',
                         {
@@ -125,15 +126,16 @@ class RelationForm extends React.Component {
         );
     };
 
-    renderADRoadConRs = extraInfo => {
+    renderADRoadConRs = (extraInfo, index) => {
         const { form, AttributeStore } = this.props;
         const { attrs, readonly } = AttributeStore;
-        let newEnable =
-            !readonly &&
-            (!attrs.AD_Road_Con_RS || attrs.AD_Road_Con_RS.length == 0);
+        let AD_Road_Con_RS = (attrs.AD_Road_Con_RS || []).filter(
+            rs => rs.key === extraInfo.REL_ID
+        );
+        let newEnable = !readonly && AD_Road_Con_RS.length == 0;
         return (
             <div>
-                {(attrs.AD_Road_Con_RS || []).map((rs, index) =>
+                {AD_Road_Con_RS.map(rs =>
                     form.getFieldDecorator(
                         'attrs.AD_Road_Con_RS[' + index + ']',
                         {
