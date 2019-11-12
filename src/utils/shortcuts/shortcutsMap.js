@@ -195,5 +195,37 @@ export const shortcutMap = [
         keyCode: 70,
         preventDefault: true,
         describe: '删除形状点 Alt+F'
+    },
+    {
+        id: 'reverse-order-line-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 73,
+        describe: '线要素逆序 I'
+    },
+    {
+        id: 'muti-toggle-icon',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 51,
+        describe: '开关照片窗口 3'
+    },
+    {
+        id: 'view-attribute-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 52,
+        describe: '开关属性列表 4'
+    },
+    {
+        id: 'check-result-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 53,
+        describe: '开关检查列表 5'
     }
 ];

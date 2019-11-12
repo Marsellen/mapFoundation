@@ -55,6 +55,7 @@ class MultimediaView extends React.Component {
         const { visible } = PictureShowStore;
         return (
             <div
+                id="muti-toggle-icon"
                 className="multimedia-menu"
                 title="图片显示窗口"
                 onClick={this.toggle}>
