@@ -8,11 +8,11 @@ configure({ enforceActions: 'always' });
 class QualityCheckStore {
     @observable reportListInit = [];
     @observable reportList = [];
-    @observable batchId;
     @observable checkIdArr = [];
     @observable layerNameTextArr = [];
     @observable checkReportIsVisited = {};
     @observable checkReportVisible = false;
+
     @computed get isAllVisited() {
         return this.reportListInit.every(item => item.visited);
     }
@@ -32,6 +32,15 @@ class QualityCheckStore {
 
     @action closeCheckReport = () => {
         this.checkReportVisible = false;
+    };
+
+    @action toggleEllipsis = record => {
+        const { index } = record;
+        if (!this.reportList[index]) return;
+        if (!this.reportListInit[index]) return;
+        const { ellipsis } = this.reportList[index];
+        this.reportList[index].ellipsis = !ellipsis;
+        this.reportListInit[index].ellipsis = !ellipsis;
     };
 
     @action clearCheckReport = () => {
@@ -61,7 +70,6 @@ class QualityCheckStore {
 
     @action handleProducerCheck = flow(function*(option) {
         const data = yield this.producerCheck(option);
-        this.batchId = data.batch_id;
         this.clearCheckReportStorage(option.task_id);
         return data;
     }).bind(this);
@@ -143,6 +151,7 @@ class QualityCheckStore {
             item.index = index;
             item.visited = checkReport[index];
             item.layerNameText = layerNameText;
+            item.ellipsis = true;
             // item.checked = misrepId ? true : false;
             return item;
         });

@@ -59,13 +59,15 @@ class QualityCheckResult extends React.Component {
     );
 
     _renderContent = () => {
+        const { QualityCheckStore } = this.props;
+        const { reportList } = QualityCheckStore;
         return (
             <Tabs
                 defaultActiveKey="1"
                 onChange={this.handleTabsChange}
                 tabBarExtraContent={this._closeIcon()}>
                 <TabPane tab="质检结果" key="1">
-                    <QualityCheckResultTable />
+                    <QualityCheckResultTable reportList={reportList} />
                 </TabPane>
             </Tabs>
         );

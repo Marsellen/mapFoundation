@@ -49,7 +49,7 @@ class QualityCheckResultTable extends React.Component {
                     className="check-result-table"
                     onChange={this.handleTableChange}
                     rowKey={record => `checkResult_${record.index}`}
-                    scroll={{ y: 240 }}
+                    scroll={{ y: 170 }}
                     isHandleBody={true}
                 />
             </div>
@@ -60,7 +60,9 @@ class QualityCheckResultTable extends React.Component {
         this.checkReportTable = document.querySelector(
             '.check-result-table .ant-table-body'
         );
+    }
 
+    componentWillReceiveProps() {
         this.qualityCheckTabelColumns();
     }
 
@@ -142,14 +144,14 @@ class QualityCheckResultTable extends React.Component {
         const { QualityCheckStore } = this.props;
         const { checkFilter } = QualityCheckStore;
 
-        checkFilter(dataIndex, checkedList);
-
         this.setState({
             [dataIndex]: checkedList,
             indeterminate:
                 !!checkedList.length && checkedList.length < filterKeys.length,
             checkAll: checkedList.length === filterKeys.length
         });
+
+        checkFilter(dataIndex, checkedList);
     };
 
     handleCheckAllChange = (e, dataIndex, filterKeys) => {
@@ -167,36 +169,37 @@ class QualityCheckResultTable extends React.Component {
     };
 
     getColumnSearchProps = (dataIndex, filterKeys) => {
-        const { indeterminate, checkAll } = this.state;
-        const checkedList = this.state[dataIndex] || [];
-
         return {
-            filterDropdown: filterFuntion => (
-                <div style={{ padding: 8 }}>
-                    <p>
-                        <Checkbox
-                            indeterminate={indeterminate}
+            filterDropdown: filterFuntion => {
+                const { indeterminate, checkAll } = this.state;
+                const checkedList = this.state[dataIndex] || [];
+                return (
+                    <div style={{ padding: 8 }}>
+                        <p>
+                            <Checkbox
+                                indeterminate={indeterminate}
+                                onChange={e =>
+                                    this.handleCheckAllChange(
+                                        e,
+                                        dataIndex,
+                                        filterKeys
+                                    )
+                                }
+                                checked={checkAll}>
+                                全选
+                            </Checkbox>
+                        </p>
+                        <CheckboxGroup
+                            className="ad-checkbox-group"
+                            options={filterKeys.slice()}
+                            value={checkedList}
                             onChange={e =>
-                                this.handleCheckAllChange(
-                                    e,
-                                    dataIndex,
-                                    filterKeys
-                                )
+                                this.handleCheckChange(e, dataIndex, filterKeys)
                             }
-                            checked={checkAll}>
-                            全选
-                        </Checkbox>
-                    </p>
-                    <CheckboxGroup
-                        className="ad-checkbox-group"
-                        options={filterKeys.slice()}
-                        value={checkedList}
-                        onChange={e =>
-                            this.handleCheckChange(e, dataIndex, filterKeys)
-                        }
-                    />
-                </div>
-            ),
+                        />
+                    </div>
+                );
+            },
             onFilterDropdownVisibleChange: visible => {
                 if (visible) {
                     const { QualityCheckStore } = this.props;
@@ -234,8 +237,10 @@ class QualityCheckResultTable extends React.Component {
     qualityCheckTabelColumns = () => {
         const _ = this;
         const { QualityCheckStore } = this.props;
+        const { toggleEllipsis, reportList } = QualityCheckStore;
+        if (reportList <= 0) return;
 
-        const columns = COLUMNS_CONFIG.map((item, index) => {
+        const currentColumns = COLUMNS_CONFIG.map((item, index) => {
             const { key, isFilter, dataIndex } = item;
             item = {
                 ...item,
@@ -244,21 +249,30 @@ class QualityCheckResultTable extends React.Component {
                     width: column.width,
                     onResize: this.handleResize(index)
                 }),
+                onCell: record => ({
+                    className: record.visited && 'visited'
+                }),
                 render: (text, record, index) => {
-                    return (
-                        <div className={record.visited && 'visited'}>
-                            {(() => {
-                                switch (key) {
-                                    case 'index':
-                                        return index + 1;
-                                    default:
-                                        return text;
-                                }
-                            })()}
-                        </div>
-                    );
+                    switch (key) {
+                        case 'index':
+                            return index + 1;
+                        case 'errorDesc':
+                            return (
+                                <div
+                                    className={
+                                        record.ellipsis ? 'ellipsis' : ''
+                                    }
+                                    // 唯一标识有
+                                    onClick={() => toggleEllipsis(record)}>
+                                    {text}
+                                </div>
+                            );
+                        default:
+                            return text;
+                    }
                 }
             };
+
             if (isFilter) {
                 item = {
                     ...item,
@@ -268,14 +282,14 @@ class QualityCheckResultTable extends React.Component {
                     )
                 };
             }
+
             return item;
         });
 
-        columns.push({
+        currentColumns.push({
             title: '是否无需修改',
             dataIndex: 'misrepId',
             key: 'misrepId',
-            width: 60,
             align: 'center',
             render(text, record, index) {
                 return (
@@ -289,8 +303,10 @@ class QualityCheckResultTable extends React.Component {
             }
         });
 
-        this.setState({ columns });
-        return columns;
+        const { columns } = this.state;
+        this.setState({
+            columns: columns.length > 0 ? [...columns] : [...currentColumns]
+        });
     };
 
     //选中哪一行
@@ -348,7 +364,6 @@ class QualityCheckResultTable extends React.Component {
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.setFeatureColor(obj, 0xcc00ff);
         AttributeStore.show(readonly);
-        AttributeStore.setAfterSave(this.getData);
     };
 
     handleChange = (e, record, index) => {

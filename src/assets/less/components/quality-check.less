@@ -20,6 +20,7 @@
 
     .check-result-table {
         padding: 0 10px 10px;
+        height: 220px;
 
         .ant-table {
             border-bottom: 1px solid #e8e8e8;
@@ -47,7 +48,8 @@
 
         table {
             overflow: hidden;
-            max-height: 270px;
+            table-layout: fixed;
+            width: 100%;
             border-collapse: collapse;
         }
 
@@ -77,6 +79,12 @@
 
         .check-table-row-active {
             border: 2px solid red;
+        }
+
+        .ellipsis {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
 
