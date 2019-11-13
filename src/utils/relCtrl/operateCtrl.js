@@ -71,11 +71,10 @@ const breakLine = async (breakPoint, features, task_id) => {
         { newFeatures: [], rels: [], attrs: [] }
     );
 
-    rels = uniqRels(rels);
     let historyLog = {
         features: [features, newFeatures],
-        rels: [oldRels, rels],
-        attrs: [oldAttrs, attrs]
+        rels: [uniqRels(oldRels), uniqRels(rels)],
+        attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)]
     };
     await updateFeatures(historyLog);
 
@@ -92,8 +91,8 @@ const mergeLine = async (features, task_id) => {
     ]);
     let historyLog = {
         features: [features, newFeatures],
-        rels: [oldRels, rels],
-        attrs: [oldAttrs, attrs]
+        rels: [uniqRels(oldRels), uniqRels(rels)],
+        attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)]
     };
     await updateFeatures(historyLog);
 
@@ -161,7 +160,7 @@ const autoCreateLine = async (editLayer, params, lines) => {
 
     let historyLog = {
         features: [[], newFeatures],
-        rels: [[], rels]
+        rels: [[], uniqRels(rels)]
     };
 
     await updateFeatures(historyLog);
@@ -174,7 +173,7 @@ const getLines = async features => {
     let oldAttrs = [];
     let lines = await features.reduce(async (total, feature) => {
         let { relation, rels, attrs } = await getRelation(feature);
-        oldRels = uniConcatRel(oldRels, rels);
+        oldRels = oldRels.concat(rels);
         oldAttrs = oldAttrs.concat(attrs);
         let line = {
             type: feature.layerName,
@@ -314,7 +313,7 @@ const calcRels = (layerName, relation, feature) => {
         let properties = relation[spec];
 
         if (REL_DATA_SET.includes(spec)) {
-            arr = uniConcatRel(arr, relDataFormat(spec, properties));
+            arr = arr.concat(relDataFormat(spec, properties));
         } else if (ATTR_REL_DATA_SET.includes(spec)) {
             arr = arr.concat(
                 attrRelDataFormat(layerName, spec, properties, feature)
@@ -332,6 +331,15 @@ const uniqRels = rels => {
         if (!REL_IDS.includes(relId)) {
             REL_IDS.push(relId);
             total.push(rel);
+        }
+        return total;
+    }, []);
+};
+
+const uniqAttrs = attrs => {
+    return attrs.reduce((total, attr) => {
+        if (!total.some(t => t.key === attr.key)) {
+            total.push(attr);
         }
         return total;
     }, []);
@@ -525,17 +533,6 @@ const WKTToGeom = wkt => {
         }, []);
     }
     return geoJson;
-};
-
-const uniConcatRel = (arrayA, arrayB) => {
-    let all = arrayA.concat(arrayB);
-    return all.reduce((total, item) => {
-        let isUnique =
-            !item.extraInfo.REL_ID ||
-            !total.some(t => t.extraInfo.REL_ID === item.extraInfo.REL_ID);
-        isUnique && total.push(item);
-        return total;
-    }, []);
 };
 
 export {
