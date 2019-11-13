@@ -85,6 +85,8 @@ class Save extends React.Component {
     };
 
     loadTask = async () => {
+        if (location.pathname === '/source') return; //手动加载任务不做任务移交挂起校验
+
         const { TaskStore, DataLayerStore, ToolCtrlStore } = this.props;
         const { tasks: oldTasks } = TaskStore;
         await TaskStore.initTask({ type: 4 });
