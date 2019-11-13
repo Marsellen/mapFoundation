@@ -79,7 +79,7 @@ class NewAttrModal extends React.Component {
             if (err) {
                 return;
             }
-            console.log(values);
+            //console.log(values);
             AttributeStore.newAttr(key, values, properties).then(() => {
                 this.onCancel();
             });
