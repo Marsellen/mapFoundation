@@ -100,7 +100,7 @@ const mergeLine = async (features, task_id) => {
 };
 
 const autoCreateLine = async (editLayer, params, lines) => {
-    let result;
+    let result = [];
     let relation = {},
         rels;
     if (editLayer === 'AD_Lane') {
@@ -148,14 +148,13 @@ const autoCreateLine = async (editLayer, params, lines) => {
     } else if (lines === 'adRoad') {
         rels = [];
     } else {
-        let relationLayer = `${editLayer}_Con`;
-        relation[relationLayer] = [];
-        relation[relationLayer] = result.data[relationLayer].features.map(
-            feature => {
-                return feature.properties;
-            }
-        );
-        rels = calcRels(relationLayer, relation);
+        relation[`${editLayer}_Con`] = [];
+        relation[`${editLayer}_Con`] = result.data[
+            `${editLayer}_Con`
+        ].features.map(feature => {
+            return feature.properties;
+        });
+        rels = calcRels(`${editLayer}_Con`, relation);
     }
 
     let historyLog = {

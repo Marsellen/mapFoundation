@@ -29,7 +29,7 @@ module.exports = merge(common, {
                 logLevel: 'debug'
             },
             '/manualBuild_service': {
-                target: 'http://10.43.75.17:13201',
+                target: 'http://10.43.75.58:13003',
                 pathRewrite: { '^/manualBuild_service': 'manualBuild' },
                 changeOrigin: true,
                 logLevel: 'debug'
