@@ -15,7 +15,7 @@ export function authenticateSuccess(userInfo, autoLogin) {
     }
 }
 
-export function logout(task) {
+export function logout() {
     _setCookie(LOGIN_COOKIE_NAME, '', 0);
 }
 

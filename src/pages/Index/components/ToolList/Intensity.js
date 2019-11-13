@@ -48,7 +48,7 @@ class Intensity extends React.Component {
                     visible={this.state.hovered}
                     onVisibleChange={this.handleHoverChange}>
                     <IconFont
-                        type="icon-dengpaobulb"
+                        type="icon-icon-dengpaobulb"
                         className={`ad-icon ${this.isDisabled() &&
                             'ad-disabled-icon'}`}
                     />
