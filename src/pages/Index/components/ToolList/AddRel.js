@@ -2,9 +2,17 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { message, Icon, Modal } from 'antd';
-import { newRel, basicCheck } from 'src/utils/relCtrl/relCtrl';
+import {
+    newRel,
+    basicCheck,
+    createRelBySpecConfig,
+    batchAddRels,
+    relUniqCheck
+} from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
+import AddLRLaneDriverRel from './AddRelModal/AddLRLaneDriverRel';
+import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
 import 'less/components/tool-icon.less';
 import './AddRel.less';
 
@@ -30,6 +38,12 @@ class AddRel extends React.Component {
                     action={this.action}
                 />
                 <AdMessage visible={visible} content={this.content()} />
+                <AddLRLaneDriverRel
+                    onRef={modal => {
+                        this.addLRLaneDriverRelModal = modal;
+                    }}
+                    onOk={this.addLRLaneDriverRel}
+                />
             </span>
         );
     }
@@ -60,7 +74,7 @@ class AddRel extends React.Component {
                             <br />
                             &emsp;5). 一个车道中心线+左侧车道线+右侧车道线
                             <br />
-                            &emsp;6). 最多只允许建立两类要素之间的关联关系
+                            &emsp;6). 一个车道中心线+一个车道线+选择左侧/右侧
                         </p>
 
                         <p>
@@ -80,11 +94,11 @@ class AddRel extends React.Component {
                             4. 当前可编辑图层为
                             “地面导向箭头”、“地面文字符号”、“车道标记点”时 ：
                             <br />
-                            &emsp;1). 一个车道中心线+一个地面导向箭头
+                            &emsp;1). 一个地面导向箭头+一个车道中心线
                             <br />
-                            &emsp;2). 一个车道中心线+一个地面文字符号
+                            &emsp;2). 一个地面文字符号+一个车道中心线
                             <br />
-                            &emsp;3). 一个道路参考线+一个车道标记点
+                            &emsp;3). 一个车道标记点+一个道路参考线
                         </p>
                     </div>
                 </div>
@@ -110,15 +124,23 @@ class AddRel extends React.Component {
             let [mainFeature, ...relFeatures] = result;
             let layerName = DataLayerStore.getEditLayer().layerName;
             await basicCheck(mainFeature, relFeatures, layerName);
-            this.comfirmNewRel(mainFeature, relFeatures);
+            this.newRel(mainFeature, relFeatures);
         } catch (e) {
             console.log(e);
             message.warning(e.message, 3);
         }
     };
 
+    newRel = (mainFeature, relFeatures) => {
+        if (this.isAddLRLaneDriverRel(mainFeature, relFeatures)) {
+            this.addLRLaneDriverRelModal.show([mainFeature, relFeatures[0]]);
+        } else {
+            this.comfirmNewRel(mainFeature, relFeatures);
+        }
+    };
+
     comfirmNewRel = (mainFeature, relFeatures) => {
-        const { DataLayerStore, OperateHistoryStore } = this.props;
+        const { DataLayerStore } = this.props;
         Modal.confirm({
             title: '是否新建关联关系?',
             okText: '确定',
@@ -127,22 +149,7 @@ class AddRel extends React.Component {
             onOk: async () => {
                 try {
                     let rels = await newRel(mainFeature, relFeatures);
-
-                    let history = {
-                        type: 'updateFeatureRels',
-                        data: {
-                            rels: [[], rels]
-                        }
-                    };
-                    let log = {
-                        operateHistory: history,
-                        action: 'addRel',
-                        result: 'success'
-                    };
-                    OperateHistoryStore.add(history);
-                    editLog.store.add(log);
-                    message.success('新建成功', 3);
-                    DataLayerStore.exitEdit();
+                    this.saveLog(rels);
                 } catch (e) {
                     console.log(e);
                     message.warning(e.message, 3);
@@ -152,6 +159,59 @@ class AddRel extends React.Component {
                 DataLayerStore.exitEdit();
             }
         });
+    };
+
+    isAddLRLaneDriverRel = (mainFeature, relFeatures) => {
+        if (relFeatures.length != 1) {
+            return false;
+        }
+        let mainLayer = mainFeature.layerName;
+        let relLayer = relFeatures[0].layerName;
+        let isAddLRLaneDriver =
+            (mainLayer === 'AD_Lane' && relLayer === 'AD_LaneDivider') ||
+            (mainLayer === 'AD_LaneDivider' && relLayer === 'AD_Lane');
+        if (isAddLRLaneDriver) {
+            return true;
+        }
+    };
+
+    addLRLaneDriverRel = async (type, options) => {
+        try {
+            let [mainFeature, relFeature] = options;
+            let specConfig = REL_SPEC_CONFIG.find(
+                config => config.relObjType === type
+            );
+            let rel = createRelBySpecConfig(
+                specConfig,
+                mainFeature,
+                relFeature
+            );
+            await relUniqCheck(rel);
+            await batchAddRels([rel]);
+            this.saveLog([rel]);
+        } catch (e) {
+            console.log(e);
+            message.warning(e.message, 3);
+        }
+    };
+
+    saveLog = rels => {
+        const { DataLayerStore, OperateHistoryStore } = this.props;
+        let history = {
+            type: 'updateFeatureRels',
+            data: {
+                rels: [[], rels]
+            }
+        };
+        let log = {
+            operateHistory: history,
+            action: 'addRel',
+            result: 'success'
+        };
+        OperateHistoryStore.add(history);
+        editLog.store.add(log);
+        message.success('新建成功', 3);
+        DataLayerStore.exitEdit();
     };
 }
 

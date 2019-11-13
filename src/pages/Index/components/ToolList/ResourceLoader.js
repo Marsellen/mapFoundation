@@ -40,15 +40,15 @@ class ResourceLoader extends React.Component {
                 maskClosable={false}
                 footer={this.renderFooter()}>
                 <Form colon={false} hideRequiredMark={true} {...formLayout}>
-                    <Form.Item label="资料名称">
+                    <Form.Item label="任务id">
                         {form.getFieldDecorator('name', {
                             rules: [
                                 {
                                     required: true,
-                                    message: '资料名称必填'
+                                    message: '任务id必填'
                                 }
-                            ],
-                            initialValue: '123'
+                            ]
+                            //initialValue: '123'
                         })(<AdInput />)}
                     </Form.Item>
                     <Form.Item label="资料路径">
@@ -62,9 +62,8 @@ class ResourceLoader extends React.Component {
                                     pattern: /^http:\/\/*|^https:\/\/*/,
                                     message: '资料路径必需为url'
                                 }
-                            ],
-                            initialValue:
-                                'http://10.43.75.120/task/62334/08_EDIT_JSON'
+                            ]
+                            //initialValue: 'http://10.43.75.120/task/62334/08_EDIT_JSON'
                         })(<AdInput />)}
                     </Form.Item>
                 </Form>

@@ -1,7 +1,6 @@
 import Relevance from 'src/models/relevance';
 import {
     REL_SPEC_CONFIG,
-    SPEC_REL_KEY_SET,
     ATTR_REL_DATA_SET,
     REL_DATA_SET
 } from 'src/config/RelsConfig';
@@ -12,12 +11,18 @@ import {
 import IDService from 'src/pages/Index/service/IDService';
 import { Modal } from 'antd';
 
-const newRel = async (mainFeature, relFeatures) => {
-    let rels = await batchCreateRel(mainFeature, relFeatures);
+const batchAddRels = async rels => {
     let relStore = Relevance.store;
     await relStore.batchAdd(rels);
     updateFeaturesByRels(rels);
     return rels;
+};
+
+const newRel = async (mainFeature, relFeatures) => {
+    let rels = batchCreateRel(mainFeature, relFeatures);
+    await relsUniqCheck(rels);
+    rels = await batchGetRelId(rels);
+    return batchAddRels(rels);
 };
 
 const delRel = async (mainFeature, features) => {
@@ -93,53 +98,15 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
         };
     }
 
-    if (relSpecs.length > 1 && relFeatures.length > relSpecs.length) {
+    let isAttrRel = ATTR_REL_DATA_SET.includes(relSpecs[0].source);
+    if (isAttrRel && relFeatures.length > relSpecs.length) {
         throw {
             message: `${layerName}和${relFeatureTypes[0]}的关联类型超出规格定义`
         };
     }
-    if (ATTR_REL_DATA_SET.includes(relSpecs[0].source)) {
-        let relStore = Relevance.store;
-        let rels;
-        if (relSpecs[0].source == relSpecs[0].objSpec) {
-            let type = relSpecs[0].objType;
-            let spec = relSpecs[0].objSpec;
-            let layerName = mainFeature.layerName;
-            let IDKey = getLayerIDKey(spec);
-            let id =
-                spec == layerName
-                    ? mainFeature.data.properties[IDKey]
-                    : relFeatures[0].data.properties[IDKey];
-            rels = await relStore.getAll([type, id], 'OBJ_TYPE_KEYS');
-            rels = rels.filter(rel => {
-                return relSpecs
-                    .map(relSpec => relSpec.relObjType)
-                    .includes(rel.relObjType);
-            });
-        } else {
-            let type = relSpecs[0].relObjType;
-            let spec = relSpecs[0].relObjSpec;
-            let layerName = mainFeature.layerName;
-            let IDKey = getLayerIDKey(spec);
-            let id =
-                spec == layerName
-                    ? mainFeature.data.properties[IDKey]
-                    : relFeatures[0].data.properties[IDKey];
-            rels = await relStore.getAll([type, id], 'REL_OBJ_TYPE_KEYS');
-            rels = rels.filter(rel => {
-                return relSpecs
-                    .map(relSpec => relSpec.objType)
-                    .includes(rel.objType);
-            });
-        }
-        if (rels.length > 0) {
-            let message = `${layerName}和${relFeatureTypes[0]}的关系已存在`;
-            throw { message };
-        }
-    }
 };
 
-const batchCreateRel = async (mainFeature, relFeatures) => {
+const batchCreateRel = (mainFeature, relFeatures) => {
     let mainLayer = mainFeature.layerName;
     let relLayer = relFeatures[0].layerName;
     let relSpecs = REL_SPEC_CONFIG.filter(rs => {
@@ -152,12 +119,6 @@ const batchCreateRel = async (mainFeature, relFeatures) => {
         index = relSpecs.length > index ? index : relSpecs.length - 1;
         return createRelBySpecConfig(relSpecs[index], mainFeature, feature);
     });
-
-    await Promise.all(
-        rels.map(rel => {
-            return getRelId(rel);
-        })
-    );
 
     return rels;
 };
@@ -310,4 +271,60 @@ const updateFeatureRelAttr = (rel, isDel) => {
     layer.updateFeatures([feature]);
 };
 
-export { newRel, delRel, updateFeaturesByRels, basicCheck };
+const batchGetRelId = async rels => {
+    await Promise.all(
+        rels.map(rel => {
+            return getRelId(rel);
+        })
+    );
+    return rels;
+};
+
+const relsUniqCheck = rels => {
+    return Promise.all(
+        rels.map(rel => {
+            return relUniqCheck(rel);
+        })
+    );
+};
+
+const relUniqCheck = async rel => {
+    let relStore = Relevance.store;
+    let condition, indexName, relkey;
+    if (rel.spec === 'AD_Arrow' || rel.spec === 'AD_Text') {
+        condition = [rel.relObjType, rel.relObjId];
+        indexName = 'REL_OBJ_TYPE_KEYS';
+        relkey = 'objType';
+    } else {
+        condition = [rel.objType, rel.objId];
+        indexName = 'OBJ_TYPE_KEYS';
+        relkey = 'relObjType';
+    }
+    let rels = await relStore.getAll(condition, indexName);
+    let hadBeenRel = rels.some(r => r[relkey] === rel[relkey]);
+    if (hadBeenRel) {
+        let errorMessageKey = rel.objType + '_' + rel.relObjType;
+        throw {
+            message: HAD_BEEN_REL_ERROR[errorMessageKey]
+        };
+    }
+};
+
+const HAD_BEEN_REL_ERROR = {
+    LANE_L_LDIV: '创建失败: 车道中心线已关联左侧车道线',
+    LANE_R_LDIV: '创建失败: 车道中心线已关联右侧车道线',
+    LANE_ROAD: '创建失败: 车道中心线已关联参考线',
+    LANE_ARROW: '创建失败: 地面导向箭头已关联车道中心线',
+    LANE_TEXT: '创建失败: 地面文字符号已关联车道中心线',
+    LANEP_ROAD: '创建失败: 车道属性变化点已关联参考线'
+};
+
+export {
+    newRel,
+    delRel,
+    updateFeaturesByRels,
+    basicCheck,
+    createRelBySpecConfig,
+    batchAddRels,
+    relUniqCheck
+};
