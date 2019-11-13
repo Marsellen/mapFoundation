@@ -105,7 +105,7 @@ function resource(defaultUrl, extraParams, options) {
     BASIC_METHODS.forEach(key => {
         $resource[key] = request(defaultUrl, extraParams, { method: key });
     });
-    Object.keys(options).map(key => {
+    Object.keys(options).forEach(key => {
         $resource[key] = request(defaultUrl, extraParams, options[key]);
     });
     return $resource;
