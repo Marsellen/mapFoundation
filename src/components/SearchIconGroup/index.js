@@ -10,22 +10,21 @@ class SearchIconGroup extends React.Component {
         super();
         this.state = {
             content: {
-                label: '未定义',
-                value: 0,
-                icon: 'weidingyi'
+                label: '注意行人',
+                value: 111,
+                icon: 'zhuyixingren'
             }
         };
     }
     render() {
         const { content } = this.state;
-        const { options, disabled } = this.props;
+        const { options } = this.props;
 
         return (
             <div className="attr-icon-box search-icon-box">
                 <span className="search-label-icon">{content.label}</span>
                 <Select
                     showSearch
-                    allowClear={true}
                     value={content.label}
                     onChange={this.ChooseIcon}
                     filterOption={(input, option) =>
@@ -33,7 +32,7 @@ class SearchIconGroup extends React.Component {
                             .toLowerCase()
                             .indexOf(input.toLowerCase()) >= 0
                     }>
-                    {options.map(opt => (
+                    {this.getOptionsGroup(options).map(opt => (
                         <Option
                             key={opt.icon}
                             value={`${opt.value}-${opt.label}`}>
@@ -41,26 +40,49 @@ class SearchIconGroup extends React.Component {
                         </Option>
                     ))}
                 </Select>
-                <div>
+                <div className="set-icon-group">
                     {options.map((option, index) => {
-                        let active = content.value == option.value;
                         return (
-                            <SearchIcon
-                                key={index}
-                                icon={option.icon}
-                                disabled={option.disabled || disabled}
-                                active={active}
-                                label={option.label}
-                                action={() => {
-                                    this.onChange(option.value);
-                                }}
-                            />
+                            <div key={`${index}-parent`}>
+                                {this.SearchIcon(option, index)}
+                            </div>
                         );
                     })}
                 </div>
             </div>
         );
     }
+
+    SearchIcon = (option, index) => {
+        const { content } = this.state;
+        const { disabled } = this.props;
+        return (
+            <div>
+                {option.map((opt, j) => {
+                    let active = content.value == opt.value;
+                    return (
+                        <SearchIcon
+                            key={`${index}-child-${j}`}
+                            icon={opt.icon}
+                            disabled={opt.disabled || disabled}
+                            active={active}
+                            label={opt.label}
+                            action={() => {
+                                this.onChange(opt.value);
+                            }}
+                        />
+                    );
+                })}
+            </div>
+        );
+    };
+
+    getOptionsGroup = options => {
+        const opt = options.reduce((a, b) => {
+            return a.concat(b);
+        });
+        return opt;
+    };
 
     ChooseIcon = val => {
         const { onChange } = this.props;
@@ -85,17 +107,14 @@ class SearchIconGroup extends React.Component {
 
     getLabelSetting = value => {
         const { options } = this.props;
+        const opt = this.getOptionsGroup(options);
         let obj = {};
-        const pos = options.findIndex(val => val.value === value);
+        const pos = opt.findIndex(val => val.value === value);
         obj.value = value;
         obj.label =
-            pos != -1 && this.isPresent(options[pos].label)
-                ? options[pos].label
-                : '--';
+            pos != -1 && this.isPresent(opt[pos].label) ? opt[pos].label : '--';
         obj.icon =
-            pos != -1 && this.isPresent(options[pos].icon)
-                ? options[pos].icon
-                : '--';
+            pos != -1 && this.isPresent(opt[pos].icon) ? opt[pos].icon : '--';
         return obj;
     };
 

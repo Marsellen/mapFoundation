@@ -220,7 +220,10 @@ class BasicAttributesForm extends React.Component {
                     })(<SearchIconGroup options={options} />)
                 ) : (
                     <span className="ant-form-text">
-                        {this.getArrayOption(item.value, options)}
+                        {this.getArrayOption(
+                            item.value,
+                            this.getOptionsGroup(options)
+                        )}
                     </span>
                 )}
             </Form.Item>
@@ -256,6 +259,13 @@ class BasicAttributesForm extends React.Component {
                 )}
             </Form.Item>
         );
+    };
+
+    getOptionsGroup = options => {
+        const opt = options.reduce((a, b) => {
+            return a.concat(b);
+        });
+        return opt;
     };
 
     isPresent(obj) {
