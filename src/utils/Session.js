@@ -15,12 +15,8 @@ export function authenticateSuccess(userInfo, autoLogin) {
     }
 }
 
-export function logout(task) {
-    if (task) {
-        _setCookie(LOGIN_COOKIE_NAME, '', 0);
-    } else {
-        _setCookie(LOGIN_COOKIE_NAME, '', 0);
-    }
+export function logout() {
+    _setCookie(LOGIN_COOKIE_NAME, '', 0);
 }
 
 function _getCookie(name) {

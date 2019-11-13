@@ -56,18 +56,14 @@ class Avatar extends React.Component {
     // };
 
     logout = () => {
-        const { appStore, TaskStore } = this.props;
-        const currentUserInfo = {
-            taskId: TaskStore.activeTask.taskId,
-            userName: appStore.loginUser.username
-        };
+        const { appStore } = this.props;
         Modal.confirm({
             title: '您确定要退出登录？',
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                appStore.logout(currentUserInfo);
+                appStore.logout();
                 location.reload();
             }
         });

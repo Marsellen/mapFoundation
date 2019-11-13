@@ -2,7 +2,6 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Form, Select } from 'antd';
 import RadioIconGroup from 'src/components/RadioIconGroup';
-import SearchIconGroup from 'src/components/SearchIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import AdInput from 'src/components/Form/Input';
@@ -195,41 +194,6 @@ class BasicAttributesForm extends React.Component {
         );
     };
 
-    renderSearchIconGroup = (item, index) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
-        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
-        let layout = readonly ? formItemLayout : {};
-        return (
-            <Form.Item key={index} label={item.name} {...layout}>
-                {!readonly ? (
-                    form.getFieldDecorator(item.key, {
-                        rules: [
-                            {
-                                required: item.required,
-                                message: `${item.name}必填`
-                            },
-                            ...(item.validates || []).map(validate => {
-                                return {
-                                    pattern: validate.pattern,
-                                    message: validate.message
-                                };
-                            })
-                        ],
-                        initialValue: item.value
-                    })(<SearchIconGroup options={options} />)
-                ) : (
-                    <span className="ant-form-text">
-                        {this.getArrayOption(
-                            item.value,
-                            this.getOptionsGroup(options)
-                        )}
-                    </span>
-                )}
-            </Form.Item>
-        );
-    };
-
     renderCheckBoxIconGroup = (item, index, name) => {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
@@ -259,13 +223,6 @@ class BasicAttributesForm extends React.Component {
                 )}
             </Form.Item>
         );
-    };
-
-    getOptionsGroup = options => {
-        const opt = options.reduce((a, b) => {
-            return a.concat(b);
-        });
-        return opt;
     };
 
     isPresent(obj) {

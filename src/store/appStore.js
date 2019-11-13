@@ -1,9 +1,5 @@
 import { observable, flow, configure, action, computed } from 'mobx';
-import {
-    getAuthentication,
-    authenticateSuccess,
-    logout
-} from '../utils/Session';
+import { getAuthentication, authenticateSuccess } from '../utils/Session';
 import AppService from '../services/AppService';
 
 configure({ enforceActions: 'always' });
@@ -22,10 +18,6 @@ class AppStore {
         authenticateSuccess(result.data, option.autoLogin);
         this.loginUser = result.data;
     });
-
-    @action logout = task => {
-        logout(task);
-    };
 }
 
 export default new AppStore();

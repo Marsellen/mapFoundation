@@ -77,7 +77,7 @@ class SearchIconGroup extends React.Component {
         );
     };
 
-    getOptionsGroup = options => {
+    getOptionsGroup = (options = []) => {
         const opt = options.reduce((a, b) => {
             return a.concat(b);
         });
