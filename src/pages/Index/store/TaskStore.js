@@ -97,7 +97,7 @@ class TaskStore {
 
         if (taskFetchId && !status.includes(manualStatus)) {
             // “开始”编辑任务时，“已领取”任务，更新成"进行中"
-            this.updateTaskStatus({
+            yield this.updateTaskStatus({
                 taskFetchId: taskFetchId,
                 manualStatus: 2
             });

@@ -20,10 +20,15 @@
 
     .check-result-table {
         padding: 0 10px 10px;
-        height: 220px;
+        height: 254px;
 
         .ant-table {
             border-bottom: 1px solid #e8e8e8;
+            height: 260px;
+        }
+
+        .ant-table-placeholder {
+            border-bottom: none;
         }
 
         .ant-table-body {
@@ -59,6 +64,23 @@
             padding: 6px 12px;
             border: 1px solid #e8e8e8;
             font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        td > div {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .check-table-row.open {
+            th,
+            td,
+            td > div {
+                white-space: unset;
+            }
         }
 
         .check-table-row-0 td {
@@ -77,14 +99,8 @@
             color: #1890ff;
         }
 
-        .check-table-row-active {
+        .active {
             border: 2px solid red;
-        }
-
-        .ellipsis {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
         }
     }
 

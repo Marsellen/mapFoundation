@@ -347,6 +347,7 @@ class VizCompnent extends React.Component {
             OperateHistoryStore
         } = this.props;
         //console.log(result);
+        DataLayerStore.exitEdit();
 
         let data;
         try {
@@ -385,8 +386,6 @@ class VizCompnent extends React.Component {
             }
             message.warning(e);
         }
-
-        DataLayerStore.exitEdit();
     };
 
     editedCallBack = result => {
