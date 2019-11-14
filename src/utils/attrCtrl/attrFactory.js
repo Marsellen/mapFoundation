@@ -139,11 +139,9 @@ const updateAttrs = async attrs => {
     return newRecords;
 };
 
-const deleteRecord = records => {
+const deleteRecord = id => {
     let attrStore = Attr.store;
-    return records.map(record => {
-        attrStore.deleteById(record.id);
-    });
+    return attrStore.deleteById(id);
 };
 
 const replaceAttrs = async ([oldAttrs, newAttrs] = []) => {

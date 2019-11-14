@@ -146,12 +146,14 @@ class AttrsForm extends React.Component {
 
     onDelete = key => {
         const { form, AttributeStore } = this.props;
-        return index => {
-            AttributeStore.spliceAttrs(key, index);
+        return value => {
+            AttributeStore.spliceAttrs(key, value);
             let fieldKey = 'attrs.' + key;
             const records = form.getFieldValue(fieldKey);
             form.setFieldsValue({
-                [fieldKey]: records.filter((item, i) => i !== index)
+                [fieldKey]: records.filter(
+                    item => item.sourceId !== value.sourceId
+                )
             });
         };
     };
