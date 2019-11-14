@@ -86,9 +86,13 @@ class Task extends React.Component {
                 okText: '确定',
                 cancelText: '取消',
                 okType: 'danger',
-                onOk: () => {
+                onOk: async () => {
+                    const { TaskStore, OperateHistoryStore } = this.props;
+
+                    await TaskStore.submit();
+                    await TaskStore.writeEditLog();
+                    OperateHistoryStore.save();
                     this.toggleTask(id, isEdit);
-                    document.getElementById('save-btn').click();
                 }
             });
         } else {
