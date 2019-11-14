@@ -53,3 +53,14 @@ export function throttle(fn, time, context) {
 
     return wrapperFn;
 }
+
+export const funDownload = (content, filename) => {
+    var datastr =
+        'data:text/json;charset=utf-8,' +
+        encodeURIComponent(JSON.stringify(content));
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute('href', datastr);
+    downloadAnchorNode.setAttribute('download', `${filename}.json`);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+};

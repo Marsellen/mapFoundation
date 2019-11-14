@@ -110,13 +110,16 @@ export const getTabelData = async (layerName, relRecords, properties) => {
 
 export const updateRels = async (rels, feature) => {
     if (feature.layerName == 'AD_Lane') {
-        let map = Object.keys(rels).reduce((total, key) => {
+        let relMap = Object.keys(rels).reduce((total, key) => {
             return {
                 ...total,
                 ...rels[key]
             };
         }, {});
-        if ((map.L_LDIV || map.R_LDIV) && map.L_LDIV === map.R_LDIV) {
+        if (
+            (relMap.L_LDIV || relMap.R_LDIV) &&
+            relMap.L_LDIV === relMap.R_LDIV
+        ) {
             throw {
                 message: '车道线关联错误'
             };
