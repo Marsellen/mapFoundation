@@ -17,7 +17,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 14, label: '自然边界', icon: 'ziranbianjie' },
         { value: 15, label: '施工边界', icon: 'shigongbianjie' },
         { value: 16, label: '路中隔离带', icon: 'gelidaichedao' },
-        { value: 17, label: '路口内待行区', icon: 'lukouneidaixingqu' },
+        { value: 17, label: '待转待行区', icon: 'lukouneidaixingqu' },
         {
             value: 18,
             label: '可变导向车道线',
@@ -204,8 +204,8 @@ export const TYPE_SELECT_OPTION_MAP = {
     ],
     AD_LANE_ATTRPOINT_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi' },
-        { value: 1, label: '左侧出口', icon: 'daoluzuocechukou' },
-        { value: 2, label: '右侧出口', icon: 'daoluyoucechukou' },
+        { value: 1, label: '道路左侧出口', icon: 'daoluzuocechukou' },
+        { value: 2, label: '道路右侧出口', icon: 'daoluyoucechukou' },
         { value: 3, label: '道路分离点', icon: 'daolufenlidian' },
         { value: 4, label: '道路合并点', icon: 'daoluhebingdian' },
         { value: 5, label: '车道合并点', icon: 'chedaohebingdian' },
@@ -253,7 +253,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         {
             value: 11,
             label: '虚拟人行横道 ',
-            icon: 'xunirenxinghengdao'
+            icon: 'xunirenxingdao'
         },
         {
             value: 12,
@@ -819,7 +819,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'H', label: '行人' },
         { value: 'I', label: '非机动车' },
         { value: 'J', label: '读秒' },
-        { value: 'X', label: '灯头未启用' },
+        { value: 'Z', label: '灯头未启用' },
         { value: 'BD', label: '方向向左的箭头+直行' },
         { value: 'CD', label: '方向向右的箭头+直行' },
         { value: 'BE', label: '方向向左的箭头+掉头' }
@@ -1023,7 +1023,7 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'RD_LINE',
-            name: '参考线标识',
+            name: '道路参考线标识',
             type: 'AD_LANE_DIVIDER_RD_LINE',
             domType: 'Select'
         },
@@ -1218,7 +1218,7 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'TYPE',
-            name: '类型',
+            name: '停车线类型',
             type: 'AD_STOPLOCATION_TYPE',
             domType: 'RadioIconGroup'
         }
@@ -1232,7 +1232,7 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'TYPE',
-            name: '面要素类型',
+            name: '面状标识物类型',
             type: 'AD_LANEMARK_PLG_TYPE',
             domType: 'RadioIconGroup'
         }
@@ -1274,7 +1274,7 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'SIGN_STYLE',
-            name: '标志牌类型',
+            name: '交通标志牌样式',
             type: 'AD_TRAFFICSIGN_SIGN_STYLE',
             domType: 'Select'
         }
