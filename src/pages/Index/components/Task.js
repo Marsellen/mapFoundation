@@ -82,13 +82,17 @@ class Task extends React.Component {
         let shouldSave = currentNode > savedNode;
         if (shouldSave) {
             Modal.confirm({
-                title: '当前任务未保存，切换任务后会丢失，是否继续？',
-                okText: '确定',
+                title: '提示： 当前任务未保存。',
+                okText: '保存并切换',
                 cancelText: '取消',
                 okType: 'danger',
-                onOk: () => {
+                onOk: async () => {
+                    const { TaskStore, OperateHistoryStore } = this.props;
+
+                    await TaskStore.submit();
+                    await TaskStore.writeEditLog();
+                    OperateHistoryStore.save();
                     this.toggleTask(id, isEdit);
-                    document.getElementById('save-btn').click();
                 }
             });
         } else {

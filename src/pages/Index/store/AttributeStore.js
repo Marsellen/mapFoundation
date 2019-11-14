@@ -12,7 +12,7 @@ configure({ enforceActions: 'always' });
 class AttributeStore {
     model;
     relFeatures = [];
-    afterSave;
+    delAttrs = [];
     @observable visible;
     @observable type;
     @observable attributes = [];
@@ -27,6 +27,7 @@ class AttributeStore {
 
     @action hide = () => {
         this.visible = false;
+        this.delAttrs = [];
     };
 
     @action setModel = obj => {
@@ -144,11 +145,12 @@ class AttributeStore {
         // this.fetchRels();
         if (data.attrs) {
             let newAttrs = yield attrFactory.updateAttrs(data.attrs);
+            this.deleteAttrs();
             historyLog.attrs = [this.attrRecords, newAttrs];
         } else if (this.delAttrs && this.delAttrs.length > 0) {
-            let delIds = this.delAttrs.map(record => record.id);
+            this.deleteAttrs();
             let newAttrs = this.attrRecords.filter(
-                record => !delIds.includes(record.id)
+                record => !this.delAttrs.includes(record.id)
             );
             historyLog.attrs = [this.attrRecords, newAttrs];
             this.delAttrs = [];
@@ -165,12 +167,20 @@ class AttributeStore {
         return historyLog;
     });
 
-    spliceAttrs = flow(function*(key, index) {
-        let records = this.attrs[key].splice(index, 1);
-        if (records[0].id) {
-            yield attrFactory.deleteRecord(records);
-            this.delAttrs = (this.delAttrs || []).concat(records);
-        }
+    deleteAttrs = flow(function*() {
+        yield Promise.all(
+            (this.delAttrs || []).map(id => {
+                return attrFactory.deleteRecord(id);
+            })
+        );
+    });
+
+    spliceAttrs = flow(function*(key, value) {
+        let { id, sourceId } = value;
+        this.attrs[key] = this.attrs[key].filter(
+            item => item.sourceId !== sourceId
+        );
+        id && this.delAttrs.push(id);
     });
 
     newAttr = flow(function*(key, value, properties) {
