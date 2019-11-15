@@ -386,7 +386,7 @@ export const TYPE_SELECT_OPTION_MAP = {
                 icon: 'teshuluduanfuzhubiaozhi'
             },
             { value: 600, label: '动态限速标志', icon: 'dongtaixiansu' },
-            { value: 500, label: '其他标志牌', icon: 'qitabiaozhipai' },
+            { value: 500, label: '其他标志牌', icon: 'qitabiaozhi' },
             { value: 401, label: '区间测速起点', icon: 'qujiancesuqidian' },
             { value: 402, label: '区间测速终点', icon: 'qujiancesuzhongdian' },
             {
@@ -394,8 +394,12 @@ export const TYPE_SELECT_OPTION_MAP = {
                 label: '区间测速起点和距离',
                 icon: 'qujiancesuchangdu'
             },
-            { value: 405, label: '特殊天气辅助标志', icon: 'zhuyixuetian' },
-            { value: 601, label: '其他电子标志牌', icon: 'dongtaibiaozhipai' }
+            { value: 405, label: '特殊天气辅助标志', icon: 'zhuyiteshutianqi' },
+            {
+                value: 601,
+                label: '其他电子标志牌',
+                icon: 'qitadianzibiaozhipai'
+            }
         ],
 
         // 5-7
@@ -414,13 +418,13 @@ export const TYPE_SELECT_OPTION_MAP = {
             { value: 115, label: '注意野生动物', icon: 'zhuyiyeshengdongwu' },
             { value: 117, label: '村庄', icon: 'cunzhuang' },
             { value: 118, label: '注意落石', icon: 'zhuyiluoshi' },
-            { value: 119, label: '注意横风', icon: 'plus' },
+            { value: 119, label: '注意横风', icon: 'zhuyihengfeng' },
             { value: 120, label: '傍山险路', icon: 'bangshanxianlu' },
             { value: 121, label: '堤坝路', icon: 'dibalu' },
             { value: 122, label: '隧道', icon: 'suidao' },
             { value: 123, label: '驼峰桥', icon: 'tuofengqiao' },
             { value: 124, label: '路面不平', icon: 'lumianbuping' },
-            { value: 125, label: '路面高突', icon: 'plus' },
+            { value: 125, label: '路面高突', icon: 'lumiangaotu' },
             { value: 126, label: '路面低洼', icon: 'lumiandiwa' },
             { value: 127, label: '过水路面（漫水桥）', icon: 'guoshuilumian' },
             { value: 128, label: '铁路道口', icon: 'tieludaokou' },

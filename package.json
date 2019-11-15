@@ -13,7 +13,7 @@
         "build-sdk": "npm i addis-viz-sdk --registry=http://10.43.75.53:8081/repository/npm-all/ --save"
     },
     "dependencies": {
-        "addis-viz-sdk": "^0.1.8-alpha.2",
+        "addis-viz-sdk": "^0.1.9-alpha.1",
         "antd": "^3.22.2",
         "axios": "^0.18.0",
         "dragm": "0.0.5",

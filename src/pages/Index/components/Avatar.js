@@ -2,6 +2,7 @@ import React from 'react';
 import { Dropdown, Menu, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 import CONFIG from 'src/config';
+import { logout } from 'src/utils/Session';
 
 @inject('appStore')
 @inject('TaskStore')
@@ -56,14 +57,13 @@ class Avatar extends React.Component {
     // };
 
     logout = () => {
-        const { appStore } = this.props;
         Modal.confirm({
             title: '您确定要退出登录？',
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
             onOk() {
-                appStore.logout();
+                logout();
                 location.reload();
             }
         });

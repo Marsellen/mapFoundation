@@ -226,8 +226,13 @@ class JobStatus extends React.Component {
             await TaskStore.initSubmit(option);
             TaskStore.setActiveTask();
             this.clearWorkSpace();
-            // 提交后重新获取任务
-            await TaskStore.initTask({ type: 3 });
+            // 返工或返修不获取新任务
+            if (option.manualStatus === 4 || option.manualStatus === 5) {
+                TaskStore.initTask({ type: 4 });
+            } else {
+                // 提交后重新获取任务
+                TaskStore.initTask({ type: 3 });
+            }
             message.success('提交成功');
         } catch (e) {
             message.error(e.message, 3);
