@@ -19,7 +19,7 @@ const batchAddRels = async rels => {
 };
 
 const newRel = async (mainFeature, relFeatures) => {
-    let rels = batchCreateRel(mainFeature, relFeatures);
+    let rels = await batchCreateRel(mainFeature, relFeatures);
     await relsUniqCheck(rels);
     rels = await batchGetRelId(rels);
     return batchAddRels(rels);
@@ -106,7 +106,7 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
     }
 };
 
-const batchCreateRel = (mainFeature, relFeatures) => {
+const batchCreateRel = async (mainFeature, relFeatures) => {
     let mainLayer = mainFeature.layerName;
     let relLayer = relFeatures[0].layerName;
     let relSpecs = REL_SPEC_CONFIG.filter(rs => {
@@ -115,10 +115,13 @@ const batchCreateRel = (mainFeature, relFeatures) => {
             (rs.relObjSpec == mainLayer && rs.objSpec == relLayer)
         );
     });
-    let rels = relFeatures.map((feature, index) => {
-        index = relSpecs.length > index ? index : relSpecs.length - 1;
-        return createRelBySpecConfig(relSpecs[index], mainFeature, feature);
-    });
+    let rels = await Promise.all(
+        relFeatures.map(async (feature, index) => {
+            await relUniqCheck(mainFeature, feature);
+            index = relSpecs.length > index ? index : relSpecs.length - 1;
+            return createRelBySpecConfig(relSpecs[index], mainFeature, feature);
+        })
+    );
 
     return rels;
 };
@@ -283,22 +286,27 @@ const batchGetRelId = async rels => {
 const relsUniqCheck = rels => {
     return Promise.all(
         rels.map(rel => {
-            return relUniqCheck(rel);
+            return attrRelUniqCheck(rel);
         })
     );
 };
 
-const relUniqCheck = async rel => {
+const attrRelUniqCheck = async rel => {
+    if (!ATTR_REL_DATA_SET.includes(rel.spec)) {
+        return;
+    }
     let relStore = Relevance.store;
-    let condition, indexName, relkey;
+    let condition, indexName, relkey, relId;
     if (rel.spec === 'AD_Arrow' || rel.spec === 'AD_Text') {
         condition = [rel.relObjType, rel.relObjId];
         indexName = 'REL_OBJ_TYPE_KEYS';
         relkey = 'objType';
+        relId = 'objId';
     } else {
         condition = [rel.objType, rel.objId];
         indexName = 'OBJ_TYPE_KEYS';
         relkey = 'relObjType';
+        relId = 'relObjId';
     }
     let rels = await relStore.getAll(condition, indexName);
     let hadBeenRel = rels.some(r => r[relkey] === rel[relkey]);
@@ -306,6 +314,32 @@ const relUniqCheck = async rel => {
         let errorMessageKey = rel.objType + '_' + rel.relObjType;
         throw {
             message: HAD_BEEN_REL_ERROR[errorMessageKey]
+        };
+    }
+    hadBeenRel = rels.some(r => r[relId] === rel[relId]);
+    if (hadBeenRel) {
+        throw {
+            message: '创建失败: 关联关系重复'
+        };
+    }
+};
+
+const relUniqCheck = async (mainFeature, feature) => {
+    let rels = createAllRel(mainFeature, feature);
+
+    let relStore = Relevance.store;
+    let rs = await rels.reduce(async (total, rel) => {
+        total = await total;
+        let r = await relStore.get(
+            [rel.objType, rel.objId, rel.relObjType, rel.relObjId],
+            'REL_KEYS'
+        );
+        r && total.push(r);
+        return total;
+    }, []);
+    if (rs.length) {
+        throw {
+            message: '创建失败: 关联关系重复'
         };
     }
 };
@@ -326,5 +360,5 @@ export {
     basicCheck,
     createRelBySpecConfig,
     batchAddRels,
-    relUniqCheck
+    attrRelUniqCheck
 };

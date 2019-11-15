@@ -7,7 +7,7 @@ import {
     basicCheck,
     createRelBySpecConfig,
     batchAddRels,
-    relUniqCheck
+    attrRelUniqCheck
 } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
@@ -186,7 +186,7 @@ class AddRel extends React.Component {
                 mainFeature,
                 relFeature
             );
-            await relUniqCheck(rel);
+            await attrRelUniqCheck(rel);
             await batchAddRels([rel]);
             this.saveLog([rel]);
         } catch (e) {
