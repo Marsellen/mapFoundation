@@ -220,9 +220,9 @@ class RightMenuModal extends React.Component {
         }
 
         if (result.errorCode) {
-            let arr = result.desc.split(':');
-            let desc = arr[arr.length - 1];
-            message.warning(desc, 3);
+            // let arr = result.desc.split(':');
+            // let desc = arr[arr.length - 1];
+            message.warning('未选择打断点', 3);
             DataLayerStore.exitEdit();
             return;
         }
