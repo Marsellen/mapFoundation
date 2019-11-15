@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Modal, Form, Button } from 'antd';
+import { Modal, Form, Button, message } from 'antd';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import BasicAttributesForm from './AttributesForm/BasicAttributesForm';
 import RelationForm from './AttributesForm/RelationForm';
@@ -75,22 +75,26 @@ class AttributesModal extends React.Component {
                 return;
             }
             // console.log(values);
-            AttributeStore.submit(values).then(result => {
-                let feature = result.features[1][0];
-                DataLayerStore.updateFeature(feature);
-                let history = {
-                    type: 'updateFeatureRels',
-                    data: result
-                };
-                let log = {
-                    operateHistory: history,
-                    action: 'updateAttributes',
-                    result: 'success'
-                };
-                OperateHistoryStore.add(history);
-                editLog.store.add(log);
-            });
-            AttributeStore.hide();
+            AttributeStore.submit(values)
+                .then(result => {
+                    let feature = result.features[1][0];
+                    DataLayerStore.updateFeature(feature);
+                    let history = {
+                        type: 'updateFeatureRels',
+                        data: result
+                    };
+                    let log = {
+                        operateHistory: history,
+                        action: 'updateAttributes',
+                        result: 'success'
+                    };
+                    OperateHistoryStore.add(history);
+                    editLog.store.add(log);
+                    AttributeStore.hide();
+                })
+                .catch(e => {
+                    message.error(e.message || '更新失败: 数据重复');
+                });
         });
     };
 
