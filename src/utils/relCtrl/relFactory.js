@@ -165,19 +165,18 @@ const updateRelUniqCheck = (rels, feature) => {
         return total;
     }, {});
     if (feature.layerName === 'AD_Lane') {
-        let { L_LDIV, R_LDIV, FROM_LANE, TO_LANE } = Object.keys(rels).reduce(
-            (total, key) => {
-                let relKey = key.replace(/[0-9]/g, '');
-                if (relKey === 'L_LDIV' || relKey === 'R_LDIV') {
-                    rels[key] && (total[relKey] = rels[key]);
-                } else if (relKey === 'FROM_LANE' || relKey === 'TO_LANE') {
-                    total[relKey] = total[relKey] || [];
-                    rels[key] && total[relKey].push(rels[key]);
-                }
-                return total;
-            },
-            {}
-        );
+        let { L_LDIV, R_LDIV, FROM_LANE = [], TO_LANE = [] } = Object.keys(
+            rels
+        ).reduce((total, key) => {
+            let relKey = key.replace(/[0-9]/g, '');
+            if (relKey === 'L_LDIV' || relKey === 'R_LDIV') {
+                rels[key] && (total[relKey] = rels[key]);
+            } else if (relKey === 'FROM_LANE' || relKey === 'TO_LANE') {
+                total[relKey] = total[relKey] || [];
+                rels[key] && total[relKey].push(rels[key]);
+            }
+            return total;
+        }, {});
         if ((L_LDIV || R_LDIV) && L_LDIV === R_LDIV) {
             throw {
                 message: '左侧车道线和右侧车道线不能相同'
@@ -199,14 +198,17 @@ const updateRelUniqCheck = (rels, feature) => {
             };
         }
     } else if (feature.layerName === 'AD_Road') {
-        let { FROM_ROAD, TO_ROAD } = Object.keys(rels).reduce((total, key) => {
-            let relKey = key.replace(/[0-9]/g, '');
-            if (relKey === 'FROM_ROAD' || relKey === 'TO_ROAD') {
-                total[relKey] = total[relKey] || [];
-                rels[key] && total[relKey].push(rels[key]);
-            }
-            return total;
-        }, {});
+        let { FROM_ROAD = [], TO_ROAD = [] } = Object.keys(rels).reduce(
+            (total, key) => {
+                let relKey = key.replace(/[0-9]/g, '');
+                if (relKey === 'FROM_ROAD' || relKey === 'TO_ROAD') {
+                    total[relKey] = total[relKey] || [];
+                    rels[key] && total[relKey].push(rels[key]);
+                }
+                return total;
+            },
+            {}
+        );
         if (uniqArrayCheck(FROM_ROAD)) {
             throw {
                 message: '进入车道不能重复'
