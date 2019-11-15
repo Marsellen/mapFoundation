@@ -8,6 +8,27 @@
         top: 0;
     }
 
+    // 收起展开样式
+    table {
+        overflow: hidden;
+        table-layout: fixed;
+        width: 100%;
+        border-collapse: collapse;
+        th,
+        td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .un-ellipsis {
+            th,
+            td {
+                white-space: unset;
+            }
+        }
+    }
+
     .ant-table-body {
         max-height: 70vh;
     }
