@@ -9,15 +9,19 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 6, label: '左虚右实', icon: 'zuoxuyoushi' },
         { value: 7, label: '短粗虚线', icon: 'duancuxuxian' },
         { value: 8, label: '导流线', icon: 'daoliuxian' },
-        { value: 9, label: '车道虚拟线', icon: 'chedaoxunichedaoxian' },
-        { value: 10, label: '路边缘虚拟线', icon: 'lubianyuanxunichedaoxian' },
+        { value: 9, label: '车道虚拟车道线', icon: 'chedaoxunichedaoxian' },
+        {
+            value: 10,
+            label: '路边缘虚拟车道线',
+            icon: 'lubianyuanxunichedaoxian'
+        },
         { value: 11, label: '防护栏', icon: 'lucefanghulan' },
         { value: 12, label: '隧道墙', icon: 'suidaoqiang' },
         { value: 13, label: '路缘石', icon: 'luyuanshi' },
         { value: 14, label: '自然边界', icon: 'ziranbianjie' },
         { value: 15, label: '施工边界', icon: 'shigongbianjie' },
         { value: 16, label: '路中隔离带', icon: 'gelidaichedao' },
-        { value: 17, label: '待转待行区', icon: 'lukouneidaixingqu' },
+        { value: 17, label: '待转待行区车道线', icon: 'lukouneidaixingqu' },
         {
             value: 18,
             label: '可变导向车道线',
@@ -698,7 +702,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         },
         {
             value: 3,
-            label: '道路与铁路平面交叉道口信号灯',
+            label: '铁路交叉路口信号灯',
             icon: 'daoluyutielupingmianjiaochadaokouxinhaodeng'
         },
         {
