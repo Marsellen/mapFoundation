@@ -42,7 +42,8 @@ export default {
             type: 'Line',
             filter: ['RD_LINE'],
             order: 14,
-            showFirstLastPoint: true
+            showFirstLastPoint: true,
+            showArrow: true
         },
         AD_LANE: {
             type: 'Line',
