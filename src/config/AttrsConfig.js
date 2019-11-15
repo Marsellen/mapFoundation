@@ -43,14 +43,14 @@ export const ATTR_TABLE_CONFIG = {
         },
         {
             key: 'SIGN_NO',
-            name: '标志牌编号',
+            name: '交通标志牌编号',
             domType: 'InputNumber',
             required: true,
-            validates: 'Numeric|range|0|99'
+            validates: 'Numeric|range|1|99'
         },
         {
             key: 'SIGN_TYPE',
-            name: '标志牌类型',
+            name: '交通标志牌类型',
             type: 'AD_TS_CONTENT_SIGN_TYPE',
             domType: 'SearchIconGroup'
         },
@@ -63,7 +63,7 @@ export const ATTR_TABLE_CONFIG = {
         },
         {
             key: 'CONT_VALUE',
-            name: '标志牌语义内容',
+            name: '交通标志牌语义内容',
             disabled: true,
             domType: 'InputNumber'
         },

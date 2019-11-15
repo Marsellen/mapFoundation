@@ -108,7 +108,7 @@ class EditableCard extends React.Component {
             if (err) {
                 return;
             }
-            console.log(values);
+            //console.log(values);
             let id = value.key;
             let IDKey = getLayerIDKey(value.spec);
             onChange({
@@ -137,13 +137,13 @@ class EditableCard extends React.Component {
     };
 
     onDelete = () => {
-        const { onDelete, index } = this.props;
         Modal.confirm({
             title: '删除后无法撤回，确认删除？',
             okText: '确定',
             cancelText: '取消',
             onOk: () => {
-                onDelete(index);
+                const { onDelete, value } = this.props;
+                onDelete(value);
             }
         });
     };
