@@ -3,13 +3,21 @@ import QualityCheckService from 'src/pages/Index/service/QualityCheck';
 import { message } from 'antd';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import { COLUMNS_CONFIG } from 'src/config/CheckTableConfig';
+
+const needFilterColumns = (() => {
+    const columns = [];
+    COLUMNS_CONFIG.forEach(item => {
+        item.isFilter && columns.push(item.dataIndex);
+    });
+    return columns;
+})();
 
 configure({ enforceActions: 'always' });
 class QualityCheckStore {
-    @observable reportListInit = [];
-    @observable reportList = [];
-    @observable checkIdArr = [];
-    @observable layerNameTextArr = [];
+    @observable reportListInit = null;
+    @observable reportList = null;
+    @observable filterOption = {};
     @observable checkReportIsVisited = {};
     @observable checkReportVisible = false;
 
@@ -37,8 +45,6 @@ class QualityCheckStore {
     @action clearCheckReport = () => {
         this.reportListInit = [];
         this.reportList = [];
-        this.checkIdArr = [];
-        this.layerNameTextArr = [];
         this.checkReportIsVisited = {};
     };
 
@@ -55,7 +61,7 @@ class QualityCheckStore {
                 return false;
             }
         } catch (e) {
-            message.error(`请求失败 ${e}`);
+            message.error(`错误提示 ${e.message || e}`);
         }
     }).bind(this);
 
@@ -103,69 +109,76 @@ class QualityCheckStore {
                             }
                         })
                         .catch(e => {
-                            message.error(`请求失败 ${e}`);
+                            message.error(`错误提示 ${e.message || e}`);
+                            resolve && resolve(false);
                         });
                 } catch (e) {
-                    message.error(`请求失败 ${e}`);
+                    message.error(`错误提示 ${e.message || e}`);
                 }
             }).bind(this),
             1000
         );
     };
 
-    //筛选质检结果数据
-    @action checkFilter = (dataIndex, checkedList) => {
-        this.reportList = this.reportListInit.filter(item => {
-            if (checkedList.includes(item[dataIndex])) return true;
-        });
-    };
-
-    //全选筛选质检结果数据
-    @action checkAllFilter = checked => {
-        this.reportList = checked ? this.reportListInit.concat() : [];
-    };
-
     //处理质检结果数据
     @action handleReportRes = (data, activeTaskId) => {
+        if (data.length <= 0) {
+            this.reportListInit = [];
+            this.reportList = [];
+            return;
+        }
         const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(
             activeTaskId
         );
-        const checkIdObj = {};
-        const layerNameObj = {};
+        const filterOption = {};
 
         data.map((item, index) => {
-            const { checkId, layerName, misrepId } = item;
+            const { checkId, layerName, misrepId, repId } = item;
             const layerNameText =
                 DATA_LAYER_MAP[layerName] && DATA_LAYER_MAP[layerName].label;
-            checkIdObj[checkId] = checkId;
-            layerNameObj[layerName] = layerNameText;
             item.index = index;
-            item.visited = checkReport[index];
+            item.visited = checkReport[repId] ? checkReport[repId] : false;
+            item.visitedText = item.visited ? '是' : '否';
             item.layerNameText = layerNameText;
             item.ellipsis = true;
-            // item.checked = misrepId ? true : false;
+            item.checked = misrepId ? true : false;
+
+            needFilterColumns.map(column => {
+                filterOption[`${column}Obj`] =
+                    filterOption[`${column}Obj`] || {};
+                filterOption[`${column}Obj`][item[column]] = item[column];
+            });
+
             return item;
         });
 
+        needFilterColumns.map(column => {
+            filterOption[`${column}Arr`] = filterOption[`${column}Arr`] || [];
+            filterOption[`${column}Arr`] = Object.values(
+                filterOption[`${column}Obj`]
+            ).map(filterItem => ({ text: filterItem, value: filterItem }));
+        });
+
+        filterOption.isUpdate = true;
+        this.filterOption = { ...filterOption };
         this.reportListInit = data;
         this.reportList = data.concat();
-        this.checkIdArr = Object.values(checkIdObj);
-        this.layerNameTextArr = Object.values(layerNameObj);
     };
 
     //记录访问状态
-    @action visitedReport = (index, activeTaskId) => {
+    @action visitedReport = (record, activeTaskId) => {
+        const { index, repId } = record;
         this.reportList[index] = {
             ...this.reportList[index],
-            visited: true
+            visited: true,
+            visitedText: '是'
         };
         this.reportListInit[index] = {
             ...this.reportListInit[index],
-            visited: true
+            visited: true,
+            visitedText: '是'
         };
-        this.checkReportIsVisited[index] = {
-            visited: true
-        };
+        this.checkReportIsVisited[repId] = true;
         //访问状态记录在缓存中
         const { checkReport } = AdLocalStorage.getTaskInfosStorage(
             activeTaskId
@@ -193,7 +206,7 @@ class QualityCheckStore {
                 message.warning('请求失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`请求失败 ${e}`);
+            message.error(`错误提示 ${e.message || e}`);
         }
     }).bind(this);
 
@@ -212,7 +225,7 @@ class QualityCheckStore {
                 message.warning('请求失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`请求失败 ${e}`);
+            message.error(`错误提示 ${e.message || e}`);
         }
     }).bind(this);
 
@@ -233,7 +246,7 @@ class QualityCheckStore {
                 message.warn('获取质检结果失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`请求失败 ${e}`);
+            message.error(`错误提示 ${e.message || e}`);
         }
     });
 
@@ -255,7 +268,7 @@ class QualityCheckStore {
                 message.warning('请求失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`请求失败 ${e}`);
+            message.error(`错误提示 ${e.message || e}`);
         }
     }).bind(this);
 }

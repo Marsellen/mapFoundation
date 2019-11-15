@@ -16,7 +16,7 @@ export const COLUMNS_CONFIG = [
         dataIndex: 'checkId',
         key: 'checkId',
         isFilter: true,
-        width: 120
+        width: 110
     },
     {
         title: '检查名称',
@@ -28,19 +28,26 @@ export const COLUMNS_CONFIG = [
         title: '要素id',
         dataIndex: 'featureId',
         key: 'featureId',
-        width: 65
+        width: 75
     },
     {
         title: '图层',
         dataIndex: 'layerNameText',
         key: 'layerNameText',
         isFilter: true,
-        width: 120
+        width: 110
     },
     {
         title: '错误描述',
         dataIndex: 'errorDesc',
         key: 'errorDesc',
-        width: 300
+        width: 290
+    },
+    {
+        title: '是否查看',
+        dataIndex: 'visitedText',
+        key: 'visitedText',
+        width: 100,
+        isFilter: true
     }
 ];

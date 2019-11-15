@@ -136,7 +136,7 @@ class QualityCheckResult extends React.Component {
             case 'quality':
                 handleQualityGetMisreport({
                     taskId: activeTaskId,
-                    status: '1,4'
+                    status: '1,2,4'
                 });
                 break;
             default:
