@@ -189,12 +189,12 @@ class QualityCheckResultTable extends React.Component {
     //展开哪一行
     openRowStyle = index => {
         const currentRow = document.querySelector(`.check-table-row-${index}`);
-        const activeRow = document.querySelector('.open');
+        const activeRow = document.querySelector('.un-ellipsis');
 
         if (currentRow != activeRow) {
-            activeRow && activeRow.classList.remove('open');
+            activeRow && activeRow.classList.remove('un-ellipsis');
         }
-        currentRow && currentRow.classList.toggle('open');
+        currentRow && currentRow.classList.toggle('un-ellipsis');
         this.setState({
             currentIndex: index
         });
@@ -316,8 +316,8 @@ class QualityCheckResultTable extends React.Component {
 
     //移除“展开样式”
     removeOpenStyle = () => {
-        const currentOpenRow = document.querySelector('.open');
-        currentOpenRow && currentOpenRow.classList.remove('open');
+        const currentOpenRow = document.querySelector('.un-ellipsis');
+        currentOpenRow && currentOpenRow.classList.remove('un-ellipsis');
     };
 
     //方向快捷键
