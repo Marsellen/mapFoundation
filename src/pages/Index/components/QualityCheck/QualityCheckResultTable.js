@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConfigProvider, Checkbox } from 'antd';
+import { ConfigProvider, Checkbox, Button, Pagination } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { COLUMNS_CONFIG } from 'src/config/CheckTableConfig';
@@ -7,7 +7,6 @@ import { shortcut } from 'src/utils/shortcuts';
 import AdTable from 'src/components/AdTable';
 import zh_CN from 'antd/es/locale/zh_CN';
 
-const CheckboxGroup = Checkbox.Group;
 const showTotal = total => `共${total}条`;
 
 @inject('TaskStore')
@@ -20,26 +19,29 @@ class QualityCheckResultTable extends React.Component {
     checkReportTable = null;
     checkReportTableRow = null;
     checkReportTableRowH = null;
+    scrollTop = 0;
+
     state = {
-        indeterminate: false,
-        checkAll: true,
         currentIndex: -1,
         columns: [],
         currentPage: 1,
-        pageSize: 10
+        pageSize: 10,
+        filteredInfo: null,
+        filterOption: {}
     };
 
     render() {
         const { columns, currentPage } = this.state;
         const { QualityCheckStore } = this.props;
         const { reportList, reportListL } = QualityCheckStore;
+
         return (
             <div
                 onKeyUp={e => this.handleKeyUp(e)}
                 onKeyDown={e => this.handleKeyDown(e)}>
                 <ConfigProvider locale={zh_CN}>
                     <AdTable
-                        dataSource={reportList.slice()}
+                        dataSource={reportList}
                         columns={columns}
                         onRow={record => {
                             return {
@@ -57,7 +59,9 @@ class QualityCheckResultTable extends React.Component {
                             showTotal: showTotal,
                             showSizeChanger: true,
                             onChange: this.handlePagination,
-                            onShowSizeChange: this.handlePagination
+                            onShowSizeChange: this.handlePagination,
+                            pageSizeOptions: ['10', '20', '30', '40', '50'],
+                            className: 'check-table-pagination'
                         }}
                         className="check-result-table"
                         onChange={this.handleTableChange}
@@ -65,203 +69,39 @@ class QualityCheckResultTable extends React.Component {
                         scroll={{ y: 170 }}
                         isHandleBody={true}
                     />
+                    <div className="check-table-footer">
+                        <Button
+                            className="reset-button"
+                            onClick={this.clearFilters}>
+                            筛选重置
+                        </Button>
+                    </div>
                 </ConfigProvider>
             </div>
         );
     }
 
     componentDidMount() {
+        if (!this.props.QualityCheckStore) return;
+        this.qualityCheckTabelColumns();
         this.checkReportTable = document.querySelector(
             '.check-result-table .ant-table-body'
         );
     }
 
     componentWillReceiveProps() {
+        if (!this.props.QualityCheckStore) return;
         this.qualityCheckTabelColumns();
     }
 
-    handleKeyDown = event => {
-        event.preventDefault();
-        event.stopPropagation();
-    };
-
-    //方向快捷键
-    handleKeyUp = event => {
-        shortcut.add(event, [
-            {
-                ctrl: false,
-                alt: false,
-                shift: false,
-                keyCode: 38,
-                callback: () => {
-                    const { currentIndex, currentPage, pageSize } = this.state;
-                    const minPage = currentPage * pageSize - pageSize + 1;
-                    if (currentIndex < minPage) return;
-                    const prevIndex = currentIndex - 1;
-                    this.activeRowStyle(prevIndex);
-                    this.setState({ currentIndex: prevIndex });
-                    this.checkReportTable.scrollTop -= this.checkReportTableRowH;
-                },
-                describe: '↑'
-            },
-            {
-                ctrl: false,
-                alt: false,
-                shift: false,
-                keyCode: 40,
-                callback: () => {
-                    const { currentIndex, currentPage, pageSize } = this.state;
-                    const { QualityCheckStore } = this.props;
-                    const { reportListL } = QualityCheckStore;
-                    const maxPageSize = Math.ceil(reportListL / pageSize);
-                    const maxPage =
-                        currentPage === maxPageSize
-                            ? reportListL
-                            : currentPage * pageSize;
-                    const nextIndex = currentIndex + 1;
-                    if (nextIndex >= maxPage) return;
-                    this.activeRowStyle(nextIndex);
-                    this.setState({ currentIndex: nextIndex });
-                    this.checkReportTable.scrollTop += this.checkReportTableRowH;
-                },
-                describe: '↓'
-            },
-            {
-                ctrl: false,
-                alt: false,
-                shift: false,
-                keyCode: 37,
-                callback: () => {
-                    let { currentPage } = this.state;
-                    if (currentPage <= 1) return;
-                    this.setState(
-                        {
-                            currentPage: --currentPage
-                        },
-                        this.qualityCheckTabelColumns
-                    );
-                },
-                describe: '←'
-            },
-            {
-                ctrl: false,
-                alt: false,
-                shift: false,
-                keyCode: 39,
-                callback: () => {
-                    let { currentPage, pageSize } = this.state;
-                    const { QualityCheckStore } = this.props;
-                    const { reportListL } = QualityCheckStore;
-                    const maxPageSize = Math.ceil(reportListL / pageSize);
-                    if (currentPage >= maxPageSize) return;
-                    this.setState({
-                        currentPage: ++currentPage
-                    });
-                },
-                describe: '→'
-            }
-        ]);
-    };
-
     handlePagination = (current, size) => {
-        this.setState({
-            currentPage: current,
-            pageSize: size
-        });
-    };
-
-    getCurrentCheckedList = dataIndex => {
-        const { QualityCheckStore } = this.props;
-        const { reportList } = QualityCheckStore;
-        const currentCheckList = {};
-        reportList.forEach(item => {
-            const value = item[dataIndex];
-            currentCheckList[value] = value;
-        });
-        return Object.values(currentCheckList);
-    };
-
-    handleCheckChange = (checkedList, dataIndex, filterKeys) => {
-        const { QualityCheckStore } = this.props;
-        const { checkFilter } = QualityCheckStore;
-
-        this.setState({
-            [dataIndex]: checkedList,
-            indeterminate:
-                !!checkedList.length && checkedList.length < filterKeys.length,
-            checkAll: checkedList.length === filterKeys.length
-        });
-
-        checkFilter(dataIndex, checkedList);
-    };
-
-    handleCheckAllChange = (e, dataIndex, filterKeys) => {
-        const { checked } = e.target;
-        const { QualityCheckStore } = this.props;
-        const { checkAllFilter } = QualityCheckStore;
-
-        this.setState({
-            [dataIndex]: checked ? filterKeys : [],
-            indeterminate: false,
-            checkAll: checked
-        });
-
-        checkAllFilter(checked);
-    };
-
-    getColumnSearchProps = (dataIndex, filterKeys) => {
-        return {
-            filterDropdown: filterFuntion => {
-                const { indeterminate, checkAll } = this.state;
-                const checkedList = this.state[dataIndex] || [];
-                return (
-                    <div style={{ padding: 8 }}>
-                        <p>
-                            <Checkbox
-                                indeterminate={indeterminate}
-                                onChange={e =>
-                                    this.handleCheckAllChange(
-                                        e,
-                                        dataIndex,
-                                        filterKeys
-                                    )
-                                }
-                                checked={checkAll}>
-                                全选
-                            </Checkbox>
-                        </p>
-                        <CheckboxGroup
-                            className="ad-checkbox-group"
-                            options={filterKeys.slice()}
-                            value={checkedList}
-                            onChange={e =>
-                                this.handleCheckChange(e, dataIndex, filterKeys)
-                            }
-                        />
-                    </div>
-                );
+        this.setState(
+            {
+                currentPage: current,
+                pageSize: size
             },
-            onFilterDropdownVisibleChange: visible => {
-                if (visible) {
-                    const { QualityCheckStore } = this.props;
-                    const checkedList = this.state[dataIndex] || [];
-                    const checkListInit = QualityCheckStore[`${dataIndex}Arr`];
-                    const currentCheckList = this.getCurrentCheckedList(
-                        dataIndex
-                    );
-                    this.setState({
-                        [dataIndex]: checkedList
-                            ? currentCheckList
-                            : filterKeys,
-                        indeterminate:
-                            !!currentCheckList.length &&
-                            currentCheckList.length < checkListInit.length,
-                        checkAll:
-                            currentCheckList.length === checkListInit.length
-                    });
-                }
-            }
-        };
+            this.qualityCheckTabelColumns
+        );
     };
 
     handleResize = index => (e, { size }) => {
@@ -275,11 +115,16 @@ class QualityCheckResultTable extends React.Component {
         });
     };
 
+    clearFilters = () => {
+        this.setState({ filteredInfo: null }, this.qualityCheckTabelColumns);
+    };
+
     qualityCheckTabelColumns = () => {
         const _ = this;
         const { QualityCheckStore } = this.props;
-        const { reportListL } = QualityCheckStore;
-        if (reportListL <= 0) return;
+        let { filterOption } = QualityCheckStore;
+        let { filteredInfo } = this.state;
+        filteredInfo = filteredInfo || {};
 
         const currentColumns = COLUMNS_CONFIG.map((item, index) => {
             const { key, isFilter, dataIndex } = item;
@@ -291,21 +136,14 @@ class QualityCheckResultTable extends React.Component {
                     onResize: this.handleResize(index)
                 }),
                 onCell: record => ({
-                    className: record.visited && 'visited'
+                    className: record.visited ? 'visited' : ''
                 }),
                 render: (text, record, index) => {
                     switch (key) {
                         case 'index':
                             return text + 1;
-                        case 'errorDesc':
-                            return (
-                                <div
-                                    onClick={() =>
-                                        this.openRowStyle(record.index)
-                                    }>
-                                    {text}
-                                </div>
-                            );
+                        case 'visitedText':
+                            return record.visited ? '√' : '';
                         default:
                             return text;
                     }
@@ -315,10 +153,9 @@ class QualityCheckResultTable extends React.Component {
             if (isFilter) {
                 item = {
                     ...item,
-                    ...this.getColumnSearchProps(
-                        dataIndex,
-                        QualityCheckStore[`${dataIndex}Arr`]
-                    )
+                    filters: filterOption[`${dataIndex}Arr`],
+                    filteredValue: filteredInfo[dataIndex] || null,
+                    onFilter: (value, record) => record[dataIndex] == value
                 };
             }
 
@@ -326,7 +163,7 @@ class QualityCheckResultTable extends React.Component {
         });
 
         currentColumns.push({
-            title: '是否无需修改',
+            title: '无需修改',
             dataIndex: 'misrepId',
             key: 'misrepId',
             align: 'center',
@@ -345,19 +182,19 @@ class QualityCheckResultTable extends React.Component {
 
         const { columns } = this.state;
         this.setState({
-            columns: columns.length > 0 ? [...columns] : [...currentColumns]
+            columns: filterOption.isUpdate ? [...currentColumns] : [...columns]
         });
     };
 
     //展开哪一行
     openRowStyle = index => {
         const currentRow = document.querySelector(`.check-table-row-${index}`);
-        const activeRow = document.querySelector('.open');
+        const activeRow = document.querySelector('.un-ellipsis');
 
         if (currentRow != activeRow) {
-            activeRow && activeRow.classList.remove('open');
+            activeRow && activeRow.classList.remove('un-ellipsis');
         }
-        currentRow && currentRow.classList.toggle('open');
+        currentRow && currentRow.classList.toggle('un-ellipsis');
         this.setState({
             currentIndex: index
         });
@@ -381,20 +218,31 @@ class QualityCheckResultTable extends React.Component {
                 '.check-table-row'
             );
             this.checkReportTableRowH = this.checkReportTableRow.offsetHeight;
+            //变色
             this.activeRowStyle(record.index);
+            //展开
+            this.openRowStyle(record.index);
+            this.scrollTop = this.checkReportTable.scrollTop;
         };
     };
 
     //双击
     tableOnDoubleClick = record => {
         return e => {
-            //已访问
-            const { QualityCheckStore, TaskStore } = this.props;
+            const { QualityCheckStore, TaskStore, DataLayerStore } = this.props;
             const { visitedReport } = QualityCheckStore;
             const { activeTaskId } = TaskStore;
             let { layerName, featureId, index } = record;
-            visitedReport(index, activeTaskId);
-            //定位
+            //已访问
+            visitedReport(record, activeTaskId);
+            //展开
+            this.openRowStyle(index);
+            //定位，判断是否为可定位图层
+            const isValidLayer = DataLayerStore.layers.find(
+                item => item.value === layerName
+            );
+            if (!isValidLayer) return;
+
             let IDKey = getLayerIDKey(layerName);
             let option = {
                 key: IDKey,
@@ -406,9 +254,11 @@ class QualityCheckResultTable extends React.Component {
             map.setView('U');
             map.setExtent(extent);
             this.showAttributesModal(feature);
+            this.scrollTop = this.checkReportTable.scrollTop;
         };
     };
 
+    //显示属性框
     showAttributesModal = obj => {
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
@@ -420,6 +270,7 @@ class QualityCheckResultTable extends React.Component {
         AttributeStore.show(readonly);
     };
 
+    //处理勾选
     handleChange = (e, record, index) => {
         const { QualityCheckStore, appStore } = this.props;
         const {
@@ -445,6 +296,114 @@ class QualityCheckResultTable extends React.Component {
             default:
                 break;
         }
+    };
+
+    //处理表格变化
+    handleTableChange = (pagination, filters, sorter) => {
+        this.setState(
+            {
+                filteredInfo: filters
+            },
+            this.qualityCheckTabelColumns
+        );
+    };
+
+    //阻止keyDown默认事件
+    handleKeyDown = event => {
+        event.preventDefault();
+        event.stopPropagation();
+    };
+
+    //移除“展开样式”
+    removeOpenStyle = () => {
+        const currentOpenRow = document.querySelector('.un-ellipsis');
+        currentOpenRow && currentOpenRow.classList.remove('un-ellipsis');
+    };
+
+    //方向快捷键
+    handleKeyUp = event => {
+        shortcut.add(event, [
+            {
+                ctrl: false,
+                alt: false,
+                shift: false,
+                keyCode: 38,
+                callback: () => {
+                    const { currentIndex, currentPage, pageSize } = this.state;
+                    const minPage = currentPage * pageSize - pageSize + 1;
+                    if (currentIndex < minPage) return;
+                    const prevIndex = currentIndex - 1;
+                    this.activeRowStyle(prevIndex);
+                    this.setState({ currentIndex: prevIndex });
+                    const currentScrollTop =
+                        this.scrollTop - this.checkReportTableRowH;
+                    this.checkReportTable.scrollTop = currentScrollTop;
+                    this.scrollTop = currentScrollTop;
+                    this.removeOpenStyle();
+                },
+                describe: '↑'
+            },
+            {
+                ctrl: false,
+                alt: false,
+                shift: false,
+                keyCode: 40,
+                callback: () => {
+                    const { currentIndex, currentPage, pageSize } = this.state;
+                    const { QualityCheckStore } = this.props;
+                    const { reportListL } = QualityCheckStore;
+                    const maxPageSize = Math.ceil(reportListL / pageSize);
+                    const maxPage =
+                        currentPage === maxPageSize
+                            ? reportListL
+                            : currentPage * pageSize;
+                    const nextIndex = currentIndex + 1;
+                    if (nextIndex >= maxPage) return;
+                    this.activeRowStyle(nextIndex);
+                    this.setState({ currentIndex: nextIndex });
+                    const currentScrollTop =
+                        this.scrollTop + this.checkReportTableRowH;
+                    this.checkReportTable.scrollTop = currentScrollTop;
+                    this.scrollTop = currentScrollTop;
+                    this.removeOpenStyle();
+                },
+                describe: '↓'
+            },
+            {
+                ctrl: false,
+                alt: false,
+                shift: false,
+                keyCode: 37,
+                callback: () => {
+                    let { currentPage } = this.state;
+                    if (currentPage <= 1) return;
+                    this.setState(
+                        {
+                            currentPage: currentPage - 1
+                        },
+                        this.qualityCheckTabelColumns
+                    );
+                },
+                describe: '←'
+            },
+            {
+                ctrl: false,
+                alt: false,
+                shift: false,
+                keyCode: 39,
+                callback: () => {
+                    let { currentPage, pageSize } = this.state;
+                    const { QualityCheckStore } = this.props;
+                    const { reportListL } = QualityCheckStore;
+                    const maxPageSize = Math.ceil(reportListL / pageSize);
+                    if (currentPage >= maxPageSize) return;
+                    this.setState({
+                        currentPage: currentPage + 1
+                    });
+                },
+                describe: '→'
+            }
+        ]);
     };
 }
 

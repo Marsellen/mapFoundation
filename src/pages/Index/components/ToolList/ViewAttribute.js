@@ -92,6 +92,7 @@ class ViewAttribute extends React.Component {
                     }}
                     bordered
                     size="small"
+                    rowClassName={record => `table-row-${record.index}`}
                     pagination={{
                         total: dataSource.length,
                         pageSize: 10,
@@ -237,6 +238,20 @@ class ViewAttribute extends React.Component {
             : item.value;
     };
 
+    //展开哪一行
+    openRowStyle = index => {
+        const currentRow = document.querySelector(`.table-row-${index}`);
+        const activeRow = document.querySelector('.un-ellipsis');
+
+        if (currentRow != activeRow) {
+            activeRow && activeRow.classList.remove('un-ellipsis');
+        }
+        currentRow && currentRow.classList.toggle('un-ellipsis');
+        this.setState({
+            currentIndex: index
+        });
+    };
+
     tableOnClick = record => {
         return e => {
             let { layerName } = this.state;
@@ -249,6 +264,8 @@ class ViewAttribute extends React.Component {
             let layer = getLayerByName(layerName);
             let feature = layer.getFeatureByOption(option).properties;
             this.showAttributesModal(feature);
+            //展开
+            this.openRowStyle(record.index);
         };
     };
 
@@ -267,6 +284,8 @@ class ViewAttribute extends React.Component {
             console.log(extent);
             map.setView('U');
             map.setExtent(extent);
+            //展开
+            this.openRowStyle(record.index);
         };
     };
 

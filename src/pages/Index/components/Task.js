@@ -139,9 +139,9 @@ class Task extends React.Component {
         TaskStore.setActiveTask(id);
         this.clearWorkSpace();
         if (isEdit) {
+            this.openCheckReport();
             let boundaryLayerGroup = await TaskStore.startTaskEdit(id);
             this.fetchLayerGroup(boundaryLayerGroup);
-            this.openCheckReport();
             window.map && window.map.enableRotate();
             DataLayerStore.disableRegionSelect();
         }

@@ -117,7 +117,7 @@ class JobStatus extends React.Component {
             okText: '确定',
             cancelText: '取消',
             autoFocusButton: null,
-            onOk: () => this.taskSubmit(option)
+            onOk: () => this.handleTaskSubmit(option)
         });
     };
 
@@ -146,11 +146,10 @@ class JobStatus extends React.Component {
         return await handleProducerGetReport({ task_id: taskId });
     };
 
-    //质检结果提示
-    checkModal = content => {
+    //质检有报表提示
+    hasReportModal = content => {
         const { QualityCheckStore } = this.props;
         const { openCheckReport } = QualityCheckStore;
-
         Modal.confirm({
             title: '质检提示',
             content,
@@ -161,59 +160,70 @@ class JobStatus extends React.Component {
         });
     };
 
+    //质检无报表提示
+    noReportModal = (content, option) => {
+        Modal.confirm({
+            title: '质检提示',
+            content,
+            okText: '提交',
+            cancelText: '取消',
+            autoFocusButton: null,
+            onOk: () => this.taskSubmit(option)
+        });
+    };
+
     handleCheck = async option => {
         const { QualityCheckStore, appStore } = this.props;
         const { loginUser } = appStore;
         const { roleCode } = loginUser;
-        const { isAllVisited, isAllChecked } = QualityCheckStore;
+        const {
+            isAllVisited,
+            isAllChecked,
+            openCheckReport
+        } = QualityCheckStore;
         const { manualStatus } = option;
         const taskStatus = MANUALSTATUS[manualStatus] || '提交';
 
+        if (!isAllVisited) {
+            const modalContent = `质检报表存在未查看检查条目，当前任务不允许${taskStatus}`;
+            message.warning(modalContent);
+            openCheckReport();
+            return false;
+        }
+
         switch (roleCode) {
             case 'producer':
-                // if (isAllVisited) {
                 const reportList = await this.check();
                 if (!reportList) return false;
-
                 const reportListL = reportList.length;
                 if (reportListL > 0) {
                     const modalContent = `质量检查结束，发现${reportListL}个错误，是否查看？`;
-                    this.checkModal(modalContent);
+                    this.hasReportModal(modalContent);
+                    return false;
+                } else {
+                    const modalContent = `质量检查结束，未发现数据问题，任务可正常提交`;
+                    this.noReportModal(modalContent, option);
                     return false;
                 }
-                return true;
-                // } else {
-                //     const modalContent = `存在未查看检查条目，当前任务不允许${taskStatus}`;
-                //     message.warning(modalContent);
-                //     return false;
-                // }
-                break;
             case 'quality':
-                // if (isAllVisited) {
                 if (!isAllChecked && taskStatus === '提交') {
                     const modalContent = `存在需返修条目，当前任务不允许提交`;
                     message.warning(modalContent);
                     return false;
                 }
                 return true;
-                // } else {
-                //     const modalContent = `存在未查看检查条目，当前任务不允许${taskStatus}`;
-                //     message.warning(modalContent);
-                //     return false;
-                // }
-                break;
             default:
                 break;
         }
     };
 
-    taskSubmit = async option => {
+    handleTaskSubmit = async option => {
         const { OperateHistoryStore, QualityCheckStore } = this.props;
         const { currentNode, savedNode } = OperateHistoryStore;
         const { closeCheckReport } = QualityCheckStore;
         const shouldSave = currentNode > savedNode;
-        const { TaskStore } = this.props;
 
+        //保存
         if (shouldSave) {
             await this.action();
         }
@@ -222,6 +232,14 @@ class JobStatus extends React.Component {
         const res = await this.handleCheck(option);
         if (!res) return false;
 
+        //提交
+        this.taskSubmit(option);
+
+        closeCheckReport(); //关闭质检弹窗
+    };
+
+    taskSubmit = async option => {
+        const { TaskStore } = this.props;
         try {
             await TaskStore.initSubmit(option);
             TaskStore.setActiveTask();
@@ -237,7 +255,6 @@ class JobStatus extends React.Component {
         } catch (e) {
             message.error(e.message, 3);
         }
-        closeCheckReport(); //关闭质检弹窗
     };
 
     // 自动保存
@@ -301,7 +318,7 @@ class JobStatus extends React.Component {
     };
 
     submitTask = e => {
-        e.target.blur(); //在click事件中主动去掉button的焦点，回车就不会触发click
+        e || e.target || e.target.blur(); //在click事件中主动去掉button的焦点，回车就不会触发click
 
         const { appStore } = this.props;
         const { loginUser } = appStore;
