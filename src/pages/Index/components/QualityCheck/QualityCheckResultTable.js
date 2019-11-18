@@ -26,8 +26,7 @@ class QualityCheckResultTable extends React.Component {
         columns: [],
         currentPage: 1,
         pageSize: 10,
-        filteredInfo: null,
-        filterOption: {}
+        filteredInfo: null
     };
 
     render() {
@@ -66,7 +65,7 @@ class QualityCheckResultTable extends React.Component {
                         className="check-result-table"
                         onChange={this.handleTableChange}
                         rowKey={record => `checkResult_${record.index}`}
-                        scroll={{ y: 170 }}
+                        scroll={{ y: 170, x:'100%' }}
                         isHandleBody={true}
                     />
                     <div className="check-table-footer">
@@ -121,6 +120,7 @@ class QualityCheckResultTable extends React.Component {
 
     qualityCheckTabelColumns = () => {
         const _ = this;
+        const { columns } = this.state;
         const { QualityCheckStore } = this.props;
         let { filterOption } = QualityCheckStore;
         let { filteredInfo } = this.state;
@@ -130,6 +130,7 @@ class QualityCheckResultTable extends React.Component {
             const { key, isFilter, dataIndex } = item;
             item = {
                 ...item,
+                ...columns[index],
                 align: 'center',
                 onHeaderCell: column => ({
                     width: column.width,
@@ -180,10 +181,11 @@ class QualityCheckResultTable extends React.Component {
             }
         });
 
-        const { columns } = this.state;
-        this.setState({
-            columns: filterOption.isUpdate ? [...currentColumns] : [...columns]
-        });
+        if (filterOption.isUpdate) {
+            this.setState({
+                columns: currentColumns
+            });
+        }
     };
 
     //展开哪一行
