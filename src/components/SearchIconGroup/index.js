@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tooltip, AutoComplete } from 'antd';
-import AdSelect from 'src/components/Form/Select';
+import AdSelect from 'src/components/Form/AdSelect';
 import IconFont from '../IconFont';
 import './index.less';
 
