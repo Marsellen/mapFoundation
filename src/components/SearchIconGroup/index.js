@@ -1,5 +1,6 @@
 import React from 'react';
-import { Tooltip, AutoComplete, Select } from 'antd';
+import { Tooltip, AutoComplete } from 'antd';
+import AdSelect from 'src/components/Form/AdSelect';
 import IconFont from '../IconFont';
 import './index.less';
 
@@ -23,7 +24,7 @@ class SearchIconGroup extends React.Component {
         return (
             <div className="attr-icon-box search-icon-box">
                 <span className="search-label-icon">{content.label}</span>
-                <Select
+                <AdSelect
                     showSearch
                     value={content.label}
                     onChange={this.ChooseIcon}
@@ -39,7 +40,7 @@ class SearchIconGroup extends React.Component {
                             {`${opt.value}-${opt.label}`}
                         </Option>
                     ))}
-                </Select>
+                </AdSelect>
                 <div className="set-icon-group">
                     {options.map((option, index) => {
                         return (
