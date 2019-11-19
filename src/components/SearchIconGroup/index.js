@@ -1,10 +1,10 @@
 import React from 'react';
-import { Tooltip, AutoComplete } from 'antd';
+import { Tooltip, Select } from 'antd';
 import AdSelect from 'src/components/Form/AdSelect';
 import IconFont from '../IconFont';
 import './index.less';
 
-const { Option } = AutoComplete;
+const { Option } = Select;
 
 class SearchIconGroup extends React.Component {
     constructor() {

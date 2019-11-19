@@ -105,7 +105,7 @@ class ViewAttribute extends React.Component {
                     title={() => (
                         <Search
                             placeholder="请输入用户编号..."
-                            onSearch={this.AdSearch}
+                            onSearch={this.onSearch}
                             style={{ width: '100%' }}
                         />
                     )}
@@ -114,7 +114,7 @@ class ViewAttribute extends React.Component {
         );
     };
 
-    AdSearch = val => {
+    onSearch = val => {
         const { layerName } = this.state;
         let dataSource = getLayerItems(layerName);
         let IDKey = getLayerIDKey(layerName);

@@ -2,9 +2,9 @@ import React from 'react';
 import { Select } from 'antd';
 
 export default class AdSelect extends React.Component {
-    handleKeyUp = e => {
+    handleKeyDown = e => {
         e.stopPropagation();
-        this.props.onKeyUp && this.props.onKeyUp();
+        this.props.onKeyDown && this.props.onKeyDown();
         return false;
     };
     render() {
@@ -12,7 +12,7 @@ export default class AdSelect extends React.Component {
             <Select
                 showSearch
                 {...this.props}
-                onInputKeyDown={e => this.handleKeyUp(e)}
+                onInputKeyDown={e => this.handleKeyDown(e)}
             />
         );
     }
