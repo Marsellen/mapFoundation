@@ -16,6 +16,7 @@ import {
     getLayerIDKey,
     getLayerByName
 } from '../vectorUtils';
+import { message } from 'antd';
 
 const deleteLine = async features => {
     let { rels, attrs } = await features.reduce(
@@ -78,6 +79,7 @@ const breakLine = async (breakPoint, features, task_id) => {
     };
     await updateFeatures(historyLog);
 
+    message.success(result.message, 3);
     return historyLog;
 };
 
@@ -96,6 +98,7 @@ const mergeLine = async (features, task_id) => {
     };
     await updateFeatures(historyLog);
 
+    message.success(result.message, 3);
     return historyLog;
 };
 

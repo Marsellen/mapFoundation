@@ -2,6 +2,7 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import editLog from 'src/models/editLog';
+import AdEmitter from 'src/models/event';
 
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
@@ -39,6 +40,7 @@ class Redo extends React.Component {
             DataLayerStore.exitEdit();
             AttributeStore.hide();
             AttributeStore.hideRelFeatures();
+            AdEmitter.emit('fetchViewAttributeData');
         });
     };
 }
