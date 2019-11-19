@@ -29,7 +29,7 @@ class TaskStore {
     @observable editTaskId;
 
     @computed get validTasks() {
-        return this.tasks.filter(task => task.manualStatus !== 3);
+        return this.tasks.filter(task => task.manualStatus !== 3); // 3 任务挂起
     }
 
     @computed get activeTaskId() {
@@ -45,7 +45,7 @@ class TaskStore {
     }
 
     @computed get isValidTask() {
-        return this.activeTask && this.activeTask.manualStatus !== 3;
+        return this.activeTask && this.activeTask.manualStatus !== 3; // 3 任务挂起
     }
 
     @computed get isEditableTask() {
