@@ -2,7 +2,7 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { Modal, Button, Form } from 'antd';
-import AdInput from 'src/components/Form/Input';
+import AdInput from 'src/components/Form/AdInput';
 
 const formLayout = {
     labelCol: { span: 4 },

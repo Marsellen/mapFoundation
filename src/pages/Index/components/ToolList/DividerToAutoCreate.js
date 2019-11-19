@@ -199,7 +199,7 @@ class DividerToAutoCreate extends React.Component {
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let readonly =
-            !editLayer || (editLayer && editLayer.layerName !== obj.layerName);
+            (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         AttributeStore.setModel(obj);
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.setFeatureColor(obj, 0xcc00ff);

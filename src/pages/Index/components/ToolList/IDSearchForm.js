@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Select } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
-import AdInputNumber from 'src/components/Form/InputNumber';
+import AdInputNumber from 'src/components/Form/AdInputNumber';
 const FormItem = Form.Item;
 
 @Form.create()
@@ -12,8 +12,6 @@ class IDSearchForm extends React.Component {
     render() {
         const { DataLayerStore, form } = this.props;
         let options = DataLayerStore.layers || [];
-        let editLayer = DataLayerStore.getEditLayer();
-        let defaultValue = editLayer ? editLayer.layerName : null;
 
         return (
             <Form labelCol={{ span: 10 }} wrapperCol={{ span: 12 }}>

@@ -1,4 +1,4 @@
-import { observable, flow, configure, action, computed } from 'mobx';
+import { observable, flow, configure, computed } from 'mobx';
 import { getAuthentication, authenticateSuccess } from '../utils/Session';
 import AppService from '../services/AppService';
 

@@ -281,7 +281,7 @@ class VizCompnent extends React.Component {
 
         //监听浏览器即将离开当前页面事件
         window.onbeforeunload = function(e) {
-            var e = window.event || e;
+            e = window.event || e;
             e.returnValue = `确定离开当前页面吗？`;
 
             //保存当前任务比例
@@ -455,7 +455,7 @@ class VizCompnent extends React.Component {
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let readonly =
-            !editLayer || (editLayer && editLayer.layerId !== obj.layerId);
+            (editLayer && editLayer.layerId !== obj.layerId) || !editLayer;
         AttributeStore.show(readonly);
         AttributeStore.setModel(obj);
     };

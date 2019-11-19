@@ -41,7 +41,7 @@ export default class RcViewer extends Component {
         }
     }
     render() {
-        const { options = {}, children, ...others } = this.props;
+        const { children, ...others } = this.props;
         return (
             <div
                 ref={container => {

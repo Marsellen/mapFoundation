@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import editLog from 'src/models/editLog';
 import 'less/components/jobstatus.less';
-import { breakLine } from 'src/utils/relCtrl/operateCtrl';
 
 const MANUALSTATUS = {
     4: '返修',
@@ -322,14 +321,20 @@ class JobStatus extends React.Component {
 
         const { appStore } = this.props;
         const { loginUser } = appStore;
-        switch (loginUser.roleCode) {
-            case 'quality':
-                this.showQualityComfirm();
-                break;
-            default:
-                this.submitJob(this.submitOption);
-                break;
+        if (loginUser.roleCode === 'quality') {
+            return this.showQualityComfirm();
+        } else {
+            return this.submitJob(this.submitOption);
         }
+
+        // switch (loginUser.roleCode) {
+        //     case 'quality':
+        //         this.showQualityComfirm();
+        //         break;
+        //     default:
+        //         this.submitJob(this.submitOption);
+        //         break;
+        // }
     };
 
     showQualityComfirm = () => {
