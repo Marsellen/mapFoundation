@@ -8,7 +8,7 @@ import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import 'less/components/tool-icon.less';
 import 'less/components/uturn-line.less';
-import AdInputNumber from 'src/components/Form/InputNumber';
+import AdInputNumber from 'src/components/Form/AdInputNumber';
 import AdEmitter from 'src/models/event';
 
 @inject('DataLayerStore')
@@ -335,7 +335,7 @@ class HalfAutoCreate extends React.Component {
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let readonly =
-            !editLayer || (editLayer && editLayer.layerName !== obj.layerName);
+            (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         AttributeStore.setModel(obj);
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.setFeatureColor(obj, 0xcc00ff);

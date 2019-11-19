@@ -159,11 +159,11 @@ export const tableFormat = (record, config, count) => {
 };
 
 const updateRelUniqCheck = (rels, feature) => {
-    let rel = Object.keys(rels).reduce((total, key) => {
-        let relKey = key.replace(/[0-9]/g, '');
-        total[relKey] = rels[key];
-        return total;
-    }, {});
+    // let rel = Object.keys(rels).reduce((total, key) => {
+    //     let relKey = key.replace(/[0-9]/g, '');
+    //     total[relKey] = rels[key];
+    //     return total;
+    // }, {});
     if (feature.layerName === 'AD_Lane') {
         let { L_LDIV, R_LDIV, FROM_LANE = [], TO_LANE = [] } = Object.keys(
             rels

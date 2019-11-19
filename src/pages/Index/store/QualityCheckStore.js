@@ -133,7 +133,7 @@ class QualityCheckStore {
         const filterOption = {};
 
         data.map((item, index) => {
-            const { checkId, layerName, misrepId, repId } = item;
+            const { layerName, misrepId, repId } = item;
             const layerNameText =
                 DATA_LAYER_MAP[layerName] && DATA_LAYER_MAP[layerName].label;
             item.index = index;

@@ -4,8 +4,8 @@ import { Form, Select } from 'antd';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
-import AdInput from 'src/components/Form/Input';
-import AdInputNumber from 'src/components/Form/InputNumber';
+import AdInput from 'src/components/Form/AdInput';
+import AdInputNumber from 'src/components/Form/AdInputNumber';
 import { getValidator } from 'src/utils/form/validator';
 
 const formItemLayout = {

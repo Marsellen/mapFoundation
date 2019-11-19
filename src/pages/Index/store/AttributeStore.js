@@ -175,13 +175,13 @@ class AttributeStore {
         );
     });
 
-    spliceAttrs = flow(function*(key, value) {
+    @action spliceAttrs = (key, value) => {
         let { id, sourceId } = value;
         this.attrs[key] = this.attrs[key].filter(
             item => item.sourceId !== sourceId
         );
         id && this.delAttrs.push(id);
-    });
+    };
 
     newAttr = flow(function*(key, value, properties) {
         try {
