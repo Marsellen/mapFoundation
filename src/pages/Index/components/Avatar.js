@@ -1,7 +1,6 @@
 import React from 'react';
 import { Dropdown, Menu, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
-import CONFIG from 'src/config';
 import { logout } from 'src/utils/Session';
 
 @inject('appStore')

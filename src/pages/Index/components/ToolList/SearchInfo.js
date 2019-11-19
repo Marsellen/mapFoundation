@@ -1,8 +1,8 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
-import { Modal, Tabs, message } from 'antd';
+import { Tabs, message } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
+import { getLayerIDKey } from 'src/utils/vectorUtils';
 import IDSearchForm from './IDSearchForm';
 import PositionSearchForm from './PositionSearchForm';
 import { isRegionContainsElement } from 'src/utils/vectorUtils';
@@ -158,7 +158,7 @@ class SearchInfo extends React.Component {
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let readonly =
-            !editLayer || (editLayer && editLayer.layerName !== obj.layerName);
+            (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         AttributeStore.setModel(obj);
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.setFeatureColor(obj, 0xcc00ff);

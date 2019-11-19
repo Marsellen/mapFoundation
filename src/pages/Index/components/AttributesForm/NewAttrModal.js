@@ -9,9 +9,9 @@ import {
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import SearchIconGroup from 'src/components/SearchIconGroup';
 import _ from 'lodash';
-import AdInput from 'src/components/Form/Input';
+import AdInput from 'src/components/Form/AdInput';
 import { getValidator } from 'src/utils/form/validator';
-import AdInputNumber from 'src/components/Form/InputNumber';
+import AdInputNumber from 'src/components/Form/AdInputNumber';
 
 const formItemLayout = {
     labelCol: {

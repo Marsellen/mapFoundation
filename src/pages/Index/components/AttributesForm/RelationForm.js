@@ -3,9 +3,8 @@ import { inject, observer } from 'mobx-react';
 import { Empty, Form, Button, Icon } from 'antd';
 import EditableCard from './EditableCard';
 import NewAttrModal from './NewAttrModal';
-import AdInput from 'src/components/Form/Input';
 import { getValidator } from 'src/utils/form/validator';
-import AdInputNumber from 'src/components/Form/InputNumber';
+import AdInputNumber from 'src/components/Form/AdInputNumber';
 
 const formItemLayout = {
     labelCol: {
@@ -69,12 +68,12 @@ class RelationForm extends React.Component {
         return (
             <div key={index}>
                 {this.renderInputNumber(item, index, 'rels')}
-                {this.renderRs(item, index)}
+                {this.renderRs(index, item)}
             </div>
         );
     };
 
-    renderRs = ({ spec, extraInfo } = {}, index) => {
+    renderRs = (index, { spec, extraInfo } = {}) => {
         switch (spec) {
             case 'AD_Road_Con':
                 return this.renderADRoadConRs(extraInfo, index);

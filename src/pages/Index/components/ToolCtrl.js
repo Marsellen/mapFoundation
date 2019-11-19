@@ -7,7 +7,7 @@ import { inject, observer } from 'mobx-react';
 @observer
 class ToolCtrl extends React.Component {
     componentDidMount() {
-        const { ToolCtrlStore, match } = this.props;
+        const { ToolCtrlStore } = this.props;
         ToolCtrlStore.init();
     }
 

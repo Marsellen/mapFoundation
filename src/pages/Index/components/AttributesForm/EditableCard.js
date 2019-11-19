@@ -7,9 +7,9 @@ import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
 import './style.less';
-import AdInput from 'src/components/Form/Input';
+import AdInput from 'src/components/Form/AdInput';
 import { getValidator } from 'src/utils/form/validator';
-import AdInputNumber from 'src/components/Form/InputNumber';
+import AdInputNumber from 'src/components/Form/AdInputNumber';
 
 const formItemLayout = {
     labelCol: {

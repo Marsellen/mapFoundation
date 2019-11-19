@@ -12,19 +12,32 @@ axios.interceptors.response.use(
     },
     error => {
         if (error.response) {
-            switch (error.response.status) {
-                case 401:
-                    // 返回 401 清除token信息并跳转到登录页面
-                    Modal.error({
-                        title: 'token失效，请重新获取',
-                        okText: '确定',
-                        cancelText: '取消',
-                        onOk: () => {
-                            logout();
-                            window.location.reload();
-                        }
-                    });
+            if (error.response.status === 401) {
+                // 返回 401 清除token信息并跳转到登录页面
+                Modal.error({
+                    title: 'token失效，请重新获取',
+                    okText: '确定',
+                    cancelText: '取消',
+                    onOk: () => {
+                        logout();
+                        window.location.reload();
+                    }
+                });
             }
+
+            // switch (error.response.status) {
+            //     case 401:
+            //         // 返回 401 清除token信息并跳转到登录页面
+            //         Modal.error({
+            //             title: 'token失效，请重新获取',
+            //             okText: '确定',
+            //             cancelText: '取消',
+            //             onOk: () => {
+            //                 logout();
+            //                 window.location.reload();
+            //             }
+            //         });
+            // }
         }
         return Promise.reject(error.response.data); // 返回接口返回的错误信息
     }

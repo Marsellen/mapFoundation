@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from 'antd';
-import AdInput from 'src/components/Form/Input';
+import AdInput from 'src/components/Form/AdInput';
 
 const FormItem = Form.Item;
 
@@ -23,9 +23,10 @@ class PositionSearchForm extends React.Component {
                     <span className="suffix-form-text">m</span>
                 </FormItem>
                 <FormItem label="z坐标：">
-                    {form.getFieldDecorator('z', {})(
-                        <AdInput type="number" className="position-input" />
-                    )}
+                    {form.getFieldDecorator(
+                        'z',
+                        {}
+                    )(<AdInput type="number" className="position-input" />)}
                     <span className="suffix-form-text">m</span>
                 </FormItem>
             </Form>

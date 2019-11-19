@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConfigProvider, Checkbox, Button, Pagination } from 'antd';
+import { ConfigProvider, Checkbox, Button } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { COLUMNS_CONFIG } from 'src/config/CheckTableConfig';
@@ -65,7 +65,7 @@ class QualityCheckResultTable extends React.Component {
                         className="check-result-table"
                         onChange={this.handleTableChange}
                         rowKey={record => `checkResult_${record.index}`}
-                        scroll={{ y: 170, x:'100%' }}
+                        scroll={{ y: 170, x: '100%' }}
                         isHandleBody={true}
                     />
                     <div className="check-table-footer">
@@ -265,7 +265,7 @@ class QualityCheckResultTable extends React.Component {
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let readonly =
-            !editLayer || (editLayer && editLayer.layerName !== obj.layerName);
+            (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         AttributeStore.setModel(obj);
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.setFeatureColor(obj, 0xcc00ff);

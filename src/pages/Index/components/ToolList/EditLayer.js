@@ -77,10 +77,7 @@ class EditLayer extends React.Component {
 @observer
 class EditLayerPicker extends React.Component {
     render() {
-        let { DataLayerStore, appStore, TaskStore } = this.props;
-        let userInfo = appStore.loginUser;
-        const { activeTask } = TaskStore;
-        let layers = getEditLayers(DataLayerStore.layers, userInfo, activeTask);
+        let { DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
 
         return (

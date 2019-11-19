@@ -18,9 +18,8 @@ class QualityCheckResult extends React.Component {
     };
 
     render() {
-        const { QualityCheckStore, TaskStore } = this.props;
+        const { QualityCheckStore } = this.props;
         const { checkReportVisible } = QualityCheckStore;
-        const { activeTaskId } = TaskStore;
 
         return (
             <div>

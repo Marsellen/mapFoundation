@@ -1311,7 +1311,7 @@ export const TABLE_DATA_MAP = {
             name: '信号灯灯头数量',
             type: 'AD_TRAFFIC_LIGHT_LAMP_COUNT',
             required: true,
-            validates: 'Numeric|range|1|99',
+            validates: 'Numeric|range|0|99',
             domType: 'InputNumber'
         }
     ],
