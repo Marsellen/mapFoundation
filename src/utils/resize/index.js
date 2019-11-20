@@ -43,6 +43,7 @@ class Resize {
 
     addResizeEvent = className => {
         this.currentEle = document.querySelector(`.${className}`);
+        if (!this.currentEle) return;
         this.currentEle.addEventListener('mouseenter', this.handleMouseEnter);
         this.currentEle.addEventListener('mousedown', this.handleMouseDown);
         this.currentEle.addEventListener('mouseleave', this.handleMouseLeave);
