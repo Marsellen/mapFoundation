@@ -997,7 +997,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         MATERIAL: 2
     },
     AD_TS_Content: {
-        SIGN_TYPE: 0,
+        SIGN_TYPE: 111,
         CONT_TYPE: 0,
         TIMEDOM: '',
         CONT_VALUE: 0,
