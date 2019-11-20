@@ -4,6 +4,7 @@ import { message } from 'antd';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { COLUMNS_CONFIG } from 'src/config/CheckTableConfig';
+import Resize from 'src/Utils/resize';
 
 const needFilterColumns = (() => {
     const columns = [];
@@ -15,6 +16,7 @@ const needFilterColumns = (() => {
 
 configure({ enforceActions: 'always' });
 class QualityCheckStore {
+    resize = new Resize();
     @observable reportListInit = null;
     @observable reportList = null;
     @observable filterOption = {};
@@ -120,11 +122,17 @@ class QualityCheckStore {
         );
     };
 
+    @action getResizeStyle = (tx, ty) => {
+        this.resize.getStyle(tx, ty);
+    };
+
     //处理质检结果数据
     @action handleReportRes = (data, activeTaskId) => {
         if (data.length <= 0) {
             this.reportListInit = [];
             this.reportList = [];
+            this.resize.addResizeEvent('quality-check-result-modal-wrap');
+            this.getResizeStyle();
             return;
         }
         const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(
@@ -163,6 +171,8 @@ class QualityCheckStore {
         this.filterOption = { ...filterOption };
         this.reportListInit = data;
         this.reportList = data.concat();
+        this.resize.addResizeEvent('quality-check-result-modal-wrap');
+        this.getResizeStyle();
     };
 
     //记录访问状态
