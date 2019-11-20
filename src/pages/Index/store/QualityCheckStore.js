@@ -156,7 +156,7 @@ class QualityCheckStore {
                 DATA_LAYER_MAP[layerName] && DATA_LAYER_MAP[layerName].label;
             item.index = index;
             item.visited = checkReport[repId] ? checkReport[repId] : false;
-            item.visitedText = item.visited ? '是' : '否';
+            item.visitedText = item.visited ? '已查看' : '未查看';
             item.layerNameText = layerNameText;
             item.ellipsis = true;
             item.checked = misrepId ? true : false;
@@ -177,6 +177,10 @@ class QualityCheckStore {
             ).map(filterItem => ({ text: filterItem, value: filterItem }));
         });
 
+        filterOption.visitedTextArr = [
+            { text: '未查看', value: '未查看' },
+            { text: '已查看', value: '已查看' }
+        ];
         filterOption.isUpdate = true;
         this.filterOption = { ...filterOption };
         this.reportListInit = data;
@@ -190,12 +194,12 @@ class QualityCheckStore {
         this.reportList[index] = {
             ...this.reportList[index],
             visited: true,
-            visitedText: '是'
+            visitedText: '已查看'
         };
         this.reportListInit[index] = {
             ...this.reportListInit[index],
             visited: true,
-            visitedText: '是'
+            visitedText: '已查看'
         };
         this.checkReportIsVisited[repId] = true;
         //访问状态记录在缓存中
