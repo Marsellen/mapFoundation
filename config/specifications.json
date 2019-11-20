@@ -781,7 +781,7 @@
             }
         ],
         "defaultValue": {
-            "SIGN_TYPE": 111,
+            "SIGN_TYPE": 0,
             "CONT_TYPE": 0,
             "TIMEDOM": "",
             "CONT_VALUE": 0,
