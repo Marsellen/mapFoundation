@@ -142,6 +142,8 @@ class QualityCheckStore {
         if (data.length <= 0) {
             this.reportListInit = [];
             this.reportList = [];
+            this.resize.addResizeEvent('quality-check-result-modal-wrap');
+            this.getResizeStyle();
             return;
         }
         const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(
