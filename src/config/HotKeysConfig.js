@@ -11,11 +11,12 @@ export const HOT_KEYS_CONFIG = {
             features: false
         },
         { value: 'Ctrl+F', label: '查询', hotkey: false, features: false },
-        { value: 'Ctrl+P', label: '坐标拾取', hotkey: false, features: false }
+        { value: 'Ctrl+P', label: '坐标拾取', hotkey: false, features: false },
+        { value: 'L', label: '测距', hotkey: false, features: true }
     ],
     VIEW_ADJUST_KEY: [
         //视角调整
-        { value: 'Ctrl+W', label: '缩放至全图', hotkey: false, features: true },
+        { value: 'Ctrl+G', label: '缩放至全图', hotkey: false, features: true },
         { value: 'X', label: '俯视图模式', hotkey: false, features: true },
         {
             value: '鼠标滚轮上/下滚；W  S',
@@ -99,7 +100,7 @@ export const HOT_KEYS_CONFIG = {
             features: true
         },
         {
-            value: 'Ctrl 多选要素+ A',
+            value: 'Ctrl 多选要素+ M',
             label: '合并线要素',
             hotkey: false,
             features: true
