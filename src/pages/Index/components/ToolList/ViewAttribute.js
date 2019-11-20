@@ -13,6 +13,7 @@ import zh_CN from 'antd/es/locale/zh_CN';
 import SeniorModal from 'src/components/SeniorModal';
 import AdEmitter from 'src/models/event';
 import AdSearch from 'src/components/Form/AdSearch';
+import Resize from 'src/Utils/resize';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -21,16 +22,19 @@ import AdSearch from 'src/components/Form/AdSearch';
 class ViewAttribute extends React.Component {
     constructor(props) {
         super(props);
+        this.resize = new Resize();
         this.state = {
             visible: false,
             columns: [],
             dataSource: [],
-            layerName: null
+            layerName: null,
+            height: window.innerHeight * 0.8 - 185
         };
     }
 
     componentDidMount() {
         AdEmitter.on('fetchViewAttributeData', this.getData);
+        this.resize.registerCallback(this.resizeCallback);
     }
 
     render() {
@@ -55,11 +59,13 @@ class ViewAttribute extends React.Component {
                     onCancel={this.handleCancel}
                     mask={false}
                     zIndex={999}
+                    width={'100%'}
+                    height={'100%'}
                     maskClosable={false}
                     destroyOnClose={true}
-                    width={780}
-                    bodyStyle={{ padding: 8 }}
-                    wrapClassName="view-attribute-modal">
+                    dragCallback={this.dragCallback}
+                    className="view-attribute-modal"
+                    wrapClassName="view-attribute-modal-wrap">
                     {this.renderContent()}
                 </SeniorModal>
             </span>
@@ -72,9 +78,7 @@ class ViewAttribute extends React.Component {
     };
 
     renderContent = () => {
-        const { columns, dataSource } = this.state;
-
-        let height = window.innerHeight * 0.8 - 185;
+        const { columns, dataSource, height } = this.state;
         return (
             <ConfigProvider locale={zh_CN}>
                 <AdTable
@@ -113,6 +117,21 @@ class ViewAttribute extends React.Component {
         );
     };
 
+    getResizeStyle = (tx, ty) => {
+        this.resize.getStyle(tx, ty);
+    };
+
+    dragCallback = (transformStr, tx, ty) => {
+        this.getResizeStyle(tx, ty);
+    };
+
+    resizeCallback = result => {
+        const { height: resizeEleHeight } = result;
+        this.setState({
+            height: resizeEleHeight - 260
+        });
+    };
+
     onSearch = val => {
         const { layerName } = this.state;
         let dataSource = getLayerItems(layerName);
@@ -122,7 +141,7 @@ class ViewAttribute extends React.Component {
                 record => record[IDKey] == val
             );
         }
-        this.setState({ dataSource });
+        this.setState({ dataSource }, this.getResizeStyle);
     };
 
     renderFooter = () => {
@@ -174,7 +193,10 @@ class ViewAttribute extends React.Component {
             };
         });
         let dataSource = getLayerItems(layerName);
-        this.setState({ layerName, columns, dataSource });
+        this.setState({ layerName, columns, dataSource }, () => {
+            this.resize.addResizeEvent('view-attribute-modal-wrap');
+            this.getResizeStyle();
+        });
     };
 
     handleResize = index => (e, { size }) => {
