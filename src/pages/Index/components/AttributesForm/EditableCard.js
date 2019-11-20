@@ -10,6 +10,7 @@ import './style.less';
 import AdInput from 'src/components/Form/AdInput';
 import { getValidator } from 'src/utils/form/validator';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
+import AdSelect from 'src/components/Form/AdSelect';
 
 const formItemLayout = {
     labelCol: {
@@ -275,7 +276,7 @@ class EditableCard extends React.Component {
                         ],
                         initialValue: item.value
                     })(
-                        <Select
+                        <AdSelect
                             showSearch
                             optionFilterProp="children"
                             filterOption={(input, option) =>
@@ -293,7 +294,7 @@ class EditableCard extends React.Component {
                                     </Select.Option>
                                 );
                             })}
-                        </Select>
+                        </AdSelect>
                     )
                 ) : (
                     <span className="ant-form-text">

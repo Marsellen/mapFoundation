@@ -11,9 +11,9 @@ class SearchIconGroup extends React.Component {
         super(props);
         this.state = {
             content: {
-                label: props.content ? props.content.label : '注意行人',
-                value: props.content ? props.content.value : 111,
-                icon: props.content ? props.content.icon : 'zhuyixingren'
+                label: props.content ? props.content.label : '未定义',
+                value: props.content ? props.content.value : 0,
+                icon: props.content ? props.content.icon : 'weidingyi'
             }
         };
     }
