@@ -19,6 +19,7 @@ class AttributeStore {
     @observable rels = [];
     @observable attrs = {};
     @observable readonly;
+    @observable modelId;
 
     @action show = readonly => {
         this.visible = true;
@@ -32,13 +33,15 @@ class AttributeStore {
 
     setModel = flow(function*(obj) {
         this.model = obj;
+        let IDKey = getLayerIDKey(this.model.layerName);
+        this.modelId = this.model.data.properties[IDKey];
         this.type = this.model.layerName;
         this.fetchAttributes();
         yield this.fetchRels();
         yield this.fetchAttrs();
     });
 
-    @action getModel = () => {
+    getModel = () => {
         return this.model;
     };
 
