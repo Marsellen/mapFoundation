@@ -171,7 +171,6 @@ class Resize {
     handleMouseUp = e => {
         e.stopPropagation();
         if (!this.isStartResize) return;
-        if (!this.isStartResize) return;
         const { clientX, clientY } = e;
         const endX = clientX;
         const endY = clientY;
