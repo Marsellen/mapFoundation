@@ -7,6 +7,7 @@ import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import AdInput from 'src/components/Form/AdInput';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import { getValidator } from 'src/utils/form/validator';
+import AdSelect from 'src/components/Form/AdSelect';
 
 const formItemLayout = {
     labelCol: {
@@ -122,7 +123,7 @@ class BasicAttributesForm extends React.Component {
                         ],
                         initialValue: item.value
                     })(
-                        <Select
+                        <AdSelect
                             showSearch
                             optionFilterProp="children"
                             disabled={readonly}
@@ -140,7 +141,7 @@ class BasicAttributesForm extends React.Component {
                                     </Select.Option>
                                 );
                             })}
-                        </Select>
+                        </AdSelect>
                     )
                 ) : (
                     <span className="ant-form-text">
