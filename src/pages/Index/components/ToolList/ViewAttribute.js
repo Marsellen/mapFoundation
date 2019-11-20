@@ -28,7 +28,7 @@ class ViewAttribute extends React.Component {
             columns: [],
             dataSource: [],
             layerName: null,
-            height: window.innerHeight * 0.8 - 185
+            height: 500
         };
     }
 
@@ -98,7 +98,6 @@ class ViewAttribute extends React.Component {
                     rowClassName={record => `table-row-${record.index}`}
                     pagination={{
                         total: dataSource.length,
-                        pageSize: 10,
                         pageSizeOptions: ['10', '30', '50'],
                         showQuickJumper: true,
                         showSizeChanger: true,
