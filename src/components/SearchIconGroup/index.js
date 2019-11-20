@@ -7,20 +7,19 @@ import './index.less';
 const { Option } = Select;
 
 class SearchIconGroup extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             content: {
-                label: '注意行人',
-                value: 111,
-                icon: 'zhuyixingren'
+                label: props.content ? props.content.label : '注意行人',
+                value: props.content ? props.content.value : 111,
+                icon: props.content ? props.content.icon : 'zhuyixingren'
             }
         };
     }
     render() {
         const { content } = this.state;
         const { options } = this.props;
-
         return (
             <div className="attr-icon-box search-icon-box">
                 <span className="search-label-icon">{content.label}</span>
