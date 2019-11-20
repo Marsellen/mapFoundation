@@ -105,7 +105,7 @@ class QualityCheckResultTable extends React.Component {
         this.setState(
             {
                 currentPage: current,
-                pageSize: size
+                pageSize: size || 10
             },
             this.qualityCheckTabelColumns
         );
