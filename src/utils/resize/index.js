@@ -131,8 +131,6 @@ class Resize {
     };
 
     handleMouseDown = e => {
-        e.stopPropagation();
-        e.preventDefault();
         const { clientX, clientY } = e;
         const isInsideBorder = this.isInsideBorder(clientX, clientY);
         if (!isInsideBorder) return;
@@ -169,6 +167,11 @@ class Resize {
         this.currentEle.style.cursor = 'unset';
         this.isStartResize = false;
         this.currentEle.addEventListener('mousemove', this.addMouseStyle);
+
+        this.resizeCallback &&
+            this.resizeCallback({
+                height: this.currentHeight
+            });
     };
 
     handleMouseLeave = e => {
@@ -179,6 +182,10 @@ class Resize {
                 this.addMouseStyle
             );
         }
+    };
+
+    registerCallback = callback => {
+        this.resizeCallback = callback;
     };
 }
 
