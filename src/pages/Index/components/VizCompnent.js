@@ -347,7 +347,6 @@ class VizCompnent extends React.Component {
             OperateHistoryStore
         } = this.props;
         //console.log(result);
-        DataLayerStore.exitEdit();
 
         let data;
         try {
@@ -386,6 +385,8 @@ class VizCompnent extends React.Component {
             }
             message.warning(e);
         }
+
+        DataLayerStore.exitEdit();
     };
 
     editedCallBack = result => {
@@ -449,15 +450,16 @@ class VizCompnent extends React.Component {
         PictureShowStore.setPicData(obj.data);
     };
 
-    showAttributesModal = (obj, event) => {
+    showAttributesModal = async (obj, event) => {
         //判断没有按住ctrl左击
         if ((event && event.ctrlKey) || (event && event.button === 2)) return;
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let readonly =
             (editLayer && editLayer.layerId !== obj.layerId) || !editLayer;
+
+        await AttributeStore.setModel(obj);
         AttributeStore.show(readonly);
-        AttributeStore.setModel(obj);
     };
 
     showRightMenu = (features, event) => {
