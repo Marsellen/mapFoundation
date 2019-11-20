@@ -17,7 +17,7 @@ class AttributeStore {
     @observable type;
     @observable attributes = [];
     @observable rels = [];
-    @observable attrs = [];
+    @observable attrs = {};
     @observable readonly;
 
     @action show = readonly => {
@@ -30,13 +30,13 @@ class AttributeStore {
         this.delAttrs = [];
     };
 
-    @action setModel = obj => {
+    setModel = flow(function*(obj) {
         this.model = obj;
         this.type = this.model.layerName;
         this.fetchAttributes();
-        this.fetchRels();
-        this.fetchAttrs();
-    };
+        yield this.fetchRels();
+        yield this.fetchAttrs();
+    });
 
     @action getModel = () => {
         return this.model;
