@@ -101,6 +101,8 @@ class ViewAttribute extends React.Component {
                         pageSizeOptions: ['10', '30', '50'],
                         showQuickJumper: true,
                         showSizeChanger: true,
+                        onChange: this.handlePagination,
+                        onShowSizeChange: this.handlePagination,
                         showTotal: () => `共${dataSource.length}条`
                     }}
                     scroll={{ x: 'max-content', y: height }}
@@ -114,6 +116,10 @@ class ViewAttribute extends React.Component {
                 />
             </ConfigProvider>
         );
+    };
+
+    handlePagination = () => {
+        this.resize.getStyle();
     };
 
     getResizeStyle = (tx, ty) => {
