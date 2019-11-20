@@ -11,7 +11,8 @@ export const HOT_KEYS_CONFIG = {
             features: false
         },
         { value: 'Ctrl+F', label: '查询', hotkey: false, features: false },
-        { value: 'Ctrl+P', label: '坐标拾取', hotkey: false, features: false }
+        { value: 'Ctrl+P', label: '坐标拾取', hotkey: false, features: false },
+        { value: 'L', label: '测距', hotkey: false, features: true }
     ],
     VIEW_ADJUST_KEY: [
         //视角调整
