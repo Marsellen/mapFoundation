@@ -98,6 +98,7 @@ class QualityCheckResultTable extends React.Component {
     componentWillReceiveProps() {
         if (!this.props.QualityCheckStore) return;
         this.qualityCheckTabelColumns();
+        this.props.QualityCheckStore.toResizeDom();
     }
 
     handlePagination = (current, size) => {
