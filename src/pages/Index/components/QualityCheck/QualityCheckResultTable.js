@@ -98,6 +98,7 @@ class QualityCheckResultTable extends React.Component {
     componentWillReceiveProps() {
         if (!this.props.QualityCheckStore) return;
         this.qualityCheckTabelColumns();
+        this.props.QualityCheckStore.toResizeDom();
     }
 
     handlePagination = (current, size) => {
@@ -137,7 +138,7 @@ class QualityCheckResultTable extends React.Component {
         const _ = this;
         const { columns } = this.state;
         const { QualityCheckStore } = this.props;
-        let { filterOption, getResizeStyle } = QualityCheckStore;
+        let { filterOption, toResizeDom } = QualityCheckStore;
         let { filteredInfo } = this.state;
         filteredInfo = filteredInfo || {};
 
@@ -183,6 +184,7 @@ class QualityCheckResultTable extends React.Component {
             dataIndex: 'misrepId',
             key: 'misrepId',
             align: 'center',
+            width: 70,
             render(text, record) {
                 const { index, checked } = record;
                 return (
@@ -201,7 +203,7 @@ class QualityCheckResultTable extends React.Component {
                 {
                     columns: currentColumns
                 },
-                getResizeStyle
+                toResizeDom
             );
         }
     };
@@ -279,14 +281,14 @@ class QualityCheckResultTable extends React.Component {
     };
 
     //显示属性框
-    showAttributesModal = obj => {
+    showAttributesModal = async obj => {
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let readonly =
             (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
-        AttributeStore.setModel(obj);
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.setFeatureColor(obj, 0xcc00ff);
+        await AttributeStore.setModel(obj);
         AttributeStore.show(readonly);
     };
 

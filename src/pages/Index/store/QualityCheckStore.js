@@ -131,7 +131,7 @@ class QualityCheckStore {
         this.tableHeight = result && result.height - 135;
     };
 
-    toResizeDom = () => {
+    @action toResizeDom = () => {
         this.resize.addResizeEvent('quality-check-result-modal-wrap');
         this.resize.registerCallback(this.resizeCallback);
         this.getResizeStyle();
@@ -142,7 +142,8 @@ class QualityCheckStore {
         if (data.length <= 0) {
             this.reportListInit = [];
             this.reportList = [];
-            this.toResizeDom();
+            this.resize.addResizeEvent('quality-check-result-modal-wrap');
+            this.getResizeStyle();
             return;
         }
         const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(
@@ -185,7 +186,6 @@ class QualityCheckStore {
         this.filterOption = { ...filterOption };
         this.reportListInit = data;
         this.reportList = data.concat();
-        this.toResizeDom();
     };
 
     //记录访问状态
