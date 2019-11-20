@@ -154,14 +154,14 @@ class SearchInfo extends React.Component {
         });
     };
 
-    showAttributesModal = obj => {
+    showAttributesModal = async obj => {
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let readonly =
             (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
-        AttributeStore.setModel(obj);
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.setFeatureColor(obj, 0xcc00ff);
+        await AttributeStore.setModel(obj);
         AttributeStore.show(readonly);
     };
 
