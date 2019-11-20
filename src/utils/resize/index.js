@@ -60,23 +60,38 @@ class Resize {
     };
 
     resetStyle = (addX, addY) => {
+        let width = 0;
+        let height = 0;
         switch (this.direction) {
             case 'left':
-                this.currentEle.style.left =
-                    this.currentLeft + addX - this.dragX + 'px';
-                this.currentEle.style.width = this.currentWidth - addX + 'px';
+                width = this.currentWidth - addX;
+                if (width > 500) {
+                    this.currentEle.style.left =
+                        this.currentLeft + addX - this.dragX + 'px';
+                    this.currentEle.style.width = width + 'px';
+                }
                 break;
             case 'right':
-                this.currentEle.style.width = this.currentWidth + addX + 'px';
+                width = this.currentWidth + addX;
+                if (width > 500) {
+                    this.currentEle.style.width = width + 'px';
+                }
                 break;
             case 'top':
-                this.currentEle.style.top =
-                    this.currentTop + addY - this.dragY + 'px';
-                this.currentEle.style.height = this.currentHeight - addY + 'px';
+                height = this.currentHeight - addY;
+                if (height > 250) {
+                    this.currentEle.style.top =
+                        this.currentTop + addY - this.dragY + 'px';
+                    this.currentEle.style.height = height + 'px';
+                }
                 break;
             case 'bottom':
-                this.currentEle.style.top = this.currentTop - this.dragY + 'px';
-                this.currentEle.style.height = this.currentHeight + addY + 'px';
+                height = this.currentHeight + addY;
+                if (height > 250) {
+                    this.currentEle.style.top =
+                        this.currentTop - this.dragY + 'px';
+                    this.currentEle.style.height = height + 'px';
+                }
                 break;
             default:
                 break;
