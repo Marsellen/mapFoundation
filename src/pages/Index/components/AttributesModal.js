@@ -20,13 +20,14 @@ class AttributesModal extends React.Component {
         AttributeStore.hide();
     };
 
-    componentDidUpdate() {
-        this.props.form.resetFields();
+    componentDidMount() {
+        const { AttributeStore } = this.props;
+        AttributeStore.addToggleListener(this.props.form.resetFields);
     }
 
     render() {
         const { AttributeStore } = this.props;
-        const { visible, modelId } = AttributeStore;
+        const { visible } = AttributeStore;
         return (
             <Modal
                 footer={this.renderFooter()}
@@ -37,7 +38,7 @@ class AttributesModal extends React.Component {
                 visible={visible}
                 onCancel={this.handleCancel}>
                 <div className="obscuration" />
-                <Form colon={false} hideRequiredMark={true} key={modelId}>
+                <Form colon={false} hideRequiredMark={true}>
                     <AdTabs
                         tabs={[
                             { label: '基础属性', key: 'basicAttribute' },

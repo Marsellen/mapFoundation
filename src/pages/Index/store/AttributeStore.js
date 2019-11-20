@@ -33,12 +33,11 @@ class AttributeStore {
 
     setModel = flow(function*(obj) {
         this.model = obj;
-        let IDKey = getLayerIDKey(this.model.layerName);
-        this.modelId = this.model.data.properties[IDKey];
         this.type = this.model.layerName;
         this.fetchAttributes();
         yield this.fetchRels();
         yield this.fetchAttrs();
+        this.toggleEvent && this.toggleEvent();
     });
 
     getModel = () => {
@@ -210,6 +209,10 @@ class AttributeStore {
             console.log(e);
         }
     });
+
+    addToggleListener = toggleEvent => {
+        this.toggleEvent = toggleEvent;
+    };
 }
 
 export default new AttributeStore();
