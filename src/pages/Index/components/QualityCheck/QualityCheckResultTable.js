@@ -32,7 +32,7 @@ class QualityCheckResultTable extends React.Component {
     render() {
         const { columns, currentPage } = this.state;
         const { QualityCheckStore } = this.props;
-        const { reportList, reportListL } = QualityCheckStore;
+        const { reportList, reportListL, filterOption } = QualityCheckStore;
 
         return (
             <div
@@ -68,13 +68,15 @@ class QualityCheckResultTable extends React.Component {
                         scroll={{ y: 170, x: '100%' }}
                         isHandleBody={true}
                     />
-                    <div className="check-table-footer">
-                        <Button
-                            className="reset-button"
-                            onClick={this.clearFilters}>
-                            筛选重置
-                        </Button>
-                    </div>
+                    {filterOption.isUpdate && (
+                        <div className="check-table-footer">
+                            <Button
+                                className="reset-button"
+                                onClick={this.clearFilters}>
+                                筛选重置
+                            </Button>
+                        </div>
+                    )}
                 </ConfigProvider>
             </div>
         );

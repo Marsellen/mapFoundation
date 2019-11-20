@@ -42,11 +42,12 @@ class QualityCheckResult extends React.Component {
                     maskClosable={false}
                     destroyOnClose={true}
                     closable={false}
-                    width={1000}
+                    width={'100%'}
                     bodyStyle={{ padding: 0 }}
                     onCancel={this.handleClose}
+                    dragCallback={this.dragCallback}
                     className="quality-check-result-modal"
-                    wrapClassName="quality-check-result-modal-wrap view-attribute-modal">
+                    wrapClassName="quality-check-result-modal-wrap">
                     {this._renderContent()}
                 </SeniorModal>
             </div>
@@ -80,6 +81,11 @@ class QualityCheckResult extends React.Component {
             id="check-result-close-btn"
         />
     );
+
+    dragCallback = (transformStr, tx, ty) => {
+        const { QualityCheckStore } = this.props;
+        QualityCheckStore.getResizeStyle(tx, ty);
+    };
 
     setDragDomStyle = async () => {
         const tabsNav = await new Promise(this.getTabsNavDom);
