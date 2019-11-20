@@ -31,29 +31,50 @@ class EditableCard extends React.Component {
     };
 
     static getDerivedStateFromProps(props, state) {
-        const { value } = props;
-        let _attrs = state.attrs.length
-            ? state.attrs
-            : ATTR_TABLE_CONFIG[value.source];
-        let attrs = _.cloneDeep(_attrs);
-        attrs.forEach(item => {
-            item.value = item.value || value.properties[item.key];
-        });
-        attrs.forEach(attr => {
-            if (attr.link == 'RS_VALUE') {
-                let index = attrs.findIndex(item => item.key == attr.link);
-                attrs[index].type =
-                    attrs[index].type.replace(/[0-9]/, '') + attr.value;
+        let isSameDataSource = (props, state) => {
+            try {
+                const { attrs } = state;
+                if (attrs.length) {
+                    return (
+                        props.value.sourceId !==
+                        state.attrs.find(attr => attr.primaryKey).value
+                    );
+                }
+                return true;
+            } catch (e) {
+                console.log(e);
+                return true;
             }
-            if (attr.link == 'CONT_VALUE') {
-                let index = attrs.findIndex(item => item.key == attr.link);
-                attrs[index].disabled = [0, 1, 2].includes(index.value);
-            }
-        });
-        return {
-            ...state,
-            attrs
         };
+        // 当传入的primaryKey发生变化的时候，更新state
+        if (isSameDataSource(props, state)) {
+            const { value } = props;
+            // console.log(value);
+            let _attrs = state.attrs.length
+                ? state.attrs
+                : ATTR_TABLE_CONFIG[value.source];
+            let attrs = _.cloneDeep(_attrs);
+            attrs.forEach(item => {
+                item.value = value.properties[item.key];
+            });
+            attrs.forEach(attr => {
+                if (attr.link == 'RS_VALUE') {
+                    let index = attrs.findIndex(item => item.key == attr.link);
+                    attrs[index].type =
+                        attrs[index].type.replace(/[0-9]/, '') + attr.value;
+                }
+                if (attr.link == 'CONT_VALUE') {
+                    let index = attrs.findIndex(item => item.key == attr.link);
+                    attrs[index].disabled = [0, 1, 2].includes(attr.value);
+                }
+            });
+            return {
+                ...state,
+                attrs
+            };
+        }
+        // 否则，对于state不进行任何操作
+        return null;
     }
 
     render() {
@@ -66,15 +87,15 @@ class EditableCard extends React.Component {
                     {!readonly && (
                         <Button
                             onClick={this.edit}
-                            id="newEdit-edit"
+                            className="newEdit-edit"
                             title="编辑">
-                            <Icon type="edit" />{' '}
+                            <Icon type="edit" />
                         </Button>
                     )}
                     {!readonly && (
                         <Button
                             onClick={this.onDelete}
-                            id="newEdit-del"
+                            className="newEdit-del"
                             title="删除">
                             <Icon type="delete" />
                         </Button>
@@ -85,6 +106,7 @@ class EditableCard extends React.Component {
                     title="修改"
                     okText="保存"
                     cancelText="取消"
+                    destroyOnClose={true}
                     onCancel={this.onCancel}
                     onOk={this.onCreate}>
                     {this.renderContent()}
@@ -108,7 +130,7 @@ class EditableCard extends React.Component {
             if (err) {
                 return;
             }
-            //console.log(values);
+            // console.log(values);
             let id = value.key;
             let IDKey = getLayerIDKey(value.spec);
             onChange({
