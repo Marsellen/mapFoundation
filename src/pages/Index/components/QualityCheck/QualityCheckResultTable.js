@@ -32,7 +32,12 @@ class QualityCheckResultTable extends React.Component {
     render() {
         const { columns, currentPage } = this.state;
         const { QualityCheckStore } = this.props;
-        const { reportList, reportListL, filterOption } = QualityCheckStore;
+        const {
+            reportList,
+            reportListL,
+            filterOption,
+            tableHeight
+        } = QualityCheckStore;
 
         return (
             <div
@@ -65,7 +70,7 @@ class QualityCheckResultTable extends React.Component {
                         className="check-result-table"
                         onChange={this.handleTableChange}
                         rowKey={record => `checkResult_${record.index}`}
-                        scroll={{ y: 170, x: '100%' }}
+                        scroll={{ y: tableHeight || 170, x: '100%' }}
                         isHandleBody={true}
                     />
                     {filterOption.isUpdate && (

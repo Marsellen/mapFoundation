@@ -22,6 +22,7 @@ class QualityCheckStore {
     @observable filterOption = {};
     @observable checkReportIsVisited = {};
     @observable checkReportVisible = false;
+    @observable tableHeight = 0;
 
     @computed get isAllVisited() {
         return this.reportListInit.every(item => item.visited);
@@ -126,13 +127,22 @@ class QualityCheckStore {
         this.resize.getStyle(tx, ty);
     };
 
+    @action resizeCallback = result => {
+        this.tableHeight = result && result.height - 135;
+    };
+
+    toResizeDom = () => {
+        this.resize.addResizeEvent('quality-check-result-modal-wrap');
+        this.resize.registerCallback(this.resizeCallback);
+        this.getResizeStyle();
+    };
+
     //处理质检结果数据
     @action handleReportRes = (data, activeTaskId) => {
         if (data.length <= 0) {
             this.reportListInit = [];
             this.reportList = [];
-            this.resize.addResizeEvent('quality-check-result-modal-wrap');
-            this.getResizeStyle();
+            this.toResizeDom();
             return;
         }
         const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(
@@ -171,8 +181,7 @@ class QualityCheckStore {
         this.filterOption = { ...filterOption };
         this.reportListInit = data;
         this.reportList = data.concat();
-        this.resize.addResizeEvent('quality-check-result-modal-wrap');
-        this.getResizeStyle();
+        this.toResizeDom();
     };
 
     //记录访问状态
