@@ -13,10 +13,6 @@ const { TabPane } = Tabs;
 @inject('QualityCheckStore')
 @observer
 class QualityCheckResult extends React.Component {
-    state = {
-        dragDomStyle: null
-    };
-
     render() {
         const { QualityCheckStore } = this.props;
         const { checkReportVisible } = QualityCheckStore;
@@ -54,9 +50,7 @@ class QualityCheckResult extends React.Component {
         );
     }
 
-    _dragDom = () => (
-        <div className="drag-dom" style={this.state.dragDomStyle}></div>
-    );
+    _dragDom = () => <div className="drag-dom"></div>;
 
     _renderContent = () => {
         const { QualityCheckStore } = this.props;
@@ -87,27 +81,6 @@ class QualityCheckResult extends React.Component {
         QualityCheckStore.getResizeStyle(tx, ty);
     };
 
-    setDragDomStyle = async () => {
-        const tabsNav = await new Promise(this.getTabsNavDom);
-        const tabsNavWidth = tabsNav.offsetWidth;
-        const tabsNavHeight = 45;
-        const dragDomStyle = {
-            left: tabsNavWidth,
-            width: `calc(100% - ${tabsNavWidth}px - ${tabsNavHeight}px)`,
-            height: tabsNavHeight
-        };
-        this.setState({
-            dragDomStyle
-        });
-    };
-
-    getTabsNavDom = resolve => {
-        setTimeout(() => {
-            const tabsNav = document.querySelector('.ant-tabs-nav');
-            tabsNav ? resolve(tabsNav) : this.getTabsNavDom();
-        }, 1000);
-    };
-
     handleClick = () => {
         const { TaskStore, QualityCheckStore } = this.props;
         const { activeTaskId } = TaskStore;
@@ -118,7 +91,6 @@ class QualityCheckResult extends React.Component {
     };
 
     handleOpen = () => {
-        const { dragDomStyle } = this.state;
         const { appStore, QualityCheckStore, TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         const { loginUser } = appStore;
@@ -130,7 +102,6 @@ class QualityCheckResult extends React.Component {
         } = QualityCheckStore;
 
         openCheckReport();
-        !dragDomStyle && this.setDragDomStyle();
 
         switch (roleCode) {
             case 'producer':
