@@ -1,6 +1,6 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
-import { Select, Input, ConfigProvider } from 'antd';
+import { Select, ConfigProvider } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdTable from 'src/components/AdTable';
 import { COLUMNS_CONFIG } from 'src/config/PropertiesTableConfig';
@@ -12,8 +12,7 @@ import 'less/components/tool-icon.less';
 import zh_CN from 'antd/es/locale/zh_CN';
 import SeniorModal from 'src/components/SeniorModal';
 import AdEmitter from 'src/models/event';
-
-const { Search } = Input;
+import AdSearch from 'src/components/Form/AdSearch';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -103,9 +102,9 @@ class ViewAttribute extends React.Component {
                     }}
                     scroll={{ x: 'max-content', y: height }}
                     title={() => (
-                        <Search
+                        <AdSearch
                             placeholder="请输入用户编号..."
-                            onSearch={this.AdSearch}
+                            onSearch={this.onSearch}
                             style={{ width: '100%' }}
                         />
                     )}
@@ -114,7 +113,7 @@ class ViewAttribute extends React.Component {
         );
     };
 
-    AdSearch = val => {
+    onSearch = val => {
         const { layerName } = this.state;
         let dataSource = getLayerItems(layerName);
         let IDKey = getLayerIDKey(layerName);

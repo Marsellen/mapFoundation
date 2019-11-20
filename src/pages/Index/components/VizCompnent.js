@@ -115,7 +115,7 @@ class VizCompnent extends React.Component {
         shortcut.add(event, callbackShortcutMap);
     };
 
-    handleKeyUp = event => {
+    handleKeyDown = event => {
         this.addShortcut(event);
     };
 
@@ -536,7 +536,7 @@ class VizCompnent extends React.Component {
                     id="viz"
                     key={TaskStore.activeTaskId}
                     className="viz-box"
-                    onKeyUp={e => this.handleKeyUp(e)}>
+                    onKeyDown={e => this.handleKeyDown(e)}>
                     <div className="set-compass">
                         <TopView key="TOP_VIEW" />
                         <ZoomOut key="ZOOM_OUT" />
