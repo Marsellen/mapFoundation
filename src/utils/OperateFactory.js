@@ -12,20 +12,20 @@ const UNDO_MAP = {
 
 class OperateFactory {
     redo(history) {
-        this[history.type](history);
+        return this[history.type](history);
     }
 
     undo(history) {
         let action = UNDO_MAP[history.type];
-        this[action](history);
+        return this[action](history);
     }
 
-    addFeature(history) {
+    async addFeature(history) {
         let layer = getLayerByName(history.layerName);
         layer.addFeatures([history.feature]);
     }
 
-    deleteFeature(history) {
+    async deleteFeature(history) {
         let key = DATA_LAYER_MAP[history.layerName].id;
         if (!history.feature.properties[key]) {
             return Modal.error({
@@ -40,7 +40,7 @@ class OperateFactory {
         });
     }
 
-    updateFeature(history) {
+    async updateFeature(history) {
         let layer = getLayerByName(history.layerName);
         let key = DATA_LAYER_MAP[history.layerName].id;
         layer.removeFeatureByOption({
@@ -50,7 +50,7 @@ class OperateFactory {
         layer.addFeatures([history.feature.data]);
     }
 
-    reUpdateFeature(history) {
+    async reUpdateFeature(history) {
         let layer = getLayerByName(history.layerName);
         let key = DATA_LAYER_MAP[history.layerName].id;
         layer.removeFeatureByOption({
@@ -60,16 +60,16 @@ class OperateFactory {
         layer.addFeatures([history.oldFeature.data]);
     }
 
-    updateFeatureRels(history) {
+    async updateFeatureRels(history) {
         let { features, rels } = history.data;
         if (features) {
-            updateFeatures(history.data);
+            await updateFeatures(history.data);
         } else {
-            updateRels(rels);
+            await updateRels(rels);
         }
     }
 
-    reUpdateFeatureRels(history) {
+    async reUpdateFeatureRels(history) {
         let { features, rels, attrs } = history.data;
         if (features) {
             let log = {};
@@ -80,10 +80,10 @@ class OperateFactory {
             if (attrs) {
                 log.attrs = attrs.reverse();
             }
-            updateFeatures(log);
+            await updateFeatures(log);
         } else if (rels) {
             // 只变更了关联关系
-            updateRels(rels.reverse());
+            await updateRels(rels.reverse());
         }
     }
 }
