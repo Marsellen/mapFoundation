@@ -40,7 +40,7 @@ class OperateHistoryStore {
     redo = flow(function*() {
         try {
             let nextNode = yield operateHistory.store.getNext(this.currentNode);
-            OperateFactory.redo(nextNode);
+            yield OperateFactory.redo(nextNode);
             this.currentNode = nextNode.id;
             return nextNode;
         } catch (e) {
@@ -52,7 +52,7 @@ class OperateHistoryStore {
         try {
             let preNode = yield operateHistory.store.getPrev(this.currentNode);
             let currentNode = yield operateHistory.store.get(this.currentNode);
-            OperateFactory.undo(currentNode);
+            yield OperateFactory.undo(currentNode);
             this.currentNode = preNode ? preNode.id : -1;
             return currentNode;
         } catch (e) {
