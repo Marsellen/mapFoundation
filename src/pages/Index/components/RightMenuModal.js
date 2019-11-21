@@ -479,7 +479,6 @@ class RightMenuModal extends React.Component {
                     OperateHistoryStore.add(history);
                     editLog.store.add(log);
                     AdEmitter.emit('fetchViewAttributeData');
-                    message.success('操作完成', 3);
                 } catch (e) {
                     console.log(e);
                     message.warning('操作失败:' + e.message, 3);
