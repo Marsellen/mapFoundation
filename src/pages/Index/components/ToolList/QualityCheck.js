@@ -51,7 +51,8 @@ class QualityCheck extends React.Component {
             okText: '确定',
             cancelText: '取消',
             autoFocusButton: null,
-            onOk: handleOk
+            onOk: handleOk,
+            onCancel: this.props.QualityCheckStore.cancelPolling
         });
     };
 

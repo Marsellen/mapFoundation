@@ -116,7 +116,8 @@ class JobStatus extends React.Component {
             okText: '确定',
             cancelText: '取消',
             autoFocusButton: null,
-            onOk: () => this.handleTaskSubmit(option)
+            onOk: () => this.handleTaskSubmit(option),
+            onCancel: this.props.QualityCheckStore.cancelPolling
         });
     };
 
