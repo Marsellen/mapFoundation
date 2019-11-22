@@ -316,7 +316,7 @@ class VizCompnent extends React.Component {
             DataLayerStore,
             BatchAssignStore
         } = this.props;
-        console.log(result, event);
+        // console.log(result, event);
         if (result && result.length > 0) {
             /**
              * 判断是轨迹或轨迹点
