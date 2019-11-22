@@ -47,7 +47,7 @@ export const ATTR_TABLE_CONFIG = {
             name: '交通标志牌编号',
             domType: 'InputNumber',
             required: true,
-            validates: 'Numeric|range|1|99'
+            validates: 'Numeric|range|0|99'
         },
         {
             key: 'SIGN_TYPE',

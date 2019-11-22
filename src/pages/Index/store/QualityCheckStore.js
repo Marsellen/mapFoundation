@@ -4,6 +4,7 @@ import { message } from 'antd';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { COLUMNS_CONFIG } from 'src/config/CheckTableConfig';
+import Resize from 'src/Utils/resize';
 
 const needFilterColumns = (() => {
     const columns = [];
@@ -15,11 +16,13 @@ const needFilterColumns = (() => {
 
 configure({ enforceActions: 'always' });
 class QualityCheckStore {
+    resize = new Resize();
     @observable reportListInit = null;
     @observable reportList = null;
     @observable filterOption = {};
     @observable checkReportIsVisited = {};
     @observable checkReportVisible = false;
+    @observable tableHeight = 0;
 
     @computed get isAllVisited() {
         return this.reportListInit.every(item => item.visited);
@@ -120,11 +123,27 @@ class QualityCheckStore {
         );
     };
 
+    @action getResizeStyle = (tx, ty) => {
+        this.resize.getStyle(tx, ty);
+    };
+
+    @action resizeCallback = result => {
+        this.tableHeight = result && result.height - 135;
+    };
+
+    @action toResizeDom = () => {
+        this.resize.addResizeEvent('quality-check-result-modal-wrap');
+        this.resize.registerCallback(this.resizeCallback);
+        this.getResizeStyle();
+    };
+
     //处理质检结果数据
     @action handleReportRes = (data, activeTaskId) => {
         if (data.length <= 0) {
             this.reportListInit = [];
             this.reportList = [];
+            this.resize.addResizeEvent('quality-check-result-modal-wrap');
+            this.getResizeStyle();
             return;
         }
         const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(
@@ -138,7 +157,7 @@ class QualityCheckStore {
                 DATA_LAYER_MAP[layerName] && DATA_LAYER_MAP[layerName].label;
             item.index = index;
             item.visited = checkReport[repId] ? checkReport[repId] : false;
-            item.visitedText = item.visited ? '是' : '否';
+            item.visitedText = item.visited ? '已查看' : '未查看';
             item.layerNameText = layerNameText;
             item.ellipsis = true;
             item.checked = misrepId ? true : false;
@@ -159,6 +178,10 @@ class QualityCheckStore {
             ).map(filterItem => ({ text: filterItem, value: filterItem }));
         });
 
+        filterOption.visitedTextArr = [
+            { text: '未查看', value: '未查看' },
+            { text: '已查看', value: '已查看' }
+        ];
         filterOption.isUpdate = true;
         this.filterOption = { ...filterOption };
         this.reportListInit = data;
@@ -171,12 +194,12 @@ class QualityCheckStore {
         this.reportList[index] = {
             ...this.reportList[index],
             visited: true,
-            visitedText: '是'
+            visitedText: '已查看'
         };
         this.reportListInit[index] = {
             ...this.reportListInit[index],
             visited: true,
-            visitedText: '是'
+            visitedText: '已查看'
         };
         this.checkReportIsVisited[repId] = true;
         //访问状态记录在缓存中

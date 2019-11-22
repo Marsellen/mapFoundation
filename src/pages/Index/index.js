@@ -23,7 +23,7 @@ class Index extends React.Component {
         this.props.MenuStore.initMenus();
     }
 
-    handleKeyUp = event => {
+    handleKeyDown = event => {
         shortcut.add(event, shortcutMap);
     };
 
@@ -32,8 +32,8 @@ class Index extends React.Component {
         return (
             <Layout
                 id="home"
-                onKeyUp={e => {
-                    this.handleKeyUp(e);
+                onKeyDown={e => {
+                    this.handleKeyDown(e);
                 }}>
                 <Header className="header">
                     <div className="logo-content">

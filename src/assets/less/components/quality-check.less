@@ -1,127 +1,166 @@
 .quality-check-result-modal-wrap {
-    top: unset !important;
-    bottom: 10px !important;
-    left: calc(50% - 500px) !important;
-    .close-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 45px;
-        width: 45px;
-        font-size: 16px;
-        color: #666;
-    }
+    position: absolute;
+    top: unset;
+    bottom: 20px;
+    left: calc(50% - 500px);
+    width: 1000px;
 
-    .drag-dom {
-        position: absolute;
-        top: 0;
-        z-index: 99999;
-    }
+    .quality-check-result-modal {
+        overflow: hidden;
+        box-sizing: border-box;
+        height: 100%;
+        border: 4px solid transparent;
+        border-radius: 4px;
 
-    .check-result-table {
-        height: 210px;
-        padding: 0 10px 10px;
-
-        .ant-table {
-            border-bottom: 1px solid #e8e8e8;
-            height: 203px;
-            color: #000;
+        &.ant-modal {
+            top: 0;
+            padding-bottom: 0;
         }
 
-        .ant-table-placeholder {
-            border-bottom: none;
+        .ant-modal-content {
+            height: 100%;
         }
 
-        .ant-table-body {
-            /*滚动条样式*/
-            &::-webkit-scrollbar {
-                /*滚动条整体样式*/
-                margin-right: -10px;
-                width: 10px; /*高宽分别对应横竖滚动条的尺寸*/
-                height: 10px;
+        .close-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 45px;
+            width: 45px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .drag-dom {
+            position: absolute;
+            top: 0;
+            left: 88px;
+            width: calc(100% - 88px - 45px);
+            height: 45px;
+            z-index: 99999;
+        }
+
+        .check-result-table {
+            padding: 0 10px;
+
+            .ant-table {
+                padding-bottom: 42px;
+                color: #000;
             }
-            &::-webkit-scrollbar-thumb {
-                /*滚动条里面小方块*/
-                border-radius: 0;
-                background: #b7b7b7;
+
+            .ant-table-placeholder {
+                border-bottom: none;
             }
-            &::-webkit-scrollbar-track {
-                /*滚动条里面轨道*/
-                border-radius: 0;
-                background: #e5e5e5;
+
+            .ant-table-body {
+                /*滚动条样式*/
+                &::-webkit-scrollbar {
+                    /*滚动条整体样式*/
+                    margin-right: -10px;
+                    width: 10px; /*高宽分别对应横竖滚动条的尺寸*/
+                    height: 10px;
+                }
+                &::-webkit-scrollbar-thumb {
+                    /*滚动条里面小方块*/
+                    border-radius: 0;
+                    background: #b7b7b7;
+                }
+                &::-webkit-scrollbar-track {
+                    /*滚动条里面轨道*/
+                    border-radius: 0;
+                    background: #e5e5e5;
+                }
             }
-        }
 
-        table {
-            overflow: hidden;
-            table-layout: fixed;
-            width: 100%;
-            border-collapse: collapse;
-        }
+            table {
+                overflow: hidden;
+                table-layout: fixed;
+                width: 100%;
+                border-collapse: collapse;
+            }
 
-        th,
-        td {
-            background: #fff;
-            padding: 6px 12px;
-            border: 1px solid #e8e8e8;
-            font-size: 12px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        td > div {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .check-table-row.un-ellipsis {
             th,
-            td,
+            td {
+                background: #fff;
+                padding: 6px 12px;
+                border: 1px solid #e8e8e8;
+                font-size: 12px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
             td > div {
-                white-space: unset;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .check-table-row.un-ellipsis {
+                th,
+                td,
+                td > div {
+                    white-space: unset;
+                }
+            }
+
+            .check-table-row-0 td {
+                border-top: none;
+            }
+
+            th.ant-table-column-has-actions.ant-table-column-has-filters {
+                padding-right: 12px !important;
+            }
+
+            .visited {
+                color: #1890ff;
+            }
+
+            .active {
+                border: 2px solid red;
+            }
+
+            .check-table-pagination {
+                position: absolute;
+                bottom: -6px;
+                right: 2px;
             }
         }
 
-        .check-table-row-0 td {
-            border-top: none;
+        .ant-checkbox-group-item {
+            display: block;
         }
 
-        th.ant-table-column-has-actions.ant-table-column-has-filters {
-            padding-right: 12px !important;
+        .check-table-footer {
+            position: absolute;
+            bottom: 8px;
+            left: 10px;
+            width: 85px;
         }
 
-        .visited {
-            color: #1890ff;
+        .reset-button {
+            height: 28px;
+            font-size: 12px;
         }
 
-        .active {
-            border: 2px solid red;
-        }
-
-        .check-table-pagination {
-            bottom: -52px !important;
-            right: -8px !important;
+        .ant-tabs-bar {
+            margin-bottom: 10px;
         }
     }
 
-    .ant-checkbox-group-item {
-        display: block;
+    // 可伸缩列表格样式
+    .react-resizable {
+        position: relative;
+        background-clip: padding-box;
     }
 
-    .check-table-footer {
-        width: 85px;
-        height: 30px;
-        margin: 2px 0 8px 10px;
-    }
-
-    .reset-button {
-        height: 28px;
-        font-size: 12px;
-    }
-
-    .ant-tabs-bar {
-        margin-bottom: 10px;
+    .react-resizable-handle {
+        position: absolute;
+        width: 10px;
+        height: 100%;
+        bottom: 0;
+        right: -5px;
+        cursor: col-resize;
+        z-index: 1;
     }
 }

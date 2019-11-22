@@ -10,6 +10,7 @@ import './style.less';
 import AdInput from 'src/components/Form/AdInput';
 import { getValidator } from 'src/utils/form/validator';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
+import AdSelect from 'src/components/Form/AdSelect';
 
 const formItemLayout = {
     labelCol: {
@@ -275,7 +276,7 @@ class EditableCard extends React.Component {
                         ],
                         initialValue: item.value
                     })(
-                        <Select
+                        <AdSelect
                             showSearch
                             optionFilterProp="children"
                             filterOption={(input, option) =>
@@ -293,7 +294,7 @@ class EditableCard extends React.Component {
                                     </Select.Option>
                                 );
                             })}
-                        </Select>
+                        </AdSelect>
                     )
                 ) : (
                     <span className="ant-form-text">
@@ -356,7 +357,12 @@ class EditableCard extends React.Component {
                             })
                         ],
                         initialValue: item.value
-                    })(<SearchIconGroup options={options} />)
+                    })(
+                        <SearchIconGroup
+                            options={options}
+                            content={this.getLabelSetting(item.value, options)}
+                        />
+                    )
                 ) : (
                     <span className="ant-form-text">
                         {this.getArrayOption(
@@ -367,6 +373,18 @@ class EditableCard extends React.Component {
                 )}
             </Form.Item>
         );
+    };
+
+    getLabelSetting = (value, options) => {
+        const opt = this.getOptionsGroup(options);
+        let obj = {};
+        const pos = opt.findIndex(val => val.value === value);
+        obj.value = value;
+        obj.label =
+            pos != -1 && this.isPresent(opt[pos].label) ? opt[pos].label : '--';
+        obj.icon =
+            pos != -1 && this.isPresent(opt[pos].icon) ? opt[pos].icon : '--';
+        return obj;
     };
 
     getOptionsGroup = (options = []) => {

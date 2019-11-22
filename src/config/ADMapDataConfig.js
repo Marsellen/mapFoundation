@@ -399,6 +399,11 @@ export const TYPE_SELECT_OPTION_MAP = {
                 value: 601,
                 label: '其他电子标志牌',
                 icon: 'qitadianzibiaozhipai'
+            },
+            {
+                value: 0,
+                label: '未定义',
+                icon: 'weidingyi'
             }
         ],
 

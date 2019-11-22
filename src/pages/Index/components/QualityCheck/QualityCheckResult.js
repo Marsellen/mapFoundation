@@ -13,10 +13,6 @@ const { TabPane } = Tabs;
 @inject('QualityCheckStore')
 @observer
 class QualityCheckResult extends React.Component {
-    state = {
-        dragDomStyle: null
-    };
-
     render() {
         const { QualityCheckStore } = this.props;
         const { checkReportVisible } = QualityCheckStore;
@@ -42,20 +38,19 @@ class QualityCheckResult extends React.Component {
                     maskClosable={false}
                     destroyOnClose={true}
                     closable={false}
-                    width={1000}
+                    width={'100%'}
                     bodyStyle={{ padding: 0 }}
                     onCancel={this.handleClose}
+                    dragCallback={this.dragCallback}
                     className="quality-check-result-modal"
-                    wrapClassName="quality-check-result-modal-wrap view-attribute-modal">
+                    wrapClassName="quality-check-result-modal-wrap">
                     {this._renderContent()}
                 </SeniorModal>
             </div>
         );
     }
 
-    _dragDom = () => (
-        <div className="drag-dom" style={this.state.dragDomStyle}></div>
-    );
+    _dragDom = () => <div className="drag-dom"></div>;
 
     _renderContent = () => {
         const { QualityCheckStore } = this.props;
@@ -81,25 +76,9 @@ class QualityCheckResult extends React.Component {
         />
     );
 
-    setDragDomStyle = async () => {
-        const tabsNav = await new Promise(this.getTabsNavDom);
-        const tabsNavWidth = tabsNav.offsetWidth;
-        const tabsNavHeight = 45;
-        const dragDomStyle = {
-            left: tabsNavWidth,
-            width: `calc(100% - ${tabsNavWidth}px - ${tabsNavHeight}px)`,
-            height: tabsNavHeight
-        };
-        this.setState({
-            dragDomStyle
-        });
-    };
-
-    getTabsNavDom = resolve => {
-        setTimeout(() => {
-            const tabsNav = document.querySelector('.ant-tabs-nav');
-            tabsNav ? resolve(tabsNav) : this.getTabsNavDom();
-        }, 1000);
+    dragCallback = (transformStr, tx, ty) => {
+        const { QualityCheckStore } = this.props;
+        QualityCheckStore.getResizeStyle(tx, ty);
     };
 
     handleClick = () => {
@@ -112,7 +91,6 @@ class QualityCheckResult extends React.Component {
     };
 
     handleOpen = () => {
-        const { dragDomStyle } = this.state;
         const { appStore, QualityCheckStore, TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         const { loginUser } = appStore;
@@ -124,7 +102,6 @@ class QualityCheckResult extends React.Component {
         } = QualityCheckStore;
 
         openCheckReport();
-        !dragDomStyle && this.setDragDomStyle();
 
         switch (roleCode) {
             case 'producer':

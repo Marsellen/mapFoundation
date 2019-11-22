@@ -3,8 +3,9 @@ import DragM from 'dragm';
 import { Modal } from 'antd';
 
 class DragDom extends React.Component {
-    updateTransform = transformStr => {
+    updateTransform = (transformStr, tx, ty, tdom) => {
         this.modalDom.style.transform = transformStr;
+        this.props.dragCallback(transformStr, tx, ty, tdom);
     };
 
     componentDidMount() {
@@ -27,7 +28,13 @@ export default class SeniorModal extends React.Component {
 
     _dragDom = content => {
         if (!content) return null;
-        return <DragDom content={content} modalClassName={this.key} />;
+        return (
+            <DragDom
+                content={content}
+                modalClassName={this.key}
+                dragCallback={this.props.dragCallback}
+            />
+        );
     };
 
     render() {

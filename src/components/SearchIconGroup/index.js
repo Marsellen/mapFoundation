@@ -1,26 +1,25 @@
 import React from 'react';
-import { Tooltip, AutoComplete } from 'antd';
+import { Tooltip, Select } from 'antd';
 import AdSelect from 'src/components/Form/AdSelect';
 import IconFont from '../IconFont';
 import './index.less';
 
-const { Option } = AutoComplete;
+const { Option } = Select;
 
 class SearchIconGroup extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             content: {
-                label: '注意行人',
-                value: 111,
-                icon: 'zhuyixingren'
+                label: props.content ? props.content.label : '未定义',
+                value: props.content ? props.content.value : 0,
+                icon: props.content ? props.content.icon : 'weidingyi'
             }
         };
     }
     render() {
         const { content } = this.state;
         const { options } = this.props;
-
         return (
             <div className="attr-icon-box search-icon-box">
                 <span className="search-label-icon">{content.label}</span>

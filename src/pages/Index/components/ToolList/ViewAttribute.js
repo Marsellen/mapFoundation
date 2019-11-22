@@ -1,6 +1,6 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
-import { Select, Input, ConfigProvider } from 'antd';
+import { Select, ConfigProvider } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdTable from 'src/components/AdTable';
 import { COLUMNS_CONFIG } from 'src/config/PropertiesTableConfig';
@@ -12,8 +12,8 @@ import 'less/components/tool-icon.less';
 import zh_CN from 'antd/es/locale/zh_CN';
 import SeniorModal from 'src/components/SeniorModal';
 import AdEmitter from 'src/models/event';
-
-const { Search } = Input;
+import AdSearch from 'src/components/Form/AdSearch';
+import Resize from 'src/Utils/resize';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -22,16 +22,19 @@ const { Search } = Input;
 class ViewAttribute extends React.Component {
     constructor(props) {
         super(props);
+        this.resize = new Resize();
         this.state = {
             visible: false,
             columns: [],
             dataSource: [],
-            layerName: null
+            layerName: null,
+            height: 500
         };
     }
 
     componentDidMount() {
         AdEmitter.on('fetchViewAttributeData', this.getData);
+        this.resize.registerCallback(this.resizeCallback);
     }
 
     render() {
@@ -56,11 +59,13 @@ class ViewAttribute extends React.Component {
                     onCancel={this.handleCancel}
                     mask={false}
                     zIndex={999}
+                    width={'100%'}
+                    height={'100%'}
                     maskClosable={false}
                     destroyOnClose={true}
-                    width={780}
-                    bodyStyle={{ padding: 8 }}
-                    wrapClassName="view-attribute-modal">
+                    dragCallback={this.dragCallback}
+                    className="view-attribute-modal"
+                    wrapClassName="view-attribute-modal-wrap">
                     {this.renderContent()}
                 </SeniorModal>
             </span>
@@ -73,9 +78,7 @@ class ViewAttribute extends React.Component {
     };
 
     renderContent = () => {
-        const { columns, dataSource } = this.state;
-
-        let height = window.innerHeight * 0.8 - 185;
+        const { columns, dataSource, height } = this.state;
         return (
             <ConfigProvider locale={zh_CN}>
                 <AdTable
@@ -95,17 +98,18 @@ class ViewAttribute extends React.Component {
                     rowClassName={record => `table-row-${record.index}`}
                     pagination={{
                         total: dataSource.length,
-                        pageSize: 10,
                         pageSizeOptions: ['10', '30', '50'],
                         showQuickJumper: true,
                         showSizeChanger: true,
+                        onChange: this.handlePagination,
+                        onShowSizeChange: this.handlePagination,
                         showTotal: () => `共${dataSource.length}条`
                     }}
                     scroll={{ x: 'max-content', y: height }}
                     title={() => (
-                        <Search
+                        <AdSearch
                             placeholder="请输入用户编号..."
-                            onSearch={this.AdSearch}
+                            onSearch={this.onSearch}
                             style={{ width: '100%' }}
                         />
                     )}
@@ -114,7 +118,26 @@ class ViewAttribute extends React.Component {
         );
     };
 
-    AdSearch = val => {
+    handlePagination = () => {
+        this.resize.getStyle();
+    };
+
+    getResizeStyle = (tx, ty) => {
+        this.resize.getStyle(tx, ty);
+    };
+
+    dragCallback = (transformStr, tx, ty) => {
+        this.getResizeStyle(tx, ty);
+    };
+
+    resizeCallback = result => {
+        const { height: resizeEleHeight } = result;
+        this.setState({
+            height: resizeEleHeight - 260
+        });
+    };
+
+    onSearch = val => {
         const { layerName } = this.state;
         let dataSource = getLayerItems(layerName);
         let IDKey = getLayerIDKey(layerName);
@@ -123,7 +146,7 @@ class ViewAttribute extends React.Component {
                 record => record[IDKey] == val
             );
         }
-        this.setState({ dataSource });
+        this.setState({ dataSource }, this.getResizeStyle);
     };
 
     renderFooter = () => {
@@ -175,7 +198,10 @@ class ViewAttribute extends React.Component {
             };
         });
         let dataSource = getLayerItems(layerName);
-        this.setState({ layerName, columns, dataSource });
+        this.setState({ layerName, columns, dataSource }, () => {
+            this.resize.addResizeEvent('view-attribute-modal-wrap');
+            this.getResizeStyle();
+        });
     };
 
     handleResize = index => (e, { size }) => {

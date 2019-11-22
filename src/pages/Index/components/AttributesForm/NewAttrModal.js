@@ -12,6 +12,7 @@ import _ from 'lodash';
 import AdInput from 'src/components/Form/AdInput';
 import { getValidator } from 'src/utils/form/validator';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
+import AdSelect from 'src/components/Form/AdSelect';
 
 const formItemLayout = {
     labelCol: {
@@ -164,7 +165,7 @@ class NewAttrModal extends React.Component {
                     ],
                     initialValue: item.value
                 })(
-                    <Select
+                    <AdSelect
                         showSearch
                         optionFilterProp="children"
                         filterOption={(input, option) =>
@@ -180,7 +181,7 @@ class NewAttrModal extends React.Component {
                                 </Select.Option>
                             );
                         })}
-                    </Select>
+                    </AdSelect>
                 )}
             </Form.Item>
         );

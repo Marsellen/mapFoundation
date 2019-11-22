@@ -30,9 +30,14 @@ class QualityCheckResultTable extends React.Component {
     };
 
     render() {
-        const { columns, currentPage } = this.state;
+        const { columns, currentPage, total } = this.state;
         const { QualityCheckStore } = this.props;
-        const { reportList, reportListL } = QualityCheckStore;
+        const {
+            reportList,
+            reportListL,
+            filterOption,
+            tableHeight
+        } = QualityCheckStore;
 
         return (
             <div
@@ -54,7 +59,7 @@ class QualityCheckResultTable extends React.Component {
                         pagination={{
                             current: currentPage,
                             size: 'small',
-                            total: reportListL,
+                            total: total || reportListL,
                             showTotal: showTotal,
                             showSizeChanger: true,
                             onChange: this.handlePagination,
@@ -65,16 +70,18 @@ class QualityCheckResultTable extends React.Component {
                         className="check-result-table"
                         onChange={this.handleTableChange}
                         rowKey={record => `checkResult_${record.index}`}
-                        scroll={{ y: 170, x: '100%' }}
+                        scroll={{ y: tableHeight || 170, x: '100%' }}
                         isHandleBody={true}
                     />
-                    <div className="check-table-footer">
-                        <Button
-                            className="reset-button"
-                            onClick={this.clearFilters}>
-                            筛选重置
-                        </Button>
-                    </div>
+                    {filterOption.isUpdate && (
+                        <div className="check-table-footer">
+                            <Button
+                                className="reset-button"
+                                onClick={this.clearFilters}>
+                                筛选重置
+                            </Button>
+                        </div>
+                    )}
                 </ConfigProvider>
             </div>
         );
@@ -91,13 +98,14 @@ class QualityCheckResultTable extends React.Component {
     componentWillReceiveProps() {
         if (!this.props.QualityCheckStore) return;
         this.qualityCheckTabelColumns();
+        this.props.QualityCheckStore.toResizeDom();
     }
 
     handlePagination = (current, size) => {
         this.setState(
             {
                 currentPage: current,
-                pageSize: size
+                pageSize: size || 10
             },
             this.qualityCheckTabelColumns
         );
@@ -115,14 +123,22 @@ class QualityCheckResultTable extends React.Component {
     };
 
     clearFilters = () => {
-        this.setState({ filteredInfo: null }, this.qualityCheckTabelColumns);
+        const { QualityCheckStore } = this.props;
+        const { reportListL } = QualityCheckStore;
+        this.setState(
+            {
+                filteredInfo: null,
+                total: reportListL
+            },
+            this.qualityCheckTabelColumns
+        );
     };
 
     qualityCheckTabelColumns = () => {
         const _ = this;
         const { columns } = this.state;
         const { QualityCheckStore } = this.props;
-        let { filterOption } = QualityCheckStore;
+        let { filterOption, toResizeDom } = QualityCheckStore;
         let { filteredInfo } = this.state;
         filteredInfo = filteredInfo || {};
 
@@ -168,6 +184,7 @@ class QualityCheckResultTable extends React.Component {
             dataIndex: 'misrepId',
             key: 'misrepId',
             align: 'center',
+            width: 70,
             render(text, record) {
                 const { index, checked } = record;
                 return (
@@ -182,9 +199,12 @@ class QualityCheckResultTable extends React.Component {
         });
 
         if (filterOption.isUpdate) {
-            this.setState({
-                columns: currentColumns
-            });
+            this.setState(
+                {
+                    columns: currentColumns
+                },
+                toResizeDom
+            );
         }
     };
 
@@ -301,10 +321,11 @@ class QualityCheckResultTable extends React.Component {
     };
 
     //处理表格变化
-    handleTableChange = (pagination, filters, sorter) => {
+    handleTableChange = (pagination, filters, sorter, extra) => {
         this.setState(
             {
-                filteredInfo: filters
+                filteredInfo: filters,
+                total: extra.currentDataSource && extra.currentDataSource.length
             },
             this.qualityCheckTabelColumns
         );
