@@ -10,11 +10,11 @@ import { message } from 'antd';
 const titleMap = [
     {
         className: 'viewer-prev-node',
-        title: '上一节点'
+        title: '上一轨迹点'
     },
     {
         className: 'viewer-next-node',
-        title: '下一节点'
+        title: '下一轨迹点'
     },
     {
         className: 'viewer-locate-picture',
