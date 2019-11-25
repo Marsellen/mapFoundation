@@ -281,6 +281,7 @@ class TaskStore {
             yield editLog.store.clear();
         } catch (e) {
             console.log(e);
+            message.error('日志保存失败！');
         }
     });
 

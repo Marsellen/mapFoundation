@@ -121,6 +121,14 @@ class DataLayerStore extends LayerStore {
                     this.uturnCallback(result, event);
                     break;
             }
+
+            if (
+                (!result.length || result[0].type !== 'TraceLayer') &&
+                this.locatePictureStatus &&
+                event.button === 0
+            ) {
+                this.locatePictureEvent(event);
+            }
         });
     };
 
@@ -560,6 +568,14 @@ class DataLayerStore extends LayerStore {
     triggerEscEvent = () => {
         this.escEvent && this.escEvent();
         this.escEvent = null;
+    };
+
+    toggleLocatePicture = () => {
+        this.locatePictureStatus = !this.locatePictureStatus;
+    };
+
+    registerLocatePictureEvent = event => {
+        this.locatePictureEvent = event;
     };
 }
 

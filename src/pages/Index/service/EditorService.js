@@ -13,6 +13,10 @@ export default (function() {
             mergeLines: {
                 url: EditApiPath('/adcommon/join'),
                 method: 'post'
+            },
+            locatePicture: {
+                url: EditApiPath('/api/getbestfitjpg'),
+                method: 'post'
             }
         }
     );
