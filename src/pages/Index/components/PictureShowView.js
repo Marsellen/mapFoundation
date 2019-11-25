@@ -133,15 +133,15 @@ class PictureShowView extends React.Component {
 
         return (
             <div className="img-banner">
-                {imgs.length ? (
-                    <RcViewer options={this.options} ref="viewer">
-                        <ul id="images" style={{ display: 'none' }}>
-                            {imgs.map(this._renderImg)}
-                        </ul>
-                    </RcViewer>
-                ) : (
-                    <IconFont className="icondefault" type="icon-zanwutupian" />
-                )}
+                <RcViewer options={this.options} ref="viewer">
+                    <ul id="images" style={{ display: 'none' }}>
+                        {imgs.length ? (
+                            imgs.map(this._renderImg)
+                        ) : (
+                            <img src={noImg} />
+                        )}
+                    </ul>
+                </RcViewer>
             </div>
         );
     }
