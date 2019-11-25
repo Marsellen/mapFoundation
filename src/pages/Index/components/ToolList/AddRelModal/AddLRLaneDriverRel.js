@@ -1,12 +1,14 @@
 import React from 'react';
 import { Modal, Radio } from 'antd';
 
+var relType = 'L_LDIV';
+
 class AddLRLaneDriverRel extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             visible: false,
-            value: 'L_LDIV'
+            value: relType
         };
         this.props.onRef(this);
     }
@@ -37,6 +39,7 @@ class AddLRLaneDriverRel extends React.Component {
     };
 
     onChange = e => {
+        relType = e.target.value;
         this.setState({ value: e.target.value });
     };
 
