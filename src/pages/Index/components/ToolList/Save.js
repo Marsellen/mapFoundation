@@ -59,11 +59,12 @@ class Save extends React.Component {
     };
 
     autoSave = async () => {
-        const { OperateHistoryStore } = this.props;
+        const { OperateHistoryStore, TaskStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
         if (shouldSave) {
-            await this.save();
+            await TaskStore.submit();
+            await TaskStore.writeEditLog();
             message.success('自动保存成功', 3);
         }
     };
