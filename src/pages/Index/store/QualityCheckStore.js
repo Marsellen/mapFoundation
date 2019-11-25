@@ -17,6 +17,8 @@ const needFilterColumns = (() => {
 configure({ enforceActions: 'always' });
 class QualityCheckStore {
     resize = new Resize();
+    pollingCount = 0;
+
     @observable reportListInit = null;
     @observable reportList = null;
     @observable filterOption = {};
@@ -43,6 +45,10 @@ class QualityCheckStore {
 
     @action closeCheckReport = () => {
         this.checkReportVisible = false;
+    };
+
+    @action cancelPolling = () => {
+        this.pollingCount = 100;
     };
 
     @action clearCheckReport = () => {
@@ -96,16 +102,27 @@ class QualityCheckStore {
                             const { code, data, message } = res;
                             switch (code) {
                                 case 1:
+                                    this.pollingCount = 0;
                                     this.handleReportRes(data, option.task_id);
                                     resolve && resolve(data);
                                     break;
                                 case 201:
-                                    this.pollingGetReport(option);
+                                    this.pollingCount += 1;
+                                    if (this.pollingCount < 10) {
+                                        this.pollingGetReport(option, resolve);
+                                    } else {
+                                        this.pollingCount < 100 &&
+                                            message.error(`请求超时`);
+                                        resolve && resolve(false);
+                                        this.pollingCount = 0;
+                                    }
                                     break;
                                 case 509:
+                                    this.pollingCount = 0;
                                     // message.warning(`${code} : 没有质检结果`);
                                     break;
                                 default:
+                                    this.pollingCount = 0;
                                     message.warning(`${code} : ${message}`);
                                     resolve && resolve(false);
                                     break;
@@ -165,7 +182,9 @@ class QualityCheckStore {
             needFilterColumns.map(column => {
                 filterOption[`${column}Obj`] =
                     filterOption[`${column}Obj`] || {};
-                filterOption[`${column}Obj`][item[column]] = item[column];
+                if (item[column]) {
+                    filterOption[`${column}Obj`][item[column]] = item[column];
+                }
             });
 
             return item;

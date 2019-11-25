@@ -119,7 +119,7 @@ class ViewAttribute extends React.Component {
     };
 
     handlePagination = () => {
-        this.resize.getStyle();
+        this.setState({}, this.resize.getStyle);
     };
 
     getResizeStyle = (tx, ty) => {
