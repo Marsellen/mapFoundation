@@ -138,7 +138,7 @@ class PictureShowView extends React.Component {
                         {imgs.length ? (
                             imgs.map(this._renderImg)
                         ) : (
-                            <img src={noImg} />
+                            <img src={noImg} alt="暂无图片" />
                         )}
                     </ul>
                 </RcViewer>
