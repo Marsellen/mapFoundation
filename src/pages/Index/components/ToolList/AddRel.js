@@ -128,6 +128,7 @@ class AddRel extends React.Component {
         } catch (e) {
             console.log(e);
             message.warning(e.message, 3);
+            DataLayerStore.exitEdit();
         }
     };
 
@@ -153,6 +154,7 @@ class AddRel extends React.Component {
                 } catch (e) {
                     console.log(e);
                     message.warning(e.message, 3);
+                    DataLayerStore.exitEdit();
                 }
             },
             onCancel() {
@@ -190,8 +192,10 @@ class AddRel extends React.Component {
             await batchAddRels([rel]);
             this.saveLog([rel]);
         } catch (e) {
+            const { DataLayerStore } = this.props;
             console.log(e);
             message.warning(e.message, 3);
+            DataLayerStore.exitEdit();
         }
     };
 

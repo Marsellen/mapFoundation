@@ -1,8 +1,11 @@
 import React from 'react';
 import { Modal, Radio } from 'antd';
+import { inject, observer } from 'mobx-react';
 
 var relType = 'L_LDIV';
 
+@inject('DataLayerStore')
+@observer
 class AddLRLaneDriverRel extends React.Component {
     constructor(props) {
         super(props);
@@ -51,15 +54,20 @@ class AddLRLaneDriverRel extends React.Component {
     };
 
     handleCancel = () => {
+        const { DataLayerStore } = this.props;
         this.options = null;
         this.setState({
             visible: false
         });
+        DataLayerStore.exitEdit();
     };
 
     onOk = () => {
         this.props.onOk(this.state.value, this.options);
-        this.handleCancel();
+        this.options = null;
+        this.setState({
+            visible: false
+        });
     };
 }
 
