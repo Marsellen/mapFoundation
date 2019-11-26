@@ -180,32 +180,24 @@ class QualityCheckResultTable extends React.Component {
             return item;
         });
 
-        currentColumns.push(
-            {
-                title: '无需修改',
-                dataIndex: 'misrepId',
-                key: 'misrepId',
-                align: 'center',
-                width: 70,
-                render(text, record) {
-                    const { index, checked } = record;
-                    return (
-                        <Checkbox
-                            checked={checked}
-                            onChange={e => {
-                                _.handleChange(e, record, index);
-                            }}
-                        />
-                    );
-                }
-            },
-            {
-                title: 'placeholder',
-                dataIndex: 'placeholder',
-                key: 'placeholder',
-                className: 'tansparent'
+        currentColumns.push({
+            title: '无需修改',
+            dataIndex: 'misrepId',
+            key: 'misrepId',
+            align: 'center',
+            width: 70,
+            render(text, record) {
+                const { index, checked } = record;
+                return (
+                    <Checkbox
+                        checked={checked}
+                        onChange={e => {
+                            _.handleChange(e, record, index);
+                        }}
+                    />
+                );
             }
-        );
+        });
 
         if (filterOption.isUpdate) {
             this.setState(
