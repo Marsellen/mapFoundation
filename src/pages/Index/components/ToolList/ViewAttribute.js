@@ -62,7 +62,6 @@ class ViewAttribute extends React.Component {
                     width={'100%'}
                     height={'100%'}
                     maskClosable={false}
-                    destroyOnClose={true}
                     dragCallback={this.dragCallback}
                     className="view-attribute-modal"
                     wrapClassName="view-attribute-modal-wrap">
