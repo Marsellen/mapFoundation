@@ -3,7 +3,7 @@
     right: unset;
     bottom: unset;
     width: 780px;
-    background: #fff;
+    // background: #fff;
     border-radius: 4px;
     left: calc(50% - 390px);
 
@@ -15,6 +15,29 @@
 
     .ant-modal-content {
         height: 100%;
+        background: rgba(255, 255, 255, 0.92) !important;
+        .ant-modal-header {
+            background: unset;
+            .ant-modal-title {
+                div {
+                    font-size: 14px !important;
+                }
+            }
+        }
+        .ant-modal-body {
+            padding: 0 24px 5px 24px;
+            .ant-table-title {
+                padding: 8px 0 !important;
+                div > .ant-input-affix-wrapper {
+                    height: 30px;
+                    width: 26% !important;
+                    float: right;
+                    .ant-input {
+                        height: 30px !important;
+                    }
+                }
+            }
+        }
     }
 
     // 收起展开样式
@@ -31,9 +54,11 @@
         }
 
         .un-ellipsis {
+            color: #3e7fe0;
             th,
             td {
                 white-space: unset;
+                background-color: #def3ff;
             }
         }
     }
@@ -46,9 +71,11 @@
         min-width: 125px;
     }
     .ant-pagination {
-        position: absolute;
+        // position: absolute;
         bottom: 5px;
         right: 10px;
+        text-align: center;
+        float: unset;
     }
 
     // 可伸缩列表格样式
