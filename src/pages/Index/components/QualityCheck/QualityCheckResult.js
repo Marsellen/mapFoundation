@@ -60,7 +60,7 @@ class QualityCheckResult extends React.Component {
                 defaultActiveKey="1"
                 onChange={this.handleTabsChange}
                 tabBarExtraContent={this._closeIcon()}>
-                <TabPane tab="质检结果" key="1">
+                <TabPane tab="检查结果" key="1">
                     <QualityCheckResultTable reportList={reportList} />
                 </TabPane>
             </Tabs>

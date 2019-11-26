@@ -4,7 +4,7 @@ import { message } from 'antd';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { COLUMNS_CONFIG } from 'src/config/CheckTableConfig';
-import Resize from 'src/Utils/resize';
+import Resize from 'src/utils/resize';
 
 const needFilterColumns = (() => {
     const columns = [];
@@ -55,6 +55,7 @@ class QualityCheckStore {
         this.reportListInit = [];
         this.reportList = [];
         this.checkReportIsVisited = {};
+        this.filterOption = {};
     };
 
     //作业员质检
@@ -116,10 +117,6 @@ class QualityCheckStore {
                                         resolve && resolve(false);
                                         this.pollingCount = 0;
                                     }
-                                    break;
-                                case 509:
-                                    this.pollingCount = 0;
-                                    // message.warning(`${code} : 没有质检结果`);
                                     break;
                                 default:
                                     this.pollingCount = 0;

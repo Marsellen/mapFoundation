@@ -73,7 +73,7 @@ class QualityCheckResultTable extends React.Component {
                         scroll={{ y: tableHeight || 170, x: '100%' }}
                         isHandleBody={true}
                     />
-                    {filterOption.isUpdate && (
+                    {reportListL > 0 && (
                         <div className="check-table-footer">
                             <Button
                                 className="reset-button"
@@ -90,6 +90,7 @@ class QualityCheckResultTable extends React.Component {
     componentDidMount() {
         if (!this.props.QualityCheckStore) return;
         this.qualityCheckTabelColumns();
+        this.props.QualityCheckStore.toResizeDom();
         this.checkReportTable = document.querySelector(
             '.check-result-table .ant-table-body'
         );
@@ -179,24 +180,32 @@ class QualityCheckResultTable extends React.Component {
             return item;
         });
 
-        currentColumns.push({
-            title: '无需修改',
-            dataIndex: 'misrepId',
-            key: 'misrepId',
-            align: 'center',
-            width: 70,
-            render(text, record) {
-                const { index, checked } = record;
-                return (
-                    <Checkbox
-                        checked={checked}
-                        onChange={e => {
-                            _.handleChange(e, record, index);
-                        }}
-                    />
-                );
+        currentColumns.push(
+            {
+                title: '无需修改',
+                dataIndex: 'misrepId',
+                key: 'misrepId',
+                align: 'center',
+                width: 70,
+                render(text, record) {
+                    const { index, checked } = record;
+                    return (
+                        <Checkbox
+                            checked={checked}
+                            onChange={e => {
+                                _.handleChange(e, record, index);
+                            }}
+                        />
+                    );
+                }
+            },
+            {
+                title: 'placeholder',
+                dataIndex: 'placeholder',
+                key: 'placeholder',
+                className: 'tansparent'
             }
-        });
+        );
 
         if (filterOption.isUpdate) {
             this.setState(
@@ -271,6 +280,7 @@ class QualityCheckResultTable extends React.Component {
                 value: Number(featureId)
             };
             let layer = getLayerByName(layerName);
+            if (!layer.getFeatureByOption(option)) return;
             let feature = layer.getFeatureByOption(option).properties;
             let extent = map.getExtent(feature.data.geometry);
             map.setView('U');
