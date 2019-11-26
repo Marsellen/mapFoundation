@@ -13,7 +13,7 @@ import zh_CN from 'antd/es/locale/zh_CN';
 import SeniorModal from 'src/components/SeniorModal';
 import AdEmitter from 'src/models/event';
 import AdSearch from 'src/components/Form/AdSearch';
-import Resize from 'src/Utils/resize';
+import Resize from 'src/utils/resize';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')

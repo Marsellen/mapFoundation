@@ -51,6 +51,7 @@ class Resize {
     };
 
     getStyle = (x, y) => {
+        if (!this.currentEle) return;
         this.dragX = x || this.dragX;
         this.dragY = y || this.dragY;
         this.currentTop = this.getElementTop(this.currentEle) + this.dragY;

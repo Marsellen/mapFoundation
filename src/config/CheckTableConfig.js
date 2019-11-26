@@ -41,7 +41,7 @@ export const COLUMNS_CONFIG = [
         title: '错误描述',
         dataIndex: 'errorDesc',
         key: 'errorDesc',
-        width: 250
+        width: 290
     },
     {
         title: '是否查看',
