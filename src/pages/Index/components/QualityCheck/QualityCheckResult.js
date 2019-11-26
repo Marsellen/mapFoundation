@@ -36,7 +36,6 @@ class QualityCheckResult extends React.Component {
                     mask={false}
                     zIndex={999}
                     maskClosable={false}
-                    destroyOnClose={true}
                     closable={false}
                     width={'100%'}
                     bodyStyle={{ padding: 0 }}
