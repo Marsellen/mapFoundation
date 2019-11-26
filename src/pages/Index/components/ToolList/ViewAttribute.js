@@ -106,13 +106,9 @@ class ViewAttribute extends React.Component {
                         showTotal: () => `共${dataSource.length}条`
                     }}
                     scroll={{ x: 'max-content', y: height }}
-                    title={() => (
-                        <AdSearch
-                            placeholder="请输入用户编号..."
-                            onSearch={this.onSearch}
-                            style={{ width: '100%' }}
-                        />
-                    )}
+                    title={() => {
+                        return this.getTableTitle();
+                    }}
                 />
             </ConfigProvider>
         );
@@ -133,7 +129,7 @@ class ViewAttribute extends React.Component {
     resizeCallback = result => {
         const { height: resizeEleHeight } = result;
         this.setState({
-            height: resizeEleHeight - 260
+            height: resizeEleHeight - 200
         });
     };
 
@@ -149,7 +145,7 @@ class ViewAttribute extends React.Component {
         this.setState({ dataSource }, this.getResizeStyle);
     };
 
-    renderFooter = () => {
+    getTableTitle = () => {
         const { DataLayerStore } = this.props;
         let options = DataLayerStore.layers || [];
         const { layerName } = this.state;
@@ -167,6 +163,11 @@ class ViewAttribute extends React.Component {
                         );
                     })}
                 </Select>
+                <AdSearch
+                    placeholder="请输入用户编号..."
+                    onSearch={this.onSearch}
+                    style={{ width: '100%' }}
+                />
             </div>
         );
     };

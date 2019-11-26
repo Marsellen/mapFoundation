@@ -19,6 +19,7 @@
 
         .ant-modal-content {
             height: 100%;
+            background: rgba(255, 255, 255, 0.92);
         }
 
         .close-icon {
@@ -88,6 +89,10 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                color: #333;
+            }
+            td:hover {
+                background: #def3ff !important;
             }
 
             td > div {
@@ -113,11 +118,14 @@
             }
 
             .visited {
-                color: #1890ff;
+                color: #3e7fe0;
             }
 
             .active {
-                border: 2px solid red;
+                border: 2px solid #3e7fe0;
+                td {
+                    background-color: #def3ff;
+                }
             }
 
             .check-table-pagination {
