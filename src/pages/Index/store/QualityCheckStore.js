@@ -61,17 +61,19 @@ class QualityCheckStore {
     //作业员质检
     producerCheck = flow(function*(option) {
         try {
-            const { code, data, message } = yield QualityCheckService.check(
-                option
-            );
+            const {
+                code,
+                data,
+                message: resMessage
+            } = yield QualityCheckService.check(option);
             if (code === 1) {
                 return data;
             } else {
-                message.warning(`${code} : ${message}`);
+                message.warning(`${code} : ${resMessage}`);
                 return false;
             }
         } catch (e) {
-            message.error(`错误提示 ${e.message || e}`);
+            console.error(`错误提示 ${e.message || e}`);
         }
     }).bind(this);
 
@@ -100,7 +102,7 @@ class QualityCheckStore {
                 try {
                     QualityCheckService.getReport(option)
                         .then(res => {
-                            const { code, data, message } = res;
+                            const { code, data, message: resMessage } = res;
                             switch (code) {
                                 case 1:
                                     this.pollingCount = 0;
@@ -120,17 +122,17 @@ class QualityCheckStore {
                                     break;
                                 default:
                                     this.pollingCount = 0;
-                                    message.warning(`${code} : ${message}`);
+                                    message.warning(`${code} : ${resMessage}`);
                                     resolve && resolve(false);
                                     break;
                             }
                         })
                         .catch(e => {
-                            message.error(`错误提示 ${e.message || e}`);
+                            console.error(`错误提示 ${e.message || e}`);
                             resolve && resolve(false);
                         });
                 } catch (e) {
-                    message.error(`错误提示 ${e.message || e}`);
+                    console.error(`错误提示 ${e.message || e}`);
                 }
             }).bind(this),
             1000
@@ -245,7 +247,7 @@ class QualityCheckStore {
                 message.warning('请求失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`错误提示 ${e.message || e}`);
+            console.error(`错误提示 ${e.message || e}`);
         }
     }).bind(this);
 
@@ -264,7 +266,7 @@ class QualityCheckStore {
                 message.warning('请求失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`错误提示 ${e.message || e}`);
+            console.error(`错误提示 ${e.message || e}`);
         }
     }).bind(this);
 
@@ -285,7 +287,7 @@ class QualityCheckStore {
                 message.warn('获取质检结果失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`错误提示 ${e.message || e}`);
+            console.error(`错误提示 ${e.message || e}`);
         }
     });
 
@@ -307,7 +309,7 @@ class QualityCheckStore {
                 message.warning('请求失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`错误提示 ${e.message || e}`);
+            console.error(`错误提示 ${e.message || e}`);
         }
     }).bind(this);
 }
