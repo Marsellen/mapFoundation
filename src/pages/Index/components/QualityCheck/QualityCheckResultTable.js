@@ -32,12 +32,7 @@ class QualityCheckResultTable extends React.Component {
     render() {
         const { columns, currentPage, total } = this.state;
         const { QualityCheckStore } = this.props;
-        const {
-            reportList,
-            reportListL,
-            filterOption,
-            tableHeight
-        } = QualityCheckStore;
+        const { reportList, reportListL, tableHeight } = QualityCheckStore;
 
         return (
             <div
