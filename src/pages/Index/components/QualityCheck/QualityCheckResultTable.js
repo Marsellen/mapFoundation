@@ -139,7 +139,7 @@ class QualityCheckResultTable extends React.Component {
         const _ = this;
         const { columns } = this.state;
         const { QualityCheckStore } = this.props;
-        let { filterOption, toResizeDom } = QualityCheckStore;
+        let { filterOption, toResizeDom, reportListL } = QualityCheckStore;
         let { filteredInfo } = this.state;
         filteredInfo = filteredInfo || {};
 
@@ -203,6 +203,14 @@ class QualityCheckResultTable extends React.Component {
             this.setState(
                 {
                     columns: currentColumns
+                },
+                toResizeDom
+            );
+        } else {
+            this.setState(
+                {
+                    filteredInfo: null,
+                    total: reportListL
                 },
                 toResizeDom
             );

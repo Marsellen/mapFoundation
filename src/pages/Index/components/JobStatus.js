@@ -194,7 +194,6 @@ class JobStatus extends React.Component {
 
         switch (roleCode) {
             case 'producer':
-                closeCheckReport(); //关闭质检报表
                 const reportList = await this.check();
                 if (!reportList) return false;
                 const reportListL = reportList.length;
