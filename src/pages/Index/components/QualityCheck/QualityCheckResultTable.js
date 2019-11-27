@@ -185,7 +185,7 @@ class QualityCheckResultTable extends React.Component {
             dataIndex: 'misrepId',
             key: 'misrepId',
             align: 'center',
-            width: 70,
+            width: 80,
             render(text, record) {
                 const { index, checked } = record;
                 return (
