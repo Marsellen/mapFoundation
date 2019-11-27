@@ -44,6 +44,7 @@ class QualityCheckStore {
     };
 
     @action closeCheckReport = () => {
+        this.clearCheckReport();
         this.checkReportVisible = false;
     };
 
@@ -84,6 +85,7 @@ class QualityCheckStore {
     }).bind(this);
 
     @action handleProducerGetReport = option => {
+        this.clearCheckReport();
         return new Promise(resolve => this.pollingGetReport(option, resolve));
     };
 
@@ -160,6 +162,8 @@ class QualityCheckStore {
             this.reportList = [];
             this.resize.addResizeEvent('quality-check-result-modal-wrap');
             this.getResizeStyle();
+            this.filterOption = this.filterOption || {};
+            this.filterOption.isUpdate = true;
             return;
         }
         const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(
@@ -271,6 +275,7 @@ class QualityCheckStore {
     }).bind(this);
 
     @action handleQualityGetMisreport = flow(function*(option) {
+        this.clearCheckReport();
         const data = yield this.qualityGetMisreport(option);
         this.handleReportRes(data, option.taskId);
     }).bind(this);
