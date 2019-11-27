@@ -53,8 +53,8 @@ class QualityCheckResultTable extends React.Component {
                                 onDoubleClick: this.tableOnDoubleClick(record)
                             };
                         }}
-                        rowClassName={record =>
-                            `check-table-row check-table-row-${record.index}`
+                        rowClassName={(record, index) =>
+                            `check-table-row check-table-row-${index}`
                         }
                         pagination={{
                             current: currentPage,
@@ -382,13 +382,16 @@ class QualityCheckResultTable extends React.Component {
                 shift: false,
                 keyCode: 40,
                 callback: () => {
-                    const { currentIndex, currentPage, pageSize } = this.state;
-                    const { QualityCheckStore } = this.props;
-                    const { reportListL } = QualityCheckStore;
-                    const maxPageSize = Math.ceil(reportListL / pageSize);
+                    const {
+                        currentIndex,
+                        currentPage,
+                        pageSize,
+                        total
+                    } = this.state;
+                    const maxPageSize = Math.ceil(total / pageSize);
                     const maxPage =
                         currentPage === maxPageSize
-                            ? reportListL
+                            ? total
                             : currentPage * pageSize;
                     const nextIndex = currentIndex + 1;
                     if (nextIndex >= maxPage) return;
