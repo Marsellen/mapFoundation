@@ -242,7 +242,7 @@ export const TYPE_SELECT_OPTION_MAP = {
     AD_LANEMARK_PLG_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi' },
         { value: 1, label: '人行横道', icon: 'renxinghengdao' },
-        { value: 2, label: '禁止停车线', icon: 'jinzhitingchexian' },
+        { value: 2, label: '禁止停车区', icon: 'jinzhitingchexian' },
         { value: 3, label: '减速带', icon: 'jiansudai' },
         {
             value: 4,
