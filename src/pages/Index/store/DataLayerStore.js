@@ -593,7 +593,7 @@ class DataLayerStore extends LayerStore {
         if (!this.editor) return;
         this.setEditType('create_break_line');
         this.changeCur();
-        this.editor.newLine();
+        this.editor.newFixLine(2);
     };
 }
 
