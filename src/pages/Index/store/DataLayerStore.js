@@ -98,6 +98,7 @@ class DataLayerStore extends LayerStore {
                 case 'normal':
                     // console.log(result);
                     callback(result, event);
+                    this.locatePicture(result, event);
                     break;
                 case 'newRel':
                     this.newRelCallback(result, event);
@@ -121,21 +122,27 @@ class DataLayerStore extends LayerStore {
                     this.uturnCallback(result, event);
                     break;
             }
-
-            if (
-                (!result.length || result[0].type !== 'TraceLayer') &&
-                this.locatePictureStatus &&
-                event.button === 0
-            ) {
-                this.locatePictureEvent(event);
-            }
         });
+    };
+
+    locatePicture = (result, event) => {
+        if (
+            (!result.length || result[0].type !== 'TraceLayer') &&
+            this.locatePictureStatus &&
+            event.button === 0
+        ) {
+            this.locatePictureEvent(event);
+        }
     };
 
     setCreatedCallBack = callback => {
         this.editor.onFeatureCreated(async result => {
-            callback && (await callback(result));
-            AdEmitter.emit('fetchViewAttributeData');
+            if (this.editType === 'create_break_line') {
+                this.breakByLineCallback(result);
+            } else {
+                callback && (await callback(result));
+                AdEmitter.emit('fetchViewAttributeData');
+            }
         });
     };
 
@@ -306,6 +313,10 @@ class DataLayerStore extends LayerStore {
 
     setBreakCallback = callback => {
         this.breakCallback = callback;
+    };
+
+    setBreakByLineCallback = callback => {
+        this.breakByLineCallback = callback;
     };
 
     // 两条车道线自动生成中心线
@@ -576,6 +587,13 @@ class DataLayerStore extends LayerStore {
 
     registerLocatePictureEvent = event => {
         this.locatePictureEvent = event;
+    };
+
+    createBreakLine = () => {
+        if (!this.editor) return;
+        this.setEditType('create_break_line');
+        this.changeCur();
+        this.editor.newFixLine(2);
     };
 }
 

@@ -12,10 +12,7 @@ class NewFeatureStore {
         const _result = yield IDService.post({
             id_type: DATA_LAYER_MAP[layerName].spec
         }).catch(e => {
-            Modal.error({
-                title: '请求ID失败',
-                okText: '确定'
-            });
+            throw '请求ID失败';
         });
         let id = _result.data[0].min;
         const defaultProperties = modelFactory.getDefaultProperties(

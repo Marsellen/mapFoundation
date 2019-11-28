@@ -102,6 +102,37 @@ const mergeLine = async (features, task_id) => {
     return historyLog;
 };
 
+const breakLineByLine = async (line, features, task_id) => {
+    let cutLine = geometryToWKT(line.data.geometry);
+    let { lines, oldRels, oldAttrs } = await getLines(features);
+    let option = { cutLine, lines, task_id };
+    let result = await EditorService.breakLinesByLine(option);
+    if (result.code !== 1) throw result;
+    let { newFeatures, rels, attrs } = result.data.reduce(
+        (total, data) => {
+            let { newFeatures, rels, attrs } = fetchFeatureRels(
+                features,
+                data.features
+            );
+            total.newFeatures = total.newFeatures.concat(newFeatures);
+            total.rels = total.rels.concat(rels);
+            total.attrs = total.attrs.concat(attrs);
+            return total;
+        },
+        { newFeatures: [], rels: [], attrs: [] }
+    );
+
+    let historyLog = {
+        features: [features, newFeatures],
+        rels: [uniqRels(oldRels), uniqRels(rels)],
+        attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)]
+    };
+    await updateFeatures(historyLog);
+
+    message.success(result.message, 3);
+    return historyLog;
+};
+
 const autoCreateLine = async (editLayer, params, lines) => {
     let result = [];
     let relation = {},
@@ -543,5 +574,6 @@ export {
     mergeLine,
     autoCreateLine,
     updateFeatures,
-    updateRels
+    updateRels,
+    breakLineByLine
 };

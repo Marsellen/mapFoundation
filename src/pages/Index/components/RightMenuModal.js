@@ -5,7 +5,8 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import {
     deleteLine,
     breakLine,
-    mergeLine
+    mergeLine,
+    breakLineByLine
 } from 'src/utils/relCtrl/operateCtrl';
 import { getLayerByName } from 'src/utils/vectorUtils';
 import AdMessage from 'src/components/AdMessage';
@@ -160,10 +161,18 @@ class RightMenuModal extends React.Component {
                 <span>合并</span>
             </Menu.Item>,
             <Menu.Item
+                id="batch-assign-btn"
                 key="batchAssign"
                 onClick={this.batchAssign}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>批量赋值</span>
+            </Menu.Item>,
+            <Menu.Item
+                id="break-by-line-btn"
+                key="breakByLine"
+                onClick={this.breakByLine}
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                <span>拉线齐打断</span>
             </Menu.Item>
         ];
     };
@@ -203,6 +212,7 @@ class RightMenuModal extends React.Component {
     installListener = () => {
         const { DataLayerStore } = this.props;
         DataLayerStore.setBreakCallback(this.breakCallBack);
+        DataLayerStore.setBreakByLineCallback(this.breakByLineCallback);
     };
 
     breakCallBack = result => {
@@ -213,11 +223,6 @@ class RightMenuModal extends React.Component {
             AttributeStore,
             TaskStore
         } = this.props;
-
-        if (!RightMenuStore.isCurrentLayer) {
-            message.warning('只能选取当前编辑图层要素！', 3);
-            return false;
-        }
 
         if (result.errorCode) {
             // let arr = result.desc.split(':');
@@ -513,6 +518,85 @@ class RightMenuModal extends React.Component {
         let features = RightMenuStore.getFeatures();
         BatchAssignStore.show(features);
         RightMenuStore.hide();
+    };
+
+    breakByLine = () => {
+        const { DataLayerStore, RightMenuStore } = this.props;
+
+        if (!RightMenuStore.isCurrentLayer) {
+            message.warning('只能选取当前编辑图层要素！', 3);
+            return false;
+        }
+
+        DataLayerStore.createBreakLine();
+        RightMenuStore.hide();
+    };
+
+    breakByLineCallback = result => {
+        const {
+            DataLayerStore,
+            RightMenuStore,
+            OperateHistoryStore,
+            AttributeStore,
+            TaskStore
+        } = this.props;
+
+        if (result.errorCode) {
+            message.warning('打断辅助线绘制失败', 3);
+            DataLayerStore.exitEdit();
+            return;
+        }
+        let {
+            activeTask: { taskId: task_id }
+        } = TaskStore;
+        Modal.confirm({
+            title: '您确认执行操作？',
+            okText: '确定',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk: async () => {
+                let features = RightMenuStore.getFeatures();
+                try {
+                    let historyLog = await breakLineByLine(
+                        result,
+                        features,
+                        task_id
+                    );
+                    let history = {
+                        type: 'updateFeatureRels',
+                        data: historyLog
+                    };
+                    let log = {
+                        operateHistory: history,
+                        action: 'breakLineByLine',
+                        result: 'success'
+                    };
+                    OperateHistoryStore.add(history);
+                    editLog.store.add(log);
+                    AdEmitter.emit('fetchViewAttributeData');
+                } catch (e) {
+                    //console.log(e);
+                    message.warning('操作失败:' + e.message, 3);
+                    let history = {
+                        features,
+                        breakLine: result
+                    };
+                    let log = {
+                        operateHistory: history,
+                        action: 'breakLineByLine',
+                        result: 'fail',
+                        failReason: e.message
+                    };
+                    editLog.store.add(log);
+                }
+                DataLayerStore.exitEdit();
+                AttributeStore.hideRelFeatures();
+            },
+            onCancel() {
+                DataLayerStore.exitEdit();
+                AttributeStore.hideRelFeatures();
+            }
+        });
     };
 }
 

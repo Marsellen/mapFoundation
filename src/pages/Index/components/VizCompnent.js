@@ -243,6 +243,7 @@ class VizCompnent extends React.Component {
                 layer: vectorLayer
             };
         } catch (e) {
+            console.log(e);
             message.error('作业范围数据加载失败', 3);
         }
     };
