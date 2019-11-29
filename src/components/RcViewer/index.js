@@ -28,9 +28,8 @@ export default class RcViewer extends Component {
 
     viewerInit() {
         if (this.viewer) {
-            this.viewer.update();
-
             this.viewer.view(0);
+            this.viewer.update();
         } else {
             const { options = {}, children } = this.props;
 
