@@ -138,8 +138,9 @@ class QualityCheckStore {
                                     } else {
                                         this.pollingCount < 100 &&
                                             message.error(`请求超时`);
-                                        resolve && resolve(false);
+
                                         this.pollingCount = 0;
+                                        resolve && resolve(false);
                                     }
                                     break;
                                 default:
