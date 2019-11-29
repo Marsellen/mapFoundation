@@ -32,12 +32,7 @@ class QualityCheckResultTable extends React.Component {
     render() {
         const { columns, currentPage, total } = this.state;
         const { QualityCheckStore } = this.props;
-        const {
-            reportList,
-            reportListL,
-            filterOption,
-            tableHeight
-        } = QualityCheckStore;
+        const { reportList, reportListL, tableHeight } = QualityCheckStore;
 
         return (
             <div
@@ -47,10 +42,13 @@ class QualityCheckResultTable extends React.Component {
                     <AdTable
                         dataSource={reportList}
                         columns={columns}
-                        onRow={record => {
+                        onRow={(record, index) => {
                             return {
-                                onClick: this.tableOnClick(record),
-                                onDoubleClick: this.tableOnDoubleClick(record)
+                                onClick: this.tableOnClick(index),
+                                onDoubleClick: this.tableOnDoubleClick(
+                                    record,
+                                    index
+                                )
                             };
                         }}
                         rowClassName={(record, index) =>
@@ -243,27 +241,27 @@ class QualityCheckResultTable extends React.Component {
     };
 
     //单击
-    tableOnClick = record => {
+    tableOnClick = index => {
         return e => {
             this.checkReportTableRow = document.querySelector(
                 '.check-table-row'
             );
             this.checkReportTableRowH = this.checkReportTableRow.offsetHeight;
             //变色
-            this.activeRowStyle(record.index);
+            this.activeRowStyle(index);
             //展开
-            this.openRowStyle(record.index);
+            this.openRowStyle(index);
             this.scrollTop = this.checkReportTable.scrollTop;
         };
     };
 
     //双击
-    tableOnDoubleClick = record => {
+    tableOnDoubleClick = (record, index) => {
         return e => {
             const { QualityCheckStore, TaskStore, DataLayerStore } = this.props;
             const { visitedReport } = QualityCheckStore;
             const { activeTaskId } = TaskStore;
-            let { layerName, featureId, index } = record;
+            let { layerName, featureId } = record;
             //已访问
             visitedReport(record, activeTaskId);
             //展开

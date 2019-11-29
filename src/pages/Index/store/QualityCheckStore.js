@@ -97,6 +97,26 @@ class QualityCheckStore {
         });
     };
 
+    //查询质检结果
+    @action getReport = flow(function*(option) {
+        try {
+            const {
+                code,
+                data,
+                message: resMessage
+            } = yield QualityCheckService.getReport(option);
+            if (code === 1) {
+                this.handleReportRes(data, option.task_id);
+                return data;
+            } else {
+                message.warning(`${code} : ${resMessage}`);
+                return false;
+            }
+        } catch (e) {
+            console.error(`错误提示 ${e.message || e}`);
+        }
+    }).bind(this);
+
     //轮询质检结果
     @action pollingGetReport = (option, resolve) => {
         return setTimeout(

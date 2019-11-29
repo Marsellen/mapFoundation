@@ -96,7 +96,7 @@ class QualityCheckResult extends React.Component {
         const { roleCode } = loginUser;
         const {
             handleQualityGetMisreport,
-            handleProducerGetReport,
+            getReport,
             openCheckReport
         } = QualityCheckStore;
 
@@ -104,7 +104,7 @@ class QualityCheckResult extends React.Component {
 
         switch (roleCode) {
             case 'producer':
-                handleProducerGetReport({
+                getReport({
                     task_id: activeTaskId
                 });
                 break;
