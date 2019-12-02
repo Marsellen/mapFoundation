@@ -12,9 +12,11 @@ import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import _ from 'lodash';
 import AdEmitter from 'src/models/event';
+import { getLayerIDKey } from 'src/utils/vectorUtils';
 
 const EDIT_TYPE = [
     'delPoint',
+    'copyLine',
     'changePoints',
     'insertPoints',
     'select_point',
@@ -25,6 +27,10 @@ const CHINESE_EDIT_TYPE = [
     {
         type: 'delPoint',
         value: '删除形状点'
+    },
+    {
+        type: 'copyLine',
+        value: '复制线要素'
     },
     {
         type: 'changePoints',
@@ -45,6 +51,7 @@ const CHINESE_EDIT_TYPE = [
 ];
 
 @inject('RightMenuStore')
+@inject('NewFeatureStore')
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -109,6 +116,12 @@ class RightMenuModal extends React.Component {
                 onClick={this.deleteFeature}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>删除</span>
+            </Menu.Item>,
+            <Menu.Item
+                key="copyLine"
+                onClick={this.copyLine}
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                <span>复制</span>
             </Menu.Item>,
             <Menu.Item
                 id="insert-points-btn"
@@ -203,6 +216,7 @@ class RightMenuModal extends React.Component {
     installListener = () => {
         const { DataLayerStore } = this.props;
         DataLayerStore.setBreakCallback(this.breakCallBack);
+        DataLayerStore.setCopyLineCallback(this.copyLineCallback);
     };
 
     breakCallBack = result => {
@@ -279,6 +293,62 @@ class RightMenuModal extends React.Component {
         });
     };
 
+    copyLineCallback = async result => {
+        const {
+            DataLayerStore,
+            RightMenuStore,
+            NewFeatureStore,
+            OperateHistoryStore,
+            AttributeStore
+        } = this.props;
+        // console.log(result);
+
+        if (!RightMenuStore.isCurrentLayer) {
+            message.warning('只能选取当前编辑图层要素！', 3);
+            return false;
+        }
+
+        let data;
+        try {
+            //判断是否绘制成功
+            if (result.errorCode) {
+                // 解析sdk抛出异常信息
+                let arr = result.desc.split(':');
+                let desc = arr[arr.length - 1];
+                throw desc;
+            }
+
+            let feature = RightMenuStore.getFeatures()[0];
+            let IDKey = getLayerIDKey(feature.layerName);
+            delete feature.data.properties[IDKey];
+
+            // 请求id服务，申请id
+            data = await NewFeatureStore.init(result);
+            data.data.properties = {
+                ...data.data.properties,
+                ...feature.data.properties
+            };
+            // 更新id到sdk
+            DataLayerStore.updateFeature(data);
+            let history = {
+                type: 'addFeature',
+                feature: data.data,
+                layerName: data.layerName
+            };
+            let log = {
+                operateHistory: history,
+                action: 'copyLine',
+                result: 'success'
+            };
+            OperateHistoryStore.add(history);
+            editLog.store.add(log);
+        } catch (e) {
+            message.warning('操作失败:' + e, 3);
+        }
+        DataLayerStore.exitEdit();
+        AttributeStore.hideRelFeatures();
+    };
+
     deleteFeature = () => {
         const {
             RightMenuStore,
@@ -323,6 +393,16 @@ class RightMenuModal extends React.Component {
                 AttributeStore.hideRelFeatures();
             }
         });
+        RightMenuStore.hide();
+    };
+
+    copyLine = () => {
+        const { RightMenuStore, DataLayerStore } = this.props;
+        if (!RightMenuStore.isCurrentLayer) {
+            message.warning('只能选取当前编辑图层要素！', 3);
+            return false;
+        }
+        DataLayerStore.dragCopyedFeature();
         RightMenuStore.hide();
     };
 

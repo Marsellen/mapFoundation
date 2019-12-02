@@ -70,7 +70,7 @@ export default {
             { value: 0, label: '未定义', style: { color: 'rgb(127,125,125)' } },
             {
                 value: 1,
-                label: '非共用车道线',
+                label: '道路参考线',
                 style: { color: 'rgb(127,25,76)' }
             },
             {
