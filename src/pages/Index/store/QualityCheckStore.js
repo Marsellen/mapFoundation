@@ -4,7 +4,7 @@ import { message } from 'antd';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { COLUMNS_CONFIG } from 'src/config/CheckTableConfig';
-import Resize from 'src/Utils/resize';
+import Resize from 'src/utils/resize';
 
 const needFilterColumns = (() => {
     const columns = [];
@@ -44,6 +44,7 @@ class QualityCheckStore {
     };
 
     @action closeCheckReport = () => {
+        this.clearCheckReport();
         this.checkReportVisible = false;
     };
 
@@ -55,22 +56,25 @@ class QualityCheckStore {
         this.reportListInit = [];
         this.reportList = [];
         this.checkReportIsVisited = {};
+        this.filterOption = {};
     };
 
     //作业员质检
     producerCheck = flow(function*(option) {
         try {
-            const { code, data, message } = yield QualityCheckService.check(
-                option
-            );
+            const {
+                code,
+                data,
+                message: resMessage
+            } = yield QualityCheckService.check(option);
             if (code === 1) {
                 return data;
             } else {
-                message.warning(`${code} : ${message}`);
+                message.warning(`${code} : ${resMessage}`);
                 return false;
             }
         } catch (e) {
-            message.error(`错误提示 ${e.message || e}`);
+            console.error(`错误提示 ${e.message || e}`);
         }
     }).bind(this);
 
@@ -81,6 +85,7 @@ class QualityCheckStore {
     }).bind(this);
 
     @action handleProducerGetReport = option => {
+        this.clearCheckReport();
         return new Promise(resolve => this.pollingGetReport(option, resolve));
     };
 
@@ -92,6 +97,26 @@ class QualityCheckStore {
         });
     };
 
+    //查询质检结果
+    @action getReport = flow(function*(option) {
+        try {
+            const {
+                code,
+                data,
+                message: resMessage
+            } = yield QualityCheckService.getReport(option);
+            if (code === 1) {
+                this.handleReportRes(data, option.task_id);
+                return data;
+            } else {
+                message.warning(`${code} : ${resMessage}`);
+                return false;
+            }
+        } catch (e) {
+            console.error(`错误提示 ${e.message || e}`);
+        }
+    }).bind(this);
+
     //轮询质检结果
     @action pollingGetReport = (option, resolve) => {
         return setTimeout(
@@ -99,7 +124,7 @@ class QualityCheckStore {
                 try {
                     QualityCheckService.getReport(option)
                         .then(res => {
-                            const { code, data, message } = res;
+                            const { code, data, message: resMessage } = res;
                             switch (code) {
                                 case 1:
                                     this.pollingCount = 0;
@@ -113,27 +138,24 @@ class QualityCheckStore {
                                     } else {
                                         this.pollingCount < 100 &&
                                             message.error(`请求超时`);
-                                        resolve && resolve(false);
+
                                         this.pollingCount = 0;
+                                        resolve && resolve(false);
                                     }
-                                    break;
-                                case 509:
-                                    this.pollingCount = 0;
-                                    // message.warning(`${code} : 没有质检结果`);
                                     break;
                                 default:
                                     this.pollingCount = 0;
-                                    message.warning(`${code} : ${message}`);
+                                    message.warning(`${code} : ${resMessage}`);
                                     resolve && resolve(false);
                                     break;
                             }
                         })
                         .catch(e => {
-                            message.error(`错误提示 ${e.message || e}`);
+                            console.error(`错误提示 ${e.message || e}`);
                             resolve && resolve(false);
                         });
                 } catch (e) {
-                    message.error(`错误提示 ${e.message || e}`);
+                    console.error(`错误提示 ${e.message || e}`);
                 }
             }).bind(this),
             1000
@@ -161,6 +183,8 @@ class QualityCheckStore {
             this.reportList = [];
             this.resize.addResizeEvent('quality-check-result-modal-wrap');
             this.getResizeStyle();
+            this.filterOption = this.filterOption || {};
+            this.filterOption.isUpdate = true;
             return;
         }
         const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(
@@ -248,7 +272,7 @@ class QualityCheckStore {
                 message.warning('请求失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`错误提示 ${e.message || e}`);
+            console.error(`错误提示 ${e.message || e}`);
         }
     }).bind(this);
 
@@ -267,11 +291,12 @@ class QualityCheckStore {
                 message.warning('请求失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`错误提示 ${e.message || e}`);
+            console.error(`错误提示 ${e.message || e}`);
         }
     }).bind(this);
 
     @action handleQualityGetMisreport = flow(function*(option) {
+        this.clearCheckReport();
         const data = yield this.qualityGetMisreport(option);
         this.handleReportRes(data, option.taskId);
     }).bind(this);
@@ -288,7 +313,7 @@ class QualityCheckStore {
                 message.warn('获取质检结果失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`错误提示 ${e.message || e}`);
+            console.error(`错误提示 ${e.message || e}`);
         }
     });
 
@@ -310,7 +335,7 @@ class QualityCheckStore {
                 message.warning('请求失败，请稍后重试');
             }
         } catch (e) {
-            message.error(`错误提示 ${e.message || e}`);
+            console.error(`错误提示 ${e.message || e}`);
         }
     }).bind(this);
 }

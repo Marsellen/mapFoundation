@@ -17,6 +17,10 @@ export default (function() {
             locatePicture: {
                 url: EditApiPath('/api/getbestfitjpg'),
                 method: 'post'
+            },
+            breakLinesByLine: {
+                url: EditApiPath('/adcommon/linecuts'),
+                method: 'post'
             }
         }
     );

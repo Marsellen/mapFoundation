@@ -96,7 +96,7 @@ class PictureShowView extends React.Component {
                         .querySelector('.viewer-locate-picture')
                         .classList.add('active');
                 }
-                titleMap.map(this.addTitle);
+                titleMap.forEach(this.addTitle);
             }
         };
     }

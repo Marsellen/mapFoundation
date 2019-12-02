@@ -33,7 +33,8 @@ export const DATA_LAYER_MAP = {
             'breakGroup',
             'merge',
             'batchAssign',
-            'reverseOrderLine'
+            'reverseOrderLine',
+            'breakByLine'
         ]
     },
     AD_LaneMark_Plg: {
@@ -84,7 +85,8 @@ export const DATA_LAYER_MAP = {
             'breakGroup',
             'merge',
             'batchAssign',
-            'reverseOrderLine'
+            'reverseOrderLine',
+            'breakByLine'
         ]
     },
     AD_TrafficSign: {
@@ -126,7 +128,8 @@ export const DATA_LAYER_MAP = {
             'breakGroup',
             'merge',
             'batchAssign',
-            'reverseOrderLine'
+            'reverseOrderLine',
+            'breakByLine'
         ]
     },
     AD_TrafficLight: {
@@ -171,7 +174,7 @@ export const DATA_LAYER_MAP = {
             'deletePoints',
             'break'
         ],
-        groupRightTools: ['breakGroup', 'merge', 'batchAssign']
+        groupRightTools: ['breakGroup', 'merge', 'batchAssign', 'breakByLine']
     },
     AD_Lane_RS: {
         label: '车道中心线交通限制信息',

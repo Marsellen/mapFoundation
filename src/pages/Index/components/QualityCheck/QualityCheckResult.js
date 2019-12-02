@@ -36,7 +36,6 @@ class QualityCheckResult extends React.Component {
                     mask={false}
                     zIndex={999}
                     maskClosable={false}
-                    destroyOnClose={true}
                     closable={false}
                     width={'100%'}
                     bodyStyle={{ padding: 0 }}
@@ -60,7 +59,7 @@ class QualityCheckResult extends React.Component {
                 defaultActiveKey="1"
                 onChange={this.handleTabsChange}
                 tabBarExtraContent={this._closeIcon()}>
-                <TabPane tab="质检结果" key="1">
+                <TabPane tab="检查结果" key="1">
                     <QualityCheckResultTable reportList={reportList} />
                 </TabPane>
             </Tabs>
@@ -97,7 +96,7 @@ class QualityCheckResult extends React.Component {
         const { roleCode } = loginUser;
         const {
             handleQualityGetMisreport,
-            handleProducerGetReport,
+            getReport,
             openCheckReport
         } = QualityCheckStore;
 
@@ -105,7 +104,7 @@ class QualityCheckResult extends React.Component {
 
         switch (roleCode) {
             case 'producer':
-                handleProducerGetReport({
+                getReport({
                     task_id: activeTaskId
                 });
                 break;

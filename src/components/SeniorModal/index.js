@@ -24,15 +24,14 @@ class DragDom extends React.Component {
 }
 
 export default class SeniorModal extends React.Component {
-    key = guid();
-
     _dragDom = content => {
         if (!content) return null;
+        const { wrapClassName, dragCallback } = this.props;
         return (
             <DragDom
                 content={content}
-                modalClassName={this.key}
-                dragCallback={this.props.dragCallback}
+                modalClassName={wrapClassName}
+                dragCallback={dragCallback}
             />
         );
     };
@@ -49,7 +48,7 @@ export default class SeniorModal extends React.Component {
             <Modal
                 {...this.props}
                 afterClose={this.afterClose(afterClose)}
-                wrapClassName={wrapClassName + ' ' + this.key}
+                wrapClassName={wrapClassName}
                 title={this._dragDom(title)}>
                 <div>
                     {this._dragDom(dragDom)}
@@ -62,16 +61,6 @@ export default class SeniorModal extends React.Component {
     afterClose = action => {
         return () => {
             action && action();
-            this.modalDom = document.getElementsByClassName(this.key)[0];
-            this.modalDom.style.transform = 'none';
         };
     };
-}
-
-function guid() {
-    return 'xxxxxxx'.replace(/[x]/g, function(c) {
-        var r = (Math.random() * 16) | 0,
-            v = c == 'x' ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-    });
 }

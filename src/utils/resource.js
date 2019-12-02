@@ -4,6 +4,18 @@ import { Modal } from 'antd';
 
 const BASIC_METHODS = ['get', 'post', 'put'];
 
+const logoutModal = title => {
+    Modal.error({
+        title,
+        okText: '确定',
+        cancelText: '取消',
+        onOk: () => {
+            logout();
+            window.location.reload();
+        }
+    });
+};
+
 //捕获401
 // http response 拦截器
 axios.interceptors.response.use(
@@ -11,34 +23,19 @@ axios.interceptors.response.use(
         return response;
     },
     error => {
-        if (error.response) {
-            if (error.response.status === 401) {
-                // 返回 401 清除token信息并跳转到登录页面
-                Modal.error({
-                    title: 'token失效，请重新获取',
-                    okText: '确定',
-                    cancelText: '取消',
-                    onOk: () => {
-                        logout();
-                        window.location.reload();
-                    }
-                });
-            }
+        const { response } = error;
+        const { status, data } = response;
+        const { code } = data;
 
-            // switch (error.response.status) {
-            //     case 401:
-            //         // 返回 401 清除token信息并跳转到登录页面
-            //         Modal.error({
-            //             title: 'token失效，请重新获取',
-            //             okText: '确定',
-            //             cancelText: '取消',
-            //             onOk: () => {
-            //                 logout();
-            //                 window.location.reload();
-            //             }
-            //         });
-            // }
+        // 返回 401 清除token信息并跳转到登录页面
+        if (status === 401) {
+            if (code === 1016) {
+                logoutModal('您的账号已在其他地点登陆，请重新登陆');
+            } else {
+                logoutModal('token失效，请重新获取');
+            }
         }
+
         return Promise.reject(error.response.data); // 返回接口返回的错误信息
     }
 );

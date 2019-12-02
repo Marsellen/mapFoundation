@@ -176,11 +176,7 @@ class JobStatus extends React.Component {
         const { QualityCheckStore, appStore } = this.props;
         const { loginUser } = appStore;
         const { roleCode } = loginUser;
-        const {
-            isAllVisited,
-            isAllChecked,
-            openCheckReport
-        } = QualityCheckStore;
+        const { isAllVisited, isAllChecked } = QualityCheckStore;
         const { manualStatus } = option;
         const taskStatus = MANUALSTATUS[manualStatus] || '提交';
 
@@ -218,9 +214,8 @@ class JobStatus extends React.Component {
     };
 
     handleTaskSubmit = async option => {
-        const { OperateHistoryStore, QualityCheckStore } = this.props;
+        const { OperateHistoryStore } = this.props;
         const { currentNode, savedNode } = OperateHistoryStore;
-        const { closeCheckReport } = QualityCheckStore;
         const shouldSave = currentNode > savedNode;
 
         //保存
@@ -234,12 +229,11 @@ class JobStatus extends React.Component {
 
         //提交
         this.taskSubmit(option);
-
-        closeCheckReport(); //关闭质检弹窗
     };
 
     taskSubmit = async option => {
-        const { TaskStore } = this.props;
+        const { TaskStore, QualityCheckStore } = this.props;
+        const { closeCheckReport } = QualityCheckStore;
         try {
             await TaskStore.initSubmit(option);
             TaskStore.setActiveTask();
@@ -252,6 +246,8 @@ class JobStatus extends React.Component {
                 TaskStore.initTask({ type: 3 });
             }
             message.success('提交成功');
+            //关闭质检弹窗
+            closeCheckReport();
         } catch (e) {
             message.error(e.message, 3);
         }

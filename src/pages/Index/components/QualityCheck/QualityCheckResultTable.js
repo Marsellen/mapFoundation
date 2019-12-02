@@ -32,12 +32,7 @@ class QualityCheckResultTable extends React.Component {
     render() {
         const { columns, currentPage, total } = this.state;
         const { QualityCheckStore } = this.props;
-        const {
-            reportList,
-            reportListL,
-            filterOption,
-            tableHeight
-        } = QualityCheckStore;
+        const { reportList, reportListL, tableHeight } = QualityCheckStore;
 
         return (
             <div
@@ -47,14 +42,17 @@ class QualityCheckResultTable extends React.Component {
                     <AdTable
                         dataSource={reportList}
                         columns={columns}
-                        onRow={record => {
+                        onRow={(record, index) => {
                             return {
-                                onClick: this.tableOnClick(record),
-                                onDoubleClick: this.tableOnDoubleClick(record)
+                                onClick: this.tableOnClick(index),
+                                onDoubleClick: this.tableOnDoubleClick(
+                                    record,
+                                    index
+                                )
                             };
                         }}
-                        rowClassName={record =>
-                            `check-table-row check-table-row-${record.index}`
+                        rowClassName={(record, index) =>
+                            `check-table-row check-table-row-${index}`
                         }
                         pagination={{
                             current: currentPage,
@@ -73,7 +71,7 @@ class QualityCheckResultTable extends React.Component {
                         scroll={{ y: tableHeight || 170, x: '100%' }}
                         isHandleBody={true}
                     />
-                    {filterOption.isUpdate && (
+                    {reportListL > 0 && (
                         <div className="check-table-footer">
                             <Button
                                 className="reset-button"
@@ -90,6 +88,7 @@ class QualityCheckResultTable extends React.Component {
     componentDidMount() {
         if (!this.props.QualityCheckStore) return;
         this.qualityCheckTabelColumns();
+        this.props.QualityCheckStore.toResizeDom();
         this.checkReportTable = document.querySelector(
             '.check-result-table .ant-table-body'
         );
@@ -138,7 +137,7 @@ class QualityCheckResultTable extends React.Component {
         const _ = this;
         const { columns } = this.state;
         const { QualityCheckStore } = this.props;
-        let { filterOption, toResizeDom } = QualityCheckStore;
+        let { filterOption, toResizeDom, reportListL } = QualityCheckStore;
         let { filteredInfo } = this.state;
         filteredInfo = filteredInfo || {};
 
@@ -184,7 +183,7 @@ class QualityCheckResultTable extends React.Component {
             dataIndex: 'misrepId',
             key: 'misrepId',
             align: 'center',
-            width: 70,
+            width: 80,
             render(text, record) {
                 const { index, checked } = record;
                 return (
@@ -202,6 +201,14 @@ class QualityCheckResultTable extends React.Component {
             this.setState(
                 {
                     columns: currentColumns
+                },
+                toResizeDom
+            );
+        } else {
+            this.setState(
+                {
+                    filteredInfo: null,
+                    total: reportListL
                 },
                 toResizeDom
             );
@@ -234,27 +241,27 @@ class QualityCheckResultTable extends React.Component {
     };
 
     //单击
-    tableOnClick = record => {
+    tableOnClick = index => {
         return e => {
             this.checkReportTableRow = document.querySelector(
                 '.check-table-row'
             );
             this.checkReportTableRowH = this.checkReportTableRow.offsetHeight;
             //变色
-            this.activeRowStyle(record.index);
+            this.activeRowStyle(index);
             //展开
-            this.openRowStyle(record.index);
+            this.openRowStyle(index);
             this.scrollTop = this.checkReportTable.scrollTop;
         };
     };
 
     //双击
-    tableOnDoubleClick = record => {
+    tableOnDoubleClick = (record, index) => {
         return e => {
             const { QualityCheckStore, TaskStore, DataLayerStore } = this.props;
             const { visitedReport } = QualityCheckStore;
             const { activeTaskId } = TaskStore;
-            let { layerName, featureId, index } = record;
+            let { layerName, featureId } = record;
             //已访问
             visitedReport(record, activeTaskId);
             //展开
@@ -271,6 +278,7 @@ class QualityCheckResultTable extends React.Component {
                 value: Number(featureId)
             };
             let layer = getLayerByName(layerName);
+            if (!layer.getFeatureByOption(option)) return;
             let feature = layer.getFeatureByOption(option).properties;
             let extent = map.getExtent(feature.data.geometry);
             map.setView('U');
@@ -372,13 +380,16 @@ class QualityCheckResultTable extends React.Component {
                 shift: false,
                 keyCode: 40,
                 callback: () => {
-                    const { currentIndex, currentPage, pageSize } = this.state;
-                    const { QualityCheckStore } = this.props;
-                    const { reportListL } = QualityCheckStore;
-                    const maxPageSize = Math.ceil(reportListL / pageSize);
+                    const {
+                        currentIndex,
+                        currentPage,
+                        pageSize,
+                        total
+                    } = this.state;
+                    const maxPageSize = Math.ceil(total / pageSize);
                     const maxPage =
                         currentPage === maxPageSize
-                            ? reportListL
+                            ? total
                             : currentPage * pageSize;
                     const nextIndex = currentIndex + 1;
                     if (nextIndex >= maxPage) return;
