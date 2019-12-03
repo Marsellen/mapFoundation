@@ -102,7 +102,6 @@ class EditableCard extends React.Component {
 
     onCreate = () => {
         const { value, onChange, form } = this.props;
-        const { editAttrs } = this.state;
 
         form.validateFields((err, values) => {
             if (err) {
@@ -118,10 +117,6 @@ class EditableCard extends React.Component {
                     [IDKey]: id
                 }
             });
-            // editAttrs.forEach(item => {
-            //     item.value = values[item.key];
-            // });
-            //this.setState({ attrs: editAttrs });
             this.hide();
         });
     };
