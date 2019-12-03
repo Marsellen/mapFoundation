@@ -20,11 +20,6 @@ class AttributesModal extends React.Component {
         AttributeStore.hide();
     };
 
-    componentDidMount() {
-        const { AttributeStore } = this.props;
-        AttributeStore.addToggleListener(this.props.form.resetFields);
-    }
-
     render() {
         const { AttributeStore } = this.props;
         const { visible } = AttributeStore;

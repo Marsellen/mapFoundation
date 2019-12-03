@@ -41,7 +41,7 @@ class AttrsForm extends React.Component {
                         }
                     })(
                         <EditableCard
-                            key={index}
+                            key={Math.random()}
                             index={index}
                             readonly={readonly}
                             onDelete={this.onDelete('AD_Lane_RS')}
@@ -78,7 +78,7 @@ class AttrsForm extends React.Component {
                         }
                     )(
                         <EditableCard
-                            key={index}
+                            key={Math.random()}
                             index={index}
                             readonly={readonly}
                             onDelete={this.onDelete('AD_TS_Content')}
@@ -112,7 +112,7 @@ class AttrsForm extends React.Component {
                         }
                     })(
                         <EditableCard
-                            key={index}
+                            key={Math.random()}
                             index={index}
                             readonly={readonly}
                             onDelete={this.onDelete('AD_Sub_Lamp')}

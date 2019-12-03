@@ -36,7 +36,6 @@ export const ATTR_SPEC_CONFIG = [
 export const ATTR_TABLE_CONFIG = {
     AD_TS_Content: [
         {
-            primaryKey: true,
             key: 'CONT_ID',
             name: '用户编号',
             domType: 'Text',
@@ -77,7 +76,6 @@ export const ATTR_TABLE_CONFIG = {
     ],
     AD_Sub_Lamp: [
         {
-            primaryKey: true,
             key: 'LAMP_ID',
             name: '用户编号',
             domType: 'Text',
@@ -99,7 +97,6 @@ export const ATTR_TABLE_CONFIG = {
     ],
     AD_Lane_RS: [
         {
-            primaryKey: true,
             key: 'RS_ID',
             name: '用户编号',
             domType: 'Text',
@@ -127,7 +124,6 @@ export const ATTR_TABLE_CONFIG = {
     ],
     AD_Lane_Con_RS: [
         {
-            primaryKey: true,
             key: 'RS_ID',
             name: '用户编号',
             domType: 'Text',
@@ -148,7 +144,6 @@ export const ATTR_TABLE_CONFIG = {
     ],
     AD_Road_Con_RS: [
         {
-            primaryKey: true,
             key: 'RS_ID',
             name: '用户编号',
             domType: 'Text',

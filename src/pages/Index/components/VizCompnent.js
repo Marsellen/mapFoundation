@@ -457,7 +457,7 @@ class VizCompnent extends React.Component {
         let readonly =
             (editLayer && editLayer.layerId !== obj.layerId) || !editLayer;
 
-        await AttributeStore.setModel(obj);
+        AttributeStore.setModel(obj);
         AttributeStore.show(readonly);
     };
 
