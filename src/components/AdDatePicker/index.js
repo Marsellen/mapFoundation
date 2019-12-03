@@ -300,6 +300,7 @@ class AdDatePicker extends React.Component {
                                         className="time-picker"
                                         key={`time${index}`}>
                                         <TimePicker
+                                            key={Math.random()}
                                             isCheckbox={isCheckbox}
                                             index={index}
                                             timeChange={this.timeChange}
@@ -400,9 +401,7 @@ class AdDatePicker extends React.Component {
 
     // 时分增加行
     add = () => {
-        const { echoTimeArr } = this.props;
         const { timeArr } = this.state;
-
         timeArr.push(params);
         this.setState({
             timeArr
