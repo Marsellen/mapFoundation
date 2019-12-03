@@ -9,6 +9,7 @@ import { getLayerIDKey } from 'src/utils/vectorUtils';
 import './style.less';
 import AdInput from 'src/components/Form/AdInput';
 import { getValidator } from 'src/utils/form/validator';
+import AdDateInput from 'src/components/Form/AdDateInput';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import AdSelect from 'src/components/Form/AdSelect';
 
@@ -28,7 +29,8 @@ class EditableCard extends React.Component {
     state = {
         visible: false,
         attrs: [],
-        editAttrs: []
+        editAttrs: [],
+        value: ''
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -205,6 +207,67 @@ class EditableCard extends React.Component {
                 )}
             </Form.Item>
         );
+    };
+
+    renderAdDateInput = (item, index, readonly) => {
+        const { form } = this.props;
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
+                {!readonly ? (
+                    form.getFieldDecorator(item.key, {
+                        rules: [
+                            {
+                                required: item.required,
+                                message: `${item.name}必填`
+                            },
+                            { validator: this.checkPrice },
+                            ...this.getValidatorSetting(item.validates)
+                        ],
+                        initialValue: this.state.value || item.value
+                    })(
+                        <AdDateInput
+                            option={item.value}
+                            onSubmit={this.onSubmit}
+                        />
+                    )
+                ) : (
+                    <span className="ant-form-text">{item.value}</span>
+                )}
+            </Form.Item>
+        );
+    };
+
+    onSubmit = (timeArr, dateFormat) => {
+        let date = '',
+            monthAndWeek;
+        if (Object.keys(dateFormat).length !== 0) {
+            const start =
+                dateFormat.switchDate === 'week'
+                    ? dateFormat.startDate.split('-')[0]
+                    : dateFormat.startDate;
+            const end =
+                dateFormat.switchDate === 'week'
+                    ? dateFormat.endDate.split('-')[0]
+                    : dateFormat.endDate;
+
+            const format = dateFormat.switchDate === 'week' ? 'WD' : 'D';
+            monthAndWeek = `[(${format}${start}){D${Number(end) -
+                Number(start)}}]`;
+        } else {
+            monthAndWeek = '';
+        }
+        let timeAndMin = '';
+        timeArr.map((item, index) => {
+            if (index !== timeArr.length - 1) {
+                timeAndMin += `[(h${item.startHour}m${item.startMin}){h${item.endHour}m${item.endMin}}]&`;
+            } else {
+                timeAndMin += `[(h${item.startHour}m${item.startMin}){h${item.endHour}m${item.endMin}}]`;
+            }
+        });
+        date = monthAndWeek + timeAndMin;
+        this.setState({
+            value: date
+        });
     };
 
     renderInputNumber = (item, index, readonly) => {

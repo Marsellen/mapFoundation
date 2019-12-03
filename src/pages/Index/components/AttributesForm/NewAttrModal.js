@@ -10,6 +10,7 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import SearchIconGroup from 'src/components/SearchIconGroup';
 import _ from 'lodash';
 import AdInput from 'src/components/Form/AdInput';
+import AdDateInput from 'src/components/Form/AdDateInput';
 import { getValidator } from 'src/utils/form/validator';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import AdSelect from 'src/components/Form/AdSelect';
@@ -31,7 +32,8 @@ const formItemLayout = {
 class NewAttrModal extends React.Component {
     state = {
         visible: false,
-        attrs: []
+        attrs: [],
+        value: ''
     };
 
     componentDidMount() {
@@ -106,6 +108,62 @@ class NewAttrModal extends React.Component {
                 })(<AdInput disabled placeholder={item.placeholder} />)}
             </Form.Item>
         );
+    };
+
+    renderAdDateInput = (item, index) => {
+        const { form } = this.props;
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
+                {form.getFieldDecorator(item.key, {
+                    rules: [
+                        {
+                            required: item.required,
+                            message: `${item.name}必填`
+                        },
+                        { validator: this.checkPrice },
+                        ...this.getValidatorSetting(item.validates)
+                    ],
+                    initialValue: this.state.value || item.value
+                })(
+                    <AdDateInput option={item.value} onSubmit={this.onSubmit} />
+                )}
+            </Form.Item>
+        );
+    };
+
+    onSubmit = (timeArr, dateFormat) => {
+        let date = '',
+            monthAndWeek;
+
+        if (Object.keys(dateFormat).length !== 0) {
+            const start =
+                dateFormat.switchDate === 'week'
+                    ? dateFormat.startDate.split('-')[0]
+                    : dateFormat.startDate;
+            const end =
+                dateFormat.switchDate === 'week'
+                    ? dateFormat.endDate.split('-')[0]
+                    : dateFormat.endDate;
+
+            const format = dateFormat.switchDate === 'week' ? 'WD' : 'D';
+            monthAndWeek = `[(${format}${start}){D${Number(end) -
+                Number(start)}}]`;
+        } else {
+            monthAndWeek = '';
+        }
+        let timeAndMin = '';
+        timeArr.map((item, index) => {
+            if (index !== timeArr.length - 1) {
+                timeAndMin += `[(h${item.startHour}m${item.startMin}){h${item.endHour}m${item.endMin}}]&`;
+            } else {
+                timeAndMin += `[(h${item.startHour}m${item.startMin}){h${item.endHour}m${item.endMin}}]`;
+            }
+        });
+        date = monthAndWeek + timeAndMin;
+
+        this.setState({
+            value: date
+        });
     };
 
     renderInput = (item, index) => {

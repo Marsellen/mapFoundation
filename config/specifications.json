@@ -704,7 +704,11 @@
                 "type": "AD_LANE_RS_VALUE",
                 "domType": "Select"
             },
-            { "name": "限制时间描述", "key": "TIMEDOM", "domType": "Input" }
+            {
+                "name": "限制时间描述",
+                "key": "TIMEDOM",
+                "domType": "AdDateInput"
+            }
         ],
         "defaultValue": { "RS_TYPE": 0, "RS_VALUE": 0, "TIMEDOM": "" }
     },
@@ -727,7 +731,11 @@
                 "type": "AD_LANE_CON_RS_TYPE",
                 "domType": "Select"
             },
-            { "name": "限制时间描述", "key": "TIMEDOM", "domType": "Input" }
+            {
+                "name": "限制时间描述",
+                "key": "TIMEDOM",
+                "domType": "AdDateInput"
+            }
         ],
         "defaultValue": { "RS_TYPE": 1, "TIMEDOM": "" }
     },
@@ -777,7 +785,7 @@
             {
                 "key": "TIMEDOM",
                 "name": "中心线限制时间描述",
-                "domType": "Input"
+                "domType": "AdDateInput"
             }
         ],
         "defaultValue": {
