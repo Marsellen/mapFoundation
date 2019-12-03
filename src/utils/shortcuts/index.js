@@ -5,16 +5,26 @@ export default class Shortcut {
         this.preventDefault();
     }
 
+    init() {
+        document.addEventListener('keydown', event => {
+            shortcutMap.forEach(this.getEventCallBack(event));
+        });
+    }
+
     add(event, shortcutMapParams) {
         if (!event || !shortcutMapParams) return false;
-        shortcutMapParams.forEach(item => {
+        shortcutMapParams.forEach(this.getEventCallBack(event));
+    }
+
+    getEventCallBack = event => {
+        const {
+            altKey: eAltKey,
+            ctrlKey: eCtrlKey,
+            shiftKey: eShiftKey,
+            keyCode: eKeyCode
+        } = event;
+        return item => {
             const { id, ctrl, alt, shift, keyCode, callback } = item;
-            const {
-                altKey: eAltKey,
-                ctrlKey: eCtrlKey,
-                shiftKey: eShiftKey,
-                keyCode: eKeyCode
-            } = event;
             if (
                 alt === eAltKey &&
                 ctrl === eCtrlKey &&
@@ -37,8 +47,8 @@ export default class Shortcut {
                 callback && callback();
                 return false;
             }
-        });
-    }
+        };
+    };
 
     preventDefault() {
         document.addEventListener('keydown', event => {

@@ -8,7 +8,6 @@ import HeaderBar from './components/HeaderBar';
 import 'less/home.less';
 import logo from 'src/assets/img/logo.png';
 import VersionInfo from './components/VersionInfo';
-import { shortcutMap } from 'src/utils/shortcuts/shortcutsMap';
 import { shortcut } from 'src/utils/shortcuts';
 import HelpList from './components/HelpList';
 
@@ -21,20 +20,13 @@ class Index extends React.Component {
 
     componentDidMount() {
         this.props.MenuStore.initMenus();
+        shortcut.init();
     }
-
-    handleKeyDown = event => {
-        shortcut.add(event, shortcutMap);
-    };
 
     render() {
         const { menus } = this.props.MenuStore;
         return (
-            <Layout
-                id="home"
-                onKeyDown={e => {
-                    this.handleKeyDown(e);
-                }}>
+            <Layout id="home">
                 <Header className="header">
                     <div className="logo-content">
                         <img className="logo" src={logo} alt="logo" />

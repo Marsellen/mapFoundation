@@ -16,6 +16,7 @@ export default class AdInputNumber extends React.Component {
     }
     handleKeyDown = e => {
         e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
         const invalidChars = ['+', 'e', 'E'];
         if (invalidChars.indexOf(e.key) !== -1) {
             e.preventDefault();
