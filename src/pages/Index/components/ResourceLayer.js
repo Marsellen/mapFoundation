@@ -42,7 +42,7 @@ class ResourceLayer extends React.Component {
             }
 
             if (item.value == RESOURCE_LAYER_BOUNDARY) {
-                DataLayerStore.clearChoose();
+                DataLayerStore.clearPick();
             }
 
             if (item.value == RESOURCE_LAYER_POINT_CLOUD) {
