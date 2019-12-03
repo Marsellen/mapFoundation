@@ -22,6 +22,7 @@ export const DATA_LAYER_MAP = {
         tools: ['LINE', 'ADD_REL', 'DEL_REL'],
         rightTools: [
             'delete',
+            'copyLine',
             'insertPoints',
             'changePoints',
             'deletePoints',
@@ -73,6 +74,7 @@ export const DATA_LAYER_MAP = {
         ],
         rightTools: [
             'delete',
+            'copyLine',
             'insertPoints',
             'changePoints',
             'deletePoints',
@@ -115,6 +117,7 @@ export const DATA_LAYER_MAP = {
         ],
         rightTools: [
             'delete',
+            'copyLine',
             'insertPoints',
             'changePoints',
             'deletePoints',

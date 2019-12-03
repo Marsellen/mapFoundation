@@ -139,6 +139,8 @@ class DataLayerStore extends LayerStore {
         this.editor.onFeatureCreated(async result => {
             if (this.editType === 'create_break_line') {
                 this.breakByLineCallback(result);
+            } else if (this.editType == 'copyLine') {
+                this.copyLineCallback(result, event);
             } else {
                 callback && (await callback(result));
                 AdEmitter.emit('fetchViewAttributeData');
@@ -314,6 +316,10 @@ class DataLayerStore extends LayerStore {
     setBreakCallback = callback => {
         this.breakCallback = callback;
     };
+    // 复制线要素
+    setCopyLineCallback = callback => {
+        this.copyLineCallback = callback;
+    };
 
     setBreakByLineCallback = callback => {
         this.breakByLineCallback = callback;
@@ -393,6 +399,14 @@ class DataLayerStore extends LayerStore {
         this.disableOtherCtrl();
         this.setEditType('delPoint');
         this.editor.deletePoints();
+    };
+
+    dragCopyedFeature = () => {
+        if (!this.editor) return;
+        this.disableOtherCtrl();
+        this.setEditType('copyLine');
+        this.changeCur();
+        this.editor.dragCopyedFeature();
     };
 
     setPointSize = size => {
