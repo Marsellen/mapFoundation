@@ -1,7 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import RcViewer from 'src/components/RcViewer';
-import IconFont from 'src/components/IconFont';
 import noImg from 'src/assets/img/no-img.png';
 import { completeSecendUrl } from 'src/utils/taskUtils';
 import { locatePicture } from 'src/utils/pictureCtrl';
