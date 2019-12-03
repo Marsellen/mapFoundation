@@ -161,7 +161,7 @@ class SearchInfo extends React.Component {
             (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.setFeatureColor(obj, 0xcc00ff);
-        await AttributeStore.setModel(obj);
+        AttributeStore.setModel(obj);
         AttributeStore.show(readonly);
     };
 

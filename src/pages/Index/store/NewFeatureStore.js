@@ -1,7 +1,6 @@
 import { configure, flow } from 'mobx';
 import modelFactory from 'src/utils/vectorCtrl/modelFactory';
 import IDService from 'src/pages/Index/service/IDService';
-import { Modal } from 'antd';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });

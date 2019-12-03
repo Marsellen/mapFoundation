@@ -37,7 +37,6 @@ class AttributeStore {
         this.fetchAttributes();
         yield this.fetchRels();
         yield this.fetchAttrs();
-        this.toggleEvent && this.toggleEvent();
     });
 
     getModel = () => {
@@ -209,10 +208,6 @@ class AttributeStore {
             console.log(e);
         }
     });
-
-    addToggleListener = toggleEvent => {
-        this.toggleEvent = toggleEvent;
-    };
 }
 
 export default new AttributeStore();

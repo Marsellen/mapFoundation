@@ -106,7 +106,7 @@ class RelationForm extends React.Component {
                         }
                     )(
                         <EditableCard
-                            key={index}
+                            key={Math.random()}
                             index={index}
                             readonly={readonly}
                             onDelete={this.onDelete('AD_Lane_Con_RS')}
@@ -147,7 +147,7 @@ class RelationForm extends React.Component {
                         }
                     )(
                         <EditableCard
-                            key={index}
+                            key={Math.random()}
                             index={index}
                             readonly={readonly}
                             onDelete={this.onDelete('AD_Road_Con_RS')}

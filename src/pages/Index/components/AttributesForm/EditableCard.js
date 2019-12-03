@@ -26,58 +26,35 @@ const formItemLayout = {
 
 @Form.create()
 class EditableCard extends React.Component {
-    state = {
-        visible: false,
-        attrs: [],
-        editAttrs: [],
-        value: ''
-    };
-
-    static getDerivedStateFromProps(props, state) {
-        let isSameDataSource = (props, state) => {
-            try {
-                const { attrs } = state;
-                if (attrs.length) {
-                    return (
-                        props.value.sourceId !==
-                        state.attrs.find(attr => attr.primaryKey).value
-                    );
-                }
-                return true;
-            } catch (e) {
-                console.log(e);
-                return true;
-            }
+    constructor(props) {
+        super(props);
+        this.state = {
+            visible: false,
+            attrs: this.getAttrsFromProps(props),
+            editAttrs: [],
+            value: ''
         };
-        // 当传入的primaryKey发生变化的时候，更新state
-        if (isSameDataSource(props, state)) {
-            const { value } = props;
-            // console.log(value);
-            let _attrs = state.attrs.length
-                ? state.attrs
-                : ATTR_TABLE_CONFIG[value.source];
-            let attrs = _.cloneDeep(_attrs);
-            attrs.forEach(item => {
-                item.value = value.properties[item.key];
-            });
-            attrs.forEach(attr => {
-                if (attr.link == 'RS_VALUE') {
-                    let index = attrs.findIndex(item => item.key == attr.link);
-                    attrs[index].type =
-                        attrs[index].type.replace(/[0-9]/, '') + attr.value;
-                }
-                if (attr.link == 'CONT_VALUE') {
-                    let index = attrs.findIndex(item => item.key == attr.link);
-                    attrs[index].disabled = [0, 1, 2].includes(attr.value);
-                }
-            });
-            return {
-                ...state,
-                attrs
-            };
-        }
-        // 否则，对于state不进行任何操作
-        return null;
+    }
+
+    getAttrsFromProps(props) {
+        const { value } = props;
+        let _attrs = ATTR_TABLE_CONFIG[value.source];
+        let attrs = _.cloneDeep(_attrs);
+        attrs.forEach(attr => {
+            attr.value = value.properties[attr.key];
+
+            if (attr.link == 'RS_VALUE') {
+                let index = attrs.findIndex(item => item.key == attr.link);
+                attrs[index].type =
+                    attrs[index].type.replace(/[0-9]/, '') + attr.value;
+            }
+            if (attr.link == 'CONT_VALUE') {
+                let index = attrs.findIndex(item => item.key == attr.link);
+                attrs[index].disabled = [0, 1, 2].includes(attr.value);
+            }
+        });
+
+        return attrs;
     }
 
     render() {
@@ -127,7 +104,6 @@ class EditableCard extends React.Component {
 
     onCreate = () => {
         const { value, onChange, form } = this.props;
-        const { editAttrs } = this.state;
 
         form.validateFields((err, values) => {
             if (err) {
@@ -143,10 +119,6 @@ class EditableCard extends React.Component {
                     [IDKey]: id
                 }
             });
-            editAttrs.forEach(item => {
-                item.value = values[item.key];
-            });
-            this.setState({ attrs: editAttrs });
             this.hide();
         });
     };
