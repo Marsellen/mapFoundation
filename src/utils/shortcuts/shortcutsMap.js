@@ -227,5 +227,21 @@ export const shortcutMap = [
         shift: false,
         keyCode: 53,
         describe: '开关检查列表 5'
+    },
+    {
+        id: 'copy-btn',
+        ctrl: true,
+        alt: false,
+        shift: false,
+        keyCode: 67,
+        describe: '复制线要素 Ctrl+C'
+    },
+    {
+        id: 'break-by-line-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 78,
+        describe: '拉线齐打断线要素 N'
     }
 ];
