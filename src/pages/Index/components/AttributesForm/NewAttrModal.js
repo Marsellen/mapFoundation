@@ -31,7 +31,8 @@ const formItemLayout = {
 class NewAttrModal extends React.Component {
     state = {
         visible: false,
-        attrs: []
+        attrs: [],
+        confirmLoading: false
     };
 
     componentDidMount() {
@@ -39,13 +40,14 @@ class NewAttrModal extends React.Component {
     }
 
     render() {
-        const { attrs, visible } = this.state;
+        const { attrs, visible, confirmLoading } = this.state;
         return (
             <Modal
                 visible={visible}
                 onOk={this.onOk}
                 onCancel={this.onCancel}
                 destroyOnClose={true}
+                confirmLoading={confirmLoading}
                 title="新增"
                 okText="确定"
                 cancelText="取消">
@@ -76,6 +78,9 @@ class NewAttrModal extends React.Component {
     onOk = () => {
         const { AttributeStore, form } = this.props;
         const { key, properties } = this.state;
+        this.setState({
+            confirmLoading: true
+        });
         form.validateFields((err, values) => {
             if (err) {
                 return;
@@ -89,7 +94,8 @@ class NewAttrModal extends React.Component {
 
     onCancel = () => {
         this.setState({
-            visible: false
+            visible: false,
+            confirmLoading: false
         });
     };
 
