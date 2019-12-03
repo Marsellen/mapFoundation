@@ -44,17 +44,12 @@ class DataLayerStore extends LayerStore {
             layer.show();
         } else {
             layer.hide();
-            this.exitEdit();
         }
-
         this.updateKey = Math.random();
     };
 
     @action toggleAll = checked => {
         this.layers.map(layer => (layer.checked = checked));
-        if (!checked) {
-            this.exitEdit();
-        }
         this.updateKey = Math.random();
     };
 
@@ -154,6 +149,12 @@ class DataLayerStore extends LayerStore {
 
     getEditLayer = () => {
         return this.editor && this.editor.editLayer;
+    };
+
+    //只消除选择
+    clearPick = () => {
+        if (!this.editor) return;
+        this.editor.clear();
     };
 
     clearChoose = () => {

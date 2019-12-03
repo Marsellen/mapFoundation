@@ -92,7 +92,6 @@ class VizCompnent extends React.Component {
                         true,
                         true
                     );
-                    DataLayerStore.exitEdit();
                 },
                 describe: '开关点云图层 1'
             },
@@ -106,7 +105,6 @@ class VizCompnent extends React.Component {
                     event.stopPropagation();
                     ResourceLayerStore.toggle(RESOURCE_LAYER_VETOR, true, true);
                     DataLayerStore.toggleAll(true);
-                    DataLayerStore.exitEdit();
                 },
                 describe: '开关轨迹图层 2'
             }
