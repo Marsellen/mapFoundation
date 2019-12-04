@@ -12,7 +12,7 @@ import { getAuthentication } from 'src/utils/Session';
 import editLog from 'src/models/editLog';
 import moment from 'moment';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
-import SDKConfig from 'src/config/SDKConfig';
+import OutsideVectorsConfig from 'src/config/OutsideVectorsConfig';
 import { LayerGroup } from 'addis-viz-sdk';
 import {
     getExportShpUrl,
@@ -143,7 +143,7 @@ class TaskStore {
                 this.activeTask
             );
             const layerGroup = new LayerGroup(boundaryUrl, {
-                styleConifg: SDKConfig
+                styleConifg: OutsideVectorsConfig
             });
             yield window.map.getLayerManager().addLayerGroup(layerGroup);
             return layerGroup;
