@@ -11,43 +11,43 @@ module.exports = merge(common, {
         hot: true,
         proxy: {
             '/gateway': {
-                target: 'http://imp.gateway.ingress',
+                target: 'http://10.43.75.58:13003',
                 pathRewrite: { '^/gateway': '/' },
                 changeOrigin: true,
                 logLevel: 'debug'
             },
             '/task_service': {
-                target: 'http://imp.gateway.ingress',
+                target: 'http://10.43.75.58:13003',
                 pathRewrite: { '^/task_service': '/task' },
                 changeOrigin: true,
                 logLevel: 'debug'
             },
             '/id_service': {
-                target: 'http://imp.gateway.ingress',
+                target: 'http://10.43.75.58:13003',
                 pathRewrite: { '^/id_service': '/imppublic' },
                 changeOrigin: true,
                 logLevel: 'debug'
             },
             '/manualBuild_service': {
-                target: 'http://imp.gateway.ingress',
+                target: 'http://10.43.75.58:13003',
                 pathRewrite: { '^/manualBuild_service': '/manualBuild' },
                 changeOrigin: true,
                 logLevel: 'debug'
             },
             '/update_boundary_service': {
-                target: 'http://imp.gateway.ingress',
+                target: 'http://10.43.75.58:13003',
                 pathRewrite: { '^/update_boundary_service': '/querydb' },
                 changeOrigin: true,
                 logLevel: 'debug'
             },
             '/edit_service': {
-                target: 'http://imp.gateway.ingress',
+                target: 'http://10.43.75.58:13003',
                 pathRewrite: { '^/edit_service': '/edit' },
                 changeOrigin: true,
                 logLevel: 'debug'
             },
             '/check_service': {
-                target: 'http://imp.gateway.ingress',
+                target: 'http://10.43.75.58:13003',
                 pathRewrite: { '^/check_service': '/check' },
                 changeOrigin: true,
                 logLevel: 'debug'

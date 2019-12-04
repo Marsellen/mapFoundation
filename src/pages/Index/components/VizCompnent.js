@@ -72,6 +72,7 @@ class VizCompnent extends React.Component {
         let task = TaskStore.getTaskFile();
         if (!task) return;
         const div = document.getElementById('viz');
+        window.map && window.map.release();
         window.map = new Map(div);
         this.initTask(task);
     }
