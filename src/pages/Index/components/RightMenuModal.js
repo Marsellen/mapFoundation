@@ -119,6 +119,7 @@ class RightMenuModal extends React.Component {
                 <span>删除</span>
             </Menu.Item>,
             <Menu.Item
+                id="copy-btn"
                 key="copyLine"
                 onClick={this.copyLine}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
