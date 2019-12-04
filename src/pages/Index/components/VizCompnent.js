@@ -24,7 +24,7 @@ import {
 } from 'src/config/DataLayerConfig';
 import MultimediaView from './MultimediaView';
 import VectorsConfig from '../../../config/VectorsConfig';
-import SDKConfig from '../../../config/SDKConfig';
+import OutsideVectorsConfig from '../../../config/OutsideVectorsConfig';
 import 'less/components/viz-compnent.less';
 // import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
@@ -249,7 +249,7 @@ class VizCompnent extends React.Component {
     initBoundary = async boundaryUrl => {
         try {
             window.boundaryLayerGroup = new LayerGroup(boundaryUrl, {
-                styleConifg: SDKConfig
+                styleConifg: OutsideVectorsConfig
             });
             await map.getLayerManager().addLayerGroup(boundaryLayerGroup);
 
