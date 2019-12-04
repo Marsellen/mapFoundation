@@ -81,21 +81,24 @@ const params = {
 class AdDatePicker extends React.Component {
     constructor(props) {
         super(props);
+        let dataParams = props.dataParams;
         this.state = {
-            radioChecked: props.echoDateParams.switchDate || '',
+            radioChecked: dataParams.echoDateParams.switchDate || '',
             timeArr:
-                props.echoTimeArr.length !== 0 ? props.echoTimeArr : [params],
-            isCheckbox: props.checked || []
+                dataParams.echoTimeArr.length !== 0
+                    ? dataParams.echoTimeArr
+                    : [params],
+            isCheckbox: dataParams.checked || []
         };
     }
     render() {
-        const { visible, echoDateParams, checked } = this.props;
+        const { visible, dataParams } = this.props;
         const { getFieldDecorator, getFieldValue } = this.props.form;
-        const { radioChecked, timeArr = [], isCheckbox } = this.state;
+        const { radioChecked, isCheckbox, timeArr } = this.state;
         const month_start =
-            echoDateParams.startDate || getFieldValue('month_start');
+            dataParams.echoDateParams.startDate || getFieldValue('month_start');
         const week_start =
-            echoDateParams.startDate || getFieldValue('week_start');
+            dataParams.echoDateParams.startDate || getFieldValue('week_start');
         let isWeek = radioChecked === 'week';
         let isMonth = radioChecked === 'month';
 
@@ -110,12 +113,15 @@ class AdDatePicker extends React.Component {
                 onCancel={this.handleCancel}>
                 <Checkbox.Group
                     onChange={this.onCheckboxChange}
-                    defaultValue={checked || []}>
+                    defaultValue={isCheckbox || []}>
                     <Row>
                         <Col className="radio-group">
                             <Checkbox
                                 value="radio"
-                                checked={String(echoDateParams).length !== {}}>
+                                checked={
+                                    String(dataParams.echoDateParams).length !==
+                                    {}
+                                }>
                                 月/周/日
                             </Checkbox>
                             <Radio.Group
@@ -134,9 +140,10 @@ class AdDatePicker extends React.Component {
                                         </span>
                                         {getFieldDecorator('month_start', {
                                             initialValue:
-                                                echoDateParams.switchDate ===
-                                                'month'
-                                                    ? echoDateParams.startDate
+                                                dataParams.echoDateParams
+                                                    .switchDate === 'month'
+                                                    ? dataParams.echoDateParams
+                                                          .startDate
                                                     : '',
                                             rules: [
                                                 {
@@ -173,9 +180,10 @@ class AdDatePicker extends React.Component {
                                         </span>
                                         {getFieldDecorator('month_end', {
                                             initialValue:
-                                                echoDateParams.switchDate ===
-                                                'month'
-                                                    ? echoDateParams.endDate
+                                                dataParams.echoDateParams
+                                                    .switchDate === 'month'
+                                                    ? dataParams.echoDateParams
+                                                          .endDate
                                                     : '',
                                             rules: [
                                                 {
@@ -215,9 +223,10 @@ class AdDatePicker extends React.Component {
                                         </span>
                                         {getFieldDecorator('week_start', {
                                             initialValue:
-                                                echoDateParams.switchDate ===
-                                                'week'
-                                                    ? echoDateParams.startDate
+                                                dataParams.echoDateParams
+                                                    .switchDate === 'week'
+                                                    ? dataParams.echoDateParams
+                                                          .startDate
                                                     : '',
                                             rules: [
                                                 {
@@ -245,9 +254,10 @@ class AdDatePicker extends React.Component {
                                     <Form.Item className="week-end">
                                         {getFieldDecorator('week_end', {
                                             initialValue:
-                                                echoDateParams.switchDate ===
-                                                'week'
-                                                    ? echoDateParams.endDate
+                                                dataParams.echoDateParams
+                                                    .switchDate === 'week'
+                                                    ? dataParams.echoDateParams
+                                                          .endDate
                                                     : '',
                                             rules: [
                                                 {
@@ -289,21 +299,19 @@ class AdDatePicker extends React.Component {
                                         添加
                                     </Button>
                                 </span>
-                                {timeArr.map((item, index) => (
-                                    <span
-                                        className="time-picker"
-                                        key={`time${index}`}>
+                                <span className="time-picker">
+                                    {timeArr.map((time, index) => (
                                         <TimePicker
                                             key={Math.random()}
                                             isCheckbox={isCheckbox}
                                             index={index}
+                                            value={time}
                                             timeChange={this.timeChange}
-                                            value={item}
                                             form={this.props.form}
-                                            remove={() => this.remove(index)}
+                                            remove={this.remove}
                                         />
-                                    </span>
-                                ))}
+                                    ))}
+                                </span>
                             </span>
                         </Col>
                     </Row>
@@ -312,30 +320,8 @@ class AdDatePicker extends React.Component {
         );
     }
     radioChange = e => {
-        // const callback = (err, values) => {
-        //     console.log('err, values', err, values);
-        // };
-        this.setState(
-            {
-                radioChecked: e.target.value
-            }
-            // () => {
-            //     this.props.form.validateFields(
-            //         ['month_start', 'week_start'],
-            //         {
-            //             force: true
-            //         },
-            //         callback
-            //     );
-            // }
-        );
-    };
-
-    timeChange = (params, index) => {
-        const { timeArr } = this.state;
-        timeArr[index] = params;
         this.setState({
-            timeArr
+            radioChecked: e.target.value
         });
     };
 
@@ -343,21 +329,24 @@ class AdDatePicker extends React.Component {
         this.setState({
             isCheckbox: checkedValues
         });
-        this.props.form.validateFields((err, values) => {
-            console.log('err, values', err, values);
-            if (err) {
-                return false;
-            }
-        });
+        if (checkedValues === 'checkbox') {
+            this.props.form.validateFields((err, values) => {
+                console.log('err, values', err, values);
+                if (err) {
+                    return false;
+                }
+            });
+        }
     };
 
     handleOk = () => {
-        const { timeArr, radioChecked, isCheckbox } = this.state;
+        const { radioChecked, isCheckbox } = this.state;
         const { getFieldValue } = this.props.form;
         const month_start = getFieldValue('month_start');
         const month_end = getFieldValue('month_end') || '';
         const week_start = getFieldValue('week_start');
         const week_end = getFieldValue('week_end') || '';
+        const timeArr = getFieldValue('timeArr');
         const isChecked = radioChecked === 'month';
 
         // // 月/周/日必填项
@@ -393,10 +382,20 @@ class AdDatePicker extends React.Component {
             timeArr
         });
     };
-    remove = k => {
+    remove = index => {
         const { timeArr } = this.state;
-        timeArr.splice(k, 1);
+        timeArr.splice(index, 1);
+        this.setState({
+            timeArr
+        });
+        let _timeArr = this.props.form.getFieldValue('timeArr');
+        _timeArr.splice(index, 1);
+        this.props.form.setFieldsValue({ timeArr: _timeArr });
+    };
 
+    timeChange = (time, index) => {
+        let { timeArr } = this.state;
+        timeArr[index] = time;
         this.setState({
             timeArr
         });

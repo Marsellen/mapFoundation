@@ -9,12 +9,16 @@ export default class AdInput extends React.Component {
         let dataParams = this.getDataFromProps(props);
         this.state = {
             visible: false,
-            ...dataParams
+            dataParams
         };
     }
 
     getDataFromProps(props) {
         const { value } = props;
+        return this.getDataParams(value);
+    }
+
+    getDataParams(value) {
         let newChecked = [];
         let newEchoTimeArr = [];
         let newEchoDateParams = {};
@@ -49,7 +53,8 @@ export default class AdInput extends React.Component {
                     startMin: this.matchTime(item)[1],
                     endMin: this.matchTime(item)[3],
                     isHour: [],
-                    isMin: []
+                    isMin: [],
+                    isEndMin: []
                 });
             });
         }
@@ -83,9 +88,11 @@ export default class AdInput extends React.Component {
     handleDate = (option, visible) => {
         let data = this.onSubmit(option);
         this.props.onChange(data);
+        let dataParams = this.getDataParams(data);
 
         this.setState({
-            visible
+            visible,
+            dataParams
         });
     };
 
@@ -93,16 +100,17 @@ export default class AdInput extends React.Component {
         const { timeArr, dateFormat } = option;
         let date = '',
             monthAndWeek;
-        if (Object.keys(dateFormat).length !== 0) {
-            const format = dateFormat.switchDate === 'week' ? 'WD' : 'D';
-            const endDate = dateFormat.endDate
-                ? `{D${Number(dateFormat.endDate) -
-                      Number(dateFormat.startDate)}}`
-                : '';
-            monthAndWeek = `[(${format}${dateFormat.startDate})${endDate}]`;
-        } else {
-            monthAndWeek = '';
-        }
+        const format = dateFormat.startDate
+            ? `(${
+                  dateFormat.switchDate === 'week'
+                      ? `WD${dateFormat.startDate}`
+                      : `D${dateFormat.startDate}`
+              })`
+            : '';
+        const endDate = dateFormat.endDate
+            ? `{D${Number(dateFormat.endDate) - Number(dateFormat.startDate)}}`
+            : '';
+        monthAndWeek = format ? `[${format}${endDate}]` : '';
         let timeAndMin = '';
         timeArr.map((item, index) => {
             if (index !== timeArr.length - 1) {
@@ -152,9 +160,7 @@ export default class AdInput extends React.Component {
                 <AdDatePicker
                     key={this.state.key}
                     visible={this.state.visible}
-                    echoDateParams={this.state.echoDateParams}
-                    echoTimeArr={this.state.echoTimeArr}
-                    checked={this.state.checked}
+                    dataParams={this.state.dataParams}
                     handleDate={this.handleDate}
                     handleCancel={this.handleCancel}
                 />
