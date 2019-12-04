@@ -33,3 +33,9 @@ lambda/mock/index.js
 # screenshot
 screenshot
 .firebase
+
+#sonar
+.scannerwork/.sonar_lock
+.scannerwork/class-mapping.csv
+.scannerwork/report-task.txt
+sonar-project.properties
