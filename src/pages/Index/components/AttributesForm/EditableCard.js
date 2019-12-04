@@ -9,6 +9,7 @@ import { getLayerIDKey } from 'src/utils/vectorUtils';
 import './style.less';
 import AdInput from 'src/components/Form/AdInput';
 import { getValidator } from 'src/utils/form/validator';
+import AdDateInput from 'src/components/Form/AdDateInput';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import AdSelect from 'src/components/Form/AdSelect';
 
@@ -174,6 +175,29 @@ class EditableCard extends React.Component {
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
                     </span>
+                )}
+            </Form.Item>
+        );
+    };
+
+    renderAdDateInput = (item, index, readonly) => {
+        const { form } = this.props;
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
+                {!readonly ? (
+                    form.getFieldDecorator(item.key, {
+                        rules: [
+                            {
+                                required: item.required,
+                                message: `${item.name}必填`
+                            },
+                            { validator: this.checkPrice },
+                            ...this.getValidatorSetting(item.validates)
+                        ],
+                        initialValue: item.value
+                    })(<AdDateInput />)
+                ) : (
+                    <span className="ant-form-text">{item.value}</span>
                 )}
             </Form.Item>
         );

@@ -70,7 +70,7 @@ export const ATTR_TABLE_CONFIG = {
         {
             key: 'TIMEDOM',
             name: '中心线限制时间描述',
-            domType: 'Input',
+            domType: 'AdDateInput',
             validates: 'Char|250'
         }
     ],
@@ -118,7 +118,7 @@ export const ATTR_TABLE_CONFIG = {
         {
             name: '限制时间描述',
             key: 'TIMEDOM',
-            domType: 'Input',
+            domType: 'AdDateInput',
             validates: 'Char|250'
         }
     ],
@@ -138,7 +138,7 @@ export const ATTR_TABLE_CONFIG = {
         {
             name: '限制时间描述',
             key: 'TIMEDOM',
-            domType: 'Input',
+            domType: 'AdDateInput',
             validates: 'Char|250'
         }
     ],
@@ -158,7 +158,7 @@ export const ATTR_TABLE_CONFIG = {
         {
             name: '限制时间描述',
             key: 'TIMEDOM',
-            domType: 'Input',
+            domType: 'AdDateInput',
             validates: 'Char|250'
         }
     ]

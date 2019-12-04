@@ -10,6 +10,7 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import SearchIconGroup from 'src/components/SearchIconGroup';
 import _ from 'lodash';
 import AdInput from 'src/components/Form/AdInput';
+import AdDateInput from 'src/components/Form/AdDateInput';
 import { getValidator } from 'src/utils/form/validator';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import AdSelect from 'src/components/Form/AdSelect';
@@ -110,6 +111,25 @@ class NewAttrModal extends React.Component {
                 {form.getFieldDecorator(item.key, {
                     initialValue: item.value
                 })(<AdInput disabled placeholder={item.placeholder} />)}
+            </Form.Item>
+        );
+    };
+
+    renderAdDateInput = (item, index) => {
+        const { form } = this.props;
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
+                {form.getFieldDecorator(item.key, {
+                    rules: [
+                        {
+                            required: item.required,
+                            message: `${item.name}必填`
+                        },
+                        { validator: this.checkPrice },
+                        ...this.getValidatorSetting(item.validates)
+                    ],
+                    initialValue: item.value
+                })(<AdDateInput />)}
             </Form.Item>
         );
     };
