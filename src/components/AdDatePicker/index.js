@@ -39,32 +39,32 @@ const month = [
 ];
 const week = [
     {
-        label: 1,
-        value: '每周一'
+        value: '1',
+        label: '每周一'
     },
     {
-        label: 2,
-        value: '每周二'
+        value: '2',
+        label: '每周二'
     },
     {
-        label: 3,
-        value: '每周三'
+        value: '3',
+        label: '每周三'
     },
     {
-        label: 4,
-        value: '每周四'
+        value: '4',
+        label: '每周四'
     },
     {
-        label: 5,
-        value: '每周五'
+        value: '5',
+        label: '每周五'
     },
     {
-        label: 6,
-        value: '每周六'
+        value: '6',
+        label: '每周六'
     },
     {
-        label: 7,
-        value: '每周日'
+        value: '7',
+        label: '每周日'
     }
 ];
 
@@ -92,8 +92,10 @@ class AdDatePicker extends React.Component {
         const { visible, echoDateParams, checked } = this.props;
         const { getFieldDecorator, getFieldValue } = this.props.form;
         const { radioChecked, timeArr = [], isCheckbox } = this.state;
-        const month_start = getFieldValue('month_start');
-        const week_start = getFieldValue('week_start');
+        const month_start =
+            echoDateParams.startDate || getFieldValue('month_start');
+        const week_start =
+            echoDateParams.startDate || getFieldValue('week_start');
         let isWeek = radioChecked === 'week';
         let isMonth = radioChecked === 'month';
 
@@ -134,7 +136,7 @@ class AdDatePicker extends React.Component {
                                             initialValue:
                                                 echoDateParams.switchDate ===
                                                 'month'
-                                                    ? echoDateParams.echoStartDate
+                                                    ? echoDateParams.startDate
                                                     : '',
                                             rules: [
                                                 {
@@ -173,7 +175,7 @@ class AdDatePicker extends React.Component {
                                             initialValue:
                                                 echoDateParams.switchDate ===
                                                 'month'
-                                                    ? echoDateParams.echoEndDate
+                                                    ? echoDateParams.endDate
                                                     : '',
                                             rules: [
                                                 {
@@ -215,9 +217,7 @@ class AdDatePicker extends React.Component {
                                             initialValue:
                                                 echoDateParams.switchDate ===
                                                 'week'
-                                                    ? this.getWeek(
-                                                          echoDateParams
-                                                      ).echoStartDate
+                                                    ? echoDateParams.startDate
                                                     : '',
                                             rules: [
                                                 {
@@ -234,8 +234,8 @@ class AdDatePicker extends React.Component {
                                                 {week.map((item, index) => (
                                                     <Option
                                                         key={`${item.label}-${index}`}
-                                                        value={`${item.label}-${item.value}`}>
-                                                        {item.value}
+                                                        value={item.value}>
+                                                        {item.label}
                                                     </Option>
                                                 ))}
                                             </Select>
@@ -247,9 +247,7 @@ class AdDatePicker extends React.Component {
                                             initialValue:
                                                 echoDateParams.switchDate ===
                                                 'week'
-                                                    ? this.getWeek(
-                                                          echoDateParams
-                                                      ).echoEndDate
+                                                    ? echoDateParams.endDate
                                                     : '',
                                             rules: [
                                                 {
@@ -266,18 +264,14 @@ class AdDatePicker extends React.Component {
                                                 {week.map((item, index) => (
                                                     <Option
                                                         key={`${item.label}-${index}`}
-                                                        value={`${item.label}-${item.value}`}
+                                                        value={item.value}
                                                         disabled={
-                                                            week_start &&
-                                                            Number(
-                                                                week_start.split(
-                                                                    '-'
-                                                                )[0]
-                                                            ) >= item.label
+                                                            week_start >=
+                                                            item.value
                                                                 ? true
                                                                 : false
                                                         }>
-                                                        {item.value}
+                                                        {item.label}
                                                     </Option>
                                                 ))}
                                             </Select>
@@ -305,9 +299,7 @@ class AdDatePicker extends React.Component {
                                             index={index}
                                             timeChange={this.timeChange}
                                             value={item}
-                                            wrappedComponentRef={form =>
-                                                (this.timesSForm = form)
-                                            }
+                                            form={this.props.form}
                                             remove={() => this.remove(index)}
                                         />
                                     </span>
@@ -320,15 +312,22 @@ class AdDatePicker extends React.Component {
         );
     }
     radioChange = e => {
+        // const callback = (err, values) => {
+        //     console.log('err, values', err, values);
+        // };
         this.setState(
             {
                 radioChecked: e.target.value
-            },
-            () => {
-                this.props.form.validateFields(['month_start', 'week_start'], {
-                    force: true
-                });
             }
+            // () => {
+            //     this.props.form.validateFields(
+            //         ['month_start', 'week_start'],
+            //         {
+            //             force: true
+            //         },
+            //         callback
+            //     );
+            // }
         );
     };
 
@@ -338,61 +337,48 @@ class AdDatePicker extends React.Component {
         this.setState({
             timeArr
         });
-        let timesSForm = this.timesSForm.props.form;
-        timesSForm.validateFields((err, values) => {
-            if (!err) {
-                console.log('err, values---time', err, values);
-            }
-        });
     };
 
     onCheckboxChange = checkedValues => {
         this.setState({
             isCheckbox: checkedValues
         });
-    };
-
-    getWeek = params => {
-        let newParams = {
-            echoStartDate: '',
-            echoEndDate: ''
-        };
-        week.map(item => {
-            if (item.label === Number(params.echoStartDate)) {
-                newParams.echoStartDate = item.value;
-            }
-            if (item.label === Number(params.echoEndDate)) {
-                newParams.echoEndDate = item.value;
+        this.props.form.validateFields((err, values) => {
+            console.log('err, values', err, values);
+            if (err) {
+                return false;
             }
         });
-        return newParams;
     };
 
     handleOk = () => {
-        const { timeArr, radioChecked } = this.state;
+        const { timeArr, radioChecked, isCheckbox } = this.state;
         const { getFieldValue } = this.props.form;
         const month_start = getFieldValue('month_start');
-        const month_end = getFieldValue('month_end');
+        const month_end = getFieldValue('month_end') || '';
         const week_start = getFieldValue('week_start');
-        const week_end = getFieldValue('week_end');
+        const week_end = getFieldValue('week_end') || '';
+        const isChecked = radioChecked === 'month';
+
         // // 月/周/日必填项
-        let dateFormat = {};
-        if (radioChecked === 'month' && month_start) {
-            dateFormat = {
-                startDate: month_start,
-                endDate: month_end,
-                switchDate: 'month'
-            };
-        } else if (radioChecked === 'week' && week_start) {
-            dateFormat = {
-                startDate: week_start,
-                endDate: week_end,
-                switchDate: 'week'
-            };
-        } else {
-            dateFormat = {};
-        }
-        this.props.handleDate(timeArr, dateFormat, false);
+        const dateFormat = {
+            startDate: isChecked ? month_start : week_start,
+            endDate: isChecked ? month_end : week_end,
+            switchDate: radioChecked || ''
+        };
+        let option = {
+            timeArr,
+            dateFormat,
+            isCheckbox
+        };
+
+        this.props.form.validateFields((err, values) => {
+            console.log('err, values', err, values);
+            if (err) {
+                return false;
+            }
+            this.props.handleDate(option, false);
+        });
     };
 
     handleCancel = () => {

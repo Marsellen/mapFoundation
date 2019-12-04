@@ -31,8 +31,7 @@ class EditableCard extends React.Component {
         this.state = {
             visible: false,
             attrs: this.getAttrsFromProps(props),
-            editAttrs: [],
-            value: ''
+            editAttrs: []
         };
     }
 
@@ -195,51 +194,13 @@ class EditableCard extends React.Component {
                             { validator: this.checkPrice },
                             ...this.getValidatorSetting(item.validates)
                         ],
-                        initialValue: this.state.value || item.value
-                    })(
-                        <AdDateInput
-                            option={item.value}
-                            onSubmit={this.onSubmit}
-                        />
-                    )
+                        initialValue: item.value
+                    })(<AdDateInput />)
                 ) : (
                     <span className="ant-form-text">{item.value}</span>
                 )}
             </Form.Item>
         );
-    };
-
-    onSubmit = (timeArr, dateFormat) => {
-        let date = '',
-            monthAndWeek;
-        if (Object.keys(dateFormat).length !== 0) {
-            const start =
-                dateFormat.switchDate === 'week'
-                    ? dateFormat.startDate.split('-')[0]
-                    : dateFormat.startDate;
-            const end =
-                dateFormat.switchDate === 'week'
-                    ? dateFormat.endDate.split('-')[0]
-                    : dateFormat.endDate;
-
-            const format = dateFormat.switchDate === 'week' ? 'WD' : 'D';
-            monthAndWeek = `[(${format}${start}){D${Number(end) -
-                Number(start)}}]`;
-        } else {
-            monthAndWeek = '';
-        }
-        let timeAndMin = '';
-        timeArr.map((item, index) => {
-            if (index !== timeArr.length - 1) {
-                timeAndMin += `[(h${item.startHour}m${item.startMin}){h${item.endHour}m${item.endMin}}]&`;
-            } else {
-                timeAndMin += `[(h${item.startHour}m${item.startMin}){h${item.endHour}m${item.endMin}}]`;
-            }
-        });
-        date = monthAndWeek + timeAndMin;
-        this.setState({
-            value: date
-        });
     };
 
     renderInputNumber = (item, index, readonly) => {

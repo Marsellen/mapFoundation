@@ -120,7 +120,6 @@ const min = [
     '59'
 ];
 
-@Form.create()
 class TimePicker extends React.Component {
     constructor(props) {
         super(props);
@@ -130,8 +129,8 @@ class TimePicker extends React.Component {
     }
 
     render() {
-        const { isCheckbox, value, index } = this.props;
-        const { getFieldDecorator } = this.props.form;
+        const { isCheckbox, value, index, form } = this.props;
+        const { getFieldDecorator } = form;
         const { timeData } = this.state;
         const disabled = isCheckbox.indexOf('checkbox') === -1;
 
