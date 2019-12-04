@@ -21,7 +21,8 @@ const EDIT_TYPE = [
     'changePoints',
     'insertPoints',
     'select_point',
-    'reverseOrderLine'
+    'reverseOrderLine',
+    'create_break_line'
 ];
 
 const CHINESE_EDIT_TYPE = [
@@ -48,6 +49,10 @@ const CHINESE_EDIT_TYPE = [
     {
         type: 'reverseOrderLine',
         value: '点击进行线要素逆序'
+    },
+    {
+        type: 'create_break_line',
+        value: '绘制一条打断线'
     }
 ];
 
