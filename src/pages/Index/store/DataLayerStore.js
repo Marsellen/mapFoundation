@@ -98,7 +98,7 @@ class DataLayerStore extends LayerStore {
                 case 'normal':
                     // console.log(result);
                     callback(result, event);
-                    this.locatePicture(result, event);
+                    this.normalLocatePicture(result, event);
                     break;
                 case 'newRel':
                     this.newRelCallback(result, event);
@@ -125,7 +125,7 @@ class DataLayerStore extends LayerStore {
         });
     };
 
-    locatePicture = (result, event) => {
+    normalLocatePicture = (result, event) => {
         if (
             (!result.length || result[0].type !== 'TraceLayer') &&
             this.locatePictureStatus &&
@@ -583,6 +583,9 @@ class DataLayerStore extends LayerStore {
 
     toggleLocatePicture = () => {
         this.locatePictureStatus = !this.locatePictureStatus;
+        this.locatePictureStatus
+            ? this.openLocatePicture()
+            : this.closeLocatePicture();
     };
 
     registerLocatePictureEvent = event => {
@@ -594,6 +597,23 @@ class DataLayerStore extends LayerStore {
         this.setEditType('create_break_line');
         this.changeCur();
         this.editor.newFixLine(2);
+    };
+
+    openLocatePicture = () => {
+        let viz = document.querySelector('#viz');
+        viz.addEventListener('click', this.locatePicture);
+    };
+
+    closeLocatePicture = () => {
+        let viz = document.querySelector('#viz');
+        viz.removeEventListener('click', this.locatePicture);
+    };
+
+    locatePicture = event => {
+        let isNotNormal = this.editType !== 'normal';
+        if (isNotNormal && this.locatePictureStatus && event.button === 0) {
+            this.locatePictureEvent(event);
+        }
     };
 }
 
