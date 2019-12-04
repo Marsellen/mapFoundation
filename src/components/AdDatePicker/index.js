@@ -97,8 +97,12 @@ class AdDatePicker extends React.Component {
         const { radioChecked, isCheckbox, timeArr } = this.state;
         const month_start =
             dataParams.echoDateParams.startDate || getFieldValue('month_start');
+        const month_end =
+            dataParams.echoDateParams.endDate || getFieldValue('month_end');
         const week_start =
             dataParams.echoDateParams.startDate || getFieldValue('week_start');
+        const week_end =
+            dataParams.echoDateParams.endDate || getFieldValue('week_end');
         let isWeek = radioChecked === 'week';
         let isMonth = radioChecked === 'month';
 
@@ -161,7 +165,13 @@ class AdDatePicker extends React.Component {
                                                 {month.map((item, index) => (
                                                     <Option
                                                         key={`${item}-${index}`}
-                                                        value={item}>
+                                                        value={item}
+                                                        disabled={
+                                                            month_end &&
+                                                            month_end < item
+                                                                ? true
+                                                                : false
+                                                        }>
                                                         {item}
                                                     </Option>
                                                 ))}
@@ -243,7 +253,14 @@ class AdDatePicker extends React.Component {
                                                 {week.map((item, index) => (
                                                     <Option
                                                         key={`${item.label}-${index}`}
-                                                        value={item.value}>
+                                                        value={item.value}
+                                                        disabled={
+                                                            week_end &&
+                                                            week_end <
+                                                                item.value
+                                                                ? true
+                                                                : false
+                                                        }>
                                                         {item.label}
                                                     </Option>
                                                 ))}
