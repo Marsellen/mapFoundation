@@ -136,6 +136,7 @@ class TimePicker extends React.Component {
         const disabled = isCheckbox.indexOf('checkbox') === -1;
         const startHourRange = timeData.startMin > timeData.endMin;
         const equal = timeData.startHour === timeData.endHour;
+
         return (
             <Form layout="inline">
                 <Form.Item>
@@ -143,7 +144,7 @@ class TimePicker extends React.Component {
                         initialValue: timeData.startHour,
                         rules: [
                             {
-                                required: true,
+                                required: isCheckbox.indexOf('checkbox') > -1,
                                 message: '时为必填项'
                             }
                         ]
@@ -206,7 +207,7 @@ class TimePicker extends React.Component {
                         initialValue: timeData.endHour,
                         rules: [
                             {
-                                required: true,
+                                required: isCheckbox.indexOf('checkbox') > -1,
                                 message: '时为必填项'
                             }
                         ]
