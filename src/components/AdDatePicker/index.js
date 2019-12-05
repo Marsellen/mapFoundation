@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Select, Modal, Checkbox, Radio, Button, Row, Col } from 'antd';
+import AdSelect from 'src/components/Form/AdSelect';
 import TimePicker from './components/TimePicker';
 import './index.less';
 const { Option } = Select;
@@ -83,12 +84,13 @@ class AdDatePicker extends React.Component {
         super(props);
         let dataParams = props.dataParams;
         this.state = {
-            radioChecked: dataParams.echoDateParams.switchDate || '',
+            radioChecked:
+                (dataParams && dataParams.echoDateParams.switchDate) || '',
             timeArr:
-                dataParams.echoTimeArr.length !== 0
+                dataParams && dataParams.echoTimeArr.length !== 0
                     ? dataParams.echoTimeArr
                     : [params],
-            isCheckbox: dataParams.checked || []
+            isCheckbox: (dataParams && dataParams.checked) || []
         };
     }
     render() {
@@ -152,11 +154,11 @@ class AdDatePicker extends React.Component {
                                             rules: [
                                                 {
                                                     required: isMonth,
-                                                    message: '必填'
+                                                    message: '必填项'
                                                 }
                                             ]
                                         })(
-                                            <Select
+                                            <AdSelect
                                                 className="month-select"
                                                 showSearch
                                                 disabled={
@@ -175,7 +177,7 @@ class AdDatePicker extends React.Component {
                                                         {item}
                                                     </Option>
                                                 ))}
-                                            </Select>
+                                            </AdSelect>
                                         )}
                                         <span className="ant-form-text">
                                             日
@@ -202,7 +204,7 @@ class AdDatePicker extends React.Component {
                                                 }
                                             ]
                                         })(
-                                            <Select
+                                            <AdSelect
                                                 disabled={
                                                     radioChecked !== 'month'
                                                 }
@@ -219,7 +221,7 @@ class AdDatePicker extends React.Component {
                                                         {item}
                                                     </Option>
                                                 ))}
-                                            </Select>
+                                            </AdSelect>
                                         )}
                                         <span className="ant-form-text">
                                             日
@@ -241,11 +243,11 @@ class AdDatePicker extends React.Component {
                                             rules: [
                                                 {
                                                     required: isWeek,
-                                                    message: '必填'
+                                                    message: '必填项'
                                                 }
                                             ]
                                         })(
-                                            <Select
+                                            <AdSelect
                                                 className="week-select"
                                                 disabled={
                                                     radioChecked !== 'week'
@@ -264,7 +266,7 @@ class AdDatePicker extends React.Component {
                                                         {item.label}
                                                     </Option>
                                                 ))}
-                                            </Select>
+                                            </AdSelect>
                                         )}
                                         <span className="gap">~</span>
                                     </Form.Item>
@@ -283,7 +285,7 @@ class AdDatePicker extends React.Component {
                                                 }
                                             ]
                                         })(
-                                            <Select
+                                            <AdSelect
                                                 disabled={
                                                     radioChecked !== 'week'
                                                 }
@@ -301,7 +303,7 @@ class AdDatePicker extends React.Component {
                                                         {item.label}
                                                     </Option>
                                                 ))}
-                                            </Select>
+                                            </AdSelect>
                                         )}
                                     </Form.Item>
                                 </Radio>
@@ -337,9 +339,18 @@ class AdDatePicker extends React.Component {
         );
     }
     radioChange = e => {
-        this.setState({
-            radioChecked: e.target.value
-        });
+        this.setState(
+            {
+                radioChecked: e.target.value
+            },
+            () =>
+                this.props.form.validateFields((err, values) => {
+                    console.log('err, values', err, values);
+                    if (err) {
+                        return false;
+                    }
+                })
+        );
     };
 
     onCheckboxChange = checkedValues => {

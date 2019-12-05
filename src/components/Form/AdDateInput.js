@@ -1,12 +1,19 @@
 import React from 'react';
-import { Input } from 'antd';
+import { Input, message } from 'antd';
+import { getValidator } from 'src/utils/form/validator';
 import AdDatePicker from '../AdDatePicker';
 import '../AdDatePicker/index.less';
+
+const params = {
+    echoDateParams: {},
+    echoTimeArr: [],
+    checked: []
+};
 
 export default class AdInput extends React.Component {
     constructor(props) {
         super(props);
-        let dataParams = this.getDataFromProps(props);
+        let dataParams = this.getDataFromProps(props) || params;
         this.state = {
             visible: false,
             dataParams
@@ -15,35 +22,40 @@ export default class AdInput extends React.Component {
 
     getDataFromProps(props) {
         const { value } = props;
-        return this.getDataParams(value);
+        return this.checkParams(value);
     }
-
-    getDataParams(value) {
+    checkParams = value => {
         let newChecked = [];
         let newEchoTimeArr = [];
         let newEchoDateParams = {};
-        if (value && value.indexOf('WD') > -1) {
-            const date = value.match(/\[(.+?)\]/g).shift();
-            newChecked.push('radio');
-            const endDate =
-                date.indexOf('{') !== -1 ? String(this.getNumber(date)) : '';
-            newEchoDateParams = {
-                startDate: value.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
-                endDate: endDate,
-                switchDate: value.indexOf('WD') > -1 ? 'week' : 'month'
-            };
-        } else if (value && value.indexOf('D') > -1) {
-            const date = value.match(/\[(.+?)\]/g).shift();
-            newChecked.push('radio');
-            const endDate =
-                date.indexOf('{') !== -1 ? this.getNumber(date) : '';
-            newEchoDateParams = {
-                startDate: date.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
-                endDate: endDate,
-                switchDate: date.indexOf('WD') > -1 ? 'week' : 'month'
-            };
-        }
         if (value && (value.indexOf('h') > -1 || value.indexOf('m') > -1)) {
+            if (value.indexOf('WD') > -1) {
+                const date = value.match(/\[(.+?)\]/g)[0];
+                newChecked.push('radio');
+                const endDate =
+                    date.indexOf('{') !== -1 &&
+                    date.match(/\{(.+?)\}/g)[0].match(/\d+/g) !== null
+                        ? String(this.getNumber(date))
+                        : '';
+                newEchoDateParams = {
+                    startDate: value.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
+                    endDate: endDate,
+                    switchDate: value.indexOf('WD') > -1 ? 'week' : 'month'
+                };
+            } else if (value && value.indexOf('D') > -1) {
+                const date = value.match(/\[(.+?)\]/g)[0];
+                newChecked.push('radio');
+                const endDate =
+                    date.indexOf('{') !== -1 &&
+                    date.match(/\{(.+?)\}/g)[0].match(/\d+/g) !== null
+                        ? this.getNumber(date)
+                        : '';
+                newEchoDateParams = {
+                    startDate: date.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
+                    endDate: endDate,
+                    switchDate: date.indexOf('WD') > -1 ? 'week' : 'month'
+                };
+            }
             newChecked.push('checkbox');
             let newEchoTime = value.split('&');
             newEchoTime.map(item => {
@@ -63,7 +75,7 @@ export default class AdInput extends React.Component {
             checked: newChecked,
             echoTimeArr: newEchoTimeArr
         };
-    }
+    };
 
     getNumber = item => {
         return (
@@ -88,7 +100,7 @@ export default class AdInput extends React.Component {
     handleDate = (option, visible) => {
         let data = this.onSubmit(option);
         this.props.onChange(data);
-        let dataParams = this.getDataParams(data);
+        let dataParams = this.checkParams(data);
 
         this.setState({
             visible,

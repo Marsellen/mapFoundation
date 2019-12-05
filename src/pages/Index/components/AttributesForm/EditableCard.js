@@ -111,6 +111,7 @@ class EditableCard extends React.Component {
             // console.log(values);
             let id = value.key;
             let IDKey = getLayerIDKey(value.spec);
+            this.hide();
             onChange({
                 ...value,
                 properties: {
@@ -118,7 +119,6 @@ class EditableCard extends React.Component {
                     [IDKey]: id
                 }
             });
-            this.hide();
         });
     };
 
@@ -201,6 +201,94 @@ class EditableCard extends React.Component {
                 )}
             </Form.Item>
         );
+    };
+
+    checkSetTimeout = (value, callback) => {
+        return setTimeout(() => {
+            try {
+                this.checkParams(value);
+            } catch (err) {
+                callback(
+                    new Error(
+                        '格式错误！正确格式如：[(WD1){D2}][(h01m01){h01m01}]或[(h01m01){h01m01}]'
+                    )
+                );
+            }
+            callback();
+        }, 1000);
+    };
+
+    checkPrice = (rule, value, callback) => {
+        this.checkSetTimeout(value, callback);
+    };
+
+    checkParams = value => {
+        let newChecked = [];
+        let newEchoTimeArr = [];
+        let newEchoDateParams = {};
+        if (value && (value.indexOf('h') > -1 || value.indexOf('m') > -1)) {
+            if (value.indexOf('WD') > -1) {
+                const date = value.match(/\[(.+?)\]/g)[0];
+
+                newChecked.push('radio');
+                const endDate =
+                    date.indexOf('{') !== -1 &&
+                    date.match(/\{(.+?)\}/g)[0].match(/\d+/g) !== null
+                        ? String(this.getNumber(date))
+                        : '';
+                newEchoDateParams = {
+                    startDate: value.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
+                    endDate: endDate,
+                    switchDate: value.indexOf('WD') > -1 ? 'week' : 'month'
+                };
+            } else if (value && value.indexOf('D') > -1) {
+                const date = value.match(/\[(.+?)\]/g)[0];
+                newChecked.push('radio');
+                const endDate =
+                    date.indexOf('{') !== -1 &&
+                    date.match(/\{(.+?)\}/g)[0].match(/\d+/g) !== null
+                        ? this.getNumber(date)
+                        : '';
+                newEchoDateParams = {
+                    startDate: date.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
+                    endDate: endDate,
+                    switchDate: date.indexOf('WD') > -1 ? 'week' : 'month'
+                };
+            }
+            newChecked.push('checkbox');
+            let newEchoTime = value.split('&');
+            newEchoTime.map(item => {
+                newEchoTimeArr.push({
+                    startHour: this.matchTime(item)[0],
+                    endHour: this.matchTime(item)[2],
+                    startMin: this.matchTime(item)[1],
+                    endMin: this.matchTime(item)[3],
+                    isHour: [],
+                    isMin: [],
+                    isEndMin: []
+                });
+            });
+        } else {
+            throw '时间域格式错误';
+        }
+        return {
+            echoDateParams: newEchoDateParams,
+            checked: newChecked,
+            echoTimeArr: newEchoTimeArr
+        };
+    };
+
+    getNumber = item => {
+        return (
+            Number(item.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0]) +
+            Number(item.match(/\((.+?)\)/g)[0].match(/\d+/g)[0])
+        );
+    };
+
+    matchTime = item => {
+        return item
+            .match(/\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}m\d{1,2}\}\]/)[0]
+            .match(/\d+/g);
     };
 
     renderInputNumber = (item, index, readonly) => {
