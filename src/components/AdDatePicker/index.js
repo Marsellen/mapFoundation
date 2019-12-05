@@ -339,6 +339,17 @@ class AdDatePicker extends React.Component {
         );
     }
     radioChange = e => {
+        if (e.target.value == 'month') {
+            this.props.form.setFieldsValue({
+                week_start: null,
+                week_end: null
+            });
+        } else if (e.target.value == 'week') {
+            this.props.form.setFieldsValue({
+                month_start: null,
+                month_end: null
+            });
+        }
         this.setState(
             {
                 radioChecked: e.target.value

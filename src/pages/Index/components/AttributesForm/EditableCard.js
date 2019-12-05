@@ -9,10 +9,10 @@ import { getLayerIDKey } from 'src/utils/vectorUtils';
 import './style.less';
 import AdInput from 'src/components/Form/AdInput';
 import { getValidator } from 'src/utils/form/validator';
-import { dateFormatParams } from 'src/utils/form/dateFormat';
 import AdDateInput from 'src/components/Form/AdDateInput';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import AdSelect from 'src/components/Form/AdSelect';
+import { testDataString } from 'src/utils/timeUtils';
 
 const formItemLayout = {
     labelCol: {
@@ -188,15 +188,11 @@ class EditableCard extends React.Component {
                 {!readonly ? (
                     form.getFieldDecorator(item.key, {
                         rules: [
-                            {
-                                required: item.required,
-                                message: `${item.name}必填`
-                            },
-                            { validator: this.checkParams },
+                            { validator: this.checkDate },
                             ...this.getValidatorSetting(item.validates)
                         ],
-                        validateTrigger: 'onBlur',
-                        initialValue: item.value
+                        initialValue: item.value,
+                        validateTrigger: 'onBlur'
                     })(<AdDateInput />)
                 ) : (
                     <span className="ant-form-text">{item.value}</span>
@@ -205,15 +201,10 @@ class EditableCard extends React.Component {
         );
     };
 
-    checkParams = (rule, value, callback) => {
-        try {
-            dateFormatParams(value, 'isCheck');
-        } catch (err) {
-            callback(
-                new Error(
-                    '格式错误！正确格式如：[(WD1){D2}][(h01m01){h01m01}]或[(h01m01){h01m01}]'
-                )
-            );
+    checkDate = (rule, value, callback) => {
+        let testResult = testDataString(value);
+        if (!testResult) {
+            callback(new Error('与值域不符合'));
         }
         callback();
     };
