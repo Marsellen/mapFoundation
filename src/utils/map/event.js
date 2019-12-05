@@ -26,25 +26,20 @@ const addEditorExitListener = (eventType, className) => {
     });
 };
 
-const mapErrorListener = () => {
-    mapEventManager().register('webglcontextlost', e => {
-        let log = {
-            action: 'webglcontextlost',
-            result: 'fail'
-        };
-        editLog.store.add(log);
-    });
-};
-
 const installMapListener = () => {
     addEditorListener('editor_event_regionselect_start', 'crosshair-viz');
     addEditorExitListener('editor_event_regionselect_end', 'crosshair-viz');
-    addEditorListener('editor_event_changepoints_node_picked', 'move-point-viz');
-    addEditorExitListener('editor_event_changepoints_node_release', 'move-point-viz');
+    addEditorListener(
+        'editor_event_changepoints_node_picked',
+        'move-point-viz'
+    );
+    addEditorExitListener(
+        'editor_event_changepoints_node_release',
+        'move-point-viz'
+    );
     addEditorListener('editor_event_deletepoints_start', 'move-point-viz');
     addEditorExitListener('editor_event_deletepoints_start', 'move-point-viz');
     pointsTooCloseListener();
-    mapErrorListener();
 };
 
 export { installMapListener };
