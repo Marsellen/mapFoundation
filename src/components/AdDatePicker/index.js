@@ -1,5 +1,15 @@
 import React from 'react';
-import { Form, Select, Modal, Checkbox, Radio, Button, Row, Col } from 'antd';
+import {
+    Form,
+    Select,
+    Modal,
+    Checkbox,
+    Radio,
+    Button,
+    Row,
+    Col,
+    message
+} from 'antd';
 import AdSelect from 'src/components/Form/AdSelect';
 import TimePicker from './components/TimePicker';
 import './index.less';
@@ -214,7 +224,7 @@ class AdDatePicker extends React.Component {
                                                         key={`${item}-${index}`}
                                                         value={item}
                                                         disabled={
-                                                            month_start >= item
+                                                            month_start > item
                                                                 ? true
                                                                 : false
                                                         }>
@@ -228,85 +238,89 @@ class AdDatePicker extends React.Component {
                                         </span>
                                     </Form.Item>
                                 </Radio>
-                                <Radio value="week">
-                                    <Form.Item className="week-start">
-                                        <span className="ant-form-text">
-                                            日/周
-                                        </span>
-                                        {getFieldDecorator('week_start', {
-                                            initialValue:
-                                                dataParams.echoDateParams
-                                                    .switchDate === 'week'
-                                                    ? dataParams.echoDateParams
-                                                          .startDate
-                                                    : '',
-                                            rules: [
-                                                {
-                                                    required: isWeek,
-                                                    message: '必填项'
-                                                }
-                                            ]
-                                        })(
-                                            <AdSelect
-                                                className="week-select"
-                                                disabled={
-                                                    radioChecked !== 'week'
-                                                }>
-                                                {week.map((item, index) => (
-                                                    <Option
-                                                        key={`${item.label}-${index}`}
-                                                        value={item.value}
-                                                        disabled={
-                                                            week_end &&
-                                                            week_end <
+                                <span className="week-radio">
+                                    <Radio value="week">
+                                        <Form.Item className="week-start">
+                                            <span className="ant-form-text">
+                                                日/周
+                                            </span>
+                                            {getFieldDecorator('week_start', {
+                                                initialValue:
+                                                    dataParams.echoDateParams
+                                                        .switchDate === 'week'
+                                                        ? dataParams
+                                                              .echoDateParams
+                                                              .startDate
+                                                        : '',
+                                                rules: [
+                                                    {
+                                                        required: isWeek,
+                                                        message: '必填项'
+                                                    }
+                                                ]
+                                            })(
+                                                <AdSelect
+                                                    className="week-select"
+                                                    disabled={
+                                                        radioChecked !== 'week'
+                                                    }>
+                                                    {week.map((item, index) => (
+                                                        <Option
+                                                            key={`${item.label}-${index}`}
+                                                            value={item.value}
+                                                            disabled={
+                                                                week_end &&
+                                                                week_end <
+                                                                    item.value
+                                                                    ? true
+                                                                    : false
+                                                            }>
+                                                            {item.label}
+                                                        </Option>
+                                                    ))}
+                                                </AdSelect>
+                                            )}
+                                            <span className="gap">~</span>
+                                        </Form.Item>
+                                        <Form.Item className="week-end">
+                                            {getFieldDecorator('week_end', {
+                                                initialValue:
+                                                    dataParams.echoDateParams
+                                                        .switchDate === 'week'
+                                                        ? dataParams
+                                                              .echoDateParams
+                                                              .endDate
+                                                        : '',
+                                                rules: [
+                                                    {
+                                                        required: false,
+                                                        message: '必填'
+                                                    }
+                                                ]
+                                            })(
+                                                <AdSelect
+                                                    disabled={
+                                                        radioChecked !== 'week'
+                                                    }
+                                                    className="week-select">
+                                                    {week.map((item, index) => (
+                                                        <Option
+                                                            key={`${item.label}-${index}`}
+                                                            value={item.value}
+                                                            disabled={
+                                                                week_start >
                                                                 item.value
-                                                                ? true
-                                                                : false
-                                                        }>
-                                                        {item.label}
-                                                    </Option>
-                                                ))}
-                                            </AdSelect>
-                                        )}
-                                        <span className="gap">~</span>
-                                    </Form.Item>
-                                    <Form.Item className="week-end">
-                                        {getFieldDecorator('week_end', {
-                                            initialValue:
-                                                dataParams.echoDateParams
-                                                    .switchDate === 'week'
-                                                    ? dataParams.echoDateParams
-                                                          .endDate
-                                                    : '',
-                                            rules: [
-                                                {
-                                                    required: false,
-                                                    message: '必填'
-                                                }
-                                            ]
-                                        })(
-                                            <AdSelect
-                                                disabled={
-                                                    radioChecked !== 'week'
-                                                }
-                                                className="week-select">
-                                                {week.map((item, index) => (
-                                                    <Option
-                                                        key={`${item.label}-${index}`}
-                                                        value={item.value}
-                                                        disabled={
-                                                            week_start >=
-                                                            item.value
-                                                                ? true
-                                                                : false
-                                                        }>
-                                                        {item.label}
-                                                    </Option>
-                                                ))}
-                                            </AdSelect>
-                                        )}
-                                    </Form.Item>
-                                </Radio>
+                                                                    ? true
+                                                                    : false
+                                                            }>
+                                                            {item.label}
+                                                        </Option>
+                                                    ))}
+                                                </AdSelect>
+                                            )}
+                                        </Form.Item>
+                                    </Radio>
+                                </span>
                             </Radio.Group>
                         </Col>
                         <Col>
@@ -388,7 +402,6 @@ class AdDatePicker extends React.Component {
         const timeArr = getFieldValue('timeArr');
         const isChecked = radioChecked === 'month';
 
-        // // 月/周/日必填项
         const dateFormat = {
             startDate: isChecked ? month_start : week_start,
             endDate: isChecked ? month_end : week_end,
@@ -399,14 +412,40 @@ class AdDatePicker extends React.Component {
             dateFormat,
             isCheckbox
         };
+        const isCheckTimeEqual = this.handleEqualTimeArr(timeArr);
 
         this.props.form.validateFields((err, values) => {
             console.log('err, values', err, values);
-            if (err) {
+            if (err || isCheckTimeEqual) {
+                if (isCheckTimeEqual) {
+                    message.warning(
+                        '时分填写错误，不同行之间不允许设置相同时间！'
+                    );
+                }
                 return false;
             }
             this.props.handleDate(option, false);
         });
+    };
+
+    handleEqualTimeArr = timeArr => {
+        if (timeArr.length > 1) {
+            for (let i = 0; i < timeArr.length; i++) {
+                for (let j = i + 1; j < timeArr.length; j++) {
+                    if (
+                        timeArr[i].startHour === timeArr[j].startHour &&
+                        timeArr[i].startMin === timeArr[j].startMin &&
+                        timeArr[i].endHour === timeArr[j].endHour &&
+                        timeArr[i].endMin === timeArr[j].endMin
+                    ) {
+                        this.equalTime.push({ index: j, value: timeArr[i] });
+                        return true;
+                    }
+                }
+            }
+        } else {
+            return false;
+        }
     };
 
     handleCancel = () => {
