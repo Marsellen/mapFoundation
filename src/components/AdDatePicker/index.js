@@ -415,7 +415,7 @@ class AdDatePicker extends React.Component {
         const isCheckTimeEqual = this.handleEqualTimeArr(timeArr);
 
         this.props.form.validateFields((err, values) => {
-            console.log('err, values', err, values);
+            //console.log('err, values', err, values);
             if (err || isCheckTimeEqual) {
                 if (isCheckTimeEqual) {
                     message.warning(
