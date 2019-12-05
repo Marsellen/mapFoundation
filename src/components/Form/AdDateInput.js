@@ -30,18 +30,21 @@ export default class AdInput extends React.Component {
         let newEchoTimeArr = [];
         let newEchoDateParams = {};
         if (value && value.indexOf('WD') > -1) {
-            const date = value.match(/\[(.+?)\]/g)[0];
             newChecked.push('radio');
-            const endDate = String(this.getNumber(date));
+            const date = value.match(/\[(.+?)\]/g)[0];
+            let dateDiff = value.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0];
+            const endDate =
+                dateDiff === '1' ? null : String(this.getNumber(date));
             newEchoDateParams = {
                 startDate: value.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
                 endDate: endDate,
                 switchDate: value.indexOf('WD') > -1 ? 'week' : 'month'
             };
         } else if (value && value.indexOf('D') > -1) {
-            const date = value.match(/\[(.+?)\]/g)[0];
             newChecked.push('radio');
-            const endDate = this.getNumber(date);
+            const date = value.match(/\[(.+?)\]/g)[0];
+            let dateDiff = value.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0];
+            const endDate = dateDiff === '1' ? null : this.getNumber(date);
             newEchoDateParams = {
                 startDate: date.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
                 endDate: endDate,

@@ -93,18 +93,27 @@ class AdDatePicker extends React.Component {
             isCheckbox: (dataParams && dataParams.checked) || []
         };
     }
+
+    componentDidMount() {
+        this.isNotFirstRender = true;
+    }
+
     render() {
         const { visible, dataParams } = this.props;
         const { getFieldDecorator, getFieldValue } = this.props.form;
         const { radioChecked, isCheckbox, timeArr } = this.state;
-        const month_start =
-            dataParams.echoDateParams.startDate || getFieldValue('month_start');
-        const month_end =
-            dataParams.echoDateParams.endDate || getFieldValue('month_end');
-        const week_start =
-            dataParams.echoDateParams.startDate || getFieldValue('week_start');
-        const week_end =
-            dataParams.echoDateParams.endDate || getFieldValue('week_end');
+        const month_start = this.isNotFirstRender
+            ? getFieldValue('month_start')
+            : dataParams.echoDateParams.startDate;
+        const month_end = this.isNotFirstRender
+            ? getFieldValue('month_end')
+            : dataParams.echoDateParams.endDate;
+        const week_start = this.isNotFirstRender
+            ? getFieldValue('week_start')
+            : dataParams.echoDateParams.startDate;
+        const week_end = this.isNotFirstRender
+            ? getFieldValue('week_end')
+            : dataParams.echoDateParams.endDate;
         let isWeek = radioChecked === 'week';
         let isMonth = radioChecked === 'month';
 
