@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Select } from 'antd';
 import ToolIcon from 'src/components/ToolIcon';
+import AdSelect from 'src/components/Form/AdSelect';
 const { Option } = Select;
 
 const hour = [
@@ -143,11 +144,11 @@ class TimePicker extends React.Component {
                         rules: [
                             {
                                 required: true,
-                                message: '必填'
+                                message: '时为必填项'
                             }
                         ]
                     })(
-                        <Select
+                        <AdSelect
                             disabled={disabled}
                             onChange={this.handleStartHour}>
                             {hour.map((item, index) => (
@@ -165,7 +166,7 @@ class TimePicker extends React.Component {
                                     {item}
                                 </Option>
                             ))}
-                        </Select>
+                        </AdSelect>
                     )}
                     <span className="time-risk">:</span>
                 </Form.Item>
@@ -179,7 +180,7 @@ class TimePicker extends React.Component {
                             }
                         ]
                     })(
-                        <Select
+                        <AdSelect
                             disabled={disabled}
                             onChange={this.handleStartMin}>
                             {min.map((item, index) => (
@@ -196,7 +197,7 @@ class TimePicker extends React.Component {
                                     {item}
                                 </Option>
                             ))}
-                        </Select>
+                        </AdSelect>
                     )}
                     <span className="gap">~</span>
                 </Form.Item>
@@ -206,11 +207,11 @@ class TimePicker extends React.Component {
                         rules: [
                             {
                                 required: true,
-                                message: '必填'
+                                message: '时为必填项'
                             }
                         ]
                     })(
-                        <Select
+                        <AdSelect
                             disabled={disabled}
                             onChange={this.handleEndHour}>
                             {addHour.map((item, index) => (
@@ -225,7 +226,7 @@ class TimePicker extends React.Component {
                                     {item}
                                 </Option>
                             ))}
-                        </Select>
+                        </AdSelect>
                     )}
                     <span className="time-risk">:</span>
                 </Form.Item>
@@ -239,7 +240,7 @@ class TimePicker extends React.Component {
                             }
                         ]
                     })(
-                        <Select
+                        <AdSelect
                             disabled={disabled || timeData.endHour === '24'}
                             onChange={this.handleEndMin}>
                             {min.map((item, index) => (
@@ -255,7 +256,7 @@ class TimePicker extends React.Component {
                                     {item}
                                 </Option>
                             ))}
-                        </Select>
+                        </AdSelect>
                     )}
                 </Form.Item>
                 {index > 0 ? (
