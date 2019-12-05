@@ -350,32 +350,27 @@ class AdDatePicker extends React.Component {
                 month_end: null
             });
         }
-        this.setState(
-            {
-                radioChecked: e.target.value
-            },
-            () =>
-                this.props.form.validateFields((err, values) => {
-                    console.log('err, values', err, values);
-                    if (err) {
-                        return false;
-                    }
-                })
-        );
+        this.setState({
+            radioChecked: e.target.value
+        });
     };
 
     onCheckboxChange = checkedValues => {
-        this.setState({
-            isCheckbox: checkedValues
-        });
-        if (checkedValues === 'checkbox') {
-            this.props.form.validateFields((err, values) => {
-                console.log('err, values', err, values);
-                if (err) {
-                    return false;
-                }
+        let radioChecked = this.state.radioChecked;
+        if (!checkedValues.includes('radio')) {
+            radioChecked = null;
+            this.props.form.setFieldsValue({
+                week_start: null,
+                week_end: null,
+                month_start: null,
+                month_end: null
             });
         }
+
+        this.setState({
+            isCheckbox: checkedValues,
+            radioChecked
+        });
     };
 
     handleOk = () => {

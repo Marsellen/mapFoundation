@@ -20,7 +20,8 @@ export const timeParse = timeString => {
     return { startHour, startMin, endHour, endMin };
 };
 
-const completeTime = timeString => {
+const completeTime = time => {
+    let timeString = String(time);
     if (timeString) {
         if (timeString.length === 2) {
             return timeString;
