@@ -8,6 +8,7 @@ import editLog from 'src/models/editLog';
 import AdInput from 'src/components/Form/AdInput';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import { getValidator } from 'src/utils/form/validator';
+import AdEmitter from 'src/models/event';
 
 const formItemLayout = {
     labelCol: {
@@ -23,6 +24,7 @@ const formItemLayout = {
 @Form.create()
 @inject('BatchAssignStore')
 @inject('OperateHistoryStore')
+@inject('DataLayerStore')
 @observer
 class BatchAssignModal extends React.Component {
     render() {
@@ -70,12 +72,18 @@ class BatchAssignModal extends React.Component {
     };
 
     save = () => {
-        const { form, BatchAssignStore, OperateHistoryStore } = this.props;
+        const {
+            form,
+            BatchAssignStore,
+            OperateHistoryStore,
+            DataLayerStore
+        } = this.props;
         form.validateFields((err, values) => {
             if (err) {
                 return;
             }
             let result = BatchAssignStore.submit(values);
+            AdEmitter.emit('fetchViewAttributeData');
             let history = {
                 type: 'updateFeatureRels',
                 data: result
@@ -87,6 +95,8 @@ class BatchAssignModal extends React.Component {
             };
             OperateHistoryStore.add(history);
             editLog.store.add(log);
+
+            DataLayerStore.clearPick();
         });
     };
 
