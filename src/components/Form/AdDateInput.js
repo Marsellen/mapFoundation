@@ -1,8 +1,9 @@
 import React from 'react';
-import { Input, message } from 'antd';
-import { getValidator } from 'src/utils/form/validator';
+import { Input } from 'antd';
+import { timeSubtract, timeParse } from 'src/utils/timeUtils';
 import AdDatePicker from '../AdDatePicker';
 import '../AdDatePicker/index.less';
+import moment from 'moment';
 
 const params = {
     echoDateParams: {},
@@ -28,42 +29,31 @@ export default class AdInput extends React.Component {
         let newChecked = [];
         let newEchoTimeArr = [];
         let newEchoDateParams = {};
+        if (value && value.indexOf('WD') > -1) {
+            const date = value.match(/\[(.+?)\]/g)[0];
+            newChecked.push('radio');
+            const endDate = String(this.getNumber(date));
+            newEchoDateParams = {
+                startDate: value.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
+                endDate: endDate,
+                switchDate: value.indexOf('WD') > -1 ? 'week' : 'month'
+            };
+        } else if (value && value.indexOf('D') > -1) {
+            const date = value.match(/\[(.+?)\]/g)[0];
+            newChecked.push('radio');
+            const endDate = this.getNumber(date);
+            newEchoDateParams = {
+                startDate: date.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
+                endDate: endDate,
+                switchDate: date.indexOf('WD') > -1 ? 'week' : 'month'
+            };
+        }
         if (value && (value.indexOf('h') > -1 || value.indexOf('m') > -1)) {
-            if (value.indexOf('WD') > -1) {
-                const date = value.match(/\[(.+?)\]/g)[0];
-                newChecked.push('radio');
-                const endDate =
-                    date.indexOf('{') !== -1 &&
-                    date.match(/\{(.+?)\}/g)[0].match(/\d+/g) !== null
-                        ? String(this.getNumber(date))
-                        : '';
-                newEchoDateParams = {
-                    startDate: value.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
-                    endDate: endDate,
-                    switchDate: value.indexOf('WD') > -1 ? 'week' : 'month'
-                };
-            } else if (value && value.indexOf('D') > -1) {
-                const date = value.match(/\[(.+?)\]/g)[0];
-                newChecked.push('radio');
-                const endDate =
-                    date.indexOf('{') !== -1 &&
-                    date.match(/\{(.+?)\}/g)[0].match(/\d+/g) !== null
-                        ? this.getNumber(date)
-                        : '';
-                newEchoDateParams = {
-                    startDate: date.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
-                    endDate: endDate,
-                    switchDate: date.indexOf('WD') > -1 ? 'week' : 'month'
-                };
-            }
             newChecked.push('checkbox');
             let newEchoTime = value.split('&');
             newEchoTime.map(item => {
                 newEchoTimeArr.push({
-                    startHour: this.matchTime(item)[0],
-                    endHour: this.matchTime(item)[2],
-                    startMin: this.matchTime(item)[1],
-                    endMin: this.matchTime(item)[3],
+                    ...timeParse(item),
                     isHour: [],
                     isMin: [],
                     isEndMin: []
@@ -80,14 +70,9 @@ export default class AdInput extends React.Component {
     getNumber = item => {
         return (
             Number(item.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0]) +
-            Number(item.match(/\((.+?)\)/g)[0].match(/\d+/g)[0])
+            Number(item.match(/\((.+?)\)/g)[0].match(/\d+/g)[0]) -
+            1
         );
-    };
-
-    matchTime = item => {
-        return item
-            .match(/\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}m\d{1,2}\}\]/)[0]
-            .match(/\d+/g);
     };
 
     handleKeyDown = e => {
@@ -109,37 +94,49 @@ export default class AdInput extends React.Component {
     };
 
     onSubmit = option => {
-        const { timeArr, dateFormat } = option;
+        const { timeArr, dateFormat, isCheckbox } = option;
         let date = '',
-            monthAndWeek;
-        const format = dateFormat.startDate
-            ? `(${
-                  dateFormat.switchDate === 'week'
-                      ? `WD${dateFormat.startDate}`
-                      : `D${dateFormat.startDate}`
-              })`
-            : '';
-        const endDate = dateFormat.endDate
-            ? `{D${Number(dateFormat.endDate) - Number(dateFormat.startDate)}}`
-            : '';
-        monthAndWeek = format ? `[${format}${endDate}]` : '';
-        let timeAndMin = '';
-        timeArr.map((item, index) => {
-            if (index !== timeArr.length - 1) {
-                timeAndMin += `[(h${item.startHour || '00'}m${
-                    item.startMin
-                }){h${item.endHour || '00'}m${item.endMin}}]&`;
-            } else {
-                timeAndMin += `[(h${item.startHour || '00'}m${
-                    item.startMin
-                }){h${item.endHour || '00'}m${item.endMin}}]`;
-            }
-        });
+            monthAndWeek = '',
+            timeAndMin = '';
+        if (isCheckbox.includes('radio')) {
+            //TODO 日期勾选
+            const format = dateFormat.startDate
+                ? `(${
+                      dateFormat.switchDate === 'week'
+                          ? `WD${dateFormat.startDate}`
+                          : `D${dateFormat.startDate}`
+                  })`
+                : '';
+            let dataDiff = dateFormat.endDate
+                ? Number(dateFormat.endDate) - Number(dateFormat.startDate) + 1
+                : 1;
+            const endDate = `{D${dataDiff}}`;
+            monthAndWeek = format ? `[${format}${endDate}]` : '';
+        }
+
+        if (isCheckbox.includes('checkbox')) {
+            //TODO 时间勾选
+            let timeDiffs = timeArr.map(t => {
+                let startTime = moment(`${t.startHour}:${t.startMin}`, 'HH:mm');
+                let endTime = moment(`${t.endHour}:${t.endMin}`, 'HH:mm');
+                let duration = timeSubtract(startTime, endTime);
+                let hDiff = `h${duration.get('hours')}`;
+                let mDiff = duration.get('minutes')
+                    ? `m${duration.get('minutes')}`
+                    : '';
+                let timeDiff = hDiff + mDiff;
+                let startHour = startTime.get('hours');
+                let startMin = startTime.get('minutes');
+                return `[(h${startHour}m${startMin}){${timeDiff}}]`;
+            });
+            timeAndMin = timeDiffs.join('&');
+        }
         date = monthAndWeek + timeAndMin;
+
         this.setState({
-            echoTimeArr: option.timeArr,
-            echoDateParams: option.dateFormat,
-            checked: option.isCheckbox
+            echoTimeArr: timeArr,
+            echoDateParams: dateFormat,
+            checked: isCheckbox
         });
         return date;
     };
@@ -157,7 +154,7 @@ export default class AdInput extends React.Component {
     };
     render() {
         return (
-            <div onSubmit={this.props.onSubmit}>
+            <div>
                 <Input
                     {...this.props}
                     onKeyDown={e => this.handleKeyDown(e)}
