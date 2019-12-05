@@ -1,8 +1,9 @@
 import React from 'react';
 import { Input } from 'antd';
-import { dateFormatParams } from 'src/utils/form/dateFormat';
+import { timeSubtract, timeParse } from 'src/utils/timeUtils';
 import AdDatePicker from '../AdDatePicker';
 import '../AdDatePicker/index.less';
+import moment from 'moment';
 
 const params = {
     echoDateParams: {},
@@ -22,8 +23,57 @@ export default class AdInput extends React.Component {
 
     getDataFromProps(props) {
         const { value } = props;
-        return dateFormatParams(value);
+        return this.checkParams(value);
     }
+    checkParams = value => {
+        let newChecked = [];
+        let newEchoTimeArr = [];
+        let newEchoDateParams = {};
+        if (value && value.indexOf('WD') > -1) {
+            const date = value.match(/\[(.+?)\]/g)[0];
+            newChecked.push('radio');
+            const endDate = String(this.getNumber(date));
+            newEchoDateParams = {
+                startDate: value.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
+                endDate: endDate,
+                switchDate: value.indexOf('WD') > -1 ? 'week' : 'month'
+            };
+        } else if (value && value.indexOf('D') > -1) {
+            const date = value.match(/\[(.+?)\]/g)[0];
+            newChecked.push('radio');
+            const endDate = this.getNumber(date);
+            newEchoDateParams = {
+                startDate: date.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
+                endDate: endDate,
+                switchDate: date.indexOf('WD') > -1 ? 'week' : 'month'
+            };
+        }
+        if (value && (value.indexOf('h') > -1 || value.indexOf('m') > -1)) {
+            newChecked.push('checkbox');
+            let newEchoTime = value.split('&');
+            newEchoTime.map(item => {
+                newEchoTimeArr.push({
+                    ...timeParse(item),
+                    isHour: [],
+                    isMin: [],
+                    isEndMin: []
+                });
+            });
+        }
+        return {
+            echoDateParams: newEchoDateParams,
+            checked: newChecked,
+            echoTimeArr: newEchoTimeArr
+        };
+    };
+
+    getNumber = item => {
+        return (
+            Number(item.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0]) +
+            Number(item.match(/\((.+?)\)/g)[0].match(/\d+/g)[0]) -
+            1
+        );
+    };
 
     handleKeyDown = e => {
         e.stopPropagation();
@@ -35,7 +85,7 @@ export default class AdInput extends React.Component {
     handleDate = (option, visible) => {
         let data = this.onSubmit(option);
         this.props.onChange(data);
-        let dataParams = dateFormatParams(data);
+        let dataParams = this.checkParams(data);
 
         this.setState({
             visible,
@@ -44,37 +94,49 @@ export default class AdInput extends React.Component {
     };
 
     onSubmit = option => {
-        const { timeArr, dateFormat } = option;
+        const { timeArr, dateFormat, isCheckbox } = option;
         let date = '',
-            monthAndWeek;
-        const format = dateFormat.startDate
-            ? `(${
-                  dateFormat.switchDate === 'week'
-                      ? `WD${dateFormat.startDate}`
-                      : `D${dateFormat.startDate}`
-              })`
-            : '';
-        const endDate = dateFormat.endDate
-            ? `{D${Number(dateFormat.endDate) - Number(dateFormat.startDate)}}`
-            : '';
-        monthAndWeek = format ? `[${format}${endDate}]` : '';
-        let timeAndMin = '';
-        timeArr.map((item, index) => {
-            if (index !== timeArr.length - 1) {
-                timeAndMin += `[(h${item.startHour || '00'}m${
-                    item.startMin
-                }){h${item.endHour || '00'}m${item.endMin}}]&`;
-            } else {
-                timeAndMin += `[(h${item.startHour || '00'}m${
-                    item.startMin
-                }){h${item.endHour || '00'}m${item.endMin}}]`;
-            }
-        });
+            monthAndWeek = '',
+            timeAndMin = '';
+        if (isCheckbox.includes('radio')) {
+            //TODO 日期勾选
+            const format = dateFormat.startDate
+                ? `(${
+                      dateFormat.switchDate === 'week'
+                          ? `WD${dateFormat.startDate}`
+                          : `D${dateFormat.startDate}`
+                  })`
+                : '';
+            let dataDiff = dateFormat.endDate
+                ? Number(dateFormat.endDate) - Number(dateFormat.startDate) + 1
+                : 1;
+            const endDate = `{D${dataDiff}}`;
+            monthAndWeek = format ? `[${format}${endDate}]` : '';
+        }
+
+        if (isCheckbox.includes('checkbox')) {
+            //TODO 时间勾选
+            let timeDiffs = timeArr.map(t => {
+                let startTime = moment(`${t.startHour}:${t.startMin}`, 'HH:mm');
+                let endTime = moment(`${t.endHour}:${t.endMin}`, 'HH:mm');
+                let duration = timeSubtract(startTime, endTime);
+                let hDiff = `h${duration.get('hours')}`;
+                let mDiff = duration.get('minutes')
+                    ? `m${duration.get('minutes')}`
+                    : '';
+                let timeDiff = hDiff + mDiff;
+                let startHour = startTime.get('hours');
+                let startMin = startTime.get('minutes');
+                return `[(h${startHour}m${startMin}){${timeDiff}}]`;
+            });
+            timeAndMin = timeDiffs.join('&');
+        }
         date = monthAndWeek + timeAndMin;
+
         this.setState({
-            echoTimeArr: option.timeArr,
-            echoDateParams: option.dateFormat,
-            checked: option.isCheckbox
+            echoTimeArr: timeArr,
+            echoDateParams: dateFormat,
+            checked: isCheckbox
         });
         return date;
     };
@@ -92,7 +154,7 @@ export default class AdInput extends React.Component {
     };
     render() {
         return (
-            <div onSubmit={this.props.onSubmit}>
+            <div>
                 <Input
                     {...this.props}
                     onKeyDown={e => this.handleKeyDown(e)}
