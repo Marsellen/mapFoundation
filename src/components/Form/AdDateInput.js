@@ -1,6 +1,6 @@
 import React from 'react';
-import { Input, message } from 'antd';
-import { getValidator } from 'src/utils/form/validator';
+import { Input } from 'antd';
+import { dateFormatParams } from 'src/utils/form/dateFormat';
 import AdDatePicker from '../AdDatePicker';
 import '../AdDatePicker/index.less';
 
@@ -22,73 +22,8 @@ export default class AdInput extends React.Component {
 
     getDataFromProps(props) {
         const { value } = props;
-        return this.checkParams(value);
+        return dateFormatParams(value);
     }
-    checkParams = value => {
-        let newChecked = [];
-        let newEchoTimeArr = [];
-        let newEchoDateParams = {};
-        if (value && (value.indexOf('h') > -1 || value.indexOf('m') > -1)) {
-            if (value.indexOf('WD') > -1) {
-                const date = value.match(/\[(.+?)\]/g)[0];
-                newChecked.push('radio');
-                const endDate =
-                    date.indexOf('{') !== -1 &&
-                    date.match(/\{(.+?)\}/g)[0].match(/\d+/g) !== null
-                        ? String(this.getNumber(date))
-                        : '';
-                newEchoDateParams = {
-                    startDate: value.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
-                    endDate: endDate,
-                    switchDate: value.indexOf('WD') > -1 ? 'week' : 'month'
-                };
-            } else if (value && value.indexOf('D') > -1) {
-                const date = value.match(/\[(.+?)\]/g)[0];
-                newChecked.push('radio');
-                const endDate =
-                    date.indexOf('{') !== -1 &&
-                    date.match(/\{(.+?)\}/g)[0].match(/\d+/g) !== null
-                        ? this.getNumber(date)
-                        : '';
-                newEchoDateParams = {
-                    startDate: date.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
-                    endDate: endDate,
-                    switchDate: date.indexOf('WD') > -1 ? 'week' : 'month'
-                };
-            }
-            newChecked.push('checkbox');
-            let newEchoTime = value.split('&');
-            newEchoTime.map(item => {
-                newEchoTimeArr.push({
-                    startHour: this.matchTime(item)[0],
-                    endHour: this.matchTime(item)[2],
-                    startMin: this.matchTime(item)[1],
-                    endMin: this.matchTime(item)[3],
-                    isHour: [],
-                    isMin: [],
-                    isEndMin: []
-                });
-            });
-        }
-        return {
-            echoDateParams: newEchoDateParams,
-            checked: newChecked,
-            echoTimeArr: newEchoTimeArr
-        };
-    };
-
-    getNumber = item => {
-        return (
-            Number(item.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0]) +
-            Number(item.match(/\((.+?)\)/g)[0].match(/\d+/g)[0])
-        );
-    };
-
-    matchTime = item => {
-        return item
-            .match(/\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}m\d{1,2}\}\]/)[0]
-            .match(/\d+/g);
-    };
 
     handleKeyDown = e => {
         e.stopPropagation();
@@ -100,7 +35,7 @@ export default class AdInput extends React.Component {
     handleDate = (option, visible) => {
         let data = this.onSubmit(option);
         this.props.onChange(data);
-        let dataParams = this.checkParams(data);
+        let dataParams = dateFormatParams(data);
 
         this.setState({
             visible,

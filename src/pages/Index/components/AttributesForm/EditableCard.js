@@ -9,6 +9,7 @@ import { getLayerIDKey } from 'src/utils/vectorUtils';
 import './style.less';
 import AdInput from 'src/components/Form/AdInput';
 import { getValidator } from 'src/utils/form/validator';
+import { dateFormatParams } from 'src/utils/form/dateFormat';
 import AdDateInput from 'src/components/Form/AdDateInput';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import AdSelect from 'src/components/Form/AdSelect';
@@ -191,9 +192,10 @@ class EditableCard extends React.Component {
                                 required: item.required,
                                 message: `${item.name}必填`
                             },
-                            { validator: this.checkPrice },
+                            { validator: this.checkParams },
                             ...this.getValidatorSetting(item.validates)
                         ],
+                        validateTrigger: 'onBlur',
                         initialValue: item.value
                     })(<AdDateInput />)
                 ) : (
@@ -203,92 +205,17 @@ class EditableCard extends React.Component {
         );
     };
 
-    checkSetTimeout = (value, callback) => {
-        return setTimeout(() => {
-            try {
-                this.checkParams(value);
-            } catch (err) {
-                callback(
-                    new Error(
-                        '格式错误！正确格式如：[(WD1){D2}][(h01m01){h01m01}]或[(h01m01){h01m01}]'
-                    )
-                );
-            }
-            callback();
-        }, 1000);
-    };
-
-    checkPrice = (rule, value, callback) => {
-        this.checkSetTimeout(value, callback);
-    };
-
-    checkParams = value => {
-        let newChecked = [];
-        let newEchoTimeArr = [];
-        let newEchoDateParams = {};
-        if (value && (value.indexOf('h') > -1 || value.indexOf('m') > -1)) {
-            if (value.indexOf('WD') > -1) {
-                const date = value.match(/\[(.+?)\]/g)[0];
-
-                newChecked.push('radio');
-                const endDate =
-                    date.indexOf('{') !== -1 &&
-                    date.match(/\{(.+?)\}/g)[0].match(/\d+/g) !== null
-                        ? String(this.getNumber(date))
-                        : '';
-                newEchoDateParams = {
-                    startDate: value.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
-                    endDate: endDate,
-                    switchDate: value.indexOf('WD') > -1 ? 'week' : 'month'
-                };
-            } else if (value && value.indexOf('D') > -1) {
-                const date = value.match(/\[(.+?)\]/g)[0];
-                newChecked.push('radio');
-                const endDate =
-                    date.indexOf('{') !== -1 &&
-                    date.match(/\{(.+?)\}/g)[0].match(/\d+/g) !== null
-                        ? this.getNumber(date)
-                        : '';
-                newEchoDateParams = {
-                    startDate: date.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
-                    endDate: endDate,
-                    switchDate: date.indexOf('WD') > -1 ? 'week' : 'month'
-                };
-            }
-            newChecked.push('checkbox');
-            let newEchoTime = value.split('&');
-            newEchoTime.map(item => {
-                newEchoTimeArr.push({
-                    startHour: this.matchTime(item)[0],
-                    endHour: this.matchTime(item)[2],
-                    startMin: this.matchTime(item)[1],
-                    endMin: this.matchTime(item)[3],
-                    isHour: [],
-                    isMin: [],
-                    isEndMin: []
-                });
-            });
-        } else {
-            throw '时间域格式错误';
+    checkParams = (rule, value, callback) => {
+        try {
+            dateFormatParams(value, 'isCheck');
+        } catch (err) {
+            callback(
+                new Error(
+                    '格式错误！正确格式如：[(WD1){D2}][(h01m01){h01m01}]或[(h01m01){h01m01}]'
+                )
+            );
         }
-        return {
-            echoDateParams: newEchoDateParams,
-            checked: newChecked,
-            echoTimeArr: newEchoTimeArr
-        };
-    };
-
-    getNumber = item => {
-        return (
-            Number(item.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0]) +
-            Number(item.match(/\((.+?)\)/g)[0].match(/\d+/g)[0])
-        );
-    };
-
-    matchTime = item => {
-        return item
-            .match(/\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}m\d{1,2}\}\]/)[0]
-            .match(/\d+/g);
+        callback();
     };
 
     renderInputNumber = (item, index, readonly) => {
