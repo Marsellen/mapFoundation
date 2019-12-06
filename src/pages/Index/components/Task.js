@@ -141,7 +141,7 @@ class Task extends React.Component {
         QualityCheckStore.closeCheckReport();
         QualityCheckStore.clearCheckReport();
         TaskStore.setActiveTask(id);
-        this.clearWorkSpace();
+        await this.clearWorkSpace();
         if (isEdit) {
             this.openCheckReport();
             let boundaryLayerGroup = await TaskStore.startTaskEdit(id);
@@ -153,7 +153,7 @@ class Task extends React.Component {
         this.setState({ current: id });
     };
 
-    clearWorkSpace = () => {
+    clearWorkSpace = async () => {
         const {
             OperateHistoryStore,
             DataLayerStore,
@@ -161,8 +161,8 @@ class Task extends React.Component {
             AttributeStore,
             PictureShowStore
         } = this.props;
-        OperateHistoryStore.destroy();
-        editLog.store.clear();
+        await OperateHistoryStore.destroy();
+        await editLog.store.clear();
         DataLayerStore.activeEditor();
         DataLayerStore.topViewMode(false);
         ToolCtrlStore.updateByEditLayer();
