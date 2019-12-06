@@ -18,14 +18,13 @@ class Save extends React.Component {
 
     render() {
         const { OperateHistoryStore } = this.props;
-        let { currentNode, savedNode } = OperateHistoryStore;
-        let shouldSave = currentNode > savedNode;
+        let { couldSave } = OperateHistoryStore;
         return (
             <ToolIcon
                 id="save-btn"
                 icon="baocun"
                 title="保存"
-                disabled={!shouldSave}
+                disabled={!couldSave}
                 action={this.action}
             />
         );
@@ -60,11 +59,11 @@ class Save extends React.Component {
 
     autoSave = async () => {
         const { OperateHistoryStore, TaskStore } = this.props;
-        let { currentNode, savedNode } = OperateHistoryStore;
-        let shouldSave = currentNode > savedNode;
-        if (shouldSave) {
+        let { couldSave } = OperateHistoryStore;
+        if (couldSave) {
             await TaskStore.submit();
             await TaskStore.writeEditLog();
+            OperateHistoryStore.autoSave();
             message.success('自动保存成功', 3);
         }
     };
