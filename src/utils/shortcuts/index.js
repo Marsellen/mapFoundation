@@ -7,6 +7,10 @@ export default class Shortcut {
 
     init() {
         document.addEventListener('keydown', event => {
+            const targetIsmodal = event.target.className.includes('ant-modal');
+            const targetIsTab = event.target.className.includes('ant-tabs');
+            if (targetIsmodal) return;
+            if (targetIsTab) return;
             shortcutMap.forEach(this.getEventCallBack(event));
         });
     }

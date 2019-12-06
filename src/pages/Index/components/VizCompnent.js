@@ -130,18 +130,12 @@ class VizCompnent extends React.Component {
                 message.success('任务加载成功', 1);
 
                 //获取任务比例记录，设置比例
-                const { TaskStore, PointCloudStore } = this.props;
+                const { TaskStore } = this.props;
                 const { activeTaskId } = TaskStore;
                 const { taskScale } = AdLocalStorage.getTaskInfosStorage(
                     activeTaskId
                 );
                 taskScale && map.setEyeView(taskScale);
-
-                //获取点云高度范围
-                const range = window.pointCloudLayer
-                    ? window.pointCloudLayer.getElevationRange()
-                    : [];
-                PointCloudStore.initHeightRange(range);
             })
             .catch(e => {
                 console.log(e);
@@ -179,7 +173,7 @@ class VizCompnent extends React.Component {
         }
         return new Promise((resolve, reject) => {
             const opts = { type: 'pointcloud', layerId: 'pointcloud' };
-            window.pointCloudLayer = new PointCloudLayer(pointClouds, opts);
+            var pointCloudLayer = new PointCloudLayer(pointClouds, opts);
             map.getLayerManager().addLayer(
                 'PointCloudLayer',
                 pointCloudLayer,
@@ -187,6 +181,11 @@ class VizCompnent extends React.Component {
                     if (!result || result.code === 404) {
                         reject(result);
                     } else {
+                        //获取点云高度范围
+                        const { PointCloudStore } = this.props;
+                        const range = pointCloudLayer.getElevationRange();
+                        PointCloudStore.initHeightRange(range);
+                        window.pointCloudLayer = pointCloudLayer;
                         resolve({
                             layerName: RESOURCE_LAYER_POINT_CLOUD,
                             layer: pointCloudLayer
@@ -287,10 +286,14 @@ class VizCompnent extends React.Component {
             //保存当前任务比例
             const { activeTaskId } = TaskStore;
             const preTaskScale = map.getEyeView();
-            AdLocalStorage.setTaskInfosStorage({
-                taskId: activeTaskId,
-                taskScale: preTaskScale
-            });
+            const { position } = preTaskScale;
+            const { x, y, z } = position;
+            if (!(x === 0 && y === 0 && z === 0)) {
+                AdLocalStorage.setTaskInfosStorage({
+                    taskId: activeTaskId,
+                    taskScale: preTaskScale
+                });
+            }
         };
 
         // attributes 拾取控件
