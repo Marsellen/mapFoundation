@@ -7,7 +7,8 @@ export default class Shortcut {
 
     init() {
         document.addEventListener('keydown', event => {
-            shortcutMap.forEach(this.getEventCallBack(event));
+            const targetIsmodal = event.target.className.includes('modal');
+            !targetIsmodal && shortcutMap.forEach(this.getEventCallBack(event));
         });
     }
 
