@@ -4,8 +4,9 @@ import { Modal } from 'antd';
 
 class DragDom extends React.Component {
     updateTransform = (transformStr, tx, ty, tdom) => {
+        const { dragCallback } = this.props;
         this.modalDom.style.transform = transformStr;
-        this.props.dragCallback(transformStr, tx, ty, tdom);
+        dragCallback && dragCallback(transformStr, tx, ty, tdom);
     };
 
     componentDidMount() {
