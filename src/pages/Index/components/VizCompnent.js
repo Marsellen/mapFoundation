@@ -173,7 +173,7 @@ class VizCompnent extends React.Component {
         }
         return new Promise((resolve, reject) => {
             const opts = { type: 'pointcloud', layerId: 'pointcloud' };
-            window.pointCloudLayer = new PointCloudLayer(pointClouds, opts);
+            var pointCloudLayer = new PointCloudLayer(pointClouds, opts);
             map.getLayerManager().addLayer(
                 'PointCloudLayer',
                 pointCloudLayer,
@@ -183,8 +183,9 @@ class VizCompnent extends React.Component {
                     } else {
                         //获取点云高度范围
                         const { PointCloudStore } = this.props;
-                        const range = window.pointCloudLayer.getElevationRange();
+                        const range = pointCloudLayer.getElevationRange();
                         PointCloudStore.initHeightRange(range);
+                        window.pointCloudLayer = pointCloudLayer;
                         resolve({
                             layerName: RESOURCE_LAYER_POINT_CLOUD,
                             layer: pointCloudLayer
