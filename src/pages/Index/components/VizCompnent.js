@@ -130,18 +130,12 @@ class VizCompnent extends React.Component {
                 message.success('任务加载成功', 1);
 
                 //获取任务比例记录，设置比例
-                const { TaskStore, PointCloudStore } = this.props;
+                const { TaskStore } = this.props;
                 const { activeTaskId } = TaskStore;
                 const { taskScale } = AdLocalStorage.getTaskInfosStorage(
                     activeTaskId
                 );
                 taskScale && map.setEyeView(taskScale);
-
-                //获取点云高度范围
-                const range = window.pointCloudLayer
-                    ? window.pointCloudLayer.getElevationRange()
-                    : [];
-                PointCloudStore.initHeightRange(range);
             })
             .catch(e => {
                 console.log(e);
@@ -187,6 +181,10 @@ class VizCompnent extends React.Component {
                     if (!result || result.code === 404) {
                         reject(result);
                     } else {
+                        //获取点云高度范围
+                        const { PointCloudStore } = this.props;
+                        const range = window.pointCloudLayer.getElevationRange();
+                        PointCloudStore.initHeightRange(range);
                         resolve({
                             layerName: RESOURCE_LAYER_POINT_CLOUD,
                             layer: pointCloudLayer
