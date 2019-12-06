@@ -6,6 +6,7 @@ import IconFont from 'src/components/IconFont';
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
 @inject('AttributeStore')
+@inject('RightMenuStore')
 @observer
 class TopView extends React.Component {
     render() {
@@ -31,7 +32,12 @@ class TopView extends React.Component {
     action = () => {
         // map.setView('U');
         // 按钮选中状态
-        const { DataLayerStore, ToolCtrlStore, AttributeStore } = this.props;
+        const {
+            DataLayerStore,
+            ToolCtrlStore,
+            AttributeStore,
+            RightMenuStore
+        } = this.props;
         const { isTopView } = DataLayerStore;
 
         DataLayerStore.topViewMode(!isTopView);
@@ -43,6 +49,7 @@ class TopView extends React.Component {
             DataLayerStore.enableRegionSelect();
             DataLayerStore.activeEditor();
             AttributeStore.hide();
+            RightMenuStore.hide();
         } else {
             window.map.enableRotate();
             DataLayerStore.disableRegionSelect();
