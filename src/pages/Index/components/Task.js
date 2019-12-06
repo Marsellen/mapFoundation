@@ -128,10 +128,14 @@ class Task extends React.Component {
         // 切换任务时，保存上一个任务的缩放比例，该方法需最先执行
         if (current) {
             const preTaskScale = map.getEyeView();
-            AdLocalStorage.setTaskInfosStorage({
-                taskId: current,
-                taskScale: preTaskScale
-            });
+            const { position } = preTaskScale;
+            const { x, y, z } = position;
+            if (!(x === 0 && y === 0 && z === 0)) {
+                AdLocalStorage.setTaskInfosStorage({
+                    taskId: current,
+                    taskScale: preTaskScale
+                });
+            }
         }
 
         QualityCheckStore.closeCheckReport();

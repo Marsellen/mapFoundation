@@ -287,10 +287,14 @@ class VizCompnent extends React.Component {
             //保存当前任务比例
             const { activeTaskId } = TaskStore;
             const preTaskScale = map.getEyeView();
-            AdLocalStorage.setTaskInfosStorage({
-                taskId: activeTaskId,
-                taskScale: preTaskScale
-            });
+            const { position } = preTaskScale;
+            const { x, y, z } = position;
+            if (!(x === 0 && y === 0 && z === 0)) {
+                AdLocalStorage.setTaskInfosStorage({
+                    taskId: activeTaskId,
+                    taskScale: preTaskScale
+                });
+            }
         };
 
         // attributes 拾取控件
