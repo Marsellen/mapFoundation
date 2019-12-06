@@ -115,20 +115,13 @@ class RightMenuModal extends React.Component {
     }
 
     getMenus = () => {
-        return [
+        const menuArr = [
             <Menu.Item
                 id="delete-btn"
                 key="delete"
                 onClick={this.deleteFeature}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>删除</span>
-            </Menu.Item>,
-            <Menu.Item
-                id="copy-btn"
-                key="copyLine"
-                onClick={this.copyLine}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
-                <span>复制</span>
             </Menu.Item>,
             <Menu.Item
                 id="insert-points-btn"
@@ -194,6 +187,23 @@ class RightMenuModal extends React.Component {
                 <span>拉线齐打断</span>
             </Menu.Item>
         ];
+
+        // 俯视图模式下，显示复制功能
+        if (this.props.DataLayerStore.isTopView) {
+            menuArr.splice(
+                1,
+                0,
+                <Menu.Item
+                    id="copy-btn"
+                    key="copyLine"
+                    onClick={this.copyLine}
+                    style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                    <span>复制</span>
+                </Menu.Item>
+            );
+        }
+
+        return menuArr;
     };
 
     content = () => {
