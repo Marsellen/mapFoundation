@@ -7,11 +7,13 @@ import { autoCreateLine } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import AdEmitter from 'src/models/event';
+import CONFIG from 'src/config';
 import 'less/components/tool-icon.less';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('OperateHistoryStore')
+@inject('TaskStore')
 @observer
 class DividerToAutoCreate extends React.Component {
     componentDidMount() {
@@ -30,19 +32,21 @@ class DividerToAutoCreate extends React.Component {
 
         return (
             <span className={visible ? 'ad-icon-active' : ''} key={updateKey}>
-                <ToolIcon
-                    icon={
-                        editLayer && editLayer.layerName == 'AD_Lane'
-                            ? 'zuoyouchedaoxianshengchengzhongxinxian'
-                            : 'luduanzhongcankaoxianshengcheng'
-                    }
-                    title={
-                        editLayer && editLayer.layerName == 'AD_Lane'
-                            ? '左右车道线生成中心线'
-                            : '路段中参考线生成'
-                    }
-                    action={this.action}
-                />
+                {!this.disEditable() && (
+                    <ToolIcon
+                        icon={
+                            editLayer && editLayer.layerName == 'AD_Lane'
+                                ? 'zuoyouchedaoxianshengchengzhongxinxian'
+                                : 'luduanzhongcankaoxianshengcheng'
+                        }
+                        title={
+                            editLayer && editLayer.layerName == 'AD_Lane'
+                                ? '左右车道线生成中心线'
+                                : '路段中参考线生成'
+                        }
+                        action={this.action}
+                    />
+                )}
                 <AdMessage
                     visible={visible}
                     content={this.content(editLayer)}
@@ -51,7 +55,14 @@ class DividerToAutoCreate extends React.Component {
         );
     }
 
+    disEditable = () => {
+        const { TaskStore } = this.props;
+
+        return !CONFIG.manbuildTaskProcess.includes(TaskStore.taskProcessName);
+    };
+
     action = () => {
+        if (this.disEditable()) return;
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_around_line') return;
         AttributeStore.hideRelFeatures();
