@@ -13,12 +13,14 @@ import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import AddLRLaneDriverRel from './AddRelModal/AddLRLaneDriverRel';
 import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
+import CONFIG from 'src/config';
 import 'less/components/tool-icon.less';
 import './AddRel.less';
 
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
 @inject('AttributeStore')
+@inject('TaskStore')
 @observer
 class AddRel extends React.Component {
     componentDidMount() {
@@ -31,12 +33,14 @@ class AddRel extends React.Component {
         let visible = DataLayerStore.editType == 'newRel';
         return (
             <span className={visible ? 'ad-icon-active' : ''}>
-                <ToolIcon
-                    id="add-rel-btn"
-                    icon="xinzengguanxi"
-                    title="新增关联关系"
-                    action={this.action}
-                />
+                {!this.disEditable() && (
+                    <ToolIcon
+                        id="add-rel-btn"
+                        icon="xinzengguanxi"
+                        title="新增关联关系"
+                        action={this.action}
+                    />
+                )}
                 <AdMessage visible={visible} content={this.content()} />
                 <AddLRLaneDriverRel
                     onRef={modal => {
@@ -48,7 +52,14 @@ class AddRel extends React.Component {
         );
     }
 
+    disEditable = () => {
+        const { TaskStore } = this.props;
+
+        return !CONFIG.manbuildTaskProcess.includes(TaskStore.taskProcessName);
+    };
+
     action = () => {
+        if (this.disEditable()) return;
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'newRel') return;
         AttributeStore.hideRelFeatures();
