@@ -80,7 +80,7 @@ class Resize {
                 break;
             case 'top':
                 height = this.currentHeight - addY;
-                if (height > 310) {
+                if (height > 320) {
                     this.currentEle.style.top =
                         this.currentTop + addY - this.dragY + 'px';
                     this.currentEle.style.height = height + 'px';
@@ -88,7 +88,7 @@ class Resize {
                 break;
             case 'bottom':
                 height = this.currentHeight + addY;
-                if (height > 310) {
+                if (height > 320) {
                     this.currentEle.style.top =
                         this.currentTop - this.dragY + 'px';
                     this.currentEle.style.height = height + 'px';

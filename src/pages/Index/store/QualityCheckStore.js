@@ -36,7 +36,7 @@ class QualityCheckStore {
         return this.reportListInit.every(item => item.checked);
     }
     @computed get reportListL() {
-        return this.reportList.length;
+        return this.reportList ? this.reportList.length : 0;
     }
 
     @action openCheckReport = () => {
