@@ -176,7 +176,11 @@ class JobStatus extends React.Component {
         const { QualityCheckStore, appStore } = this.props;
         const { loginUser } = appStore;
         const { roleCode } = loginUser;
-        const { isAllVisited, isAllChecked } = QualityCheckStore;
+        const {
+            isAllVisited,
+            isAllChecked,
+            openCheckReport
+        } = QualityCheckStore;
         const { manualStatus } = option;
         const taskStatus = MANUALSTATUS[manualStatus] || '提交';
 

@@ -44,7 +44,7 @@ class QualityCheckStore {
     };
 
     @action closeCheckReport = () => {
-        this.clearCheckReport();
+        this.filterOption = {};
         this.checkReportVisible = false;
     };
 
