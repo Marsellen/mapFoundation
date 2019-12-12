@@ -100,21 +100,36 @@ class Task extends React.Component {
         }
     };
 
-    openCheckReport = () => {
-        const { appStore, TaskStore } = this.props;
-        const checkResultBtn = document.getElementById('check-result-btn');
+    handleReportOpen = async () => {
+        const { appStore, QualityCheckStore, TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
+        const { loginUser } = appStore;
+        const { roleCode } = loginUser;
+        const {
+            handleQualityGetMisreport,
+            getReport,
+            openCheckReport
+        } = QualityCheckStore;
 
-        switch (appStore.roleCode) {
+        switch (roleCode) {
             case 'producer':
-                if (
-                    TaskStore.activeTaskStatus === 4 ||
-                    TaskStore.activeTaskStatus === 5
-                ) {
-                    checkResultBtn.click();
-                }
+                // //返工返修任务，自动打开质检报表
+                // if (
+                //     TaskStore.activeTaskStatus === 4 ||
+                //     TaskStore.activeTaskStatus === 5
+                // ) {
+                //     await getReport({
+                //         task_id: activeTaskId
+                //     });
+                //     QualityCheckStore.reportListL > 0 && openCheckReport();
+                // }
                 break;
             case 'quality':
-                checkResultBtn.click();
+                await handleQualityGetMisreport({
+                    taskId: activeTaskId,
+                    status: '1,2,4'
+                });
+                QualityCheckStore.reportListL > 0 && openCheckReport();
                 break;
             default:
                 break;
@@ -143,7 +158,7 @@ class Task extends React.Component {
         TaskStore.setActiveTask(id);
         await this.clearWorkSpace();
         if (isEdit) {
-            this.openCheckReport();
+            this.handleReportOpen();
             let boundaryLayerGroup = await TaskStore.startTaskEdit(id);
             this.fetchLayerGroup(boundaryLayerGroup);
             window.map && window.map.enableRotate();
