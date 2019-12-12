@@ -26,16 +26,6 @@ class DataLayerStore extends LayerStore {
     @observable beenPick;
     @observable isTopView = false;
     @observable readCoordinateResult;
-    @computed get isCheckedAll() {
-        return this.layers.every(layer => layer.checked);
-    }
-
-    @computed get indeterminate() {
-        let checkedLayers = this.layers.filter(layer => layer.checked);
-        return (
-            checkedLayers.length && checkedLayers.length !== this.layers.length
-        );
-    }
 
     @action toggle = (name, checked) => {
         this.layers.find(layer => layer.value == name).checked = checked;
@@ -46,15 +36,6 @@ class DataLayerStore extends LayerStore {
             layer.hide();
         }
         this.updateKey = Math.random();
-    };
-
-    @action toggleAll = checked => {
-        this.layers.map(layer => (layer.checked = checked));
-        this.updateKey = Math.random();
-    };
-
-    hasShow = () => {
-        return this.layers.findIndex(layer => layer.checked);
     };
 
     initEditor = layers => {
