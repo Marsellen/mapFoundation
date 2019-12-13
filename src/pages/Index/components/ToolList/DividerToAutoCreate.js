@@ -7,7 +7,7 @@ import { autoCreateLine } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import AdEmitter from 'src/models/event';
-import CONFIG from 'src/config';
+import { isManbuildTask } from 'src/utils/taskUtils';
 import 'less/components/tool-icon.less';
 
 @inject('DataLayerStore')
@@ -58,7 +58,7 @@ class DividerToAutoCreate extends React.Component {
     disEditable = () => {
         const { TaskStore } = this.props;
 
-        return !CONFIG.manbuildTaskProcess.includes(TaskStore.taskProcessName);
+        return !isManbuildTask(TaskStore.activeTask);
     };
 
     action = () => {
