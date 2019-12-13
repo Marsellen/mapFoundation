@@ -52,10 +52,10 @@ const deleteLine = async features => {
     return historyLog;
 };
 
-const breakLine = async (breakPoint, features, task_id) => {
+const breakLine = async (breakPoint, features, activeTask) => {
     let point = geometryToWKT(breakPoint.data.geometry);
     let { lines, oldRels, oldAttrs } = await getLines(features);
-    let option = { point, lines, task_id };
+    let option = { point, lines, task_id: activeTask.taskId };
     let result = await EditorService.breakLines(option);
     if (result.code !== 1) throw result;
     let { newFeatures, rels, attrs } = result.data.reduce(
@@ -83,9 +83,9 @@ const breakLine = async (breakPoint, features, task_id) => {
     return historyLog;
 };
 
-const mergeLine = async (features, task_id) => {
+const mergeLine = async (features, activeTask) => {
     let { lines, oldRels, oldAttrs } = await getLines(features);
-    let option = { lines, task_id };
+    let option = { lines, task_id: activeTask.taskId };
     let result = await EditorService.mergeLines(option);
     if (result.code !== 1) throw result;
     let { newFeatures, rels, attrs } = fetchFeatureRels(features, [
@@ -102,10 +102,10 @@ const mergeLine = async (features, task_id) => {
     return historyLog;
 };
 
-const breakLineByLine = async (line, features, task_id) => {
+const breakLineByLine = async (line, features, activeTask) => {
     let cutLine = geometryToWKT(line.data.geometry);
     let { lines, oldRels, oldAttrs } = await getLines(features);
-    let option = { cutLine, lines, task_id };
+    let option = { cutLine, lines, task_id: activeTask.taskId };
     let result = await EditorService.breakLinesByLine(option);
     if (result.code !== 1) throw result;
     let { newFeatures, rels, attrs } = result.data.reduce(
