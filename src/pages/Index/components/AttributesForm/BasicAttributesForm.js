@@ -214,6 +214,7 @@ class BasicAttributesForm extends React.Component {
                     })(
                         <CheckBoxIconGroup
                             options={options}
+                            max={3}
                             disabled={readonly}
                         />
                     )

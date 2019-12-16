@@ -11,7 +11,7 @@ import AdInput from 'src/components/Form/AdInput';
 import { getValidator } from 'src/utils/form/validator';
 import AdDateInput from 'src/components/Form/AdDateInput';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
-import AdSubLamp from 'src/components/AdSubLamp';
+import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import AdSelect from 'src/components/Form/AdSelect';
 import { testDataString } from 'src/utils/timeUtils';
 
@@ -378,7 +378,7 @@ class EditableCard extends React.Component {
         );
     };
 
-    renderAdSubLamp = (item, index, readonly) => {
+    renderCheckBoxIconGroup = (item, index, readonly) => {
         const { form } = this.props;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         let layout = readonly ? formItemLayout : {};
@@ -399,7 +399,13 @@ class EditableCard extends React.Component {
                             })
                         ],
                         initialValue: item.value
-                    })(<AdSubLamp options={options} />)
+                    })(
+                        <CheckBoxIconGroup
+                            options={options}
+                            max={3}
+                            disabled={readonly}
+                        />
+                    )
                 ) : (
                     <span className="ant-form-text">
                         {this.getCheckBoxArrayOption(item.value, options)}

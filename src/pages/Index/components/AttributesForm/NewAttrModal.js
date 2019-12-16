@@ -8,7 +8,7 @@ import {
 } from 'src/config/ADMapDataConfig';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import SearchIconGroup from 'src/components/SearchIconGroup';
-import AdSubLamp from 'src/components/AdSubLamp';
+import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import _ from 'lodash';
 import AdInput from 'src/components/Form/AdInput';
 import AdDateInput from 'src/components/Form/AdDateInput';
@@ -268,7 +268,7 @@ class NewAttrModal extends React.Component {
         );
     };
 
-    renderAdSubLamp = (item, index) => {
+    renderCheckBoxIconGroup = (item, index) => {
         const { form } = this.props;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         return (
@@ -287,7 +287,7 @@ class NewAttrModal extends React.Component {
                         })
                     ],
                     initialValue: item.value
-                })(<AdSubLamp options={options} />)}
+                })(<CheckBoxIconGroup options={options} max={3} />)}
             </Form.Item>
         );
     };

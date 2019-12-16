@@ -28,21 +28,17 @@ class CheckBoxIconGroup extends React.Component {
     }
 
     onChange = record => {
-        const { onChange, value } = this.props;
+        const { onChange, value, max } = this.props;
         if (typeof onChange === 'function') {
             let _value = value + '';
             if (_value.includes(record)) {
                 _value = _value.replace(record, '');
             } else {
-                switch (_value.length < 3) {
-                    case true:
-                        _value = _value + record;
-                        break;
-                    case false:
-                        message.warning('最多允许选3个！');
-                        break;
-                    default:
-                        _value = _value + record;
+                if (_value.length < max) {
+                    _value = _value + record;
+                } else {
+                    message.warning('最多允许选3个！');
+                    return false;
                 }
             }
             onChange(_value);

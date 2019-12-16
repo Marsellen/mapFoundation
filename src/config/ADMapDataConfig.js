@@ -998,7 +998,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         SIGN_NO: 0
     },
     AD_Sub_Lamp: {
-        LAMP_TYPE: 'ABCDE',
+        LAMP_TYPE: 'A',
         LAMP_NO: 0
     }
 };
