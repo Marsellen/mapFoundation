@@ -1,6 +1,5 @@
 import { addClass, removeClass } from '../utils';
 import { message } from 'antd';
-import editLog from 'src/models/editLog';
 
 const mapEventManager = () => {
     return window.map.getEventManager();
@@ -19,7 +18,7 @@ const pointsTooCloseListener = () => {
     });
 };
 
-const changePointsNode = eventType => {
+const changePointsNode = () => {
     mapEventManager().register('editor_event_changepoints_end', e => {
         message.success('修改形状点完成，需检查数据的关联关系正确性', 3);
     });
