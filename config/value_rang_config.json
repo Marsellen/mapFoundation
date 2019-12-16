@@ -459,7 +459,8 @@
         { "value": "G", "label": "叉形" },
         { "value": "H", "label": "行人" },
         { "value": "I", "label": "非机动车" },
-        { "value": "J", "label": "读秒" }
+        { "value": "J", "label": "读秒" },
+        { "value": "Z", "label": "灯头未启用" }
     ],
     "AD_TS_CONTENT_CONT_TYPE": [
         { "value": 1, "label": "禁止转向" },
