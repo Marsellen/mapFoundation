@@ -832,10 +832,10 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'H', label: '行人' },
         { value: 'I', label: '非机动车' },
         { value: 'J', label: '读秒' },
-        { value: 'Z', label: '灯头未启用' },
-        { value: 'BD', label: '方向向左的箭头+直行' },
-        { value: 'CD', label: '方向向右的箭头+直行' },
-        { value: 'BE', label: '方向向左的箭头+掉头' }
+        { value: 'Z', label: '灯头未启用' }
+        // { value: 'BD', label: '方向向左的箭头+直行' },
+        // { value: 'CD', label: '方向向右的箭头+直行' },
+        // { value: 'BE', label: '方向向左的箭头+掉头' }
     ],
     AD_TS_CONTENT_CONT_TYPE: [
         { value: 0, label: '未定义' },
@@ -1009,7 +1009,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         SIGN_NO: 0
     },
     AD_Sub_Lamp: {
-        LAMP_TYPE: 'A',
+        LAMP_TYPE: 'ABCDE',
         LAMP_NO: 0
     }
 };

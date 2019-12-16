@@ -11,6 +11,7 @@ import AdInput from 'src/components/Form/AdInput';
 import { getValidator } from 'src/utils/form/validator';
 import AdDateInput from 'src/components/Form/AdDateInput';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
+import AdSubLamp from 'src/components/AdSubLamp';
 import AdSelect from 'src/components/Form/AdSelect';
 import { testDataString } from 'src/utils/timeUtils';
 
@@ -375,6 +376,46 @@ class EditableCard extends React.Component {
                 )}
             </Form.Item>
         );
+    };
+
+    renderAdSubLamp = (item, index, readonly) => {
+        const { form } = this.props;
+        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+        let layout = readonly ? formItemLayout : {};
+        return (
+            <Form.Item key={index} label={item.name} {...layout}>
+                {!readonly ? (
+                    form.getFieldDecorator(item.key, {
+                        rules: [
+                            {
+                                required: item.required,
+                                message: `${item.name}必填`
+                            },
+                            ...(item.validates || []).map(validate => {
+                                return {
+                                    pattern: validate.pattern,
+                                    message: validate.message
+                                };
+                            })
+                        ],
+                        initialValue: item.value
+                    })(<AdSubLamp options={options} />)
+                ) : (
+                    <span className="ant-form-text">
+                        {this.getCheckBoxArrayOption(item.value, options)}
+                    </span>
+                )}
+            </Form.Item>
+        );
+    };
+
+    getCheckBoxArrayOption = (value, arr) => {
+        const text =
+            arr
+                .filter(val => value.includes(val.value))
+                .map(val => val.label)
+                .join('，') || '--';
+        return text;
     };
 
     getLabelSetting = (value, options) => {

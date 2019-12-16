@@ -8,6 +8,7 @@ import {
 } from 'src/config/ADMapDataConfig';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import SearchIconGroup from 'src/components/SearchIconGroup';
+import AdSubLamp from 'src/components/AdSubLamp';
 import _ from 'lodash';
 import AdInput from 'src/components/Form/AdInput';
 import AdDateInput from 'src/components/Form/AdDateInput';
@@ -263,6 +264,30 @@ class NewAttrModal extends React.Component {
                     ],
                     initialValue: item.value
                 })(<SearchIconGroup options={options} />)}
+            </Form.Item>
+        );
+    };
+
+    renderAdSubLamp = (item, index) => {
+        const { form } = this.props;
+        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+        return (
+            <Form.Item key={index} label={item.name}>
+                {form.getFieldDecorator(item.key, {
+                    rules: [
+                        {
+                            required: item.required,
+                            message: `${item.name}必填`
+                        },
+                        ...(item.validates || []).map(validate => {
+                            return {
+                                pattern: validate.pattern,
+                                message: validate.message
+                            };
+                        })
+                    ],
+                    initialValue: item.value
+                })(<AdSubLamp options={options} />)}
             </Form.Item>
         );
     };

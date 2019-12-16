@@ -92,7 +92,7 @@ export const ATTR_TABLE_CONFIG = {
             key: 'LAMP_TYPE',
             name: '信号灯灯头子类型',
             type: 'AD_SUB_LAMP_TYPE',
-            domType: 'Select'
+            domType: 'AdSubLamp'
         }
     ],
     AD_Lane_RS: [

@@ -2,23 +2,23 @@ import React from 'react';
 import { Tooltip, message } from 'antd';
 import IconFont from '../IconFont';
 
-class CheckBoxIconGroup extends React.Component {
+class AdSubLamp extends React.Component {
     render() {
-        const { value } = this.props;
-        const { options, disabled } = this.props;
+        const { options, disabled, value } = this.props;
+
         return (
             <div className="attr-icon-box">
-                {options.map((option, index) => {
-                    let active = value && value.includes(option.value);
+                {options.map((opt, index) => {
+                    let active = value && value.includes(opt.value);
                     return (
-                        <RadioIcon
+                        <SubLampIcon
                             key={index}
-                            icon={option.icon}
-                            disabled={option.disabled || disabled}
+                            icon={opt.label}
+                            disabled={opt.disabled || disabled}
                             active={active}
-                            label={option.label}
+                            label={opt.label}
                             action={() => {
-                                this.onChange(option.value);
+                                this.onChange(opt.value);
                             }}
                         />
                     );
@@ -50,7 +50,7 @@ class CheckBoxIconGroup extends React.Component {
     };
 }
 
-class RadioIcon extends React.Component {
+class SubLampIcon extends React.Component {
     render() {
         const { icon, disabled, active, action, label } = this.props;
         let iconClass = 'ad-icon';
@@ -68,4 +68,4 @@ class RadioIcon extends React.Component {
     }
 }
 
-export default CheckBoxIconGroup;
+export default AdSubLamp;
