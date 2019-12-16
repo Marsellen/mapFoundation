@@ -5,9 +5,9 @@ import Relevance from 'src/models/relevance';
 /**
  * geojson数据格式转为IndexedDB存储数据格式
  * @method geojsonToDbData
- * @params {Object} properties 关联关系属性
- * @params {String} spec 关联关系表名
- * @return {Array<Object>} IndexedDB rels表记录集合
+ * @param {Object} properties 关联关系属性
+ * @param {String} spec 关联关系表名
+ * @returns {Array<Object>} IndexedDB rels表记录集合
  */
 export const geojsonToDbData = (properties, spec) => {
     let relSpecs = REL_SPEC_CONFIG.filter(relSpec => relSpec.source == spec);
@@ -44,9 +44,9 @@ export const geojsonToDbData = (properties, spec) => {
 /**
  * IndexedDB存储数据格式转为geojson数据格式
  * @method dbDataToGeojson
- * @params {Object} record IndexedDB rels表记录
- * @params {String} spec 关联关系表名
- * @return {Array<Object>} geojson features
+ * @param {Object} record IndexedDB rels表记录
+ * @param {String} spec 关联关系表名
+ * @returns {Array<Object>} geojson features
  */
 export const dbDataToGeojson = (record, spec) => {
     let relSpecs = REL_SPEC_CONFIG.filter(relSpec => relSpec.source == spec);
@@ -66,9 +66,9 @@ export const dbDataToGeojson = (record, spec) => {
 /**
  * 通过要素的规格和属性查询IndexedDB中相关联记录
  * @method getFeatureRels
- * @params {String} layerName 要素规格
- * @params {Object} properties 要素属性
- * @return {Object<Promise>} 查询请求Promise对象，成功返回所有相关联记录
+ * @param {String} layerName 要素规格
+ * @param {Object} properties 要素属性
+ * @returns {Object<Promise>} 查询请求Promise对象，成功返回所有相关联记录
  */
 export const getFeatureRels = (layerName, properties) => {
     let IDKey = getLayerIDKey(layerName);
@@ -102,9 +102,9 @@ export const getFeatureRels = (layerName, properties) => {
 /**
  * 通过要素的规格和IndexedDB关联关系记录计算关联要素的参数
  * @method getRelOptions
- * @params {String} layerName 要素规格
- * @params {Object} dbData IndexedDB关联关系记录
- * @return {Array<Object>} 关联要素的参数集合
+ * @param {String} layerName 要素规格
+ * @param {Object} dbData IndexedDB关联关系记录
+ * @returns {Array<Object>} 关联要素的参数集合
  */
 export const getRelOptions = (layerName, dbData, properties) => {
     return dbData.map(record => {
@@ -134,8 +134,8 @@ export const getRelOptions = (layerName, dbData, properties) => {
 /**
  * 通过IndexedDB关联关系记录匹配关联关系规格
  * @method matchRelSpecByRecord
- * @params {Object} record IndexedDB关联关系记录
- * @return {Object} 关联关系规格
+ * @param {Object} record IndexedDB关联关系记录
+ * @returns {Object} 关联关系规格
  */
 export const matchRelSpecByRecord = record => {
     return REL_SPEC_CONFIG.find(config => {

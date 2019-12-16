@@ -137,10 +137,10 @@ const batchCreateAllRel = (mainFeature, relFeatures) => {
 /**
  * 通过关联关系规格配置新建关联关系
  * @method createRelBySpecConfig
- * @params {Object} specConfig 关联关系规格配置
- * @params {Object} mainFeature 关联要素数据
- * @params {Object} feature 被关联要素数据
- * @return {Object} IndexedDB rels表记录（不包含REL_ID）
+ * @param {Object} specConfig 关联关系规格配置
+ * @param {Object} mainFeature 关联要素数据
+ * @param {Object} feature 被关联要素数据
+ * @returns {Object} IndexedDB rels表记录（不包含REL_ID）
  */
 const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
     let { objType, relObjType, source: spec, objSpec, relObjSpec } = specConfig;
@@ -188,9 +188,9 @@ const getRelId = async rel => {
 /**
  * 创建两类要素所有规格中存在的关联关系
  * @method createAllRel
- * @params {Object} mainFeature 关联要素数据
- * @params {Object} feature 被关联要素数据
- * @return {Array<Object>} IndexedDB rels表记录集合（不包含REL_ID）
+ * @param {Object} mainFeature 关联要素数据
+ * @param {Object} feature 被关联要素数据
+ * @returns {Array<Object>} IndexedDB rels表记录集合（不包含REL_ID）
  */
 const createAllRel = (mainFeature, feature) => {
     let mainLayer = mainFeature.layerName;
@@ -230,9 +230,9 @@ const createAllRel = (mainFeature, feature) => {
 /**
  * 通过‘要素属性关联关系记录’更新‘要素属性’
  * @method updateFeaturesByRels
- * @params {Array<Object>} rels 要素属性关联关系记录
- * @params {Boolean} isDel 是否删除
- * @return {null}
+ * @param {Array<Object>} rels 要素属性关联关系记录
+ * @param {Boolean} isDel 是否删除
+ * @returns {null}
  */
 const updateFeaturesByRels = (rels, isDel) => {
     rels.forEach(rel => {
@@ -245,9 +245,9 @@ const updateFeaturesByRels = (rels, isDel) => {
 /**
  * 通过‘要素属性关联关系记录’更新‘要素属性’
  * @method updateFeatureRelAttr
- * @params {Object} rel 要素属性关联关系记录
- * @params {Boolean} isDel 是否删除
- * @return {null}
+ * @param {Object} rel 要素属性关联关系记录
+ * @param {Boolean} isDel 是否删除
+ * @returns {null}
  */
 const updateFeatureRelAttr = (rel, isDel) => {
     let relSpec = REL_SPEC_CONFIG.find(rs => {

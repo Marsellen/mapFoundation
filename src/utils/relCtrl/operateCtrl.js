@@ -19,6 +19,12 @@ import {
 import { message } from 'antd';
 import _ from 'lodash';
 
+/**
+ * 删除要素
+ * @method deleteLine
+ * @param {Array<Object>} features 被删除要素集合
+ * @returns {Object} 删除后的操作记录
+ */
 const deleteLine = async features => {
     let { rels, attrs } = await features.reduce(
         async (total, feature) => {
@@ -53,6 +59,14 @@ const deleteLine = async features => {
     return historyLog;
 };
 
+/**
+ * 打断线要素
+ * @method breakLine
+ * @param {Object} breakPoint 打断点对象
+ * @param {Array<Object>} features 被打断线要素集合
+ * @param {Object} activeTask 任务对象
+ * @returns {Object} 打断后的操作记录
+ */
 const breakLine = async (breakPoint, features, activeTask) => {
     let point = geometryToWKT(breakPoint.data.geometry);
     let { lines, oldRels, oldAttrs } = await getLinesInfo(features);
@@ -84,6 +98,13 @@ const breakLine = async (breakPoint, features, activeTask) => {
     return historyLog;
 };
 
+/**
+ * 合并线要素
+ * @method mergeLine
+ * @param {Array<Object>} features 被合并线要素集合
+ * @param {Object} activeTask 任务对象
+ * @returns {Object} 合并后的操作记录
+ */
 const mergeLine = async (features, activeTask) => {
     let { lines, oldRels, oldAttrs } = await getLinesInfo(features);
     let option = { lines, task_id: activeTask.taskId };
@@ -103,6 +124,14 @@ const mergeLine = async (features, activeTask) => {
     return historyLog;
 };
 
+/**
+ * 拉线齐打断线要素
+ * @method breakLineByLine
+ * @param {Object} line 打断辅助线
+ * @param {Array<Object>} features 被打断线要素集合
+ * @param {Object} activeTask 任务对象
+ * @returns {Object} 打断后的操作记录
+ */
 const breakLineByLine = async (line, features, activeTask) => {
     let cutLine = geometryToWKT(line.data.geometry);
     let { lines, oldRels, oldAttrs } = await getLinesInfo(features);
@@ -134,6 +163,13 @@ const breakLineByLine = async (line, features, activeTask) => {
     return historyLog;
 };
 
+/**
+ * 路口内中心线/参考线半自动构建
+ * @method autoCreateLine
+ * @param {String} layerName 操作图层
+ * @param {Object} params 构建参数
+ * @returns {Object} 半自动构建后的操作记录
+ */
 const autoCreateLine = async (layerName, params) => {
     let result,
         relation = {},
@@ -169,6 +205,13 @@ const autoCreateLine = async (layerName, params) => {
     return historyLog;
 };
 
+/**
+ * 根据车道线半自动构建中心线/参考线
+ * @method autoCreateLineByLaneDivider
+ * @param {String} layerName 操作图层
+ * @param {Object} params 构建参数
+ * @returns {Object} 半自动构建后的操作记录
+ */
 const autoCreateLineByLaneDivider = async (layerName, params) => {
     let result,
         rels = [];
@@ -202,8 +245,8 @@ const autoCreateLineByLaneDivider = async (layerName, params) => {
 /**
  * 获取被打断/合并线要素的lines相关信息
  * @method getLinesInfo
- * @params {Array<Object>} features 被打断/合并要素集合
- * @return {Object} 被打断/合并线要素的lines相关信息
+ * @param {Array<Object>} features 被打断/合并要素集合
+ * @returns {Object} 被打断/合并线要素的lines相关信息
  */
 const getLinesInfo = async features => {
     let initialInfo = {
@@ -252,8 +295,8 @@ const getLinesInfo = async features => {
 /**
  * 获取被打断/合并线要素的relation相关信息
  * @method getLinesInfo
- * @params {Array<Object>} feature 被打断/合并要素
- * @return {Object<Promise>} 查询请求Promise对象，成功返回 被打断/合并线要素的relation相关信息
+ * @param {Array<Object>} feature 被打断/合并要素
+ * @returns {Object<Promise>} 查询请求Promise对象，成功返回 被打断/合并线要素的relation相关信息
  */
 const getRelation = async feature => {
     let layerName = feature.layerName;
@@ -557,8 +600,8 @@ const updateRels = async ([oldRels, newRels] = []) => {
 /**
  * 计算打断/合并前后产生变更的要素集合
  * @method calcFeaturesLog
- * @params {Array<Object>} features 被打断/合并要素集合
- * @return {Object} 被打断/合并线要素的lines相关信息
+ * @param {Array<Object>} features 被打断/合并要素集合
+ * @returns {Object} 被打断/合并线要素的lines相关信息
  */
 const calcFeaturesLog = (oldFeatures, newFeatures, relFeatureOptions) => {
     relFeatureOptions = _.uniq(relFeatureOptions);
@@ -567,8 +610,8 @@ const calcFeaturesLog = (oldFeatures, newFeatures, relFeatureOptions) => {
 /**
  * 计算 左右车道线生成中心线 后中心线 的关联关系
  * @method calcAdLaneRels
- * @params {Object} feature 车道中心线要素
- * @return {Array<Object>} 左右车道线生成中心线 后中心线 的关联关系
+ * @param {Object} feature 车道中心线要素
+ * @returns {Array<Object>} 左右车道线生成中心线 后中心线 的关联关系
  */
 const calcAdLaneRels = feature => {
     let properties = feature.properties;

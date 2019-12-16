@@ -4,9 +4,9 @@
 
 #### 初始化
 ```javascript
-// @params dbName  数据库名
-// @params tableName  表名
-// @params onupgradeneeded  表初始化回调函数，用于建表、建立索引和指定键索引keyPath
+// @param dbName  数据库名
+// @param tableName  表名
+// @param onupgradeneeded  表初始化回调函数，用于建表、建立索引和指定键索引keyPath
 featuresStore = new IndexedDB('demo', 'features', db => {
     let objectStore = db.createObjectStore('features', { keyPath: 'id' }); //创建features表，keyPath为id
     objectStore.createIndex('name', 'name', { unique: false }); //设置name为索引，不唯一
