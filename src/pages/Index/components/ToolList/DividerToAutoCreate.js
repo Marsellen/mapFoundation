@@ -3,7 +3,7 @@ import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { Icon, message } from 'antd';
-import { autoCreateLine } from 'src/utils/relCtrl/operateCtrl';
+import { autoCreateLineByLaneDivider } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import AdEmitter from 'src/models/event';
@@ -90,7 +90,7 @@ class DividerToAutoCreate extends React.Component {
                     message.warning('应选择 2 条车道线，车道中心线生成失败', 3);
                     DataLayerStore.exitEdit();
                 } else {
-                    this.addLines({ AD_LaneDivider: AD_LaneDivider }, 'adLine');
+                    this.addLines({ AD_LaneDivider: AD_LaneDivider });
                     DataLayerStore.exitEdit();
                 }
             } else {
@@ -104,7 +104,7 @@ class DividerToAutoCreate extends React.Component {
                     message.warning('应选择车道线，道路参考线生成失败', 3);
                     DataLayerStore.exitEdit();
                 } else {
-                    this.addLines({ AD_LaneDivider: AD_LaneDivider }, 'adRoad');
+                    this.addLines({ AD_LaneDivider: AD_LaneDivider });
                     DataLayerStore.exitEdit();
                 }
             } else {
@@ -129,7 +129,7 @@ class DividerToAutoCreate extends React.Component {
     };
 
     // 新建
-    addLines = async (params, lines) => {
+    addLines = async params => {
         const {
             DataLayerStore,
             AttributeStore,
@@ -138,12 +138,11 @@ class DividerToAutoCreate extends React.Component {
         let editLayer = DataLayerStore.getEditLayer();
 
         try {
-            let historyLog = await autoCreateLine(
-                editLayer && editLayer.layerName,
-                params,
-                lines
+            let historyLog = await autoCreateLineByLaneDivider(
+                editLayer.layerName,
+                params
             );
-            this.activeLine(editLayer && editLayer.layerName, historyLog);
+            this.activeLine(editLayer.layerName, historyLog);
 
             // 日志与历史
             let history = {

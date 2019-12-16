@@ -134,63 +134,60 @@ const breakLineByLine = async (line, features, activeTask) => {
     return historyLog;
 };
 
-const autoCreateLine = async (editLayer, params, lines) => {
-    let result = [];
-    let relation = {},
-        rels;
-    if (editLayer === 'AD_Lane') {
+const autoCreateLine = async (layerName, params) => {
+    let result,
+        relation = {},
+        rels = [];
+    if (layerName === 'AD_Lane') {
         //车道中心线
-        result = params.AD_LaneDivider
-            ? await AdLineService.aroundLines(params)
-            : params.AD_Lane
-            ? await AdLineService.straightLines(params)
-            : [];
-    } else if (editLayer === 'AD_Road') {
+        result = await AdLineService.straightLines(params);
+    } else if (layerName === 'AD_Road') {
         //道路参考线
-        result = params.AD_LaneDivider
-            ? await AdLineService.adRoadLines(params)
-            : params.AD_Road
-            ? await AdLineService.adTwoRoadLines(params)
-            : [];
+        result = await AdLineService.adTwoRoadLines(params);
     }
-    let { newFeatures } = result.data[editLayer].features.reduce(
+    let newFeatures = result.data[layerName].features.reduce(
         (total, feature) => {
-            total.newFeatures = [{ data: feature, layerName: editLayer }];
+            total.push({ data: feature, layerName: layerName });
             return total;
         },
-        { newFeatures: [] }
+        []
     );
-    if (lines === 'adLine') {
-        let properties = result.data[editLayer].features[0].properties;
-        rels = [
-            {
-                extraInfo: {},
-                objId: properties.LANE_ID,
-                objType: 'LANE',
-                relObjId: properties.L_LDIV_ID,
-                relObjType: 'L_LDIV',
-                spec: 'AD_Lane'
-            },
-            {
-                extraInfo: {},
-                objId: properties.LANE_ID,
-                objType: 'LANE',
-                relObjId: properties.R_LDIV_ID,
-                relObjType: 'R_LDIV',
-                spec: 'AD_Lane'
-            }
-        ];
-    } else if (lines === 'adRoad') {
+
+    relation[`${layerName}_Con`] = [];
+    relation[`${layerName}_Con`] = result.data[`${layerName}_Con`].features.map(
+        feature => feature.properties
+    );
+    rels = calcRels(`${layerName}_Con`, relation);
+
+    let historyLog = {
+        features: [[], newFeatures],
+        rels: [[], uniqRels(rels)]
+    };
+
+    await updateFeatures(historyLog);
+
+    return historyLog;
+};
+
+const autoCreateLineByLaneDivider = async (layerName, params) => {
+    let result,
         rels = [];
-    } else {
-        relation[`${editLayer}_Con`] = [];
-        relation[`${editLayer}_Con`] = result.data[
-            `${editLayer}_Con`
-        ].features.map(feature => {
-            return feature.properties;
-        });
-        rels = calcRels(`${editLayer}_Con`, relation);
+    if (layerName === 'AD_Lane') {
+        //车道中心线
+        result = await AdLineService.aroundLines(params);
+
+        rels = calcAdLaneRels(result.data.AD_Lane.features[0]);
+    } else if (layerName === 'AD_Road') {
+        //道路参考线
+        result = await AdLineService.adRoadLines(params);
     }
+    let newFeatures = result.data[layerName].features.reduce(
+        (total, feature) => {
+            total.push({ data: feature, layerName: layerName });
+            return total;
+        },
+        []
+    );
 
     let historyLog = {
         features: [[], newFeatures],
@@ -567,6 +564,38 @@ const calcFeaturesLog = (oldFeatures, newFeatures, relFeatureOptions) => {
     relFeatureOptions = _.uniq(relFeatureOptions);
 };
 
+/**
+ * 计算 左右车道线生成中心线 后中心线 的关联关系
+ * @method calcAdLaneRels
+ * @params {Object} feature 车道中心线要素
+ * @return {Array<Object>} 左右车道线生成中心线 后中心线 的关联关系
+ */
+const calcAdLaneRels = feature => {
+    let properties = feature.properties;
+    return [
+        {
+            spec: 'AD_Lane',
+            objId: properties.LANE_ID,
+            objType: 'LANE',
+            relObjId: properties.L_LDIV_ID,
+            relObjType: 'L_LDIV',
+            objSpec: 'AD_Lane',
+            relObjSpec: 'AD_LaneDivider',
+            extraInfo: {}
+        },
+        {
+            spec: 'AD_Lane',
+            objId: properties.LANE_ID,
+            objType: 'LANE',
+            relObjId: properties.R_LDIV_ID,
+            relObjType: 'R_LDIV',
+            objSpec: 'AD_Lane',
+            relObjSpec: 'AD_LaneDivider',
+            extraInfo: {}
+        }
+    ];
+};
+
 const geometryToWKT = geometry => {
     if (geometry.type == 'LineString') {
         let geomStr = geometry.coordinates
@@ -627,5 +656,6 @@ export {
     autoCreateLine,
     updateFeatures,
     updateRels,
-    breakLineByLine
+    breakLineByLine,
+    autoCreateLineByLaneDivider
 };
