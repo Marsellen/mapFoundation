@@ -107,7 +107,6 @@ class Task extends React.Component {
         const { roleCode } = loginUser;
         const {
             handleQualityGetMisreport,
-            getReport,
             openCheckReport
         } = QualityCheckStore;
 
