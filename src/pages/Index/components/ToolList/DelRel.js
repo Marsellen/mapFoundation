@@ -5,11 +5,13 @@ import { message, Modal } from 'antd';
 import { delRel } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
+import CONFIG from 'src/config';
 import 'less/components/tool-icon.less';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('OperateHistoryStore')
+@inject('TaskStore')
 @observer
 class DelRel extends React.Component {
     componentDidMount() {
@@ -67,19 +69,28 @@ class DelRel extends React.Component {
         let visible = DataLayerStore.editType == 'delRel';
         return (
             <span className={visible ? 'ad-icon-active' : ''}>
-                <ToolIcon
-                    id="del-rel-btn"
-                    icon="shanchuguanxi"
-                    title="删除关联关系"
-                    action={this.action}
-                    disabled={!DataLayerStore.beenPick}
-                />
+                {!this.disEditable() && (
+                    <ToolIcon
+                        id="del-rel-btn"
+                        icon="shanchuguanxi"
+                        title="删除关联关系"
+                        action={this.action}
+                        disabled={!DataLayerStore.beenPick}
+                    />
+                )}
                 <AdMessage visible={visible} content={this.content()} />
             </span>
         );
     }
 
+    disEditable = () => {
+        const { TaskStore } = this.props;
+
+        return !CONFIG.manbuildTaskProcess.includes(TaskStore.taskProcessName);
+    };
+
     action = () => {
+        if (this.disEditable()) return;
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'delRel') return;
         let { relFeatures } = AttributeStore;

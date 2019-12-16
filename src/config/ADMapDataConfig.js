@@ -236,8 +236,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 0, label: '未定义', icon: 'weidingyi' },
         { value: 1, label: '停止线', icon: 'tingzhixian' },
         { value: 2, label: '停车让行线', icon: 'tingcherangxingxian' },
-        { value: 3, label: '减速让行线', icon: 'jiansurangxingxian' },
-        { value: 11, label: '虚拟停止线', icon: 'xunitingzhixian' }
+        { value: 3, label: '减速让行线', icon: 'jiansurangxingxian' }
     ],
     AD_LANEMARK_PLG_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi' },
@@ -253,16 +252,6 @@ export const TYPE_SELECT_OPTION_MAP = {
             value: 5,
             label: '斜跨路口的人行横道 ',
             icon: 'xiekualukourenxinghengdao'
-        },
-        {
-            value: 11,
-            label: '虚拟人行横道 ',
-            icon: 'xunirenxingdao'
-        },
-        {
-            value: 12,
-            label: '虚拟禁止停车区 ',
-            icon: 'xunijinzhitingchequ'
         }
     ],
     AD_TRAFFICSIGN_SIGN_STYLE: [

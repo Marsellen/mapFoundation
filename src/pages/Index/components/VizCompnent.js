@@ -230,7 +230,7 @@ class VizCompnent extends React.Component {
         try {
             const { DataLayerStore } = this.props;
             const vectorLayer = new VectorLayer(regionUrl);
-            vectorLayer.setDefaultStyle({ color: '#00FF00' });
+            vectorLayer.setDefaultStyle({ color: 'rgb(16,201,133)' });
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
             //保存任务范围geojson
             const getRegionRes = vectorLayer.getVectorData();

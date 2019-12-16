@@ -5,6 +5,7 @@ import EditableCard from './EditableCard';
 import NewAttrModal from './NewAttrModal';
 import { getValidator } from 'src/utils/form/validator';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
+import CONFIG from 'src/config';
 
 const formItemLayout = {
     labelCol: {
@@ -18,6 +19,7 @@ const formItemLayout = {
 };
 
 @inject('AttributeStore')
+@inject('TaskStore')
 @observer
 class RelationForm extends React.Component {
     render() {
@@ -43,9 +45,18 @@ class RelationForm extends React.Component {
         }
     };
 
+    getReadonlyStatus = () => {
+        const { AttributeStore, TaskStore } = this.props;
+
+        return (
+            AttributeStore.readonly ||
+            !CONFIG.manbuildTaskProcess.includes(TaskStore.taskProcessName)
+        );
+    };
+
     renderInputNumber = (item, index, filedKey) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form } = this.props;
+        const readonly = this.getReadonlyStatus();
         let key = filedKey + '.' + item.key + item.id;
 
         return (
@@ -86,7 +97,8 @@ class RelationForm extends React.Component {
 
     renderADLaneConRs = (extraInfo, index) => {
         const { form, AttributeStore } = this.props;
-        const { attrs, readonly } = AttributeStore;
+        const { attrs } = AttributeStore;
+        const readonly = this.getReadonlyStatus();
         let AD_Lane_Con_RS = (attrs.AD_Lane_Con_RS || []).filter(
             rs => rs.key === extraInfo.REL_ID
         );
@@ -127,7 +139,8 @@ class RelationForm extends React.Component {
 
     renderADRoadConRs = (extraInfo, index) => {
         const { form, AttributeStore } = this.props;
-        const { attrs, readonly } = AttributeStore;
+        const { attrs } = AttributeStore;
+        const readonly = this.getReadonlyStatus();
         let AD_Road_Con_RS = (attrs.AD_Road_Con_RS || []).filter(
             rs => rs.key === extraInfo.REL_ID
         );

@@ -2,7 +2,7 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { message, Modal } from 'antd';
-import config from 'src/config';
+import CONFIG from 'src/config';
 import { getAuthentication, logout } from 'src/utils/Session';
 
 @inject('TaskStore')
@@ -44,17 +44,17 @@ class Save extends React.Component {
     };
 
     loop = () => {
-        let { timestamp, expireTime = config.expireTime } = getAuthentication();
+        let { timestamp, expireTime = CONFIG.expireTime } = getAuthentication();
         expireTime = expireTime > 3600 ? expireTime - 3600 : 0; // 提前一小时提醒
         let time = new Date(timestamp) - new Date() + expireTime * 1000;
         window.setTimeout(this.expireConfirm, time);
 
-        window.setInterval(this.autoSave, config.autoSaveTime);
+        window.setInterval(this.autoSave, CONFIG.autoSaveTime);
         this.loopLoadTask();
     };
 
     loopLoadTask = () => {
-        window.setTimeout(this.loadTask, config.loopTaskTime);
+        window.setTimeout(this.loadTask, CONFIG.loopTaskTime);
     };
 
     autoSave = async () => {

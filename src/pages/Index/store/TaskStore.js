@@ -52,6 +52,10 @@ class TaskStore {
         return this.activeTaskId && this.activeTaskId == this.editTaskId;
     }
 
+    @computed get taskProcessName() {
+        return this.activeTask && this.activeTask.processName;
+    }
+
     // 任务列表
     initTask = flow(function*(option) {
         const result = yield JobService.listTask(option).catch(error => {

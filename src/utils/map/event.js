@@ -19,6 +19,12 @@ const pointsTooCloseListener = () => {
     });
 };
 
+const changePointsNode = eventType => {
+    mapEventManager().register('editor_event_changepoints_end', e => {
+        message.success('修改形状点完成，需检查数据的关联关系正确性', 3);
+    });
+};
+
 const addEditorExitListener = (eventType, className) => {
     let viz = document.querySelector('#viz');
     mapEventManager().register(eventType, e => {
@@ -40,6 +46,7 @@ const installMapListener = () => {
     addEditorListener('editor_event_deletepoints_start', 'move-point-viz');
     addEditorExitListener('editor_event_deletepoints_start', 'move-point-viz');
     pointsTooCloseListener();
+    changePointsNode();
 };
 
 export { installMapListener };

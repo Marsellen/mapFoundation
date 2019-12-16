@@ -10,10 +10,12 @@ import 'less/components/tool-icon.less';
 import 'less/components/uturn-line.less';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import AdEmitter from 'src/models/event';
+import CONFIG from 'src/config';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('OperateHistoryStore')
+@inject('TaskStore')
 @observer
 class HalfAutoCreate extends React.Component {
     constructor() {
@@ -38,12 +40,58 @@ class HalfAutoCreate extends React.Component {
         );
         const { visibleModal, num } = this.state;
         const { DataLayerStore } = this.props;
-        const { updateKey } = DataLayerStore;
         let visible = DataLayerStore.editType == 'new_straight_line'; //直行
         let visibleTurn = DataLayerStore.editType == 'new_turn_line'; //转弯
         let visibleUTurn = DataLayerStore.editType == 'new_Uturn_line'; //掉头
         let editLayer = DataLayerStore.getEditLayer();
 
+        return (
+            <span>
+                {!this.disEditable() && this.renderTools()}
+                <AdMessage
+                    visible={visible || visibleTurn || visibleUTurn}
+                    content={this.content(editLayer && editLayer.layerName)}
+                />
+                <Modal
+                    className="set-length"
+                    title="跨路口延伸长度设置"
+                    visible={visibleModal}
+                    width={255}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                    maskClosable={false}
+                    keyboard={false}
+                    okText="确定"
+                    cancelText="取消">
+                    <div className="set-length-number">
+                        <AdInputNumber
+                            width="66%"
+                            type="number"
+                            value={num}
+                            step={0.01}
+                            onChange={this.inputChange}
+                        />
+                    </div>
+                    <span className="unit">m</span>
+                    <p id="checkNumber">
+                        {num < 0.01
+                            ? '延伸长度必须大于0'
+                            : !reg.test(num)
+                            ? ' 请输入数字，如有小数请精确到小数点后两位'
+                            : ''}
+                    </p>
+                </Modal>
+            </span>
+        );
+    }
+
+    renderTools = () => {
+        const { DataLayerStore } = this.props;
+        const { updateKey } = DataLayerStore;
+        let visible = DataLayerStore.editType == 'new_straight_line'; //直行
+        let visibleTurn = DataLayerStore.editType == 'new_turn_line'; //转弯
+        let visibleUTurn = DataLayerStore.editType == 'new_Uturn_line'; //掉头
+        let editLayer = DataLayerStore.getEditLayer();
         return (
             <span>
                 <span
@@ -81,42 +129,15 @@ class HalfAutoCreate extends React.Component {
                         action={() => this.action(3)}
                     />
                 </span>
-                <AdMessage
-                    visible={visible || visibleTurn || visibleUTurn}
-                    content={this.content(editLayer && editLayer.layerName)}
-                />
-                <Modal
-                    className="set-length"
-                    title="跨路口延伸长度设置"
-                    visible={visibleModal}
-                    width={255}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
-                    maskClosable={false}
-                    keyboard={false}
-                    okText="确定"
-                    cancelText="取消">
-                    <div className="set-length-number">
-                        <AdInputNumber
-                            width="66%"
-                            type="number"
-                            value={num}
-                            step={0.01}
-                            onChange={this.inputChange}
-                        />
-                    </div>
-                    <span className="unit">m</span>
-                    <p id="checkNumber">
-                        {num < 0.01
-                            ? '延伸长度必须大于0'
-                            : !reg.test(num)
-                            ? ' 请输入数字，如有小数请精确到小数点后两位'
-                            : ''}
-                    </p>
-                </Modal>
             </span>
         );
-    }
+    };
+
+    disEditable = () => {
+        const { TaskStore } = this.props;
+
+        return !CONFIG.manbuildTaskProcess.includes(TaskStore.taskProcessName);
+    };
 
     // 获得接口传参
     getParams = (editLayer, res = []) => {
@@ -196,6 +217,7 @@ class HalfAutoCreate extends React.Component {
     };
 
     action = type => {
+        if (this.disEditable()) return;
         const { DataLayerStore, AttributeStore } = this.props;
         if (type === 1) {
             if (DataLayerStore.editType == 'new_straight_line') return;
