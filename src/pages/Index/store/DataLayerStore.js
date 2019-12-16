@@ -195,6 +195,7 @@ class DataLayerStore extends LayerStore {
     };
 
     newPoint = () => {
+        this.exitEdit();
         if (!this.editor) return;
         this.disableOtherCtrl();
         this.setEditType('new_point');
@@ -203,6 +204,7 @@ class DataLayerStore extends LayerStore {
     };
 
     newLine = () => {
+        this.exitEdit();
         if (!this.editor) return;
         this.disableOtherCtrl();
         this.setEditType('new_line');
@@ -211,6 +213,7 @@ class DataLayerStore extends LayerStore {
     };
 
     newPolygon = () => {
+        this.exitEdit();
         if (!this.editor) return;
         this.disableOtherCtrl();
         this.setEditType('new_polygon');
@@ -219,6 +222,7 @@ class DataLayerStore extends LayerStore {
     };
 
     newGroundRectangle = () => {
+        this.exitEdit();
         if (!this.editor) return;
         this.disableOtherCtrl();
         this.setEditType('new_ground_rectangle');
@@ -227,6 +231,7 @@ class DataLayerStore extends LayerStore {
     };
 
     newFacadeRectangle = () => {
+        this.exitEdit();
         if (!this.editor) return;
         this.disableOtherCtrl();
         this.setEditType('new_facade_rectangle');
@@ -285,6 +290,7 @@ class DataLayerStore extends LayerStore {
     };
 
     newVerticalMatrix = () => {
+        this.exitEdit();
         if (!this.editor) return;
         this.disableOtherCtrl();
         this.setEditType('new_vertical_matrix');
@@ -293,6 +299,7 @@ class DataLayerStore extends LayerStore {
     };
 
     newRel = () => {
+        this.exitEdit();
         if (this.editType == 'newRel') return;
         this.disableOtherCtrl();
         this.setEditType('newRel');
@@ -349,6 +356,7 @@ class DataLayerStore extends LayerStore {
     };
 
     newCircle = () => {
+        this.exitEdit();
         if (!this.editor) return;
         this.disableOtherCtrl();
         this.setEditType('new_circle');
@@ -426,7 +434,6 @@ class DataLayerStore extends LayerStore {
 
     startMeatureDistance = () => {
         this.exitEdit();
-
         this.setEditType('meature_distance');
         this.measureControl.startMeatureDistance();
         this.ruler();
@@ -434,7 +441,6 @@ class DataLayerStore extends LayerStore {
 
     startReadCoordinate = () => {
         this.exitEdit();
-
         this.setEditType('read_coordinate');
         this.addReadCoordinateLinstener();
     };
