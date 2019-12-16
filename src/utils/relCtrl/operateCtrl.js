@@ -17,6 +17,7 @@ import {
     getLayerByName
 } from '../vectorUtils';
 import { message } from 'antd';
+import _ from 'lodash';
 
 const deleteLine = async features => {
     let { rels, attrs } = await features.reduce(
@@ -54,7 +55,7 @@ const deleteLine = async features => {
 
 const breakLine = async (breakPoint, features, activeTask) => {
     let point = geometryToWKT(breakPoint.data.geometry);
-    let { lines, oldRels, oldAttrs } = await getLines(features);
+    let { lines, oldRels, oldAttrs } = await getLinesInfo(features);
     let option = { point, lines, task_id: activeTask.taskId };
     let result = await EditorService.breakLines(option);
     if (result.code !== 1) throw result;
@@ -84,7 +85,7 @@ const breakLine = async (breakPoint, features, activeTask) => {
 };
 
 const mergeLine = async (features, activeTask) => {
-    let { lines, oldRels, oldAttrs } = await getLines(features);
+    let { lines, oldRels, oldAttrs } = await getLinesInfo(features);
     let option = { lines, task_id: activeTask.taskId };
     let result = await EditorService.mergeLines(option);
     if (result.code !== 1) throw result;
@@ -104,7 +105,7 @@ const mergeLine = async (features, activeTask) => {
 
 const breakLineByLine = async (line, features, activeTask) => {
     let cutLine = geometryToWKT(line.data.geometry);
-    let { lines, oldRels, oldAttrs } = await getLines(features);
+    let { lines, oldRels, oldAttrs } = await getLinesInfo(features);
     let option = { cutLine, lines, task_id: activeTask.taskId };
     let result = await EditorService.breakLinesByLine(option);
     if (result.code !== 1) throw result;
@@ -201,13 +202,26 @@ const autoCreateLine = async (editLayer, params, lines) => {
     return historyLog;
 };
 
-const getLines = async features => {
-    let oldRels = [];
-    let oldAttrs = [];
-    let lines = await features.reduce(async (total, feature) => {
+/**
+ * 获取被打断/合并线要素的lines相关信息
+ * @method getLinesInfo
+ * @params {Array<Object>} features 被打断/合并要素集合
+ * @return {Object} 被打断/合并线要素的lines相关信息
+ */
+const getLinesInfo = async features => {
+    let initialInfo = {
+        lines: [],
+        // 打断/合并 接口所需线要素相关信息
+        oldRels: [],
+        // features 对应的打断/合并前所有关联关系信息
+        oldAttrs: [],
+        // features 对应的打断/合并前所有关联属性和关联关系属性信息
+        oldRelFeatureOptions: []
+        // features 对应的打断/合并前所有存在关联关系的要素 id集合
+    };
+    return features.reduce(async (total, feature) => {
         let { relation, rels, attrs } = await getRelation(feature);
-        oldRels = oldRels.concat(rels);
-        oldAttrs = oldAttrs.concat(attrs);
+
         let line = {
             type: feature.layerName,
             attr: {
@@ -217,16 +231,33 @@ const getLines = async features => {
             relation
         };
         total = await total;
-        total.push(line);
+        total.lines.push(line);
+        total.oldRels = total.oldRels.concat(rels);
+        total.oldAttrs = total.oldAttrs.concat(attrs);
+
+        // let relFeatureOptions = rels.reduce((options, rel) => {
+        //     return options.concat([
+        //         {
+        //             value: rel.objId
+        //         },
+        //         {
+        //             value: rel.relObjId
+        //         }
+        //     ]);
+        // }, []);
+        // total.oldRelFeatureOptions = total.oldRelFeatureOptions.concat(
+        //     relFeatureOptions
+        // );
         return total;
-    }, []);
-    return {
-        lines,
-        oldRels,
-        oldAttrs
-    };
+    }, initialInfo);
 };
 
+/**
+ * 获取被打断/合并线要素的relation相关信息
+ * @method getLinesInfo
+ * @params {Array<Object>} feature 被打断/合并要素
+ * @return {Object<Promise>} 查询请求Promise对象，成功返回 被打断/合并线要素的relation相关信息
+ */
 const getRelation = async feature => {
     let layerName = feature.layerName;
     let rels = await getFeatureRels(layerName, feature.data.properties);
@@ -389,7 +420,14 @@ const calcAttrs = relation => {
 
 const relDataFormat = (spec, properties) => {
     let relSpec = REL_SPEC_CONFIG.find(relSpec => relSpec.source == spec);
-    const { objKeyName, objType, relObjKeyName, relObjType } = relSpec;
+    const {
+        objKeyName,
+        objType,
+        relObjKeyName,
+        relObjType,
+        objSpec,
+        relObjSpec
+    } = relSpec;
     return properties.map(property => {
         let {
             [objKeyName]: objId,
@@ -402,6 +440,8 @@ const relDataFormat = (spec, properties) => {
             relObjId,
             objType,
             relObjType,
+            objSpec,
+            relObjSpec,
             extraInfo: {
                 REL_ID
             }
@@ -431,7 +471,7 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
             relSpec = relSpecs[0];
         }
         if (relSpec) {
-            const { objType, relObjType } = relSpec;
+            const { objType, relObjType, objSpec, relObjSpec } = relSpec;
             let objId, relObjId;
             if (relSpec.objSpec == spec) {
                 objId = property[IDKey1];
@@ -448,6 +488,8 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
                     relObjId,
                     objType,
                     relObjType,
+                    objSpec,
+                    relObjSpec,
                     extraInfo: {}
                 });
             }
@@ -513,6 +555,16 @@ const updateRels = async ([oldRels, newRels] = []) => {
     await relStore.batchAdd(newRels);
     updateFeaturesByRels(oldRels, true);
     updateFeaturesByRels(newRels);
+};
+
+/**
+ * 计算打断/合并前后产生变更的要素集合
+ * @method calcFeaturesLog
+ * @params {Array<Object>} features 被打断/合并要素集合
+ * @return {Object} 被打断/合并线要素的lines相关信息
+ */
+const calcFeaturesLog = (oldFeatures, newFeatures, relFeatureOptions) => {
+    relFeatureOptions = _.uniq(relFeatureOptions);
 };
 
 const geometryToWKT = geometry => {

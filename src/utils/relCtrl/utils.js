@@ -12,7 +12,14 @@ import Relevance from 'src/models/relevance';
 export const geojsonToDbData = (properties, spec) => {
     let relSpecs = REL_SPEC_CONFIG.filter(relSpec => relSpec.source == spec);
     return relSpecs.reduce((total, relSpec) => {
-        const { objKeyName, objType, relObjKeyName, relObjType } = relSpec;
+        const {
+            objKeyName,
+            objType,
+            relObjKeyName,
+            relObjType,
+            objSpec,
+            relObjSpec
+        } = relSpec;
         let {
             [objKeyName]: objId,
             [relObjKeyName]: relObjId,
@@ -25,6 +32,8 @@ export const geojsonToDbData = (properties, spec) => {
                 relObjId,
                 objType,
                 relObjType,
+                objSpec,
+                relObjSpec,
                 extraInfo
             });
         }

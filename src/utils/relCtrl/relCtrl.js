@@ -143,7 +143,7 @@ const batchCreateAllRel = (mainFeature, relFeatures) => {
  * @return {Object} IndexedDB rels表记录（不包含REL_ID）
  */
 const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
-    let { objType, relObjType, source: spec } = specConfig;
+    let { objType, relObjType, source: spec, objSpec, relObjSpec } = specConfig;
     let mainLayer = mainFeature.layerName;
     let relLayer = feature.layerName;
     let mainObjId = mainFeature.data.properties[getLayerIDKey(mainLayer)];
@@ -163,6 +163,8 @@ const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
     return {
         objType,
         relObjType,
+        objSpec,
+        relObjSpec,
         spec,
         extraInfo: {},
         ...rel
@@ -211,12 +213,14 @@ const createAllRel = (mainFeature, feature) => {
     let rel2 = REL_SPEC_CONFIG.filter(rs => {
         return rs.relObjSpec == mainLayer && rs.objSpec == relLayer;
     }).map(config => {
-        let { objType, relObjType, source: spec } = config;
+        let { objType, relObjType, source: spec, objSpec, relObjSpec } = config;
         return {
             objId: relObjId,
             relObjId: mainObjId,
             objType,
             relObjType,
+            objSpec,
+            relObjSpec,
             spec
         };
     });
