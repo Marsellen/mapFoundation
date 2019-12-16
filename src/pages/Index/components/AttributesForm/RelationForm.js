@@ -5,7 +5,7 @@ import EditableCard from './EditableCard';
 import NewAttrModal from './NewAttrModal';
 import { getValidator } from 'src/utils/form/validator';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
-import CONFIG from 'src/config';
+import { isManbuildTask } from 'src/utils/taskUtils';
 
 const formItemLayout = {
     labelCol: {
@@ -48,10 +48,7 @@ class RelationForm extends React.Component {
     getReadonlyStatus = () => {
         const { AttributeStore, TaskStore } = this.props;
 
-        return (
-            AttributeStore.readonly ||
-            !CONFIG.manbuildTaskProcess.includes(TaskStore.taskProcessName)
-        );
+        return AttributeStore.readonly || !isManbuildTask(TaskStore.activeTask);
     };
 
     renderInputNumber = (item, index, filedKey) => {

@@ -261,9 +261,7 @@ class RightMenuModal extends React.Component {
             DataLayerStore.exitEdit();
             return;
         }
-        let {
-            activeTask: { taskId: task_id }
-        } = TaskStore;
+        let { activeTask } = TaskStore;
         Modal.confirm({
             title: '您确认执行操作？',
             okText: '确定',
@@ -275,7 +273,7 @@ class RightMenuModal extends React.Component {
                     let historyLog = await breakLine(
                         result[0],
                         features,
-                        task_id
+                        activeTask
                     );
                     let history = {
                         type: 'updateFeatureRels',
@@ -560,9 +558,7 @@ class RightMenuModal extends React.Component {
             return false;
         }
 
-        let {
-            activeTask: { taskId: task_id }
-        } = TaskStore;
+        let { activeTask } = TaskStore;
         Modal.confirm({
             title: '您确认执行操作？',
             okText: '确定',
@@ -571,7 +567,7 @@ class RightMenuModal extends React.Component {
             onOk: async () => {
                 let features = RightMenuStore.getFeatures();
                 try {
-                    let historyLog = await mergeLine(features, task_id);
+                    let historyLog = await mergeLine(features, activeTask);
                     let history = {
                         type: 'updateFeatureRels',
                         data: historyLog
@@ -646,9 +642,7 @@ class RightMenuModal extends React.Component {
             DataLayerStore.exitEdit();
             return;
         }
-        let {
-            activeTask: { taskId: task_id }
-        } = TaskStore;
+        let { activeTask } = TaskStore;
         Modal.confirm({
             title: '您确认执行操作？',
             okText: '确定',
@@ -660,7 +654,7 @@ class RightMenuModal extends React.Component {
                     let historyLog = await breakLineByLine(
                         result,
                         features,
-                        task_id
+                        activeTask
                     );
                     let history = {
                         type: 'updateFeatureRels',

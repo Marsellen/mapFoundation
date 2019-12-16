@@ -49,6 +49,43 @@ export const filterRelData = data => {
     );
 };
 
+const AD_Lane_Default_Format = {
+    L_LDIV: [
+        {
+            key: 'L_LDIV',
+            relObjSpec: 'AD_LaneDivider',
+            relObjType: 'L_LDIV',
+            objSpec: 'AD_Lane',
+            objType: 'LANE',
+            spec: 'AD_Lane',
+            extraInfo: {}
+        }
+    ],
+    R_LDIV: [
+        {
+            key: 'R_LDIV',
+
+            relObjSpec: 'AD_LaneDivider',
+            relObjType: 'R_LDIV',
+            objSpec: 'AD_Lane',
+            objType: 'LANE',
+            spec: 'AD_Lane',
+            extraInfo: {}
+        }
+    ],
+    ROAD: [
+        {
+            key: 'ROAD',
+            relObjSpec: 'AD_Road',
+            relObjType: 'ROAD',
+            objSpec: 'AD_Lane',
+            objType: 'LANE',
+            spec: 'AD_Lane',
+            extraInfo: {}
+        }
+    ]
+};
+
 export const getTabelData = async (layerName, relRecords, properties) => {
     let relMap = relRecords.reduce((total, record) => {
         let IDKey = getLayerIDKey(layerName);
@@ -72,24 +109,7 @@ export const getTabelData = async (layerName, relRecords, properties) => {
     }, {});
     if (layerName == 'AD_Lane') {
         relMap = {
-            L_LDIV: [
-                {
-                    key: 'L_LDIV',
-                    id: ''
-                }
-            ],
-            R_LDIV: [
-                {
-                    key: 'R_LDIV',
-                    id: ''
-                }
-            ],
-            ROAD: [
-                {
-                    key: 'ROAD',
-                    id: ''
-                }
-            ],
+            ...AD_Lane_Default_Format,
             ...relMap
         };
     }
@@ -131,12 +151,11 @@ export const updateRels = async (rels, feature) => {
             }
         } else if (rels[key]) {
             // AD_Lane 默认显示的属性关联关系 没有 id。需要新建
+            let config = AD_Lane_Default_Format[relKey][0];
             newRecord = {
+                ...config,
                 objId: feature.data.properties.LANE_ID,
-                objType: 'LANE',
-                relObjType: relKey,
-                relObjId: rels[key],
-                spec: 'AD_Lane'
+                relObjId: rels[key]
             };
             await relStore.add(newRecord);
         }

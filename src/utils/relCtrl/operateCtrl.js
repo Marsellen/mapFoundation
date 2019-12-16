@@ -17,7 +17,14 @@ import {
     getLayerByName
 } from '../vectorUtils';
 import { message } from 'antd';
+import _ from 'lodash';
 
+/**
+ * 删除要素
+ * @method deleteLine
+ * @param {Array<Object>} features 被删除要素集合
+ * @returns {Object} 删除后的操作记录
+ */
 const deleteLine = async features => {
     let { rels, attrs } = await features.reduce(
         async (total, feature) => {
@@ -52,10 +59,18 @@ const deleteLine = async features => {
     return historyLog;
 };
 
-const breakLine = async (breakPoint, features, task_id) => {
+/**
+ * 打断线要素
+ * @method breakLine
+ * @param {Object} breakPoint 打断点对象
+ * @param {Array<Object>} features 被打断线要素集合
+ * @param {Object} activeTask 任务对象
+ * @returns {Object} 打断后的操作记录
+ */
+const breakLine = async (breakPoint, features, activeTask) => {
     let point = geometryToWKT(breakPoint.data.geometry);
-    let { lines, oldRels, oldAttrs } = await getLines(features);
-    let option = { point, lines, task_id };
+    let { lines, oldRels, oldAttrs } = await getLinesInfo(features);
+    let option = { point, lines, task_id: activeTask.taskId };
     let result = await EditorService.breakLines(option);
     if (result.code !== 1) throw result;
     let { newFeatures, rels, attrs } = result.data.reduce(
@@ -83,9 +98,16 @@ const breakLine = async (breakPoint, features, task_id) => {
     return historyLog;
 };
 
-const mergeLine = async (features, task_id) => {
-    let { lines, oldRels, oldAttrs } = await getLines(features);
-    let option = { lines, task_id };
+/**
+ * 合并线要素
+ * @method mergeLine
+ * @param {Array<Object>} features 被合并线要素集合
+ * @param {Object} activeTask 任务对象
+ * @returns {Object} 合并后的操作记录
+ */
+const mergeLine = async (features, activeTask) => {
+    let { lines, oldRels, oldAttrs } = await getLinesInfo(features);
+    let option = { lines, task_id: activeTask.taskId };
     let result = await EditorService.mergeLines(option);
     if (result.code !== 1) throw result;
     let { newFeatures, rels, attrs } = fetchFeatureRels(features, [
@@ -102,10 +124,18 @@ const mergeLine = async (features, task_id) => {
     return historyLog;
 };
 
-const breakLineByLine = async (line, features, task_id) => {
+/**
+ * 拉线齐打断线要素
+ * @method breakLineByLine
+ * @param {Object} line 打断辅助线
+ * @param {Array<Object>} features 被打断线要素集合
+ * @param {Object} activeTask 任务对象
+ * @returns {Object} 打断后的操作记录
+ */
+const breakLineByLine = async (line, features, activeTask) => {
     let cutLine = geometryToWKT(line.data.geometry);
-    let { lines, oldRels, oldAttrs } = await getLines(features);
-    let option = { cutLine, lines, task_id };
+    let { lines, oldRels, oldAttrs } = await getLinesInfo(features);
+    let option = { cutLine, lines, task_id: activeTask.taskId };
     let result = await EditorService.breakLinesByLine(option);
     if (result.code !== 1) throw result;
     let { newFeatures, rels, attrs } = result.data.reduce(
@@ -133,63 +163,37 @@ const breakLineByLine = async (line, features, task_id) => {
     return historyLog;
 };
 
-const autoCreateLine = async (editLayer, params, lines) => {
-    let result = [];
-    let relation = {},
-        rels;
-    if (editLayer === 'AD_Lane') {
+/**
+ * 路口内中心线/参考线半自动构建
+ * @method autoCreateLine
+ * @param {String} layerName 操作图层
+ * @param {Object} params 构建参数
+ * @returns {Object} 半自动构建后的操作记录
+ */
+const autoCreateLine = async (layerName, params) => {
+    let result,
+        relation = {},
+        rels = [];
+    if (layerName === 'AD_Lane') {
         //车道中心线
-        result = params.AD_LaneDivider
-            ? await AdLineService.aroundLines(params)
-            : params.AD_Lane
-            ? await AdLineService.straightLines(params)
-            : [];
-    } else if (editLayer === 'AD_Road') {
+        result = await AdLineService.straightLines(params);
+    } else if (layerName === 'AD_Road') {
         //道路参考线
-        result = params.AD_LaneDivider
-            ? await AdLineService.adRoadLines(params)
-            : params.AD_Road
-            ? await AdLineService.adTwoRoadLines(params)
-            : [];
+        result = await AdLineService.adTwoRoadLines(params);
     }
-    let { newFeatures } = result.data[editLayer].features.reduce(
+    let newFeatures = result.data[layerName].features.reduce(
         (total, feature) => {
-            total.newFeatures = [{ data: feature, layerName: editLayer }];
+            total.push({ data: feature, layerName: layerName });
             return total;
         },
-        { newFeatures: [] }
+        []
     );
-    if (lines === 'adLine') {
-        let properties = result.data[editLayer].features[0].properties;
-        rels = [
-            {
-                extraInfo: {},
-                objId: properties.LANE_ID,
-                objType: 'LANE',
-                relObjId: properties.L_LDIV_ID,
-                relObjType: 'L_LDIV',
-                spec: 'AD_Lane'
-            },
-            {
-                extraInfo: {},
-                objId: properties.LANE_ID,
-                objType: 'LANE',
-                relObjId: properties.R_LDIV_ID,
-                relObjType: 'R_LDIV',
-                spec: 'AD_Lane'
-            }
-        ];
-    } else if (lines === 'adRoad') {
-        rels = [];
-    } else {
-        relation[`${editLayer}_Con`] = [];
-        relation[`${editLayer}_Con`] = result.data[
-            `${editLayer}_Con`
-        ].features.map(feature => {
-            return feature.properties;
-        });
-        rels = calcRels(`${editLayer}_Con`, relation);
-    }
+
+    relation[`${layerName}_Con`] = [];
+    relation[`${layerName}_Con`] = result.data[`${layerName}_Con`].features.map(
+        feature => feature.properties
+    );
+    rels = calcRels(`${layerName}_Con`, relation);
 
     let historyLog = {
         features: [[], newFeatures],
@@ -201,13 +205,63 @@ const autoCreateLine = async (editLayer, params, lines) => {
     return historyLog;
 };
 
-const getLines = async features => {
-    let oldRels = [];
-    let oldAttrs = [];
-    let lines = await features.reduce(async (total, feature) => {
+/**
+ * 根据车道线半自动构建中心线/参考线
+ * @method autoCreateLineByLaneDivider
+ * @param {String} layerName 操作图层
+ * @param {Object} params 构建参数
+ * @returns {Object} 半自动构建后的操作记录
+ */
+const autoCreateLineByLaneDivider = async (layerName, params) => {
+    let result,
+        rels = [];
+    if (layerName === 'AD_Lane') {
+        //车道中心线
+        result = await AdLineService.aroundLines(params);
+
+        rels = calcAdLaneRels(result.data.AD_Lane.features[0]);
+    } else if (layerName === 'AD_Road') {
+        //道路参考线
+        result = await AdLineService.adRoadLines(params);
+    }
+    let newFeatures = result.data[layerName].features.reduce(
+        (total, feature) => {
+            total.push({ data: feature, layerName: layerName });
+            return total;
+        },
+        []
+    );
+
+    let historyLog = {
+        features: [[], newFeatures],
+        rels: [[], uniqRels(rels)]
+    };
+
+    await updateFeatures(historyLog);
+
+    return historyLog;
+};
+
+/**
+ * 获取被打断/合并线要素的lines相关信息
+ * @method getLinesInfo
+ * @param {Array<Object>} features 被打断/合并要素集合
+ * @returns {Object} 被打断/合并线要素的lines相关信息
+ */
+const getLinesInfo = async features => {
+    let initialInfo = {
+        lines: [],
+        // 打断/合并 接口所需线要素相关信息
+        oldRels: [],
+        // features 对应的打断/合并前所有关联关系信息
+        oldAttrs: [],
+        // features 对应的打断/合并前所有关联属性和关联关系属性信息
+        oldRelFeatureOptions: []
+        // features 对应的打断/合并前所有存在关联关系的要素 id集合
+    };
+    return features.reduce(async (total, feature) => {
         let { relation, rels, attrs } = await getRelation(feature);
-        oldRels = oldRels.concat(rels);
-        oldAttrs = oldAttrs.concat(attrs);
+
         let line = {
             type: feature.layerName,
             attr: {
@@ -217,16 +271,33 @@ const getLines = async features => {
             relation
         };
         total = await total;
-        total.push(line);
+        total.lines.push(line);
+        total.oldRels = total.oldRels.concat(rels);
+        total.oldAttrs = total.oldAttrs.concat(attrs);
+
+        // let relFeatureOptions = rels.reduce((options, rel) => {
+        //     return options.concat([
+        //         {
+        //             value: rel.objId
+        //         },
+        //         {
+        //             value: rel.relObjId
+        //         }
+        //     ]);
+        // }, []);
+        // total.oldRelFeatureOptions = total.oldRelFeatureOptions.concat(
+        //     relFeatureOptions
+        // );
         return total;
-    }, []);
-    return {
-        lines,
-        oldRels,
-        oldAttrs
-    };
+    }, initialInfo);
 };
 
+/**
+ * 获取被打断/合并线要素的relation相关信息
+ * @method getLinesInfo
+ * @param {Array<Object>} feature 被打断/合并要素
+ * @returns {Object<Promise>} 查询请求Promise对象，成功返回 被打断/合并线要素的relation相关信息
+ */
 const getRelation = async feature => {
     let layerName = feature.layerName;
     let rels = await getFeatureRels(layerName, feature.data.properties);
@@ -389,7 +460,14 @@ const calcAttrs = relation => {
 
 const relDataFormat = (spec, properties) => {
     let relSpec = REL_SPEC_CONFIG.find(relSpec => relSpec.source == spec);
-    const { objKeyName, objType, relObjKeyName, relObjType } = relSpec;
+    const {
+        objKeyName,
+        objType,
+        relObjKeyName,
+        relObjType,
+        objSpec,
+        relObjSpec
+    } = relSpec;
     return properties.map(property => {
         let {
             [objKeyName]: objId,
@@ -402,6 +480,8 @@ const relDataFormat = (spec, properties) => {
             relObjId,
             objType,
             relObjType,
+            objSpec,
+            relObjSpec,
             extraInfo: {
                 REL_ID
             }
@@ -431,7 +511,7 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
             relSpec = relSpecs[0];
         }
         if (relSpec) {
-            const { objType, relObjType } = relSpec;
+            const { objType, relObjType, objSpec, relObjSpec } = relSpec;
             let objId, relObjId;
             if (relSpec.objSpec == spec) {
                 objId = property[IDKey1];
@@ -448,6 +528,8 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
                     relObjId,
                     objType,
                     relObjType,
+                    objSpec,
+                    relObjSpec,
                     extraInfo: {}
                 });
             }
@@ -515,6 +597,48 @@ const updateRels = async ([oldRels, newRels] = []) => {
     updateFeaturesByRels(newRels);
 };
 
+/**
+ * 计算打断/合并前后产生变更的要素集合
+ * @method calcFeaturesLog
+ * @param {Array<Object>} features 被打断/合并要素集合
+ * @returns {Object} 被打断/合并线要素的lines相关信息
+ */
+const calcFeaturesLog = (oldFeatures, newFeatures, relFeatureOptions) => {
+    relFeatureOptions = _.uniq(relFeatureOptions);
+};
+
+/**
+ * 计算 左右车道线生成中心线 后中心线 的关联关系
+ * @method calcAdLaneRels
+ * @param {Object} feature 车道中心线要素
+ * @returns {Array<Object>} 左右车道线生成中心线 后中心线 的关联关系
+ */
+const calcAdLaneRels = feature => {
+    let properties = feature.properties;
+    return [
+        {
+            spec: 'AD_Lane',
+            objId: properties.LANE_ID,
+            objType: 'LANE',
+            relObjId: properties.L_LDIV_ID,
+            relObjType: 'L_LDIV',
+            objSpec: 'AD_Lane',
+            relObjSpec: 'AD_LaneDivider',
+            extraInfo: {}
+        },
+        {
+            spec: 'AD_Lane',
+            objId: properties.LANE_ID,
+            objType: 'LANE',
+            relObjId: properties.R_LDIV_ID,
+            relObjType: 'R_LDIV',
+            objSpec: 'AD_Lane',
+            relObjSpec: 'AD_LaneDivider',
+            extraInfo: {}
+        }
+    ];
+};
+
 const geometryToWKT = geometry => {
     if (geometry.type == 'LineString') {
         let geomStr = geometry.coordinates
@@ -575,5 +699,6 @@ export {
     autoCreateLine,
     updateFeatures,
     updateRels,
-    breakLineByLine
+    breakLineByLine,
+    autoCreateLineByLaneDivider
 };

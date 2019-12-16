@@ -9,6 +9,9 @@ const THIRD_PATH_MAP = {
     imp_check_after_manbuild: '1339_MB_VEC_DES'
 };
 
+//人工构建任务类型枚举: [人工构建, 人工构建后质检]
+const manbuildTaskProcess = ['imp_manbuild', 'imp_check_after_manbuild'];
+
 export const getExportShpUrl = task => {
     return `${getEditPath(task)}/${CONFIG.urlConfig.vectors}`;
 };
@@ -33,4 +36,8 @@ const getEditUrl = task => {
 
 const getThirdPath = task => {
     return THIRD_PATH_MAP[task.processName];
+};
+
+export const isManbuildTask = task => {
+    return manbuildTaskProcess.includes(task.processName);
 };
