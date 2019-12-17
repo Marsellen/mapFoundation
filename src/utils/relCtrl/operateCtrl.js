@@ -17,7 +17,7 @@ import {
     getLayerByName
 } from '../vectorUtils';
 import { message } from 'antd';
-import _ from 'lodash';
+import { uniqObjectArray } from 'src/utils/utils';
 
 /**
  * 删除要素
@@ -69,7 +69,9 @@ const deleteLine = async features => {
  */
 const breakLine = async (breakPoint, features, activeTask) => {
     let point = geometryToWKT(breakPoint.data.geometry);
-    let { lines, oldRels, oldAttrs } = await getLinesInfo(features);
+    let { lines, oldRels, oldAttrs, oldRelFeatureOptions } = await getLinesInfo(
+        features
+    );
     let option = { point, lines, task_id: activeTask.taskId };
     let result = await EditorService.breakLines(option);
     if (result.code !== 1) throw result;
@@ -106,7 +108,9 @@ const breakLine = async (breakPoint, features, activeTask) => {
  * @returns {Object} 合并后的操作记录
  */
 const mergeLine = async (features, activeTask) => {
-    let { lines, oldRels, oldAttrs } = await getLinesInfo(features);
+    let { lines, oldRels, oldAttrs, oldRelFeatureOptions } = await getLinesInfo(
+        features
+    );
     let option = { lines, task_id: activeTask.taskId };
     let result = await EditorService.mergeLines(option);
     if (result.code !== 1) throw result;
@@ -134,7 +138,9 @@ const mergeLine = async (features, activeTask) => {
  */
 const breakLineByLine = async (line, features, activeTask) => {
     let cutLine = geometryToWKT(line.data.geometry);
-    let { lines, oldRels, oldAttrs } = await getLinesInfo(features);
+    let { lines, oldRels, oldAttrs, oldRelFeatureOptions } = await getLinesInfo(
+        features
+    );
     let option = { cutLine, lines, task_id: activeTask.taskId };
     let result = await EditorService.breakLinesByLine(option);
     if (result.code !== 1) throw result;
@@ -275,19 +281,21 @@ const getLinesInfo = async features => {
         total.oldRels = total.oldRels.concat(rels);
         total.oldAttrs = total.oldAttrs.concat(attrs);
 
-        // let relFeatureOptions = rels.reduce((options, rel) => {
-        //     return options.concat([
-        //         {
-        //             value: rel.objId
-        //         },
-        //         {
-        //             value: rel.relObjId
-        //         }
-        //     ]);
-        // }, []);
-        // total.oldRelFeatureOptions = total.oldRelFeatureOptions.concat(
-        //     relFeatureOptions
-        // );
+        let relFeatureOptions = rels.reduce((options, rel) => {
+            return options.concat([
+                {
+                    key: rel.objSpec,
+                    value: rel.objId
+                },
+                {
+                    key: rel.relObjSpec,
+                    value: rel.relObjId
+                }
+            ]);
+        }, []);
+        total.oldRelFeatureOptions = total.oldRelFeatureOptions.concat(
+            relFeatureOptions
+        );
         return total;
     }, initialInfo);
 };
@@ -429,24 +437,18 @@ const calcRels = (layerName, relation, feature) => {
 };
 
 const uniqRels = rels => {
-    let REL_IDS = [];
-    return rels.reduce((total, rel) => {
-        let relId = rel.objType + rel.objId + rel.relObjType + rel.relObjId;
-        if (!REL_IDS.includes(relId)) {
-            REL_IDS.push(relId);
-            total.push(rel);
-        }
-        return total;
-    }, []);
+    return uniqObjectArray(
+        rels,
+        rel => rel.objType + rel.objId + rel.relObjType + rel.relObjId
+    );
 };
 
 const uniqAttrs = attrs => {
-    return attrs.reduce((total, attr) => {
-        if (!total.some(t => t.key === attr.key)) {
-            total.push(attr);
-        }
-        return total;
-    }, []);
+    return uniqObjectArray(attrs, attr => attr.key);
+};
+
+const uniqOptions = options => {
+    return uniqObjectArray(options, option => option.value);
 };
 
 const calcAttrs = relation => {

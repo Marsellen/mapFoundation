@@ -17,7 +17,7 @@ class Undo extends React.Component {
         return (
             <ToolIcon
                 id="undo-btn"
-                disabled={!shouldUndo}
+                disabled={this.disabled()}
                 icon="chexiao"
                 title="撤销"
                 action={this.action}
@@ -25,12 +25,20 @@ class Undo extends React.Component {
         );
     }
 
+    disabled = () => {
+        const { OperateHistoryStore } = this.props;
+        let { currentNode, savedNode, pendding } = OperateHistoryStore;
+        let shouldUndo = currentNode > savedNode;
+        return !shouldUndo || pendding;
+    };
+
     action = () => {
         const {
             OperateHistoryStore,
             DataLayerStore,
             AttributeStore
         } = this.props;
+        OperateHistoryStore.doning();
         OperateHistoryStore.undo().then(history => {
             let log = {
                 operateHistory: history,
@@ -42,6 +50,7 @@ class Undo extends React.Component {
             AttributeStore.hide();
             AttributeStore.hideRelFeatures();
             AdEmitter.emit('fetchViewAttributeData');
+            OperateHistoryStore.done();
         });
     };
 }

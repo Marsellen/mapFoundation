@@ -10,19 +10,23 @@ import AdEmitter from 'src/models/event';
 @observer
 class Redo extends React.Component {
     render() {
-        const { OperateHistoryStore } = this.props;
-        let { currentNode, finalNode } = OperateHistoryStore;
-        let shouldRedo = currentNode < finalNode;
         return (
             <ToolIcon
                 id="redo-btn"
                 icon="huitui_"
                 title="回退"
-                disabled={!shouldRedo}
+                disabled={this.disabled()}
                 action={this.action}
             />
         );
     }
+
+    disabled = () => {
+        const { OperateHistoryStore } = this.props;
+        let { currentNode, finalNode, pendding } = OperateHistoryStore;
+        let shouldRedo = currentNode < finalNode;
+        return !shouldRedo || pendding;
+    };
 
     action = () => {
         const {
@@ -30,6 +34,7 @@ class Redo extends React.Component {
             DataLayerStore,
             AttributeStore
         } = this.props;
+        OperateHistoryStore.doning();
         OperateHistoryStore.redo().then(history => {
             let log = {
                 operateHistory: history,
@@ -41,6 +46,7 @@ class Redo extends React.Component {
             AttributeStore.hide();
             AttributeStore.hideRelFeatures();
             AdEmitter.emit('fetchViewAttributeData');
+            OperateHistoryStore.done();
         });
     };
 }

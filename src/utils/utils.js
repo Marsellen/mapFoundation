@@ -64,3 +64,15 @@ export const funDownload = (content, filename) => {
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
 };
+
+export const uniqObjectArray = (array, func) => {
+    let uniqArray = [];
+    return array.reduce((total, item) => {
+        let uniqItem = func ? func(item) : item;
+        if (!uniqArray.includes(uniqItem)) {
+            uniqArray.push(uniqItem);
+            total.push(item);
+        }
+        return total;
+    }, []);
+};
