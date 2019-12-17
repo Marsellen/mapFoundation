@@ -119,11 +119,7 @@ export default {
             {
                 value: 2,
                 label: '路口车道',
-                style: {
-                    color: 'rgb(127,118,18)',
-                    dashSize: 1,
-                    gapSize: 1
-                }
+                style: { color: 'rgb(127,118,18)', linewidth: 1 }
             },
             {
                 value: 3,

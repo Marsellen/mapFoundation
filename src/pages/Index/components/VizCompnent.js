@@ -327,7 +327,9 @@ class VizCompnent extends React.Component {
              * TraceLayer 轨迹点
              */
             if (result[0].type === 'VectorLayer') {
-                DataLayerStore.pick();
+                result.length === 1
+                    ? DataLayerStore.pick()
+                    : DataLayerStore.unPick();
                 this.showAttributesModal(result[0], event);
                 this.showRightMenu(result, event);
             } else if (result[0].type === 'TraceLayer') {
