@@ -83,8 +83,8 @@ const toLineStringGeojson = geojson => {
 
 /*
  * 判断要素是否在任务范围内，返回true/false
- * @params element 要素的geojson
- * @params region 任务范围的geojson
+ * @param element 要素的geojson
+ * @param region 任务范围的geojson
  */
 export const isRegionContainsElement = (element, region) => {
     console.time('Is region contains element');

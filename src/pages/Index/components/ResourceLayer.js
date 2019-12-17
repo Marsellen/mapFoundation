@@ -9,6 +9,7 @@ import {
 
 @inject('ResourceLayerStore')
 @inject('DataLayerStore')
+@inject('VectorsStore')
 @observer
 class ResourceLayer extends React.Component {
     render() {
@@ -33,20 +34,26 @@ class ResourceLayer extends React.Component {
     }
 
     changeEvent = item => {
-        let { ResourceLayerStore, DataLayerStore } = this.props;
-        let onChange = e => {
-            ResourceLayerStore.toggle(item.value, e.target.checked);
+        const { ResourceLayerStore, DataLayerStore, VectorsStore } = this.props;
+        const { toggleAll } = VectorsStore;
+        const onChange = e => {
+            const { checked } = e.target;
 
-            if (item.value == RESOURCE_LAYER_VETOR) {
-                DataLayerStore.toggleAll(e.target.checked);
-            }
+            ResourceLayerStore.toggle(item.value, checked);
 
-            if (item.value == RESOURCE_LAYER_BOUNDARY) {
-                DataLayerStore.clearPick();
-            }
-
-            if (item.value == RESOURCE_LAYER_POINT_CLOUD) {
-                DataLayerStore.exitReadCoordinate();
+            switch (item.value) {
+                case RESOURCE_LAYER_VETOR: //高精地图
+                    toggleAll(checked, RESOURCE_LAYER_VETOR);
+                    break;
+                case RESOURCE_LAYER_BOUNDARY: //周边底图
+                    toggleAll(checked, RESOURCE_LAYER_BOUNDARY);
+                    DataLayerStore.clearPick();
+                    break;
+                case RESOURCE_LAYER_POINT_CLOUD: //点云
+                    DataLayerStore.exitReadCoordinate();
+                    break;
+                default:
+                    break;
             }
         };
         return onChange;

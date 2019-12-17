@@ -1,6 +1,6 @@
 export default {
     title: 'Ecarx React App',
-    version: 'v1.0.10.1-sprint10',
+    version: 'v1.0.12.1-sprint12',
 
     urlConfig: {
         point_clouds: 'point_clouds/cloud.js',
@@ -14,8 +14,5 @@ export default {
 
     expireTime: 86400,
     autoSaveTime: 600000,
-    loopTaskTime: 60000,
-
-    //人工构建任务类型枚举: [人工构建, 人工构建后质检]
-    manbuildTaskProcess: ['imp_manbuild', 'imp_check_after_manbuild']
+    loopTaskTime: 60000
 };

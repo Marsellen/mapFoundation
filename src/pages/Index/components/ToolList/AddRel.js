@@ -13,7 +13,7 @@ import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import AddLRLaneDriverRel from './AddRelModal/AddLRLaneDriverRel';
 import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
-import CONFIG from 'src/config';
+import { isManbuildTask } from 'src/utils/taskUtils';
 import 'less/components/tool-icon.less';
 import './AddRel.less';
 
@@ -55,7 +55,7 @@ class AddRel extends React.Component {
     disEditable = () => {
         const { TaskStore } = this.props;
 
-        return !CONFIG.manbuildTaskProcess.includes(TaskStore.taskProcessName);
+        return !isManbuildTask(TaskStore.activeTask);
     };
 
     action = () => {

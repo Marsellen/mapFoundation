@@ -10,7 +10,7 @@ import 'less/components/tool-icon.less';
 import 'less/components/uturn-line.less';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import AdEmitter from 'src/models/event';
-import CONFIG from 'src/config';
+import { isManbuildTask } from 'src/utils/taskUtils';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -136,7 +136,7 @@ class HalfAutoCreate extends React.Component {
     disEditable = () => {
         const { TaskStore } = this.props;
 
-        return !CONFIG.manbuildTaskProcess.includes(TaskStore.taskProcessName);
+        return !isManbuildTask(TaskStore.activeTask);
     };
 
     // 获得接口传参

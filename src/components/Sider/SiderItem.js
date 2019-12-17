@@ -11,7 +11,7 @@ class SiderItem extends React.Component {
                 {record.isPopover && (
                     <Popover
                         placement="rightTop"
-                        title={record.label}
+                        title={record.hasTitle && record.label}
                         content={this._renderContent()}
                         trigger="hover"
                         getPopupContainer={triggerNode =>

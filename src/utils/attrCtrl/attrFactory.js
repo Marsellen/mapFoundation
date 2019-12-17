@@ -88,6 +88,13 @@ const getTabelData = attrs => {
     }, {});
 };
 
+/**
+ * 通过要素的规格和属性查询IndexedDB中关联属性记录集合
+ * @method getFeatureAttrs
+ * @param {String} layerName 要素规格
+ * @param {Object} properties 要素属性
+ * @returns {Array} attrs 关联属性记录集合
+ */
 const getFeatureAttrs = async (layerName, properties) => {
     let IDKey = getLayerIDKey(layerName);
     let id = properties[IDKey];
