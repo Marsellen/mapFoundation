@@ -49,6 +49,7 @@ import SaveTimeView from './SaveTimeView';
 @inject('appStore')
 @inject('BatchAssignStore')
 @inject('PointCloudStore')
+@inject('VectorsStore')
 @observer
 class VizCompnent extends React.Component {
     constructor(props) {
@@ -78,7 +79,7 @@ class VizCompnent extends React.Component {
     }
 
     addShortcut = event => {
-        const { ResourceLayerStore, DataLayerStore } = this.props;
+        const { ResourceLayerStore, VectorsStore } = this.props;
         const callbackShortcutMap = [
             {
                 ctrl: false,
@@ -105,7 +106,7 @@ class VizCompnent extends React.Component {
                     event.preventDefault();
                     event.stopPropagation();
                     ResourceLayerStore.toggle(RESOURCE_LAYER_VETOR, true, true);
-                    DataLayerStore.toggleAll(true);
+                    VectorsStore.toggleAll(true, RESOURCE_LAYER_VETOR, true);
                 },
                 describe: '开关轨迹图层 2'
             }
@@ -200,13 +201,14 @@ class VizCompnent extends React.Component {
         if (!vectors) {
             return;
         }
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, VectorsStore } = this.props;
         window.vectorLayerGroup = new LayerGroup(vectors, {
             styleConifg: VectorsConfig
         });
         await map.getLayerManager().addLayerGroup(vectorLayerGroup);
         let layers = vectorLayerGroup.layers;
         DataLayerStore.init(layers);
+        VectorsStore.addLayer(RESOURCE_LAYER_VETOR, vectorLayerGroup);
 
         return {
             layerName: RESOURCE_LAYER_VETOR,
@@ -252,6 +254,9 @@ class VizCompnent extends React.Component {
                 styleConifg: OutsideVectorsConfig
             });
             await map.getLayerManager().addLayerGroup(boundaryLayerGroup);
+
+            const { VectorsStore } = this.props;
+            VectorsStore.addLayer(RESOURCE_LAYER_BOUNDARY, boundaryLayerGroup);
 
             return {
                 layerName: RESOURCE_LAYER_BOUNDARY,

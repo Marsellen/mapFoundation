@@ -15,6 +15,7 @@ import 'less/components/sider.less';
 @inject('ToolCtrlStore')
 @inject('PictureShowStore')
 @inject('ResourceLayerStore')
+@inject('VectorsStore')
 @observer
 class Task extends React.Component {
     constructor(props) {
@@ -194,12 +195,13 @@ class Task extends React.Component {
         if (!boundaryLayerGroup) {
             return;
         }
-        const { DataLayerStore, ResourceLayerStore } = this.props;
+        const { DataLayerStore, ResourceLayerStore, VectorsStore } = this.props;
         DataLayerStore.addTargetLayers(boundaryLayerGroup.layers);
         ResourceLayerStore.updateLayerByName(
             RESOURCE_LAYER_BOUNDARY,
             boundaryLayerGroup
         );
+        VectorsStore.addLayer(RESOURCE_LAYER_BOUNDARY, boundaryLayerGroup);
     };
 }
 

@@ -13,6 +13,7 @@ import AttrStore from './AttrStore';
 import BatchAssignStore from './BatchAssignStore';
 import PointCloudStore from './PointCloudStore';
 import QualityCheckStore from './QualityCheckStore';
+import VectorsStore from './VectorsStore';
 
 export default {
     MenuStore,
@@ -29,5 +30,6 @@ export default {
     AttrStore,
     BatchAssignStore,
     PointCloudStore,
-    QualityCheckStore
+    QualityCheckStore,
+    VectorsStore
 };
