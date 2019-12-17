@@ -82,16 +82,36 @@ class TaskStore {
     };
 
     @action startTaskEdit = id => {
+        const updateTaskBoundaryFileParams =
+            this.activeTask.nodeDesc === '人工构建'
+                ? {
+                      taskId: this.activeTaskId,
+                      '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
+                      targetDirectory: this.activeTask['1301_RAW_DATA'],
+                      EDITOR_QUERYDB_PATHS: this.activeTask[
+                          'EDITOR_QUERYDB_PATHS'
+                      ]
+                  }
+                : {
+                      taskId: this.activeTaskId,
+                      '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
+                      targetDirectory: this.activeTask['1302_RAW_DATA'],
+                      EDITOR_QUERYDB1_PATHS: this.activeTask[
+                          'EDITOR_QUERYDB1_PATHS'
+                      ]
+                  };
         this.editTaskId = id;
         this.fetchTask();
-        if (this.isGetTaskBoundaryFile()) {
-            return this.getTaskBoundaryFile();
+        if (this.activeTask.nodeDesc === '人工识别') {
+            return;
         } else {
-            return this.updateTaskBoundaryFile({
-                taskId: this.activeTaskId,
-                '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
-                '1301_RAW_DATA': this.activeTask['1301_RAW_DATA']
-            });
+            if (this.isGetTaskBoundaryFile()) {
+                return this.getTaskBoundaryFile();
+            } else {
+                return this.updateTaskBoundaryFile(
+                    updateTaskBoundaryFileParams
+                );
+            }
         }
     };
 
