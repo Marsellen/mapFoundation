@@ -161,13 +161,13 @@ const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
         };
     }
     return {
+        spec,
+        ...rel,
         objType,
         relObjType,
         objSpec,
         relObjSpec,
-        spec,
-        extraInfo: {},
-        ...rel
+        extraInfo: {}
     };
 };
 

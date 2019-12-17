@@ -619,8 +619,8 @@ const calcAdLaneRels = feature => {
         {
             spec: 'AD_Lane',
             objId: properties.LANE_ID,
-            objType: 'LANE',
             relObjId: properties.L_LDIV_ID,
+            objType: 'LANE',
             relObjType: 'L_LDIV',
             objSpec: 'AD_Lane',
             relObjSpec: 'AD_LaneDivider',
@@ -629,8 +629,8 @@ const calcAdLaneRels = feature => {
         {
             spec: 'AD_Lane',
             objId: properties.LANE_ID,
-            objType: 'LANE',
             relObjId: properties.R_LDIV_ID,
+            objType: 'LANE',
             relObjType: 'R_LDIV',
             objSpec: 'AD_Lane',
             relObjSpec: 'AD_LaneDivider',
