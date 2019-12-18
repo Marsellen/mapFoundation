@@ -1,4 +1,4 @@
-import { action, configure, flow, observable, computed } from 'mobx';
+import { action, configure, flow, observable } from 'mobx';
 import LayerStore from './LayerStore';
 import { EditControl, MeasureControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
