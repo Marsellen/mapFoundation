@@ -416,7 +416,7 @@ class AdDatePicker extends React.Component {
 
         this.props.form.validateFields((err, values) => {
             //console.log('err, values', err, values);
-            if (err || isCheckTimeEqual) {
+            if ((err || isCheckTimeEqual) && isCheckbox.length !== 0) {
                 if (isCheckTimeEqual) {
                     message.warning(
                         '时分填写错误，不同行之间不允许设置相同时间！'
