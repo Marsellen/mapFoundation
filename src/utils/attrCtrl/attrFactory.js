@@ -146,6 +146,14 @@ const updateAttrs = async attrs => {
     return newRecords;
 };
 
+const calcNewAttrs = attrs => {
+    return Object.keys(attrs).reduce((total, key) => {
+        let records = attrs[key];
+        total = total.concat(records);
+        return total;
+    }, []);
+};
+
 const deleteRecord = id => {
     let attrStore = Attr.store;
     return attrStore.deleteById(id);
@@ -178,5 +186,6 @@ export default {
     getFeatureAttrs,
     updateAttrs,
     replaceAttrs,
-    deleteRecord
+    deleteRecord,
+    calcNewAttrs
 };

@@ -6,6 +6,7 @@ import {
     REL_SPEC_CONFIG
 } from 'src/config/RelsConfig';
 import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
+import { DEFAULT_CONFIDENCE_MAP } from 'src/config/ADMapDataConfig';
 import { updateFeaturesByRels } from './relCtrl';
 import EditorService from 'src/pages/Index/service/EditorService';
 import AdLineService from 'src/pages/Index/service/AdLineService';
@@ -177,7 +178,7 @@ const breakLineByLine = async (line, features, activeTask) => {
  * @returns {Object} 半自动构建后的操作记录
  */
 const autoCreateLine = async (layerName, params) => {
-    let result,
+    let result = {},
         relation = {},
         rels = [];
     if (layerName === 'AD_Lane') {
@@ -187,6 +188,7 @@ const autoCreateLine = async (layerName, params) => {
         //道路参考线
         result = await AdLineService.adTwoRoadLines(params);
     }
+    if (result.code !== 1) throw result;
     let newFeatures = result.data[layerName].features.reduce(
         (total, feature) => {
             total.push({ data: feature, layerName: layerName });
@@ -219,16 +221,17 @@ const autoCreateLine = async (layerName, params) => {
  * @returns {Object} 半自动构建后的操作记录
  */
 const autoCreateLineByLaneDivider = async (layerName, params) => {
-    let result,
+    let result = {},
         rels = [];
     if (layerName === 'AD_Lane') {
         //车道中心线
         result = await AdLineService.aroundLines(params);
-
+        if (result.code !== 1) throw result;
         rels = calcAdLaneRels(result.data.AD_Lane.features[0]);
     } else if (layerName === 'AD_Road') {
         //道路参考线
         result = await AdLineService.adRoadLines(params);
+        if (result.code !== 1) throw result;
     }
     let newFeatures = result.data[layerName].features.reduce(
         (total, feature) => {
@@ -526,7 +529,8 @@ const relDataFormat = (spec, properties) => {
             objSpec,
             relObjSpec,
             extraInfo: {
-                REL_ID
+                REL_ID,
+                CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec]
             }
         };
     });
@@ -573,7 +577,9 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
                     relObjType,
                     objSpec,
                     relObjSpec,
-                    extraInfo: {}
+                    extraInfo: {
+                        CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec]
+                    }
                 });
             }
         }
@@ -597,8 +603,9 @@ const attrsDataFormat = (data, source) => {
 const updateFeatures = async ({ features, rels, attrs } = {}) => {
     let [oldFeatures, newFeatures] = features;
     let updateFeatures = [];
+    let featuresMap = getFeaturesMap([...oldFeatures, ...newFeatures]);
     newFeatures.forEach(feature => {
-        let layer = getLayerByName(feature.layerName);
+        let layer = featuresMap[feature.layerName];
         let option = getFeatureOption(feature);
         let _feature = layer.getFeatureByOption(option);
         if (_feature) {
@@ -616,7 +623,7 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
         await attrFactory.replaceAttrs(attrs);
     }
     oldFeatures.forEach(feature => {
-        let layer = getLayerByName(feature.layerName);
+        let layer = featuresMap[feature.layerName];
         let option = getFeatureOption(feature);
         if (updateFeatures.includes(option.key + option.value)) return;
         layer.removeFeatureByOption(option);
@@ -657,11 +664,13 @@ const calcFeaturesLog = (features, allFeatureOptions, activeTask) => {
     let relFeatureOptions = oldAllFeatureOptions.filter(option => {
         return !oldFeaturesIds.includes(option.value);
     });
-    let relFeatures = relFeatureOptions.map(
-        option =>
-            getLayerByName(option.layerName).getFeatureByOption(option)
-                .properties
-    );
+    let relFeatures = relFeatureOptions.reduce((total, option) => {
+        let feature = getLayerByName(option.layerName).getFeatureByOption(
+            option
+        );
+        feature && total.push(feature.properties);
+        return total;
+    }, []);
     let newRelFeatures = relFeatures.map(feature => {
         return completeProperties(feature, activeTask);
     });
@@ -725,6 +734,15 @@ const calcAdLaneRels = feature => {
     ];
 };
 
+const getFeaturesMap = features => {
+    let featureLayerNames = features.map(feature => feature.layerName);
+    featureLayerNames = uniqObjectArray(featureLayerNames);
+    return featureLayerNames.reduce((total, layerName) => {
+        total[layerName] = getLayerByName(layerName);
+        return total;
+    }, {});
+};
+
 const geometryToWKT = geometry => {
     if (geometry.type == 'LineString') {
         let geomStr = geometry.coordinates
@@ -786,5 +804,7 @@ export {
     updateFeatures,
     updateRels,
     breakLineByLine,
-    autoCreateLineByLaneDivider
+    autoCreateLineByLaneDivider,
+    getAllRelFeatureOptions,
+    uniqOptions
 };

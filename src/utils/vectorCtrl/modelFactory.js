@@ -1,6 +1,7 @@
 import {
     DEFAULT_PROPERTIES_MAP,
-    TABLE_DATA_MAP
+    TABLE_DATA_MAP,
+    DEFAULT_CONFIDENCE_MAP
 } from 'src/config/ADMapDataConfig';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
 import _ from 'lodash';
@@ -16,10 +17,13 @@ class modelFactory {
 
     getDefaultProperties = (layerName, id) => {
         let defaultProperties = DEFAULT_PROPERTIES_MAP[layerName] || {};
+        let defaultConfidence = DEFAULT_CONFIDENCE_MAP[layerName] || '{}';
         let IDKey = getLayerIDKey(layerName);
         return {
             ...defaultProperties,
-            [IDKey]: id
+            [IDKey]: id,
+            CONFIDENCE: defaultConfidence,
+            UPD_STAT: '{"GEOMETRY":"ADD"}'
         };
     };
 

@@ -4,6 +4,7 @@ import {
     ATTR_REL_DATA_SET,
     REL_DATA_SET
 } from 'src/config/RelsConfig';
+import { DEFAULT_CONFIDENCE_MAP } from 'src/config/ADMapDataConfig';
 import {
     getLayerIDKey,
     getFeatureByOptionFormAll
@@ -160,6 +161,11 @@ const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
             relObjId: mainObjId
         };
     }
+    let extraInfo = REL_DATA_SET.includes(spec)
+        ? {
+              CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec]
+          }
+        : {};
     return {
         spec,
         ...rel,
@@ -167,7 +173,7 @@ const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
         relObjType,
         objSpec,
         relObjSpec,
-        extraInfo: {}
+        extraInfo
     };
 };
 

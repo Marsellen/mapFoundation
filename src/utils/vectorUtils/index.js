@@ -156,9 +156,10 @@ export const completeProperties = (feature, task, config) => {
                 DEFAULT_CONFIDENCE_MAP[_feature.layerName] || '{}';
         }
     } else {
-        if (!_feature.data.properties.UPD_STAT) {
-            _feature.data.properties.UPD_STAT =
-                (config && config.UPD_STAT) || '{"RELATION":"MOD"}';
+        if (config && config.UPD_STAT) {
+            _feature.data.properties.UPD_STAT = config && config.UPD_STAT;
+        } else if (!_feature.data.properties.UPD_STAT) {
+            _feature.data.properties.UPD_STAT = '{"RELATION":"MOD"}';
         } else {
             let UPD_STAT = JSON.parse(_feature.data.properties.UPD_STAT);
             UPD_STAT.RELATION = 'MOD';
