@@ -102,16 +102,13 @@ class TaskStore {
                   };
         this.editTaskId = id;
         this.fetchTask();
-        if (this.activeTask.nodeDesc === '人工识别') {
-            return;
-        } else {
-            if (this.isGetTaskBoundaryFile()) {
-                return this.getTaskBoundaryFile();
-            } else {
-                return this.updateTaskBoundaryFile(
-                    updateTaskBoundaryFileParams
-                );
-            }
+        if (this.activeTask.nodeDesc === '人工构建') {
+            const taskBoundaryFile = this.isGetTaskBoundaryFile()
+                ? this.getTaskBoundaryFile()
+                : this.updateTaskBoundaryFile(updateTaskBoundaryFileParams);
+            return taskBoundaryFile;
+        } else if (this.activeTask.nodeDesc === '人工构建后质检') {
+            return this.getTaskBoundaryFile();
         }
     };
 
