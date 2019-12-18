@@ -97,7 +97,7 @@ class JobStatus extends React.Component {
 
         const { tasks } = TaskStore;
         if (tasks && tasks.length > 0) {
-            if (oldTasks && oldTasks.length == tasks.length) {
+            if (oldTasks.length == tasks.length) {
                 message.warning('暂无新任务', 3);
                 return;
             } else {
