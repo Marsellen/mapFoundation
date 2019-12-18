@@ -86,7 +86,8 @@ class JobStatus extends React.Component {
 
     fetchTask = async () => {
         const { TaskStore } = this.props;
-        const { tasks: oldTasks } = TaskStore;
+        let { tasks: oldTasks } = TaskStore;
+        oldTasks = oldTasks || [];
         let result = await TaskStore.initTask({ type: 2 });
 
         if (result.overLimit) {
@@ -96,14 +97,14 @@ class JobStatus extends React.Component {
 
         const { tasks } = TaskStore;
         if (tasks && tasks.length > 0) {
-            if (oldTasks && oldTasks.length == tasks.length) {
+            if (oldTasks.length == tasks.length) {
                 message.warning('暂无新任务', 3);
                 return;
             } else {
                 message.success('成功获取任务', 3);
             }
         }
-        if (!oldTasks || !oldTasks.length) {
+        if (oldTasks.length > 0) {
             this.clearWorkSpace();
         }
     };

@@ -20,12 +20,11 @@ const vectorsTabsConfig = [
 ];
 
 @inject('ResourceLayerStore')
-@inject('DataLayerStore')
 @inject('VectorsStore')
 @observer
 class DataLayer extends React.Component {
     render() {
-        let { DataLayerStore, VectorsStore } = this.props;
+        let { VectorsStore } = this.props;
         let {
             updateKey,
             vectors,
@@ -97,7 +96,7 @@ class DataLayer extends React.Component {
 
     checkAllChangeEvent = e => {
         const value = e.target.checked;
-        const { DataLayerStore, ResourceLayerStore, VectorsStore } = this.props;
+        const { ResourceLayerStore, VectorsStore } = this.props;
         const { layerType, toggleAll } = VectorsStore;
 
         ResourceLayerStore.toggle(layerType, value);
@@ -106,7 +105,7 @@ class DataLayer extends React.Component {
     };
 
     changeEvent = (item, value) => {
-        const { DataLayerStore, ResourceLayerStore, VectorsStore } = this.props;
+        const { ResourceLayerStore, VectorsStore } = this.props;
         const { toggle: resourceToggle } = ResourceLayerStore;
         const { toggle: vectorsToggle } = VectorsStore;
 
