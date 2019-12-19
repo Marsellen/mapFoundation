@@ -264,7 +264,6 @@ class DataLayerStore extends LayerStore {
         if (opt) {
             this.isTopView = true;
             this.editType = 'normal';
-            this.exitEdit();
         } else {
             this.isTopView = false;
         }
