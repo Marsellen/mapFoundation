@@ -87,8 +87,8 @@ class PictureShowView extends React.Component {
             viewed: () => {
                 //设置相对比例0.6=展示宽度/图片实际宽度
                 if (!this.refs.viewer) return;
-                let viewer = this.refs.viewer.getViewer().viewer;
-                viewer.zoomTo(0.28).move(0, -6.2);
+                // let viewer = this.refs.viewer.getViewer().viewer;
+                // viewer.zoomTo(0.28).move(0, -6.2);
                 const { DataLayerStore } = this.props;
                 if (DataLayerStore.locatePictureStatus) {
                     document
