@@ -39,7 +39,7 @@ import _ from 'lodash';
 import editLog from 'src/models/editLog';
 import SaveTimeView from './SaveTimeView';
 import { isManbuildTask } from 'src/utils/taskUtils';
-import { addVisitedCount, removeVisitedCount } from 'src/utils/visiteCount.js';
+import { removeVisitedCount } from 'src/utils/visiteCount.js';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -138,9 +138,8 @@ class VizCompnent extends React.Component {
                 //获取任务比例记录，设置比例
                 const { TaskStore } = this.props;
                 const { activeTaskId } = TaskStore;
-                const { taskScale } = AdLocalStorage.getTaskInfosStorage(
-                    activeTaskId
-                );
+                const { taskScale } =
+                    AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
                 taskScale && map.setEyeView(taskScale);
             })
             .catch(e => {
@@ -283,13 +282,13 @@ class VizCompnent extends React.Component {
         const { TaskStore } = this.props;
 
         //禁用浏览器默认右键菜单
-        document.oncontextmenu = function (e) {
+        document.oncontextmenu = function(e) {
             e.preventDefault();
             // return false;
         };
 
         //监听浏览器即将离开当前页面事件
-        window.onbeforeunload = function (e) {
+        window.onbeforeunload = function(e) {
             e = window.event || e;
             e.returnValue = `确定离开当前页面吗？`;
 
