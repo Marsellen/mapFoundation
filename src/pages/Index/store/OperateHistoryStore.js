@@ -10,6 +10,7 @@ class OperateHistoryStore {
     @observable couldSave = false;
     @observable autoSavedNode = -1;
     @observable nodes = [];
+    @observable pendding = false;
 
     init = flow(function*() {
         try {
@@ -64,6 +65,14 @@ class OperateHistoryStore {
             console.log(e);
         }
     });
+
+    @action doning = () => {
+        this.pendding = true;
+    };
+
+    @action done = () => {
+        this.pendding = false;
+    };
 
     @action save = () => {
         this.savedNode = this.currentNode;

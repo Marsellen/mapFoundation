@@ -54,7 +54,7 @@ class RelationForm extends React.Component {
     renderInputNumber = (item, index, filedKey) => {
         const { form } = this.props;
         const readonly = this.getReadonlyStatus();
-        let key = filedKey + '.' + item.key + item.id;
+        let key = filedKey + '.' + item.key + (item.id || '');
 
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>

@@ -1416,3 +1416,34 @@ export const TABLE_DATA_MAP = {
         }
     ]
 };
+
+export const DEFAULT_CONFIDENCE_MAP = {
+    AD_Road:
+        '{"TYPE":{},"RD_CLASS":{},"CROSSING":{},"RD_STATUS":{},"RD_FORM":{},"DIRECTION":{},"MAX_SPEED":{},"GEOMETRY":{}}',
+    AD_Road_Con: '{"FROM_ROAD":{},"TO_ROAD":{}}',
+    AD_Road_Con_RS: '{"LANE_ID":{},"RS_TYPE":{},"RS_VALUE":{},"TIMEDOM":{}}',
+    AD_LaneDivider:
+        '{"TYPE":{},"RD_LINE":{},"SHARE_LINE":{},"RD_EDGE":{},"DIRECTION":{},"LANESTATUS":{},"LANE_TYPE":{},"LANE_NO":{},"RD_FORM":{},"GEOMETRY":{}}',
+    AD_Lane:
+        '{"ROAD_ID":{},"L_LDIV_ID":{},"R_LDIV_ID":{},"TYPE":{},"LANE_NO":{},"DIRECTION":{},"STATUS":{},"MAX_SPEED":{},"MAX_SP_TYP":{},"MIN_SPEED":{},"MIN_SP_TYP":{},"GEOMETRY":{}}',
+    AD_Lane_Con: '{"FROM_LANE":{},"TO_LANE":{}}',
+    AD_LaneShape: '{"LANE_ID":{}}',
+    AD_Lane_RS: '{"LANE_ID":{},"RS_TYPE":{},"RS_VALUE":{},"TIMEDOM":{}}',
+    AD_Lane_Con_RS: '{"REL_ID":{},"RS_TYPE":{},"TIMEDOM":{}}',
+    AD_LaneAttrPoint: '{"TYPE":{},"ROAD_ID":{},"GEOMETRY":{}}',
+    AD_Arrow: '{"ARR_DIRECT":{},"LANE_ID":{},"GEOMETRY":{}}',
+    AD_StopLocation: '{"TYPE":{},"GEOMETRY":{}}',
+    AD_StopL_Lane_Rel: '{"STOPL_ID":{},"LANE_ID":{}}',
+    AD_LaneMark_Plg: '{"TYPE":{},"GEOMETRY":{}}',
+    AD_Plg_Lane_Rel: '{"PLG_ID":{},"LANE_ID":{}}',
+    AD_Text: '{"TYPE":{},"VALUE":{},"LANE_ID":{},"GEOMETRY":{}}',
+    AD_TrafficSign: '{"SIGN_STYLE":{},"GEOMETRY":{}}',
+    AD_TS_Content:
+        '{"SIGN_TYPE":{},"CONT_TYPE":{},"TIMEDOM":{},"CONT_VALUE":{},"SIGN_NO":{}}',
+    AD_Sign_Lane_Rel: '{"SIGN_ID":{},"LANE_ID":{}}',
+    AD_TrafficLight: '{"TYPE":{},"LAYOUT":{},"LAMP_COUNT":{},"GEOMETRY":{}}',
+    AD_Sub_Lamp: '{"LIGHT_ID":{},"LAMP_TYPE":{},"LAMP_NO":{}}',
+    AD_Light_Lane_Rel: '{"LIGHT_ID":{},"LANE_ID":{}}',
+    AD_Pole: '{"RADIUS_UP":{},"RADIUS_DN":{},"GEOMETRY":{}}',
+    AD_RS_Barrier: '{"TYPE":{},"MATERIAL":{},"GEOMETRY":{}}'
+};

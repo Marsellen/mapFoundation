@@ -7,11 +7,13 @@ import RelationForm from './AttributesForm/RelationForm';
 import AttrsForm from './AttributesForm/AttrsForm';
 import AdTabs from 'src/components/AdTabs/index';
 import editLog from 'src/models/editLog';
+import { updateFeatures } from 'src/utils/relCtrl/operateCtrl';
+import AdEmitter from 'src/models/event';
 import 'less/components/attributes-modal.less';
 
 @Form.create()
 @inject('AttributeStore')
-@inject('DataLayerStore')
+@inject('TaskStore')
 @inject('OperateHistoryStore')
 @observer
 class AttributesModal extends React.Component {
@@ -67,7 +69,7 @@ class AttributesModal extends React.Component {
         const {
             form,
             AttributeStore,
-            DataLayerStore,
+            TaskStore,
             OperateHistoryStore
         } = this.props;
         form.validateFields((err, values) => {
@@ -75,10 +77,10 @@ class AttributesModal extends React.Component {
                 return;
             }
             // console.log(values);
-            AttributeStore.submit(values)
+            AttributeStore.submit(values, TaskStore.activeTask)
                 .then(result => {
-                    let feature = result.features[1][0];
-                    DataLayerStore.updateFeature(feature);
+                    updateFeatures(result);
+                    AdEmitter.emit('fetchViewAttributeData');
                     let history = {
                         type: 'updateFeatureRels',
                         data: result

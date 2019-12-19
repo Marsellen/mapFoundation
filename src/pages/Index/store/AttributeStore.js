@@ -3,10 +3,24 @@ import modelFactory from 'src/utils/vectorCtrl/modelFactory';
 import relFactory from 'src/utils/relCtrl/relFactory';
 import attrFactory from 'src/utils/attrCtrl/attrFactory';
 import IDService from 'src/pages/Index/service/IDService';
-import { getLayerIDKey, updateFeatureColor } from 'src/utils/vectorUtils';
-import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
+import {
+    getLayerIDKey,
+    updateFeatureColor,
+    getFeatureOption,
+    getLayerByName,
+    modUpdStatRelation
+} from 'src/utils/vectorUtils';
+import {
+    ATTR_SPEC_CONFIG,
+    MOD_UPD_STAT_RELATION_LAYERS
+} from 'src/config/AttrsConfig';
+import { DEFAULT_CONFIDENCE_MAP } from 'src/config/ADMapDataConfig';
+import {
+    getAllRelFeatureOptions,
+    uniqOptions
+} from 'src/utils/relCtrl/operateCtrl';
+import { isManbuildTask } from 'src/utils/taskUtils';
 import _ from 'lodash';
-import AdEmitter from 'src/models/event';
 
 configure({ enforceActions: 'always' });
 class AttributeStore {
@@ -134,47 +148,116 @@ class AttributeStore {
         }
     };
 
-    submit = flow(function*(data) {
-        let historyLog = {};
+    submit = flow(function*(data, task) {
+        let relLog = yield this.calcRelLog(data.rels);
+
+        let attrLog = this.calcAttrLog(data.attrs);
+
         let oldFeature = _.cloneDeep(this.model);
-        // this.fetchAttributes();
-        if (data.rels) {
-            let newRels = yield relFactory.updateRels(data.rels, this.model);
-            historyLog.rels = [this.relRecords, newRels];
-        }
-
-        // this.fetchRels();
-        if (data.attrs) {
-            let newAttrs = yield attrFactory.updateAttrs(data.attrs);
-            this.deleteAttrs();
-            historyLog.attrs = [this.attrRecords, newAttrs];
-        } else if (this.delAttrs && this.delAttrs.length > 0) {
-            this.deleteAttrs();
-            let newAttrs = this.attrRecords.filter(
-                record => !this.delAttrs.includes(record.id)
-            );
-            historyLog.attrs = [this.attrRecords, newAttrs];
-            this.delAttrs = [];
-        }
-        // this.fetchAttrs();
-
-        // model.data引用sdk要素数据的指针。修改其属性会同步修改sdk的要素数据。
-        this.model.data.properties = {
+        let newFeature = _.cloneDeep(this.model);
+        newFeature.data.properties = {
             ...this.model.data.properties,
             ...data.attributes
         };
-        historyLog.features = [[oldFeature], [this.model]];
-        AdEmitter.emit('fetchViewAttributeData');
+        // 人工识别无法编辑关联关系，人工构建不维护“更新状态标识”字段
+        // let [oldRelFeatures, newRelFeatures] = this.calcRelFeaturesLog(
+        //     relLog,
+        //     newFeature,
+        //     task
+        // );
+        // if (oldRelFeatures.length || newRelFeatures.length) {
+        //     newFeature = modUpdStatRelation(newFeature);
+        // }
+        // historyLog.features = [
+        //     [oldFeature, ...oldRelFeatures],
+        //     [newFeature, ...newRelFeatures]
+        // ];
+        if (
+            (attrLog[0].length || attrLog[1].length) &&
+            MOD_UPD_STAT_RELATION_LAYERS.includes(newFeature.layerName)
+        ) {
+            newFeature = modUpdStatRelation(newFeature);
+        }
+        let historyLog = {
+            features: [[oldFeature], [newFeature]],
+            rels: relLog,
+            attrs: attrLog
+        };
         return historyLog;
     });
 
-    deleteAttrs = flow(function*() {
-        yield Promise.all(
-            (this.delAttrs || []).map(id => {
-                return attrFactory.deleteRecord(id);
-            })
+    calcRelLog = async rels => {
+        if (!rels) return [[], []];
+        // 变更校验，只对有变化的关联关系数据做历史记录
+        let oldRels = this.rels.reduce((total, rel) => {
+            total[rel.key + (rel.id || '')] = rel.value;
+            return total;
+        }, {});
+        let changedKeys = Object.keys(oldRels).filter(key => {
+            return oldRels[key] !== rels[key];
+        });
+        let changedIds = changedKeys.map(key =>
+            parseInt(key.replace(/\D/g, ''))
         );
-    });
+        let oldRelRecords = this.relRecords.filter(item => {
+            return changedIds.includes(item.id);
+        });
+        let newRelRecords = await relFactory.calcNewRels(
+            rels,
+            this.model,
+            changedKeys
+        );
+        return [oldRelRecords, newRelRecords];
+    };
+
+    calcRelFeaturesLog = (relLog, newFeature, task) => {
+        if (!relLog) return [[], []];
+        let allRels = [...relLog[0], ...relLog[1]];
+        if (!allRels.length || isManbuildTask(task)) return [[], []];
+
+        let allRelFeatureOptions = uniqOptions(
+            getAllRelFeatureOptions(allRels)
+        );
+        let relFeatures = allRelFeatureOptions.reduce((total, option) => {
+            if (option.value === getFeatureOption(newFeature).value) {
+                return total;
+            }
+            let relFeature = getLayerByName(
+                option.layerName
+            ).getFeatureByOption(option);
+            relFeature && total.push(relFeature.properties);
+            return total;
+        }, []);
+        let newRelFeatures = _.cloneDeep(relFeatures);
+        newRelFeatures.forEach(feature => {
+            if (feature.data.properties.UPD_STAT) {
+                let UPD_STAT = JSON.parse(feature.data.properties.UPD_STAT);
+                UPD_STAT.RELATION = 'MOD';
+                feature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);
+            } else {
+                feature.data.properties.UPD_STAT = '{"RELATION":"MOD"}';
+            }
+        });
+        return [relFeatures, newRelFeatures];
+    };
+
+    calcAttrLog = attrs => {
+        this.deleteAttrs();
+        if (attrs) {
+            let newAttrs = attrFactory.calcNewAttrs(attrs);
+            return attrFactory.calcDiffAttrs(this.attrRecords, newAttrs);
+        } else if (this.delAttrs && this.delAttrs.length > 0) {
+            let newAttrs = this.attrRecords.filter(
+                record => !this.delAttrs.includes(record.id)
+            );
+            return attrFactory.calcDiffAttrs(this.attrRecords, newAttrs);
+        }
+        return [[], []];
+    };
+
+    @action deleteAttrs = () => {
+        this.delAttrs = [];
+    };
 
     @action spliceAttrs = (key, value) => {
         let { id, sourceId } = value;
@@ -201,6 +284,7 @@ class AttributeStore {
             value[IDKey] = id;
             properties = properties || this.model.data.properties;
             value[MainFId] = properties[MainFId];
+            value.CONFIDENCE = DEFAULT_CONFIDENCE_MAP[key];
             let record = attrFactory.dataToTable(value, key);
             this.attrs[key] = this.attrs[key] || [];
             this.attrs[key].push(record);

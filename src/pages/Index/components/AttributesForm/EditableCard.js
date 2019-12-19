@@ -117,6 +117,7 @@ class EditableCard extends React.Component {
             onChange({
                 ...value,
                 properties: {
+                    ...value.properties,
                     ...values,
                     [IDKey]: id
                 }

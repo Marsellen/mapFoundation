@@ -4,6 +4,9 @@ import Relevance from 'src/models/relevance';
 import Attr from 'src/models/attr';
 import attrFactory from 'src/utils/attrCtrl/attrFactory';
 import relFactory from 'src/utils/relCtrl/relFactory';
+import { isManbuildTask } from 'src/utils/taskUtils';
+import _ from 'lodash';
+import { DEFAULT_CONFIDENCE_MAP } from 'src/config/ADMapDataConfig';
 const jsts = require('jsts');
 
 export const getLayerIDKey = layerName => {
@@ -139,4 +142,57 @@ export const getAllAttrData = async () => {
         type: 'FeatureCollection',
         properties: vectorLayerGroup.properties
     };
+};
+
+export const completeProperties = (feature, task, config) => {
+    let isManbuild = isManbuildTask(task);
+    let _feature = _.cloneDeep(feature);
+    if (isManbuild) {
+        if (!_feature.data.properties.UPD_STAT) {
+            _feature.data.properties.UPD_STAT = '{}';
+        }
+        if (!_feature.data.properties.CONFIDENCE) {
+            _feature = completeConfidence(_feature);
+        }
+    } else {
+        if (config && config.UPD_STAT) {
+            _feature.data.properties.UPD_STAT = config && config.UPD_STAT;
+        } else {
+            _feature = modUpdStatRelation(_feature);
+        }
+        if (!_feature.data.properties.CONFIDENCE) {
+            _feature = completeConfidence(_feature);
+        }
+    }
+    return _feature;
+};
+
+export const modUpdStatRelation = feature => {
+    if (feature.data.properties.UPD_STAT) {
+        let UPD_STAT = JSON.parse(feature.data.properties.UPD_STAT);
+        UPD_STAT.RELATION = 'MOD';
+        feature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);
+    } else {
+        feature.data.properties.UPD_STAT = '{"RELATION":"MOD"}';
+    }
+    return feature;
+};
+
+export const completeConfidence = feature => {
+    feature.data.properties.CONFIDENCE =
+        DEFAULT_CONFIDENCE_MAP[feature.layerName] || '{}';
+    return feature;
+};
+
+export const modUpdStatGeometry = feature => {
+    if (feature.data.properties.UPD_STAT) {
+        let UPD_STAT = JSON.parse(feature.data.properties.UPD_STAT);
+        if (UPD_STAT.GEOMETRY !== 'ADD') {
+            UPD_STAT.GEOMETRY = 'MOD';
+        }
+        feature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);
+    } else {
+        feature.data.properties.UPD_STAT = '{"GEOMETRY":"MOD"}';
+    }
+    return feature;
 };

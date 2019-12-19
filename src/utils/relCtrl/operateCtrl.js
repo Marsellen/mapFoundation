@@ -6,6 +6,7 @@ import {
     REL_SPEC_CONFIG
 } from 'src/config/RelsConfig';
 import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
+import { DEFAULT_CONFIDENCE_MAP } from 'src/config/ADMapDataConfig';
 import { updateFeaturesByRels } from './relCtrl';
 import EditorService from 'src/pages/Index/service/EditorService';
 import AdLineService from 'src/pages/Index/service/AdLineService';
@@ -14,7 +15,8 @@ import attrFactory from '../attrCtrl/attrFactory';
 import {
     getFeatureOption,
     getLayerIDKey,
-    getLayerByName
+    getLayerByName,
+    completeProperties
 } from '../vectorUtils';
 import { message } from 'antd';
 import _ from 'lodash';
@@ -25,7 +27,7 @@ import _ from 'lodash';
  * @param {Array<Object>} features 被删除要素集合
  * @returns {Object} 删除后的操作记录
  */
-const deleteLine = async features => {
+const deleteLine = async (features, activeTask) => {
     let { rels, attrs } = await features.reduce(
         async (total, feature) => {
             let layerName = feature.layerName;
@@ -51,8 +53,14 @@ const deleteLine = async features => {
     let attrStore = Attr.store;
     await Promise.all(attrs.map(attr => attrStore.deleteById(attr.id)));
 
+    let allRelFeatureOptions = getAllRelFeatureOptions(rels);
+    let featuresLog = calcFeaturesLog(
+        [features, []],
+        [uniqOptions(allRelFeatureOptions), []],
+        activeTask
+    );
     let historyLog = {
-        features: [features, []],
+        features: featuresLog,
         rels: [rels, []],
         attrs: [attrs, []]
     };
@@ -69,26 +77,24 @@ const deleteLine = async features => {
  */
 const breakLine = async (breakPoint, features, activeTask) => {
     let point = geometryToWKT(breakPoint.data.geometry);
-    let { lines, oldRels, oldAttrs } = await getLinesInfo(features);
+    let { lines, oldRels, oldAttrs, oldAllFeatureOptions } = await getLinesInfo(
+        features
+    );
     let option = { point, lines, task_id: activeTask.taskId };
     let result = await EditorService.breakLines(option);
     if (result.code !== 1) throw result;
-    let { newFeatures, rels, attrs } = result.data.reduce(
-        (total, data) => {
-            let { newFeatures, rels, attrs } = fetchFeatureRels(
-                features,
-                data.features
-            );
-            total.newFeatures = total.newFeatures.concat(newFeatures);
-            total.rels = total.rels.concat(rels);
-            total.attrs = total.attrs.concat(attrs);
-            return total;
-        },
-        { newFeatures: [], rels: [], attrs: [] }
+    let { newFeatures, rels, attrs, newAllFeatureOptions } = getNewFeaturesInfo(
+        features,
+        result.data
     );
 
+    let featuresLog = calcFeaturesLog(
+        [features, newFeatures],
+        [uniqOptions(oldAllFeatureOptions), uniqOptions(newAllFeatureOptions)],
+        activeTask
+    );
     let historyLog = {
-        features: [features, newFeatures],
+        features: featuresLog,
         rels: [uniqRels(oldRels), uniqRels(rels)],
         attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)]
     };
@@ -106,15 +112,24 @@ const breakLine = async (breakPoint, features, activeTask) => {
  * @returns {Object} 合并后的操作记录
  */
 const mergeLine = async (features, activeTask) => {
-    let { lines, oldRels, oldAttrs } = await getLinesInfo(features);
+    let { lines, oldRels, oldAttrs, oldAllFeatureOptions } = await getLinesInfo(
+        features
+    );
     let option = { lines, task_id: activeTask.taskId };
     let result = await EditorService.mergeLines(option);
     if (result.code !== 1) throw result;
     let { newFeatures, rels, attrs } = fetchFeatureRels(features, [
         result.data.feature
     ]);
+    let newAllFeatureOptions = getAllRelFeatureOptions(rels);
+
+    let featuresLog = calcFeaturesLog(
+        [features, newFeatures],
+        [uniqOptions(oldAllFeatureOptions), uniqOptions(newAllFeatureOptions)],
+        activeTask
+    );
     let historyLog = {
-        features: [features, newFeatures],
+        features: featuresLog,
         rels: [uniqRels(oldRels), uniqRels(rels)],
         attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)]
     };
@@ -134,26 +149,24 @@ const mergeLine = async (features, activeTask) => {
  */
 const breakLineByLine = async (line, features, activeTask) => {
     let cutLine = geometryToWKT(line.data.geometry);
-    let { lines, oldRels, oldAttrs } = await getLinesInfo(features);
+    let { lines, oldRels, oldAttrs, oldAllFeatureOptions } = await getLinesInfo(
+        features
+    );
     let option = { cutLine, lines, task_id: activeTask.taskId };
     let result = await EditorService.breakLinesByLine(option);
     if (result.code !== 1) throw result;
-    let { newFeatures, rels, attrs } = result.data.reduce(
-        (total, data) => {
-            let { newFeatures, rels, attrs } = fetchFeatureRels(
-                features,
-                data.features
-            );
-            total.newFeatures = total.newFeatures.concat(newFeatures);
-            total.rels = total.rels.concat(rels);
-            total.attrs = total.attrs.concat(attrs);
-            return total;
-        },
-        { newFeatures: [], rels: [], attrs: [] }
+    let { newFeatures, rels, attrs, newAllFeatureOptions } = getNewFeaturesInfo(
+        features,
+        result.data
     );
 
+    let featuresLog = calcFeaturesLog(
+        [features, newFeatures],
+        [uniqOptions(oldAllFeatureOptions), uniqOptions(newAllFeatureOptions)],
+        activeTask
+    );
     let historyLog = {
-        features: [features, newFeatures],
+        features: featuresLog,
         rels: [uniqRels(oldRels), uniqRels(rels)],
         attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)]
     };
@@ -171,7 +184,7 @@ const breakLineByLine = async (line, features, activeTask) => {
  * @returns {Object} 半自动构建后的操作记录
  */
 const autoCreateLine = async (layerName, params) => {
-    let result,
+    let result = {},
         relation = {},
         rels = [];
     if (layerName === 'AD_Lane') {
@@ -181,6 +194,7 @@ const autoCreateLine = async (layerName, params) => {
         //道路参考线
         result = await AdLineService.adTwoRoadLines(params);
     }
+    if (result.code !== 1) throw result;
     let newFeatures = result.data[layerName].features.reduce(
         (total, feature) => {
             total.push({ data: feature, layerName: layerName });
@@ -213,16 +227,17 @@ const autoCreateLine = async (layerName, params) => {
  * @returns {Object} 半自动构建后的操作记录
  */
 const autoCreateLineByLaneDivider = async (layerName, params) => {
-    let result,
+    let result = {},
         rels = [];
     if (layerName === 'AD_Lane') {
         //车道中心线
         result = await AdLineService.aroundLines(params);
-
+        if (result.code !== 1) throw result;
         rels = calcAdLaneRels(result.data.AD_Lane.features[0]);
     } else if (layerName === 'AD_Road') {
         //道路参考线
         result = await AdLineService.adRoadLines(params);
+        if (result.code !== 1) throw result;
     }
     let newFeatures = result.data[layerName].features.reduce(
         (total, feature) => {
@@ -256,8 +271,8 @@ const getLinesInfo = async features => {
         // features 对应的打断/合并前所有关联关系信息
         oldAttrs: [],
         // features 对应的打断/合并前所有关联属性和关联关系属性信息
-        oldRelFeatureOptions: []
-        // features 对应的打断/合并前所有存在关联关系的要素 id集合
+        oldAllFeatureOptions: []
+        // features 对应的打断/合并前所有存在关联关系的要素 option集合
     };
     return features.reduce(async (total, feature) => {
         let { relation, rels, attrs } = await getRelation(feature);
@@ -275,19 +290,10 @@ const getLinesInfo = async features => {
         total.oldRels = total.oldRels.concat(rels);
         total.oldAttrs = total.oldAttrs.concat(attrs);
 
-        // let relFeatureOptions = rels.reduce((options, rel) => {
-        //     return options.concat([
-        //         {
-        //             value: rel.objId
-        //         },
-        //         {
-        //             value: rel.relObjId
-        //         }
-        //     ]);
-        // }, []);
-        // total.oldRelFeatureOptions = total.oldRelFeatureOptions.concat(
-        //     relFeatureOptions
-        // );
+        let allFeatureOptions = getAllRelFeatureOptions(rels);
+        total.oldAllFeatureOptions = total.oldAllFeatureOptions.concat(
+            allFeatureOptions
+        );
         return total;
     }, initialInfo);
 };
@@ -315,6 +321,41 @@ const getRelation = async feature => {
         rels: rels,
         attrs: attrs
     };
+};
+
+/**
+ * 获取打断/合并后线要素的相关信息
+ * @method getNewFeaturesInfo
+ * @param {Array<Object>} features 被打断/合并要素集合
+ * @param {Array<Object>} resultData 打断/合并后返回数据
+ * @returns {Object} 打断/合并后线要素的相关信息
+ */
+const getNewFeaturesInfo = (features, resultData) => {
+    let initialInfo = {
+        newFeatures: [],
+        // 打断/合并后 线要素集合
+        rels: [],
+        // 打断/合并后 所有关联关系信息
+        attrs: [],
+        // 打断/合并后 所有关联属性和关联关系属性信息
+        newAllFeatureOptions: []
+        // 打断/合并后 所有存在关联关系的要素 option集合
+    };
+    return resultData.reduce((total, data) => {
+        let { newFeatures, rels, attrs } = fetchFeatureRels(
+            features,
+            data.features
+        );
+        total.newFeatures = total.newFeatures.concat(newFeatures);
+        total.rels = total.rels.concat(rels);
+        total.attrs = total.attrs.concat(attrs);
+
+        let allFeatureOptions = getAllRelFeatureOptions(rels);
+        total.newAllFeatureOptions = total.newAllFeatureOptions.concat(
+            allFeatureOptions
+        );
+        return total;
+    }, initialInfo);
 };
 
 const relRelationFormat = (rels, layerName) => {
@@ -361,6 +402,21 @@ const relToSpecData = (record, layerName, total) => {
         });
     }
     return total;
+};
+
+const getAllRelFeatureOptions = rels => {
+    return rels.flatMap(rel => [
+        {
+            layerName: rel.objSpec,
+            key: getLayerIDKey(rel.objSpec),
+            value: rel.objId
+        },
+        {
+            layerName: rel.relObjSpec,
+            key: getLayerIDKey(rel.relObjSpec),
+            value: rel.relObjId
+        }
+    ]);
 };
 
 const attrRelationFormat = attrs => {
@@ -413,49 +469,39 @@ const calcFeatures = (feature, layerName) => {
 };
 
 const calcRels = (layerName, relation, feature) => {
-    return Object.keys(relation || {}).reduce((arr, spec) => {
+    return Object.keys(relation || {}).flatMap(spec => {
         let properties = relation[spec];
-
         if (REL_DATA_SET.includes(spec)) {
-            arr = arr.concat(relDataFormat(spec, properties));
+            return relDataFormat(spec, properties);
         } else if (ATTR_REL_DATA_SET.includes(spec)) {
-            arr = arr.concat(
-                attrRelDataFormat(layerName, spec, properties, feature)
-            );
+            return attrRelDataFormat(layerName, spec, properties, feature);
         }
-
-        return arr;
-    }, []);
+        return [];
+    });
 };
 
 const uniqRels = rels => {
-    let REL_IDS = [];
-    return rels.reduce((total, rel) => {
-        let relId = rel.objType + rel.objId + rel.relObjType + rel.relObjId;
-        if (!REL_IDS.includes(relId)) {
-            REL_IDS.push(relId);
-            total.push(rel);
-        }
-        return total;
-    }, []);
+    return _.uniqBy(
+        rels,
+        rel => rel.objType + rel.objId + rel.relObjType + rel.relObjId
+    );
 };
 
 const uniqAttrs = attrs => {
-    return attrs.reduce((total, attr) => {
-        if (!total.some(t => t.key === attr.key)) {
-            total.push(attr);
-        }
-        return total;
-    }, []);
+    return _.uniqBy(attrs, 'key');
+};
+
+const uniqOptions = options => {
+    return _.uniqBy(options, 'value');
 };
 
 const calcAttrs = relation => {
-    return Object.keys(relation || {}).reduce((arr, spec) => {
+    return Object.keys(relation || {}).flatMap(spec => {
         if (ATTR_SPEC_CONFIG.map(config => config.source).includes(spec)) {
-            arr = arr.concat(attrsDataFormat(relation[spec], spec));
+            return attrsDataFormat(relation[spec], spec);
         }
-        return arr;
-    }, []);
+        return [];
+    });
 };
 
 const relDataFormat = (spec, properties) => {
@@ -483,7 +529,8 @@ const relDataFormat = (spec, properties) => {
             objSpec,
             relObjSpec,
             extraInfo: {
-                REL_ID
+                REL_ID,
+                CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec]
             }
         };
     });
@@ -530,7 +577,9 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
                     relObjType,
                     objSpec,
                     relObjSpec,
-                    extraInfo: {}
+                    extraInfo: {
+                        CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec]
+                    }
                 });
             }
         }
@@ -553,10 +602,10 @@ const attrsDataFormat = (data, source) => {
 
 const updateFeatures = async ({ features, rels, attrs } = {}) => {
     let [oldFeatures, newFeatures] = features;
-    let layerName = (oldFeatures[0] || newFeatures[0]).layerName;
-    let layer = getLayerByName(layerName);
     let updateFeatures = [];
+    let featuresMap = getFeaturesMap([...oldFeatures, ...newFeatures]);
     newFeatures.forEach(feature => {
+        let layer = featuresMap[feature.layerName];
         let option = getFeatureOption(feature);
         let _feature = layer.getFeatureByOption(option);
         if (_feature) {
@@ -574,6 +623,7 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
         await attrFactory.replaceAttrs(attrs);
     }
     oldFeatures.forEach(feature => {
+        let layer = featuresMap[feature.layerName];
         let option = getFeatureOption(feature);
         if (updateFeatures.includes(option.key + option.value)) return;
         layer.removeFeatureByOption(option);
@@ -600,11 +650,55 @@ const updateRels = async ([oldRels, newRels] = []) => {
 /**
  * 计算打断/合并前后产生变更的要素集合
  * @method calcFeaturesLog
- * @param {Array<Object>} features 被打断/合并要素集合
- * @returns {Object} 被打断/合并线要素的lines相关信息
+ * @param {Array<Object>} features [被打断/合并要素集合, 打断/合并后要素集合]
+ * @param {Array<Object>} allFeatureOptions [被打断/合并要素与其关联要素的option集合, 打断/合并后要素与其关联要素的option集合]
+ * @param {Object} activeTask 任务对象
+ * @returns {Array<Object>} 打断/合并前后产生变更的要素集合
  */
-const calcFeaturesLog = (oldFeatures, newFeatures, relFeatureOptions) => {
-    relFeatureOptions = _.uniq(relFeatureOptions);
+const calcFeaturesLog = (features, allFeatureOptions, activeTask) => {
+    let [oldFeatures, newFeatures] = features;
+    let [oldAllFeatureOptions, newAllFeatureOptions] = allFeatureOptions;
+    let oldFeaturesIds = oldFeatures.map(
+        feature => getFeatureOption(feature).value
+    );
+    let relFeatureOptions = oldAllFeatureOptions.filter(option => {
+        return !oldFeaturesIds.includes(option.value);
+    });
+    let relFeatures = relFeatureOptions.flatMap(option => {
+        let feature = getLayerByName(option.layerName).getFeatureByOption(
+            option
+        );
+        return feature ? feature.properties : [];
+    });
+    let newRelFeatures = relFeatures.map(feature => {
+        return completeProperties(feature, activeTask);
+    });
+    let newAllFeaturesIds = newAllFeatureOptions.map(option => option.value);
+    let { newWithRelFeatures, newWithoutRelFeatures } = newFeatures.reduce(
+        (total, feature) => {
+            if (newAllFeaturesIds.includes(getFeatureOption(feature).value)) {
+                total.newWithRelFeatures.push(feature);
+            } else {
+                total.newWithoutRelFeatures.push(feature);
+            }
+            return total;
+        },
+        { newWithRelFeatures: [], newWithoutRelFeatures: [] }
+    );
+    newWithRelFeatures = newWithRelFeatures.map(feature => {
+        return completeProperties(feature, activeTask, {
+            UPD_STAT: '{"GEOMETRY":"ADD","RELATION":"MOD"}'
+        });
+    });
+    newWithoutRelFeatures = newWithoutRelFeatures.map(feature => {
+        return completeProperties(feature, activeTask, {
+            UPD_STAT: '{"GEOMETRY":"ADD"}'
+        });
+    });
+    return [
+        [...oldFeatures, ...relFeatures],
+        [...newWithRelFeatures, ...newWithoutRelFeatures, ...newRelFeatures]
+    ];
 };
 
 /**
@@ -619,8 +713,8 @@ const calcAdLaneRels = feature => {
         {
             spec: 'AD_Lane',
             objId: properties.LANE_ID,
-            objType: 'LANE',
             relObjId: properties.L_LDIV_ID,
+            objType: 'LANE',
             relObjType: 'L_LDIV',
             objSpec: 'AD_Lane',
             relObjSpec: 'AD_LaneDivider',
@@ -629,14 +723,23 @@ const calcAdLaneRels = feature => {
         {
             spec: 'AD_Lane',
             objId: properties.LANE_ID,
-            objType: 'LANE',
             relObjId: properties.R_LDIV_ID,
+            objType: 'LANE',
             relObjType: 'R_LDIV',
             objSpec: 'AD_Lane',
             relObjSpec: 'AD_LaneDivider',
             extraInfo: {}
         }
     ];
+};
+
+const getFeaturesMap = features => {
+    let featureLayerNames = features.map(feature => feature.layerName);
+    featureLayerNames = _.uniq(featureLayerNames);
+    return featureLayerNames.reduce((total, layerName) => {
+        total[layerName] = getLayerByName(layerName);
+        return total;
+    }, {});
 };
 
 const geometryToWKT = geometry => {
@@ -700,5 +803,7 @@ export {
     updateFeatures,
     updateRels,
     breakLineByLine,
-    autoCreateLineByLaneDivider
+    autoCreateLineByLaneDivider,
+    getAllRelFeatureOptions,
+    uniqOptions
 };
