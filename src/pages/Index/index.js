@@ -10,6 +10,7 @@ import logo from 'src/assets/img/logo.png';
 import VersionInfo from './components/VersionInfo';
 import { shortcut } from 'src/utils/shortcuts';
 import HelpList from './components/HelpList';
+import { addVisitedCount, removeVisitedCount } from 'src/utils/visiteCount';
 
 const { Header } = Layout;
 
@@ -18,9 +19,20 @@ const { Header } = Layout;
 class Index extends React.Component {
     state = {};
 
+    componentWillMount() {
+        window.onbeforeunload = e => removeVisitedCount();
+    }
+
     componentDidMount() {
         this.props.MenuStore.initMenus();
         shortcut.init();
+
+        const visitedCount = addVisitedCount();
+
+        //当访问数据大于1次，跳转到空白页
+        if (visitedCount > 1) {
+            window.location.href = '/blank';
+        }
     }
 
     render() {
