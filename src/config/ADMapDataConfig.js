@@ -529,18 +529,18 @@ export const TYPE_SELECT_OPTION_MAP = {
                 label: '车道行驶方向--掉头',
                 icon: 'chedaoxingshi-diaotou'
             },
-            { value: 301, label: '直行', icon: 'chedaoxingshizhixing' },
-            { value: 302, label: '向左转弯', icon: 'chedaoxingshizuozhuan' },
-            { value: 303, label: '向右转弯', icon: 'chedaoxingshiyouzhuan' },
+            { value: 301, label: '直行', icon: 'zhixing2' },
+            { value: 302, label: '向左转弯', icon: 'zuozhuanwan' },
+            { value: 303, label: '向右转弯', icon: 'youzhuanwan' },
             {
                 value: 304,
                 label: '直行和向左转弯',
-                icon: 'chedaoxingshi-zhixinghezuozhuan'
+                icon: 'zhixinghezuozhuanwan'
             },
             {
                 value: 305,
                 label: '直行和向右转弯',
-                icon: 'chedaoxingshi-zhixingheyouzhuan'
+                icon: 'zhixingheyouzhuanwan'
             },
             { value: 306, label: '向左和向右转弯', icon: 'zuoyouzhuanwan' },
             {
@@ -810,18 +810,18 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 2, label: '未修正' }
     ],
     AD_SUB_LAMP_TYPE: [
-        { value: '0', label: '未定义' },
-        { value: 'A', label: '圆灯' },
-        { value: 'B', label: '方向向左的箭头' },
-        { value: 'C', label: '方向向右的箭头' },
-        { value: 'D', label: '直行' },
-        { value: 'E', label: '掉头' },
-        { value: 'F', label: '车道指示箭头' },
-        { value: 'G', label: '叉形' },
-        { value: 'H', label: '行人' },
-        { value: 'I', label: '非机动车' },
-        { value: 'J', label: '读秒' },
-        { value: 'Z', label: '灯头未启用' }
+        { value: '0', label: '未定义', icon: 'weidingyi3' },
+        { value: 'A', label: '圆灯', icon: 'yuanxing' },
+        { value: 'B', label: '方向向左的箭头', icon: 'fangxiangxiangzuo' },
+        { value: 'C', label: '方向向右的箭头', icon: 'fangxiangxiangyou' },
+        { value: 'D', label: '直行', icon: 'zhixing' },
+        { value: 'E', label: '掉头', icon: 'diaotou' },
+        { value: 'F', label: '车道指示箭头', icon: 'chedaozhishijiantou' },
+        { value: 'G', label: '叉形', icon: 'chaxing' },
+        { value: 'H', label: '行人', icon: 'xingren' },
+        { value: 'I', label: '非机动车', icon: 'feijidongche' },
+        { value: 'J', label: '读秒', icon: 'dumiao' },
+        { value: 'Z', label: '灯头未启用', icon: 'dengtouweiqiyong' }
         // { value: 'BD', label: '方向向左的箭头+直行' },
         // { value: 'CD', label: '方向向右的箭头+直行' },
         // { value: 'BE', label: '方向向左的箭头+掉头' }

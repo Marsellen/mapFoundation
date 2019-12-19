@@ -181,28 +181,32 @@ const autoCreateLine = async (layerName, params) => {
         //道路参考线
         result = await AdLineService.adTwoRoadLines(params);
     }
-    let newFeatures = result.data[layerName].features.reduce(
-        (total, feature) => {
-            total.push({ data: feature, layerName: layerName });
-            return total;
-        },
-        []
-    );
+    if (result.data) {
+        let newFeatures = result.data[layerName].features.reduce(
+            (total, feature) => {
+                total.push({ data: feature, layerName: layerName });
+                return total;
+            },
+            []
+        );
+        relation[`${layerName}_Con`] = [];
+        relation[`${layerName}_Con`] = result.data[
+            `${layerName}_Con`
+        ].features.map(feature => feature.properties);
+        rels = calcRels(`${layerName}_Con`, relation);
 
-    relation[`${layerName}_Con`] = [];
-    relation[`${layerName}_Con`] = result.data[`${layerName}_Con`].features.map(
-        feature => feature.properties
-    );
-    rels = calcRels(`${layerName}_Con`, relation);
+        let historyLog = {
+            features: [[], newFeatures],
+            rels: [[], uniqRels(rels)]
+        };
 
-    let historyLog = {
-        features: [[], newFeatures],
-        rels: [[], uniqRels(rels)]
-    };
+        await updateFeatures(historyLog);
 
-    await updateFeatures(historyLog);
-
-    return historyLog;
+        return historyLog;
+    } else {
+        message.warning('操作失败：' + result.msg, 3);
+        return false;
+    }
 };
 
 /**

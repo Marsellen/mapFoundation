@@ -281,14 +281,18 @@ class HalfAutoCreate extends React.Component {
             OperateHistoryStore
         } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
-
+        let historyLog = await autoCreateLine(
+            editLayer && editLayer.layerName,
+            params
+        );
+        let newFeatures = historyLog && historyLog.features[1];
+        DataLayerStore.exitEdit();
         try {
-            let historyLog = await autoCreateLine(
-                editLayer && editLayer.layerName,
-                params
-            );
-            DataLayerStore.exitEdit();
-            this.activeLine(editLayer && editLayer.layerName, historyLog);
+            if (newFeatures && newFeatures[0].data.geometry) {
+                this.activeLine(editLayer && editLayer.layerName, historyLog);
+            } else {
+                return;
+            }
 
             // 日志与历史
             let history = {
@@ -313,7 +317,7 @@ class HalfAutoCreate extends React.Component {
         } catch (e) {
             console.log(e);
             e
-                ? message.warning('操作失败:' + e.message, 3)
+                ? message.warning('操作失败:' + e.msg, 3)
                 : message.warning('操作失败，请求失败', 3);
             let history = {
                 params
