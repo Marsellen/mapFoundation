@@ -279,13 +279,13 @@ class VizCompnent extends React.Component {
         const { TaskStore } = this.props;
 
         //禁用浏览器默认右键菜单
-        document.oncontextmenu = function(e) {
+        document.oncontextmenu = function (e) {
             e.preventDefault();
             // return false;
         };
 
         //监听浏览器即将离开当前页面事件
-        window.onbeforeunload = function(e) {
+        window.onbeforeunload = function (e) {
             e = window.event || e;
             e.returnValue = `确定离开当前页面吗？`;
 
@@ -471,7 +471,7 @@ class VizCompnent extends React.Component {
         let editLayer = DataLayerStore.getEditLayer();
         let readonly =
             (editLayer && editLayer.layerId !== obj.layerId) || !editLayer;
-
+        DataLayerStore.clearHighLightFeatures();
         AttributeStore.setModel(obj);
         AttributeStore.show(readonly);
     };
