@@ -6,6 +6,8 @@ import editLog from 'src/models/editLog';
 import { RESOURCE_LAYER_BOUNDARY } from 'src/config/DataLayerConfig';
 import 'less/components/sider.less';
 
+let isToggling = true;
+
 @inject('QualityCheckStore')
 @inject('appStore')
 @inject('TaskStore')
@@ -137,6 +139,9 @@ class Task extends React.Component {
     };
 
     toggleTask = async (id, isEdit) => {
+        if (!isToggling) return;
+        isToggling = false;
+
         const { TaskStore, QualityCheckStore, DataLayerStore } = this.props;
         const { current } = this.state;
 
@@ -165,7 +170,9 @@ class Task extends React.Component {
             DataLayerStore.disableRegionSelect();
         }
 
-        this.setState({ current: id });
+        this.setState({ current: id }, () => {
+            isToggling = true;
+        });
     };
 
     clearWorkSpace = async () => {
