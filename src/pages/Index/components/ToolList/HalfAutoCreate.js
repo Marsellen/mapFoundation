@@ -77,8 +77,8 @@ class HalfAutoCreate extends React.Component {
                         {num < 0.01
                             ? '延伸长度必须大于0'
                             : !reg.test(num)
-                            ? ' 请输入数字，如有小数请精确到小数点后两位'
-                            : ''}
+                                ? ' 请输入数字，如有小数请精确到小数点后两位'
+                                : ''}
                     </p>
                 </Modal>
             </span>
@@ -153,9 +153,9 @@ class HalfAutoCreate extends React.Component {
             ) {
                 message.warning(
                     `应选${
-                        layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
+                    layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
                     },${
-                        layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
+                    layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
                     }生成失败`,
                     3
                 );
@@ -196,9 +196,9 @@ class HalfAutoCreate extends React.Component {
             if (res[0].layerName !== layerName) {
                 message.warning(
                     `应选择 2 条${
-                        layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
+                    layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
                     },${
-                        layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
+                    layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
                     }生成失败`,
                     3
                 );
@@ -207,7 +207,7 @@ class HalfAutoCreate extends React.Component {
         } else {
             message.warning(
                 `${
-                    layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
+                layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
                 }生成失败`,
                 3
             );
@@ -334,7 +334,7 @@ class HalfAutoCreate extends React.Component {
         let layerName = historyLog.features[1][0].layerName;
         let value =
             historyLog.features[1][0].data.properties[
-                layerLine === 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
+            layerLine === 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
             ];
         let IDKey = getLayerIDKey(layerName);
         let option = {
@@ -359,8 +359,9 @@ class HalfAutoCreate extends React.Component {
         let readonly =
             (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         DataLayerStore.clearHighLightFeatures();
-        DataLayerStore.setFeatureColor(obj, 0xcc00ff);
-        AttributeStore.setModel(obj);
+        DataLayerStore.clearPick();
+        await AttributeStore.setModel(obj);
+        DataLayerStore.setFeatureColor(obj, 'rgb(255,134,237)');
         AttributeStore.show(readonly);
     };
 

@@ -137,7 +137,7 @@ class AttributeStore {
                     updateFeatureColor(
                         feature.layerName,
                         feature.option,
-                        'rgb(31, 255, 255)'
+                        'rgb(49,209,255)'
                     );
                 } catch (e) {
                     console.log(e);
