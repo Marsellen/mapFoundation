@@ -28,13 +28,17 @@ import OutsideVectorsConfig from '../../../config/OutsideVectorsConfig';
 import 'less/components/viz-compnent.less';
 // import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
-import { isRegionContainsElement } from 'src/utils/vectorUtils';
+import {
+    isRegionContainsElement,
+    modUpdStatGeometry
+} from 'src/utils/vectorUtils';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { shortcut } from 'src/utils/shortcuts';
 import { installMapListener } from 'src/utils/map/event';
 import _ from 'lodash';
 import editLog from 'src/models/editLog';
 import SaveTimeView from './SaveTimeView';
+import { isManbuildTask } from 'src/utils/taskUtils';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -396,7 +400,8 @@ class VizCompnent extends React.Component {
         const {
             DataLayerStore,
             OperateHistoryStore,
-            RightMenuStore
+            RightMenuStore,
+            TaskStore
         } = this.props;
 
         const oldFeature = RightMenuStore.getFeatures()[0];
@@ -411,6 +416,9 @@ class VizCompnent extends React.Component {
 
             this.regionCheck(result);
 
+            if (!isManbuildTask(TaskStore.activeTask)) {
+                result = modUpdStatGeometry(result);
+            }
             let history = {
                 type: 'updateFeature',
                 oldFeature,

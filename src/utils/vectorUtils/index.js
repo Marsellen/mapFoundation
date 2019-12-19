@@ -183,3 +183,16 @@ export const completeConfidence = feature => {
         DEFAULT_CONFIDENCE_MAP[feature.layerName] || '{}';
     return feature;
 };
+
+export const modUpdStatGeometry = feature => {
+    if (feature.data.properties.UPD_STAT) {
+        let UPD_STAT = JSON.parse(feature.data.properties.UPD_STAT);
+        if (UPD_STAT.GEOMETRY !== 'ADD') {
+            UPD_STAT.GEOMETRY = 'MOD';
+        }
+        feature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);
+    } else {
+        feature.data.properties.UPD_STAT = '{"GEOMETRY":"MOD"}';
+    }
+    return feature;
+};
