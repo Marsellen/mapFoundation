@@ -261,7 +261,6 @@ class DataLayerStore extends LayerStore {
     };
 
     @action topViewMode = opt => {
-        this.exitEdit();
         if (opt) {
             this.isTopView = true;
             this.editType = 'normal';
@@ -437,7 +436,7 @@ class DataLayerStore extends LayerStore {
         this.addShapePoint();
     };
 
-    setFeatureColor = async (obj, color) => {
+    setFeatureColor = (obj, color) => {
         let option = getFeatureOption(obj);
         getLayerByName(obj.layerName).updateFeatureColor(option, color);
         this.highLightFeatures.push(obj);
