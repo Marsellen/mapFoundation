@@ -40,8 +40,6 @@ class TopView extends React.Component {
         } = this.props;
         const { isTopView } = DataLayerStore;
 
-        DataLayerStore.topViewMode(!isTopView);
-
         if (!isTopView) {
             window.map.setCurrentView('U');
             window.map.disableRotate();
@@ -54,6 +52,8 @@ class TopView extends React.Component {
             window.map.enableRotate();
             DataLayerStore.disableRegionSelect();
         }
+        
+        DataLayerStore.topViewMode(!isTopView);
     };
 }
 

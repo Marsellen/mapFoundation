@@ -264,7 +264,6 @@ class DataLayerStore extends LayerStore {
         if (opt) {
             this.isTopView = true;
             this.editType = 'normal';
-            this.exitEdit();
         } else {
             this.isTopView = false;
         }
@@ -345,7 +344,7 @@ class DataLayerStore extends LayerStore {
         this.editor.newFixedPolygon(3);
     };
 
-    updateResult = flow(function*(result) {
+    updateResult = flow(function* (result) {
         try {
             if (this.editType != 'new_circle') {
                 return result;

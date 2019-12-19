@@ -317,7 +317,7 @@ class HalfAutoCreate extends React.Component {
         } catch (e) {
             console.log(e);
             e
-                ? message.warning('操作失败:' + e.msg, 3)
+                ? message.warning('操作失败:' + e.message, 3)
                 : message.warning('操作失败，请求失败', 3);
             let history = {
                 params
@@ -363,8 +363,9 @@ class HalfAutoCreate extends React.Component {
         let readonly =
             (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         DataLayerStore.clearHighLightFeatures();
-        DataLayerStore.setFeatureColor(obj, 0xcc00ff);
-        AttributeStore.setModel(obj);
+        DataLayerStore.clearPick();
+        await AttributeStore.setModel(obj);
+        DataLayerStore.setFeatureColor(obj, 'rgb(255,134,237)');
         AttributeStore.show(readonly);
     };
 

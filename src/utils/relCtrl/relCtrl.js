@@ -4,6 +4,7 @@ import {
     ATTR_REL_DATA_SET,
     REL_DATA_SET
 } from 'src/config/RelsConfig';
+import { DEFAULT_CONFIDENCE_MAP } from 'src/config/ADMapDataConfig';
 import {
     getLayerIDKey,
     getFeatureByOptionFormAll
@@ -22,6 +23,10 @@ const newRel = async (mainFeature, relFeatures) => {
     let rels = await batchCreateRel(mainFeature, relFeatures);
     await relsUniqCheck(rels);
     rels = await batchGetRelId(rels);
+
+    // 人工构建阶段不维护 UPD_STAT
+    // featureLog = calcFeatureLog(mainFeature, relFeatures);
+
     return batchAddRels(rels);
 };
 
@@ -160,14 +165,19 @@ const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
             relObjId: mainObjId
         };
     }
+    let extraInfo = REL_DATA_SET.includes(spec)
+        ? {
+              CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec]
+          }
+        : {};
     return {
+        spec,
+        ...rel,
         objType,
         relObjType,
         objSpec,
         relObjSpec,
-        spec,
-        extraInfo: {},
-        ...rel
+        extraInfo
     };
 };
 
@@ -346,6 +356,12 @@ const relUniqCheck = async (mainFeature, feature) => {
             message: '创建失败: 关联关系重复'
         };
     }
+};
+
+const calcFeatureLog = (mainFeature, relFeatures) => {
+    let oldFeatures = [mainFeature, ...relFeatures];
+    let newFeatures = oldFeatures.map(modUpdStatRelation);
+    return [oldFeatures, newFeatures];
 };
 
 const HAD_BEEN_REL_ERROR = {

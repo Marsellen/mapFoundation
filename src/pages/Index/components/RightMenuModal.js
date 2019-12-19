@@ -377,7 +377,8 @@ class RightMenuModal extends React.Component {
             RightMenuStore,
             OperateHistoryStore,
             DataLayerStore,
-            AttributeStore
+            AttributeStore,
+            TaskStore
         } = this.props;
 
         if (!RightMenuStore.isCurrentLayer) {
@@ -392,7 +393,7 @@ class RightMenuModal extends React.Component {
             cancelText: '取消',
             onOk: async () => {
                 let result = RightMenuStore.delete();
-                let historyLog = await deleteLine(result);
+                let historyLog = await deleteLine(result, TaskStore.activeTask);
                 //console.log(result, historyLog);
 
                 DataLayerStore.exitEdit();

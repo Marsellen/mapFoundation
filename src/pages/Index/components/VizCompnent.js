@@ -28,13 +28,17 @@ import OutsideVectorsConfig from '../../../config/OutsideVectorsConfig';
 import 'less/components/viz-compnent.less';
 // import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
-import { isRegionContainsElement } from 'src/utils/vectorUtils';
+import {
+    isRegionContainsElement,
+    modUpdStatGeometry
+} from 'src/utils/vectorUtils';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { shortcut } from 'src/utils/shortcuts';
 import { installMapListener } from 'src/utils/map/event';
 import _ from 'lodash';
 import editLog from 'src/models/editLog';
 import SaveTimeView from './SaveTimeView';
+import { isManbuildTask } from 'src/utils/taskUtils';
 import { addVisitedCount, removeVisitedCount } from 'src/utils/visiteCount.js';
 
 @inject('TaskStore')
@@ -279,13 +283,13 @@ class VizCompnent extends React.Component {
         const { TaskStore } = this.props;
 
         //禁用浏览器默认右键菜单
-        document.oncontextmenu = function(e) {
+        document.oncontextmenu = function (e) {
             e.preventDefault();
             // return false;
         };
 
         //监听浏览器即将离开当前页面事件
-        window.onbeforeunload = function(e) {
+        window.onbeforeunload = function (e) {
             e = window.event || e;
             e.returnValue = `确定离开当前页面吗？`;
 
@@ -407,7 +411,8 @@ class VizCompnent extends React.Component {
         const {
             DataLayerStore,
             OperateHistoryStore,
-            RightMenuStore
+            RightMenuStore,
+            TaskStore
         } = this.props;
 
         const oldFeature = RightMenuStore.getFeatures()[0];
@@ -422,6 +427,9 @@ class VizCompnent extends React.Component {
 
             this.regionCheck(result);
 
+            if (!isManbuildTask(TaskStore.activeTask)) {
+                result = modUpdStatGeometry(result);
+            }
             let history = {
                 type: 'updateFeature',
                 oldFeature,
@@ -471,7 +479,7 @@ class VizCompnent extends React.Component {
         let editLayer = DataLayerStore.getEditLayer();
         let readonly =
             (editLayer && editLayer.layerId !== obj.layerId) || !editLayer;
-
+        DataLayerStore.clearHighLightFeatures();
         AttributeStore.setModel(obj);
         AttributeStore.show(readonly);
     };

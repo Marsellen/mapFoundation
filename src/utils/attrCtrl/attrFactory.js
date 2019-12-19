@@ -146,6 +146,14 @@ const updateAttrs = async attrs => {
     return newRecords;
 };
 
+const calcNewAttrs = attrs => {
+    return Object.keys(attrs).reduce((total, key) => {
+        let records = attrs[key];
+        total = total.concat(records);
+        return total;
+    }, []);
+};
+
 const deleteRecord = id => {
     let attrStore = Attr.store;
     return attrStore.deleteById(id);
@@ -170,6 +178,25 @@ const replaceAttrs = async ([oldAttrs, newAttrs] = []) => {
     await attrStore.batchAdd(newAttrs);
 };
 
+const calcDiffAttrs = (oldAttrs, newAttrs) => {
+    let oldDiffAttrs = _.differenceWith(
+        oldAttrs,
+        newAttrs,
+        (arrVal, othVal) => {
+            return _.isEqual(arrVal.properties, othVal.properties);
+        }
+    );
+    let newDiffAttrs = _.differenceWith(
+        newAttrs,
+        oldAttrs,
+        (arrVal, othVal) => {
+            return _.isEqual(arrVal.properties, othVal.properties);
+        }
+    );
+
+    return [[...oldDiffAttrs], [...newDiffAttrs]];
+};
+
 export default {
     attrDataToTable,
     attrTableToData,
@@ -178,5 +205,7 @@ export default {
     getFeatureAttrs,
     updateAttrs,
     replaceAttrs,
-    deleteRecord
+    deleteRecord,
+    calcNewAttrs,
+    calcDiffAttrs
 };

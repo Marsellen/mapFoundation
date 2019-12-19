@@ -64,7 +64,6 @@ const AD_Lane_Default_Format = {
     R_LDIV: [
         {
             key: 'R_LDIV',
-
             relObjSpec: 'AD_LaneDivider',
             relObjType: 'R_LDIV',
             objSpec: 'AD_Lane',
@@ -167,6 +166,39 @@ export const updateRels = async (rels, feature) => {
     return newRecords;
 };
 
+export const calcNewRels = async (rels, feature, changedKeys = []) => {
+    updateRelUniqCheck(rels, feature);
+
+    let relStore = Relevance.store;
+    return Object.keys(rels).reduce(async (total, key) => {
+        if (!rels[key] || !changedKeys.includes(key)) return total;
+        let id = parseInt(key.replace(/\D/g, ''));
+        let relKey = key.replace(/[0-9]/g, '');
+        let newRecord;
+        if (id) {
+            let record = await relStore.get(id);
+            let isRelObj = relKey == record.relObjType;
+            let typeKey = isRelObj ? 'relObjId' : 'objId';
+            newRecord = {
+                ...record,
+                [typeKey]: rels[key]
+            };
+        } else {
+            // AD_Lane 默认显示的属性关联关系 没有 id。需要新建
+            let config = AD_Lane_Default_Format[relKey][0];
+            newRecord = {
+                ...config,
+                objId: feature.data.properties.LANE_ID,
+                relObjId: rels[key]
+            };
+        }
+
+        total = await total;
+        total.push(newRecord);
+        return total;
+    }, []);
+};
+
 export const tableFormat = (record, config, count) => {
     let { name } = config;
     let fix = count || '';
@@ -178,11 +210,6 @@ export const tableFormat = (record, config, count) => {
 };
 
 const updateRelUniqCheck = (rels, feature) => {
-    // let rel = Object.keys(rels).reduce((total, key) => {
-    //     let relKey = key.replace(/[0-9]/g, '');
-    //     total[relKey] = rels[key];
-    //     return total;
-    // }, {});
     if (feature.layerName === 'AD_Lane') {
         let { L_LDIV, R_LDIV, FROM_LANE = [], TO_LANE = [] } = Object.keys(
             rels
@@ -260,5 +287,6 @@ export default {
     getTabelData,
     updateRels,
     getFeatureRels,
-    getRelOptions
+    getRelOptions,
+    calcNewRels
 };
