@@ -1,6 +1,5 @@
 import { addClass, removeClass } from '../utils';
 import { message } from 'antd';
-import editLog from 'src/models/editLog';
 
 const mapEventManager = () => {
     return window.map.getEventManager();
@@ -16,6 +15,12 @@ const addEditorListener = (eventType, className) => {
 const pointsTooCloseListener = () => {
     mapEventManager().register('editor_event_points_tooclose', e => {
         message.warn('形状点距离过近', 3);
+    });
+};
+
+const changePointsNode = () => {
+    mapEventManager().register('editor_event_changepoints_end', e => {
+        message.success('修改形状点完成，需检查数据的关联关系正确性', 3);
     });
 };
 
@@ -40,6 +45,7 @@ const installMapListener = () => {
     addEditorListener('editor_event_deletepoints_start', 'move-point-viz');
     addEditorExitListener('editor_event_deletepoints_start', 'move-point-viz');
     pointsTooCloseListener();
+    changePointsNode();
 };
 
 export { installMapListener };

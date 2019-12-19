@@ -236,8 +236,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 0, label: '未定义', icon: 'weidingyi' },
         { value: 1, label: '停止线', icon: 'tingzhixian' },
         { value: 2, label: '停车让行线', icon: 'tingcherangxingxian' },
-        { value: 3, label: '减速让行线', icon: 'jiansurangxingxian' },
-        { value: 11, label: '虚拟停止线', icon: 'xunitingzhixian' }
+        { value: 3, label: '减速让行线', icon: 'jiansurangxingxian' }
     ],
     AD_LANEMARK_PLG_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi' },
@@ -253,16 +252,6 @@ export const TYPE_SELECT_OPTION_MAP = {
             value: 5,
             label: '斜跨路口的人行横道 ',
             icon: 'xiekualukourenxinghengdao'
-        },
-        {
-            value: 11,
-            label: '虚拟人行横道 ',
-            icon: 'xunirenxingdao'
-        },
-        {
-            value: 12,
-            label: '虚拟禁止停车区 ',
-            icon: 'xunijinzhitingchequ'
         }
     ],
     AD_TRAFFICSIGN_SIGN_STYLE: [
@@ -832,10 +821,10 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'H', label: '行人' },
         { value: 'I', label: '非机动车' },
         { value: 'J', label: '读秒' },
-        { value: 'Z', label: '灯头未启用' },
-        { value: 'BD', label: '方向向左的箭头+直行' },
-        { value: 'CD', label: '方向向右的箭头+直行' },
-        { value: 'BE', label: '方向向左的箭头+掉头' }
+        { value: 'Z', label: '灯头未启用' }
+        // { value: 'BD', label: '方向向左的箭头+直行' },
+        // { value: 'CD', label: '方向向右的箭头+直行' },
+        // { value: 'BE', label: '方向向左的箭头+掉头' }
     ],
     AD_TS_CONTENT_CONT_TYPE: [
         { value: 0, label: '未定义' },

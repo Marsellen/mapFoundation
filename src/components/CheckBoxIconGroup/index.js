@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tooltip } from 'antd';
+import { Tooltip, message } from 'antd';
 import IconFont from '../IconFont';
 
 class CheckBoxIconGroup extends React.Component {
@@ -28,13 +28,18 @@ class CheckBoxIconGroup extends React.Component {
     }
 
     onChange = record => {
-        const { onChange, value } = this.props;
+        const { onChange, value, max } = this.props;
         if (typeof onChange === 'function') {
             let _value = value + '';
             if (_value.includes(record)) {
                 _value = _value.replace(record, '');
             } else {
-                _value = _value + record;
+                if (_value.length < max) {
+                    _value = _value + record;
+                } else {
+                    message.warning(`最多允许选${max}个！`);
+                    return false;
+                }
             }
             onChange(_value);
         }

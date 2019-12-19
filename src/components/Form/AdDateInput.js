@@ -11,7 +11,7 @@ const params = {
     checked: []
 };
 
-export default class AdInput extends React.Component {
+export default class AdDateInput extends React.Component {
     constructor(props) {
         super(props);
         let dataParams = this.getDataFromProps(props) || params;

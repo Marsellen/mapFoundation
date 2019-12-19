@@ -39,6 +39,7 @@ import _ from 'lodash';
 import editLog from 'src/models/editLog';
 import SaveTimeView from './SaveTimeView';
 import { isManbuildTask } from 'src/utils/taskUtils';
+import { addVisitedCount, removeVisitedCount } from 'src/utils/visiteCount.js';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -53,6 +54,7 @@ import { isManbuildTask } from 'src/utils/taskUtils';
 @inject('appStore')
 @inject('BatchAssignStore')
 @inject('PointCloudStore')
+@inject('VectorsStore')
 @observer
 class VizCompnent extends React.Component {
     constructor(props) {
@@ -82,7 +84,7 @@ class VizCompnent extends React.Component {
     }
 
     addShortcut = event => {
-        const { ResourceLayerStore, DataLayerStore } = this.props;
+        const { ResourceLayerStore, VectorsStore } = this.props;
         const callbackShortcutMap = [
             {
                 ctrl: false,
@@ -109,7 +111,7 @@ class VizCompnent extends React.Component {
                     event.preventDefault();
                     event.stopPropagation();
                     ResourceLayerStore.toggle(RESOURCE_LAYER_VETOR, true, true);
-                    DataLayerStore.toggleAll(true);
+                    VectorsStore.toggleAll(true, RESOURCE_LAYER_VETOR, true);
                 },
                 describe: '开关轨迹图层 2'
             }
@@ -204,13 +206,14 @@ class VizCompnent extends React.Component {
         if (!vectors) {
             return;
         }
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, VectorsStore } = this.props;
         window.vectorLayerGroup = new LayerGroup(vectors, {
             styleConifg: VectorsConfig
         });
         await map.getLayerManager().addLayerGroup(vectorLayerGroup);
         let layers = vectorLayerGroup.layers;
         DataLayerStore.init(layers);
+        VectorsStore.addLayer(RESOURCE_LAYER_VETOR, vectorLayerGroup);
 
         return {
             layerName: RESOURCE_LAYER_VETOR,
@@ -234,7 +237,7 @@ class VizCompnent extends React.Component {
         try {
             const { DataLayerStore } = this.props;
             const vectorLayer = new VectorLayer(regionUrl);
-            vectorLayer.setDefaultStyle({ color: '#00FF00' });
+            vectorLayer.setDefaultStyle({ color: 'rgb(16,201,133)' });
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
             //保存任务范围geojson
             const getRegionRes = vectorLayer.getVectorData();
@@ -256,6 +259,9 @@ class VizCompnent extends React.Component {
                 styleConifg: OutsideVectorsConfig
             });
             await map.getLayerManager().addLayerGroup(boundaryLayerGroup);
+
+            const { VectorsStore } = this.props;
+            VectorsStore.addLayer(RESOURCE_LAYER_BOUNDARY, boundaryLayerGroup);
 
             return {
                 layerName: RESOURCE_LAYER_BOUNDARY,
@@ -298,6 +304,9 @@ class VizCompnent extends React.Component {
                     taskScale: preTaskScale
                 });
             }
+
+            //离开页面时减少访问次数
+            removeVisitedCount();
         };
 
         // attributes 拾取控件
@@ -331,7 +340,9 @@ class VizCompnent extends React.Component {
              * TraceLayer 轨迹点
              */
             if (result[0].type === 'VectorLayer') {
-                DataLayerStore.pick();
+                result.length === 1
+                    ? DataLayerStore.pick()
+                    : DataLayerStore.unPick();
                 this.showAttributesModal(result[0], event);
                 this.showRightMenu(result, event);
             } else if (result[0].type === 'TraceLayer') {
