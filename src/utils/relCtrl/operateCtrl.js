@@ -27,7 +27,7 @@ import _ from 'lodash';
  * @param {Array<Object>} features 被删除要素集合
  * @returns {Object} 删除后的操作记录
  */
-const deleteLine = async features => {
+const deleteLine = async (features, activeTask) => {
     let { rels, attrs } = await features.reduce(
         async (total, feature) => {
             let layerName = feature.layerName;
@@ -53,8 +53,14 @@ const deleteLine = async features => {
     let attrStore = Attr.store;
     await Promise.all(attrs.map(attr => attrStore.deleteById(attr.id)));
 
+    let allRelFeatureOptions = getAllRelFeatureOptions(rels);
+    let featuresLog = calcFeaturesLog(
+        [features, []],
+        [uniqOptions(allRelFeatureOptions), []],
+        activeTask
+    );
     let historyLog = {
-        features: [features, []],
+        features: featuresLog,
         rels: [rels, []],
         attrs: [attrs, []]
     };
@@ -658,13 +664,12 @@ const calcFeaturesLog = (features, allFeatureOptions, activeTask) => {
     let relFeatureOptions = oldAllFeatureOptions.filter(option => {
         return !oldFeaturesIds.includes(option.value);
     });
-    let relFeatures = relFeatureOptions.reduce((total, option) => {
+    let relFeatures = relFeatureOptions.flatMap(option => {
         let feature = getLayerByName(option.layerName).getFeatureByOption(
             option
         );
-        feature && total.push(feature.properties);
-        return total;
-    }, []);
+        return feature ? feature.properties : [];
+    });
     let newRelFeatures = relFeatures.map(feature => {
         return completeProperties(feature, activeTask);
     });
