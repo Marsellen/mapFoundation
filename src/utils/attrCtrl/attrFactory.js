@@ -178,6 +178,25 @@ const replaceAttrs = async ([oldAttrs, newAttrs] = []) => {
     await attrStore.batchAdd(newAttrs);
 };
 
+const calcDiffAttrs = (oldAttrs, newAttrs) => {
+    let oldDiffAttrs = _.differenceWith(
+        oldAttrs,
+        newAttrs,
+        (arrVal, othVal) => {
+            return _.isEqual(arrVal.properties, othVal.properties);
+        }
+    );
+    let newDiffAttrs = _.differenceWith(
+        newAttrs,
+        oldAttrs,
+        (arrVal, othVal) => {
+            return _.isEqual(arrVal.properties, othVal.properties);
+        }
+    );
+
+    return [[...oldDiffAttrs], [...newDiffAttrs]];
+};
+
 export default {
     attrDataToTable,
     attrTableToData,
@@ -187,5 +206,6 @@ export default {
     updateAttrs,
     replaceAttrs,
     deleteRecord,
-    calcNewAttrs
+    calcNewAttrs,
+    calcDiffAttrs
 };

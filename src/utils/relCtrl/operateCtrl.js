@@ -19,7 +19,7 @@ import {
     completeProperties
 } from '../vectorUtils';
 import { message } from 'antd';
-import { uniqObjectArray } from 'src/utils/utils';
+import _ from 'lodash';
 
 /**
  * 删除要素
@@ -399,20 +399,18 @@ const relToSpecData = (record, layerName, total) => {
 };
 
 const getAllRelFeatureOptions = rels => {
-    return rels.reduce((options, rel) => {
-        return options.concat([
-            {
-                layerName: rel.objSpec,
-                key: getLayerIDKey(rel.objSpec),
-                value: rel.objId
-            },
-            {
-                layerName: rel.relObjSpec,
-                key: getLayerIDKey(rel.relObjSpec),
-                value: rel.relObjId
-            }
-        ]);
-    }, []);
+    return rels.flatMap(rel => [
+        {
+            layerName: rel.objSpec,
+            key: getLayerIDKey(rel.objSpec),
+            value: rel.objId
+        },
+        {
+            layerName: rel.relObjSpec,
+            key: getLayerIDKey(rel.relObjSpec),
+            value: rel.relObjId
+        }
+    ]);
 };
 
 const attrRelationFormat = attrs => {
@@ -465,43 +463,39 @@ const calcFeatures = (feature, layerName) => {
 };
 
 const calcRels = (layerName, relation, feature) => {
-    return Object.keys(relation || {}).reduce((arr, spec) => {
+    return Object.keys(relation || {}).flatMap(spec => {
         let properties = relation[spec];
-
         if (REL_DATA_SET.includes(spec)) {
-            arr = arr.concat(relDataFormat(spec, properties));
+            return relDataFormat(spec, properties);
         } else if (ATTR_REL_DATA_SET.includes(spec)) {
-            arr = arr.concat(
-                attrRelDataFormat(layerName, spec, properties, feature)
-            );
+            return attrRelDataFormat(layerName, spec, properties, feature);
         }
-
-        return arr;
-    }, []);
+        return [];
+    });
 };
 
 const uniqRels = rels => {
-    return uniqObjectArray(
+    return _.uniqBy(
         rels,
         rel => rel.objType + rel.objId + rel.relObjType + rel.relObjId
     );
 };
 
 const uniqAttrs = attrs => {
-    return uniqObjectArray(attrs, attr => attr.key);
+    return _.uniqBy(attrs, 'key');
 };
 
 const uniqOptions = options => {
-    return uniqObjectArray(options, option => option.value);
+    return _.uniqBy(options, 'value');
 };
 
 const calcAttrs = relation => {
-    return Object.keys(relation || {}).reduce((arr, spec) => {
+    return Object.keys(relation || {}).flatMap(spec => {
         if (ATTR_SPEC_CONFIG.map(config => config.source).includes(spec)) {
-            arr = arr.concat(attrsDataFormat(relation[spec], spec));
+            return attrsDataFormat(relation[spec], spec);
         }
-        return arr;
-    }, []);
+        return [];
+    });
 };
 
 const relDataFormat = (spec, properties) => {
@@ -736,7 +730,7 @@ const calcAdLaneRels = feature => {
 
 const getFeaturesMap = features => {
     let featureLayerNames = features.map(feature => feature.layerName);
-    featureLayerNames = uniqObjectArray(featureLayerNames);
+    featureLayerNames = _.uniq(featureLayerNames);
     return featureLayerNames.reduce((total, layerName) => {
         total[layerName] = getLayerByName(layerName);
         return total;

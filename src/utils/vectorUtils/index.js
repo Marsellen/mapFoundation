@@ -152,23 +152,34 @@ export const completeProperties = (feature, task, config) => {
             _feature.data.properties.UPD_STAT = '{}';
         }
         if (!_feature.data.properties.CONFIDENCE) {
-            _feature.data.properties.CONFIDENCE =
-                DEFAULT_CONFIDENCE_MAP[_feature.layerName] || '{}';
+            _feature = completeConfidence(_feature);
         }
     } else {
         if (config && config.UPD_STAT) {
             _feature.data.properties.UPD_STAT = config && config.UPD_STAT;
-        } else if (!_feature.data.properties.UPD_STAT) {
-            _feature.data.properties.UPD_STAT = '{"RELATION":"MOD"}';
         } else {
-            let UPD_STAT = JSON.parse(_feature.data.properties.UPD_STAT);
-            UPD_STAT.RELATION = 'MOD';
-            _feature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);
+            _feature = modUpdStatRelation(_feature);
         }
         if (!_feature.data.properties.CONFIDENCE) {
-            _feature.data.properties.CONFIDENCE =
-                DEFAULT_CONFIDENCE_MAP[_feature.layerName] || '{}';
+            _feature = completeConfidence(_feature);
         }
     }
     return _feature;
+};
+
+export const modUpdStatRelation = feature => {
+    if (feature.data.properties.UPD_STAT) {
+        let UPD_STAT = JSON.parse(feature.data.properties.UPD_STAT);
+        UPD_STAT.RELATION = 'MOD';
+        feature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);
+    } else {
+        feature.data.properties.UPD_STAT = '{"RELATION":"MOD"}';
+    }
+    return feature;
+};
+
+export const completeConfidence = feature => {
+    feature.data.properties.CONFIDENCE =
+        DEFAULT_CONFIDENCE_MAP[feature.layerName] || '{}';
+    return feature;
 };

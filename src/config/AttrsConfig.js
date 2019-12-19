@@ -163,3 +163,8 @@ export const ATTR_TABLE_CONFIG = {
         }
     ]
 };
+
+export const MOD_UPD_STAT_RELATION_LAYERS = [
+    'AD_TrafficSign',
+    'AD_TrafficLight'
+];
