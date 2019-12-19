@@ -35,6 +35,7 @@ import { installMapListener } from 'src/utils/map/event';
 import _ from 'lodash';
 import editLog from 'src/models/editLog';
 import SaveTimeView from './SaveTimeView';
+import { addVisitedCount, removeVisitedCount } from 'src/utils/visiteCount.js';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -299,6 +300,9 @@ class VizCompnent extends React.Component {
                     taskScale: preTaskScale
                 });
             }
+
+            //离开页面时减少访问次数
+            removeVisitedCount();
         };
 
         // attributes 拾取控件
