@@ -10,6 +10,7 @@ import logo from 'src/assets/img/logo.png';
 import VersionInfo from './components/VersionInfo';
 import { shortcut } from 'src/utils/shortcuts';
 import HelpList from './components/HelpList';
+import { addVisitedCount, removeVisitedCount } from 'src/utils/visiteCount';
 
 const { Header } = Layout;
 
@@ -19,41 +20,20 @@ class Index extends React.Component {
     state = {};
 
     componentWillMount() {
-        this.handleBeforeUnload();
+        window.onbeforeunload = e => removeVisitedCount();
     }
 
     componentDidMount() {
         this.props.MenuStore.initMenus();
         shortcut.init();
 
-        const nextVisitedCountNum = this.addVisitedCount();
-        nextVisitedCountNum > 1 && this.linkToBlank();
+        const visitedCount = addVisitedCount();
+
+        //当访问数据大于1次，跳转到空白页
+        if (visitedCount > 1) {
+            window.location.href = '/blank';
+        }
     }
-    //增加访问次数
-    addVisitedCount = () => {
-        const visiteCount = window.localStorage.getItem('visiteCount');
-        const visiteCountNum = visiteCount ? Number(visiteCount) : 0;
-        const nextVisitedCountNum = visiteCountNum + 1;
-        window.localStorage.setItem('visiteCount', nextVisitedCountNum);
-        return nextVisitedCountNum;
-    };
-    //减少访问次数
-    removeVisitedCount = () => {
-        const visiteCount = window.localStorage.getItem('visiteCount');
-        const visiteCountNum = visiteCount ? Number(visiteCount) : 0;
-        if (visiteCountNum === 0) return;
-        window.localStorage.setItem('visiteCount', visiteCountNum - 1);
-    };
-    //监听浏览器即将离开当前页面事件
-    handleBeforeUnload = () => {
-        window.onbeforeunload = e => {
-            this.removeVisitedCount();
-        };
-    };
-    //跳转到空白页
-    linkToBlank = () => {
-        window.location.href = '/blank';
-    };
 
     render() {
         const { menus } = this.props.MenuStore;
