@@ -1,29 +1,21 @@
 import React from 'react';
 import { Table } from 'antd';
 import { Resizable } from 'react-resizable';
-import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
+import Filter from 'src/utils/table/filter';
 
 function AdTableCell(props) {
     const { filterBy, record, dataIndex, ...restProps } = props;
     let value = record[dataIndex];
-    let text =
-        value !== null && value !== undefined
-            ? filterBy
-                ? filterText(filterBy, value)
-                : value
-            : '--';
+    let text = filterBy ? Filter.get(filterBy)(value) : value;
+
     return (
         <td
             {...restProps}
+            title={text}
             style={{ wordWrap: 'break-word', wordBreak: 'break-all' }}>
             {text}
         </td>
     );
-}
-
-function filterText(type, value) {
-    let config = TYPE_SELECT_OPTION_MAP[type].find(c => c.value == value);
-    return config ? config.label : value;
 }
 
 function ResizeableTitle(props) {

@@ -196,3 +196,18 @@ export const modUpdStatGeometry = feature => {
     }
     return feature;
 };
+
+export const modUpdStatProperties = (feature, properties) => {
+    let UPD_STAT = {};
+    if (feature.data.properties.UPD_STAT) {
+        UPD_STAT = JSON.parse(feature.data.properties.UPD_STAT);
+    }
+    let oldProperties = feature.data.properties;
+    Object.keys(properties).forEach(key => {
+        if (oldProperties[key] !== properties[key]) {
+            UPD_STAT[key] = 'MOD';
+        }
+    });
+    feature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);
+    return feature;
+};
