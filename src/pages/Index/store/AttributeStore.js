@@ -8,7 +8,8 @@ import {
     updateFeatureColor,
     getFeatureOption,
     getLayerByName,
-    modUpdStatRelation
+    modUpdStatRelation,
+    modUpdStatProperties
 } from 'src/utils/vectorUtils';
 import {
     ATTR_SPEC_CONFIG,
@@ -155,10 +156,15 @@ class AttributeStore {
 
         let oldFeature = _.cloneDeep(this.model);
         let newFeature = _.cloneDeep(this.model);
+
+        if (!isManbuildTask(task)) {
+            newFeature = modUpdStatProperties(newFeature, data.attributes);
+        }
         newFeature.data.properties = {
-            ...this.model.data.properties,
+            ...newFeature.data.properties,
             ...data.attributes
         };
+
         // 人工识别无法编辑关联关系，人工构建不维护“更新状态标识”字段
         // let [oldRelFeatures, newRelFeatures] = this.calcRelFeaturesLog(
         //     relLog,
