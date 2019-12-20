@@ -676,7 +676,7 @@ export default {
             {
                 value: 0,
                 label: '未定义',
-                style: { color: 'rgb(117,22,9)', radius: 0.015 }
+                style: { color: 'rgb(117,22,9)', radius: 0.03 }
             }
         ],
         AD_POLE_TYPE: [
