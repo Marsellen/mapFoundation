@@ -166,7 +166,7 @@ class DividerToAutoCreate extends React.Component {
             );
         } catch (e) {
             console.log(e);
-            message.warning('操作失败:' + e.msg, 3);
+            message.warning('操作失败:' + e.message, 3);
             let history = {
                 params
             };
@@ -177,6 +177,7 @@ class DividerToAutoCreate extends React.Component {
                 failReason: e.message
             };
             editLog.store.add(log);
+            DataLayerStore.exitEdit();
         }
         AttributeStore.hideRelFeatures();
     };
