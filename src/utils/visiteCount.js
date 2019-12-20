@@ -1,16 +1,68 @@
-//增加访问次数
-export const addVisitedCount = () => {
-    const visiteCount = window.localStorage.getItem('visiteCount');
-    const visiteCountNum = visiteCount ? Number(visiteCount) : 0;
-    const nextVisitedCountNum = visiteCountNum + 1;
-    window.localStorage.setItem('visiteCount', nextVisitedCountNum);
-    return nextVisitedCountNum;
-};
+class VisitedHistory {
+    constructor() {
+        const time = new Date();
+        this.pageName = 'page' + time.getTime();
+    }
 
-//减少访问次数
-export const removeVisitedCount = () => {
-    const visiteCount = window.localStorage.getItem('visiteCount');
-    const visiteCountNum = visiteCount ? Number(visiteCount) : 0;
-    if (visiteCountNum === 0) return;
-    window.localStorage.setItem('visiteCount', visiteCountNum - 1);
-};
+    //获取访问历史
+    getVisitedHistory = () => {
+        const visiteHistory = window.localStorage.getItem('visiteHistory');
+        return visiteHistory ? JSON.parse(visiteHistory) : [];
+    };
+
+    //增加访问历史
+    addVisitedHistory = () => {
+        if (!this.pageName) return;
+        const visiteHistory = this.getVisitedHistory();
+        visiteHistory.push(this.pageName);
+        window.localStorage.setItem(
+            'visiteHistory',
+            JSON.stringify(visiteHistory)
+        );
+    };
+
+    //减少访问历史
+    removeVisitedHistory = () => {
+        if (!this.pageName) return;
+        const visiteHistory = this.getVisitedHistory();
+        const newVisiteHistory = visiteHistory.filter(
+            item => item !== this.pageName
+        );
+        window.localStorage.setItem(
+            'visiteHistory',
+            JSON.stringify(newVisiteHistory)
+        );
+    };
+
+    //清除访问历史
+    clearVisitedHistory = () => {
+        window.localStorage.removeItem('visiteHistory');
+    };
+
+    //跳转到空白页
+    LinkToBlank = () => {
+        if (!this.pageName) return;
+        const visiteHistory = this.getVisitedHistory();
+        if (visiteHistory.length > 1) {
+            window.location.href = '/blank';
+        }
+    };
+
+    //轮询监听访问状态
+    pollingVisiteHistory = () => {
+        setInterval(
+            (() => {
+                if (!this.pageName) return;
+                const visiteHistory = this.getVisitedHistory();
+                if (visiteHistory.length === 0) return;
+                const index = visiteHistory.includes(this.pageName);
+                if (!index) {
+                    window.location.href = '/blank';
+                }
+            }).bind(this),
+            1000
+        );
+    };
+}
+
+export default new VisitedHistory();

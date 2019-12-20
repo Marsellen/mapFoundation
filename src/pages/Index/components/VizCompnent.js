@@ -39,7 +39,7 @@ import _ from 'lodash';
 import editLog from 'src/models/editLog';
 import SaveTimeView from './SaveTimeView';
 import { isManbuildTask } from 'src/utils/taskUtils';
-import { removeVisitedCount } from 'src/utils/visiteCount.js';
+import VisitedHistory from 'src/utils/visiteCount';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -305,7 +305,7 @@ class VizCompnent extends React.Component {
             }
 
             //离开页面时减少访问次数
-            removeVisitedCount();
+            VisitedHistory.removeVisitedHistory();
         };
 
         // attributes 拾取控件
