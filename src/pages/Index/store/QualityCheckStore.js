@@ -194,9 +194,8 @@ class QualityCheckStore {
             this.filterOption.isUpdate = true;
             return;
         }
-        const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(
-            activeTaskId
-        );
+        const { checkReport = {} } =
+            AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
         const filterOption = {};
 
         data.map((item, index) => {
@@ -253,9 +252,8 @@ class QualityCheckStore {
         };
         this.checkReportIsVisited[repId] = true;
         //访问状态记录在缓存中
-        const { checkReport } = AdLocalStorage.getTaskInfosStorage(
-            activeTaskId
-        );
+        const { checkReport = {} } =
+            AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
         AdLocalStorage.setTaskInfosStorage({
             taskId: activeTaskId,
             checkReport: { ...checkReport, ...this.checkReportIsVisited }
