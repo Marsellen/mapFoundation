@@ -312,9 +312,7 @@ class HalfAutoCreate extends React.Component {
             );
         } catch (e) {
             console.log(e);
-            e
-                ? message.warning('操作失败:' + e.message, 3)
-                : message.warning('操作失败，请求失败', 3);
+            message.warning('操作失败:' + e.message, 3);
             let history = {
                 params
             };
@@ -325,6 +323,7 @@ class HalfAutoCreate extends React.Component {
                 failReason: e.message
             };
             editLog.store.add(log);
+            DataLayerStore.exitEdit();
         }
         AttributeStore.hideRelFeatures();
     };
