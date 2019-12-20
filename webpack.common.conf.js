@@ -40,7 +40,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|jpg|jpeg|gif|ico|obj|mtl|cur)(\?v=\d+\.\d+\.\d+)?$/i,
+                test: /\.(png|jpg|jpeg|gif|ico|obj|mtl|cur|gltf)(\?v=\d+\.\d+\.\d+)?$/i,
                 loader: 'url-loader',
                 options: {
                     limit: 10000
