@@ -454,7 +454,7 @@ export default {
                 value: 0,
                 label: '未定义',
                 style: {
-                    color: 'rgb(62,0,203)',
+                    color: 'rgb(70,109,255)',
                     linewidth: 1,
                     colorFill: 'rgb(250,250,250)'
                 }
@@ -463,7 +463,7 @@ export default {
                 value: 1,
                 label: '单个标志牌',
                 style: {
-                    color: 'rgb(62,0,203)',
+                    color: 'rgb(70,109,255)',
                     linewidth: 1,
                     colorFill: 'rgb(250,250,250)'
                 }
@@ -472,7 +472,7 @@ export default {
                 value: 2,
                 label: '组合标志牌',
                 style: {
-                    color: 'rgb(62,0,203)',
+                    color: 'rgb(70,109,255)',
                     linewidth: 1,
                     colorFill: 'rgb(250,250,250)'
                 }

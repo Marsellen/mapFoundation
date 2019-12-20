@@ -10,6 +10,8 @@ import {
 } from 'src/utils/vectorUtils';
 import { addClass, removeClass, throttle } from 'src/utils/utils';
 import AdEmitter from 'src/models/event';
+import EditorConfig from 'src/config/ConctrolConfig';
+
 
 configure({ enforceActions: 'always' });
 class DataLayerStore extends LayerStore {
@@ -42,6 +44,8 @@ class DataLayerStore extends LayerStore {
         this.editor = new EditControl();
         window.map && window.map.getControlManager().addControl(this.editor);
         layers && this.editor.setTargetLayers(layers);
+        this.editor.setConfig(EditorConfig)
+        this.editor.setAdsorbThreshold(0.05)
     };
 
     addTargetLayers = layers => {
