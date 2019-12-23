@@ -41,7 +41,9 @@ class CheckBoxIconGroup extends React.Component {
                     return false;
                 }
             }
-            onChange(_value);
+            _value.length > 0
+                ? onChange(_value)
+                : message.warning('最少选择1个！');
         }
     };
 }
