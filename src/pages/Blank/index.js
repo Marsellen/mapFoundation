@@ -2,7 +2,10 @@ import React from 'react';
 import 'less/blank.less';
 import IconFont from 'src/components/IconFont';
 import { Button } from 'antd';
-import VisitedHistory from 'src/utils/visiteCount';
+import {
+    editVisiteHistory,
+    loginVisitedHistory
+} from 'src/utils/visiteHistory';
 
 class Blank extends React.Component {
     render() {
@@ -32,7 +35,8 @@ class Blank extends React.Component {
     }
 
     handleClick = () => {
-        VisitedHistory.clearVisitedHistory();
+        editVisiteHistory.clearVisitedHistory();
+        loginVisitedHistory.clearVisitedHistory();
         window.location.href = '/';
     };
 }

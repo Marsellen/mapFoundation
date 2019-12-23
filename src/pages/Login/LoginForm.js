@@ -3,6 +3,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { Form, Icon, Checkbox, message, Input } from 'antd';
+import { loginVisitedHistory } from 'src/utils/visiteHistory';
 
 @withRouter
 @inject('appStore')
@@ -48,6 +49,7 @@ class LoginForm extends React.Component {
                         const { from } = this.props.location.state || {
                             from: { pathname: '/' }
                         };
+                        loginVisitedHistory.removeVisitedHistory();
                         this.props.history.push(from);
                     })
                     .then(() => {

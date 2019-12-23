@@ -1,12 +1,13 @@
 class VisitedHistory {
-    constructor() {
+    constructor(key) {
         const time = new Date();
+        this.key = key;
         this.pageName = 'page' + time.getTime();
     }
 
     //获取访问历史
     getVisitedHistory = () => {
-        const visiteHistory = window.localStorage.getItem('visiteHistory');
+        const visiteHistory = window.localStorage.getItem(this.key);
         return visiteHistory ? JSON.parse(visiteHistory) : [];
     };
 
@@ -15,10 +16,7 @@ class VisitedHistory {
         if (!this.pageName) return;
         const visiteHistory = this.getVisitedHistory();
         visiteHistory.push(this.pageName);
-        window.localStorage.setItem(
-            'visiteHistory',
-            JSON.stringify(visiteHistory)
-        );
+        window.localStorage.setItem(this.key, JSON.stringify(visiteHistory));
     };
 
     //减少访问历史
@@ -28,15 +26,12 @@ class VisitedHistory {
         const newVisiteHistory = visiteHistory.filter(
             item => item !== this.pageName
         );
-        window.localStorage.setItem(
-            'visiteHistory',
-            JSON.stringify(newVisiteHistory)
-        );
+        window.localStorage.setItem(this.key, JSON.stringify(newVisiteHistory));
     };
 
     //清除访问历史
     clearVisitedHistory = () => {
-        window.localStorage.removeItem('visiteHistory');
+        window.localStorage.removeItem(this.key);
     };
 
     //跳转到空白页
@@ -64,4 +59,5 @@ class VisitedHistory {
     };
 }
 
-export default new VisitedHistory();
+export const editVisiteHistory = new VisitedHistory('editVisiteHistory');
+export const loginVisitedHistory = new VisitedHistory('loginVisitedHistory');

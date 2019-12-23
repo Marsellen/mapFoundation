@@ -39,7 +39,7 @@ import _ from 'lodash';
 import editLog from 'src/models/editLog';
 import SaveTimeView from './SaveTimeView';
 import { isManbuildTask } from 'src/utils/taskUtils';
-import VisitedHistory from 'src/utils/visiteCount';
+import { editVisiteHistory } from 'src/utils/visiteHistory';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -302,8 +302,8 @@ class VizCompnent extends React.Component {
             }
 
             //离开页面时减少访问次数
-            VisitedHistory.removeVisitedHistory();
-            const visiteHistory = VisitedHistory.getVisitedHistory();
+            editVisiteHistory.removeVisitedHistory();
+            const visiteHistory = editVisiteHistory.getVisitedHistory();
             if (visiteHistory.length < 1) {
                 e = window.event || e;
                 e.returnValue = `确定离开当前页面吗？`;
