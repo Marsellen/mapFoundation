@@ -1,5 +1,8 @@
 import { observable, configure, action, computed } from 'mobx';
-import { RESOURCE_LAYER_VETOR } from 'src/config/DataLayerConfig';
+import {
+    RESOURCE_LAYER_VETOR,
+    RESOURCE_LAYER_BOUNDARY
+} from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });
 
@@ -25,14 +28,26 @@ class VectorsStore {
         return checkedLayersL && checkedLayersL !== this.vectors[type].length;
     }
 
-    @action addLayer = (layerType, layerGroup) => {
-        this.vectors[layerType] = layerGroup.layers.map(layer => {
+    @action addLayer = layerGroup => {
+        this.vectors[RESOURCE_LAYER_VETOR] = layerGroup.layers.map(layer => {
             return {
                 layer: layer.layer,
                 value: layer.layerName,
                 checked: true
             };
         });
+    };
+
+    @action addBoundaryLayer = layerGroup => {
+        this.vectors[RESOURCE_LAYER_BOUNDARY] = layerGroup.layers
+            .filter(layer => layer.layerName !== 'AD_Map_QC')
+            .map(layer => {
+                return {
+                    layer: layer.layer,
+                    value: layer.layerName,
+                    checked: true
+                };
+            });
     };
 
     @action setLayerType = layerType => {
