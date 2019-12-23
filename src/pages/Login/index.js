@@ -4,6 +4,13 @@ import './style.css';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import LoginForm from './LoginForm';
+import { loginVisitedHistory } from 'src/utils/visiteHistory';
+
+//处理登陆页面访问历史
+window.onbeforeunload = e => loginVisitedHistory.removeVisitedHistory();
+loginVisitedHistory.addVisitedHistory();
+loginVisitedHistory.pollingVisiteHistory();
+loginVisitedHistory.LinkToBlank();
 
 @withRouter
 @inject('appStore')
@@ -14,6 +21,7 @@ class Login extends React.Component {
     componentDidMount() {
         const { loginUser } = this.props.appStore;
         if (loginUser) {
+            loginVisitedHistory.removeVisitedHistory();
             this.props.history.push({ pathname: '/' }); //当浏览器用后退按钮回到登录页时，判断登录页是否登录，是登录就重定向主页面
         }
     }

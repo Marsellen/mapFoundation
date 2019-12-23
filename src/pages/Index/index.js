@@ -10,14 +10,15 @@ import logo from 'src/assets/img/logo.png';
 import VersionInfo from './components/VersionInfo';
 import { shortcut } from 'src/utils/shortcuts';
 import HelpList from './components/HelpList';
-import VisitedHistory from 'src/utils/visiteCount';
+import { editVisiteHistory } from 'src/utils/visiteHistory';
 
 const { Header } = Layout;
 
-window.onbeforeunload = e => VisitedHistory.removeVisitedHistory();
-VisitedHistory.addVisitedHistory();
-VisitedHistory.pollingVisiteHistory();
-VisitedHistory.LinkToBlank();
+//处理编辑页面访问历史
+window.onbeforeunload = e => editVisiteHistory.removeVisitedHistory();
+editVisiteHistory.addVisitedHistory();
+editVisiteHistory.pollingVisiteHistory();
+editVisiteHistory.LinkToBlank();
 
 @inject('MenuStore')
 @observer
