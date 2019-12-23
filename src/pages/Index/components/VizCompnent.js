@@ -289,9 +289,6 @@ class VizCompnent extends React.Component {
 
         //监听浏览器即将离开当前页面事件
         window.onbeforeunload = function(e) {
-            e = window.event || e;
-            e.returnValue = `确定离开当前页面吗？`;
-
             //保存当前任务比例
             const { activeTaskId } = TaskStore;
             const preTaskScale = map.getEyeView();
@@ -306,6 +303,11 @@ class VizCompnent extends React.Component {
 
             //离开页面时减少访问次数
             VisitedHistory.removeVisitedHistory();
+            const visiteHistory = VisitedHistory.getVisitedHistory();
+            if (visiteHistory.length < 1) {
+                e = window.event || e;
+                e.returnValue = `确定离开当前页面吗？`;
+            }
         };
 
         // attributes 拾取控件
