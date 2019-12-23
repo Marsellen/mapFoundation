@@ -1,15 +1,13 @@
-import { action, configure, computed } from 'mobx';
-import LayerStore from './LayerStore';
+import { action, configure, computed, observable } from 'mobx';
 import {
     RESOURCE_LAYER_VETOR,
     RESOURCE_LAYER_POINT_CLOUD
 } from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });
-class ResourceLayerStore extends LayerStore {
-    constructor() {
-        super();
-    }
+class ResourceLayerStore {
+    @observable layers;
+    @observable updateKey;
 
     @computed get pointCloudChecked() {
         let pointCloud = (this.layers || []).find(
@@ -28,9 +26,39 @@ class ResourceLayerStore extends LayerStore {
         }
     };
 
+    @action addLayers = layers => {
+        layers = (layers || []).map(layer => {
+            return {
+                layer: layer.layer,
+                value: layer.layerName,
+                checked: true
+            };
+        });
+        this.layers = this.layers.concat(layers);
+    };
+
     @action updateLayerByName = (name, layer) => {
         this.layers.find(layer => layer.value === name).layer = layer;
         this.updateKey = Math.random();
+    };
+
+    @action toggle = (name, checked, isKeyCode) => {
+        let layerEx = this.layers.find(layer => layer.value == name);
+        if (isKeyCode) {
+            layerEx.checked = !layerEx.checked;
+        } else {
+            layerEx.checked = checked;
+        }
+        if (layerEx.checked) {
+            layerEx.layer.show();
+        } else {
+            layerEx.layer.hide();
+        }
+        this.updateKey = Math.random();
+    };
+
+    @action release = () => {
+        this.layers = [];
     };
 }
 
