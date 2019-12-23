@@ -68,7 +68,7 @@ class QualityCheckResultTable extends React.Component {
                         className="check-result-table"
                         onChange={this.handleTableChange}
                         rowKey={record => `checkResult_${record.index}`}
-                        scroll={{ y: tableHeight || 170, x: '100%' }}
+                        scroll={{ y: tableHeight || 170, x: 'max-content' }}
                         isHandleBody={true}
                     />
                     {reportListL > 0 && (
