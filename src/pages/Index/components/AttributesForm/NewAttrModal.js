@@ -86,6 +86,9 @@ class NewAttrModal extends React.Component {
         });
         form.validateFields((err, values) => {
             if (err) {
+                this.setState({
+                    confirmLoading: false
+                });
                 return;
             }
             //console.log(values);
