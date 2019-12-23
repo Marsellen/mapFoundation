@@ -41,7 +41,6 @@ class VisitedHistory {
 
     //跳转到空白页
     LinkToBlank = () => {
-        if (!this.pageName) return;
         const visiteHistory = this.getVisitedHistory();
         if (visiteHistory.length > 1) {
             window.location.href = '/blank';
