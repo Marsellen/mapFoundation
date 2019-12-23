@@ -208,7 +208,7 @@ class Task extends React.Component {
             RESOURCE_LAYER_BOUNDARY,
             boundaryLayerGroup
         );
-        VectorsStore.addLayer(RESOURCE_LAYER_BOUNDARY, boundaryLayerGroup);
+        VectorsStore.addBoundaryLayer(boundaryLayerGroup);
     };
 }
 

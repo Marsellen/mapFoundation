@@ -212,7 +212,7 @@ class VizCompnent extends React.Component {
         await map.getLayerManager().addLayerGroup(vectorLayerGroup);
         let layers = vectorLayerGroup.layers;
         DataLayerStore.init(layers);
-        VectorsStore.addLayer(RESOURCE_LAYER_VETOR, vectorLayerGroup);
+        VectorsStore.addLayer(vectorLayerGroup);
 
         return {
             layerName: RESOURCE_LAYER_VETOR,
@@ -260,7 +260,7 @@ class VizCompnent extends React.Component {
             await map.getLayerManager().addLayerGroup(boundaryLayerGroup);
 
             const { VectorsStore } = this.props;
-            VectorsStore.addLayer(RESOURCE_LAYER_BOUNDARY, boundaryLayerGroup);
+            VectorsStore.addBoundaryLayer(boundaryLayerGroup);
 
             return {
                 layerName: RESOURCE_LAYER_BOUNDARY,
