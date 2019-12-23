@@ -170,12 +170,18 @@ class DataLayerStore extends LayerStore {
         addClass(viz, 'shape-viz');
     };
 
+    delPointStyle = () => {
+        let viz = document.querySelector('#viz');
+        addClass(viz, 'move-point-viz');
+    }
+
     removeCur = () => {
         let viz = document.querySelector('#viz');
         removeClass(viz, 'edit-viz');
         removeClass(viz, 'ruler-viz');
         removeClass(viz, 'shape-viz');
         removeClass(viz, 'crosshair-viz');
+        removeClass(viz, 'move-point-viz');
     };
 
     newPoint = () => {
@@ -391,6 +397,7 @@ class DataLayerStore extends LayerStore {
         this.disableOtherCtrl();
         this.setEditType('delPoint');
         this.editor.deletePoints();
+        this.delPointStyle()
     };
 
     dragCopyedFeature = () => {
