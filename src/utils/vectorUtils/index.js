@@ -148,7 +148,7 @@ export const completeProperties = (feature, task, config) => {
     let isManbuild = isManbuildTask(task);
     let _feature = _.cloneDeep(feature);
     if (isManbuild) {
-        if (!_feature.data.properties.UPD_STAT) {
+        if ((config && config.UPD_STAT) || !_feature.data.properties.UPD_STAT) {
             _feature.data.properties.UPD_STAT = '{}';
         }
         if (!_feature.data.properties.CONFIDENCE) {
