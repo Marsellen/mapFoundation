@@ -421,7 +421,7 @@ export default {
                 value: 0,
                 label: '未定义',
                 style: {
-                    color: 'rgb(110,110,110)',
+                    color: 'rgb(73,56,109)',
                     linewidth: 1
                 }
             },
@@ -429,7 +429,7 @@ export default {
                 value: 1,
                 label: '人行横道',
                 style: {
-                    color: 'rgb(110,110,110)',
+                    color: 'rgb(73,56,109)',
                     linewidth: 1
                 }
             },
@@ -437,7 +437,7 @@ export default {
                 value: 2,
                 label: '禁止停车区',
                 style: {
-                    color: 'rgb(110,110,110)',
+                    color: 'rgb(73,56,109)',
                     linewidth: 1
                 }
             },
@@ -445,7 +445,7 @@ export default {
                 value: 3,
                 label: '减速带',
                 style: {
-                    color: 'rgb(110,110,110)',
+                    color: 'rgb(73,56,109)',
                     linewidth: 1
                 }
             },
@@ -453,7 +453,7 @@ export default {
                 value: 4,
                 label: '减速警示震荡线',
                 style: {
-                    color: 'rgb(110,110,110)',
+                    color: 'rgb(73,56,109)',
                     linewidth: 1
                 }
             },
@@ -461,7 +461,7 @@ export default {
                 value: 5,
                 label: '斜跨路口的人行横道',
                 style: {
-                    color: 'rgb(110,110,110)',
+                    color: 'rgb(73,56,109)',
                     linewidth: 1
                 }
             }

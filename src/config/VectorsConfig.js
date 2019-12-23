@@ -392,32 +392,32 @@ export default {
             {
                 value: 0,
                 label: '未定义',
-                style: { color: 'rgb(221,221,221)', linewidth: 1 }
+                style: { color: 'rgb(147,112,219)', linewidth: 1 }
             },
             {
                 value: 1,
                 label: '人行横道',
-                style: { color: 'rgb(221,221,221)', linewidth: 1 }
+                style: { color: 'rgb(147,112,219)', linewidth: 1 }
             },
             {
                 value: 2,
                 label: '禁止停车区',
-                style: { color: 'rgb(221,221,221)', linewidth: 1 }
+                style: { color: 'rgb(147,112,219)', linewidth: 1 }
             },
             {
                 value: 3,
                 label: '减速带',
-                style: { color: 'rgb(221,221,221)', linewidth: 1 }
+                style: { color: 'rgb(147,112,219)', linewidth: 1 }
             },
             {
                 value: 4,
                 label: '减速警示震荡线',
-                style: { color: 'rgb(221,221,221)', linewidth: 1 }
+                style: { color: 'rgb(147,112,219)', linewidth: 1 }
             },
             {
                 value: 5,
                 label: '斜跨路口的人行横道',
-                style: { color: 'rgb(221,221,221)', linewidth: 1 }
+                style: { color: 'rgb(147,112,219)', linewidth: 1 }
             }
         ],
 
