@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import IconFont from 'src/components/IconFont';
 import { getEditLayers } from 'src/utils/permissionCtrl';
+import { RESOURCE_LAYER_VETOR } from 'src/config/DataLayerConfig';
 
 @inject('TaskStore')
 @observer
@@ -74,6 +75,7 @@ class EditLayer extends React.Component {
 @inject('AttributeStore')
 @inject('appStore')
 @inject('TaskStore')
+@inject('VectorsStore')
 @observer
 class EditLayerPicker extends React.Component {
     render() {
@@ -101,10 +103,11 @@ class EditLayerPicker extends React.Component {
     }
 
     topViewLayerDisabled = () => {
-        let { DataLayerStore, appStore, TaskStore } = this.props;
+        let { DataLayerStore, appStore, TaskStore, VectorsStore } = this.props;
         let userInfo = appStore.loginUser;
         const { activeTask } = TaskStore;
-        let layers = getEditLayers(DataLayerStore.layers, userInfo, activeTask);
+        let layers = VectorsStore.vectors[RESOURCE_LAYER_VETOR];
+        layers = getEditLayers(layers, userInfo, activeTask);
         const { isTopView } = DataLayerStore;
 
         if (isTopView) {
