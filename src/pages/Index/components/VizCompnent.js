@@ -78,10 +78,16 @@ class VizCompnent extends React.Component {
         let task = TaskStore.getTaskFile();
         if (!task) return;
         const div = document.getElementById('viz');
-        window.map && window.map.release();
+        this.release();
         window.map = new Map(div);
         this.initTask(task);
     }
+
+    release = () => {
+        const { ResourceLayerStore } = this.props;
+        window.map && window.map.release();
+        ResourceLayerStore.release();
+    };
 
     addShortcut = event => {
         const { ResourceLayerStore, VectorsStore } = this.props;
@@ -205,13 +211,11 @@ class VizCompnent extends React.Component {
         if (!vectors) {
             return;
         }
-        const { DataLayerStore, VectorsStore } = this.props;
+        const { VectorsStore } = this.props;
         window.vectorLayerGroup = new LayerGroup(vectors, {
             styleConifg: VectorsConfig
         });
         await map.getLayerManager().addLayerGroup(vectorLayerGroup);
-        let layers = vectorLayerGroup.layers;
-        DataLayerStore.init(layers);
         VectorsStore.addLayer(vectorLayerGroup);
 
         return {
@@ -233,6 +237,7 @@ class VizCompnent extends React.Component {
     };
 
     initRegion = async regionUrl => {
+        if (!regionUrl) return;
         try {
             const { DataLayerStore } = this.props;
             const vectorLayer = new VectorLayer(regionUrl);
@@ -253,6 +258,7 @@ class VizCompnent extends React.Component {
     };
 
     initBoundary = async boundaryUrl => {
+        if (!boundaryUrl) return;
         try {
             window.boundaryLayerGroup = new LayerGroup(boundaryUrl, {
                 styleConifg: OutsideVectorsConfig
@@ -275,7 +281,7 @@ class VizCompnent extends React.Component {
     initResouceLayer = layers => {
         const { ResourceLayerStore } = this.props;
         layers = layers.filter(layer => !!layer);
-        ResourceLayerStore.init(layers);
+        ResourceLayerStore.addLayers(layers);
     };
 
     installListener = () => {
@@ -312,11 +318,14 @@ class VizCompnent extends React.Component {
 
         // attributes 拾取控件
         const { DataLayerStore } = this.props;
+        let boundaryLayers = window.boundaryLayerGroup
+            ? window.boundaryLayerGroup.layers
+            : [];
         DataLayerStore.initEditor([
             { layer: pointCloudLayer },
             ...vectorLayerGroup.layers,
             { layer: traceLayer },
-            ...boundaryLayerGroup.layers
+            ...boundaryLayers
         ]);
         DataLayerStore.initMeasureControl();
         DataLayerStore.setSelectedCallBack(this.selectedCallBack);

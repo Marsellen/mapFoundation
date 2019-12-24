@@ -1,5 +1,4 @@
 import { action, configure, flow, observable } from 'mobx';
-import LayerStore from './LayerStore';
 import { EditControl, MeasureControl } from 'addis-viz-sdk';
 import TaskService from '../service/TaskService';
 import { Modal } from 'antd';
@@ -13,9 +12,8 @@ import AdEmitter from 'src/models/event';
 import EditorConfig from 'src/config/ConctrolConfig';
 
 configure({ enforceActions: 'always' });
-class DataLayerStore extends LayerStore {
+class DataLayerStore {
     constructor() {
-        super();
         this.editor;
         this.measureControl;
         this.highLightFeatures = [];
@@ -27,17 +25,6 @@ class DataLayerStore extends LayerStore {
     @observable beenPick;
     @observable isTopView = false;
     @observable readCoordinateResult;
-
-    @action toggle = (name, checked) => {
-        this.layers.find(layer => layer.value == name).checked = checked;
-        let layer = getLayerExByName(name).layer;
-        if (checked) {
-            layer.show();
-        } else {
-            layer.hide();
-        }
-        this.updateKey = Math.random();
-    };
 
     initEditor = layers => {
         this.editor = new EditControl();
@@ -173,7 +160,7 @@ class DataLayerStore extends LayerStore {
     delPointStyle = () => {
         let viz = document.querySelector('#viz');
         addClass(viz, 'move-point-viz');
-    }
+    };
 
     removeCur = () => {
         let viz = document.querySelector('#viz');
@@ -397,7 +384,7 @@ class DataLayerStore extends LayerStore {
         this.disableOtherCtrl();
         this.setEditType('delPoint');
         this.editor.deletePoints();
-        this.delPointStyle()
+        this.delPointStyle();
     };
 
     dragCopyedFeature = () => {
