@@ -436,6 +436,9 @@ class VizCompnent extends React.Component {
             }
 
             this.regionCheck(result);
+            if (DataLayerStore.editType === 'changePoints') {
+                message.success('修改形状点完成，需检查数据的关联关系正确性')
+            }
 
             if (!isManbuildTask(TaskStore.activeTask)) {
                 result = modUpdStatGeometry(result);
