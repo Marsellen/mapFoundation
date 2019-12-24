@@ -1,7 +1,6 @@
 import React from 'react';
 import 'less/blank.less';
 import IconFont from 'src/components/IconFont';
-import { Button } from 'antd';
 import VisitedHistory from 'src/utils/visiteCount';
 
 class Blank extends React.Component {
