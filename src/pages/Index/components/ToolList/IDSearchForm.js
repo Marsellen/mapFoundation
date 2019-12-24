@@ -6,12 +6,12 @@ import AdInputNumber from 'src/components/Form/AdInputNumber';
 const FormItem = Form.Item;
 
 @Form.create()
-@inject('DataLayerStore')
+@inject('VectorsStore')
 @observer
 class IDSearchForm extends React.Component {
     render() {
-        const { DataLayerStore, form } = this.props;
-        let options = DataLayerStore.layers || [];
+        const { VectorsStore, form } = this.props;
+        let options = VectorsStore.vectors.vector || [];
 
         return (
             <Form labelCol={{ span: 10 }} wrapperCol={{ span: 12 }}>

@@ -18,6 +18,7 @@ import Resize from 'src/utils/resize';
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('TaskStore')
+@inject('VectorsStore')
 @observer
 class ViewAttribute extends React.Component {
     constructor(props) {
@@ -145,8 +146,8 @@ class ViewAttribute extends React.Component {
     };
 
     getTableTitle = () => {
-        const { DataLayerStore } = this.props;
-        let options = DataLayerStore.layers || [];
+        const { VectorsStore } = this.props;
+        let options = VectorsStore.vectors.vector || [];
         const { layerName } = this.state;
         return (
             <div>

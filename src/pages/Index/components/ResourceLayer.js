@@ -2,7 +2,7 @@ import React from 'react';
 import { Checkbox, List } from 'antd';
 import { inject, observer } from 'mobx-react';
 import {
-    RESOURCE_LAYER_VETOR,
+    RESOURCE_LAYER_VECTOR,
     RESOURCE_LAYER_BOUNDARY,
     RESOURCE_LAYER_POINT_CLOUD
 } from 'src/config/DataLayerConfig';
@@ -42,8 +42,8 @@ class ResourceLayer extends React.Component {
             ResourceLayerStore.toggle(item.value, checked);
 
             switch (item.value) {
-                case RESOURCE_LAYER_VETOR: //高精地图
-                    toggleAll(checked, RESOURCE_LAYER_VETOR);
+                case RESOURCE_LAYER_VECTOR: //高精地图
+                    toggleAll(checked, RESOURCE_LAYER_VECTOR);
                     break;
                 case RESOURCE_LAYER_BOUNDARY: //周边底图
                     toggleAll(checked, RESOURCE_LAYER_BOUNDARY);

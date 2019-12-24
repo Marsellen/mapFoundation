@@ -3,19 +3,21 @@ import { Checkbox, List } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import {
-    RESOURCE_LAYER_VETOR,
+    RESOURCE_LAYER_VECTOR,
     RESOURCE_LAYER_BOUNDARY
 } from 'src/config/DataLayerConfig';
 import 'less/components/sider.less';
 
 const vectorsTabsConfig = [
     {
-        key: RESOURCE_LAYER_VETOR,
-        title: '高精数据图层'
+        key: 'vector',
+        title: '高精数据图层',
+        value: RESOURCE_LAYER_VECTOR
     },
     {
-        key: RESOURCE_LAYER_BOUNDARY,
-        title: '周边底图图层'
+        key: 'boundary',
+        title: '周边底图图层',
+        value: RESOURCE_LAYER_BOUNDARY
     }
 ];
 
@@ -99,7 +101,11 @@ class DataLayer extends React.Component {
         const { ResourceLayerStore, VectorsStore } = this.props;
         const { layerType, toggleAll } = VectorsStore;
 
-        ResourceLayerStore.toggle(layerType, value);
+        let resourceKey = vectorsTabsConfig.find(
+            config => config.key === layerType
+        ).value;
+
+        ResourceLayerStore.toggle(resourceKey, value);
         // 控制数据图层全部按钮的是否选中状态
         toggleAll(value);
     };

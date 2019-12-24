@@ -14,6 +14,7 @@ const showTotal = total => `共${total}条`;
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('QualityCheckStore')
+@inject('VectorsStore')
 @observer
 class QualityCheckResultTable extends React.Component {
     checkReportTable = null;
@@ -258,7 +259,7 @@ class QualityCheckResultTable extends React.Component {
     //双击
     tableOnDoubleClick = (record, index) => {
         return e => {
-            const { QualityCheckStore, TaskStore, DataLayerStore } = this.props;
+            const { QualityCheckStore, TaskStore, VectorsStore } = this.props;
             const { visitedReport } = QualityCheckStore;
             const { activeTaskId } = TaskStore;
             let { layerName, featureId } = record;
@@ -267,9 +268,8 @@ class QualityCheckResultTable extends React.Component {
             //展开
             this.openRowStyle(index);
             //定位，判断是否为可定位图层
-            const isValidLayer = DataLayerStore.layers.find(
-                item => item.value === layerName
-            );
+            let layers = VectorsStore.vectors.vector;
+            const isValidLayer = layers.find(item => item.value === layerName);
             if (!isValidLayer) return;
 
             let IDKey = getLayerIDKey(layerName);

@@ -1,14 +1,10 @@
 import { observable, configure, action, computed } from 'mobx';
-import {
-    RESOURCE_LAYER_VETOR,
-    RESOURCE_LAYER_BOUNDARY
-} from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });
 
 class VectorsStore {
     @observable vectors = {};
-    @observable layerType = RESOURCE_LAYER_VETOR;
+    @observable layerType = 'vector';
     @observable updateKey;
     @computed get isCheckedNone() {
         const type = this.layerType;
@@ -29,7 +25,7 @@ class VectorsStore {
     }
 
     @action addLayer = layerGroup => {
-        this.vectors[RESOURCE_LAYER_VETOR] = layerGroup.layers.map(layer => {
+        this.vectors.vector = layerGroup.layers.map(layer => {
             return {
                 layer: layer.layer,
                 value: layer.layerName,
@@ -39,7 +35,7 @@ class VectorsStore {
     };
 
     @action addBoundaryLayer = layerGroup => {
-        this.vectors[RESOURCE_LAYER_BOUNDARY] = layerGroup.layers
+        this.vectors.boundary = layerGroup.layers
             .filter(layer => layer.layerName !== 'AD_Map_QC')
             .map(layer => {
                 return {
