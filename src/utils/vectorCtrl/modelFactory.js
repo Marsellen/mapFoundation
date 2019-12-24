@@ -18,7 +18,7 @@ class modelFactory {
     getDefaultProperties = (layerName, id) => {
         let defaultProperties = DEFAULT_PROPERTIES_MAP[layerName] || {};
         let extrInfo = {};
-        if (layerName !== 'AD_MAP_QC') {
+        if (layerName !== 'AD_Map_QC') {
             let defaultConfidence = DEFAULT_CONFIDENCE_MAP[layerName] || '{}';
             extrInfo = {
                 CONFIDENCE: defaultConfidence,
