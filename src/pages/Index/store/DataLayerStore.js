@@ -219,6 +219,7 @@ class DataLayerStore {
 
     // 左右车道线生成中心线
     newAroundLine = () => {
+        this.exitEdit();
         if (!this.editor) return;
         this.disableOtherCtrl();
         this.setEditType('new_around_line');
@@ -229,6 +230,7 @@ class DataLayerStore {
 
     // 路口内直行中心线生成
     newStraightLine = () => {
+        this.exitEdit();
         if (!this.editor) return;
         this.disableOtherCtrl();
         this.setEditType('new_straight_line');
@@ -239,6 +241,7 @@ class DataLayerStore {
 
     // 路口内转弯中心线生成
     newTurnLine = () => {
+        this.exitEdit();
         if (!this.editor) return;
         this.disableOtherCtrl();
         this.setEditType('new_turn_line');
@@ -249,6 +252,7 @@ class DataLayerStore {
 
     // 路口内掉头中心线生成
     newUTurnLine = () => {
+        this.exitEdit();
         if (!this.editor) return;
         this.disableOtherCtrl();
         this.setEditType('new_Uturn_line');
