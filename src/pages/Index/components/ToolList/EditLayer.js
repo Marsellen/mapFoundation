@@ -4,7 +4,6 @@ import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import IconFont from 'src/components/IconFont';
 import { getEditLayers } from 'src/utils/permissionCtrl';
-import { RESOURCE_LAYER_VETOR } from 'src/config/DataLayerConfig';
 
 @inject('TaskStore')
 @observer
@@ -106,7 +105,7 @@ class EditLayerPicker extends React.Component {
         let { DataLayerStore, appStore, TaskStore, VectorsStore } = this.props;
         let userInfo = appStore.loginUser;
         const { activeTask } = TaskStore;
-        let layers = VectorsStore.vectors[RESOURCE_LAYER_VETOR];
+        let layers = VectorsStore.vectors.vector;
         layers = getEditLayers(layers, userInfo, activeTask);
         const { isTopView } = DataLayerStore;
 

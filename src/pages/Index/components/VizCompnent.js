@@ -17,7 +17,7 @@ import UnderView from './ToolList/UnderView';
 import TopView from './ToolList/TopView';
 import {
     RESOURCE_LAYER_POINT_CLOUD,
-    RESOURCE_LAYER_VETOR,
+    RESOURCE_LAYER_VECTOR,
     RESOURCE_LAYER_TRACE,
     RESOURCE_LAYER_TASK_SCOPE,
     RESOURCE_LAYER_BOUNDARY
@@ -116,8 +116,8 @@ class VizCompnent extends React.Component {
                 callback: () => {
                     event.preventDefault();
                     event.stopPropagation();
-                    ResourceLayerStore.toggle(RESOURCE_LAYER_VETOR, true, true);
-                    VectorsStore.toggleAll(true, RESOURCE_LAYER_VETOR, true);
+                    ResourceLayerStore.toggle(RESOURCE_LAYER_VECTOR, true, true);
+                    VectorsStore.toggleAll(true, RESOURCE_LAYER_VECTOR, true);
                 },
                 describe: '开关轨迹图层 2'
             }
@@ -219,7 +219,7 @@ class VizCompnent extends React.Component {
         VectorsStore.addLayer(vectorLayerGroup);
 
         return {
-            layerName: RESOURCE_LAYER_VETOR,
+            layerName: RESOURCE_LAYER_VECTOR,
             layer: vectorLayerGroup
         };
     };

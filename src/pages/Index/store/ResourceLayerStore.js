@@ -1,7 +1,7 @@
 import { action, configure, computed, observable } from 'mobx';
 import {
     RESOURCE_LAYER_POINT_CLOUD,
-    RESOURCE_LAYER_VETOR,
+    RESOURCE_LAYER_VECTOR,
     RESOURCE_LAYER_TRACE,
     RESOURCE_LAYER_TASK_SCOPE,
     RESOURCE_LAYER_BOUNDARY
@@ -9,7 +9,7 @@ import {
 
 const LAYER_SORT_MAP = {
     [RESOURCE_LAYER_POINT_CLOUD]: 0,
-    [RESOURCE_LAYER_VETOR]: 1,
+    [RESOURCE_LAYER_VECTOR]: 1,
     [RESOURCE_LAYER_TRACE]: 2,
     [RESOURCE_LAYER_TASK_SCOPE]: 3,
     [RESOURCE_LAYER_BOUNDARY]: 4
@@ -29,7 +29,7 @@ class ResourceLayerStore {
 
     @action toggleVertor = value => {
         let vetor = this.layers.find(
-            layer => layer.value == RESOURCE_LAYER_VETOR
+            layer => layer.value == RESOURCE_LAYER_VECTOR
         );
         if (vetor && vetor.checked != value) {
             vetor.checked = value;

@@ -14,6 +14,7 @@ const TabPane = Tabs.TabPane;
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('TaskStore')
+@inject('VectorsStore')
 @observer
 class SearchInfo extends React.Component {
     constructor() {
@@ -89,9 +90,7 @@ class SearchInfo extends React.Component {
     };
 
     searchByID = () => {
-        const {
-            DataLayerStore: { layers }
-        } = this.props;
+        const { VectorsStore } = this.props;
         let IDSForm = this.IDSForm.props.form;
         const reg = /^\d+(\.\d*)?$|^\.\d+$/;
 
@@ -107,6 +106,7 @@ class SearchInfo extends React.Component {
                     message.warning('请输入正整数！', 3);
                     return;
                 }
+                let layers = VectorsStore.vectors.vector;
                 let layer = layers.find(layer => layer.value == layerName);
                 if (!layer.checked) {
                     message.warning('请打开被查询的数据图层！', 3);
