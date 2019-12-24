@@ -45,9 +45,14 @@ class ResourceLayerStore {
                 checked: true
             };
         });
-        this.layers = this.layers.concat(layers).sort((a, b) => {
-            return LAYER_SORT_MAP[a.value] < LAYER_SORT_MAP[b.value] ? -1 : 1;
-        });
+        this.layers = this.layers
+            .concat(layers)
+            .slice()
+            .sort((a, b) => {
+                return LAYER_SORT_MAP[a.value] < LAYER_SORT_MAP[b.value]
+                    ? -1
+                    : 1;
+            });
     };
 
     @action updateLayerByName = (name, layer) => {
@@ -60,7 +65,7 @@ class ResourceLayerStore {
                 value: name,
                 checked: true
             });
-            this.layers = this.layers.sort((a, b) => {
+            this.layers = this.layers.slice().sort((a, b) => {
                 return LAYER_SORT_MAP[a.value] < LAYER_SORT_MAP[b.value]
                     ? -1
                     : 1;
