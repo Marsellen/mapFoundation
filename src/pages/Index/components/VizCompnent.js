@@ -237,6 +237,7 @@ class VizCompnent extends React.Component {
     };
 
     initRegion = async regionUrl => {
+        if (!regionUrl) return;
         try {
             const { DataLayerStore } = this.props;
             const vectorLayer = new VectorLayer(regionUrl);
@@ -257,6 +258,7 @@ class VizCompnent extends React.Component {
     };
 
     initBoundary = async boundaryUrl => {
+        if (!boundaryUrl) return;
         try {
             window.boundaryLayerGroup = new LayerGroup(boundaryUrl, {
                 styleConifg: OutsideVectorsConfig
@@ -316,11 +318,14 @@ class VizCompnent extends React.Component {
 
         // attributes 拾取控件
         const { DataLayerStore } = this.props;
+        let boundaryLayers = window.boundaryLayerGroup
+            ? window.boundaryLayerGroup.layers
+            : [];
         DataLayerStore.initEditor([
             { layer: pointCloudLayer },
             ...vectorLayerGroup.layers,
             { layer: traceLayer },
-            ...boundaryLayerGroup.layers
+            ...boundaryLayers
         ]);
         DataLayerStore.initMeasureControl();
         DataLayerStore.setSelectedCallBack(this.selectedCallBack);
