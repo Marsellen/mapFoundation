@@ -117,9 +117,13 @@ class DataLayer extends React.Component {
 
         vectorsToggle(item.value, value);
 
-        const { layerType, isCheckedAll, isCheckedNone } = VectorsStore;
-        isCheckedAll && resourceToggle(layerType, true);
-        isCheckedNone && resourceToggle(layerType, false);
+        const { layerType, isCheckedNone } = VectorsStore;
+
+        let resourceKey = vectorsTabsConfig.find(
+            config => config.key === layerType
+        ).value;
+
+        resourceToggle(resourceKey, !isCheckedNone);
     };
 }
 
