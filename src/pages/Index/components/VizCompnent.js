@@ -84,9 +84,10 @@ class VizCompnent extends React.Component {
     }
 
     release = () => {
-        const { ResourceLayerStore } = this.props;
+        const { ResourceLayerStore, VectorsStore } = this.props;
         window.map && window.map.release();
         ResourceLayerStore.release();
+        VectorsStore.release();
     };
 
     addShortcut = event => {
@@ -116,7 +117,11 @@ class VizCompnent extends React.Component {
                 callback: () => {
                     event.preventDefault();
                     event.stopPropagation();
-                    ResourceLayerStore.toggle(RESOURCE_LAYER_VECTOR, true, true);
+                    ResourceLayerStore.toggle(
+                        RESOURCE_LAYER_VECTOR,
+                        true,
+                        true
+                    );
                     VectorsStore.toggleAll(true, RESOURCE_LAYER_VECTOR, true);
                 },
                 describe: '开关轨迹图层 2'
@@ -437,7 +442,7 @@ class VizCompnent extends React.Component {
 
             this.regionCheck(result);
             if (DataLayerStore.editType === 'changePoints') {
-                message.success('修改形状点完成，需检查数据的关联关系正确性')
+                message.success('修改形状点完成，需检查数据的关联关系正确性');
             }
 
             if (!isManbuildTask(TaskStore.activeTask)) {

@@ -68,6 +68,11 @@ class VectorsStore {
         });
         this.updateKey = Math.random();
     };
+
+    @action release = () => {
+        this.vectors = {};
+        this.layerType = 'vector';
+    };
 }
 
 export default new VectorsStore();
