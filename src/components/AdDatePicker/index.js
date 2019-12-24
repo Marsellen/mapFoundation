@@ -333,7 +333,13 @@ class AdDatePicker extends React.Component {
                             <span>
                                 <span className="time-min">
                                     时分
-                                    <Button className="add" onClick={this.add}>
+                                    <Button
+                                        disabled={
+                                            isCheckbox.indexOf('checkbox') ===
+                                            -1
+                                        }
+                                        className="add"
+                                        onClick={this.add}>
                                         添加
                                     </Button>
                                 </span>
