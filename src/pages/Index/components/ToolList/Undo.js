@@ -10,10 +10,6 @@ import AdEmitter from 'src/models/event';
 @observer
 class Undo extends React.Component {
     render() {
-        const { OperateHistoryStore } = this.props;
-        let { currentNode, savedNode } = OperateHistoryStore;
-        let shouldUndo = currentNode > savedNode;
-
         return (
             <ToolIcon
                 id="undo-btn"
