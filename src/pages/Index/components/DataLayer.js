@@ -114,18 +114,25 @@ class DataLayer extends React.Component {
 
     changeEvent = (item, value) => {
         const { ResourceLayerStore, VectorsStore } = this.props;
-        const { toggle: resourceToggle } = ResourceLayerStore;
+        const { toggle: resourceToggle, setIndeterminate } = ResourceLayerStore;
         const { toggle: vectorsToggle } = VectorsStore;
 
         vectorsToggle(item.value, value);
 
-        const { layerType, isCheckedNone } = VectorsStore;
+        const {
+            layerType,
+            isCheckedNone,
+            isCheckedAll,
+            indeterminate
+        } = VectorsStore;
 
         let resourceKey = vectorsTabsConfig.find(
             config => config.key === layerType
         ).value;
 
-        resourceToggle(resourceKey, !isCheckedNone);
+        isCheckedAll && resourceToggle(resourceKey, true);
+        isCheckedNone && resourceToggle(resourceKey, false);
+        indeterminate && setIndeterminate(resourceKey);
     };
 }
 

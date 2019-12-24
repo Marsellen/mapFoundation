@@ -88,6 +88,12 @@ class ResourceLayerStore {
         this.updateKey = Math.random();
     };
 
+    @action setIndeterminate = name => {
+        let layerEx = this.layers.find(layer => layer.value == name);
+        layerEx.checked = true;
+        this.updateKey = Math.random();
+    };
+
     @action release = () => {
         this.layers = [];
     };
