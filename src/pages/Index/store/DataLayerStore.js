@@ -25,6 +25,7 @@ class DataLayerStore {
     @observable beenPick;
     @observable isTopView = false;
     @observable readCoordinateResult;
+    @observable updateKey;
 
     initEditor = layers => {
         this.editor = new EditControl();
