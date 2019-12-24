@@ -35,12 +35,14 @@ class DataLayer extends React.Component {
             isCheckedAll
         } = VectorsStore;
         const vectorsLayers = vectors[layerType];
+        let keys = Object.keys(vectors);
+        let tabs = vectorsTabsConfig.filter(tab => keys.includes(tab.key));
         return (
             <div className="vectors-wrap">
                 {/* 标题 */}
                 {vectorsLayers && (
                     <ul className="vectors-title-ul">
-                        {vectorsTabsConfig.map(item => {
+                        {tabs.map(item => {
                             return (
                                 <li
                                     key={item.key}
