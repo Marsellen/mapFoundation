@@ -163,15 +163,11 @@ const replaceAttrs = async ([oldAttrs, newAttrs] = []) => {
     let attrStore = Attr.store;
     let oldAttrIds = await oldAttrs.reduce(async (total, record) => {
         total = await total;
-        if (record.id) {
-            total.push(record.id);
-        } else {
-            let _record = await attrStore.get(
-                [record.source, record.sourceId],
-                'SOURCE_ID'
-            );
-            total.push(_record.id);
-        }
+        let _record = await attrStore.get(
+            [record.source, record.sourceId],
+            'SOURCE_ID'
+        );
+        total.push(_record.id);
         return total;
     }, []);
     await Promise.all(oldAttrIds.map(id => attrStore.deleteById(id)));
