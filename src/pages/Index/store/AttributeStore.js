@@ -248,7 +248,6 @@ class AttributeStore {
     };
 
     calcAttrLog = attrs => {
-        this.deleteAttrs();
         if (attrs) {
             let newAttrs = attrFactory.calcNewAttrs(attrs);
             return attrFactory.calcDiffAttrs(this.attrRecords, newAttrs);
@@ -258,6 +257,7 @@ class AttributeStore {
             );
             return attrFactory.calcDiffAttrs(this.attrRecords, newAttrs);
         }
+        this.deleteAttrs();
         return [[], []];
     };
 
