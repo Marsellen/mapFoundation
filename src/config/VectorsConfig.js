@@ -36,7 +36,8 @@ export default {
             type: 'Line',
             filter: ['TYPE'],
             order: 15,
-            showFirstLastPoint: true
+            showFirstLastPoint: true,
+            showArrow: true
         },
         AD_LANEDIVIDER: {
             type: 'Line',
@@ -49,7 +50,8 @@ export default {
             type: 'Line',
             filter: ['TYPE'],
             order: 13,
-            showFirstLastPoint: true
+            showFirstLastPoint: true,
+            showArrow: true
         },
         AD_LANE_SHAPE: { type: 'Line', filter: [], order: 12 },
         AD_LANEATTRPOINT: { type: 'Point', filter: ['TYPE'], order: 11 },
