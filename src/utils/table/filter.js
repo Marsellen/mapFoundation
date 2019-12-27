@@ -34,8 +34,9 @@ class Filter {
         if (value === null || value === undefined) {
             return '--';
         }
-        let config = TYPE_SELECT_OPTION_MAP[type].find(c => c.value == value);
-        return config ? config.label : value;
+        let options = TYPE_SELECT_OPTION_MAP[type].flat();
+        let option = options.find(c => c.value == value);
+        return option ? option.label : value;
     };
 
     updStatFilter = value => {
@@ -61,6 +62,14 @@ class Filter {
         } catch (e) {
             return '--';
         }
+    };
+
+    adLaneRsValueFilter = (value, record) => {
+        let rsType = record.RS_TYPE;
+        let type = 'AD_LANE_RS_VALUE' + (rsType || '0');
+        let options = TYPE_SELECT_OPTION_MAP[type].flat();
+        let option = options.find(c => c.value == value);
+        return option ? option.label : value;
     };
 }
 

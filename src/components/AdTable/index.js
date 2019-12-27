@@ -6,7 +6,7 @@ import Filter from 'src/utils/table/filter';
 function AdTableCell(props) {
     const { filterBy, record, dataIndex, ...restProps } = props;
     let value = record[dataIndex];
-    let text = filterBy ? Filter.get(filterBy)(value) : value;
+    let text = filterBy ? Filter.get(filterBy)(value, record) : value;
 
     return (
         <td
