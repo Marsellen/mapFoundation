@@ -12,7 +12,6 @@ import 'less/components/tool-icon.less';
 import zh_CN from 'antd/es/locale/zh_CN';
 import SeniorModal from 'src/components/SeniorModal';
 import AdEmitter from 'src/models/event';
-import AdSearch from 'src/components/Form/AdSearch';
 import Resize from 'src/utils/resize';
 import Filter from 'src/utils/table/filter';
 
@@ -30,7 +29,8 @@ class ViewAttribute extends React.Component {
             dataSource: [],
             layerName: null,
             height: 500,
-            loading: false
+            loading: false,
+            filteredInfo: null
         };
     }
 
@@ -111,7 +111,15 @@ class ViewAttribute extends React.Component {
                         return this.getTableTitle();
                     }}
                     loading={this.state.loading}
+                    onChange={this.handleChange}
                 />
+                {!!dataSource.length && (
+                    <Button
+                        className="reset-button"
+                        onClick={this.clearFilters}>
+                        筛选重置
+                    </Button>
+                )}
             </ConfigProvider>
         );
     };
@@ -166,17 +174,12 @@ class ViewAttribute extends React.Component {
                         );
                     })}
                 </Select>
-                {/* <AdSearch
-                    placeholder="请输入用户编号..."
-                    onSearch={this.onSearch}
-                    style={{ width: '100%' }}
-                /> */}
             </div>
         );
     };
 
     changeLayer = layerName => {
-        this.setState({ layerName }, this.getData);
+        this.setState({ layerName, filteredInfo: null }, this.getData);
     };
 
     getData = () => {
@@ -223,6 +226,8 @@ class ViewAttribute extends React.Component {
     };
 
     getColumnSearchProps = col => ({
+        key: col.dataIndex,
+        filteredValue: this.getFilteredValue(col.dataIndex),
         filterDropdown: ({
             setSelectedKeys,
             selectedKeys,
@@ -269,7 +274,10 @@ class ViewAttribute extends React.Component {
                 ? Filter.get(col.filterBy)(record[col.dataIndex], record)
                 : record[col.dataIndex];
 
-            return text.toLowerCase().includes(value.toLowerCase());
+            return text
+                .toString()
+                .toLowerCase()
+                .includes(value.toLowerCase());
         },
         onFilterDropdownVisibleChange: visible => {
             if (visible) {
@@ -277,6 +285,37 @@ class ViewAttribute extends React.Component {
             }
         }
     });
+
+    getFilteredValue = dataIndex => {
+        const { filteredInfo } = this.state;
+        return filteredInfo ? filteredInfo[dataIndex] : [];
+    };
+
+    handleChange = (pagination, filters) => {
+        this.setState(
+            {
+                filteredInfo: filters
+            },
+            () => {
+                let { layerName } = this.state;
+                let columns = this.getColumns(layerName);
+                this.setState({ columns });
+            }
+        );
+    };
+
+    clearFilters = () => {
+        this.setState(
+            {
+                filteredInfo: null
+            },
+            () => {
+                let { layerName } = this.state;
+                let columns = this.getColumns(layerName);
+                this.setState({ columns });
+            }
+        );
+    };
 
     handleResize = index => (e, { size }) => {
         this.setState(({ columns }) => {
@@ -323,7 +362,8 @@ class ViewAttribute extends React.Component {
             this.setState(
                 {
                     visible: true,
-                    layerName
+                    layerName,
+                    filteredInfo: null
                 },
                 this.getData
             );
