@@ -1421,7 +1421,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_Road:
         '{"TYPE":{},"RD_CLASS":{},"CROSSING":{},"RD_STATUS":{},"RD_FORM":{},"DIRECTION":{},"MAX_SPEED":{},"GEOMETRY":{}}',
     AD_Road_Con: '{"FROM_ROAD":{},"TO_ROAD":{}}',
-    AD_Road_Con_RS: '{"LANE_ID":{},"RS_TYPE":{},"RS_VALUE":{},"TIMEDOM":{}}',
+    AD_Road_Con_RS: '{"REL_ID":{},"RS_TYPE":{},"TIMEDOM":{}}',
     AD_LaneDivider:
         '{"TYPE":{},"RD_LINE":{},"SHARE_LINE":{},"RD_EDGE":{},"DIRECTION":{},"LANESTATUS":{},"LANE_TYPE":{},"LANE_NO":{},"RD_FORM":{},"GEOMETRY":{}}',
     AD_Lane:
@@ -1439,7 +1439,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_Text: '{"TYPE":{},"VALUE":{},"LANE_ID":{},"GEOMETRY":{}}',
     AD_TrafficSign: '{"SIGN_STYLE":{},"GEOMETRY":{}}',
     AD_TS_Content:
-        '{"SIGN_TYPE":{},"CONT_TYPE":{},"TIMEDOM":{},"CONT_VALUE":{},"SIGN_NO":{}}',
+        '{"SIGN_ID":{},"SIGN_TYPE":{},"CONT_TYPE":{},"TIMEDOM":{},"CONT_VALUE":{},"SIGN_NO":{}}',
     AD_Sign_Lane_Rel: '{"SIGN_ID":{},"LANE_ID":{}}',
     AD_TrafficLight: '{"TYPE":{},"LAYOUT":{},"LAMP_COUNT":{},"GEOMETRY":{}}',
     AD_Sub_Lamp: '{"LIGHT_ID":{},"LAMP_TYPE":{},"LAMP_NO":{}}',
