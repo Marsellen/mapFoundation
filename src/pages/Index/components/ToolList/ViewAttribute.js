@@ -30,7 +30,8 @@ class ViewAttribute extends React.Component {
             layerName: null,
             height: 500,
             loading: false,
-            filteredInfo: null
+            filteredInfo: null,
+            currentDataSource: null
         };
     }
 
@@ -79,7 +80,7 @@ class ViewAttribute extends React.Component {
     };
 
     renderContent = () => {
-        const { columns, dataSource, height } = this.state;
+        const { columns, dataSource, height, currentDataSource } = this.state;
         return (
             <ConfigProvider locale={zh_CN}>
                 <AdTable
@@ -98,13 +99,14 @@ class ViewAttribute extends React.Component {
                     size="small"
                     rowClassName={record => `table-row-${record.index}`}
                     pagination={{
-                        total: dataSource.length,
+                        total: (currentDataSource || dataSource).length,
                         pageSizeOptions: ['10', '30', '50'],
                         showQuickJumper: true,
                         showSizeChanger: true,
                         onChange: this.handlePagination,
                         onShowSizeChange: this.handlePagination,
-                        showTotal: () => `共${dataSource.length}条`
+                        showTotal: () =>
+                            `共${(currentDataSource || dataSource).length}条`
                     }}
                     scroll={{ x: 'max-content', y: height }}
                     title={() => {
@@ -179,7 +181,10 @@ class ViewAttribute extends React.Component {
     };
 
     changeLayer = layerName => {
-        this.setState({ layerName, filteredInfo: null }, this.getData);
+        this.setState(
+            { layerName, filteredInfo: null, currentDataSource: null },
+            this.getData
+        );
     };
 
     getData = () => {
@@ -291,10 +296,12 @@ class ViewAttribute extends React.Component {
         return filteredInfo ? filteredInfo[dataIndex] : [];
     };
 
-    handleChange = (pagination, filters) => {
+    handleChange = (pagination, filters, sorter, extra) => {
+        const { currentDataSource } = extra;
         this.setState(
             {
-                filteredInfo: filters
+                filteredInfo: filters,
+                currentDataSource
             },
             () => {
                 let { layerName } = this.state;
@@ -307,7 +314,8 @@ class ViewAttribute extends React.Component {
     clearFilters = () => {
         this.setState(
             {
-                filteredInfo: null
+                filteredInfo: null,
+                currentDataSource: null
             },
             () => {
                 let { layerName } = this.state;
@@ -363,7 +371,8 @@ class ViewAttribute extends React.Component {
                 {
                     visible: true,
                     layerName,
-                    filteredInfo: null
+                    filteredInfo: null,
+                    currentDataSource: null
                 },
                 this.getData
             );
