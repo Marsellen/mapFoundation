@@ -56,7 +56,7 @@ import { editVisiteHistory } from 'src/utils/visiteHistory';
 @inject('PointCloudStore')
 @inject('VectorsStore')
 @observer
-class VizCompnent extends React.Component {
+class VizComponent extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -597,4 +597,4 @@ class VizCompnent extends React.Component {
     }
 }
 
-export default VizCompnent;
+export default VizComponent;

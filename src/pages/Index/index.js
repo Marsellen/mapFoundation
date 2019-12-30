@@ -3,7 +3,7 @@ import { Layout } from 'antd';
 import { inject, observer } from 'mobx-react';
 import Sider from 'src/components/Sider';
 import SiderView from './components/SiderView';
-import VizCompnent from './components/VizCompnent';
+import VizComponent from './components/VizComponent';
 import HeaderBar from './components/HeaderBar';
 import 'less/home.less';
 import logo from 'src/assets/img/logo.png';
@@ -45,7 +45,7 @@ class Index extends React.Component {
                     <HelpList />
                     <VersionInfo />
                     <div className="flex-1 viz-content" id="viz-content">
-                        <VizCompnent />
+                        <VizComponent />
                     </div>
                 </div>
             </Layout>
