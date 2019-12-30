@@ -14,6 +14,7 @@ import editLog from 'src/models/editLog';
 import _ from 'lodash';
 import AdEmitter from 'src/models/event';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
+import { isManbuildTask } from 'src/utils/taskUtils';
 
 const EDIT_TYPE = [
     'delPoint',
@@ -318,7 +319,8 @@ class RightMenuModal extends React.Component {
             RightMenuStore,
             NewFeatureStore,
             OperateHistoryStore,
-            AttributeStore
+            AttributeStore,
+            TaskStore
         } = this.props;
         // console.log(result);
 
@@ -339,10 +341,17 @@ class RightMenuModal extends React.Component {
 
             let feature = RightMenuStore.getFeatures()[0];
             let IDKey = getLayerIDKey(feature.layerName);
-            delete feature.data.properties[IDKey];
+            {
+                delete feature.data.properties[IDKey];
+                delete feature.data.properties.UPD_STAT;
+                delete feature.data.properties.CONFIDENCE;
+            }
 
             // 请求id服务，申请id
-            data = await NewFeatureStore.init(result);
+            data = await NewFeatureStore.init(
+                result,
+                isManbuildTask(TaskStore.activeTask)
+            );
             data.data.properties = {
                 ...data.data.properties,
                 ...feature.data.properties
