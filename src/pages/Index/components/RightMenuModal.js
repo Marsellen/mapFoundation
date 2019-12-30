@@ -361,6 +361,7 @@ class RightMenuModal extends React.Component {
             };
             OperateHistoryStore.add(history);
             editLog.store.add(log);
+            AdEmitter.emit('fetchViewAttributeData');
         } catch (e) {
             if (data) {
                 let layer = DataLayerStore.getEditLayer();
