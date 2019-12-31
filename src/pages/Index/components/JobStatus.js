@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import editLog from 'src/models/editLog';
 import 'less/components/jobstatus.less';
+import AdLocalStorage from 'src/utils/AdLocalStorage';
 
 const MANUALSTATUS = {
     4: '返修',
@@ -223,16 +224,16 @@ class JobStatus extends React.Component {
         const { currentNode, savedNode } = OperateHistoryStore;
         const shouldSave = currentNode > savedNode;
 
-        //保存
+        //第一步：保存
         if (shouldSave) {
             await this.action();
         }
 
-        //质检
+        //第二步：质检
         const res = await this.handleCheck(option);
         if (!res) return false;
 
-        //提交
+        //第三步：提交
         this.taskSubmit(option);
     };
 
@@ -243,16 +244,21 @@ class JobStatus extends React.Component {
             await TaskStore.initSubmit(option);
             TaskStore.setActiveTask();
             this.clearWorkSpace();
-            // 返工或返修不获取新任务
-            if (option.manualStatus === 4 || option.manualStatus === 5) {
-                TaskStore.initTask({ type: 4 });
-            } else {
-                // 提交后重新获取任务
-                TaskStore.initTask({ type: 3 });
-            }
             message.success('提交成功');
+
             //关闭质检弹窗
             closeCheckReport();
+
+            if (option.manualStatus === 4 || option.manualStatus === 5) {
+                // 更新任务列表
+                await TaskStore.initTask({ type: 4 });
+            } else {
+                // 获取新任务，更新任务列表
+                await TaskStore.initTask({ type: 3 });
+            }
+
+            // 更新任务列表后，清除浏览器缓存中多余任务信息
+            AdLocalStorage.filterTaskInfosStorage(TaskStore.taskIdList);
         } catch (e) {
             message.error(e.message, 3);
         }

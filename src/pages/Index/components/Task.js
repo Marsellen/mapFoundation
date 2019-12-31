@@ -144,9 +144,10 @@ class Task extends React.Component {
 
         const { TaskStore, QualityCheckStore, DataLayerStore } = this.props;
         const { current } = this.state;
+        const { taskIdList } = TaskStore;
 
         // 切换任务时，保存上一个任务的缩放比例，该方法需最先执行
-        if (current) {
+        if (current && taskIdList.includes(current)) {
             const preTaskScale = map.getEyeView();
             const { position } = preTaskScale;
             const { x, y, z } = position;

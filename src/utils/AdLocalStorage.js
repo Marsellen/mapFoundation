@@ -2,11 +2,14 @@ import { getAuthentication } from 'src/utils/Session';
 
 class AdLocalStorage {
     constructor() {
-        const { username } = getAuthentication();
-        this.username = username;
         this.currentTaskScale = null;
         this.currentTaskBoundaryIsUpdate = false;
     }
+
+    getUserName = () => {
+        const { username } = getAuthentication();
+        this.username = username;
+    };
 
     setLocalStorage = (key, value) => {
         if (typeof value === 'object') {
@@ -30,6 +33,7 @@ class AdLocalStorage {
 
     // 参数说明 currentTaskInfo {taskId:123,taskScale:{},taskBoundaryIsUpdate:true,checkReport:{}}
     setTaskInfosStorage = currentTaskInfo => {
+        this.getUserName();
         if (!this.username) return;
         const { taskId } = currentTaskInfo;
         const taskInfos = this.getLocalStorage('taskInfos', true) || {};
@@ -43,6 +47,7 @@ class AdLocalStorage {
     };
 
     getTaskInfosStorage = taskId => {
+        this.getUserName();
         if (!this.username) return;
         const taskInfos = this.getLocalStorage('taskInfos', true) || null;
         if (
@@ -57,6 +62,7 @@ class AdLocalStorage {
     };
 
     filterTaskInfosStorage = taskIdArr => {
+        this.getUserName();
         if (!this.username) return;
         const taskInfos = this.getLocalStorage('taskInfos', true) || null;
         if (taskInfos) {
