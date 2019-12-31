@@ -44,7 +44,7 @@ const CHINESE_EDIT_TYPE = [
     },
     {
         type: 'select_point',
-        value: '选择一个点进行打断'
+        value: '在线上选择一个打断点，右键执行打断'
     },
     {
         type: 'reverseOrderLine',
@@ -52,7 +52,7 @@ const CHINESE_EDIT_TYPE = [
     },
     {
         type: 'create_break_line',
-        value: '绘制一条打断线'
+        value: '两点绘制一条打断线，右键执行打断'
     }
 ];
 
