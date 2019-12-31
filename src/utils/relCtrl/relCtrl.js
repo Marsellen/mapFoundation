@@ -103,7 +103,9 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
         };
     }
 
-    let isAttrRel = ATTR_REL_DATA_SET.includes(relSpecs[0].source);
+    let isAttrRel =
+        ATTR_REL_DATA_SET.includes(relSpecs[0].source) &&
+        layerName === relSpecs[0].source;
     if (isAttrRel && relFeatures.length > relSpecs.length) {
         throw {
             message: `${layerName}和${relFeatureTypes[0]}的关联类型超出规格定义`
