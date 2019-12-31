@@ -177,7 +177,7 @@ export const DATA_LAYER_MAP = {
         groupRightTools: ['breakGroup', 'merge', 'batchAssign', 'breakByLine']
     },
     AD_Lane_RS: {
-        label: '车道中心线交通限制信息',
+        label: '中心线交通限制信息',
         id: 'RS_ID',
         spec: 'AD_Lane_RS'
     },
@@ -196,12 +196,12 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_LaneShape'
     },
     AD_TS_Content: {
-        label: '交通标志牌相关属性',
+        label: '交通标志牌子属性',
         id: 'CONT_ID',
         spec: 'AD_TS_Content'
     },
     AD_Sub_Lamp: {
-        label: '交通信号灯灯头相关属性',
+        label: '交通信号灯灯头属性',
         id: 'LAMP_ID',
         spec: 'AD_Sub_Lamp'
     }
