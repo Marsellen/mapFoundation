@@ -1,6 +1,7 @@
 import { getLayerByName, getLayerIDKey } from '../vectorUtils';
-import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
+import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
 import Attr from 'src/models/attr';
+const ATTR_SPECS = Object.keys(ATTR_TABLE_CONFIG);
 
 export const getLayerItems = async layerName => {
     if (!layerName) {
@@ -14,9 +15,8 @@ export const getLayerItems = async layerName => {
     }
 };
 
-const isAttrLayer = layerName => {
-    let attrLayers = ATTR_SPEC_CONFIG.map(config => config.source);
-    return attrLayers.includes(layerName);
+export const isAttrLayer = layerName => {
+    return ATTR_SPECS.includes(layerName);
 };
 
 const getVectorData = layerName => {

@@ -5,7 +5,10 @@ import { inject, observer } from 'mobx-react';
 import AdTable from 'src/components/AdTable';
 import { COLUMNS_CONFIG } from 'src/config/PropertiesTableConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
-import { getLayerItems } from 'src/utils/vectorCtrl/propertyTableCtrl';
+import {
+    getLayerItems,
+    isAttrLayer
+} from 'src/utils/vectorCtrl/propertyTableCtrl';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import 'less/components/view-attribute.less';
 import 'less/components/tool-icon.less';
@@ -14,6 +17,7 @@ import SeniorModal from 'src/components/SeniorModal';
 import AdEmitter from 'src/models/event';
 import Resize from 'src/utils/resize';
 import Filter from 'src/utils/table/filter';
+import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -142,20 +146,6 @@ class ViewAttribute extends React.Component {
         const { height: resizeEleHeight } = result;
         this.setState({
             height: resizeEleHeight - 200
-        });
-    };
-
-    onSearch = val => {
-        const { layerName } = this.state;
-        this.setState({ loading: true });
-        getLayerItems(layerName).then(dataSource => {
-            let IDKey = getLayerIDKey(layerName);
-            if (val) {
-                dataSource = (dataSource || []).filter(
-                    record => record[IDKey] == val
-                );
-            }
-            this.setState({ dataSource, loading: false }, this.getResizeStyle);
         });
     };
 
@@ -405,15 +395,7 @@ class ViewAttribute extends React.Component {
 
     tableOnClick = record => {
         return e => {
-            let { layerName } = this.state;
-            let IDKey = getLayerIDKey(layerName);
-            let id = record[IDKey];
-            let option = {
-                key: IDKey,
-                value: id
-            };
-            let layer = getLayerByName(layerName);
-            let feature = layer.getFeatureByOption(option).properties;
+            let feature = this.searchFeature(record);
             this.showAttributesModal(feature);
             //展开
             this.openRowStyle(record.index);
@@ -422,15 +404,7 @@ class ViewAttribute extends React.Component {
 
     tableOnDoubleClick = record => {
         return e => {
-            let { layerName } = this.state;
-            let IDKey = getLayerIDKey(layerName);
-            let id = record[IDKey];
-            let option = {
-                key: IDKey,
-                value: id
-            };
-            let layer = getLayerByName(layerName);
-            let feature = layer.getFeatureByOption(option).properties;
+            let feature = this.searchFeature(record);
             let extent = map.getExtent(feature.data.geometry);
             console.log(extent);
             map.setView('U');
@@ -450,6 +424,25 @@ class ViewAttribute extends React.Component {
         await AttributeStore.setModel(obj);
         DataLayerStore.setFeatureColor(obj, 'rgb(255,134,237)');
         AttributeStore.show(readonly);
+    };
+
+    searchFeature = record => {
+        let { layerName } = this.state;
+        let option, layer;
+        if (isAttrLayer(layerName)) {
+            let config = ATTR_SPEC_CONFIG.find(c => c.source === layerName);
+            option = {
+                key: config.key,
+                value: record[config.key]
+            };
+            layer = getLayerByName(config.relSpec);
+        } else {
+            let IDKey = getLayerIDKey(layerName);
+            let id = record[IDKey];
+            option = { key: IDKey, value: id };
+            layer = getLayerByName(layerName);
+        }
+        return layer.getFeatureByOption(option).properties;
     };
 }
 

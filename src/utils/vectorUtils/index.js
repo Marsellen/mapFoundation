@@ -38,21 +38,27 @@ export const updateFeatureColor = (layerName, option, color) => {
 };
 
 export const getFeatureByOptionFormAll = (layerName, option) => {
-    let vectorLayer = vectorLayerGroup.layers.find(
-        layer => layer.layerName == layerName
-    ).layer;
-    let vectorFeature = vectorLayer && vectorLayer.getFeatureByOption(option);
-    if (vectorFeature) {
-        return [vectorLayer, vectorFeature.properties];
+    if (window.vectorLayerGroup) {
+        let vectorLayer = window.vectorLayerGroup.layers.find(
+            layer => layer.layerName == layerName
+        ).layer;
+        let vectorFeature =
+            vectorLayer && vectorLayer.getFeatureByOption(option);
+        if (vectorFeature) {
+            return [vectorLayer, vectorFeature.properties];
+        }
     }
-    let boundaryLayer = boundaryLayerGroup.layers.find(
-        layer => layer.layerName == layerName
-    ).layer;
-    let boundaryFeature =
-        boundaryLayer && boundaryLayer.getFeatureByOption(option);
-    if (boundaryFeature) {
-        return [boundaryLayer, boundaryFeature.properties];
+    if (window.boundaryLayerGroup) {
+        let boundaryLayer = window.boundaryLayerGroup.layers.find(
+            layer => layer.layerName == layerName
+        ).layer;
+        let boundaryFeature =
+            boundaryLayer && boundaryLayer.getFeatureByOption(option);
+        if (boundaryFeature) {
+            return [boundaryLayer, boundaryFeature.properties];
+        }
     }
+
     return [];
 };
 
