@@ -18,7 +18,8 @@ import {
     getExportShpUrl,
     getEditPath,
     completeSecendUrl,
-    completeEditUrl
+    completeEditUrl,
+    completeBoundaryUrl
 } from 'src/utils/taskUtils';
 
 configure({ enforceActions: 'always' });
@@ -27,6 +28,10 @@ class TaskStore {
     @observable activeTask = {};
     @observable taskSaveTime;
     @observable editTaskId;
+
+    @computed get taskIdList() {
+        return this.tasks.map(item => Number(item.taskId));
+    }
 
     @computed get validTasks() {
         return this.tasks.filter(task => task.manualStatus !== 3); // 3 任务挂起
@@ -82,34 +87,47 @@ class TaskStore {
     };
 
     @action startTaskEdit = id => {
-        const updateTaskBoundaryFileParams =
-            this.activeTask.nodeDesc === '人工构建'
-                ? {
-                      taskId: this.activeTaskId,
-                      '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
-                      targetDirectory: this.activeTask['1301_RAW_DATA'],
-                      EDITOR_QUERYDB_PATHS: this.activeTask[
-                          'EDITOR_QUERYDB_PATHS'
-                      ]
-                  }
-                : {
-                      taskId: this.activeTaskId,
-                      '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
-                      targetDirectory: this.activeTask['1302_RAW_DATA'],
-                      EDITOR_QUERYDB1_PATHS: this.activeTask[
-                          'EDITOR_QUERYDB1_PATHS'
-                      ]
-                  };
+        const taskType = this.taskProcessName;
+        const updateBoundaryParams = this.initUpdateBoundaryParams(taskType);
+        const isGetTaskBoundaryFile = this.isGetTaskBoundaryFile();
         this.editTaskId = id;
         this.fetchTask();
-        if (this.activeTask.nodeDesc === '人工构建') {
-            const taskBoundaryFile = this.isGetTaskBoundaryFile()
-                ? this.getTaskBoundaryFile()
-                : this.updateTaskBoundaryFile(updateTaskBoundaryFileParams);
-            return taskBoundaryFile;
-        } else if (this.activeTask.nodeDesc === '人工构建后质检') {
+        // 已更新底图，则直接获取底图；未更新底图，则先更新再获取底图
+        if (isGetTaskBoundaryFile) {
             return this.getTaskBoundaryFile();
+        } else {
+            return this.updateTaskBoundaryFile(updateBoundaryParams);
         }
+    };
+
+    initUpdateBoundaryParams = taskType => {
+        const params = {
+            imp_recognition: {
+                taskId: this.activeTaskId,
+                '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
+                targetDirectory: this.activeTask['1302_MS_AROUND_DATA'],
+                EDITOR_QUERYDB_PATHS: this.activeTask['MS_EDITOR_QUERYDB_PATHS']
+            },
+            imp_check_after_recognition: {
+                taskId: this.activeTaskId,
+                '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
+                targetDirectory: this.activeTask['1303_MS_QC_AROUND_DATA'],
+                EDITOR_QUERYDB_PATHS: this.activeTask['MS_EDITOR_QUERYDB_PATHS']
+            },
+            imp_manbuild: {
+                taskId: this.activeTaskId,
+                '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
+                targetDirectory: this.activeTask['1304_MB_AROUND_DATA'],
+                EDITOR_QUERYDB_PATHS: this.activeTask['MB_EDITOR_QUERYDB_PATHS']
+            },
+            imp_check_after_manbuild: {
+                taskId: this.activeTaskId,
+                '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
+                targetDirectory: this.activeTask['1305_MB_QC_AROUND_DATA'],
+                EDITOR_QUERYDB_PATHS: this.activeTask['MB_EDITOR_QUERYDB_PATHS']
+            }
+        };
+        return params[taskType];
     };
 
     fetchTask = flow(function*() {
@@ -158,17 +176,16 @@ class TaskStore {
     };
 
     getTaskBoundaryFile = flow(function*() {
-        if (window.map) {
-            const boundaryUrl = completeSecendUrl(
-                CONFIG.urlConfig.boundary,
-                this.activeTask
-            );
-            const layerGroup = new LayerGroup(boundaryUrl, {
-                styleConifg: OutsideVectorsConfig
-            });
-            yield window.map.getLayerManager().addLayerGroup(layerGroup);
-            return layerGroup;
-        }
+        if (!window.map) return;
+        const boundaryUrl = completeBoundaryUrl(
+            CONFIG.urlConfig.boundary,
+            this.activeTask
+        );
+        const layerGroup = new LayerGroup(boundaryUrl, {
+            styleConifg: OutsideVectorsConfig
+        });
+        yield window.map.getLayerManager().addLayerGroup(layerGroup);
+        return layerGroup;
     });
 
     updateTaskBoundaryFile = flow(function*(option) {
@@ -185,7 +202,7 @@ class TaskStore {
                 taskId: this.activeTaskId,
                 taskBoundaryIsUpdate: false
             });
-            message.warning('更新底图状态失败', 3);
+            message.warning('获取底图失败，请重新加载页面', 3);
         }
     });
 
@@ -216,7 +233,7 @@ class TaskStore {
             };
             if (this.isEditableTask && this.isGetTaskBoundaryFile()) {
                 Object.assign(task, {
-                    boundary: completeSecendUrl(
+                    boundary: completeBoundaryUrl(
                         CONFIG.urlConfig.boundary,
                         this.activeTask
                     )

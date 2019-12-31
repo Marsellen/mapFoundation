@@ -8,6 +8,12 @@ const THIRD_PATH_MAP = {
     imp_manbuild: '1339_MB_VEC_DES',
     imp_check_after_manbuild: '1339_MB_VEC_DES'
 };
+const BOUNDARY_PATH_MAP = {
+    imp_recognition: '1302_MS_AROUND_DATA',
+    imp_check_after_recognition: '1303_MS_QC_AROUND_DATA',
+    imp_manbuild: '1304_MB_AROUND_DATA',
+    imp_check_after_manbuild: '1305_MB_QC_AROUND_DATA'
+};
 
 //人工构建任务类型枚举: [人工构建, 人工构建后质检]
 const manbuildTaskProcess = ['imp_manbuild', 'imp_check_after_manbuild'];
@@ -20,9 +26,15 @@ export const getEditPath = task => {
     return `/${task.taskId}/${SECEND_PATH}/${getThirdPath(task)}`;
 };
 
-// 补齐点云、轨迹、照片、周边任务数据（不可编辑）数据路径
+// 补齐点云、轨迹、照片数据路径
 export const completeSecendUrl = (path, task) => {
     return `${task.Input_imp_data_path}/${SECEND_PATH}/${THIRD_PATH}/${path}`;
+};
+
+// 补齐周边底图数据路径
+export const completeBoundaryUrl = (path, task) => {
+    const getBoundaryUrl = BOUNDARY_PATH_MAP[task.processName];
+    return `${task.Input_imp_data_path}/${SECEND_PATH}/${getBoundaryUrl}/${path}`;
 };
 
 // 补齐矢量（可编辑）数据路径

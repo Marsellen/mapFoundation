@@ -61,17 +61,13 @@ class VizComponent extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
+    componentDidMount = async () => {
         const { TaskStore } = this.props;
+        await TaskStore.initTask({ type: 4 });
 
-        TaskStore.initTask({ type: 4 }).then(() => {
-            const { tasks } = TaskStore;
-
-            //清除多余任务比例记录
-            const taskIdArr = (tasks || []).map(item => Number(item.taskId));
-            AdLocalStorage.filterTaskInfosStorage(taskIdArr);
-        });
-    }
+        //清除多余任务比例记录
+        AdLocalStorage.filterTaskInfosStorage(TaskStore.taskIdList);
+    };
 
     componentDidUpdate() {
         const { TaskStore } = this.props;
