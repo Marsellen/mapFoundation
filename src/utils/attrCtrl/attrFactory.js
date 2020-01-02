@@ -147,11 +147,10 @@ const updateAttrs = async attrs => {
 };
 
 const calcNewAttrs = attrs => {
-    return Object.keys(attrs).reduce((total, key) => {
+    return Object.keys(attrs).flatMap(key => {
         let records = attrs[key];
-        total = total.concat(records);
-        return total;
-    }, []);
+        return records;
+    });
 };
 
 const deleteRecord = id => {
