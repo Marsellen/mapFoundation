@@ -40,6 +40,7 @@ import editLog from 'src/models/editLog';
 import SaveTimeView from './SaveTimeView';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
+import AdEmitter from 'src/models/event';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -373,7 +374,8 @@ class VizComponent extends React.Component {
         const {
             DataLayerStore,
             NewFeatureStore,
-            OperateHistoryStore
+            OperateHistoryStore,
+            TaskStore
         } = this.props;
         //console.log(result);
 
@@ -391,7 +393,10 @@ class VizComponent extends React.Component {
             this.regionCheck(data);
 
             // 请求id服务，申请id
-            data = await NewFeatureStore.init(data);
+            data = await NewFeatureStore.init(
+                data,
+                isManbuildTask(TaskStore.activeTask)
+            );
             // 更新id到sdk
             DataLayerStore.updateFeature(data);
             let history = {
@@ -458,6 +463,7 @@ class VizComponent extends React.Component {
             };
             OperateHistoryStore.add(history);
             editLog.store.add(log);
+            AdEmitter.emit('fetchViewAttributeData');
         } catch (e) {
             //恢复要素
             DataLayerStore.updateFeature(oldFeature);

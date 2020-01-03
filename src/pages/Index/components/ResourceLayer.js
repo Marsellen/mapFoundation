@@ -44,10 +44,11 @@ class ResourceLayer extends React.Component {
             switch (item.value) {
                 case RESOURCE_LAYER_VECTOR: //高精地图
                     toggleAll(checked, 'vector');
+                    !checked && DataLayerStore.clearPick();
                     break;
                 case RESOURCE_LAYER_BOUNDARY: //周边底图
                     toggleAll(checked, 'boundary');
-                    DataLayerStore.clearPick();
+                    !checked && DataLayerStore.clearPick();
                     break;
                 case RESOURCE_LAYER_POINT_CLOUD: //点云
                     DataLayerStore.exitReadCoordinate();

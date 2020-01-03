@@ -204,6 +204,7 @@ export const modUpdStatGeometry = feature => {
 };
 
 export const modUpdStatProperties = (feature, properties) => {
+    if (feature.layerName === 'AD_Map_QC') return feature;
     let UPD_STAT = {};
     if (feature.data.properties.UPD_STAT) {
         UPD_STAT = JSON.parse(feature.data.properties.UPD_STAT);
