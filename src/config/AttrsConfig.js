@@ -69,7 +69,7 @@ export const ATTR_TABLE_CONFIG = {
         },
         {
             key: 'TIMEDOM',
-            name: '中心线限制时间描述',
+            name: '交通标志牌限制时间描述',
             domType: 'AdDateInput',
             validates: 'Char|250'
         }
