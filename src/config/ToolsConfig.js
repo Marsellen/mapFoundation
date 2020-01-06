@@ -29,7 +29,8 @@ export const TOOLS_MAP = {
         SEARCH_INFO: true,
         DIVIDER_TO_AUTO_CREATE: false,
         HALF_AUTO_CREATE: false,
-        QUALITY_TEST: true
+        QUALITY_TEST: true,
+        ROAD_SET: true
     },
     CHECK: {}
 };
