@@ -103,15 +103,24 @@ class DataLayer extends React.Component {
         const value = e.target.checked;
         const { ResourceLayerStore, VectorsStore, DataLayerStore } = this.props;
         const { layerType, toggleAll } = VectorsStore;
-
         let resourceKey = vectorsTabsConfig.find(
             config => config.key === layerType
         ).value;
-
         ResourceLayerStore.toggle(resourceKey, value);
+
         // 控制数据图层全部按钮的是否选中状态
-        toggleAll(value);
-        DataLayerStore.clearPick();
+        switch (resourceKey) {
+            case RESOURCE_LAYER_VECTOR:
+                toggleAll(value);
+                !value && DataLayerStore.clearPick();
+                break;
+            case RESOURCE_LAYER_BOUNDARY:
+                toggleAll(value);
+                !value && DataLayerStore.clearPick();
+                break;
+            default:
+                break;
+        }
     };
 
     changeEvent = (item, value) => {
@@ -132,10 +141,19 @@ class DataLayer extends React.Component {
             config => config.key === layerType
         ).value;
 
+        switch (resourceKey) {
+            case RESOURCE_LAYER_VECTOR:
+                !value && DataLayerStore.clearPick();
+                break;
+            case RESOURCE_LAYER_BOUNDARY:
+                !value && DataLayerStore.clearPick();
+                break;
+            default:
+                break;
+        }
         isCheckedAll && resourceToggle(resourceKey, true);
         isCheckedNone && resourceToggle(resourceKey, false);
         indeterminate && setIndeterminate(resourceKey);
-        DataLayerStore.clearPick();
     };
 }
 

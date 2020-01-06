@@ -444,6 +444,7 @@ class RightMenuModal extends React.Component {
                     message.success('平移成功', 3);
                 } catch (e) {
                     message.warning('操作失败:' + e, 3);
+                    DataLayerStore.updateFeature(oldFeature);
                 }
                 DataLayerStore.exitEdit();
             },
