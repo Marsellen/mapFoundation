@@ -88,6 +88,9 @@ class DataLayerStore {
                 case 'new_Uturn_line':
                     this.uturnCallback(result, event);
                     break;
+                case 'select_road_plane':
+                    this.roadPlaneCallback(result, event);
+                    break;
             }
         });
     };
@@ -116,7 +119,13 @@ class DataLayerStore {
     };
 
     setEditedCallBack = callback => {
-        this.editor.onFeatureEdited(callback);
+        this.editor.onFeatureEdited(async result => {
+            if (this.editType == 'movePointFeature') {
+                this.movePointFeatureCallback(result, event);
+            } else {
+                callback && (await callback(result));
+            }
+        });
     };
 
     getEditLayer = () => {
@@ -161,6 +170,11 @@ class DataLayerStore {
     delPointStyle = () => {
         let viz = document.querySelector('#viz');
         addClass(viz, 'move-point-viz');
+    };
+
+    roadPlanePointStyle = () => {
+        let viz = document.querySelector('#viz');
+        addClass(viz, 'crosshair-viz');
     };
 
     removeCur = () => {
@@ -215,6 +229,15 @@ class DataLayerStore {
         this.setEditType('new_facade_rectangle');
         this.changeCur();
         this.editor.newMatrix();
+    };
+
+    selectPointFromPC = () => {
+        this.exitEdit();
+        if (!this.editor) return;
+        this.disableOtherCtrl();
+        this.setEditType('select_road_plane');
+        this.editor.selectPointFromPC();
+        this.roadPlanePointStyle();
     };
 
     // 左右车道线生成中心线
@@ -298,6 +321,10 @@ class DataLayerStore {
         this.newRelCallback = callback;
     };
 
+    setRoadPlaneCallback = callback => {
+        this.roadPlaneCallback = callback;
+    };
+
     setDelRelCallback = callback => {
         this.delRelCallback = callback;
     };
@@ -308,6 +335,10 @@ class DataLayerStore {
     // 复制线要素
     setCopyLineCallback = callback => {
         this.copyLineCallback = callback;
+    };
+
+    setMovePointFeatureCallback = callback => {
+        this.movePointFeatureCallback = callback;
     };
 
     setBreakByLineCallback = callback => {
@@ -390,6 +421,13 @@ class DataLayerStore {
         this.setEditType('delPoint');
         this.editor.deletePoints();
         this.delPointStyle();
+    };
+
+    movePointFeature = () => {
+        if (!this.editor) return;
+        this.disableOtherCtrl();
+        this.setEditType('movePointFeature');
+        this.editor.movePointFeature();
     };
 
     dragCopyedFeature = () => {

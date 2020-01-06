@@ -12,7 +12,7 @@ export const DATA_LAYER_MAP = {
         id: 'LAP_ID',
         spec: 'AD_LaneAttrPoint',
         tools: ['POINT', 'ADD_REL', 'DEL_REL'],
-        rightTools: ['delete'],
+        rightTools: ['delete', 'movePointFeature'],
         groupRightTools: ['batchAssign']
     },
     AD_LaneDivider: {
