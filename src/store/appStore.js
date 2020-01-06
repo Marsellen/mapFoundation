@@ -1,6 +1,6 @@
 import { observable, flow, configure, computed } from 'mobx';
 import { getAuthentication, authenticateSuccess } from '../utils/Session';
-import AppService from '../services/AppService';
+import AppService from 'src/services/AppService';
 
 configure({ enforceActions: 'always' });
 class AppStore {

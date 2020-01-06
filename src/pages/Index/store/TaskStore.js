@@ -1,6 +1,6 @@
 import { observable, flow, configure, action, computed } from 'mobx';
-import TaskService from '../service/TaskService';
-import JobService from '../service/JobService';
+import TaskService from 'src/services/TaskService';
+import JobService from 'src/services/JobService';
 import { Modal, message } from 'antd';
 import CONFIG from 'src/config';
 import {
@@ -63,7 +63,7 @@ class TaskStore {
 
     // 任务列表
     initTask = flow(function*(option) {
-        const result = yield JobService.listTask(option).catch(error => {
+        const result = yield JobService.listTask(option, error => {
             message.error('任务加载失败', 3);
             throw error;
         });

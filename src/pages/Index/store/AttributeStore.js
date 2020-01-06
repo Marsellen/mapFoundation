@@ -2,7 +2,7 @@ import { observable, configure, action, flow } from 'mobx';
 import modelFactory from 'src/utils/vectorCtrl/modelFactory';
 import relFactory from 'src/utils/relCtrl/relFactory';
 import attrFactory from 'src/utils/attrCtrl/attrFactory';
-import IDService from 'src/pages/Index/service/IDService';
+import IDService from 'src/services/IDService';
 import {
     getLayerIDKey,
     updateFeatureColor,
@@ -22,6 +22,7 @@ import {
 } from 'src/utils/relCtrl/operateCtrl';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import _ from 'lodash';
+import { message } from 'antd';
 
 configure({ enforceActions: 'always' });
 class AttributeStore {
@@ -275,14 +276,16 @@ class AttributeStore {
 
     newAttr = flow(function*(key, value, properties) {
         try {
-            const _result = yield IDService.post({
-                id_type: key
-            }).catch(e => {
-                Modal.error({
-                    title: '请求ID失败',
-                    okText: '确定'
-                });
-            });
+            const _result = yield IDService.initID(
+                {
+                    id_type: key
+                },
+                () => {
+                    message.warning('请求ID失败');
+                    throw '请求ID失败';
+                }
+            );
+
             let id = _result.data[0].min;
             let IDKey = getLayerIDKey(key);
             let MainKey = ATTR_SPEC_CONFIG.find(config => config.source == key);

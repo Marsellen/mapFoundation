@@ -9,7 +9,7 @@ import {
     getLayerIDKey,
     getFeatureByOptionFormAll
 } from 'src/utils/vectorUtils';
-import IDService from 'src/pages/Index/service/IDService';
+import IDService from 'src/services/IDService';
 import { Modal } from 'antd';
 
 const batchAddRels = async rels => {
@@ -186,14 +186,14 @@ const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
 
 const getRelId = async rel => {
     if (REL_DATA_SET.includes(rel.spec)) {
-        let result = await IDService.post({
-            id_type: rel.spec
-        }).catch(e => {
-            Modal.error({
-                title: '请求ID失败',
-                okText: '确定'
-            });
-        });
+        let result = await IDService.initID(
+            {
+                id_type: rel.spec
+            },
+            () => {
+                throw { message: '请求ID失败' };
+            }
+        );
         rel.extraInfo.REL_ID = result.data[0].min;
     }
 };

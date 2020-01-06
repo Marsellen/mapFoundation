@@ -1,15 +1,18 @@
-import EditorService from 'src/pages/Index/service/EditorService';
+import EditorService from 'src/services/EditorService';
 
 export const locatePicture = async (event, taskId) => {
     let pointObj = window.map.detectPointObjFromPointCloud(event);
-    let result = await EditorService.locatePicture({
-        task_id: taskId,
-        pointWkt: pointObjToWkt(pointObj)
-    }).catch(e => {
-        throw {
-            message: '点云照片联动接口异常！'
-        };
-    });
+    let result = await EditorService.locatePicture(
+        {
+            task_id: taskId,
+            pointWkt: pointObjToWkt(pointObj)
+        },
+        () => {
+            throw {
+                message: '点云照片联动接口异常！'
+            };
+        }
+    );
     if (result.code !== 1) {
         throw result;
     }

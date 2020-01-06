@@ -1,5 +1,5 @@
 import { observable, configure, action, flow, computed } from 'mobx';
-import QualityCheckService from 'src/pages/Index/service/QualityCheck';
+import CheckService from 'src/services/CheckService';
 import { message } from 'antd';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
@@ -68,7 +68,7 @@ class QualityCheckStore {
                 message: resMessage,
                 errcode,
                 errmsg
-            } = yield QualityCheckService.check(option);
+            } = yield CheckService.check(option);
             if (code === 1) {
                 return data;
             } else {
@@ -103,21 +103,8 @@ class QualityCheckStore {
     //查询质检结果
     @action getReport = flow(function*(option) {
         try {
-            const {
-                code,
-                data,
-                message: resMessage,
-                errcode,
-                errmsg
-            } = yield QualityCheckService.getReport(option);
-            if (code === 1) {
-                this.handleReportRes(data, option.task_id);
-                return data;
-            } else {
-                resMessage && message.warning(`${code} : ${resMessage}`);
-                errmsg && message.warning(`${errcode} : ${errmsg}`);
-                return false;
-            }
+            const { data } = yield CheckService.getReport(option);
+            this.handleReportRes(data, option.task_id);
         } catch (e) {
             console.error('请求失败');
         }
@@ -128,8 +115,9 @@ class QualityCheckStore {
         return setTimeout(
             (() => {
                 try {
-                    QualityCheckService.getReport(option)
-                        .then(res => {
+                    CheckService.getReport(
+                        option,
+                        res => {
                             const { code, data, message: resMessage } = res;
                             switch (code) {
                                 case 1:
@@ -155,11 +143,13 @@ class QualityCheckStore {
                                     resolve && resolve(false);
                                     break;
                             }
-                        })
-                        .catch(e => {
-                            console.error('请求失败');
+                        },
+                        error => {
+                            message.warning(error || '请求失败');
+                            console.error(error || '请求失败');
                             resolve && resolve(false);
-                        });
+                        }
+                    );
                 } catch (e) {
                     console.error('请求失败');
                 }
@@ -269,7 +259,7 @@ class QualityCheckStore {
                 message: resMessage,
                 errcode,
                 errmsg
-            } = yield QualityCheckService.insertMisreport(record);
+            } = yield CheckService.insertMisreport(record);
             if (code === 1) {
                 this.reportListInit[index] = {
                     ...this.reportListInit[index],
@@ -294,7 +284,7 @@ class QualityCheckStore {
                 message: resMessage,
                 errcode,
                 errmsg
-            } = yield QualityCheckService.deleteMisreport(record);
+            } = yield CheckService.deleteMisreport(record);
             if (code === 1) {
                 this.reportListInit[index] = {
                     ...this.reportListInit[index],
@@ -326,7 +316,7 @@ class QualityCheckStore {
                 message: resMessage,
                 errcode,
                 errmsg
-            } = yield QualityCheckService.getMisreport(option);
+            } = yield CheckService.getMisreport(option);
             if (code === 1) {
                 return data;
             } else {
@@ -354,7 +344,7 @@ class QualityCheckStore {
                 message: resMessage,
                 errcode,
                 errmsg
-            } = yield QualityCheckService.updateMisreport(option);
+            } = yield CheckService.updateMisreport(option);
             if (code === 1) {
                 this.handleReportChecked(index, checked);
             } else {
