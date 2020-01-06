@@ -13,11 +13,16 @@ import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import _ from 'lodash';
 import AdEmitter from 'src/models/event';
-import { getLayerIDKey } from 'src/utils/vectorUtils';
+import {
+    getLayerIDKey,
+    isRegionContainsElement,
+    modUpdStatGeometry
+} from 'src/utils/vectorUtils';
 import { isManbuildTask } from 'src/utils/taskUtils';
 
 const EDIT_TYPE = [
     'delPoint',
+    'movePointFeature',
     'copyLine',
     'changePoints',
     'insertPoints',
@@ -30,6 +35,10 @@ const CHINESE_EDIT_TYPE = [
     {
         type: 'delPoint',
         value: '删除形状点'
+    },
+    {
+        type: 'movePointFeature',
+        value: '左键选择新点位，点击右键实现平移'
     },
     {
         type: 'copyLine',
@@ -200,6 +209,13 @@ class RightMenuModal extends React.Component {
                     onClick={this.copyLine}
                     style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                     <span>复制</span>
+                </Menu.Item>,
+                <Menu.Item
+                    id="pan-btn"
+                    key="movePointFeature"
+                    onClick={this.movePointFeature}
+                    style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                    <span>平移</span>
                 </Menu.Item>
             );
         }
@@ -243,6 +259,9 @@ class RightMenuModal extends React.Component {
         const { DataLayerStore } = this.props;
         DataLayerStore.setBreakCallback(this.breakCallBack);
         DataLayerStore.setCopyLineCallback(this.copyLineCallback);
+        DataLayerStore.setMovePointFeatureCallback(
+            this.movePointFeatureCallback
+        );
         DataLayerStore.setBreakByLineCallback(this.breakByLineCallback);
     };
 
@@ -307,6 +326,8 @@ class RightMenuModal extends React.Component {
                 AttributeStore.hideRelFeatures();
             },
             onCancel() {
+                //恢复要素
+                DataLayerStore.updateFeature(oldFeature);
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
             }
@@ -380,6 +401,71 @@ class RightMenuModal extends React.Component {
         }
         DataLayerStore.exitEdit();
         AttributeStore.hideRelFeatures();
+    };
+
+    movePointFeatureCallback = result => {
+        const {
+            DataLayerStore,
+            OperateHistoryStore,
+            RightMenuStore,
+            TaskStore
+        } = this.props;
+        if (result.errorCode) {
+            DataLayerStore.exitEdit();
+            return;
+        }
+        const oldFeature = RightMenuStore.getFeatures()[0];
+        Modal.confirm({
+            title: '您确认执行该操作？',
+            okText: '确定',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk: async () => {
+                try {
+                    this.regionCheck(result);
+                    // 更新标识
+                    if (!isManbuildTask(TaskStore.activeTask)) {
+                        result = modUpdStatGeometry(result);
+                    }
+                    let history = {
+                        type: 'updateFeature',
+                        oldFeature,
+                        feature: result,
+                        layerName: result.layerName,
+                        uuid: result.uuid
+                    };
+                    let log = {
+                        operateHistory: history,
+                        action: 'movePointFeature',
+                        result: 'success'
+                    };
+                    OperateHistoryStore.add(history);
+                    editLog.store.add(log);
+                    message.success('平移成功', 3);
+                } catch (e) {
+                    message.warning('操作失败:' + e, 3);
+                }
+                DataLayerStore.exitEdit();
+            },
+            onCancel() {
+                // 恢复要素
+                DataLayerStore.updateFeature(oldFeature);
+                DataLayerStore.exitEdit();
+            }
+        });
+    };
+
+    regionCheck = data => {
+        const { DataLayerStore } = this.props;
+        //判断要素是否在任务范围内
+        const elementGeojson = _.cloneDeep(data.data);
+        let isInRegion = isRegionContainsElement(
+            elementGeojson,
+            DataLayerStore.regionGeojson
+        );
+        if (!isInRegion) {
+            throw '请在任务范围内绘制要素';
+        }
     };
 
     deleteFeature = () => {
@@ -473,6 +559,17 @@ class RightMenuModal extends React.Component {
         }
 
         DataLayerStore.deletePoints();
+        RightMenuStore.hide();
+    };
+
+    movePointFeature = () => {
+        const { DataLayerStore, RightMenuStore } = this.props;
+        if (!RightMenuStore.isCurrentLayer) {
+            message.warning('只能选取当前编辑图层要素！', 3);
+            return false;
+        }
+
+        DataLayerStore.movePointFeature();
         RightMenuStore.hide();
     };
 
