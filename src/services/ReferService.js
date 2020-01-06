@@ -1,10 +1,9 @@
 import service from 'src/services';
-import { ApiPath } from 'src/utils/Api';
 
-const AppService = {
-    login: data => {
+const ReferService = {
+    referTask: data => {
         const config = {
-            url: ApiPath('/auth/login'),
+            url: '/mock/referTask.json',
             method: 'post',
             data
         };
@@ -12,4 +11,4 @@ const AppService = {
     }
 };
 
-export default AppService;
+export default ReferService;

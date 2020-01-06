@@ -8,8 +8,8 @@ import {
 import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
 import { DEFAULT_CONFIDENCE_MAP } from 'src/config/ADMapDataConfig';
 import { updateFeaturesByRels } from './relCtrl';
-import EditorService from 'src/pages/Index/service/EditorService';
-import AdLineService from 'src/pages/Index/service/AdLineService';
+import EditorService from 'src/services/EditorService';
+import AdLineService from 'src/services/AdLineService';
 import { getFeatureRels } from './utils';
 import attrFactory from '../attrCtrl/attrFactory';
 import {
