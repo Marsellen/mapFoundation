@@ -30,6 +30,12 @@ const movePointTooFarListener = () => {
     });
 };
 
+const pointsOutBoundaryListener = () => {
+    mapEventManager().register('editor_event_points_out_boundary', e => {
+        message.warn('请在任务范围内绘制要素', 3);
+    });
+};
+
 const addEditorExitListener = (eventType, className) => {
     let viz = document.querySelector('#viz');
     mapEventManager().register(eventType, e => {
@@ -60,6 +66,7 @@ const installMapListener = () => {
     pointsTooCloseListener();
     movePointTooCloseListener();
     movePointTooFarListener();
+    pointsOutBoundaryListener()
 };
 
 export { installMapListener };

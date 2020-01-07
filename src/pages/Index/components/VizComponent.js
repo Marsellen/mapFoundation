@@ -482,7 +482,7 @@ class VizComponent extends React.Component {
             DataLayerStore.regionGeojson
         );
         if (!isInRegion) {
-            throw '请在任务范围内绘制要素';
+            throw '绘制失败，请在任务范围内绘制要素';
         }
     };
 
