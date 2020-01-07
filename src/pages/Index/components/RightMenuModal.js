@@ -211,7 +211,7 @@ class RightMenuModal extends React.Component {
                     <span>复制</span>
                 </Menu.Item>,
                 <Menu.Item
-                    id="pan-btn"
+                    id="translation-point-btn"
                     key="movePointFeature"
                     onClick={this.movePointFeature}
                     style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
