@@ -23,6 +23,7 @@ import SearchInfo from './SearchInfo';
 import DividerToAutoCreate from './DividerToAutoCreate';
 import HalfAutoCreate from './HalfAutoCreate';
 import QualityCheck from './QualityCheck';
+import RoadSet from './RoadSet';
 
 export default [
     <Undo key="UNDO" />,
@@ -35,6 +36,7 @@ export default [
     <PointStratification key="POINT_STRATIFICATION" />,
     <Ranging key="RANGING" />,
     <ReadCoordinate key="READ_COORDINATE" />,
+    <RoadSet key="ROAD_SET" />,
     <EditLayer key="EDIT_LAYER" />,
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,
