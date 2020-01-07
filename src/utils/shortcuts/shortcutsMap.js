@@ -237,6 +237,14 @@ export const shortcutMap = [
         describe: '复制线要素 Ctrl+C'
     },
     {
+        id: 'translation-point-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 84,
+        describe: '平移点要素 T'
+    },
+    {
         id: 'break-by-line-btn',
         ctrl: false,
         alt: false,

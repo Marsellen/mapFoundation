@@ -70,6 +70,10 @@ export const HOT_KEYS_CONFIG = {
             label: '复制线要素'
         },
         {
+            value: '选择1个要素+T',
+            label: '平移点要素'
+        },
+        {
             value: '选择 1 个要素+B+打断位置',
             label: '打断线要素'
         },
