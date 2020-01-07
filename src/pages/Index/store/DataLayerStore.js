@@ -33,7 +33,8 @@ class DataLayerStore {
         layers && this.editor.setTargetLayers(layers);
         this.editor.setConfig && this.editor.setConfig(EditorConfig);
         this.editor.setAdsorbThreshold && this.editor.setAdsorbThreshold(0.05);
-        this.editor.setEditBoundary(this.regionGeojson);
+        this.editor.setEditBoundary &&
+            this.editor.setEditBoundary(this.regionGeojson);
     };
 
     addTargetLayers = layers => {
