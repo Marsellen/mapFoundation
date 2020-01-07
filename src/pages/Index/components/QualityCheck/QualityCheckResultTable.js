@@ -97,14 +97,14 @@ class QualityCheckResultTable extends React.Component {
 
     componentWillReceiveProps() {
         if (!this.props.QualityCheckStore) return;
-        this.qualityCheckTabelColumns();
+        this.handlePagination();
         this.props.QualityCheckStore.toResizeDom();
     }
 
     handlePagination = (current, size) => {
         this.setState(
             {
-                currentPage: current,
+                currentPage: current || 1,
                 pageSize: size || 10
             },
             this.qualityCheckTabelColumns
@@ -201,7 +201,8 @@ class QualityCheckResultTable extends React.Component {
         if (filterOption.isUpdate) {
             this.setState(
                 {
-                    columns: currentColumns
+                    columns: currentColumns,
+                    total: reportListL
                 },
                 toResizeDom
             );
@@ -361,8 +362,8 @@ class QualityCheckResultTable extends React.Component {
                 shift: false,
                 keyCode: 38,
                 callback: () => {
-                    const { currentIndex, currentPage, pageSize } = this.state;
-                    const minPage = currentPage * pageSize - pageSize + 1;
+                    const { currentIndex } = this.state;
+                    const minPage = 1;
                     if (currentIndex < minPage) return;
                     const prevIndex = currentIndex - 1;
                     this.activeRowStyle(prevIndex);
@@ -387,11 +388,10 @@ class QualityCheckResultTable extends React.Component {
                         pageSize,
                         total
                     } = this.state;
-                    const maxPageSize = Math.ceil(total / pageSize);
-                    const maxPage =
-                        currentPage === maxPageSize
-                            ? total
-                            : currentPage * pageSize;
+                    const maxPageSize = Math.ceil(total / pageSize); //获取最大页数
+                    const isLastPage = currentPage === maxPageSize; //判断当前是否是最后一页
+                    const lastPageNum = total % pageSize; //获取最后一页的条目数
+                    const maxPage = isLastPage ? lastPageNum : pageSize;
                     const nextIndex = currentIndex + 1;
                     if (nextIndex >= maxPage) return;
                     this.activeRowStyle(nextIndex);
