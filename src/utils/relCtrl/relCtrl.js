@@ -105,9 +105,12 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
 
     let isAttrRel =
         ATTR_REL_DATA_SET.includes(relSpecs[0].source) &&
-        (layerName === relSpecs[0].source || layerName === 'AD_LaneDivider');
+        layerName === relSpecs[0].source;
     let REL_LIMIT_COUNT = 1;
-    if (isAttrRel && relFeatures.length > REL_LIMIT_COUNT) {
+    if (
+        (isAttrRel && relFeatures.length > relSpecs.length) ||
+        (layerName === 'AD_LaneDivider' && relFeatures.length > REL_LIMIT_COUNT)
+    ) {
         throw {
             message: `${layerName}和${relFeatureTypes[0]}的关联类型超出规格定义`
         };
