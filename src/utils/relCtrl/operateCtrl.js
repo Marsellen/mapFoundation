@@ -194,7 +194,7 @@ const autoCreateLine = async (layerName, params) => {
         //道路参考线
         result = await AdLineService.adTwoRoadLines(params);
     }
-    if (result.code !== 1) throw result;
+    if (!result || result.code !== 1) throw result;
     let newFeatures = result.data[layerName].features.reduce(
         (total, feature) => {
             total.push({ data: feature, layerName: layerName });
@@ -232,12 +232,12 @@ const autoCreateLineByLaneDivider = async (layerName, params) => {
     if (layerName === 'AD_Lane') {
         //车道中心线
         result = await AdLineService.aroundLines(params);
-        if (result.code !== 1) throw result;
+        if (!result || result.code !== 1) throw result;
         rels = calcAdLaneRels(result.data.AD_Lane.features[0]);
     } else if (layerName === 'AD_Road') {
         //道路参考线
         result = await AdLineService.adRoadLines(params);
-        if (result.code !== 1) throw result;
+        if (!result || result.code !== 1) throw result;
     }
     let newFeatures = result.data[layerName].features.reduce(
         (total, feature) => {

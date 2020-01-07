@@ -311,7 +311,7 @@ class HalfAutoCreate extends React.Component {
             );
         } catch (e) {
             console.log(e);
-            message.warning('操作失败:' + e.message, 3);
+            // message.warning('操作失败:' + e.message, 3);
             let history = {
                 params
             };
@@ -319,7 +319,7 @@ class HalfAutoCreate extends React.Component {
                 operateHistory: history,
                 action: 'autoCreateLine',
                 result: 'fail',
-                failReason: e.message
+                failReason: e
             };
             editLog.store.add(log);
             DataLayerStore.exitEdit();
