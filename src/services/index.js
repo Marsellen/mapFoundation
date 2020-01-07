@@ -47,7 +47,7 @@ axios.interceptors.response.use(
 );
 
 /*
- * @param {object} config 配置对象
+ * @param {object} config 必填，配置对象
  * @params {function} successCallback 成功回调
  * @params {function} errorCallback 失败回调
  */
