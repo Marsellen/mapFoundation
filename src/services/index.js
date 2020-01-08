@@ -101,9 +101,6 @@ const resource = ({ config, successCallback, errorCallback }) => {
             } else {
                 if (errorCallback) {
                     errorCallback(error);
-                } else {
-                    handleMessage(errorMsg || '请求失败');
-                    console.error(errorMsg || '请求失败');
                 }
             }
             throw error;
