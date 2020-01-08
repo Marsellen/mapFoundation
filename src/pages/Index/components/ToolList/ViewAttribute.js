@@ -1,6 +1,6 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
-import { Select, ConfigProvider, Input, Button, Icon } from 'antd';
+import { Select, ConfigProvider, Input, Button, Icon, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdTable from 'src/components/AdTable';
 import { COLUMNS_CONFIG } from 'src/config/PropertiesTableConfig';
@@ -395,8 +395,8 @@ class ViewAttribute extends React.Component {
 
     tableOnClick = record => {
         return e => {
-            let feature = this.searchFeature(record);
-            this.showAttributesModal(feature);
+            this.pickFeature = this.searchFeature(record);
+            this.showAttributesModal(this.pickFeature);
             //展开
             this.openRowStyle(record.index);
         };
@@ -404,8 +404,8 @@ class ViewAttribute extends React.Component {
 
     tableOnDoubleClick = record => {
         return e => {
-            let feature = this.searchFeature(record);
-            let extent = map.getExtent(feature.data.geometry);
+            if (!this.pickFeature) return;
+            let extent = map.getExtent(this.pickFeature.data.geometry);
             console.log(extent);
             map.setView('U');
             map.setExtent(extent);
@@ -415,6 +415,7 @@ class ViewAttribute extends React.Component {
     };
 
     showAttributesModal = async obj => {
+        if (!obj) return;
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let readonly =
@@ -428,7 +429,7 @@ class ViewAttribute extends React.Component {
 
     searchFeature = record => {
         let { layerName } = this.state;
-        let option, layer;
+        let option, layer, feature;
         if (isAttrLayer(layerName)) {
             let config = ATTR_SPEC_CONFIG.find(c => c.source === layerName);
             option = {
@@ -436,13 +437,20 @@ class ViewAttribute extends React.Component {
                 value: record[config.key]
             };
             layer = getLayerByName(config.relSpec);
+            feature = layer.getFeatureByOption(option);
+
+            if (!feature) {
+                message.error('属性表关联数据不存在，请检查');
+                return;
+            }
         } else {
             let IDKey = getLayerIDKey(layerName);
             let id = record[IDKey];
             option = { key: IDKey, value: id };
             layer = getLayerByName(layerName);
+            feature = layer.getFeatureByOption(option);
         }
-        return layer.getFeatureByOption(option).properties;
+        return feature.properties;
     };
 }
 
