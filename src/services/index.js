@@ -110,6 +110,7 @@ const resource = ({ config, successCallback, errorCallback }) => {
                     console.error(error || '请求失败');
                 }
             }
+            throw error;
         });
 };
 
