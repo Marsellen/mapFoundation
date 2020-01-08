@@ -92,11 +92,12 @@ const resource = ({ config, successCallback, errorCallback }) => {
             }
         })
         .catch(error => {
-            const { config, status, error: errorTxt } = error || {};
+            const { config, status, error: errorTxt, message: errorMsg } =
+                error || {};
             const { timeout, url } = config || {};
 
             if (status && errorTxt) {
-                handleMessage(`${status} ${errorTxt}`);
+                handleMessage(errorMsg || `${status} ${errorTxt}`);
             } else if (timeout === TIME_OUT) {
                 const serviceKey = Object.keys(SERVICE_MAP).find(item => {
                     return url.includes(item);
