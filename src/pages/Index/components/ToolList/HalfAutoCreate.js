@@ -287,6 +287,7 @@ class HalfAutoCreate extends React.Component {
                 params
             );
             DataLayerStore.exitEdit();
+            if (!historyLog) return;
             this.activeLine(editLayer && editLayer.layerName, historyLog);
 
             // 日志与历史
@@ -311,7 +312,7 @@ class HalfAutoCreate extends React.Component {
             );
         } catch (e) {
             console.log(e);
-            message.warning('操作失败:' + e.message, 3);
+            // message.warning('操作失败:' + e.message, 3);
             let history = {
                 params
             };
@@ -319,7 +320,7 @@ class HalfAutoCreate extends React.Component {
                 operateHistory: history,
                 action: 'autoCreateLine',
                 result: 'fail',
-                failReason: e.message
+                failReason: e
             };
             editLog.store.add(log);
             DataLayerStore.exitEdit();
