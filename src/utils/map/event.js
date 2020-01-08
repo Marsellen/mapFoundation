@@ -56,8 +56,8 @@ const installMapListener = () => {
     );
     addEditorListener('editor_event_deletepoints_start', 'move-point-viz');
     addEditorExitListener('editor_event_deletepoints_start', 'move-point-viz');
-    addEditorListener('editor_event_movefeature_start', 'crosshair-viz');
-    addEditorExitListener('editor_event_movefeature_end', 'crosshair-viz');
+    addEditorListener('editor_event_movefeature_start', 'edit-viz');
+    addEditorExitListener('editor_event_movefeature_end', 'edit-viz');
     addEditorListener('editor_event_selectpointfrompc_end', 'crosshair-viz');
     addEditorExitListener(
         'editor_event_selectpointfrompc_end',
@@ -66,7 +66,7 @@ const installMapListener = () => {
     pointsTooCloseListener();
     movePointTooCloseListener();
     movePointTooFarListener();
-    pointsOutBoundaryListener()
+    pointsOutBoundaryListener();
 };
 
 export { installMapListener };
