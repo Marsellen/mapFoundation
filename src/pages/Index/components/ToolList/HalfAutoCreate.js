@@ -287,6 +287,7 @@ class HalfAutoCreate extends React.Component {
                 params
             );
             DataLayerStore.exitEdit();
+            if (!historyLog) return;
             this.activeLine(editLayer && editLayer.layerName, historyLog);
 
             // 日志与历史

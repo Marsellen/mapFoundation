@@ -184,39 +184,42 @@ const breakLineByLine = async (line, features, activeTask) => {
  * @returns {Object} 半自动构建后的操作记录
  */
 const autoCreateLine = async (layerName, params) => {
-    let result = {},
-        relation = {},
-        rels = [];
-    if (layerName === 'AD_Lane') {
-        //车道中心线
-        result = await AdLineService.straightLines(params);
-    } else if (layerName === 'AD_Road') {
-        //道路参考线
-        result = await AdLineService.adTwoRoadLines(params);
+    try {
+        let result = {},
+            relation = {},
+            rels = [];
+        if (layerName === 'AD_Lane') {
+            //车道中心线
+            result = await AdLineService.straightLines(params);
+        } else if (layerName === 'AD_Road') {
+            //道路参考线
+            result = await AdLineService.adTwoRoadLines(params);
+        }
+        let newFeatures = result.data[layerName].features.reduce(
+            (total, feature) => {
+                total.push({ data: feature, layerName: layerName });
+                return total;
+            },
+            []
+        );
+
+        relation[`${layerName}_Con`] = [];
+        relation[`${layerName}_Con`] = result.data[
+            `${layerName}_Con`
+        ].features.map(feature => feature.properties);
+        rels = calcRels(`${layerName}_Con`, relation);
+
+        let historyLog = {
+            features: [[], newFeatures],
+            rels: [[], uniqRels(rels)]
+        };
+
+        await updateFeatures(historyLog);
+
+        return historyLog;
+    } catch (e) {
+        console.log('半自动构建请求失败');
     }
-    if (!result || result.code !== 1) throw result;
-    let newFeatures = result.data[layerName].features.reduce(
-        (total, feature) => {
-            total.push({ data: feature, layerName: layerName });
-            return total;
-        },
-        []
-    );
-
-    relation[`${layerName}_Con`] = [];
-    relation[`${layerName}_Con`] = result.data[`${layerName}_Con`].features.map(
-        feature => feature.properties
-    );
-    rels = calcRels(`${layerName}_Con`, relation);
-
-    let historyLog = {
-        features: [[], newFeatures],
-        rels: [[], uniqRels(rels)]
-    };
-
-    await updateFeatures(historyLog);
-
-    return historyLog;
 };
 
 /**
@@ -227,34 +230,36 @@ const autoCreateLine = async (layerName, params) => {
  * @returns {Object} 半自动构建后的操作记录
  */
 const autoCreateLineByLaneDivider = async (layerName, params) => {
-    let result = {},
-        rels = [];
-    if (layerName === 'AD_Lane') {
-        //车道中心线
-        result = await AdLineService.aroundLines(params);
-        if (!result || result.code !== 1) throw result;
-        rels = calcAdLaneRels(result.data.AD_Lane.features[0]);
-    } else if (layerName === 'AD_Road') {
-        //道路参考线
-        result = await AdLineService.adRoadLines(params);
-        if (!result || result.code !== 1) throw result;
+    try {
+        let result = {},
+            rels = [];
+        if (layerName === 'AD_Lane') {
+            //车道中心线
+            result = await AdLineService.aroundLines(params);
+            rels = calcAdLaneRels(result.data.AD_Lane.features[0]);
+        } else if (layerName === 'AD_Road') {
+            //道路参考线
+            result = await AdLineService.adRoadLines(params);
+        }
+        let newFeatures = result.data[layerName].features.reduce(
+            (total, feature) => {
+                total.push({ data: feature, layerName: layerName });
+                return total;
+            },
+            []
+        );
+
+        let historyLog = {
+            features: [[], newFeatures],
+            rels: [[], uniqRels(rels)]
+        };
+
+        await updateFeatures(historyLog);
+
+        return historyLog;
+    } catch (e) {
+        console.log('半自动构建请求失败');
     }
-    let newFeatures = result.data[layerName].features.reduce(
-        (total, feature) => {
-            total.push({ data: feature, layerName: layerName });
-            return total;
-        },
-        []
-    );
-
-    let historyLog = {
-        features: [[], newFeatures],
-        rels: [[], uniqRels(rels)]
-    };
-
-    await updateFeatures(historyLog);
-
-    return historyLog;
 };
 
 /**
