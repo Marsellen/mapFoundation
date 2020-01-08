@@ -166,7 +166,7 @@ class DividerToAutoCreate extends React.Component {
                 3
             );
         } catch (e) {
-            console.log(e);
+            console.log(e.message);
             message.warning('操作失败:' + e.message, 3);
             let history = {
                 params
