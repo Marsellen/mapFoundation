@@ -126,7 +126,18 @@ class ViewAttribute extends React.Component {
                         筛选重置
                     </Button>
                 )}
+                {/*搜索结果为空时，占位DIV，给 筛选重置 按钮占位*/}
+                {this.searchResultNil() && <div style={{ height: 40 }}></div>}
             </ConfigProvider>
+        );
+    };
+
+    searchResultNil = () => {
+        const { dataSource, currentDataSource } = this.state;
+        return (
+            !!dataSource.length &&
+            currentDataSource &&
+            !currentDataSource.length
         );
     };
 

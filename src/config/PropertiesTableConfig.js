@@ -401,7 +401,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'LAMP_TYPE',
             title: '信号灯灯头子类型',
-            filterBy: 'typeFilter|AD_SUB_LAMP_TYPE'
+            filterBy: 'adSubLampTypeFilter'
         }
     ],
     AD_Pole: [

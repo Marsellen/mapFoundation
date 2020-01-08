@@ -79,7 +79,9 @@ class AttributesModal extends React.Component {
             // console.log(values);
             AttributeStore.submit(values, TaskStore.activeTask)
                 .then(result => {
-                    updateFeatures(result);
+                    return updateFeatures(result);
+                })
+                .then(result => {
                     AdEmitter.emit('fetchViewAttributeData');
                     let history = {
                         type: 'updateFeatureRels',
