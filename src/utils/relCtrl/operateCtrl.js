@@ -625,6 +625,7 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
         if (updateFeatures.includes(option.key + option.value)) return;
         layer.removeFeatureByOption(option);
     });
+    return { features, rels, attrs };
 };
 
 const updateRels = async ([oldRels, newRels] = []) => {
