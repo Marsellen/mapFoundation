@@ -71,23 +71,15 @@ const resource = ({ config, successCallback, errorCallback }) => {
             const { code, errcode, errmsg, message: resMessage } = respData;
 
             if (errcode && errmsg) {
-                throw `${errcode} : ${errmsg}`;
+                throw new Error(`${errcode} : ${errmsg}`);
             } else {
                 if (successCallback) {
                     successCallback(respData);
                 } else {
-                    if (code) {
-                        switch (code) {
-                            case 1:
-                                return respData;
-                            case 509:
-                                throw `${code} : ${resMessage}`;
-                            default:
-                                throw `${code} : ${resMessage}`;
-                        }
-                    } else {
-                        return respData;
+                    if (code && code !== 1) {
+                        throw new Error(`${code} : ${resMessage}`);
                     }
+                    return respData;
                 }
             }
         })
@@ -110,8 +102,8 @@ const resource = ({ config, successCallback, errorCallback }) => {
                 if (errorCallback) {
                     errorCallback(error);
                 } else {
-                    handleMessage(error || '请求失败');
-                    console.error(error || '请求失败');
+                    handleMessage(errorMsg || '请求失败');
+                    console.error(errorMsg || '请求失败');
                 }
             }
             throw error;
