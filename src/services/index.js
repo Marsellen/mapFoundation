@@ -99,10 +99,9 @@ const resource = ({ config, successCallback, errorCallback }) => {
                 handleMessage(`${serviceName}请求超时 ${url}`);
                 console.error(`${serviceName}请求超时 ${url}`);
             } else {
-                if (errorCallback) {
-                    errorCallback(error);
-                }
+                errorCallback && errorCallback(error);
             }
+
             throw error;
         });
 };
