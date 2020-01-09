@@ -199,8 +199,6 @@ class DividerToAutoCreate extends React.Component {
         if (layer.getFeatureByOption(option)) {
             let feature = layer.getFeatureByOption(option).properties;
             let extent = map.getExtent(feature.data.geometry);
-            map.setView('U');
-            map.setExtent(extent);
             this.showAttributesModal(feature);
         } else {
             message.warning('所在图层与用户编号不匹配！', 3);
