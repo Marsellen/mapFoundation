@@ -63,13 +63,14 @@ class TaskStore {
 
     // 任务列表
     initTask = flow(function*(option) {
-        const result = yield JobService.listTask(option, error => {
-            message.error('任务加载失败', 3);
-            throw error;
-        });
+        try {
+            const result = yield JobService.listTask(option);
 
-        this.tasks = result.data.taskList;
-        return result.data;
+            this.tasks = result.data.taskList;
+            return result.data;
+        } catch (e) {
+            message.error('任务加载失败');
+        }
     });
 
     // 任务切换
@@ -152,19 +153,15 @@ class TaskStore {
             taskId,
             process_name
         };
-        let response = yield JobService.submitTask(payload);
-        if (response.code != 1) {
-            throw response;
-        }
+        yield JobService.submitTask(payload);
     });
 
     // 更新任务状态
     updateTaskStatus = flow(function*(option) {
-        let response = yield JobService.updateTask(option);
-        if (response.code === 1) {
-            // 更新完后 刷新任务列表
+        try {
+            yield JobService.updateTask(option);
             this.initTask({ type: 4 });
-        } else {
+        } catch (e) {
             message.warning('更新任务状态失败', 3);
         }
     });
@@ -189,15 +186,14 @@ class TaskStore {
     });
 
     updateTaskBoundaryFile = flow(function*(option) {
-        const response = yield TaskService.updateTaskBoundaryFile(option);
-        // 浏览器缓存记录更新底图状态
-        if (response.code === 1) {
+        try {
+            yield TaskService.updateTaskBoundaryFile(option);
             AdLocalStorage.setTaskInfosStorage({
                 taskId: this.activeTaskId,
                 taskBoundaryIsUpdate: true
             });
             return this.getTaskBoundaryFile();
-        } else {
+        } catch (e) {
             AdLocalStorage.setTaskInfosStorage({
                 taskId: this.activeTaskId,
                 taskBoundaryIsUpdate: false
@@ -294,7 +290,7 @@ class TaskStore {
             });
             return;
         } catch (e) {
-            console.log(e);
+            console.log(e.message);
         }
     });
 
@@ -318,7 +314,7 @@ class TaskStore {
             yield TaskService.writeEditLog(payload);
             yield editLog.store.clear();
         } catch (e) {
-            console.log(e);
+            console.log(e.message);
             message.error('日志保存失败！');
         }
     });

@@ -13,9 +13,6 @@ export const locatePicture = async (event, taskId) => {
             };
         }
     );
-    if (result.code !== 1) {
-        throw result;
-    }
     return result.data;
 };
 

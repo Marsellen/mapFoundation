@@ -1,7 +1,7 @@
 import service from 'src/services';
 import { ManualBuildApiPath } from 'src/utils/Api';
 
-const AdlineService = {
+const AdLineService = {
     aroundLines: data => {
         //左右车道线生成车道中心线
         const config = {
@@ -40,4 +40,4 @@ const AdlineService = {
     }
 };
 
-export default AdlineService;
+export default AdLineService;
