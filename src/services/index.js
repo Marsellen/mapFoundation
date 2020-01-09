@@ -104,8 +104,7 @@ const resource = ({ config, successCallback, errorCallback }) => {
                 });
                 const serviceName = SERVICE_MAP[serviceKey];
 
-                handleMessage(`${serviceName}请求超时 ${url}`);
-                console.error(`${serviceName}请求超时 ${url}`);
+                throw new Error(`${serviceName}请求超时 ${url}`);
             } else {
                 errorCallback && errorCallback(error);
             }
