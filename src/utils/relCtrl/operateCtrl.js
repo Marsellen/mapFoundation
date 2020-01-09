@@ -82,7 +82,6 @@ const breakLine = async (breakPoint, features, activeTask) => {
     );
     let option = { point, lines, task_id: activeTask.taskId };
     let result = await EditorService.breakLines(option);
-    if (result.code !== 1) throw result;
     let { newFeatures, rels, attrs, newAllFeatureOptions } = getNewFeaturesInfo(
         features,
         result.data
@@ -117,7 +116,6 @@ const mergeLine = async (features, activeTask) => {
     );
     let option = { lines, task_id: activeTask.taskId };
     let result = await EditorService.mergeLines(option);
-    if (result.code !== 1) throw result;
     let { newFeatures, rels, attrs } = fetchFeatureRels(features, [
         result.data.feature
     ]);
@@ -154,7 +152,6 @@ const breakLineByLine = async (line, features, activeTask) => {
     );
     let option = { cutLine, lines, task_id: activeTask.taskId };
     let result = await EditorService.breakLinesByLine(option);
-    if (result.code !== 1) throw result;
     let { newFeatures, rels, attrs, newAllFeatureOptions } = getNewFeaturesInfo(
         features,
         result.data

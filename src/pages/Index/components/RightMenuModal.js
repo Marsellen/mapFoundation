@@ -397,7 +397,7 @@ class RightMenuModal extends React.Component {
                 let layer = DataLayerStore.getEditLayer();
                 layer.layer.removeFeatureById(data.uuid);
             }
-            message.warning('操作失败:' + e, 3);
+            message.warning('操作失败:' + e.message, 3);
         }
         DataLayerStore.exitEdit();
         AttributeStore.hideRelFeatures();

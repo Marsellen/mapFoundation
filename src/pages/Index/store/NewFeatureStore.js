@@ -8,14 +8,9 @@ class NewFeatureStore {
     init = flow(function*(result, isManbuildTask) {
         let feature = result.data;
         let layerName = result.layerName;
-        const _result = yield IDService.initID(
-            {
-                id_type: DATA_LAYER_MAP[layerName].spec
-            },
-            () => {
-                throw '请求ID失败';
-            }
-        );
+        const _result = yield IDService.initID({
+            id_type: DATA_LAYER_MAP[layerName].spec
+        });
 
         let id = _result.data[0].min;
         const defaultProperties = modelFactory.getDefaultProperties(

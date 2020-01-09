@@ -11,10 +11,7 @@ class AppStore {
 
     login = flow(function*(userInfo, option) {
         let result = yield AppService.login(userInfo);
-        // console.log(result);
-        if (result.code !== 1) {
-            throw result;
-        }
+
         authenticateSuccess(result.data, option.autoLogin);
         this.loginUser = result.data;
     });

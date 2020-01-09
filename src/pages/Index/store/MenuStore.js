@@ -14,7 +14,7 @@ class MenuStore {
             this.state = 'done';
             this.menus = menus;
         } catch (e) {
-            console.log(e);
+            console.log(e.message);
             this.state = 'error';
         }
     });
