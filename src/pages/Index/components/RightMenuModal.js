@@ -352,12 +352,13 @@ class RightMenuModal extends React.Component {
 
         let data;
         try {
+            this.regionCheck(result);
             //判断是否绘制成功
             if (result.errorCode) {
                 // 解析sdk抛出异常信息
                 let arr = result.desc.split(':');
                 let desc = arr[arr.length - 1];
-                throw desc;
+                throw new Error(desc);
             }
 
             let feature = RightMenuStore.getFeatures()[0];
@@ -393,11 +394,11 @@ class RightMenuModal extends React.Component {
             editLog.store.add(log);
             AdEmitter.emit('fetchViewAttributeData');
         } catch (e) {
-            if (data) {
+            if (result) {
                 let layer = DataLayerStore.getEditLayer();
-                layer.layer.removeFeatureById(data.uuid);
+                layer.layer.removeFeatureById(result.uuid);
             }
-            message.warning('操作失败:' + e.message, 3);
+            message.warning(e.message, 3);
         }
         DataLayerStore.exitEdit();
         AttributeStore.hideRelFeatures();
@@ -465,7 +466,7 @@ class RightMenuModal extends React.Component {
             DataLayerStore.regionGeojson
         );
         if (!isInRegion) {
-            throw '请在任务范围内绘制要素';
+            throw new Error('绘制失败，请在任务范围内绘制');
         }
     };
 
