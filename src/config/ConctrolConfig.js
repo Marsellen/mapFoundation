@@ -10,6 +10,7 @@ export default {
         SCALE_SIZE_VALUE: 15 //实时计算点大小比例的一个参数
     },
     style: {
+        selectPCPointStyle: { color: 'rgb(205,92,92)' }, //路面设置
         featurePointAuxiliaryStyle: { color: 'rgb(109,85,255)' },
         featureSelectedStyle: { color: 'rgb(255,134,237)' }, //要素被选中时的样式
         // featureCreatedStyle: { color:'rgb(238,68,80)' },         //要素被创建时的样式
