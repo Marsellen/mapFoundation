@@ -6,8 +6,6 @@ import editLog from 'src/models/editLog';
 import { RESOURCE_LAYER_BOUNDARY } from 'src/config/DataLayerConfig';
 import 'less/components/sider.less';
 
-let isToggling = true;
-
 @inject('QualityCheckStore')
 @inject('appStore')
 @inject('TaskStore')
@@ -139,41 +137,45 @@ class Task extends React.Component {
     };
 
     toggleTask = async (id, isEdit) => {
-        if (!isToggling) return;
-        isToggling = false;
+        if (this.isToggling) return;
+        this.isToggling = true;
 
-        const { TaskStore, QualityCheckStore, DataLayerStore } = this.props;
-        const { current } = this.state;
-        const { taskIdList } = TaskStore;
+        try {
+            const { TaskStore, QualityCheckStore, DataLayerStore } = this.props;
+            const { current } = this.state;
+            const { taskIdList } = TaskStore;
 
-        // 切换任务时，保存上一个任务的缩放比例，该方法需最先执行
-        if (current && taskIdList.includes(current)) {
-            const preTaskScale = map.getEyeView();
-            const { position } = preTaskScale;
-            const { x, y, z } = position;
-            if (!(x === 0 && y === 0 && z === 0)) {
-                AdLocalStorage.setTaskInfosStorage({
-                    taskId: current,
-                    taskScale: preTaskScale
-                });
+            // 切换任务时，保存上一个任务的缩放比例，该方法需最先执行
+            if (current && taskIdList.includes(current)) {
+                const preTaskScale = map.getEyeView();
+                const { position } = preTaskScale;
+                const { x, y, z } = position;
+                if (!(x === 0 && y === 0 && z === 0)) {
+                    AdLocalStorage.setTaskInfosStorage({
+                        taskId: current,
+                        taskScale: preTaskScale
+                    });
+                }
             }
-        }
 
-        QualityCheckStore.closeCheckReport();
-        QualityCheckStore.clearCheckReport();
-        TaskStore.setActiveTask(id);
-        await this.clearWorkSpace();
-        if (isEdit) {
-            this.handleReportOpen();
-            let boundaryLayerGroup = await TaskStore.startTaskEdit(id);
-            this.fetchLayerGroup(boundaryLayerGroup);
-            window.map && window.map.enableRotate();
-            DataLayerStore.disableRegionSelect();
-        }
+            QualityCheckStore.closeCheckReport();
+            QualityCheckStore.clearCheckReport();
+            TaskStore.setActiveTask(id);
+            await this.clearWorkSpace();
+            if (isEdit) {
+                this.handleReportOpen();
+                let boundaryLayerGroup = await TaskStore.startTaskEdit(id);
+                this.fetchLayerGroup(boundaryLayerGroup);
+                window.map && window.map.enableRotate();
+                DataLayerStore.disableRegionSelect();
+            }
 
-        this.setState({ current: id }, () => {
-            isToggling = true;
-        });
+            this.setState({ current: id }, () => {
+                this.isToggling = false;
+            });
+        } catch (e) {
+            this.isToggling = false;
+        }
     };
 
     clearWorkSpace = async () => {
