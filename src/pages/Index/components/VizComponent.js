@@ -386,7 +386,7 @@ class VizComponent extends React.Component {
                 // 解析sdk抛出异常信息
                 let arr = result.desc.split(':');
                 let desc = arr[arr.length - 1];
-                throw desc;
+                throw new Error(desc);
             }
 
             data = await DataLayerStore.updateResult(result);
@@ -438,7 +438,7 @@ class VizComponent extends React.Component {
                 // 解析sdk抛出异常信息
                 let arr = result.desc.split(':');
                 let desc = arr[arr.length - 1];
-                throw desc;
+                throw new Error(desc);
             }
 
             this.regionCheck(result);
@@ -467,7 +467,7 @@ class VizComponent extends React.Component {
         } catch (e) {
             //恢复要素
             DataLayerStore.updateFeature(oldFeature);
-            message.warning(e);
+            message.warning(e.message);
         }
 
         DataLayerStore.exitEdit();
@@ -482,7 +482,7 @@ class VizComponent extends React.Component {
             DataLayerStore.regionGeojson
         );
         if (!isInRegion) {
-            throw '绘制失败，请在任务范围内绘制要素';
+            throw new Error('绘制失败，请在任务范围内绘制要素');
         }
     };
 
