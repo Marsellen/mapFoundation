@@ -1,5 +1,5 @@
 //本地环境接口根路径
-const LOCAL_PATH = 'http://yapi.demo.qunar.com/mock/42546';
+const LOCAL_PATH = 'http://10.43.72.222:3000/mock/11';
 //开发环境接口根路径
 const DEV_PATH = 'http://10.43.75.58:13003';
 //测试环境接口根路径
@@ -10,12 +10,12 @@ const PROD_PATH = '';
 //转发各服务根路径映射
 module.exports = PROXY_MAP = {
     local: {
-        gateway: DEV_PATH,
-        task: DEV_PATH,
-        id: DEV_PATH,
-        manualBuild: DEV_PATH,
-        boundary: DEV_PATH,
-        edit: DEV_PATH,
+        gateway: LOCAL_PATH,
+        task: LOCAL_PATH,
+        id: LOCAL_PATH,
+        manualBuild: LOCAL_PATH,
+        boundary: LOCAL_PATH,
+        edit: LOCAL_PATH,
         check: LOCAL_PATH
     },
     dev: {

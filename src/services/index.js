@@ -5,6 +5,11 @@ import { SERVICE_MAP } from 'src/config/ServiceMapConfig';
 
 const TIME_OUT = 60000;
 
+const ERROR_MAP = {
+    '500': '服务异常，请联系系统管理员',
+    '504': '服务超时，请稍后重试'
+};
+
 const handleMessage = content => {
     message.warning(content);
 };
@@ -30,7 +35,13 @@ axios.interceptors.response.use(
         const { response } = error;
         if (response) {
             const { status, data } = response;
+
+            let errorMsg = ERROR_MAP[status + ''];
+            if (errorMsg) {
+                return Promise.reject(new Error(errorMsg));
+            }
             const { code } = data;
+
             // 返回 401 清除token信息并跳转到登录页面
             if (status === 401) {
                 if (code === 1016) {
@@ -39,10 +50,10 @@ axios.interceptors.response.use(
                     logoutModal('token失效，请重新获取');
                 }
             }
+
             return Promise.reject(error.response.data);
-        } else {
-            return Promise.reject(error);
         }
+        return Promise.reject(error);
     }
 );
 
