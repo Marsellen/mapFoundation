@@ -10,10 +10,6 @@ const ERROR_MAP = {
     '504': '服务超时，请稍后重试'
 };
 
-const handleMessage = content => {
-    message.warning(content);
-};
-
 const logoutModal = title => {
     Modal.error({
         title,
