@@ -10,7 +10,6 @@ import {
     getFeatureByOptionFormAll
 } from 'src/utils/vectorUtils';
 import IDService from 'src/services/IDService';
-import { Modal } from 'antd';
 
 const batchAddRels = async rels => {
     let relStore = Relevance.store;
