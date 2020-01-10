@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getAuthentication, logout } from 'src/utils/Session';
-import { Modal, message } from 'antd';
+import { Modal } from 'antd';
 import { SERVICE_MAP } from 'src/config/ServiceMapConfig';
 
 const TIME_OUT = 60000;
