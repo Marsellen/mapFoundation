@@ -326,8 +326,6 @@ class RightMenuModal extends React.Component {
                 AttributeStore.hideRelFeatures();
             },
             onCancel() {
-                //恢复要素
-                DataLayerStore.updateFeature(oldFeature);
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
             }
