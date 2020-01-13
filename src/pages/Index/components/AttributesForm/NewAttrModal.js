@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Form, Modal, Select } from 'antd';
+import { Form, Modal, Select, Input } from 'antd';
 import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
 import {
     TYPE_SELECT_OPTION_MAP,
@@ -10,11 +10,9 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import SearchIconGroup from 'src/components/SearchIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import _ from 'lodash';
-import AdInput from 'src/components/Form/AdInput';
 import AdDateInput from 'src/components/Form/AdDateInput';
 import { getValidator } from 'src/utils/form/validator';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
-import AdSelect from 'src/components/Form/AdSelect';
 import { testDataString } from 'src/utils/timeUtils';
 
 const formItemLayout = {
@@ -115,7 +113,7 @@ class NewAttrModal extends React.Component {
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {form.getFieldDecorator(item.key, {
                     initialValue: item.value
-                })(<AdInput disabled placeholder={item.placeholder} />)}
+                })(<Input disabled placeholder={item.placeholder} />)}
             </Form.Item>
         );
     };
@@ -158,7 +156,7 @@ class NewAttrModal extends React.Component {
                         ...this.getValidatorSetting(item.validates)
                     ],
                     initialValue: item.value
-                })(<AdInput />)}
+                })(<Input />)}
             </Form.Item>
         );
     };
@@ -201,7 +199,7 @@ class NewAttrModal extends React.Component {
                     ],
                     initialValue: item.value
                 })(
-                    <AdSelect
+                    <Select
                         showSearch
                         optionFilterProp="children"
                         filterOption={(input, option) =>
@@ -217,7 +215,7 @@ class NewAttrModal extends React.Component {
                                 </Select.Option>
                             );
                         })}
-                    </AdSelect>
+                    </Select>
                 )}
             </Form.Item>
         );

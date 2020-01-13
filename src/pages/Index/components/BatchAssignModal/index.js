@@ -1,11 +1,10 @@
 import React from 'react';
-import { Form, Modal, Select, Button } from 'antd';
+import { Form, Modal, Select, Button, Input } from 'antd';
 import { observer, inject } from 'mobx-react';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import editLog from 'src/models/editLog';
-import AdInput from 'src/components/Form/AdInput';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import { getValidator } from 'src/utils/form/validator';
 import AdEmitter from 'src/models/event';
@@ -117,7 +116,7 @@ class BatchAssignModal extends React.Component {
                 {!readonly ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         initialValue: item.value
-                    })(<AdInput disabled />)
+                    })(<Input disabled />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -167,7 +166,7 @@ class BatchAssignModal extends React.Component {
                             ...this.getValidatorSetting(item.validates)
                         ],
                         initialValue: item.value
-                    })(<AdInput disabled={readonly} />)
+                    })(<Input disabled={readonly} />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}

@@ -10,7 +10,6 @@ import {
     Col,
     message
 } from 'antd';
-import AdSelect from 'src/components/Form/AdSelect';
 import TimePicker from './components/TimePicker';
 import './index.less';
 const { Option } = Select;
@@ -173,7 +172,7 @@ class AdDatePicker extends React.Component {
                                             }
                                         ]
                                     })(
-                                        <AdSelect
+                                        <Select
                                             className="month-select"
                                             showSearch
                                             disabled={
@@ -194,7 +193,7 @@ class AdDatePicker extends React.Component {
                                                     {item}
                                                 </Option>
                                             ))}
-                                        </AdSelect>
+                                        </Select>
                                     )}
                                     <span className="ant-form-text">日</span>
                                     <span className="gap">~</span>
@@ -217,7 +216,8 @@ class AdDatePicker extends React.Component {
                                             }
                                         ]
                                     })(
-                                        <AdSelect
+                                        <Select
+                                            showSearch
                                             disabled={
                                                 isCheckbox.indexOf('radio') ===
                                                     -1 ||
@@ -236,7 +236,7 @@ class AdDatePicker extends React.Component {
                                                     {item}
                                                 </Option>
                                             ))}
-                                        </AdSelect>
+                                        </Select>
                                     )}
                                     <span className="ant-form-text">日</span>
                                 </Form.Item>
@@ -260,7 +260,7 @@ class AdDatePicker extends React.Component {
                                                 }
                                             ]
                                         })(
-                                            <AdSelect
+                                            <Select
                                                 className="week-select"
                                                 disabled={
                                                     isCheckbox.indexOf(
@@ -282,7 +282,7 @@ class AdDatePicker extends React.Component {
                                                         {item.label}
                                                     </Option>
                                                 ))}
-                                            </AdSelect>
+                                            </Select>
                                         )}
                                         <span className="gap">~</span>
                                     </Form.Item>
@@ -301,7 +301,7 @@ class AdDatePicker extends React.Component {
                                                 }
                                             ]
                                         })(
-                                            <AdSelect
+                                            <Select
                                                 disabled={
                                                     isCheckbox.indexOf(
                                                         'radio'
@@ -322,7 +322,7 @@ class AdDatePicker extends React.Component {
                                                         {item.label}
                                                     </Option>
                                                 ))}
-                                            </AdSelect>
+                                            </Select>
                                         )}
                                     </Form.Item>
                                 </span>

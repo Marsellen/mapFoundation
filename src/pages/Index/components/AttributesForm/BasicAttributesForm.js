@@ -1,13 +1,11 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Form, Select } from 'antd';
+import { Form, Select, Input } from 'antd';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
-import AdInput from 'src/components/Form/AdInput';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import { getValidator } from 'src/utils/form/validator';
-import AdSelect from 'src/components/Form/AdSelect';
 
 const formItemLayout = {
     labelCol: {
@@ -47,7 +45,7 @@ class BasicAttributesForm extends React.Component {
                 {!readonly ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         initialValue: item.value
-                    })(<AdInput disabled />)
+                    })(<Input disabled />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -97,7 +95,7 @@ class BasicAttributesForm extends React.Component {
                             ...this.getValidatorSetting(item.validates)
                         ],
                         initialValue: item.value
-                    })(<AdInput disabled={readonly} />)
+                    })(<Input disabled={readonly} />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -123,7 +121,7 @@ class BasicAttributesForm extends React.Component {
                         ],
                         initialValue: item.value
                     })(
-                        <AdSelect
+                        <Select
                             showSearch
                             optionFilterProp="children"
                             disabled={readonly}
@@ -141,7 +139,7 @@ class BasicAttributesForm extends React.Component {
                                     </Select.Option>
                                 );
                             })}
-                        </AdSelect>
+                        </Select>
                     )
                 ) : (
                     <span className="ant-form-text">
