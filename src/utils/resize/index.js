@@ -2,6 +2,7 @@ class Resize {
     constructor() {
         this.currentEle;
         this.resizeCallback;
+        this.isMoving = false;
         this.isStartResize = false;
         this.direction = '';
         this.cursorStyle = '';
@@ -161,12 +162,22 @@ class Resize {
     };
 
     handleMouseMove = e => {
-        const { clientX, clientY } = e;
-        const endX = clientX;
-        const endY = clientY;
-        this.addX = endX - this.startX;
-        this.addY = endY - this.startY;
-        this.resetStyle(this.addX, this.addY);
+        if (this.isMoving) return;
+        this.isMoving = true;
+        setTimeout(() => {
+            try {
+                const { clientX, clientY } = e;
+                const endX = clientX;
+                const endY = clientY;
+                this.addX = endX - this.startX;
+                this.addY = endY - this.startY;
+                this.resetStyle(this.addX, this.addY);
+                this.isMoving = false;
+            } catch (e) {
+                console.error(e.message && e.message);
+                this.isMoving = false;
+            }
+        }, 100);
     };
 
     handleMouseUp = e => {
