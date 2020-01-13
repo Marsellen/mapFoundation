@@ -68,7 +68,7 @@ const resource = ({ config, successCallback, errorCallback }) => {
         headers: {
             'Content-Type': 'application/json',
             Authentication: token,
-            userName: username
+            userName: encodeURI(username) //对中文用户名进行编码
         }
     };
 

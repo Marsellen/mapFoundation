@@ -43,7 +43,7 @@ class RoadSet extends React.Component {
         if (event.button !== 2) return false;
         const { DataLayerStore } = this.props;
         try {
-            if (result && result[0].data) {
+            if (result && result[0] && result[0].data) {
                 const coordinates = result[0].data.geometry.coordinates;
                 // 获取落点的点元素Z轴位置
                 const pointZ = coordinates[2] - 0.05;
