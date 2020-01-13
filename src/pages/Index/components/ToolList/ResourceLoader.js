@@ -1,8 +1,7 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import { Modal, Button, Form } from 'antd';
-import AdInput from 'src/components/Form/AdInput';
+import { Modal, Button, Form, Input } from 'antd';
 
 const formLayout = {
     labelCol: { span: 4 },
@@ -49,7 +48,7 @@ class ResourceLoader extends React.Component {
                                 }
                             ]
                             //initialValue: '123'
-                        })(<AdInput />)}
+                        })(<Input />)}
                     </Form.Item>
                     <Form.Item label="资料路径">
                         {form.getFieldDecorator('url', {
@@ -64,7 +63,7 @@ class ResourceLoader extends React.Component {
                                 }
                             ]
                             //initialValue: 'http://10.43.75.120/task/62334/08_EDIT_JSON'
-                        })(<AdInput />)}
+                        })(<Input />)}
                     </Form.Item>
                 </Form>
             </Modal>

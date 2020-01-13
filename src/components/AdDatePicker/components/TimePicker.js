@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, Select } from 'antd';
 import ToolIcon from 'src/components/ToolIcon';
-import AdSelect from 'src/components/Form/AdSelect';
 const { Option } = Select;
 
 const hour = [
@@ -149,7 +148,8 @@ class TimePicker extends React.Component {
                             }
                         ]
                     })(
-                        <AdSelect
+                        <Select
+                            showSearch
                             disabled={disabled}
                             onChange={this.handleStartHour}>
                             {hour.map((item, index) => (
@@ -167,7 +167,7 @@ class TimePicker extends React.Component {
                                     {item}
                                 </Option>
                             ))}
-                        </AdSelect>
+                        </Select>
                     )}
                     <span className="time-risk">:</span>
                 </Form.Item>
@@ -181,7 +181,8 @@ class TimePicker extends React.Component {
                             }
                         ]
                     })(
-                        <AdSelect
+                        <Select
+                            showSearch
                             disabled={disabled}
                             onChange={this.handleStartMin}>
                             {min.map((item, index) => (
@@ -198,7 +199,7 @@ class TimePicker extends React.Component {
                                     {item}
                                 </Option>
                             ))}
-                        </AdSelect>
+                        </Select>
                     )}
                     <span className="gap">~</span>
                 </Form.Item>
@@ -212,7 +213,8 @@ class TimePicker extends React.Component {
                             }
                         ]
                     })(
-                        <AdSelect
+                        <Select
+                            showSearch
                             disabled={disabled}
                             onChange={this.handleEndHour}>
                             {addHour.map((item, index) => (
@@ -227,7 +229,7 @@ class TimePicker extends React.Component {
                                     {item}
                                 </Option>
                             ))}
-                        </AdSelect>
+                        </Select>
                     )}
                     <span className="time-risk">:</span>
                 </Form.Item>
@@ -241,7 +243,8 @@ class TimePicker extends React.Component {
                             }
                         ]
                     })(
-                        <AdSelect
+                        <Select
+                            showSearch
                             disabled={disabled || timeData.endHour === '24'}
                             onChange={this.handleEndMin}>
                             {min.map((item, index) => (
@@ -257,7 +260,7 @@ class TimePicker extends React.Component {
                                     {item}
                                 </Option>
                             ))}
-                        </AdSelect>
+                        </Select>
                     )}
                 </Form.Item>
                 {index > 0 ? (

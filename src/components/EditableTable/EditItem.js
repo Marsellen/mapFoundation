@@ -1,7 +1,6 @@
 import React from 'react';
-import { Form, Select } from 'antd';
+import { Form, Select, Input } from 'antd';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
-import AdInput from 'src/components/Form/AdInput';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 
 @Form.create()
@@ -71,7 +70,7 @@ class EditItem extends React.Component {
                     ],
                     initialValue: record[dataIndex]
                 })(
-                    <AdInput
+                    <Input
                         ref={node => (this.node = node)}
                         onPressEnter={this.save}
                         onBlur={this.save}

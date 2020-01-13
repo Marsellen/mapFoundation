@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Select, Modal, Form, Icon } from 'antd';
+import { Button, Select, Modal, Form, Icon, Input } from 'antd';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import SearchIconGroup from 'src/components/SearchIconGroup';
 import _ from 'lodash';
@@ -7,12 +7,10 @@ import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
 import './style.less';
-import AdInput from 'src/components/Form/AdInput';
 import { getValidator } from 'src/utils/form/validator';
 import AdDateInput from 'src/components/Form/AdDateInput';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
-import AdSelect from 'src/components/Form/AdSelect';
 import { testDataString } from 'src/utils/timeUtils';
 
 const formItemLayout = {
@@ -173,7 +171,7 @@ class EditableCard extends React.Component {
                 {!readonly ? (
                     form.getFieldDecorator(item.key, {
                         initialValue: item.value
-                    })(<AdInput disabled />)
+                    })(<Input disabled />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -249,7 +247,7 @@ class EditableCard extends React.Component {
                             ...this.getValidatorSetting(item.validates)
                         ],
                         initialValue: item.value
-                    })(<AdInput disabled={item.disabled} />)
+                    })(<Input disabled={item.disabled} />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -280,7 +278,7 @@ class EditableCard extends React.Component {
                         ],
                         initialValue: item.value
                     })(
-                        <AdSelect
+                        <Select
                             showSearch
                             optionFilterProp="children"
                             filterOption={(input, option) =>
@@ -298,7 +296,7 @@ class EditableCard extends React.Component {
                                     </Select.Option>
                                 );
                             })}
-                        </AdSelect>
+                        </Select>
                     )
                 ) : (
                     <span className="ant-form-text">
