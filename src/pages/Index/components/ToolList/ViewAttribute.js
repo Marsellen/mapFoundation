@@ -357,12 +357,11 @@ class ViewAttribute extends React.Component {
                 visible: false
             });
         } else {
-            let layerName = this.state.layerName;
-            if (!layerName) {
-                const { DataLayerStore } = this.props;
-                let editLayer = DataLayerStore.getEditLayer();
-                layerName = editLayer ? editLayer.layerName : null;
-            }
+            const { DataLayerStore } = this.props;
+            let editLayer = DataLayerStore.getEditLayer();
+            let layerName = editLayer
+                ? editLayer.layerName
+                : this.state.layerName;
             this.setState(
                 {
                     visible: true,
