@@ -168,3 +168,5 @@ export const MOD_UPD_STAT_RELATION_LAYERS = [
     'AD_TrafficSign',
     'AD_TrafficLight'
 ];
+
+export const REL_ATTR_LAYERS = ['AD_Lane_Con_RS', 'AD_Road_Con_RS'];

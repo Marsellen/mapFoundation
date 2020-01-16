@@ -3,11 +3,16 @@ import ToolIcon from 'src/components/ToolIcon';
 import { Select, ConfigProvider, Input, Button, Icon, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdTable from 'src/components/AdTable';
-import { COLUMNS_CONFIG } from 'src/config/PropertiesTableConfig';
+import {
+    COLUMNS_CONFIG,
+    SELECT_OPTIONS
+} from 'src/config/PropertiesTableConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import {
     getLayerItems,
-    isAttrLayer
+    isAttrLayer,
+    isRelLayer,
+    findRelDataById
 } from 'src/utils/vectorCtrl/propertyTableCtrl';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import 'less/components/view-attribute.less';
@@ -17,7 +22,8 @@ import SeniorModal from 'src/components/SeniorModal';
 import AdEmitter from 'src/models/event';
 import Resize from 'src/utils/resize';
 import Filter from 'src/utils/table/filter';
-import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
+import { ATTR_SPEC_CONFIG, REL_ATTR_LAYERS } from 'src/config/AttrsConfig';
+import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -162,7 +168,6 @@ class ViewAttribute extends React.Component {
     };
 
     getTableTitle = () => {
-        let options = Object.keys(COLUMNS_CONFIG);
         const { layerName } = this.state;
         return (
             <div>
@@ -170,11 +175,22 @@ class ViewAttribute extends React.Component {
                     value={layerName}
                     onChange={this.changeLayer}
                     className="layer-select">
-                    {options.map((option, index) => {
+                    {SELECT_OPTIONS.map((option, key) => {
                         return (
-                            <Select.Option key={index} value={option}>
-                                {this.getLabel(option)}
-                            </Select.Option>
+                            <Select.OptGroup
+                                key={`group-${key}`}
+                                label={option.group}>
+                                {option.items.map((item, index) => {
+                                    return (
+                                        <Select.Option
+                                            key={`option-${key}-${index}`}
+                                            value={item}
+                                            className={option.class}>
+                                            {this.getLabel(item)}
+                                        </Select.Option>
+                                    );
+                                })}
+                            </Select.OptGroup>
                         );
                     })}
                 </Select>
@@ -398,19 +414,20 @@ class ViewAttribute extends React.Component {
     };
 
     tableOnClick = record => {
-        return e => {
-            this.pickFeature = this.searchFeature(record);
-            this.showAttributesModal(this.pickFeature);
+        return async e => {
+            let feature = await this.searchFeature(record);
+            this.showAttributesModal(feature);
             //展开
             this.openRowStyle(record.index);
         };
     };
 
     tableOnDoubleClick = record => {
-        return e => {
-            if (!this.pickFeature) return;
-            let extent = map.getExtent(this.pickFeature.data.geometry);
-            console.log(extent);
+        return async e => {
+            let feature = await this.searchFeature(record, true);
+            if (!feature) return;
+            let extent = map.getExtent(feature.data.geometry);
+            //console.log(extent);
             map.setView('U');
             map.setExtent(extent);
             //展开
@@ -431,10 +448,40 @@ class ViewAttribute extends React.Component {
         AttributeStore.show(readonly);
     };
 
-    searchFeature = record => {
+    searchFeature = async (record, noMessage) => {
         let { layerName } = this.state;
         let option, layer, feature;
-        if (isAttrLayer(layerName)) {
+        if (isRelLayer(layerName)) {
+            let config = REL_SPEC_CONFIG.find(c => c.source === layerName);
+            let IDKey = getLayerIDKey(config.objSpec);
+            option = {
+                key: IDKey,
+                value: record[config.objKeyName]
+            };
+            layer = getLayerByName(config.objSpec);
+            feature = layer.getFeatureByOption(option);
+
+            if (!feature) {
+                !noMessage && message.error('关系表关联数据不存在，请检查');
+                return;
+            }
+        } else if (REL_ATTR_LAYERS.includes(layerName)) {
+            let config = ATTR_SPEC_CONFIG.find(c => c.source === layerName);
+            let rel_id = record[config.key];
+            let rel = await findRelDataById(rel_id);
+            let IDKey = getLayerIDKey(rel.objSpec);
+            option = {
+                key: IDKey,
+                value: rel.objId
+            };
+            layer = getLayerByName(rel.objSpec);
+            feature = layer.getFeatureByOption(option);
+
+            if (!feature) {
+                !noMessage && message.error('属性表关联数据不存在，请检查');
+                return;
+            }
+        } else if (isAttrLayer(layerName)) {
             let config = ATTR_SPEC_CONFIG.find(c => c.source === layerName);
             option = {
                 key: config.key,
@@ -444,7 +491,7 @@ class ViewAttribute extends React.Component {
             feature = layer.getFeatureByOption(option);
 
             if (!feature) {
-                message.error('属性表关联数据不存在，请检查');
+                !noMessage && message.error('属性表关联数据不存在，请检查');
                 return;
             }
         } else {

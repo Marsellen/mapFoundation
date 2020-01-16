@@ -204,6 +204,36 @@ export const DATA_LAYER_MAP = {
         label: '交通信号灯灯头属性',
         id: 'LAMP_ID',
         spec: 'AD_Sub_Lamp'
+    },
+    AD_Road_Con: {
+        label: '道路参考线连接关系',
+        id: 'REL_ID',
+        spec: 'AD_Road_Con'
+    },
+    AD_Lane_Con: {
+        label: '车道中心线连接关系',
+        id: 'REL_ID',
+        spec: 'AD_Lane_Con'
+    },
+    AD_StopL_Lane_Rel: {
+        label: '车道中心线&停止位置 关联关系',
+        id: 'REL_ID',
+        spec: 'AD_StopL_Lane_Rel'
+    },
+    AD_Plg_Lane_Rel: {
+        label: '车道中心线&面状标识物 关联关系',
+        id: 'REL_ID',
+        spec: 'AD_Plg_Lane_Rel'
+    },
+    AD_Sign_Lane_Rel: {
+        label: '车道中心线&交通标志牌 关联关系',
+        id: 'REL_ID',
+        spec: 'AD_Sign_Lane_Rel'
+    },
+    AD_Light_Lane_Rel: {
+        label: '车道中心线&交通限制信息 关联关系',
+        id: 'REL_ID',
+        spec: 'AD_Light_Lane_Rel'
     }
 };
 
