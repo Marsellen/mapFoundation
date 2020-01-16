@@ -34,8 +34,7 @@ class ViewAttribute extends React.Component {
             layerName: null,
             height: 500,
             loading: false,
-            filteredInfo: null,
-            currentDataSource: null
+            filteredInfo: null
         };
     }
 
@@ -84,7 +83,7 @@ class ViewAttribute extends React.Component {
     };
 
     renderContent = () => {
-        const { columns, dataSource, height, currentDataSource } = this.state;
+        const { columns, dataSource, height } = this.state;
         return (
             <ConfigProvider locale={zh_CN}>
                 <AdTable
@@ -103,14 +102,12 @@ class ViewAttribute extends React.Component {
                     size="small"
                     rowClassName={record => `table-row-${record.index}`}
                     pagination={{
-                        total: (currentDataSource || dataSource).length,
                         pageSizeOptions: ['10', '30', '50'],
                         showQuickJumper: true,
                         showSizeChanger: true,
                         onChange: this.handlePagination,
                         onShowSizeChange: this.handlePagination,
-                        showTotal: () =>
-                            `共${(currentDataSource || dataSource).length}条`
+                        showTotal: this.showTotal
                     }}
                     scroll={{ x: 'max-content', y: height }}
                     title={() => {
@@ -132,13 +129,17 @@ class ViewAttribute extends React.Component {
         );
     };
 
+    showTotal = total => {
+        // 同步当前显示数据条数，为searchResultNil提供准确数据
+        if (total !== this.state.total) {
+            this.setState({ total });
+        }
+        return `共${total}条`;
+    };
+
     searchResultNil = () => {
-        const { dataSource, currentDataSource } = this.state;
-        return (
-            !!dataSource.length &&
-            currentDataSource &&
-            !currentDataSource.length
-        );
+        const { dataSource, total } = this.state;
+        return !!dataSource.length && !total;
     };
 
     handlePagination = () => {
@@ -182,10 +183,7 @@ class ViewAttribute extends React.Component {
     };
 
     changeLayer = layerName => {
-        this.setState(
-            { layerName, filteredInfo: null, currentDataSource: null },
-            this.getData
-        );
+        this.setState({ layerName, filteredInfo: null }, this.getData);
     };
 
     getData = () => {
@@ -298,11 +296,9 @@ class ViewAttribute extends React.Component {
     };
 
     handleChange = (pagination, filters, sorter, extra) => {
-        const { currentDataSource } = extra;
         this.setState(
             {
-                filteredInfo: filters,
-                currentDataSource
+                filteredInfo: filters
             },
             () => {
                 let { layerName } = this.state;
@@ -315,8 +311,7 @@ class ViewAttribute extends React.Component {
     clearFilters = () => {
         this.setState(
             {
-                filteredInfo: null,
-                currentDataSource: null
+                filteredInfo: null
             },
             () => {
                 let { layerName } = this.state;
@@ -362,18 +357,16 @@ class ViewAttribute extends React.Component {
                 visible: false
             });
         } else {
-            let layerName = this.state.layerName;
-            if (!layerName) {
-                const { DataLayerStore } = this.props;
-                let editLayer = DataLayerStore.getEditLayer();
-                layerName = editLayer ? editLayer.layerName : null;
-            }
+            const { DataLayerStore } = this.props;
+            let editLayer = DataLayerStore.getEditLayer();
+            let layerName = editLayer
+                ? editLayer.layerName
+                : this.state.layerName;
             this.setState(
                 {
                     visible: true,
                     layerName,
-                    filteredInfo: null,
-                    currentDataSource: null
+                    filteredInfo: null
                 },
                 this.getData
             );
