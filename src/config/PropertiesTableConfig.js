@@ -497,5 +497,104 @@ export const COLUMNS_CONFIG = {
             dataIndex: 'QC_PERSON',
             title: '质检人员'
         }
+    ],
+    AD_Road_Con: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'REL_ID', title: '用户编号' },
+        { dataIndex: 'FROM_ROAD', title: '进入道路用户编号' },
+        { dataIndex: 'TO_ROAD', title: '退出道路用户编号' }
+    ],
+    AD_Lane_Con: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'REL_ID', title: '用户编号' },
+        { dataIndex: 'FROM_LANE', title: '进入道路用户编号' },
+        { dataIndex: 'TO_LANE', title: '退出道路用户编号' }
+    ],
+    AD_StopL_Lane_Rel: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'REL_ID', title: '用户编号' },
+        { dataIndex: 'STOPL_ID', title: '关联停止位置用户编号' },
+        { dataIndex: 'LANE_ID', title: '关联车道中心线用户编号' }
+    ],
+    AD_Plg_Lane_Rel: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'REL_ID', title: '用户编号' },
+        { dataIndex: 'PLG_ID', title: '关联面状标识物用户编号' },
+        { dataIndex: 'LANE_ID', title: '关联车道中心线用户编号' }
+    ],
+    AD_Sign_Lane_Rel: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'REL_ID', title: '用户编号' },
+        { dataIndex: 'SIGN_ID', title: '关联交通标志牌用户编号' },
+        { dataIndex: 'LANE_ID', title: '关联车道中心线用户编号' }
+    ],
+    AD_Light_Lane_Rel: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'REL_ID', title: '用户编号' },
+        { dataIndex: 'LIGHT_ID', title: '关联交通信号灯用户编号' },
+        { dataIndex: 'LANE_ID', title: '关联车道中心线用户编号' }
+    ],
+    AD_Road_Con_RS: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'RS_ID', title: '用户编号' },
+        { dataIndex: 'REL_ID', title: '连接关系用户编号' },
+        { dataIndex: 'RS_TYPE', title: '限制类型' },
+        { dataIndex: 'TIMEDOM', title: '限制时间描述' }
+    ],
+    AD_Lane_Con_RS: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'RS_ID', title: '用户编号' },
+        { dataIndex: 'REL_ID', title: '连接关系用户编号' },
+        { dataIndex: 'RS_TYPE', title: '限制类型' },
+        { dataIndex: 'TIMEDOM', title: '限制时间描述' }
     ]
 };
+
+export const SELECT_OPTIONS = [
+    {
+        group: '几何要素图层',
+        class: 'four-layer-out',
+        items: [
+            'AD_Road',
+            'AD_LaneDivider',
+            'AD_Lane',
+            'AD_LaneAttrPoint',
+            'AD_Arrow',
+            'AD_StopLocation',
+            'AD_LaneMark_Plg',
+            'AD_Text',
+            'AD_TrafficSign',
+            'AD_TrafficLight',
+            'AD_Pole',
+            'AD_RS_Barrier'
+        ]
+    },
+    {
+        group: '关系图层',
+        class: 'three-layer-out',
+        items: [
+            'AD_Road_Con',
+            'AD_Lane_Con',
+            'AD_StopL_Lane_Rel',
+            'AD_Plg_Lane_Rel',
+            'AD_Sign_Lane_Rel',
+            'AD_Light_Lane_Rel'
+        ]
+    },
+    {
+        group: '属性图层',
+        class: 'three-layer-out',
+        items: [
+            'AD_TS_Content',
+            'AD_Sub_Lamp',
+            'AD_Lane_RS',
+            'AD_Road_Con_RS',
+            'AD_Lane_Con_RS'
+        ]
+    },
+    {
+        group: '其他图层',
+        class: 'three-layer-out',
+        items: ['AD_Map_QC']
+    }
+];
