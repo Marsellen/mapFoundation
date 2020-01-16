@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Modal, Form, Button, message } from 'antd';
+import { Modal, Form, Button, message, Spin } from 'antd';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import BasicAttributesForm from './AttributesForm/BasicAttributesForm';
 import RelationForm from './AttributesForm/RelationForm';
@@ -24,7 +24,7 @@ class AttributesModal extends React.Component {
 
     render() {
         const { AttributeStore } = this.props;
-        const { visible } = AttributeStore;
+        const { visible, loading, loadingMessage } = AttributeStore;
         return (
             <Modal
                 footer={this.renderFooter()}
@@ -35,16 +35,18 @@ class AttributesModal extends React.Component {
                 visible={visible}
                 onCancel={this.handleCancel}>
                 <div className="obscuration" />
-                <Form colon={false} hideRequiredMark={true}>
-                    <AdTabs
-                        tabs={[
-                            { label: '基础属性', key: 'basicAttribute' },
-                            { label: '关联关系', key: 'relation' }
-                        ]}>
-                        {this.renderForm()}
-                        {this.renderRels()}
-                    </AdTabs>
-                </Form>
+                <Spin spinning={loading} tip={loadingMessage}>
+                    <Form colon={false} hideRequiredMark={true}>
+                        <AdTabs
+                            tabs={[
+                                { label: '基础属性', key: 'basicAttribute' },
+                                { label: '关联关系', key: 'relation' }
+                            ]}>
+                            {this.renderForm()}
+                            {this.renderRels()}
+                        </AdTabs>
+                    </Form>
+                </Spin>
             </Modal>
         );
     }
@@ -77,6 +79,7 @@ class AttributesModal extends React.Component {
                 return;
             }
             // console.log(values);
+            AttributeStore.showLoading('保存数据...');
             AttributeStore.submit(values, TaskStore.activeTask)
                 .then(result => {
                     return updateFeatures(result);
