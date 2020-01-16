@@ -24,6 +24,8 @@ import { isManbuildTask } from 'src/utils/taskUtils';
 import _ from 'lodash';
 import { message } from 'antd';
 
+const LOAD_DATA_MESSAGE = '加载数据中...';
+
 configure({ enforceActions: 'always' });
 class AttributeStore {
     model;
@@ -36,15 +38,23 @@ class AttributeStore {
     @observable attrs = {};
     @observable readonly;
     @observable modelId;
+    @observable loading = false;
+    @observable loadingMessage;
 
     @action show = readonly => {
         this.visible = true;
         this.readonly = readonly;
+        this.showLoading(LOAD_DATA_MESSAGE);
     };
 
     @action hide = () => {
         this.visible = false;
         this.delAttrs = [];
+    };
+
+    @action showLoading = text => {
+        this.loading = true;
+        this.loadingMessage = text;
     };
 
     setModel = flow(function*(obj) {
@@ -53,6 +63,7 @@ class AttributeStore {
         this.fetchAttributes();
         yield this.fetchRels();
         yield this.fetchAttrs();
+        this.loading = false;
     });
 
     getModel = () => {
