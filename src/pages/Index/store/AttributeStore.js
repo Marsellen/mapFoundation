@@ -44,7 +44,6 @@ class AttributeStore {
     @action show = readonly => {
         this.visible = true;
         this.readonly = readonly;
-        this.showLoading(LOAD_DATA_MESSAGE);
     };
 
     @action hide = () => {
@@ -58,6 +57,7 @@ class AttributeStore {
     };
 
     setModel = flow(function*(obj) {
+        this.showLoading(LOAD_DATA_MESSAGE);
         this.model = obj;
         this.type = this.model.layerName;
         this.fetchAttributes();
