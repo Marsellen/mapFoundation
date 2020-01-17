@@ -7,6 +7,7 @@ import relFactory from 'src/utils/relCtrl/relFactory';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import _ from 'lodash';
 import { DEFAULT_CONFIDENCE_MAP } from 'src/config/ADMapDataConfig';
+import { message } from 'antd';
 const jsts = require('jsts');
 
 export const getLayerIDKey = layerName => {
@@ -72,6 +73,7 @@ const getSingleDimensionArray = arr => {
         }
     } catch {
         console.error('请传入多维数组，例：[[[1,2]]]');
+        message.warning('请传入多维数组，例：[[[1,2]]]', 3);
     }
 };
 
@@ -87,6 +89,7 @@ const toLineStringGeojson = geojson => {
         return geojson;
     } catch {
         console.error('请传到有效的geojson');
+        message.warning('请传到有效的geojson', 3);
     }
 };
 

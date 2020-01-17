@@ -1,4 +1,5 @@
 import { observable, flow, configure } from 'mobx';
+import { message } from 'antd';
 import MenuService from 'src/services/MenuService';
 
 configure({ enforceActions: 'always' });
@@ -15,6 +16,7 @@ class MenuStore {
             this.menus = menus;
         } catch (e) {
             console.log(e.message);
+            message.warning('左侧菜单栏请求失败：' + e.message, 3);
             this.state = 'error';
         }
     });

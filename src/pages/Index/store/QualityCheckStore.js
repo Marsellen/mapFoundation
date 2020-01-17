@@ -66,7 +66,7 @@ class QualityCheckStore {
             return data;
         } catch (e) {
             console.error('请求失败');
-            message.warning(e.message);
+            message.warning('质量检查失败' + e.message, 3);
         }
     }).bind(this);
 
@@ -96,7 +96,7 @@ class QualityCheckStore {
             this.handleReportRes(data, option.task_id);
         } catch (e) {
             console.error(e.message);
-            message.warning(e.message);
+            message.warning('获取报表失败：' + e.message, 3);
         }
     }).bind(this);
 
@@ -135,13 +135,15 @@ class QualityCheckStore {
                             }
                         },
                         error => {
-                            message.warning(error.message || '请求失败');
+                            message.warning(
+                                '获取报表失败：' + error.message || '请求失败'
+                            );
                             console.error(error.message || '请求失败');
                             resolve && resolve(false);
                         }
                     );
                 } catch (e) {
-                    console.error('请求失败');
+                    console.error('获取报表失败');
                 }
             }).bind(this),
             1000
@@ -252,7 +254,7 @@ class QualityCheckStore {
             this.handleReportChecked(index, checked);
         } catch (e) {
             console.error('请求失败');
-            message.warning(e.message);
+            message.warning('新增误报请求失败：' + e.message, 3);
         }
     }).bind(this);
 
@@ -268,7 +270,7 @@ class QualityCheckStore {
             this.handleReportChecked(index, checked);
         } catch (e) {
             console.error('请求失败');
-            message.warning(e.message);
+            message.warning('删除误报请求失败：' + e.message, 3);
         }
     }).bind(this);
 
@@ -285,7 +287,7 @@ class QualityCheckStore {
             return data;
         } catch (e) {
             console.error('请求失败');
-            message.warning(e.message);
+            message.warning('质检员获取报表请求失败：' + e.message, 3);
         }
     });
 
@@ -304,7 +306,7 @@ class QualityCheckStore {
             this.handleReportChecked(index, checked);
         } catch (e) {
             console.error('请求失败');
-            message.warning(e.message);
+            message.warning('更新报表请求失败：' + e.message, 3);
         }
     }).bind(this);
 }
