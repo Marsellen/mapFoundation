@@ -17,6 +17,11 @@ import 'less/components/attributes-modal.less';
 @inject('OperateHistoryStore')
 @observer
 class AttributesModal extends React.Component {
+    componentDidMount() {
+        const { AttributeStore } = this.props;
+        AttributeStore.addToggleListener(this.props.form.resetFields);
+    }
+
     handleCancel = e => {
         const { AttributeStore } = this.props;
         AttributeStore.hide();
