@@ -73,7 +73,6 @@ const getSingleDimensionArray = arr => {
         }
     } catch {
         console.error('请传入多维数组，例：[[[1,2]]]');
-        message.warning('请传入多维数组，例：[[[1,2]]]', 3);
     }
 };
 
@@ -89,7 +88,6 @@ const toLineStringGeojson = geojson => {
         return geojson;
     } catch {
         console.error('请传到有效的geojson');
-        message.warning('请传到有效的geojson', 3);
     }
 };
 

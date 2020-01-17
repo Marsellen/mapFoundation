@@ -66,7 +66,7 @@ class QualityCheckStore {
             return data;
         } catch (e) {
             console.error('请求失败');
-            message.warning('质量检查失败' + e.message, 3);
+            message.warning('质量检查失败：' + e.message, 3);
         }
     }).bind(this);
 

@@ -288,7 +288,7 @@ class TaskStore {
             return;
         } catch (e) {
             console.log(e.message);
-            message.warning('矢量转存为shp文件失败' + e.message, 3);
+            message.warning('矢量转存为shp文件失败：' + e.message, 3);
         }
     });
 
