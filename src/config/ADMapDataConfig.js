@@ -80,7 +80,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         {
             value: 17,
             label: '危险品专用车道',
-            icon: 'weixianpinzhuanyongchedao'
+            icon: 'weixianpinzhuanyongchedao1'
         },
         { value: 18, label: '爬坡车道', icon: 'papochedao' },
         { value: 19, label: '可变导向车道', icon: 'kebiandaoxiangchedao' },
@@ -162,7 +162,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         {
             value: 17,
             label: '危险品专用车道',
-            icon: 'weixianpinzhuanyongchedao'
+            icon: 'weixianpinzhuanyongchedao1'
         },
         { value: 18, label: '爬坡车道', icon: 'papochedao' },
         { value: 19, label: '可变导向车道', icon: 'kebiandaoxiangchedao' },
