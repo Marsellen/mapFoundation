@@ -159,6 +159,18 @@ export const COLUMNS_CONFIG = {
             filterBy: 'typeFilter|AD_LANE_STATUS'
         },
         {
+            dataIndex: 'ROAD_ID',
+            title: '关联道路参考线用户编号'
+        },
+        {
+            dataIndex: 'L_LDIV_ID',
+            title: '关联左侧车道线用户编号'
+        },
+        {
+            dataIndex: 'R_LDIV_ID',
+            title: '关联右侧车道线用户编号'
+        },
+        {
             dataIndex: 'UPD_STAT',
             title: '更新标识',
             filterBy: 'updStatFilter'
@@ -207,6 +219,10 @@ export const COLUMNS_CONFIG = {
             filterBy: 'typeFilter|AD_LANE_ATTRPOINT_TYPE'
         },
         {
+            dataIndex: 'ROAD_ID',
+            title: '关联道路参考线用户编号'
+        },
+        {
             dataIndex: 'UPD_STAT',
             title: '更新标识',
             filterBy: 'updStatFilter'
@@ -225,6 +241,10 @@ export const COLUMNS_CONFIG = {
             dataIndex: 'ARR_DIRECT',
             title: '箭头方向',
             filterBy: 'typeFilter|AD_ARROW_ARR_DIRECT'
+        },
+        {
+            dataIndex: 'LANE_ID',
+            title: '关联车道中心线用户编码'
         },
         {
             dataIndex: 'UPD_STAT',
@@ -289,6 +309,10 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'VALUE',
             title: '地面文字内容'
+        },
+        {
+            dataIndex: 'LANE_ID',
+            title: '关联车道中心线用户编码'
         },
         {
             dataIndex: 'UPD_STAT',
