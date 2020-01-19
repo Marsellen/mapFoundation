@@ -264,10 +264,11 @@ class QualityCheckResultTable extends React.Component {
     //双击
     tableOnDoubleClick = (record, index) => {
         return e => {
-            const { QualityCheckStore, TaskStore, VectorsStore } = this.props;
+            const { QualityCheckStore, TaskStore, VectorsStore, DataLayerStore } = this.props;
             const { visitedReport } = QualityCheckStore;
             const { activeTaskId } = TaskStore;
             let { layerName, featureId } = record;
+            DataLayerStore.exitEdit()
             //已访问
             visitedReport(record, activeTaskId);
             //展开

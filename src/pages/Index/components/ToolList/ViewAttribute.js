@@ -414,8 +414,10 @@ class ViewAttribute extends React.Component {
     };
 
     tableOnClick = record => {
+        const { DataLayerStore } = this.props;
         return async e => {
             let feature = await this.searchFeature(record);
+            DataLayerStore.exitEdit();
             this.showAttributesModal(feature);
             //展开
             this.openRowStyle(record.index);
