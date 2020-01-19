@@ -260,7 +260,7 @@ class JobStatus extends React.Component {
             // 更新任务列表后，清除浏览器缓存中多余任务信息
             AdLocalStorage.filterTaskInfosStorage(TaskStore.taskIdList);
         } catch (e) {
-            message.error(e.message, 3);
+            message.warning('提交失败：' + e.message, 3);
         }
     };
 

@@ -309,7 +309,7 @@ class RightMenuModal extends React.Component {
                     AdEmitter.emit('fetchViewAttributeData');
                 } catch (e) {
                     //console.log(e);
-                    message.warning('操作失败:' + e.message, 3);
+                    message.warning('打断失败：' + e.message, 3);
                     let history = {
                         features,
                         breakNode: result[0]
@@ -396,7 +396,7 @@ class RightMenuModal extends React.Component {
                 let layer = DataLayerStore.getEditLayer();
                 layer.layer.removeFeatureById(result.uuid);
             }
-            message.warning(e.message, 3);
+            message.warning('复制线要素失败：' + e.message, 3);
         }
         DataLayerStore.exitEdit();
         AttributeStore.hideRelFeatures();
@@ -442,7 +442,7 @@ class RightMenuModal extends React.Component {
                     editLog.store.add(log);
                     message.success('平移成功', 3);
                 } catch (e) {
-                    message.warning('操作失败:' + e, 3);
+                    message.warning('平移点要素失败：' + e.message, 3);
                     DataLayerStore.updateFeature(oldFeature);
                 }
                 DataLayerStore.exitEdit();
@@ -632,7 +632,7 @@ class RightMenuModal extends React.Component {
                     editLog.store.add(log);
                     message.success('线要素逆序已完成', 3);
                 } catch (e) {
-                    message.warning('线要素逆序处理失败', 3);
+                    message.warning('线要素逆序处理失败：' + e.message, 3);
                     let history = { features };
                     let log = {
                         operateHistory: history,
@@ -690,7 +690,7 @@ class RightMenuModal extends React.Component {
                     AdEmitter.emit('fetchViewAttributeData');
                 } catch (e) {
                     console.log(e);
-                    message.warning('操作失败:' + e.message, 3);
+                    message.warning('合并失败：' + e.message, 3);
                     let history = { features };
                     let log = {
                         operateHistory: history,
@@ -778,7 +778,7 @@ class RightMenuModal extends React.Component {
                     AdEmitter.emit('fetchViewAttributeData');
                 } catch (e) {
                     //console.log(e);
-                    message.warning('操作失败:' + e.message, 3);
+                    message.warning('拉线齐打断失败：' + e.message, 3);
                     let history = {
                         features,
                         breakLine: result

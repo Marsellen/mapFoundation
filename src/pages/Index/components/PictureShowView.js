@@ -206,7 +206,7 @@ class PictureShowView extends React.Component {
             window.traceLayer.select(result.index);
             PictureShowStore.setPicDataFormTrack(result);
         } catch (e) {
-            message.error(e.message);
+            message.warning('图片查看失败：' + e.message, 3);
         }
     };
 

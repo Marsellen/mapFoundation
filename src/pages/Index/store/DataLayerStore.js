@@ -1,7 +1,7 @@
 import { action, configure, flow, observable } from 'mobx';
 import { EditControl, MeasureControl } from 'addis-viz-sdk';
 import TaskService from 'src/services/TaskService';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import {
     getLayerExByName,
     getFeatureOption,
@@ -384,16 +384,12 @@ class DataLayerStore {
                 return result;
             }
             let points = result.data.geometry.coordinates[0];
-            let _result = yield TaskService.creatCircle(points, () => {
-                Modal.error({
-                    title: '三点画圆服务请求失败',
-                    okText: '确定'
-                });
-            });
+            let _result = yield TaskService.creatCircle(points);
             result.data.geometry.coordinates[0] = _result.data;
             return result;
         } catch (e) {
             console.log(e);
+            message.warning('三点画圆服务请求失败：' + e.message, 3);
         }
     });
 
