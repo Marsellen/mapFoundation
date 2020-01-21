@@ -34,7 +34,7 @@ class HelpList extends React.Component {
 
     render() {
         return (
-            <div className="help">
+            <div className="ad-sider-bottom-item">
                 <Popover
                     title="帮助中心"
                     placement="rightBottom"
@@ -45,6 +45,7 @@ class HelpList extends React.Component {
                     arrowPointAtCenter>
                     <Tooltip
                         title="帮助"
+                        placement="right"
                         visible={this.state.hovered}
                         onVisibleChange={this.handleHoverChange}>
                         <IconFont type="icon-bangzhu" />

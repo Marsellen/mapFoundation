@@ -1,15 +1,30 @@
 .ad-sider {
+    flex-direction: column;
+    width: 60px;
     height: calc(100vh - 50px);
+    background: #363636;
 
     .ad-sider-bar {
-        background: #363636;
-        height: 100%;
+        flex: 1;
         padding-top: 10px;
     }
 
     .ad-sider-item {
+        height: 45px;
+    }
+
+    .ad-sider-bottom-item {
         width: 60px;
         height: 45px;
+        text-align: center;
+        line-height: 45px;
+        i {
+            color: #fff;
+            svg {
+                width: 16px;
+                height: 16px;
+            }
+        }
     }
 
     .ad-menu-icon {

@@ -14,6 +14,7 @@ import BatchAssignStore from './BatchAssignStore';
 import PointCloudStore from './PointCloudStore';
 import QualityCheckStore from './QualityCheckStore';
 import VectorsStore from './VectorsStore';
+import RenderModeStore from './RenderModeStore';
 
 export default {
     MenuStore,
@@ -31,5 +32,6 @@ export default {
     BatchAssignStore,
     PointCloudStore,
     QualityCheckStore,
-    VectorsStore
+    VectorsStore,
+    RenderModeStore
 };

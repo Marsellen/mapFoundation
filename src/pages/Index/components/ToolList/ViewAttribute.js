@@ -59,7 +59,6 @@ class ViewAttribute extends React.Component {
                     placement="right"
                     icon="shuxingliebiao"
                     title="属性列表"
-                    placement="right"
                     className="ad-menu-icon"
                     disabled={!activeTaskId}
                     action={this.toggle}
