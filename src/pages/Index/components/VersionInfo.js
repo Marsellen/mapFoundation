@@ -1,23 +1,15 @@
 import React from 'react';
 import CONFIG from 'src/config';
-import { Modal } from 'antd';
-import ToolIcon from 'src/components/ToolIcon';
+import { Modal, Tooltip } from 'antd';
+import IconFont from 'src/components/IconFont';
 
 class VersionInfo extends React.Component {
     render() {
         return (
-            <div
-                title="版本信息"
-                onClick={this.about}
-                style={{
-                    width: '60px',
-                    height: '45px',
-                    color: '#abc',
-                    textAlign: 'center',
-                    position: 'absolute',
-                    bottom: '0px'
-                }}>
-                <ToolIcon icon="banbenxinxi" />
+            <div className="ad-sider-bottom-item" onClick={this.about}>
+                <Tooltip title="版本信息" placement="right">
+                    <IconFont type="icon-banbenxinxi" />
+                </Tooltip>
             </div>
         );
     }

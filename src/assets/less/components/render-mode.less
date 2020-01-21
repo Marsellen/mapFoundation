@@ -1,0 +1,51 @@
+.render-mode {
+    .title-wrap {
+        display: flex;
+        line-height: 45px;
+        font-size: 16px;
+    }
+    .title {
+        flex: 1;
+        padding: 0 12px;
+    }
+    .close {
+        width: 40px;
+        text-align: center;
+    }
+    .modal-body {
+        padding: 0px 12px 12px;
+        ul {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0 10px;
+            text-align: center;
+            li {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                width: calc(50% - 20px);
+                height: 140px;
+                margin: 10px;
+                border: 5px solid #999;
+                cursor: pointer;
+                div {
+                    width: 100%;
+                }
+                p.desc {
+                    height: 50px;
+                    margin: 10px 0 0;
+                    white-space: pre-wrap;
+                }
+                &.on {
+                    border-color: #1890ff;
+                }
+            }
+        }
+        .button-wrap {
+            display: flex;
+            justify-content: flex-end;
+            margin: 6px 0;
+        }
+    }
+}

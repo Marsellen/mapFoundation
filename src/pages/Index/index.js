@@ -7,9 +7,7 @@ import VizComponent from './components/VizComponent';
 import HeaderBar from './components/HeaderBar';
 import 'less/home.less';
 import logo from 'src/assets/img/logo.png';
-import VersionInfo from './components/VersionInfo';
 import { shortcut } from 'src/utils/shortcuts';
-import HelpList from './components/HelpList';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
 
 const { Header } = Layout;
@@ -42,8 +40,6 @@ class Index extends React.Component {
                 </Header>
                 <div className="flex flex-row">
                     <Sider menus={menus}>{SiderView}</Sider>
-                    <HelpList />
-                    <VersionInfo />
                     <div className="flex-1 viz-content" id="viz-content">
                         <VizComponent />
                     </div>
