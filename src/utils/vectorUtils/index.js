@@ -218,3 +218,20 @@ export const modUpdStatProperties = (feature, properties) => {
     feature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);
     return feature;
 };
+
+export const getAllDataSnapshot = async () => {
+    let vectorData = getAllVectorData();
+    let vectorFeatures = vectorData.features;
+    let attrRecords = await Attr.store.getAll();
+    let attrFeatures = attrFactory.attrTableToData(attrRecords);
+
+    let relRecords = await Relevance.store.getAll();
+    let relFeatures = relFactory.relTableToData(relRecords);
+
+    let allFeatures = vectorFeatures.concat(attrFeatures).concat(relFeatures);
+    return allFeatures.map(f => {
+        return {
+            [f.name]: f.features.map(feature => feature.properties)
+        };
+    });
+};

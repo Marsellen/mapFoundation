@@ -21,7 +21,7 @@ const TaskService = {
     },
     writeEditLog: data => {
         const config = {
-            url: EditApiPath('/api/writelog'),
+            url: EditApiPath('/snapshot/logSnapshot'),
             method: 'post',
             data
         };
