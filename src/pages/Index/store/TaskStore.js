@@ -6,7 +6,8 @@ import CONFIG from 'src/config';
 import {
     getAllVectorData,
     getAllRelData,
-    getAllAttrData
+    getAllAttrData,
+    getAllDataSnapshot
 } from 'src/utils/vectorUtils';
 import { getAuthentication } from 'src/utils/Session';
 import editLog from 'src/models/editLog';
@@ -295,6 +296,7 @@ class TaskStore {
     writeEditLog = flow(function*() {
         try {
             let log = yield editLog.store.getAll();
+            let snapshot = yield getAllDataSnapshot();
             let {
                 taskId,
                 processName,
@@ -306,8 +308,8 @@ class TaskStore {
                 processName,
                 inputImpDataPath,
                 userName,
-                time: moment().format('YYYY-MM-DD HH:mm:ss SSS'),
-                log
+                incrementData: log,
+                totalData: snapshot
             };
             yield TaskService.writeEditLog(payload);
             yield editLog.store.clear();
