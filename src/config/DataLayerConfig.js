@@ -231,7 +231,7 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_Sign_Lane_Rel'
     },
     AD_Light_Lane_Rel: {
-        label: '车道中心线&交通限制信息 关联关系',
+        label: '车道中心线&交通信号灯 关联关系',
         id: 'REL_ID',
         spec: 'AD_Light_Lane_Rel'
     }
