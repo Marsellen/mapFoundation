@@ -85,6 +85,10 @@ class VizComponent extends React.Component {
         window.map && window.map.release();
         ResourceLayerStore.release();
         VectorsStore.release();
+        window.boundaryLayerGroup = null;
+        window.pointCloudLayer = null;
+        window.vectorLayerGroup = null;
+        window.traceLayer = null;
     };
 
     addShortcut = event => {
@@ -290,13 +294,13 @@ class VizComponent extends React.Component {
         const { TaskStore } = this.props;
 
         //禁用浏览器默认右键菜单
-        document.oncontextmenu = function(e) {
+        document.oncontextmenu = function (e) {
             e.preventDefault();
             // return false;
         };
 
         //监听浏览器即将离开当前页面事件
-        window.onbeforeunload = function(e) {
+        window.onbeforeunload = function (e) {
             //保存当前任务比例
             const { activeTaskId } = TaskStore;
             const preTaskScale = map.getEyeView();
