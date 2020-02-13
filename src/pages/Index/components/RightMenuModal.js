@@ -350,14 +350,12 @@ class RightMenuModal extends React.Component {
 
         let data;
         try {
-            this.regionCheck(result);
             //判断是否绘制成功
             if (result.errorCode) {
-                // 解析sdk抛出异常信息
-                let arr = result.desc.split(':');
-                let desc = arr[arr.length - 1];
-                throw new Error(desc);
+                DataLayerStore.exitEdit();
+                return;
             }
+            this.regionCheck(result);
 
             let feature = RightMenuStore.getFeatures()[0];
             let IDKey = getLayerIDKey(feature.layerName);
