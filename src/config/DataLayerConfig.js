@@ -177,17 +177,17 @@ export const DATA_LAYER_MAP = {
         groupRightTools: ['breakGroup', 'merge', 'batchAssign', 'breakByLine']
     },
     AD_Lane_RS: {
-        label: '中心线交通限制信息',
+        label: '车道中心线 交通限制信息',
         id: 'RS_ID',
         spec: 'AD_Lane_RS'
     },
     AD_Lane_Con_RS: {
-        label: '车道中心线的连接关系交通限制',
+        label: '车道中心线连接关系限制信息',
         id: 'RS_ID',
         spec: 'AD_Lane_Con_RS'
     },
     AD_Road_Con_RS: {
-        label: '道路参考线线的连接关系交通限制',
+        label: '道路参考线连接关系限制信息',
         id: 'RS_ID',
         spec: 'AD_Road_Con_RS'
     },

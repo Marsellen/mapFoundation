@@ -244,7 +244,7 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'LANE_ID',
-            title: '关联车道中心线用户编码'
+            title: '关联车道中心线用户编号'
         },
         {
             dataIndex: 'UPD_STAT',
@@ -312,7 +312,7 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'LANE_ID',
-            title: '关联车道中心线用户编码'
+            title: '关联车道中心线用户编号'
         },
         {
             dataIndex: 'UPD_STAT',
