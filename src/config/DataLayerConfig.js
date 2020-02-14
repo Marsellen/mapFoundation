@@ -177,7 +177,7 @@ export const DATA_LAYER_MAP = {
         groupRightTools: ['breakGroup', 'merge', 'batchAssign', 'breakByLine']
     },
     AD_Lane_RS: {
-        label: '车道中心线 交通限制信息',
+        label: '车道中心线交通限制信息',
         id: 'RS_ID',
         spec: 'AD_Lane_RS'
     },
@@ -216,22 +216,22 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_Lane_Con'
     },
     AD_StopL_Lane_Rel: {
-        label: '车道中心线&停止位置 关联关系',
+        label: '车道中心线 & 停止位置关联关系',
         id: 'REL_ID',
         spec: 'AD_StopL_Lane_Rel'
     },
     AD_Plg_Lane_Rel: {
-        label: '车道中心线&面状标识物 关联关系',
+        label: '车道中心线 & 面状标识物关联关系',
         id: 'REL_ID',
         spec: 'AD_Plg_Lane_Rel'
     },
     AD_Sign_Lane_Rel: {
-        label: '车道中心线&交通标志牌 关联关系',
+        label: '车道中心线 & 交通标志牌关联关系',
         id: 'REL_ID',
         spec: 'AD_Sign_Lane_Rel'
     },
     AD_Light_Lane_Rel: {
-        label: '车道中心线&交通信号灯 关联关系',
+        label: '车道中心线 & 交通信号灯关联关系',
         id: 'REL_ID',
         spec: 'AD_Light_Lane_Rel'
     }

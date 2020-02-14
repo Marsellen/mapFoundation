@@ -1,151 +1,191 @@
 .view-attribute-modal-wrap {
-    top: 80px;
-    right: unset;
-    bottom: unset;
-    width: 1000px;
-    // background: #fff;
-    border-radius: 4px;
-    left: calc(50% - 500px);
-    overflow: unset;
+  top: 80px;
+  right: unset;
+  bottom: unset;
+  width: 1000px;
+  // background: #fff;
+  border-radius: 4px;
+  left: calc(50% - 500px);
+  overflow: unset;
 
-    .view-attribute-modal {
-        top: 0;
-        height: 100%;
-        padding-bottom: 0;
+  .view-attribute-modal {
+    top: 0;
+    height: 100%;
+    padding-bottom: 0;
+  }
+
+  .ant-modal-content {
+    height: 100%;
+    min-height: 280px;
+    background: rgba(255, 255, 255, 0.92) !important;
+    .ant-modal-close-x {
+      height: 43px;
+      line-height: 43px;
+      font-size: 14px;
     }
+    .ant-modal-header {
+      background: unset;
+      padding: 10px 10px;
 
-    .ant-modal-content {
-        height: 100%;
-        min-height: 280px;
-        background: rgba(255, 255, 255, 0.92) !important;
-        .ant-modal-close-x {
-            height: 43px;
-            line-height: 43px;
-            font-size: 14px;
+      .ant-modal-title {
+        div {
+          font-size: 14px !important;
         }
-        .ant-modal-header {
-            background: unset;
-            padding: 10px 10px;
-
-            .ant-modal-title {
-                div {
-                    font-size: 14px !important;
-                }
-            }
+      }
+    }
+    .ant-modal-body {
+      padding: 0 10px 20px 10px;
+      position: relative;
+      .ant-table-title {
+        padding: 8px 0 !important;
+        div > .ant-input-affix-wrapper {
+          height: 30px;
+          width: 26% !important;
+          float: right;
+          .ant-input {
+            height: 30px !important;
+            font-size: 12px !important;
+          }
         }
-        .ant-modal-body {
-            padding: 0 10px 20px 10px;
-            position: relative;
-            .ant-table-title {
-                padding: 8px 0 !important;
-                div > .ant-input-affix-wrapper {
-                    height: 30px;
-                    width: 26% !important;
-                    float: right;
-                    .ant-input {
-                        height: 30px !important;
-                        font-size: 12px !important;
-                    }
-                }
-                div > .ant-select {
-                    font-size: 12px;
-                }
-            }
+        div > .ant-select {
+          font-size: 12px;
         }
-        box-shadow: unset;
+      }
+    }
+    box-shadow: unset;
+  }
+
+  .ant-table-placeholder {
+    height: 175px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ant-empty-normal {
+    margin: unset;
+  }
+
+  // 收起展开样式
+  table {
+    overflow: hidden;
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    th,
+    td {
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: #333;
     }
 
-    .ant-table-placeholder {
-        height: 175px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .un-ellipsis {
+      color: #3e7fe0;
+      th,
+      td {
+        white-space: unset;
+        background-color: #def3ff;
+      }
     }
+  }
 
-    .ant-empty-normal {
-        margin: unset;
-    }
+  .ant-table-body {
+    max-height: 70vh;
+  }
 
-    // 收起展开样式
-    table {
-        overflow: hidden;
-        table-layout: fixed;
-        width: 100%;
-        border-collapse: collapse;
-        th,
-        td {
-            font-size: 12px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            color: #333;
-        }
+  .layer-select {
+    min-width: 200px;
+  }
 
-        .un-ellipsis {
-            color: #3e7fe0;
-            th,
-            td {
-                white-space: unset;
-                background-color: #def3ff;
-            }
-        }
-    }
+  .ant-pagination {
+    // position: absolute;
+    bottom: 5px;
+    right: 10px;
+    text-align: center;
+    float: unset;
+    margin: 16px 0 0 0 !important;
+  }
 
-    .ant-table-body {
-        max-height: 70vh;
-    }
+  // 可伸缩列表格样式
+  .react-resizable {
+    position: relative;
+    background-clip: padding-box;
+  }
 
-    .layer-select {
-        min-width: 500px;
-    }
+  .react-resizable-handle {
+    position: absolute;
+    width: 10px;
+    height: 100%;
+    bottom: 0;
+    right: -5px;
+    cursor: col-resize;
+    z-index: 1;
+  }
 
-    .ant-pagination {
-        // position: absolute;
-        bottom: 5px;
-        right: 10px;
-        text-align: center;
-        float: unset;
-        margin: 16px 0 0 0 !important;
-    }
-
-    // 可伸缩列表格样式
-    .react-resizable {
-        position: relative;
-        background-clip: padding-box;
-    }
-
-    .react-resizable-handle {
-        position: absolute;
-        width: 10px;
-        height: 100%;
-        bottom: 0;
-        right: -5px;
-        cursor: col-resize;
-        z-index: 1;
-    }
-
-    .reset-button {
-        position: absolute;
-        bottom: 20px;
-        left: 10px;
-    }
+  .reset-button {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+  }
 }
 
-.ant-select-dropdown {
-    .four-layer-out {
-        width: 120px;
-        display: inline-block;
-        padding: 5px 11px;
-        white-space: pre-wrap;
-        line-height: 16px;
-    }
+.layer-select-dropdown {
+  padding: 0 0 0 12px;
+  width: 510px !important;
 
-    .three-layer-out {
-        width: 160px;
-        display: inline-block;
-        padding: 5px 11px;
-        white-space: pre-wrap;
-        vertical-align: text-top;
-        line-height: 16px;
+  .ant-select-dropdown-menu {
+    padding: 6px 0;
+    max-height: 280px;
+
+    /*滚动条样式*/
+    &::-webkit-scrollbar {
+      /*滚动条整体样式*/
+      margin-right: -12px;
+      width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
+      height: 10px;
     }
+    &::-webkit-scrollbar-thumb {
+      /*滚动条里面小方块*/
+      border-radius: 12px;
+      background: #b7b7b7;
+    }
+    &::-webkit-scrollbar-track {
+      /*滚动条里面轨道*/
+      border-radius: 12px;
+      background: #e5e5e5;
+    }
+  }
+
+  .ant-select-dropdown-menu-item-group-title {
+    height: 16px;
+    padding: 0 8px;
+    margin: 8px 0;
+    font-size: 16px;
+    line-height: 15px;
+    border-left: 4px solid #1890ff;
+    color: #096dd9;
+  }
+
+  .ant-select-dropdown-menu-item-group-list {
+    padding: 0 4px;
+  }
+
+  .ant-select-dropdown-menu-item {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 1px 4px;
+    border-radius: 16px !important;
+    background-color: #efefef;
+    line-height: 16px;
+    border: 1px solid transparent;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .ant-select-dropdown-menu-item-selected {
+    color: #096dd9;
+    border: 1px solid #096dd9;
+  }
 }
