@@ -1,7 +1,7 @@
 import { observable, flow, configure, action, computed } from 'mobx';
 import TaskService from 'src/services/TaskService';
 import JobService from 'src/services/JobService';
-import { Modal, message } from 'antd';
+import { message } from 'antd';
 import CONFIG from 'src/config';
 import {
     getAllVectorData,
