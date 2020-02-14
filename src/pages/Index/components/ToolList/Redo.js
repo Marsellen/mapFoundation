@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import editLog from 'src/models/editLog';
 import AdEmitter from 'src/models/event';
 
+@inject('RenderModeStore')
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
 @inject('AttributeStore')
@@ -32,7 +33,8 @@ class Redo extends React.Component {
         const {
             OperateHistoryStore,
             DataLayerStore,
-            AttributeStore
+            AttributeStore,
+            RenderModeStore
         } = this.props;
         OperateHistoryStore.doning();
         OperateHistoryStore.redo().then(history => {
@@ -47,6 +49,7 @@ class Redo extends React.Component {
             AttributeStore.hideRelFeatures();
             AdEmitter.emit('fetchViewAttributeData');
             OperateHistoryStore.done();
+            RenderModeStore.updateFeatureColor();
         });
     };
 }

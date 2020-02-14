@@ -8,6 +8,7 @@ import editLog from 'src/models/editLog';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import 'less/components/tool-icon.less';
 
+@inject('RenderModeStore')
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('OperateHistoryStore')
@@ -18,7 +19,8 @@ class DelRel extends React.Component {
         const {
             DataLayerStore,
             AttributeStore,
-            OperateHistoryStore
+            OperateHistoryStore,
+            RenderModeStore
         } = this.props;
         DataLayerStore.setDelRelCallback((result, event) => {
             // console.log(result);
@@ -52,6 +54,7 @@ class DelRel extends React.Component {
                             message.success('删除关联关系成功', 3);
                             AttributeStore.fetchRelFeatures();
                             DataLayerStore.exitEdit();
+                            RenderModeStore.updateFeatureColor();
                         })
                         .catch(e => {
                             message.warning(e.message, 3);

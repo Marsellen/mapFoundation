@@ -14,8 +14,9 @@ const { TabPane } = Tabs;
 @observer
 class QualityCheckResult extends React.Component {
     render() {
-        const { QualityCheckStore } = this.props;
+        const { QualityCheckStore, TaskStore } = this.props;
         const { checkReportVisible } = QualityCheckStore;
+        const { activeTaskId } = TaskStore;
 
         return (
             <div>
@@ -25,7 +26,7 @@ class QualityCheckResult extends React.Component {
                     title="检查结果"
                     placement="right"
                     icon="jianchajieguoliebiao"
-                    disabled={false}
+                    disabled={!activeTaskId}
                     className="ad-menu-icon"
                     action={this.handleClick}
                 />
@@ -42,7 +43,8 @@ class QualityCheckResult extends React.Component {
                     onCancel={this.handleClose}
                     dragCallback={this.dragCallback}
                     className="quality-check-result-modal"
-                    wrapClassName="quality-check-result-modal-wrap">
+                    wrapClassName="quality-check-result-modal-wrap"
+                >
                     {this._renderContent()}
                 </SeniorModal>
             </div>
@@ -58,7 +60,8 @@ class QualityCheckResult extends React.Component {
             <Tabs
                 defaultActiveKey="1"
                 onChange={this.handleTabsChange}
-                tabBarExtraContent={this._closeIcon()}>
+                tabBarExtraContent={this._closeIcon()}
+            >
                 <TabPane tab="检查结果" key="1">
                     <QualityCheckResultTable reportList={reportList} />
                 </TabPane>

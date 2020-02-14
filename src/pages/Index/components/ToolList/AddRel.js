@@ -17,6 +17,7 @@ import { isManbuildTask } from 'src/utils/taskUtils';
 import 'less/components/tool-icon.less';
 import './AddRel.less';
 
+@inject('RenderModeStore')
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
 @inject('AttributeStore')
@@ -152,7 +153,7 @@ class AddRel extends React.Component {
     };
 
     comfirmNewRel = (mainFeature, relFeatures) => {
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, RenderModeStore } = this.props;
         Modal.confirm({
             title: '是否新建关联关系?',
             okText: '确定',
@@ -162,6 +163,7 @@ class AddRel extends React.Component {
                 try {
                     let rels = await newRel(mainFeature, relFeatures);
                     this.saveLog(rels);
+                    RenderModeStore.updateFeatureColor();
                 } catch (e) {
                     console.log(e);
                     message.warning('新建关联关系失败：' + e.message, 3);
@@ -190,6 +192,7 @@ class AddRel extends React.Component {
 
     addLRLaneDriverRel = async (type, options) => {
         try {
+            const { RenderModeStore } = this.props;
             let [mainFeature, relFeature] = options;
             let specConfig = REL_SPEC_CONFIG.find(
                 config => config.relObjType === type
@@ -202,6 +205,7 @@ class AddRel extends React.Component {
             await attrRelUniqCheck(rel);
             await batchAddRels([rel]);
             this.saveLog([rel]);
+            RenderModeStore.updateFeatureColor();
         } catch (e) {
             const { DataLayerStore } = this.props;
             console.log(e);
