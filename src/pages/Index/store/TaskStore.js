@@ -70,7 +70,7 @@ class TaskStore {
             this.tasks = result.data.taskList;
             return result.data;
         } catch (e) {
-            message.error('任务加载失败');
+            message.warning('任务加载失败：' + e.message, 3);
         }
     });
 
@@ -163,7 +163,7 @@ class TaskStore {
             yield JobService.updateTask(option);
             this.initTask({ type: 4 });
         } catch (e) {
-            message.warning('更新任务状态失败', 3);
+            message.warning('更新任务状态失败：' + e.message, 3);
         }
     });
 
@@ -199,7 +199,7 @@ class TaskStore {
                 taskId: this.activeTaskId,
                 taskBoundaryIsUpdate: false
             });
-            message.warning('获取底图失败，请重新加载页面', 3);
+            message.warning('获取底图失败，请重新加载页面：' + e.message, 3);
         }
     });
 
@@ -271,10 +271,7 @@ class TaskStore {
                 TaskService.saveFile(attrPayload),
                 TaskService.saveFile(relPayload)
             ]).catch(e => {
-                Modal.error({
-                    title: '数据保存失败，请稍后再试',
-                    okText: '确定'
-                });
+                message.warning('数据保存失败：' + e.message, 3);
             });
 
             this.taskSaveTime = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -292,6 +289,7 @@ class TaskStore {
             return;
         } catch (e) {
             console.log(e.message);
+            message.warning('矢量转存为shp文件失败：' + e.message, 3);
         }
     });
 
@@ -317,7 +315,7 @@ class TaskStore {
             yield editLog.store.clear();
         } catch (e) {
             console.log(e.message);
-            message.error('日志保存失败！');
+            message.warning('日志保存失败：' + e.message, 3);
         }
     });
 

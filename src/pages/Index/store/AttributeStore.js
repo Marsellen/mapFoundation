@@ -288,15 +288,9 @@ class AttributeStore {
 
     newAttr = flow(function*(key, value, properties) {
         try {
-            const _result = yield IDService.initID(
-                {
-                    id_type: key
-                },
-                () => {
-                    message.warning('请求ID失败');
-                    throw '请求ID失败';
-                }
-            );
+            const _result = yield IDService.initID({
+                id_type: key
+            });
 
             let id = _result.data[0].min;
             let IDKey = getLayerIDKey(key);
@@ -311,6 +305,7 @@ class AttributeStore {
             this.attrs[key].push(record);
         } catch (e) {
             console.log(e);
+            message.warning('请求ID失败：' + e.message, 3);
         }
     });
 

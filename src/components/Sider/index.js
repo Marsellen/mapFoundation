@@ -1,7 +1,10 @@
 import React from 'react';
+import 'less/components/sider.less';
 import SiderBar from './SiderBar';
 import SiderItem from './SiderItem';
-import 'less/components/sider.less';
+import VersionInfo from 'src/pages/Index/components/VersionInfo';
+import HelpList from 'src/pages/Index/components/HelpList';
+import RenderMode from 'src/pages/Index/components/RenderMode';
 
 class Sider extends React.Component {
     render() {
@@ -17,6 +20,9 @@ class Sider extends React.Component {
                         />
                     ))}
                 </SiderBar>
+                <RenderMode />
+                <HelpList />
+                <VersionInfo />
             </div>
         );
     }

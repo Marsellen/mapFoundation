@@ -167,7 +167,11 @@ class DividerToAutoCreate extends React.Component {
             );
         } catch (e) {
             console.log(e.message);
-            message.warning('操作失败:' + e.message, 3);
+            const msg =
+                editLayer && editLayer.layerName === 'AD_Lane'
+                    ? '车道中心线'
+                    : '道路参考线';
+            message.warning(`${msg}生成失败：` + e.message, 3);
             let history = {
                 params
             };

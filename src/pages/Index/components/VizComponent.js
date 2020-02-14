@@ -259,7 +259,7 @@ class VizComponent extends React.Component {
             };
         } catch (e) {
             console.log(e);
-            message.error('作业范围数据加载失败', 3);
+            message.warning('作业范围数据加载失败：' + e.message, 3);
         }
     };
 
@@ -280,7 +280,7 @@ class VizComponent extends React.Component {
             };
         } catch (e) {
             console.log(e);
-            message.error('作业边界数据加载失败', 3);
+            message.warning('作业边界数据加载失败：' + e.message, 3);
         }
     };
 
@@ -421,7 +421,7 @@ class VizComponent extends React.Component {
                 let layer = DataLayerStore.getEditLayer();
                 layer.layer.removeFeatureById(data.uuid);
             }
-            message.warning(e.message);
+            message.warning('新建要素失败：' + e.message, 3);
         }
 
         DataLayerStore.exitEdit();
@@ -471,7 +471,7 @@ class VizComponent extends React.Component {
         } catch (e) {
             //恢复要素
             DataLayerStore.updateFeature(oldFeature);
-            message.warning(e.message);
+            message.warning('修改要素失败：' + e.message, 3);
         }
 
         DataLayerStore.exitEdit();

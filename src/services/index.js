@@ -78,13 +78,13 @@ const resource = ({ config, successCallback, errorCallback }) => {
             const { code, errcode, errmsg, message: resMessage } = respData;
 
             if (errcode && errmsg) {
-                throw new Error(`${errcode} : ${errmsg}`);
+                throw new Error(`${errcode} ${errmsg}`);
             } else {
                 if (successCallback) {
                     successCallback(respData);
                 } else {
                     if (code && code !== 1) {
-                        throw new Error(`${code} : ${resMessage}`);
+                        throw new Error(`${code} ${resMessage}`);
                     }
                     return respData;
                 }

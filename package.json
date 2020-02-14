@@ -8,11 +8,11 @@
     ],
     "scripts": {
         "i": "npm i addis-viz-sdk --registry=http://10.43.75.53:8081/repository/npm-all/ --save & npm i",
-        "start": "webpack-dev-server --env=dev --mode development --hot --config ./webpack.dev.conf.js --port 15900",
-        "start-local": "webpack-dev-server --env=local --mode development --hot --config ./webpack.dev.conf.js --port 15900",
-        "start-dev": "webpack-dev-server --env=dev --mode development --hot --config ./webpack.dev.conf.js --port 15900",
-        "start-demo": "webpack-dev-server --env=demo --mode development --hot --config ./webpack.dev.conf.js --port 15900",
-        "start-prod": "webpack-dev-server --env=prod --mode development --hot --config ./webpack.dev.conf.js --port 15900",
+        "start": "webpack-dev-server --env=dev --config ./webpack.dev.conf.js",
+        "start-local": "webpack-dev-server --env=local --config ./webpack.dev.conf.js",
+        "start-dev": "webpack-dev-server --env=dev --config ./webpack.dev.conf.js",
+        "start-demo": "webpack-dev-server --env=demo --config ./webpack.dev.conf.js",
+        "start-prod": "webpack-dev-server --env=prod --config ./webpack.dev.conf.js",
         "build": "webpack --mode production --config ./webpack.prod.conf.js",
         "build-sdk": "npm i addis-viz-sdk --registry=http://10.43.75.53:8081/repository/npm-all/ --save"
     },

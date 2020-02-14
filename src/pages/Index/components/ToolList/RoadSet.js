@@ -52,7 +52,7 @@ class RoadSet extends React.Component {
             DataLayerStore.exitEdit();
         } catch (e) {
             console.log(e);
-            message.warning(e.message, 3);
+            message.warning('路面设置失败：' + e.message, 3);
             DataLayerStore.exitEdit();
         }
     };

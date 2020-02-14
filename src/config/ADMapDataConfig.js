@@ -80,7 +80,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         {
             value: 17,
             label: '危险品专用车道',
-            icon: 'weixianpinzhuanyongchedao'
+            icon: 'weixianpinzhuanyongchedao1'
         },
         { value: 18, label: '爬坡车道', icon: 'papochedao' },
         { value: 19, label: '可变导向车道', icon: 'kebiandaoxiangchedao' },
@@ -162,7 +162,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         {
             value: 17,
             label: '危险品专用车道',
-            icon: 'weixianpinzhuanyongchedao'
+            icon: 'weixianpinzhuanyongchedao1'
         },
         { value: 18, label: '爬坡车道', icon: 'papochedao' },
         { value: 19, label: '可变导向车道', icon: 'kebiandaoxiangchedao' },
@@ -920,11 +920,11 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_LaneDivider: {
         TYPE: 1,
-        DIRECTION: 1,
+        DIRECTION: 0,
         RD_LINE: 2,
         SHARE_LINE: 1,
         RD_EDGE: 2,
-        LANESTATUS: 1,
+        LANESTATUS: 0,
         LANE_TYPE: 1,
         LANE_NO: 0,
         RD_FORM: 0
@@ -1039,7 +1039,16 @@ export const TABLE_DATA_MAP = {
             key: 'RD_EDGE',
             name: '道路边界标识',
             type: 'AD_LANE_DIVIDER_RD_EDGE',
-            domType: 'Select'
+            domType: 'Select',
+            link: {
+                1: {
+                    DIRECTION: 0,
+                    LANESTATUS: 0,
+                    LANE_TYPE: 0,
+                    LANE_NO: 0,
+                    RD_FORM: 0
+                }
+            }
         },
         {
             key: 'DIRECTION',
@@ -1059,7 +1068,17 @@ export const TABLE_DATA_MAP = {
             type: 'AD_LANE_DIVIDER_LANE_NO',
             domType: 'InputNumber',
             required: true,
-            validates: 'Numeric|range|-99|99'
+            validates: 'Numeric|range|-99|99',
+            link: {
+                default: {
+                    DIRECTION: 1,
+                    LANESTATUS: 1
+                },
+                0: {
+                    DIRECTION: 0,
+                    LANESTATUS: 0
+                }
+            }
         },
         {
             key: 'RD_FORM',

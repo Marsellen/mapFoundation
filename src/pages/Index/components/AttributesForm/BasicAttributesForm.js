@@ -45,7 +45,12 @@ class BasicAttributesForm extends React.Component {
                 {!readonly ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         initialValue: item.value
-                    })(<Input disabled />)
+                    })(
+                        <Input
+                            disabled
+                            onChange={val => this.handleChange(val, item, name)}
+                        />
+                    )
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -70,7 +75,12 @@ class BasicAttributesForm extends React.Component {
                             ...this.getValidatorSetting(item.validates)
                         ],
                         initialValue: item.value
-                    })(<AdInputNumber type="number" />)
+                    })(
+                        <AdInputNumber
+                            type="number"
+                            onChange={val => this.handleChange(val, item, name)}
+                        />
+                    )
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -95,7 +105,12 @@ class BasicAttributesForm extends React.Component {
                             ...this.getValidatorSetting(item.validates)
                         ],
                         initialValue: item.value
-                    })(<Input disabled={readonly} />)
+                    })(
+                        <Input
+                            disabled={readonly}
+                            onChange={val => this.handleChange(val, item, name)}
+                        />
+                    )
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -129,6 +144,9 @@ class BasicAttributesForm extends React.Component {
                                 option.props.children
                                     .toLowerCase()
                                     .indexOf(input.toLowerCase()) >= 0
+                            }
+                            onChange={val =>
+                                this.handleChange(val, item, name)
                             }>
                             {options.map((option, index) => {
                                 return (
@@ -148,6 +166,13 @@ class BasicAttributesForm extends React.Component {
                 )}
             </Form.Item>
         );
+    };
+
+    handleChange = (val, filed, name) => {
+        const { link } = filed;
+        if (!link) return;
+        const linkData = link[val] || link.default || null;
+        linkData && this.props.form.setFieldsValue({ [name]: linkData });
     };
 
     getArrayOption = (value, arr) => {
@@ -183,7 +208,13 @@ class BasicAttributesForm extends React.Component {
                             }
                         ],
                         initialValue: item.value
-                    })(<RadioIconGroup options={options} disabled={readonly} />)
+                    })(
+                        <RadioIconGroup
+                            options={options}
+                            disabled={readonly}
+                            onChange={val => this.handleChange(val, item, name)}
+                        />
+                    )
                 ) : (
                     <span className="ant-form-text">
                         {this.getArrayOption(item.value, options)}
@@ -214,6 +245,7 @@ class BasicAttributesForm extends React.Component {
                             options={options}
                             max={3}
                             disabled={readonly}
+                            onChange={val => this.handleChange(val, item, name)}
                         />
                     )
                 ) : (

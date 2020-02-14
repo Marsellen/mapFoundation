@@ -1,5 +1,5 @@
 //本地环境接口根路径
-const LOCAL_PATH = 'http://10.43.72.222:3000/mock/11';
+const LOCAL_PATH = 'http://10.43.75.113:3000/mock/13';
 //开发环境接口根路径
 const DEV_PATH = 'http://10.43.75.58:13003';
 //测试环境接口根路径

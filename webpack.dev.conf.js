@@ -1,4 +1,3 @@
-const merge = require('webpack-merge');
 const common = require('./webpack.common.conf');
 const PROXY_MAP = require('./config/path');
 
@@ -10,6 +9,8 @@ module.exports = env => {
         devServer: {
             historyApiFallback: true,
             hot: true,
+            host: '0.0.0.0',
+            port: 15900,
             proxy: {
                 '/gateway': {
                     target: PROXY_MAP[env].gateway,

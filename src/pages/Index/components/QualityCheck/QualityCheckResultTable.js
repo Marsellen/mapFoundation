@@ -96,9 +96,13 @@ class QualityCheckResultTable extends React.Component {
     }
 
     componentWillReceiveProps() {
-        if (!this.props.QualityCheckStore) return;
-        this.handlePagination();
-        this.props.QualityCheckStore.toResizeDom();
+        const { QualityCheckStore } = this.props;
+        if (!QualityCheckStore) return;
+
+        const { filterOption, toResizeDom } = QualityCheckStore;
+        const { isUpdate } = filterOption || {};
+        isUpdate ? this.qualityCheckTabelColumns() : this.handlePagination();
+        toResizeDom();
     }
 
     handlePagination = (current, size) => {
@@ -260,10 +264,11 @@ class QualityCheckResultTable extends React.Component {
     //双击
     tableOnDoubleClick = (record, index) => {
         return e => {
-            const { QualityCheckStore, TaskStore, VectorsStore } = this.props;
+            const { QualityCheckStore, TaskStore, VectorsStore, DataLayerStore } = this.props;
             const { visitedReport } = QualityCheckStore;
             const { activeTaskId } = TaskStore;
             let { layerName, featureId } = record;
+            DataLayerStore.exitEdit()
             //已访问
             visitedReport(record, activeTaskId);
             //展开

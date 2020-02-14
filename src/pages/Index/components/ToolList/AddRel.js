@@ -138,7 +138,7 @@ class AddRel extends React.Component {
             this.newRel(mainFeature, relFeatures);
         } catch (e) {
             console.log(e);
-            message.warning(e.message, 3);
+            message.warning('新建关联关系失败：' + e.message, 3);
             DataLayerStore.exitEdit();
         }
     };
@@ -164,7 +164,7 @@ class AddRel extends React.Component {
                     this.saveLog(rels);
                 } catch (e) {
                     console.log(e);
-                    message.warning(e.message, 3);
+                    message.warning('新建关联关系失败：' + e.message, 3);
                     DataLayerStore.exitEdit();
                 }
             },
@@ -205,7 +205,7 @@ class AddRel extends React.Component {
         } catch (e) {
             const { DataLayerStore } = this.props;
             console.log(e);
-            message.warning(e.message, 3);
+            message.warning('与左右车道线新建关联关系失败：' + e.message, 3);
             DataLayerStore.exitEdit();
         }
     };
