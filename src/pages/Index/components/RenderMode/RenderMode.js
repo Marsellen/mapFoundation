@@ -3,7 +3,9 @@ import { Modal, Button } from 'antd';
 import 'src/assets/less/components/render-mode.less';
 import { observer, inject } from 'mobx-react';
 import VectorsConfig from 'src/config/VectorsConfig';
+import OutsideVectorsConfig from 'src/config/OutsideVectorsConfig';
 import WhiteVectorsConfig from 'src/config/WhiteVectorsConfig';
+import HalfWhiteVectorsConfig from 'src/config/HalfWhiteVectorsConfig';
 import RelationRenderMode from './RelationRenderMode';
 import ToolIcon from 'src/components/ToolIcon';
 import { RENDER_MODE_MAP } from 'src/config/RenderModeConfig';
@@ -111,14 +113,16 @@ class RenderMode extends React.Component {
 
     //应用渲染模式
     handleOk = () => {
+        const { RenderModeStore, DataLayerStore } = this.props;
+        const { activeMode, setMode } = RenderModeStore;
+        const { mode } = this.state;
+        if (activeMode === mode) return;
         confirm({
             title: '切换渲染模式，此前的渲染配置都清空，是否继续？',
             okText: '确定',
             cancelText: '取消',
             onOk: () => {
-                const { RenderModeStore, DataLayerStore } = this.props;
-                const { mode } = this.state;
-                RenderModeStore.setMode(mode);
+                setMode(mode);
                 this.resetStyleConfig(mode);
                 this.setState({
                     visible: false
@@ -134,9 +138,15 @@ class RenderMode extends React.Component {
         switch (mode) {
             case 'common':
                 window.vectorLayerGroup.resetStyleConfig(VectorsConfig);
+                window.boundaryLayerGroup.resetStyleConfig(
+                    OutsideVectorsConfig
+                );
                 break;
             case 'relation':
                 window.vectorLayerGroup.resetStyleConfig(WhiteVectorsConfig);
+                window.boundaryLayerGroup.resetStyleConfig(
+                    HalfWhiteVectorsConfig
+                );
                 RenderModeStore.setRels();
                 break;
             default:
