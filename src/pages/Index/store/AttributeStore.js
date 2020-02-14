@@ -134,7 +134,7 @@ class AttributeStore {
             switch (activeMode) {
                 case 'common':
                     this.hideRelFeatures();
-                    this.getRelFeatureOptions(relRecords);
+                    await this.getRelFeatureOptions(relRecords);
                     this.showRelFeatures();
                     break;
                 case 'relation':

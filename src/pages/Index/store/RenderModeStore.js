@@ -30,6 +30,7 @@ class RenderModeStore {
     @action setMode = mode => {
         this.activeMode = mode;
         this.resetSelectOption();
+        this.clearFeatureText();
     };
 
     resetSelectOption = () => {
