@@ -23,6 +23,7 @@ import {
 import { isManbuildTask } from 'src/utils/taskUtils';
 import _ from 'lodash';
 import { message } from 'antd';
+import RenderModeStore from './RenderModeStore';
 
 const LOAD_DATA_MESSAGE = '加载数据中...';
 
@@ -89,7 +90,6 @@ class AttributeStore {
                 this.relRecords,
                 this.model.data.properties
             );
-
             this.fetchRelFeatures(this.relRecords);
         } catch (error) {
             console.log(error);
@@ -109,25 +109,46 @@ class AttributeStore {
         }
     });
 
-    fetchRelFeatures = flow(function*(relRecords) {
-        try {
-            this.hideRelFeatures();
-            if (!relRecords) {
-                relRecords = yield relFactory.getFeatureRels(
-                    this.model.layerName,
-                    this.model.data.properties
-                );
-            }
-            this.relFeatures = yield relFactory.getRelOptions(
+    getRelFeatureOptions = flow(function*(relRecords) {
+        if (!relRecords) {
+            relRecords = yield relFactory.getFeatureRels(
                 this.model.layerName,
-                relRecords,
                 this.model.data.properties
             );
-            this.showRelFeatures();
+        }
+        this.relFeatures = yield relFactory.getRelOptions(
+            this.model.layerName,
+            relRecords,
+            this.model.data.properties
+        );
+    });
+
+    fetchRelFeatures = async relRecords => {
+        try {
+            const {
+                activeMode,
+                selectFeature,
+                resetFeatureColor
+            } = RenderModeStore;
+            //不同渲染模式不同变色方式
+            switch (activeMode) {
+                case 'common':
+                    this.hideRelFeatures();
+                    this.getRelFeatureOptions(relRecords);
+                    this.showRelFeatures();
+                    break;
+                case 'relation':
+                    resetFeatureColor();
+                    selectFeature(this.model);
+                    this.getRelFeatureOptions(relRecords);
+                    break;
+                default:
+                    break;
+            }
         } catch (error) {
             console.log(error);
         }
-    });
+    };
 
     @action hideRelFeatures = () => {
         try {

@@ -6,6 +6,7 @@ import editLog from 'src/models/editLog';
 import { RESOURCE_LAYER_BOUNDARY } from 'src/config/DataLayerConfig';
 import 'less/components/sider.less';
 
+@inject('RenderModeStore')
 @inject('QualityCheckStore')
 @inject('appStore')
 @inject('TaskStore')
@@ -42,7 +43,8 @@ class Task extends React.Component {
                                 <span
                                     onClick={e =>
                                         this.chooseTask(e, item.taskId, false)
-                                    }>
+                                    }
+                                >
                                     {`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}
                                 </span>
                                 <span
@@ -54,7 +56,8 @@ class Task extends React.Component {
                                     }
                                     onClick={e =>
                                         this.chooseTask(e, item.taskId, true)
-                                    }>
+                                    }
+                                >
                                     开始
                                 </span>
                             </p>
@@ -141,7 +144,12 @@ class Task extends React.Component {
         this.isToggling = true;
 
         try {
-            const { TaskStore, QualityCheckStore, DataLayerStore } = this.props;
+            const {
+                TaskStore,
+                QualityCheckStore,
+                DataLayerStore,
+                RenderModeStore
+            } = this.props;
             const { current } = this.state;
             const { taskIdList } = TaskStore;
 
@@ -173,6 +181,9 @@ class Task extends React.Component {
             this.setState({ current: id }, () => {
                 this.isToggling = false;
             });
+
+            //渲染模式重置
+            RenderModeStore.setMode('common');
         } catch (e) {
             this.isToggling = false;
         }

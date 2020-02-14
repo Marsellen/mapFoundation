@@ -66,6 +66,7 @@ const CHINESE_EDIT_TYPE = [
     }
 ];
 
+@inject('RenderModeStore')
 @inject('RightMenuStore')
 @inject('NewFeatureStore')
 @inject('OperateHistoryStore')
@@ -107,7 +108,8 @@ class RightMenuModal extends React.Component {
                     }}
                     width={100}
                     bodyStyle={{ padding: 0, fontSize: 12 }}
-                    onCancel={this.handleCancel}>
+                    onCancel={this.handleCancel}
+                >
                     <Menu className="menu">
                         {this.getMenus().map(menu => {
                             if (menus) {
@@ -130,70 +132,80 @@ class RightMenuModal extends React.Component {
                 id="delete-btn"
                 key="delete"
                 onClick={this.deleteFeature}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}
+            >
                 <span>删除</span>
             </Menu.Item>,
             <Menu.Item
                 id="insert-points-btn"
                 key="insertPoints"
                 onClick={this.insertPoints}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}
+            >
                 <span>新增形状点</span>
             </Menu.Item>,
             <Menu.Item
                 id="change-points-btn"
                 key="changePoints"
                 onClick={this.changePoints}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}
+            >
                 <span>修改形状点</span>
             </Menu.Item>,
             <Menu.Item
                 id="delete-points-btn"
                 key="deletePoints"
                 onClick={this.deletePoints}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}
+            >
                 <span>删除形状点</span>
             </Menu.Item>,
             <Menu.Item
                 id="break-line-btn"
                 key="break"
                 onClick={this.breakLine}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}
+            >
                 <span>打断</span>
             </Menu.Item>,
             <Menu.Item
                 id="reverse-order-line-btn"
                 key="reverseOrderLine"
                 onClick={this.reverseOrderLine}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}
+            >
                 <span>线要素逆序</span>
             </Menu.Item>,
             <Menu.Item
                 id="break-group-btn"
                 key="breakGroup"
                 onClick={this.breakLine}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}
+            >
                 <span>齐打断</span>
             </Menu.Item>,
             <Menu.Item
                 id="merge-line-btn"
                 key="merge"
                 onClick={this.mergeLine}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}
+            >
                 <span>合并</span>
             </Menu.Item>,
             <Menu.Item
                 id="batch-assign-btn"
                 key="batchAssign"
                 onClick={this.batchAssign}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}
+            >
                 <span>批量赋值</span>
             </Menu.Item>,
             <Menu.Item
                 id="break-by-line-btn"
                 key="breakByLine"
                 onClick={this.breakByLine}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}
+            >
                 <span>拉线齐打断</span>
             </Menu.Item>
         ];
@@ -207,14 +219,16 @@ class RightMenuModal extends React.Component {
                     id="copy-btn"
                     key="copyLine"
                     onClick={this.copyLine}
-                    style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                    style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}
+                >
                     <span>复制</span>
                 </Menu.Item>,
                 <Menu.Item
                     id="translation-point-btn"
                     key="movePointFeature"
                     onClick={this.movePointFeature}
-                    style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                    style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}
+                >
                     <span>平移</span>
                 </Menu.Item>
             );
@@ -472,7 +486,8 @@ class RightMenuModal extends React.Component {
             OperateHistoryStore,
             DataLayerStore,
             AttributeStore,
-            TaskStore
+            TaskStore,
+            RenderModeStore
         } = this.props;
 
         if (!RightMenuStore.isCurrentLayer) {
@@ -493,6 +508,7 @@ class RightMenuModal extends React.Component {
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
                 AttributeStore.hide();
+
                 let history = {
                     type: 'updateFeatureRels',
                     data: historyLog
@@ -505,6 +521,7 @@ class RightMenuModal extends React.Component {
                 OperateHistoryStore.add(history);
                 editLog.store.add(log);
                 AdEmitter.emit('fetchViewAttributeData');
+                RenderModeStore.updateFeatureColor();
             },
             onCancel() {
                 DataLayerStore.exitEdit();

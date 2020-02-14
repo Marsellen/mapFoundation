@@ -1,8 +1,11 @@
 import { observable, configure, action, computed } from 'mobx';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });
 
 class VectorsStore {
+    boundaryFeaturesMap = {};
+    boundaryFeatures = [];
     @observable vectors = {};
     @observable layerType = 'vector';
     @observable updateKey;
@@ -25,7 +28,8 @@ class VectorsStore {
     }
 
     @action addLayer = layerGroup => {
-        this.vectors.vector = layerGroup.layers.map(layer => {
+        const { layers } = layerGroup;
+        this.vectors.vector = layers.map(layer => {
             return {
                 layer: layer.layer,
                 value: layer.layerName,
@@ -35,7 +39,8 @@ class VectorsStore {
     };
 
     @action addBoundaryLayer = layerGroup => {
-        this.vectors.boundary = layerGroup.layers
+        const { layers } = layerGroup;
+        this.vectors.boundary = layers
             .filter(layer => layer.layerName !== 'AD_Map_QC')
             .map(layer => {
                 return {
@@ -44,6 +49,36 @@ class VectorsStore {
                     checked: true
                 };
             });
+
+        const { featuresMap, featuresArr } = this.handleFeatures(layers);
+        this.boundaryFeaturesMap = featuresMap;
+        this.boundaryFeatures = featuresArr;
+    };
+
+    //存储周边底图矢量数据
+    handleFeatures = layers => {
+        const featuresMap = {};
+        const featuresArr = [];
+
+        layers.map(layer => {
+            const { features, layerName } = layer.layer || {};
+            if (!features || features.length === 0) return;
+            features.map(feature => {
+                const { geometry, properties } = feature;
+                const key = DATA_LAYER_MAP[layerName].id;
+                if (!key) return;
+                const id = properties[key];
+                if (!id) return;
+                featuresMap[id] = {
+                    id: id,
+                    geometry,
+                    properties
+                };
+                featuresArr.push(id);
+            });
+        });
+
+        return { featuresMap, featuresArr };
     };
 
     @action setLayerType = layerType => {

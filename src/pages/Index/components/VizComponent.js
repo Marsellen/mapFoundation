@@ -42,6 +42,7 @@ import { isManbuildTask } from 'src/utils/taskUtils';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
 import AdEmitter from 'src/models/event';
 
+@inject('RenderModeStore')
 @inject('TaskStore')
 @inject('ResourceLayerStore')
 @inject('DataLayerStore')
@@ -246,7 +247,7 @@ class VizComponent extends React.Component {
         if (!regionUrl) return;
         try {
             const { DataLayerStore } = this.props;
-            const vectorLayer = new VectorLayer(regionUrl);
+            window.vectorLayer = new VectorLayer(regionUrl);
             vectorLayer.setDefaultStyle({ color: 'rgb(16,201,133)' });
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
             //保存任务范围geojson
@@ -346,8 +347,10 @@ class VizComponent extends React.Component {
             PictureShowStore,
             AttributeStore,
             DataLayerStore,
-            BatchAssignStore
+            BatchAssignStore,
+            RenderModeStore
         } = this.props;
+        const { activeMode, resetFeatureColor } = RenderModeStore;
         // console.log(result, event);
         if (result && result.length > 0) {
             /**
@@ -368,7 +371,16 @@ class VizComponent extends React.Component {
         } else {
             DataLayerStore.unPick();
             AttributeStore.hide();
-            AttributeStore.hideRelFeatures();
+            switch (activeMode) {
+                case 'common':
+                    AttributeStore.hideRelFeatures();
+                    break;
+                case 'relation':
+                    resetFeatureColor();
+                    break;
+                default:
+                    break;
+            }
             window.traceLayer.unselect();
         }
         BatchAssignStore.hide();
@@ -584,7 +596,8 @@ class VizComponent extends React.Component {
                     id="viz"
                     key={TaskStore.activeTaskId}
                     className="viz-box"
-                    onKeyDown={e => this.handleKeyDown(e)}>
+                    onKeyDown={e => this.handleKeyDown(e)}
+                >
                     <div className="set-compass">
                         <TopView key="TOP_VIEW" />
                         <ZoomOut key="ZOOM_OUT" />
