@@ -4,21 +4,21 @@ export const RENDER_MODE_MAP = [
         title: '通用符号模式',
         desc: '用于基础的生产作业'
     },
-    {
-        mode: 'update',
-        title: '更新查看模式',
-        desc: '提供系统的更新状态符号策略\n及更新数据查看工具'
-    },
+    // {
+    //     mode: 'update',
+    //     title: '更新查看模式',
+    //     desc: '提供系统的更新状态符号策略\n及更新数据查看工具'
+    // },
     {
         mode: 'relation',
         title: '关联关系查看模式',
         desc: '提供系统的关联关系符号策略\n及关联关系查看工具'
-    },
-    {
-        mode: 'define',
-        title: '自定义符号模式',
-        desc: '想看啥，自己选'
     }
+    // {
+    //     mode: 'define',
+    //     title: '自定义符号模式',
+    //     desc: '想看啥，自己选'
+    // }
 ];
 
 export const REL_SELECT_OPTIONS = [
