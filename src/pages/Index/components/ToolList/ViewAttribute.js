@@ -173,7 +173,8 @@ class ViewAttribute extends React.Component {
                 <Select
                     value={layerName}
                     onChange={this.changeLayer}
-                    className="layer-select">
+                    className="layer-select"
+                    dropdownClassName="layer-select-dropdown">
                     {SELECT_OPTIONS.map((option, key) => {
                         return (
                             <Select.OptGroup

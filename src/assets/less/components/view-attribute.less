@@ -3,9 +3,10 @@
     right: unset;
     bottom: unset;
     width: 1000px;
+    // background: #fff;
     border-radius: 4px;
     left: calc(50% - 500px);
-    overflow: hidden;
+    overflow: unset;
 
     .view-attribute-modal {
         top: 0;
@@ -95,7 +96,7 @@
     }
 
     .layer-select {
-        min-width: 500px;
+        min-width: 200px;
     }
 
     .ant-pagination {
@@ -130,21 +131,61 @@
     }
 }
 
-.ant-select-dropdown {
-    .four-layer-out {
-        width: 120px;
-        display: inline-block;
-        padding: 5px 11px;
-        white-space: pre-wrap;
-        line-height: 16px;
+.layer-select-dropdown {
+    padding: 0 0 0 12px;
+    width: 510px !important;
+
+    .ant-select-dropdown-menu {
+        padding: 6px 0;
+        max-height: 280px;
+
+        /*滚动条样式*/
+        &::-webkit-scrollbar {
+            /*滚动条整体样式*/
+            margin-right: -12px;
+            width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
+            height: 10px;
+        }
+        &::-webkit-scrollbar-thumb {
+            /*滚动条里面小方块*/
+            border-radius: 12px;
+            background: #b7b7b7;
+        }
+        &::-webkit-scrollbar-track {
+            /*滚动条里面轨道*/
+            border-radius: 12px;
+            background: #e5e5e5;
+        }
     }
 
-    .three-layer-out {
-        width: 160px;
+    .ant-select-dropdown-menu-item-group-title {
+        height: 16px;
+        padding: 0 8px;
+        margin: 8px 0;
+        font-size: 16px;
+        line-height: 15px;
+        border-left: 4px solid #1890ff;
+        color: #096dd9;
+    }
+
+    .ant-select-dropdown-menu-item-group-list {
+        padding: 0 4px;
+    }
+
+    .ant-select-dropdown-menu-item {
         display: inline-block;
-        padding: 5px 11px;
-        white-space: pre-wrap;
-        vertical-align: text-top;
+        padding: 5px 10px;
+        margin: 1px 4px;
+        border-radius: 16px !important;
+        background-color: #efefef;
         line-height: 16px;
+        border: 1px solid transparent;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .ant-select-dropdown-menu-item-selected {
+        color: #096dd9;
+        border: 1px solid #096dd9;
     }
 }
