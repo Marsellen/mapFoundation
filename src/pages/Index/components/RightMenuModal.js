@@ -285,7 +285,8 @@ class RightMenuModal extends React.Component {
             RightMenuStore,
             OperateHistoryStore,
             AttributeStore,
-            TaskStore
+            TaskStore,
+            RenderModeStore
         } = this.props;
 
         if (result.errorCode) {
@@ -321,6 +322,7 @@ class RightMenuModal extends React.Component {
                     OperateHistoryStore.add(history);
                     editLog.store.add(log);
                     AdEmitter.emit('fetchViewAttributeData');
+                    RenderModeStore.updateFeatureColor();
                 } catch (e) {
                     //console.log(e);
                     message.warning('打断失败：' + e.message, 3);
@@ -673,7 +675,8 @@ class RightMenuModal extends React.Component {
             DataLayerStore,
             OperateHistoryStore,
             AttributeStore,
-            TaskStore
+            TaskStore,
+            RenderModeStore
         } = this.props;
 
         if (!RightMenuStore.isCurrentLayer) {
@@ -703,6 +706,7 @@ class RightMenuModal extends React.Component {
                     OperateHistoryStore.add(history);
                     editLog.store.add(log);
                     AdEmitter.emit('fetchViewAttributeData');
+                    RenderModeStore.updateFeatureColor();
                 } catch (e) {
                     console.log(e);
                     message.warning('合并失败：' + e.message, 3);
@@ -757,7 +761,8 @@ class RightMenuModal extends React.Component {
             RightMenuStore,
             OperateHistoryStore,
             AttributeStore,
-            TaskStore
+            TaskStore,
+            RenderModeStore
         } = this.props;
 
         if (result.errorCode) {
@@ -791,6 +796,7 @@ class RightMenuModal extends React.Component {
                     OperateHistoryStore.add(history);
                     editLog.store.add(log);
                     AdEmitter.emit('fetchViewAttributeData');
+                    RenderModeStore.updateFeatureColor();
                 } catch (e) {
                     //console.log(e);
                     message.warning('拉线齐打断失败：' + e.message, 3);
