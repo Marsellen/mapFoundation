@@ -25,14 +25,16 @@ class RenderMode extends React.Component {
 
     render() {
         const { visible, mode } = this.state;
-        const { TaskStore } = this.props;
+        const { TaskStore, RenderModeStore } = this.props;
+        const { activeMode } = RenderModeStore;
         const { activeTaskId } = TaskStore;
+        const disabled = activeMode === mode;
         return (
             <div className="ad-sider-bottom-item">
                 <ToolIcon
                     title="渲染模式"
                     placement="right"
-                    icon="bangzhu"
+                    icon="ditu"
                     disabled={!activeTaskId}
                     action={this.handleClick}
                 />
@@ -43,6 +45,7 @@ class RenderMode extends React.Component {
                     footer={null}
                     onCancel={this.handleClose}
                     bodyStyle={{ padding: 0 }}
+                    maskClosable={false}
                 >
                     <div className="title-wrap">渲染模式</div>
                     <div className="modal-body">
@@ -65,6 +68,7 @@ class RenderMode extends React.Component {
                                 type="primary"
                                 onClick={this.handleOk}
                                 style={{ width: 100 }}
+                                disabled={disabled}
                             >
                                 应用
                             </Button>
@@ -113,16 +117,14 @@ class RenderMode extends React.Component {
 
     //应用渲染模式
     handleOk = () => {
-        const { RenderModeStore, DataLayerStore } = this.props;
-        const { activeMode, setMode } = RenderModeStore;
-        const { mode } = this.state;
-        if (activeMode === mode) return;
         confirm({
             title: '切换渲染模式，此前的渲染配置都清空，是否继续？',
             okText: '确定',
             cancelText: '取消',
             onOk: () => {
-                setMode(mode);
+                const { DataLayerStore, RenderModeStore } = this.props;
+                const { mode } = this.state;
+                RenderModeStore.setMode(mode);
                 this.resetStyleConfig(mode);
                 this.setState({
                     visible: false
@@ -137,16 +139,26 @@ class RenderMode extends React.Component {
         const { RenderModeStore } = this.props;
         switch (mode) {
             case 'common':
-                window.vectorLayerGroup.resetStyleConfig(VectorsConfig);
-                window.boundaryLayerGroup.resetStyleConfig(
-                    OutsideVectorsConfig
-                );
+                if (window.vectorLayerGroup) {
+                    window.vectorLayerGroup.resetStyleConfig(VectorsConfig);
+                }
+                if (window.boundaryLayerGroup) {
+                    window.boundaryLayerGroup.resetStyleConfig(
+                        OutsideVectorsConfig
+                    );
+                }
                 break;
             case 'relation':
-                window.vectorLayerGroup.resetStyleConfig(WhiteVectorsConfig);
-                window.boundaryLayerGroup.resetStyleConfig(
-                    HalfWhiteVectorsConfig
-                );
+                if (window.vectorLayerGroup) {
+                    window.vectorLayerGroup.resetStyleConfig(
+                        WhiteVectorsConfig
+                    );
+                }
+                if (window.boundaryLayerGroup) {
+                    window.boundaryLayerGroup.resetStyleConfig(
+                        HalfWhiteVectorsConfig
+                    );
+                }
                 RenderModeStore.setRels();
                 break;
             default:
