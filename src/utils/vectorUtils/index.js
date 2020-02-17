@@ -7,7 +7,6 @@ import relFactory from 'src/utils/relCtrl/relFactory';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import _ from 'lodash';
 import { DEFAULT_CONFIDENCE_MAP } from 'src/config/ADMapDataConfig';
-import { message } from 'antd';
 const jsts = require('jsts');
 
 export const getLayerIDKey = layerName => {
