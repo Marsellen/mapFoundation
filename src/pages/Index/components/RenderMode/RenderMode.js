@@ -10,8 +10,6 @@ import RelationRenderMode from './RelationRenderMode';
 import ToolIcon from 'src/components/ToolIcon';
 import { RENDER_MODE_MAP } from 'src/config/RenderModeConfig';
 
-const { confirm } = Modal;
-
 @inject('DataLayerStore')
 @inject('TaskStore')
 @inject('VectorsStore')
@@ -117,7 +115,7 @@ class RenderMode extends React.Component {
 
     //应用渲染模式
     handleOk = () => {
-        confirm({
+        Modal.confirm({
             title: '切换渲染模式，此前的渲染配置都清空，是否继续？',
             okText: '确定',
             cancelText: '取消',
