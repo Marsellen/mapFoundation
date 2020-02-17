@@ -10,6 +10,7 @@ import RelationRenderMode from './RelationRenderMode';
 import ToolIcon from 'src/components/ToolIcon';
 import { RENDER_MODE_MAP } from 'src/config/RenderModeConfig';
 
+@inject('AttributeStore')
 @inject('DataLayerStore')
 @inject('TaskStore')
 @inject('VectorsStore')
@@ -122,7 +123,11 @@ class RenderMode extends React.Component {
             cancelText: '取消',
             zIndex: 99999,
             onOk: () => {
-                const { DataLayerStore, RenderModeStore } = this.props;
+                const {
+                    DataLayerStore,
+                    RenderModeStore,
+                    AttributeStore
+                } = this.props;
                 const { mode } = this.state;
                 RenderModeStore.setMode(mode);
                 this.resetStyleConfig(mode);
@@ -130,6 +135,7 @@ class RenderMode extends React.Component {
                     visible: false
                 });
                 DataLayerStore.clearPick();
+                AttributeStore.hide();
             }
         });
     };
