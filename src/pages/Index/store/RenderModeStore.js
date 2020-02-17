@@ -172,6 +172,7 @@ class RenderModeStore {
                         }
                         if (L_LDIV_ID || R_LDIV_ID) {
                             LDIVItem.push(this.setOptions('LANE_ID', LANE_ID));
+                            if (LDIVItem.length < 2) return;
                             const relName = 'AD_Lane_Divider_Rel';
                             rels[relName] = rels[relName] || [];
                             rels_2D[relName] = rels_2D[relName] || [];
@@ -182,6 +183,7 @@ class RenderModeStore {
                         if (ROAD_ID) {
                             ROADItem.push(this.setOptions('ROAD_ID', ROAD_ID));
                             ROADItem.push(this.setOptions('LANE_ID', LANE_ID));
+                            if (ROADItem.length < 2) return;
                             const relName = 'AD_Lane_Road_Rel';
                             rels[relName] = rels[relName] || [];
                             rels_2D[relName] = rels_2D[relName] || [];
@@ -215,6 +217,7 @@ class RenderModeStore {
                         const optionId = properties[id];
                         optionId && newItem.push(this.setOptions(id, optionId));
                     });
+                    if (newItem.length < 2) return;
                     options = [...options, ...newItem];
                     options_2D.push(newItem);
                 });
