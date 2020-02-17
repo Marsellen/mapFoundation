@@ -151,7 +151,7 @@ class Task extends React.Component {
                 RenderModeStore
             } = this.props;
             const { current } = this.state;
-            const { taskIdList } = TaskStore;
+            const { taskIdList, activeTaskId } = TaskStore;
 
             // 切换任务时，保存上一个任务的缩放比例，该方法需最先执行
             if (current && taskIdList.includes(current)) {
@@ -165,6 +165,9 @@ class Task extends React.Component {
                     });
                 }
             }
+
+            //渲染模式重置
+            activeTaskId !== id && RenderModeStore.setMode('common');
 
             QualityCheckStore.closeCheckReport();
             QualityCheckStore.clearCheckReport();
@@ -181,9 +184,6 @@ class Task extends React.Component {
             this.setState({ current: id }, () => {
                 this.isToggling = false;
             });
-
-            //渲染模式重置
-            RenderModeStore.setMode('common');
         } catch (e) {
             this.isToggling = false;
         }

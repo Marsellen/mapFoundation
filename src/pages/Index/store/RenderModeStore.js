@@ -104,6 +104,7 @@ class RenderModeStore {
     };
 
     @action resetFeatureColor = () => {
+        if (this.activeMode !== 'relation') return;
         this.clearFeatureText();
         this.clearFeatureColor();
         this.HighlightRelFeatures();

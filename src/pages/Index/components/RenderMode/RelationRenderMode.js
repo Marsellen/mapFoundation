@@ -3,6 +3,7 @@ import { Checkbox, Icon } from 'antd';
 import { observer, inject } from 'mobx-react';
 import 'src/assets/less/components/render-mode.less';
 
+@inject('AttributeStore')
 @inject('DataLayerStore')
 @inject('PictureShowStore')
 @inject('RenderModeStore')
@@ -67,20 +68,22 @@ class RelationRenderMode extends React.Component {
 
     handleChange = (e, key) => {
         const { checked } = e.target;
-        const { RenderModeStore, DataLayerStore } = this.props;
+        const { RenderModeStore, DataLayerStore, AttributeStore } = this.props;
         const { selectRel, resetFeatureColor } = RenderModeStore;
 
         DataLayerStore.clearPick();
+        AttributeStore.hide();
         selectRel(checked, key);
         resetFeatureColor();
     };
 
     handleCheckAllChange = e => {
         const { checked } = e.target;
-        const { RenderModeStore, DataLayerStore } = this.props;
+        const { RenderModeStore, DataLayerStore, AttributeStore } = this.props;
         const { selectAllRel, resetFeatureColor } = RenderModeStore;
 
         DataLayerStore.clearPick();
+        AttributeStore.hide();
         selectAllRel(checked);
         resetFeatureColor();
     };

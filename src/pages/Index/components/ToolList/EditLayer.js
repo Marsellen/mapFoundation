@@ -5,6 +5,7 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import IconFont from 'src/components/IconFont';
 import { getEditLayers } from 'src/utils/permissionCtrl';
 
+@inject('RenderModeStore')
 @inject('TaskStore')
 @observer
 class EditLayer extends React.Component {
@@ -42,12 +43,14 @@ class EditLayer extends React.Component {
                 content={this._renderContent()}
                 trigger="click"
                 visible={this.state.clicked}
-                onVisibleChange={this.handleClickChange}>
+                onVisibleChange={this.handleClickChange}
+            >
                 <Tooltip
                     placement="bottom"
                     title="设置编辑图层"
                     visible={this.state.hovered}
-                    onVisibleChange={this.handleHoverChange}>
+                    onVisibleChange={this.handleHoverChange}
+                >
                     <IconFont
                         type="icon-shezhi"
                         className={`ad-icon ${this.disEditable() &&
@@ -85,7 +88,8 @@ class EditLayerPicker extends React.Component {
             <Radio.Group
                 onChange={this.onChange}
                 value={editLayer ? editLayer.layerName : false}
-                style={{ width: '100%' }}>
+                style={{ width: '100%' }}
+            >
                 <List
                     key={DataLayerStore.updateKey}
                     dataSource={this.topViewLayerDisabled()}
@@ -148,6 +152,7 @@ class EditLayerPicker extends React.Component {
         ToolCtrlStore.updateByEditLayer(layer, userInfo);
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
+        RenderModeStore.resetFeatureColor();
     };
 }
 
