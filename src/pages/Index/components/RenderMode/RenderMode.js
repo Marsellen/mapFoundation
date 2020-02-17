@@ -44,6 +44,7 @@ class RenderMode extends React.Component {
                     onCancel={this.handleClose}
                     bodyStyle={{ padding: 0 }}
                     maskClosable={false}
+                    zIndex={9999}
                 >
                     <div className="title-wrap">渲染模式</div>
                     <div className="modal-body">
@@ -119,6 +120,7 @@ class RenderMode extends React.Component {
             title: '切换渲染模式，此前的渲染配置都清空，是否继续？',
             okText: '确定',
             cancelText: '取消',
+            zIndex: 99999,
             onOk: () => {
                 const { DataLayerStore, RenderModeStore } = this.props;
                 const { mode } = this.state;
