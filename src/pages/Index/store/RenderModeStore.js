@@ -277,16 +277,23 @@ class RenderModeStore {
             });
         });
 
-        this.showRelFeatures(featureId, relFeatures);
+        this.showRelFeatures(featureId, layerName, relFeatures);
     };
 
-    showRelFeatures = (featureId, relFeatures) => {
+    showRelFeatures = (featureId, featureLayerName, relFeatures) => {
         const { boundaryFeaturesMap } = VectorsStore;
         try {
             relFeatures.forEach(item => {
                 const { layerName, relation, option } = item;
                 const { value } = option;
                 if (value === featureId) return;
+                //判断当前选中要素是车道线,不对车道线进行变色
+                if (
+                    featureLayerName === 'AD_LaneDivider' &&
+                    featureLayerName === layerName
+                ) {
+                    return false;
+                }
                 const styleConfig = REL_FEATURE_COLOR_MAP[relation] || {};
                 const {
                     color = 'rgb(49, 209, 255)',
