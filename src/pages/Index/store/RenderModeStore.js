@@ -60,7 +60,7 @@ class RenderModeStore {
     };
 
     clearFeatureText = () => {
-        if (this.textIdArr.length === 0) return;
+        if (!this.textIdArr || this.textIdArr.length === 0) return;
         this.textIdArr.map(item => {
             window.vectorLayer.removeFeatureById(item);
         });
@@ -70,6 +70,7 @@ class RenderModeStore {
     //清空高亮，全变成白色
     clearFeatureColor = () => {
         const { boundaryFeatures } = VectorsStore;
+        if (!this.allRels || this.allRels.length === 0) return;
         this.allRels.map(item => {
             const { layerName, option } = item;
             const { value } = option;
@@ -88,7 +89,7 @@ class RenderModeStore {
         this.relSelectOptions.map(item => {
             const { key, checked } = item;
             if (!checked) return;
-            if (!this.rels[key]) return;
+            if (!this.rels[key] || this.rels[key].length === 0) return;
             this.rels[key].map(feature => {
                 const { layerName, option } = feature;
                 const { value } = option;
@@ -113,6 +114,7 @@ class RenderModeStore {
         const featuresMap = {};
         const featuresArr = [];
 
+        if (!layers || layers.length === 0) return;
         layers.map(layer => {
             const { features, name: layerName } = layer || {};
             if (!features || features.length === 0) return;
@@ -211,6 +213,7 @@ class RenderModeStore {
                 let options_2D = [];
                 features.map(item => {
                     if (!RELS_ID_MAP[relName]) return;
+                    if (RELS_ID_MAP[relName].length === 0) return;
                     const { properties } = item;
                     let newItem = [];
                     RELS_ID_MAP[relName].map(id => {
@@ -261,8 +264,10 @@ class RenderModeStore {
         const featureId = data.properties && data.properties[id];
         let relFeatures = [];
         //获取选中要素的关联要素
+        if (!this.checkedList || this.checkedList.length === 0) return;
         this.checkedList.map(option => {
             const { key } = option;
+            if (!this.rels_2D[key] || this.rels_2D[key].length === 0) return;
             this.rels_2D[key].map(relItem => {
                 const isInclude = relItem.find(item => {
                     return item.option.value === featureId;
