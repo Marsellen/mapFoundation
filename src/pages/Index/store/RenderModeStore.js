@@ -310,13 +310,13 @@ class RenderModeStore {
                 if (!text) return;
                 const line =
                     this.featuresMap[value] || boundaryFeaturesMap[value] || {};
-                const linePointArr = line.geometry || line.geometry.coordinates;
+                const linePointArr = line.geometry && line.geometry.coordinates;
                 let position = {};
                 if (relation === 'FROM_ROAD' || relation === 'FROM_LANE') {
-                    const [x, y, z] = linePointArr[linePointArr.length - 1] || [];
+                    const [x, y, z] = linePointArr[linePointArr.length - 1];
                     position = { x, y, z };
                 } else if (relation === 'TO_ROAD' || relation === 'TO_LANE') {
-                    const [x, y, z] = linePointArr[0] || [];
+                    const [x, y, z] = linePointArr[0];
                     position = { x, y, z };
                 } else {
                     position = calculateMiddlePoint(line);
