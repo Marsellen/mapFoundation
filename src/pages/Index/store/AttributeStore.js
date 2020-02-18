@@ -152,13 +152,27 @@ class AttributeStore {
 
     @action hideRelFeatures = () => {
         try {
-            this.relFeatures.map(feature => {
-                try {
-                    updateFeatureColor(feature.layerName, feature.option);
-                } catch (e) {
-                    console.log(e);
-                }
-            });
+            const { activeMode, resetFeatureColor } = RenderModeStore;
+            //不同渲染模式不同变色方式
+            switch (activeMode) {
+                case 'common':
+                    this.relFeatures.map(feature => {
+                        try {
+                            updateFeatureColor(
+                                feature.layerName,
+                                feature.option
+                            );
+                        } catch (e) {
+                            console.log(e);
+                        }
+                    });
+                    break;
+                case 'relation':
+                    resetFeatureColor();
+                    break;
+                default:
+                    break;
+            }
         } catch (error) {
             console.log(error);
         }

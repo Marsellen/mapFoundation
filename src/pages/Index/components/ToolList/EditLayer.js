@@ -71,7 +71,6 @@ class EditLayer extends React.Component {
     };
 }
 
-@inject('RenderModeStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
 @inject('AttributeStore')
@@ -144,8 +143,7 @@ class EditLayerPicker extends React.Component {
             DataLayerStore,
             ToolCtrlStore,
             AttributeStore,
-            appStore,
-            RenderModeStore
+            appStore
         } = this.props;
 
         let userInfo = appStore.loginUser;
@@ -153,7 +151,6 @@ class EditLayerPicker extends React.Component {
         ToolCtrlStore.updateByEditLayer(layer, userInfo);
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
-        RenderModeStore.resetFeatureColor();
     };
 }
 

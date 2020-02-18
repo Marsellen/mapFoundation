@@ -12,6 +12,7 @@ import AdInputNumber from 'src/components/Form/AdInputNumber';
 import AdEmitter from 'src/models/event';
 import { isManbuildTask } from 'src/utils/taskUtils';
 
+@inject('RenderModeStore')
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('OperateHistoryStore')
@@ -62,7 +63,8 @@ class HalfAutoCreate extends React.Component {
                     maskClosable={false}
                     keyboard={false}
                     okText="确定"
-                    cancelText="取消">
+                    cancelText="取消"
+                >
                     <div className="set-length-number">
                         <AdInputNumber
                             width="66%"
@@ -96,7 +98,8 @@ class HalfAutoCreate extends React.Component {
             <span>
                 <span
                     className={visible ? 'ad-icon-active' : ''}
-                    key={updateKey}>
+                    key={updateKey}
+                >
                     <ToolIcon
                         icon="zhixing"
                         title={
@@ -278,7 +281,8 @@ class HalfAutoCreate extends React.Component {
         const {
             DataLayerStore,
             AttributeStore,
-            OperateHistoryStore
+            OperateHistoryStore,
+            RenderModeStore
         } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         try {
@@ -310,6 +314,8 @@ class HalfAutoCreate extends React.Component {
                     : '成功生成道路参考线',
                 3
             );
+            //关联关系查看模式下，更新要素显示效果
+            RenderModeStore.updateFeatureColor();
         } catch (e) {
             const msg =
                 editLayer && editLayer.layerName === 'AD_Lane'

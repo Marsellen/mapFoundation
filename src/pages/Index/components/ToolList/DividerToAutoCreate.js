@@ -10,6 +10,7 @@ import AdEmitter from 'src/models/event';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import 'less/components/tool-icon.less';
 
+@inject('RenderModeStore')
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('OperateHistoryStore')
@@ -133,7 +134,8 @@ class DividerToAutoCreate extends React.Component {
         const {
             DataLayerStore,
             AttributeStore,
-            OperateHistoryStore
+            OperateHistoryStore,
+            RenderModeStore
         } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
 
@@ -165,6 +167,8 @@ class DividerToAutoCreate extends React.Component {
                     : '成功生成道路参考线',
                 3
             );
+            //关联关系查看模式下，更新要素显示效果
+            RenderModeStore.updateFeatureColor();
         } catch (e) {
             console.log(e.message);
             const msg =
