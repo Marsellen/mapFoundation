@@ -262,6 +262,10 @@ class RenderModeStore {
         const { layerName, data } = feature;
         const { id } = DATA_LAYER_MAP[layerName];
         const featureId = data.properties && data.properties[id];
+        this.getRelFeatures(layerName, featureId);
+    };
+
+    getRelFeatures = (layerName, featureId) => {
         let relFeatures = [];
         //获取选中要素的关联要素
         if (!this.checkedList || this.checkedList.length === 0) return;
@@ -306,7 +310,7 @@ class RenderModeStore {
                 if (!text) return;
                 const line =
                     this.featuresMap[value] || boundaryFeaturesMap[value] || {};
-                const linePointArr = line.geometry.coordinates;
+                const linePointArr = line.geometry || line.geometry.coordinates;
                 let position = {};
                 if (relation === 'FROM_ROAD' || relation === 'FROM_LANE') {
                     const [x, y, z] = linePointArr[linePointArr.length - 1];

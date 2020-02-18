@@ -145,6 +145,8 @@ class DividerToAutoCreate extends React.Component {
                 params
             );
             if (!historyLog) return;
+            //关联关系查看模式下，更新要素显示效果
+            RenderModeStore.updateFeatureColor();
             this.activeLine(editLayer.layerName, historyLog);
 
             // 日志与历史
@@ -167,8 +169,6 @@ class DividerToAutoCreate extends React.Component {
                     : '成功生成道路参考线',
                 3
             );
-            //关联关系查看模式下，更新要素显示效果
-            RenderModeStore.updateFeatureColor();
         } catch (e) {
             console.log(e.message);
             const msg =
@@ -205,8 +205,12 @@ class DividerToAutoCreate extends React.Component {
         };
         let layer = getLayerByName(layerName);
         if (layer.getFeatureByOption(option)) {
+            const { RenderModeStore } = this.props;
+            const { activeMode, getRelFeatures } = RenderModeStore;
             let feature = layer.getFeatureByOption(option).properties;
             this.showAttributesModal(feature);
+            //关联关系模式，选中效果
+            activeMode === 'relation' && getRelFeatures(layerName, value);
         } else {
             message.warning('所在图层与用户编号不匹配！', 3);
         }

@@ -292,6 +292,8 @@ class HalfAutoCreate extends React.Component {
             );
             DataLayerStore.exitEdit();
             if (!historyLog) return;
+            //关联关系查看模式下，更新要素显示效果
+            RenderModeStore.updateFeatureColor();
             this.activeLine(editLayer && editLayer.layerName, historyLog);
 
             // 日志与历史
@@ -314,8 +316,6 @@ class HalfAutoCreate extends React.Component {
                     : '成功生成道路参考线',
                 3
             );
-            //关联关系查看模式下，更新要素显示效果
-            RenderModeStore.updateFeatureColor();
         } catch (e) {
             const msg =
                 editLayer && editLayer.layerName === 'AD_Lane'
@@ -351,8 +351,12 @@ class HalfAutoCreate extends React.Component {
         };
         let layer = getLayerByName(layerName);
         if (layer.getFeatureByOption(option)) {
+            const { RenderModeStore } = this.props;
+            const { activeMode, getRelFeatures } = RenderModeStore;
             let feature = layer.getFeatureByOption(option).properties;
             this.showAttributesModal(feature);
+            //关联关系模式，选中效果
+            activeMode === 'relation' && getRelFeatures(layerName, value);
         } else {
             message.warning('所在图层与用户编号不匹配！', 3);
         }
