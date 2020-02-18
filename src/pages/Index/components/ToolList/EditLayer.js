@@ -5,7 +5,6 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import IconFont from 'src/components/IconFont';
 import { getEditLayers } from 'src/utils/permissionCtrl';
 
-@inject('RenderModeStore')
 @inject('TaskStore')
 @observer
 class EditLayer extends React.Component {
@@ -72,6 +71,7 @@ class EditLayer extends React.Component {
     };
 }
 
+@inject('RenderModeStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
 @inject('AttributeStore')
@@ -144,7 +144,8 @@ class EditLayerPicker extends React.Component {
             DataLayerStore,
             ToolCtrlStore,
             AttributeStore,
-            appStore
+            appStore,
+            RenderModeStore
         } = this.props;
 
         let userInfo = appStore.loginUser;
