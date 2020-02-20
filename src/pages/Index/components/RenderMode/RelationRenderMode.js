@@ -2,6 +2,7 @@ import React from 'react';
 import { Checkbox, Icon } from 'antd';
 import { observer, inject } from 'mobx-react';
 import 'src/assets/less/components/render-mode.less';
+import IconFont from 'src/components/IconFont';
 
 @inject('AttributeStore')
 @inject('DataLayerStore')
@@ -18,11 +19,18 @@ class RelationRenderMode extends React.Component {
         const { indeterminate, allChecked, relSelectOptions } = RenderModeStore;
         return (
             <div className={`relation-render-mode ${visible ? 'move' : ''}`}>
-                <div className="title" onClick={this.toggleSelect}>
-                    <span>关联关系专题图</span>
+                <div
+                    className={`title ${isShow ? 'on' : ''}`}
+                    onClick={this.toggleSelect}
+                >
+                    <p>
+                        <IconFont type="icon-guanlianguanxi" className="icon" />
+                        {isShow && <span>关联关系专题图</span>}
+                    </p>
                     <Icon
-                        type="down"
-                        className={`arrow ${isShow ? 'up' : ''}`}
+                        type="double-right"
+                        style={{ fontSize: '12px' }}
+                        className="arrow"
                     />
                 </div>
 

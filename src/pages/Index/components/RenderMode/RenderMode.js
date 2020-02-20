@@ -40,14 +40,14 @@ class RenderMode extends React.Component {
 
                 <Modal
                     className="render-mode"
+                    title="渲染模式"
                     visible={visible}
                     footer={null}
                     onCancel={this.handleClose}
-                    bodyStyle={{ padding: 0 }}
+                    width={720}
                     maskClosable={false}
                     zIndex={9999}
                 >
-                    <div className="title-wrap">渲染模式</div>
                     <div className="modal-body">
                         <ul>
                             {RENDER_MODE_MAP.map((item, index) => (
@@ -56,9 +56,11 @@ class RenderMode extends React.Component {
                                     key={`mode-${index}`}
                                     onClick={() => this.chooseMode(item)}
                                 >
+                                    <div className="checkbox"></div>
                                     <div>
-                                        <b>{item.title}</b>
-                                        <p className="desc">{item.desc}</p>
+                                        <img src={item.icon} />
+                                        <p className="bold">{item.title}</p>
+                                        <div className="desc">{item.desc}</div>
                                     </div>
                                 </li>
                             ))}
