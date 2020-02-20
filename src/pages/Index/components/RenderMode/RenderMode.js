@@ -147,30 +147,35 @@ class RenderMode extends React.Component {
         const { RenderModeStore } = this.props;
         switch (mode) {
             case 'common':
-                if (window.vectorLayerGroup) {
-                    window.vectorLayerGroup.resetStyleConfig(VectorsConfig);
-                }
-                if (window.boundaryLayerGroup) {
-                    window.boundaryLayerGroup.resetStyleConfig(
-                        OutsideVectorsConfig
-                    );
-                }
+                this.commonRenderMode();
                 break;
             case 'relation':
-                if (window.vectorLayerGroup) {
-                    window.vectorLayerGroup.resetStyleConfig(
-                        WhiteVectorsConfig
-                    );
-                }
-                if (window.boundaryLayerGroup) {
-                    window.boundaryLayerGroup.resetStyleConfig(
-                        HalfWhiteVectorsConfig
-                    );
-                }
+                this.whiteRenderMode();
                 RenderModeStore.setRels();
+                break;
+            case 'update':
+                this.whiteRenderMode();
                 break;
             default:
                 break;
+        }
+    };
+    //通用渲染模式/彩色渲染模式
+    commonRenderMode = () => {
+        if (window.vectorLayerGroup) {
+            window.vectorLayerGroup.resetStyleConfig(VectorsConfig);
+        }
+        if (window.boundaryLayerGroup) {
+            window.boundaryLayerGroup.resetStyleConfig(OutsideVectorsConfig);
+        }
+    };
+    //白色渲染模式/要素都是白色
+    whiteRenderMode = () => {
+        if (window.vectorLayerGroup) {
+            window.vectorLayerGroup.resetStyleConfig(WhiteVectorsConfig);
+        }
+        if (window.boundaryLayerGroup) {
+            window.boundaryLayerGroup.resetStyleConfig(HalfWhiteVectorsConfig);
         }
     };
 
