@@ -1,23 +1,32 @@
+import common from 'src/assets/img/common.png';
+import relation from 'src/assets/img/relation.png';
+import update from 'src/assets/img/update.png';
+// import define from 'src/assets/img/define.png';
+
 export const RENDER_MODE_MAP = [
     {
         mode: 'common',
         title: '通用符号模式',
-        desc: '用于基础的生产作业'
+        desc: '用于基础的生产作业',
+        icon: common
     },
-    // {
-    //     mode: 'update',
-    //     title: '更新查看模式',
-    //     desc: '提供系统的更新状态符号策略\n及更新数据查看工具'
-    // },
     {
         mode: 'relation',
         title: '关联关系查看模式',
-        desc: '提供系统的关联关系符号策略\n及关联关系查看工具'
+        desc: '提供系统的关联关系符号策略\n及关联关系查看工具',
+        icon: relation
+    },
+    {
+        mode: 'update',
+        title: '更新查看模式',
+        desc: '提供系统的更新状态符号策略\n及更新数据查看工具',
+        icon: update
     }
     // {
     //     mode: 'define',
     //     title: '自定义符号模式',
-    //     desc: '想看啥，自己选'
+    //     desc: '想看啥，自己选',
+    //     icon: define
     // }
 ];
 
