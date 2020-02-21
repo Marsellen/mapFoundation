@@ -22,6 +22,8 @@ import {
     completeEditUrl,
     completeBoundaryUrl
 } from 'src/utils/taskUtils';
+import RelStore from './RelStore';
+import AttrStore from './AttrStore';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -176,13 +178,24 @@ class TaskStore {
     getTaskBoundaryFile = flow(function*() {
         if (!window.map) return;
         const boundaryUrl = completeBoundaryUrl(
-            CONFIG.urlConfig.boundary,
+            CONFIG.urlConfig.boundaryAdsAll,
             this.activeTask
         );
         const layerGroup = new LayerGroup(boundaryUrl, {
             styleConifg: OutsideVectorsConfig
         });
         yield window.map.getLayerManager().addLayerGroup(layerGroup);
+
+        const relUrl = completeBoundaryUrl(
+            CONFIG.urlConfig.boundaryRels,
+            this.activeTask
+        );
+        const AttrUrl = completeBoundaryUrl(
+            CONFIG.urlConfig.boundaryAttrs,
+            this.activeTask
+        );
+        yield AttrStore.addRecords(AttrUrl, 'boundary');
+        yield RelStore.addRecords(relUrl, 'boundary');
         return layerGroup;
     });
 
@@ -230,10 +243,20 @@ class TaskStore {
             };
             if (this.isEditableTask && this.isGetTaskBoundaryFile()) {
                 Object.assign(task, {
-                    boundary: completeBoundaryUrl(
-                        CONFIG.urlConfig.boundary,
-                        this.activeTask
-                    )
+                    boundary: {
+                        adsAll: completeBoundaryUrl(
+                            CONFIG.urlConfig.boundaryAdsAll,
+                            this.activeTask
+                        ),
+                        rels: completeBoundaryUrl(
+                            CONFIG.urlConfig.boundaryRels,
+                            this.activeTask
+                        ),
+                        attrs: completeBoundaryUrl(
+                            CONFIG.urlConfig.boundaryAttrs,
+                            this.activeTask
+                        )
+                    }
                 });
             }
             return task;

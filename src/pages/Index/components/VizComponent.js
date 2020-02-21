@@ -72,17 +72,21 @@ class VizComponent extends React.Component {
     };
 
     componentDidUpdate() {
+        this.init()
+    }
+
+    init = async () => {
         const { TaskStore } = this.props;
         let task = TaskStore.getTaskFile();
         if (!task) return;
         const div = document.getElementById('viz');
-        this.release();
+        await this.release();
         window.map = new Map(div);
         this.initTask(task);
     }
 
-    release = () => {
-        const { ResourceLayerStore, VectorsStore } = this.props;
+    release = async () => {
+        const { ResourceLayerStore, VectorsStore, RelStore, AttrStore } = this.props;
         window.map && window.map.release();
         ResourceLayerStore.release();
         VectorsStore.release();
@@ -90,6 +94,9 @@ class VizComponent extends React.Component {
         window.pointCloudLayer = null;
         window.vectorLayerGroup = null;
         window.traceLayer = null;
+
+        RelStore.destroy();
+        AttrStore.destroy();
     };
 
     addShortcut = event => {
@@ -264,26 +271,37 @@ class VizComponent extends React.Component {
         }
     };
 
-    initBoundary = async boundaryUrl => {
-        if (!boundaryUrl) return;
+    initBoundary = async boundary => {
+        if (!boundary) return;
         try {
-            window.boundaryLayerGroup = new LayerGroup(boundaryUrl, {
-                styleConifg: OutsideVectorsConfig
-            });
-            await map.getLayerManager().addLayerGroup(boundaryLayerGroup);
-
-            const { VectorsStore } = this.props;
-            VectorsStore.addBoundaryLayer(boundaryLayerGroup);
-
-            return {
-                layerName: RESOURCE_LAYER_BOUNDARY,
-                layer: boundaryLayerGroup
-            };
+            await loadBoundaryEx(boundary)
+            return await loadBoundary(boundary)
         } catch (e) {
             console.log(e);
             message.warning('作业边界数据加载失败：' + e.message, 3);
         }
     };
+
+    loadBoundary = async boundary => {
+        window.boundaryLayerGroup = new LayerGroup(boundary.adsAll, {
+            styleConifg: OutsideVectorsConfig
+        });
+        await map.getLayerManager().addLayerGroup(boundaryLayerGroup);
+
+        const { VectorsStore } = this.props;
+        VectorsStore.addBoundaryLayer(boundaryLayerGroup);
+
+        return {
+            layerName: RESOURCE_LAYER_BOUNDARY,
+            layer: boundaryLayerGroup
+        };
+    }
+
+    loadBoundaryEx = async boundary => {
+        const { RelStore, AttrStore } = this.props;
+        await RelStore.addRecords(boundary.rels, 'boundary');
+        await AttrStore.addRecords(boundary.attrs, 'boundary');
+    }
 
     initResouceLayer = layers => {
         const { ResourceLayerStore } = this.props;
@@ -579,12 +597,12 @@ class VizComponent extends React.Component {
 
     installRel = url => {
         const { RelStore } = this.props;
-        return RelStore.init(url);
+        return RelStore.addRecords(url, 'current');
     };
 
     installAttr = url => {
         const { AttrStore } = this.props;
-        return AttrStore.init(url);
+        return AttrStore.addRecords(url, 'current');
     };
 
     render() {

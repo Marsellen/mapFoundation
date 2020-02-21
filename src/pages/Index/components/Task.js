@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Empty, Modal } from 'antd';
+import { Menu, Empty, Modal, Button } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import editLog from 'src/models/editLog';
@@ -47,7 +47,7 @@ class Task extends React.Component {
                                 >
                                     {`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}
                                 </span>
-                                <span
+                                <Button
                                     className="task-start-button ant-btn"
                                     disabled={
                                         isEditableTask &&
@@ -59,7 +59,7 @@ class Task extends React.Component {
                                     }
                                 >
                                     开始
-                                </span>
+                                </Button>
                             </p>
                         </Menu.Item>
                     ))}

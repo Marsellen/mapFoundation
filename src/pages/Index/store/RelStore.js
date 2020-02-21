@@ -5,18 +5,11 @@ import axios from 'axios';
 
 configure({ enforceActions: 'always' });
 class RelStore {
-    init = flow(function*(url) {
+    addRecords = flow(function*(url, dataType) {
         try {
-            this.destroy();
-            // console.time('getData');
             let response = yield axios.get(url);
-            // console.timeLog('getData');
-            // console.time('relDataToTable');
-            let records = relFactory.relDataToTable(response.data);
-            // console.timeLog('relDataToTable');
-            // console.time('batch add');
+            let records = relFactory.relDataToTable(response.data, dataType);
             yield Relevance.store.batchAdd(records);
-            // console.timeLog('batch add');
         } catch (e) {
             console.log(e);
         }
