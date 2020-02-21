@@ -1,7 +1,6 @@
 import React from 'react';
-import { Popover, Tooltip, Slider } from 'antd';
+import { Slider } from 'antd';
 import { inject, observer } from 'mobx-react';
-import IconFont from 'src/components/IconFont';
 
 const marks = {
     5: '0.5',
@@ -13,56 +12,10 @@ const marks = {
 @observer
 class AdjustPointSize extends React.Component {
     state = {
-        clicked: false,
-        hovered: false,
         updateKey: 0
     };
 
-    hide = () => {
-        this.setState({
-            clicked: false,
-            hovered: false
-        });
-    };
-
-    handleHoverChange = visible => {
-        if (!this.state.clicked) {
-            this.setState({
-                hovered: visible
-            });
-        }
-    };
-
-    handleClickChange = visible => {
-        if (this.isDisabled()) return;
-        this.setState({
-            clicked: visible,
-            hovered: false
-        });
-    };
     render() {
-        return (
-            <Popover
-                content={this._renderContent()}
-                trigger="click"
-                visible={this.state.clicked}
-                onVisibleChange={this.handleClickChange}>
-                <Tooltip
-                    placement="bottom"
-                    title="设置点云大小"
-                    visible={this.state.hovered}
-                    onVisibleChange={this.handleHoverChange}>
-                    <IconFont
-                        type="icon-shezhidianyundaxiao"
-                        className={`ad-icon ${this.isDisabled() &&
-                            'ad-disabled-icon'}`}
-                    />
-                </Tooltip>
-            </Popover>
-        );
-    }
-
-    _renderContent() {
         let value = window.pointCloudLayer
             ? pointCloudLayer.material.size * 10
             : 5;
@@ -99,14 +52,6 @@ class AdjustPointSize extends React.Component {
             updateKey: Math.random()
         });
         pointCloudLayer.setPointSize(value / 10);
-    };
-
-    isDisabled = () => {
-        const { TaskStore, ResourceLayerStore } = this.props;
-        const { activeTaskId } = TaskStore;
-        const { pointCloudChecked } = ResourceLayerStore;
-
-        return !activeTaskId || !pointCloudChecked;
     };
 }
 

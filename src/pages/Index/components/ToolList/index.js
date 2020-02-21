@@ -2,7 +2,6 @@ import React from 'react';
 import Undo from './Undo';
 import Redo from './Redo';
 import Save from './Save';
-import Intensity from './Intensity';
 import EditLayer from './EditLayer';
 import AddLine from './AddLine';
 import AddPoint from './AddPoint';
@@ -15,15 +14,14 @@ import AddRel from './AddRel';
 import DelRel from './DelRel';
 import Ranging from './Ranging';
 import AddOutsideRectangle from './AddOutsideRectangle';
-import AdjustPointSize from './AdjustPointSize';
 import ReadCoordinate from './ReadCoordinate';
-import PointStratification from './PointStratification';
 import AddGroundRectangle from './AddGroundRectangle';
 import SearchInfo from './SearchInfo';
 import DividerToAutoCreate from './DividerToAutoCreate';
 import HalfAutoCreate from './HalfAutoCreate';
 import QualityCheck from './QualityCheck';
 import RoadSet from './RoadSet';
+import PointCloud from './PointCloud';
 
 export default [
     <Undo key="UNDO" />,
@@ -31,9 +29,7 @@ export default [
     <ResourceLoader key="RESOURCE_LOADER" />,
     <ExportShp key="EXPORT_SHP" />,
     <Save key="SAVE" />,
-    <Intensity key="INTENSITY" />,
-    <AdjustPointSize key="ADJUST_POINT_SIZE" />,
-    <PointStratification key="POINT_STRATIFICATION" />,
+    <PointCloud key="POINT_CLOUD" />,
     <Ranging key="RANGING" />,
     <ReadCoordinate key="READ_COORDINATE" />,
     <RoadSet key="ROAD_SET" />,
