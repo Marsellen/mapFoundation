@@ -126,9 +126,12 @@ export const getAllVectorData = isCurrent => {
         return window.vectorLayerGroup.getAllVectorData();
     }
     
-    let vectorData = window.vectorLayerGroup.getAllVectorData();
+    let vectorData = _.cloneDeep(window.vectorLayerGroup.getAllVectorData());
     let boundaryData = window.boundaryLayerGroup.getAllVectorData();
-    vectorData.features = vectorData.features.concat(boundaryData.features);
+    // 因为vectorData和boundaryData的结构一致，故用此法
+    for (let i = 0; i < vectorData.features.length; i++) {
+        vectorData.features[i].features = vectorData.features[i].features.concat(boundaryData.features[i].features);
+    }
     return vectorData;
 };
 
