@@ -121,16 +121,23 @@ export const isRegionContainsElement = (element, region) => {
     return isRegionContainsElementRes;
 };
 
-export const getAllVectorData = () => {
-    return vectorLayerGroup.getAllVectorData();
+export const getAllVectorData = isCurrent => {
+    if (isCurrent) {
+        return window.vectorLayerGroup.getAllVectorData();
+    }
+    
+    let vectorData = window.vectorLayerGroup.getAllVectorData();
+    let boundaryData = window.boundaryLayerGroup.getAllVectorData();
+    vectorData.features = vectorData.features.concat(boundaryData.features);
+    return vectorData;
 };
 
 export const getAllRelData = async isCurrent => {
-    let attrRels = getAllVectorData().features.filter(features =>
+    let attrRels = getAllVectorData(isCurrent).features.filter(features =>
         ATTR_REL_DATA_SET.includes(features.name)
     );
     let records = await Relevance.store.getAll();
-    if(isCurrent) {
+    if (isCurrent) {
         records = records.filter(record => record.dataType !== 'boundary');
     }
     let data = relFactory.relTableToData(records);
@@ -144,7 +151,7 @@ export const getAllRelData = async isCurrent => {
 
 export const getAllAttrData = async isCurrent => {
     let records = await Attr.store.getAll();
-    if(isCurrent) {
+    if (isCurrent) {
         records = records.filter(record => record.dataType !== 'boundary');
     }
     let data = attrFactory.attrTableToData(records);
@@ -229,13 +236,13 @@ export const getAllDataSnapshot = async isCurrent => {
     let vectorData = getAllVectorData();
     let vectorFeatures = vectorData.features;
     let attrRecords = await Attr.store.getAll();
-    if(isCurrent) {
+    if (isCurrent) {
         attrRecords = attrRecords.filter(record => record.dataType !== 'boundary');
     }
     let attrFeatures = attrFactory.attrTableToData(attrRecords);
 
     let relRecords = await Relevance.store.getAll();
-    if(isCurrent) {
+    if (isCurrent) {
         relRecords = relRecords.filter(record => record.dataType !== 'boundary');
     }
     let relFeatures = relFactory.relTableToData(relRecords);

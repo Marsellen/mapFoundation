@@ -267,7 +267,7 @@ class TaskStore {
 
     submit = flow(function*() {
         try {
-            let vectorData = getAllVectorData();
+            let vectorData = getAllVectorData(true);
             let relData = yield getAllRelData(true);
             let attrData = yield getAllAttrData(true);
             let path = getEditPath(this.activeTask);
