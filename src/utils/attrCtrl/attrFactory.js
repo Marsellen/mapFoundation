@@ -4,13 +4,14 @@ import _ from 'lodash';
 import Relevance from 'src/models/relevance';
 import Attr from 'src/models/attr';
 
-const attrDataToTable = data => {
+const attrDataToTable = (data, dataType) => {
     let attrData = filterRelData(data);
     return attrData.reduce((total, feature) => {
         let spec = feature.name;
 
         feature.features.forEach(f => {
             let record = dataToTable(f.properties, spec);
+            record.dataType = dataType
             total.push(record);
         });
         return total;
