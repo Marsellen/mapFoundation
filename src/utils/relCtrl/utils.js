@@ -7,9 +7,10 @@ import Relevance from 'src/models/relevance';
  * @method geojsonToDbData
  * @param {Object} properties 关联关系属性
  * @param {String} spec 关联关系表名
+ * @param {String} dataType 数据来源： 任务数据/周边数据
  * @returns {Array<Object>} IndexedDB rels表记录集合
  */
-export const geojsonToDbData = (properties, spec) => {
+export const geojsonToDbData = (properties, spec, dataType) => {
     let relSpecs = REL_SPEC_CONFIG.filter(relSpec => relSpec.source == spec);
     return relSpecs.reduce((total, relSpec) => {
         const {
@@ -34,7 +35,8 @@ export const geojsonToDbData = (properties, spec) => {
                 relObjType,
                 objSpec,
                 relObjSpec,
-                extraInfo
+                extraInfo,
+                dataType
             });
         }
         return total;

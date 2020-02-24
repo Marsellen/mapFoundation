@@ -268,8 +268,8 @@ class TaskStore {
     submit = flow(function*() {
         try {
             let vectorData = getAllVectorData();
-            let relData = yield getAllRelData();
-            let attrData = yield getAllAttrData();
+            let relData = yield getAllRelData(true);
+            let attrData = yield getAllAttrData(true);
             let path = getEditPath(this.activeTask);
             let payload = {
                 filePath: path,
@@ -319,7 +319,7 @@ class TaskStore {
     writeEditLog = flow(function*() {
         try {
             let log = yield editLog.store.getAll();
-            let snapshot = yield getAllDataSnapshot();
+            let snapshot = yield getAllDataSnapshot(true);
             let {
                 taskId,
                 processName,

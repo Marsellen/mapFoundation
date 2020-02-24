@@ -48,7 +48,9 @@ const getAttrData = async layerName => {
     let attrs = await attrStore.getAll();
     let IDKey = getLayerIDKey(layerName);
     return attrs
-        .filter(attr => attr.source === layerName)
+        .filter(attr => {
+            return attr.source === layerName && attr.dataType !== 'boundary';
+        })
         .sort((a, b) => {
             return (
                 parseInt(a.properties[IDKey]) - parseInt(b.properties[IDKey])
@@ -65,7 +67,9 @@ const getRelData = async layerName => {
     let IDKey = getLayerIDKey(layerName);
     let relSpec = REL_SPEC_CONFIG.find(conf => conf.source == layerName);
     return rels
-        .filter(rel => rel.spec === layerName)
+        .filter(rel => {
+            return rel.spec === layerName && rel.dataType !== 'boundary';
+        })
         .sort((a, b) => {
             return parseInt(a.extraInfo[IDKey]) - parseInt(b.extraInfo[IDKey]);
         })

@@ -125,11 +125,14 @@ export const getAllVectorData = () => {
     return vectorLayerGroup.getAllVectorData();
 };
 
-export const getAllRelData = async () => {
+export const getAllRelData = async isCurrent => {
     let attrRels = getAllVectorData().features.filter(features =>
         ATTR_REL_DATA_SET.includes(features.name)
     );
     let records = await Relevance.store.getAll();
+    if(isCurrent) {
+        records = records.filter(record => record.dataType !== 'boundary');
+    }
     let data = relFactory.relTableToData(records);
 
     return {
@@ -139,8 +142,11 @@ export const getAllRelData = async () => {
     };
 };
 
-export const getAllAttrData = async () => {
+export const getAllAttrData = async isCurrent => {
     let records = await Attr.store.getAll();
+    if(isCurrent) {
+        records = records.filter(record => record.dataType !== 'boundary');
+    }
     let data = attrFactory.attrTableToData(records);
 
     return {
@@ -219,13 +225,19 @@ export const modUpdStatProperties = (feature, properties) => {
     return feature;
 };
 
-export const getAllDataSnapshot = async () => {
+export const getAllDataSnapshot = async isCurrent => {
     let vectorData = getAllVectorData();
     let vectorFeatures = vectorData.features;
     let attrRecords = await Attr.store.getAll();
+    if(isCurrent) {
+        attrRecords = attrRecords.filter(record => record.dataType !== 'boundary');
+    }
     let attrFeatures = attrFactory.attrTableToData(attrRecords);
 
     let relRecords = await Relevance.store.getAll();
+    if(isCurrent) {
+        relRecords = relRecords.filter(record => record.dataType !== 'boundary');
+    }
     let relFeatures = relFactory.relTableToData(relRecords);
 
     let allFeatures = vectorFeatures.concat(attrFeatures).concat(relFeatures);

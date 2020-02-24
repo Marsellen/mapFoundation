@@ -10,13 +10,13 @@ import { REL_TYPE_KEY_MAP } from 'src/config/RelsConfig';
 import { updateFeaturesByRels } from './relCtrl';
 import { getLayerIDKey } from '../vectorUtils';
 
-export const relDataToTable = data => {
+export const relDataToTable = (data, dataType) => {
     let relData = filterRelData(data);
     return relData.reduce((total, feature) => {
         let spec = feature.name;
 
         feature.features.map(f => {
-            let records = geojsonToDbData(f.properties, spec);
+            let records = geojsonToDbData(f.properties, spec, dataType);
             total = total.concat(records);
         });
         return total;
