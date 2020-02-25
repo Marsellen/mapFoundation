@@ -110,25 +110,41 @@ class TaskStore {
                 taskId: this.activeTaskId,
                 '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
                 targetDirectory: this.activeTask['1302_MS_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask['MS_EDITOR_QUERYDB_PATHS']
+                EDITOR_QUERYDB_PATHS: this.activeTask[
+                    'MS_EDITOR_QUERYDB_PATHS'
+                ],
+                incsys: 'mct',
+                outcsys: 'mct'
             },
             imp_check_after_recognition: {
                 taskId: this.activeTaskId,
                 '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
                 targetDirectory: this.activeTask['1303_MS_QC_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask['MS_EDITOR_QUERYDB_PATHS']
+                EDITOR_QUERYDB_PATHS: this.activeTask[
+                    'MS_EDITOR_QUERYDB_PATHS'
+                ],
+                incsys: 'mct',
+                outcsys: 'mct'
             },
             imp_manbuild: {
                 taskId: this.activeTaskId,
                 '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
                 targetDirectory: this.activeTask['1304_MB_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask['MB_EDITOR_QUERYDB_PATHS']
+                EDITOR_QUERYDB_PATHS: this.activeTask[
+                    'MB_EDITOR_QUERYDB_PATHS'
+                ],
+                incsys: 'mct',
+                outcsys: 'mct'
             },
             imp_check_after_manbuild: {
                 taskId: this.activeTaskId,
                 '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
                 targetDirectory: this.activeTask['1305_MB_QC_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask['MB_EDITOR_QUERYDB_PATHS']
+                EDITOR_QUERYDB_PATHS: this.activeTask[
+                    'MB_EDITOR_QUERYDB_PATHS'
+                ],
+                incsys: 'mct',
+                outcsys: 'mct'
             }
         };
         return params[taskType];
