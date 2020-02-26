@@ -17,7 +17,7 @@ class QualityCheck extends React.Component {
             case 'producer':
                 return (
                     <ToolIcon
-                        icon="zhiliangjiancha"
+                        icon="zhiliangjiancha1"
                         title="质量检查"
                         disabled={!activeTaskId}
                         action={() =>
@@ -87,9 +87,9 @@ class QualityCheck extends React.Component {
         const reportListL = reportList.length;
         reportListL > 0
             ? this.checkModal(
-                  `质量检查结束，发现${reportListL}个错误，是否查看？`,
-                  openCheckReport
-              )
+                `质量检查结束，发现${reportListL}个错误，是否查看？`,
+                openCheckReport
+            )
             : this.checkModal(`质量检查结束，未发现数据问题`);
     };
 }

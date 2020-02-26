@@ -24,7 +24,8 @@ class QualityCheckResult extends React.Component {
                     placement="right"
                     id="check-result-btn"
                     title="检查结果"
-                    icon="jianchajieguoliebiao"
+                    placement="right"
+                    icon="jianchajieguo"
                     disabled={!activeTaskId}
                     className="ad-menu-icon"
                     action={this.handleClick}
@@ -125,7 +126,7 @@ class QualityCheckResult extends React.Component {
         closeCheckReport();
     };
 
-    handleTabsChange = () => {};
+    handleTabsChange = () => { };
 }
 
 export default QualityCheckResult;

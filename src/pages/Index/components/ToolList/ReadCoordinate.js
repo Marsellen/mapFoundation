@@ -21,13 +21,13 @@ class ReadCoordinate extends React.Component {
         let visible = DataLayerStore.editType == 'read_coordinate';
         let content = coordinate
             ? `x: ${coordinate.x.toFixed(3)}, y: ${coordinate.y.toFixed(
-                  3
-              )}, z: ${coordinate.z.toFixed(3)}`
+                3
+            )}, z: ${coordinate.z.toFixed(3)}`
             : null;
         return (
             <span className={visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
-                    id="read-coordinate-btn"
+                    id="read-coordinate-btn1"
                     icon="zuobiaoshiqu"
                     title="坐标拾取"
                     action={this.action}

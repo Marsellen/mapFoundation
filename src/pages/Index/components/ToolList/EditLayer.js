@@ -5,6 +5,7 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import IconFont from 'src/components/IconFont';
 import { getEditLayers } from 'src/utils/permissionCtrl';
 
+@inject('DataLayerStore')
 @inject('TaskStore')
 @observer
 class EditLayer extends React.Component {
@@ -37,27 +38,50 @@ class EditLayer extends React.Component {
     };
 
     render() {
+
+
         return (
-            <Popover
-                content={this._renderContent()}
-                trigger="click"
-                visible={this.state.clicked}
-                onVisibleChange={this.handleClickChange}
-            >
-                <Tooltip
-                    placement="bottom"
-                    title="设置编辑图层"
-                    visible={this.state.hovered}
-                    onVisibleChange={this.handleHoverChange}
+            <span className='bianjituceng'>
+                <Popover
+                    content={this._renderContent()}
+                    trigger="click"
+                    visible={this.state.clicked}
+                    onVisibleChange={this.handleClickChange}
                 >
-                    <IconFont
-                        type="icon-shezhi"
-                        className={`ad-icon ${this.disEditable() &&
-                            'ad-disabled-icon'}`}
-                    />
-                </Tooltip>
-            </Popover>
+                    <Tooltip
+                        placement="bottom"
+                        title="设置编辑图层"
+                        visible={this.state.hovered}
+                        onVisibleChange={this.handleHoverChange}
+                    >
+                        <IconFont
+                            type="icon-bianji"
+                            className={`ad-icon ${this.disEditable() &&
+                                'ad-disabled-icon'}`}
+                        />
+                    </Tooltip>
+                    <div className="value-color">
+                        {this._renderValue()}
+                    </div>
+                </Popover>
+            </span>
         );
+    }
+
+    _renderValue() {
+        let { DataLayerStore } = this.props;
+        let editLayer = DataLayerStore.getEditLayer();
+        if (!editLayer) {
+            return ''
+        }
+        if (editLayer.layerName == "AD_LaneAttrPoint" ||
+            editLayer.layerName == "AD_Arrow" ||
+            editLayer.layerName == "AD_Text" ||
+            editLayer.layerName == "AD_RS_Barrier") {
+            return DATA_LAYER_MAP[editLayer.layerName] ? DATA_LAYER_MAP[editLayer.layerName].label.slice(0, 4) + '\n' + DATA_LAYER_MAP[editLayer.layerName].label.slice(4) + ':' : ''
+        } else {
+            return DATA_LAYER_MAP[editLayer.layerName] ? DATA_LAYER_MAP[editLayer.layerName].label : ''
+        }
     }
 
     _renderContent() {

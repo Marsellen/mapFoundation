@@ -57,7 +57,7 @@ class ViewAttribute extends React.Component {
                 <ToolIcon
                     id="view-attribute-btn"
                     placement="right"
-                    icon="shuxingliebiao"
+                    icon="shuxingliebiao1"
                     title="属性列表"
                     className="ad-menu-icon"
                     disabled={!activeTaskId}
@@ -254,35 +254,35 @@ class ViewAttribute extends React.Component {
             confirm,
             clearFilters
         }) => (
-            <div style={{ padding: 8 }}>
-                <Input
-                    ref={node => {
-                        this.searchInput = node;
-                    }}
-                    placeholder="搜索关键字..."
-                    value={selectedKeys[0]}
-                    onChange={e =>
-                        setSelectedKeys(e.target.value ? [e.target.value] : [])
-                    }
-                    onPressEnter={confirm}
-                    style={{ width: 188, marginBottom: 8, display: 'block' }}
-                />
-                <Button
-                    type="primary"
-                    onClick={confirm}
-                    icon="search"
-                    size="small"
-                    style={{ width: 90, marginRight: 8 }}>
-                    搜索
+                <div style={{ padding: 8 }}>
+                    <Input
+                        ref={node => {
+                            this.searchInput = node;
+                        }}
+                        placeholder="搜索关键字..."
+                        value={selectedKeys[0]}
+                        onChange={e =>
+                            setSelectedKeys(e.target.value ? [e.target.value] : [])
+                        }
+                        onPressEnter={confirm}
+                        style={{ width: 188, marginBottom: 8, display: 'block' }}
+                    />
+                    <Button
+                        type="primary"
+                        onClick={confirm}
+                        icon="search"
+                        size="small"
+                        style={{ width: 90, marginRight: 8 }}>
+                        搜索
                 </Button>
-                <Button
-                    onClick={clearFilters}
-                    size="small"
-                    style={{ width: 90 }}>
-                    重置
+                    <Button
+                        onClick={clearFilters}
+                        size="small"
+                        style={{ width: 90 }}>
+                        重置
                 </Button>
-            </div>
-        ),
+                </div>
+            ),
         filterIcon: filtered => (
             <Icon
                 type="search"

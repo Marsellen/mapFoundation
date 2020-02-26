@@ -53,7 +53,7 @@ class PointCloud extends React.Component {
                     visible={this.state.hovered}
                     onVisibleChange={this.handleHoverChange}>
                     <IconFont
-                        type="icon-dianyunfengaochengxianshi"
+                        type="icon-dianyunshezhi"
                         className={`ad-icon ${this.isDisabled() &&
                             'ad-disabled-icon'}`}
                     />

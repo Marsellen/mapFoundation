@@ -25,6 +25,14 @@
         }
     }
 
+    .sider-break-line {
+        height: 2px;
+        background: #c1c1c1;
+        width: 48px;
+        margin-left: 6px;
+        opacity: 0.6;
+    }
+
     .ad-menu-icon {
         font-size: 20px;
         color: #bbb;
@@ -39,6 +47,11 @@
         font-size: 12px !important;
         height: 30px !important;
         line-height: 30px !important;
+        padding: 0 0 0 18px !important;
+    }
+
+    .ant-menu-item-selected {
+        color: #3e7fe0 !important;
     }
 
     .ant-menu-item:last-child {
@@ -57,19 +70,23 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        font-size: 14px;
     }
 
     .task-start-button {
         margin: 0 0 0 10px;
         padding: 0;
-        height: 22px;
-        width: 46px;
+        height: 24px;
+        width: 24px;
         text-align: center;
+        vertical-align: middle;
         font-size: 12px;
-        color: #fff;
-        background-color: #18a2ff;
-        border-color: #18a2ff;
+        color: #3e7fe0;
+        background-color: unset !important;
+        font-size: 18px !important;
+        // border-color: #18a2ff;
         display: inline-block;
+        border: unset;
     }
 
     .task-start-button[disabled] {
@@ -102,9 +119,12 @@
                 li {
                     list-style-type: none;
                     width: 50%;
-                    background: #999;
+                    background: #fff;
+                    border-bottom: 1px solid #ccc;
                     &.on {
                         background: #fff;
+                        border-bottom: 1px solid #3e7fe0;
+                        color: #3e7fe0;
                     }
                 }
             }

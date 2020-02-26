@@ -31,7 +31,7 @@ class SearchInfo extends React.Component {
             <span className={this.state.visible ? 'ad-icon-active' : ''}>
                 <ToolIcon
                     id="search-btn"
-                    icon="chaxun"
+                    icon="chaxun1"
                     title="查询"
                     disabled={!activeTaskId}
                     action={this.toggle}
