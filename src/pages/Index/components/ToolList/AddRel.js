@@ -14,6 +14,7 @@ import editLog from 'src/models/editLog';
 import AddLRLaneDriverRel from './AddRelModal/AddLRLaneDriverRel';
 import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
 import { isManbuildTask } from 'src/utils/taskUtils';
+import AdEmitter from 'src/models/event';
 import 'less/components/tool-icon.less';
 import './AddRel.less';
 
@@ -164,6 +165,7 @@ class AddRel extends React.Component {
                     let rels = await newRel(mainFeature, relFeatures);
                     this.saveLog(rels);
                     RenderModeStore.updateFeatureColor();
+                    AdEmitter.emit('fetchViewAttributeData');
                 } catch (e) {
                     console.log(e);
                     message.warning('新建关联关系失败：' + e.message, 3);
@@ -206,6 +208,7 @@ class AddRel extends React.Component {
             await batchAddRels([rel]);
             this.saveLog([rel]);
             RenderModeStore.updateFeatureColor();
+            AdEmitter.emit('fetchViewAttributeData');
         } catch (e) {
             const { DataLayerStore } = this.props;
             console.log(e);
