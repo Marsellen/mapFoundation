@@ -6,6 +6,7 @@ import { delRel } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import { isManbuildTask } from 'src/utils/taskUtils';
+import AdEmitter from 'src/models/event';
 import 'less/components/tool-icon.less';
 
 @inject('RenderModeStore')
@@ -55,6 +56,7 @@ class DelRel extends React.Component {
                             AttributeStore.fetchRelFeatures();
                             DataLayerStore.exitEdit();
                             RenderModeStore.updateFeatureColor();
+                            AdEmitter.emit('fetchViewAttributeData');
                         })
                         .catch(e => {
                             message.warning(e.message, 3);
