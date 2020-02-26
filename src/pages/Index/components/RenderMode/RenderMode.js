@@ -46,16 +46,14 @@ class RenderMode extends React.Component {
                     onCancel={this.handleClose}
                     width={720}
                     maskClosable={false}
-                    zIndex={9999}
-                >
+                    zIndex={9999}>
                     <div className="modal-body">
                         <ul>
                             {RENDER_MODE_MAP.map((item, index) => (
                                 <li
                                     className={item.mode === mode ? 'on' : ''}
                                     key={`mode-${index}`}
-                                    onClick={() => this.chooseMode(item)}
-                                >
+                                    onClick={() => this.chooseMode(item)}>
                                     <div className="checkbox"></div>
                                     <div>
                                         <img src={item.icon} />
@@ -70,8 +68,7 @@ class RenderMode extends React.Component {
                                 type="primary"
                                 onClick={this.handleOk}
                                 style={{ width: 100 }}
-                                disabled={disabled}
-                            >
+                                disabled={disabled}>
                                 应用
                             </Button>
                         </div>
@@ -82,7 +79,7 @@ class RenderMode extends React.Component {
         );
     }
 
-    //渲染各模式组件
+    //加载各模式组件
     renderModeComponent = () => {
         const { RenderModeStore } = this.props;
         const { activeMode } = RenderModeStore;
@@ -131,17 +128,22 @@ class RenderMode extends React.Component {
                     AttributeStore
                 } = this.props;
                 const { mode } = this.state;
+                //设置渲染模式
                 RenderModeStore.setMode(mode);
+                //重设画布渲染样式
                 this.resetStyleConfig(mode);
+                //关闭渲染模式弹窗
                 this.setState({
                     visible: false
                 });
+                //清除要素选中效果
                 DataLayerStore.clearPick();
+                //隐藏属性窗口
                 AttributeStore.hide();
             }
         });
     };
-
+    //重设画布渲染样式
     resetStyleConfig = async mode => {
         if (!window.vectorLayerGroup) return;
         const { RenderModeStore } = this.props;
@@ -151,6 +153,7 @@ class RenderMode extends React.Component {
                 break;
             case 'relation':
                 this.whiteRenderMode();
+                //将有关联关系的要素，按专题图进行分组
                 RenderModeStore.setRels();
                 break;
             case 'update':
@@ -162,23 +165,28 @@ class RenderMode extends React.Component {
     };
     //通用渲染模式/彩色渲染模式
     commonRenderMode = () => {
+        //任务范围内要素，采用配置：VectorsConfig
         if (window.vectorLayerGroup) {
             window.vectorLayerGroup.resetStyleConfig(VectorsConfig);
         }
+        //周边底图要素，采用配置：OutsideVectorsConfig
         if (window.boundaryLayerGroup) {
             window.boundaryLayerGroup.resetStyleConfig(OutsideVectorsConfig);
         }
     };
     //白色渲染模式/要素都是白色
     whiteRenderMode = () => {
+        //任务范围内要素，采用配置：WhiteVectorsConfig
         if (window.vectorLayerGroup) {
             window.vectorLayerGroup.resetStyleConfig(WhiteVectorsConfig);
         }
+        //周边底图要素，采用配置：HalfWhiteVectorsConfig
         if (window.boundaryLayerGroup) {
             window.boundaryLayerGroup.resetStyleConfig(HalfWhiteVectorsConfig);
         }
     };
 
+    //渲染弹窗内按钮点击事件
     chooseMode = item => {
         const { mode } = item;
         this.setState({

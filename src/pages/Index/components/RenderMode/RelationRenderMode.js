@@ -21,8 +21,7 @@ class RelationRenderMode extends React.Component {
             <div className={`relation-render-mode ${visible ? 'move' : ''}`}>
                 <div
                     className={`title ${isShow ? 'on' : ''}`}
-                    onClick={this.toggleSelect}
-                >
+                    onClick={this.toggleSelect}>
                     <p>
                         <IconFont type="icon-guanlianguanxi" className="icon" />
                         {isShow && <span>关联关系专题图</span>}
@@ -40,8 +39,7 @@ class RelationRenderMode extends React.Component {
                             <Checkbox
                                 onChange={this.handleCheckAllChange}
                                 indeterminate={indeterminate}
-                                checked={allChecked}
-                            >
+                                checked={allChecked}>
                                 全选
                             </Checkbox>
                         </dt>
@@ -54,8 +52,7 @@ class RelationRenderMode extends React.Component {
                                             checked={checked}
                                             onChange={e =>
                                                 this.handleChange(e, key)
-                                            }
-                                        >
+                                            }>
                                             {title}
                                         </Checkbox>
                                     </div>
@@ -67,32 +64,38 @@ class RelationRenderMode extends React.Component {
             </div>
         );
     }
-
+    //专题图的展开收起
     toggleSelect = () => {
         this.setState({
             isShow: !this.state.isShow
         });
     };
-
+    //专题图单选toggle事件
     handleChange = (e, key) => {
         const { checked } = e.target;
         const { RenderModeStore, DataLayerStore, AttributeStore } = this.props;
         const { selectRel, resetFeatureColor } = RenderModeStore;
-
+        //清除要素选中效果
         DataLayerStore.clearPick();
+        //隐藏属性窗口
         AttributeStore.hide();
+        //获取专题图已选图层，判断是否全选
         selectRel(checked, key);
+        //将专题图选中的图层黄色高亮显示
         resetFeatureColor();
     };
-
+    //专题图全选toggle事件
     handleCheckAllChange = e => {
         const { checked } = e.target;
         const { RenderModeStore, DataLayerStore, AttributeStore } = this.props;
         const { selectAllRel, resetFeatureColor } = RenderModeStore;
-
+        //清除要素选中效果
         DataLayerStore.clearPick();
+        //隐藏属性窗口
         AttributeStore.hide();
+        //获取专题图已选图层，判断是否全选
         selectAllRel(checked);
+        //将专题图选中的图层黄色高亮显示
         resetFeatureColor();
     };
 }
