@@ -3,6 +3,7 @@ import relation from 'src/assets/img/relation.png';
 import update from 'src/assets/img/update.png';
 // import define from 'src/assets/img/define.png';
 
+//渲染模式配置
 export const RENDER_MODE_MAP = [
     {
         mode: 'common',
@@ -30,6 +31,7 @@ export const RENDER_MODE_MAP = [
     // }
 ];
 
+//专题图下拉框配置
 export const REL_SELECT_OPTIONS = [
     {
         title: '车道中心线 连接关系',
@@ -88,6 +90,7 @@ export const REL_SELECT_OPTIONS = [
     }
 ];
 
+//id与图层名、key值映射
 export const LAYER_NAME_MAP = {
     L_LDIV_ID: { layerName: 'AD_LaneDivider', key: 'LDIV_ID' },
     R_LDIV_ID: { layerName: 'AD_LaneDivider', key: 'LDIV_ID' },
@@ -106,6 +109,7 @@ export const LAYER_NAME_MAP = {
     LAP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' }
 };
 
+//关联关系与id映射
 export const RELS_ID_MAP = {
     AD_Lane_Con: ['FROM_LANE', 'TO_LANE'],
     AD_Road_Con: ['FROM_ROAD', 'TO_ROAD'],
@@ -120,6 +124,7 @@ export const RELS_ID_MAP = {
     AD_Road_Point_Rel: ['ROAD_ID', 'LAP_ID']
 };
 
+//id与文字标注配置映射
 export const REL_FEATURE_COLOR_MAP = {
     L_LDIV_ID: {
         color: 'rgb(0,255,0)',

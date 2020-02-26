@@ -130,7 +130,7 @@ class AttributeStore {
                 selectFeature,
                 resetFeatureColor
             } = RenderModeStore;
-            //不同渲染模式不同变色方式
+            //选中要素时，不同渲染模式不同变色方式
             switch (activeMode) {
                 case 'common':
                     this.hideRelFeatures();
@@ -153,7 +153,7 @@ class AttributeStore {
     @action hideRelFeatures = () => {
         try {
             const { activeMode, resetFeatureColor } = RenderModeStore;
-            //不同渲染模式不同变色方式
+            //取消选中时，不同渲染模式不同变色方式
             switch (activeMode) {
                 case 'common':
                     this.relFeatures.map(feature => {
