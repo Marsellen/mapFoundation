@@ -455,14 +455,8 @@ class ViewAttribute extends React.Component {
         let option, layer, feature;
         if (isRelLayer(layerName)) {
             let config = REL_SPEC_CONFIG.find(c => c.source === layerName);
-            let IDKey = getLayerIDKey(config.objSpec);
-            option = {
-                key: IDKey,
-                value: record[config.objKeyName]
-            };
-            layer = getLayerByName(config.objSpec);
-            feature = layer.getFeatureByOption(option);
-
+            feature = this.getRelPositionFeature(record, config);
+            
             if (!feature) {
                 !noMessage && message.error('关系表关联数据不存在，请检查');
                 return;
@@ -505,6 +499,25 @@ class ViewAttribute extends React.Component {
         }
         return feature.properties;
     };
+
+    getRelPositionFeature = (record, config) => {
+        let option, layer;
+        if(config.source == 'AD_Road_Con' || config.source == 'AD_Lane_Con' ) {
+            option = {
+                key: getLayerIDKey(config.objSpec),
+                value: record[config.objKeyName]
+            };
+            layer = getLayerByName(config.objSpec);
+        } else {
+            option = {
+                key: getLayerIDKey(config.relObjSpec),
+                value: record[config.relObjKeyName]
+            };
+            layer = getLayerByName(config.relObjSpec);
+        }
+        return layer.getFeatureByOption(option);
+    }
+    
 }
 
 export default ViewAttribute;
