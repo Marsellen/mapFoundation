@@ -29,12 +29,13 @@ class RenderMode extends React.Component {
         const { activeTaskId } = TaskStore;
         const disabled = activeMode === mode;
         return (
-            <div className="ad-sider-bottom-item">
+            <div>
                 <ToolIcon
                     title="渲染模式"
                     placement="right"
                     icon="ditu"
                     disabled={!activeTaskId}
+                    className="ad-menu-icon"
                     action={this.handleClick}
                 />
 

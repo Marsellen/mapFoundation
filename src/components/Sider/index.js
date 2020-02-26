@@ -4,7 +4,6 @@ import SiderBar from './SiderBar';
 import SiderItem from './SiderItem';
 import VersionInfo from 'src/pages/Index/components/VersionInfo';
 import HelpList from 'src/pages/Index/components/HelpList';
-import RenderMode from 'src/pages/Index/components/RenderMode/RenderMode';
 
 class Sider extends React.Component {
     render() {
@@ -20,7 +19,6 @@ class Sider extends React.Component {
                         />
                     ))}
                 </SiderBar>
-                <RenderMode />
                 <HelpList />
                 <VersionInfo />
             </div>
