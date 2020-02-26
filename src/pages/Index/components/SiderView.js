@@ -5,6 +5,7 @@ import History from './History';
 import Task from './Task';
 import QualityCheckResult from './QualityCheck/QualityCheckResult';
 import ViewAttribute from 'src/pages/Index/components/ToolList/ViewAttribute';
+import RenderMode from 'src/pages/Index/components/RenderMode/RenderMode';
 
 export default [
     <Task key="task" siderIndex={'task-manage'} />,
@@ -15,5 +16,6 @@ export default [
     <QualityCheckResult
         key="quality-check-result"
         siderIndex={'quality-check-result'}
-    />
+    />,
+    <RenderMode key="render-mode" siderIndex={'render-mode'} />
 ];

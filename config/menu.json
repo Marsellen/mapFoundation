@@ -38,5 +38,13 @@
         "type": "quality-check-result",
         "isPopover": false,
         "hasTitle": true
+    },
+    {
+        "id": 5,
+        "lable": "渲染模式",
+        "icon": "ditu",
+        "type": "render-mode",
+        "isPopover": false,
+        "hasTitle": true
     }
 ]
