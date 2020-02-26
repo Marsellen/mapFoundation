@@ -12,6 +12,7 @@ export const TOOLS_MAP = {
         POINT_STRATIFICATION: true,
         SEARCHINFO: true,
         RANGING: true,
+        TOP_BREAK_LINE: true,
         EDIT_LAYER: true,
         POINT: false,
         LINE: false,

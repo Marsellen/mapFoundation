@@ -112,7 +112,7 @@ class HalfAutoCreate extends React.Component {
                 </span>
                 <span className={visibleTurn ? 'ad-icon-active' : ''}>
                     <ToolIcon
-                        icon="zhuanwan1"
+                        icon="zhuanwan"
                         title={
                             editLayer && editLayer.layerName == 'AD_Lane'
                                 ? '路口内转弯中心线生成'
@@ -123,7 +123,7 @@ class HalfAutoCreate extends React.Component {
                 </span>
                 <span className={visibleUTurn ? 'ad-icon-active' : ''}>
                     <ToolIcon
-                        icon="diaotou1"
+                        icon="diaotou"
                         title={
                             editLayer && editLayer.layerName == 'AD_Lane'
                                 ? '掉头中心线生成'
