@@ -35,13 +35,13 @@ class Avatar extends React.Component {
         return (
             <Menu className="submenu-title-wrapper">
                 <Menu.Item>{loginUser ? loginUser.name : '未登录'}</Menu.Item>
-                <Menu.Divider />
                 <Menu.Item>
                     {/* onClick={this.about} */}
                     {loginUser ? loginUser.roleName : '未登录'}
                     {/* <span>版本信息</span> */}
                 </Menu.Item>
-                <Menu.Item onClick={this.logout}>
+                <Menu.Divider />
+                <Menu.Item onClick={this.logout} className="logout-item">
                     <ToolIcon
                         icon='tuichu' />
                     <span>退出登录</span>
