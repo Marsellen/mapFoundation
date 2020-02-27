@@ -74,14 +74,7 @@ class EditLayer extends React.Component {
         if (!editLayer) {
             return ''
         }
-        if (editLayer.layerName == "AD_LaneAttrPoint" ||
-            editLayer.layerName == "AD_Arrow" ||
-            editLayer.layerName == "AD_Text" ||
-            editLayer.layerName == "AD_RS_Barrier") {
-            return DATA_LAYER_MAP[editLayer.layerName] ? DATA_LAYER_MAP[editLayer.layerName].label.slice(0, 4) + '\n' + DATA_LAYER_MAP[editLayer.layerName].label.slice(4) + ':' : ''
-        } else {
-            return DATA_LAYER_MAP[editLayer.layerName] ? DATA_LAYER_MAP[editLayer.layerName].label : ''
-        }
+        return DATA_LAYER_MAP[editLayer.layerName] ? DATA_LAYER_MAP[editLayer.layerName].editName : ''
     }
 
     _renderContent() {
