@@ -2,6 +2,7 @@ import React from 'react';
 import { Dropdown, Menu, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { logout } from 'src/utils/Session';
+import ToolIcon from 'src/components/ToolIcon';
 
 @inject('appStore')
 @inject('TaskStore')
@@ -41,6 +42,8 @@ class Avatar extends React.Component {
                     {/* <span>版本信息</span> */}
                 </Menu.Item>
                 <Menu.Item onClick={this.logout}>
+                    <ToolIcon
+                        icon='tuichu' />
                     <span>退出登录</span>
                 </Menu.Item>
             </Menu>

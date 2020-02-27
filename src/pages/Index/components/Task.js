@@ -5,6 +5,7 @@ import AdLocalStorage from 'src/utils/AdLocalStorage';
 import editLog from 'src/models/editLog';
 import { RESOURCE_LAYER_BOUNDARY } from 'src/config/DataLayerConfig';
 import 'less/components/sider.less';
+import ToolIcon from 'src/components/ToolIcon';
 
 @inject('RenderModeStore')
 @inject('QualityCheckStore')
@@ -47,19 +48,20 @@ class Task extends React.Component {
                                 >
                                     {`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}
                                 </span>
-                                <Button
-                                    className="task-start-button ant-btn"
-                                    disabled={
-                                        isEditableTask &&
-                                        taskIndex &&
-                                        index == taskIndex
-                                    }
-                                    onClick={e =>
-                                        this.chooseTask(e, item.taskId, true)
-                                    }
-                                >
-                                    开始
-                                </Button>
+                                <span>
+                                    <ToolIcon
+                                        className="task-start-button ant-btn"
+                                        disabled={
+                                            isEditableTask &&
+                                            taskIndex &&
+                                            index == taskIndex
+                                        }
+                                        action={e =>
+                                            this.chooseTask(e, item.taskId, true)
+                                        }
+                                        icon="kaishi"
+                                    />
+                                </span>
                             </p>
                         </Menu.Item>
                     ))}

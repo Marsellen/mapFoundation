@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import editLog from 'src/models/editLog';
 import 'less/components/jobstatus.less';
+import ToolIcon from 'src/components/ToolIcon';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 
 const MANUALSTATUS = {
@@ -47,13 +48,17 @@ class JobStatus extends React.Component {
         const { qualityVisible } = this.state;
 
         return (
-            <div className="flex flex-center">
-                <Button onClick={this.getJob}>获取任务</Button>
-                <Button
+            <div className="flex flex-center jobstatus">
+                <ToolIcon
+                    className='jobstatus-get'
+                    icon='huoqurenwu'
+                    onClick={this.getJob} />
+                <ToolIcon
+                    className='jobstatus-submit'
+                    icon='tijiaorenwu'
                     disabled={activeTaskId ? false : true}
-                    onClick={this.submitTask}>
-                    提交任务
-                </Button>
+                    onClick={this.submitTask} />
+
                 <Modal
                     className="quality-sub"
                     title="当前任务是否通过质检？"

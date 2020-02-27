@@ -22,6 +22,7 @@ import HalfAutoCreate from './HalfAutoCreate';
 import QualityCheck from './QualityCheck';
 import RoadSet from './RoadSet';
 import PointCloud from './PointCloud';
+import TopBreakLine from './TopBreakLine'
 
 export default [
     <Undo key="UNDO" />,
@@ -33,6 +34,7 @@ export default [
     <Ranging key="RANGING" />,
     <ReadCoordinate key="READ_COORDINATE" />,
     <RoadSet key="ROAD_SET" />,
+    <TopBreakLine key='TOP_BREAK_LINE' />,
     <EditLayer key="EDIT_LAYER" />,
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,

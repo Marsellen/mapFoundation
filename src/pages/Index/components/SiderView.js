@@ -6,16 +6,19 @@ import Task from './Task';
 import QualityCheckResult from './QualityCheck/QualityCheckResult';
 import ViewAttribute from 'src/pages/Index/components/ToolList/ViewAttribute';
 import RenderMode from 'src/pages/Index/components/RenderMode/RenderMode';
+import SiderBreakLine from './SiderBreakLine'
 
 export default [
     <Task key="task" siderIndex={'task-manage'} />,
     <ResourceLayer key="resource-layer" siderIndex={'resource-layer'} />,
     <DataLayer key="layer" siderIndex={'data-layer'} />,
+    <SiderBreakLine key='sider-break-line' />,
     <History key="history" siderIndex={'history'} />,
     <ViewAttribute key="atrribute" siderIndex={'atrribute'} />,
     <QualityCheckResult
         key="quality-check-result"
         siderIndex={'quality-check-result'}
     />,
+    <SiderBreakLine key='sider-break-line1' />,
     <RenderMode key="render-mode" siderIndex={'render-mode'} />
 ];
