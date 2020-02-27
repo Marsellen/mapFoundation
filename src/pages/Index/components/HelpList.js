@@ -1,21 +1,12 @@
 import React from 'react';
-import { Popover, Tooltip } from 'antd';
 import HotKey from './HotKey';
-import IconFont from 'src/components/IconFont';
 import 'src/assets/less/components/hotkey.less';
+import ToolIcon from 'src/components/ToolIcon';
 
 class HelpList extends React.Component {
     state = {
         clicked: false,
         hovered: false
-    };
-
-    handleHoverChange = visible => {
-        if (!this.state.clicked) {
-            this.setState({
-                hovered: visible
-            });
-        }
     };
 
     hide = () => {
@@ -34,25 +25,19 @@ class HelpList extends React.Component {
 
     render() {
         return (
-            <div className="ad-sider-bottom-item">
-                <Popover
-                    title="帮助中心"
-                    placement="rightBottom"
-                    visible={this.state.clicked}
-                    onVisibleChange={this.handleClickChange}
-                    content={this._renderContent()}
-                    trigger="click"
-                    overlayClassName='help-list'
-                    arrowPointAtCenter>
-                    <Tooltip
-                        title="帮助"
-                        placement="right"
-                        visible={this.state.hovered}
-                        onVisibleChange={this.handleHoverChange}>
-                        <IconFont type="icon-bangzhu" />
-                    </Tooltip>
-                </Popover>
-            </div>
+            <ToolIcon
+                icon="bangzhu"
+                className="ad-sider-bottom-item"
+                visible={this.state.clicked}
+                popover={{
+                    title: '帮助中心',
+                    placement: 'rightBottom',
+                    visible: this.state.clicked,
+                    onVisibleChange: this.handleClickChange,
+                    content: this._renderContent(),
+                    trigger: 'hover'
+                }}
+            />
         );
     }
     _renderContent() {

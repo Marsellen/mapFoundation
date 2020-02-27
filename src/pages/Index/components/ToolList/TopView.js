@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import IconFont from 'src/components/IconFont';
+import ToolIcon from 'src/components/ToolIcon';
 
 @inject('TaskStore')
 @inject('DataLayerStore')
@@ -14,19 +14,18 @@ class TopView extends React.Component {
         const { activeTaskId } = TaskStore;
         const { isTopView } = DataLayerStore;
         return activeTaskId ? (
-            <div placement="bottom" title="俯视图模式" className="zoom-scale">
-                <IconFont
+            <div>
+                <ToolIcon
                     id="top-view-btn"
-                    type="icon-fushitu"
-                    className={
-                        !isTopView ? 'ad-icon' : 'ad-icon-active-topview'
-                    }
-                    onClick={this.action}
+                    icon="fushitu"
+                    title="俯视图模式"
+                    placement="left"
+                    className="ad-icon-topview"
+                    visible={isTopView}
+                    action={this.action}
                 />
             </div>
-        ) : (
-            <span />
-        );
+        ) : null;
     }
 
     action = () => {
@@ -52,7 +51,7 @@ class TopView extends React.Component {
             window.map.enableRotate();
             DataLayerStore.disableRegionSelect();
         }
-        
+
         DataLayerStore.topViewMode(!isTopView);
     };
 }

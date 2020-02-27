@@ -1,29 +1,33 @@
 import React from 'react';
-import { Popover } from 'antd';
 import SiderSwitch from './SiderSwitch';
-import IconFont from '../IconFont';
+import ToolIcon from 'src/components/ToolIcon';
 
 class SiderItem extends React.Component {
     render() {
         const { record } = this.props;
+        const { id, label, icon, type, isPopover, hasTitle } = record;
+        const visible = this.state && this.state[`visible${id}`];
         return (
-            <div className={`flex flex-center ad-sider-item ${record.type}`}>
-                {record.isPopover && (
-                    <Popover
-                        placement="rightTop"
-                        title={record.hasTitle && record.label}
-                        content={this._renderContent()}
-                        trigger="hover"
-                        getPopupContainer={triggerNode =>
-                            triggerNode.parentNode
-                        }>
-                        <IconFont
-                            type={`icon-${record.icon}`}
-                            className="ad-menu-icon"
-                        />
-                    </Popover>
+            <div className={`flex flex-center ad-sider-item ${type}`}>
+                {isPopover && (
+                    <ToolIcon
+                        icon={icon}
+                        className="ad-menu-icon"
+                        visible={visible}
+                        popover={{
+                            placement: 'rightTop',
+                            title: hasTitle && label,
+                            content: this._renderContent(),
+                            trigger: 'hover',
+                            visible: visible,
+                            onVisibleChange: visible =>
+                                this.handleChange(id, visible),
+                            getPopupContainer: triggerNode =>
+                                triggerNode.parentNode
+                        }}
+                    />
                 )}
-                {!record.isPopover && this._renderContent()}
+                {!isPopover && this._renderContent()}
             </div>
         );
     }
@@ -36,6 +40,12 @@ class SiderItem extends React.Component {
             </div>
         );
     }
+
+    handleChange = (id, visible) => {
+        this.setState({
+            [`visible${id}`]: visible
+        });
+    };
 
     // 解决popover action为hover时，多次点击浮动层触发onMouseLeave导致浮动层隐藏问题
     onMouseLeave = e => {

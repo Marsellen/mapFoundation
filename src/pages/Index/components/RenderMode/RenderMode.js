@@ -31,11 +31,12 @@ class RenderMode extends React.Component {
         return (
             <div>
                 <ToolIcon
+                    icon="xuanranmoshi"
                     title="渲染模式"
                     placement="right"
-                    icon="xuanranmoshi"
-                    disabled={!activeTaskId}
                     className="ad-menu-icon"
+                    visible={visible}
+                    disabled={!activeTaskId}
                     action={this.handleClick}
                 />
 

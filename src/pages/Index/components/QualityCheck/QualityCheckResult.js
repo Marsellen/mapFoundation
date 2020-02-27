@@ -21,13 +21,13 @@ class QualityCheckResult extends React.Component {
         return (
             <div>
                 <ToolIcon
-                    placement="right"
                     id="check-result-btn"
+                    icon="jianchajieguo"
                     title="检查结果"
                     placement="right"
-                    icon="jianchajieguo"
-                    disabled={!activeTaskId}
                     className="ad-menu-icon"
+                    visible={checkReportVisible}
+                    disabled={!activeTaskId}
                     action={this.handleClick}
                 />
                 <SeniorModal
@@ -126,7 +126,7 @@ class QualityCheckResult extends React.Component {
         closeCheckReport();
     };
 
-    handleTabsChange = () => { };
+    handleTabsChange = () => {};
 }
 
 export default QualityCheckResult;

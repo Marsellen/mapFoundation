@@ -6,62 +6,22 @@ import PointStratification from './PointStratification';
 import Intensity from './Intensity';
 import AdjustPointSize from './AdjustPointSize';
 import 'src/assets/less/components/point-cloud.less';
+import ToolIcon from 'src/components/ToolIcon';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
 @observer
 class PointCloud extends React.Component {
     state = {
-        clicked: false,
-        hovered: false,
-        updateKey: 0
-    };
-
-    hide = () => {
-        this.setState({
-            clicked: false,
-            hovered: false
-        });
-    };
-
-    handleHoverChange = visible => {
-        if (!this.state.clicked) {
-            this.setState({
-                hovered: visible
-            });
-        }
+        clicked: false
     };
 
     handleClickChange = visible => {
         if (this.isDisabled()) return;
         this.setState({
-            clicked: visible,
-            hovered: false
+            clicked: visible
         });
     };
-    render() {
-        return (
-            <Popover
-                placement="bottom"
-                content={this._renderContent()}
-                trigger="click"
-                title="点云设置"
-                visible={this.state.clicked}
-                onVisibleChange={this.handleClickChange}>
-                <Tooltip
-                    placement="bottom"
-                    title="点云设置"
-                    visible={this.state.hovered}
-                    onVisibleChange={this.handleHoverChange}>
-                    <IconFont
-                        type="icon-dianyunshezhi"
-                        className={`ad-icon ${this.isDisabled() &&
-                            'ad-disabled-icon'}`}
-                    />
-                </Tooltip>
-            </Popover>
-        );
-    }
 
     isDisabled = () => {
         const { TaskStore, ResourceLayerStore } = this.props;
@@ -92,6 +52,26 @@ class PointCloud extends React.Component {
             </div>
         );
     };
+
+    render() {
+        return (
+            <ToolIcon
+                icon="dianyunshezhi"
+                className="ad-tool-icon"
+                title="点云设置"
+                visible={this.state.clicked}
+                disabled={this.isDisabled()}
+                popover={{
+                    title: '点云设置',
+                    placement: 'bottom',
+                    visible: this.state.clicked,
+                    onVisibleChange: this.handleClickChange,
+                    content: this._renderContent(),
+                    trigger: 'click'
+                }}
+            />
+        );
+    }
 }
 
 export default PointCloud;

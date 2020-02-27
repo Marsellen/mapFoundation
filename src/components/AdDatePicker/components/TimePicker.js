@@ -266,9 +266,10 @@ class TimePicker extends React.Component {
                 {index > 0 ? (
                     <Form.Item>
                         <ToolIcon
-                            className="delete"
                             icon="shanchu"
                             title="删除"
+                            placement="right"
+                            className="delete"
                             disabled={isCheckbox.indexOf('checkbox') === -1}
                             action={() => this.props.remove(index)}
                         />

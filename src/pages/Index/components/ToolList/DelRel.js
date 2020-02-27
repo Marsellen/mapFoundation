@@ -75,12 +75,15 @@ class DelRel extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'delRel';
         return (
-            <span className={visible ? 'ad-icon-active' : ''}>
+            <span>
                 {!this.disEditable() && (
                     <ToolIcon
                         id="del-rel-btn"
                         icon="shanchuguanxi"
                         title="删除关联关系"
+                        className="ad-tool-icon"
+                        focusBg={true}
+                        visible={visible}
                         action={this.action}
                         disabled={!DataLayerStore.beenPick}
                     />

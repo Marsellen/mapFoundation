@@ -19,13 +19,16 @@ class RoadSet extends React.Component {
         let visible = DataLayerStore.editType == 'select_road_plane';
 
         return (
-            <span className={visible ? 'ad-icon-active' : ''}>
+            <span>
                 <ToolIcon
                     id="road-set-btn"
                     icon="lumianshezhi"
                     title="路面设置"
-                    disabled={!activeTaskId}
+                    className="ad-tool-icon"
+                    focusBg={true}
+                    visible={visible}
                     action={this.action}
+                    disabled={!activeTaskId}
                 />
                 <AdMessage visible={visible} content={this.content()} />
             </span>

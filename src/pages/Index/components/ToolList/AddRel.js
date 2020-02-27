@@ -34,12 +34,15 @@ class AddRel extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'newRel';
         return (
-            <span className={visible ? 'ad-icon-active' : ''}>
+            <span>
                 {!this.disEditable() && (
                     <ToolIcon
                         id="add-rel-btn"
                         icon="xinzengguanxi"
                         title="新增关联关系"
+                        className="ad-tool-icon"
+                        focusBg={true}
+                        visible={visible}
                         action={this.action}
                     />
                 )}

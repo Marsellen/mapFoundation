@@ -52,19 +52,21 @@ class ViewAttribute extends React.Component {
     render() {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
+        const { visible } = this.state;
         return (
             <span>
                 <ToolIcon
                     id="view-attribute-btn"
-                    placement="right"
                     icon="shuxingliebiao1"
                     title="属性列表"
+                    placement="right"
                     className="ad-menu-icon"
                     disabled={!activeTaskId}
+                    visible={visible}
                     action={this.toggle}
                 />
                 <SeniorModal
-                    visible={this.state.visible}
+                    visible={visible}
                     title={this.getTitle()}
                     footer={null}
                     onCancel={this.handleCancel}
@@ -254,35 +256,35 @@ class ViewAttribute extends React.Component {
             confirm,
             clearFilters
         }) => (
-                <div style={{ padding: 8 }}>
-                    <Input
-                        ref={node => {
-                            this.searchInput = node;
-                        }}
-                        placeholder="搜索关键字..."
-                        value={selectedKeys[0]}
-                        onChange={e =>
-                            setSelectedKeys(e.target.value ? [e.target.value] : [])
-                        }
-                        onPressEnter={confirm}
-                        style={{ width: 188, marginBottom: 8, display: 'block' }}
-                    />
-                    <Button
-                        type="primary"
-                        onClick={confirm}
-                        icon="search"
-                        size="small"
-                        style={{ width: 90, marginRight: 8 }}>
-                        搜索
+            <div style={{ padding: 8 }}>
+                <Input
+                    ref={node => {
+                        this.searchInput = node;
+                    }}
+                    placeholder="搜索关键字..."
+                    value={selectedKeys[0]}
+                    onChange={e =>
+                        setSelectedKeys(e.target.value ? [e.target.value] : [])
+                    }
+                    onPressEnter={confirm}
+                    style={{ width: 188, marginBottom: 8, display: 'block' }}
+                />
+                <Button
+                    type="primary"
+                    onClick={confirm}
+                    icon="search"
+                    size="small"
+                    style={{ width: 90, marginRight: 8 }}>
+                    搜索
                 </Button>
-                    <Button
-                        onClick={clearFilters}
-                        size="small"
-                        style={{ width: 90 }}>
-                        重置
+                <Button
+                    onClick={clearFilters}
+                    size="small"
+                    style={{ width: 90 }}>
+                    重置
                 </Button>
-                </div>
-            ),
+            </div>
+        ),
         filterIcon: filtered => (
             <Icon
                 type="search"
@@ -456,7 +458,7 @@ class ViewAttribute extends React.Component {
         if (isRelLayer(layerName)) {
             let config = REL_SPEC_CONFIG.find(c => c.source === layerName);
             feature = this.getRelPositionFeature(record, config);
-            
+
             if (!feature) {
                 !noMessage && message.error('关系表关联数据不存在，请检查');
                 return;
@@ -502,7 +504,7 @@ class ViewAttribute extends React.Component {
 
     getRelPositionFeature = (record, config) => {
         let option, layer;
-        if(config.source == 'AD_Road_Con' || config.source == 'AD_Lane_Con' ) {
+        if (config.source == 'AD_Road_Con' || config.source == 'AD_Lane_Con') {
             option = {
                 key: getLayerIDKey(config.objSpec),
                 value: record[config.objKeyName]
@@ -516,8 +518,7 @@ class ViewAttribute extends React.Component {
             layer = getLayerByName(config.relObjSpec);
         }
         return layer.getFeatureByOption(option);
-    }
-    
+    };
 }
 
 export default ViewAttribute;
