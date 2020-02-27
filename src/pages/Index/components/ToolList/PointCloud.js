@@ -45,6 +45,7 @@ class PointCloud extends React.Component {
                 placement="bottom"
                 content={this._renderContent()}
                 trigger="click"
+                title="点云设置"
                 visible={this.state.clicked}
                 onVisibleChange={this.handleClickChange}>
                 <Tooltip
@@ -74,10 +75,6 @@ class PointCloud extends React.Component {
         const { clicked } = this.state;
         return (
             <div className="point-cloud">
-                <div className="point-cloud-left">
-                    <span>点云分高程显示</span>
-                    <PointStratification />
-                </div>
                 <div className="point-cloud-right">
                     <div className="point-cloud-right-content">
                         <span>点云反射率</span>
@@ -87,6 +84,10 @@ class PointCloud extends React.Component {
                         <span>点云大小</span>
                         <AdjustPointSize clicked={clicked} />
                     </div>
+                </div>
+                <div className="point-cloud-left">
+                    <span>点云分高程显示</span>
+                    <PointStratification />
                 </div>
             </div>
         );
