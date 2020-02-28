@@ -12,17 +12,15 @@ import AddFacadeRectangle from './AddFacadeRectangle';
 import AddCircle from './AddCircle';
 import AddRel from './AddRel';
 import DelRel from './DelRel';
-import Ranging from './Ranging';
 import AddOutsideRectangle from './AddOutsideRectangle';
-import ReadCoordinate from './ReadCoordinate';
 import AddGroundRectangle from './AddGroundRectangle';
 import SearchInfo from './SearchInfo';
 import DividerToAutoCreate from './DividerToAutoCreate';
 import HalfAutoCreate from './HalfAutoCreate';
 import QualityCheck from './QualityCheck';
-import RoadSet from './RoadSet';
 import PointCloud from './PointCloud';
-import TopBreakLine from './TopBreakLine'
+import TopBreakLine from './TopBreakLine';
+import ToolBox from './ToolBox';
 
 export default [
     <Undo key="UNDO" />,
@@ -31,10 +29,7 @@ export default [
     <ExportShp key="EXPORT_SHP" />,
     <Save key="SAVE" />,
     <PointCloud key="POINT_CLOUD" />,
-    <Ranging key="RANGING" />,
-    <ReadCoordinate key="READ_COORDINATE" />,
-    <RoadSet key="ROAD_SET" />,
-    <TopBreakLine key='TOP_BREAK_LINE' />,
+    <TopBreakLine key="TOP_BREAK_LINE" />,
     <EditLayer key="EDIT_LAYER" />,
     <AddPoint key="POINT" />,
     <AddLine key="LINE" />,
@@ -48,5 +43,6 @@ export default [
     <AddRel key="ADD_REL" />,
     <DelRel key="DEL_REL" />,
     <SearchInfo key="SEARCH_INFO" />,
-    <QualityCheck key="QUALITY_TEST" />
+    <QualityCheck key="QUALITY_TEST" />,
+    <ToolBox key="TOOL_BOX" />
 ];

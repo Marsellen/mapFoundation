@@ -32,7 +32,8 @@ export const TOOLS_MAP = {
         HALF_AUTO_CREATE: false,
         QUALITY_TEST: true,
         ROAD_SET: true,
-        POINT_CLOUD: true
+        POINT_CLOUD: true,
+        TOOL_BOX: true
     },
     CHECK: {}
 };
