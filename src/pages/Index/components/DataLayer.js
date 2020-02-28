@@ -24,6 +24,7 @@ const vectorsTabsConfig = [
 @inject('ResourceLayerStore')
 @inject('VectorsStore')
 @inject('DataLayerStore')
+@inject('AttributeStore')
 @observer
 class DataLayer extends React.Component {
     render() {
@@ -101,7 +102,12 @@ class DataLayer extends React.Component {
 
     checkAllChangeEvent = e => {
         const value = e.target.checked;
-        const { ResourceLayerStore, VectorsStore, DataLayerStore } = this.props;
+        const {
+            ResourceLayerStore,
+            VectorsStore,
+            DataLayerStore,
+            AttributeStore
+        } = this.props;
         const { layerType, toggleAll } = VectorsStore;
         let resourceKey = vectorsTabsConfig.find(
             config => config.key === layerType
@@ -111,10 +117,16 @@ class DataLayer extends React.Component {
         // 控制数据图层全部按钮的是否选中状态
         toggleAll(value);
         !value && DataLayerStore.clearPick();
+        AttributeStore.hideRelFeatures();
     };
 
     changeEvent = (item, value) => {
-        const { ResourceLayerStore, VectorsStore, DataLayerStore } = this.props;
+        const {
+            ResourceLayerStore,
+            VectorsStore,
+            DataLayerStore,
+            AttributeStore
+        } = this.props;
         const { toggle: resourceToggle, setIndeterminate } = ResourceLayerStore;
         const { toggle: vectorsToggle } = VectorsStore;
 
@@ -134,6 +146,7 @@ class DataLayer extends React.Component {
         isCheckedAll && resourceToggle(resourceKey, true);
         isCheckedNone && resourceToggle(resourceKey, false);
         indeterminate && setIndeterminate(resourceKey);
+        AttributeStore.hideRelFeatures();
         DataLayerStore.clearPick();
     };
 }
