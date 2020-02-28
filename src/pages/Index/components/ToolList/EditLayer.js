@@ -55,7 +55,7 @@ class EditLayer extends React.Component {
                         onVisibleChange={this.handleHoverChange}
                     >
                         <IconFont
-                            type="icon-bianji"
+                            type="icon-bianji3"
                             className={`ad-icon ${this.disEditable() &&
                                 'ad-disabled-icon'}`}
                         />

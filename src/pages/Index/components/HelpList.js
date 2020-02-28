@@ -42,6 +42,7 @@ class HelpList extends React.Component {
                     onVisibleChange={this.handleClickChange}
                     content={this._renderContent()}
                     trigger="click"
+                    overlayClassName='help-list'
                     arrowPointAtCenter>
                     <Tooltip
                         title="帮助"
