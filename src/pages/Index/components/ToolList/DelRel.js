@@ -37,6 +37,8 @@ class DelRel extends React.Component {
                         .then(rels => {
                             if (rels.length == 0) {
                                 message.warning('没有选中待删除的关联对象', 3);
+                                AttributeStore.hideRelFeatures();
+                                DataLayerStore.exitEdit();
                                 return;
                             }
                             let history = {
@@ -53,7 +55,7 @@ class DelRel extends React.Component {
                             OperateHistoryStore.add(history);
                             editLog.store.add(log);
                             message.success('删除关联关系成功', 3);
-                            AttributeStore.fetchRelFeatures();
+                            AttributeStore.hideRelFeatures();
                             DataLayerStore.exitEdit();
                             RenderModeStore.updateFeatureColor();
                             AdEmitter.emit('fetchViewAttributeData');
