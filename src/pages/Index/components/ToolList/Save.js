@@ -24,6 +24,7 @@ class Save extends React.Component {
                 id="save-btn"
                 icon="baocun"
                 title="保存"
+                className="ad-tool-icon"
                 disabled={!couldSave}
                 action={this.action}
             />

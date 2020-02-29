@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import IconFont from 'src/components/IconFont';
+import ToolIcon from 'src/components/ToolIcon';
 
 @inject('TaskStore')
 @observer
@@ -9,16 +9,16 @@ class ZoomOut extends React.Component {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         return activeTaskId ? (
-            <div placement="bottom" title="缩小比例尺" className="zoom-scale">
-                <IconFont
-                    type="icon-suoxiao"
-                    className="ad-icon"
-                    onClick={this.action}
+            <div>
+                <ToolIcon
+                    icon="suoxiao"
+                    title="缩小比例尺"
+                    placement="left"
+                    className="ad-icon-topview"
+                    action={this.action}
                 />
             </div>
-        ) : (
-            <span />
-        );
+        ) : null;
     }
 
     action = () => {

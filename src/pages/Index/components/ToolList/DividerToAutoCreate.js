@@ -32,7 +32,7 @@ class DividerToAutoCreate extends React.Component {
         let editLayer = DataLayerStore.getEditLayer();
 
         return (
-            <span className={visible ? 'ad-icon-active' : ''} key={updateKey}>
+            <span key={updateKey}>
                 {!this.disEditable() && (
                     <ToolIcon
                         icon={
@@ -45,6 +45,9 @@ class DividerToAutoCreate extends React.Component {
                                 ? '左右车道线生成中心线'
                                 : '路段中参考线生成'
                         }
+                        className="ad-tool-icon"
+                        focusBg={true}
+                        visible={visible}
                         action={this.action}
                     />
                 )}
@@ -111,7 +114,7 @@ class DividerToAutoCreate extends React.Component {
             } else {
                 message.warning(
                     `${
-                    editLayer == 'AD_Road' ? '道路参考线' : '车道中心线'
+                        editLayer == 'AD_Road' ? '道路参考线' : '车道中心线'
                     }生成失败`,
                     3
                 );
@@ -121,7 +124,7 @@ class DividerToAutoCreate extends React.Component {
             //其他
             message.warning(
                 `${
-                editLayer == 'AD_Lane' ? '车道中心线' : '道路参考线'
+                    editLayer == 'AD_Lane' ? '车道中心线' : '道路参考线'
                 }生成失败`,
                 3
             );
@@ -196,7 +199,7 @@ class DividerToAutoCreate extends React.Component {
         let layerName = historyLog.features[1][0].layerName;
         let value =
             historyLog.features[1][0].data.properties[
-            layerLine === 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
+                layerLine === 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
             ];
         let IDKey = getLayerIDKey(layerName);
         let option = {

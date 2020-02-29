@@ -44,24 +44,21 @@ class Task extends React.Component {
                                 <span
                                     onClick={e =>
                                         this.chooseTask(e, item.taskId, false)
-                                    }
-                                >
+                                    }>
                                     {`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}
                                 </span>
-                                <span>
-                                    <ToolIcon
-                                        className="task-start-button ant-btn"
-                                        disabled={
-                                            isEditableTask &&
-                                            taskIndex &&
-                                            index == taskIndex
-                                        }
-                                        action={e =>
-                                            this.chooseTask(e, item.taskId, true)
-                                        }
-                                        icon="kaishi"
-                                    />
-                                </span>
+                                <ToolIcon
+                                    icon="kaishi"
+                                    className="task-start-button"
+                                    disabled={
+                                        isEditableTask &&
+                                        taskIndex &&
+                                        index == taskIndex
+                                    }
+                                    action={e =>
+                                        this.chooseTask(e, item.taskId, true)
+                                    }
+                                />
                             </p>
                         </Menu.Item>
                     ))}

@@ -14,11 +14,14 @@ class Ranging extends React.Component {
         const { activeTaskId } = TaskStore;
         let visible = DataLayerStore.editType == 'meature_distance';
         return (
-            <span className={visible ? 'ad-icon-active' : ''}>
+            <span>
                 <ToolIcon
                     id="ceju-btn"
                     icon="ceju"
                     title="测距"
+                    className="ad-tool-icon"
+                    focusBg={true}
+                    visible={visible}
                     action={this.action}
                     disabled={!activeTaskId}
                 />
