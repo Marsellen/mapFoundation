@@ -10,7 +10,7 @@ import IconFont from 'src/components/IconFont';
 @inject('RenderModeStore')
 @observer
 class RelationRenderMode extends React.Component {
-    state = { isShow: false };
+    state = { isShow: true };
 
     render() {
         const { isShow } = this.state;
@@ -21,7 +21,8 @@ class RelationRenderMode extends React.Component {
             <div className={`relation-render-mode ${visible ? 'move' : ''}`}>
                 <div
                     className={`title ${isShow ? 'on' : ''}`}
-                    onClick={this.toggleSelect}>
+                    onClick={this.toggleSelect}
+                >
                     <p>
                         <IconFont type="icon-guanlianguanxi" className="icon" />
                         {isShow && <span>关联关系专题图</span>}
@@ -39,7 +40,8 @@ class RelationRenderMode extends React.Component {
                             <Checkbox
                                 onChange={this.handleCheckAllChange}
                                 indeterminate={indeterminate}
-                                checked={allChecked}>
+                                checked={allChecked}
+                            >
                                 全选
                             </Checkbox>
                         </dt>
@@ -52,7 +54,8 @@ class RelationRenderMode extends React.Component {
                                             checked={checked}
                                             onChange={e =>
                                                 this.handleChange(e, key)
-                                            }>
+                                            }
+                                        >
                                             {title}
                                         </Checkbox>
                                     </div>
