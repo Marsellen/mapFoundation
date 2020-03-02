@@ -32,7 +32,7 @@ class EditLayer extends React.Component {
         return (
             <span className="bianjituceng">
                 <ToolIcon
-                    icon="bianji"
+                    icon="bianji3"
                     className="ad-tool-icon"
                     title="设置编辑图层"
                     visible={this.state.clicked}
