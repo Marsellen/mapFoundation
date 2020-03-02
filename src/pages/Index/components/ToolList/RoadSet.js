@@ -1,12 +1,11 @@
 import React from 'react';
-import ToolIcon from 'src/components/ToolIcon';
+import IconFont from 'src/components/IconFont';
 import { message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/components/AdMessage';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
-@inject('TaskStore')
 @observer
 class RoadSet extends React.Component {
     componentDidMount() {
@@ -14,28 +13,20 @@ class RoadSet extends React.Component {
         DataLayerStore.setRoadPlaneCallback(this.roadPlaneCallback);
     }
     render() {
-        const { TaskStore, DataLayerStore } = this.props;
-        const { activeTaskId } = TaskStore;
+        const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'select_road_plane';
 
         return (
-            <span>
-                <ToolIcon
-                    id="road-set-btn"
-                    icon="lumianshezhi"
-                    title="路面设置"
-                    className="ad-tool-icon"
-                    focusBg={true}
-                    visible={visible}
-                    action={this.action}
-                    disabled={!activeTaskId}
-                />
+            <div id="road-set-btn" className="flex-1" onClick={this.action}>
+                <IconFont type="icon-lumianshezhi" />
+                <div>路面设置</div>
                 <AdMessage visible={visible} content={this.content()} />
-            </span>
+            </div>
         );
     }
 
     action = () => {
+        if (this.props.disabled) return;
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'select_road_plane') return;
         AttributeStore.hideRelFeatures();

@@ -1,36 +1,27 @@
 // 测距
 import React from 'react';
-import ToolIcon from 'src/components/ToolIcon';
+import IconFont from 'src/components/IconFont';
 import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/components/AdMessage';
 import 'less/components/tool-icon.less';
 
 @inject('DataLayerStore')
-@inject('TaskStore')
 @observer
 class Ranging extends React.Component {
     render() {
-        const { TaskStore, DataLayerStore } = this.props;
-        const { activeTaskId } = TaskStore;
+        const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'meature_distance';
         return (
-            <span>
-                <ToolIcon
-                    id="ceju-btn"
-                    icon="ceju"
-                    title="测距"
-                    className="ad-tool-icon"
-                    focusBg={true}
-                    visible={visible}
-                    action={this.action}
-                    disabled={!activeTaskId}
-                />
+            <div id="ceju-btn" className="flex-1" onClick={this.action}>
+                <IconFont type="icon-ceju" />
+                <div>测距</div>
                 <AdMessage visible={visible} content={this.content()} />
-            </span>
+            </div>
         );
     }
 
     action = () => {
+        if (this.props.disabled) return;
         const { DataLayerStore } = this.props;
         let mode = DataLayerStore.getMeasureControlMode();
         if (mode == 71) return;
