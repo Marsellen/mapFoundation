@@ -9,7 +9,9 @@ import { Modal } from 'antd';
 @inject('OperateHistoryStore')
 @observer
 class QualityCheck extends React.Component {
+    state = { visible: false };
     render() {
+        const { visible } = this.state;
         const { TaskStore, appStore } = this.props;
         const { loginUser } = appStore;
         const { activeTaskId } = TaskStore;
@@ -19,10 +21,10 @@ class QualityCheck extends React.Component {
                     <ToolIcon
                         icon="zhiliangjiancha1"
                         title="质量检查"
+                        className="ad-tool-icon"
+                        visible={visible}
                         disabled={!activeTaskId}
-                        action={() =>
-                            this.checkModal(`是否质检当前任务`, this.taskCheck)
-                        }
+                        action={this.handleClick}
                     />
                 );
             case 'quality':
@@ -43,6 +45,11 @@ class QualityCheck extends React.Component {
         OperateHistoryStore.save();
     };
 
+    handleClick = () => {
+        this.setState({ visible: true });
+        this.checkModal(`是否质检当前任务`, this.taskCheck);
+    };
+
     //无错质检结果提示
     checkModal = (content, handleOk) => {
         Modal.confirm({
@@ -52,45 +59,57 @@ class QualityCheck extends React.Component {
             cancelText: '取消',
             autoFocusButton: null,
             onOk: handleOk,
-            onCancel: this.props.QualityCheckStore.cancelPolling
+            onCancel: () => {
+                this.props.QualityCheckStore.cancelPolling;
+                this.setState({ visible: false });
+            }
         });
     };
 
     taskCheck = async () => {
-        await this.save();
+        try {
+            await this.save();
 
-        const { QualityCheckStore, TaskStore, appStore } = this.props;
-        const {
-            handleProducerCheck,
-            handleProducerGetReport,
-            openCheckReport
-        } = QualityCheckStore;
-        const { activeTask } = TaskStore;
-        const { taskId, processName, projectId } = activeTask;
-        const { loginUser } = appStore;
-        const { roleCode, username } = loginUser;
-
-        //质量检查
-        const checkRes = await handleProducerCheck({
-            task_id: taskId,
-            process_name: processName,
-            project_id: projectId,
-            data_path: taskId,
-            user_name: username,
-            user_type: roleCode
-        });
-        if (!checkRes) return false;
-
-        //轮询质检结果
-        const reportList = await handleProducerGetReport({ task_id: taskId });
-        if (!reportList) return false;
-        const reportListL = reportList.length;
-        reportListL > 0
-            ? this.checkModal(
-                `质量检查结束，发现${reportListL}个错误，是否查看？`,
+            const { QualityCheckStore, TaskStore, appStore } = this.props;
+            const {
+                handleProducerCheck,
+                handleProducerGetReport,
                 openCheckReport
-            )
-            : this.checkModal(`质量检查结束，未发现数据问题`);
+            } = QualityCheckStore;
+            const { activeTask } = TaskStore;
+            const { taskId, processName, projectId } = activeTask;
+            const { loginUser } = appStore;
+            const { roleCode, username } = loginUser;
+
+            //质量检查
+            const checkRes = await handleProducerCheck({
+                task_id: taskId,
+                process_name: processName,
+                project_id: projectId,
+                data_path: taskId,
+                user_name: username,
+                user_type: roleCode
+            });
+            if (!checkRes) throw new Error('质检失败');
+
+            //轮询质检结果
+            const reportList = await handleProducerGetReport({
+                task_id: taskId
+            });
+            if (!reportList) throw new Error('获取检查列表失败');
+            const reportListL = reportList.length;
+            reportListL > 0
+                ? this.checkModal(
+                      `质量检查结束，发现${reportListL}个错误，是否查看？`,
+                      openCheckReport
+                  )
+                : this.checkModal(`质量检查结束，未发现数据问题`);
+
+            this.setState({ visible: false });
+        } catch (e) {
+            this.setState({ visible: false });
+            console.error(e.message);
+        }
     };
 }
 

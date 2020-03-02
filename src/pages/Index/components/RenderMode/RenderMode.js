@@ -31,11 +31,12 @@ class RenderMode extends React.Component {
         return (
             <div>
                 <ToolIcon
+                    icon="xuanranmoshi"
                     title="渲染模式"
                     placement="right"
-                    icon="xuanranmoshi"
-                    disabled={!activeTaskId}
                     className="ad-menu-icon"
+                    visible={visible}
+                    disabled={!activeTaskId}
                     action={this.handleClick}
                 />
 
@@ -47,14 +48,16 @@ class RenderMode extends React.Component {
                     onCancel={this.handleClose}
                     width={720}
                     maskClosable={false}
-                    zIndex={9999}>
+                    zIndex={9999}
+                >
                     <div className="modal-body">
                         <ul>
                             {RENDER_MODE_MAP.map((item, index) => (
                                 <li
                                     className={item.mode === mode ? 'on' : ''}
                                     key={`mode-${index}`}
-                                    onClick={() => this.chooseMode(item)}>
+                                    onClick={() => this.chooseMode(item)}
+                                >
                                     <div className="checkbox"></div>
                                     <div>
                                         <img src={item.icon} />
@@ -69,7 +72,8 @@ class RenderMode extends React.Component {
                                 type="primary"
                                 onClick={this.handleOk}
                                 style={{ width: 100 }}
-                                disabled={disabled}>
+                                disabled={disabled}
+                            >
                                 应用
                             </Button>
                         </div>
@@ -158,6 +162,9 @@ class RenderMode extends React.Component {
                 RenderModeStore.setRels();
                 break;
             case 'update':
+                this.whiteRenderMode();
+                break;
+            case 'define':
                 this.whiteRenderMode();
                 break;
             default:

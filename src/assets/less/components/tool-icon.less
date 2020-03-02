@@ -1,43 +1,73 @@
-.ad-icon {
-    color: #dddddd;
-    font-size: 20px;
-    margin: 10px;
-}
-
-.ad-disabled-icon {
-    color: #808080 !important;
-    cursor: inherit !important;
-}
-
-.ad-icon-active-topview {
-    color: #18a2ff;
-    font-size: 16px;
-    margin: 10px;
-}
-
-.ad-icon-active {
-    background: rgba(225, 225, 225, 0.3);
-    color: #69a5ff !important;
-    display: inline-block;
+.ad-icon-wrap {
     position: relative;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    height: 60px;
+    justify-content: center;
+    vertical-align: -2px;
+    color: #fff;
+
+    .ad-icon {
+        margin: 0 6px;
+    }
+
+    .ad-icon.anticon {
+        font-size: unset;
+    }
 }
 
-.ad-icon-active:after {
-    content: ' ';
-    background-color: #3e7fe0;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 2px;
+.ad-icon-popover {
+    margin: 0;
+    padding: 6px;
+}
+
+.ad-icon-disabled {
+    color: #808080;
+    cursor: unset;
+}
+
+.ad-icon-visible.ad-icon-color {
+    color: #69a5ff;
+}
+
+.ad-icon-visible.ad-icon-bg {
+    &:before {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        display: block;
+        height: 100%;
+        width: 100%;
+        background: rgba(225, 225, 225, 0.3);
+        color: #69a5ff !important;
+        content: '';
+    }
+
+    &:after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #18a2ff;
+        content: '';
+    }
+}
+
+.ad-tool-icon {
+    height: 60px;
+    width: 40px;
+    font-size: 20px;
+}
+
+.ad-icon-topview {
+    margin: 5px;
+    font-size: 36px;
 }
 
 .ad-slider-box {
     text-align: center;
     color: #9e9e9e;
+
     .ad-slider-vertical {
         margin: 10px auto !important;
         height: 100px;

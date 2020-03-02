@@ -16,6 +16,7 @@ class Redo extends React.Component {
                 id="redo-btn"
                 icon="huitui_"
                 title="回退"
+                className="ad-tool-icon"
                 disabled={this.disabled()}
                 action={this.action}
             />

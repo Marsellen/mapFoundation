@@ -1,69 +1,53 @@
 import React from 'react';
-import { Popover, Tooltip, Radio, List } from 'antd';
+import { Radio, List } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
-import IconFont from 'src/components/IconFont';
 import { getEditLayers } from 'src/utils/permissionCtrl';
+import ToolIcon from 'src/components/ToolIcon';
+import 'src/assets/less/home.less';
 
 @inject('DataLayerStore')
 @inject('TaskStore')
 @observer
 class EditLayer extends React.Component {
     state = {
-        clicked: false,
-        hovered: false
+        clicked: false
     };
 
     hide = () => {
         this.setState({
-            clicked: false,
-            hovered: false
+            clicked: false
         });
-    };
-
-    handleHoverChange = visible => {
-        if (!this.state.clicked) {
-            this.setState({
-                hovered: visible
-            });
-        }
     };
 
     handleClickChange = visible => {
         if (this.disEditable()) return;
         this.setState({
-            clicked: visible,
-            hovered: false
+            clicked: visible
         });
     };
 
     render() {
-
-
+        const editorLayerName = this._renderValue();
         return (
-            <span className='bianjituceng'>
-                <Popover
-                    content={this._renderContent()}
-                    trigger="click"
+            <span className="bianjituceng">
+                <ToolIcon
+                    icon="bianji"
+                    className="ad-tool-icon"
+                    title="设置编辑图层"
                     visible={this.state.clicked}
-                    onVisibleChange={this.handleClickChange}
-                >
-                    <Tooltip
-                        placement="bottom"
-                        title="设置编辑图层"
-                        visible={this.state.hovered}
-                        onVisibleChange={this.handleHoverChange}
-                    >
-                        <IconFont
-                            type="icon-bianji"
-                            className={`ad-icon ${this.disEditable() &&
-                                'ad-disabled-icon'}`}
-                        />
-                    </Tooltip>
-                    <div className="value-color">
-                        {this._renderValue()}
-                    </div>
-                </Popover>
+                    disabled={this.disEditable()}
+                    popover={{
+                        placement: 'bottom',
+                        visible: this.state.clicked,
+                        onVisibleChange: this.handleClickChange,
+                        content: this._renderContent(),
+                        trigger: 'click'
+                    }}
+                />
+                {editorLayerName && (
+                    <div className="value-color">{editorLayerName}</div>
+                )}
             </span>
         );
     }
@@ -72,9 +56,11 @@ class EditLayer extends React.Component {
         let { DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         if (!editLayer) {
-            return ''
+            return '';
         }
-        return DATA_LAYER_MAP[editLayer.layerName] ? DATA_LAYER_MAP[editLayer.layerName].editName : ''
+        return DATA_LAYER_MAP[editLayer.layerName]
+            ? DATA_LAYER_MAP[editLayer.layerName].editName
+            : '';
     }
 
     _renderContent() {

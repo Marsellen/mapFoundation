@@ -11,11 +11,14 @@ class AddOutsideRectangle extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'new_vertical_matrix';
         return (
-            <span className={visible ? 'ad-icon-active' : ''}>
+            <span>
                 <ToolIcon
                     id="add-outside-rectangle-btn"
                     icon="renyiwaijiejuxing"
                     title="任意外接立面矩形"
+                    className="ad-tool-icon"
+                    focusBg={true}
+                    visible={visible}
                     action={this.action}
                 />
                 <AdMessage visible={visible} content={this.content()} />

@@ -11,11 +11,14 @@ class AddCircle extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'new_circle';
         return (
-            <span className={visible ? 'ad-icon-active' : ''}>
+            <span>
                 <ToolIcon
                     id="add-circle-btn"
                     icon="sandianhuayuan"
                     title="三点绘制圆"
+                    className="ad-tool-icon"
+                    focusBg={true}
+                    visible={visible}
                     action={this.action}
                 />
                 <AdMessage visible={visible} content={this.content()} />

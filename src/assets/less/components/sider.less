@@ -2,7 +2,7 @@
     flex-direction: column;
     width: 60px;
     height: calc(100vh - 60px);
-    background: #363636;
+    background: #4a4a4c;
     color: #fff;
 
     .ad-sider-bar {
@@ -17,34 +17,25 @@
     .ad-sider-bottom-item {
         width: 60px;
         height: 45px;
-        text-align: center;
-        line-height: 45px;
-        margin-bottom: 10px;
-        svg {
-            width: 22px;
-            height: 22px;
-        }
+        font-size: 26px;
     }
 
     .ad-sider-bottom-item:last-child {
-        margin-bottom: 43px;
+        margin-bottom: 40px;
     }
 
     .sider-break-line,
     .sider-break-line1 {
         height: 2px;
-        background: rgb(145, 145, 146);
         width: 48px;
-        margin-left: 6px;
+        margin: 10px auto;
+        background: rgb(145, 145, 146);
     }
 
     .ad-menu-icon {
-        font-size: 20px;
-        color: #bbb;
-    }
-
-    .ad-menu-icon:hover {
-        color: #fff;
+        height: 45px;
+        width: 60px;
+        font-size: 25px;
     }
 
     .ant-menu-item {
@@ -81,25 +72,9 @@
     .task-start-button {
         margin: 0 0 0 10px;
         padding: 0;
-        height: 24px;
-        width: 24px;
-        text-align: center;
-        vertical-align: middle;
-        font-size: 12px;
-        color: #3e7fe0;
-        background-color: unset !important;
-        font-size: 18px !important;
-        display: inline-block;
         border: unset;
-    }
-
-    .task-start-button[disabled] {
-        color: rgba(0, 0, 0, 0.25);
-        background-color: #f5f5f5;
-        border-color: #d9d9d9;
-        text-shadow: none;
-        -webkit-box-shadow: none;
-        box-shadow: none;
+        font-size: 18px;
+        color: #3e7fe0;
     }
 
     .data-layer {
@@ -107,9 +82,11 @@
             padding: 0;
             min-width: 180px;
         }
+
         .ant-popover-inner {
             overflow: hidden;
         }
+
         .vectors-wrap {
             .vectors-title-ul {
                 display: flex;
@@ -120,11 +97,13 @@
                 line-height: 35px;
                 cursor: pointer;
                 user-select: none;
+
                 li {
                     list-style-type: none;
                     width: 50%;
                     background: #fff;
                     border-bottom: 1px solid #ccc;
+
                     &.on {
                         background: #fff;
                         border-bottom: 1px solid #3e7fe0;
@@ -132,6 +111,7 @@
                     }
                 }
             }
+
             .vectors-content-wrap {
                 padding: 8px 16px 12px;
             }

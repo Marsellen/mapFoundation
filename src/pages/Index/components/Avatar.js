@@ -42,9 +42,8 @@ class Avatar extends React.Component {
                 </Menu.Item>
                 <Menu.Divider />
                 <Menu.Item onClick={this.logout} className="logout-item">
-                    <ToolIcon
-                        icon='tuichu' />
-                    <span>退出登录</span>
+                    
+                    <span><ToolIcon icon="tuichu" />退出登录</span>
                 </Menu.Item>
             </Menu>
         );

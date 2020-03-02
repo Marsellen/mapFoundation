@@ -50,15 +50,18 @@ class JobStatus extends React.Component {
         return (
             <div className="flex flex-center jobstatus">
                 <ToolIcon
-                    className='jobstatus-get'
-                    icon='huoqurenwu'
-                    onClick={this.getJob} />
+                    icon="huoqurenwu"
+                    title="获取任务"
+                    className="jobstatus-get"
+                    action={this.getJob}
+                />
                 <ToolIcon
-                    className='jobstatus-submit'
-                    icon='tijiaorenwu'
+                    icon="tijiaorenwu"
+                    title="提交任务"
+                    className="jobstatus-submit"
                     disabled={activeTaskId ? false : true}
-                    onClick={this.submitTask} />
-
+                    action={this.submitTask}
+                />
                 <Modal
                     className="quality-sub"
                     title="当前任务是否通过质检？"

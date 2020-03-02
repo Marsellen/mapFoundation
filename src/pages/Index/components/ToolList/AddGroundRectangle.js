@@ -11,11 +11,14 @@ class AddGroundRectangle extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'new_ground_rectangle';
         return (
-            <span className={visible ? 'ad-icon-active' : ''}>
+            <span>
                 <ToolIcon
                     id="add-ground-rectangle-btn"
                     icon="dimianjuxing"
                     title="添加地面矩形"
+                    className="ad-tool-icon"
+                    focusBg={true}
+                    visible={visible}
                     action={this.action}
                 />
                 <AdMessage visible={visible} content={this.content()} />

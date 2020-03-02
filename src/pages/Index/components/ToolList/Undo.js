@@ -14,10 +14,11 @@ class Undo extends React.Component {
         return (
             <ToolIcon
                 id="undo-btn"
-                disabled={this.disabled()}
                 icon="chexiao"
                 title="撤销"
+                className="ad-tool-icon"
                 action={this.action}
+                disabled={this.disabled()}
             />
         );
     }

@@ -12,11 +12,14 @@ class AddLine extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'new_line';
         return (
-            <span className={visible ? 'ad-icon-active' : ''}>
+            <span>
                 <ToolIcon
                     id="add-line-btn"
                     icon="icon-line-graph"
                     title="添加线要素"
+                    className="ad-tool-icon"
+                    focusBg={true}
+                    visible={visible}
                     action={this.action}
                 />
                 <AdMessage visible={visible} content={this.content()} />

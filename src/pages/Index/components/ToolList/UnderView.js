@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import IconFont from 'src/components/IconFont';
+import ToolIcon from 'src/components/ToolIcon';
 
 @inject('TaskStore')
 @observer
@@ -9,19 +9,16 @@ class UnderView extends React.Component {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         return activeTaskId ? (
-            // <Tooltip placement="bottom" title="视角还原">
-            <div placement="bottom" title="视角还原">
-                <IconFont
-                    id="under-view-btn"
-                    type="icon-compass"
-                    className="ad-icon"
-                    onClick={this.action}
+            <div>
+                <ToolIcon
+                    icon="compass"
+                    title="视角还原"
+                    placement="left"
+                    className="ad-icon-topview"
+                    action={this.action}
                 />
             </div>
-        ) : (
-            // </Tooltip>
-            <span />
-        );
+        ) : null;
     }
 
     action = () => {
