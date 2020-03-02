@@ -72,7 +72,11 @@ class ToolBox extends React.Component {
     };
 
     action = e => {
-        this.checkButton && this.checkButton.togglePopover(false, e.item.props);
+        this.checkButton &&
+            this.checkButton.togglePopover(false, {
+                icon: e.key,
+                ...e.item.props
+            });
     };
 
     getActive = () => {
