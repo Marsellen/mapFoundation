@@ -10,9 +10,13 @@ import 'src/assets/less/home.less';
 @inject('TaskStore')
 @observer
 class EditLayer extends React.Component {
-    state = {
-        clicked: false
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            clicked: false,
+            layerPicker: ''
+        };
+    }
 
     hide = () => {
         this.setState({
@@ -28,7 +32,6 @@ class EditLayer extends React.Component {
     };
 
     render() {
-        const editorLayerName = this._renderValue();
         return (
             <span className="bianjituceng">
                 <ToolIcon
@@ -45,26 +48,19 @@ class EditLayer extends React.Component {
                         trigger: 'click'
                     }}
                 />
-                {editorLayerName && (
-                    <div className="value-color">{editorLayerName}</div>
-                )}
+                {<div className="value-color">{this.state.layerPicker}</div>}
             </span>
         );
     }
 
-    _renderValue() {
-        let { DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getEditLayer();
-        if (!editLayer) {
-            return '';
-        }
-        return DATA_LAYER_MAP[editLayer.layerName]
-            ? DATA_LAYER_MAP[editLayer.layerName].editName
-            : '';
-    }
+    _renderValue = layerPicker => {
+        this.setState({
+            layerPicker
+        });
+    };
 
     _renderContent() {
-        return <EditLayerPicker />;
+        return <EditLayerPicker _renderValue={this._renderValue} />;
     }
 
     disEditable = () => {
@@ -90,8 +86,7 @@ class EditLayerPicker extends React.Component {
             <Radio.Group
                 onChange={this.onChange}
                 value={editLayer ? editLayer.layerName : false}
-                style={{ width: '100%' }}
-            >
+                style={{ width: '100%' }}>
                 <List
                     key={DataLayerStore.updateKey}
                     dataSource={this.topViewLayerDisabled()}
@@ -148,7 +143,10 @@ class EditLayerPicker extends React.Component {
             AttributeStore,
             appStore
         } = this.props;
-
+        const layerPicker = DATA_LAYER_MAP[e.target.value]
+            ? DATA_LAYER_MAP[e.target.value].editName
+            : '';
+        this.props._renderValue(layerPicker);
         let userInfo = appStore.loginUser;
         let layer = DataLayerStore.activeEditor(e.target.value);
         ToolCtrlStore.updateByEditLayer(layer, userInfo);
