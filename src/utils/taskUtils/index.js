@@ -53,3 +53,11 @@ const getThirdPath = task => {
 export const isManbuildTask = task => {
     return manbuildTaskProcess.includes(task.processName);
 };
+
+export const getTaskProcessType = task => {
+    if (isManbuildTask(task)) {
+        return 'manbuild';
+    } else {
+        return 'recognition';
+    }
+};

@@ -12,18 +12,11 @@ class AddPolygon extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'new_polygon';
         return (
-            <span>
-                <ToolIcon
-                    id="add-polygon-btn"
-                    icon="xiankuang1"
-                    title="添加面要素"
-                    className="ad-tool-icon"
-                    focusBg={true}
-                    visible={visible}
-                    action={this.action}
-                />
+            <div id="add-polygon-btn" className="flex-1" onClick={this.action}>
+                <ToolIcon icon="xiankuang1" />
+                <div>添加面要素</div>
                 <AdMessage visible={visible} content={this.content()} />
-            </span>
+            </div>
         );
     }
 

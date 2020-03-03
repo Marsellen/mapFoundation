@@ -18,21 +18,20 @@ import { isManbuildTask } from 'src/utils/taskUtils';
 @inject('OperateHistoryStore')
 @inject('TaskStore')
 @observer
-class HalfAutoCreate extends React.Component {
+class NewUTurnLine extends React.Component {
     constructor() {
         super();
         this.state = {
             visibleModal: false,
-            num: 8.0,
-            params: {}
+            num: 8.0
         };
     }
+
     componentDidMount() {
         const { DataLayerStore } = this.props;
         DataLayerStore.setStraightCallback((result, event) => {
-            let editLayer = DataLayerStore.getEditLayer();
             if (event.button !== 2) return false;
-            this.getParams(editLayer, result);
+            this.handleData(result);
         });
     }
     render() {
@@ -41,18 +40,24 @@ class HalfAutoCreate extends React.Component {
         );
         const { visibleModal, num } = this.state;
         const { DataLayerStore } = this.props;
-        let visible = DataLayerStore.editType == 'new_straight_line'; //直行
-        let visibleTurn = DataLayerStore.editType == 'new_turn_line'; //转弯
-        let visibleUTurn = DataLayerStore.editType == 'new_Uturn_line'; //掉头
+        const { updateKey } = DataLayerStore;
+        let visible = DataLayerStore.editType == 'new_Uturn_line'; //掉头
         let editLayer = DataLayerStore.getEditLayer();
+        let layerName = editLayer && editLayer.layerName;
 
         return (
-            <span>
-                {!this.disEditable() && this.renderTools()}
-                <AdMessage
-                    visible={visible || visibleTurn || visibleUTurn}
-                    content={this.content(editLayer && editLayer.layerName)}
-                />
+            <div
+                id="new-uturn-line"
+                key={updateKey}
+                onClick={this.action}
+                className="flex-1">
+                <ToolIcon icon="diaotou" />
+                <div>
+                    {layerName == 'AD_Lane'
+                        ? '掉头中心线生成'
+                        : '掉头参考线生成'}
+                </div>
+                <AdMessage visible={visible} content={this.content()} />
                 <Modal
                     className="set-length"
                     title="跨路口延伸长度设置"
@@ -82,65 +87,9 @@ class HalfAutoCreate extends React.Component {
                             : ''}
                     </p>
                 </Modal>
-            </span>
+            </div>
         );
     }
-
-    renderTools = () => {
-        const { DataLayerStore } = this.props;
-        const { updateKey } = DataLayerStore;
-        let visible = DataLayerStore.editType == 'new_straight_line'; //直行
-        let visibleTurn = DataLayerStore.editType == 'new_turn_line'; //转弯
-        let visibleUTurn = DataLayerStore.editType == 'new_Uturn_line'; //掉头
-        let editLayer = DataLayerStore.getEditLayer();
-        return (
-            <span>
-                <span key={updateKey}>
-                    <ToolIcon
-                        icon="zhixing1"
-                        title={
-                            editLayer && editLayer.layerName == 'AD_Lane'
-                                ? '路口内直行中心线生成'
-                                : '路口内直行参考线生成'
-                        }
-                        className="ad-tool-icon"
-                        focusBg={true}
-                        visible={visible}
-                        action={() => this.action(1)}
-                    />
-                </span>
-                <span>
-                    <ToolIcon
-                        icon="zhuanwan"
-                        className="ad-tool-icon"
-                        title={
-                            editLayer && editLayer.layerName == 'AD_Lane'
-                                ? '路口内转弯中心线生成'
-                                : '路口内转弯参考线生成'
-                        }
-                        className="ad-tool-icon"
-                        focusBg={true}
-                        visible={visibleTurn}
-                        action={() => this.action(2)}
-                    />
-                </span>
-                <span>
-                    <ToolIcon
-                        icon="diaotou"
-                        title={
-                            editLayer && editLayer.layerName == 'AD_Lane'
-                                ? '掉头中心线生成'
-                                : '掉头参考线生成'
-                        }
-                        className="ad-tool-icon"
-                        focusBg={true}
-                        visible={visibleUTurn}
-                        action={() => this.action(3)}
-                    />
-                </span>
-            </span>
-        );
-    };
 
     disEditable = () => {
         const { TaskStore } = this.props;
@@ -148,102 +97,45 @@ class HalfAutoCreate extends React.Component {
         return !isManbuildTask(TaskStore.activeTask);
     };
 
-    // 获得接口传参
-    getParams = (editLayer, res = []) => {
+    handleData = res => {
         const { DataLayerStore } = this.props;
+        let editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
-        const params = {};
-        // 选中两条的情况
-        if (res.length === 2) {
-            // 判断选中线要素是否为当前编辑图层需要的线要素
-            if (
-                res[0].layerName !== layerName ||
-                res[1].layerName !== layerName
-            ) {
-                message.warning(
-                    `应选${
-                        layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
-                    },${
-                        layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
-                    }生成失败`,
-                    3
-                );
-                DataLayerStore.exitEdit();
-            } else {
-                //参数
-                params[layerName] = {};
-                params[layerName].type = 'FeatureCollection';
-                params[layerName].features = [];
-                res.forEach(item => {
-                    params[layerName].features.push(item.data);
-                });
-                if (DataLayerStore.editType == 'new_straight_line') {
-                    //直行
-                    params[
-                        layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
-                    ] = 1;
-                    this.addLines(params);
-                } else if (DataLayerStore.editType == 'new_turn_line') {
-                    //转弯
-                    params[
-                        layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
-                    ] = 2;
-                    this.addLines(params);
-                } else if (DataLayerStore.editType == 'new_Uturn_line') {
-                    //掉头
-                    params[
-                        layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'
-                    ] = 3;
-                    this.setState({
-                        visibleModal: true,
-                        params: params
-                    });
-                }
-            }
-        } else if (res.length === 1) {
-            //选中一条的情况
-            if (res[0].layerName !== layerName) {
-                message.warning(
-                    `应选择 2 条${
-                        layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
-                    },${
-                        layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
-                    }生成失败`,
-                    3
-                );
-                DataLayerStore.exitEdit();
-            }
-        } else {
-            message.warning(
-                `${
-                    layerName == 'AD_Lane' ? '车道中心线' : '道路参考线'
-                }生成失败`,
-                3
-            );
+        let layerNameCN = layerName == 'AD_Lane' ? '车道中心线' : '道路参考线';
+        if (
+            res.length !== 2 ||
+            res[0].layerName !== layerName ||
+            res[1].layerName !== layerName
+        ) {
+            message.warning(`操作错误：应选择 2 条${layerNameCN}`, 3);
             DataLayerStore.exitEdit();
         }
-        return params;
+        let params = {};
+        params[layerName] = {};
+        params[layerName].type = 'FeatureCollection';
+        params[layerName].features = [];
+        res.forEach(item => {
+            params[layerName].features.push(item.data);
+        });
+        //转弯
+        params[layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'] = 3;
+        this.setState({
+            visibleModal: true,
+            params: params
+        });
     };
 
-    action = type => {
+    action = () => {
         if (this.disEditable()) return;
         const { DataLayerStore, AttributeStore } = this.props;
-        if (type === 1) {
-            if (DataLayerStore.editType == 'new_straight_line') return;
-            DataLayerStore.newStraightLine();
-        } else if (type === 2) {
-            if (DataLayerStore.editType == 'new_turn_line') return;
-            DataLayerStore.newTurnLine();
-        } else if (type === 3) {
-            if (DataLayerStore.editType == 'new_Uturn_line') return;
-            DataLayerStore.newUTurnLine();
-            DataLayerStore.registerEscEvent(() => {
-                this.setState({
-                    visibleModal: false,
-                    num: 8.0
-                });
+        if (DataLayerStore.editType == 'new_Uturn_line') return;
+        DataLayerStore.newUTurnLine();
+        DataLayerStore.registerEscEvent(() => {
+            this.setState({
+                visibleModal: false,
+                num: 8.0
             });
-        }
+        });
         AttributeStore.hideRelFeatures();
     };
 
@@ -380,9 +272,12 @@ class HalfAutoCreate extends React.Component {
         AttributeStore.show(readonly);
     };
 
-    content = editLayer => {
+    content = () => {
+        const { DataLayerStore } = this.props;
+        let editLayer = DataLayerStore.getEditLayer();
+        let layerName = editLayer && editLayer.layerName;
         const text =
-            editLayer == 'AD_Lane'
+            layerName == 'AD_Lane'
                 ? '先选择一条进入中心线，再选择一条退出中心线'
                 : '先选择一条进入参考线，再选择一条退出参考线';
         return (
@@ -393,4 +288,4 @@ class HalfAutoCreate extends React.Component {
     };
 }
 
-export default HalfAutoCreate;
+export default NewUTurnLine;
