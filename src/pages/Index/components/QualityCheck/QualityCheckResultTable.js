@@ -267,30 +267,36 @@ class QualityCheckResultTable extends React.Component {
             const { QualityCheckStore, TaskStore, VectorsStore, DataLayerStore } = this.props;
             const { visitedReport } = QualityCheckStore;
             const { activeTaskId } = TaskStore;
-            let { layerName, featureId } = record;
+            let { geom, location } = record;
             DataLayerStore.exitEdit()
             //已访问
             visitedReport(record, activeTaskId);
             //展开
             this.openRowStyle(index);
-            //定位，判断是否为可定位图层
-            let layers = VectorsStore.vectors.vector;
-            const isValidLayer = layers.find(item => item.value === layerName);
-            if (!isValidLayer) return;
+            // 定位，判断是否为可定位图层
+            try {
+                let layers = VectorsStore.vectors.vector;
+                const isValidLayer = layers.find(item => item.value === layerName);
+                if (!isValidLayer) return;
 
-            let IDKey = getLayerIDKey(layerName);
-            let option = {
-                key: IDKey,
-                value: Number(featureId)
-            };
-            let layer = getLayerByName(layerName);
-            if (!layer.getFeatureByOption(option)) return;
-            let feature = layer.getFeatureByOption(option).properties;
-            let extent = map.getExtent(feature.data.geometry);
-            map.setView('U');
-            map.setExtent(extent);
-            this.showAttributesModal(feature);
-            this.scrollTop = this.checkReportTable.scrollTop;
+                let IDKey = getLayerIDKey(location.layerName);
+                let option = {
+                    key: IDKey,
+                    value: Number(location.featureId)
+                };
+                let layer = getLayerByName(location.layerName);
+                if (!layer.getFeatureByOption(option)) return;
+                let feature = layer.getFeatureByOption(option).properties;
+                let extent = map.getExtent(feature.data.geometry);
+                map.setView('U');
+                map.setExtent(extent);
+                this.showAttributesModal(feature);
+                this.scrollTop = this.checkReportTable.scrollTop;
+            } catch (e) {
+                let geomPoint = geom.slice(6, -1).split(' ')
+                console.log(geomPoint);
+                window.map.lookDownOn(geomPoint[0], geomPoint[1], geomPoint[2]);
+            }
         };
     };
 
