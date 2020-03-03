@@ -123,16 +123,16 @@ export const DATA_LAYER_MAP = {
         tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
         drawTools: {
             recognition: [
-                ('POLYGON',
+                'POLYGON',
                 'ADD_FACADEREC_TANGLE',
                 'ADD_OUTSIDE_RECTANGLE',
-                'ADD_CIRCLE')
+                'ADD_CIRCLE'
             ],
             manbuild: [
-                ('POLYGON',
+                'POLYGON',
                 'ADD_FACADEREC_TANGLE',
                 'ADD_OUTSIDE_RECTANGLE',
-                'ADD_CIRCLE')
+                'ADD_CIRCLE'
             ]
         },
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
