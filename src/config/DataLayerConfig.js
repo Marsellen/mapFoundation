@@ -4,7 +4,7 @@ export const DATA_LAYER_MAP = {
         id: 'ARR_ID',
         spec: 'AD_Arrow',
         tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
-        drawTools: ['POLYGON'],
+        drawTools: { recognition: ['POLYGON'], manbuild: ['POLYGON'] },
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '地面导向\n箭头'
@@ -14,7 +14,7 @@ export const DATA_LAYER_MAP = {
         id: 'LAP_ID',
         spec: 'AD_LaneAttrPoint',
         tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
-        drawTools: ['POINT'],
+        drawTools: { recognition: ['POINT'], manbuild: ['POINT'] },
         rightTools: ['delete', 'movePointFeature'],
         groupRightTools: ['batchAssign'],
         editName: '车道属性\n变化点'
@@ -24,7 +24,7 @@ export const DATA_LAYER_MAP = {
         id: 'LDIV_ID',
         spec: 'AD_LaneDivider',
         tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
-        drawTools: ['LINE'],
+        drawTools: { recognition: ['LINE'], manbuild: ['LINE'] },
         rightTools: [
             'delete',
             'copyLine',
@@ -48,7 +48,10 @@ export const DATA_LAYER_MAP = {
         id: 'PLG_ID',
         spec: 'AD_LaneMark_Plg',
         tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
-        drawTools: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
+        drawTools: {
+            recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
+            manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
+        },
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '面状标识物'
@@ -58,7 +61,10 @@ export const DATA_LAYER_MAP = {
         id: 'TEXT_ID',
         spec: 'AD_Text',
         tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
-        drawTools: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
+        drawTools: {
+            recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
+            manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
+        },
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '地面文字\n符号'
@@ -68,7 +74,10 @@ export const DATA_LAYER_MAP = {
         id: 'STOPL_ID',
         spec: 'AD_StopLocation',
         tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
-        drawTools: ['LINE'],
+        drawTools: {
+            recognition: ['LINE'],
+            manbuild: ['LINE']
+        },
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '停止位置'
@@ -78,14 +87,17 @@ export const DATA_LAYER_MAP = {
         id: 'LANE_ID',
         spec: 'AD_Lane',
         tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
-        drawTools: [
-            'LINE',
-            'DIVIDER',
-            'DIVIDER_TO_AUTO_CREATE',
-            'NEW_STRAIGHT_LINE',
-            'NEW_TURN_LINE',
-            'NEW_UTURN_LINE'
-        ],
+        drawTools: {
+            recognition: ['LINE'],
+            manbuild: [
+                'LINE',
+                'DIVIDER',
+                'DIVIDER_TO_AUTO_CREATE',
+                'NEW_STRAIGHT_LINE',
+                'NEW_TURN_LINE',
+                'NEW_UTURN_LINE'
+            ]
+        },
         rightTools: [
             'delete',
             'copyLine',
@@ -109,12 +121,20 @@ export const DATA_LAYER_MAP = {
         id: 'SIGN_ID',
         spec: 'AD_TrafficSign',
         tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
-        drawTools: [
-            'POLYGON',
-            'ADD_FACADEREC_TANGLE',
-            'ADD_OUTSIDE_RECTANGLE',
-            'ADD_CIRCLE'
-        ],
+        drawTools: {
+            recognition: [
+                ('POLYGON',
+                'ADD_FACADEREC_TANGLE',
+                'ADD_OUTSIDE_RECTANGLE',
+                'ADD_CIRCLE')
+            ],
+            manbuild: [
+                ('POLYGON',
+                'ADD_FACADEREC_TANGLE',
+                'ADD_OUTSIDE_RECTANGLE',
+                'ADD_CIRCLE')
+            ]
+        },
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '交通标志牌'
@@ -124,14 +144,17 @@ export const DATA_LAYER_MAP = {
         id: 'ROAD_ID',
         spec: 'AD_Road',
         tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
-        drawTools: [
-            'LINE',
-            'DIVIDER',
-            'DIVIDER_TO_AUTO_CREATE',
-            'NEW_STRAIGHT_LINE',
-            'NEW_TURN_LINE',
-            'NEW_UTURN_LINE'
-        ],
+        drawTools: {
+            recognition: ['LINE'],
+            manbuild: [
+                'LINE',
+                'DIVIDER',
+                'DIVIDER_TO_AUTO_CREATE',
+                'NEW_STRAIGHT_LINE',
+                'NEW_TURN_LINE',
+                'NEW_UTURN_LINE'
+            ]
+        },
         rightTools: [
             'delete',
             'copyLine',
@@ -155,7 +178,18 @@ export const DATA_LAYER_MAP = {
         id: 'LIGHT_ID',
         spec: 'AD_TrafficLight',
         tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
-        drawTools: ['POLYGON', 'ADD_FACADEREC_TANGLE', 'ADD_OUTSIDE_RECTANGLE'],
+        drawTools: {
+            recognition: [
+                'POLYGON',
+                'ADD_FACADEREC_TANGLE',
+                'ADD_OUTSIDE_RECTANGLE'
+            ],
+            manbuild: [
+                'POLYGON',
+                'ADD_FACADEREC_TANGLE',
+                'ADD_OUTSIDE_RECTANGLE'
+            ]
+        },
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '交通信号灯'
@@ -165,7 +199,10 @@ export const DATA_LAYER_MAP = {
         id: 'POLE_ID',
         spec: 'AD_Pole',
         tools: ['DRAW_TOOL_BOX'],
-        drawTools: ['LINE'],
+        drawTools: {
+            recognition: ['LINE'],
+            manbuild: ['LINE']
+        },
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '杆状物'
@@ -175,7 +212,10 @@ export const DATA_LAYER_MAP = {
         id: 'ID',
         spec: 'AD_Map_QC',
         tools: ['DRAW_TOOL_BOX'],
-        drawTools: ['POINT'],
+        drawTools: {
+            recognition: ['POINT'],
+            manbuild: ['POINT']
+        },
         rightTools: ['delete'],
         groupRightTools: ['batchAssign'],
         editName: '标记图层'
@@ -185,7 +225,10 @@ export const DATA_LAYER_MAP = {
         id: 'BARR_ID',
         spec: 'AD_RS_Barrier',
         tools: ['DRAW_TOOL_BOX'],
-        drawTools: ['LINE'],
+        drawTools: {
+            recognition: ['LINE'],
+            manbuild: ['LINE']
+        },
         rightTools: [
             'delete',
             'insertPoints',

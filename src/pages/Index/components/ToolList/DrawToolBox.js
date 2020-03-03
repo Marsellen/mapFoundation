@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Empty } from 'antd';
+import { Menu } from 'antd';
 import CheckButton from 'src/components/CheckButton';
 import { inject, observer } from 'mobx-react';
 import AddLine from './AddLine';
@@ -13,6 +13,7 @@ import DividerToAutoCreate from './HalfAutoTools/DividerToAutoCreate';
 import NewStraightLine from './HalfAutoTools/NewStraightLine';
 import NewTurnLine from './HalfAutoTools/NewTurnLine';
 import NewUTurnLine from './HalfAutoTools/NewUTurnLine';
+import { getTaskProcessType } from 'src/utils/taskUtils';
 
 const EDIT_TYPES = [
     'new_point',
@@ -66,8 +67,8 @@ class DrawToolBox extends React.Component {
     }
 
     getDefaultOption = () => {
-        const { ToolCtrlStore, DataLayerStore } = this.props;
-        let { drawTools } = ToolCtrlStore;
+        const { DataLayerStore } = this.props;
+        let drawTools = this.getDrawTools();
         let firstTool = drawTools[0];
         let layer = DataLayerStore.getEditLayer();
         let layerName = layer ? layer.layerName : '';
@@ -91,8 +92,7 @@ class DrawToolBox extends React.Component {
     };
 
     renderContent = selectedKey => {
-        const { ToolCtrlStore } = this.props;
-        let { drawTools } = ToolCtrlStore;
+        let drawTools = this.getDrawTools();
         let menus = this.getMenus();
         return (
             <Menu
@@ -221,6 +221,12 @@ class DrawToolBox extends React.Component {
         ];
 
         return menus;
+    };
+
+    getDrawTools = () => {
+        const { ToolCtrlStore, TaskStore } = this.props;
+        const { activeTask } = TaskStore;
+        return ToolCtrlStore.drawTools[getTaskProcessType(activeTask)] || [];
     };
 }
 
