@@ -21,7 +21,11 @@ const EDIT_TYPES = [
     'new_facade_rectangle',
     'new_vertical_matrix',
     'new_circle',
-    'new_ground_rectangle'
+    'new_ground_rectangle',
+    'new_around_line',
+    'new_straight_line',
+    'new_turn_line',
+    'new_Uturn_line'
 ];
 
 const OPTIONS = {
@@ -54,7 +58,7 @@ class DrawToolBox extends React.Component {
                 defaultOption={this.getDefaultOption()}
                 disabled={this.disabled()}
                 contentTitle="绘制工具"
-                content={this.renderContent()}
+                renderContent={this.renderContent}
                 active={this.getActive()}
                 onRef={ref => (this.checkButton = ref)}
             />
@@ -86,12 +90,15 @@ class DrawToolBox extends React.Component {
         }
     };
 
-    renderContent = () => {
+    renderContent = selectedKey => {
         const { ToolCtrlStore } = this.props;
         let { drawTools } = ToolCtrlStore;
         let menus = this.getMenus();
         return (
-            <Menu onClick={this.action}>
+            <Menu
+                onClick={this.action}
+                selectedKeys={[selectedKey]}
+                style={{ width: 227 }}>
                 {menus.filter(menu => drawTools.includes(menu.props.name))}
             </Menu>
         );

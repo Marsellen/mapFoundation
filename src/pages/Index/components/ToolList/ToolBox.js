@@ -23,7 +23,7 @@ class ToolBox extends React.Component {
                 }}
                 disabled={this.disabled()}
                 contentTitle="常用工具"
-                content={this.renderContent()}
+                renderContent={this.renderContent}
                 active={this.getActive()}
                 onRef={ref => (this.checkButton = ref)}
             />
@@ -41,9 +41,9 @@ class ToolBox extends React.Component {
         }
     };
 
-    renderContent = () => {
+    renderContent = selectedKey => {
         return (
-            <Menu onClick={this.action}>
+            <Menu onClick={this.action} selectedKeys={[selectedKey]}>
                 <Menu.Item
                     key="ceju"
                     title="测距"

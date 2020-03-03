@@ -20,7 +20,7 @@ export const TOOLS_MAP = {
         SEARCH_INFO: true,
         QUALITY_TEST: true,
         POINT_CLOUD: true,
-        TOOL_BOX: false,
+        TOOL_BOX: true,
         DRAW_TOOL_BOX: false
     },
     CHECK: {}

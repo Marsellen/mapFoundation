@@ -44,19 +44,20 @@ class CheckButton extends React.Component {
         const { active, disabled } = this.props;
         return (
             <span id="check-button" className="check-button flex-1">
-                <span className={active ? 'ad-icon-active' : ''}>
-                    <ToolIcon
-                        icon={icon || defaultOption.key}
-                        disabled={disabled}
-                        title={title || defaultOption.title}
-                        action={this.action}
-                    />
-                </span>
+                <ToolIcon
+                    className={active ? 'ad-icon-active' : ''}
+                    icon={icon || defaultOption.key}
+                    disabled={disabled}
+                    title={title || defaultOption.title}
+                    action={this.action}
+                    focusBg={true}
+                    visible={this.props.active}
+                />
                 <Popover
                     overlayClassName={
                         visible ? 'check-button-popover' : 'hide-popover'
                     }
-                    content={this.props.content}
+                    content={this.renderContent()}
                     title={this.props.contentTitle}
                     trigger="click"
                     visible={true}
@@ -74,6 +75,12 @@ class CheckButton extends React.Component {
             </span>
         );
     }
+
+    renderContent = () => {
+        let selectedKey =
+            this.state.option.icon || this.state.defaultOption.key;
+        return this.props.renderContent(selectedKey);
+    };
 
     getPopupContainer = () => {
         return document.getElementById('check-button');
@@ -120,6 +127,10 @@ class CheckButton extends React.Component {
         this.setState({
             option: option
         });
+    };
+
+    getSelectedKey = () => {
+        return this.state.option.icon;
     };
 }
 
