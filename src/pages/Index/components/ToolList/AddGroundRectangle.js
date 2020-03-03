@@ -14,7 +14,8 @@ class AddGroundRectangle extends React.Component {
             <div
                 id="add-ground-rectangle-btn"
                 className="flex-1"
-                onClick={this.action}>
+                onClick={this.action}
+            >
                 <ToolIcon icon="dimianjuxing" />
                 <div>添加地面矩形</div>
                 <AdMessage visible={visible} content={this.content()} />

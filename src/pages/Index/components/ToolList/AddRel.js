@@ -41,7 +41,7 @@ class AddRel extends React.Component {
                         icon="xinzengguanxi"
                         title="新增关联关系"
                         className="ad-tool-icon"
-                        focusBg={true}
+                        focusClassName="ad-tool-icon-active"
                         visible={visible}
                         action={this.action}
                     />

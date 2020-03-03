@@ -15,7 +15,7 @@ class ToolCtrl extends React.Component {
         const { ToolCtrlStore } = this.props;
         const { tools } = ToolCtrlStore;
         return (
-            <div className="flex-1 header-toolheight">
+            <div className="flex-1 header-tool">
                 {React.Children.map(this.props.children, child => {
                     if (tools && !tools[child.key]) return;
                     return child;

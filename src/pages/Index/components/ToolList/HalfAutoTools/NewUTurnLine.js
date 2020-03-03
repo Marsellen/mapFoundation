@@ -50,7 +50,8 @@ class NewUTurnLine extends React.Component {
                 id="new-uturn-line"
                 key={updateKey}
                 onClick={this.action}
-                className="flex-1">
+                className="flex-1"
+            >
                 <ToolIcon icon="diaotou" />
                 <div>
                     {layerName == 'AD_Lane'
@@ -68,7 +69,8 @@ class NewUTurnLine extends React.Component {
                     maskClosable={false}
                     keyboard={false}
                     okText="确定"
-                    cancelText="取消">
+                    cancelText="取消"
+                >
                     <div className="set-length-number">
                         <AdInputNumber
                             width="66%"

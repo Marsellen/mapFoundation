@@ -12,7 +12,7 @@
 <ToolIcon
     icon="bianji" //图标名
     title="设置编辑图层" //hover提示
-    className="ad-tool-icon" //样式名，定义图标大小，宽高
+    className="ad-tool-icon" //样式名，定义图标颜色、大小、宽高
 />
 ```
 
@@ -22,7 +22,7 @@
 <ToolIcon
     icon="bianji" //图标名
     title="设置编辑图层" //hover提示
-    className="ad-tool-icon" //样式名，定义图标大小，宽高
+    className="ad-tool-icon" //样式名，定义图标颜色、大小、宽高
     visible={visible} //值为true变蓝，为false变白
     disabled={disabled} //图标按钮是否可用
     action={this.action} //按钮触发事件
@@ -37,9 +37,9 @@
     icon="bianji" //图标名
     title="设置编辑图层" //hover提示
     placement="right" //hover位置
-    className="ad-tool-icon" //样式名，定义图标大小，宽高
-    focusColor={true} //focus时是否变色，默认变色
-    focusBg={false} //focus时是否变背景色，默认不变色
+    className="ad-tool-icon" //样式名，定义图标颜色、大小、宽高
+    focusClassName="ad-tool-icon-active" //选中时的样式
+    focusColor={false} //focus时是否变色，默认变色
     visible={visible} //值为true变蓝，为false变白
     disabled={disabled} //图标按钮是否可用
     action={this.action} //按钮触发事件
@@ -54,9 +54,9 @@
     icon="bianji" //图标名
     title="设置编辑图层" //hover提示
     placement="right" //hover位置
-    className="ad-tool-icon" //样式名，定义图标大小，宽高
-    focusColor={true} //focus时是否变色，默认变色
-    focusBg={false} //focus时是否变背景色，默认不变色
+    className="ad-tool-icon" //样式名，定义图标颜色、大小、宽高
+    focusClassName="ad-tool-icon-active" //选中时的样式
+    focusColor={false} //focus时是否变色，默认变色
     visible={visible} //值为true变蓝，为false变白
     disabled={disabled} //图标按钮是否可用
     action={this.action} //按钮触发事件
@@ -79,9 +79,9 @@
     icon="bianji" //图标名
     title="设置编辑图层" //hover提示
     placement="right" //hover位置
-    className="ad-tool-icon" //样式名，定义图标大小，宽高
-    focusColor={true} //focus时是否变色，默认变色
-    focusBg={false} //focus时是否变背景色，默认不变色
+    className="ad-tool-icon" //样式名，定义图标颜色、大小、宽高
+    focusClassName="ad-tool-icon-active" //选中时的样式
+    focusColor={false} //focus时是否变色，默认变色
     visible={visible} //值为true变蓝，为false变白
     disabled={disabled} //图标按钮是否可用
     action={this.action} //按钮触发事件

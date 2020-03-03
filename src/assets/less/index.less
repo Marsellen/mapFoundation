@@ -38,8 +38,16 @@
     flex-grow: 1;
 }
 
-.header-toolheight {
+.header-tool {
     height: 60px;
+    font-size: 20px;
+    color: #fff;
+
+    & > span {
+        display: flex;
+        justify-content: center;
+        min-width: 40px;
+    }
 }
 
 .anticon {
@@ -63,7 +71,7 @@
 }
 
 .value-color {
-    padding: 0 8px 0 0;
+    padding: 0 10px 0 0;
     line-height: 16px;
     font-size: 12px;
     white-space: pre-wrap;

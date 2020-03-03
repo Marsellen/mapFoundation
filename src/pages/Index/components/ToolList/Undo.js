@@ -16,7 +16,6 @@ class Undo extends React.Component {
                 id="undo-btn"
                 icon="chexiao"
                 title="撤销"
-                className="ad-tool-icon"
                 action={this.action}
                 disabled={this.disabled()}
             />

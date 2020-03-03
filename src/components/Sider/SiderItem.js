@@ -8,7 +8,7 @@ class SiderItem extends React.Component {
         const { id, label, icon, type, isPopover, hasTitle } = record;
         const visible = this.state && this.state[`visible${id}`];
         return (
-            <div className={`flex flex-center ad-sider-item ${type}`}>
+            <div className={`ad-sider-item ${type}`}>
                 {isPopover && (
                     <ToolIcon
                         icon={icon}
