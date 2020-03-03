@@ -3,24 +3,16 @@ import Undo from './Undo';
 import Redo from './Redo';
 import Save from './Save';
 import EditLayer from './EditLayer';
-import AddLine from './AddLine';
-import AddPoint from './AddPoint';
-import AddPolygon from './AddPolygon';
 import ResourceLoader from './ResourceLoader';
 import ExportShp from './ExportShp';
-import AddFacadeRectangle from './AddFacadeRectangle';
-import AddCircle from './AddCircle';
 import AddRel from './AddRel';
 import DelRel from './DelRel';
-import AddOutsideRectangle from './AddOutsideRectangle';
-import AddGroundRectangle from './AddGroundRectangle';
 import SearchInfo from './SearchInfo';
-import DividerToAutoCreate from './DividerToAutoCreate';
-import HalfAutoCreate from './HalfAutoCreate';
 import QualityCheck from './QualityCheck';
 import PointCloud from './PointCloud';
 import TopBreakLine from './TopBreakLine';
 import ToolBox from './ToolBox';
+import DrawToolBox from './DrawToolBox';
 
 export default [
     <Undo key="UNDO" />,
@@ -29,20 +21,12 @@ export default [
     <ExportShp key="EXPORT_SHP" />,
     <Save key="SAVE" />,
     <PointCloud key="POINT_CLOUD" />,
-    <TopBreakLine key="TOP_BREAK_LINE" />,
-    <EditLayer key="EDIT_LAYER" />,
-    <AddPoint key="POINT" />,
-    <AddLine key="LINE" />,
-    <DividerToAutoCreate key="DIVIDER_TO_AUTO_CREATE" />,
-    <HalfAutoCreate key="HALF_AUTO_CREATE" />,
-    <AddPolygon key="POLYGON" />,
-    <AddGroundRectangle key="ADD_GROUND_RECTANGLE" />,
-    <AddFacadeRectangle key="ADD_FACADEREC_TANGLE" />,
-    <AddOutsideRectangle key="ADD_OUTSIDE_RECTANGLE" />,
-    <AddCircle key="ADD_CIRCLE" />,
-    <AddRel key="ADD_REL" />,
-    <DelRel key="DEL_REL" />,
+    <ToolBox key="TOOL_BOX" />,
     <SearchInfo key="SEARCH_INFO" />,
     <QualityCheck key="QUALITY_TEST" />,
-    <ToolBox key="TOOL_BOX" />
+    <TopBreakLine key="TOP_BREAK_LINE" />,
+    <EditLayer key="EDIT_LAYER" />,
+    <DrawToolBox key="DRAW_TOOL_BOX" />,
+    <AddRel key="ADD_REL" />,
+    <DelRel key="DEL_REL" />
 ];

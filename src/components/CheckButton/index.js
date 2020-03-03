@@ -9,21 +9,39 @@ class CheckButton extends React.Component {
         super(props);
         this.state = {
             visible: false,
-            option: {}
+            option: {},
+            defaultOption: props.defaultOption
         };
-        this.installListener();
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.defaultOption.id !== state.defaultOption.id) {
+            return {
+                ...state,
+                option: {},
+                defaultOption: props.defaultOption,
+                shouldUpdate: true
+            };
+        }
+        return null;
     }
 
     componentDidMount() {
+        this.installListener();
         this.props.onRef(this);
+    }
+
+    componentWillUnmount() {
+        this.unstallListener();
     }
 
     render() {
         const {
             visible,
-            option: { icon, title }
+            option: { icon, title },
+            defaultOption
         } = this.state;
-        const { active, disabled, defaultOption } = this.props;
+        const { active, disabled } = this.props;
         return (
             <span id="check-button" className="check-button flex-1">
                 <span className={active ? 'ad-icon-active' : ''}>
@@ -65,12 +83,16 @@ class CheckButton extends React.Component {
         if (this.props.disabled) return;
         this.setState({
             visible: flag ? !this.state.visible : false,
-            option: option || this.state.option || this.props.defaultOption
+            option: option || this.state.option || this.state.defaultOption
         });
     };
 
     installListener = () => {
         document.addEventListener('click', this.onClick, true);
+    };
+
+    unstallListener = () => {
+        document.removeEventListener('click', this.onClick, true);
     };
 
     onClick = e => {
@@ -87,11 +109,17 @@ class CheckButton extends React.Component {
 
     action = () => {
         const {
-            option: { actionid }
+            option: { actionid },
+            defaultOption
         } = this.state;
-        const { defaultOption } = this.props;
         let btn = document.getElementById(actionid || defaultOption.actionid);
         btn && btn.click();
+    };
+
+    setOption = option => {
+        this.setState({
+            option: option
+        });
     };
 }
 

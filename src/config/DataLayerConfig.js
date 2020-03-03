@@ -3,25 +3,28 @@ export const DATA_LAYER_MAP = {
         label: '地面导向箭头',
         id: 'ARR_ID',
         spec: 'AD_Arrow',
-        tools: ['POLYGON', 'ADD_REL', 'DEL_REL'],
+        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        drawTools: ['POLYGON'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
-        editName: '地面导向\n箭头',
+        editName: '地面导向\n箭头'
     },
     AD_LaneAttrPoint: {
         label: '车道属性变化点',
         id: 'LAP_ID',
         spec: 'AD_LaneAttrPoint',
-        tools: ['POINT', 'ADD_REL', 'DEL_REL'],
+        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        drawTools: ['POINT'],
         rightTools: ['delete', 'movePointFeature'],
         groupRightTools: ['batchAssign'],
-        editName: '车道属性\n变化点',
+        editName: '车道属性\n变化点'
     },
     AD_LaneDivider: {
         label: '车道线',
         id: 'LDIV_ID',
         spec: 'AD_LaneDivider',
-        tools: ['LINE', 'ADD_REL', 'DEL_REL'],
+        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        drawTools: ['LINE'],
         rightTools: [
             'delete',
             'copyLine',
@@ -38,45 +41,50 @@ export const DATA_LAYER_MAP = {
             'reverseOrderLine',
             'breakByLine'
         ],
-        editName: '车道线',
+        editName: '车道线'
     },
     AD_LaneMark_Plg: {
         label: '面状标识物',
         id: 'PLG_ID',
         spec: 'AD_LaneMark_Plg',
-        tools: ['POLYGON', 'ADD_GROUND_RECTANGLE', 'ADD_REL', 'DEL_REL'],
+        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        drawTools: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
-        editName: '面状标识物',
+        editName: '面状标识物'
     },
     AD_Text: {
         label: '地面文字符号',
         id: 'TEXT_ID',
         spec: 'AD_Text',
-        tools: ['POLYGON', 'ADD_GROUND_RECTANGLE', 'ADD_REL', 'DEL_REL'],
+        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        drawTools: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
-        editName: '地面文字\n符号',
+        editName: '地面文字\n符号'
     },
     AD_StopLocation: {
         label: '停止位置',
         id: 'STOPL_ID',
         spec: 'AD_StopLocation',
-        tools: ['LINE', 'ADD_REL', 'DEL_REL'],
+        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        drawTools: ['LINE'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
-        editName: '停止位置',
+        editName: '停止位置'
     },
     AD_Lane: {
         label: '车道中心线',
         id: 'LANE_ID',
         spec: 'AD_Lane',
-        tools: [
+        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        drawTools: [
             'LINE',
-            'ADD_REL',
-            'DEL_REL',
+            'DIVIDER',
             'DIVIDER_TO_AUTO_CREATE',
-            'HALF_AUTO_CREATE'
+            'NEW_STRAIGHT_LINE',
+            'NEW_TURN_LINE',
+            'NEW_UTURN_LINE'
         ],
         rightTools: [
             'delete',
@@ -94,34 +102,35 @@ export const DATA_LAYER_MAP = {
             'reverseOrderLine',
             'breakByLine'
         ],
-        editName: '车道中心线',
+        editName: '车道中心线'
     },
     AD_TrafficSign: {
         label: '交通标志牌',
         id: 'SIGN_ID',
         spec: 'AD_TrafficSign',
-        tools: [
+        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        drawTools: [
             'POLYGON',
             'ADD_FACADEREC_TANGLE',
             'ADD_OUTSIDE_RECTANGLE',
-            'ADD_CIRCLE',
-            'ADD_REL',
-            'DEL_REL'
+            'ADD_CIRCLE'
         ],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
-        editName: '交通标志牌',
+        editName: '交通标志牌'
     },
     AD_Road: {
         label: '道路参考线',
         id: 'ROAD_ID',
         spec: 'AD_Road',
-        tools: [
+        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        drawTools: [
             'LINE',
-            'ADD_REL',
-            'DEL_REL',
+            'DIVIDER',
             'DIVIDER_TO_AUTO_CREATE',
-            'HALF_AUTO_CREATE'
+            'NEW_STRAIGHT_LINE',
+            'NEW_TURN_LINE',
+            'NEW_UTURN_LINE'
         ],
         rightTools: [
             'delete',
@@ -139,46 +148,44 @@ export const DATA_LAYER_MAP = {
             'reverseOrderLine',
             'breakByLine'
         ],
-        editName: '道路参考线',
+        editName: '道路参考线'
     },
     AD_TrafficLight: {
         label: '交通信号灯',
         id: 'LIGHT_ID',
         spec: 'AD_TrafficLight',
-        tools: [
-            'POLYGON',
-            'ADD_FACADEREC_TANGLE',
-            'ADD_OUTSIDE_RECTANGLE',
-            'ADD_REL',
-            'DEL_REL'
-        ],
+        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        drawTools: ['POLYGON', 'ADD_FACADEREC_TANGLE', 'ADD_OUTSIDE_RECTANGLE'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
-        editName: '交通信号灯',
+        editName: '交通信号灯'
     },
     AD_Pole: {
         label: '杆状物',
         id: 'POLE_ID',
         spec: 'AD_Pole',
-        tools: ['LINE'],
+        tools: ['DRAW_TOOL_BOX'],
+        drawTools: ['LINE'],
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
-        editName: '杆状物',
+        editName: '杆状物'
     },
     AD_Map_QC: {
         label: '标记图层',
         id: 'ID',
         spec: 'AD_Map_QC',
-        tools: ['POINT'],
+        tools: ['DRAW_TOOL_BOX'],
+        drawTools: ['POINT'],
         rightTools: ['delete'],
         groupRightTools: ['batchAssign'],
-        editName: '标记图层',
+        editName: '标记图层'
     },
     AD_RS_Barrier: {
         label: '隔离带、护栏',
         id: 'BARR_ID',
         spec: 'AD_RS_Barrier',
-        tools: ['LINE'],
+        tools: ['DRAW_TOOL_BOX'],
+        drawTools: ['LINE'],
         rightTools: [
             'delete',
             'insertPoints',
@@ -187,7 +194,7 @@ export const DATA_LAYER_MAP = {
             'break'
         ],
         groupRightTools: ['breakGroup', 'merge', 'batchAssign', 'breakByLine'],
-        editName: '隔离带、\n护栏',
+        editName: '隔离带、\n护栏'
     },
     AD_Lane_RS: {
         label: '车道中心线交通限制信息',

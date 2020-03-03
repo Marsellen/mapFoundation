@@ -22,10 +22,8 @@ class ToolBox extends React.Component {
                     actionid: 'ceju-btn'
                 }}
                 disabled={this.disabled()}
-                icon="chexiao"
                 contentTitle="常用工具"
                 content={this.renderContent()}
-                action={this.action}
                 active={this.getActive()}
                 onRef={ref => (this.checkButton = ref)}
             />

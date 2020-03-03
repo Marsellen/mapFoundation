@@ -10,21 +10,23 @@ if (location.pathname.includes('source')) {
 configure({ enforceActions: 'always' });
 class ToolCtrlStore {
     @observable tools;
+    @observable drawTools = [];
 
     @action init = () => {
         this.tools = initEditTools;
+        this.drawTools = [];
     };
 
     @action updateByEditLayer = (layer, userInfo) => {
         let layerName = layer && layer.layerName;
         let roleCode = userInfo && userInfo.roleCode;
         if (!DATA_LAYER_MAP[layerName]) {
-            this.tools = initEditTools;
+            this.init();
             return;
         }
 
         if (roleCode == 'producer' && layerName == 'AD_Map_QC') {
-            this.tools = initEditTools;
+            this.init();
             return;
         }
 
@@ -39,6 +41,8 @@ class ToolCtrlStore {
             ...initEditTools,
             ...editTools
         };
+
+        this.drawTools = DATA_LAYER_MAP[layerName].drawTools;
     };
 }
 
