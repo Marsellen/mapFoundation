@@ -32,11 +32,11 @@ class EditLayer extends React.Component {
     };
 
     render() {
+        const { layerPicker } = this.state;
         return (
             <span className="bianjituceng">
                 <ToolIcon
                     icon="bianji3"
-                    className="ad-tool-icon"
                     title="设置编辑图层"
                     visible={this.state.clicked}
                     disabled={this.disEditable()}
@@ -48,7 +48,9 @@ class EditLayer extends React.Component {
                         trigger: 'click'
                     }}
                 />
-                {<div className="value-color">{this.state.layerPicker}</div>}
+                {layerPicker && (
+                    <div className="value-color">{layerPicker}</div>
+                )}
             </span>
         );
     }

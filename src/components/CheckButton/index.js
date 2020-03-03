@@ -43,35 +43,35 @@ class CheckButton extends React.Component {
         } = this.state;
         const { active, disabled } = this.props;
         return (
-            <span id="check-button" className="check-button flex-1">
+            <span id="check-button" className="check-button">
                 <ToolIcon
-                    className={active ? 'ad-icon-active' : ''}
                     icon={icon || defaultOption.key}
-                    disabled={disabled}
                     title={title || defaultOption.title}
+                    className="ad-tool-icon ad-tool-common-icon"
+                    focusClassName="ad-tool-icon-active"
+                    disabled={disabled}
+                    visible={active}
                     action={this.action}
-                    focusBg={true}
-                    visible={this.props.active}
                 />
-                <Popover
-                    overlayClassName={
-                        visible ? 'check-button-popover' : 'hide-popover'
-                    }
-                    content={this.renderContent()}
-                    title={this.props.contentTitle}
-                    trigger="click"
-                    visible={true}
-                    getPopupContainer={this.getPopupContainer}>
-                    <IconFont
-                        type="icon-sanjiao1"
-                        className={`jiao-biao ${
-                            visible ? 'jiao-biao-active' : ''
-                        } ${disabled ? 'ad-disabled-icon' : ''}`}
-                        onClick={() => {
-                            this.togglePopover(true);
-                        }}
-                    />
-                </Popover>
+                <ToolIcon
+                    icon="sanjiao1"
+                    title="常用工具"
+                    className="jiao-biao"
+                    focusClassName="jiao-biao-active"
+                    disabled={disabled}
+                    visible={visible}
+                    action={() => this.togglePopover(true)}
+                    popover={{
+                        overlayClassName: visible
+                            ? 'check-button-popover'
+                            : 'hide-popover',
+                        content: this.renderContent(),
+                        title: this.props.contentTitle,
+                        trigger: 'click',
+                        visible: true,
+                        getPopupContainer: this.getPopupContainer
+                    }}
+                />
             </span>
         );
     }
@@ -115,11 +115,10 @@ class CheckButton extends React.Component {
     };
 
     action = () => {
-        const {
-            option: { actionid },
-            defaultOption
-        } = this.state;
-        let btn = document.getElementById(actionid || defaultOption.actionid);
+        const { option } = this.state;
+        const { defaultOption } = this.props;
+        const id = option.actionid || defaultOption.actionid;
+        const btn = document.getElementById(id);
         btn && btn.click();
     };
 

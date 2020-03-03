@@ -1,18 +1,6 @@
-.ad-icon-wrap {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: -2px;
-    color: #fff;
-
-    .ad-icon {
-        margin: 0 6px;
-    }
-
-    .ad-icon.anticon {
-        font-size: unset;
-    }
+.ad-icon-wrap .ad-icon {
+    margin: 0 6px;
+    font-size: unset !important;
 }
 
 .ad-icon-popover {
@@ -25,11 +13,21 @@
     cursor: unset;
 }
 
-.ad-icon-visible.ad-icon-color {
+.ad-icon-color {
     color: #69a5ff;
 }
 
-.ad-icon-visible.ad-icon-bg {
+.ad-tool-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    font-size: 20px;
+    color: #fff;
+}
+
+.ad-tool-icon-active {
     &:before {
         position: absolute;
         bottom: 0;
@@ -51,12 +49,6 @@
         background-color: #18a2ff;
         content: '';
     }
-}
-
-.ad-tool-icon {
-    height: 60px;
-    width: 42px;
-    font-size: 20px;
 }
 
 .ad-icon-topview {

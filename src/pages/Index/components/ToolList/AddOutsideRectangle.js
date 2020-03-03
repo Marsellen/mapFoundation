@@ -14,7 +14,8 @@ class AddOutsideRectangle extends React.Component {
             <div
                 id="add-outside-rectangle-btn"
                 className="flex-1"
-                onClick={this.action}>
+                onClick={this.action}
+            >
                 <ToolIcon icon="renyiwaijiejuxing" />
                 <div>任意外接立面矩形</div>
                 <AdMessage visible={visible} content={this.content()} />

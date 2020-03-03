@@ -12,7 +12,6 @@ class ExportShp extends React.Component {
             <ToolIcon
                 icon="shiliang"
                 title="矢量转存为shp文件"
-                className="ad-tool-icon"
                 disabled={!activeTaskId}
                 action={this.action}
             />

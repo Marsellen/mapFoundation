@@ -41,15 +41,14 @@ class ToolIcon extends React.Component {
             tooltip,
             title,
             placement,
-            focusColor = true,
-            focusBg = false
+            focusClassName,
+            focusColor = true
         } = this.props;
         const { tooltipVisible } = this.state;
         const disabledClassName = disabled ? 'ad-icon-disabled' : '';
-        const visibleClassName = visible ? 'ad-icon-visible' : '';
         const popoverClassName = popover && !title ? 'ad-icon-popover' : '';
-        const colorClassName = focusColor ? `ad-icon-color` : '';
-        const bgClassName = focusBg ? `ad-icon-bg` : '';
+        const colorClassName = visible && focusColor ? `ad-icon-color` : '';
+        const activeClassName = visible ? focusClassName : '';
 
         return (
             <Tooltip
@@ -57,18 +56,16 @@ class ToolIcon extends React.Component {
                 title={title}
                 visible={tooltipVisible}
                 onVisibleChange={this.handleHoverChange}
-                {...tooltip}
-            >
+                {...tooltip}>
                 <IconFont
                     id={id}
                     type={`icon-${icon}`}
                     className={`
                         ad-icon
                         ${disabledClassName}
-                        ${visibleClassName}
                         ${popoverClassName}
                         ${colorClassName}
-                        ${bgClassName}
+                        ${activeClassName}
                     `}
                     onClick={disabled ? null : action}
                 />

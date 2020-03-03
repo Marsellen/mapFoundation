@@ -2,8 +2,7 @@ import React from 'react';
 
 class TopBreakLine extends React.Component {
     render() {
-        return (<span className="top-break-line"></span>)
-
+        return <i className="top-break-line"></i>;
     }
 }
 export default TopBreakLine;

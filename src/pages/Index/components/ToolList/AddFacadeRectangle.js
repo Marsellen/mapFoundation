@@ -14,7 +14,8 @@ class AddFacadeRectangle extends React.Component {
             <div
                 id="add-facade-rectangle-btn"
                 className="flex-1"
-                onClick={this.action}>
+                onClick={this.action}
+            >
                 <ToolIcon icon="limianjuxing" />
                 <div>添加立面矩形</div>
                 <AdMessage visible={visible} content={this.content()} />

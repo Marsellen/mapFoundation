@@ -57,7 +57,6 @@ class PointCloud extends React.Component {
         return (
             <ToolIcon
                 icon="dianyunshezhi"
-                className="ad-tool-icon"
                 title="点云设置"
                 visible={this.state.clicked}
                 disabled={this.isDisabled()}

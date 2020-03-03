@@ -82,7 +82,7 @@ class DelRel extends React.Component {
                         icon="shanchuguanxi"
                         title="删除关联关系"
                         className="ad-tool-icon"
-                        focusBg={true}
+                        focusClassName="ad-tool-icon-active"
                         visible={visible}
                         action={this.action}
                         disabled={!DataLayerStore.beenPick}

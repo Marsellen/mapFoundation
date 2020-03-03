@@ -36,7 +36,8 @@ class DividerToAutoCreate extends React.Component {
                 id="divider-to-auto-create"
                 className="flex-1"
                 onClick={this.action}
-                key={updateKey}>
+                key={updateKey}
+            >
                 <ToolIcon
                     icon={
                         editLayer && editLayer.layerName == 'AD_Lane'

@@ -21,7 +21,6 @@ class QualityCheck extends React.Component {
                     <ToolIcon
                         icon="zhiliangjiancha1"
                         title="质量检查"
-                        className="ad-tool-icon"
                         visible={visible}
                         disabled={!activeTaskId}
                         action={this.handleClick}

@@ -24,7 +24,6 @@ class ResourceLoader extends React.Component {
                 <ToolIcon
                     icon="ziliaojiazai"
                     title="资料加载"
-                    className="ad-tool-icon"
                     action={this.action}
                 />
                 {this.renderModal()}
