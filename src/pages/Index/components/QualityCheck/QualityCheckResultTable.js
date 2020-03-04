@@ -268,6 +268,7 @@ class QualityCheckResultTable extends React.Component {
             const { visitedReport } = QualityCheckStore;
             const { activeTaskId } = TaskStore;
             let { geom, location } = record;
+            location = JSON.parse(location)
             DataLayerStore.exitEdit()
             //已访问
             visitedReport(record, activeTaskId);
@@ -276,9 +277,8 @@ class QualityCheckResultTable extends React.Component {
             // 定位，判断是否为可定位图层
             try {
                 let layers = VectorsStore.vectors.vector;
-                const isValidLayer = layers.find(item => item.value === layerName);
+                const isValidLayer = layers.find(item => item.value === location.layerName);
                 if (!isValidLayer) return;
-
                 let IDKey = getLayerIDKey(location.layerName);
                 let option = {
                     key: IDKey,
