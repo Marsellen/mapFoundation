@@ -205,8 +205,7 @@ class QualityCheckResultTable extends React.Component {
         if (filterOption.isUpdate) {
             this.setState(
                 {
-                    columns: currentColumns,
-                    total: reportListL
+                    columns: currentColumns
                 },
                 toResizeDom
             );
@@ -264,12 +263,17 @@ class QualityCheckResultTable extends React.Component {
     //双击
     tableOnDoubleClick = (record, index) => {
         return e => {
-            const { QualityCheckStore, TaskStore, VectorsStore, DataLayerStore } = this.props;
+            const {
+                QualityCheckStore,
+                TaskStore,
+                VectorsStore,
+                DataLayerStore
+            } = this.props;
             const { visitedReport } = QualityCheckStore;
             const { activeTaskId } = TaskStore;
             let { geom, location } = record;
-            location = JSON.parse(location)
-            DataLayerStore.exitEdit()
+            location = JSON.parse(location);
+            DataLayerStore.exitEdit();
             //已访问
             visitedReport(record, activeTaskId);
             //展开
@@ -277,7 +281,9 @@ class QualityCheckResultTable extends React.Component {
             // 定位，判断是否为可定位图层
             try {
                 let layers = VectorsStore.vectors.vector;
-                const isValidLayer = layers.find(item => item.value === location.layerName);
+                const isValidLayer = layers.find(
+                    item => item.value === location.layerName
+                );
                 if (!isValidLayer) return;
                 let IDKey = getLayerIDKey(location.layerName);
                 let option = {
@@ -293,7 +299,7 @@ class QualityCheckResultTable extends React.Component {
                 this.showAttributesModal(feature);
                 this.scrollTop = this.checkReportTable.scrollTop;
             } catch (e) {
-                let geomPoint = geom.slice(6, -1).split(' ')
+                let geomPoint = geom.slice(6, -1).split(' ');
                 console.log(geomPoint);
                 window.map.lookDownOn(geomPoint[0], geomPoint[1], geomPoint[2]);
             }
