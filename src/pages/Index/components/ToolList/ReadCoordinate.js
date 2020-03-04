@@ -21,7 +21,7 @@ class ReadCoordinate extends React.Component {
               )}, z: ${coordinate.z.toFixed(3)}`
             : null;
         return (
-            <div id="read-coordinate-btn1" className="flex-1" onClick={this.action}>
+            <div id="read-coordinate-btn" className="flex-1" onClick={this.action}>
                 <IconFont type="icon-zuobiaoshiqu" />
                 <div>坐标拾取</div>
                 <AdMessage visible={visible} content={this.content()} />
