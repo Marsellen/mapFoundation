@@ -53,6 +53,7 @@ class JobStatus extends React.Component {
                     icon="huoqurenwu"
                     title="获取任务"
                     className="jobstatus-get"
+                    focusColor={false}
                     action={this.getJob}
                 />
                 <ToolIcon
@@ -60,6 +61,7 @@ class JobStatus extends React.Component {
                     title="提交任务"
                     className="jobstatus-submit"
                     disabled={activeTaskId ? false : true}
+                    focusColor={false}
                     action={this.submitTask}
                 />
                 <Modal
