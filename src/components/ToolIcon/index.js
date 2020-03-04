@@ -36,19 +36,11 @@ class ToolIcon extends React.Component {
             icon,
             action,
             disabled,
-            visible,
-            popover,
             tooltip,
             title,
-            placement,
-            focusClassName,
-            focusColor = true
+            placement
         } = this.props;
         const { tooltipVisible } = this.state;
-        const disabledClassName = disabled ? 'ad-icon-disabled' : '';
-        const popoverClassName = popover && !title ? 'ad-icon-popover' : '';
-        const colorClassName = visible && focusColor ? `ad-icon-color` : '';
-        const activeClassName = visible ? focusClassName : '';
 
         return (
             <Tooltip
@@ -60,13 +52,7 @@ class ToolIcon extends React.Component {
                 <IconFont
                     id={id}
                     type={`icon-${icon}`}
-                    className={`
-                        ad-icon
-                        ${disabledClassName}
-                        ${popoverClassName}
-                        ${colorClassName}
-                        ${activeClassName}
-                    `}
+                    className="ad-icon"
                     onClick={disabled ? null : action}
                 />
             </Tooltip>
@@ -74,10 +60,23 @@ class ToolIcon extends React.Component {
     };
 
     render() {
-        const { popover, className = '' } = this.props;
+        const {
+            disabled,
+            visible,
+            popover,
+            title,
+            className = '',
+            focusClassName,
+            focusColor = true
+        } = this.props;
+        const disabledClassName = disabled ? 'ad-icon-disabled' : '';
+        const popoverClassName = popover && !title ? 'ad-icon-popover' : '';
+        const colorClassName = visible && focusColor ? `ad-icon-color` : '';
+        const activeClassName = visible ? focusClassName : '';
 
         return (
-            <span className={`ad-icon-wrap ${className}`}>
+            <span
+                className={`ad-icon-wrap ${className} ${disabledClassName} ${popoverClassName} ${colorClassName} ${activeClassName}`}>
                 {popover && <Popover {...popover}>{this._icon()}</Popover>}
                 {!popover && this._icon()}
             </span>

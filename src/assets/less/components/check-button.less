@@ -3,37 +3,27 @@
     font-size: 20px;
     margin: 0 10px 0 0;
 
-    & > .ad-icon-wrap {
-        height: 60px;
-    }
-
     .jiao-biao {
         display: flex;
         align-items: center;
         justify-content: center;
+        height: 60px;
         font-size: 10px;
-        vertical-align: 0;
+        color: #fff;
 
         & .ad-icon {
             margin: 0;
+            padding: 5px 0;
         }
     }
 
+    .jiao-biao-active,
     .jiao-biao:hover {
-        background: rgba(225, 225, 225, 0.2);
-        height: 60px;
-        line-height: 61px;
+        background: rgb(73, 76, 83);
     }
 
-    .jiao-biao.ad-disabled-icon:hover {
+    .jiao-biao.ad-icon-disabled:hover {
         background: none;
-    }
-
-    .jiao-biao-active {
-        background: rgba(225, 225, 225, 0.2);
-        height: 60px;
-        line-height: 61px;
-        color: #69a5ff;
     }
 
     .hide-popover {
@@ -80,8 +70,8 @@
             content: ' ';
             width: 8px;
             height: 8px;
-            background: rgba(255, 255, 255, 1);
-            border: 2px solid rgba(62, 127, 224, 1);
+            background: rgb(255, 255, 255);
+            border: 2px solid rgb(62, 127, 224);
             border-radius: 50%;
             position: absolute;
             top: 11px;

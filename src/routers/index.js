@@ -12,9 +12,9 @@ class Routers extends React.Component {
         return (
             <Suspense fallback={<LoadingPage />}>
                 <Switch>
-                    <PrivateRoute exact key="Home" path="/" component={Home} />
                     <Route key="Login" path="/login" component={Login} />
                     <Route key="Blank" path="/blank" component={Blank} />
+                    <PrivateRoute key="Home" path="/" component={Home} />
                 </Switch>
             </Suspense>
         );
