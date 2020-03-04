@@ -25,6 +25,7 @@ class ResourceLoader extends React.Component {
                     icon="ziliaojiazai"
                     title="资料加载"
                     action={this.action}
+                    visible={this.state.visible}
                 />
                 {this.renderModal()}
             </span>
