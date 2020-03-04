@@ -54,7 +54,7 @@ class ToolBox extends React.Component {
                 <Menu.Item
                     key="zuobiaoshiqu"
                     title="坐标拾取"
-                    actionid="read-coordinate-btn1"
+                    actionid="read-coordinate-btn"
                     disabled={this.disabled('zuobiaoshiqu')}>
                     <ReadCoordinate disabled={this.disabled('zuobiaoshiqu')} />
                 </Menu.Item>

@@ -124,13 +124,13 @@ export const DATA_LAYER_MAP = {
         drawTools: {
             recognition: [
                 'POLYGON',
-                'ADD_FACADEREC_TANGLE',
+                'ADD_FACADE_RECTANGLE',
                 'ADD_OUTSIDE_RECTANGLE',
                 'ADD_CIRCLE'
             ],
             manbuild: [
                 'POLYGON',
-                'ADD_FACADEREC_TANGLE',
+                'ADD_FACADE_RECTANGLE',
                 'ADD_OUTSIDE_RECTANGLE',
                 'ADD_CIRCLE'
             ]
@@ -181,12 +181,12 @@ export const DATA_LAYER_MAP = {
         drawTools: {
             recognition: [
                 'POLYGON',
-                'ADD_FACADEREC_TANGLE',
+                'ADD_FACADE_RECTANGLE',
                 'ADD_OUTSIDE_RECTANGLE'
             ],
             manbuild: [
                 'POLYGON',
-                'ADD_FACADEREC_TANGLE',
+                'ADD_FACADE_RECTANGLE',
                 'ADD_OUTSIDE_RECTANGLE'
             ]
         },
