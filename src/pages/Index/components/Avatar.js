@@ -10,7 +10,7 @@ import ToolIcon from 'src/components/ToolIcon';
 class Avatar extends React.Component {
     state = {
         visible: false,
-        avatar: require('src/assets/img/profile.jpg')
+        avatar: require('src/assets/img/touxiang.png')
     };
 
     render() {
