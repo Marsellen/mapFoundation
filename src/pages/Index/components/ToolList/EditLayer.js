@@ -32,24 +32,31 @@ class EditLayer extends React.Component {
     };
 
     render() {
-        const { layerPicker } = this.state;
+        const { layerPicker, clicked } = this.state;
+        const { DataLayerStore } = this.props;
+        const { getEditLayer, updateKey } = DataLayerStore;
+        //获取当前编辑图层，若无编辑图层则返回false
+        const editLayer = getEditLayer();
+
         return (
-            <span className="bianjituceng">
+            <span className={`bianjituceng ${editLayer ? 'active' : ''}`}>
                 <ToolIcon
                     icon="bianji3"
                     title="设置编辑图层"
-                    visible={this.state.clicked}
                     disabled={this.disEditable()}
+                    visible={clicked}
                     popover={{
                         placement: 'bottom',
-                        visible: this.state.clicked,
+                        visible: clicked,
                         onVisibleChange: this.handleClickChange,
                         content: this._renderContent(),
                         trigger: 'click'
                     }}
                 />
-                {layerPicker && (
-                    <div className="value-color">{layerPicker}</div>
+                {editLayer && (
+                    <div className="value-color" key={updateKey}>
+                        {layerPicker}
+                    </div>
                 )}
             </span>
         );
@@ -88,7 +95,8 @@ class EditLayerPicker extends React.Component {
             <Radio.Group
                 onChange={this.onChange}
                 value={editLayer ? editLayer.layerName : false}
-                style={{ width: '100%' }}>
+                style={{ width: '100%' }}
+            >
                 <List
                     key={DataLayerStore.updateKey}
                     dataSource={this.topViewLayerDisabled()}

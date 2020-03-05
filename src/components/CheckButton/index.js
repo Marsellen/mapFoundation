@@ -41,7 +41,7 @@ class CheckButton extends React.Component {
             option: { icon, title },
             defaultOption
         } = this.state;
-        const { active, disabled } = this.props;
+        const { active, disabled, contentTitle } = this.props;
         return (
             <span id="check-button" className="check-button">
                 <ToolIcon
@@ -55,7 +55,7 @@ class CheckButton extends React.Component {
                 />
                 <ToolIcon
                     icon="sanjiao1"
-                    title="常用工具"
+                    title={contentTitle}
                     className="jiao-biao"
                     focusClassName="jiao-biao-active"
                     disabled={disabled}
@@ -66,7 +66,7 @@ class CheckButton extends React.Component {
                             ? 'check-button-popover'
                             : 'hide-popover',
                         content: this.renderContent(),
-                        title: this.props.contentTitle,
+                        title: contentTitle,
                         trigger: 'click',
                         visible: true,
                         getPopupContainer: this.getPopupContainer
