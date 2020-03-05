@@ -14,8 +14,12 @@ const EDIT_TYPES = ['meature_distance', 'read_coordinate', 'select_road_plane'];
 @observer
 class ToolBox extends React.Component {
     render() {
+        const {
+            TaskStore: { activeTaskId }
+        } = this.props;
         return (
             <CheckButton
+                key={activeTaskId}
                 defaultOption={{
                     key: 'ceju',
                     title: '测距',
