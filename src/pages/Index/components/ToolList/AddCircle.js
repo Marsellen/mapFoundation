@@ -13,7 +13,7 @@ class AddCircle extends React.Component {
         return (
             <div id="add-circle-btn" className="flex-1" onClick={this.action}>
                 <ToolIcon icon="sandianhuayuan" />
-                <div>三点绘制圆</div>
+                <div>绘制三点圆形</div>
                 <AdMessage visible={visible} content={this.content()} />
             </div>
         );
@@ -27,7 +27,7 @@ class AddCircle extends React.Component {
     };
 
     content = () => {
-        return <label>添加立面三点圆形，选择三个点绘制</label>;
+        return <label>绘制三点圆形，选择三个点绘制</label>;
     };
 }
 

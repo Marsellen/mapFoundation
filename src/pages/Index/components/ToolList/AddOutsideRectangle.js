@@ -17,7 +17,7 @@ class AddOutsideRectangle extends React.Component {
                 onClick={this.action}
             >
                 <ToolIcon icon="renyiwaijiejuxing" />
-                <div>任意外接立面矩形</div>
+                <div>绘制任意外接立面矩形</div>
                 <AdMessage visible={visible} content={this.content()} />
             </div>
         );
@@ -31,7 +31,7 @@ class AddOutsideRectangle extends React.Component {
     };
 
     content = () => {
-        return <label>添加外接立面矩形，选择至少三个点绘制</label>;
+        return <label>绘制外接立面矩形，选择至少三个点绘制</label>;
     };
 }
 

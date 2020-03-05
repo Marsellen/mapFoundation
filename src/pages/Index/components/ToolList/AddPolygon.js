@@ -14,7 +14,7 @@ class AddPolygon extends React.Component {
         return (
             <div id="add-polygon-btn" className="flex-1" onClick={this.action}>
                 <ToolIcon icon="xiankuang1" />
-                <div>添加面要素</div>
+                <div>绘制面要素</div>
                 <AdMessage visible={visible} content={this.content()} />
             </div>
         );
@@ -28,7 +28,7 @@ class AddPolygon extends React.Component {
     };
 
     content = () => {
-        return <label>添加面要素</label>;
+        return <label>绘制面要素</label>;
     };
 }
 

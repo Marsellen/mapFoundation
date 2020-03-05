@@ -14,7 +14,7 @@ class AddPoint extends React.Component {
         return (
             <div id="add-point-btn" className="flex-1" onClick={this.action}>
                 <ToolIcon icon="yuandianzhong" />
-                <div>添加点要素</div>
+                <div>绘制点要素</div>
                 <AdMessage visible={visible} content={this.content()} />
             </div>
         );
@@ -28,7 +28,7 @@ class AddPoint extends React.Component {
     };
 
     content = () => {
-        return <label>添加点要素</label>;
+        return <label>绘制点要素</label>;
     };
 }
 

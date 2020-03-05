@@ -17,7 +17,7 @@ class AddGroundRectangle extends React.Component {
                 onClick={this.action}
             >
                 <ToolIcon icon="dimianjuxing" />
-                <div>添加地面矩形</div>
+                <div>绘制地面矩形</div>
                 <AdMessage visible={visible} content={this.content()} />
             </div>
         );
@@ -31,7 +31,7 @@ class AddGroundRectangle extends React.Component {
     };
 
     content = () => {
-        return <label>添加地面矩形，选择四个点进行绘制</label>;
+        return <label>绘制地面矩形，选择四个点进行绘制</label>;
     };
 }
 
