@@ -1,28 +1,52 @@
 .jobstatus {
-    padding-right: 15px;
-}
-
-.jobstatus > .jobstatus-get {
     margin-right: 5px;
-}
-
-.jobstatus > .jobstatus-get,
-.jobstatus > .jobstatus-submit {
     font-size: 30px;
+    color: #fff;
 }
 
-.quality-sub > .ant-modal-content {
+.jobstatus-get,
+.jobstatus-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+    margin: 0 15px 0 0;
+    border-radius: 50%;
+}
+
+.jobstatus-get {
+    background: rgb(23, 189, 98);
+}
+
+.jobstatus-submit {
+    background: rgb(46, 185, 255);
+}
+
+.jobstatus-get:hover {
+    background: rgb(24, 157, 86);
+}
+
+.jobstatus-submit:hover {
+    background: rgb(42, 154, 212);
+}
+
+.quality-sub>.ant-modal-content {
     width: 420px !important;
+
     .ant-modal-header {
         border-bottom: none;
         padding: 30px 24px 20px 24px !important;
     }
+
     .ant-modal-body {
         display: none;
     }
+
     .ant-modal-footer {
         border-top: none;
         padding: 16px;
+
         button {
             flex: 1;
         }

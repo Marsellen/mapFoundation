@@ -342,6 +342,7 @@ class RenderModeStore {
                 const line =
                     this.featuresMap[value] || boundaryFeaturesMap[value] || {};
                 const linePointArr = line.geometry && line.geometry.coordinates;
+                if (!linePointArr) return;
                 let position = {}; //文字的位置
                 if (relation === 'FROM_ROAD' || relation === 'FROM_LANE') {
                     const [x, y, z] = linePointArr[linePointArr.length - 1];
