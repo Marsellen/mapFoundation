@@ -49,6 +49,11 @@ const deleteLine = async (features, activeTask) => {
 
     let relStore = Relevance.store;
     await Promise.all(rels.map(rel => relStore.deleteById(rel.id)));
+    try {
+        updateFeaturesByRels(rels, true);
+    } catch (e) {
+        console.log('要素已被删除：', e.message);
+    }
 
     let attrStore = Attr.store;
     await Promise.all(attrs.map(attr => attrStore.deleteById(attr.id)));
