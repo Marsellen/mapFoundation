@@ -27,6 +27,7 @@ export default {
             scale: 1,
             dashSize: 0.3,
             gapSize: 0.3
-        } //辅助虚线
+        }, //辅助虚线
+        specifiedFeatureSelectedStyle: { color: 'rgb(238,68,80)' } //删除关联关系时，选中的样式
     }
 };
