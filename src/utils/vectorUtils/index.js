@@ -125,13 +125,19 @@ export const getAllVectorData = isCurrent => {
     if (isCurrent) {
         return window.vectorLayerGroup.getAllVectorData();
     }
-    
-    let vectorData = _.cloneDeep(window.vectorLayerGroup.getAllVectorData());
-    let boundaryData = window.boundaryLayerGroup.getAllVectorData();
-    // 因为vectorData和boundaryData的结构一致，故用此法
-    for (let i = 0; i < vectorData.features.length; i++) {
-        vectorData.features[i].features = vectorData.features[i].features.concat(boundaryData.features[i].features);
+
+    let vectorData = window.vectorLayerGroup.getAllVectorData();
+    if (window.boundaryLayerGroup) {
+        vectorData = _.cloneDeep(vectorData);
+        let boundaryData = window.boundaryLayerGroup.getAllVectorData();
+        // 因为vectorData和boundaryData的结构一致，故用此法
+        for (let i = 0; i < vectorData.features.length; i++) {
+            vectorData.features[i].features = vectorData.features[
+                i
+            ].features.concat(boundaryData.features[i].features);
+        }
     }
+
     return vectorData;
 };
 
@@ -236,17 +242,21 @@ export const modUpdStatProperties = (feature, properties) => {
 };
 
 export const getAllDataSnapshot = async isCurrent => {
-    let vectorData = getAllVectorData();
+    let vectorData = getAllVectorData(true);
     let vectorFeatures = vectorData.features;
     let attrRecords = await Attr.store.getAll();
     if (isCurrent) {
-        attrRecords = attrRecords.filter(record => record.dataType !== 'boundary');
+        attrRecords = attrRecords.filter(
+            record => record.dataType !== 'boundary'
+        );
     }
     let attrFeatures = attrFactory.attrTableToData(attrRecords);
 
     let relRecords = await Relevance.store.getAll();
     if (isCurrent) {
-        relRecords = relRecords.filter(record => record.dataType !== 'boundary');
+        relRecords = relRecords.filter(
+            record => record.dataType !== 'boundary'
+        );
     }
     let relFeatures = relFactory.relTableToData(relRecords);
 
