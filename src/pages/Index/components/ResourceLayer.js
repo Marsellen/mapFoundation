@@ -25,8 +25,7 @@ class ResourceLayer extends React.Component {
                         <Checkbox
                             value={item.value}
                             checked={item.checked}
-                            onChange={this.changeEvent(item)}
-                        >
+                            onChange={this.changeEvent(item)}>
                             {item.value}
                         </Checkbox>
                     </div>
@@ -51,13 +50,9 @@ class ResourceLayer extends React.Component {
             switch (item.value) {
                 case RESOURCE_LAYER_VECTOR: //高精地图
                     toggleAll(checked, 'vector');
-                    !checked && DataLayerStore.clearPick();
-                    AttributeStore.hideRelFeatures();
                     break;
                 case RESOURCE_LAYER_BOUNDARY: //周边底图
                     toggleAll(checked, 'boundary');
-                    !checked && DataLayerStore.clearPick();
-                    AttributeStore.hideRelFeatures();
                     break;
                 case RESOURCE_LAYER_POINT_CLOUD: //点云
                     DataLayerStore.exitReadCoordinate();
