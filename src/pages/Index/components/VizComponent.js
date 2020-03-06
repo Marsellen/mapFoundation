@@ -72,7 +72,7 @@ class VizComponent extends React.Component {
     };
 
     componentDidUpdate() {
-        this.init()
+        this.init();
     }
 
     init = async () => {
@@ -83,10 +83,15 @@ class VizComponent extends React.Component {
         await this.release();
         window.map = new Map(div);
         this.initTask(task);
-    }
+    };
 
     release = async () => {
-        const { ResourceLayerStore, VectorsStore, RelStore, AttrStore } = this.props;
+        const {
+            ResourceLayerStore,
+            VectorsStore,
+            RelStore,
+            AttrStore
+        } = this.props;
         window.map && window.map.release();
         ResourceLayerStore.release();
         VectorsStore.release();
@@ -274,8 +279,8 @@ class VizComponent extends React.Component {
     initBoundary = async boundary => {
         if (!boundary) return;
         try {
-            await loadBoundaryEx(boundary)
-            return await loadBoundary(boundary)
+            await loadBoundaryEx(boundary);
+            return await loadBoundary(boundary);
         } catch (e) {
             console.log(e);
             message.warning('作业边界数据加载失败：' + e.message, 3);
@@ -295,13 +300,13 @@ class VizComponent extends React.Component {
             layerName: RESOURCE_LAYER_BOUNDARY,
             layer: boundaryLayerGroup
         };
-    }
+    };
 
     loadBoundaryEx = async boundary => {
         const { RelStore, AttrStore } = this.props;
         await RelStore.addRecords(boundary.rels, 'boundary');
         await AttrStore.addRecords(boundary.attrs, 'boundary');
-    }
+    };
 
     initResouceLayer = layers => {
         const { ResourceLayerStore } = this.props;
@@ -313,13 +318,13 @@ class VizComponent extends React.Component {
         const { TaskStore } = this.props;
 
         //禁用浏览器默认右键菜单
-        document.oncontextmenu = function (e) {
+        document.oncontextmenu = function(e) {
             e.preventDefault();
             // return false;
         };
 
         //监听浏览器即将离开当前页面事件
-        window.onbeforeunload = function (e) {
+        window.onbeforeunload = function(e) {
             //保存当前任务比例
             const { activeTaskId } = TaskStore;
             const preTaskScale = map.getEyeView();
@@ -397,6 +402,7 @@ class VizComponent extends React.Component {
                     resetFeatureColor();
                     break;
                 default:
+                    AttributeStore.hideRelFeatures();
                     break;
             }
             window.traceLayer.unselect();
@@ -614,8 +620,7 @@ class VizComponent extends React.Component {
                     id="viz"
                     key={TaskStore.activeTaskId}
                     className="viz-box"
-                    onKeyDown={e => this.handleKeyDown(e)}
-                >
+                    onKeyDown={e => this.handleKeyDown(e)}>
                     <div className="set-compass">
                         <TopView key="TOP_VIEW" />
                         <ZoomOut key="ZOOM_OUT" />
