@@ -2,13 +2,12 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
-import { Modal, Icon, message } from 'antd';
+import { Icon, message } from 'antd';
 import { autoCreateLine } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import 'less/components/tool-icon.less';
 import 'less/components/uturn-line.less';
-import AdInputNumber from 'src/components/Form/AdInputNumber';
 import AdEmitter from 'src/models/event';
 import { isManbuildTask } from 'src/utils/taskUtils';
 
@@ -156,7 +155,7 @@ class NewTurnLine extends React.Component {
         let layerName = historyLog.features[1][0].layerName;
         let value =
             historyLog.features[1][0].data.properties[
-                layerLine === 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
+            layerLine === 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
             ];
         let IDKey = getLayerIDKey(layerName);
         let option = {

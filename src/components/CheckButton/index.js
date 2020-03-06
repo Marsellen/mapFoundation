@@ -1,6 +1,4 @@
 import React from 'react';
-import { Popover } from 'antd';
-import IconFont from '../IconFont';
 import ToolIcon from '../ToolIcon';
 import 'less/components/check-button.less';
 

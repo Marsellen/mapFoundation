@@ -24,11 +24,10 @@ export default class Shortcut {
         const {
             altKey: eAltKey,
             ctrlKey: eCtrlKey,
-            shiftKey: eShiftKey,
             keyCode: eKeyCode
         } = event;
         return item => {
-            const { id, ctrl, alt, shift, keyCode, callback } = item;
+            const { id, ctrl, alt, keyCode, callback } = item;
             if (alt === eAltKey && ctrl === eCtrlKey && keyCode === eKeyCode) {
                 event.preventDefault();
                 event.stopPropagation();

@@ -71,14 +71,14 @@ class RenderModeStore {
         const { boundaryLayerMap, vectorLayerMap } = VectorsStore;
 
         //清除任务范围内文字标注
-        Object.values(vectorLayerMap).map(layer => {
+        Object.values(vectorLayerMap).forEach(layer => {
             this.textIdArr.map(item => {
                 layer.removeFeatureById(item);
             });
         });
 
         //清除任务范围外文字标注
-        Object.values(boundaryLayerMap).map(layer => {
+        Object.values(boundaryLayerMap).forEach(layer => {
             this.textIdArr.map(item => {
                 layer.removeFeatureById(item);
             });
@@ -165,7 +165,7 @@ class RenderModeStore {
     };
 
     //将有关联关系的要素，按专题图进行分组
-    @action setRels = flow(function*() {
+    @action setRels = flow(function* () {
         //获取关联关系图层所有要素
         const allRelData = yield getAllRelData();
         const allRelDataArr = allRelData.features;

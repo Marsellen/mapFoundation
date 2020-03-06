@@ -1,7 +1,5 @@
 import React from 'react';
-import { Popover, Tooltip } from 'antd';
 import { inject, observer } from 'mobx-react';
-import IconFont from 'src/components/IconFont';
 import PointStratification from './PointStratification';
 import Intensity from './Intensity';
 import AdjustPointSize from './AdjustPointSize';
