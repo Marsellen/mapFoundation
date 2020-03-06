@@ -123,6 +123,22 @@ class AttributeStore {
         );
     });
 
+    commonFetchRelFeatures = async relRecords => {
+        this.hideRelFeatures();
+        await this.getRelFeatureOptions(relRecords);
+        this.showRelFeatures();
+    };
+
+    commonHideRelFeatures = () => {
+        this.relFeatures.map(feature => {
+            try {
+                updateFeatureColor(feature.layerName, feature.option);
+            } catch (e) {
+                console.log(e);
+            }
+        });
+    };
+
     fetchRelFeatures = async relRecords => {
         try {
             const {
@@ -133,9 +149,7 @@ class AttributeStore {
             //选中要素时，不同渲染模式不同变色方式
             switch (activeMode) {
                 case 'common':
-                    this.hideRelFeatures();
-                    await this.getRelFeatureOptions(relRecords);
-                    this.showRelFeatures();
+                    await this.commonFetchRelFeatures(relRecords);
                     break;
                 case 'relation':
                     resetFeatureColor();
@@ -143,6 +157,7 @@ class AttributeStore {
                     this.getRelFeatureOptions(relRecords);
                     break;
                 default:
+                    await this.commonFetchRelFeatures(relRecords);
                     break;
             }
         } catch (error) {
@@ -156,21 +171,13 @@ class AttributeStore {
             //取消选中时，不同渲染模式不同变色方式
             switch (activeMode) {
                 case 'common':
-                    this.relFeatures.map(feature => {
-                        try {
-                            updateFeatureColor(
-                                feature.layerName,
-                                feature.option
-                            );
-                        } catch (e) {
-                            console.log(e);
-                        }
-                    });
+                    this.commonHideRelFeatures();
                     break;
                 case 'relation':
                     resetFeatureColor();
                     break;
                 default:
+                    this.commonHideRelFeatures();
                     break;
             }
         } catch (error) {
