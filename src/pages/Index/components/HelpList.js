@@ -33,6 +33,7 @@ class HelpList extends React.Component {
                     title: '帮助中心',
                     placement: 'rightBottom',
                     visible: this.state.clicked,
+                    overlayClassName: 'help-list',
                     onVisibleChange: this.handleClickChange,
                     content: this._renderContent(),
                     trigger: 'hover'
