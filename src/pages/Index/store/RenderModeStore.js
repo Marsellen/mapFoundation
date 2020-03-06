@@ -68,9 +68,22 @@ class RenderModeStore {
     //清除文字标注
     clearFeatureText = () => {
         if (!this.textIdArr || this.textIdArr.length === 0) return;
-        this.textIdArr.map(item => {
-            window.vectorLayer.removeFeatureById(item);
+        const { boundaryLayerMap, vectorLayerMap } = VectorsStore;
+
+        //清除任务范围内文字标注
+        Object.values(vectorLayerMap).map(layer => {
+            this.textIdArr.map(item => {
+                layer.removeFeatureById(item);
+            });
         });
+
+        //清除任务范围外文字标注
+        Object.values(boundaryLayerMap).map(layer => {
+            this.textIdArr.map(item => {
+                layer.removeFeatureById(item);
+            });
+        });
+
         this.textIdArr = [];
     };
 
@@ -310,11 +323,14 @@ class RenderModeStore {
             });
         });
 
-        this.showRelFeatures(featureId, layerName, relFeatures);
+        const { boundaryFeatures } = VectorsStore;
+        const isBoundary = boundaryFeatures.includes(featureId);
+        const layer = isBoundary ? 'boundaryLayerMap' : 'vectorLayerMap';
+        this.showRelFeatures(featureId, layerName, relFeatures, layer);
     };
 
     //将选中要素的关联要素高亮并加上文字标注
-    showRelFeatures = (featureId, featureLayerName, relFeatures) => {
+    showRelFeatures = (featureId, featureLayerName, relFeatures, layer) => {
         const { boundaryFeaturesMap } = VectorsStore;
         try {
             relFeatures.forEach(item => {
@@ -354,11 +370,13 @@ class RenderModeStore {
                     position = calculateMiddlePoint(line); //计算线的中心点
                 }
 
-                const textId = window.vectorLayer.addTextFeature(
+                //将文字标注添加到选中要素所在的图层
+                const textId = VectorsStore[layer][layerName].addTextFeature(
                     text,
                     position,
                     style
                 );
+
                 //文字标注id数组
                 this.textIdArr.push(textId);
             });
