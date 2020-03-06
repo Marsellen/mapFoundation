@@ -55,7 +55,7 @@ class CheckButton extends React.Component {
                 />
                 <ToolIcon
                     icon="sanjiao1"
-                    title="更多"
+                    title="常用工具"
                     className="jiao-biao"
                     focusClassName="jiao-biao-active"
                     disabled={disabled}
