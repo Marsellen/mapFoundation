@@ -4,8 +4,10 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 configure({ enforceActions: 'always' });
 
 class VectorsStore {
-    boundaryFeaturesMap = {};
-    boundaryFeatures = [];
+    vectorLayerMap = {}; //{图层名:layer}
+    boundaryLayerMap = {}; //{图层名:layer}
+    boundaryFeaturesMap = {}; //{id:要素信息}
+    boundaryFeatures = []; //[id,id...]
     @observable vectors = {};
     @observable layerType = 'vector';
     @observable updateKey;
@@ -29,10 +31,13 @@ class VectorsStore {
 
     @action addLayer = layerGroup => {
         const { layers } = layerGroup;
-        this.vectors.vector = layers.map(layer => {
+        this.vectors.vector = layers.map(layerItem => {
+            const { layer, layerName } = layerItem;
+            this.vectorLayerMap[layerName] = layer;
+
             return {
-                layer: layer.layer,
-                value: layer.layerName,
+                layer: layer,
+                value: layerName,
                 checked: true
             };
         });
@@ -41,14 +46,16 @@ class VectorsStore {
     @action addBoundaryLayer = layerGroup => {
         const { layers } = layerGroup;
         this.vectors.boundary = layers
-            .filter(layer => layer.layerName !== 'AD_Map_QC')
-            .map(layer => {
+            .map(layerItem => {
+                const { layer, layerName } = layerItem;
+                this.boundaryLayerMap[layerName] = layer;
                 return {
-                    layer: layer.layer,
-                    value: layer.layerName,
+                    layer: layer,
+                    value: layerName,
                     checked: true
                 };
-            });
+            })
+            .filter(layerItem => layerItem.value !== 'AD_Map_QC');
 
         const { featuresMap, featuresArr } = this.handleFeatures(layers);
         this.boundaryFeaturesMap = featuresMap;
