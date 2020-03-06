@@ -68,6 +68,7 @@ class NewTurnLine extends React.Component {
         ) {
             message.warning(`操作错误：应选择 2 条${layerNameCN}`, 3);
             DataLayerStore.exitEdit();
+            return;
         }
         let params = {};
         params[layerName] = {};
