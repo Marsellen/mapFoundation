@@ -38,8 +38,7 @@ class ResourceLayer extends React.Component {
         const {
             ResourceLayerStore,
             DataLayerStore,
-            VectorsStore,
-            AttributeStore
+            VectorsStore
         } = this.props;
         const { toggleAll } = VectorsStore;
         const onChange = e => {

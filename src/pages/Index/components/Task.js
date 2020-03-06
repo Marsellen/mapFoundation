@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Empty, Modal, Button } from 'antd';
+import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import editLog from 'src/models/editLog';

@@ -104,9 +104,7 @@ class DataLayer extends React.Component {
         const value = e.target.checked;
         const {
             ResourceLayerStore,
-            VectorsStore,
-            DataLayerStore,
-            AttributeStore
+            VectorsStore
         } = this.props;
         const { layerType, toggleAll } = VectorsStore;
         let resourceKey = vectorsTabsConfig.find(
@@ -121,9 +119,7 @@ class DataLayer extends React.Component {
     changeEvent = (item, value) => {
         const {
             ResourceLayerStore,
-            VectorsStore,
-            DataLayerStore,
-            AttributeStore
+            VectorsStore
         } = this.props;
         const { toggle: resourceToggle, setIndeterminate } = ResourceLayerStore;
         const { toggle: vectorsToggle } = VectorsStore;
