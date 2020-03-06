@@ -116,8 +116,6 @@ class DataLayer extends React.Component {
 
         // 控制数据图层全部按钮的是否选中状态
         toggleAll(value);
-        !value && DataLayerStore.clearPick();
-        AttributeStore.hideRelFeatures();
     };
 
     changeEvent = (item, value) => {
@@ -146,8 +144,6 @@ class DataLayer extends React.Component {
         isCheckedAll && resourceToggle(resourceKey, true);
         isCheckedNone && resourceToggle(resourceKey, false);
         indeterminate && setIndeterminate(resourceKey);
-        AttributeStore.hideRelFeatures();
-        DataLayerStore.clearPick();
     };
 }
 
