@@ -27,10 +27,15 @@ import AttrStore from './AttrStore';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
-    @observable tasks = [];
+    @observable onlineTasks = [];
+    @observable localTasks = [];
     @observable activeTask = {};
     @observable taskSaveTime;
     @observable editTaskId;
+
+    @computed get tasks() {
+        return this.localTasks.concat(this.onlineTasks);
+    }
 
     @computed get taskIdList() {
         return this.tasks.map(item => Number(item.taskId));
@@ -69,7 +74,7 @@ class TaskStore {
         try {
             const result = yield JobService.listTask(option);
 
-            this.tasks = result.data.taskList;
+            this.onlineTasks = result.data.taskList;
             return result.data;
         } catch (e) {
             message.warning('任务加载失败：' + e.message, 3);
@@ -188,7 +193,8 @@ class TaskStore {
     isGetTaskBoundaryFile = () => {
         const { taskBoundaryIsUpdate } =
             AdLocalStorage.getTaskInfosStorage(this.activeTaskId) || {};
-        return taskBoundaryIsUpdate;
+        // 本地任务不请求更新底图数据
+        return taskBoundaryIsUpdate || this.activeTask.isLocal;
     };
 
     getTaskBoundaryFile = flow(function*() {
@@ -359,7 +365,24 @@ class TaskStore {
     });
 
     @action loadLocalTask = task => {
-        this.activeTask = task;
+        if (this.tasks.map(t => t.taskId).includes(task.taskId)) {
+            throw {
+                message: '资料目录重复'
+            };
+        }
+        this.activeTask = {
+            ...task,
+            projectId: 1,
+            isLocal: true
+        };
+        this.localTasks.push(this.activeTask);
+    };
+
+    @action tasksPop = () => {
+        if (this.activeTask.isLocal) {
+            this.localTasks.pop();
+            this.activeTask = {};
+        }
     };
 }
 

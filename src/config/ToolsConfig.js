@@ -21,7 +21,8 @@ export const TOOLS_MAP = {
         QUALITY_TEST: true,
         POINT_CLOUD: true,
         TOOL_BOX: true,
-        DRAW_TOOL_BOX: false
+        DRAW_TOOL_BOX: false,
+        RESOURCE_LOADER: true
     },
     CHECK: {}
 };

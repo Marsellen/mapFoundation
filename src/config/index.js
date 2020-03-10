@@ -16,5 +16,10 @@ export default {
 
     expireTime: 86400,
     autoSaveTime: 600000,
-    loopTaskTime: 60000
+    loopTaskTime: 60000,
+
+    processNameOptions: [
+        { label: '人工识别数据', value: 'imp_recognition' },
+        { label: '人工构建数据', value: 'imp_manbuild' }
+    ]
 };

@@ -44,7 +44,9 @@ class JobStatus extends React.Component {
 
     render() {
         const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
+        const {
+            activeTask: { isLocal, taskId }
+        } = TaskStore;
         const { qualityVisible } = this.state;
 
         return (
@@ -56,20 +58,23 @@ class JobStatus extends React.Component {
                     focusColor={false}
                     action={this.getJob}
                 />
-                <ToolIcon
-                    icon="tijiaorenwu"
-                    title="提交任务"
-                    className="jobstatus-submit"
-                    disabled={activeTaskId ? false : true}
-                    focusColor={false}
-                    action={this.submitTask}
-                />
+                {!isLocal && (
+                    <ToolIcon
+                        icon="tijiaorenwu"
+                        title="提交任务"
+                        className="jobstatus-submit"
+                        disabled={taskId ? false : true}
+                        focusColor={false}
+                        action={this.submitTask}
+                    />
+                )}
                 <Modal
                     className="quality-sub"
                     title="当前任务是否通过质检？"
                     visible={qualityVisible}
                     footer={this.renderFooter()}
-                    onCancel={this.closeQualityComfirm}></Modal>
+                    onCancel={this.closeQualityComfirm}
+                ></Modal>
             </div>
         );
     }
@@ -313,21 +318,24 @@ class JobStatus extends React.Component {
                     onClick={() => {
                         this.submitJob(this.passOption);
                         this.closeQualityComfirm();
-                    }}>
+                    }}
+                >
                     质检通过
                 </Button>
                 <Button
                     onClick={() => {
                         this.submitJob(this.repairOption);
                         this.closeQualityComfirm();
-                    }}>
+                    }}
+                >
                     任务返修
                 </Button>
                 <Button
                     onClick={() => {
                         this.submitJob(this.remadeOption);
                         this.closeQualityComfirm();
-                    }}>
+                    }}
+                >
                     任务返工
                 </Button>
             </div>

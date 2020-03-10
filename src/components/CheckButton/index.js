@@ -17,8 +17,7 @@ class CheckButton extends React.Component {
             return {
                 ...state,
                 option: {},
-                defaultOption: props.defaultOption,
-                shouldUpdate: true
+                defaultOption: props.defaultOption
             };
         }
         return null;

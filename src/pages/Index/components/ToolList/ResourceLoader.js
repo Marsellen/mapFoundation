@@ -1,8 +1,10 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import { Modal, Button, Form, Input } from 'antd';
+import { Modal, Button, Form, message, Select, Input } from 'antd';
+import CONFIG from 'src/config';
 
+const processNameOptions = CONFIG.processNameOptions;
 const formLayout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 20 }
@@ -21,12 +23,7 @@ class ResourceLoader extends React.Component {
     render() {
         return (
             <span>
-                <ToolIcon
-                    icon="ziliaojiazai"
-                    title="资料加载"
-                    action={this.action}
-                    visible={this.state.visible}
-                />
+                <ToolIcon icon="daoru" title="资料加载" action={this.action} />
                 {this.renderModal()}
             </span>
         );
@@ -42,21 +39,21 @@ class ResourceLoader extends React.Component {
                 destroyOnClose={true}
                 onCancel={this.handleCancel}
                 maskClosable={false}
-                footer={this.renderFooter()}>
+                footer={this.renderFooter()}
+            >
                 <Form colon={false} hideRequiredMark={true} {...formLayout}>
                     <Form.Item label="任务id">
-                        {form.getFieldDecorator('name', {
+                        {form.getFieldDecorator('taskId', {
                             rules: [
                                 {
                                     required: true,
                                     message: '任务id必填'
                                 }
                             ]
-                            //initialValue: '123'
-                        })(<Input />)}
+                        })(<Input disabled />)}
                     </Form.Item>
                     <Form.Item label="资料路径">
-                        {form.getFieldDecorator('url', {
+                        {form.getFieldDecorator('Input_imp_data_path', {
                             rules: [
                                 {
                                     required: true,
@@ -67,8 +64,32 @@ class ResourceLoader extends React.Component {
                                     message: '资料路径必需为url'
                                 }
                             ]
-                            //initialValue: 'http://10.43.75.120/task/62334/08_EDIT_JSON'
-                        })(<Input />)}
+                            //initialValue: 'http://10.43.75.119/task/83504'
+                        })(<Input onChange={this.urlOnChange} />)}
+                    </Form.Item>
+                    <Form.Item label="数据类型">
+                        {form.getFieldDecorator('processName', {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: '数据类型必填'
+                                }
+                            ]
+                            //initialValue: ''
+                        })(
+                            <Select>
+                                {processNameOptions.map((option, index) => {
+                                    return (
+                                        <Select.Option
+                                            key={index}
+                                            value={option.value}
+                                        >
+                                            {option.label}
+                                        </Select.Option>
+                                    );
+                                })}
+                            </Select>
+                        )}
                     </Form.Item>
                 </Form>
             </Modal>
@@ -77,6 +98,15 @@ class ResourceLoader extends React.Component {
 
     renderFooter = () => {
         return <Button onClick={this.submit}>加载</Button>;
+    };
+
+    urlOnChange = event => {
+        let url = event.target.value;
+        let arr = url.split('/');
+        let id = arr[arr.length - 1];
+        this.props.form.setFieldsValue({
+            taskId: id
+        });
     };
 
     action = () => {
@@ -111,14 +141,20 @@ class ResourceLoader extends React.Component {
             if (err) {
                 return;
             }
-            TaskStore.loadLocalTask({
-                taskId: values.name,
-                Input_imp_data_path: values.url
-            });
-            this.setState({
-                visible: false
-            });
-            this.clearWorkSpace();
+            try {
+                if (!/^\d+$/.test(values.taskId)) {
+                    throw {
+                        message: '资料目录不符合规范'
+                    };
+                }
+                TaskStore.loadLocalTask(values);
+                this.setState({
+                    visible: false
+                });
+                this.clearWorkSpace();
+            } catch (e) {
+                message.error(e.message);
+            }
         });
     };
 
