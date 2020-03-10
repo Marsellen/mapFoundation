@@ -6,6 +6,9 @@ import editLog from 'src/models/editLog';
 import { RESOURCE_LAYER_BOUNDARY } from 'src/config/DataLayerConfig';
 import 'less/components/sider.less';
 import ToolIcon from 'src/components/ToolIcon';
+import CONFIG from 'src/config';
+
+const processNameOptions = CONFIG.processNameOptions;
 
 @inject('RenderModeStore')
 @inject('QualityCheckStore')
@@ -44,8 +47,9 @@ class Task extends React.Component {
                                 <span
                                     onClick={e =>
                                         this.chooseTask(e, item.taskId, false)
-                                    }>
-                                    {`${item.taskId}-${item.nodeDesc}-${item.manualStatusDesc}`}
+                                    }
+                                >
+                                    {this.getTaskLabel(item)}
                                 </span>
                                 <ToolIcon
                                     icon="kaishi"
@@ -71,6 +75,16 @@ class Task extends React.Component {
 
     renderNoData = () => {
         return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
+    };
+
+    getTaskLabel = task => {
+        if (task.isLocal) {
+            let processName = processNameOptions.find(
+                option => option.value === task.processName
+            ).label;
+            return `${task.taskId}-${processName}`;
+        }
+        return `${task.taskId}-${task.nodeDesc}-${task.manualStatusDesc}`;
     };
 
     chooseTask = (e, id, isEdit) => {

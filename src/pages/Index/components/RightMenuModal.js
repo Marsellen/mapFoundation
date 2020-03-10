@@ -470,7 +470,9 @@ class RightMenuModal extends React.Component {
     };
 
     regionCheck = data => {
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, TaskStore } = this.props;
+        let isLocal = TaskStore.activeTask.isLocal;
+        if (isLocal) return;
         //判断要素是否在任务范围内
         const elementGeojson = _.cloneDeep(data.data);
         let isInRegion = isRegionContainsElement(

@@ -3,9 +3,6 @@ import { TOOLS_MAP } from 'src/config/ToolsConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 const initEditTools = TOOLS_MAP.EDIT;
-if (location.pathname.includes('source')) {
-    initEditTools.RESOURCE_LOADER = true;
-}
 
 configure({ enforceActions: 'always' });
 class ToolCtrlStore {

@@ -89,12 +89,14 @@ class VizComponent extends React.Component {
         const {
             ResourceLayerStore,
             VectorsStore,
+            DataLayerStore,
             RelStore,
             AttrStore
         } = this.props;
         window.map && window.map.release();
         ResourceLayerStore.release();
         VectorsStore.release();
+        DataLayerStore.setRegionGeojson();
         window.boundaryLayerGroup = null;
         window.pointCloudLayer = null;
         window.vectorLayerGroup = null;
@@ -174,6 +176,8 @@ class VizComponent extends React.Component {
                     title: '资料加载失败，请确认输入正确路径。',
                     okText: '确定'
                 });
+                const { TaskStore } = this.props;
+                TaskStore.tasksPop();
             });
         console.timeEnd('taskLoad');
     };
@@ -258,13 +262,16 @@ class VizComponent extends React.Component {
     initRegion = async regionUrl => {
         if (!regionUrl) return;
         try {
-            const { DataLayerStore } = this.props;
+            const { DataLayerStore, TaskStore } = this.props;
             window.vectorLayer = new VectorLayer(regionUrl);
             vectorLayer.setDefaultStyle({ color: 'rgb(16,201,133)' });
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
             //保存任务范围geojson
-            const getRegionRes = vectorLayer.getVectorData();
-            DataLayerStore.setRegionGeojson(getRegionRes.features[0]);
+            let { activeTask } = TaskStore;
+            if (!activeTask.isLocal) {
+                const getRegionRes = vectorLayer.getVectorData();
+                DataLayerStore.setRegionGeojson(getRegionRes.features[0]);
+            }
 
             return {
                 layerName: RESOURCE_LAYER_TASK_SCOPE,
@@ -514,7 +521,9 @@ class VizComponent extends React.Component {
     };
 
     regionCheck = data => {
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, TaskStore } = this.props;
+        let isLocal = TaskStore.activeTask.isLocal;
+        if (isLocal) return;
         //判断要素是否在任务范围内
         const elementGeojson = _.cloneDeep(data.data);
         let isInRegion = isRegionContainsElement(
@@ -522,7 +531,7 @@ class VizComponent extends React.Component {
             DataLayerStore.regionGeojson
         );
         if (!isInRegion) {
-            throw new Error('绘制失败，请在任务范围内绘制要素');
+            throw new Error('绘制失败，请在任务范围内绘制');
         }
     };
 
@@ -620,7 +629,8 @@ class VizComponent extends React.Component {
                     id="viz"
                     key={TaskStore.activeTaskId}
                     className="viz-box"
-                    onKeyDown={e => this.handleKeyDown(e)}>
+                    onKeyDown={e => this.handleKeyDown(e)}
+                >
                     <div className="set-compass">
                         <TopView key="TOP_VIEW" />
                         <ZoomOut key="ZOOM_OUT" />
