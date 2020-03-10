@@ -95,7 +95,7 @@ class QualityCheckResultTable extends React.Component {
         );
     }
 
-    componentWillReceiveProps() {
+    UNSAFE_componentWillReceiveProps() {
         const { QualityCheckStore } = this.props;
         if (!QualityCheckStore) return;
 

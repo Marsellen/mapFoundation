@@ -6,14 +6,14 @@ import IconFont from '../IconFont';
 class ToolIcon extends React.Component {
     state = { tooltipVisible: false };
 
-    componentWillReceiveProps() {
-        //有popover，不显示tooltip
-        const { popover, visible } = this.props;
-        if (popover && !visible) {
-            this.setState({
-                tooltipVisible: false
-            });
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const { tooltipVisible } = prevState;
+        const { popover, visible } = nextProps;
+        //图标有气泡弹窗，气泡弹窗显示时，隐藏文字提示
+        if (popover && visible && tooltipVisible) {
+            return { tooltipVisible: false };
         }
+        return null;
     }
 
     handleHoverChange = tooltipVisible => {
