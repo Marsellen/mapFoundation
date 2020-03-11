@@ -350,7 +350,13 @@ class DataLayerStore {
     // 两条车道线自动生成中心线
     setStraightCallback = callback => {
         this.straightCallback = callback;
+    };
+
+    setUTurnCallback = callback => {
         this.turnCallback = callback;
+    };
+
+    setUTurnCallback = callback => {
         this.uturnCallback = callback;
     };
 
