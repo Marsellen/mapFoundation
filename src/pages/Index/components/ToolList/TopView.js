@@ -38,16 +38,24 @@ class TopView extends React.Component {
             RightMenuStore
         } = this.props;
         const { isTopView } = DataLayerStore;
+        let layer = DataLayerStore.getEditLayer();
 
         if (!isTopView) {
             window.map.setCurrentView('U');
             window.map.disableRotate();
-            ToolCtrlStore.updateByEditLayer();
+            if (layer.layerName === 'AD_TrafficLight' || layer.layerName === 'AD_TrafficSign' || layer.layerName === 'AD_Pole' || layer.layerName === 'AD_RS_Barrier') {
+                DataLayerStore.activeEditor();
+                ToolCtrlStore.updateByEditLayer();
+            } else {
+                ToolCtrlStore.updateByEditLayer(layer);
+            }
             DataLayerStore.enableRegionSelect();
-            DataLayerStore.activeEditor();
             AttributeStore.hide();
             RightMenuStore.hide();
         } else {
+            if (DataLayerStore.editType == 'copyLine' || DataLayerStore.editType == 'movePointFeature') {
+                DataLayerStore.exitEdit();
+            }
             window.map.enableRotate();
             DataLayerStore.disableRegionSelect();
         }
