@@ -20,7 +20,7 @@ import { isManbuildTask } from 'src/utils/taskUtils';
 class NewTurnLine extends React.Component {
     componentDidMount() {
         const { DataLayerStore } = this.props;
-        DataLayerStore.setStraightCallback((result, event) => {
+        DataLayerStore.setTurnCallback((result, event) => {
             if (event.button !== 2) return false;
             this.handleData(result);
         });
@@ -37,7 +37,8 @@ class NewTurnLine extends React.Component {
                 id="new-turn-line"
                 key={updateKey}
                 onClick={this.action}
-                className="flex-1">
+                className="flex-1"
+            >
                 <ToolIcon icon="zhuanwan" />
                 <div>
                     {layerName == 'AD_Lane'
@@ -155,7 +156,7 @@ class NewTurnLine extends React.Component {
         let layerName = historyLog.features[1][0].layerName;
         let value =
             historyLog.features[1][0].data.properties[
-            layerLine === 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
+                layerLine === 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
             ];
         let IDKey = getLayerIDKey(layerName);
         let option = {
