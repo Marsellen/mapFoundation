@@ -291,7 +291,7 @@ class QualityCheckResultTable extends React.Component {
                     value: Number(location.featureId)
                 };
                 let layer = getLayerByName(location.layerName);
-                if (!layer.getFeatureByOption(option)) return;
+                // if (!layer.getFeatureByOption(option)) return;
                 let feature = layer.getFeatureByOption(option).properties;
                 let extent = map.getExtent(feature.data.geometry);
                 map.setView('U');
@@ -300,7 +300,6 @@ class QualityCheckResultTable extends React.Component {
                 this.scrollTop = this.checkReportTable.scrollTop;
             } catch (e) {
                 let geomPoint = geom.slice(6, -1).split(' ');
-                console.log(geomPoint);
                 window.map.lookDownOn(geomPoint[0], geomPoint[1], geomPoint[2]);
             }
         };

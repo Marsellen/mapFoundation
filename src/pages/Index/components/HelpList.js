@@ -2,6 +2,7 @@ import React from 'react';
 import HotKey from './HotKey';
 import 'src/assets/less/components/hotkey.less';
 import ToolIcon from 'src/components/ToolIcon';
+import FeedBack from './FeedBack'
 
 class HelpList extends React.Component {
     state = {
@@ -45,6 +46,7 @@ class HelpList extends React.Component {
         return (
             <div onClick={this.hide}>
                 <HotKey />
+                <FeedBack />
             </div>
         );
     }
