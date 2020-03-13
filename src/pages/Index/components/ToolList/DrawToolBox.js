@@ -44,6 +44,16 @@ const OPTIONS = {
         key: 'xiankuang1',
         title: '绘制面要素',
         actionid: 'add-polygon-btn'
+    },
+    ADD_OUTSIDE_RECTANGLE: {
+        key: 'renyiwaijiejuxing',
+        title: '绘制任意外接立面矩形',
+        actionid: 'add-outside-rectangle-btn'
+    },
+    ADD_GROUND_RECTANGLE: {
+        key: 'dimianjuxing',
+        title: '绘制地面矩形',
+        actionid: 'add-ground-rectangle-btn'
     }
 };
 
@@ -54,6 +64,7 @@ const OPTIONS = {
 @observer
 class DrawToolBox extends React.Component {
     render() {
+        let drawTools = this.getDrawTools();
         return (
             <CheckButton
                 defaultOption={this.getDefaultOption()}
@@ -62,6 +73,7 @@ class DrawToolBox extends React.Component {
                 renderContent={this.renderContent}
                 active={this.getActive()}
                 onRef={ref => (this.checkButton = ref)}
+                hideDropdown={drawTools.length < 2}
             />
         );
     }
@@ -98,8 +110,7 @@ class DrawToolBox extends React.Component {
             <Menu
                 onClick={this.action}
                 selectedKeys={[selectedKey]}
-                style={{ width: 227 }}
-            >
+                style={{ width: 227 }}>
                 {menus.filter(menu => drawTools.includes(menu.props.name))}
             </Menu>
         );
@@ -127,56 +138,49 @@ class DrawToolBox extends React.Component {
                 name="POINT"
                 key="yuandianzhong"
                 title="绘制点要素"
-                actionid="add-point-btn"
-            >
+                actionid="add-point-btn">
                 <AddPoint />
             </Menu.Item>,
             <Menu.Item
                 name="LINE"
                 key="icon-line-graph"
                 title="绘制线要素"
-                actionid="add-line-btn"
-            >
+                actionid="add-line-btn">
                 <AddLine />
             </Menu.Item>,
             <Menu.Item
                 name="POLYGON"
                 key="xiankuang1"
                 title="绘制面要素"
-                actionid="add-polygon-btn"
-            >
+                actionid="add-polygon-btn">
                 <AddPolygon />
             </Menu.Item>,
             <Menu.Item
                 name="ADD_FACADE_RECTANGLE"
                 key="limianjuxing"
                 title="绘制两点立面矩形"
-                actionid="add-facade-rectangle-btn"
-            >
+                actionid="add-facade-rectangle-btn">
                 <AddFacadeRectangle />
             </Menu.Item>,
             <Menu.Item
                 name="ADD_OUTSIDE_RECTANGLE"
                 key="renyiwaijiejuxing"
                 title="绘制任意外接立面矩形"
-                actionid="add-outside-rectangle-btn"
-            >
+                actionid="add-outside-rectangle-btn">
                 <AddOutsideRectangle />
             </Menu.Item>,
             <Menu.Item
                 name="ADD_CIRCLE"
                 key="sandianhuayuan"
                 title="绘制三点圆形"
-                actionid="add-circle-btn"
-            >
+                actionid="add-circle-btn">
                 <AddCircle />
             </Menu.Item>,
             <Menu.Item
                 name="ADD_GROUND_RECTANGLE"
                 key="dimianjuxing"
                 title="绘制地面矩形"
-                actionid="add-ground-rectangle-btn"
-            >
+                actionid="add-ground-rectangle-btn">
                 <AddGroundRectangle />
             </Menu.Item>,
             <Menu.Divider name="DIVIDER" key="divider" />,
@@ -192,8 +196,7 @@ class DrawToolBox extends React.Component {
                         ? '左右车道线生成中心线'
                         : '路段中参考线生成'
                 }
-                actionid="divider-to-auto-create"
-            >
+                actionid="divider-to-auto-create">
                 <DividerToAutoCreate />
             </Menu.Item>,
             <Menu.Item
@@ -204,8 +207,7 @@ class DrawToolBox extends React.Component {
                         ? '路口内直行中心线生成'
                         : '路口内直行参考线生成'
                 }
-                actionid="new-straight-line"
-            >
+                actionid="new-straight-line">
                 <NewStraightLine />
             </Menu.Item>,
             <Menu.Item
@@ -216,8 +218,7 @@ class DrawToolBox extends React.Component {
                         ? '路口内转弯中心线生成'
                         : '路口内转弯参考线生成'
                 }
-                actionid="new-turn-line"
-            >
+                actionid="new-turn-line">
                 <NewTurnLine />
             </Menu.Item>,
             <Menu.Item
@@ -226,8 +227,7 @@ class DrawToolBox extends React.Component {
                 title={
                     layerName == 'AD_Lane' ? '掉头中心线生成' : '掉头参考线生成'
                 }
-                actionid="new-uturn-line"
-            >
+                actionid="new-uturn-line">
                 <NewUTurnLine />
             </Menu.Item>
         ];

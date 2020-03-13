@@ -6,7 +6,7 @@ import attrFactory from 'src/utils/attrCtrl/attrFactory';
 import relFactory from 'src/utils/relCtrl/relFactory';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import _ from 'lodash';
-import { DEFAULT_CONFIDENCE_MAP } from 'src/config/ADMapDataConfig';
+import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
 const jsts = require('jsts');
 
 export const getLayerIDKey = layerName => {

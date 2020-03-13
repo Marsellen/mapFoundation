@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { Form, Select, Input } from 'antd';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
-import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
+import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import { getValidator } from 'src/utils/form/validator';
 

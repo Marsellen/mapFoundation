@@ -1,4 +1,4 @@
-import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
+import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
 import _ from 'lodash';
 
 const DEFAULT_FILTER = () => {

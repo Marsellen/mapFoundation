@@ -62,8 +62,8 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_Text',
         tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
         drawTools: {
-            recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
-            manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
+            recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],
+            manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON']
         },
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
@@ -123,15 +123,15 @@ export const DATA_LAYER_MAP = {
         tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
         drawTools: {
             recognition: [
+                'ADD_OUTSIDE_RECTANGLE',
                 'POLYGON',
                 'ADD_FACADE_RECTANGLE',
-                'ADD_OUTSIDE_RECTANGLE',
                 'ADD_CIRCLE'
             ],
             manbuild: [
+                'ADD_OUTSIDE_RECTANGLE',
                 'POLYGON',
                 'ADD_FACADE_RECTANGLE',
-                'ADD_OUTSIDE_RECTANGLE',
                 'ADD_CIRCLE'
             ]
         },
@@ -180,14 +180,14 @@ export const DATA_LAYER_MAP = {
         tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
         drawTools: {
             recognition: [
+                'ADD_OUTSIDE_RECTANGLE',
                 'POLYGON',
-                'ADD_FACADE_RECTANGLE',
-                'ADD_OUTSIDE_RECTANGLE'
+                'ADD_FACADE_RECTANGLE'
             ],
             manbuild: [
+                'ADD_OUTSIDE_RECTANGLE',
                 'POLYGON',
-                'ADD_FACADE_RECTANGLE',
-                'ADD_OUTSIDE_RECTANGLE'
+                'ADD_FACADE_RECTANGLE'
             ]
         },
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],

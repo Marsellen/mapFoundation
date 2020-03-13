@@ -4,7 +4,7 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import SearchIconGroup from 'src/components/SearchIconGroup';
 import _ from 'lodash';
 import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
-import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
+import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
 import './style.less';
 import { getValidator } from 'src/utils/form/validator';
