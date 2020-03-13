@@ -2,7 +2,7 @@ import {
     DEFAULT_PROPERTIES_MAP,
     TABLE_DATA_MAP,
     DEFAULT_CONFIDENCE_MAP
-} from 'src/config/ADMapDataConfig';
+} from 'config/ADMapDataConfig';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
 import _ from 'lodash';
 

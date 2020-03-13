@@ -6,7 +6,7 @@ import {
     REL_SPEC_CONFIG
 } from 'src/config/RelsConfig';
 import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
-import { DEFAULT_CONFIDENCE_MAP } from 'src/config/ADMapDataConfig';
+import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
 import { updateFeaturesByRels } from './relCtrl';
 import EditorService from 'src/services/EditorService';
 import AdLineService from 'src/services/AdLineService';

@@ -15,7 +15,7 @@ import {
     ATTR_SPEC_CONFIG,
     MOD_UPD_STAT_RELATION_LAYERS
 } from 'src/config/AttrsConfig';
-import { DEFAULT_CONFIDENCE_MAP } from 'src/config/ADMapDataConfig';
+import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
 import {
     getAllRelFeatureOptions,
     uniqOptions

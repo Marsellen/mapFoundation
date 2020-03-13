@@ -5,7 +5,7 @@ import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
 import {
     TYPE_SELECT_OPTION_MAP,
     DEFAULT_PROPERTIES_MAP
-} from 'src/config/ADMapDataConfig';
+} from 'config/ADMapDataConfig';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import SearchIconGroup from 'src/components/SearchIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
