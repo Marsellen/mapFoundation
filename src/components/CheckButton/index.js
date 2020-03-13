@@ -38,7 +38,7 @@ class CheckButton extends React.Component {
             option: { icon, title },
             defaultOption
         } = this.state;
-        const { active, disabled, contentTitle } = this.props;
+        const { active, disabled, contentTitle, hideDropdown } = this.props;
         return (
             <span id="check-button" className="check-button">
                 <ToolIcon
@@ -50,25 +50,27 @@ class CheckButton extends React.Component {
                     visible={active}
                     action={this.action}
                 />
-                <ToolIcon
-                    icon="sanjiao1"
-                    title={contentTitle}
-                    className="jiao-biao"
-                    focusClassName="jiao-biao-active"
-                    disabled={disabled}
-                    visible={visible}
-                    action={() => this.togglePopover(true)}
-                    popover={{
-                        overlayClassName: visible
-                            ? 'check-button-popover'
-                            : 'hide-popover',
-                        content: this.renderContent(),
-                        title: contentTitle,
-                        trigger: 'click',
-                        visible: true,
-                        getPopupContainer: this.getPopupContainer
-                    }}
-                />
+                {!hideDropdown && (
+                    <ToolIcon
+                        icon="sanjiao1"
+                        title={contentTitle}
+                        className="jiao-biao"
+                        focusClassName="jiao-biao-active"
+                        disabled={disabled}
+                        visible={visible}
+                        action={() => this.togglePopover(true)}
+                        popover={{
+                            overlayClassName: visible
+                                ? 'check-button-popover'
+                                : 'hide-popover',
+                            content: this.renderContent(),
+                            title: contentTitle,
+                            trigger: 'click',
+                            visible: true,
+                            getPopupContainer: this.getPopupContainer
+                        }}
+                    />
+                )}
             </span>
         );
     }
