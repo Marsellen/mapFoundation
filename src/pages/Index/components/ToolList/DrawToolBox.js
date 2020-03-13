@@ -44,6 +44,16 @@ const OPTIONS = {
         key: 'xiankuang1',
         title: '绘制面要素',
         actionid: 'add-polygon-btn'
+    },
+    ADD_OUTSIDE_RECTANGLE: {
+        key: 'renyiwaijiejuxing',
+        title: '绘制任意外接立面矩形',
+        actionid: 'add-outside-rectangle-btn'
+    },
+    ADD_GROUND_RECTANGLE: {
+        key: 'dimianjuxing',
+        title: '绘制地面矩形',
+        actionid: 'add-ground-rectangle-btn'
     }
 };
 
