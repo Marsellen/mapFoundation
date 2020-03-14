@@ -167,7 +167,8 @@ class AddRel extends React.Component {
                 try {
                     let rels = await newRel(mainFeature, relFeatures);
                     this.saveLog(rels);
-                    RenderModeStore.updateFeatureColor();
+                    const history = { data: { rels: [[], rels] } };
+                    RenderModeStore.updateRels(history);
                     AdEmitter.emit('fetchViewAttributeData');
                 } catch (e) {
                     console.log(e);
@@ -210,7 +211,8 @@ class AddRel extends React.Component {
             await attrRelUniqCheck(rel);
             await batchAddRels([rel]);
             this.saveLog([rel]);
-            RenderModeStore.updateFeatureColor();
+            const history = { data: { rels: [[], [rel]] } };
+            RenderModeStore.updateRels(history);
             AdEmitter.emit('fetchViewAttributeData');
         } catch (e) {
             const { DataLayerStore } = this.props;

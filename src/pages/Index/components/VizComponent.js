@@ -380,7 +380,7 @@ class VizComponent extends React.Component {
             BatchAssignStore,
             RenderModeStore
         } = this.props;
-        const { activeMode, resetFeatureColor } = RenderModeStore;
+        const { activeMode, cancelSelect } = RenderModeStore;
         // console.log(result, event);
         if (result && result.length > 0) {
             /**
@@ -406,7 +406,7 @@ class VizComponent extends React.Component {
                     AttributeStore.hideRelFeatures();
                     break;
                 case 'relation':
-                    resetFeatureColor();
+                    cancelSelect();
                     break;
                 default:
                     AttributeStore.hideRelFeatures();
@@ -629,8 +629,7 @@ class VizComponent extends React.Component {
                     id="viz"
                     key={TaskStore.activeTaskId}
                     className="viz-box"
-                    onKeyDown={e => this.handleKeyDown(e)}
-                >
+                    onKeyDown={e => this.handleKeyDown(e)}>
                     <div className="set-compass">
                         <TopView key="TOP_VIEW" />
                         <ZoomOut key="ZOOM_OUT" />

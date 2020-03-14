@@ -106,8 +106,6 @@ class NewTurnLine extends React.Component {
             );
             DataLayerStore.exitEdit();
             if (!historyLog) return;
-            //关联关系查看模式下，更新要素显示效果
-            RenderModeStore.updateFeatureColor();
             this.activeLine(editLayer && editLayer.layerName, historyLog);
 
             // 日志与历史
@@ -130,6 +128,8 @@ class NewTurnLine extends React.Component {
                     : '成功生成道路参考线',
                 3
             );
+            //关联关系查看模式下，更新要素显示效果
+            RenderModeStore.updateRels(history);
         } catch (e) {
             const msg =
                 editLayer && editLayer.layerName === 'AD_Lane'

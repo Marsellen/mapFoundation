@@ -38,7 +38,8 @@ class NewStraightLine extends React.Component {
                 id="new-straight-line"
                 key={updateKey}
                 onClick={this.action}
-                className="flex-1">
+                className="flex-1"
+            >
                 <ToolIcon icon="zhixing1" />
                 <div>
                     {layerName == 'AD_Lane'
@@ -104,8 +105,6 @@ class NewStraightLine extends React.Component {
             let historyLog = await autoCreateLine(layerName, params);
             DataLayerStore.exitEdit();
             if (!historyLog) return;
-            //关联关系查看模式下，更新要素显示效果
-            RenderModeStore.updateFeatureColor();
             this.activeLine(layerName, historyLog);
 
             // 日志与历史
@@ -128,6 +127,8 @@ class NewStraightLine extends React.Component {
                     : '成功生成道路参考线',
                 3
             );
+            //关联关系查看模式下，更新要素显示效果
+            RenderModeStore.updateRels(history);
         } catch (e) {
             const msg = layerName === 'AD_Lane' ? '车道中心线' : '道路参考线';
             message.warning(`${msg}生成失败：` + e.message, 3);

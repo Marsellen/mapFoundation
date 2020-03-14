@@ -141,18 +141,14 @@ class AttributeStore {
 
     fetchRelFeatures = async relRecords => {
         try {
-            const {
-                activeMode,
-                selectFeature,
-                resetFeatureColor
-            } = RenderModeStore;
+            const { activeMode, selectFeature, cancelSelect } = RenderModeStore;
             //选中要素时，不同渲染模式不同变色方式
             switch (activeMode) {
                 case 'common':
                     await this.commonFetchRelFeatures(relRecords);
                     break;
                 case 'relation':
-                    resetFeatureColor();
+                    cancelSelect();
                     selectFeature(this.model);
                     this.getRelFeatureOptions(relRecords);
                     break;
@@ -167,14 +163,14 @@ class AttributeStore {
 
     @action hideRelFeatures = () => {
         try {
-            const { activeMode, resetFeatureColor } = RenderModeStore;
+            const { activeMode, cancelSelect } = RenderModeStore;
             //取消选中时，不同渲染模式不同变色方式
             switch (activeMode) {
                 case 'common':
                     this.commonHideRelFeatures();
                     break;
                 case 'relation':
-                    resetFeatureColor();
+                    cancelSelect();
                     break;
                 default:
                     this.commonHideRelFeatures();

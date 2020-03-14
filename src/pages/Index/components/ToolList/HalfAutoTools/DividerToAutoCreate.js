@@ -147,10 +147,8 @@ class DividerToAutoCreate extends React.Component {
                 params
             );
             if (!historyLog) return;
-            //关联关系查看模式下，更新要素显示效果
-            RenderModeStore.updateFeatureColor();
-            this.activeLine(editLayer.layerName, historyLog);
 
+            this.activeLine(editLayer.layerName, historyLog);
             // 日志与历史
             let history = {
                 type: 'updateFeatureRels',
@@ -171,6 +169,8 @@ class DividerToAutoCreate extends React.Component {
                     : '成功生成道路参考线',
                 3
             );
+            //关联关系查看模式下，更新要素显示效果
+            RenderModeStore.updateRels(history);
         } catch (e) {
             console.log(e.message);
             const msg =
