@@ -289,7 +289,6 @@ class DataLayerStore {
     @action topViewMode = opt => {
         if (opt) {
             this.isTopView = true;
-            this.editType = 'normal';
         } else {
             this.isTopView = false;
         }
@@ -384,7 +383,7 @@ class DataLayerStore {
         this.editor.newFixedPolygon(3);
     };
 
-    updateResult = flow(function*(result) {
+    updateResult = flow(function* (result) {
         try {
             if (this.editType != 'new_circle') {
                 return result;
