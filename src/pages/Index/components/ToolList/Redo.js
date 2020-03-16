@@ -49,7 +49,7 @@ class Redo extends React.Component {
             AttributeStore.hideRelFeatures();
             AdEmitter.emit('fetchViewAttributeData');
             OperateHistoryStore.done();
-            RenderModeStore.updateFeatureColor();
+            RenderModeStore.updateRels(history);
         });
     };
 }

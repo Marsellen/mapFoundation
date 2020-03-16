@@ -97,16 +97,22 @@ export const LAYER_NAME_MAP = {
     ROAD_ID: { layerName: 'AD_Road', key: 'ROAD_ID' },
     LANE_ID: { layerName: 'AD_Lane', key: 'LANE_ID' },
     FROM_LANE: { layerName: 'AD_Lane', key: 'LANE_ID' },
+    FROM_LANE_ID: { layerName: 'AD_Lane', key: 'LANE_ID' },
     TO_LANE: { layerName: 'AD_Lane', key: 'LANE_ID' },
+    TO_LANE_ID: { layerName: 'AD_Lane', key: 'LANE_ID' },
     FROM_ROAD: { layerName: 'AD_Road', key: 'ROAD_ID' },
+    FROM_ROAD_ID: { layerName: 'AD_Road', key: 'ROAD_ID' },
     TO_ROAD: { layerName: 'AD_Road', key: 'ROAD_ID' },
+    TO_ROAD_ID: { layerName: 'AD_Road', key: 'ROAD_ID' },
     STOPL_ID: { layerName: 'AD_StopLocation', key: 'STOPL_ID' },
     PLG_ID: { layerName: 'AD_LaneMark_Plg', key: 'PLG_ID' },
     ARR_ID: { layerName: 'AD_Arrow', key: 'ARR_ID' },
+    ARROW_ID: { layerName: 'AD_Arrow', key: 'ARR_ID' },
     TEXT_ID: { layerName: 'AD_Text', key: 'TEXT_ID' },
     SIGN_ID: { layerName: 'AD_TrafficSign', key: 'SIGN_ID' },
     LIGHT_ID: { layerName: 'AD_TrafficLight', key: 'LIGHT_ID' },
-    LAP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' }
+    LAP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' },
+    LANEP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' }
 };
 
 //关联关系与id映射
@@ -117,11 +123,27 @@ export const RELS_ID_MAP = {
     AD_Lane_Road_Rel: ['LANE_ID', 'ROAD_ID'],
     AD_StopL_Lane_Rel: ['LANE_ID', 'STOPL_ID'],
     AD_Plg_Lane_Rel: ['LANE_ID', 'PLG_ID'],
-    AD_Lane_Arrow_Rel: ['LANE_ID', 'ARR_ID'],
+    AD_Lane_Arrow_Rel: ['ARR_ID', 'LANE_ID'],
     AD_Lane_Text_Rel: ['LANE_ID', 'TEXT_ID'],
     AD_Sign_Lane_Rel: ['LANE_ID', 'SIGN_ID'],
     AD_Light_Lane_Rel: ['LANE_ID', 'LIGHT_ID'],
-    AD_Road_Point_Rel: ['ROAD_ID', 'LAP_ID']
+    AD_Road_Point_Rel: ['LAP_ID', 'ROAD_ID']
+};
+
+export const RELS_ID_MAP_REVERSE = {
+    [['FROM_LANE', 'TO_LANE']]: 'AD_Lane_Con',
+    [['FROM_ROAD', 'TO_ROAD']]: 'AD_Road_Con',
+    [['LANE', 'L_LDIV']]: 'AD_Lane_Divider_Rel',
+    [['LANE', 'R_LDIV']]: 'AD_Lane_Divider_Rel',
+    [['LANE', 'L_LDIV', 'R_LDIV']]: 'AD_Lane_Divider_Rel',
+    [['LANE', 'ROAD']]: 'AD_Lane_Road_Rel',
+    [['LANE', 'STOPL']]: 'AD_StopL_Lane_Rel',
+    [['LANE', 'PLG']]: 'AD_Plg_Lane_Rel',
+    [['LANE', 'ARROW']]: 'AD_Lane_Arrow_Rel',
+    [['LANE', 'TEXT']]: 'AD_Lane_Text_Rel',
+    [['LANE', 'SIGN']]: 'AD_Sign_Lane_Rel',
+    [['LANE', 'LIGHT']]: 'AD_Light_Lane_Rel',
+    [['LAP', 'ROAD']]: 'AD_Road_Point_Rel'
 };
 
 //id与文字标注配置映射
@@ -168,7 +190,35 @@ export const REL_FEATURE_COLOR_MAP = {
             textColor: { r: 255, g: 255, b: 255, a: 1 }
         }
     },
+    FROM_LANE_ID: {
+        color: 'rgb(0,255,255)',
+        text: '进',
+        position: {
+            x: 0,
+            y: 0,
+            z: 0
+        },
+        style: {
+            borderColor: { r: 0, g: 0, b: 0, a: 1 },
+            backgroundColor: { r: 0, g: 0, b: 0, a: 1 },
+            textColor: { r: 255, g: 255, b: 255, a: 1 }
+        }
+    },
     TO_LANE: {
+        color: 'rgb(255,0,0)',
+        text: '出',
+        position: {
+            x: 0,
+            y: 0,
+            z: 0
+        },
+        style: {
+            borderColor: { r: 0, g: 0, b: 0, a: 1 },
+            backgroundColor: { r: 0, g: 0, b: 0, a: 1 },
+            textColor: { r: 255, g: 255, b: 255, a: 1 }
+        }
+    },
+    TO_LANE_ID: {
         color: 'rgb(255,0,0)',
         text: '出',
         position: {
@@ -196,7 +246,35 @@ export const REL_FEATURE_COLOR_MAP = {
             textColor: { r: 255, g: 255, b: 255, a: 1 }
         }
     },
+    FROM_ROAD_ID: {
+        color: 'rgb(0,255,255)',
+        text: '进',
+        position: {
+            x: 0,
+            y: 0,
+            z: 0
+        },
+        style: {
+            borderColor: { r: 0, g: 0, b: 0, a: 1 },
+            backgroundColor: { r: 0, g: 0, b: 0, a: 1 },
+            textColor: { r: 255, g: 255, b: 255, a: 1 }
+        }
+    },
     TO_ROAD: {
+        color: 'rgb(255,0,0)',
+        text: '出',
+        position: {
+            x: 0,
+            y: 0,
+            z: 0
+        },
+        style: {
+            borderColor: { r: 0, g: 0, b: 0, a: 1 },
+            backgroundColor: { r: 0, g: 0, b: 0, a: 1 },
+            textColor: { r: 255, g: 255, b: 255, a: 1 }
+        }
+    },
+    TO_ROAD_ID: {
         color: 'rgb(255,0,0)',
         text: '出',
         position: {

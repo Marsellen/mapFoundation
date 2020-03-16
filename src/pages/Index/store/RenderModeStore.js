@@ -1,30 +1,66 @@
 import { observable, configure, action, flow, computed } from 'mobx';
-import { getAllRelData, getAllVectorData } from 'src/utils/vectorUtils';
-import { LAYER_NAME_MAP, RELS_ID_MAP } from 'src/config/RenderModeConfig.js';
-import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import { getAllRelData } from 'src/utils/vectorUtils';
+import {
+    LAYER_NAME_MAP,
+    RELS_ID_MAP,
+    RELS_ID_MAP_REVERSE
+} from 'src/config/RenderModeConfig.js';
 import {
     REL_SELECT_OPTIONS,
     REL_FEATURE_COLOR_MAP
 } from 'src/config/RenderModeConfig';
-import { updateFeatureColor } from 'src/utils/vectorUtils';
+import { updateFeatureColor, getFeatureOption } from 'src/utils/vectorUtils';
 import VectorsStore from './VectorsStore';
 import { calculateMiddlePoint } from 'src/utils/computeLineMidpoint';
+import relFactory from 'src/utils/relCtrl/relFactory';
 
 configure({ enforceActions: 'always' });
 class RenderModeStore {
-    rels_2D = {}; //将所有关联关系要素按专题图进行分组，值是二维数组
-    allRels = []; //所有关联关系要素，合并this.rels
     checkedList = []; //当前已选专题图
-    textIdArr = []; //文字标注id数组
-    featuresMap = {}; //获取所有要素id和option映射
-    featuresArr = []; //获取所有要素id组成的数组
+    unCheckedList = REL_SELECT_OPTIONS; //当前未选专题图
+    textMap = null; //图层名与文字标注映射
+    selectRelFeatures = []; //选中要素的关联要素数组
+    @observable rels_2D = {}; //将所有关联关系要素按专题图进行分组，值是二维数组
     @observable activeMode = 'common'; //当前渲染模式
-    @observable rels = {}; //将所有关联关系要素按专题图进行分组，值是一维数组
     @observable relSelectOptions = REL_SELECT_OPTIONS; //专题图下拉框配置
     @observable indeterminate = false; //checkbox是否indeterminate
     @observable allChecked = false; //checkbox是否全选
+    //获取专题图数量
     @computed get relSelectOptionL() {
-        return this.relSelectOptions.length; //获取专题图个数
+        return this.relSelectOptions.length;
+    }
+    //未被选择的专题图名组成的数组
+    @computed get unCheckedRelArr() {
+        return this.unCheckedList.map(item => item.key) || [];
+    }
+    //已选专题的要素组成的数组（不去重的），判断用
+    @computed get allRelArr() {
+        let allRelArr = [];
+        Object.keys(this.rels_2D).forEach(relName => {
+            if (!this.rels_2D[relName]) return;
+            if (this.unCheckedRelArr.includes(relName)) return;
+            let newItem = Object.values(this.rels_2D[relName]);
+            if (!newItem || newItem.length === 0) return;
+            newItem = newItem.flat(2);
+            allRelArr = [...allRelArr, ...newItem];
+        });
+        return allRelArr.map(item => item.id) || [];
+    }
+    //{"专题图名":[要素]}（去重的），显示专题图用
+    @computed get relArr() {
+        let relMap = {};
+        Object.keys(this.rels_2D).forEach(relName => {
+            if (!this.rels_2D[relName]) return;
+            let newItem = Object.values(this.rels_2D[relName]);
+            if (!newItem || newItem.length === 0) return;
+            newItem = newItem.flat(2);
+            relMap[relName] = relMap[relName] || {};
+            newItem.forEach(item => {
+                relMap[relName][item.id] = item;
+            });
+            relMap[relName] = Object.values(relMap[relName]);
+        });
+        return relMap;
     }
 
     //设置渲染模式
@@ -44,136 +80,113 @@ class RenderModeStore {
         this.checkedList = [];
     };
 
+    //修改要素颜色
+    setFeatureColor = (feature, checked) => {
+        const { layerName, option } = feature || {};
+        const { value } = option || {};
+        const { boundaryFeatures } = VectorsStore;
+        const isBoundary = boundaryFeatures.includes(value);
+        const whiteColor = isBoundary
+            ? 'rgb(127, 127, 127)'
+            : 'rgb(255, 255, 255)';
+        const yellowColor = isBoundary
+            ? 'rgb(127,118,18)'
+            : 'rgb(255, 237, 37)';
+        const color = checked ? yellowColor : whiteColor;
+
+        //改变要素的颜色
+        updateFeatureColor(layerName, option, color);
+    };
+
+    //批量修改要素颜色
+    setFeatureArrColor = (features, checked) => {
+        if (!features || features.length === 0) return;
+        features.forEach(item => {
+            this.setFeatureColor(item, checked);
+        });
+    };
+
+    //获取指定专题图的所有要素
+    getLayerFeatures = rels => {
+        if (!rels && rels.length === 0) return;
+        let features = [];
+        rels.forEach(option => {
+            const { key } = option;
+            if (!this.relArr[key]) return;
+            features = [...features, ...this.relArr[key]];
+        });
+        return features;
+    };
+
     //单选：获取专题图已选图层，判断是否全选
     @action selectRel = (checked, key) => {
         this.relSelectOptions.find(item => item.key === key).checked = checked;
+
+        //改变checkbox组相关状态
         this.checkedList = this.relSelectOptions.filter(item => item.checked);
+        this.unCheckedList = this.relSelectOptions.filter(
+            item => !item.checked
+        );
         const checkedListL = this.checkedList.length;
         this.indeterminate =
             checkedListL && checkedListL < this.relSelectOptionL;
         this.allChecked = checkedListL === this.relSelectOptionL;
+
+        //改变当前图层颜色
+        this.setFeatureArrColor(this.relArr[key], checked);
+
+        //取消时，将所有已勾选图层元素变黄
+        if (!checked) {
+            const layerFeatures = this.getLayerFeatures(this.checkedList);
+            this.setFeatureArrColor(layerFeatures, true);
+        }
+
+        //取消选择
+        this.cancelSelect();
     };
 
     //全选：获取专题图已选图层，判断是否全选
     @action selectAllRel = checked => {
+        //checked为true将未勾选专题的元素变黄，checked为false将已勾选专题的元素变白
+        const list = checked ? this.unCheckedList : this.checkedList;
+        const layerFeatures = this.getLayerFeatures(list);
+        this.setFeatureArrColor(layerFeatures, checked);
+
+        //改变所有专题图的checked
         this.relSelectOptions.map(item => {
             item.checked = checked;
             return item;
         });
+
+        //改变checkbox组相关状态
         this.indeterminate = false;
         this.allChecked = checked;
         this.checkedList = checked ? this.relSelectOptions : [];
+        this.unCheckedList = checked ? [] : this.relSelectOptions;
+
+        //取消选择
+        this.cancelSelect();
     };
 
     //清除文字标注
     clearFeatureText = () => {
-        if (!this.textIdArr || this.textIdArr.length === 0) return;
-        const { boundaryLayerMap, vectorLayerMap } = VectorsStore;
-
-        //清除任务范围内文字标注
-        Object.values(vectorLayerMap).forEach(layer => {
-            this.textIdArr.map(item => {
-                layer.removeFeatureById(item);
-            });
+        if (!this.textMap) return;
+        Object.keys(this.textMap).forEach(textId => {
+            const layer = this.textMap[textId];
+            layer.removeFeatureById(textId);
         });
 
-        //清除任务范围外文字标注
-        Object.values(boundaryLayerMap).forEach(layer => {
-            this.textIdArr.map(item => {
-                layer.removeFeatureById(item);
-            });
-        });
-
-        this.textIdArr = [];
-    };
-
-    //清空高亮，全变成白色
-    clearFeatureColor = () => {
-        const { boundaryFeatures } = VectorsStore;
-        if (!this.allRels || this.allRels.length === 0) return;
-        this.allRels.map(item => {
-            const { layerName, option } = item;
-            const { value } = option;
-            const isBoundary = boundaryFeatures.includes(value);
-            const color = isBoundary
-                ? 'rgb(127, 127, 127)'
-                : 'rgb(255, 255, 255)';
-
-            //改变要素的颜色
-            updateFeatureColor(layerName, option, color);
-        });
-    };
-
-    //属于已选专题图的要素，黄色高亮
-    HighlightRelFeatures = () => {
-        const { boundaryFeatures } = VectorsStore;
-        this.relSelectOptions.map(item => {
-            const { key, checked } = item;
-            if (!checked) return;
-            if (!this.rels[key] || this.rels[key].length === 0) return;
-            this.rels[key].map(feature => {
-                const { layerName, option } = feature;
-                const { value } = option;
-                const isBoundary = boundaryFeatures.includes(value);
-                const color = isBoundary
-                    ? 'rgb(127,118,18)'
-                    : 'rgb(255, 237, 37)';
-
-                //改变要素的颜色
-                updateFeatureColor(layerName, option, color);
-            });
-        });
-    };
-
-    //重置要素颜色
-    @action resetFeatureColor = () => {
-        //清除文字标注
-        this.clearFeatureText();
-        //清除要素颜色
-        this.clearFeatureColor();
-        //属于已选专题图的要素，黄色高亮
-        this.HighlightRelFeatures();
-    };
-
-    //获取所有要素id和option映射，获取所有要素id组成的数组
-    handleVectorFeatures = () => {
-        const { features: layers } = getAllVectorData();
-        const featuresMap = {};
-        const featuresArr = [];
-
-        if (!layers || layers.length === 0) return;
-        layers.map(layer => {
-            const { features, name: layerName } = layer || {};
-            if (!features || features.length === 0) return;
-            features.map(feature => {
-                const { geometry, properties } = feature;
-                const key = DATA_LAYER_MAP[layerName].id;
-                if (!key) return;
-                const id = properties[key];
-                if (!id) return;
-                featuresMap[id] = {
-                    id: id,
-                    geometry,
-                    properties
-                };
-                featuresArr.push(id);
-            });
-        });
-
-        this.featuresMap = featuresMap;
-        this.featuresArr = featuresArr;
+        this.textMap = null;
     };
 
     //将有关联关系的要素，按专题图进行分组
-    @action setRels = flow(function* () {
+    @action setRels = flow(function*() {
         //获取关联关系图层所有要素
         const allRelData = yield getAllRelData();
         const allRelDataArr = allRelData.features;
         if (!allRelDataArr || allRelDataArr.length === 0) return;
 
-        const rels = {};
         const rels_2D = {};
-        let allRels = [];
 
         allRelDataArr.map(item => {
             const { features, name } = item;
@@ -194,45 +207,51 @@ class RenderModeStore {
                             R_LDIV_ID,
                             ROAD_ID
                         } = properties;
-                        let LDIVItem = []; // 车道中心线 & 左右侧车道线
-                        let ROADItem = []; // 车道中心线 & 道路参考线
-                        if (L_LDIV_ID) {
-                            LDIVItem.push(
-                                this.setOptions('L_LDIV_ID', L_LDIV_ID)
-                            );
-                        }
-                        if (R_LDIV_ID) {
-                            LDIVItem.push(
-                                this.setOptions('R_LDIV_ID', R_LDIV_ID)
-                            );
-                        }
-                        if (L_LDIV_ID || R_LDIV_ID) {
-                            LDIVItem.push(this.setOptions('LANE_ID', LANE_ID));
-                            if (LDIVItem.length < 2) return;
+
+                        const LANE_Feature = this.setOptions(
+                            'LANE_ID',
+                            LANE_ID
+                        );
+                        const L_LDIV_feature = this.setOptions(
+                            'L_LDIV_ID',
+                            L_LDIV_ID
+                        );
+                        const R_LDIV_feature = this.setOptions(
+                            'R_LDIV_ID',
+                            R_LDIV_ID
+                        );
+                        const ROAD_Feature = this.setOptions(
+                            'ROAD_ID',
+                            ROAD_ID
+                        );
+
+                        if (L_LDIV_ID && LANE_ID) {
                             const relName = 'AD_Lane_Divider_Rel';
-                            rels[relName] = rels[relName] || [];
-                            rels_2D[relName] = rels_2D[relName] || [];
-                            rels[relName] = [...rels[relName], ...LDIVItem];
-                            rels_2D[relName].push(LDIVItem);
-                            allRels = [...allRels, ...rels[relName]];
+                            const key = [L_LDIV_ID, LANE_ID].sort(); //id组成的数据作为key
+                            const value = [LANE_Feature, L_LDIV_feature];
+                            rels_2D[relName] = rels_2D[relName] || {};
+                            rels_2D[relName][key] = value;
                         }
-                        if (ROAD_ID) {
-                            ROADItem.push(this.setOptions('ROAD_ID', ROAD_ID));
-                            ROADItem.push(this.setOptions('LANE_ID', LANE_ID));
-                            if (ROADItem.length < 2) return;
+                        if (R_LDIV_ID && LANE_ID) {
+                            const relName = 'AD_Lane_Divider_Rel';
+                            const key = [R_LDIV_ID, LANE_ID].sort(); //id组成的数据作为key
+                            const value = [LANE_Feature, R_LDIV_feature];
+                            rels_2D[relName] = rels_2D[relName] || {};
+                            rels_2D[relName][key] = value;
+                        }
+                        if (ROAD_ID && LANE_ID) {
                             const relName = 'AD_Lane_Road_Rel';
-                            rels[relName] = rels[relName] || [];
-                            rels_2D[relName] = rels_2D[relName] || [];
-                            rels[relName] = [...rels[relName], ...ROADItem];
-                            rels_2D[relName].push(ROADItem);
-                            allRels = [...allRels, ...rels[relName]];
+                            const key = [ROAD_ID, LANE_ID].sort(); //id组成的数据作为key
+                            const value = [LANE_Feature, ROAD_Feature];
+                            rels_2D[relName] = rels_2D[relName] || {};
+                            rels_2D[relName][key] = value;
                         }
                     });
                     break;
                 case 'AD_Arrow': //车道中心线 & 地面导向箭头
                     relName = 'AD_Lane_Arrow_Rel';
                     break;
-                case 'AD_Text': //车道中心线 & 地面文字
+                case 'AD_Text': //车道中心re线 & 地面文字
                     relName = 'AD_Lane_Text_Rel';
                     break;
                 case 'AD_LaneAttrPoint': //道路参数线 & 车道属性交化点
@@ -243,42 +262,115 @@ class RenderModeStore {
                     break;
             }
             if (relName) {
-                let options = [];
-                let options_2D = [];
+                let options_2D;
                 //获取所有带关联关系要素的option
                 features.map(item => {
                     if (!RELS_ID_MAP[relName]) return;
                     if (RELS_ID_MAP[relName].length === 0) return;
                     const { properties } = item;
-                    let newItem = [];
+                    let options_2D_key = [];
+                    let options_2D_val = [];
+
                     RELS_ID_MAP[relName].map(id => {
                         const optionId = properties[id];
-                        optionId && newItem.push(this.setOptions(id, optionId));
-                    });
-                    if (newItem.length < 2) return;
-                    options = [...options, ...newItem];
-                    options_2D.push(newItem);
-                });
+                        const feature = this.setOptions(id, optionId);
 
-                rels[relName] = options;
-                rels_2D[relName] = options_2D;
-                allRels = [...allRels, ...rels[relName]];
+                        if (!optionId) return;
+                        options_2D_key.push(optionId);
+                        options_2D_val.push(feature);
+                    });
+
+                    if (options_2D_val.length < 2) return;
+                    options_2D = options_2D || {};
+                    options_2D[options_2D_key.sort()] = options_2D_val;
+                });
+                if (options_2D) {
+                    rels_2D[relName] = rels_2D[relName] || {};
+                    rels_2D[relName] = options_2D;
+                }
             }
         });
 
-        this.rels = rels;
         this.rels_2D = rels_2D;
-        this.allRels = allRels;
-
-        this.handleVectorFeatures();
     });
+    //将history.data.rels里的数据，转成this.rels_2D格式
+    getRelMap = updateRels => {
+        if (!updateRels || updateRels.length === 0) return false;
+        let updateRelMap_2D = {};
+        updateRels.map(item => {
+            const { objId, objType, relObjId, relObjType } = item;
+            const objRelation = `${objType}_ID`;
+            const relObjRelation = `${relObjType}_ID`;
+            const obj = this.setOptions(objRelation, objId);
+            const relObj = this.setOptions(relObjRelation, relObjId);
+            const names = [objType, relObjType];
+            const relName = RELS_ID_MAP_REVERSE[names];
+            updateRelMap_2D[relName] = updateRelMap_2D[relName] || {};
+            updateRelMap_2D[relName][[objId, relObjId].sort()] = [obj, relObj];
+        });
+
+        return updateRelMap_2D || false;
+    };
+
+    delRel = oldRels => {
+        const updateRelMap_2D = this.getRelMap(oldRels);
+        if (!updateRelMap_2D) return;
+
+        Object.keys(updateRelMap_2D).map(relName => {
+            //根据history.data.rels的旧关联关系数据，删除this.rels_2D里相应数据
+            Object.keys(updateRelMap_2D[relName]).map(id => {
+                if (!this.rels_2D[relName]) return;
+                id = id.split(',').sort();
+                delete this.rels_2D[relName][id];
+            });
+            //根据history.data.rels的旧关联关系数据，将相应要素变白
+            if (this.unCheckedRelArr.includes(relName)) return;
+            const features = Object.values(updateRelMap_2D[relName]).flat();
+            if (!features && features.length === 0) return;
+            features.forEach(item => {
+                if (this.allRelArr.includes(item.id)) return;
+                this.setFeatureColor(item, false);
+            });
+        });
+    };
+
+    addRel = newRels => {
+        const updateRelMap_2D = this.getRelMap(newRels);
+        if (!updateRelMap_2D) return;
+        Object.keys(updateRelMap_2D).map(relName => {
+            //根据history.data.rels的新关联关系数据，向this.rels_2D添加相应数据
+            this.rels_2D[relName] = {
+                ...this.rels_2D[relName],
+                ...updateRelMap_2D[relName]
+            };
+            //根据history.data.rels的新关联关系数据，将相应要素变黄
+            if (this.unCheckedRelArr.includes(relName)) return;
+            const features = Object.values(updateRelMap_2D[relName]).flat();
+            if (!features && features.length === 0) return;
+            features.forEach(item => this.setFeatureColor(item, true));
+        });
+    };
+
+    //更新关联数组
+    @action updateRels = history => {
+        if (!history) return;
+        const { rels } = history.data || {};
+        const [oldRels, newRels] = rels || [];
+        oldRels && this.delRel(oldRels);
+        newRels && this.addRel(newRels);
+        //取消选择
+        this.cancelSelect();
+    };
 
     //获取要素option
     setOptions = (name, id) => {
-        const { layerName, key } = LAYER_NAME_MAP[name];
+        if (!name) return;
+        if (!id) return;
+        const { layerName, key } = LAYER_NAME_MAP[name] || {};
         return {
             layerName,
             relation: name,
+            id: id,
             option: {
                 key,
                 value: id
@@ -286,54 +378,82 @@ class RenderModeStore {
         };
     };
 
-    //更新要素颜色
-    updateFeatureColor = async () => {
-        if (this.activeMode !== 'relation') return;
+    //取消选中
+    cancelSelect = () => {
         //清除文字标注
         this.clearFeatureText();
-        //清除要素颜色
-        this.clearFeatureColor();
-        //等待要素按专题图分组
-        await this.setRels();
-        //属于已选专题图的要素，黄色高亮
-        this.HighlightRelFeatures();
-    };
-
-    //选中要素
-    selectFeature = feature => {
-        const { layerName, data } = feature;
-        const { id } = DATA_LAYER_MAP[layerName];
-        const featureId = data.properties && data.properties[id];
-        this.getRelFeatures(layerName, featureId);
-    };
-
-    //判断所选要素是否在已勾选的专题图范围内，获取选中要素的关联要素
-    getRelFeatures = (layerName, featureId) => {
-        let relFeatures = [];
-        if (!this.checkedList || this.checkedList.length === 0) return;
-        this.checkedList.map(option => {
-            const { key } = option;
-            if (!this.rels_2D[key] || this.rels_2D[key].length === 0) return;
-            this.rels_2D[key].map(relItem => {
-                const isInclude = relItem.find(item => {
-                    return item.option.value === featureId;
-                });
-                if (!isInclude) return;
-                relFeatures = [...relFeatures, ...relItem];
-            });
+        //将选中要素的关联要素变黄
+        this.selectRelFeatures.forEach(item => {
+            if (this.allRelArr.includes(item.id)) {
+                this.setFeatureColor(item, true);
+            } else {
+                this.setFeatureColor(item, false);
+            }
         });
+        this.selectRelFeatures = [];
+    };
 
+    //获取图层，可获取vectorlayer，也可以获取boundaryLayer
+    getLayerByName = (vectorLayerName, layerName) => {
+        const activeLayer = window[vectorLayerName].layers.find(
+            layer => layer.layerName == layerName
+        );
+        return activeLayer.layer;
+    };
+
+    selectFeature = async feature => {
+        //获取选中要素的关联要素，并处理成所需格式
+        await this.fetchRels(feature);
+        if (!this.selectRelFeatures) return;
+        if (this.selectRelFeatures.length === 0) return;
+        //获取选中要素layerName和id
+        const { layerName } = feature;
+        const { value: featureId } = getFeatureOption(feature);
+
+        this.showRelFeatures(layerName, featureId);
+    };
+
+    getVectorLayerName = featureId => {
+        //获取选中要素所在图层
         const { boundaryFeatures } = VectorsStore;
         const isBoundary = boundaryFeatures.includes(featureId);
-        const layer = isBoundary ? 'boundaryLayerMap' : 'vectorLayerMap';
-        this.showRelFeatures(featureId, layerName, relFeatures, layer);
+        const vectorLayerName = isBoundary
+            ? 'boundaryLayerGroup'
+            : 'vectorLayerGroup';
+
+        return vectorLayerName;
     };
 
-    //将选中要素的关联要素高亮并加上文字标注
-    showRelFeatures = (featureId, featureLayerName, relFeatures, layer) => {
-        const { boundaryFeaturesMap } = VectorsStore;
+    //获取选中要素的关联要素，并处理成所需格式
+    fetchRels = flow(function*(feature) {
         try {
-            relFeatures.forEach(item => {
+            const { layerName, data } = feature;
+            const { properties } = data;
+            const relRecords = yield relFactory.getFeatureRels(
+                layerName,
+                properties
+            );
+
+            const relDataArr = this.getRelMap(relRecords);
+            if (!relDataArr && relDataArr.length === 0) return;
+            let relFeatures = [];
+            Object.keys(relDataArr).forEach(relName => {
+                if (!relDataArr[relName]) return;
+                if (this.unCheckedRelArr.includes(relName)) return;
+                const newItem = Object.values(relDataArr[relName]);
+                relFeatures = [...relFeatures, ...newItem];
+            });
+            this.selectRelFeatures = relFeatures.flat();
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+    //将选中要素的关联要素高亮并加上文字标注
+    showRelFeatures = (featureLayerName, featureId) => {
+        try {
+            //遍历选中要素的所有关联要素
+            this.selectRelFeatures.forEach(item => {
                 const { layerName, relation, option } = item;
                 const { value } = option;
                 //当前选中要素不进行变色
@@ -345,6 +465,7 @@ class RenderModeStore {
                 ) {
                     return false;
                 }
+                //获取关联关系对应的文字注记样式
                 const styleConfig = REL_FEATURE_COLOR_MAP[relation] || {};
                 const {
                     color = 'rgb(49, 209, 255)',
@@ -353,32 +474,51 @@ class RenderModeStore {
                 } = styleConfig;
                 //要素变颜色
                 updateFeatureColor(layerName, option, color);
-                //给要素加文字
+
                 if (!text) return;
-                const line =
-                    this.featuresMap[value] || boundaryFeaturesMap[value] || {};
-                const linePointArr = line.geometry && line.geometry.coordinates;
+                //获取要素geometry
+                const vectorLayerName = this.getVectorLayerName(value);
+                const activeLayer = this.getLayerByName(
+                    vectorLayerName,
+                    layerName
+                );
+                const activeFeature = activeLayer.getFeatureByOption(option);
+                if (!activeFeature) return;
+                const activeFeatureData =
+                    activeFeature.properties && activeFeature.properties.data;
+                const linePointArr =
+                    activeFeatureData.geometry &&
+                    activeFeatureData.geometry.coordinates;
+
                 if (!linePointArr) return;
+                //设置文字显示位置，进出线文字在首尾点，左右线文字在中间
                 let position = {}; //文字的位置
-                if (relation === 'FROM_ROAD' || relation === 'FROM_LANE') {
+                if (
+                    relation.includes('FROM_ROAD') ||
+                    relation.includes('FROM_LANE')
+                ) {
                     const [x, y, z] = linePointArr[linePointArr.length - 1];
                     position = { x, y, z };
-                } else if (relation === 'TO_ROAD' || relation === 'TO_LANE') {
+                } else if (
+                    relation.includes('TO_ROAD') ||
+                    relation.includes('TO_LANE')
+                ) {
                     const [x, y, z] = linePointArr[0];
                     position = { x, y, z };
                 } else {
-                    position = calculateMiddlePoint(line); //计算线的中心点
+                    position = calculateMiddlePoint(activeFeatureData); //计算线的中心点
                 }
 
                 //将文字标注添加到选中要素所在的图层
-                const textId = VectorsStore[layer][layerName].addTextFeature(
+                const textId = activeLayer.addTextFeature(
                     text,
                     position,
                     style
                 );
 
-                //文字标注id数组
-                this.textIdArr.push(textId);
+                //图层名与文字注记映射
+                this.textMap = this.textMap || {};
+                this.textMap[textId] = activeLayer;
             });
         } catch (e) {
             console.log(e);

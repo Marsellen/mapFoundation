@@ -57,7 +57,7 @@ class DelRel extends React.Component {
                             message.success('删除关联关系成功', 3);
                             AttributeStore.hideRelFeatures();
                             DataLayerStore.exitEdit();
-                            RenderModeStore.updateFeatureColor();
+                            RenderModeStore.updateRels(history);
                             AdEmitter.emit('fetchViewAttributeData');
                         })
                         .catch(e => {
