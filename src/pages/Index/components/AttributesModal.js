@@ -39,8 +39,7 @@ class AttributesModal extends React.Component {
                 wrapClassName="ad-attributes-modal"
                 title={this.renderTitle()}
                 visible={visible}
-                onCancel={this.handleCancel}
-            >
+                onCancel={this.handleCancel}>
                 <div className="obscuration" />
                 <Spin spinning={loading} tip={loadingMessage}>
                     <Form colon={false} hideRequiredMark={true}>
@@ -48,8 +47,7 @@ class AttributesModal extends React.Component {
                             tabs={[
                                 { label: '基础属性', key: 'basicAttribute' },
                                 { label: '关联关系', key: 'relation' }
-                            ]}
-                        >
+                            ]}>
                             {this.renderForm()}
                             {this.renderRels()}
                         </AdTabs>
@@ -111,6 +109,7 @@ class AttributesModal extends React.Component {
                 })
                 .catch(e => {
                     message.error(e.message || '更新失败: 数据重复');
+                    AttributeStore.loaded();
                 });
         });
     };
