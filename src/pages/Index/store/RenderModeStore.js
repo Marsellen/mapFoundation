@@ -328,8 +328,11 @@ class RenderModeStore {
             const features = Object.values(updateRelMap_2D[relName]).flat();
             if (!features && features.length === 0) return;
             features.forEach(item => {
-                if (this.allRelArr.includes(item.id)) return;
-                this.setFeatureColor(item, false);
+                if (this.allRelArr.includes(item.id)) {
+                    this.setFeatureColor(item, true);
+                } else {
+                    this.setFeatureColor(item, false);
+                }
             });
         });
     };
@@ -356,10 +359,10 @@ class RenderModeStore {
         if (!history) return;
         const { rels } = history.data || {};
         const [oldRels, newRels] = rels || [];
-        oldRels && this.delRel(oldRels);
-        newRels && this.addRel(newRels);
         //取消选择
         this.cancelSelect();
+        oldRels && this.delRel(oldRels);
+        newRels && this.addRel(newRels);
     };
 
     //获取要素option
