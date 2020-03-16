@@ -7,7 +7,7 @@ import {
     getFeatureOption,
     getLayerByName
 } from 'src/utils/vectorUtils';
-import { addClass, removeClass, throttle } from 'src/utils/utils';
+import { addClass, removeClass, throttle, getCSYS } from 'src/utils/utils';
 import AdEmitter from 'src/models/event';
 import EditorConfig from 'src/config/ConctrolConfig';
 
@@ -43,6 +43,8 @@ class DataLayerStore {
 
     initMeasureControl = () => {
         this.measureControl = new MeasureControl();
+        //设置测距参考坐标系1、墨卡托，2、局部地心
+        this.measureControl.setMeasureMode(getCSYS());
         map.getControlManager().addControl(this.measureControl);
         this.measureControl.onMeasureFinish(() => {
             this.measureControl.startMeatureDistance();

@@ -10,12 +10,12 @@
         "i": "npm i addis-viz-sdk --registry=http://10.43.75.53:8081/repository/npm-all/ --save & npm i",
         "start": "webpack-dev-server",
         "start-local": "webpack-dev-server --env.proxy=local",
-        "start-semantic": "webpack-dev-server --env.spec=semantic",
+        "start-semantic": "webpack-dev-server --env.spec=semantic --env.csys=2",
         "build": "webpack --env.mode=production",
         "build-sdk": "npm i addis-viz-sdk --registry=http://10.43.75.53:8081/repository/npm-all/ --save"
     },
     "dependencies": {
-        "addis-viz-sdk": "^0.1.15-alpha.1",
+        "addis-viz-sdk": "^0.1.16-alpha.1",
         "antd": "^3.22.2",
         "axios": "^0.18.0",
         "dragm": "0.0.5",

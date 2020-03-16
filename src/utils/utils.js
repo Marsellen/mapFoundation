@@ -64,3 +64,7 @@ export const funDownload = (content, filename) => {
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
 };
+
+export const getCSYS = () => {
+    return CSYS || 1;
+};

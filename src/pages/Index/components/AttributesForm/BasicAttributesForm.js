@@ -6,6 +6,7 @@ import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import { getValidator } from 'src/utils/form/validator';
+import Filter from 'src/utils/table/filter';
 
 const formItemLayout = {
     labelCol: {
@@ -40,11 +41,14 @@ class BasicAttributesForm extends React.Component {
     renderText = (item, index, name) => {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
+        let value = item.filterBy
+            ? Filter.get(item.filterBy)(item.value)
+            : item.value;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
                     form.getFieldDecorator(name + '.' + item.key, {
-                        initialValue: item.value
+                        initialValue: value
                     })(
                         <Input
                             disabled
@@ -53,7 +57,7 @@ class BasicAttributesForm extends React.Component {
                     )
                 ) : (
                     <span className="ant-form-text">
-                        {this.isPresent(item.value) ? item.value : '--'}
+                        {this.isPresent(value) ? value : '--'}
                     </span>
                 )}
             </Form.Item>

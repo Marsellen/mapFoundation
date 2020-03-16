@@ -1,4 +1,4 @@
-import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
+import { ATTR_SPEC_CONFIG } from 'config/AttrsConfig';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
 import _ from 'lodash';
 import Relevance from 'src/models/relevance';

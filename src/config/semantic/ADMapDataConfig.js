@@ -1085,6 +1085,27 @@ export const TABLE_DATA_MAP = {
             name: '道路形态',
             type: 'AD_LANE_DIVIDER_RD_FORM',
             domType: 'Select'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新状态标识',
+            domType: 'Text'
+        },
+        {
+            key: 'OBJ_ID',
+            name: 'OBJ_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'CONFIDENCE',
+            name: '置信度',
+            filterBy: 'semanticConfidenceFilter',
+            domType: 'Text'
+        },
+        {
+            key: 'DEVICE',
+            name: '传感器 id',
+            domType: 'Text'
         }
     ],
     AD_Text: [
@@ -1242,6 +1263,32 @@ export const TABLE_DATA_MAP = {
             name: '停车线类型',
             type: 'AD_STOPLOCATION_TYPE',
             domType: 'RadioIconGroup'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新状态标识',
+            domType: 'Text'
+        },
+        {
+            key: 'OBJ_ID',
+            name: 'OBJ_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'CONFIDENCE',
+            name: '置信度',
+            filterBy: 'semanticConfidenceFilter',
+            domType: 'Text'
+        },
+        {
+            key: 'DEVICE',
+            name: '传感器 id',
+            domType: 'Text'
+        },
+        {
+            key: 'D_TIMESTAMP',
+            name: '时间戳',
+            domType: 'Text'
         }
     ],
     AD_LaneMark_Plg: [
@@ -1256,6 +1303,47 @@ export const TABLE_DATA_MAP = {
             name: '面状标识物类型',
             type: 'AD_LANEMARK_PLG_TYPE',
             domType: 'RadioIconGroup'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新状态标识',
+            domType: 'Text'
+        },
+        {
+            key: 'OBJ_ID',
+            name: 'OBJ_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'CONFIDENCE',
+            name: '置信度',
+            filterBy: 'semanticConfidenceFilter',
+            domType: 'Text'
+        },
+        {
+            key: 'DEVICE',
+            name: '传感器 id',
+            domType: 'Text'
+        },
+        {
+            key: 'TRAJECTORY_ID',
+            name: '对应轨迹 id',
+            domType: 'Text'
+        },
+        {
+            key: 'D_HEIGHT',
+            name: '高',
+            domType: 'Text'
+        },
+        {
+            key: 'D_WIDTH',
+            name: '宽',
+            domType: 'Text'
+        },
+        {
+            key: 'D_TIMESTAMP',
+            name: '时间戳',
+            domType: 'Text'
         }
     ],
     AD_Arrow: [
@@ -1270,6 +1358,32 @@ export const TABLE_DATA_MAP = {
             name: '箭头方向',
             type: 'AD_ARROW_ARR_DIRECT',
             domType: 'CheckBoxIconGroup'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新状态标识',
+            domType: 'Text'
+        },
+        {
+            key: 'OBJ_ID',
+            name: 'OBJ_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'CONFIDENCE',
+            name: '置信度',
+            filterBy: 'semanticConfidenceFilter',
+            domType: 'Text'
+        },
+        {
+            key: 'DEVICE',
+            name: '传感器 id',
+            domType: 'Text'
+        },
+        {
+            key: 'D_TIMESTAMP',
+            name: '时间戳',
+            domType: 'Text'
         }
     ],
     AD_LaneAttrPoint: [
@@ -1298,6 +1412,42 @@ export const TABLE_DATA_MAP = {
             name: '交通标志牌样式',
             type: 'AD_TRAFFICSIGN_SIGN_STYLE',
             domType: 'Select'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新状态标识',
+            domType: 'Text'
+        },
+        {
+            key: 'OBJ_ID',
+            name: 'OBJ_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'CONFIDENCE',
+            name: '置信度',
+            filterBy: 'semanticConfidenceFilter',
+            domType: 'Text'
+        },
+        {
+            key: 'DEVICE',
+            name: '传感器 id',
+            domType: 'Text'
+        },
+        {
+            key: 'D_HEIGHT',
+            name: '高',
+            domType: 'Text'
+        },
+        {
+            key: 'D_WIDTH',
+            name: '宽',
+            domType: 'Text'
+        },
+        {
+            key: 'D_TIMESTAMP',
+            name: '时间戳',
+            domType: 'Text'
         }
     ],
     AD_TrafficLight: [
@@ -1326,6 +1476,42 @@ export const TABLE_DATA_MAP = {
             required: true,
             validates: 'Numeric|range|0|99',
             domType: 'InputNumber'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新状态标识',
+            domType: 'Text'
+        },
+        {
+            key: 'OBJ_ID',
+            name: 'OBJ_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'CONFIDENCE',
+            name: '置信度',
+            filterBy: 'semanticConfidenceFilter',
+            domType: 'Text'
+        },
+        {
+            key: 'DEVICE',
+            name: '传感器 id',
+            domType: 'Text'
+        },
+        {
+            key: 'D_HEIGHT',
+            name: '高',
+            domType: 'Text'
+        },
+        {
+            key: 'D_WIDTH',
+            name: '宽',
+            domType: 'Text'
+        },
+        {
+            key: 'D_TIMESTAMP',
+            name: '时间戳',
+            domType: 'Text'
         }
     ],
     AD_Map_QC: [
@@ -1432,6 +1618,32 @@ export const TABLE_DATA_MAP = {
             domType: 'InputNumber',
             required: true,
             validates: 'Decimal|10|4'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新状态标识',
+            domType: 'Text'
+        },
+        {
+            key: 'OBJ_ID',
+            name: 'OBJ_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'CONFIDENCE',
+            name: '置信度',
+            filterBy: 'semanticConfidenceFilter',
+            domType: 'Text'
+        },
+        {
+            key: 'DEVICE',
+            name: '传感器 id',
+            domType: 'Text'
+        },
+        {
+            key: 'D_TIMESTAMP',
+            name: '时间戳',
+            domType: 'Text'
         }
     ]
 };

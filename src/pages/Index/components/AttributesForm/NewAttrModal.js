@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Form, Modal, Select, Input } from 'antd';
-import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
+import { ATTR_TABLE_CONFIG } from 'config/AttrsConfig';
 import {
     TYPE_SELECT_OPTION_MAP,
     DEFAULT_PROPERTIES_MAP
@@ -51,7 +51,8 @@ class NewAttrModal extends React.Component {
                 confirmLoading={confirmLoading}
                 title="新增"
                 okText="确定"
-                cancelText="取消">
+                cancelText="取消"
+                wrapClassName="edit-attr-modal">
                 <Form
                     colon={false}
                     hideRequiredMark={true}

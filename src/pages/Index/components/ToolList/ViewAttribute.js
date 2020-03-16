@@ -22,7 +22,7 @@ import SeniorModal from 'src/components/SeniorModal';
 import AdEmitter from 'src/models/event';
 import Resize from 'src/utils/resize';
 import Filter from 'src/utils/table/filter';
-import { ATTR_SPEC_CONFIG, REL_ATTR_LAYERS } from 'src/config/AttrsConfig';
+import { ATTR_SPEC_CONFIG, REL_ATTR_LAYERS } from 'config/AttrsConfig';
 import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
 
 @inject('DataLayerStore')
