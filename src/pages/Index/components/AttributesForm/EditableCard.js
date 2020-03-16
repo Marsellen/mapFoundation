@@ -3,7 +3,7 @@ import { Button, Select, Modal, Form, Icon, Input } from 'antd';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import SearchIconGroup from 'src/components/SearchIconGroup';
 import _ from 'lodash';
-import { ATTR_TABLE_CONFIG } from 'src/config/AttrsConfig';
+import { ATTR_TABLE_CONFIG } from 'config/AttrsConfig';
 import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
 import { getLayerIDKey } from 'src/utils/vectorUtils';
 import './style.less';
@@ -12,6 +12,7 @@ import AdDateInput from 'src/components/Form/AdDateInput';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { testDataString } from 'src/utils/timeUtils';
+import Filter from 'src/utils/table/filter';
 
 const formItemLayout = {
     labelCol: {
@@ -87,7 +88,8 @@ class EditableCard extends React.Component {
                     cancelText="取消"
                     destroyOnClose={true}
                     onCancel={this.onCancel}
-                    onOk={this.onCreate}>
+                    onOk={this.onCreate}
+                    wrapClassName="edit-attr-modal">
                     {this.renderContent()}
                 </Modal>
             </div>
@@ -166,15 +168,18 @@ class EditableCard extends React.Component {
 
     renderText = (item, index, readonly) => {
         const { form } = this.props;
+        let value = item.filterBy
+            ? Filter.get(item.filterBy)(item.value)
+            : item.value;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
                     form.getFieldDecorator(item.key, {
-                        initialValue: item.value
+                        initialValue: value
                     })(<Input disabled />)
                 ) : (
                     <span className="ant-form-text">
-                        {this.isPresent(item.value) ? item.value : '--'}
+                        {this.isPresent(value) ? value : '--'}
                     </span>
                 )}
             </Form.Item>

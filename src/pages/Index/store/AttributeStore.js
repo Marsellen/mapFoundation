@@ -14,7 +14,7 @@ import {
 import {
     ATTR_SPEC_CONFIG,
     MOD_UPD_STAT_RELATION_LAYERS
-} from 'src/config/AttrsConfig';
+} from 'config/AttrsConfig';
 import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
 import {
     getAllRelFeatureOptions,
@@ -50,11 +50,16 @@ class AttributeStore {
     @action hide = () => {
         this.visible = false;
         this.delAttrs = [];
+        this.loaded();
     };
 
     @action showLoading = text => {
         this.loading = true;
         this.loadingMessage = text;
+    };
+
+    @action loaded = () => {
+        this.loading = false;
     };
 
     setModel = flow(function*(obj) {
@@ -65,7 +70,7 @@ class AttributeStore {
         yield this.fetchRels();
         yield this.fetchAttrs();
         this.toggleEvent && this.toggleEvent();
-        this.loading = false;
+        this.loaded();
     });
 
     getModel = () => {

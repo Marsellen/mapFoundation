@@ -79,6 +79,13 @@ class Filter {
             ? options.map(option => option.label).join(',')
             : value;
     };
+
+    semanticConfidenceFilter = value => {
+        if (typeof value === 'number') {
+            return value;
+        }
+        return '--';
+    };
 }
 
 export default new Filter();

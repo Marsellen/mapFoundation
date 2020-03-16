@@ -109,6 +109,7 @@ class AttributesModal extends React.Component {
                 })
                 .catch(e => {
                     message.error(e.message || '更新失败: 数据重复');
+                    AttributeStore.loaded();
                 });
         });
     };

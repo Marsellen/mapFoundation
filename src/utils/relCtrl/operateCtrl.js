@@ -5,7 +5,7 @@ import {
     ATTR_REL_DATA_SET,
     REL_SPEC_CONFIG
 } from 'src/config/RelsConfig';
-import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
+import { ATTR_SPEC_CONFIG } from 'config/AttrsConfig';
 import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
 import { updateFeaturesByRels } from './relCtrl';
 import EditorService from 'src/services/EditorService';
