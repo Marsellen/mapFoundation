@@ -43,7 +43,7 @@ class TopView extends React.Component {
         if (!isTopView) {
             window.map.setCurrentView('U');
             window.map.disableRotate();
-            if (layer.layerName === 'AD_TrafficLight' || layer.layerName === 'AD_TrafficSign' || layer.layerName === 'AD_Pole' || layer.layerName === 'AD_RS_Barrier') {
+            if (layer === null || layer.layerName === 'AD_TrafficLight' || layer.layerName === 'AD_TrafficSign' || layer.layerName === 'AD_Pole' || layer.layerName === 'AD_RS_Barrier') {
                 DataLayerStore.activeEditor();
                 ToolCtrlStore.updateByEditLayer();
             } else {

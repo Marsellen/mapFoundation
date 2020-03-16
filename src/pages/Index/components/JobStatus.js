@@ -13,6 +13,7 @@ const MANUALSTATUS = {
 };
 
 @withRouter
+@inject('RenderModeStore')
 @inject('QualityCheckStore')
 @inject('appStore')
 @inject('OperateHistoryStore')
@@ -253,11 +254,12 @@ class JobStatus extends React.Component {
     };
 
     taskSubmit = async option => {
-        const { TaskStore, QualityCheckStore } = this.props;
+        const { TaskStore, QualityCheckStore, RenderModeStore } = this.props;
         const { closeCheckReport } = QualityCheckStore;
         try {
             await TaskStore.initSubmit(option);
             TaskStore.setActiveTask();
+            RenderModeStore.setMode('common')
             this.clearWorkSpace();
             message.success('提交成功');
 
