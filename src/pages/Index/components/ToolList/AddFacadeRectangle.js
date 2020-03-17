@@ -17,7 +17,7 @@ class AddFacadeRectangle extends React.Component {
                 onClick={this.action}
             >
                 <ToolIcon icon="limianjuxing" />
-                <div>绘制立面矩形</div>
+                <div>绘制两点立面矩形</div>
                 <AdMessage visible={visible} content={this.content()} />
             </div>
         );
