@@ -36,8 +36,7 @@ class DividerToAutoCreate extends React.Component {
                 id="divider-to-auto-create"
                 className="flex-1"
                 onClick={this.action}
-                key={updateKey}
-            >
+                key={updateKey}>
                 <ToolIcon
                     icon={
                         editLayer && editLayer.layerName == 'AD_Lane'
@@ -207,12 +206,8 @@ class DividerToAutoCreate extends React.Component {
         };
         let layer = getLayerByName(layerName);
         if (layer.getFeatureByOption(option)) {
-            const { RenderModeStore } = this.props;
-            const { activeMode, getRelFeatures } = RenderModeStore;
             let feature = layer.getFeatureByOption(option).properties;
             this.showAttributesModal(feature);
-            //关联关系模式，选中效果
-            activeMode === 'relation' && getRelFeatures(layerName, value);
         } else {
             message.warning('所在图层与用户编号不匹配！', 3);
         }
