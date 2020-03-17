@@ -95,6 +95,12 @@ class DataLayerStore {
                 case 'select_road_plane':
                     this.roadPlaneCallback(result, event);
                     break;
+                case 'line_snap_stop':
+                    this.selectFeatureCallback(result, event);
+                    break;
+                case 'assign_line_batch':
+                    this.newFixLineCallback(result, event);
+                    break;
             }
         });
     };
@@ -320,6 +326,34 @@ class DataLayerStore {
         this.setEditType('delRel');
     };
 
+    selectFeature = () => {
+        if (this.editType == 'line_snap_stop') return;
+        this.enableRegionSelect();
+        this.setEditType('line_snap_stop');
+    };
+
+    getSelectFeature = () => {
+        this.editor.selectFeature(1);
+    };
+
+    getNewFixLine = (num, mode) => {
+        this.editor.newFixLine(num, mode);
+    };
+
+    newFixLine = () => {
+        if (this.editType == 'assign_line_batch') return;
+        this.disableOtherCtrl();
+        this.setEditType('assign_line_batch');
+    };
+
+    setSelectFeatureCallback = callback => {
+        this.selectFeatureCallback = callback;
+    };
+
+    setNewFixLineCallback = callback => {
+        this.newFixLineCallback = callback;
+    };
+
     setNewRelCallback = callback => {
         this.newRelCallback = callback;
     };
@@ -385,7 +419,7 @@ class DataLayerStore {
         this.editor.newFixedPolygon(3);
     };
 
-    updateResult = flow(function* (result) {
+    updateResult = flow(function*(result) {
         try {
             if (this.editType != 'new_circle') {
                 return result;

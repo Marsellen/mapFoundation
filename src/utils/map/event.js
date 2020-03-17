@@ -63,6 +63,10 @@ const installMapListener = () => {
         'editor_event_selectpointfrompc_end',
         'crosshair-viz'
     );
+    addEditorListener('editor_event_lqdtzx_start', 'move-point-viz');
+    addEditorExitListener('editor_event_lqdtzx_end', 'move-point-viz'); //线要素对齐到停止线
+    addEditorListener('editor_event_plfcdfzbh_start', 'edit-viz');
+    addEditorExitListener('editor_event_plfcdfzbh_end', 'edit-viz'); //批量赋车道分组编号
     pointsTooCloseListener();
     movePointTooCloseListener();
     movePointTooFarListener();

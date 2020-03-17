@@ -8,10 +8,12 @@ configure({ enforceActions: 'always' });
 class ToolCtrlStore {
     @observable tools;
     @observable drawTools = [];
+    @observable batchTools = [];
 
     @action init = () => {
         this.tools = initEditTools;
         this.drawTools = [];
+        this.batchTools = [];
     };
 
     @action updateByEditLayer = (layer, userInfo) => {
@@ -40,6 +42,7 @@ class ToolCtrlStore {
         };
 
         this.drawTools = DATA_LAYER_MAP[layerName].drawTools;
+        this.batchTools = DATA_LAYER_MAP[layerName].batchTools;
     };
 }
 

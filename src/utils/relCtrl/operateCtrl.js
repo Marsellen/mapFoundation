@@ -10,6 +10,7 @@ import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
 import { updateFeaturesByRels } from './relCtrl';
 import EditorService from 'src/services/EditorService';
 import AdLineService from 'src/services/AdLineService';
+import BatchToolsService from 'src/services/BatchToolsService';
 import { getFeatureRels } from './utils';
 import attrFactory from '../attrCtrl/attrFactory';
 import {
@@ -176,6 +177,60 @@ const breakLineByLine = async (line, features, activeTask) => {
 
     message.success(result.message, 3);
     return historyLog;
+};
+
+/**
+ * 线要素对齐到停止线
+ * @method lineToStop
+ * @param {Object} mainFeature 一条或多条线要素
+ * @param {Array<Object>} relFeatures 停止线
+ * @param {Object} layerName 操作图层
+ * @param {Object} activeTask 任务对象
+ * @returns {Object}
+ */
+
+const lineToStop = async (mainFeature, stopFeatures, layerName, activeTask) => {
+    const { taskId, processName } = activeTask;
+    let stopLine = geometryToWKT(stopFeatures[0].data.geometry);
+    let { lines } = await getLinesInfo(mainFeature);
+    const params = {
+        stopLine,
+        processName,
+        lines,
+        task_id: taskId
+    };
+    console.log('params', params);
+
+    let result = await BatchToolsService.lineToStop(params);
+    console.log('后台返回', result);
+};
+
+/**
+ * 批量赋车道分组编号
+ * @method batchAssignment
+ * @param {Object} mainFeature 一条或多条线要素
+ * @param {Array<Object>} relFeatures 停止线
+ * @param {Object} layerName 操作图层
+ * @param {Object} activeTask 任务对象
+ * @returns {Object}
+ */
+
+const batchAssignment = async (
+    mainFeature,
+    stopFeatures,
+    layerName,
+    activeTask
+) => {
+    const { taskId, processName } = activeTask;
+    let stopLine = geometryToWKT(stopFeatures[0].data.geometry);
+    const params = {
+        stopLine,
+        processName,
+        lines: mainFeature,
+        task_id: taskId
+    };
+    let result = await BatchToolsService.lineToStop(params);
+    console.log('后台返回', result);
 };
 
 /**
@@ -799,6 +854,8 @@ export {
     deleteLine,
     breakLine,
     mergeLine,
+    lineToStop,
+    batchAssignment,
     autoCreateLine,
     updateFeatures,
     updateRels,

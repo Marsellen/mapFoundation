@@ -23,7 +23,7 @@ export const DATA_LAYER_MAP = {
         label: '车道线',
         id: 'LDIV_ID',
         spec: 'AD_LaneDivider',
-        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX'],
         drawTools: { recognition: ['LINE'], manbuild: ['LINE'] },
         rightTools: [
             'delete',
@@ -33,6 +33,10 @@ export const DATA_LAYER_MAP = {
             'deletePoints',
             'reverseOrderLine',
             'break'
+        ],
+        batchTools: [
+            'LINE_FEATURES_SNAP_TO_STOP_LINE',
+            'ASSIGN_LINE_NO_IN_BATCH'
         ],
         groupRightTools: [
             'breakGroup',
@@ -86,7 +90,7 @@ export const DATA_LAYER_MAP = {
         label: '车道中心线',
         id: 'LANE_ID',
         spec: 'AD_Lane',
-        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX'],
         drawTools: {
             recognition: ['LINE'],
             manbuild: [
@@ -98,6 +102,10 @@ export const DATA_LAYER_MAP = {
                 'NEW_UTURN_LINE'
             ]
         },
+        batchTools: [
+            'LINE_FEATURES_SNAP_TO_STOP_LINE',
+            'ASSIGN_LINE_NO_IN_BATCH'
+        ],
         rightTools: [
             'delete',
             'copyLine',
@@ -143,7 +151,7 @@ export const DATA_LAYER_MAP = {
         label: '道路参考线',
         id: 'ROAD_ID',
         spec: 'AD_Road',
-        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX'],
         drawTools: {
             recognition: ['LINE'],
             manbuild: [
@@ -155,6 +163,7 @@ export const DATA_LAYER_MAP = {
                 'NEW_UTURN_LINE'
             ]
         },
+        batchTools: ['ASSIGN_LINE_NO_IN_BATCH'],
         rightTools: [
             'delete',
             'copyLine',
