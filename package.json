@@ -8,7 +8,7 @@
     ],
     "scripts": {
         "i": "npm i addis-viz-sdk --registry=http://10.43.75.53:8081/repository/npm-all/ --save & npm i",
-        "start": "webpack-dev-server",
+        "start": "webpack-dev-server --env.spec=semantic --env.csys=2",
         "start-local": "webpack-dev-server --env.proxy=local",
         "start-semantic": "webpack-dev-server --env.spec=semantic --env.csys=2",
         "build": "webpack --env.mode=production",
