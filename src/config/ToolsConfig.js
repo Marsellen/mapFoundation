@@ -22,7 +22,8 @@ export const TOOLS_MAP = {
         POINT_CLOUD: true,
         TOOL_BOX: true,
         DRAW_TOOL_BOX: false,
-        RESOURCE_LOADER: true
+        RESOURCE_LOADER: true,
+        BATCH_TOOL_BOX: false
     },
     CHECK: {}
 };

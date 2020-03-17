@@ -28,6 +28,8 @@ export default {
             dashSize: 0.3,
             gapSize: 0.3
         }, //辅助虚线
-        specifiedFeatureSelectedStyle: { color: 'rgb(238,68,80)' } //删除关联关系时，选中的样式
+        specifiedFeatureSelectedStyle: { color: 'rgb(238,68,80)' }, //删除关联关系时，选中的样式
+        featureLqdtzxStyle: { color: 'rgb(238,68,80)' }, //拉齐到停止线时要素高亮的样式
+        featurePlfcdfzbhStyle: { color: 'rgb(238,68,80)' } //批量赋车道分组编号时要素的样式
     }
 };

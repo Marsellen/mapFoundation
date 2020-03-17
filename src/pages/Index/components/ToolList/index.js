@@ -13,6 +13,7 @@ import PointCloud from './PointCloud';
 import TopBreakLine from './TopBreakLine';
 import ToolBox from './ToolBox';
 import DrawToolBox from './DrawToolBox';
+import BatchToolBox from './BatchToolBox';
 
 export default [
     <Undo key="UNDO" />,
@@ -28,5 +29,6 @@ export default [
     <EditLayer key="EDIT_LAYER" />,
     <DrawToolBox key="DRAW_TOOL_BOX" />,
     <AddRel key="ADD_REL" />,
-    <DelRel key="DEL_REL" />
+    <DelRel key="DEL_REL" />,
+    <BatchToolBox key="BATCH_TOOL_BOX" />
 ];
