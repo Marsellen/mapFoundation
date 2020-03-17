@@ -356,6 +356,7 @@ class RenderModeStore {
 
     //更新关联数组
     @action updateRels = history => {
+        if (!this.activeMode === 'relation') return;
         if (!history) return;
         const { rels } = history.data || {};
         const [oldRels, newRels] = rels || [];

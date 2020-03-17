@@ -50,8 +50,7 @@ class NewUTurnLine extends React.Component {
                 id="new-uturn-line"
                 key={updateKey}
                 onClick={this.action}
-                className="flex-1"
-            >
+                className="flex-1">
                 <ToolIcon icon="diaotou" />
                 <div>
                     {layerName == 'AD_Lane'
@@ -69,8 +68,7 @@ class NewUTurnLine extends React.Component {
                     maskClosable={false}
                     keyboard={false}
                     okText="确定"
-                    cancelText="取消"
-                >
+                    cancelText="取消">
                     <div className="set-length-number">
                         <AdInputNumber
                             width="66%"
@@ -252,12 +250,8 @@ class NewUTurnLine extends React.Component {
         };
         let layer = getLayerByName(layerName);
         if (layer.getFeatureByOption(option)) {
-            const { RenderModeStore } = this.props;
-            const { activeMode, getRelFeatures } = RenderModeStore;
             let feature = layer.getFeatureByOption(option).properties;
             this.showAttributesModal(feature);
-            //关联关系模式，选中效果
-            activeMode === 'relation' && getRelFeatures(layerName, value);
         } else {
             message.warning('所在图层与用户编号不匹配！', 3);
         }

@@ -38,8 +38,7 @@ class NewStraightLine extends React.Component {
                 id="new-straight-line"
                 key={updateKey}
                 onClick={this.action}
-                className="flex-1"
-            >
+                className="flex-1">
                 <ToolIcon icon="zhixing1" />
                 <div>
                     {layerName == 'AD_Lane'
@@ -161,12 +160,8 @@ class NewStraightLine extends React.Component {
         };
         let layer = getLayerByName(layerName);
         if (layer.getFeatureByOption(option)) {
-            const { RenderModeStore } = this.props;
-            const { activeMode, getRelFeatures } = RenderModeStore;
             let feature = layer.getFeatureByOption(option).properties;
             this.showAttributesModal(feature);
-            //关联关系模式，选中效果
-            activeMode === 'relation' && getRelFeatures(layerName, value);
         } else {
             message.warning('所在图层与用户编号不匹配！', 3);
         }
