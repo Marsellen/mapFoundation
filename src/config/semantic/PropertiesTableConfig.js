@@ -45,6 +45,11 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'MAX_SPEED',
             title: '最高行驶速度'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
         }
     ],
     AD_LaneDivider: [
@@ -100,6 +105,11 @@ export const COLUMNS_CONFIG = {
             dataIndex: 'RD_FORM',
             title: '道路形态',
             filterBy: 'typeFilter|AD_LANE_DIVIDER_RD_FORM'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
         },
         {
             dataIndex: 'OBJ_ID',
@@ -172,6 +182,11 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'R_LDIV_ID',
             title: '关联右侧车道线用户编号'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
         }
     ],
     AD_Lane_RS: [
@@ -219,6 +234,11 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'ROAD_ID',
             title: '关联道路参考线用户编号'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
         }
     ],
     AD_Arrow: [
@@ -238,6 +258,11 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'LANE_ID',
             title: '关联车道中心线用户编号'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
         },
         {
             dataIndex: 'OBJ_ID',
@@ -272,6 +297,11 @@ export const COLUMNS_CONFIG = {
             filterBy: 'typeFilter|AD_STOPLOCATION_TYPE'
         },
         {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
+        },
+        {
             dataIndex: 'OBJ_ID',
             title: 'OBJ_ID'
         },
@@ -302,6 +332,11 @@ export const COLUMNS_CONFIG = {
             dataIndex: 'TYPE',
             title: '面要素类型',
             filterBy: 'typeFilter|AD_LANEMARK_PLG_TYPE'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
         },
         {
             dataIndex: 'OBJ_ID',
@@ -342,6 +377,11 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'LANE_ID',
             title: '关联车道中心线用户编号'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
         }
     ],
     AD_TrafficSign: [
@@ -357,6 +397,11 @@ export const COLUMNS_CONFIG = {
             dataIndex: 'SIGN_STYLE',
             title: '标志牌类型',
             filterBy: 'typeFilter|AD_TRAFFICSIGN_SIGN_STYLE'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
         },
         {
             dataIndex: 'OBJ_ID',
@@ -442,6 +487,11 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'LAMP_COUNT',
             title: '信号灯灯头数量'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
         },
         {
             dataIndex: 'OBJ_ID',
@@ -535,6 +585,11 @@ export const COLUMNS_CONFIG = {
             title: '杆状物立柱底部半径'
         },
         {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
+        },
+        {
             dataIndex: 'OBJ_ID',
             title: 'OBJ_ID'
         },
@@ -570,6 +625,11 @@ export const COLUMNS_CONFIG = {
             dataIndex: 'MATERIAL',
             title: '护栏材质',
             filterBy: 'typeFilter|AD_RS_BARRIER_MATERIAL'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
         }
     ],
     AD_Map_QC: [

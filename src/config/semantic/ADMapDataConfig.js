@@ -1087,11 +1087,6 @@ export const TABLE_DATA_MAP = {
             domType: 'Select'
         },
         {
-            key: 'UPD_STAT',
-            name: '更新状态标识',
-            domType: 'Text'
-        },
-        {
             key: 'OBJ_ID',
             name: 'OBJ_ID',
             domType: 'Text'
@@ -1265,11 +1260,6 @@ export const TABLE_DATA_MAP = {
             domType: 'RadioIconGroup'
         },
         {
-            key: 'UPD_STAT',
-            name: '更新状态标识',
-            domType: 'Text'
-        },
-        {
             key: 'OBJ_ID',
             name: 'OBJ_ID',
             domType: 'Text'
@@ -1303,11 +1293,6 @@ export const TABLE_DATA_MAP = {
             name: '面状标识物类型',
             type: 'AD_LANEMARK_PLG_TYPE',
             domType: 'RadioIconGroup'
-        },
-        {
-            key: 'UPD_STAT',
-            name: '更新状态标识',
-            domType: 'Text'
         },
         {
             key: 'OBJ_ID',
@@ -1360,11 +1345,6 @@ export const TABLE_DATA_MAP = {
             domType: 'CheckBoxIconGroup'
         },
         {
-            key: 'UPD_STAT',
-            name: '更新状态标识',
-            domType: 'Text'
-        },
-        {
             key: 'OBJ_ID',
             name: 'OBJ_ID',
             domType: 'Text'
@@ -1412,11 +1392,6 @@ export const TABLE_DATA_MAP = {
             name: '交通标志牌样式',
             type: 'AD_TRAFFICSIGN_SIGN_STYLE',
             domType: 'Select'
-        },
-        {
-            key: 'UPD_STAT',
-            name: '更新状态标识',
-            domType: 'Text'
         },
         {
             key: 'OBJ_ID',
@@ -1476,11 +1451,6 @@ export const TABLE_DATA_MAP = {
             required: true,
             validates: 'Numeric|range|0|99',
             domType: 'InputNumber'
-        },
-        {
-            key: 'UPD_STAT',
-            name: '更新状态标识',
-            domType: 'Text'
         },
         {
             key: 'OBJ_ID',
@@ -1618,11 +1588,6 @@ export const TABLE_DATA_MAP = {
             domType: 'InputNumber',
             required: true,
             validates: 'Decimal|10|4'
-        },
-        {
-            key: 'UPD_STAT',
-            name: '更新状态标识',
-            domType: 'Text'
         },
         {
             key: 'OBJ_ID',
