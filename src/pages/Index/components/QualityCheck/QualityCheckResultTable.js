@@ -34,11 +34,13 @@ class QualityCheckResultTable extends React.Component {
         const { columns, currentPage, total } = this.state;
         const { QualityCheckStore } = this.props;
         const { reportList, reportListL, tableHeight } = QualityCheckStore;
+        const newTotal = total ? total : total === 0 ? total : reportListL;
 
         return (
             <div
                 onKeyUp={e => this.handleKeyUp(e)}
-                onKeyDown={e => this.handleKeyDown(e)}>
+                onKeyDown={e => this.handleKeyDown(e)}
+            >
                 <ConfigProvider locale={zh_CN}>
                     <AdTable
                         dataSource={reportList}
@@ -58,7 +60,7 @@ class QualityCheckResultTable extends React.Component {
                         pagination={{
                             current: currentPage,
                             size: 'small',
-                            total: total || reportListL,
+                            total: newTotal,
                             showTotal: showTotal,
                             showSizeChanger: true,
                             onChange: this.handlePagination,
@@ -76,7 +78,8 @@ class QualityCheckResultTable extends React.Component {
                         <div className="check-table-footer">
                             <Button
                                 className="reset-button"
-                                onClick={this.clearFilters}>
+                                onClick={this.clearFilters}
+                            >
                                 筛选重置
                             </Button>
                         </div>
@@ -276,6 +279,8 @@ class QualityCheckResultTable extends React.Component {
             DataLayerStore.exitEdit();
             //已访问
             visitedReport(record, activeTaskId);
+            //过滤条件是未查看时，双击一条，实时减少总条数
+            this.updateTablePageTotal();
             //展开
             this.openRowStyle(index);
             // 定位，判断是否为可定位图层
@@ -303,6 +308,16 @@ class QualityCheckResultTable extends React.Component {
                 window.map.lookDownOn(geomPoint[0], geomPoint[1], geomPoint[2]);
             }
         };
+    };
+
+    //过滤条件是未查看时，双击一条，实时减少总条数
+    updateTablePageTotal = () => {
+        const { filteredInfo, total } = this.state;
+        if (!filteredInfo) return;
+        const { visitedText } = filteredInfo;
+        if (visitedText.length === 1 && visitedText[0] === '未查看') {
+            this.setState({ total: total - 1 });
+        }
     };
 
     //显示属性框

@@ -228,7 +228,15 @@ class Task extends React.Component {
     //关联关系模式下，处理底图数据
     handleBoundaryfeature = () => {
         const { RenderModeStore } = this.props;
-        const { whiteRenderMode, resetSelectOption, setRels } = RenderModeStore;
+        const {
+            whiteRenderMode,
+            resetSelectOption,
+            setRels,
+            activeMode
+        } = RenderModeStore;
+
+        if (activeMode !== 'relation') return;
+
         //将重置专题图
         resetSelectOption();
         //周边底图要素，采用配置：HalfWhiteVectorsConfig，半透明白
@@ -237,17 +245,17 @@ class Task extends React.Component {
         setRels();
     };
 
-    fetchLayerGroup = async boundaryLayerGroup => {
+    fetchLayerGroup = boundaryLayerGroup => {
         if (!boundaryLayerGroup) {
             return;
         }
         const { DataLayerStore, ResourceLayerStore, VectorsStore } = this.props;
-        await DataLayerStore.addTargetLayers(boundaryLayerGroup.layers);
-        await ResourceLayerStore.updateLayerByName(
+        DataLayerStore.addTargetLayers(boundaryLayerGroup.layers);
+        ResourceLayerStore.updateLayerByName(
             RESOURCE_LAYER_BOUNDARY,
             boundaryLayerGroup
         );
-        await VectorsStore.addBoundaryLayer(boundaryLayerGroup);
+        VectorsStore.addBoundaryLayer(boundaryLayerGroup);
         this.handleBoundaryfeature();
     };
 }
