@@ -255,16 +255,17 @@ class JobStatus extends React.Component {
 
     taskSubmit = async option => {
         const { TaskStore, QualityCheckStore, RenderModeStore } = this.props;
-        const { closeCheckReport } = QualityCheckStore;
+        const { closeCheckReport, clearCheckReport } = QualityCheckStore;
         try {
             await TaskStore.initSubmit(option);
             TaskStore.setActiveTask();
-            RenderModeStore.setMode('common')
+            RenderModeStore.setMode('common');
             this.clearWorkSpace();
             message.success('提交成功');
 
-            //关闭质检弹窗
+            //关闭质检弹窗，重置质检列表
             closeCheckReport();
+            clearCheckReport();
 
             if (option.manualStatus === 4 || option.manualStatus === 5) {
                 // 更新任务列表
