@@ -7,6 +7,7 @@ import {
 } from 'src/config/RelsConfig';
 import { ATTR_SPEC_CONFIG } from 'config/AttrsConfig';
 import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { updateFeaturesByRels } from './relCtrl';
 import EditorService from 'src/services/EditorService';
 import AdLineService from 'src/services/AdLineService';
@@ -183,7 +184,7 @@ const breakLineByLine = async (line, features, activeTask) => {
  * 线要素对齐到停止线
  * @method lineToStop
  * @param {Object} mainFeature 一条或多条线要素
- * @param {Array<Object>} relFeatures 停止线
+ * @param {Array<Object>} stopFeatures 停止线
  * @param {Object} layerName 操作图层
  * @param {Object} activeTask 任务对象
  * @returns {Object}
@@ -199,17 +200,28 @@ const lineToStop = async (mainFeature, stopFeatures, layerName, activeTask) => {
         lines,
         task_id: taskId
     };
-    console.log('params', params);
 
     let result = await BatchToolsService.lineToStop(params);
-    console.log('后台返回', result);
+    let newFeatures = calcNewAttrs(
+        mainFeature,
+        result.data,
+        layerName,
+        'geometry'
+    );
+    let Message = result.message;
+    let historyLog = {
+        features: [[], newFeatures]
+    };
+
+    await updateFeatures(historyLog);
+    return { historyLog, Message };
 };
 
 /**
  * 批量赋车道分组编号
  * @method batchAssignment
  * @param {Object} mainFeature 一条或多条线要素
- * @param {Array<Object>} relFeatures 停止线
+ * @param {Array<Object>} assignmentLine 停止线
  * @param {Object} layerName 操作图层
  * @param {Object} activeTask 任务对象
  * @returns {Object}
@@ -217,20 +229,70 @@ const lineToStop = async (mainFeature, stopFeatures, layerName, activeTask) => {
 
 const batchAssignment = async (
     mainFeature,
-    stopFeatures,
+    assignmentLine,
     layerName,
+    startNumber,
     activeTask
 ) => {
-    const { taskId, processName } = activeTask;
-    let stopLine = geometryToWKT(stopFeatures[0].data.geometry);
+    // debugger;
+    const { taskId } = activeTask;
+    let assignLineGeom = geometryToWKT(assignmentLine[0].geometry);
+
+    let { lines } = await getLinesInfo(mainFeature);
     const params = {
-        stopLine,
-        processName,
-        lines: mainFeature,
+        assignmentLine: assignLineGeom,
+        startNumber,
+        lines,
         task_id: taskId
     };
-    let result = await BatchToolsService.lineToStop(params);
-    console.log('后台返回', result);
+    let result = await BatchToolsService.batchAssignment(params);
+    let Message = result.message;
+    let newFeatures = calcNewAttrs(
+        mainFeature,
+        result.data,
+        layerName,
+        'properties'
+    );
+    let historyLog = {
+        features: [[], newFeatures]
+    };
+
+    await updateFeatures(historyLog);
+    return { historyLog, Message };
+};
+
+const calcNewAttrs = (oldFeatures, feature, layerName, dealType) => {
+    const idVal = DATA_LAYER_MAP[layerName].id;
+    let newFeature = oldFeatures;
+    const oldLines = oldFeatures.map(item => {
+        const properties = item.data.properties;
+        const geometry = item.data.geometry;
+        const ID = item.data.properties[idVal];
+        delete item.data[dealType];
+        return {
+            properties,
+            geometry,
+            ID
+        };
+    });
+    const newLines = feature.map(item => {
+        const properties = item.attr;
+        const geometry = WKTToGeom(item.attr.geom);
+        const ID = item.attr[idVal];
+        return {
+            properties,
+            geometry,
+            ID
+        };
+    });
+    oldLines.map((item, i) => {
+        newLines.map(elem => {
+            if (item.ID == elem.ID) {
+                newFeature[i].data[dealType] = elem[dealType];
+            }
+        });
+    });
+    return newFeature;
 };
 
 /**
@@ -395,6 +457,7 @@ const getNewFeaturesInfo = (features, resultData) => {
         newAllFeatureOptions: []
         // 打断/合并后 所有存在关联关系的要素 option集合
     };
+    debugger;
     return resultData.reduce((total, data) => {
         let { newFeatures, rels, attrs } = fetchFeatureRels(
             features,
@@ -408,6 +471,8 @@ const getNewFeaturesInfo = (features, resultData) => {
         total.newAllFeatureOptions = total.newAllFeatureOptions.concat(
             allFeatureOptions
         );
+        console.log('total', total);
+
         return total;
     }, initialInfo);
 };
@@ -487,6 +552,8 @@ const queryFeature = (layerName, option) => {
 };
 
 const fetchFeatureRels = (oldFeatures, features) => {
+    console.log('oldFeatures, features', oldFeatures, features);
+    debugger;
     let layerName = oldFeatures[0].layerName;
     return calcFeatureRels(layerName, features).reduce(
         (total, fr) => {
@@ -500,6 +567,8 @@ const fetchFeatureRels = (oldFeatures, features) => {
 };
 
 const calcFeatureRels = (layerName, features) => {
+    console.log('layerName, features1111', layerName, features);
+
     features = Array.isArray(features) ? features : [features];
     return features.map(feature => {
         return {
@@ -511,6 +580,7 @@ const calcFeatureRels = (layerName, features) => {
 };
 
 const calcFeatures = (feature, layerName) => {
+    console.log('feature, layerName2222', feature, layerName);
     let { geom, ...properties } = feature;
     return {
         layerName,

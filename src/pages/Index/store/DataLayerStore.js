@@ -98,9 +98,6 @@ class DataLayerStore {
                 case 'line_snap_stop':
                     this.selectFeatureCallback(result, event);
                     break;
-                case 'assign_line_batch':
-                    this.newFixLineCallback(result, event);
-                    break;
             }
         });
     };
@@ -121,6 +118,8 @@ class DataLayerStore {
                 this.breakByLineCallback(result);
             } else if (this.editType == 'copyLine') {
                 this.copyLineCallback(result, event);
+            } else if (this.editType == 'assign_line_batch') {
+                this.newFixLineCallback(result, event);
             } else {
                 callback && (await callback(result));
                 AdEmitter.emit('fetchViewAttributeData');

@@ -163,7 +163,7 @@ export const DATA_LAYER_MAP = {
                 'NEW_UTURN_LINE'
             ]
         },
-        batchTools: ['ASSIGN_LINE_NO_IN_BATCH'],
+        batchTools: ['LINE_FEATURES_SNAP_TO_STOP_LINE'],
         rightTools: [
             'delete',
             'copyLine',

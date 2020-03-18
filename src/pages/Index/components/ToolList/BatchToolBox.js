@@ -5,7 +5,7 @@ import CheckButton from 'src/components/CheckButton';
 import LineFeaturesSnapToStopLine from './LineFeaturesSnapToStopLine';
 import AssignLineNoInBatch from './AssignLineNoInBatch';
 
-const EDIT_TYPES = ['line_snap_stop', 'new_line'];
+const EDIT_TYPES = ['line_snap_stop', 'assign_line_batch'];
 
 const OPTIONS = {
     LINE_FEATURES_SNAP_TO_STOP_LINE: {
