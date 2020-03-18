@@ -225,17 +225,30 @@ class Task extends React.Component {
         });
     };
 
-    fetchLayerGroup = boundaryLayerGroup => {
+    //关联关系模式下，处理底图数据
+    handleBoundaryfeature = () => {
+        const { RenderModeStore } = this.props;
+        const { whiteRenderMode, resetSelectOption, setRels } = RenderModeStore;
+        //将重置专题图
+        resetSelectOption();
+        //周边底图要素，采用配置：HalfWhiteVectorsConfig，半透明白
+        whiteRenderMode();
+        //将有关联关系的要素，按专题图进行分组
+        setRels();
+    };
+
+    fetchLayerGroup = async boundaryLayerGroup => {
         if (!boundaryLayerGroup) {
             return;
         }
         const { DataLayerStore, ResourceLayerStore, VectorsStore } = this.props;
-        DataLayerStore.addTargetLayers(boundaryLayerGroup.layers);
-        ResourceLayerStore.updateLayerByName(
+        await DataLayerStore.addTargetLayers(boundaryLayerGroup.layers);
+        await ResourceLayerStore.updateLayerByName(
             RESOURCE_LAYER_BOUNDARY,
             boundaryLayerGroup
         );
-        VectorsStore.addBoundaryLayer(boundaryLayerGroup);
+        await VectorsStore.addBoundaryLayer(boundaryLayerGroup);
+        this.handleBoundaryfeature();
     };
 }
 
