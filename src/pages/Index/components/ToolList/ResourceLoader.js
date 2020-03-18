@@ -11,6 +11,7 @@ const formLayout = {
 };
 
 @Form.create()
+@inject('RenderModeStore')
 @inject('TaskStore')
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
@@ -114,9 +115,10 @@ class ResourceLoader extends React.Component {
     };
 
     submit = () => {
-        const { OperateHistoryStore } = this.props;
+        const { OperateHistoryStore, RenderModeStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
+        RenderModeStore.setMode('common')
         if (shouldSave) {
             Modal.confirm({
                 title: '当前任务未保存，切换任务后会丢失，是否继续？',
