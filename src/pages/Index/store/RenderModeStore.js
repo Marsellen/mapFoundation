@@ -13,6 +13,10 @@ import { updateFeatureColor, getFeatureOption } from 'src/utils/vectorUtils';
 import VectorsStore from './VectorsStore';
 import { calculateMiddlePoint } from 'src/utils/computeLineMidpoint';
 import relFactory from 'src/utils/relCtrl/relFactory';
+import VectorsConfig from 'src/config/VectorsConfig';
+import OutsideVectorsConfig from 'src/config/OutsideVectorsConfig';
+import WhiteVectorsConfig from 'src/config/WhiteVectorsConfig';
+import HalfWhiteVectorsConfig from 'src/config/HalfWhiteVectorsConfig';
 
 configure({ enforceActions: 'always' });
 class RenderModeStore {
@@ -73,11 +77,58 @@ class RenderModeStore {
     };
 
     //重置专题图
-    resetSelectOption = () => {
+    @action resetSelectOption = () => {
+        this.checkedList = [];
+        this.unCheckedList = REL_SELECT_OPTIONS;
         this.relSelectOptions = REL_SELECT_OPTIONS;
         this.indeterminate = false;
         this.allChecked = false;
-        this.checkedList = [];
+    };
+
+    //重设画布渲染样式
+    @action resetStyleConfig = async mode => {
+        switch (mode) {
+            case 'common':
+                this.commonRenderMode();
+                break;
+            case 'relation':
+                this.whiteRenderMode();
+                //将有关联关系的要素，按专题图进行分组
+                this.setRels();
+                break;
+            case 'update':
+                this.whiteRenderMode();
+                break;
+            case 'define':
+                this.whiteRenderMode();
+                break;
+            default:
+                break;
+        }
+    };
+
+    //通用渲染模式/彩色渲染模式
+    @action commonRenderMode = () => {
+        //任务范围内要素，采用配置：VectorsConfig
+        if (window.vectorLayerGroup) {
+            window.vectorLayerGroup.resetStyleConfig(VectorsConfig);
+        }
+        //周边底图要素，采用配置：OutsideVectorsConfig
+        if (window.boundaryLayerGroup) {
+            window.boundaryLayerGroup.resetStyleConfig(OutsideVectorsConfig);
+        }
+    };
+
+    //白色渲染模式/要素都是白色
+    @action whiteRenderMode = () => {
+        //任务范围内要素，采用配置：WhiteVectorsConfig
+        if (window.vectorLayerGroup) {
+            window.vectorLayerGroup.resetStyleConfig(WhiteVectorsConfig);
+        }
+        //周边底图要素，采用配置：HalfWhiteVectorsConfig
+        if (window.boundaryLayerGroup) {
+            window.boundaryLayerGroup.resetStyleConfig(HalfWhiteVectorsConfig);
+        }
     };
 
     //修改要素颜色
@@ -292,7 +343,7 @@ class RenderModeStore {
         });
 
         this.rels_2D = rels_2D;
-    });
+    }).bind(this);
     //将history.data.rels里的数据，转成this.rels_2D格式
     getRelMap = updateRels => {
         if (!updateRels || updateRels.length === 0) return false;

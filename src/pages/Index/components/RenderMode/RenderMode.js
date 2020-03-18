@@ -2,10 +2,6 @@ import React from 'react';
 import { Modal, Button } from 'antd';
 import 'src/assets/less/components/render-mode.less';
 import { observer, inject } from 'mobx-react';
-import VectorsConfig from 'src/config/VectorsConfig';
-import OutsideVectorsConfig from 'src/config/OutsideVectorsConfig';
-import WhiteVectorsConfig from 'src/config/WhiteVectorsConfig';
-import HalfWhiteVectorsConfig from 'src/config/HalfWhiteVectorsConfig';
 import RelationRenderMode from './RelationRenderMode';
 import ToolIcon from 'src/components/ToolIcon';
 import { RENDER_MODE_MAP } from 'src/config/RenderModeConfig';
@@ -20,6 +16,80 @@ class RenderMode extends React.Component {
     state = {
         visible: false,
         mode: 'common'
+    };
+
+    //打开渲染模式弹窗
+    handleClick = () => {
+        const { RenderModeStore } = this.props;
+        const { activeMode } = RenderModeStore;
+        this.setState({
+            visible: true,
+            mode: activeMode
+        });
+    };
+
+    //关闭渲染模式弹窗
+    handleClose = () => {
+        this.setState({
+            visible: false
+        });
+    };
+
+    //渲染弹窗内按钮点击事件
+    chooseMode = item => {
+        const { mode } = item;
+        this.setState({
+            mode
+        });
+    };
+
+    //应用渲染模式
+    handleOk = () => {
+        Modal.confirm({
+            title: '切换渲染模式，此前的渲染配置都清空，是否继续？',
+            okText: '确定',
+            cancelText: '取消',
+            zIndex: 99999,
+            onOk: () => {
+                const {
+                    DataLayerStore,
+                    RenderModeStore,
+                    AttributeStore
+                } = this.props;
+                const { resetStyleConfig, setMode } = RenderModeStore;
+                const { mode } = this.state;
+                //设置渲染模式
+                setMode(mode);
+                //重设画布渲染样式
+                resetStyleConfig(mode);
+                //关闭渲染模式弹窗
+                this.setState({
+                    visible: false
+                });
+                //清除要素选中效果
+                DataLayerStore.clearPick();
+                //隐藏属性窗口
+                AttributeStore.hide();
+            }
+        });
+    };
+
+    //加载各模式组件
+    renderModeComponent = () => {
+        const { RenderModeStore } = this.props;
+        const { activeMode } = RenderModeStore;
+        switch (activeMode) {
+            case 'common':
+                return null;
+            case 'update':
+                return null;
+            case 'relation':
+                return <RelationRenderMode />;
+            case 'define':
+                return null;
+            default:
+                return null;
+        }
     };
 
     render() {
@@ -83,124 +153,6 @@ class RenderMode extends React.Component {
             </div>
         );
     }
-
-    //加载各模式组件
-    renderModeComponent = () => {
-        const { RenderModeStore } = this.props;
-        const { activeMode } = RenderModeStore;
-        switch (activeMode) {
-            case 'common':
-                return null;
-            case 'update':
-                return null;
-            case 'relation':
-                return <RelationRenderMode />;
-            case 'define':
-                return null;
-            default:
-                return null;
-        }
-    };
-
-    //打开渲染模式弹窗
-    handleClick = () => {
-        const { RenderModeStore } = this.props;
-        const { activeMode } = RenderModeStore;
-        this.setState({
-            visible: true,
-            mode: activeMode
-        });
-    };
-
-    //关闭渲染模式弹窗
-    handleClose = () => {
-        this.setState({
-            visible: false
-        });
-    };
-
-    //应用渲染模式
-    handleOk = () => {
-        Modal.confirm({
-            title: '切换渲染模式，此前的渲染配置都清空，是否继续？',
-            okText: '确定',
-            cancelText: '取消',
-            zIndex: 99999,
-            onOk: () => {
-                const {
-                    DataLayerStore,
-                    RenderModeStore,
-                    AttributeStore
-                } = this.props;
-                const { mode } = this.state;
-                //设置渲染模式
-                RenderModeStore.setMode(mode);
-                //重设画布渲染样式
-                this.resetStyleConfig(mode);
-                //关闭渲染模式弹窗
-                this.setState({
-                    visible: false
-                });
-                //清除要素选中效果
-                DataLayerStore.clearPick();
-                //隐藏属性窗口
-                AttributeStore.hide();
-            }
-        });
-    };
-    //重设画布渲染样式
-    resetStyleConfig = async mode => {
-        if (!window.vectorLayerGroup) return;
-        const { RenderModeStore } = this.props;
-        switch (mode) {
-            case 'common':
-                this.commonRenderMode();
-                break;
-            case 'relation':
-                this.whiteRenderMode();
-                //将有关联关系的要素，按专题图进行分组
-                RenderModeStore.setRels();
-                break;
-            case 'update':
-                this.whiteRenderMode();
-                break;
-            case 'define':
-                this.whiteRenderMode();
-                break;
-            default:
-                break;
-        }
-    };
-    //通用渲染模式/彩色渲染模式
-    commonRenderMode = () => {
-        //任务范围内要素，采用配置：VectorsConfig
-        if (window.vectorLayerGroup) {
-            window.vectorLayerGroup.resetStyleConfig(VectorsConfig);
-        }
-        //周边底图要素，采用配置：OutsideVectorsConfig
-        if (window.boundaryLayerGroup) {
-            window.boundaryLayerGroup.resetStyleConfig(OutsideVectorsConfig);
-        }
-    };
-    //白色渲染模式/要素都是白色
-    whiteRenderMode = () => {
-        //任务范围内要素，采用配置：WhiteVectorsConfig
-        if (window.vectorLayerGroup) {
-            window.vectorLayerGroup.resetStyleConfig(WhiteVectorsConfig);
-        }
-        //周边底图要素，采用配置：HalfWhiteVectorsConfig
-        if (window.boundaryLayerGroup) {
-            window.boundaryLayerGroup.resetStyleConfig(HalfWhiteVectorsConfig);
-        }
-    };
-
-    //渲染弹窗内按钮点击事件
-    chooseMode = item => {
-        const { mode } = item;
-        this.setState({
-            mode
-        });
-    };
 }
 
 export default RenderMode;
