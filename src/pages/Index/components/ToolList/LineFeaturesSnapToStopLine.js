@@ -31,7 +31,7 @@ class LineFeaturesSnapToStopLine extends React.Component {
                 id="line-snap-stop-btn"
                 className="flex-1"
                 onClick={this.action}>
-                <ToolIcon icon="limianjuxing" />
+                <ToolIcon icon="xianyaosuduiqidaotingzhixian" />
                 <div>线要素对齐到停止线</div>
             </div>
         );
