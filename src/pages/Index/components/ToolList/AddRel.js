@@ -54,7 +54,6 @@ class AddRel extends React.Component {
     }
 
     action = () => {
-        if (this.disEditable()) return;
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'newRel') return;
         AttributeStore.hideRelFeatures();

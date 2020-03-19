@@ -10,7 +10,6 @@ import 'less/components/tool-icon.less';
 import 'less/components/uturn-line.less';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import AdEmitter from 'src/models/event';
-import { isManbuildTask } from 'src/utils/taskUtils';
 
 @inject('RenderModeStore')
 @inject('DataLayerStore')
@@ -91,12 +90,6 @@ class NewUTurnLine extends React.Component {
         );
     }
 
-    disEditable = () => {
-        const { TaskStore } = this.props;
-
-        return !isManbuildTask(TaskStore.activeTask);
-    };
-
     handleData = res => {
         const { DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
@@ -127,7 +120,6 @@ class NewUTurnLine extends React.Component {
     };
 
     action = () => {
-        if (this.disEditable()) return;
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_Uturn_line') return;
         DataLayerStore.newUTurnLine();
