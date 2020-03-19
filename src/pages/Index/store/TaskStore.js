@@ -24,6 +24,7 @@ import {
 } from 'src/utils/taskUtils';
 import RelStore from './RelStore';
 import AttrStore from './AttrStore';
+import { getTaskProcessType } from 'src/utils/taskUtils';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -67,6 +68,13 @@ class TaskStore {
 
     @computed get taskProcessName() {
         return this.activeTask && this.activeTask.processName;
+    }
+
+    @computed get taskToolType() {
+        if (this.activeTask.isLocal) {
+            return 'manbuild';
+        }
+        return getTaskProcessType(this.activeTask);
     }
 
     // 任务列表

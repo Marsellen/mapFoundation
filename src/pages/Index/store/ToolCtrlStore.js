@@ -1,6 +1,7 @@
 import { observable, configure, action } from 'mobx';
 import { TOOLS_MAP } from 'src/config/ToolsConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import TaskStore from './TaskStore';
 
 const initEditTools = TOOLS_MAP.EDIT;
 
@@ -27,19 +28,18 @@ class ToolCtrlStore {
             return;
         }
 
-        let editTools = DATA_LAYER_MAP[layerName].tools.reduce(
-            (tools, tool) => {
-                tools[tool] = true;
-                return tools;
-            },
-            {}
-        );
+        let toolType = TaskStore.taskToolType;
+        let editTools = DATA_LAYER_MAP[layerName].tools[toolType];
+        editTools = editTools.reduce((tools, tool) => {
+            tools[tool] = true;
+            return tools;
+        }, {});
         this.tools = {
             ...initEditTools,
             ...editTools
         };
 
-        this.drawTools = DATA_LAYER_MAP[layerName].drawTools;
+        this.drawTools = DATA_LAYER_MAP[layerName].drawTools[toolType];
     };
 }
 

@@ -5,7 +5,6 @@ import { message, Modal } from 'antd';
 import { delRel } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
-import { isManbuildTask } from 'src/utils/taskUtils';
 import AdEmitter from 'src/models/event';
 import 'less/components/tool-icon.less';
 
@@ -13,7 +12,6 @@ import 'less/components/tool-icon.less';
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('OperateHistoryStore')
-@inject('TaskStore')
 @observer
 class DelRel extends React.Component {
     componentDidMount() {
@@ -76,28 +74,20 @@ class DelRel extends React.Component {
         let visible = DataLayerStore.editType == 'delRel';
         return (
             <span>
-                {!this.disEditable() && (
-                    <ToolIcon
-                        id="del-rel-btn"
-                        icon="shanchuguanxi"
-                        title="删除关联关系"
-                        className="ad-tool-icon"
-                        focusClassName="ad-tool-icon-active"
-                        visible={visible}
-                        action={this.action}
-                        disabled={!DataLayerStore.beenPick}
-                    />
-                )}
+                <ToolIcon
+                    id="del-rel-btn"
+                    icon="shanchuguanxi"
+                    title="删除关联关系"
+                    className="ad-tool-icon"
+                    focusClassName="ad-tool-icon-active"
+                    visible={visible}
+                    action={this.action}
+                    disabled={!DataLayerStore.beenPick}
+                />
                 <AdMessage visible={visible} content={this.content()} />
             </span>
         );
     }
-
-    disEditable = () => {
-        const { TaskStore } = this.props;
-
-        return !isManbuildTask(TaskStore.activeTask);
-    };
 
     action = () => {
         if (this.disEditable()) return;
