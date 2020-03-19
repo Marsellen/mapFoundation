@@ -234,7 +234,6 @@ const batchAssignment = async (
     startNumber,
     activeTask
 ) => {
-    // debugger;
     const { taskId } = activeTask;
     let assignLineGeom = geometryToWKT(assignmentLine[0].geometry);
 
@@ -457,7 +456,6 @@ const getNewFeaturesInfo = (features, resultData) => {
         newAllFeatureOptions: []
         // 打断/合并后 所有存在关联关系的要素 option集合
     };
-    debugger;
     return resultData.reduce((total, data) => {
         let { newFeatures, rels, attrs } = fetchFeatureRels(
             features,
@@ -552,8 +550,6 @@ const queryFeature = (layerName, option) => {
 };
 
 const fetchFeatureRels = (oldFeatures, features) => {
-    console.log('oldFeatures, features', oldFeatures, features);
-    debugger;
     let layerName = oldFeatures[0].layerName;
     return calcFeatureRels(layerName, features).reduce(
         (total, fr) => {
