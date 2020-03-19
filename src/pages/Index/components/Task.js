@@ -47,8 +47,7 @@ class Task extends React.Component {
                                 <span
                                     onClick={e =>
                                         this.chooseTask(e, item.taskId, false)
-                                    }
-                                >
+                                    }>
                                     {this.getTaskLabel(item)}
                                 </span>
                                 <ToolIcon
@@ -72,6 +71,18 @@ class Task extends React.Component {
             return this.renderNoData();
         }
     }
+
+    componentDidMount() {
+        const { TaskStore } = this.props;
+        const { bindLocalTaskCallback } = TaskStore;
+        bindLocalTaskCallback(this.LocalTaskCallback);
+    }
+
+    LocalTaskCallback = taskId => {
+        this.setState({
+            current: taskId
+        });
+    };
 
     renderNoData = () => {
         return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;

@@ -384,6 +384,7 @@ class TaskStore {
             isLocal: true
         };
         this.localTasks.push(this.activeTask);
+        this.LocalTaskCallback(this.activeTask);
     };
 
     @action tasksPop = () => {
@@ -391,6 +392,10 @@ class TaskStore {
             this.localTasks.pop();
             this.activeTask = {};
         }
+    };
+
+    @action bindLocalTaskCallback = LocalTaskCallback => {
+        this.LocalTaskCallback = LocalTaskCallback;
     };
 }
 

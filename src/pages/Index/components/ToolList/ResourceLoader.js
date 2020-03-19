@@ -3,6 +3,7 @@ import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { Modal, Button, Form, message, Select, Input } from 'antd';
 import CONFIG from 'src/config';
+import AdLocalStorage from 'src/utils/AdLocalStorage';
 
 const processNameOptions = CONFIG.processNameOptions;
 const formLayout = {
@@ -41,7 +42,8 @@ class ResourceLoader extends React.Component {
                 destroyOnClose={true}
                 onCancel={this.handleCancel}
                 maskClosable={false}
-                footer={this.renderFooter()}>
+                footer={this.renderFooter()}
+            >
                 <Form colon={false} hideRequiredMark={true} {...formLayout}>
                     <Form.Item label="资料名称">
                         {form.getFieldDecorator('taskId', {
@@ -83,7 +85,8 @@ class ResourceLoader extends React.Component {
                                     return (
                                         <Select.Option
                                             key={index}
-                                            value={option.value}>
+                                            value={option.value}
+                                        >
                                             {option.label}
                                         </Select.Option>
                                     );
@@ -115,11 +118,31 @@ class ResourceLoader extends React.Component {
         });
     };
 
+    //保存当前任务比例
+    saveTaskScale = () => {
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
+        if (!activeTaskId) return;
+        const preTaskScale = map.getEyeView();
+        const { position } = preTaskScale;
+        const { x, y, z } = position;
+        if (!(x === 0 && y === 0 && z === 0)) {
+            AdLocalStorage.setTaskInfosStorage({
+                taskId: activeTaskId,
+                taskScale: preTaskScale
+            });
+        }
+    };
+
     submit = () => {
         const { OperateHistoryStore, RenderModeStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
-        RenderModeStore.setMode('common')
+        //保存当前任务比例
+        this.saveTaskScale();
+        //切换成通用模式
+        RenderModeStore.setMode('common');
+        //提示保存当前任务
         if (shouldSave) {
             Modal.confirm({
                 title: '当前任务未保存，切换任务后会丢失，是否继续？',
