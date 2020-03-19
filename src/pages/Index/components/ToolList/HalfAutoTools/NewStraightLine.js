@@ -9,7 +9,6 @@ import editLog from 'src/models/editLog';
 import 'less/components/tool-icon.less';
 import 'less/components/uturn-line.less';
 import AdEmitter from 'src/models/event';
-import { isManbuildTask } from 'src/utils/taskUtils';
 
 @inject('RenderModeStore')
 @inject('DataLayerStore')
@@ -50,12 +49,6 @@ class NewStraightLine extends React.Component {
         );
     }
 
-    disEditable = () => {
-        const { TaskStore } = this.props;
-
-        return !isManbuildTask(TaskStore.activeTask);
-    };
-
     handleData = res => {
         const { DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
@@ -83,7 +76,6 @@ class NewStraightLine extends React.Component {
     };
 
     action = () => {
-        if (this.disEditable()) return;
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_straight_line') return;
         DataLayerStore.newStraightLine();
