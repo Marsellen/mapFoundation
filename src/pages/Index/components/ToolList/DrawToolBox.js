@@ -13,7 +13,6 @@ import DividerToAutoCreate from './HalfAutoTools/DividerToAutoCreate';
 import NewStraightLine from './HalfAutoTools/NewStraightLine';
 import NewTurnLine from './HalfAutoTools/NewTurnLine';
 import NewUTurnLine from './HalfAutoTools/NewUTurnLine';
-import { getTaskProcessType } from 'src/utils/taskUtils';
 
 const EDIT_TYPES = [
     'new_point',
@@ -236,9 +235,8 @@ class DrawToolBox extends React.Component {
     };
 
     getDrawTools = () => {
-        const { ToolCtrlStore, TaskStore } = this.props;
-        const { activeTask } = TaskStore;
-        return ToolCtrlStore.drawTools[getTaskProcessType(activeTask)] || [];
+        const { ToolCtrlStore } = this.props;
+        return ToolCtrlStore.drawTools || [];
     };
 }
 

@@ -3,7 +3,10 @@ export const DATA_LAYER_MAP = {
         label: '地面导向箭头',
         id: 'ARR_ID',
         spec: 'AD_Arrow',
-        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
+        },
         drawTools: { recognition: ['POLYGON'], manbuild: ['POLYGON'] },
         rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
@@ -13,7 +16,10 @@ export const DATA_LAYER_MAP = {
         label: '车道属性变化点',
         id: 'LAP_ID',
         spec: 'AD_LaneAttrPoint',
-        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
+        },
         drawTools: { recognition: ['POINT'], manbuild: ['POINT'] },
         rightTools: ['delete', 'movePointFeature'],
         groupRightTools: ['batchAssign'],
@@ -23,7 +29,10 @@ export const DATA_LAYER_MAP = {
         label: '车道线',
         id: 'LDIV_ID',
         spec: 'AD_LaneDivider',
-        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX'],
+        tools: {
+            recognition: ['DRAW_TOOL_BOX', 'BATCH_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX']
+        },
         drawTools: { recognition: ['LINE'], manbuild: ['LINE'] },
         rightTools: [
             'delete',
@@ -51,7 +60,10 @@ export const DATA_LAYER_MAP = {
         label: '面状标识物',
         id: 'PLG_ID',
         spec: 'AD_LaneMark_Plg',
-        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
+        },
         drawTools: {
             recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
             manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
@@ -64,7 +76,10 @@ export const DATA_LAYER_MAP = {
         label: '地面文字符号',
         id: 'TEXT_ID',
         spec: 'AD_Text',
-        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
+        },
         drawTools: {
             recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],
             manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON']
@@ -77,7 +92,10 @@ export const DATA_LAYER_MAP = {
         label: '停止位置',
         id: 'STOPL_ID',
         spec: 'AD_StopLocation',
-        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
+        },
         drawTools: {
             recognition: ['LINE'],
             manbuild: ['LINE']
@@ -90,7 +108,10 @@ export const DATA_LAYER_MAP = {
         label: '车道中心线',
         id: 'LANE_ID',
         spec: 'AD_Lane',
-        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX'],
+        tools: {
+            recognition: ['DRAW_TOOL_BOX', 'BATCH_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX']
+        },
         drawTools: {
             recognition: ['LINE'],
             manbuild: [
@@ -128,7 +149,10 @@ export const DATA_LAYER_MAP = {
         label: '交通标志牌',
         id: 'SIGN_ID',
         spec: 'AD_TrafficSign',
-        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
+        },
         drawTools: {
             recognition: [
                 'ADD_OUTSIDE_RECTANGLE',
@@ -151,7 +175,10 @@ export const DATA_LAYER_MAP = {
         label: '道路参考线',
         id: 'ROAD_ID',
         spec: 'AD_Road',
-        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX'],
+        tools: {
+            recognition: ['DRAW_TOOL_BOX', 'BATCH_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX']
+        },
         drawTools: {
             recognition: ['LINE'],
             manbuild: [
@@ -186,7 +213,10 @@ export const DATA_LAYER_MAP = {
         label: '交通信号灯',
         id: 'LIGHT_ID',
         spec: 'AD_TrafficLight',
-        tools: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL'],
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
+        },
         drawTools: {
             recognition: [
                 'ADD_OUTSIDE_RECTANGLE',
@@ -207,7 +237,10 @@ export const DATA_LAYER_MAP = {
         label: '杆状物',
         id: 'POLE_ID',
         spec: 'AD_Pole',
-        tools: ['DRAW_TOOL_BOX'],
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX']
+        },
         drawTools: {
             recognition: ['LINE'],
             manbuild: ['LINE']
@@ -220,7 +253,10 @@ export const DATA_LAYER_MAP = {
         label: '标记图层',
         id: 'ID',
         spec: 'AD_Map_QC',
-        tools: ['DRAW_TOOL_BOX'],
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX']
+        },
         drawTools: {
             recognition: ['POINT'],
             manbuild: ['POINT']
@@ -233,7 +269,10 @@ export const DATA_LAYER_MAP = {
         label: '隔离带、护栏',
         id: 'BARR_ID',
         spec: 'AD_RS_Barrier',
-        tools: ['DRAW_TOOL_BOX'],
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX']
+        },
         drawTools: {
             recognition: ['LINE'],
             manbuild: ['LINE']

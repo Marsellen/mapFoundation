@@ -42,12 +42,12 @@ class ResourceLoader extends React.Component {
                 maskClosable={false}
                 footer={this.renderFooter()}>
                 <Form colon={false} hideRequiredMark={true} {...formLayout}>
-                    <Form.Item label="任务id">
+                    <Form.Item label="资料名称">
                         {form.getFieldDecorator('taskId', {
                             rules: [
                                 {
                                     required: true,
-                                    message: '任务id必填'
+                                    message: '资料名称必填'
                                 }
                             ]
                         })(<Input disabled />)}
