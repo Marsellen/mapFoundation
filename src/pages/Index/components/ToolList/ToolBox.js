@@ -21,7 +21,7 @@ class ToolBox extends React.Component {
             <CheckButton
                 key={activeTaskId}
                 defaultOption={{
-                    key: 'ceju',
+                    key: 'ceju1',
                     title: '测距',
                     actionid: 'ceju-btn'
                 }}
@@ -49,14 +49,14 @@ class ToolBox extends React.Component {
         return (
             <Menu onClick={this.action} selectedKeys={[selectedKey]}>
                 <Menu.Item
-                    key="ceju"
+                    key="ceju1"
                     title="测距"
                     actionid="ceju-btn"
                     disabled={this.disabled('ceju')}>
                     <Ranging disabled={this.disabled('ceju')} />
                 </Menu.Item>
                 <Menu.Item
-                    key="zuobiaoshiqu"
+                    key="zuobiaoshiqu1"
                     title="坐标拾取"
                     actionid="read-coordinate-btn"
                     disabled={this.disabled('zuobiaoshiqu')}>
