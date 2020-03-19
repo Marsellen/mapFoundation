@@ -43,7 +43,8 @@ class QualityCheckResult extends React.Component {
                     onCancel={this.handleClose}
                     dragCallback={this.dragCallback}
                     className="quality-check-result-modal"
-                    wrapClassName="quality-check-result-modal-wrap">
+                    wrapClassName="quality-check-result-modal-wrap"
+                >
                     {this._renderContent()}
                 </SeniorModal>
             </div>
@@ -59,7 +60,8 @@ class QualityCheckResult extends React.Component {
             <Tabs
                 defaultActiveKey="1"
                 onChange={this.handleTabsChange}
-                tabBarExtraContent={this._closeIcon()}>
+                tabBarExtraContent={this._closeIcon()}
+            >
                 <TabPane tab="检查结果" key="1">
                     <QualityCheckResultTable reportList={reportList} />
                 </TabPane>
@@ -122,8 +124,9 @@ class QualityCheckResult extends React.Component {
 
     handleClose = () => {
         const { QualityCheckStore } = this.props;
-        const { closeCheckReport } = QualityCheckStore;
+        const { closeCheckReport, clearCheckReport } = QualityCheckStore;
         closeCheckReport();
+        clearCheckReport();
     };
 
     handleTabsChange = () => {};
