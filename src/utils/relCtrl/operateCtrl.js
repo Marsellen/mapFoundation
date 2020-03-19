@@ -234,12 +234,13 @@ const batchAssignment = async (
     startNumber,
     activeTask
 ) => {
-    const { taskId } = activeTask;
+    const { taskId, processName } = activeTask;
     let assignLineGeom = geometryToWKT(assignmentLine[0].geometry);
 
     let { lines } = await getLinesInfo(mainFeature);
     const params = {
         assignmentLine: assignLineGeom,
+        processName,
         startNumber,
         lines,
         task_id: taskId
