@@ -101,11 +101,7 @@ class AssignLineNoInBatch extends React.Component {
                 event.stopPropagation();
                 return false;
             }
-            // this.lineCheck(); //条件判断
-            this.setState({
-                holdShiftKey: true
-            });
-            DataLayerStore.getNewFixLine(2, 1);
+            this.lineCheck(); //条件判断
         });
     };
 
@@ -140,9 +136,9 @@ class AssignLineNoInBatch extends React.Component {
         const { OperateHistoryStore, DataLayerStore, TaskStore } = this.props;
         const { activeTask } = TaskStore;
         let layerName = DataLayerStore.getEditLayer().layerName;
-        // this.setState({
-        //     result
-        // });
+        this.setState({
+            result
+        });
         if (event.button !== 2) return false;
         try {
             if (this.state.holdShiftKey && event.button === 2) {
@@ -178,6 +174,12 @@ class AssignLineNoInBatch extends React.Component {
                 OperateHistoryStore.add(history);
                 editLog.store.add(log);
                 message.success(Message, 3);
+                message.warning({
+                    content:
+                        '两点绘制一条线与所选数据相交，线方向与车道编号增长趋势一致，右键完成赋值',
+                    key,
+                    duration: 1
+                });
                 // 刷新属性列表
                 AdEmitter.emit('fetchViewAttributeData');
                 DataLayerStore.exitEdit();

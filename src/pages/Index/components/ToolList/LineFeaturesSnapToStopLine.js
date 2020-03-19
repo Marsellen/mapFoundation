@@ -26,9 +26,6 @@ class LineFeaturesSnapToStopLine extends React.Component {
         DataLayerStore.setSelectFeatureCallback(this.selectFeatureCallback);
     }
     render() {
-        const { DataLayerStore } = this.props;
-        const { nextMessage } = this.state;
-        let visible = DataLayerStore.editType == 'line_snap_stop';
         return (
             <div
                 id="line-snap-stop-btn"

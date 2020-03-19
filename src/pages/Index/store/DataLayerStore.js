@@ -98,6 +98,9 @@ class DataLayerStore {
                 case 'line_snap_stop':
                     this.selectFeatureCallback(result, event);
                     break;
+                case 'assign_line_batch':
+                    this.newFixLineCallback(result, event);
+                    break;
             }
         });
     };
