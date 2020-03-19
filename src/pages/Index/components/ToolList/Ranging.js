@@ -13,7 +13,7 @@ class Ranging extends React.Component {
         let visible = DataLayerStore.editType == 'meature_distance';
         return (
             <div id="ceju-btn" className="flex-1" onClick={this.action}>
-                <IconFont type="icon-ceju" />
+                <IconFont type="icon-ceju1" />
                 <div>测距</div>
                 <AdMessage visible={visible} content={this.content()} />
             </div>
