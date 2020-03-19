@@ -36,7 +36,7 @@ class AssignLineNoInBatch extends React.Component {
                 id="assign-line-batch-btn"
                 className="flex-1"
                 onClick={this.action}>
-                <ToolIcon icon="dimianjuxing" />
+                <ToolIcon icon="piliangfuchedaofenzubianhao" />
                 <div>批量赋车道分组编号</div>
                 <Modal
                     className="batch-assign"
@@ -104,7 +104,6 @@ class AssignLineNoInBatch extends React.Component {
     };
 
     addEventListener = () => {
-        const { DataLayerStore } = this.props;
         document.addEventListener('keydown', event => {
             if (!event.shiftKey) {
                 event.preventDefault();

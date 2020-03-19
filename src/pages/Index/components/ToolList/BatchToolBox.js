@@ -9,12 +9,12 @@ const EDIT_TYPES = ['line_snap_stop', 'assign_line_batch'];
 
 const OPTIONS = {
     LINE_FEATURES_SNAP_TO_STOP_LINE: {
-        key: 'limianjuxing',
+        key: 'xianyaosuduiqidaotingzhixian',
         title: '线要素对齐到停止线',
         actionid: 'line-snap-stop-btn'
     },
     ASSIGN_LINE_NO_IN_BATCH: {
-        key: 'dimianjuxing',
+        key: 'piliangfuchedaofenzubianhao',
         title: '批量赋车道分组编号',
         actionid: 'assign-line-batch-btn'
     }
@@ -84,14 +84,14 @@ class BatchToolBox extends React.Component {
         const menus = [
             <Menu.Item
                 name="LINE_FEATURES_SNAP_TO_STOP_LINE"
-                key="limianjuxing"
+                key="xianyaosuduiqidaotingzhixian"
                 title="线要素对齐到停止线"
                 actionid="line-snap-stop-btn">
                 <LineFeaturesSnapToStopLine />
             </Menu.Item>,
             <Menu.Item
                 name="ASSIGN_LINE_NO_IN_BATCH"
-                key="dimianjuxing"
+                key="piliangfuchedaofenzubianhao"
                 title="批量赋车道分组编号"
                 actionid="assign-line-batch-btn">
                 <AssignLineNoInBatch />
