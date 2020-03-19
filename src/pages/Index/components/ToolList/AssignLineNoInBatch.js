@@ -31,8 +31,6 @@ class AssignLineNoInBatch extends React.Component {
     render() {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'assign_line_batch';
-        let layerName = DataLayerStore.getEditLayer().layerName;
-        console.log('layerName', layerName);
         return (
             <div
                 id="assign-line-batch-btn"
@@ -51,29 +49,41 @@ class AssignLineNoInBatch extends React.Component {
                     zIndex={999}
                     width={250}
                     maskClosable={false}>
-                    <div>
-                        赋值图层：
-                        <span style={{ marginLeft: '10px' }}>
-                            {DATA_LAYER_MAP[layerName].label}
-                        </span>
-                    </div>
-                    <div>
-                        起始车道编号:
-                        {
-                            <Select
-                                defaultValue="0"
-                                style={{ width: 70, marginLeft: '10px' }}
-                                onChange={this.handleChange}>
-                                <Option value="0">0</Option>
-                                <Option value="-1">-1</Option>
-                                <Option value="-2">-2</Option>
-                            </Select>
-                        }
-                    </div>
+                    {this._renderModal(visible)}
                 </Modal>
             </div>
         );
     }
+
+    _renderModal = visible => {
+        const { DataLayerStore } = this.props;
+        const editLayer = DataLayerStore.getEditLayer();
+        let layerName = editLayer && editLayer.layerName;
+
+        return visible ? (
+            <span>
+                <div>
+                    赋值图层：
+                    <span style={{ marginLeft: '10px' }}>
+                        {DATA_LAYER_MAP[layerName].label}
+                    </span>
+                </div>
+                <div>
+                    起始车道编号:
+                    {
+                        <Select
+                            defaultValue="0"
+                            style={{ width: 70, marginLeft: '10px' }}
+                            onChange={this.handleChange}>
+                            <Option value="0">0</Option>
+                            <Option value="-1">-1</Option>
+                            <Option value="-2">-2</Option>
+                        </Select>
+                    }
+                </div>
+            </span>
+        ) : null;
+    };
 
     action = () => {
         const { DataLayerStore } = this.props;
