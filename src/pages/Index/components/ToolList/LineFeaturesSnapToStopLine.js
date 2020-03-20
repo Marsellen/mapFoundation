@@ -7,19 +7,23 @@ import { inject, observer } from 'mobx-react';
 import { lineToStop } from 'src/utils/relCtrl/operateCtrl';
 import 'less/components/tool-icon.less';
 
-const key = 'lineSnapStop';
+window.messagekey = 'key';
 
 @inject('DataLayerStore')
 @inject('TaskStore')
 @inject('OperateHistoryStore')
+@inject('AttributeStore')
 @observer
 class LineFeaturesSnapToStopLine extends React.Component {
     constructor() {
         super();
         this.state = {
             nextMessage: false,
-            holdShift: false
+            holdShift: false,
+            flag: false,
+            visible: false
         };
+        this.result = [];
     }
     componentDidMount() {
         const { DataLayerStore } = this.props;
@@ -38,54 +42,58 @@ class LineFeaturesSnapToStopLine extends React.Component {
     }
 
     addEventListener = () => {
-        document.addEventListener('keydown', event => {
-            if (!event.shiftKey) {
-                event.preventDefault();
-                event.stopPropagation();
-                return false;
+        document.addEventListener('keyup', this.shiftCallback);
+    };
+
+    shiftCallback = event => {
+        if (event.key === 'Shift' && !this.state.flag) {
+            if (this.result.length === 0) {
+                return;
             }
-            this.lineCheck(); //条件判断
-        });
+            this.lineCheck(this.result); //条件判断
+        }
     };
 
     removeEventListener = () => {
-        document.removeEventListener('keyup', this.addEventListener, true);
+        document.removeEventListener('keyup', this.shiftCallback);
+        this.setState({
+            flag: false
+        });
     };
 
-    lineCheck = () => {
+    lineCheck = result => {
         const { DataLayerStore } = this.props;
         let layerName = DataLayerStore.getEditLayer().layerName;
-        const { result } = this.state;
-        for (let i = 0; i < result.length; i++) {
-            if (result[i].layerName !== layerName) {
-                message.error('所选要素不符合要求');
-                return;
-            }
-        }
 
-        if (result.length === 0) {
+        if (!result || result.length === 0) {
             message.error('请选择要素');
             return false;
+        } else {
+            for (let i = 0; i < result.length; i++) {
+                if (result[i].layerName !== layerName) {
+                    message.error('所选要素不符合要求');
+                    return;
+                }
+            }
+            DataLayerStore.getSelectFeature();
+            this.removeEventListener();
+            this.setState({
+                holdShift: true,
+                flag: true
+            });
+            message.warning({
+                content: '选择一根停止线，右键完成对齐',
+                messagekey,
+                duration: 0
+            });
         }
-        message.warning({
-            content: '选择一根停止线，右键完成对齐',
-            key,
-            duration: 0
-        });
-        DataLayerStore.getSelectFeature();
-        this.setState({
-            holdShift: true
-        });
     };
 
     selectFeatureCallback = async (result, event) => {
         const { DataLayerStore, TaskStore, OperateHistoryStore } = this.props;
         const { activeTask } = TaskStore;
         let layerName = DataLayerStore.getEditLayer().layerName;
-        this.setState({
-            result
-        });
-        this.removeEventListener();
+        this.result = result;
         try {
             if (this.state.holdShift && event.button === 2) {
                 let [mainFeature, relFeatures] = result;
@@ -94,7 +102,7 @@ class LineFeaturesSnapToStopLine extends React.Component {
                     message.error('没有做对齐处理');
                     message.warning({
                         content: '选择一根停止线，右键完成对齐',
-                        key,
+                        messagekey,
                         duration: 1
                     });
                     DataLayerStore.exitEdit();
@@ -120,7 +128,7 @@ class LineFeaturesSnapToStopLine extends React.Component {
                 message.success(Message, 3);
                 message.warning({
                     content: '选择一根停止线，右键完成对齐',
-                    key,
+                    messagekey,
                     duration: 1
                 });
                 // 刷新属性列表
@@ -129,9 +137,12 @@ class LineFeaturesSnapToStopLine extends React.Component {
             }
         } catch (e) {
             message.warning('对齐失败：' + e.message, 3);
+            this.removeEventListener();
             message.warning({
-                content: '选择待处理的线要素，然后按shift进入下一步',
-                key,
+                content: this.state.flag
+                    ? '选择一根停止线，右键完成对齐'
+                    : '选择待处理的线要素，然后按shift进入下一步',
+                messagekey,
                 duration: 1
             });
             DataLayerStore.exitEdit();
@@ -139,15 +150,17 @@ class LineFeaturesSnapToStopLine extends React.Component {
     };
 
     action = () => {
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'line_snap_stop') return;
-        this.addEventListener();
-        DataLayerStore.selectFeature();
         message.warning({
             content: '选择待处理的线要素，然后按shift进入下一步',
-            key,
+            messagekey,
             duration: 0
         });
+
+        AttributeStore.hideRelFeatures();
+        this.addEventListener();
+        DataLayerStore.selectFeature();
     };
 }
 
