@@ -1,7 +1,6 @@
 import React from 'react';
 import { Modal, Select, message } from 'antd';
 import ToolIcon from 'src/components/ToolIcon';
-import AdMessage from 'src/components/AdMessage';
 import { inject, observer } from 'mobx-react';
 import editLog from 'src/models/editLog';
 import AdEmitter from 'src/models/event';
@@ -17,7 +16,7 @@ window.batchKey = 'batchAssign';
 @inject('TaskStore')
 @inject('OperateHistoryStore')
 @observer
-class BatchAssignLaneNo extends React.Component {
+class AssignLineNoInBatch extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -172,6 +171,9 @@ class BatchAssignLaneNo extends React.Component {
                         batchKey,
                         duration: 1
                     });
+                    this.setState({
+                        flag: false
+                    });
                     DataLayerStore.exitEdit();
                     return false;
                 }
@@ -202,6 +204,9 @@ class BatchAssignLaneNo extends React.Component {
                 });
                 // 刷新属性列表
                 AdEmitter.emit('fetchViewAttributeData');
+                this.setState({
+                    flag: false
+                });
                 DataLayerStore.exitEdit();
             }
         } catch (e) {
@@ -214,9 +219,12 @@ class BatchAssignLaneNo extends React.Component {
                 batchKey,
                 duration: 1
             });
+            this.setState({
+                flag: false
+            });
             DataLayerStore.exitEdit();
         }
     };
 }
 
-export default BatchAssignLaneNo;
+export default AssignLineNoInBatch;
