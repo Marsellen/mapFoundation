@@ -61,13 +61,13 @@ class BatchAssignLaneNo extends React.Component {
         );
     }
 
-    _renderModal = visible => {
+    _renderModal = () => {
         const { DataLayerStore } = this.props;
         const editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
 
-        return visible ? (
-            <span>
+        return (
+            <div>
                 <div>
                     赋值图层：
                     <span style={{ marginLeft: '10px' }}>
@@ -87,8 +87,8 @@ class BatchAssignLaneNo extends React.Component {
                         </Select>
                     }
                 </div>
-            </span>
-        ) : null;
+            </div>
+        );
     };
 
     action = () => {
