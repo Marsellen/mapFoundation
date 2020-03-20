@@ -17,6 +17,7 @@ import VectorsConfig from 'src/config/VectorsConfig';
 import OutsideVectorsConfig from 'src/config/OutsideVectorsConfig';
 import WhiteVectorsConfig from 'src/config/WhiteVectorsConfig';
 import HalfWhiteVectorsConfig from 'src/config/HalfWhiteVectorsConfig';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });
 class RenderModeStore {
@@ -44,7 +45,7 @@ class RenderModeStore {
             if (!this.rels_2D[relName]) return;
             if (this.unCheckedRelArr.includes(relName)) return;
             let newItem = Object.values(this.rels_2D[relName]);
-            if (!newItem || newItem.length === 0) return;
+            if (newItem.length === 0) return;
             newItem = newItem.flat(2);
             allRelArr = [...allRelArr, ...newItem];
         });
@@ -56,7 +57,7 @@ class RenderModeStore {
         Object.keys(this.rels_2D).forEach(relName => {
             if (!this.rels_2D[relName]) return;
             let newItem = Object.values(this.rels_2D[relName]);
-            if (!newItem || newItem.length === 0) return;
+            if (newItem.length === 0) return;
             newItem = newItem.flat(2);
             relMap[relName] = relMap[relName] || {};
             newItem.forEach(item => {
@@ -360,16 +361,16 @@ class RenderModeStore {
             updateRelMap_2D[relName][[objId, relObjId].sort()] = [obj, relObj];
         });
 
-        return updateRelMap_2D || false;
+        return updateRelMap_2D;
     };
 
     delRel = oldRels => {
         const updateRelMap_2D = this.getRelMap(oldRels);
         if (!updateRelMap_2D) return;
 
-        Object.keys(updateRelMap_2D).map(relName => {
+        Object.keys(updateRelMap_2D).forEach(relName => {
             //根据history.data.rels的旧关联关系数据，删除this.rels_2D里相应数据
-            Object.keys(updateRelMap_2D[relName]).map(id => {
+            Object.keys(updateRelMap_2D[relName]).forEach(id => {
                 if (!this.rels_2D[relName]) return;
                 id = id.split(',').sort();
                 delete this.rels_2D[relName][id];
@@ -391,7 +392,7 @@ class RenderModeStore {
     addRel = newRels => {
         const updateRelMap_2D = this.getRelMap(newRels);
         if (!updateRelMap_2D) return;
-        Object.keys(updateRelMap_2D).map(relName => {
+        Object.keys(updateRelMap_2D).forEach(relName => {
             //根据history.data.rels的新关联关系数据，向this.rels_2D添加相应数据
             this.rels_2D[relName] = {
                 ...this.rels_2D[relName],
@@ -405,16 +406,40 @@ class RenderModeStore {
         });
     };
 
-    //更新关联数组
-    @action updateRels = history => {
-        if (!this.activeMode === 'relation') return;
-        if (!history) return;
-        const { rels } = history.data || {};
-        const [oldRels, newRels] = rels || [];
+    updateCurrentFeature = currentFeatures => {
+        if (!currentFeatures || currentFeatures.length === 0) return;
         //取消选择
         this.cancelSelect();
+        currentFeatures.map(item => {
+            const { data, layerName } = item;
+            const { properties } = data;
+            const featureIdKey = DATA_LAYER_MAP[layerName].id;
+            const featureIdVal = properties[featureIdKey];
+            const currentFeature = this.setOptions(featureIdKey, featureIdVal);
+            if (this.allRelArr.includes(featureIdVal)) {
+                this.setFeatureColor(currentFeature, true);
+            } else {
+                this.setFeatureColor(currentFeature, false);
+            }
+        });
+    };
+
+    //更新关联数组
+    @action updateRels = history => {
+        if (this.activeMode !== 'relation') return;
+        if (!history) return;
+        const { rels = [], features = [] } = history.data || {};
+        const newFeatures = features[1];
+        const [oldRels, newRels] = rels;
+
+        //取消选择
+        this.cancelSelect();
+
         oldRels && this.delRel(oldRels);
         newRels && this.addRel(newRels);
+
+        if (rels.length > 0) return;
+        newFeatures && this.updateCurrentFeature(newFeatures);
     };
 
     //获取要素option

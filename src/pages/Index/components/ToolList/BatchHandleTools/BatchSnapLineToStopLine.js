@@ -8,6 +8,7 @@ import { inject, observer } from 'mobx-react';
 import { lineToStop } from 'src/utils/relCtrl/operateCtrl';
 import 'less/components/tool-icon.less';
 
+@inject('RenderModeStore')
 @inject('DataLayerStore')
 @inject('TaskStore')
 @inject('OperateHistoryStore')
@@ -109,7 +110,12 @@ class BatchSnapLineToStopLine extends React.Component {
 
     handleSnap = async event => {
         if (event.button !== 2) return;
-        const { DataLayerStore, TaskStore, OperateHistoryStore } = this.props;
+        const {
+            DataLayerStore,
+            TaskStore,
+            OperateHistoryStore,
+            RenderModeStore
+        } = this.props;
         const { activeTask } = TaskStore;
         let layerName = DataLayerStore.getEditLayer().layerName;
         message.loading({ content: '处理中...', key: 'line_snap_stop' });
@@ -138,6 +144,7 @@ class BatchSnapLineToStopLine extends React.Component {
             // 刷新属性列表
             AdEmitter.emit('fetchViewAttributeData');
             DataLayerStore.exitEdit();
+            RenderModeStore.updateRels(history);
         } catch (e) {
             message.error({
                 content: e.message,

@@ -595,7 +595,8 @@ class RightMenuModal extends React.Component {
             RightMenuStore,
             DataLayerStore,
             AttributeStore,
-            OperateHistoryStore
+            OperateHistoryStore,
+            RenderModeStore
         } = this.props;
 
         if (!RightMenuStore.isCurrentLayer) {
@@ -636,6 +637,7 @@ class RightMenuModal extends React.Component {
                     OperateHistoryStore.add(history);
                     editLog.store.add(log);
                     message.success('线要素逆序已完成', 3);
+                    RenderModeStore.updateRels(history);
                 } catch (e) {
                     message.warning('线要素逆序处理失败：' + e.message, 3);
                     let history = { features };
