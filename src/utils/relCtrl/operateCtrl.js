@@ -225,35 +225,34 @@ const lineToStop = async (features, stopLine, layerName, activeTask) => {
 /**
  * 批量赋车道分组编号
  * @method batchAssignment
- * @param {Object} mainFeature 一条或多条线要素
- * @param {Array<Object>} assignmentLine 停止线
+ * @param {Object} features 一条或多条线要素
+ * @param {Array<Object>} fixLane 方向辅助线
  * @param {Object} layerName 操作图层
  * @param {Object} activeTask 任务对象
  * @returns {Object}
  */
 
 const batchAssignment = async (
-    mainFeature,
-    assignmentLine,
+    features,
+    fixLane,
     layerName,
     startNumber,
     activeTask
 ) => {
     const { taskId, processName } = activeTask;
-    let assignLineGeom = geometryToWKT(assignmentLine[0].geometry);
+    let assignmentLine = geometryToWKT(fixLane.geometry);
 
-    let { lines } = await getLinesInfo(mainFeature);
+    let { lines } = await getLinesInfo(features);
     const params = {
-        assignmentLine: assignLineGeom,
+        assignmentLine,
         processName,
         startNumber,
         lines,
         task_id: taskId
     };
     let result = await BatchToolsService.batchAssignment(params);
-    let Message = result.message;
     let newFeatures = calcNewAttrs(
-        mainFeature,
+        features,
         result.data,
         layerName,
         'properties'
@@ -263,7 +262,13 @@ const batchAssignment = async (
     };
 
     await updateFeatures(historyLog);
-    return { historyLog, Message };
+
+    message.success({
+        content: result.message,
+        key: 'assign_lane_no',
+        duration: 3
+    });
+    return historyLog;
 };
 
 const calcNewAttrs = (oldFeatures, feature, layerName, dealType) => {

@@ -14,8 +14,8 @@ import 'less/components/tool-icon.less';
 @inject('AttributeStore')
 @observer
 class BatchSnapLineToStopLine extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             step: 0,
             visible: false,

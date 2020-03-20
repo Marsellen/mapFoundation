@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Select, message } from 'antd';
 import ToolIcon from 'src/components/ToolIcon';
+import AdMessage from 'src/components/AdMessage';
 import { inject, observer } from 'mobx-react';
 import editLog from 'src/models/editLog';
 import AdEmitter from 'src/models/event';
@@ -11,18 +12,18 @@ import 'less/components/batch-tools.less';
 
 const { Option } = Select;
 
-window.batchKey = 'batchAssign';
 @inject('DataLayerStore')
 @inject('TaskStore')
 @inject('OperateHistoryStore')
 @observer
 class AssignLineNoInBatch extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            startNumber: '0',
-            holdShiftKey: false,
-            flag: false
+            step: 0,
+            messageVisible: false,
+            message: '',
+            startNumber: 0
         };
         this.result = [];
     }
@@ -32,7 +33,9 @@ class AssignLineNoInBatch extends React.Component {
     }
     render() {
         const { DataLayerStore } = this.props;
+        let { messageVisible, message } = this.state;
         let visible = DataLayerStore.editType == 'assign_line_batch';
+        messageVisible = visible && messageVisible;
         return (
             <div
                 id="assign-line-batch-btn"
@@ -40,6 +43,7 @@ class AssignLineNoInBatch extends React.Component {
                 onClick={this.action}>
                 <ToolIcon icon="piliangfuchedaofenzubianhao" />
                 <div>批量赋车道分组编号</div>
+                <AdMessage visible={messageVisible} content={message} />
                 <Modal
                     className="batch-assign"
                     wrapClassName="batch-assign-modal-wrap"
@@ -74,7 +78,7 @@ class AssignLineNoInBatch extends React.Component {
                     起始车道编号:
                     {
                         <Select
-                            defaultValue="0"
+                            value={this.state.startNumber}
                             style={{ width: 70, marginLeft: '10px' }}
                             onChange={this.handleChange}>
                             <Option value="0">0</Option>
@@ -91,11 +95,11 @@ class AssignLineNoInBatch extends React.Component {
         const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'assign_line_batch') return;
         this.addEventListener();
-        DataLayerStore.newFixLine();
-        message.warning({
-            content: '选择需赋值线要素，然后按shift进入下一步',
-            batchKey,
-            duration: 0
+        DataLayerStore.batchAssinLaneNo();
+        this.setState({
+            step: 0,
+            message: '选择需赋值线要素，然后按shift进入下一步',
+            messageVisible: true
         });
     };
 
@@ -110,118 +114,100 @@ class AssignLineNoInBatch extends React.Component {
     };
 
     shiftCallback = event => {
-        if (event.key === 'Shift' && !this.state.flag) {
-            if (this.result.length === 0) {
-                return;
-            }
-            this.lineCheck(this.result); //条件判断
+        if (event.key !== 'Shift') return;
+        try {
+            this.lineCheck(); //条件判断
+            const { DataLayerStore } = this.props;
+            DataLayerStore.batchAssinLaneNo(1);
+            this.removeEventListener();
+            this.setState({
+                step: 1,
+                message:
+                    '两点绘制一条线与所选数据相交，线方向与车道编号增长趋势一致，右键完成赋值',
+                visible: true
+            });
+        } catch (e) {
+            this.setState({
+                message: e.message
+            });
+            setTimeout(() => {
+                this.setState({
+                    message: '选择待处理的线要素，然后按shift进入下一步'
+                });
+            }, 1000);
         }
     };
 
     removeEventListener = () => {
         document.removeEventListener('keyup', this.shiftCallback);
-        this.setState({
-            flag: false
-        });
     };
 
-    lineCheck = result => {
+    lineCheck = () => {
         const { DataLayerStore } = this.props;
         let layerName = DataLayerStore.getEditLayer().layerName;
-        if (!result || result.length === 0) {
-            message.error('请选择要素');
-            return false;
-        } else {
-            for (let i = 0; i < result.length; i++) {
-                if (result[i].layerName !== layerName) {
-                    message.error('所选要素不符合要求');
-                    return;
-                }
+        if (!this.result || this.result.length === 0) {
+            throw new Error('未选择要素!');
+        }
+        for (let i = 0; i < this.result.length; i++) {
+            if (this.result[i].layerName !== layerName) {
+                throw new Error('所选要素不符合要求!');
             }
-            message.warning({
-                content:
-                    '两点绘制一条线与所选数据相交，线方向与车道编号增长趋势一致，右键完成赋值',
-                batchKey,
-                duration: 0
-            });
-            this.setState({
-                holdShiftKey: true,
-                flag: true
-            });
-            DataLayerStore.getNewFixLine(2, 1);
-            this.removeEventListener();
         }
     };
 
     newFixLineCallback = async (result, event) => {
+        const { step } = this.state;
+        this.result = result;
+        if (step === 1) {
+            this.handleAssign(event);
+            this.setState({
+                step: 0,
+                messageVisible: false,
+                message: ''
+            });
+        }
+    };
+
+    handleAssign = async event => {
+        if (event.button !== 2) return;
         const { OperateHistoryStore, DataLayerStore, TaskStore } = this.props;
         const { activeTask } = TaskStore;
         let layerName = DataLayerStore.getEditLayer().layerName;
-        this.result = result;
-        if (event.button !== 2) return false;
+        message.loading({ content: '处理中...', key: 'assign_lane_no' });
         try {
-            if (this.state.holdShiftKey && event.button === 2) {
-                let [mainFeature, relFeatures] = result;
-                if (relFeatures.length === 0) {
-                    //没有选择停止线直接右键
-                    message.error('没有做赋值处理');
-                    message.warning({
-                        content:
-                            '两点绘制一条线与所选数据相交，线方向与车道编号增长趋势一致，右键完成赋值',
-                        batchKey,
-                        duration: 1
-                    });
-                    this.setState({
-                        flag: false
-                    });
-                    DataLayerStore.exitEdit();
-                    return false;
-                }
-                let { historyLog, Message } = await batchAssignment(
-                    mainFeature,
-                    relFeatures,
-                    layerName,
-                    this.state.startNumber,
-                    activeTask
-                );
-                let history = {
-                    type: 'updateFeatureRels',
-                    data: historyLog
-                };
-                let log = {
-                    operateHistory: history,
-                    action: 'batchAssignment',
-                    result: 'success'
-                };
-                OperateHistoryStore.add(history);
-                editLog.store.add(log);
-                message.success(Message, 3);
-                message.warning({
-                    content:
-                        '两点绘制一条线与所选数据相交，线方向与车道编号增长趋势一致，右键完成赋值',
-                    batchKey,
-                    duration: 1
-                });
-                // 刷新属性列表
-                AdEmitter.emit('fetchViewAttributeData');
-                this.setState({
-                    flag: false
-                });
-                DataLayerStore.exitEdit();
+            let [features, [fixLine]] = this.result;
+            if (!fixLine) {
+                //没有绘制辅助线直接右键
+                throw new Error('未绘制方向辅助线！');
             }
+            let historyLog = await batchAssignment(
+                features,
+                fixLine,
+                layerName,
+                this.state.startNumber,
+                activeTask
+            );
+            let history = {
+                type: 'updateFeatureRels',
+                data: historyLog
+            };
+            let log = {
+                operateHistory: history,
+                action: 'batchAssignLaneNo',
+                result: 'success'
+            };
+            OperateHistoryStore.add(history);
+            editLog.store.add(log);
+            // 刷新属性列表
+            AdEmitter.emit('fetchViewAttributeData');
+            DataLayerStore.exitEdit();
         } catch (e) {
-            message.warning('赋值失败：' + e.message, 3);
+            message.error({
+                content: '赋值失败：' + e.message,
+                key: 'assign_lane_no',
+                duration: 3
+            });
             this.removeEventListener();
-            message.warning({
-                content: this.state.flag
-                    ? '两点绘制一条线与所选数据相交，线方向与车道编号增长趋势一致，右键完成赋值'
-                    : '选择需赋值线要素，然后按shift进入下一步',
-                batchKey,
-                duration: 1
-            });
-            this.setState({
-                flag: false
-            });
             DataLayerStore.exitEdit();
         }
     };

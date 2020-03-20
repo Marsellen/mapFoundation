@@ -342,16 +342,16 @@ class DataLayerStore {
         }
     };
 
-    getNewFixLine = (num, mode) => {
-        this.editor.newFixLine(num, mode);
-    };
-
-    newFixLine = () => {
-        if (this.editType == 'assign_line_batch') return;
-        this.enableRegionSelect();
-        this.disableOtherCtrl();
-        this.setEditType('assign_line_batch');
-        this.editor.clear();
+    batchAssinLaneNo = (step = 0) => {
+        if (step === 0) {
+            if (this.editType == 'assign_line_batch') return;
+            this.enableRegionSelect();
+            this.disableOtherCtrl();
+            this.setEditType('assign_line_batch');
+            this.editor.clear();
+        } else if (step === 1) {
+            this.editor.newFixLine(2, 1);
+        }
     };
 
     setSelectFeatureCallback = callback => {
