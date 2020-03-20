@@ -276,6 +276,7 @@ const calcNewLanes = (featurs, newFeatures, layerName) => {
     }, {});
     oldFeatures.forEach(feature => {
         let id = feature.data.properties[IDKey];
+        if (!dataMap[id]) return;
         feature.data.properties = dataMap[id].properties;
         feature.data.geometry = dataMap[id].geometry;
     });
