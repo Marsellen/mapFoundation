@@ -64,6 +64,7 @@ class LineFeaturesSnapToStopLine extends React.Component {
     lineCheck = result => {
         const { DataLayerStore } = this.props;
         let layerName = DataLayerStore.getEditLayer().layerName;
+        // let editType = DataLayerStore.editType == 'line_snap_stop';
 
         if (!result || result.length === 0) {
             message.error('请选择要素');
@@ -80,6 +81,7 @@ class LineFeaturesSnapToStopLine extends React.Component {
             this.setState({
                 holdShift: true,
                 flag: true
+                // flag: editType ? true : false
             });
             message.warning({
                 content: '选择一根停止线，右键完成对齐',
@@ -104,6 +106,9 @@ class LineFeaturesSnapToStopLine extends React.Component {
                         content: '选择一根停止线，右键完成对齐',
                         messagekey,
                         duration: 1
+                    });
+                    this.setState({
+                        flag: false
                     });
                     DataLayerStore.exitEdit();
                     return false;
@@ -133,6 +138,9 @@ class LineFeaturesSnapToStopLine extends React.Component {
                 });
                 // 刷新属性列表
                 AdEmitter.emit('fetchViewAttributeData');
+                this.setState({
+                    flag: false
+                });
                 DataLayerStore.exitEdit();
             }
         } catch (e) {
@@ -144,6 +152,9 @@ class LineFeaturesSnapToStopLine extends React.Component {
                     : '选择待处理的线要素，然后按shift进入下一步',
                 messagekey,
                 duration: 1
+            });
+            this.setState({
+                flag: false
             });
             DataLayerStore.exitEdit();
         }
