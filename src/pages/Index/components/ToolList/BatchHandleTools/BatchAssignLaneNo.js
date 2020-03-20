@@ -175,7 +175,7 @@ class AssignLineNoInBatch extends React.Component {
         let layerName = DataLayerStore.getEditLayer().layerName;
         message.loading({ content: '处理中...', key: 'assign_lane_no' });
         try {
-            if (result.errorCode) {
+            if (this.result.errorCode) {
                 //没有绘制辅助线直接右键
                 throw new Error('没有做赋值处理');
             }
