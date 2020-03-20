@@ -6,7 +6,7 @@ class AdMessage extends React.Component {
         return (
             <div
                 style={{ display: visible ? 'block' : 'none' }}
-                className="ant-message">
+                className="ant-message ad-message">
                 <div className="ant-message-notice">
                     <div className="ant-message-notice-content">
                         <div className="ant-message-custom-content">

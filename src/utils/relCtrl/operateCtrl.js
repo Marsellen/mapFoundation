@@ -183,19 +183,19 @@ const breakLineByLine = async (line, features, activeTask) => {
 /**
  * 线要素对齐到停止线
  * @method lineToStop
- * @param {Object} mainFeature 一条或多条线要素
- * @param {Array<Object>} stopFeatures 停止线
+ * @param {Object} lines 一条或多条线要素
+ * @param {Array<Object>} stopLine 停止线
  * @param {Object} layerName 操作图层
  * @param {Object} activeTask 任务对象
  * @returns {Object}
  */
 
-const lineToStop = async (mainFeature, stopFeatures, layerName, activeTask) => {
+const lineToStop = async (features, stopLine, layerName, activeTask) => {
     const { taskId, processName } = activeTask;
-    let stopLine = geometryToWKT(stopFeatures[0].data.geometry);
-    let { lines } = await getLinesInfo(mainFeature);
+    let stopLineWKT = geometryToWKT(stopLine.data.geometry);
+    let { lines } = await getLinesInfo(features);
     const params = {
-        stopLine,
+        stopLine: stopLineWKT,
         processName,
         lines,
         task_id: taskId
@@ -203,18 +203,23 @@ const lineToStop = async (mainFeature, stopFeatures, layerName, activeTask) => {
 
     let result = await BatchToolsService.lineToStop(params);
     let newFeatures = calcNewAttrs(
-        mainFeature,
+        features,
         result.data,
         layerName,
         'geometry'
     );
-    let Message = result.message;
     let historyLog = {
         features: [[], newFeatures]
     };
 
     await updateFeatures(historyLog);
-    return { historyLog, Message };
+
+    message.success({
+        content: result.message,
+        key: 'line_snap_stop',
+        duration: 3
+    });
+    return historyLog;
 };
 
 /**

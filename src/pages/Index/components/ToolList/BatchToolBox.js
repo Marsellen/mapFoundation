@@ -2,8 +2,8 @@ import React from 'react';
 import { Menu } from 'antd';
 import { inject, observer } from 'mobx-react';
 import CheckButton from 'src/components/CheckButton';
-import LineFeaturesSnapToStopLine from './LineFeaturesSnapToStopLine';
-import AssignLineNoInBatch from './AssignLineNoInBatch';
+import BatchSnapLineToStopLine from './BatchHandleTools/BatchSnapLineToStopLine';
+import BatchAssignLaneNo from './BatchHandleTools/BatchAssignLaneNo';
 
 const EDIT_TYPES = ['line_snap_stop', 'assign_line_batch'];
 
@@ -100,14 +100,14 @@ class BatchToolBox extends React.Component {
                 key="xianyaosuduiqidaotingzhixian"
                 title="线要素对齐到停止线"
                 actionid="line-snap-stop-btn">
-                <LineFeaturesSnapToStopLine />
+                <BatchSnapLineToStopLine />
             </Menu.Item>,
             <Menu.Item
                 name="ASSIGN_LINE_NO_IN_BATCH"
                 key="piliangfuchedaofenzubianhao"
                 title="批量赋车道分组编号"
                 actionid="assign-line-batch-btn">
-                <AssignLineNoInBatch />
+                <BatchAssignLaneNo />
             </Menu.Item>
         ];
         return menus;

@@ -24,11 +24,10 @@ class ResourceLoader extends React.Component {
     };
     render() {
         return (
-            <ToolIcon icon="ziliaojiazai" title="资料加载" action={this.action} >
+            <span>
+                <ToolIcon icon="daoru" title="资料加载" action={this.action} />
                 {this.renderModal()}
-            </ToolIcon>
-
-
+            </span>
         );
     }
 
@@ -42,8 +41,7 @@ class ResourceLoader extends React.Component {
                 destroyOnClose={true}
                 onCancel={this.handleCancel}
                 maskClosable={false}
-                footer={this.renderFooter()}
-            >
+                footer={this.renderFooter()}>
                 <Form colon={false} hideRequiredMark={true} {...formLayout}>
                     <Form.Item label="资料名称">
                         {form.getFieldDecorator('taskId', {
@@ -85,8 +83,7 @@ class ResourceLoader extends React.Component {
                                     return (
                                         <Select.Option
                                             key={index}
-                                            value={option.value}
-                                        >
+                                            value={option.value}>
                                             {option.label}
                                         </Select.Option>
                                     );

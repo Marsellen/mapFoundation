@@ -160,12 +160,6 @@ class DataLayerStore {
     };
 
     @action setEditType = type => {
-        if (
-            this.editType == 'line_snap_stop' ||
-            this.editType == 'assign_line_batch'
-        ) {
-            message.destroy();
-        }
         this.editType = type || 'normal';
     };
 
@@ -334,16 +328,18 @@ class DataLayerStore {
         this.setEditType('delRel');
     };
 
-    selectFeature = () => {
-        if (this.editType == 'line_snap_stop') return;
-        this.enableRegionSelect();
-        this.disableOtherCtrl();
-        this.setEditType('line_snap_stop');
-        this.editor.clear();
-    };
+    //
 
-    getSelectFeature = () => {
-        this.editor.selectFeature(1);
+    lineSnapStop = (step = 0) => {
+        if (step === 0) {
+            if (this.editType == 'line_snap_stop') return;
+            this.enableRegionSelect();
+            this.disableOtherCtrl();
+            this.setEditType('line_snap_stop');
+            this.editor.clear();
+        } else if (step === 1) {
+            this.editor.selectFeature(1);
+        }
     };
 
     getNewFixLine = (num, mode) => {
