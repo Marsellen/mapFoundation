@@ -171,6 +171,9 @@ class AssignLineNoInBatch extends React.Component {
                         batchKey,
                         duration: 1
                     });
+                    this.setState({
+                        flag: false
+                    });
                     DataLayerStore.exitEdit();
                     return false;
                 }
@@ -201,6 +204,9 @@ class AssignLineNoInBatch extends React.Component {
                 });
                 // 刷新属性列表
                 AdEmitter.emit('fetchViewAttributeData');
+                this.setState({
+                    flag: false
+                });
                 DataLayerStore.exitEdit();
             }
         } catch (e) {
@@ -212,6 +218,9 @@ class AssignLineNoInBatch extends React.Component {
                     : '选择需赋值线要素，然后按shift进入下一步',
                 batchKey,
                 duration: 1
+            });
+            this.setState({
+                flag: false
             });
             DataLayerStore.exitEdit();
         }
