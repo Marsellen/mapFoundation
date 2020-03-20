@@ -27,6 +27,8 @@ const OPTIONS = {
 @observer
 class BatchToolBox extends React.Component {
     render() {
+        const { ToolCtrlStore } = this.props;
+        let batchTools = ToolCtrlStore.batchTools;
         return (
             <CheckButton
                 defaultOption={this.getDefaultOption()}
@@ -35,6 +37,7 @@ class BatchToolBox extends React.Component {
                 renderContent={this.renderContent}
                 active={this.getActive()}
                 onRef={ref => (this.checkButton = ref)}
+                hideDropdown={batchTools.length < 2}
             />
         );
     }

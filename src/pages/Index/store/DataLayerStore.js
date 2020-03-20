@@ -333,10 +333,9 @@ class DataLayerStore {
     lineSnapStop = (step = 0) => {
         if (step === 0) {
             if (this.editType == 'line_snap_stop') return;
-            this.enableRegionSelect();
+            this.clearChoose();
             this.disableOtherCtrl();
             this.setEditType('line_snap_stop');
-            this.editor.clear();
         } else if (step === 1) {
             this.editor.selectFeature(1);
         }
@@ -345,10 +344,9 @@ class DataLayerStore {
     batchAssinLaneNo = (step = 0) => {
         if (step === 0) {
             if (this.editType == 'assign_line_batch') return;
-            this.enableRegionSelect();
+            this.clearChoose();
             this.disableOtherCtrl();
             this.setEditType('assign_line_batch');
-            this.editor.clear();
         } else if (step === 1) {
             this.editor.newFixLine(2, 1);
         }

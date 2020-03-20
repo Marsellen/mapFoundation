@@ -202,14 +202,9 @@ const lineToStop = async (features, stopLine, layerName, activeTask) => {
     };
 
     let result = await BatchToolsService.lineToStop(params);
-    let newFeatures = calcNewAttrs(
-        features,
-        result.data,
-        layerName,
-        'geometry'
-    );
+    let newFeatures = calcNewLanes(features, result.data, layerName);
     let historyLog = {
-        features: [[], newFeatures]
+        features: [features, newFeatures]
     };
 
     await updateFeatures(historyLog);
@@ -251,14 +246,9 @@ const batchAssignment = async (
         task_id: taskId
     };
     let result = await BatchToolsService.batchAssignment(params);
-    let newFeatures = calcNewAttrs(
-        features,
-        result.data,
-        layerName,
-        'properties'
-    );
+    let newFeatures = calcNewLanes(features, result.data, layerName);
     let historyLog = {
-        features: [[], newFeatures]
+        features: [features, newFeatures]
     };
 
     await updateFeatures(historyLog);
@@ -271,38 +261,25 @@ const batchAssignment = async (
     return historyLog;
 };
 
-const calcNewAttrs = (oldFeatures, feature, layerName, dealType) => {
-    const idVal = DATA_LAYER_MAP[layerName].id;
-    let newFeature = oldFeatures;
-    const oldLines = oldFeatures.map(item => {
-        const properties = item.data.properties;
-        const geometry = item.data.geometry;
-        const ID = item.data.properties[idVal];
-        delete item.data[dealType];
-        return {
-            properties,
-            geometry,
-            ID
-        };
-    });
-    const newLines = feature.map(item => {
+const calcNewLanes = (featurs, newFeatures, layerName) => {
+    const IDKey = DATA_LAYER_MAP[layerName].id;
+    let oldFeatures = _.cloneDeep(featurs);
+    let dataMap = newFeatures.reduce((set, item) => {
         const properties = item.attr;
         const geometry = WKTToGeom(item.attr.geom);
-        const ID = item.attr[idVal];
-        return {
+        const id = item.attr[IDKey];
+        set[id] = {
             properties,
-            geometry,
-            ID
+            geometry
         };
+        return set;
+    }, {});
+    oldFeatures.forEach(feature => {
+        let id = feature.data.properties[IDKey];
+        feature.data.properties = dataMap[id].properties;
+        feature.data.geometry = dataMap[id].geometry;
     });
-    oldLines.map((item, i) => {
-        newLines.map(elem => {
-            if (item.ID == elem.ID) {
-                newFeature[i].data[dealType] = elem[dealType];
-            }
-        });
-    });
-    return newFeature;
+    return oldFeatures;
 };
 
 /**
