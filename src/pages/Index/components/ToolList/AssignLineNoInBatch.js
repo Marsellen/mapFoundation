@@ -11,7 +11,7 @@ import 'less/components/batch-tools.less';
 
 const { Option } = Select;
 
-const key = 'batchAssign';
+window.batchKey = 'batchAssign';
 @inject('DataLayerStore')
 @inject('TaskStore')
 @inject('OperateHistoryStore')
@@ -21,8 +21,10 @@ class AssignLineNoInBatch extends React.Component {
         super();
         this.state = {
             startNumber: '0',
-            holdShiftKey: false
+            holdShiftKey: false,
+            flag: false
         };
+        this.result = [];
     }
     componentDidMount() {
         const { DataLayerStore } = this.props;
@@ -92,7 +94,7 @@ class AssignLineNoInBatch extends React.Component {
         DataLayerStore.newFixLine();
         message.warning({
             content: '选择需赋值线要素，然后按shift进入下一步',
-            key,
+            batchKey,
             duration: 0
         });
     };
@@ -104,50 +106,58 @@ class AssignLineNoInBatch extends React.Component {
     };
 
     addEventListener = () => {
-        document.addEventListener('keydown', event => {
-            if (!event.shiftKey) {
-                event.preventDefault();
-                event.stopPropagation();
-                return false;
+        document.addEventListener('keyup', this.shiftCallback);
+    };
+
+    shiftCallback = event => {
+        if (event.key === 'Shift' && !this.state.flag) {
+            if (this.result.length === 0) {
+                return;
             }
-            this.lineCheck(); //条件判断
+            this.lineCheck(this.result); //条件判断
+        }
+    };
+
+    removeEventListener = () => {
+        document.removeEventListener('keyup', this.shiftCallback);
+        this.setState({
+            flag: false
         });
     };
 
-    lineCheck = () => {
+    lineCheck = result => {
         const { DataLayerStore } = this.props;
         let layerName = DataLayerStore.getEditLayer().layerName;
-        const { result } = this.state;
-        for (let i = 0; i < result.length; i++) {
-            if (result[i].layerName !== layerName) {
-                message.error('所选要素不符合要求');
-                return;
-            }
-        }
-
-        if (result.length === 0) {
+        if (!result || result.length === 0) {
             message.error('请选择要素');
             return false;
+        } else {
+            for (let i = 0; i < result.length; i++) {
+                if (result[i].layerName !== layerName) {
+                    message.error('所选要素不符合要求');
+                    return;
+                }
+            }
+            message.warning({
+                content:
+                    '两点绘制一条线与所选数据相交，线方向与车道编号增长趋势一致，右键完成赋值',
+                batchKey,
+                duration: 0
+            });
+            this.setState({
+                holdShiftKey: true,
+                flag: true
+            });
+            DataLayerStore.getNewFixLine(2, 1);
+            this.removeEventListener();
         }
-        message.warning({
-            content:
-                '两点绘制一条线与所选数据相交，线方向与车道编号增长趋势一致，右键完成赋值',
-            key,
-            duration: 0
-        });
-        this.setState({
-            holdShiftKey: true
-        });
-        DataLayerStore.getNewFixLine(2, 1);
     };
 
     newFixLineCallback = async (result, event) => {
         const { OperateHistoryStore, DataLayerStore, TaskStore } = this.props;
         const { activeTask } = TaskStore;
         let layerName = DataLayerStore.getEditLayer().layerName;
-        this.setState({
-            result
-        });
+        this.result = result;
         if (event.button !== 2) return false;
         try {
             if (this.state.holdShiftKey && event.button === 2) {
@@ -158,7 +168,7 @@ class AssignLineNoInBatch extends React.Component {
                     message.warning({
                         content:
                             '两点绘制一条线与所选数据相交，线方向与车道编号增长趋势一致，右键完成赋值',
-                        key,
+                        batchKey,
                         duration: 1
                     });
                     DataLayerStore.exitEdit();
@@ -186,7 +196,7 @@ class AssignLineNoInBatch extends React.Component {
                 message.warning({
                     content:
                         '两点绘制一条线与所选数据相交，线方向与车道编号增长趋势一致，右键完成赋值',
-                    key,
+                    batchKey,
                     duration: 1
                 });
                 // 刷新属性列表
@@ -195,9 +205,12 @@ class AssignLineNoInBatch extends React.Component {
             }
         } catch (e) {
             message.warning('赋值失败：' + e.message, 3);
+            this.removeEventListener();
             message.warning({
-                content: '选择需赋值线要素，然后按shift进入下一步',
-                key,
+                content: this.state.flag
+                    ? '两点绘制一条线与所选数据相交，线方向与车道编号增长趋势一致，右键完成赋值'
+                    : '选择需赋值线要素，然后按shift进入下一步',
+                batchKey,
                 duration: 1
             });
             DataLayerStore.exitEdit();

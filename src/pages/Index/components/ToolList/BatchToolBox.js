@@ -21,6 +21,8 @@ const OPTIONS = {
 };
 
 @inject('DataLayerStore')
+@inject('TaskStore')
+@inject('ResourceLayerStore')
 @inject('ToolCtrlStore')
 @observer
 class BatchToolBox extends React.Component {
@@ -28,7 +30,7 @@ class BatchToolBox extends React.Component {
         return (
             <CheckButton
                 defaultOption={this.getDefaultOption()}
-                // disabled={this.disabled()}
+                disabled={this.disabled()}
                 contentTitle="批处理工具"
                 renderContent={this.renderContent}
                 active={this.getActive()}
@@ -51,6 +53,17 @@ class BatchToolBox extends React.Component {
                   ...OPTIONS[firstTool]
               }
             : {};
+    };
+
+    disabled = key => {
+        const { TaskStore, ResourceLayerStore } = this.props;
+        const { activeTaskId } = TaskStore;
+        const { pointCloudChecked } = ResourceLayerStore;
+        if (!key || key == 'xianyaosuduiqidaotingzhixian') {
+            return !activeTaskId;
+        } else {
+            return !activeTaskId || !pointCloudChecked;
+        }
     };
 
     renderContent = selectedKey => {
