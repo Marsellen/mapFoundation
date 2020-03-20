@@ -12,6 +12,7 @@ import 'less/components/batch-tools.less';
 
 const { Option } = Select;
 
+@inject('RenderModeStore')
 @inject('DataLayerStore')
 @inject('TaskStore')
 @inject('OperateHistoryStore')
@@ -170,7 +171,12 @@ class BatchAssignLaneNo extends React.Component {
 
     handleAssign = async event => {
         if (event.button !== 2) return;
-        const { OperateHistoryStore, DataLayerStore, TaskStore } = this.props;
+        const {
+            OperateHistoryStore,
+            DataLayerStore,
+            TaskStore,
+            RenderModeStore
+        } = this.props;
         const { activeTask } = TaskStore;
         let layerName = DataLayerStore.getEditLayer().layerName;
         message.loading({ content: '处理中...', key: 'assign_lane_no' });
@@ -201,6 +207,7 @@ class BatchAssignLaneNo extends React.Component {
             // 刷新属性列表
             AdEmitter.emit('fetchViewAttributeData');
             DataLayerStore.exitEdit();
+            RenderModeStore.updateRels(history);
         } catch (e) {
             message.error({
                 content: e.message,

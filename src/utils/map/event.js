@@ -1,5 +1,18 @@
 import { addClass, removeClass } from '../utils';
 import { message } from 'antd';
+import RenderModeStore from 'src/pages/Index/store/RenderModeStore';
+
+//监听右击事件，当关联关系模式时，右击更新要素样式
+const clickright = () => {
+    mapEventManager().register('clickright', e => {
+        if (!map) return;
+        if (!window.currentSelectFeatures) return;
+        if (window.currentSelectFeatures.length === 0) return;
+        const { activeMode, updateCurrentFeature } = RenderModeStore;
+        if (activeMode !== 'relation') return;
+        updateCurrentFeature(window.currentSelectFeatures);
+    });
+};
 
 const mapEventManager = () => {
     return window.map.getEventManager();
@@ -71,6 +84,7 @@ const installMapListener = () => {
     movePointTooCloseListener();
     movePointTooFarListener();
     pointsOutBoundaryListener();
+    clickright();
 };
 
 export { installMapListener };

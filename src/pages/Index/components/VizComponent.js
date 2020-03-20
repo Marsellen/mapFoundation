@@ -398,6 +398,7 @@ class VizComponent extends React.Component {
                 this.showPictureShowView(result[0]);
                 PictureShowStore.show();
             }
+            window.currentSelectFeatures = result;
         } else {
             DataLayerStore.unPick();
             AttributeStore.hide();
@@ -496,6 +497,7 @@ class VizComponent extends React.Component {
             if (!isManbuildTask(TaskStore.activeTask)) {
                 result = modUpdStatGeometry(result);
             }
+
             let history = {
                 type: 'updateFeatureRels',
                 data: {
