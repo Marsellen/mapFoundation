@@ -16,7 +16,7 @@ const { Option } = Select;
 @inject('TaskStore')
 @inject('OperateHistoryStore')
 @observer
-class AssignLineNoInBatch extends React.Component {
+class BatchAssignLaneNo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -213,4 +213,4 @@ class AssignLineNoInBatch extends React.Component {
     };
 }
 
-export default AssignLineNoInBatch;
+export default BatchAssignLaneNo;
