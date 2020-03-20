@@ -393,14 +393,6 @@ class DataLayerStore {
         this.straightCallback = callback;
     };
 
-    setUTurnCallback = callback => {
-        this.turnCallback = callback;
-    };
-
-    setUTurnCallback = callback => {
-        this.uturnCallback = callback;
-    };
-
     // 路口内直行中心线生成
     setAroundCallback = callback => {
         this.aroundCallback = callback;
