@@ -39,8 +39,7 @@ class QualityCheckResultTable extends React.Component {
         return (
             <div
                 onKeyUp={e => this.handleKeyUp(e)}
-                onKeyDown={e => this.handleKeyDown(e)}
-            >
+                onKeyDown={e => this.handleKeyDown(e)}>
                 <ConfigProvider locale={zh_CN}>
                     <AdTable
                         dataSource={reportList}
@@ -78,8 +77,7 @@ class QualityCheckResultTable extends React.Component {
                         <div className="check-table-footer">
                             <Button
                                 className="reset-button"
-                                onClick={this.clearFilters}
-                            >
+                                onClick={this.clearFilters}>
                                 筛选重置
                             </Button>
                         </div>
@@ -315,6 +313,7 @@ class QualityCheckResultTable extends React.Component {
         const { filteredInfo, total } = this.state;
         if (!filteredInfo) return;
         const { visitedText } = filteredInfo;
+        if (!visitedText) return;
         if (visitedText.length === 1 && visitedText[0] === '未查看') {
             this.setState({ total: total - 1 });
         }
