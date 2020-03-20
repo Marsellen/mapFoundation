@@ -497,11 +497,10 @@ class VizComponent extends React.Component {
                 result = modUpdStatGeometry(result);
             }
             let history = {
-                type: 'updateFeature',
-                oldFeature,
-                feature: result,
-                layerName: result.layerName,
-                uuid: result.uuid
+                type: 'updateFeatureRels',
+                data: {
+                    features: [[oldFeature], [result]]
+                }
             };
             let log = {
                 operateHistory: history,
