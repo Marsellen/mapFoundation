@@ -264,7 +264,7 @@ const batchAssignment = async (
 const calcNewLanes = (featurs, newFeatures, layerName) => {
     const IDKey = DATA_LAYER_MAP[layerName].id;
     let oldFeatures = _.cloneDeep(featurs);
-    let dataMap = newFeatures.reduce((set, item) => {
+    let dataMap = (newFeatures || []).reduce((set, item) => {
         const properties = item.attr;
         const geometry = WKTToGeom(item.attr.geom);
         const id = item.attr[IDKey];
