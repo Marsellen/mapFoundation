@@ -116,7 +116,7 @@ class BatchSnapLineToStopLine extends React.Component {
         try {
             let [features, [stopLine]] = this.result;
             if (!stopLine) {
-                throw new Error('没有选择停止线');
+                throw new Error('没有做对齐处理');
             }
             let historyLog = await lineToStop(
                 features,
@@ -140,7 +140,7 @@ class BatchSnapLineToStopLine extends React.Component {
             DataLayerStore.exitEdit();
         } catch (e) {
             message.error({
-                content: '对齐失败：' + e.message,
+                content: e.message,
                 key: 'line_snap_stop',
                 duration: 3
             });

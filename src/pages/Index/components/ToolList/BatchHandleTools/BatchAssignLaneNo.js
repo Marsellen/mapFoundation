@@ -74,7 +74,7 @@ class AssignLineNoInBatch extends React.Component {
                         {DATA_LAYER_MAP[layerName].label}
                     </span>
                 </div>
-                <div>
+                <div style={{ marginTop: 8 }}>
                     起始车道编号:
                     {
                         <Select
@@ -175,11 +175,11 @@ class AssignLineNoInBatch extends React.Component {
         let layerName = DataLayerStore.getEditLayer().layerName;
         message.loading({ content: '处理中...', key: 'assign_lane_no' });
         try {
-            let [features, [fixLine]] = this.result;
-            if (!fixLine) {
+            if (result.errorCode) {
                 //没有绘制辅助线直接右键
-                throw new Error('未绘制方向辅助线！');
+                throw new Error('没有做赋值处理');
             }
+            let [features, [fixLine]] = this.result;
             let historyLog = await batchAssignment(
                 features,
                 fixLine,
@@ -203,7 +203,7 @@ class AssignLineNoInBatch extends React.Component {
             DataLayerStore.exitEdit();
         } catch (e) {
             message.error({
-                content: '赋值失败：' + e.message,
+                content: e.message,
                 key: 'assign_lane_no',
                 duration: 3
             });
