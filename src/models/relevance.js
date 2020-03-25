@@ -37,6 +37,8 @@ class Relevance {
             },
             2
         );
+
+        this.store.clear();
     }
 }
 

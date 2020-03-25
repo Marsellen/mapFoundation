@@ -102,8 +102,8 @@ class VizComponent extends React.Component {
         window.vectorLayerGroup = null;
         window.traceLayer = null;
 
-        RelStore.destroy();
-        AttrStore.destroy();
+        await RelStore.destroy();
+        await AttrStore.destroy();
     };
 
     addShortcut = event => {
