@@ -267,3 +267,18 @@ export const getAllDataSnapshot = async isCurrent => {
         };
     });
 };
+
+export const layerUpdateFeatures = (layer, features) => {
+    features.forEach(feature => {
+        let option = getFeatureOption(feature);
+        let result = layer.getFeatureByOption(option);
+        if (result) {
+            feature.uuid = result.properties.uuid; //确保要素uuid和sdk内部一致
+        } else {
+            throw new Error(
+                `${feature.layerName}要素${option.value}不存在，请检查数据`
+            );
+        }
+    });
+    layer.updateFeatures(features);
+};

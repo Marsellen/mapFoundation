@@ -16,7 +16,8 @@ import AdEmitter from 'src/models/event';
 import {
     getLayerIDKey,
     isRegionContainsElement,
-    modUpdStatGeometry
+    modUpdStatGeometry,
+    layerUpdateFeatures
 } from 'src/utils/vectorUtils';
 import { isManbuildTask } from 'src/utils/taskUtils';
 
@@ -618,7 +619,8 @@ class RightMenuModal extends React.Component {
                         return item;
                     });
                     let layer = getLayerByName(newFeatures[0].layerName);
-                    layer.updateFeatures(newFeatures);
+                    //layer.updateFeatures(newFeatures);
+                    layerUpdateFeatures(layer, newFeatures);
 
                     DataLayerStore.exitEdit();
                     AttributeStore.hideRelFeatures();
