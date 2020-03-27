@@ -31,13 +31,17 @@ class ViewAttribute extends React.Component {
         super(props);
         this.resize = new Resize();
         this.state = {
+            currentTask: null,
             visible: false,
             columns: [],
             dataSource: [],
             layerName: null,
             height: 500,
             loading: false,
-            filteredInfo: null
+            filteredInfo: null,
+            sortedInfo: null,
+            pageSize: 10,
+            page: 1
         };
     }
 
@@ -87,7 +91,7 @@ class ViewAttribute extends React.Component {
     };
 
     renderContent = () => {
-        const { columns, dataSource, height } = this.state;
+        const { columns, dataSource, height, pageSize, page } = this.state;
         return (
             <ConfigProvider locale={zh_CN}>
                 <AdTable
@@ -111,7 +115,9 @@ class ViewAttribute extends React.Component {
                         showSizeChanger: true,
                         onChange: this.handlePagination,
                         onShowSizeChange: this.handlePagination,
-                        showTotal: this.showTotal
+                        showTotal: this.showTotal,
+                        pageSize: pageSize,
+                        current: page
                     }}
                     scroll={{ x: 'max-content', y: height }}
                     title={() => {
@@ -127,23 +133,12 @@ class ViewAttribute extends React.Component {
                         筛选重置
                     </Button>
                 )}
-                {/*搜索结果为空时，占位DIV，给 筛选重置 按钮占位*/}
-                {this.searchResultNil() && <div style={{ height: 40 }}></div>}
             </ConfigProvider>
         );
     };
 
     showTotal = total => {
-        // 同步当前显示数据条数，为searchResultNil提供准确数据
-        if (total !== this.state.total) {
-            this.setState({ total });
-        }
         return `共${total}条`;
-    };
-
-    searchResultNil = () => {
-        const { dataSource, total } = this.state;
-        return !!dataSource.length && !total;
     };
 
     handlePagination = () => {
@@ -198,7 +193,10 @@ class ViewAttribute extends React.Component {
     };
 
     changeLayer = layerName => {
-        this.setState({ layerName, filteredInfo: null }, this.getData);
+        this.setState(
+            { layerName, filteredInfo: null, sortedInfo: null },
+            this.getData
+        );
     };
 
     getData = () => {
@@ -247,6 +245,7 @@ class ViewAttribute extends React.Component {
     getColumnSearchProps = col => ({
         key: col.dataIndex,
         filteredValue: this.getFilteredValue(col.dataIndex),
+        sortOrder: this.getSortOrder(col.dataIndex),
         filterDropdown: ({
             setSelectedKeys,
             selectedKeys,
@@ -259,7 +258,7 @@ class ViewAttribute extends React.Component {
                         this.searchInput = node;
                     }}
                     placeholder="搜索关键字..."
-                    value={selectedKeys[0]}
+                    value={selectedKeys}
                     onChange={e =>
                         setSelectedKeys(e.target.value ? [e.target.value] : [])
                     }
@@ -306,14 +305,25 @@ class ViewAttribute extends React.Component {
     });
 
     getFilteredValue = dataIndex => {
-        const { filteredInfo } = this.state;
-        return filteredInfo ? filteredInfo[dataIndex] : [];
+        let { filteredInfo } = this.state;
+        filteredInfo = filteredInfo || {};
+        return filteredInfo[dataIndex] || null;
+    };
+
+    getSortOrder = dataIndex => {
+        let { sortedInfo } = this.state;
+        sortedInfo = sortedInfo || {};
+        return sortedInfo.columnKey === dataIndex && sortedInfo.order;
     };
 
     handleChange = (pagination, filters, sorter, extra) => {
+        let { pageSize, current } = pagination;
         this.setState(
             {
-                filteredInfo: filters
+                filteredInfo: filters,
+                sortedInfo: sorter,
+                pageSize,
+                page: current
             },
             () => {
                 let { layerName } = this.state;
@@ -368,23 +378,30 @@ class ViewAttribute extends React.Component {
 
     toggle = () => {
         if (this.state.visible) {
-            this.setState({
+            return this.setState({
                 visible: false
             });
-        } else {
-            const { DataLayerStore } = this.props;
+        }
+
+        const { DataLayerStore, TaskStore } = this.props;
+        let { activeTaskId } = TaskStore;
+        if (activeTaskId !== this.state.currentTask) {
             let editLayer = DataLayerStore.getEditLayer();
-            let layerName = editLayer
-                ? editLayer.layerName
-                : this.state.layerName;
+            let layerName = editLayer ? editLayer.layerName : null;
             this.setState(
                 {
                     visible: true,
+                    currentTask: activeTaskId,
                     layerName,
-                    filteredInfo: null
+                    filteredInfo: null,
+                    sorter: null,
+                    pageSize: 10,
+                    page: 1
                 },
                 this.getData
             );
+        } else {
+            this.setState({ visible: true }, this.getData);
         }
     };
 
