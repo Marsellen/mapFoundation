@@ -38,12 +38,18 @@ class TopView extends React.Component {
             RightMenuStore
         } = this.props;
         const { isTopView } = DataLayerStore;
-        let layer = DataLayerStore.getEditLayer();
+        let layer = DataLayerStore.getEditLayer() || {};
 
         if (!isTopView) {
             window.map.setCurrentView('U');
             window.map.disableRotate();
-            if (layer === null || layer.layerName === 'AD_TrafficLight' || layer.layerName === 'AD_TrafficSign' || layer.layerName === 'AD_Pole' || layer.layerName === 'AD_RS_Barrier') {
+            if (
+                layer === null ||
+                layer.layerName === 'AD_TrafficLight' ||
+                layer.layerName === 'AD_TrafficSign' ||
+                layer.layerName === 'AD_Pole' ||
+                layer.layerName === 'AD_RS_Barrier'
+            ) {
                 DataLayerStore.activeEditor();
                 ToolCtrlStore.updateByEditLayer();
             } else {
@@ -53,7 +59,10 @@ class TopView extends React.Component {
             AttributeStore.hide();
             RightMenuStore.hide();
         } else {
-            if (DataLayerStore.editType == 'copyLine' || DataLayerStore.editType == 'movePointFeature') {
+            if (
+                DataLayerStore.editType == 'copyLine' ||
+                DataLayerStore.editType == 'movePointFeature'
+            ) {
                 DataLayerStore.exitEdit();
             }
             window.map.enableRotate();

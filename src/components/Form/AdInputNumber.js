@@ -4,8 +4,9 @@ import 'src/assets/less/components/ad-input-number.less';
 
 export default class AdInputNumber extends React.Component {
     render() {
+        const { width } = this.props;
         return (
-            <div className="rels-input-number">
+            <div className="rels-input-number" style={{ width }}>
                 <InputNumber
                     className="ad-input-number ant-col-xs-16 ant-col-sm-14"
                     {...this.props}

@@ -11,10 +11,7 @@ import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
 //import NewFeatureModal from './NewFeatureModal';
 import RightMenuModal from './RightMenuModal';
-import ZoomIn from './ToolList/ZoomIn';
-import ZoomOut from './ToolList/ZoomOut';
-import UnderView from './ToolList/UnderView';
-import TopView from './ToolList/TopView';
+
 import {
     RESOURCE_LAYER_POINT_CLOUD,
     RESOURCE_LAYER_VECTOR,
@@ -37,7 +34,6 @@ import { shortcut } from 'src/utils/shortcuts';
 import { installMapListener } from 'src/utils/map/event';
 import _ from 'lodash';
 import editLog from 'src/models/editLog';
-import SaveTimeView from './SaveTimeView';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
 import AdEmitter from 'src/models/event';
@@ -630,15 +626,7 @@ class VizComponent extends React.Component {
                     id="viz"
                     key={TaskStore.activeTaskId}
                     className="viz-box"
-                    onKeyDown={e => this.handleKeyDown(e)}>
-                    <div className="set-compass">
-                        <TopView key="TOP_VIEW" />
-                        <ZoomOut key="ZOOM_OUT" />
-                        <ZoomIn key="ZOOM_IN" />
-                        <UnderView key="UNDER_VIEW" />
-                    </div>
-                    <SaveTimeView />
-                </div>
+                    onKeyDown={e => this.handleKeyDown(e)}></div>
                 {TaskStore.activeTaskId ? <MultimediaView /> : <span />}
                 <AttributesModal />
                 <RightMenuModal />
