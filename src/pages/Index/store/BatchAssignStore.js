@@ -1,6 +1,6 @@
 import { action, configure, observable } from 'mobx';
 import modelFactory from 'src/utils/vectorCtrl/modelFactory';
-import { getLayerByName } from 'src/utils/vectorUtils';
+import { getLayerByName, layerUpdateFeatures } from 'src/utils/vectorUtils';
 import _ from 'lodash';
 
 configure({ enforceActions: 'always' });
@@ -33,7 +33,8 @@ class BatchAssignStore {
             };
         });
         let layer = getLayerByName(this.layerName);
-        layer.updateFeatures(newFeatures);
+        //layer.updateFeatures(newFeatures);
+        layerUpdateFeatures(layer, newFeatures);
 
         this.hide();
 

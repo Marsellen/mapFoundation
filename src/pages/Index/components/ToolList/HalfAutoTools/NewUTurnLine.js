@@ -241,8 +241,9 @@ class NewUTurnLine extends React.Component {
             value: value
         };
         let layer = getLayerByName(layerName);
-        if (layer.getFeatureByOption(option)) {
-            let feature = layer.getFeatureByOption(option).properties;
+        let result = layer.getFeatureByOption(option);
+        if (result) {
+            let feature = result.properties;
             this.showAttributesModal(feature);
         } else {
             message.warning('所在图层与用户编号不匹配！', 3);

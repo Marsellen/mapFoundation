@@ -29,6 +29,8 @@ class Attr {
             },
             2
         );
+
+        this.store.clear();
     }
 }
 

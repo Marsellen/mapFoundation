@@ -113,9 +113,9 @@ class SearchInfo extends React.Component {
                     message.warning('请打开被查询的数据图层！', 3);
                     return;
                 }
-                if (layer.layer.getFeatureByOption(option)) {
-                    let feature = layer.layer.getFeatureByOption(option)
-                        .properties;
+                let result = layer.layer.getFeatureByOption(option);
+                if (result) {
+                    let feature = result.properties;
                     let extent = map.getExtent(feature.data.geometry);
                     map.setView('U');
                     map.setExtent(extent);

@@ -16,6 +16,8 @@ class operateHistory {
             },
             2
         );
+
+        this.store.clear();
     }
 }
 

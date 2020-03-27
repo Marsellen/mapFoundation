@@ -16,6 +16,8 @@ class editLog {
             },
             1
         );
+
+        this.store.clear();
     }
 }
 

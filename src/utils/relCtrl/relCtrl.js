@@ -186,20 +186,6 @@ const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
     };
 };
 
-const getRelId = async rel => {
-    if (REL_DATA_SET.includes(rel.spec)) {
-        let result = await IDService.initID(
-            {
-                id_type: rel.spec
-            },
-            () => {
-                throw { message: '请求ID失败' };
-            }
-        );
-        rel.extraInfo.REL_ID = result.data[0].min;
-    }
-};
-
 /**
  * 创建两类要素所有规格中存在的关联关系
  * @method createAllRel
@@ -294,11 +280,22 @@ const updateFeatureRelAttr = (rel, isDel) => {
 };
 
 const batchGetRelId = async rels => {
-    await Promise.all(
-        rels.map(rel => {
-            return getRelId(rel);
-        })
-    );
+    let needIdRels = rels.filter(rel => REL_DATA_SET.includes(rel.spec));
+    if (needIdRels.length > 0) {
+        // needIdRels目前只会存在一类关联关系
+        let result = await IDService.initID(
+            {
+                id_type: needIdRels[0].spec,
+                num: needIdRels.length
+            },
+            () => {
+                throw { message: '请求ID失败' };
+            }
+        );
+        needIdRels.forEach((rel, index) => {
+            rel.extraInfo.REL_ID = result.data[0].min + index;
+        });
+    }
     return rels;
 };
 
