@@ -48,7 +48,8 @@ class ToolIcon extends React.Component {
                 title={title}
                 visible={tooltipVisible}
                 onVisibleChange={this.handleHoverChange}
-                {...tooltip}>
+                {...tooltip}
+            >
                 <IconFont
                     id={id}
                     type={`icon-${icon}`}
@@ -76,7 +77,8 @@ class ToolIcon extends React.Component {
 
         return (
             <span
-                className={`ad-icon-wrap ${className} ${disabledClassName} ${popoverClassName} ${colorClassName} ${activeClassName}`}>
+                className={`ad-icon-wrap ${className} ${disabledClassName} ${popoverClassName} ${colorClassName} ${activeClassName}`}
+            >
                 {popover && <Popover {...popover}>{this._icon()}</Popover>}
                 {!popover && this._icon()}
             </span>

@@ -15,6 +15,7 @@ import PointCloudStore from './PointCloudStore';
 import QualityCheckStore from './QualityCheckStore';
 import VectorsStore from './VectorsStore';
 import RenderModeStore from './RenderModeStore';
+import DefineModeStore from './DefineModeStore';
 
 export default {
     MenuStore,
@@ -33,5 +34,6 @@ export default {
     PointCloudStore,
     QualityCheckStore,
     VectorsStore,
-    RenderModeStore
+    RenderModeStore,
+    DefineModeStore
 };

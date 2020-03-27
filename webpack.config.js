@@ -121,6 +121,7 @@ module.exports = (env = {}) => {
             historyApiFallback: true,
             hot: true,
             port: 15900,
+            host: '0.0.0.0',
             proxy: {
                 '/gateway': {
                     target: PROXY_MAP[proxy].gateway,

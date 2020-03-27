@@ -131,16 +131,18 @@ class PictureShowView extends React.Component {
         let imgs = picData.filter(img => !!img);
 
         return (
-            <div className="img-banner">
-                <RcViewer options={this.options} ref="viewer">
-                    <ul id="images" style={{ display: 'none' }}>
-                        {imgs.length ? (
-                            imgs.map(this._renderImg)
-                        ) : (
-                            <img src={noImg} alt="暂无图片" />
-                        )}
-                    </ul>
-                </RcViewer>
+            <div className="multimedia-view-container">
+                <div className="img-banner">
+                    <RcViewer options={this.options} ref="viewer">
+                        <ul id="images" style={{ display: 'none' }}>
+                            {imgs.length ? (
+                                imgs.map(this._renderImg)
+                            ) : (
+                                <img src={noImg} alt="暂无图片" />
+                            )}
+                        </ul>
+                    </RcViewer>
+                </div>
             </div>
         );
     }
