@@ -94,7 +94,8 @@ module.exports = (env = {}) => {
             ]),
             new webpack.DefinePlugin({
                 DATA_SPEC: JSON.stringify(env.spec),
-                CSYS: env.csys
+                CSYS: env.csys,
+                NOSHP: env.noshp
             })
         ],
         optimization: {
