@@ -1,5 +1,10 @@
 .ad-color-select-box {
     position: relative;
+    display: inline-block;
+
+    &.set-z-index {
+        z-index: 1;
+    }
 
     .color-palette {
         position: absolute;
@@ -7,10 +12,6 @@
         left: 50%;
         margin: 0 0 0 -110px;
         user-select: none;
-    }
-
-    .set-z-index {
-        z-index: 1;
     }
 
     .ad-color-select {

@@ -4,19 +4,33 @@ import { SketchPicker } from 'react-color';
 import IconFont from 'src/components/IconFont';
 
 class AdColorInput extends React.Component {
-    state = {
-        color: this.props.color || '#fff',
-        visible: false
+    constructor(props) {
+        super(props);
+        let { color, background } = this.props;
+        this.state = {
+            color: color || { r: 255, g: 255, b: 255, a: 1 },
+            background: background || { r: 18, g: 25, b: 35, a: 1 },
+            visible: false
+        };
+        this.timeout = false;
+    }
+
+    objectToString = rgba => {
+        const { r, g, b, a } = rgba;
+        return `rgba(${r},${g},${b},${a})`;
     };
 
     handleChange = value => {
         const { rgb } = value;
-        const { r, g, b, a } = rgb;
-        const color = `rgba(${r},${g},${b},${a})`;
         this.setState({
-            color
+            color: rgb
         });
-        this.props.onChange(color);
+
+        //防抖，减少重置画布次数
+        this.timeout && clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+            this.props.onChange && this.props.onChange(rgb);
+        }, 500);
     };
 
     //阻止事件向上层冒泡，点击调色板时，不会调用this.hide()
@@ -42,23 +56,36 @@ class AdColorInput extends React.Component {
     };
 
     render() {
+        //有icon参数，background才有效
         const { size, icon } = this.props;
-        const { color, visible } = this.state;
+        const { color, visible, background } = this.state;
+        const currentColor = this.objectToString(color);
+        const currentBackground = this.objectToString(background);
         return (
             // 当前AdColorInput组件设置z-index，防图层遮盖
             <div className={`color-box ${visible ? 'set-z-index' : ''}`}>
-                <div type="primary" className="color-btn" onClick={this.show}>
-                    <IconFont
-                        type={`icon-${icon}`}
-                        style={{ fontSize: size, color: color }}
-                    />
+                <div
+                    type="primary"
+                    className="color-btn"
+                    onClick={this.show}
+                    style={{ background: currentBackground }}>
+                    {icon ? (
+                        <IconFont
+                            type={`icon-${icon}`}
+                            style={{ fontSize: size, color: currentColor }}
+                        />
+                    ) : (
+                        <div
+                            className="color-content"
+                            style={{ background: currentColor }}></div>
+                    )}
                 </div>
                 {/* 调色板 */}
                 {visible && (
                     <div onClick={this.stopPropagation}>
                         <SketchPicker
                             className="color-palette"
-                            color={color}
+                            color={currentColor}
                             onChange={this.handleChange}
                         />
                     </div>
