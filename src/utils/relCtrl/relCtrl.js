@@ -67,17 +67,15 @@ const delRel = async (mainFeature, features) => {
 
 const basicCheck = async (mainFeature, relFeatures, layerName) => {
     if (!mainFeature) {
-        throw { message: '请选择要素' };
+        throw new Error('请选择要素');
     }
 
     if (mainFeature.layerName != layerName) {
-        throw {
-            message: '首选要素所在图层和编辑图层不一致'
-        };
+        throw new Error('首选要素所在图层和编辑图层不一致');
     }
 
     if (!relFeatures.length) {
-        throw { message: '新建关联关系至少选择两个要素' };
+        throw new Error('新建关联关系至少选择两个要素');
     }
 
     let relFeatureTypes = relFeatures.reduce((total, feature) => {
@@ -86,9 +84,7 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
     }, []);
 
     if (relFeatureTypes.length !== 1) {
-        throw {
-            message: '只允许建立两类要素之间的关联关系'
-        };
+        throw new Error('只允许建立两类要素之间的关联关系');
     }
     let relSpecs = REL_SPEC_CONFIG.filter(rs => {
         return (
@@ -97,9 +93,9 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
         );
     });
     if (relSpecs.length == 0) {
-        throw {
-            message: `无法构建${layerName}和${relFeatureTypes[0]}的关联关系`
-        };
+        throw new Error(
+            `无法构建${layerName}和${relFeatureTypes[0]}的关联关系`
+        );
     }
 
     let isAttrRel =
@@ -110,9 +106,9 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
         (isAttrRel && relFeatures.length > relSpecs.length) ||
         (layerName === 'AD_LaneDivider' && relFeatures.length > REL_LIMIT_COUNT)
     ) {
-        throw {
-            message: `${layerName}和${relFeatureTypes[0]}的关联类型超出规格定义`
-        };
+        throw new Error(
+            `${layerName}和${relFeatureTypes[0]}的关联类型超出规格定义`
+        );
     }
 };
 
@@ -279,6 +275,7 @@ const updateFeatureRelAttr = (rel, isDel) => {
     layer.updateFeatures([feature]);
 };
 
+// 批量请求关联关系数据的新id
 const batchGetRelId = async rels => {
     let needIdRels = rels.filter(rel => REL_DATA_SET.includes(rel.spec));
     if (needIdRels.length > 0) {
@@ -289,7 +286,7 @@ const batchGetRelId = async rels => {
                 num: needIdRels.length
             },
             () => {
-                throw { message: '请求ID失败' };
+                throw new Error('请求ID失败');
             }
         );
         needIdRels.forEach((rel, index) => {
@@ -300,13 +297,10 @@ const batchGetRelId = async rels => {
 };
 
 const relsUniqCheck = rels => {
-    return Promise.all(
-        rels.map(rel => {
-            return attrRelUniqCheck(rel);
-        })
-    );
+    return Promise.all(rels.map(attrRelUniqCheck));
 };
 
+// 属性表管理关系唯一性校验
 const attrRelUniqCheck = async rel => {
     if (!ATTR_REL_DATA_SET.includes(rel.spec)) {
         return;
@@ -328,35 +322,29 @@ const attrRelUniqCheck = async rel => {
     let hadBeenRel = rels.some(r => r[relkey] === rel[relkey]);
     if (hadBeenRel) {
         let errorMessageKey = rel.objType + '_' + rel.relObjType;
-        throw {
-            message: HAD_BEEN_REL_ERROR[errorMessageKey]
-        };
+        throw new Error(HAD_BEEN_REL_ERROR[errorMessageKey]);
     }
     hadBeenRel = rels.some(r => r[relId] === rel[relId]);
     if (hadBeenRel) {
-        throw {
-            message: '创建失败: 关联关系重复'
-        };
+        throw new Error('关联关系重复');
     }
 };
 
+// 校验两个要素是否已存在关联关系
 const relUniqCheck = async (mainFeature, feature) => {
     let rels = createAllRel(mainFeature, feature);
 
     let relStore = Relevance.store;
     let rs = await rels.reduce(async (total, rel) => {
         total = await total;
-        let r = await relStore.get(
-            [rel.objType, rel.objId, rel.relObjType, rel.relObjId],
-            'REL_KEYS'
-        );
-        r && total.push(r);
+        let condition = [rel.objType, rel.objId, rel.relObjType, rel.relObjId];
+        let indexName = 'REL_KEYS';
+        let result = await relStore.get(condition, indexName);
+        result && total.push(result);
         return total;
     }, []);
     if (rs.length) {
-        throw {
-            message: '创建失败: 关联关系重复'
-        };
+        throw new Error('关联关系重复');
     }
 };
 
@@ -367,12 +355,12 @@ const calcFeatureLog = (mainFeature, relFeatures) => {
 };
 
 const HAD_BEEN_REL_ERROR = {
-    LANE_L_LDIV: '创建失败: 车道中心线已关联左侧车道线',
-    LANE_R_LDIV: '创建失败: 车道中心线已关联右侧车道线',
-    LANE_ROAD: '创建失败: 车道中心线已关联参考线',
-    LANE_ARROW: '创建失败: 地面导向箭头已关联车道中心线',
-    LANE_TEXT: '创建失败: 地面文字符号已关联车道中心线',
-    LANEP_ROAD: '创建失败: 车道属性变化点已关联参考线'
+    LANE_L_LDIV: '车道中心线已关联左侧车道线',
+    LANE_R_LDIV: '车道中心线已关联右侧车道线',
+    LANE_ROAD: '车道中心线已关联参考线',
+    LANE_ARROW: '地面导向箭头已关联车道中心线',
+    LANE_TEXT: '地面文字符号已关联车道中心线',
+    LANEP_ROAD: '车道属性变化点已关联参考线'
 };
 
 export {

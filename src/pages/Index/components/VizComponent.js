@@ -149,32 +149,35 @@ class VizComponent extends React.Component {
 
     initTask = async task => {
         console.time('taskLoad');
-        const hide = message.loading('正在加载任务数据...', 0);
-        await Promise.all([
-            this.initEditResource(task),
-            this.initExResource(task)
-        ])
-            .then(() => {
-                hide();
-                message.success('资料加载成功', 1);
-
-                //获取任务比例记录，设置比例
-                const { TaskStore } = this.props;
-                const { activeTaskId } = TaskStore;
-                const { taskScale } =
-                    AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
-                taskScale && map.setEyeView(taskScale);
-            })
-            .catch(e => {
-                console.log(e);
-                hide();
-                Modal.error({
-                    title: '资料加载失败，请确认输入正确路径。',
-                    okText: '确定'
-                });
-                const { TaskStore } = this.props;
-                TaskStore.tasksPop();
+        const hide = message.loading({
+            content: '正在加载任务数据...',
+            key: 'init_task'
+        });
+        try {
+            await Promise.all([
+                this.initEditResource(task),
+                this.initExResource(task)
+            ]);
+            message.success({
+                content: '资料加载成功',
+                key: 'init_task',
+                duration: 1
             });
+
+            const { taskScale } =
+                AdLocalStorage.getTaskInfosStorage(task.taskId) || {};
+            taskScale && map.setEyeView(taskScale);
+        } catch (e) {
+            console.log(e);
+            hide();
+            Modal.error({
+                title: '资料加载失败，请确认输入正确路径。',
+                okText: '确定'
+            });
+            const { TaskStore } = this.props;
+            TaskStore.tasksPop();
+        }
+
         console.timeEnd('taskLoad');
     };
 

@@ -8,9 +8,7 @@ export const locatePicture = async (event, taskId) => {
             pointWkt: pointObjToWkt(pointObj)
         },
         () => {
-            throw {
-                message: '点云照片联动接口异常！'
-            };
+            throw new Error('点云照片联动接口异常！');
         }
     );
     return result.data;
@@ -21,8 +19,6 @@ const pointObjToWkt = pointObj => {
         let position = pointObj.point.position;
         return `POINT(${position.x} ${position.y} ${position.z})`;
     } catch (e) {
-        throw {
-            message: '获取点云坐标失败！'
-        };
+        throw new Error('获取点云坐标失败！');
     }
 };

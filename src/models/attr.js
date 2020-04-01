@@ -26,8 +26,19 @@ class Attr {
                         }
                     );
                 }
+                if (event.oldVersion < 3) {
+                    let objectStore = request.transaction.objectStore('attr');
+                    objectStore.deleteIndex('SOURCE_ID');
+                    objectStore.createIndex(
+                        'SOURCE_ID',
+                        ['source', 'sourceId'],
+                        {
+                            unique: false
+                        }
+                    );
+                }
             },
-            2
+            3
         );
 
         this.store.clear();
