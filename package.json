@@ -11,9 +11,11 @@
         "start": "webpack-dev-server",
         "start-local": "webpack-dev-server --env.proxy=local",
         "start-semantic": "webpack-dev-server --env.spec=semantic --env.csys=2",
+        "start-no-shp": "webpack-dev-server --env.noshp",
         "build": "webpack --env.mode=production",
         "build-semantic": "webpack --env.mode=production --env.spec=semantic --env.csys=2",
-        "build-sdk": "npm i addis-viz-sdk --registry=http://10.43.75.53:8081/repository/npm-all/ --save"
+        "build-sdk": "npm i addis-viz-sdk --registry=http://10.43.75.53:8081/repository/npm-all/ --save",
+        "build-no-shp": "webpack --env.mode=production --env.noshp"
     },
     "dependencies": {
         "addis-viz-sdk": "^0.1.16-alpha.1",
