@@ -195,7 +195,7 @@ class Task extends React.Component {
 
             QualityCheckStore.closeCheckReport();
             QualityCheckStore.clearCheckReport();
-            TaskStore.setActiveTask(id);
+            await TaskStore.setActiveTask(id);
             await this.clearWorkSpace();
             if (isEdit) {
                 this.handleReportOpen();
