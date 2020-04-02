@@ -1,26 +1,33 @@
 .color-box {
     position: relative;
-}
+    display: inline-block;
 
-.color-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 24px;
-    width: 24px;
-    border-radius: 4px;
-    background: #121923;
-    font-size: 30px;
-}
+    &.set-z-index {
+        z-index: 1;
+    }
 
-.color-palette {
-    position: absolute;
-    top: 26px;
-    left: 50%;
-    margin: 0 0 0 -110px;
-    user-select: none;
-}
+    .color-btn {
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 24px;
+        width: 24px;
+        border-radius: 4px;
+        background: #121923;
+        font-size: 30px;
+    }
 
-.set-z-index {
-    z-index: 1;
+    .color-content {
+        height: 100%;
+        width: 100%;
+    }
+
+    .color-palette {
+        position: absolute;
+        top: 26px;
+        left: 50%;
+        margin: 0 0 0 -110px;
+        user-select: none;
+    }
 }

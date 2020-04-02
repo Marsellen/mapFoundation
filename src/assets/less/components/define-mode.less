@@ -14,6 +14,7 @@
 
     .ant-tabs .ant-tabs-bar {
         margin: 0;
+        border-color: #d7d7d7;
     }
 
     .ant-tabs .ant-tabs-bar .ant-tabs-tab {
@@ -24,14 +25,11 @@
         font-size: 16px;
     }
 
-    .ant-tabs-bottom .ant-tabs-ink-bar-animated {
-        width: 50% !important;
-    }
-
-    .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated,
-    .ant-tabs .ant-tabs-bottom-content.ant-tabs-content-animated {
-        padding: 10px;
+    .ant-tabs .ant-tabs-top-content,
+    .ant-tabs .ant-tabs-bottom-content {
+        padding: 10px 0 10px 10px;
         height: calc(100vh - 100px);
+        overflow-y: scroll;
     }
 
     // 修改antd select默认样式
@@ -42,11 +40,7 @@
     }
 
     .ant-select-selection__rendered {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 1px 15px 0 0;
-        line-height: 22px;
+        line-height: 24px;
     }
 
     .ant-select-arrow {
@@ -61,10 +55,14 @@
         justify-content: center;
     }
 
-    .ant-input-number,
-    .ant-input-number-input {
+    .rels-input-number,
+    .ant-input-number {
         height: 26px;
-        line-height: 26px;
+    }
+
+    .ad-input-number .ant-input-number-input-wrap .ant-input-number-input {
+        height: 26px;
+        line-height: 26px !important;
     }
 
     .config-title {
@@ -90,6 +88,7 @@
     }
 
     .config-content-2 {
+        margin: 0 0 10px;
         padding: 5px 10px;
     }
 
@@ -113,6 +112,6 @@
     }
 
     .blue {
-        color: #3E7FE0;
+        color: #3e7fe0;
     }
 }

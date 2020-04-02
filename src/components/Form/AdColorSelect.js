@@ -17,6 +17,8 @@ class AdColorSelect extends React.Component {
             color: '#fff',
             currentValue: this.options[0]
         };
+
+        this.timeout = false;
     }
 
     //将options处理成[{key:xx,label:ReactNode}]
@@ -72,6 +74,12 @@ class AdColorSelect extends React.Component {
         const { r, g, b, a } = rgb;
         const color = `rgba(${r},${g},${b},${a})`;
         this.setColor(color);
+
+        //防抖，减少重置画布次数
+        this.timeout && clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+            this.props.onChange && this.props.onChange(color);
+        }, 500);
     };
 
     //阻止事件向上层冒泡，点击调色板时，不会调用this.hide()
