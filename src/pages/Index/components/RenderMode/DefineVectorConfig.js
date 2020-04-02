@@ -114,7 +114,7 @@ class DefineVectorConfig extends React.Component {
                     <label>普通机动车信号灯</label>
                     <div className="flex-between input-box">
                         <AdColorInput
-                            size={28}
+                            size={26}
                             icon="mianyaosu"
                             onClick={this.handleColorClick}
                             onChange={this.handleColorChange}
@@ -132,7 +132,7 @@ class DefineVectorConfig extends React.Component {
                     <label>普通机动车信号灯</label>
                     <div className="flex-between input-box">
                         <AdColorInput
-                            size={28}
+                            size={26}
                             icon="mianyaosu"
                             onClick={this.handleColorClick}
                             onChange={this.handleColorChange}
@@ -195,7 +195,7 @@ class DefineVectorConfig extends React.Component {
     render() {
         const { isClassSet } = this.state;
         return (
-            <div>
+            <div className="config-wrap">
                 <div className="config-title">
                     <div>
                         <Icon

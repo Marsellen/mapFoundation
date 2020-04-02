@@ -1,5 +1,4 @@
 .color-box {
-    position: relative;
     display: inline-block;
 
     &.set-z-index {
@@ -7,7 +6,6 @@
     }
 
     .color-btn {
-        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -21,12 +19,11 @@
     .color-content {
         height: 100%;
         width: 100%;
+        border-radius: 4px;
     }
 
     .color-palette {
         position: absolute;
-        top: 26px;
-        left: 50%;
         margin: 0 0 0 -110px;
         user-select: none;
     }

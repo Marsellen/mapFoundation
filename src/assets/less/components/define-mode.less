@@ -27,9 +27,7 @@
 
     .ant-tabs .ant-tabs-top-content,
     .ant-tabs .ant-tabs-bottom-content {
-        padding: 10px 0 10px 10px;
-        height: calc(100vh - 100px);
-        overflow-y: scroll;
+        position: relative;
     }
 
     // 修改antd select默认样式
@@ -63,6 +61,12 @@
     .ad-input-number .ant-input-number-input-wrap .ant-input-number-input {
         height: 26px;
         line-height: 26px !important;
+    }
+
+    .config-wrap {
+        overflow-y: scroll;
+        height: calc(100vh - 100px);
+        padding: 10px 0 300px 10px;
     }
 
     .config-title {

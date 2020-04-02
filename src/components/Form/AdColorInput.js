@@ -47,18 +47,68 @@ class AdColorInput extends React.Component {
         document.removeEventListener('click', this.hide);
     };
 
-    show = () => {
+    show = e => {
+        //获取当前点击的颜色按钮
+        const currentColorBox = this.getCurrentColorBox(e);
+        //获取当前点击的颜色按钮的scroll父元素
+        const scrollWrap = this.getScrollWrap(e);
+        //获取当前点击的颜色按钮的top、left、width、height
+        const {
+            offsetTop,
+            offsetLeft,
+            clientWidth,
+            clientHeight
+        } = currentColorBox;
+        //获取当前点击的颜色按钮的scroll父元素的scrollTop、scrollLeft
+        const { scrollTop, scrollLeft } = scrollWrap;
+        //计算调色板的top、left
         this.setState({
-            visible: true
+            visible: true,
+            top: offsetTop + clientHeight - scrollTop,
+            left: offsetLeft + clientWidth / 2 - scrollLeft
         });
         //全局绑定隐藏事件，点击页面任何地方都将调用this.hide()，调用后解除全局事件绑定
         document.addEventListener('click', this.hide);
     };
 
+    //根据当前要素向上找指定className的父元素，最多找5层
+    getCurrentColorBox = e => {
+        let i = 0;
+        let node = e.target;
+        let isColorBtn = false;
+        while (i < 5 && !isColorBtn) {
+            isColorBtn =
+                node &&
+                node.className &&
+                node.className.includes &&
+                node.className.includes('color-box');
+            if (!isColorBtn) {
+                node = node && node.parentNode;
+            }
+            i = i + 1;
+        }
+        return node;
+    };
+
+    //根据当前要素向上找指定样式的父元素，最多找10层
+    getScrollWrap = e => {
+        let i = 0;
+        let node = e.target;
+        let isScrollEle = false;
+        while (i < 10 && !isScrollEle) {
+            isScrollEle = node.scrollTop || node.scrollLeft;
+            if (!isScrollEle) {
+                node = node.parentNode;
+            }
+            i = i + 1;
+        }
+        return node;
+    };
+
     render() {
         //有icon参数，background才有效
         const { size, icon } = this.props;
-        const { color, visible, background } = this.state;
+        const { color, visible, background, top, left } = this.state;
         const currentColor = this.objectToString(color);
         const currentBackground = this.objectToString(background);
         return (
@@ -82,9 +132,11 @@ class AdColorInput extends React.Component {
                 </div>
                 {/* 调色板 */}
                 {visible && (
-                    <div onClick={this.stopPropagation}>
+                    <div
+                        onClick={this.stopPropagation}
+                        className="color-palette"
+                        style={{ top, left }}>
                         <SketchPicker
-                            className="color-palette"
                             color={currentColor}
                             onChange={this.handleChange}
                         />
