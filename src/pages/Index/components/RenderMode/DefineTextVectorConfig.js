@@ -6,7 +6,7 @@ import LayerTextVectorConfig from 'src/pages/Index/components/RenderMode/LayerTe
 class DefineTextVectorConfig extends React.Component {
     render() {
         return (
-            <div>
+            <div className="config-wrap">
                 {Object.values(LAYER_TEXT_MAP).map(item => {
                     const { key } = item;
                     return <LayerTextVectorConfig key={key} config={item} />;
