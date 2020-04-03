@@ -18,7 +18,7 @@
         "build-no-shp": "webpack --env.mode=production --env.noshp"
     },
     "dependencies": {
-        "addis-viz-sdk": "^0.1.16-alpha.1",
+        "addis-viz-sdk": "^0.1.17-alpha.1",
         "antd": "^3.26.13",
         "axios": "^0.18.0",
         "dragm": "0.0.5",

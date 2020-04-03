@@ -7,7 +7,7 @@ export const LAYER_TEXT_MAP = {
         showMode: 'line-repeat',
         fontSize: 32,
         textKey: 'TYPE',
-        borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
+        strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
         textColor: { r: 255, g: 255, b: 255, a: 1.0 },
         defaultIntervalMap: {
@@ -68,7 +68,7 @@ export const LAYER_TEXT_MAP = {
         showMode: 'line-repeat',
         fontSize: 32,
         textKey: 'TYPE', //看数据规格
-        borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
+        strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
         textColor: { r: 255, g: 255, b: 255, a: 1.0 },
         defaultIntervalMap: {
@@ -133,7 +133,7 @@ export const LAYER_TEXT_MAP = {
         showMode: 'line-repeat',
         fontSize: 32,
         textKey: 'TYPE', //看数据规格
-        borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
+        strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
         textColor: { r: 255, g: 255, b: 255, a: 1.0 },
         defaultIntervalMap: {
@@ -206,7 +206,7 @@ export const LAYER_TEXT_MAP = {
         showMode: 'top',
         fontSize: 32,
         textKey: 'TYPE', //看数据规格
-        borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
+        strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
         textColor: { r: 255, g: 255, b: 255, a: 1.0 },
         defaultOffsetMap: {
@@ -244,14 +244,14 @@ export const LAYER_TEXT_MAP = {
         showMode: 'longest-center',
         fontSize: 32,
         textKey: 'ARR_DIRECT', //看数据规格
-        borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
+        strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
         textColor: { r: 255, g: 255, b: 255, a: 1.0 },
         defaultIntervalMap: {
             'line-repeat': 10
         },
         textModeMap: {
-            'polyon-center': { key: 'polyon-center', label: '面中心' },
+            'polygon-center': { key: 'polygon-center', label: '面中心' },
             'longest-center': { key: 'longest-center', label: '最长边中心' },
             'line-repeat': {
                 key: 'line-repeat',
@@ -282,7 +282,7 @@ export const LAYER_TEXT_MAP = {
         showMode: 'line-center',
         fontSize: 32,
         textKey: 'TYPE', //看数据规格
-        borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
+        strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
         textColor: { r: 255, g: 255, b: 255, a: 1.0 },
         defaultIntervalMap: {
@@ -312,17 +312,17 @@ export const LAYER_TEXT_MAP = {
         label: '面状标识物',
         checked: false,
         interval: 10,
-        showMode: 'polyon-center',
+        showMode: 'polygon-center',
         fontSize: 32,
         textKey: 'TYPE', //看数据规格
-        borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
+        strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
         textColor: { r: 255, g: 255, b: 255, a: 1.0 },
         defaultIntervalMap: {
             'line-repeat': 10
         },
         textModeMap: {
-            'polyon-center': { key: 'polyon-center', label: '面中心' },
+            'polygon-center': { key: 'polygon-center', label: '面中心' },
             'longest-center': { key: 'longest-center', label: '最长边中心' },
             'line-repeat': {
                 key: 'line-repeat',
@@ -349,14 +349,14 @@ export const LAYER_TEXT_MAP = {
         showMode: 'longest-center',
         fontSize: 32,
         textKey: 'TYPE', //看数据规格
-        borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
+        strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
         textColor: { r: 255, g: 255, b: 255, a: 1.0 },
         defaultIntervalMap: {
             'line-repeat': 10
         },
         textModeMap: {
-            'polyon-center': { key: 'polyon-center', label: '面中心' },
+            'polygon-center': { key: 'polygon-center', label: '面中心' },
             'longest-center': { key: 'longest-center', label: '最长边中心' },
             'line-repeat': {
                 key: 'line-repeat',
@@ -388,17 +388,17 @@ export const LAYER_TEXT_MAP = {
         label: '交通标志牌',
         checked: false,
         interval: 10,
-        showMode: 'polyon-center',
+        showMode: 'polygon-center',
         fontSize: 32,
         textKey: 'SIGN_STYLE', //看数据规格
-        borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
+        strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
         textColor: { r: 255, g: 255, b: 255, a: 1.0 },
         defaultIntervalMap: {
             'line-repeat': 10
         },
         textModeMap: {
-            'polyon-center': { key: 'polyon-center', label: '面中心' },
+            'polygon-center': { key: 'polygon-center', label: '面中心' },
             'longest-center': { key: 'longest-center', label: '最长边中心' },
             'line-repeat': {
                 key: 'line-repeat',
@@ -422,17 +422,17 @@ export const LAYER_TEXT_MAP = {
         label: '交通信号灯',
         checked: false,
         interval: 10,
-        showMode: 'polyon-center',
+        showMode: 'polygon-center',
         fontSize: 32,
         textKey: 'TYPE', //看数据规格
-        borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
+        strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
         textColor: { r: 255, g: 255, b: 255, a: 1.0 },
         defaultIntervalMap: {
             'line-repeat': 10
         },
         textModeMap: {
-            'polyon-center': { key: 'polyon-center', label: '面中心' },
+            'polygon-center': { key: 'polygon-center', label: '面中心' },
             'longest-center': { key: 'longest-center', label: '最长边中心' },
             'line-repeat': {
                 key: 'line-repeat',
@@ -467,7 +467,7 @@ export const LAYER_TEXT_MAP = {
         showMode: 'line-center',
         fontSize: 32,
         textKey: 'POLE_ID', //看数据规格
-        borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
+        strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
         textColor: { r: 255, g: 255, b: 255, a: 1.0 },
         defaultIntervalMap: {
@@ -504,7 +504,7 @@ export const LAYER_TEXT_MAP = {
         showMode: 'line-repeat',
         fontSize: 32,
         textKey: 'TYPE', //看数据规格
-        borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
+        strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
         textColor: { r: 255, g: 255, b: 255, a: 1.0 },
         defaultIntervalMap: {
