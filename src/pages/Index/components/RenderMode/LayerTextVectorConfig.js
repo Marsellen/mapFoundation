@@ -68,7 +68,7 @@ class LayerTextVectorConfig extends React.Component {
             showMode,
             fontSize,
             textKey,
-            borderColor,
+            strokeColor,
             backgroundColor,
             textColor,
             defaultIntervalMap,
@@ -118,10 +118,10 @@ class LayerTextVectorConfig extends React.Component {
                         <AdColorInput
                             size={14}
                             icon="miaobian"
-                            color={borderColor}
+                            color={strokeColor}
                             background={{ r: 255, g: 255, b: 255, a: 1 }}
                             onChange={val =>
-                                this.handleChange('borderColor', val)
+                                this.handleChange('strokeColor', val)
                             }
                         />
                     </div>
