@@ -4,6 +4,8 @@ import HalfWhiteVectorsConfig from 'src/config/HalfWhiteVectorsConfig';
 
 configure({ enforceActions: 'always' });
 class DefineModeStore {
+    config;
+    boundaryConfig;
     @observable vectorTextConfig = {};
     @observable visible = false;
     @observable updateKey;
@@ -20,20 +22,29 @@ class DefineModeStore {
         );
 
         //在当前任务和周边底图配置对象中加入文字注记配置
-        const config = this.setConfig(initConfig);
-        const boundaryConfig = this.setConfig(initBoundaryConfig);
+        this.config = this.setConfig(initConfig);
+        this.boundaryConfig = this.setConfig(initBoundaryConfig);
 
         //重置当前任务高精数据图层样式
-        if (window.vectorLayerGroup) {
-            window.vectorLayerGroup.resetStyleConfig(config);
-        }
+        this.resetVectorStyle();
+
         //重置周边底图高精数据图层样式
-        if (window.boundaryLayerGroup) {
-            window.boundaryLayerGroup.resetStyleConfig(boundaryConfig);
-        }
+        this.resetBoundaryStyle();
 
         return this.updateKey;
     }
+
+    //重置当前任务高精数据图层样式
+    resetVectorStyle = () => {
+        if (!window.vectorLayerGroup) return;
+        window.vectorLayerGroup.resetStyleConfig(this.config);
+    };
+
+    //重置周边底图高精数据图层样式
+    resetBoundaryStyle = () => {
+        if (!window.boundaryLayerGroup) return;
+        window.boundaryLayerGroup.resetStyleConfig(this.boundaryConfig);
+    };
 
     setConfig = vectorsConfig => {
         this.checkedList.forEach(textConfigItem => {
