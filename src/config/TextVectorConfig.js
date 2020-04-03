@@ -5,7 +5,7 @@ export const LAYER_TEXT_MAP = {
         checked: false,
         interval: 10,
         showMode: 'line-repeat',
-        fontSize: 28,
+        fontSize: 32,
         textKey: 'TYPE',
         borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
@@ -66,7 +66,7 @@ export const LAYER_TEXT_MAP = {
         checked: false,
         interval: 10,
         showMode: 'line-repeat',
-        fontSize: 28,
+        fontSize: 32,
         textKey: 'TYPE', //看数据规格
         borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
@@ -131,7 +131,7 @@ export const LAYER_TEXT_MAP = {
         checked: false,
         interval: 10,
         showMode: 'line-repeat',
-        fontSize: 28,
+        fontSize: 32,
         textKey: 'TYPE', //看数据规格
         borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
@@ -204,16 +204,16 @@ export const LAYER_TEXT_MAP = {
         checked: false,
         offset: 10,
         showMode: 'top',
-        fontSize: 28,
+        fontSize: 32,
         textKey: 'TYPE', //看数据规格
         borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
         textColor: { r: 255, g: 255, b: 255, a: 1.0 },
         defaultOffsetMap: {
-            top: 10,
-            right: 10,
-            bottom: 10,
-            left: 10
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 20
         },
         textModeMap: {
             top: { key: 'top', label: '上方', offset: true },
@@ -242,7 +242,7 @@ export const LAYER_TEXT_MAP = {
         checked: false,
         interval: 10,
         showMode: 'longest-center',
-        fontSize: 28,
+        fontSize: 32,
         textKey: 'ARR_DIRECT', //看数据规格
         borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
@@ -280,7 +280,7 @@ export const LAYER_TEXT_MAP = {
         checked: false,
         interval: 10,
         showMode: 'line-center',
-        fontSize: 28,
+        fontSize: 32,
         textKey: 'TYPE', //看数据规格
         borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
@@ -313,7 +313,7 @@ export const LAYER_TEXT_MAP = {
         checked: false,
         interval: 10,
         showMode: 'polyon-center',
-        fontSize: 28,
+        fontSize: 32,
         textKey: 'TYPE', //看数据规格
         borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
@@ -347,7 +347,7 @@ export const LAYER_TEXT_MAP = {
         checked: false,
         interval: 10,
         showMode: 'longest-center',
-        fontSize: 28,
+        fontSize: 32,
         textKey: 'TYPE', //看数据规格
         borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
@@ -389,7 +389,7 @@ export const LAYER_TEXT_MAP = {
         checked: false,
         interval: 10,
         showMode: 'polyon-center',
-        fontSize: 28,
+        fontSize: 32,
         textKey: 'SIGN_STYLE', //看数据规格
         borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
@@ -423,7 +423,7 @@ export const LAYER_TEXT_MAP = {
         checked: false,
         interval: 10,
         showMode: 'polyon-center',
-        fontSize: 28,
+        fontSize: 32,
         textKey: 'TYPE', //看数据规格
         borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
@@ -465,7 +465,7 @@ export const LAYER_TEXT_MAP = {
         checked: false,
         interval: 10,
         showMode: 'line-center',
-        fontSize: 28,
+        fontSize: 32,
         textKey: 'POLE_ID', //看数据规格
         borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
@@ -502,7 +502,7 @@ export const LAYER_TEXT_MAP = {
         checked: false,
         interval: 10,
         showMode: 'line-repeat',
-        fontSize: 28,
+        fontSize: 32,
         textKey: 'TYPE', //看数据规格
         borderColor: { r: 0, g: 0, b: 0, a: 1.0 },
         backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
