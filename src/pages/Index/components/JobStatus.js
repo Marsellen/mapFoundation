@@ -111,21 +111,19 @@ class JobStatus extends React.Component {
             return;
         }
 
-        const { tasks } = TaskStore;
-        if (tasks && tasks.length > 0) {
-            if (oldTasks.length == tasks.length) {
-                message.warning('暂无新任务', 3);
-                return;
-            } else {
-                message.success('成功获取任务', 3);
-            }
-        } else if (tasks.length == 0 && oldTasks.length == 0) {
-            message.warning('暂无新任务', 3);
-            return;
-        }
         if (oldTasks.length > 0) {
             this.clearWorkSpace();
         }
+
+        const { tasks } = TaskStore;
+        if (!tasks) return;
+        if (oldTasks.length == tasks.length) {
+            message.warning('暂无新任务', 3);
+            return;
+        } else {
+            message.success('成功获取任务', 3);
+        }
+
     };
 
     // 提交
