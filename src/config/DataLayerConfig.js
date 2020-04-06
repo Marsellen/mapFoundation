@@ -8,7 +8,13 @@ export const DATA_LAYER_MAP = {
             manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
         },
         drawTools: { recognition: ['POLYGON'], manbuild: ['POLYGON'] },
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
+        rightTools: [
+            'setEditLayer',
+            'delete',
+            'insertPoints',
+            'changePoints',
+            'deletePoints'
+        ],
         groupRightTools: ['batchAssign'],
         editName: '地面导向\n箭头'
     },
@@ -21,7 +27,7 @@ export const DATA_LAYER_MAP = {
             manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
         },
         drawTools: { recognition: ['POINT'], manbuild: ['POINT'] },
-        rightTools: ['delete', 'movePointFeature'],
+        rightTools: ['setEditLayer', 'delete', 'movePointFeature'],
         groupRightTools: ['batchAssign'],
         editName: '车道属性\n变化点'
     },
@@ -35,6 +41,7 @@ export const DATA_LAYER_MAP = {
         },
         drawTools: { recognition: ['LINE'], manbuild: ['LINE'] },
         rightTools: [
+            'setEditLayer',
             'delete',
             'copyLine',
             'insertPoints',
@@ -68,7 +75,13 @@ export const DATA_LAYER_MAP = {
             recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
             manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
         },
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
+        rightTools: [
+            'setEditLayer',
+            'delete',
+            'insertPoints',
+            'changePoints',
+            'deletePoints'
+        ],
         groupRightTools: ['batchAssign'],
         editName: '面状标识物'
     },
@@ -84,7 +97,13 @@ export const DATA_LAYER_MAP = {
             recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],
             manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON']
         },
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
+        rightTools: [
+            'setEditLayer',
+            'delete',
+            'insertPoints',
+            'changePoints',
+            'deletePoints'
+        ],
         groupRightTools: ['batchAssign'],
         editName: '地面文字\n符号'
     },
@@ -100,7 +119,13 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE'],
             manbuild: ['LINE']
         },
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
+        rightTools: [
+            'setEditLayer',
+            'delete',
+            'insertPoints',
+            'changePoints',
+            'deletePoints'
+        ],
         groupRightTools: ['batchAssign'],
         editName: '停止位置'
     },
@@ -128,6 +153,7 @@ export const DATA_LAYER_MAP = {
             'ASSIGN_LINE_NO_IN_BATCH'
         ],
         rightTools: [
+            'setEditLayer',
             'delete',
             'copyLine',
             'insertPoints',
@@ -167,7 +193,13 @@ export const DATA_LAYER_MAP = {
                 'ADD_CIRCLE'
             ]
         },
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
+        rightTools: [
+            'setEditLayer',
+            'delete',
+            'insertPoints',
+            'changePoints',
+            'deletePoints'
+        ],
         groupRightTools: ['batchAssign'],
         editName: '交通标志牌'
     },
@@ -192,6 +224,7 @@ export const DATA_LAYER_MAP = {
         },
         batchTools: ['LINE_FEATURES_SNAP_TO_STOP_LINE'],
         rightTools: [
+            'setEditLayer',
             'delete',
             'copyLine',
             'insertPoints',
@@ -229,7 +262,13 @@ export const DATA_LAYER_MAP = {
                 'ADD_FACADE_RECTANGLE'
             ]
         },
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
+        rightTools: [
+            'setEditLayer',
+            'delete',
+            'insertPoints',
+            'changePoints',
+            'deletePoints'
+        ],
         groupRightTools: ['batchAssign'],
         editName: '交通信号灯'
     },
@@ -245,7 +284,13 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE'],
             manbuild: ['LINE']
         },
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
+        rightTools: [
+            'setEditLayer',
+            'delete',
+            'insertPoints',
+            'changePoints',
+            'deletePoints'
+        ],
         groupRightTools: ['batchAssign'],
         editName: '杆状物'
     },
@@ -278,6 +323,7 @@ export const DATA_LAYER_MAP = {
             manbuild: ['LINE']
         },
         rightTools: [
+            'setEditLayer',
             'delete',
             'insertPoints',
             'changePoints',
