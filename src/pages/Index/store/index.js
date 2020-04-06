@@ -16,6 +16,7 @@ import QualityCheckStore from './QualityCheckStore';
 import VectorsStore from './VectorsStore';
 import RenderModeStore from './RenderModeStore';
 import DefineModeStore from './DefineModeStore';
+import FeedbackStore from './FeedbackStore';
 
 export default {
     MenuStore,
@@ -35,5 +36,6 @@ export default {
     QualityCheckStore,
     VectorsStore,
     RenderModeStore,
-    DefineModeStore
+    DefineModeStore,
+    FeedbackStore
 };

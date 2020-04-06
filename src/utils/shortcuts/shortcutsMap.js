@@ -251,5 +251,13 @@ export const shortcutMap = [
         shift: false,
         keyCode: 78,
         describe: '拉线齐打断线要素 N'
+    },
+    {
+        id: 'set-edit-layer-btn',
+        ctrl: true,
+        alt: true,
+        shift: false,
+        keyCode: 90,
+        describe: '设置可编辑图层 Ctrl+Alt+Z'
     }
 ];

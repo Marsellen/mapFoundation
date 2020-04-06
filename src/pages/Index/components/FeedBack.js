@@ -5,31 +5,76 @@ import { Modal, Descriptions, Button } from 'antd';
 import 'src/assets/less/components/hotkey.less';
 import ToolIcon from 'src/components/ToolIcon';
 
+const taskType = [
+    {
+        name: 'imp_recognition',
+        type: 'MS',
+        isLocal: false,
+    },
+    {
+        name: 'imp_check_after_recognition',
+        type: 'MS_QC',
+        isLocal: false,
+    },
+    {
+        name: 'imp_manbuild',
+        type: 'MB',
+        isLocal: false,
+    },
+    {
+        name: 'imp_check_after_manbuild',
+        type: 'MB_QC',
+        isLocal: false,
+    },
+    {
+        name: 'imp_recognition',
+        type: 'MSD',
+        isLocal: true,
+    },
+    {
+        name: 'imp_manbuild',
+        type: 'MBD',
+        isLocal: true,
+    },
+];
+
 @inject('TaskStore')
 @inject('appStore')
+@inject('OperateHistoryStore')
+@inject('FeedbackStore')
 @observer
 class FeedBack extends React.Component {
     constructor() {
         super();
         this.state = {
-            visible: false
+            visible: false,
+            flag: 1,
         };
     }
 
     render() {
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
+        const { visible } = this.state;
+
         return (
-            <div className='feedback'>
-                <span onClick={this.toggle}><ToolIcon icon='wentifankui' className='feedback' />问题反馈</span>
+            <div className="feedback">
+                <span onClick={this.toggle}>
+                    <ToolIcon icon="wentifankui" className="feedback" />
+                    问题反馈
+                </span>
                 <Modal
-                    footer={this.renderFooter()}
+                    footer={activeTaskId ? this.renderFooter() : null}
                     title={<span className="modal-title">问题数据反馈</span>}
-                    visible={this.state.visible}
+                    visible={visible}
                     maskClosable={false}
+                    centered
                     onCancel={this.handleCancel}
-                    width={780}
-                >
+                    width={340}>
                     {this.feedBackList()}
                 </Modal>
+                {this._successModal()}
+                {this._failModal()}
             </div>
         );
     }
@@ -40,29 +85,51 @@ class FeedBack extends React.Component {
         const { loginUser } = appStore;
 
         try {
-            let task = validTasks.filter(item => {
-                return item.taskId === activeTaskId
-            })
+            let task = validTasks.filter((item) => {
+                return item.taskId === activeTaskId;
+            });
 
             return (
-                <div>
-                    <div>说明：会将当前任务内的所有矢量数据打包反馈</div>
-                    <Descriptions title="环境基本信息" layout="vertical">
-                        <Descriptions.Item label="环境地址">{task[0].Input_imp_data_path}</Descriptions.Item>
-                        <Descriptions.Item label="编辑平台版本">{CONFIG.version}</Descriptions.Item>
+                <div className="feedback-content">
+                    <div className="feedback-eg">
+                        注：会将当前任务内的所有矢量数据打包反馈
+                    </div>
+                    <Descriptions
+                        className="path-content"
+                        title={
+                            <span className="feedback-title">环境基本信息</span>
+                        }>
+                        <Descriptions.Item>
+                            环境地址: {task[0].Input_imp_data_path}
+                            <br />
+                            编辑平台版本: {CONFIG.version}
+                            <br />
+                        </Descriptions.Item>
                     </Descriptions>
-                    <Descriptions title="任务基本信息" layout="vertical">
-                        <Descriptions.Item label="工程编号">{task[0].projectId}</Descriptions.Item>
-                        <Descriptions.Item label="任务编号">{task[0].taskId}</Descriptions.Item>
-                        <Descriptions.Item label="工作人员">{loginUser.name} {loginUser.roleName}</Descriptions.Item>
-                        <Descriptions.Item label="任务类型&amp;状态">{task[0].nodeDesc}-{task[0].manualStatusDesc}</Descriptions.Item>
+                    <Descriptions
+                        bordered
+                        className="task-content"
+                        title={
+                            <span className="feedback-title">任务基本信息</span>
+                        }
+                        size="small">
+                        <Descriptions.Item label="工程编号" span={3}>
+                            {task[0].projectId}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="工作人员" span={3}>
+                            {loginUser.name} {loginUser.roleName}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="任务编号" span={3}>
+                            {task[0].taskId}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="任务类型&amp;状态" span={3}>
+                            {task[0].nodeDesc}-{task[0].manualStatusDesc}
+                        </Descriptions.Item>
                     </Descriptions>
-                </div >
-            )
+                </div>
+            );
         } catch (e) {
-            return (
-                <div>请打开一个任务</div>
-            )
+            return <div>请打开一个任务</div>;
         }
     };
 
@@ -72,24 +139,121 @@ class FeedBack extends React.Component {
                 <Button type="primary" onClick={this.handleCancel}>
                     取消
                 </Button>
-                <Button type="primary" >
+                <Button type="primary" onClick={this.setFeedback}>
                     反馈
                 </Button>
             </div>
         );
     };
 
+    _failModal = () => {
+        const { visible, flag } = this.state;
+        //反馈失败
+        return (
+            <Modal
+                className="fail-modal"
+                visible={!visible && flag === 3}
+                title="反馈失败！"
+                width={234}
+                centered
+                onCancel={this.closeModal}
+                footer={
+                    <Button type="primary" onClick={this.closeModal}>
+                        确定
+                    </Button>
+                }>
+                <p>问题数据反馈失败，</p>
+                <p>请再次提交反馈申请。</p>
+            </Modal>
+        );
+    };
+
+    _successModal = () => {
+        const { visible, flag } = this.state;
+        //反馈成功
+        return (
+            <Modal
+                className="success-modal"
+                visible={!visible && flag === 2}
+                title="已成功反馈！"
+                width={400}
+                centered
+                onCancel={this.closeModal}
+                footer={
+                    <Button type="primary" onClick={this.closeModal}>
+                        确定
+                    </Button>
+                }>
+                <p>反馈时间：</p>
+                <p>数据唯一编码：</p>
+                <p>相关信息请同步记录到编辑平台问题表中。</p>
+            </Modal>
+        );
+    };
+
+    closeModal = () => {
+        this.setState({
+            flag: 1,
+        });
+    };
+
+    setFeedback = async () => {
+        const {
+            TaskStore,
+            OperateHistoryStore,
+            FeedbackStore,
+            appStore,
+        } = this.props;
+        const { loginUser } = appStore;
+        const { activeTask } = TaskStore;
+        const newTaskType = taskType.filter((item) => {
+            return activeTask.processName === item.name;
+        });
+        const Index = newTaskType.findIndex((item) => {
+            if (activeTask.isLocal) {
+                return item.isLocal === true;
+            } else {
+                return item.isLocal === false;
+            }
+        });
+        try {
+            let params = {
+                taskId: activeTask.taskId,
+                taskType: newTaskType[Index].type,
+                taskStatus: activeTask.manualStatusDesc,
+                enviromentAddress: activeTask.Input_imp_data_path,
+                edition: CONFIG.version,
+                projectId: activeTask.projectId,
+                operator: loginUser.username,
+            };
+            // console.log('params', params);
+
+            await TaskStore.submit();
+            await TaskStore.writeEditLog();
+            OperateHistoryStore.save();
+            await FeedbackStore.feedback(params);
+            this.setState({
+                visible: false,
+                flag: 2,
+            });
+        } catch (e) {
+            this.setState({
+                visible: false,
+                flag: 3,
+            });
+        }
+    };
 
     toggle = () => {
         this.setState({
-            visible: true
+            visible: true,
         });
     };
 
     handleCancel = () => {
         this.setState({
-            visible: false
+            visible: false,
         });
     };
 }
-export default FeedBack
+export default FeedBack;
