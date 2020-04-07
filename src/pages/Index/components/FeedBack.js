@@ -182,7 +182,7 @@ class FeedBack extends React.Component {
             let params = {
                 taskId: activeTask.taskId,
                 taskType: newTaskType[Index].type,
-                taskStatus: activeTask.manualStatusDesc,
+                taskStatus: activeTask.manualStatusDesc || '进行中',
                 enviromentAddress: activeTask.Input_imp_data_path,
                 edition: CONFIG.version,
                 projectId: activeTask.projectId,
