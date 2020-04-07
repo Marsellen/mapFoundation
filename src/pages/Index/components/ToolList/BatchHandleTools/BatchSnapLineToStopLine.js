@@ -154,7 +154,6 @@ class BatchSnapLineToStopLine extends React.Component {
             this.removeEventListener();
             DataLayerStore.exitEdit();
         }
-        DataLayerStore.fetchTargetLayers();
     };
 
     action = () => {

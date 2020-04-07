@@ -554,6 +554,9 @@ class DataLayerStore {
             case 'read_coordinate':
                 this.removeReadCoordinateLinstener();
                 break;
+            case 'line_snap_stop':
+                this.fetchTargetLayers();
+                break;
             default:
                 break;
         }
