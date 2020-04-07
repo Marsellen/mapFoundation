@@ -154,6 +154,7 @@ class FeedBack extends React.Component {
                     <p>相关信息请同步记录到编辑平台问题表中。</p>
                 </div>
             ),
+            okText: '确定',
         });
     };
 
@@ -181,7 +182,7 @@ class FeedBack extends React.Component {
             let params = {
                 taskId: activeTask.taskId,
                 taskType: newTaskType[Index].type,
-                taskStatus: activeTask.manualStatusDesc,
+                taskStatus: activeTask.manualStatusDesc || '进行中',
                 enviromentAddress: activeTask.Input_imp_data_path,
                 edition: CONFIG.version,
                 projectId: activeTask.projectId,
@@ -207,6 +208,7 @@ class FeedBack extends React.Component {
                         <p>请再次提交反馈申请。</p>
                     </div>
                 ),
+                okText: '确定',
             });
             this.setState({
                 visible: false,
