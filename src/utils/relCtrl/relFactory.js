@@ -224,24 +224,16 @@ const updateRelUniqCheck = (rels, feature) => {
             return total;
         }, {});
         if ((L_LDIV || R_LDIV) && L_LDIV === R_LDIV) {
-            throw {
-                message: '左侧车道线和右侧车道线不能相同'
-            };
+            throw new Error('左侧车道线和右侧车道线不能相同');
         }
         if (uniqArrayCheck(FROM_LANE)) {
-            throw {
-                message: '进入车道不能重复'
-            };
+            throw new Error('进入车道不能重复');
         }
         if (uniqArrayCheck(TO_LANE)) {
-            throw {
-                message: '退出车道不能重复'
-            };
+            throw new Error('退出车道不能重复');
         }
         if (uniqArrayCheck(FROM_LANE.concat(TO_LANE))) {
-            throw {
-                message: '进入车道和退出车道不能相同'
-            };
+            throw new Error('进入车道和退出车道不能相同');
         }
     } else if (feature.layerName === 'AD_Road') {
         let { FROM_ROAD = [], TO_ROAD = [] } = Object.keys(rels).reduce(
@@ -256,19 +248,13 @@ const updateRelUniqCheck = (rels, feature) => {
             {}
         );
         if (uniqArrayCheck(FROM_ROAD)) {
-            throw {
-                message: '进入车道不能重复'
-            };
+            throw new Error('进入车道不能重复');
         }
         if (uniqArrayCheck(TO_ROAD)) {
-            throw {
-                message: '退出车道不能重复'
-            };
+            throw new Error('退出车道不能重复');
         }
         if (uniqArrayCheck(FROM_ROAD.concat(TO_ROAD))) {
-            throw {
-                message: '进入车道和退出车道不能相同'
-            };
+            throw new Error('进入车道和退出车道不能相同');
         }
     }
 };

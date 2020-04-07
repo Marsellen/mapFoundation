@@ -25,7 +25,11 @@ class ResourceLoader extends React.Component {
     render() {
         return (
             <span>
-                <ToolIcon icon="ziliaojiazai" title="资料加载" action={this.action} />
+                <ToolIcon
+                    icon="ziliaojiazai"
+                    title="资料加载"
+                    action={this.action}
+                />
                 {this.renderModal()}
             </span>
         );
@@ -164,34 +168,16 @@ class ResourceLoader extends React.Component {
             }
             try {
                 if (!/^\d+$/.test(values.taskId)) {
-                    throw {
-                        message: '资料目录不符合规范'
-                    };
+                    throw new Error('资料目录不符合规范');
                 }
                 TaskStore.loadLocalTask(values);
                 this.setState({
                     visible: false
                 });
-                this.clearWorkSpace();
             } catch (e) {
                 message.error(e.message);
             }
         });
-    };
-
-    clearWorkSpace = () => {
-        const {
-            TaskStore,
-            OperateHistoryStore,
-            DataLayerStore,
-            ToolCtrlStore
-        } = this.props;
-        const { tasks } = TaskStore;
-        OperateHistoryStore.destroy();
-        if (tasks && tasks.length > 1) {
-            DataLayerStore.activeEditor();
-            ToolCtrlStore.updateByEditLayer();
-        }
     };
 
     handleCancel = () => {

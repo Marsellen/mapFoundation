@@ -34,8 +34,19 @@ class Relevance {
                         }
                     );
                 }
+                if (event.oldVersion < 3) {
+                    let objectStore = request.transaction.objectStore('rels');
+                    objectStore.deleteIndex('REL_KEYS');
+                    objectStore.createIndex(
+                        'REL_KEYS',
+                        ['objType', 'objId', 'relObjType', 'relObjId'],
+                        {
+                            unique: false
+                        }
+                    );
+                }
             },
-            2
+            3
         );
 
         this.store.clear();

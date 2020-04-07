@@ -78,7 +78,7 @@ class TaskStore {
     }
 
     // 任务列表
-    initTask = flow(function*(option) {
+    initTask = flow(function* (option) {
         try {
             const result = yield JobService.listTask(option);
 
@@ -163,7 +163,7 @@ class TaskStore {
         return params[taskType];
     };
 
-    fetchTask = flow(function*() {
+    fetchTask = flow(function* () {
         const { taskFetchId, manualStatus } = this.activeTask;
         const status = [2, 4, 5]; //已领取-1、进行中-2、返修-4、返工-5
 
@@ -177,7 +177,7 @@ class TaskStore {
     });
 
     // 提交任务
-    initSubmit = flow(function*(result) {
+    initSubmit = flow(function* (result) {
         let { taskId, processName: process_name } = this.activeTask;
         let payload = {
             instance_name: 'task_person_edit',
@@ -189,7 +189,7 @@ class TaskStore {
     });
 
     // 更新任务状态
-    updateTaskStatus = flow(function*(option) {
+    updateTaskStatus = flow(function* (option) {
         try {
             yield JobService.updateTask(option);
             this.initTask({ type: 4 });
@@ -205,7 +205,7 @@ class TaskStore {
         return taskBoundaryIsUpdate || this.activeTask.isLocal;
     };
 
-    getTaskBoundaryFile = flow(function*() {
+    getTaskBoundaryFile = flow(function* () {
         if (!window.map) return;
         const boundaryUrl = completeBoundaryUrl(
             CONFIG.urlConfig.boundaryAdsAll,
@@ -229,7 +229,7 @@ class TaskStore {
         return layerGroup;
     });
 
-    updateTaskBoundaryFile = flow(function*(option) {
+    updateTaskBoundaryFile = flow(function* (option) {
         try {
             yield TaskService.updateTaskBoundaryFile(option);
             AdLocalStorage.setTaskInfosStorage({
@@ -295,7 +295,7 @@ class TaskStore {
         }
     };
 
-    submit = flow(function*() {
+    submit = flow(function* () {
         try {
             let vectorData = getAllVectorData(true);
             let relData = yield getAllRelData(true);
@@ -333,7 +333,7 @@ class TaskStore {
         }
     });
 
-    exportShp = flow(function*() {
+    exportShp = flow(function* () {
         try {
             let url = getExportShpUrl(this.activeTask);
             yield TaskService.exportShp({
@@ -346,7 +346,7 @@ class TaskStore {
         }
     });
 
-    writeEditLog = flow(function*() {
+    writeEditLog = flow(function* () {
         try {
             let log = yield editLog.store.getAll();
             let snapshot = yield getAllDataSnapshot(true);
@@ -374,9 +374,7 @@ class TaskStore {
 
     @action loadLocalTask = task => {
         if (this.tasks.map(t => t.taskId).includes(task.taskId)) {
-            throw {
-                message: '资料目录重复'
-            };
+            throw new Error('资料目录重复');
         }
         this.activeTask = {
             ...task,

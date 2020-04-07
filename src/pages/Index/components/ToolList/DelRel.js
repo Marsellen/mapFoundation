@@ -92,6 +92,11 @@ class DelRel extends React.Component {
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'delRel') return;
+        let mainFeature = AttributeStore.getModel();
+        let layerId = mainFeature && mainFeature.layerId;
+        let editLayer = DataLayerStore.getEditLayer();
+        let editLayerId = editLayer && editLayer.layerId;
+        if (layerId !== editLayerId) return;
         let { relFeatures } = AttributeStore;
         DataLayerStore.selectFormFeatrues(relFeatures);
         DataLayerStore.delRel();

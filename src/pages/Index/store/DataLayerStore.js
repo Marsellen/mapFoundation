@@ -30,7 +30,8 @@ class DataLayerStore {
     initEditor = layers => {
         this.editor = new EditControl();
         window.map && window.map.getControlManager().addControl(this.editor);
-        layers && this.editor.setTargetLayers(layers);
+        this.targetLayers = layers || [];
+        this.fetchTargetLayers();
         this.editor.setConfig && this.editor.setConfig(EditorConfig);
         this.editor.setAdsorbThreshold && this.editor.setAdsorbThreshold(0.05);
         this.editor.setEditBoundary &&
@@ -38,7 +39,12 @@ class DataLayerStore {
     };
 
     addTargetLayers = layers => {
-        this.editor.setTargetLayers([...this.editor.targetLayers, ...layers]);
+        this.targetLayers = (this.targetLayers || []).concat(layers);
+        this.fetchTargetLayers();
+    };
+
+    fetchTargetLayers = () => {
+        this.editor.setTargetLayers(this.targetLayers);
     };
 
     initMeasureControl = () => {
@@ -338,6 +344,8 @@ class DataLayerStore {
             this.setEditType('line_snap_stop');
         } else if (step === 1) {
             this.editor.selectFeature(1);
+            let layer = getLayerExByName('AD_StopLocation');
+            this.editor.setTargetLayers([layer]);
         }
     };
 
@@ -417,7 +425,7 @@ class DataLayerStore {
         this.editor.newFixedPolygon(3);
     };
 
-    updateResult = flow(function*(result) {
+    updateResult = flow(function* (result) {
         try {
             if (this.editType != 'new_circle') {
                 return result;
