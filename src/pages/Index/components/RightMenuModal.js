@@ -6,7 +6,7 @@ import {
     deleteLine,
     breakLine,
     mergeLine,
-    breakLineByLine
+    breakLineByLine,
 } from 'src/utils/relCtrl/operateCtrl';
 import { getLayerByName } from 'src/utils/vectorUtils';
 import AdMessage from 'src/components/AdMessage';
@@ -17,9 +17,10 @@ import {
     getLayerIDKey,
     isRegionContainsElement,
     modUpdStatGeometry,
-    layerUpdateFeatures
+    layerUpdateFeatures,
 } from 'src/utils/vectorUtils';
 import { isManbuildTask } from 'src/utils/taskUtils';
+import 'src/assets/less/components/right-menu-modal.less';
 
 const EDIT_TYPE = [
     'delPoint',
@@ -29,42 +30,42 @@ const EDIT_TYPE = [
     'insertPoints',
     'select_point',
     'reverseOrderLine',
-    'create_break_line'
+    'create_break_line',
 ];
 
 const CHINESE_EDIT_TYPE = [
     {
         type: 'delPoint',
-        value: '删除形状点'
+        value: '删除形状点',
     },
     {
         type: 'movePointFeature',
-        value: '左键选择新点位，点击右键实现平移'
+        value: '左键选择新点位，点击右键实现平移',
     },
     {
         type: 'copyLine',
-        value: '复制线要素'
+        value: '复制线要素',
     },
     {
         type: 'changePoints',
-        value: '修改形状点'
+        value: '修改形状点',
     },
     {
         type: 'insertPoints',
-        value: '新增形状点'
+        value: '新增形状点',
     },
     {
         type: 'select_point',
-        value: '在线上选择一个打断点，右键执行打断'
+        value: '在线上选择一个打断点，右键执行打断',
     },
     {
         type: 'reverseOrderLine',
-        value: '点击进行线要素逆序'
+        value: '点击进行线要素逆序',
     },
     {
         type: 'create_break_line',
-        value: '两点绘制一条打断线，右键执行打断'
-    }
+        value: '两点绘制一条打断线，右键执行打断',
+    },
 ];
 
 @inject('RenderModeStore')
@@ -75,6 +76,8 @@ const CHINESE_EDIT_TYPE = [
 @inject('AttributeStore')
 @inject('TaskStore')
 @inject('BatchAssignStore')
+@inject('ToolCtrlStore')
+@inject('appStore')
 @observer
 class RightMenuModal extends React.Component {
     componentDidMount() {
@@ -84,7 +87,7 @@ class RightMenuModal extends React.Component {
     render() {
         const {
             RightMenuStore: { visible, menus, zIndex },
-            DataLayerStore: { editType }
+            DataLayerStore: { editType },
         } = this.props;
         if (!visible) {
             let messageVisible = EDIT_TYPE.includes(editType);
@@ -105,13 +108,13 @@ class RightMenuModal extends React.Component {
                     style={{
                         position: 'absolute',
                         paddingBottom: 0,
-                        ...this.getPosition()
+                        ...this.getPosition(),
                     }}
-                    width={100}
+                    width={136}
                     bodyStyle={{ padding: 0, fontSize: 12 }}
                     onCancel={this.handleCancel}>
                     <Menu className="menu">
-                        {this.getMenus().map(menu => {
+                        {this.getMenus().map((menu) => {
                             if (menus) {
                                 return menus.includes(menu.key) && menu;
                             } else {
@@ -128,6 +131,14 @@ class RightMenuModal extends React.Component {
 
     getMenus = () => {
         const menuArr = [
+            <Menu.Item
+                id="set-edit-layer-btn"
+                key="setEditLayer"
+                onClick={this.setEditLayerFeature}
+                style={{ marginTop: 0, marginBottom: 0 }}>
+                <span>设置可编辑图层</span>
+                <span className="cut-line" />
+            </Menu.Item>,
             <Menu.Item
                 id="delete-btn"
                 key="delete"
@@ -197,7 +208,7 @@ class RightMenuModal extends React.Component {
                 onClick={this.breakByLine}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
                 <span>拉线齐打断</span>
-            </Menu.Item>
+            </Menu.Item>,
         ];
 
         // 俯视图模式下，显示复制功能
@@ -227,9 +238,9 @@ class RightMenuModal extends React.Component {
 
     content = () => {
         const {
-            DataLayerStore: { editType }
+            DataLayerStore: { editType },
         } = this.props;
-        let config = CHINESE_EDIT_TYPE.find(item => item.type == editType);
+        let config = CHINESE_EDIT_TYPE.find((item) => item.type == editType);
         const text = config ? config.value : '';
         return <div>{text}</div>;
     };
@@ -250,7 +261,7 @@ class RightMenuModal extends React.Component {
         return { top: y, left: x };
     };
 
-    handleCancel = e => {
+    handleCancel = (e) => {
         const { RightMenuStore, DataLayerStore } = this.props;
         RightMenuStore.hide();
         //关闭右键菜单时，取消选择
@@ -267,14 +278,14 @@ class RightMenuModal extends React.Component {
         DataLayerStore.setBreakByLineCallback(this.breakByLineCallback);
     };
 
-    breakCallBack = result => {
+    breakCallBack = (result) => {
         const {
             DataLayerStore,
             RightMenuStore,
             OperateHistoryStore,
             AttributeStore,
             TaskStore,
-            RenderModeStore
+            RenderModeStore,
         } = this.props;
 
         if (result.errorCode) {
@@ -300,12 +311,12 @@ class RightMenuModal extends React.Component {
                     );
                     let history = {
                         type: 'updateFeatureRels',
-                        data: historyLog
+                        data: historyLog,
                     };
                     let log = {
                         operateHistory: history,
                         action: 'breakLine',
-                        result: 'success'
+                        result: 'success',
                     };
                     OperateHistoryStore.add(history);
                     editLog.store.add(log);
@@ -316,13 +327,13 @@ class RightMenuModal extends React.Component {
                     message.warning('打断失败：' + e.message, 3);
                     let history = {
                         features,
-                        breakNode: result[0]
+                        breakNode: result[0],
                     };
                     let log = {
                         operateHistory: history,
                         action: 'breakLine',
                         result: 'fail',
-                        failReason: e.message
+                        failReason: e.message,
                     };
                     editLog.store.add(log);
                 }
@@ -332,25 +343,20 @@ class RightMenuModal extends React.Component {
             onCancel() {
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
-            }
+            },
         });
     };
 
-    copyLineCallback = async result => {
+    copyLineCallback = async (result) => {
         const {
             DataLayerStore,
             RightMenuStore,
             NewFeatureStore,
             OperateHistoryStore,
             AttributeStore,
-            TaskStore
+            TaskStore,
         } = this.props;
         // console.log(result);
-
-        if (!RightMenuStore.isCurrentLayer) {
-            message.warning('只能选取当前编辑图层要素！', 3);
-            return false;
-        }
 
         let data;
         try {
@@ -376,19 +382,19 @@ class RightMenuModal extends React.Component {
             );
             data.data.properties = {
                 ...data.data.properties,
-                ...feature.data.properties
+                ...feature.data.properties,
             };
             // 更新id到sdk
             DataLayerStore.updateFeature(data);
             let history = {
                 type: 'addFeature',
                 feature: data.data,
-                layerName: data.layerName
+                layerName: data.layerName,
             };
             let log = {
                 operateHistory: history,
                 action: 'copyLine',
-                result: 'success'
+                result: 'success',
             };
             OperateHistoryStore.add(history);
             editLog.store.add(log);
@@ -404,12 +410,12 @@ class RightMenuModal extends React.Component {
         AttributeStore.hideRelFeatures();
     };
 
-    movePointFeatureCallback = result => {
+    movePointFeatureCallback = (result) => {
         const {
             DataLayerStore,
             OperateHistoryStore,
             RightMenuStore,
-            TaskStore
+            TaskStore,
         } = this.props;
         if (result.errorCode) {
             DataLayerStore.exitEdit();
@@ -431,13 +437,13 @@ class RightMenuModal extends React.Component {
                     let history = {
                         type: 'updateFeatureRels',
                         data: {
-                            features: [[oldFeature], [result]]
-                        }
+                            features: [[oldFeature], [result]],
+                        },
                     };
                     let log = {
                         operateHistory: history,
                         action: 'movePointFeature',
-                        result: 'success'
+                        result: 'success',
                     };
                     OperateHistoryStore.add(history);
                     editLog.store.add(log);
@@ -452,11 +458,11 @@ class RightMenuModal extends React.Component {
                 // 恢复要素
                 DataLayerStore.updateFeature(oldFeature);
                 DataLayerStore.exitEdit();
-            }
+            },
         });
     };
 
-    regionCheck = data => {
+    regionCheck = (data) => {
         const { DataLayerStore, TaskStore } = this.props;
         let isLocal = TaskStore.activeTask.isLocal;
         if (isLocal) return;
@@ -471,6 +477,23 @@ class RightMenuModal extends React.Component {
         }
     };
 
+    setEditLayerFeature = () => {
+        //设置可编辑图层交互
+        const {
+            RightMenuStore,
+            DataLayerStore,
+            AttributeStore,
+            ToolCtrlStore,
+            appStore,
+        } = this.props;
+        const { features } = RightMenuStore;
+        let userInfo = appStore.loginUser;
+        let layer = DataLayerStore.activeEditor(features[0].layerName);
+        ToolCtrlStore.updateByEditLayer(layer, userInfo);
+        AttributeStore.hide();
+        AttributeStore.hideRelFeatures();
+    };
+
     deleteFeature = () => {
         const {
             RightMenuStore,
@@ -478,13 +501,8 @@ class RightMenuModal extends React.Component {
             DataLayerStore,
             AttributeStore,
             TaskStore,
-            RenderModeStore
+            RenderModeStore,
         } = this.props;
-
-        if (!RightMenuStore.isCurrentLayer) {
-            message.warning('只能选取当前编辑图层要素！', 3);
-            return false;
-        }
 
         Modal.confirm({
             title: '您确认删除该要素？',
@@ -502,12 +520,12 @@ class RightMenuModal extends React.Component {
 
                 let history = {
                     type: 'updateFeatureRels',
-                    data: historyLog
+                    data: historyLog,
                 };
                 let log = {
                     operateHistory: history,
                     action: 'deleteFeature',
-                    result: 'success'
+                    result: 'success',
                 };
                 OperateHistoryStore.add(history);
                 editLog.store.add(log);
@@ -517,7 +535,7 @@ class RightMenuModal extends React.Component {
             onCancel() {
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
-            }
+            },
         });
         RightMenuStore.hide();
     };
@@ -535,22 +553,12 @@ class RightMenuModal extends React.Component {
     insertPoints = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
 
-        if (!RightMenuStore.isCurrentLayer) {
-            message.warning('只能选取当前编辑图层要素！', 3);
-            return false;
-        }
-
         DataLayerStore.insertPoints();
         RightMenuStore.hide();
     };
 
     changePoints = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
-
-        if (!RightMenuStore.isCurrentLayer) {
-            message.warning('只能选取当前编辑图层要素！', 3);
-            return false;
-        }
 
         DataLayerStore.changePoints();
         RightMenuStore.hide();
@@ -559,21 +567,12 @@ class RightMenuModal extends React.Component {
     deletePoints = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
 
-        if (!RightMenuStore.isCurrentLayer) {
-            message.warning('只能选取当前编辑图层要素！', 3);
-            return false;
-        }
-
         DataLayerStore.deletePoints();
         RightMenuStore.hide();
     };
 
     movePointFeature = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
-        if (!RightMenuStore.isCurrentLayer) {
-            message.warning('只能选取当前编辑图层要素！', 3);
-            return false;
-        }
 
         DataLayerStore.movePointFeature();
         RightMenuStore.hide();
@@ -581,11 +580,6 @@ class RightMenuModal extends React.Component {
 
     breakLine = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
-
-        if (!RightMenuStore.isCurrentLayer) {
-            message.warning('只能选取当前编辑图层要素！', 3);
-            return false;
-        }
 
         DataLayerStore.selectPointFromHighlight();
         RightMenuStore.hide();
@@ -597,13 +591,9 @@ class RightMenuModal extends React.Component {
             DataLayerStore,
             AttributeStore,
             OperateHistoryStore,
-            RenderModeStore
+            RenderModeStore,
         } = this.props;
 
-        if (!RightMenuStore.isCurrentLayer) {
-            message.warning('只能选取当前编辑图层要素！', 3);
-            return false;
-        }
         Modal.confirm({
             title: '您确认执行线要素逆序操作？',
             okText: '确定',
@@ -614,7 +604,7 @@ class RightMenuModal extends React.Component {
 
                 try {
                     let oldFeatures = _.cloneDeep(features);
-                    let newFeatures = features.map(item => {
+                    let newFeatures = features.map((item) => {
                         item.data.geometry.coordinates.reverse();
                         return item;
                     });
@@ -625,16 +615,16 @@ class RightMenuModal extends React.Component {
                     DataLayerStore.exitEdit();
                     AttributeStore.hideRelFeatures();
                     let historyLog = {
-                        features: [oldFeatures, newFeatures]
+                        features: [oldFeatures, newFeatures],
                     };
                     let history = {
                         type: 'updateFeatureRels',
-                        data: historyLog
+                        data: historyLog,
                     };
                     let log = {
                         operateHistory: history,
                         action: 'reverseOrderLine',
-                        result: 'success'
+                        result: 'success',
                     };
                     OperateHistoryStore.add(history);
                     editLog.store.add(log);
@@ -647,7 +637,7 @@ class RightMenuModal extends React.Component {
                         operateHistory: history,
                         action: 'reverseOrderLine',
                         result: 'fail',
-                        failReason: e.message
+                        failReason: e.message,
                     };
                     editLog.store.add(log);
                 }
@@ -655,7 +645,7 @@ class RightMenuModal extends React.Component {
             onCancel() {
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
-            }
+            },
         });
 
         RightMenuStore.hide();
@@ -668,13 +658,8 @@ class RightMenuModal extends React.Component {
             OperateHistoryStore,
             AttributeStore,
             TaskStore,
-            RenderModeStore
+            RenderModeStore,
         } = this.props;
-
-        if (!RightMenuStore.isCurrentLayer) {
-            message.warning('只能选取当前编辑图层要素！', 3);
-            return false;
-        }
 
         let { activeTask } = TaskStore;
         Modal.confirm({
@@ -688,12 +673,12 @@ class RightMenuModal extends React.Component {
                     let historyLog = await mergeLine(features, activeTask);
                     let history = {
                         type: 'updateFeatureRels',
-                        data: historyLog
+                        data: historyLog,
                     };
                     let log = {
                         operateHistory: history,
                         action: 'mergeLine',
-                        result: 'success'
+                        result: 'success',
                     };
                     OperateHistoryStore.add(history);
                     editLog.store.add(log);
@@ -707,7 +692,7 @@ class RightMenuModal extends React.Component {
                         operateHistory: history,
                         action: 'mergeLine',
                         result: 'fail',
-                        failReason: e.message
+                        failReason: e.message,
                     };
                     editLog.store.add(log);
                 }
@@ -717,18 +702,13 @@ class RightMenuModal extends React.Component {
             onCancel() {
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
-            }
+            },
         });
         RightMenuStore.hide();
     };
 
     batchAssign = () => {
         const { RightMenuStore, BatchAssignStore } = this.props;
-
-        if (!RightMenuStore.isCurrentLayer) {
-            message.warning('只能选取当前编辑图层要素！', 3);
-            return false;
-        }
 
         let features = RightMenuStore.getFeatures();
         BatchAssignStore.show(features);
@@ -738,23 +718,18 @@ class RightMenuModal extends React.Component {
     breakByLine = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
 
-        if (!RightMenuStore.isCurrentLayer) {
-            message.warning('只能选取当前编辑图层要素！', 3);
-            return false;
-        }
-
         DataLayerStore.createBreakLine();
         RightMenuStore.hide();
     };
 
-    breakByLineCallback = result => {
+    breakByLineCallback = (result) => {
         const {
             DataLayerStore,
             RightMenuStore,
             OperateHistoryStore,
             AttributeStore,
             TaskStore,
-            RenderModeStore
+            RenderModeStore,
         } = this.props;
 
         if (result.errorCode) {
@@ -778,12 +753,12 @@ class RightMenuModal extends React.Component {
                     );
                     let history = {
                         type: 'updateFeatureRels',
-                        data: historyLog
+                        data: historyLog,
                     };
                     let log = {
                         operateHistory: history,
                         action: 'breakLineByLine',
-                        result: 'success'
+                        result: 'success',
                     };
                     OperateHistoryStore.add(history);
                     editLog.store.add(log);
@@ -794,13 +769,13 @@ class RightMenuModal extends React.Component {
                     message.warning('拉线齐打断失败：' + e.message, 3);
                     let history = {
                         features,
-                        breakLine: result
+                        breakLine: result,
                     };
                     let log = {
                         operateHistory: history,
                         action: 'breakLineByLine',
                         result: 'fail',
-                        failReason: e.message
+                        failReason: e.message,
                     };
                     editLog.store.add(log);
                 }
@@ -810,7 +785,7 @@ class RightMenuModal extends React.Component {
             onCancel() {
                 DataLayerStore.exitEdit();
                 AttributeStore.hideRelFeatures();
-            }
+            },
         });
     };
 }

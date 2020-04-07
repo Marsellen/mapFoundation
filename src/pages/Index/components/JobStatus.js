@@ -74,8 +74,7 @@ class JobStatus extends React.Component {
                     title="当前任务是否通过质检？"
                     visible={qualityVisible}
                     footer={this.renderFooter()}
-                    onCancel={this.closeQualityComfirm}
-                ></Modal>
+                    onCancel={this.closeQualityComfirm}></Modal>
             </div>
         );
     }
@@ -112,18 +111,19 @@ class JobStatus extends React.Component {
             return;
         }
 
-        const { tasks } = TaskStore;
-        if (tasks && tasks.length > 0) {
-            if (oldTasks.length == tasks.length) {
-                message.warning('暂无新任务', 3);
-                return;
-            } else {
-                message.success('成功获取任务', 3);
-            }
-        }
         if (oldTasks.length > 0) {
             this.clearWorkSpace();
         }
+
+        const { tasks } = TaskStore;
+        if (!tasks) return;
+        if (oldTasks.length == tasks.length) {
+            message.warning('暂无新任务', 3);
+            return;
+        } else {
+            message.success('成功获取任务', 3);
+        }
+
     };
 
     // 提交
@@ -267,13 +267,8 @@ class JobStatus extends React.Component {
             closeCheckReport();
             clearCheckReport();
 
-            if (option.manualStatus === 4 || option.manualStatus === 5) {
-                // 更新任务列表
-                await TaskStore.initTask({ type: 4 });
-            } else {
-                // 获取新任务，更新任务列表
-                await TaskStore.initTask({ type: 3 });
-            }
+            // 获取新任务，更新任务列表
+            await TaskStore.initTask({ type: 3 });
 
             // 更新任务列表后，清除浏览器缓存中多余任务信息
             AdLocalStorage.filterTaskInfosStorage(TaskStore.taskIdList);
@@ -321,24 +316,21 @@ class JobStatus extends React.Component {
                     onClick={() => {
                         this.submitJob(this.passOption);
                         this.closeQualityComfirm();
-                    }}
-                >
+                    }}>
                     质检通过
                 </Button>
                 <Button
                     onClick={() => {
                         this.submitJob(this.repairOption);
                         this.closeQualityComfirm();
-                    }}
-                >
+                    }}>
                     任务返修
                 </Button>
                 <Button
                     onClick={() => {
                         this.submitJob(this.remadeOption);
                         this.closeQualityComfirm();
-                    }}
-                >
+                    }}>
                     任务返工
                 </Button>
             </div>

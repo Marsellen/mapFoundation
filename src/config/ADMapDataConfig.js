@@ -916,7 +916,7 @@ export const DEFAULT_PROPERTIES_MAP = {
     AD_TrafficLight: {
         TYPE: 1,
         LAYOUT: 1,
-        LAMP_COUNT: 0
+        LAMP_COUNT: 3
     },
     AD_LaneDivider: {
         TYPE: 1,
@@ -995,11 +995,11 @@ export const DEFAULT_PROPERTIES_MAP = {
         CONT_TYPE: 0,
         TIMEDOM: '',
         CONT_VALUE: 0,
-        SIGN_NO: 0
+        SIGN_NO: 1
     },
     AD_Sub_Lamp: {
         LAMP_TYPE: 'A',
-        LAMP_NO: 0
+        LAMP_NO: 1
     }
 };
 

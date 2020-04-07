@@ -622,21 +622,17 @@ class VizComponent extends React.Component {
 
         //右键，加载“右键菜单”，显示出来
         if (event.button === 2) {
-            if (isCurrentLayer) {
-                AttributeStore.hide();
-                RightMenuStore.show(
-                    features,
-                    {
-                        x: event.x,
-                        y: event.y,
-                        layerName
-                    },
-                    'auto',
-                    isCurrentLayer
-                );
-            } else {
-                message.warning('只能选取当前编辑图层要素！', 3);
-            }
+            AttributeStore.hide();
+            RightMenuStore.show(
+                features,
+                {
+                    x: event.x,
+                    y: event.y,
+                    layerName
+                },
+                'auto',
+                isCurrentLayer
+            );
         }
     };
 

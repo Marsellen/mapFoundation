@@ -14,20 +14,20 @@ class EditLayer extends React.Component {
         super(props);
         this.state = {
             clicked: false,
-            layerPicker: ''
+            layerPicker: '',
         };
     }
 
     hide = () => {
         this.setState({
-            clicked: false
+            clicked: false,
         });
     };
 
-    handleClickChange = visible => {
+    handleClickChange = (visible) => {
         if (this.disEditable()) return;
         this.setState({
-            clicked: visible
+            clicked: visible,
         });
     };
 
@@ -37,7 +37,6 @@ class EditLayer extends React.Component {
         const { getEditLayer, updateKey } = DataLayerStore;
         //获取当前编辑图层，若无编辑图层则返回false
         const editLayer = getEditLayer();
-
         return (
             <span className={`bianjituceng ${editLayer ? 'active' : ''}`}>
                 <ToolIcon
@@ -50,21 +49,22 @@ class EditLayer extends React.Component {
                         visible: clicked,
                         onVisibleChange: this.handleClickChange,
                         content: this._renderContent(),
-                        trigger: 'click'
+                        trigger: 'click',
                     }}
                 />
                 {editLayer && (
                     <div className="value-color" key={updateKey}>
-                        {layerPicker}
+                        {DATA_LAYER_MAP[editLayer && editLayer.layerName]
+                            .editName || layerPicker}
                     </div>
                 )}
             </span>
         );
     }
 
-    _renderValue = layerPicker => {
+    _renderValue = (layerPicker) => {
         this.setState({
-            layerPicker
+            layerPicker,
         });
     };
 
@@ -90,17 +90,15 @@ class EditLayerPicker extends React.Component {
     render() {
         let { DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
-
         return (
             <Radio.Group
                 onChange={this.onChange}
                 value={editLayer ? editLayer.layerName : false}
-                style={{ width: '100%' }}
-            >
+                style={{ width: '100%' }}>
                 <List
                     key={DataLayerStore.updateKey}
                     dataSource={this.topViewLayerDisabled()}
-                    renderItem={item => (
+                    renderItem={(item) => (
                         <div>
                             <Radio value={item.value} disabled={item.disabled}>
                                 {this.getLabel(item)}
@@ -122,7 +120,7 @@ class EditLayerPicker extends React.Component {
 
         if (isTopView) {
             layers
-                .filter(item => {
+                .filter((item) => {
                     return (
                         item.value == 'AD_TrafficLight' ||
                         item.value == 'AD_TrafficSign' ||
@@ -130,14 +128,14 @@ class EditLayerPicker extends React.Component {
                         item.value == 'AD_RS_Barrier'
                     );
                 })
-                .forEach(item => {
+                .forEach((item) => {
                     item.disabled = true;
                 });
         }
         return layers;
     };
 
-    getLabel = item => {
+    getLabel = (item) => {
         if (!item.value) {
             return item.label;
         }
@@ -146,12 +144,12 @@ class EditLayerPicker extends React.Component {
             : item.value;
     };
 
-    onChange = e => {
+    onChange = (e) => {
         const {
             DataLayerStore,
             ToolCtrlStore,
             AttributeStore,
-            appStore
+            appStore,
         } = this.props;
         const layerPicker = DATA_LAYER_MAP[e.target.value]
             ? DATA_LAYER_MAP[e.target.value].editName
