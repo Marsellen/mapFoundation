@@ -32,6 +32,12 @@ class NewUTurnLine extends React.Component {
             if (event.button !== 2) return false;
             this.handleData(result);
         });
+        DataLayerStore.setNewUturnExitEvent(() => {
+            this.setState({
+                visibleModal: false,
+                num: 8.0
+            });
+        });
     }
     render() {
         const reg = new RegExp(
@@ -123,12 +129,6 @@ class NewUTurnLine extends React.Component {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_Uturn_line') return;
         DataLayerStore.newUTurnLine();
-        DataLayerStore.registerEscEvent(() => {
-            this.setState({
-                visibleModal: false,
-                num: 8.0
-            });
-        });
         AttributeStore.hideRelFeatures();
     };
 

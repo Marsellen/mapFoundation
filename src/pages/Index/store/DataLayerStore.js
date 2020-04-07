@@ -546,13 +546,15 @@ class DataLayerStore {
 
     //启用编辑控件时禁用测距和拾取控件
     disableOtherCtrl = () => {
-        this.triggerEscEvent();
         switch (this.editType) {
             case 'meature_distance':
                 this.measureControl.clear();
                 break;
             case 'read_coordinate':
                 this.removeReadCoordinateLinstener();
+                break;
+            case 'new_Uturn_line':
+                this.newUturnExitEvent();
                 break;
             case 'line_snap_stop':
                 this.fetchTargetLayers();
@@ -661,13 +663,8 @@ class DataLayerStore {
         this.editor.disableRegionSelect();
     };
 
-    registerEscEvent = event => {
-        this.escEvent = event;
-    };
-
-    triggerEscEvent = () => {
-        this.escEvent && this.escEvent();
-        this.escEvent = null;
+    setNewUturnExitEvent = event => {
+        this.newUturnExitEvent = event;
     };
 
     toggleLocatePicture = () => {
