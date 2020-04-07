@@ -174,26 +174,10 @@ class ResourceLoader extends React.Component {
                 this.setState({
                     visible: false
                 });
-                this.clearWorkSpace();
             } catch (e) {
                 message.error(e.message);
             }
         });
-    };
-
-    clearWorkSpace = () => {
-        const {
-            TaskStore,
-            OperateHistoryStore,
-            DataLayerStore,
-            ToolCtrlStore
-        } = this.props;
-        const { tasks } = TaskStore;
-        OperateHistoryStore.destroy();
-        if (tasks && tasks.length > 1) {
-            DataLayerStore.activeEditor();
-            ToolCtrlStore.updateByEditLayer();
-        }
     };
 
     handleCancel = () => {

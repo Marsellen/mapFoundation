@@ -53,6 +53,7 @@ import AdEmitter from 'src/models/event';
 @inject('BatchAssignStore')
 @inject('PointCloudStore')
 @inject('VectorsStore')
+@inject('ToolCtrlStore')
 @observer
 class VizComponent extends React.Component {
     constructor(props) {
@@ -78,7 +79,7 @@ class VizComponent extends React.Component {
         const div = document.getElementById('viz');
         await this.release();
         window.map = new Map(div);
-        this.initTask(task);
+        await this.initTask(task);
     };
 
     release = async () => {
@@ -89,6 +90,8 @@ class VizComponent extends React.Component {
             RelStore,
             AttrStore
         } = this.props;
+        await this.clearWorkSpace();
+
         window.map && window.map.release();
         ResourceLayerStore.release();
         VectorsStore.release();
@@ -100,6 +103,29 @@ class VizComponent extends React.Component {
 
         await RelStore.destroy();
         await AttrStore.destroy();
+    };
+
+    clearWorkSpace = async () => {
+        const {
+            OperateHistoryStore,
+            DataLayerStore,
+            ToolCtrlStore,
+            AttributeStore,
+            PictureShowStore
+        } = this.props;
+        await OperateHistoryStore.destroy();
+        await editLog.store.clear();
+        window.map && DataLayerStore.activeEditor();
+        DataLayerStore.topViewMode(false);
+        ToolCtrlStore.updateByEditLayer();
+        AttributeStore.hide();
+        PictureShowStore.hide();
+        PictureShowStore.destory();
+
+        //切换任务 关闭所有弹框
+        document.querySelectorAll('.ant-modal-close').forEach(element => {
+            element.click();
+        });
     };
 
     addShortcut = event => {
@@ -170,11 +196,15 @@ class VizComponent extends React.Component {
         } catch (e) {
             console.log(e);
             hide();
-            Modal.error({
-                title: '资料加载失败，请确认输入正确路径。',
-                okText: '确定'
-            });
             const { TaskStore } = this.props;
+            const { activeTaskId } = TaskStore;
+            // 任务列表快速切换时旧任务加载过程会报错
+            if (activeTaskId === task.taskId) {
+                Modal.error({
+                    title: '资料加载失败，请确认输入正确路径。',
+                    okText: '确定'
+                });
+            }
             TaskStore.tasksPop();
         }
 
@@ -285,8 +315,8 @@ class VizComponent extends React.Component {
     initBoundary = async boundary => {
         if (!boundary) return;
         try {
-            await loadBoundaryEx(boundary);
-            return await loadBoundary(boundary);
+            await this.loadBoundaryEx(boundary);
+            return await this.loadBoundary(boundary);
         } catch (e) {
             console.log(e);
             message.warning('作业边界数据加载失败：' + e.message, 3);
@@ -324,13 +354,13 @@ class VizComponent extends React.Component {
         const { TaskStore } = this.props;
 
         //禁用浏览器默认右键菜单
-        document.oncontextmenu = function(e) {
+        document.oncontextmenu = function (e) {
             e.preventDefault();
             // return false;
         };
 
         //监听浏览器即将离开当前页面事件
-        window.onbeforeunload = function(e) {
+        window.onbeforeunload = function (e) {
             //保存当前任务比例
             const { activeTaskId } = TaskStore;
             const preTaskScale = map.getEyeView();
