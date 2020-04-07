@@ -18,7 +18,7 @@ class RightMenuStore {
         this.features = features;
         this.cloneFeatures = JSON.parse(JSON.stringify(this.features));
         this.option = option;
-        option.layerName && this.fetchMenus();
+        (option.layerName || features.length > 0) && this.fetchMenus();
     };
 
     @action hide = () => {
@@ -27,7 +27,9 @@ class RightMenuStore {
 
     @action fetchMenus = () => {
         if (this.features.length == 1) {
-            this.menus = DATA_LAYER_MAP[this.option.layerName].rightTools;
+            this.menus = this.option.layerName
+                ? DATA_LAYER_MAP[this.option.layerName].rightTools
+                : DATA_LAYER_MAP[this.features[0].layerName].rightTools;
         } else {
             this.menus = DATA_LAYER_MAP[this.option.layerName].groupRightTools;
         }

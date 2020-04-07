@@ -4,7 +4,7 @@ import {
     PointCloudLayer,
     LayerGroup,
     TraceLayer,
-    VectorLayer
+    VectorLayer,
 } from 'addis-viz-sdk';
 import { Modal, message } from 'antd';
 import { inject, observer } from 'mobx-react';
@@ -17,7 +17,7 @@ import {
     RESOURCE_LAYER_VECTOR,
     RESOURCE_LAYER_TRACE,
     RESOURCE_LAYER_TASK_SCOPE,
-    RESOURCE_LAYER_BOUNDARY
+    RESOURCE_LAYER_BOUNDARY,
 } from 'src/config/DataLayerConfig';
 import MultimediaView from './MultimediaView';
 import VectorsConfig from '../../../config/VectorsConfig';
@@ -27,7 +27,7 @@ import 'less/components/viz-compnent.less';
 import BatchAssignModal from './BatchAssignModal';
 import {
     isRegionContainsElement,
-    modUpdStatGeometry
+    modUpdStatGeometry,
 } from 'src/utils/vectorUtils';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { shortcut } from 'src/utils/shortcuts';
@@ -87,7 +87,7 @@ class VizComponent extends React.Component {
             VectorsStore,
             DataLayerStore,
             RelStore,
-            AttrStore
+            AttrStore,
         } = this.props;
         window.map && window.map.release();
         ResourceLayerStore.release();
@@ -102,7 +102,7 @@ class VizComponent extends React.Component {
         await AttrStore.destroy();
     };
 
-    addShortcut = event => {
+    addShortcut = (event) => {
         const { ResourceLayerStore, VectorsStore } = this.props;
         const callbackShortcutMap = [
             {
@@ -119,7 +119,7 @@ class VizComponent extends React.Component {
                         true
                     );
                 },
-                describe: '开关点云图层 1'
+                describe: '开关点云图层 1',
             },
             {
                 ctrl: false,
@@ -136,23 +136,23 @@ class VizComponent extends React.Component {
                     );
                     VectorsStore.toggleAll(true, RESOURCE_LAYER_VECTOR, true);
                 },
-                describe: '开关轨迹图层 2'
-            }
+                describe: '开关轨迹图层 2',
+            },
         ];
 
         shortcut.add(event, callbackShortcutMap);
     };
 
-    handleKeyDown = event => {
+    handleKeyDown = (event) => {
         this.addShortcut(event);
     };
 
-    initTask = async task => {
+    initTask = async (task) => {
         console.time('taskLoad');
         const hide = message.loading('正在加载任务数据...', 0);
         await Promise.all([
             this.initEditResource(task),
-            this.initExResource(task)
+            this.initExResource(task),
         ])
             .then(() => {
                 hide();
@@ -165,12 +165,12 @@ class VizComponent extends React.Component {
                     AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
                 taskScale && map.setEyeView(taskScale);
             })
-            .catch(e => {
+            .catch((e) => {
                 console.log(e);
                 hide();
                 Modal.error({
                     title: '资料加载失败，请确认输入正确路径。',
-                    okText: '确定'
+                    okText: '确定',
                 });
                 const { TaskStore } = this.props;
                 TaskStore.tasksPop();
@@ -178,26 +178,26 @@ class VizComponent extends React.Component {
         console.timeEnd('taskLoad');
     };
 
-    initEditResource = async task => {
+    initEditResource = async (task) => {
         let resources = await Promise.all([
             this.initPointCloud(task.point_clouds),
             this.initVectors(task.vectors),
             this.initTracks(task.tracks),
             this.initRegion(task.region),
-            this.initBoundary(task.boundary)
+            this.initBoundary(task.boundary),
         ]);
         this.initResouceLayer(resources);
         this.installListener();
     };
 
-    initExResource = async task => {
+    initExResource = async (task) => {
         await Promise.all([
             this.installRel(task.rels),
-            this.installAttr(task.attrs)
+            this.installAttr(task.attrs),
         ]);
     };
 
-    initPointCloud = pointClouds => {
+    initPointCloud = (pointClouds) => {
         if (!pointClouds) {
             return;
         }
@@ -207,7 +207,7 @@ class VizComponent extends React.Component {
             map.getLayerManager().addLayer(
                 'PointCloudLayer',
                 pointCloudLayer,
-                result => {
+                (result) => {
                     if (!result || result.code === 404) {
                         reject(result);
                     } else {
@@ -218,7 +218,7 @@ class VizComponent extends React.Component {
                         window.pointCloudLayer = pointCloudLayer;
                         resolve({
                             layerName: RESOURCE_LAYER_POINT_CLOUD,
-                            layer: pointCloudLayer
+                            layer: pointCloudLayer,
                         });
                     }
                 }
@@ -226,24 +226,24 @@ class VizComponent extends React.Component {
         });
     };
 
-    initVectors = async vectors => {
+    initVectors = async (vectors) => {
         if (!vectors) {
             return;
         }
         const { VectorsStore } = this.props;
         window.vectorLayerGroup = new LayerGroup(vectors, {
-            styleConifg: VectorsConfig
+            styleConifg: VectorsConfig,
         });
         await map.getLayerManager().addLayerGroup(vectorLayerGroup);
         VectorsStore.addLayer(vectorLayerGroup);
 
         return {
             layerName: RESOURCE_LAYER_VECTOR,
-            layer: vectorLayerGroup
+            layer: vectorLayerGroup,
         };
     };
 
-    initTracks = async tracks => {
+    initTracks = async (tracks) => {
         if (!tracks || tracks.length == 0) {
             return;
         }
@@ -251,11 +251,11 @@ class VizComponent extends React.Component {
         await map.getLayerManager().addLayer('TraceLayer', traceLayer);
         return {
             layerName: RESOURCE_LAYER_TRACE,
-            layer: traceLayer
+            layer: traceLayer,
         };
     };
 
-    initRegion = async regionUrl => {
+    initRegion = async (regionUrl) => {
         if (!regionUrl) return;
         try {
             const { DataLayerStore, TaskStore } = this.props;
@@ -271,7 +271,7 @@ class VizComponent extends React.Component {
 
             return {
                 layerName: RESOURCE_LAYER_TASK_SCOPE,
-                layer: vectorLayer
+                layer: vectorLayer,
             };
         } catch (e) {
             console.log(e);
@@ -279,7 +279,7 @@ class VizComponent extends React.Component {
         }
     };
 
-    initBoundary = async boundary => {
+    initBoundary = async (boundary) => {
         if (!boundary) return;
         try {
             await loadBoundaryEx(boundary);
@@ -290,9 +290,9 @@ class VizComponent extends React.Component {
         }
     };
 
-    loadBoundary = async boundary => {
+    loadBoundary = async (boundary) => {
         window.boundaryLayerGroup = new LayerGroup(boundary.adsAll, {
-            styleConifg: OutsideVectorsConfig
+            styleConifg: OutsideVectorsConfig,
         });
         await map.getLayerManager().addLayerGroup(boundaryLayerGroup);
 
@@ -301,19 +301,19 @@ class VizComponent extends React.Component {
 
         return {
             layerName: RESOURCE_LAYER_BOUNDARY,
-            layer: boundaryLayerGroup
+            layer: boundaryLayerGroup,
         };
     };
 
-    loadBoundaryEx = async boundary => {
+    loadBoundaryEx = async (boundary) => {
         const { RelStore, AttrStore } = this.props;
         await RelStore.addRecords(boundary.rels, 'boundary');
         await AttrStore.addRecords(boundary.attrs, 'boundary');
     };
 
-    initResouceLayer = layers => {
+    initResouceLayer = (layers) => {
         const { ResourceLayerStore } = this.props;
-        layers = layers.filter(layer => !!layer);
+        layers = layers.filter((layer) => !!layer);
         ResourceLayerStore.addLayers(layers);
     };
 
@@ -321,13 +321,13 @@ class VizComponent extends React.Component {
         const { TaskStore } = this.props;
 
         //禁用浏览器默认右键菜单
-        document.oncontextmenu = function(e) {
+        document.oncontextmenu = function (e) {
             e.preventDefault();
             // return false;
         };
 
         //监听浏览器即将离开当前页面事件
-        window.onbeforeunload = function(e) {
+        window.onbeforeunload = function (e) {
             //保存当前任务比例
             const { activeTaskId } = TaskStore;
             const preTaskScale = map.getEyeView();
@@ -336,7 +336,7 @@ class VizComponent extends React.Component {
             if (!(x === 0 && y === 0 && z === 0)) {
                 AdLocalStorage.setTaskInfosStorage({
                     taskId: activeTaskId,
-                    taskScale: preTaskScale
+                    taskScale: preTaskScale,
                 });
             }
 
@@ -358,7 +358,7 @@ class VizComponent extends React.Component {
             { layer: pointCloudLayer },
             ...vectorLayerGroup.layers,
             { layer: traceLayer },
-            ...boundaryLayers
+            ...boundaryLayers,
         ]);
         DataLayerStore.initMeasureControl();
         DataLayerStore.setSelectedCallBack(this.selectedCallBack);
@@ -374,7 +374,7 @@ class VizComponent extends React.Component {
             AttributeStore,
             DataLayerStore,
             BatchAssignStore,
-            RenderModeStore
+            RenderModeStore,
         } = this.props;
         const { activeMode, cancelSelect } = RenderModeStore;
         // console.log(result, event);
@@ -414,12 +414,12 @@ class VizComponent extends React.Component {
         BatchAssignStore.hide();
     };
 
-    createdCallBack = async result => {
+    createdCallBack = async (result) => {
         const {
             DataLayerStore,
             NewFeatureStore,
             OperateHistoryStore,
-            TaskStore
+            TaskStore,
         } = this.props;
         //console.log(result);
 
@@ -446,12 +446,12 @@ class VizComponent extends React.Component {
             let history = {
                 type: 'addFeature',
                 feature: data.data,
-                layerName: data.layerName
+                layerName: data.layerName,
             };
             let log = {
                 operateHistory: history,
                 action: 'addFeature',
-                result: 'success'
+                result: 'success',
             };
             OperateHistoryStore.add(history);
             editLog.store.add(log);
@@ -467,12 +467,12 @@ class VizComponent extends React.Component {
         DataLayerStore.exitEdit();
     };
 
-    editedCallBack = result => {
+    editedCallBack = (result) => {
         const {
             DataLayerStore,
             OperateHistoryStore,
             RightMenuStore,
-            TaskStore
+            TaskStore,
         } = this.props;
 
         const oldFeature = RightMenuStore.getFeatures()[0];
@@ -497,13 +497,13 @@ class VizComponent extends React.Component {
             let history = {
                 type: 'updateFeatureRels',
                 data: {
-                    features: [[oldFeature], [result]]
-                }
+                    features: [[oldFeature], [result]],
+                },
             };
             let log = {
                 operateHistory: history,
                 action: 'updateGeometry',
-                result: 'success'
+                result: 'success',
             };
             OperateHistoryStore.add(history);
             editLog.store.add(log);
@@ -517,7 +517,7 @@ class VizComponent extends React.Component {
         DataLayerStore.exitEdit();
     };
 
-    regionCheck = data => {
+    regionCheck = (data) => {
         const { DataLayerStore, TaskStore } = this.props;
         let isLocal = TaskStore.activeTask.isLocal;
         if (isLocal) return;
@@ -532,7 +532,7 @@ class VizComponent extends React.Component {
         }
     };
 
-    showPictureShowView = obj => {
+    showPictureShowView = (obj) => {
         const { PictureShowStore } = this.props;
         window.traceLayer.unselect();
         PictureShowStore.setPicData(obj.data);
@@ -555,7 +555,7 @@ class VizComponent extends React.Component {
             DataLayerStore,
             RightMenuStore,
             AttributeStore,
-            appStore
+            appStore,
         } = this.props;
         const editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
@@ -567,7 +567,7 @@ class VizComponent extends React.Component {
         }
 
         let hasOtherFeature = features.find(
-            feature => feature.layerId != layerId
+            (feature) => feature.layerId != layerId
         );
 
         const isCurrentLayer = layerName && !hasOtherFeature;
@@ -580,7 +580,7 @@ class VizComponent extends React.Component {
                 {
                     x: event.x,
                     y: event.y,
-                    layerName
+                    layerName,
                 },
                 -1,
                 isCurrentLayer
@@ -589,30 +589,26 @@ class VizComponent extends React.Component {
 
         //右键，加载“右键菜单”，显示出来
         if (event.button === 2) {
-            if (isCurrentLayer) {
-                AttributeStore.hide();
-                RightMenuStore.show(
-                    features,
-                    {
-                        x: event.x,
-                        y: event.y,
-                        layerName
-                    },
-                    'auto',
-                    isCurrentLayer
-                );
-            } else {
-                message.warning('只能选取当前编辑图层要素！', 3);
-            }
+            AttributeStore.hide();
+            RightMenuStore.show(
+                features,
+                {
+                    x: event.x,
+                    y: event.y,
+                    layerName,
+                },
+                'auto',
+                isCurrentLayer
+            );
         }
     };
 
-    installRel = url => {
+    installRel = (url) => {
         const { RelStore } = this.props;
         return RelStore.addRecords(url, 'current');
     };
 
-    installAttr = url => {
+    installAttr = (url) => {
         const { AttrStore } = this.props;
         return AttrStore.addRecords(url, 'current');
     };
@@ -626,7 +622,7 @@ class VizComponent extends React.Component {
                     id="viz"
                     key={TaskStore.activeTaskId}
                     className="viz-box"
-                    onKeyDown={e => this.handleKeyDown(e)}></div>
+                    onKeyDown={(e) => this.handleKeyDown(e)}></div>
                 {TaskStore.activeTaskId ? <MultimediaView /> : <span />}
                 <AttributesModal />
                 <RightMenuModal />

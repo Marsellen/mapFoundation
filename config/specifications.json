@@ -5,6 +5,7 @@
         "spec": "AD_Arrow",
         "tools": ["POLYGON", "ADD_REL", "DEL_REL"],
         "rightTools": [
+            "setEditLayer",
             "delete",
             "insertPoints",
             "changePoints",
@@ -32,7 +33,7 @@
         "id": "LAP_ID",
         "spec": "AD_LaneAttrPoint",
         "tools": ["POINT", "ADD_REL", "DEL_REL"],
-        "rightTools": ["delete"],
+        "rightTools": ["setEditLayer", "delete"],
         "groupRightTools": ["batchAssign"],
         "attributes": [
             {
@@ -56,6 +57,7 @@
         "spec": "AD_LaneDivider",
         "tools": ["LINE", "ADD_REL", "DEL_REL"],
         "rightTools": [
+            "setEditLayer",
             "delete",
             "insertPoints",
             "changePoints",
@@ -142,6 +144,7 @@
         "spec": "AD_LaneMark_Plg",
         "tools": ["POLYGON", "ADD_GROUND_RECTANGLE", "ADD_REL", "DEL_REL"],
         "rightTools": [
+            "setEditLayer",
             "delete",
             "insertPoints",
             "changePoints",
@@ -170,6 +173,7 @@
         "spec": "AD_Text",
         "tools": ["POLYGON", "ADD_GROUND_RECTANGLE", "ADD_REL", "DEL_REL"],
         "rightTools": [
+            "setEditLayer",
             "delete",
             "insertPoints",
             "changePoints",
@@ -204,6 +208,7 @@
         "spec": "AD_StopLocation",
         "tools": ["LINE", "ADD_REL", "DEL_REL"],
         "rightTools": [
+            "setEditLayer",
             "delete",
             "insertPoints",
             "changePoints",
@@ -238,6 +243,7 @@
             "HALF_AUTO_CREATE"
         ],
         "rightTools": [
+            "setEditLayer",
             "delete",
             "insertPoints",
             "changePoints",
@@ -350,6 +356,7 @@
             "DEL_REL"
         ],
         "rightTools": [
+            "setEditLayer",
             "delete",
             "insertPoints",
             "changePoints",
@@ -384,6 +391,7 @@
             "HALF_AUTO_CREATE"
         ],
         "rightTools": [
+            "setEditLayer",
             "delete",
             "insertPoints",
             "changePoints",
@@ -487,6 +495,7 @@
             "DEL_REL"
         ],
         "rightTools": [
+            "setEditLayer",
             "delete",
             "insertPoints",
             "changePoints",
@@ -528,6 +537,7 @@
         "spec": "AD_Pole",
         "tools": ["LINE"],
         "rightTools": [
+            "setEditLayer",
             "delete",
             "insertPoints",
             "changePoints",
@@ -563,7 +573,7 @@
         "id": "ID",
         "spec": "AD_Map_QC",
         "tools": ["POINT"],
-        "rightTools": ["delete"],
+        "rightTools": ["setEditLayer", "delete"],
         "groupRightTools": ["batchAssign"],
         "attributes": [
             {
@@ -649,6 +659,7 @@
         "spec": "AD_RS_Barrier",
         "tools": ["LINE"],
         "rightTools": [
+            "setEditLayer",
             "delete",
             "insertPoints",
             "changePoints",

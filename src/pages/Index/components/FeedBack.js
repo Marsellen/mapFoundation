@@ -48,7 +48,7 @@ class FeedBack extends React.Component {
         super();
         this.state = {
             visible: false,
-            flag: 1,
+            loading: false,
         };
     }
 
@@ -68,27 +68,19 @@ class FeedBack extends React.Component {
                     title={<span className="modal-title">问题数据反馈</span>}
                     visible={visible}
                     maskClosable={false}
-                    centered
                     onCancel={this.handleCancel}
                     width={340}>
                     {this.feedBackList()}
                 </Modal>
-                {this._successModal()}
-                {this._failModal()}
             </div>
         );
     }
 
     feedBackList = () => {
         const { TaskStore, appStore } = this.props;
-        const { activeTaskId, validTasks } = TaskStore;
+        const { activeTask } = TaskStore;
         const { loginUser } = appStore;
-
-        try {
-            let task = validTasks.filter((item) => {
-                return item.taskId === activeTaskId;
-            });
-
+        if (activeTask.taskId) {
             return (
                 <div className="feedback-content">
                     <div className="feedback-eg">
@@ -100,7 +92,7 @@ class FeedBack extends React.Component {
                             <span className="feedback-title">环境基本信息</span>
                         }>
                         <Descriptions.Item>
-                            环境地址: {task[0].Input_imp_data_path}
+                            环境地址: {activeTask.Input_imp_data_path}
                             <br />
                             编辑平台版本: {CONFIG.version}
                             <br />
@@ -114,21 +106,21 @@ class FeedBack extends React.Component {
                         }
                         size="small">
                         <Descriptions.Item label="工程编号" span={3}>
-                            {task[0].projectId}
+                            {activeTask.projectId}
                         </Descriptions.Item>
                         <Descriptions.Item label="工作人员" span={3}>
                             {loginUser.name} {loginUser.roleName}
                         </Descriptions.Item>
                         <Descriptions.Item label="任务编号" span={3}>
-                            {task[0].taskId}
+                            {activeTask.taskId}
                         </Descriptions.Item>
                         <Descriptions.Item label="任务类型&amp;状态" span={3}>
-                            {task[0].nodeDesc}-{task[0].manualStatusDesc}
+                            {activeTask.nodeDesc}-{activeTask.manualStatusDesc}
                         </Descriptions.Item>
                     </Descriptions>
                 </div>
             );
-        } catch (e) {
+        } else {
             return <div>请打开一个任务</div>;
         }
     };
@@ -139,61 +131,29 @@ class FeedBack extends React.Component {
                 <Button type="primary" onClick={this.handleCancel}>
                     取消
                 </Button>
-                <Button type="primary" onClick={this.setFeedback}>
+                <Button
+                    type="primary"
+                    loading={this.state.loading}
+                    onClick={this.setFeedback}>
                     反馈
                 </Button>
             </div>
         );
     };
 
-    _failModal = () => {
-        const { visible, flag } = this.state;
-        //反馈失败
-        return (
-            <Modal
-                className="fail-modal"
-                visible={!visible && flag === 3}
-                title="反馈失败！"
-                width={234}
-                centered
-                onCancel={this.closeModal}
-                footer={
-                    <Button type="primary" onClick={this.closeModal}>
-                        确定
-                    </Button>
-                }>
-                <p>问题数据反馈失败，</p>
-                <p>请再次提交反馈申请。</p>
-            </Modal>
-        );
-    };
-
     _successModal = () => {
-        const { visible, flag } = this.state;
+        const { FeedbackStore } = this.props;
+        const { feedbackData } = FeedbackStore;
         //反馈成功
-        return (
-            <Modal
-                className="success-modal"
-                visible={!visible && flag === 2}
-                title="已成功反馈！"
-                width={400}
-                centered
-                onCancel={this.closeModal}
-                footer={
-                    <Button type="primary" onClick={this.closeModal}>
-                        确定
-                    </Button>
-                }>
-                <p>反馈时间：</p>
-                <p>数据唯一编码：</p>
-                <p>相关信息请同步记录到编辑平台问题表中。</p>
-            </Modal>
-        );
-    };
-
-    closeModal = () => {
-        this.setState({
-            flag: 1,
+        Modal.success({
+            title: '已成功反馈！',
+            content: (
+                <div className="success-modal">
+                    <p>反馈时间：{feedbackData.feedbackTime}</p>
+                    <p>数据唯一编码：{feedbackData.dataId}</p>
+                    <p>相关信息请同步记录到编辑平台问题表中。</p>
+                </div>
+            ),
         });
     };
 
@@ -204,6 +164,7 @@ class FeedBack extends React.Component {
             FeedbackStore,
             appStore,
         } = this.props;
+        this.setState({ loading: true });
         const { loginUser } = appStore;
         const { activeTask } = TaskStore;
         const newTaskType = taskType.filter((item) => {
@@ -232,14 +193,24 @@ class FeedBack extends React.Component {
             await TaskStore.writeEditLog();
             OperateHistoryStore.save();
             await FeedbackStore.feedback(params);
+            this._successModal();
             this.setState({
                 visible: false,
-                flag: 2,
+                loading: false,
             });
         } catch (e) {
+            Modal.error({
+                title: '反馈失败！',
+                content: (
+                    <div className="fail-modal">
+                        <p>问题数据反馈失败，</p>
+                        <p>请再次提交反馈申请。</p>
+                    </div>
+                ),
+            });
             this.setState({
                 visible: false,
-                flag: 3,
+                loading: false,
             });
         }
     };
