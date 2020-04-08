@@ -26,9 +26,24 @@ export const getEditPath = task => {
     return `/${task.taskId}/${SECEND_PATH}/${getThirdPath(task)}`;
 };
 
-// 补齐点云、轨迹、照片数据路径
+// 补齐轨迹、照片数据路径
 export const completeSecendUrl = (path, task) => {
     return `${task.Input_imp_data_path}/${SECEND_PATH}/${THIRD_PATH}/${path}`;
+};
+
+// 补齐多工程数据路径，如：点云
+export const completeMultiProjectUrl = (path, task, projectName) => {
+    return `${task.Input_imp_data_path}/${SECEND_PATH}/${THIRD_PATH}/${projectName}/${path}`;
+};
+
+// 补齐多工程数据路径（ip和端口后面的路径，方便转发解决跨域问题），如：轨迹
+export const completeMultiProjectTrackUrl = (path, task, projectName) => {
+    return `/task/${task.taskId}/${SECEND_PATH}/${THIRD_PATH}/${projectName}/${path}`;
+};
+
+// 返回ip和端口后面的路径，方便转发解决跨域问题
+export const completeProxyUrl = (path, task) => {
+    return `/task/${task.taskId}/${SECEND_PATH}/${THIRD_PATH}/${path}`;
 };
 
 // 补齐周边底图数据路径

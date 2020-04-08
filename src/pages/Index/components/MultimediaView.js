@@ -41,14 +41,12 @@ class MultimediaView extends React.Component {
             <div
                 className={`multimedia-container ${
                     isDefineMode ? '' : 'inner'
-                }`}
-            >
+                }`}>
                 <div
                     id="muti-toggle-icon"
                     title="图片显示窗口"
                     onClick={this.togglePicture}
-                    className={`picture-icon ${pictureVisible ? 'on' : ''}`}
-                >
+                    className={`picture-icon ${pictureVisible ? 'on' : ''}`}>
                     {!isDefineMode && (
                         <Icon type={pictureVisible ? 'right' : 'left'} />
                     )}
@@ -59,8 +57,7 @@ class MultimediaView extends React.Component {
                     <div
                         title="符号设置"
                         onClick={this.toggleDefine}
-                        className={`define-icon ${DefineVisible ? 'on' : ''}`}
-                    >
+                        className={`define-icon ${DefineVisible ? 'on' : ''}`}>
                         <ToolIcon icon="xuanranshezhi" />
                     </div>
                 )}

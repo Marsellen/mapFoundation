@@ -8,23 +8,21 @@ class PictureShowStore {
     activeBtn = [];
 
     @action setPicData = obj => {
-        if (obj.properties.imgs) {
-            this.picData = [
-                obj.properties.imgs.Forward_Right,
-                obj.properties.imgs.Forward_Left
-                // obj.properties.imgs.Forward_Ahead //不显示中间图片
-            ];
-            this.picIndex = obj.properties.idx;
-        }
+        const { properties } = obj;
+        const { imgs, idx } = properties;
+        const { Forward_Right, Forward_Left } = imgs;
+        this.picIndex = idx;
+        if (!imgs) return;
+        this.picData = [Forward_Right, Forward_Left];
     };
 
     @action setPicDataFormTrack = track => {
-        this.picIndex = track.index;
-        let imgs = [
-            track.trackpoint.Images.Forward_Right,
-            track.trackpoint.Images.Forward_Left
-        ];
-        if (track.direction === 'Forward_Left') imgs.reverse();
+        const { index, trackpoint, direction } = track;
+        const { Images } = trackpoint;
+        const { Forward_Right, Forward_Left } = Images;
+        this.picIndex = index;
+        let imgs = [Forward_Right, Forward_Left];
+        if (direction === 'Forward_Left') imgs.reverse();
         this.picData = imgs;
     };
 
