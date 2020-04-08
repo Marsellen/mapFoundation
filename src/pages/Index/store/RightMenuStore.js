@@ -18,7 +18,7 @@ class RightMenuStore {
         this.features = features;
         this.cloneFeatures = JSON.parse(JSON.stringify(this.features));
         this.option = option;
-        (option.layerName || features.length > 0) && this.fetchMenus();
+        features.length > 0 && this.fetchMenus();
     };
 
     @action hide = () => {
@@ -26,12 +26,24 @@ class RightMenuStore {
     };
 
     @action fetchMenus = () => {
+        this.menus = [];
+        if (this.features.length == 1) this.menus = ['setEditLayer'];
+        if (!this.isCurrentLayer && this.zIndex !== -1) {
+            return;
+        }
+        let layerName = this.features[0].layerName;
+        let rightTools;
         if (this.features.length == 1) {
-            this.menus = this.option.layerName
-                ? DATA_LAYER_MAP[this.option.layerName].rightTools
-                : DATA_LAYER_MAP[this.features[0].layerName].rightTools;
+            rightTools = DATA_LAYER_MAP[layerName].rightTools;
         } else {
-            this.menus = DATA_LAYER_MAP[this.option.layerName].groupRightTools;
+            rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
+        }
+        if (this.zIndex !== -1) {
+            // 右键菜单显示时
+            this.menus = rightTools;
+        } else {
+            // 右键菜单隐藏时
+            this.menus = [...this.menus, ...rightTools];
         }
     };
 

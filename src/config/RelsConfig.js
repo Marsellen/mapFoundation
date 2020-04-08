@@ -223,3 +223,5 @@ export const REL_SPEC_CONFIG = [
         relObjType: 'ROAD'
     }
 ];
+
+export const CONNECTION_RELS = ['AD_Lane_Con', 'AD_Road_Con'];

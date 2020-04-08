@@ -2,7 +2,8 @@ import Relevance from 'src/models/relevance';
 import {
     REL_SPEC_CONFIG,
     ATTR_REL_DATA_SET,
-    REL_DATA_SET
+    REL_DATA_SET,
+    CONNECTION_RELS
 } from 'src/config/RelsConfig';
 import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
 import {
@@ -10,6 +11,7 @@ import {
     getFeatureByOptionFormAll
 } from 'src/utils/vectorUtils';
 import IDService from 'src/services/IDService';
+import { distance } from 'src/utils/utils';
 
 const batchAddRels = async rels => {
     let relStore = Relevance.store;
@@ -66,6 +68,7 @@ const delRel = async (mainFeature, features) => {
 };
 
 const basicCheck = async (mainFeature, relFeatures, layerName) => {
+    var warningMessage;
     if (!mainFeature) {
         throw new Error('请选择要素');
     }
@@ -110,7 +113,44 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
             `${layerName}和${relFeatureTypes[0]}的关联类型超出规格定义`
         );
     }
+
+    if (CONNECTION_RELS.includes(relSpecs[0].source)) {
+        for (let i = 0; i < relFeatures.length; i++) {
+            let warning = checkConnection(mainFeature, relFeatures[i]);
+            if (warning) {
+                warningMessage = '新建成功；数据情况复杂，需检查连接关系正确性';
+            }
+        }
+    }
+    return warningMessage;
 };
+
+function checkConnection(driveInFeature, driveOutFeature, warningMessage) {
+    let driveInDirection = driveInFeature.data.properties.DIRECTION;
+    let driveOutDirection = driveOutFeature.data.properties.DIRECTION;
+    let driveInPoint, driveOutPoint;
+    let driveInCoordinates = driveInFeature.data.geometry.coordinates;
+    let driveOutCoordinates = driveOutFeature.data.geometry.coordinates;
+    if (driveInDirection === 1) {
+        driveInPoint = driveInCoordinates[driveInCoordinates.length - 1];
+    }
+    if (driveInDirection === 2) {
+        driveInPoint = driveInCoordinates[0];
+    }
+    if (driveOutDirection === 1) {
+        driveOutPoint = driveOutCoordinates[0];
+    }
+    if (driveOutDirection === 2) {
+        driveOutPoint = driveOutCoordinates[driveOutCoordinates.length - 1];
+    }
+    if (driveInPoint && driveOutPoint) {
+        if (distance(driveInPoint, driveOutPoint) > 0.01) {
+            throw new Error('数据没有连接关系，创建关系失败');
+        }
+    } else {
+        return true;
+    }
+}
 
 const batchCreateRel = async (mainFeature, relFeatures) => {
     let mainLayer = mainFeature.layerName;
