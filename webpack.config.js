@@ -165,6 +165,11 @@ module.exports = (env = {}) => {
                     pathRewrite: { '^/check_service': '/check' },
                     changeOrigin: true,
                     logLevel: 'debug'
+                },
+                '/task': {
+                    target: 'http://10.43.75.119:80',
+                    changeOrigin: true,
+                    logLevel: 'debug'
                 }
             }
         }

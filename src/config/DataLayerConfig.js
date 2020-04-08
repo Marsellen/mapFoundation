@@ -350,6 +350,7 @@ export const DATA_LAYER_MAP = {
 
 export const RESOURCE_LAYER_POINT_CLOUD = '点云';
 export const RESOURCE_LAYER_VECTOR = '高精地图';
-export const RESOURCE_LAYER_TRACE = '轨迹';
+export const RESOURCE_LAYER_TRACK = '轨迹';
 export const RESOURCE_LAYER_TASK_SCOPE = '任务范围';
 export const RESOURCE_LAYER_BOUNDARY = '周边底图';
+export const RESOURCE_LAYER_MULTI_PROJECT = '多工程';
