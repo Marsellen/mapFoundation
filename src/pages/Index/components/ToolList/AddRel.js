@@ -128,8 +128,12 @@ class AddRel extends React.Component {
         try {
             let [mainFeature, ...relFeatures] = result;
             let layerName = DataLayerStore.getEditLayer().layerName;
-            await basicCheck(mainFeature, relFeatures, layerName);
-            this.newRel(mainFeature, relFeatures);
+            let warningMessage = await basicCheck(
+                mainFeature,
+                relFeatures,
+                layerName
+            );
+            this.newRel(mainFeature, relFeatures, warningMessage);
         } catch (e) {
             console.log(e);
             message.warning('新建关联关系失败：' + e.message, 3);
@@ -137,15 +141,15 @@ class AddRel extends React.Component {
         }
     };
 
-    newRel = (mainFeature, relFeatures) => {
+    newRel = (mainFeature, relFeatures, warningMessage) => {
         if (this.isAddLRLaneDriverRel(mainFeature, relFeatures)) {
             this.addLRLaneDriverRelModal.show([mainFeature, relFeatures[0]]);
         } else {
-            this.comfirmNewRel(mainFeature, relFeatures);
+            this.comfirmNewRel(mainFeature, relFeatures, warningMessage);
         }
     };
 
-    comfirmNewRel = (mainFeature, relFeatures) => {
+    comfirmNewRel = (mainFeature, relFeatures, warningMessage) => {
         const { DataLayerStore, RenderModeStore } = this.props;
         Modal.confirm({
             title: '是否新建关联关系?',
@@ -156,6 +160,12 @@ class AddRel extends React.Component {
                 try {
                     let rels = await newRel(mainFeature, relFeatures);
                     this.saveLog(rels);
+                    if (warningMessage) {
+                        message.warning(warningMessage);
+                    } else {
+                        message.success('新建成功');
+                    }
+
                     const history = { data: { rels: [[], rels] } };
                     RenderModeStore.updateRels(history);
                     AdEmitter.emit('fetchViewAttributeData');
@@ -200,6 +210,7 @@ class AddRel extends React.Component {
             await attrRelUniqCheck(rel);
             await batchAddRels([rel]);
             this.saveLog([rel]);
+            message.success('新建成功');
             const history = { data: { rels: [[], [rel]] } };
             RenderModeStore.updateRels(history);
             AdEmitter.emit('fetchViewAttributeData');
@@ -226,7 +237,6 @@ class AddRel extends React.Component {
         };
         OperateHistoryStore.add(history);
         editLog.store.add(log);
-        message.success('新建成功', 3);
         DataLayerStore.exitEdit();
     };
 }
