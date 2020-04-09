@@ -16,36 +16,34 @@ const LAYER_SORT_MAP = {
 configure({ enforceActions: 'always' });
 class ResourceLayerStore {
     activeTrackName = '';
-    @observable layers;
+    @observable layers = [];
     @observable updateKey;
     //获取多工程图层map
     @computed get multiProjectResource() {
-        if (!this.layers || this.layers.length === 0) return;
         const name = RESOURCE_LAYER_MULTI_PROJECT;
-        const { layerMap } = this.layers.find(layer => layer.value == name);
+        const { layerMap } =
+            this.layers.find(layer => layer.value == name) || {};
         return layerMap || [];
     }
     //所有点云都未勾选为false，其余情况都为true
     @computed get pointCloudChecked() {
-        if (!this.layers || this.layers.length === 0) return;
-        const layerMap = this.multiProjectResource;
-        const isAllChecked = Object.keys(layerMap).every(projectName => {
-            const { point_clouds } = layerMap[projectName];
-            const { checked } = point_clouds;
-            return !checked;
-        });
-        return !isAllChecked;
-    }
-    //所有点云都未勾选为false，其余情况都为true
-    @computed get pointCloudAllChecked() {
-        if (!this.layers || this.layers.length === 0) return;
         const layerMap = this.multiProjectResource;
         const isAllUnChecked = Object.keys(layerMap).every(projectName => {
             const { point_clouds } = layerMap[projectName];
             const { checked } = point_clouds;
+            return !checked;
+        });
+        return !isAllUnChecked;
+    }
+    //所有点云都勾选为true
+    @computed get pointCloudAllChecked() {
+        const layerMap = this.multiProjectResource;
+        const isAllChecked = Object.keys(layerMap).every(projectName => {
+            const { point_clouds } = layerMap[projectName];
+            const { checked } = point_clouds;
             return checked;
         });
-        return isAllUnChecked;
+        return isAllChecked;
     }
     //选择当前与点云联动的轨迹
     @action selectLinkTrack = projectName => {
@@ -174,6 +172,7 @@ class ResourceLayerStore {
 
     @action release = () => {
         this.layers = [];
+        this.activeProjectName = '';
     };
 }
 
