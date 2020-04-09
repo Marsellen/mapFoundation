@@ -7,7 +7,8 @@ import {
     basicCheck,
     createRelBySpecConfig,
     batchAddRels,
-    attrRelUniqCheck
+    attrRelUniqCheck,
+    calcRelChangeLog
 } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
@@ -159,16 +160,16 @@ class AddRel extends React.Component {
             onOk: async () => {
                 try {
                     let rels = await newRel(mainFeature, relFeatures);
-                    this.saveLog(rels);
+                    let log = calcRelChangeLog(
+                        [mainFeature, ...relFeatures],
+                        [[], rels]
+                    );
+                    this.saveLog(log);
                     if (warningMessage) {
                         message.warning(warningMessage);
                     } else {
                         message.success('新建成功');
                     }
-
-                    const history = { data: { rels: [[], rels] } };
-                    RenderModeStore.updateRels(history);
-                    AdEmitter.emit('fetchViewAttributeData');
                 } catch (e) {
                     console.log(e);
                     message.warning('新建关联关系失败：' + e.message, 3);
@@ -197,7 +198,6 @@ class AddRel extends React.Component {
 
     addLRLaneDriverRel = async (type, options) => {
         try {
-            const { RenderModeStore } = this.props;
             let [mainFeature, relFeature] = options;
             let specConfig = REL_SPEC_CONFIG.find(
                 config => config.relObjType === type
@@ -209,11 +209,9 @@ class AddRel extends React.Component {
             );
             await attrRelUniqCheck(rel);
             await batchAddRels([rel]);
-            this.saveLog([rel]);
+            let log = calcRelChangeLog([mainFeature, relFeature], [[], [rel]]);
+            this.saveLog(log);
             message.success('新建成功');
-            const history = { data: { rels: [[], [rel]] } };
-            RenderModeStore.updateRels(history);
-            AdEmitter.emit('fetchViewAttributeData');
         } catch (e) {
             const { DataLayerStore } = this.props;
             console.log(e);
@@ -222,13 +220,15 @@ class AddRel extends React.Component {
         }
     };
 
-    saveLog = rels => {
-        const { DataLayerStore, OperateHistoryStore } = this.props;
+    saveLog = data => {
+        const {
+            DataLayerStore,
+            OperateHistoryStore,
+            RenderModeStore
+        } = this.props;
         let history = {
             type: 'updateFeatureRels',
-            data: {
-                rels: [[], rels]
-            }
+            data
         };
         let log = {
             operateHistory: history,
@@ -238,6 +238,8 @@ class AddRel extends React.Component {
         OperateHistoryStore.add(history);
         editLog.store.add(log);
         DataLayerStore.exitEdit();
+        RenderModeStore.updateRels(history);
+        AdEmitter.emit('fetchViewAttributeData');
     };
 }
 

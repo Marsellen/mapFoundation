@@ -2,7 +2,7 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { message, Modal } from 'antd';
-import { delRel } from 'src/utils/relCtrl/relCtrl';
+import { delRel, calcRelChangeLog } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import AdEmitter from 'src/models/event';
@@ -30,8 +30,8 @@ class DelRel extends React.Component {
                 okType: 'danger',
                 cancelText: '取消',
                 onOk() {
-                    let mainFeature = AttributeStore.getModel();
-                    delRel(mainFeature, result)
+                    let [mainFeature, ...relFeatures] = result;
+                    delRel(mainFeature, relFeatures)
                         .then(rels => {
                             if (rels.length == 0) {
                                 message.warning('没有选中待删除的关联对象', 3);
@@ -39,11 +39,10 @@ class DelRel extends React.Component {
                                 DataLayerStore.exitEdit();
                                 return;
                             }
+                            let data = calcRelChangeLog(result, [rels, []]);
                             let history = {
                                 type: 'updateFeatureRels',
-                                data: {
-                                    rels: [rels, []]
-                                }
+                                data
                             };
                             let log = {
                                 operateHistory: history,
