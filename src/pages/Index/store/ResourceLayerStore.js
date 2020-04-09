@@ -146,12 +146,26 @@ class ResourceLayerStore {
         this.updateKey = Math.random();
     };
 
-    //显隐藏多工程资料图层，如：点云、轨迹
+    //显隐藏多工程资料的所有图层
+    @action projectsToggleAll = (projectName, checked) => {
+        const name = RESOURCE_LAYER_MULTI_PROJECT;
+        const projectsLayer = this.layers.find(layer => layer.value == name);
+        const currentLayer = projectsLayer.layerMap[projectName];
+        Object.keys(currentLayer).map(layerName => {
+            currentLayer[layerName].checked = checked;
+            const { layer, layerKey } = currentLayer[layerName];
+            checked ? layer.show(layerKey) : layer.hide(layerKey);
+        });
+
+        this.updateKey = Math.random();
+    };
+
+    //显隐藏多工程资料的单个图层，如：点云、轨迹
     @action projectsToggle = (layerItem, checked) => {
         const { projectName, layerName, layerKey, layer } = layerItem;
         const name = RESOURCE_LAYER_MULTI_PROJECT;
-        const currentLayer = this.layers.find(layer => layer.value == name);
-        currentLayer.layerMap[projectName][layerName].checked = checked;
+        const projectsLayer = this.layers.find(layer => layer.value == name);
+        projectsLayer.layerMap[projectName][layerName].checked = checked;
         checked ? layer.show(layerKey) : layer.hide(layerKey);
         this.updateKey = Math.random();
     };

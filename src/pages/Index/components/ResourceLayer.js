@@ -55,8 +55,12 @@ class ResourceLayer extends React.Component {
         const sortProjectsTracks = Object.keys(layerMap).sort();
         const isSingleProject = sortProjectsTracks.length === 1;
         return sortProjectsTracks.map((projectName, index) => {
-            const { point_clouds, track } = layerMap[projectName];
+            const currentLayerMap = layerMap[projectName];
+            const { point_clouds, track } = currentLayerMap;
             const isAcitveLinkTrack = activeProjectName === projectName;
+            const currentLayerArr = Object.values(currentLayerMap);
+            const allChecked = currentLayerArr.every(item => item.checked);
+            const allUnChecked = currentLayerArr.every(item => !item.checked);
             return (
                 <dl
                     className={`projects-resource-wrap ${
@@ -64,7 +68,15 @@ class ResourceLayer extends React.Component {
                     }`}
                     key={`multi_project_${index}`}>
                     <dt>
-                        工程{index + 1}：{projectName}
+                        <Checkbox
+                            value="工程"
+                            indeterminate={!allChecked && !allUnChecked}
+                            checked={allChecked}
+                            onChange={e =>
+                                this.handleProjectsChange(e, projectName)
+                            }>
+                            工程{index + 1}：{projectName}
+                        </Checkbox>
                     </dt>
                     {point_clouds && (
                         <dd>
@@ -99,6 +111,14 @@ class ResourceLayer extends React.Component {
                 </dl>
             );
         });
+    };
+
+    handleProjectsChange = (e, projectName) => {
+        const { ResourceLayerStore, DataLayerStore } = this.props;
+        const { projectsToggleAll } = ResourceLayerStore;
+        const { checked } = e.target;
+        projectsToggleAll(projectName, checked);
+        DataLayerStore.exitReadCoordinate();
     };
 
     handleChange = (e, layerItem) => {
