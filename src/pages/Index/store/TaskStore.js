@@ -1,7 +1,7 @@
 import { observable, flow, configure, action, computed } from 'mobx';
 import TaskService from 'src/services/TaskService';
 import JobService from 'src/services/JobService';
-import ResourceService from 'src/services/ResourceService';
+import axios from 'axios';
 import { message } from 'antd';
 import CONFIG from 'src/config';
 import {
@@ -22,9 +22,7 @@ import {
     completeSecendUrl,
     completeEditUrl,
     completeBoundaryUrl,
-    completeMultiProjectUrl,
-    completeMultiProjectTrackUrl,
-    completeProxyUrl
+    completeMultiProjectUrl
 } from 'src/utils/taskUtils';
 import RelStore from './RelStore';
 import AttrStore from './AttrStore';
@@ -254,8 +252,9 @@ class TaskStore {
     getTaskInfo = flow(function* () {
         try {
             const { taskInfo } = CONFIG.urlConfig;
-            const url = completeProxyUrl(taskInfo, this.activeTask);
-            const { projectNames } = yield ResourceService.getTaskInfo(url);
+            const url = completeSecendUrl(taskInfo, this.activeTask);
+            const { data } = yield axios.get(url);
+            const { projectNames } = data;
             this.projectNameArr = projectNames.split(';').sort();
         } catch (e) {
             console.error(e.message);
@@ -265,16 +264,16 @@ class TaskStore {
 
     //获取工程名和该工程点云的映射和数组，例：{工程名:{点云:url,轨迹:url}}
     getMultiProjectDataMap = (lastPath, name) => {
-        if (!this.projectNameArr && this.projectNameArr.lenght === 0) return;
-        //轨迹工程用特殊路径，不带ip和端口
-        const urlFn = name.includes('track')
-            ? completeMultiProjectTrackUrl
-            : completeMultiProjectUrl;
+        if (!this.projectNameArr || this.projectNameArr.length === 0) return;
         const urlMap = {};
         const urlArr = [];
 
         this.projectNameArr.forEach(projectName => {
-            const url = urlFn(lastPath, this.activeTask, projectName);
+            const url = completeMultiProjectUrl(
+                lastPath,
+                this.activeTask,
+                projectName
+            );
             urlMap[projectName] = { [name]: url };
             urlArr.push(url);
         });
