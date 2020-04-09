@@ -176,6 +176,8 @@ class VizComponent extends React.Component {
 
     initTask = async task => {
         console.time('taskLoad');
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
         const hide = message.loading({
             content: '正在加载任务数据...',
             key: 'init_task'
@@ -192,13 +194,11 @@ class VizComponent extends React.Component {
             });
 
             const { taskScale } =
-                AdLocalStorage.getTaskInfosStorage(task.taskId) || {};
-            taskScale && map.setEyeView(taskScale);
+                AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
+            taskScale && window.map.setEyeView(taskScale);
         } catch (e) {
             console.log(e);
             hide();
-            const { TaskStore } = this.props;
-            const { activeTaskId } = TaskStore;
             // 任务列表快速切换时旧任务加载过程会报错
             if (activeTaskId === task.taskId) {
                 Modal.error({
@@ -401,13 +401,13 @@ class VizComponent extends React.Component {
         const { TaskStore } = this.props;
 
         //禁用浏览器默认右键菜单
-        document.oncontextmenu = function (e) {
+        document.oncontextmenu = function(e) {
             e.preventDefault();
             // return false;
         };
 
         //监听浏览器即将离开当前页面事件
-        window.onbeforeunload = function (e) {
+        window.onbeforeunload = function(e) {
             //保存当前任务比例
             const { activeTaskId } = TaskStore;
             const preTaskScale = map.getEyeView();
