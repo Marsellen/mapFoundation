@@ -128,7 +128,7 @@ class ResourceLayerStore {
 
     //快捷键显隐所有点云
     @action pointCloudToggle = () => {
-        const checked = this.pointCloudAllChecked ? false : true;
+        const checked = this.pointCloudChecked ? false : true;
         const resourceName = RESOURCE_LAYER_MULTI_PROJECT;
         const layerName = 'point_clouds';
         const currentLayer = this.layers.find(
