@@ -38,7 +38,7 @@ import editLog from 'src/models/editLog';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
 import AdEmitter from 'src/models/event';
-import ResourceService from 'src/services/ResourceService';
+import axios from 'axios';
 
 @inject('RenderModeStore')
 @inject('TaskStore')
@@ -304,9 +304,10 @@ class VizComponent extends React.Component {
         map.getLayerManager().addTraceListLayer(traceListLayer);
         const fetchTrackArr = Object.keys(urlMap).map(projectName => {
             const { track: trackUrl } = urlMap[projectName];
-            return ResourceService.getTrack(trackUrl).then(res => {
+            return axios.get(trackUrl).then(res => {
+                const { data } = res;
                 const trackMap = {};
-                res.forEach(tackPart => {
+                data.forEach(tackPart => {
                     const { name, tracks } = tackPart;
                     traceListLayer.addTrace({
                         taskId: `${projectName}_${name}`,
@@ -326,7 +327,7 @@ class VizComponent extends React.Component {
                     value: RESOURCE_LAYER_TRACK,
                     checked: true
                 };
-                return res;
+                return data;
             });
         });
 
