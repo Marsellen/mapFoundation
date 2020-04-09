@@ -1,7 +1,10 @@
 import React from 'react';
 import { Radio, List } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import {
+    DATA_LAYER_MAP,
+    TOP_VIEW_DISABLED_LAYERS
+} from 'src/config/DataLayerConfig';
 import { getEditLayers } from 'src/utils/permissionCtrl';
 import ToolIcon from 'src/components/ToolIcon';
 import 'src/assets/less/home.less';
@@ -14,20 +17,20 @@ class EditLayer extends React.Component {
         super(props);
         this.state = {
             clicked: false,
-            layerPicker: '',
+            layerPicker: ''
         };
     }
 
     hide = () => {
         this.setState({
-            clicked: false,
+            clicked: false
         });
     };
 
-    handleClickChange = (visible) => {
+    handleClickChange = visible => {
         if (this.disEditable()) return;
         this.setState({
-            clicked: visible,
+            clicked: visible
         });
     };
 
@@ -49,7 +52,7 @@ class EditLayer extends React.Component {
                         visible: clicked,
                         onVisibleChange: this.handleClickChange,
                         content: this._renderContent(),
-                        trigger: 'click',
+                        trigger: 'click'
                     }}
                 />
                 {editLayer && (
@@ -62,9 +65,9 @@ class EditLayer extends React.Component {
         );
     }
 
-    _renderValue = (layerPicker) => {
+    _renderValue = layerPicker => {
         this.setState({
-            layerPicker,
+            layerPicker
         });
     };
 
@@ -83,7 +86,6 @@ class EditLayer extends React.Component {
 @inject('ToolCtrlStore')
 @inject('AttributeStore')
 @inject('appStore')
-@inject('TaskStore')
 @inject('VectorsStore')
 @observer
 class EditLayerPicker extends React.Component {
@@ -98,7 +100,7 @@ class EditLayerPicker extends React.Component {
                 <List
                     key={DataLayerStore.updateKey}
                     dataSource={this.topViewLayerDisabled()}
-                    renderItem={(item) => (
+                    renderItem={item => (
                         <div>
                             <Radio value={item.value} disabled={item.disabled}>
                                 {this.getLabel(item)}
@@ -111,31 +113,25 @@ class EditLayerPicker extends React.Component {
     }
 
     topViewLayerDisabled = () => {
-        let { DataLayerStore, appStore, TaskStore, VectorsStore } = this.props;
-        let userInfo = appStore.loginUser;
-        const { activeTask } = TaskStore;
+        let { DataLayerStore, VectorsStore } = this.props;
+
         let layers = VectorsStore.vectors.vector;
-        layers = getEditLayers(layers, userInfo, activeTask);
+        layers = getEditLayers(layers);
         const { isTopView } = DataLayerStore;
 
         if (isTopView) {
             layers
-                .filter((item) => {
-                    return (
-                        item.value == 'AD_TrafficLight' ||
-                        item.value == 'AD_TrafficSign' ||
-                        item.value == 'AD_Pole' ||
-                        item.value == 'AD_RS_Barrier'
-                    );
+                .filter(item => {
+                    return TOP_VIEW_DISABLED_LAYERS.includes(item.value);
                 })
-                .forEach((item) => {
+                .forEach(item => {
                     item.disabled = true;
                 });
         }
         return layers;
     };
 
-    getLabel = (item) => {
+    getLabel = item => {
         if (!item.value) {
             return item.label;
         }
@@ -144,12 +140,12 @@ class EditLayerPicker extends React.Component {
             : item.value;
     };
 
-    onChange = (e) => {
+    onChange = e => {
         const {
             DataLayerStore,
             ToolCtrlStore,
             AttributeStore,
-            appStore,
+            appStore
         } = this.props;
         const layerPicker = DATA_LAYER_MAP[e.target.value]
             ? DATA_LAYER_MAP[e.target.value].editName
