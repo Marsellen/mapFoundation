@@ -51,7 +51,6 @@ import ResourceService from 'src/services/ResourceService';
 @inject('OperateHistoryStore')
 @inject('RelStore')
 @inject('AttrStore')
-@inject('appStore')
 @inject('BatchAssignStore')
 @inject('PointCloudStore')
 @inject('VectorsStore')
@@ -635,23 +634,12 @@ class VizComponent extends React.Component {
     };
 
     showRightMenu = (features, event) => {
-        const {
-            DataLayerStore,
-            RightMenuStore,
-            AttributeStore,
-            appStore
-        } = this.props;
+        const { DataLayerStore, RightMenuStore, AttributeStore } = this.props;
         const editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
-        let layerId = editLayer && editLayer.layerId;
-
-        let userInfo = appStore.loginUser;
-        if (userInfo.roleCode == 'producer' && layerName == 'AD_Map_QC') {
-            return;
-        }
 
         let hasOtherFeature = features.find(
-            feature => feature.layerId != layerId
+            feature => feature.layerName != layerName
         );
 
         const isCurrentLayer = layerName && !hasOtherFeature;
@@ -672,19 +660,16 @@ class VizComponent extends React.Component {
 
         //右键，加载“右键菜单”，显示出来
         if (event.button === 2) {
-            if (features[0].data.id) {
-                //周边底图禁用右键菜单
-                AttributeStore.hide();
-                RightMenuStore.show(
-                    features,
-                    {
-                        x: event.x,
-                        y: event.y
-                    },
-                    'auto',
-                    isCurrentLayer
-                );
-            }
+            AttributeStore.hide();
+            RightMenuStore.show(
+                features,
+                {
+                    x: event.x,
+                    y: event.y
+                },
+                'auto',
+                isCurrentLayer
+            );
         }
     };
 

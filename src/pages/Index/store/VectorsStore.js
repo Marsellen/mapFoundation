@@ -115,6 +115,10 @@ class VectorsStore {
         this.vectors = {};
         this.layerType = 'vector';
     };
+
+    @action getBoundaryLayerIds = () => {
+        return this.vectors.boundary.map(item => item.layer.layerId);
+    };
 }
 
 export default new VectorsStore();
