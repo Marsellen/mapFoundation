@@ -11,7 +11,8 @@ export default {
         boundaryAttrs: 'around/attrs.geojson',
         vectors: 'ads_all.geojson',
         rels: 'rels.geojson',
-        attrs: 'attrs.geojson'
+        attrs: 'attrs.geojson',
+        taskInfo: 'taskinfos.json'
     },
 
     expireTime: 86400,

@@ -1,6 +1,7 @@
 import { observable, flow, configure, action, computed } from 'mobx';
 import TaskService from 'src/services/TaskService';
 import JobService from 'src/services/JobService';
+import ResourceService from 'src/services/ResourceService';
 import { message } from 'antd';
 import CONFIG from 'src/config';
 import {
@@ -20,7 +21,10 @@ import {
     getEditPath,
     completeSecendUrl,
     completeEditUrl,
-    completeBoundaryUrl
+    completeBoundaryUrl,
+    completeMultiProjectUrl,
+    completeMultiProjectTrackUrl,
+    completeProxyUrl
 } from 'src/utils/taskUtils';
 import RelStore from './RelStore';
 import AttrStore from './AttrStore';
@@ -28,6 +32,7 @@ import { getTaskProcessType } from 'src/utils/taskUtils';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
+    projectNameArr; //当前任务工程名
     @observable onlineTasks = [];
     @observable localTasks = [];
     @observable activeTask = {};
@@ -246,44 +251,78 @@ class TaskStore {
         }
     });
 
+    getTaskInfo = flow(function* () {
+        try {
+            const { taskInfo } = CONFIG.urlConfig;
+            const url = completeProxyUrl(taskInfo, this.activeTask);
+            const { projectNames } = yield ResourceService.getTaskInfo(url);
+            this.projectNameArr = projectNames.split(';').sort();
+        } catch (e) {
+            console.error(e.message);
+            message.warning('获取任务信息失败' + e.message);
+        }
+    });
+
+    //获取工程名和该工程点云的映射和数组，例：{工程名:{点云:url,轨迹:url}}
+    getMultiProjectDataMap = (lastPath, name) => {
+        if (!this.projectNameArr && this.projectNameArr.lenght === 0) return;
+        //轨迹工程用特殊路径，不带ip和端口
+        const urlFn = name.includes('track')
+            ? completeMultiProjectTrackUrl
+            : completeMultiProjectUrl;
+        const urlMap = {};
+        const urlArr = [];
+
+        this.projectNameArr.forEach(projectName => {
+            const url = urlFn(lastPath, this.activeTask, projectName);
+            urlMap[projectName] = { [name]: url };
+            urlArr.push(url);
+        });
+
+        return { urlMap, urlArr };
+    };
+
     @action getTaskFile = () => {
         try {
-            if (!this.activeTaskUrl) {
-                return;
-            }
+            if (!this.activeTaskUrl) return;
+
+            const {
+                point_clouds,
+                track,
+                region,
+                vectors,
+                rels,
+                attrs,
+                boundaryAdsAll,
+                boundaryRels,
+                boundaryAttrs
+            } = CONFIG.urlConfig;
+
             let task = {
-                point_clouds: completeSecendUrl(
-                    CONFIG.urlConfig.point_clouds,
-                    this.activeTask
+                point_clouds: this.getMultiProjectDataMap(
+                    point_clouds,
+                    'point_clouds'
                 ),
-                tracks: completeSecendUrl(
-                    CONFIG.urlConfig.track,
-                    this.activeTask
-                ),
-                region: completeSecendUrl(
-                    CONFIG.urlConfig.region,
-                    this.activeTask
-                ),
-                vectors: completeEditUrl(
-                    CONFIG.urlConfig.vectors,
-                    this.activeTask
-                ),
-                rels: completeEditUrl(CONFIG.urlConfig.rels, this.activeTask),
-                attrs: completeEditUrl(CONFIG.urlConfig.attrs, this.activeTask)
+                tracks: this.getMultiProjectDataMap(track, 'track'),
+                region: completeSecendUrl(region, this.activeTask),
+                vectors: completeEditUrl(vectors, this.activeTask),
+                rels: completeEditUrl(rels, this.activeTask),
+                attrs: completeEditUrl(attrs, this.activeTask)
             };
+
             if (this.isEditableTask && this.isGetTaskBoundaryFile()) {
                 Object.assign(task, {
                     boundary: {
                         adsAll: completeBoundaryUrl(
-                            CONFIG.urlConfig.boundaryAdsAll,
+                            boundaryAdsAll,
                             this.activeTask
                         ),
                         rels: completeBoundaryUrl(
-                            CONFIG.urlConfig.boundaryRels,
+                            boundaryRels,
                             this.activeTask
                         ),
                         attrs: completeBoundaryUrl(
-                            CONFIG.urlConfig.boundaryAttrs,
+                            boundaryAttrs,
                             this.activeTask
                         )
                     }

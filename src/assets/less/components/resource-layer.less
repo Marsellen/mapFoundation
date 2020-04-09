@@ -1,0 +1,45 @@
+.projects-resource-wrap {
+    padding: 0;
+    margin: 0;
+
+    dt,
+    dd {
+        display: block;
+        padding: 0;
+        margin: 0;
+    }
+
+    dt {
+        width: 250px;
+        word-break: break-all;
+    }
+
+    dd {
+        display: flex;
+        align-items: center;
+        padding: 0 0 0 25px;
+    }
+
+    .lock-icon-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 10px;
+        width: 20px;
+        font-size: 20px;
+        color: #17bd62;
+    }
+
+    &.single-project {
+        dt {
+            display: none;
+        }
+        dd {
+            padding: 0;
+        }
+
+        .lock-icon-wrap {
+            display: none;
+        }
+    }
+}

@@ -4,7 +4,9 @@ import RcViewer from 'src/components/RcViewer';
 import noImg from 'src/assets/img/no-img.png';
 import { completeSecendUrl } from 'src/utils/taskUtils';
 import { locatePicture } from 'src/utils/pictureCtrl';
-import { message } from 'antd';
+import { message, Modal, Radio } from 'antd';
+import ToolIcon from 'src/components/ToolIcon';
+import 'src/assets/less/components/picture-show-view.less';
 
 const titleMap = [
     {
@@ -45,6 +47,7 @@ const titleMap = [
     }
 ];
 
+@inject('ResourceLayerStore')
 @inject('TaskStore')
 @inject('PictureShowStore')
 @inject('DataLayerStore')
@@ -98,6 +101,10 @@ class PictureShowView extends React.Component {
                 titleMap.forEach(this.addTitle);
             }
         };
+        this.state = {
+            modalVisible: false,
+            currentProjectName: ''
+        };
     }
 
     componentDidMount() {
@@ -115,7 +122,7 @@ class PictureShowView extends React.Component {
         let imgs = element.querySelectorAll('img');
         imgs.forEach((img, index) => {
             let viewer = this.refs.viewer.getViewer().viewer;
-            img.onerror = function() {
+            img.onerror = function () {
                 this.src = noImg;
                 this.setAttribute('data-original-Url', noImg);
                 viewer.update();
@@ -125,27 +132,79 @@ class PictureShowView extends React.Component {
     };
 
     render() {
-        const { PictureShowStore } = this.props;
+        const { PictureShowStore, ResourceLayerStore } = this.props;
         const { picData } = PictureShowStore;
+        const { multiProjectResource = [] } = ResourceLayerStore;
+        const projectNameArr = Object.keys(multiProjectResource);
 
         let imgs = picData.filter(img => !!img);
 
         return (
             <div className="multimedia-view-container">
-                <div className="img-banner">
-                    <RcViewer options={this.options} ref="viewer">
-                        <ul id="images" style={{ display: 'none' }}>
-                            {imgs.length ? (
-                                imgs.map(this._renderImg)
-                            ) : (
-                                <img src={noImg} alt="暂无图片" />
-                            )}
-                        </ul>
-                    </RcViewer>
+                <div className="img-window-top">
+                    <ToolIcon
+                        icon="guanlian"
+                        title="设置"
+                        placement="left"
+                        className="img-window-top-icon"
+                        disabled={projectNameArr.length <= 1}
+                        action={this.selectTrack}
+                    />
+                </div>
+                {this._renderModal()}
+                <div className="img-banner-box">
+                    <div className="img-banner">
+                        <RcViewer options={this.options} ref="viewer">
+                            <ul id="images" style={{ display: 'none' }}>
+                                {imgs.length ? (
+                                    imgs.map(this._renderImg)
+                                ) : (
+                                    <img src={noImg} alt="暂无图片" />
+                                )}
+                            </ul>
+                        </RcViewer>
+                    </div>
                 </div>
             </div>
         );
     }
+
+    _renderModal = () => {
+        const { modalVisible, currentProjectName } = this.state;
+        const { ResourceLayerStore } = this.props;
+        const {
+            multiProjectResource = [],
+            activeProjectName
+        } = ResourceLayerStore;
+        const sortProjectsTracks = Object.keys(multiProjectResource).sort();
+
+        return (
+            <Modal
+                title="点云与轨迹联动设置"
+                maskClosable={false}
+                width={415}
+                okText="确定"
+                cancelText="取消"
+                visible={modalVisible}
+                onOk={this.selectTrackOk}
+                onCancel={this.selectTrackCancel}
+                className="select-track-modal"
+                maskStyle={{ background: 'rgba(0, 0, 0, 0)' }}>
+                <p className="select-track-modal-title">联动轨迹选择：</p>
+                <Radio.Group
+                    value={currentProjectName || activeProjectName}
+                    onChange={this.handleRadioChange}>
+                    {sortProjectsTracks.map((projectName, index) => {
+                        return (
+                            <Radio value={projectName} key={`track_${index}`}>
+                                工程{index + 1}：{projectName}
+                            </Radio>
+                        );
+                    })}
+                </Radio.Group>
+            </Modal>
+        );
+    };
 
     _renderImg = (url, index) => {
         const { TaskStore } = this.props;
@@ -156,6 +215,29 @@ class PictureShowView extends React.Component {
                 <img src={`${completeSecendUrl(url, activeTask)}`} />
             </li>
         );
+    };
+    //打开“点云与轨迹联动设置”弹窗
+    selectTrack = () => {
+        this.setState({ modalVisible: true });
+    };
+    //切换轨迹radio onchange 事件
+    handleRadioChange = e => {
+        this.setState({
+            currentProjectName: e.target.value
+        });
+    };
+    //“点云与轨迹联动设置”弹窗 确认事件
+    selectTrackOk = () => {
+        const { currentProjectName } = this.state;
+        const { ResourceLayerStore } = this.props;
+        const { selectLinkTrack } = ResourceLayerStore;
+        selectLinkTrack(currentProjectName);
+        this.setState({ modalVisible: false, currentProjectName: false });
+        message.success('联动轨迹设置成功!');
+    };
+    //“点云与轨迹联动设置”弹窗 取消事件
+    selectTrackCancel = () => {
+        this.setState({ modalVisible: false, currentProjectName: false });
     };
 
     next = () => {
@@ -171,10 +253,16 @@ class PictureShowView extends React.Component {
     };
 
     jumpToPoint = idx => {
-        const { PictureShowStore, DataLayerStore } = this.props;
-        window.traceLayer.getPoint(idx, item => {
-            window.traceLayer.unselect();
-            window.traceLayer.select(idx);
+        const {
+            PictureShowStore,
+            DataLayerStore,
+            ResourceLayerStore
+        } = this.props;
+        const { activeTrackName } = ResourceLayerStore;
+
+        window.trackLayer.getPoint(activeTrackName, idx, item => {
+            window.trackLayer.unSelect();
+            window.trackLayer.select(activeTrackName, idx);
             window.map.look({
                 x: item.properties.x,
                 y: item.properties.y,
@@ -199,13 +287,24 @@ class PictureShowView extends React.Component {
 
     locatePictureEvent = async event => {
         try {
-            const { PictureShowStore, TaskStore } = this.props;
+            const {
+                PictureShowStore,
+                TaskStore,
+                ResourceLayerStore
+            } = this.props;
             const { visible } = PictureShowStore;
             if (!visible) return;
+            const { activeProjectName, getTrackPart } = ResourceLayerStore;
             const { activeTaskId } = TaskStore;
-            let result = await locatePicture(event, activeTaskId);
-            window.traceLayer.unselect();
-            window.traceLayer.select(result.index);
+            let result = await locatePicture(
+                event,
+                activeTaskId,
+                activeProjectName
+            );
+            const { trackpoint, index } = result;
+            const activeTrackName = getTrackPart(trackpoint);
+            window.trackLayer.unSelect();
+            window.trackLayer.select(activeTrackName, index);
             PictureShowStore.setPicDataFormTrack(result);
         } catch (e) {
             message.warning('图片查看失败：' + e.message, 3);

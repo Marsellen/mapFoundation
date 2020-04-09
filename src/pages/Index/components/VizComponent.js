@@ -1,9 +1,9 @@
 import React from 'react';
 import {
     Map,
-    PointCloudLayer,
+    DynamicPCLayer,
     LayerGroup,
-    TraceLayer,
+    TraceListLayer,
     VectorLayer
 } from 'addis-viz-sdk';
 import { Modal, message } from 'antd';
@@ -15,9 +15,10 @@ import RightMenuModal from './RightMenuModal';
 import {
     RESOURCE_LAYER_POINT_CLOUD,
     RESOURCE_LAYER_VECTOR,
-    RESOURCE_LAYER_TRACE,
+    RESOURCE_LAYER_TRACK,
     RESOURCE_LAYER_TASK_SCOPE,
-    RESOURCE_LAYER_BOUNDARY
+    RESOURCE_LAYER_BOUNDARY,
+    RESOURCE_LAYER_MULTI_PROJECT
 } from 'src/config/DataLayerConfig';
 import MultimediaView from './MultimediaView';
 import VectorsConfig from '../../../config/VectorsConfig';
@@ -37,6 +38,7 @@ import editLog from 'src/models/editLog';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
 import AdEmitter from 'src/models/event';
+import ResourceService from 'src/services/ResourceService';
 
 @inject('RenderModeStore')
 @inject('TaskStore')
@@ -57,6 +59,8 @@ import AdEmitter from 'src/models/event';
 class VizComponent extends React.Component {
     constructor(props) {
         super(props);
+        //多工程任务资料map，例：{工程名:{track:{},point_clouds:{}}}
+        this.multiProjectResource = {};
     }
 
     componentDidMount = async () => {
@@ -73,7 +77,8 @@ class VizComponent extends React.Component {
 
     init = async () => {
         const { TaskStore } = this.props;
-        let task = TaskStore.getTaskFile();
+        await TaskStore.getTaskInfo();
+        const task = TaskStore.getTaskFile();
         if (!task) return;
         const div = document.getElementById('viz');
         await this.release();
@@ -98,7 +103,8 @@ class VizComponent extends React.Component {
         window.boundaryLayerGroup = null;
         window.pointCloudLayer = null;
         window.vectorLayerGroup = null;
-        window.traceLayer = null;
+        window.trackLayer = null;
+        this.multiProjectResource = {};
 
         await RelStore.destroy();
         await AttrStore.destroy();
@@ -138,11 +144,7 @@ class VizComponent extends React.Component {
                 callback: () => {
                     event.preventDefault();
                     event.stopPropagation();
-                    ResourceLayerStore.toggle(
-                        RESOURCE_LAYER_POINT_CLOUD,
-                        true,
-                        true
-                    );
+                    ResourceLayerStore.pointCloudToggle();
                 },
                 describe: '开关点云图层 1'
             },
@@ -212,11 +214,10 @@ class VizComponent extends React.Component {
 
     initEditResource = async task => {
         let resources = await Promise.all([
-            this.initPointCloud(task.point_clouds),
             this.initVectors(task.vectors),
-            this.initTracks(task.tracks),
             this.initRegion(task.region),
-            this.initBoundary(task.boundary)
+            this.initBoundary(task.boundary),
+            this.initMultiProjectResource(task)
         ]);
         this.initResouceLayer(resources);
         this.installListener();
@@ -229,32 +230,50 @@ class VizComponent extends React.Component {
         ]);
     };
 
-    initPointCloud = pointClouds => {
-        if (!pointClouds) {
-            return;
-        }
-        return new Promise((resolve, reject) => {
-            const opts = { type: 'pointcloud', layerId: 'pointcloud' };
-            var pointCloudLayer = new PointCloudLayer(pointClouds, opts);
-            map.getLayerManager().addLayer(
-                'PointCloudLayer',
-                pointCloudLayer,
-                result => {
-                    if (!result || result.code === 404) {
-                        reject(result);
-                    } else {
-                        //获取点云高度范围
-                        const { PointCloudStore } = this.props;
-                        const range = pointCloudLayer.getElevationRange();
-                        PointCloudStore.initHeightRange(range);
-                        window.pointCloudLayer = pointCloudLayer;
-                        resolve({
-                            layerName: RESOURCE_LAYER_POINT_CLOUD,
-                            layer: pointCloudLayer
-                        });
-                    }
-                }
-            );
+    initMultiProjectResource = async task => {
+        const { point_clouds, tracks } = task;
+        await Promise.all([
+            this.initPointCloud(point_clouds),
+            this.initTracks(tracks)
+        ]);
+
+        return {
+            layerName: RESOURCE_LAYER_MULTI_PROJECT,
+            layerMap: this.multiProjectResource
+        };
+    };
+
+    initPointCloud = async pointCloudObj => {
+        if (!pointCloudObj) return;
+        const { urlArr, urlMap } = pointCloudObj;
+        //实例化点云
+        const pointCloudLayer = new DynamicPCLayer(null);
+        window.pointCloudLayer = pointCloudLayer;
+        //将点云实例加到map
+        map.getLayerManager().addLayer('DynamicPCLayer', pointCloudLayer);
+        //点云实例调用updatePointClouds方法，传入点云url数组，批量添加点云
+        //{点云url:点云图层}
+        const pointCloudUrlArr = Object.values(urlArr);
+        await pointCloudLayer.updatePointClouds(pointCloudUrlArr).then(() => {
+            //所有点云添加成功回调
+            //获取点云高度范围
+            const { PointCloudStore } = this.props;
+            const range = pointCloudLayer.getElevationRange();
+            PointCloudStore.initHeightRange(range);
+
+            Object.keys(urlMap).forEach(projectName => {
+                const { point_clouds: url } = urlMap[projectName];
+                this.multiProjectResource[projectName] =
+                    this.multiProjectResource[projectName] || {};
+                this.multiProjectResource[projectName].point_clouds = {
+                    projectName,
+                    layerName: 'point_clouds',
+                    layerKey: url,
+                    layer: pointCloudLayer,
+                    value: RESOURCE_LAYER_POINT_CLOUD,
+                    checked: true
+                };
+            });
         });
     };
 
@@ -275,16 +294,44 @@ class VizComponent extends React.Component {
         };
     };
 
-    initTracks = async tracks => {
-        if (!tracks || tracks.length == 0) {
-            return;
-        }
-        window.traceLayer = new TraceLayer(tracks);
-        await map.getLayerManager().addLayer('TraceLayer', traceLayer);
-        return {
-            layerName: RESOURCE_LAYER_TRACE,
-            layer: traceLayer
-        };
+    initTracks = async trackObj => {
+        if (!trackObj) return;
+        const { ResourceLayerStore, TaskStore } = this.props;
+        const { projectNameArr } = TaskStore;
+        const { urlMap } = trackObj;
+        const traceListLayer = new TraceListLayer();
+        window.trackLayer = traceListLayer;
+        map.getLayerManager().addTraceListLayer(traceListLayer);
+        const fetchTrackArr = Object.keys(urlMap).map(projectName => {
+            const { track: trackUrl } = urlMap[projectName];
+            return ResourceService.getTrack(trackUrl).then(res => {
+                const trackMap = {};
+                res.forEach(tackPart => {
+                    const { name, tracks } = tackPart;
+                    traceListLayer.addTrace({
+                        taskId: `${projectName}_${name}`,
+                        data: tracks
+                    });
+                    trackMap[`${projectName}_${name}`] = tracks;
+                });
+
+                this.multiProjectResource[projectName] =
+                    this.multiProjectResource[projectName] || {};
+                this.multiProjectResource[projectName].track = {
+                    projectName,
+                    layerName: 'track',
+                    layerKey: Object.keys(trackMap),
+                    layerMap: trackMap,
+                    layer: window.trackLayer,
+                    value: RESOURCE_LAYER_TRACK,
+                    checked: true
+                };
+                return res;
+            });
+        });
+
+        await Promise.all(fetchTrackArr);
+        ResourceLayerStore.selectLinkTrack(projectNameArr[0]);
     };
 
     initRegion = async regionUrl => {
@@ -386,10 +433,11 @@ class VizComponent extends React.Component {
         let boundaryLayers = window.boundaryLayerGroup
             ? window.boundaryLayerGroup.layers
             : [];
+
         DataLayerStore.initEditor([
             { layer: pointCloudLayer },
             ...vectorLayerGroup.layers,
-            { layer: traceLayer },
+            { layer: window.trackLayer },
             ...boundaryLayers
         ]);
         DataLayerStore.initMeasureControl();
@@ -422,7 +470,7 @@ class VizComponent extends React.Component {
                     : DataLayerStore.unPick();
                 this.showAttributesModal(result[0], event);
                 this.showRightMenu(result, event);
-            } else if (result[0].type === 'TraceLayer') {
+            } else if (result[0].type === 'TraceListLayer') {
                 this.showPictureShowView(result[0]);
                 PictureShowStore.show();
             }
@@ -441,7 +489,7 @@ class VizComponent extends React.Component {
                     AttributeStore.hideRelFeatures();
                     break;
             }
-            window.traceLayer.unselect();
+            window.trackLayer.unSelect();
         }
         BatchAssignStore.hide();
     };
@@ -565,9 +613,12 @@ class VizComponent extends React.Component {
     };
 
     showPictureShowView = obj => {
-        const { PictureShowStore } = this.props;
-        window.traceLayer.unselect();
+        const { PictureShowStore, ResourceLayerStore } = this.props;
+        const { data } = obj;
+        const { properties: activeTrackPoint } = data;
+        window.trackLayer.unSelect();
         PictureShowStore.setPicData(obj.data);
+        ResourceLayerStore.getTrackPart(activeTrackPoint);
     };
 
     showAttributesModal = async (obj, event) => {
