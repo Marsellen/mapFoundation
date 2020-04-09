@@ -105,6 +105,7 @@ class VizComponent extends React.Component {
         window.pointCloudLayer = null;
         window.vectorLayerGroup = null;
         window.trackLayer = null;
+        this.multiProjectResource = {};
 
         await RelStore.destroy();
         await AttrStore.destroy();
@@ -296,13 +297,13 @@ class VizComponent extends React.Component {
 
     initTracks = async trackObj => {
         if (!trackObj) return;
-        const { ResourceLayerStore } = this.props;
+        const { ResourceLayerStore, TaskStore } = this.props;
+        const { projectNameArr } = TaskStore;
         const { urlMap } = trackObj;
         const traceListLayer = new TraceListLayer();
         window.trackLayer = traceListLayer;
         map.getLayerManager().addTraceListLayer(traceListLayer);
-        const sortUrlArr = Object.keys(urlMap);
-        const fetchTrackArr = sortUrlArr.map(projectName => {
+        const fetchTrackArr = Object.keys(urlMap).map(projectName => {
             const { track: trackUrl } = urlMap[projectName];
             return ResourceService.getTrack(trackUrl).then(res => {
                 const trackMap = {};
@@ -331,7 +332,7 @@ class VizComponent extends React.Component {
         });
 
         await Promise.all(fetchTrackArr);
-        ResourceLayerStore.selectLinkTrack(sortUrlArr[0]);
+        ResourceLayerStore.selectLinkTrack(projectNameArr[0]);
     };
 
     initRegion = async regionUrl => {

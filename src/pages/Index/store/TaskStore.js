@@ -256,7 +256,7 @@ class TaskStore {
             const { taskInfo } = CONFIG.urlConfig;
             const url = completeProxyUrl(taskInfo, this.activeTask);
             const { projectNames } = yield ResourceService.getTaskInfo(url);
-            this.projectNameArr = projectNames.split(';');
+            this.projectNameArr = projectNames.split(';').sort();
         } catch (e) {
             console.error(e.message);
             message.warning('获取任务信息失败' + e.message);
