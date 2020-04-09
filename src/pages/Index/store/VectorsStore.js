@@ -117,6 +117,7 @@ class VectorsStore {
     };
 
     @action getBoundaryLayerIds = () => {
+        if (!this.vectors.boundary) return [];
         return this.vectors.boundary.map(item => item.layer.layerId);
     };
 }
