@@ -121,10 +121,11 @@ class ResourceLoader extends React.Component {
 
     //保存当前任务比例
     saveTaskScale = () => {
+        if (!window.map) return;
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         if (!activeTaskId) return;
-        const preTaskScale = map.getEyeView();
+        const preTaskScale = window.map.getEyeView();
         const { position } = preTaskScale;
         const { x, y, z } = position;
         if (!(x === 0 && y === 0 && z === 0)) {
