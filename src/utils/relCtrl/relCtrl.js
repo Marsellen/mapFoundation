@@ -8,10 +8,13 @@ import {
 import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
 import {
     getLayerIDKey,
-    getFeatureByOptionFormAll
+    getFeatureByOptionFormAll,
+    modUpdStatRelation
 } from 'src/utils/vectorUtils';
 import IDService from 'src/services/IDService';
 import { distance } from 'src/utils/utils';
+import TaskStore from 'src/pages/Index/store/TaskStore';
+import { isManbuildTask } from 'src/utils/taskUtils';
 
 const batchAddRels = async rels => {
     let relStore = Relevance.store;
@@ -24,9 +27,6 @@ const newRel = async (mainFeature, relFeatures) => {
     let rels = await batchCreateRel(mainFeature, relFeatures);
     await relsUniqCheck(rels);
     rels = await batchGetRelId(rels);
-
-    // 人工构建阶段不维护 UPD_STAT
-    // featureLog = calcFeatureLog(mainFeature, relFeatures);
 
     return batchAddRels(rels);
 };
@@ -388,10 +388,18 @@ const relUniqCheck = async (mainFeature, feature) => {
     }
 };
 
-const calcFeatureLog = (mainFeature, relFeatures) => {
-    let oldFeatures = [mainFeature, ...relFeatures];
-    let newFeatures = oldFeatures.map(modUpdStatRelation);
-    return [oldFeatures, newFeatures];
+const calcRelChangeLog = (features, rels) => {
+    const { activeTask } = TaskStore;
+
+    if (!isManbuildTask(activeTask)) {
+        let newFeatures = features.map(modUpdStatRelation);
+        return {
+            features: [features, newFeatures],
+            rels
+        };
+    }
+
+    return { rels };
 };
 
 const HAD_BEEN_REL_ERROR = {
@@ -410,5 +418,6 @@ export {
     basicCheck,
     createRelBySpecConfig,
     batchAddRels,
-    attrRelUniqCheck
+    attrRelUniqCheck,
+    calcRelChangeLog
 };

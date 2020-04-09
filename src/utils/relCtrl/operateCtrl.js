@@ -33,9 +33,6 @@ const deleteLine = async (features, activeTask) => {
     let { rels, attrs } = await features.reduce(
         async (total, feature) => {
             let layerName = feature.layerName;
-            let layer = getLayerByName(layerName);
-            let option = getFeatureOption(feature);
-            layer.removeFeatureByOption(option);
             let rels = await getFeatureRels(layerName, feature.data.properties);
             let attrs = await attrFactory.getFeatureAttrs(
                 layerName,
@@ -49,17 +46,6 @@ const deleteLine = async (features, activeTask) => {
         { rels: [], attrs: [] }
     );
 
-    let relStore = Relevance.store;
-    await Promise.all(rels.map(rel => relStore.deleteById(rel.id)));
-    try {
-        updateFeaturesByRels(rels, true);
-    } catch (e) {
-        console.log('要素已被删除：', e.message);
-    }
-
-    let attrStore = Attr.store;
-    await Promise.all(attrs.map(attr => attrStore.deleteById(attr.id)));
-
     let allRelFeatureOptions = getAllRelFeatureOptions(rels);
     let featuresLog = calcFeaturesLog(
         [features, []],
@@ -71,6 +57,9 @@ const deleteLine = async (features, activeTask) => {
         rels: [rels, []],
         attrs: [attrs, []]
     };
+
+    await updateFeatures(historyLog);
+
     return historyLog;
 };
 
