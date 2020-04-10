@@ -256,11 +256,16 @@ class VizComponent extends React.Component {
         const pointCloudUrlArr = Object.values(urlArr);
         await pointCloudLayer.updatePointClouds(pointCloudUrlArr).then(() => {
             //所有点云添加成功回调
+
+            //调整视角
+            map.setView('U');
+
             //获取点云高度范围
             const { PointCloudStore } = this.props;
             const range = pointCloudLayer.getElevationRange();
             PointCloudStore.initHeightRange(range);
 
+            //存储多工程点云信息
             Object.keys(urlMap).forEach(projectName => {
                 const { point_clouds: url } = urlMap[projectName];
                 this.multiProjectResource[projectName] =
@@ -304,6 +309,7 @@ class VizComponent extends React.Component {
         map.getLayerManager().addTraceListLayer(traceListLayer);
         const fetchTrackArr = Object.keys(urlMap).map(projectName => {
             const { track: trackUrl } = urlMap[projectName];
+            //获取轨迹
             return axios.get(trackUrl).then(res => {
                 const { data } = res;
                 const trackMap = {};
@@ -315,7 +321,7 @@ class VizComponent extends React.Component {
                     });
                     trackMap[`${projectName}_${name}`] = tracks;
                 });
-
+                //存储多工程轨迹信息
                 this.multiProjectResource[projectName] =
                     this.multiProjectResource[projectName] || {};
                 this.multiProjectResource[projectName].track = {
@@ -401,13 +407,13 @@ class VizComponent extends React.Component {
         const { TaskStore } = this.props;
 
         //禁用浏览器默认右键菜单
-        document.oncontextmenu = function(e) {
+        document.oncontextmenu = function (e) {
             e.preventDefault();
             // return false;
         };
 
         //监听浏览器即将离开当前页面事件
-        window.onbeforeunload = function(e) {
+        window.onbeforeunload = function (e) {
             //保存当前任务比例
             const { activeTaskId } = TaskStore;
             const preTaskScale = map.getEyeView();
