@@ -202,7 +202,6 @@ class Task extends React.Component {
                 this.handleReportOpen();
                 window.boundaryLayerGroup = await TaskStore.startTaskEdit(id);
                 this.fetchLayerGroup(window.boundaryLayerGroup);
-                window.map && window.map.enableRotate();
                 DataLayerStore.disableRegionSelect();
             }
 

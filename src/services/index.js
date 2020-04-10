@@ -84,7 +84,7 @@ const resource = ({ config, successCallback, errorCallback }) => {
                     successCallback(respData);
                 } else {
                     const successCodes = [1, 200];
-                    if (code && !successCodes.includes(code)) {
+                    if (code !== undefined && !successCodes.includes(code)) {
                         throw new Error(`${resMessage}`);
                     }
 
