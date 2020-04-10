@@ -2,7 +2,6 @@ import React from 'react';
 import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
-import editLog from 'src/models/editLog';
 import { RESOURCE_LAYER_BOUNDARY } from 'src/config/DataLayerConfig';
 import 'less/components/sider.less';
 import ToolIcon from 'src/components/ToolIcon';
@@ -172,7 +171,6 @@ class Task extends React.Component {
             const {
                 TaskStore,
                 QualityCheckStore,
-                DataLayerStore,
                 RenderModeStore
             } = this.props;
             const { current } = this.state;
