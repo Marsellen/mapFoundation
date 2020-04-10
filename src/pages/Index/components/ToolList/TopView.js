@@ -41,8 +41,6 @@ class TopView extends React.Component {
         let layer = DataLayerStore.getEditLayer() || {};
 
         if (!isTopView) {
-            window.map.setCurrentView('U');
-            window.map.disableRotate();
             if (
                 layer === null ||
                 layer.layerName === 'AD_TrafficLight' ||
@@ -55,7 +53,6 @@ class TopView extends React.Component {
             } else {
                 ToolCtrlStore.updateByEditLayer(layer);
             }
-            DataLayerStore.enableRegionSelect();
             AttributeStore.hide();
             RightMenuStore.hide();
         } else {
@@ -65,8 +62,6 @@ class TopView extends React.Component {
             ) {
                 DataLayerStore.exitEdit();
             }
-            window.map.enableRotate();
-            DataLayerStore.disableRegionSelect();
         }
 
         DataLayerStore.topViewMode(!isTopView);

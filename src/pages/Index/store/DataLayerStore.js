@@ -303,10 +303,15 @@ class DataLayerStore {
     };
 
     @action topViewMode = opt => {
+        if (!window.map) return;
+        this.isTopView = opt;
         if (opt) {
-            this.isTopView = true;
+            window.map.setCurrentView('U');
+            window.map.disableRotate();
+            this.enableRegionSelect();
         } else {
-            this.isTopView = false;
+            window.map.enableRotate();
+            this.disableRegionSelect();
         }
     };
 
@@ -656,11 +661,11 @@ class DataLayerStore {
     };
 
     enableRegionSelect = () => {
-        this.editor.enableRegionSelect();
+        this.editor && this.editor.enableRegionSelect();
     };
 
     disableRegionSelect = () => {
-        this.editor.disableRegionSelect();
+        this.editor && this.editor.disableRegionSelect();
     };
 
     setNewUturnExitEvent = event => {
