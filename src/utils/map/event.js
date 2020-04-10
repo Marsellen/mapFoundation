@@ -1,7 +1,7 @@
 import { addClass, removeClass } from '../utils';
 import { message } from 'antd';
 import RenderModeStore from 'src/pages/Index/store/RenderModeStore';
-
+import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 //监听右击事件，当关联关系模式时，右击更新要素样式
 const clickright = () => {
     mapEventManager().register('clickright', e => {
@@ -31,6 +31,16 @@ const pointsTooCloseListener = () => {
     });
 };
 
+
+const copyLineListener = () => {
+    const { exitEdit } = DataLayerStore
+    mapEventManager().register('editor_event_dragcopyedFeature_error', e => {
+        exitEdit();
+        message.warn('框选时，不能复制线要素', 3);
+
+    });
+};
+
 const movePointTooCloseListener = () => {
     mapEventManager().register('editor_event_movepoint_tooclose', e => {
         message.warning('与原始点位距离过近，请重新选点', 3);
@@ -55,6 +65,8 @@ const addEditorExitListener = (eventType, className) => {
         removeClass(viz, className);
     });
 };
+
+
 
 const installMapListener = () => {
     addEditorListener('editor_event_regionselect_start', 'crosshair-viz');
@@ -84,6 +96,7 @@ const installMapListener = () => {
     movePointTooCloseListener();
     movePointTooFarListener();
     pointsOutBoundaryListener();
+    copyLineListener();
     clickright();
 };
 
