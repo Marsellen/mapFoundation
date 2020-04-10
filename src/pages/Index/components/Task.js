@@ -195,8 +195,9 @@ class Task extends React.Component {
             QualityCheckStore.closeCheckReport();
             QualityCheckStore.clearCheckReport();
             TaskStore.setActiveTask(id);
+            this.handleReportOpen();
+
             if (isEdit) {
-                this.handleReportOpen();
                 try {
                     window.boundaryLayerGroup = await TaskStore.startTaskEdit(
                         id
