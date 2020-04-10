@@ -195,7 +195,7 @@ class VizComponent extends React.Component {
 
             const { taskScale } =
                 AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
-            taskScale && window.map.setEyeView(taskScale);
+            taskScale ? window.map.setEyeView(taskScale) : map.setView('U');
         } catch (e) {
             console.log(e);
             hide();
@@ -256,9 +256,6 @@ class VizComponent extends React.Component {
         const pointCloudUrlArr = Object.values(urlArr);
         await pointCloudLayer.updatePointClouds(pointCloudUrlArr).then(() => {
             //所有点云添加成功回调
-
-            //调整视角
-            map.setView('U');
 
             //获取点云高度范围
             const { PointCloudStore } = this.props;
