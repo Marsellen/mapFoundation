@@ -151,7 +151,7 @@ class ResourceLayerStore {
         const name = RESOURCE_LAYER_MULTI_PROJECT;
         const projectsLayer = this.layers.find(layer => layer.value == name);
         const currentLayer = projectsLayer.layerMap[projectName];
-        Object.keys(currentLayer).map(layerName => {
+        Object.keys(currentLayer).forEach(layerName => {
             currentLayer[layerName].checked = checked;
             const { layer, layerKey } = currentLayer[layerName];
             checked ? layer.show(layerKey) : layer.hide(layerKey);

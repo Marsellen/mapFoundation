@@ -109,7 +109,7 @@ class AddRel extends React.Component {
                     </div>
                 </div>
             ),
-            onOk() {}
+            onOk() { }
         });
     }
 
@@ -151,7 +151,7 @@ class AddRel extends React.Component {
     };
 
     comfirmNewRel = (mainFeature, relFeatures, warningMessage) => {
-        const { DataLayerStore, RenderModeStore } = this.props;
+        const { DataLayerStore } = this.props;
         Modal.confirm({
             title: '是否新建关联关系?',
             okText: '确定',
