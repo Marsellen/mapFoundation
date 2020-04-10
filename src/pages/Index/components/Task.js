@@ -197,12 +197,16 @@ class Task extends React.Component {
             QualityCheckStore.closeCheckReport();
             QualityCheckStore.clearCheckReport();
             TaskStore.setActiveTask(id);
-            //await this.clearWorkSpace();
             if (isEdit) {
                 this.handleReportOpen();
-                window.boundaryLayerGroup = await TaskStore.startTaskEdit(id);
-                this.fetchLayerGroup(window.boundaryLayerGroup);
-                DataLayerStore.disableRegionSelect();
+                try {
+                    window.boundaryLayerGroup = await TaskStore.startTaskEdit(
+                        id
+                    );
+                    this.fetchLayerGroup(window.boundaryLayerGroup);
+                } catch (e) {
+                    message.warning('周边底图数据加载失败', 3);
+                }
             }
 
             this.setState({ current: id }, () => {
@@ -211,29 +215,6 @@ class Task extends React.Component {
         } catch (e) {
             this.isToggling = false;
         }
-    };
-
-    clearWorkSpace = async () => {
-        const {
-            OperateHistoryStore,
-            DataLayerStore,
-            ToolCtrlStore,
-            AttributeStore,
-            PictureShowStore
-        } = this.props;
-        await OperateHistoryStore.destroy();
-        await editLog.store.clear();
-        DataLayerStore.activeEditor();
-        DataLayerStore.topViewMode(false);
-        ToolCtrlStore.updateByEditLayer();
-        AttributeStore.hide();
-        PictureShowStore.hide();
-        PictureShowStore.destory();
-
-        //切换任务 关闭所有弹框
-        document.querySelectorAll('.ant-modal-close').forEach(element => {
-            element.click();
-        });
     };
 
     //关联关系模式下，处理底图数据

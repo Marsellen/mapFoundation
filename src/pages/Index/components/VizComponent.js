@@ -365,7 +365,7 @@ class VizComponent extends React.Component {
             return await this.loadBoundary(boundary);
         } catch (e) {
             console.log(e);
-            message.warning('作业边界数据加载失败：' + e.message, 3);
+            message.warning('周边底图数据加载失败', 3);
         }
     };
 
