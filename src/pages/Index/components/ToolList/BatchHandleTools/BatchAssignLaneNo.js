@@ -24,7 +24,7 @@ class BatchAssignLaneNo extends React.Component {
             step: 0,
             messageVisible: false,
             message: '',
-            startNumber: 0,
+            startNumber: 0
         };
         this.result = [];
     }
@@ -54,7 +54,7 @@ class BatchAssignLaneNo extends React.Component {
                     mask={false}
                     closable={false}
                     zIndex={999}
-                    width={210}
+                    width={318}
                     maskClosable={false}>
                     {this._renderModal(visible)}
                 </Modal>
@@ -71,7 +71,7 @@ class BatchAssignLaneNo extends React.Component {
             <div>
                 <div>
                     <span className="batch-label">赋值图层</span>
-                    <span style={{ marginLeft: '10px' }}>
+                    <span className="batch-content">
                         {DATA_LAYER_MAP[layerName].label}
                     </span>
                 </div>
@@ -79,8 +79,8 @@ class BatchAssignLaneNo extends React.Component {
                     <span className="batch-label">起始车道编号</span>
                     {
                         <Select
+                            className="batch-content"
                             value={this.state.startNumber}
-                            style={{ width: 70, marginLeft: '10px' }}
                             onChange={this.handleChange}>
                             <Option value="0">0</Option>
                             <Option value="-1">-1</Option>
@@ -100,13 +100,13 @@ class BatchAssignLaneNo extends React.Component {
         this.setState({
             step: 0,
             message: '选择需赋值线要素，然后按shift进入下一步',
-            messageVisible: true,
+            messageVisible: true
         });
     };
 
-    handleChange = (val) => {
+    handleChange = val => {
         this.setState({
-            startNumber: val,
+            startNumber: val
         });
     };
 
@@ -114,7 +114,7 @@ class BatchAssignLaneNo extends React.Component {
         document.addEventListener('keyup', this.shiftCallback);
     };
 
-    shiftCallback = (event) => {
+    shiftCallback = event => {
         if (event.key !== 'Shift') return;
         try {
             this.lineCheck(); //条件判断
@@ -125,15 +125,15 @@ class BatchAssignLaneNo extends React.Component {
                 step: 1,
                 message:
                     '两点绘制一条线与所选数据相交，线方向与车道编号增长趋势一致，右键完成赋值',
-                visible: true,
+                visible: true
             });
         } catch (e) {
             this.setState({
-                message: e.message,
+                message: e.message
             });
             setTimeout(() => {
                 this.setState({
-                    message: '选择待处理的线要素，然后按shift进入下一步',
+                    message: '选择待处理的线要素，然后按shift进入下一步'
                 });
             }, 1000);
         }
@@ -164,18 +164,18 @@ class BatchAssignLaneNo extends React.Component {
             this.setState({
                 step: 0,
                 messageVisible: false,
-                message: '',
+                message: ''
             });
         }
     };
 
-    handleAssign = async (event) => {
+    handleAssign = async event => {
         if (event.button !== 2) return;
         const {
             OperateHistoryStore,
             DataLayerStore,
             TaskStore,
-            RenderModeStore,
+            RenderModeStore
         } = this.props;
         const { activeTask } = TaskStore;
         let layerName = DataLayerStore.getEditLayer().layerName;
@@ -195,12 +195,12 @@ class BatchAssignLaneNo extends React.Component {
             );
             let history = {
                 type: 'updateFeatureRels',
-                data: historyLog,
+                data: historyLog
             };
             let log = {
                 operateHistory: history,
                 action: 'batchAssignLaneNo',
-                result: 'success',
+                result: 'success'
             };
             OperateHistoryStore.add(history);
             editLog.store.add(log);
@@ -212,7 +212,7 @@ class BatchAssignLaneNo extends React.Component {
             message.error({
                 content: e.message,
                 key: 'assign_lane_no',
-                duration: 3,
+                duration: 3
             });
             this.removeEventListener();
             DataLayerStore.exitEdit();
