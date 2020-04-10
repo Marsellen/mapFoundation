@@ -1,8 +1,9 @@
+/* 只能输入正数*/
 import React from 'react';
 import { InputNumber } from 'antd';
 import 'src/assets/less/components/ad-input-number.less';
 
-export default class AdInputNumber extends React.Component {
+export default class AdInputPositiveNumber extends React.Component {
     render() {
         const { width } = this.props;
         return (
@@ -18,10 +19,26 @@ export default class AdInputNumber extends React.Component {
     handleKeyDown = e => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-        const invalidChars = ['+', 'e', 'E'];
-        if (invalidChars.indexOf(e.key) !== -1) {
+
+        const reg = [
+            '0',
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9',
+            '.',
+            'Backspace'
+        ];
+
+        if (!reg.includes(e.key)) {
             e.preventDefault();
         }
+
         return false;
     };
 }

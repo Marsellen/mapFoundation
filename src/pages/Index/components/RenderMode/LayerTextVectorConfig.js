@@ -2,7 +2,7 @@ import React from 'react';
 import 'src/assets/less/components/define-mode.less';
 import { Checkbox, Icon, Select } from 'antd';
 import AdColorInput from 'src/components/Form/AdColorInput';
-import AdInputNumber from 'src/components/Form/AdInputNumber';
+import AdInputPositiveNumber from 'src/components/Form/AdInputPositiveNumber';
 import { inject, observer } from 'mobx-react';
 
 const { Option } = Select;
@@ -10,7 +10,12 @@ const { Option } = Select;
 @inject('DefineModeStore')
 @observer
 class LayerTextVectorConfig extends React.Component {
-    state = { visible: false };
+    state = {
+        visible: false,
+        currentFontSize: '',
+        currentInterval: '',
+        currentOffset: ''
+    };
 
     componentDidMount() {
         const { DefineModeStore, config } = this.props;
@@ -18,7 +23,7 @@ class LayerTextVectorConfig extends React.Component {
         const { key } = config;
         initLayerTextConfig(key, config);
     }
-
+    //显隐注记
     toggle = e => {
         const { checked } = e.target;
         const { DefineModeStore, config } = this.props;
@@ -27,38 +32,30 @@ class LayerTextVectorConfig extends React.Component {
         toggleLayerTextConfig(key, checked);
     };
 
-    handleChange = (styleKey, styleValue) => {
+    handleChange = (styleKey, styleValue, oldValue) => {
+        this.setState({
+            [styleKey]: styleValue === 0 ? oldValue : styleValue
+        });
+    };
+
+    //重新渲染画布
+    updateConfig = (styleKey, styleValue, oldValue) => {
+        if (!styleValue) return;
+        if (oldValue && oldValue === styleValue) {
+            this.setState({
+                [styleKey]: styleValue
+            });
+            return;
+        }
         const { DefineModeStore, config } = this.props;
         const { setLayerTextConfig } = DefineModeStore;
         const { key } = config;
+
         setLayerTextConfig(key, styleKey, styleValue);
     };
 
-    handleFontSizeChange = (newStyleValue, oldStyleValue) => {
-        if (newStyleValue >= 12 && newStyleValue <= 1000) {
-            this.handleChange('fontSize', newStyleValue);
-        } else {
-            this.handleChange('fontSize', oldStyleValue);
-        }
-    };
-
-    handleIntervalChange = (newStyleValue, oldStyleValue) => {
-        if (newStyleValue > 0 && newStyleValue <= 1000) {
-            this.handleChange('interval', newStyleValue);
-        } else {
-            this.handleChange('interval', oldStyleValue);
-        }
-    };
-
-    handleOffsetChange = (newStyleValue, oldStyleValue) => {
-        if (newStyleValue >= 0 && newStyleValue <= 1000) {
-            this.handleChange('offset', newStyleValue);
-        } else {
-            this.handleChange('offset', oldStyleValue);
-        }
-    };
-
     _layerConfigNode = () => {
+        const { currentFontSize, currentInterval, currentOffset } = this.state;
         const { config, DefineModeStore } = this.props;
         const { vectorTextConfig, updateKey } = DefineModeStore;
         const { key } = config;
@@ -91,7 +88,7 @@ class LayerTextVectorConfig extends React.Component {
                     <Select
                         value={textKey}
                         style={{ width: 260 }}
-                        onChange={val => this.handleChange('textKey', val)}>
+                        onChange={val => this.updateConfig('textKey', val)}>
                         {textTypeArr.map(item => {
                             const { key, label } = item;
                             return (
@@ -110,7 +107,7 @@ class LayerTextVectorConfig extends React.Component {
                             icon="wenben"
                             color={textColor}
                             onChange={val =>
-                                this.handleChange('textColor', val)
+                                this.updateConfig('textColor', val)
                             }
                         />
                     </div>
@@ -121,7 +118,7 @@ class LayerTextVectorConfig extends React.Component {
                             color={strokeColor}
                             background={{ r: 255, g: 255, b: 255, a: 1 }}
                             onChange={val =>
-                                this.handleChange('strokeColor', val)
+                                this.updateConfig('strokeColor', val)
                             }
                         />
                     </div>
@@ -130,18 +127,28 @@ class LayerTextVectorConfig extends React.Component {
                         <AdColorInput
                             color={backgroundColor}
                             onChange={val =>
-                                this.handleChange('backgroundColor', val)
+                                this.updateConfig('backgroundColor', val)
                             }
                         />
                     </div>
                     <div className="flex-between" key={updateKey}>
                         <label>字大：</label>
-                        <AdInputNumber
+                        <AdInputPositiveNumber
                             width={76}
-                            value={fontSize}
-                            slowCallback={true}
+                            value={currentFontSize || fontSize}
                             onChange={val =>
-                                this.handleFontSizeChange(val, fontSize)
+                                this.handleChange(
+                                    'currentFontSize',
+                                    val,
+                                    fontSize
+                                )
+                            }
+                            onBlur={() =>
+                                this.updateConfig(
+                                    'fontSize',
+                                    currentFontSize,
+                                    fontSize
+                                )
                             }
                         />
                     </div>
@@ -153,7 +160,7 @@ class LayerTextVectorConfig extends React.Component {
                             value={showMode}
                             style={{ width: 105 }}
                             onChange={val =>
-                                this.handleChange('showMode', val)
+                                this.updateConfig('showMode', val)
                             }>
                             {Object.values(textModeMap).map(item => {
                                 const { key, label } = item;
@@ -168,14 +175,24 @@ class LayerTextVectorConfig extends React.Component {
                     {defaultIntervalMap && (
                         <div className="flex-between">
                             <label>循环间距：</label>
-                            <AdInputNumber
+                            <AdInputPositiveNumber
                                 width={76}
                                 precision={2}
-                                slowCallback={true}
                                 disabled={!isInterval}
-                                value={interval}
+                                value={currentInterval || interval}
                                 onChange={val =>
-                                    this.handleIntervalChange(val, interval)
+                                    this.handleChange(
+                                        'currentInterval',
+                                        val,
+                                        interval
+                                    )
+                                }
+                                onBlur={() =>
+                                    this.updateConfig(
+                                        'interval',
+                                        currentInterval,
+                                        interval
+                                    )
                                 }
                             />
                         </div>
@@ -183,14 +200,24 @@ class LayerTextVectorConfig extends React.Component {
                     {defaultOffsetMap && (
                         <div className="flex-between">
                             <label>偏移距离：</label>
-                            <AdInputNumber
+                            <AdInputPositiveNumber
                                 width={76}
                                 precision={2}
-                                slowCallback={true}
                                 disabled={!isOffset}
-                                value={offset}
+                                value={currentOffset || offset}
                                 onChange={val =>
-                                    this.handleOffsetChange(val, offset)
+                                    this.handleChange(
+                                        'currentOffset',
+                                        val,
+                                        offset
+                                    )
+                                }
+                                onBlur={() =>
+                                    this.updateConfig(
+                                        'offset',
+                                        currentOffset,
+                                        offset
+                                    )
                                 }
                             />
                         </div>
