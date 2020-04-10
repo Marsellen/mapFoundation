@@ -60,7 +60,7 @@ class QualityCheckStore {
     };
 
     //作业员质检
-    producerCheck = flow(function*(option) {
+    producerCheck = flow(function* (option) {
         try {
             const { data } = yield CheckService.check(option);
             return data;
@@ -70,14 +70,13 @@ class QualityCheckStore {
         }
     }).bind(this);
 
-    @action handleProducerCheck = flow(function*(option) {
+    @action handleProducerCheck = flow(function* (option) {
         const data = yield this.producerCheck(option);
         this.clearCheckReportStorage(option.task_id);
         return data;
     }).bind(this);
 
     @action handleProducerGetReport = option => {
-        this.clearCheckReport();
         return new Promise(resolve => this.pollingGetReport(option, resolve));
     };
 
@@ -90,7 +89,7 @@ class QualityCheckStore {
     };
 
     //查询质检结果
-    @action getReport = flow(function*(option) {
+    @action getReport = flow(function* (option) {
         try {
             const { data } = yield CheckService.getReport(option);
             this.handleReportRes(data, option.task_id);
@@ -243,7 +242,7 @@ class QualityCheckStore {
     };
 
     //作业员新增一条误报
-    @action producerInsertMisreport = flow(function*(record, index, checked) {
+    @action producerInsertMisreport = flow(function* (record, index, checked) {
         try {
             const { data } = yield CheckService.insertMisreport(record);
             this.reportListInit[index] = {
@@ -259,7 +258,7 @@ class QualityCheckStore {
     }).bind(this);
 
     //作业员删除一条误报
-    @action producerDeleteMisreport = flow(function*(record, index, checked) {
+    @action producerDeleteMisreport = flow(function* (record, index, checked) {
         try {
             yield CheckService.deleteMisreport(record);
             this.reportListInit[index] = {
@@ -274,14 +273,13 @@ class QualityCheckStore {
         }
     }).bind(this);
 
-    @action handleQualityGetMisreport = flow(function*(option) {
-        this.clearCheckReport();
+    @action handleQualityGetMisreport = flow(function* (option) {
         const data = yield this.qualityGetMisreport(option);
         this.handleReportRes(data, option.taskId);
     }).bind(this);
 
     //质检员查询误报
-    qualityGetMisreport = flow(function*(option) {
+    qualityGetMisreport = flow(function* (option) {
         try {
             const { data } = yield CheckService.getMisreport(option);
             return data;
@@ -300,7 +298,7 @@ class QualityCheckStore {
     };
 
     //质检员更新单条误报
-    @action qualityUpdateMisreport = flow(function*(option, index, checked) {
+    @action qualityUpdateMisreport = flow(function* (option, index, checked) {
         try {
             yield CheckService.updateMisreport(option);
             this.handleReportChecked(index, checked);
