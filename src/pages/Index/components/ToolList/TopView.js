@@ -42,7 +42,6 @@ class TopView extends React.Component {
 
         if (!isTopView) {
             if (
-                layer === null ||
                 layer.layerName === 'AD_TrafficLight' ||
                 layer.layerName === 'AD_TrafficSign' ||
                 layer.layerName === 'AD_Pole' ||
