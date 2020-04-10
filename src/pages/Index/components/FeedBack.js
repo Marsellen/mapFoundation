@@ -83,12 +83,13 @@ class FeedBack extends React.Component {
                     问题反馈
                 </span>
                 <Modal
+                    className="feedback-modal"
                     footer={activeTaskId ? this.renderFooter() : null}
                     title={<span className="modal-title">问题数据反馈</span>}
                     visible={visible}
                     maskClosable={false}
                     onCancel={this.handleCancel}
-                    width={340}>
+                    width={406}>
                     {this.feedBackList()}
                 </Modal>
             </div>
@@ -152,7 +153,7 @@ class FeedBack extends React.Component {
     renderFooter = () => {
         return (
             <div>
-                <Button type="primary" onClick={this.handleCancel}>
+                <Button className="cancelBtn" onClick={this.handleCancel}>
                     取消
                 </Button>
                 <Button
@@ -171,6 +172,7 @@ class FeedBack extends React.Component {
         //反馈成功
         Modal.success({
             title: '已成功反馈！',
+            width: '465px',
             content: (
                 <div className="success-modal">
                     <p>反馈时间：{feedbackData.feedbackTime}</p>
