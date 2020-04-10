@@ -9,33 +9,52 @@ const taskType = [
     {
         name: 'imp_recognition',
         type: 'MS',
-        isLocal: false,
+        isLocal: false
     },
     {
         name: 'imp_check_after_recognition',
         type: 'MS_QC',
-        isLocal: false,
+        isLocal: false
     },
     {
         name: 'imp_manbuild',
         type: 'MB',
-        isLocal: false,
+        isLocal: false
     },
     {
         name: 'imp_check_after_manbuild',
         type: 'MB_QC',
-        isLocal: false,
+        isLocal: false
     },
     {
         name: 'imp_recognition',
         type: 'MSD',
-        isLocal: true,
+        isLocal: true
     },
     {
         name: 'imp_manbuild',
         type: 'MBD',
-        isLocal: true,
+        isLocal: true
+    }
+];
+
+const processName = [
+    {
+        name: 'imp_recognition',
+        label: '人工识别'
     },
+    {
+        name: 'imp_check_after_recognition',
+        label: '人工识别后质检'
+    },
+    {
+        name: 'imp_manbuild',
+        label: '人工构建'
+    },
+    {
+        name: 'imp_check_after_manbuild',
+        label: '人工构建后质检'
+    }
 ];
 
 @inject('TaskStore')
@@ -48,7 +67,7 @@ class FeedBack extends React.Component {
         super();
         this.state = {
             visible: false,
-            loading: false,
+            loading: false
         };
     }
 
@@ -80,6 +99,9 @@ class FeedBack extends React.Component {
         const { TaskStore, appStore } = this.props;
         const { activeTask } = TaskStore;
         const { loginUser } = appStore;
+        const pjIndex = processName.findIndex(item => {
+            return item.name === activeTask.processName;
+        });
         if (activeTask.taskId) {
             return (
                 <div className="feedback-content">
@@ -106,7 +128,7 @@ class FeedBack extends React.Component {
                         }
                         size="small">
                         <Descriptions.Item label="工程编号" span={3}>
-                            {activeTask.projectId}
+                            {activeTask.isLocal ? '-' : activeTask.projectId}
                         </Descriptions.Item>
                         <Descriptions.Item label="工作人员" span={3}>
                             {loginUser.name} {loginUser.roleName}
@@ -115,7 +137,9 @@ class FeedBack extends React.Component {
                             {activeTask.taskId}
                         </Descriptions.Item>
                         <Descriptions.Item label="任务类型&amp;状态" span={3}>
-                            {activeTask.nodeDesc}-{activeTask.manualStatusDesc}
+                            {activeTask.isLocal
+                                ? processName[pjIndex].label
+                                : `${activeTask.nodeDesc}-${activeTask.manualStatusDesc}`}
                         </Descriptions.Item>
                     </Descriptions>
                 </div>
@@ -154,7 +178,7 @@ class FeedBack extends React.Component {
                     <p>相关信息请同步记录到编辑平台问题表中。</p>
                 </div>
             ),
-            okText: '确定',
+            okText: '确定'
         });
     };
 
@@ -163,15 +187,15 @@ class FeedBack extends React.Component {
             TaskStore,
             OperateHistoryStore,
             FeedbackStore,
-            appStore,
+            appStore
         } = this.props;
         this.setState({ loading: true });
         const { loginUser } = appStore;
         const { activeTask } = TaskStore;
-        const newTaskType = taskType.filter((item) => {
+        const newTaskType = taskType.filter(item => {
             return activeTask.processName === item.name;
         });
-        const Index = newTaskType.findIndex((item) => {
+        const Index = newTaskType.findIndex(item => {
             if (activeTask.isLocal) {
                 return item.isLocal === true;
             } else {
@@ -186,7 +210,7 @@ class FeedBack extends React.Component {
                 enviromentAddress: activeTask.Input_imp_data_path,
                 edition: CONFIG.version,
                 projectId: activeTask.projectId,
-                operator: loginUser.username,
+                operator: loginUser.username
             };
             // console.log('params', params);
 
@@ -197,7 +221,7 @@ class FeedBack extends React.Component {
             this._successModal();
             this.setState({
                 visible: false,
-                loading: false,
+                loading: false
             });
         } catch (e) {
             Modal.error({
@@ -208,24 +232,24 @@ class FeedBack extends React.Component {
                         <p>请再次提交反馈申请。</p>
                     </div>
                 ),
-                okText: '确定',
+                okText: '确定'
             });
             this.setState({
                 visible: false,
-                loading: false,
+                loading: false
             });
         }
     };
 
     toggle = () => {
         this.setState({
-            visible: true,
+            visible: true
         });
     };
 
     handleCancel = () => {
         this.setState({
-            visible: false,
+            visible: false
         });
     };
 }
