@@ -13,10 +13,12 @@ import DividerToAutoCreate from './HalfAutoTools/DividerToAutoCreate';
 import NewStraightLine from './HalfAutoTools/NewStraightLine';
 import NewTurnLine from './HalfAutoTools/NewTurnLine';
 import NewUTurnLine from './HalfAutoTools/NewUTurnLine';
+import AddCurvedLine from './AddCurvedLine';
 
 const EDIT_TYPES = [
     'new_point',
     'new_line',
+    'new_curved_line',
     'new_polygon',
     'new_facade_rectangle',
     'new_vertical_matrix',
@@ -36,8 +38,13 @@ const OPTIONS = {
     },
     LINE: {
         key: 'icon-line-graph',
-        title: '绘制线要素',
+        title: '绘制折线',
         actionid: 'add-line-btn'
+    },
+    CURVED_LINE: {
+        key: 'icon-curved-line-graph',
+        title: '绘制曲线',
+        actionid: 'add-curved-line-btn'
     },
     POLYGON: {
         key: 'xiankuang1',
@@ -64,6 +71,8 @@ const OPTIONS = {
 class DrawToolBox extends React.Component {
     render() {
         let drawTools = this.getDrawTools();
+        console.log('drawTools', drawTools);
+
         return (
             <CheckButton
                 defaultOption={this.getDefaultOption()}
@@ -143,9 +152,16 @@ class DrawToolBox extends React.Component {
             <Menu.Item
                 name="LINE"
                 key="icon-line-graph"
-                title="绘制线要素"
+                title="绘制折线"
                 actionid="add-line-btn">
                 <AddLine />
+            </Menu.Item>,
+            <Menu.Item
+                name="CURVED_LINE"
+                key="icon-curved-line-graph"
+                title="绘制曲线"
+                actionid="add-curved-line-btn">
+                <AddCurvedLine />
             </Menu.Item>,
             <Menu.Item
                 name="POLYGON"

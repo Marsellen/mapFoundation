@@ -33,7 +33,10 @@ export const DATA_LAYER_MAP = {
             recognition: ['DRAW_TOOL_BOX', 'BATCH_TOOL_BOX'],
             manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX']
         },
-        drawTools: { recognition: ['LINE'], manbuild: ['LINE'] },
+        drawTools: {
+            recognition: ['LINE', 'CURVED_LINE'],
+            manbuild: ['LINE', 'CURVED_LINE']
+        },
         rightTools: [
             'delete',
             'copyLine',
@@ -113,9 +116,10 @@ export const DATA_LAYER_MAP = {
             manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX']
         },
         drawTools: {
-            recognition: ['LINE'],
+            recognition: ['LINE', 'CURVED_LINE'],
             manbuild: [
                 'LINE',
+                'CURVED_LINE',
                 'DIVIDER',
                 'DIVIDER_TO_AUTO_CREATE',
                 'NEW_STRAIGHT_LINE',
@@ -180,9 +184,10 @@ export const DATA_LAYER_MAP = {
             manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX']
         },
         drawTools: {
-            recognition: ['LINE'],
+            recognition: ['LINE', 'CURVED_LINE'],
             manbuild: [
                 'LINE',
+                'CURVED_LINE',
                 'DIVIDER',
                 'DIVIDER_TO_AUTO_CREATE',
                 'NEW_STRAIGHT_LINE',
@@ -274,8 +279,8 @@ export const DATA_LAYER_MAP = {
             manbuild: ['DRAW_TOOL_BOX']
         },
         drawTools: {
-            recognition: ['LINE'],
-            manbuild: ['LINE']
+            recognition: ['LINE', 'CURVED_LINE'],
+            manbuild: ['LINE', 'CURVED_LINE']
         },
         rightTools: [
             'delete',
