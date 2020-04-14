@@ -222,6 +222,15 @@ class DataLayerStore {
         this.editor.newLine();
     };
 
+    newCurvedLine = () => {
+        this.exitEdit();
+        if (!this.editor) return;
+        this.disableOtherCtrl();
+        this.setEditType('new_curved_line');
+        this.changeCur();
+        this.editor.newLine();
+    };
+
     newPolygon = () => {
         this.exitEdit();
         if (!this.editor) return;

@@ -14,7 +14,7 @@ class AddLine extends React.Component {
         return (
             <div id="add-line-btn" className="flex-1" onClick={this.action}>
                 <ToolIcon icon="icon-line-graph" />
-                <div>绘制线要素</div>
+                <div>绘制折线</div>
                 <AdMessage visible={visible} content={this.content()} />
             </div>
         );
@@ -28,7 +28,7 @@ class AddLine extends React.Component {
     };
 
     content = () => {
-        return <label>绘制线要素</label>;
+        return <label>绘制折线</label>;
     };
 }
 
