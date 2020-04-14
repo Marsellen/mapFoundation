@@ -38,23 +38,23 @@ export const HOT_KEYS_CONFIG = {
         //编辑功能
         {
             value: 'Alt+1',
-            label: '添加点、线、面要素'
+            label: '绘制点、折线、面要素'
         },
         {
             value: 'Alt+2',
-            label: '添加立面两点矩形'
+            label: '绘制两点立面矩形、曲线'
         },
         {
             value: 'Alt+3',
-            label: '添加立面多边形外接矩形'
+            label: '绘制任意外接立面矩形'
         },
         {
             value: 'Alt+4',
-            label: '添加立面三点圆 '
+            label: '绘制三点圆形'
         },
         {
             value: 'Alt+5',
-            label: '添加地面矩形'
+            label: '绘制地面矩形'
         },
         {
             value: '选中要素+Delete',
@@ -90,6 +90,14 @@ export const HOT_KEYS_CONFIG = {
             label: '合并线要素'
         },
         {
+            value: '选择1个要素+I',
+            label: '线要素逆序'
+        },
+        {
+            value: '选择1个要素+J',
+            label: '修整线要素'
+        },
+        {
             value: '选中要素+V',
             label: '修改形状点'
         },
@@ -105,11 +113,11 @@ export const HOT_KEYS_CONFIG = {
             value: '线、面绘制过程中+Z',
             label: '节点撤回'
         },
-        { value: 'Esc', label: '退出编辑状态' },
         {
-            value: '选择1个要素+I',
-            label: '线要素逆序'
-        }
+            value: '选择1个要素+Y',
+            label: '属性刷'
+        },
+        { value: 'Esc', label: '退出编辑状态' }
     ],
     WINDOW_KEY: [
         //窗口开关
