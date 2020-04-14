@@ -195,18 +195,11 @@ class Task extends React.Component {
             QualityCheckStore.closeCheckReport();
             QualityCheckStore.clearCheckReport();
             TaskStore.setActiveTask(id);
+            isEdit && TaskStore.startTaskEdit(id);
             this.handleReportOpen();
 
-            if (isEdit) {
-                try {
-                    window.boundaryLayerGroup = await TaskStore.startTaskEdit(
-                        id
-                    );
-                    this.fetchLayerGroup(window.boundaryLayerGroup);
-                } catch (e) {
-                    message.warning('周边底图数据加载失败', 3);
-                }
-            }
+            //先浏览再开始任务时，获取周边底图
+            activeTaskId === id && isEdit && this.fetchLayerGroup();
 
             this.setState({ current: id }, () => {
                 this.isToggling = false;
@@ -245,18 +238,26 @@ class Task extends React.Component {
         }
     };
 
-    fetchLayerGroup = boundaryLayerGroup => {
-        if (!boundaryLayerGroup) {
-            return;
+    fetchLayerGroup = async () => {
+        try {
+            const {
+                TaskStore,
+                DataLayerStore,
+                ResourceLayerStore,
+                VectorsStore
+            } = this.props;
+            window.boundaryLayerGroup = await TaskStore.getBoundaryLayer();
+            if (!window.boundaryLayerGroup) return;
+            DataLayerStore.addTargetLayers(window.boundaryLayerGroup.layers);
+            ResourceLayerStore.updateLayerByName(
+                RESOURCE_LAYER_BOUNDARY,
+                window.boundaryLayerGroup
+            );
+            VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
+            this.handleBoundaryfeature();
+        } catch (e) {
+            message.warning('周边底图数据加载失败', 3);
         }
-        const { DataLayerStore, ResourceLayerStore, VectorsStore } = this.props;
-        DataLayerStore.addTargetLayers(boundaryLayerGroup.layers);
-        ResourceLayerStore.updateLayerByName(
-            RESOURCE_LAYER_BOUNDARY,
-            boundaryLayerGroup
-        );
-        VectorsStore.addBoundaryLayer(boundaryLayerGroup);
-        this.handleBoundaryfeature();
     };
 }
 
