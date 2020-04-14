@@ -213,12 +213,13 @@ class VizComponent extends React.Component {
     };
 
     initEditResource = async task => {
-        let resources = await Promise.all([
+        const resources = await Promise.all([
             this.initVectors(task.vectors),
             this.initRegion(task.region),
-            this.initBoundary(task.boundary),
             this.initMultiProjectResource(task)
         ]);
+        const { TaskStore } = this.props;
+        TaskStore.editTaskId && this.initBoundary();
         this.initResouceLayer(resources);
         this.installListener();
     };
@@ -362,36 +363,25 @@ class VizComponent extends React.Component {
         }
     };
 
-    initBoundary = async boundary => {
-        if (!boundary) return;
+    initBoundary = async () => {
         try {
-            await this.loadBoundaryEx(boundary);
-            return await this.loadBoundary(boundary);
+            const {
+                TaskStore,
+                DataLayerStore,
+                ResourceLayerStore,
+                VectorsStore
+            } = this.props;
+            window.boundaryLayerGroup = await TaskStore.getBoundaryLayer();
+            if (!window.boundaryLayerGroup) return;
+            DataLayerStore.addTargetLayers(window.boundaryLayerGroup.layers);
+            ResourceLayerStore.updateLayerByName(
+                RESOURCE_LAYER_BOUNDARY,
+                window.boundaryLayerGroup
+            );
+            VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
         } catch (e) {
-            console.log(e);
             message.warning('周边底图数据加载失败', 3);
         }
-    };
-
-    loadBoundary = async boundary => {
-        window.boundaryLayerGroup = new LayerGroup(boundary.adsAll, {
-            styleConifg: OutsideVectorsConfig
-        });
-        await map.getLayerManager().addLayerGroup(boundaryLayerGroup);
-
-        const { VectorsStore } = this.props;
-        VectorsStore.addBoundaryLayer(boundaryLayerGroup);
-
-        return {
-            layerName: RESOURCE_LAYER_BOUNDARY,
-            layer: boundaryLayerGroup
-        };
-    };
-
-    loadBoundaryEx = async boundary => {
-        const { RelStore, AttrStore } = this.props;
-        await RelStore.addRecords(boundary.rels, 'boundary');
-        await AttrStore.addRecords(boundary.attrs, 'boundary');
     };
 
     initResouceLayer = layers => {

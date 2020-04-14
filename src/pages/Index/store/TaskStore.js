@@ -107,11 +107,14 @@ class TaskStore {
     };
 
     @action startTaskEdit = id => {
+        this.editTaskId = id;
+        this.fetchTask();
+    };
+
+    @action getBoundaryLayer = () => {
         const taskType = this.taskProcessName;
         const updateBoundaryParams = this.initUpdateBoundaryParams(taskType);
         const isGetTaskBoundaryFile = this.isGetTaskBoundaryFile();
-        this.editTaskId = id;
-        this.fetchTask();
         // 已更新底图，则直接获取底图；未更新底图，则先更新再获取底图
         if (isGetTaskBoundaryFile) {
             return this.getTaskBoundaryFile();
