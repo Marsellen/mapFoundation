@@ -1,10 +1,9 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import editLog from 'src/models/editLog';
-import AdEmitter from 'src/models/event';
+import { message } from 'antd';
+import { logDecorator } from 'src/utils/decorator';
 
-@inject('RenderModeStore')
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
 @inject('AttributeStore')
@@ -30,28 +29,38 @@ class Redo extends React.Component {
     };
 
     action = () => {
-        const {
-            OperateHistoryStore,
-            DataLayerStore,
-            AttributeStore,
-            RenderModeStore
-        } = this.props;
-        OperateHistoryStore.doning();
-        OperateHistoryStore.redo().then(history => {
-            let log = {
-                operateHistory: history,
-                action: 'redo',
-                result: 'success'
-            };
-            editLog.store.add(log);
-            DataLayerStore.exitEdit();
+        this.redo();
+    };
+
+    @logDecorator({ operate: '回退', skipHistory: true })
+    async redo() {
+        const { OperateHistoryStore, AttributeStore } = this.props;
+        try {
+            message.loading({
+                content: '正在回退...',
+                key: 'redo',
+                duration: 0
+            });
+            OperateHistoryStore.doning();
+            let history = await OperateHistoryStore.redo();
             AttributeStore.hide();
             AttributeStore.hideRelFeatures();
-            AdEmitter.emit('fetchViewAttributeData');
             OperateHistoryStore.done();
-            RenderModeStore.updateRels(history);
-        });
-    };
+            message.success({
+                content: '回退成功',
+                key: 'redo',
+                duration: 1
+            });
+            return history;
+        } catch (e) {
+            message.error({
+                content: `回退失败`,
+                key: 'redo',
+                duration: 1
+            });
+            throw e;
+        }
+    }
 }
 
 export default Redo;

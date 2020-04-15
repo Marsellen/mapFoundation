@@ -4,63 +4,24 @@ import { inject, observer } from 'mobx-react';
 import { message, Modal } from 'antd';
 import { delRel, calcRelChangeLog } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
-import editLog from 'src/models/editLog';
-import AdEmitter from 'src/models/event';
+import { logDecorator } from 'src/utils/decorator';
+import AttributeStore from 'src/pages/Index/store/AttributeStore';
+
 import 'less/components/tool-icon.less';
 
-@inject('RenderModeStore')
 @inject('DataLayerStore')
-@inject('AttributeStore')
-@inject('OperateHistoryStore')
 @observer
 class DelRel extends React.Component {
     componentDidMount() {
-        const {
-            DataLayerStore,
-            AttributeStore,
-            OperateHistoryStore,
-            RenderModeStore
-        } = this.props;
+        const { DataLayerStore } = this.props;
         DataLayerStore.setDelRelCallback((result, event) => {
-            // console.log(result);
             if (event.button !== 2) return false;
             Modal.confirm({
                 title: '是否删除关联关系?',
                 okText: '确定',
                 okType: 'danger',
                 cancelText: '取消',
-                onOk() {
-                    let [mainFeature, ...relFeatures] = result;
-                    delRel(mainFeature, relFeatures)
-                        .then(rels => {
-                            if (rels.length == 0) {
-                                message.warning('没有选中待删除的关联对象', 3);
-                                AttributeStore.hideRelFeatures();
-                                DataLayerStore.exitEdit();
-                                return;
-                            }
-                            let data = calcRelChangeLog(result, [rels, []]);
-                            let history = {
-                                type: 'updateFeatureRels',
-                                data
-                            };
-                            let log = {
-                                operateHistory: history,
-                                action: 'delRel',
-                                result: 'success'
-                            };
-                            OperateHistoryStore.add(history);
-                            editLog.store.add(log);
-                            message.success('删除关联关系成功', 3);
-                            AttributeStore.hideRelFeatures();
-                            DataLayerStore.exitEdit();
-                            RenderModeStore.updateRels(history);
-                            AdEmitter.emit('fetchViewAttributeData');
-                        })
-                        .catch(e => {
-                            message.warning(e.message, 3);
-                        });
-                },
+                onOk: this.delRel.bind(this, result),
                 onCancel() {
                     DataLayerStore.exitEdit();
                 }
@@ -89,7 +50,7 @@ class DelRel extends React.Component {
     }
 
     action = () => {
-        const { DataLayerStore, AttributeStore } = this.props;
+        const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'delRel') return;
         let mainFeature = AttributeStore.getModel();
         let layerId = mainFeature && mainFeature.layerId;
@@ -104,6 +65,25 @@ class DelRel extends React.Component {
     content = () => {
         return <label>请从高亮要素中选择要被取消的关联要素</label>;
     };
+
+    @logDecorator({ operate: '删除关联关系' })
+    async delRel(result) {
+        try {
+            if (result.length < 2) {
+                throw new Error('没有选中待删除的关联对象');
+            }
+            let [mainFeature, ...relFeatures] = result;
+            let rels = await delRel(mainFeature, relFeatures);
+            let log = calcRelChangeLog(result, [rels, []]);
+            message.success('删除关联关系成功', 3);
+            AttributeStore.hideRelFeatures();
+            return log;
+        } catch (e) {
+            message.warning(e.message, 3);
+            AttributeStore.hideRelFeatures();
+            throw e;
+        }
+    }
 }
 
 export default DelRel;

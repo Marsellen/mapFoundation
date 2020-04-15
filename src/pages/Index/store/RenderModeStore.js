@@ -232,7 +232,7 @@ class RenderModeStore {
     };
 
     //将有关联关系的要素，按专题图进行分组
-    @action setRels = flow(function*() {
+    @action setRels = flow(function* () {
         //获取关联关系图层所有要素
         const allRelData = yield getAllRelData();
         const allRelDataArr = allRelData.features;
@@ -345,7 +345,7 @@ class RenderModeStore {
 
         this.rels_2D = rels_2D;
     }).bind(this);
-    //将history.data.rels里的数据，转成this.rels_2D格式
+    //将history.rels里的数据，转成this.rels_2D格式
     getRelMap = updateRels => {
         if (!updateRels || updateRels.length === 0) return false;
         let updateRelMap_2D = {};
@@ -369,13 +369,13 @@ class RenderModeStore {
         if (!updateRelMap_2D) return;
 
         Object.keys(updateRelMap_2D).forEach(relName => {
-            //根据history.data.rels的旧关联关系数据，删除this.rels_2D里相应数据
+            //根据history.rels的旧关联关系数据，删除this.rels_2D里相应数据
             Object.keys(updateRelMap_2D[relName]).forEach(id => {
                 if (!this.rels_2D[relName]) return;
                 id = id.split(',').sort();
                 delete this.rels_2D[relName][id];
             });
-            //根据history.data.rels的旧关联关系数据，将相应要素变白
+            //根据history.rels的旧关联关系数据，将相应要素变白
             if (this.unCheckedRelArr.includes(relName)) return;
             const features = Object.values(updateRelMap_2D[relName]).flat();
             if (!features && features.length === 0) return;
@@ -393,12 +393,12 @@ class RenderModeStore {
         const updateRelMap_2D = this.getRelMap(newRels);
         if (!updateRelMap_2D) return;
         Object.keys(updateRelMap_2D).forEach(relName => {
-            //根据history.data.rels的新关联关系数据，向this.rels_2D添加相应数据
+            //根据history.rels的新关联关系数据，向this.rels_2D添加相应数据
             this.rels_2D[relName] = {
                 ...this.rels_2D[relName],
                 ...updateRelMap_2D[relName]
             };
-            //根据history.data.rels的新关联关系数据，将相应要素变黄
+            //根据history.rels的新关联关系数据，将相应要素变黄
             if (this.unCheckedRelArr.includes(relName)) return;
             const features = Object.values(updateRelMap_2D[relName]).flat();
             if (!features && features.length === 0) return;
@@ -428,7 +428,7 @@ class RenderModeStore {
     @action updateRels = history => {
         if (this.activeMode !== 'relation') return;
         if (!history) return;
-        const { rels = [], features = [] } = history.data || {};
+        const { rels = [], features = [] } = history || {};
         const newFeatures = features[1];
         const [oldRels, newRels] = rels;
 
@@ -505,7 +505,7 @@ class RenderModeStore {
     };
 
     //获取选中要素的关联要素，并处理成所需格式
-    fetchRels = flow(function*(feature) {
+    fetchRels = flow(function* (feature) {
         try {
             const { layerName, data } = feature;
             const { properties } = data;

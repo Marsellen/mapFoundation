@@ -11,16 +11,14 @@ import {
     calcRelChangeLog
 } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
-import editLog from 'src/models/editLog';
 import AddLRLaneDriverRel from './AddRelModal/AddLRLaneDriverRel';
 import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
-import AdEmitter from 'src/models/event';
+import { logDecorator } from 'src/utils/decorator';
+
 import 'less/components/tool-icon.less';
 import './AddRel.less';
 
-@inject('RenderModeStore')
 @inject('DataLayerStore')
-@inject('OperateHistoryStore')
 @inject('AttributeStore')
 @observer
 class AddRel extends React.Component {
@@ -109,7 +107,7 @@ class AddRel extends React.Component {
                     </div>
                 </div>
             ),
-            onOk() { }
+            onOk() {}
         });
     }
 
@@ -123,10 +121,14 @@ class AddRel extends React.Component {
     };
 
     newRelCallBack = async (result, event) => {
-        // console.log(result);
         if (event.button !== 2) return false;
-        const { DataLayerStore } = this.props;
+        this.newRel(result);
+    };
+
+    @logDecorator({ operate: '新建关联关系', onlyRun: true })
+    async newRel(result) {
         try {
+            const { DataLayerStore } = this.props;
             let [mainFeature, ...relFeatures] = result;
             let layerName = DataLayerStore.getEditLayer().layerName;
             let warningMessage = await basicCheck(
@@ -134,21 +136,19 @@ class AddRel extends React.Component {
                 relFeatures,
                 layerName
             );
-            this.newRel(mainFeature, relFeatures, warningMessage);
+            if (this.isAddLRLaneDriverRel(mainFeature, relFeatures)) {
+                this.addLRLaneDriverRelModal.show([
+                    mainFeature,
+                    relFeatures[0]
+                ]);
+            } else {
+                this.comfirmNewRel(mainFeature, relFeatures, warningMessage);
+            }
         } catch (e) {
-            console.log(e);
-            message.warning('新建关联关系失败：' + e.message, 3);
-            DataLayerStore.exitEdit();
+            message.warning('新建关联关系失败：' + e.message);
+            throw e;
         }
-    };
-
-    newRel = (mainFeature, relFeatures, warningMessage) => {
-        if (this.isAddLRLaneDriverRel(mainFeature, relFeatures)) {
-            this.addLRLaneDriverRelModal.show([mainFeature, relFeatures[0]]);
-        } else {
-            this.comfirmNewRel(mainFeature, relFeatures, warningMessage);
-        }
-    };
+    }
 
     comfirmNewRel = (mainFeature, relFeatures, warningMessage) => {
         const { DataLayerStore } = this.props;
@@ -157,30 +157,37 @@ class AddRel extends React.Component {
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
-            onOk: async () => {
-                try {
-                    let rels = await newRel(mainFeature, relFeatures);
-                    let log = calcRelChangeLog(
-                        [mainFeature, ...relFeatures],
-                        [[], rels]
-                    );
-                    this.saveLog(log);
-                    if (warningMessage) {
-                        message.warning(warningMessage);
-                    } else {
-                        message.success('新建成功');
-                    }
-                } catch (e) {
-                    console.log(e);
-                    message.warning('新建关联关系失败：' + e.message, 3);
-                    DataLayerStore.exitEdit();
-                }
-            },
+            onOk: this.newRelHandler.bind(
+                this,
+                mainFeature,
+                relFeatures,
+                warningMessage
+            ),
             onCancel() {
                 DataLayerStore.exitEdit();
             }
         });
     };
+
+    @logDecorator({ operate: '新建关联关系' })
+    async newRelHandler(mainFeature, relFeatures, warningMessage) {
+        try {
+            let rels = await newRel(mainFeature, relFeatures);
+            let log = calcRelChangeLog(
+                [mainFeature, ...relFeatures],
+                [[], rels]
+            );
+            if (warningMessage) {
+                message.warning(warningMessage);
+            } else {
+                message.success('新建成功');
+            }
+            return log;
+        } catch (e) {
+            message.warning('新建关联关系失败：' + e.message, 3);
+            throw e;
+        }
+    }
 
     isAddLRLaneDriverRel = (mainFeature, relFeatures) => {
         if (relFeatures.length != 1) {
@@ -196,7 +203,8 @@ class AddRel extends React.Component {
         }
     };
 
-    addLRLaneDriverRel = async (type, options) => {
+    @logDecorator({ operate: '新建关联关系' })
+    async addLRLaneDriverRel(type, options) {
         try {
             let [mainFeature, relFeature] = options;
             let specConfig = REL_SPEC_CONFIG.find(
@@ -210,37 +218,13 @@ class AddRel extends React.Component {
             await attrRelUniqCheck(rel);
             await batchAddRels([rel]);
             let log = calcRelChangeLog([mainFeature, relFeature], [[], [rel]]);
-            this.saveLog(log);
             message.success('新建成功');
+            return log;
         } catch (e) {
-            const { DataLayerStore } = this.props;
-            console.log(e);
-            message.warning('与左右车道线新建关联关系失败：' + e.message, 3);
-            DataLayerStore.exitEdit();
+            message.warning('与左右车道线新建关联关系失败：' + e.message);
+            throw e;
         }
-    };
-
-    saveLog = data => {
-        const {
-            DataLayerStore,
-            OperateHistoryStore,
-            RenderModeStore
-        } = this.props;
-        let history = {
-            type: 'updateFeatureRels',
-            data
-        };
-        let log = {
-            operateHistory: history,
-            action: 'addRel',
-            result: 'success'
-        };
-        OperateHistoryStore.add(history);
-        editLog.store.add(log);
-        DataLayerStore.exitEdit();
-        RenderModeStore.updateRels(history);
-        AdEmitter.emit('fetchViewAttributeData');
-    };
+    }
 }
 
 export default AddRel;

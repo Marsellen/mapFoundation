@@ -77,7 +77,7 @@ class TaskStore {
         if (this.activeTask.isLocal) {
             return 'manbuild';
         }
-        return getTaskProcessType(this.activeTask);
+        return getTaskProcessType();
     }
 
     // 任务列表

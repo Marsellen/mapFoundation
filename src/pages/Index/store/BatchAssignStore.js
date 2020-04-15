@@ -33,7 +33,6 @@ class BatchAssignStore {
             };
         });
         let layer = getLayerByName(this.layerName);
-        //layer.updateFeatures(newFeatures);
         layerUpdateFeatures(layer, newFeatures);
 
         this.hide();

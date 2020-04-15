@@ -265,8 +265,10 @@ class DataLayerStore {
         this.disableOtherCtrl();
         this.setEditType('new_around_line');
         this.editor.clear();
-        this.editor.toggleMode(61);
+        this.editor.toggleMode(61); //多选模式
         this.removeCur();
+        let layer = getLayerExByName('AD_LaneDivider');
+        this.editor.setTargetLayers([layer]);
     };
 
     // 路口内直行中心线生成
@@ -278,6 +280,8 @@ class DataLayerStore {
         this.editor.clear();
         this.editor.toggleMode(61);
         this.removeCur();
+        let layer = getLayerExByName(this.editor.editLayer.layerName);
+        this.editor.setTargetLayers([layer]);
     };
 
     // 路口内转弯中心线生成
@@ -289,6 +293,8 @@ class DataLayerStore {
         this.editor.clear();
         this.editor.toggleMode(61);
         this.removeCur();
+        let layer = getLayerExByName(this.editor.editLayer.layerName);
+        this.editor.setTargetLayers([layer]);
     };
 
     // 路口内掉头中心线生成
@@ -300,6 +306,8 @@ class DataLayerStore {
         this.editor.clear();
         this.editor.toggleMode(61);
         this.removeCur();
+        let layer = getLayerExByName(this.editor.editLayer.layerName);
+        this.editor.setTargetLayers([layer]);
     };
 
     @action topViewMode = opt => {
@@ -560,8 +568,12 @@ class DataLayerStore {
                 break;
             case 'new_Uturn_line':
                 this.newUturnExitEvent();
+                this.fetchTargetLayers();
                 break;
             case 'line_snap_stop':
+            case 'new_around_line':
+            case 'new_straight_line':
+            case 'new_turn_line':
                 this.fetchTargetLayers();
                 break;
             default:

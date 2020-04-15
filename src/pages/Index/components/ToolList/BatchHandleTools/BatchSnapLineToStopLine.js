@@ -6,13 +6,14 @@ import editLog from 'src/models/editLog';
 import AdEmitter from 'src/models/event';
 import { inject, observer } from 'mobx-react';
 import { lineToStop } from 'src/utils/relCtrl/operateCtrl';
+import { logDecorator } from 'src/utils/decorator';
+import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
+import TaskStore from 'src/pages/Index/store/TaskStore';
+import AttributeStore from 'src/pages/Index/store/AttributeStore';
+
 import 'less/components/tool-icon.less';
 
-@inject('RenderModeStore')
 @inject('DataLayerStore')
-@inject('TaskStore')
-@inject('OperateHistoryStore')
-@inject('AttributeStore')
 @observer
 class BatchSnapLineToStopLine extends React.Component {
     constructor(props) {
@@ -108,18 +109,17 @@ class BatchSnapLineToStopLine extends React.Component {
         }
     };
 
-    handleSnap = async event => {
+    @logDecorator({ operate: '线要素对齐到停止线' })
+    async handleSnap(event) {
         if (event.button !== 2) return;
-        const {
-            DataLayerStore,
-            TaskStore,
-            OperateHistoryStore,
-            RenderModeStore
-        } = this.props;
-        const { activeTask } = TaskStore;
-        let layerName = DataLayerStore.getEditLayer().layerName;
-        message.loading({ content: '处理中...', key: 'line_snap_stop' });
         try {
+            const { activeTask } = TaskStore;
+            let layerName = DataLayerStore.getEditLayer().layerName;
+            message.loading({
+                content: '处理中...',
+                key: 'line_snap_stop',
+                duration: 0
+            });
             let [features, [stopLine]] = this.result;
             if (!stopLine) {
                 throw new Error('没有做对齐处理');
@@ -130,21 +130,7 @@ class BatchSnapLineToStopLine extends React.Component {
                 layerName,
                 activeTask
             );
-            let history = {
-                type: 'updateFeatureRels',
-                data: historyLog
-            };
-            let log = {
-                operateHistory: history,
-                action: 'batchSnapLineToStopLine',
-                result: 'success'
-            };
-            OperateHistoryStore.add(history);
-            editLog.store.add(log);
-            // 刷新属性列表
-            AdEmitter.emit('fetchViewAttributeData');
-            DataLayerStore.exitEdit();
-            RenderModeStore.updateRels(history);
+            return historyLog;
         } catch (e) {
             message.error({
                 content: e.message,
@@ -152,12 +138,12 @@ class BatchSnapLineToStopLine extends React.Component {
                 duration: 3
             });
             this.removeEventListener();
-            DataLayerStore.exitEdit();
+            throw e;
         }
-    };
+    }
 
     action = () => {
-        const { DataLayerStore, AttributeStore } = this.props;
+        const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'line_snap_stop') return;
 
         AttributeStore.hideRelFeatures();

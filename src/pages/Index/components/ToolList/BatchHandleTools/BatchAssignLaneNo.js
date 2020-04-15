@@ -3,19 +3,19 @@ import { Modal, Select, message } from 'antd';
 import ToolIcon from 'src/components/ToolIcon';
 import AdMessage from 'src/components/AdMessage';
 import { inject, observer } from 'mobx-react';
-import editLog from 'src/models/editLog';
-import AdEmitter from 'src/models/event';
 import { batchAssignment } from 'src/utils/relCtrl/operateCtrl';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import { logDecorator } from 'src/utils/decorator';
+import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
+import TaskStore from 'src/pages/Index/store/TaskStore';
+
 import 'less/components/tool-icon.less';
 import 'less/components/batch-tools.less';
+import { checkSdkError } from 'src/utils/vectorUtils';
 
 const { Option } = Select;
 
-@inject('RenderModeStore')
 @inject('DataLayerStore')
-@inject('TaskStore')
-@inject('OperateHistoryStore')
 @observer
 class BatchAssignLaneNo extends React.Component {
     constructor(props) {
@@ -169,22 +169,19 @@ class BatchAssignLaneNo extends React.Component {
         }
     };
 
-    handleAssign = async event => {
+    @logDecorator({ operate: '批量赋值车道分组编号' })
+    async handleAssign(event) {
         if (event.button !== 2) return;
-        const {
-            OperateHistoryStore,
-            DataLayerStore,
-            TaskStore,
-            RenderModeStore
-        } = this.props;
-        const { activeTask } = TaskStore;
-        let layerName = DataLayerStore.getEditLayer().layerName;
-        message.loading({ content: '处理中...', key: 'assign_lane_no' });
         try {
-            if (this.result.errorCode) {
-                //没有绘制辅助线直接右键
-                throw new Error('没有做赋值处理');
-            }
+            const { activeTask } = TaskStore;
+            let layerName = DataLayerStore.getEditLayer().layerName;
+            message.loading({
+                content: '处理中...',
+                key: 'assign_lane_no',
+                duration: 0
+            });
+            checkSdkError(this.result, '没有做赋值处理');
+
             let [features, [fixLine]] = this.result;
             let historyLog = await batchAssignment(
                 features,
@@ -193,21 +190,8 @@ class BatchAssignLaneNo extends React.Component {
                 this.state.startNumber,
                 activeTask
             );
-            let history = {
-                type: 'updateFeatureRels',
-                data: historyLog
-            };
-            let log = {
-                operateHistory: history,
-                action: 'batchAssignLaneNo',
-                result: 'success'
-            };
-            OperateHistoryStore.add(history);
-            editLog.store.add(log);
-            // 刷新属性列表
-            AdEmitter.emit('fetchViewAttributeData');
-            DataLayerStore.exitEdit();
-            RenderModeStore.updateRels(history);
+
+            return historyLog;
         } catch (e) {
             message.error({
                 content: e.message,
@@ -215,9 +199,9 @@ class BatchAssignLaneNo extends React.Component {
                 duration: 3
             });
             this.removeEventListener();
-            DataLayerStore.exitEdit();
+            throw e;
         }
-    };
+    }
 }
 
 export default BatchAssignLaneNo;

@@ -27,8 +27,9 @@ import 'less/components/viz-compnent.less';
 // import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
 import {
-    isRegionContainsElement,
-    modUpdStatGeometry
+    regionCheck,
+    modUpdStatGeometry,
+    checkSdkError
 } from 'src/utils/vectorUtils';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { shortcut } from 'src/utils/shortcuts';
@@ -37,24 +38,28 @@ import _ from 'lodash';
 import editLog from 'src/models/editLog';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
-import AdEmitter from 'src/models/event';
 import axios from 'axios';
-
-@inject('RenderModeStore')
+import { logDecorator } from 'src/utils/decorator';
+import RenderModeStore from 'src/pages/Index/store/RenderModeStore';
+import ResourceLayerStore from 'src/pages/Index/store/ResourceLayerStore';
+import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
+import AttributeStore from 'src/pages/Index/store/AttributeStore';
+import PictureShowStore from 'src/pages/Index/store/PictureShowStore';
+import RightMenuStore from 'src/pages/Index/store/RightMenuStore';
+import NewFeatureStore from 'src/pages/Index/store/NewFeatureStore';
+import OperateHistoryStore from 'src/pages/Index/store/OperateHistoryStore';
+import RelStore from 'src/pages/Index/store/RelStore';
+import AttrStore from 'src/pages/Index/store/AttrStore';
+import BatchAssignStore from 'src/pages/Index/store/BatchAssignStore';
+import PointCloudStore from 'src/pages/Index/store/PointCloudStore';
+import VectorsStore from 'src/pages/Index/store/VectorsStore';
+import ToolCtrlStore from 'src/pages/Index/store/ToolCtrlStore';
+import {
+    showPictureShowView,
+    showAttributesModal,
+    showRightMenu
+} from 'src/utils/map/viewCtrl';
 @inject('TaskStore')
-@inject('ResourceLayerStore')
-@inject('DataLayerStore')
-@inject('AttributeStore')
-@inject('PictureShowStore')
-@inject('RightMenuStore')
-@inject('NewFeatureStore')
-@inject('OperateHistoryStore')
-@inject('RelStore')
-@inject('AttrStore')
-@inject('BatchAssignStore')
-@inject('PointCloudStore')
-@inject('VectorsStore')
-@inject('ToolCtrlStore')
 @observer
 class VizComponent extends React.Component {
     constructor(props) {
@@ -87,13 +92,6 @@ class VizComponent extends React.Component {
     };
 
     release = async () => {
-        const {
-            ResourceLayerStore,
-            VectorsStore,
-            DataLayerStore,
-            RelStore,
-            AttrStore
-        } = this.props;
         await this.clearWorkSpace();
 
         window.map && window.map.release();
@@ -111,13 +109,6 @@ class VizComponent extends React.Component {
     };
 
     clearWorkSpace = async () => {
-        const {
-            OperateHistoryStore,
-            DataLayerStore,
-            ToolCtrlStore,
-            AttributeStore,
-            PictureShowStore
-        } = this.props;
         await OperateHistoryStore.destroy();
         await editLog.store.clear();
         window.map && DataLayerStore.activeEditor();
@@ -134,7 +125,6 @@ class VizComponent extends React.Component {
     };
 
     addShortcut = event => {
-        const { ResourceLayerStore, VectorsStore } = this.props;
         const callbackShortcutMap = [
             {
                 ctrl: false,
@@ -258,7 +248,6 @@ class VizComponent extends React.Component {
             //所有点云添加成功回调
 
             //获取点云高度范围
-            const { PointCloudStore } = this.props;
             const range = pointCloudLayer.getElevationRange();
             PointCloudStore.initHeightRange(range);
 
@@ -283,7 +272,6 @@ class VizComponent extends React.Component {
         if (!vectors) {
             return;
         }
-        const { VectorsStore } = this.props;
         window.vectorLayerGroup = new LayerGroup(vectors, {
             styleConifg: VectorsConfig
         });
@@ -298,7 +286,7 @@ class VizComponent extends React.Component {
 
     initTracks = async trackObj => {
         if (!trackObj) return;
-        const { ResourceLayerStore, TaskStore } = this.props;
+        const { TaskStore } = this.props;
         const { projectNameArr } = TaskStore;
         const { urlMap } = trackObj;
         const traceListLayer = new TraceListLayer();
@@ -341,7 +329,7 @@ class VizComponent extends React.Component {
     initRegion = async regionUrl => {
         if (!regionUrl) return;
         try {
-            const { DataLayerStore, TaskStore } = this.props;
+            const { TaskStore } = this.props;
             window.vectorLayer = new VectorLayer(regionUrl);
             vectorLayer.setDefaultStyle({ color: 'rgb(16,201,133)' });
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
@@ -379,7 +367,6 @@ class VizComponent extends React.Component {
         });
         await map.getLayerManager().addLayerGroup(boundaryLayerGroup);
 
-        const { VectorsStore } = this.props;
         VectorsStore.addBoundaryLayer(boundaryLayerGroup);
 
         return {
@@ -389,13 +376,11 @@ class VizComponent extends React.Component {
     };
 
     loadBoundaryEx = async boundary => {
-        const { RelStore, AttrStore } = this.props;
         await RelStore.addRecords(boundary.rels, 'boundary');
         await AttrStore.addRecords(boundary.attrs, 'boundary');
     };
 
     initResouceLayer = layers => {
-        const { ResourceLayerStore } = this.props;
         layers = layers.filter(layer => !!layer);
         ResourceLayerStore.addLayers(layers);
     };
@@ -433,7 +418,6 @@ class VizComponent extends React.Component {
         };
 
         // attributes 拾取控件
-        const { DataLayerStore } = this.props;
         let boundaryLayers = window.boundaryLayerGroup
             ? window.boundaryLayerGroup.layers
             : [];
@@ -453,13 +437,6 @@ class VizComponent extends React.Component {
     };
 
     selectedCallBack = (result, event) => {
-        const {
-            PictureShowStore,
-            AttributeStore,
-            DataLayerStore,
-            BatchAssignStore,
-            RenderModeStore
-        } = this.props;
         const { activeMode, cancelSelect } = RenderModeStore;
         console.log('选中', result, event);
         if (result && result.length > 0) {
@@ -472,10 +449,10 @@ class VizComponent extends React.Component {
                 result.length === 1
                     ? DataLayerStore.pick()
                     : DataLayerStore.unPick();
-                this.showAttributesModal(result[0], event);
-                this.showRightMenu(result, event);
+                showAttributesModal(result[0], event);
+                showRightMenu(result, event);
             } else if (result[0].type === 'TraceListLayer') {
-                this.showPictureShowView(result[0]);
+                showPictureShowView(result[0]);
                 PictureShowStore.show();
             }
             window.currentSelectFeatures = result;
@@ -498,192 +475,65 @@ class VizComponent extends React.Component {
         BatchAssignStore.hide();
     };
 
-    createdCallBack = async result => {
-        const {
-            DataLayerStore,
-            NewFeatureStore,
-            OperateHistoryStore,
-            TaskStore
-        } = this.props;
+    @logDecorator({ operate: '新建要素' })
+    async createdCallBack(result) {
         //console.log(result);
-
         let data;
         try {
             //判断是否绘制成功
-            if (result.errorCode) {
-                // 解析sdk抛出异常信息
-                let arr = result.desc.split(':');
-                let desc = arr[arr.length - 1];
-                throw new Error(desc);
-            }
+            checkSdkError(result);
 
             data = await DataLayerStore.updateResult(result);
-            this.regionCheck(data);
+            regionCheck(data);
 
             // 请求id服务，申请id
-            data = await NewFeatureStore.init(
-                data,
-                isManbuildTask(TaskStore.activeTask)
-            );
+            data = await NewFeatureStore.init(data, isManbuildTask());
             // 更新id到sdk
             DataLayerStore.updateFeature(data);
-            let history = {
-                type: 'addFeature',
-                feature: data.data,
-                layerName: data.layerName
-            };
-            let log = {
-                operateHistory: history,
-                action: 'addFeature',
-                result: 'success'
-            };
-            OperateHistoryStore.add(history);
-            editLog.store.add(log);
-            this.showAttributesModal(data);
+            let history = { features: [[], [data]] };
+            showAttributesModal(data);
+            return history;
         } catch (e) {
             if (data) {
                 let layer = DataLayerStore.getEditLayer();
                 layer.layer.removeFeatureById(data.uuid);
             }
             message.warning('新建要素失败：' + e.message, 3);
+            throw e;
         }
+    }
 
-        DataLayerStore.exitEdit();
-    };
-
-    editedCallBack = result => {
-        const {
-            DataLayerStore,
-            OperateHistoryStore,
-            RightMenuStore,
-            TaskStore
-        } = this.props;
-
+    @logDecorator({ operate: '修改要素几何' })
+    editedCallBack(result) {
         const oldFeature = RightMenuStore.getFeatures()[0];
         try {
             //判断是否绘制成功
-            if (result.errorCode) {
-                // 解析sdk抛出异常信息
-                let arr = result.desc.split(':');
-                let desc = arr[arr.length - 1];
-                throw new Error(desc);
-            }
+            checkSdkError(result);
 
-            this.regionCheck(result);
+            regionCheck(result);
             if (DataLayerStore.editType === 'changePoints') {
                 message.success('修改形状点完成，需检查数据的关联关系正确性');
             }
 
-            if (!isManbuildTask(TaskStore.activeTask)) {
+            if (!isManbuildTask()) {
                 result = modUpdStatGeometry(result);
             }
 
-            let history = {
-                type: 'updateFeatureRels',
-                data: {
-                    features: [[oldFeature], [result]]
-                }
-            };
-            let log = {
-                operateHistory: history,
-                action: 'updateGeometry',
-                result: 'success'
-            };
-            OperateHistoryStore.add(history);
-            editLog.store.add(log);
-            AdEmitter.emit('fetchViewAttributeData');
+            let history = { features: [[oldFeature], [result]] };
+            return history;
         } catch (e) {
             //恢复要素
             DataLayerStore.updateFeature(oldFeature);
             message.warning('修改要素失败：' + e.message, 3);
+            throw e;
         }
-
-        DataLayerStore.exitEdit();
-    };
-
-    regionCheck = data => {
-        const { DataLayerStore, TaskStore } = this.props;
-        let isLocal = TaskStore.activeTask.isLocal;
-        if (isLocal) return;
-        //判断要素是否在任务范围内
-        const elementGeojson = _.cloneDeep(data.data);
-        let isInRegion = isRegionContainsElement(
-            elementGeojson,
-            DataLayerStore.regionGeojson
-        );
-        if (!isInRegion) {
-            throw new Error('绘制失败，请在任务范围内绘制');
-        }
-    };
-
-    showPictureShowView = obj => {
-        const { PictureShowStore, ResourceLayerStore } = this.props;
-        const { data } = obj;
-        const { properties: activeTrackPoint } = data;
-        window.trackLayer.unSelect();
-        PictureShowStore.setPicData(obj.data);
-        ResourceLayerStore.getTrackPart(activeTrackPoint);
-    };
-
-    showAttributesModal = async (obj, event) => {
-        //判断没有按住ctrl左击
-        if ((event && event.ctrlKey) || (event && event.button === 2)) return;
-        const { AttributeStore, DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getEditLayer();
-        let readonly =
-            (editLayer && editLayer.layerId !== obj.layerId) || !editLayer;
-        DataLayerStore.clearHighLightFeatures();
-        AttributeStore.setModel(obj);
-        AttributeStore.show(readonly);
-    };
-
-    showRightMenu = (features, event) => {
-        const { DataLayerStore, RightMenuStore, AttributeStore } = this.props;
-        const editLayer = DataLayerStore.getEditLayer();
-        let layerName = editLayer && editLayer.layerName;
-
-        let hasOtherFeature = features.find(
-            feature => feature.layerName != layerName
-        );
-
-        const isCurrentLayer = layerName && !hasOtherFeature;
-
-        // 左键，加载“右键菜单”，隐藏起来
-        // console.log('features', features);
-        if (event.button === 0) {
-            RightMenuStore.show(
-                features,
-                {
-                    x: event.x,
-                    y: event.y
-                },
-                -1,
-                isCurrentLayer
-            );
-        }
-
-        //右键，加载“右键菜单”，显示出来
-        if (event.button === 2) {
-            AttributeStore.hide();
-            RightMenuStore.show(
-                features,
-                {
-                    x: event.x,
-                    y: event.y
-                },
-                'auto',
-                isCurrentLayer
-            );
-        }
-    };
+    }
 
     installRel = url => {
-        const { RelStore } = this.props;
         return RelStore.addRecords(url, 'current');
     };
 
     installAttr = url => {
-        const { AttrStore } = this.props;
         return AttrStore.addRecords(url, 'current');
     };
 
@@ -701,7 +551,6 @@ class VizComponent extends React.Component {
                 <AttributesModal />
                 <RightMenuModal />
                 <BatchAssignModal />
-                {/* <NewFeatureModal /> */}
             </React.Fragment>
         );
     }

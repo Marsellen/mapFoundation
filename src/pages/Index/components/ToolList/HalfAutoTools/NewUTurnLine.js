@@ -5,24 +5,31 @@ import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { Modal, Icon, message } from 'antd';
 import { autoCreateLine } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
-import editLog from 'src/models/editLog';
 import 'less/components/tool-icon.less';
 import 'less/components/uturn-line.less';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
-import AdEmitter from 'src/models/event';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import { logDecorator } from 'src/utils/decorator';
 
-@inject('RenderModeStore')
+const ACTION_MAP = {
+    AD_Lane: '掉头中心线生成',
+    AD_Road: '掉头参考线生成'
+};
+
+const TIPS_MAP = {
+    AD_Lane: '先选择一条进入中心线，再选择一条退出中心线',
+    AD_Road: '先选择一条进入参考线，再选择一条退出参考线'
+};
 @inject('DataLayerStore')
 @inject('AttributeStore')
-@inject('OperateHistoryStore')
-@inject('TaskStore')
 @observer
 class NewUTurnLine extends React.Component {
     constructor() {
         super();
         this.state = {
             visibleModal: false,
-            num: 8.0
+            num: 8.0,
+            visible: false
         };
     }
 
@@ -43,10 +50,10 @@ class NewUTurnLine extends React.Component {
         const reg = new RegExp(
             '^[1-9]\\d{0,9}(\\.\\d{1,2})?$|^0(\\.\\d{1,2})?$'
         );
-        const { visibleModal, num } = this.state;
+        let { visibleModal, num, visible } = this.state;
         const { DataLayerStore } = this.props;
         const { updateKey } = DataLayerStore;
-        let visible = DataLayerStore.editType == 'new_Uturn_line'; //掉头
+        visible = DataLayerStore.editType == 'new_Uturn_line' && visible; //掉头
         let editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
 
@@ -57,11 +64,7 @@ class NewUTurnLine extends React.Component {
                 onClick={this.action}
                 className="flex-1">
                 <ToolIcon icon="diaotou" />
-                <div>
-                    {layerName == 'AD_Lane'
-                        ? '掉头中心线生成'
-                        : '掉头参考线生成'}
-                </div>
+                <div>{ACTION_MAP[layerName]}</div>
                 <AdMessage visible={visible} content={this.content()} />
                 <Modal
                     className="set-length"
@@ -96,40 +99,38 @@ class NewUTurnLine extends React.Component {
         );
     }
 
-    handleData = res => {
+    @logDecorator({ operate: ACTION_MAP, onlyRun: true })
+    handleData(result) {
         const { DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
-        let layerNameCN = layerName == 'AD_Lane' ? '车道中心线' : '道路参考线';
-        if (
-            res.length !== 2 ||
-            res[0].layerName !== layerName ||
-            res[1].layerName !== layerName
-        ) {
-            message.warning(`操作错误：应选择 2 条${layerNameCN}`, 3);
-            DataLayerStore.exitEdit();
-            return;
+        let layerNameCN = DATA_LAYER_MAP[layerName].label;
+        if (result.length !== 2) {
+            message.error(`操作错误：应选择 2 条${layerNameCN}`);
+            throw new Error(`操作错误：应选择 2 条${layerNameCN}`);
         }
         let params = {};
         params[layerName] = {};
         params[layerName].type = 'FeatureCollection';
         params[layerName].features = [];
-        res.forEach(item => {
+        result.forEach(item => {
             params[layerName].features.push(item.data);
         });
         //转弯
-        params[layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'] = 3;
+        let type = layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType';
+        params[type] = 3;
         this.setState({
             visibleModal: true,
             params: params
         });
-    };
+    }
 
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_Uturn_line') return;
         DataLayerStore.newUTurnLine();
         AttributeStore.hideRelFeatures();
+        this.setState({ visible: true });
     };
 
     handleOk = () => {
@@ -138,7 +139,8 @@ class NewUTurnLine extends React.Component {
         if (num < 0.01 || !reg.test(num)) return false;
         params.extDistance = num;
         this.setState({
-            visibleModal: false
+            visibleModal: false,
+            visible: false
         });
         this.addLines(params);
     };
@@ -168,65 +170,37 @@ class NewUTurnLine extends React.Component {
     };
 
     // 新建
-    addLines = async params => {
-        const {
-            DataLayerStore,
-            AttributeStore,
-            OperateHistoryStore,
-            RenderModeStore
-        } = this.props;
+    @logDecorator({ operate: ACTION_MAP })
+    async addLines(params) {
+        const { DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
+        let layerName = editLayer && editLayer.layerName;
+        let layerNameCN = DATA_LAYER_MAP[layerName].label;
         try {
-            let historyLog = await autoCreateLine(
-                editLayer && editLayer.layerName,
-                params
-            );
-            DataLayerStore.exitEdit();
-            if (!historyLog) return;
-            this.activeLine(editLayer && editLayer.layerName, historyLog);
+            message.loading({
+                content: '处理中...',
+                key: 'new_Uturn_line',
+                duration: 0
+            });
+            let historyLog = await autoCreateLine(layerName, params);
 
-            // 日志与历史
-            let history = {
-                type: 'updateFeatureRels',
-                data: historyLog
-            };
-            let log = {
-                operateHistory: history,
-                action: 'autoCreateLine',
-                result: 'success'
-            };
-            OperateHistoryStore.add(history);
-            editLog.store.add(log);
-            // 刷新属性列表
-            AdEmitter.emit('fetchViewAttributeData');
-            message.success(
-                editLayer && editLayer.layerName === 'AD_Lane'
-                    ? '成功生成车道中心线'
-                    : '成功生成道路参考线',
-                3
-            );
-            //关联关系查看模式下，更新要素显示效果
-            RenderModeStore.updateRels(history);
+            this.activeLine(layerName, historyLog);
+
+            message.success({
+                content: `${layerNameCN}生成成功`,
+                key: 'new_Uturn_line',
+                duration: 3
+            });
+            return historyLog;
         } catch (e) {
-            const msg =
-                editLayer && editLayer.layerName === 'AD_Lane'
-                    ? '车道中心线'
-                    : '道路参考线';
-            message.warning(`${msg}生成失败：` + e.message, 3);
-            let history = {
-                params
-            };
-            let log = {
-                operateHistory: history,
-                action: 'autoCreateLine',
-                result: 'fail',
-                failReason: e.message
-            };
-            editLog.store.add(log);
-            DataLayerStore.exitEdit();
+            message.error({
+                content: `${layerNameCN}生成失败：${e.message}`,
+                key: 'new_Uturn_line',
+                duration: 3
+            });
+            throw new Error(`${layerNameCN}生成失败：${e.message}`);
         }
-        AttributeStore.hideRelFeatures();
-    };
+    }
 
     // 显示新构建出的道路线并为选中状态
     activeLine = (layerLine, historyLog) => {
@@ -266,10 +240,7 @@ class NewUTurnLine extends React.Component {
         const { DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
-        const text =
-            layerName == 'AD_Lane'
-                ? '先选择一条进入中心线，再选择一条退出中心线'
-                : '先选择一条进入参考线，再选择一条退出参考线';
+        const text = TIPS_MAP[layerName];
         return (
             <label>
                 <Icon type="info-circle" /> {text}

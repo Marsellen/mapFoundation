@@ -29,7 +29,7 @@ import _ from 'lodash';
  * @param {Array<Object>} features 被删除要素集合
  * @returns {Object} 删除后的操作记录
  */
-const deleteLine = async (features, activeTask) => {
+const deleteLine = async features => {
     let { rels, attrs } = await features.reduce(
         async (total, feature) => {
             let layerName = feature.layerName;
@@ -49,8 +49,7 @@ const deleteLine = async (features, activeTask) => {
     let allRelFeatureOptions = getAllRelFeatureOptions(rels);
     let featuresLog = calcFeaturesLog(
         [features, []],
-        [uniqOptions(allRelFeatureOptions), []],
-        activeTask
+        [uniqOptions(allRelFeatureOptions), []]
     );
     let historyLog = {
         features: featuresLog,
@@ -85,8 +84,7 @@ const breakLine = async (breakPoint, features, activeTask) => {
 
     let featuresLog = calcFeaturesLog(
         [features, newFeatures],
-        [uniqOptions(oldAllFeatureOptions), uniqOptions(newAllFeatureOptions)],
-        activeTask
+        [uniqOptions(oldAllFeatureOptions), uniqOptions(newAllFeatureOptions)]
     );
     let historyLog = {
         features: featuresLog,
@@ -119,8 +117,7 @@ const mergeLine = async (features, activeTask) => {
 
     let featuresLog = calcFeaturesLog(
         [features, newFeatures],
-        [uniqOptions(oldAllFeatureOptions), uniqOptions(newAllFeatureOptions)],
-        activeTask
+        [uniqOptions(oldAllFeatureOptions), uniqOptions(newAllFeatureOptions)]
     );
     let historyLog = {
         features: featuresLog,
@@ -155,8 +152,7 @@ const breakLineByLine = async (line, features, activeTask) => {
 
     let featuresLog = calcFeaturesLog(
         [features, newFeatures],
-        [uniqOptions(oldAllFeatureOptions), uniqOptions(newAllFeatureOptions)],
-        activeTask
+        [uniqOptions(oldAllFeatureOptions), uniqOptions(newAllFeatureOptions)]
     );
     let historyLog = {
         features: featuresLog,
@@ -751,10 +747,9 @@ const updateRels = async ([oldRels, newRels] = []) => {
  * @method calcFeaturesLog
  * @param {Array<Object>} features [被打断/合并要素集合, 打断/合并后要素集合]
  * @param {Array<Object>} allFeatureOptions [被打断/合并要素与其关联要素的option集合, 打断/合并后要素与其关联要素的option集合]
- * @param {Object} activeTask 任务对象
  * @returns {Array<Object>} 打断/合并前后产生变更的要素集合
  */
-const calcFeaturesLog = (features, allFeatureOptions, activeTask) => {
+const calcFeaturesLog = (features, allFeatureOptions) => {
     let [oldFeatures, newFeatures] = features;
     let [oldAllFeatureOptions, newAllFeatureOptions] = allFeatureOptions;
     let oldFeaturesIds = oldFeatures.map(
@@ -770,7 +765,7 @@ const calcFeaturesLog = (features, allFeatureOptions, activeTask) => {
         return feature ? feature.properties : [];
     });
     let newRelFeatures = relFeatures.map(feature => {
-        return completeProperties(feature, activeTask);
+        return completeProperties(feature);
     });
     let newAllFeaturesIds = newAllFeatureOptions.map(option => option.value);
     let { newWithRelFeatures, newWithoutRelFeatures } = newFeatures.reduce(
@@ -785,12 +780,12 @@ const calcFeaturesLog = (features, allFeatureOptions, activeTask) => {
         { newWithRelFeatures: [], newWithoutRelFeatures: [] }
     );
     newWithRelFeatures = newWithRelFeatures.map(feature => {
-        return completeProperties(feature, activeTask, {
+        return completeProperties(feature, {
             UPD_STAT: '{"GEOMETRY":"ADD","RELATION":"MOD"}'
         });
     });
     newWithoutRelFeatures = newWithoutRelFeatures.map(feature => {
-        return completeProperties(feature, activeTask, {
+        return completeProperties(feature, {
             UPD_STAT: '{"GEOMETRY":"ADD"}'
         });
     });

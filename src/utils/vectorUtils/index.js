@@ -7,6 +7,8 @@ import relFactory from 'src/utils/relCtrl/relFactory';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import _ from 'lodash';
 import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
+import TaskStore from 'src/pages/Index/store/TaskStore';
+import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 const jsts = require('jsts');
 
 export const getLayerIDKey = layerName => {
@@ -87,6 +89,20 @@ const toLineStringGeojson = geojson => {
         return geojson;
     } catch {
         console.error('请传到有效的geojson');
+    }
+};
+
+export const regionCheck = data => {
+    let isLocal = TaskStore.activeTask.isLocal;
+    if (isLocal) return;
+    //判断要素是否在任务范围内
+    const elementGeojson = _.cloneDeep(data.data);
+    let isInRegion = isRegionContainsElement(
+        elementGeojson,
+        DataLayerStore.regionGeojson
+    );
+    if (!isInRegion) {
+        throw new Error('绘制失败，请在任务范围内绘制');
     }
 };
 
@@ -172,8 +188,8 @@ export const getAllAttrData = async isCurrent => {
     };
 };
 
-export const completeProperties = (feature, task, config) => {
-    let isManbuild = isManbuildTask(task);
+export const completeProperties = (feature, config) => {
+    let isManbuild = isManbuildTask();
     let _feature = _.cloneDeep(feature);
     if (isManbuild) {
         if ((config && config.UPD_STAT) || !_feature.data.properties.UPD_STAT) {
@@ -281,4 +297,16 @@ export const layerUpdateFeatures = (layer, features) => {
         }
     });
     layer.updateFeatures(features);
+};
+
+export const checkSdkError = (result, message) => {
+    if (result.errorCode) {
+        // 解析sdk抛出异常信息
+        if (!message) {
+            let arr = result.desc.split(':');
+            message = arr[arr.length - 1];
+        }
+
+        throw new Error(message);
+    }
 };

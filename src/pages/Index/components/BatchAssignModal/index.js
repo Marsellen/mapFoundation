@@ -1,13 +1,15 @@
 import React from 'react';
-import { Form, Modal, Select, Button, Input } from 'antd';
+import { Form, Modal, Select, Button, Input, message } from 'antd';
 import { observer, inject } from 'mobx-react';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
-import editLog from 'src/models/editLog';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import { getValidator } from 'src/utils/form/validator';
 import AdEmitter from 'src/models/event';
+import { logDecorator } from 'src/utils/decorator';
+import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
+import BatchAssignStore from 'src/pages/Index/store/BatchAssignStore';
 
 const formItemLayout = {
     labelCol: {
@@ -22,8 +24,6 @@ const formItemLayout = {
 
 @Form.create()
 @inject('BatchAssignStore')
-@inject('OperateHistoryStore')
-@inject('DataLayerStore')
 @observer
 class BatchAssignModal extends React.Component {
     render() {
@@ -71,33 +71,25 @@ class BatchAssignModal extends React.Component {
     };
 
     save = () => {
-        const {
-            form,
-            BatchAssignStore,
-            OperateHistoryStore,
-            DataLayerStore
-        } = this.props;
-        form.validateFields((err, values) => {
-            if (err) {
-                return;
-            }
+        const { form } = this.props;
+        form.validateFields(this.submit);
+    };
+
+    @logDecorator({ operate: '批量赋值' })
+    async submit(err, values) {
+        if (err) {
+            return;
+        }
+        try {
             let result = BatchAssignStore.submit(values);
             AdEmitter.emit('fetchViewAttributeData');
-            let history = {
-                type: 'updateFeatureRels',
-                data: result
-            };
-            let log = {
-                operateHistory: history,
-                action: 'batchAssign',
-                result: 'success'
-            };
-            OperateHistoryStore.add(history);
-            editLog.store.add(log);
-
             DataLayerStore.clearPick();
-        });
-    };
+            return result;
+        } catch (e) {
+            message.error(e.message);
+            throw e;
+        }
+    }
 
     handleCancel = () => {
         const { BatchAssignStore } = this.props;
