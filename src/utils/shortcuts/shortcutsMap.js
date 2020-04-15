@@ -76,6 +76,14 @@ export const shortcutMap = [
         describe: '添加线要素 Alt+1'
     },
     {
+        id: 'add-curved-line-btn',
+        ctrl: false,
+        alt: true,
+        shift: false,
+        keyCode: 50,
+        describe: '添加曲线 Alt+2'
+    },
+    {
         id: 'add-polygon-btn',
         ctrl: false,
         alt: true,
@@ -165,7 +173,7 @@ export const shortcutMap = [
     },
     {
         id: 'merge-line-btn',
-        ctrl: true,
+        ctrl: false,
         alt: false,
         shift: false,
         keyCode: 77,

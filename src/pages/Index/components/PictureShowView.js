@@ -101,9 +101,11 @@ class PictureShowView extends React.Component {
                 titleMap.forEach(this.addTitle);
             }
         };
+
+        const { ResourceLayerStore } = this.props;
         this.state = {
             modalVisible: false,
-            currentProjectName: ''
+            currentProjectName: ResourceLayerStore.activeProjectName || ''
         };
     }
 
@@ -188,11 +190,14 @@ class PictureShowView extends React.Component {
                 visible={modalVisible}
                 onOk={this.selectTrackOk}
                 onCancel={this.selectTrackCancel}
+                okButtonProps={{
+                    disabled: currentProjectName === activeProjectName
+                }}
                 className="select-track-modal"
                 maskStyle={{ background: 'rgba(0, 0, 0, 0)' }}>
                 <p className="select-track-modal-title">联动轨迹选择：</p>
                 <Radio.Group
-                    value={currentProjectName || activeProjectName}
+                    value={currentProjectName}
                     onChange={this.handleRadioChange}>
                     {sortProjectsTracks.map((projectName, index) => {
                         return (
@@ -232,12 +237,17 @@ class PictureShowView extends React.Component {
         const { ResourceLayerStore } = this.props;
         const { selectLinkTrack } = ResourceLayerStore;
         selectLinkTrack(currentProjectName);
-        this.setState({ modalVisible: false, currentProjectName: false });
+        this.selectTrackCancel();
         message.success('联动轨迹设置成功!');
     };
     //“点云与轨迹联动设置”弹窗 取消事件
     selectTrackCancel = () => {
-        this.setState({ modalVisible: false, currentProjectName: false });
+        const { ResourceLayerStore } = this.props;
+        const { activeProjectName } = ResourceLayerStore;
+        this.setState({
+            modalVisible: false,
+            currentProjectName: activeProjectName
+        });
     };
 
     next = () => {
