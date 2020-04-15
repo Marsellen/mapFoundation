@@ -5,29 +5,40 @@ import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { Icon, message } from 'antd';
 import { autoCreateLine } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
-import editLog from 'src/models/editLog';
 import 'less/components/tool-icon.less';
 import 'less/components/uturn-line.less';
-import AdEmitter from 'src/models/event';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import { logDecorator } from 'src/utils/decorator';
 
-@inject('RenderModeStore')
+const ACTION_MAP = {
+    AD_Lane: '路口内转弯中心线生成',
+    AD_Road: '路口内转弯参考线生成'
+};
+
+const TIPS_MAP = {
+    AD_Lane: '先选择一条进入中心线，再选择一条退出中心线',
+    AD_Road: '先选择一条进入参考线，再选择一条退出参考线'
+};
+
 @inject('DataLayerStore')
 @inject('AttributeStore')
-@inject('OperateHistoryStore')
-@inject('TaskStore')
 @observer
 class NewTurnLine extends React.Component {
+    state = { visible: false };
+
     componentDidMount() {
         const { DataLayerStore } = this.props;
         DataLayerStore.setTurnCallback((result, event) => {
             if (event.button !== 2) return false;
             this.handleData(result);
+            this.setState({ visible: false });
         });
     }
     render() {
         const { DataLayerStore } = this.props;
         const { updateKey } = DataLayerStore;
-        let visible = DataLayerStore.editType == 'new_turn_line'; //转弯
+        let visible =
+            DataLayerStore.editType == 'new_turn_line' && this.state.visible; //转弯
         let editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
 
@@ -38,108 +49,75 @@ class NewTurnLine extends React.Component {
                 onClick={this.action}
                 className="flex-1">
                 <ToolIcon icon="zhuanwan" />
-                <div>
-                    {layerName == 'AD_Lane'
-                        ? '路口内转弯中心线生成'
-                        : '路口内转弯参考线生成'}
-                </div>
+                <div>{ACTION_MAP[layerName]}</div>
                 <AdMessage visible={visible} content={this.content()} />
             </div>
         );
     }
 
-    handleData = res => {
-        const { DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getEditLayer();
-        let layerName = editLayer && editLayer.layerName;
-        let layerNameCN = layerName == 'AD_Lane' ? '车道中心线' : '道路参考线';
-        if (
-            res.length !== 2 ||
-            res[0].layerName !== layerName ||
-            res[1].layerName !== layerName
-        ) {
-            message.warning(`操作错误：应选择 2 条${layerNameCN}`, 3);
-            DataLayerStore.exitEdit();
-            return;
+    @logDecorator({ operate: ACTION_MAP })
+    async handleData(result) {
+        try {
+            const { DataLayerStore } = this.props;
+            let editLayer = DataLayerStore.getEditLayer();
+            let layerName = editLayer && editLayer.layerName;
+            let layerNameCN = DATA_LAYER_MAP[layerName].label;
+            if (result.length !== 2) {
+                throw new Error(`操作错误：应选择 2 条${layerNameCN}`);
+            }
+            message.loading({
+                content: '处理中...',
+                key: 'new_turn_line',
+                duration: 0
+            });
+            let params = {};
+            params[layerName] = {};
+            params[layerName].type = 'FeatureCollection';
+            params[layerName].features = [];
+            result.forEach(item => {
+                params[layerName].features.push(item.data);
+            });
+            //转弯
+            let type = layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType';
+            params[type] = 2;
+            return await this.addLines(params);
+        } catch (e) {
+            message.error({
+                content: e.message,
+                key: 'new_turn_line',
+                duration: 3
+            });
+            throw e;
         }
-        let params = {};
-        params[layerName] = {};
-        params[layerName].type = 'FeatureCollection';
-        params[layerName].features = [];
-        res.forEach(item => {
-            params[layerName].features.push(item.data);
-        });
-        //转弯
-        params[layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType'] = 2;
-        this.addLines(params);
-    };
+    }
 
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_turn_line') return;
         DataLayerStore.newTurnLine();
         AttributeStore.hideRelFeatures();
+        this.setState({ visible: true });
     };
 
     // 新建
     addLines = async params => {
-        const {
-            DataLayerStore,
-            AttributeStore,
-            OperateHistoryStore,
-            RenderModeStore
-        } = this.props;
+        const { DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
+        let layerName = editLayer && editLayer.layerName;
+        let layerNameCN = DATA_LAYER_MAP[layerName].label;
         try {
-            let historyLog = await autoCreateLine(
-                editLayer && editLayer.layerName,
-                params
-            );
-            DataLayerStore.exitEdit();
-            if (!historyLog) return;
-            this.activeLine(editLayer && editLayer.layerName, historyLog);
+            let historyLog = await autoCreateLine(layerName, params);
+            this.activeLine(layerName, historyLog);
 
-            // 日志与历史
-            let history = {
-                type: 'updateFeatureRels',
-                data: historyLog
-            };
-            let log = {
-                operateHistory: history,
-                action: 'autoCreateLine',
-                result: 'success'
-            };
-            OperateHistoryStore.add(history);
-            editLog.store.add(log);
-            // 刷新属性列表
-            AdEmitter.emit('fetchViewAttributeData');
-            message.success(
-                editLayer && editLayer.layerName === 'AD_Lane'
-                    ? '成功生成车道中心线'
-                    : '成功生成道路参考线',
-                3
-            );
-            //关联关系查看模式下，更新要素显示效果
-            RenderModeStore.updateRels(history);
+            message.success({
+                content: `${layerNameCN}生成成功`,
+                key: 'new_turn_line',
+                duration: 3
+            });
+            return historyLog;
         } catch (e) {
-            const msg =
-                editLayer && editLayer.layerName === 'AD_Lane'
-                    ? '车道中心线'
-                    : '道路参考线';
-            message.warning(`${msg}生成失败：` + e.message, 3);
-            let history = {
-                params
-            };
-            let log = {
-                operateHistory: history,
-                action: 'autoCreateLine',
-                result: 'fail',
-                failReason: e.message
-            };
-            editLog.store.add(log);
-            DataLayerStore.exitEdit();
+            throw new Error(`${layerNameCN}生成失败：${e.message}`);
         }
-        AttributeStore.hideRelFeatures();
     };
 
     // 显示新构建出的道路线并为选中状态
@@ -180,10 +158,7 @@ class NewTurnLine extends React.Component {
         const { DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
-        const text =
-            layerName == 'AD_Lane'
-                ? '先选择一条进入中心线，再选择一条退出中心线'
-                : '先选择一条进入参考线，再选择一条退出参考线';
+        const text = TIPS_MAP[layerName];
         return (
             <label>
                 <Icon type="info-circle" /> {text}

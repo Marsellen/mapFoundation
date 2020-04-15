@@ -1,4 +1,5 @@
 import CONFIG from 'src/config';
+import TaskStore from 'src/pages/Index/store/TaskStore';
 
 const SECEND_PATH = '13_ED_DATA';
 const THIRD_PATH = '1301_RAW_DATA';
@@ -55,12 +56,13 @@ const getThirdPath = task => {
     return THIRD_PATH_MAP[task.processName];
 };
 
-export const isManbuildTask = task => {
+export const isManbuildTask = () => {
+    let task = TaskStore.activeTask;
     return manbuildTaskProcess.includes(task.processName);
 };
 
-export const getTaskProcessType = task => {
-    if (isManbuildTask(task)) {
+export const getTaskProcessType = () => {
+    if (isManbuildTask()) {
         return 'manbuild';
     } else {
         return 'recognition';

@@ -6,16 +6,14 @@ import BasicAttributesForm from './AttributesForm/BasicAttributesForm';
 import RelationForm from './AttributesForm/RelationForm';
 import AttrsForm from './AttributesForm/AttrsForm';
 import AdTabs from 'src/components/AdTabs/index';
-import editLog from 'src/models/editLog';
 import { updateFeatures } from 'src/utils/relCtrl/operateCtrl';
-import AdEmitter from 'src/models/event';
+import { logDecorator } from 'src/utils/decorator';
+import AttributeStore from 'src/pages/Index/store/AttributeStore';
+import TaskStore from 'src/pages/Index/store/TaskStore';
 import 'less/components/attributes-modal.less';
 
 @Form.create()
-@inject('RenderModeStore')
 @inject('AttributeStore')
-@inject('TaskStore')
-@inject('OperateHistoryStore')
 @observer
 class AttributesModal extends React.Component {
     componentDidMount() {
@@ -74,45 +72,31 @@ class AttributesModal extends React.Component {
     };
 
     save = () => {
-        const {
-            form,
-            AttributeStore,
-            TaskStore,
-            OperateHistoryStore,
-            RenderModeStore
-        } = this.props;
-        form.validateFields((err, values) => {
-            if (err) {
-                return;
-            }
-            // console.log(values);
-            AttributeStore.showLoading('保存数据...');
-            AttributeStore.submit(values, TaskStore.activeTask)
-                .then(result => {
-                    return updateFeatures(result);
-                })
-                .then(result => {
-                    AdEmitter.emit('fetchViewAttributeData');
-                    let history = {
-                        type: 'updateFeatureRels',
-                        data: result
-                    };
-                    let log = {
-                        operateHistory: history,
-                        action: 'updateAttributes',
-                        result: 'success'
-                    };
-                    OperateHistoryStore.add(history);
-                    editLog.store.add(log);
-                    AttributeStore.hide();
-                    RenderModeStore.updateRels(history);
-                })
-                .catch(e => {
-                    message.error(e.message || '更新失败: 数据重复');
-                    AttributeStore.loaded();
-                });
-        });
+        const { form } = this.props;
+        form.validateFields(this.submit);
     };
+
+    @logDecorator({ operate: '修改要素属性' })
+    async submit(err, values) {
+        if (err) {
+            return;
+        }
+        // console.log(values);
+        try {
+            AttributeStore.showLoading('保存数据...');
+            let result = await AttributeStore.submit(
+                values,
+                TaskStore.activeTask
+            );
+            result = await updateFeatures(result);
+            AttributeStore.hide();
+            return result;
+        } catch (e) {
+            message.error(e.message || '更新失败: 数据重复');
+            AttributeStore.loaded();
+            throw e;
+        }
+    }
 
     renderForm() {
         return (

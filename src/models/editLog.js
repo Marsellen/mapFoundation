@@ -19,6 +19,11 @@ class editLog {
 
         this.store.clear();
     }
+
+    add(log) {
+        log.time = moment().format('YYYY-MM-DD HH:mm:ss');
+        this.store.add(log);
+    }
 }
 
 export default new editLog();

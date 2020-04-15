@@ -5,29 +5,44 @@ import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { Icon, message } from 'antd';
 import { autoCreateLineByLaneDivider } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
-import editLog from 'src/models/editLog';
-import AdEmitter from 'src/models/event';
+import { logDecorator } from 'src/utils/decorator';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import 'less/components/tool-icon.less';
 
-@inject('RenderModeStore')
+const ACTION_MAP = {
+    AD_Lane: '左右车道线生成中心线',
+    AD_Road: '路段中参考线生成'
+};
+const ICON_MAP = {
+    AD_Lane: 'zuoyouchedaoxianshengchengzhongxinxian',
+    AD_Road: 'luduanzhongcankaoxian'
+};
+const TIPS_MAP = {
+    AD_Lane: '选择一对左右车道线，左右车道线应方向一致',
+    AD_Road: '选择一条车道线'
+};
+
 @inject('DataLayerStore')
 @inject('AttributeStore')
-@inject('OperateHistoryStore')
-@inject('TaskStore')
 @observer
 class DividerToAutoCreate extends React.Component {
+    state = {
+        visible: false
+    };
+
     componentDidMount() {
         const { DataLayerStore } = this.props;
         DataLayerStore.setAroundCallback((result, event) => {
-            let editLayer = DataLayerStore.getEditLayer();
             if (event.button !== 2) return false;
-            this.getParams(editLayer && editLayer.layerName, result);
+            this.createLineByDivider(result);
+            this.setState({ visible: false });
         });
     }
     render() {
         const { DataLayerStore } = this.props;
         const { updateKey } = DataLayerStore;
-        let visible = DataLayerStore.editType == 'new_around_line';
+        let visible =
+            DataLayerStore.editType == 'new_around_line' && this.state.visible;
         let editLayer = DataLayerStore.getEditLayer();
 
         return (
@@ -36,18 +51,8 @@ class DividerToAutoCreate extends React.Component {
                 className="flex-1"
                 onClick={this.action}
                 key={updateKey}>
-                <ToolIcon
-                    icon={
-                        editLayer && editLayer.layerName == 'AD_Lane'
-                            ? 'zuoyouchedaoxianshengchengzhongxinxian'
-                            : 'luduanzhongcankaoxian'
-                    }
-                />
-                <div>
-                    {editLayer && editLayer.layerName == 'AD_Lane'
-                        ? '左右车道线生成中心线'
-                        : '路段中参考线生成'}
-                </div>
+                <ToolIcon icon={editLayer && ICON_MAP[editLayer.layerName]} />
+                <div>{editLayer && ACTION_MAP[editLayer.layerName]}</div>
                 <AdMessage
                     visible={visible}
                     content={this.content(editLayer)}
@@ -61,128 +66,59 @@ class DividerToAutoCreate extends React.Component {
         if (DataLayerStore.editType == 'new_around_line') return;
         AttributeStore.hideRelFeatures();
         DataLayerStore.newAroundLine();
+        this.setState({ visible: true });
     };
 
-    // 获得接口传参
-    getParams = (editLayer, res) => {
-        let AD_LaneDivider = {};
-        AD_LaneDivider.type = 'FeatureCollection';
-        AD_LaneDivider.features = [];
-        res.forEach(item => {
-            AD_LaneDivider.features.push(item.data);
-        });
+    @logDecorator({ operate: ACTION_MAP })
+    async createLineByDivider(result) {
         const { DataLayerStore } = this.props;
-        if (res.length === 2) {
-            //选择两条时
-            if (editLayer == 'AD_Lane') {
-                //车道中心线
-                if (
-                    res[0].layerName !== 'AD_LaneDivider' ||
-                    res[1].layerName !== 'AD_LaneDivider'
-                ) {
-                    // 判断选中线要素是否为当前编辑图层需要的线要素
-                    message.warning('应选择 2 条车道线，车道中心线生成失败', 3);
-                    DataLayerStore.exitEdit();
-                } else {
-                    this.addLines({ AD_LaneDivider: AD_LaneDivider });
-                    DataLayerStore.exitEdit();
-                }
-            } else {
-                message.warning('道路参考线生成失败', 3);
-                DataLayerStore.exitEdit();
-            }
-        } else if (res.length === 1) {
-            //选择一条时
-            if (editLayer == 'AD_Road') {
-                if (res[0].layerName !== 'AD_LaneDivider') {
-                    message.warning('应选择车道线，道路参考线生成失败', 3);
-                    DataLayerStore.exitEdit();
-                } else {
-                    this.addLines({ AD_LaneDivider: AD_LaneDivider });
-                    DataLayerStore.exitEdit();
-                }
-            } else {
-                message.warning(
-                    `${
-                        editLayer == 'AD_Road' ? '道路参考线' : '车道中心线'
-                    }生成失败`,
-                    3
-                );
-                DataLayerStore.exitEdit();
-            }
-        } else {
-            //其他
-            message.warning(
-                `${
-                    editLayer == 'AD_Lane' ? '车道中心线' : '道路参考线'
-                }生成失败`,
-                3
-            );
-            DataLayerStore.exitEdit();
-        }
-    };
-
-    // 新建
-    addLines = async params => {
-        const {
-            DataLayerStore,
-            AttributeStore,
-            OperateHistoryStore,
-            RenderModeStore
-        } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
-
-        try {
-            let historyLog = await autoCreateLineByLaneDivider(
-                editLayer.layerName,
-                params
-            );
-            if (!historyLog) return;
-
-            this.activeLine(editLayer.layerName, historyLog);
-            // 日志与历史
-            let history = {
-                type: 'updateFeatureRels',
-                data: historyLog
-            };
-            let log = {
-                operateHistory: history,
-                action: 'autoCreateLine',
-                result: 'success'
-            };
-            OperateHistoryStore.add(history);
-            editLog.store.add(log);
-            // 刷新属性列表
-            AdEmitter.emit('fetchViewAttributeData');
-            message.success(
-                editLayer && editLayer.layerName === 'AD_Lane'
-                    ? '成功生成车道中心线'
-                    : '成功生成道路参考线',
-                3
-            );
-            //关联关系查看模式下，更新要素显示效果
-            RenderModeStore.updateRels(history);
-        } catch (e) {
-            console.log(e.message);
-            const msg =
-                editLayer && editLayer.layerName === 'AD_Lane'
-                    ? '车道中心线'
-                    : '道路参考线';
-            message.warning(`${msg}生成失败：` + e.message, 3);
-            let history = {
-                params
-            };
-            let log = {
-                operateHistory: history,
-                action: 'autoCreateLine',
-                result: 'fail',
-                failReason: e.message
-            };
-            editLog.store.add(log);
-            DataLayerStore.exitEdit();
+        let layerName = editLayer && editLayer.layerName;
+        if (
+            (result.length === 2 && layerName == 'AD_Lane') ||
+            (result.length === 1 && layerName == 'AD_Road')
+        ) {
+            message.loading({
+                content: '处理中...',
+                key: 'new_around_line',
+                duration: 0
+            });
+            let AD_LaneDivider = {};
+            AD_LaneDivider.type = 'FeatureCollection';
+            AD_LaneDivider.features = [];
+            result.forEach(item => {
+                AD_LaneDivider.features.push(item.data);
+            });
+            return await this.addLines({ AD_LaneDivider });
+        } else {
+            let layerNameCN = DATA_LAYER_MAP[layerName].label;
+            let errorMessage = `${layerNameCN}生成失败`;
+            message.error({
+                content: errorMessage,
+                key: 'new_around_line',
+                duration: 3
+            });
+            throw new Error(errorMessage);
         }
-        AttributeStore.hideRelFeatures();
-    };
+    }
+
+    async addLines(params) {
+        const { DataLayerStore } = this.props;
+        let editLayer = DataLayerStore.getEditLayer();
+        let layerName = editLayer && editLayer.layerName;
+
+        let historyLog = await autoCreateLineByLaneDivider(layerName, params);
+
+        this.activeLine(layerName, historyLog);
+
+        let layerNameCN = DATA_LAYER_MAP[layerName].label;
+        message.success({
+            content: `${layerNameCN}生成成功`,
+            key: 'new_around_line',
+            duration: 3
+        });
+        return historyLog;
+    }
 
     // 显示新构建出的道路线并为选中状态
     activeLine = (layerLine, historyLog) => {
@@ -219,10 +155,7 @@ class DividerToAutoCreate extends React.Component {
     };
 
     content = editLayer => {
-        const text =
-            editLayer && editLayer.layerName == 'AD_Lane'
-                ? '选择一对左右车道线，左右车道线应方向一致'
-                : '选择一条车道线';
+        const text = editLayer && TIPS_MAP[editLayer.layerName];
         return (
             <label>
                 <Icon type="info-circle" /> {text}

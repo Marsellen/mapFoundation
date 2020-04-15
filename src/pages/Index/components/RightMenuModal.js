@@ -7,7 +7,7 @@ import {
     mergeLine,
     breakLineByLine
 } from 'src/utils/relCtrl/operateCtrl';
-import { getLayerByName } from 'src/utils/vectorUtils';
+import { getLayerByName, checkSdkError } from 'src/utils/vectorUtils';
 import AdMessage from 'src/components/AdMessage';
 import editLog from 'src/models/editLog';
 import _ from 'lodash';
@@ -19,6 +19,14 @@ import {
     layerUpdateFeatures
 } from 'src/utils/vectorUtils';
 import { isManbuildTask } from 'src/utils/taskUtils';
+import { logDecorator } from 'src/utils/decorator';
+import BatchAssignStore from 'src/pages/Index/store/BatchAssignStore';
+import ToolCtrlStore from 'src/pages/Index/store/ToolCtrlStore';
+import appStore from 'src/store/appStore';
+import AttributeStore from 'src/pages/Index/store/AttributeStore';
+import NewFeatureStore from 'src/pages/Index/store/NewFeatureStore';
+import TaskStore from 'src/pages/Index/store/TaskStore';
+
 import 'src/assets/less/components/right-menu-modal.less';
 
 const EDIT_TYPE = [
@@ -67,16 +75,8 @@ const CHINESE_EDIT_TYPE = [
     }
 ];
 
-@inject('RenderModeStore')
 @inject('RightMenuStore')
-@inject('NewFeatureStore')
-@inject('OperateHistoryStore')
 @inject('DataLayerStore')
-@inject('AttributeStore')
-@inject('TaskStore')
-@inject('BatchAssignStore')
-@inject('ToolCtrlStore')
-@inject('appStore')
 @observer
 class RightMenuModal extends React.Component {
     componentDidMount() {
@@ -268,105 +268,69 @@ class RightMenuModal extends React.Component {
 
     installListener = () => {
         const { DataLayerStore } = this.props;
-        DataLayerStore.setBreakCallback(this.breakCallBack);
-        DataLayerStore.setCopyLineCallback(this.copyLineCallback);
-        DataLayerStore.setMovePointFeatureCallback(
-            this.movePointFeatureCallback
-        );
-        DataLayerStore.setBreakByLineCallback(this.breakByLineCallback);
-    };
-
-    breakCallBack = result => {
-        const {
-            DataLayerStore,
-            RightMenuStore,
-            OperateHistoryStore,
-            AttributeStore,
-            TaskStore,
-            RenderModeStore
-        } = this.props;
-
-        if (result.errorCode) {
-            // let arr = result.desc.split(':');
-            // let desc = arr[arr.length - 1];
-            message.warning('未选择打断点', 3);
-            DataLayerStore.exitEdit();
-            return;
-        }
-        let { activeTask } = TaskStore;
-        Modal.confirm({
-            title: '您确认执行操作？',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk: async () => {
-                let features = RightMenuStore.getFeatures();
-                try {
-                    let historyLog = await breakLine(
-                        result[0],
-                        features,
-                        activeTask
-                    );
-                    let history = {
-                        type: 'updateFeatureRels',
-                        data: historyLog
-                    };
-                    let log = {
-                        operateHistory: history,
-                        action: 'breakLine',
-                        result: 'success'
-                    };
-                    OperateHistoryStore.add(history);
-                    editLog.store.add(log);
-                    AdEmitter.emit('fetchViewAttributeData');
-                    RenderModeStore.updateRels(history);
-                } catch (e) {
-                    //console.log(e);
-                    message.warning('打断失败：' + e.message, 3);
-                    let history = {
-                        features,
-                        breakNode: result[0]
-                    };
-                    let log = {
-                        operateHistory: history,
-                        action: 'breakLine',
-                        result: 'fail',
-                        failReason: e.message
-                    };
-                    editLog.store.add(log);
-                }
-                DataLayerStore.exitEdit();
-                AttributeStore.hideRelFeatures();
-            },
-            onCancel() {
-                DataLayerStore.exitEdit();
-                AttributeStore.hideRelFeatures();
-            }
+        DataLayerStore.setBreakCallback(result => {
+            this.breakCallBack(result);
+        });
+        DataLayerStore.setCopyLineCallback(result => {
+            this.copyLineCallback(result);
+        });
+        DataLayerStore.setMovePointFeatureCallback(result => {
+            this.movePointFeatureCallback(result);
+        });
+        DataLayerStore.setBreakByLineCallback(result => {
+            this.breakByLineCallback(result);
         });
     };
 
-    copyLineCallback = async result => {
-        const {
-            DataLayerStore,
-            RightMenuStore,
-            NewFeatureStore,
-            OperateHistoryStore,
-            AttributeStore,
-            TaskStore
-        } = this.props;
-        // console.log(result);
+    @logDecorator({ operate: '线打断', onlyRun: true })
+    breakCallBack(result) {
+        try {
+            const { DataLayerStore } = this.props;
 
-        if (this.checkDisabled()) return;
+            checkSdkError(result, '未选择打断点');
+
+            Modal.confirm({
+                title: '您确认执行操作？',
+                okText: '确定',
+                okType: 'danger',
+                cancelText: '取消',
+                onOk: this.breakLineHandler.bind(this, result),
+                onCancel() {
+                    DataLayerStore.exitEdit();
+                }
+            });
+        } catch (e) {
+            message.error(e.message);
+            throw e;
+        }
+    }
+
+    @logDecorator({ operate: '线打断' })
+    async breakLineHandler(result) {
+        const { RightMenuStore } = this.props;
+        let features = RightMenuStore.getFeatures();
+        try {
+            let historyLog = await breakLine(
+                result[0],
+                features,
+                TaskStore.activeTask
+            );
+            return historyLog;
+        } catch (e) {
+            message.warning('打断失败：' + e.message, 3);
+            throw e;
+        }
+    }
+
+    @logDecorator({ operate: '复制线要素' })
+    async copyLineCallback(result) {
+        const { DataLayerStore, RightMenuStore } = this.props;
 
         let data;
         try {
-            //判断是否绘制成功
-            if (result.errorCode) {
-                DataLayerStore.exitEdit();
-                return;
-            }
-            this.regionCheck(result);
+            checkSdkError(result);
 
+            this.regionCheck(result);
             let feature = RightMenuStore.getFeatures()[0];
             let IDKey = getLayerIDKey(feature.layerName);
             {
@@ -376,10 +340,7 @@ class RightMenuModal extends React.Component {
             }
 
             // 请求id服务，申请id
-            data = await NewFeatureStore.init(
-                result,
-                isManbuildTask(TaskStore.activeTask)
-            );
+            data = await NewFeatureStore.init(result, isManbuildTask());
             data.data.properties = {
                 ...data.data.properties,
                 ...feature.data.properties
@@ -387,83 +348,61 @@ class RightMenuModal extends React.Component {
             // 更新id到sdk
             DataLayerStore.updateFeature(data);
             let history = {
-                type: 'addFeature',
-                feature: data.data,
-                layerName: data.layerName
+                features: [[], [data]]
             };
-            let log = {
-                operateHistory: history,
-                action: 'copyLine',
-                result: 'success'
-            };
-            OperateHistoryStore.add(history);
-            editLog.store.add(log);
-            AdEmitter.emit('fetchViewAttributeData');
+            return history;
         } catch (e) {
             if (result) {
                 let layer = DataLayerStore.getEditLayer();
                 layer.layer.removeFeatureById(result.uuid);
             }
             message.warning('复制线要素失败：' + e.message, 3);
+            throw e;
         }
-        DataLayerStore.exitEdit();
-        AttributeStore.hideRelFeatures();
-    };
+    }
 
-    movePointFeatureCallback = result => {
-        const {
-            DataLayerStore,
-            OperateHistoryStore,
-            RightMenuStore,
-            TaskStore
-        } = this.props;
-        if (result.errorCode) {
-            DataLayerStore.exitEdit();
-            return;
-        }
+    @logDecorator({ operate: '平移点要素', onlyRun: true })
+    movePointFeatureCallback(result) {
+        const { DataLayerStore, RightMenuStore } = this.props;
+        checkSdkError(result);
         const oldFeature = RightMenuStore.getFeatures()[0];
         Modal.confirm({
             title: '您确认执行该操作？',
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
-            onOk: async () => {
-                try {
-                    this.regionCheck(result);
-                    // 更新标识
-                    if (!isManbuildTask(TaskStore.activeTask)) {
-                        result = modUpdStatGeometry(result);
-                    }
-                    let history = {
-                        type: 'updateFeatureRels',
-                        data: {
-                            features: [[oldFeature], [result]]
-                        }
-                    };
-                    let log = {
-                        operateHistory: history,
-                        action: 'movePointFeature',
-                        result: 'success'
-                    };
-                    OperateHistoryStore.add(history);
-                    editLog.store.add(log);
-                    message.success('平移成功', 3);
-                } catch (e) {
-                    message.warning('平移点要素失败：' + e.message, 3);
-                    DataLayerStore.updateFeature(oldFeature);
-                }
-                DataLayerStore.exitEdit();
-            },
+            onOk: this.movePointFeatureHandler.bind(this, result, oldFeature),
             onCancel() {
                 // 恢复要素
                 DataLayerStore.updateFeature(oldFeature);
                 DataLayerStore.exitEdit();
             }
         });
-    };
+    }
+
+    @logDecorator({ operate: '平移点要素' })
+    async movePointFeatureHandler(result, oldFeature) {
+        try {
+            this.regionCheck(result);
+            // 更新标识
+            if (!isManbuildTask()) {
+                result = modUpdStatGeometry(result);
+            }
+            let history = {
+                features: [[oldFeature], [result]]
+            };
+
+            message.success('平移成功', 3);
+            return history;
+        } catch (e) {
+            message.warning('平移点要素失败：' + e.message, 3);
+            DataLayerStore.updateFeature(oldFeature);
+            throw e;
+        }
+    }
 
     regionCheck = data => {
-        const { DataLayerStore, TaskStore } = this.props;
+        const { DataLayerStore } = this.props;
         let isLocal = TaskStore.activeTask.isLocal;
         if (isLocal) return;
         //判断要素是否在任务范围内
@@ -479,13 +418,7 @@ class RightMenuModal extends React.Component {
 
     setEditLayerFeature = () => {
         //设置可编辑图层交互
-        const {
-            RightMenuStore,
-            DataLayerStore,
-            AttributeStore,
-            ToolCtrlStore,
-            appStore
-        } = this.props;
+        const { RightMenuStore, DataLayerStore } = this.props;
         const { features } = RightMenuStore;
         let userInfo = appStore.loginUser;
         let layer = DataLayerStore.activeEditor(features[0].layerName);
@@ -496,14 +429,7 @@ class RightMenuModal extends React.Component {
     };
 
     deleteFeature = () => {
-        const {
-            RightMenuStore,
-            OperateHistoryStore,
-            DataLayerStore,
-            AttributeStore,
-            TaskStore,
-            RenderModeStore
-        } = this.props;
+        const { RightMenuStore, DataLayerStore } = this.props;
 
         if (this.checkDisabled()) return;
 
@@ -512,42 +438,32 @@ class RightMenuModal extends React.Component {
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
-            onOk: async () => {
-                let result = RightMenuStore.delete();
-                let historyLog = await deleteLine(result, TaskStore.activeTask);
-                //console.log(result, historyLog);
-
-                DataLayerStore.exitEdit();
-                AttributeStore.hideRelFeatures();
-                AttributeStore.hide();
-
-                let history = {
-                    type: 'updateFeatureRels',
-                    data: historyLog
-                };
-                let log = {
-                    operateHistory: history,
-                    action: 'deleteFeature',
-                    result: 'success'
-                };
-                OperateHistoryStore.add(history);
-                editLog.store.add(log);
-                AdEmitter.emit('fetchViewAttributeData');
-                RenderModeStore.updateRels(history);
-            },
+            onOk: this.deleteFeatureHandler.bind(this),
             onCancel() {
                 DataLayerStore.exitEdit();
-                AttributeStore.hideRelFeatures();
             }
         });
         RightMenuStore.hide();
     };
+
+    @logDecorator({ operate: '删除要素' })
+    async deleteFeatureHandler() {
+        const { RightMenuStore } = this.props;
+        let result = RightMenuStore.delete();
+        let historyLog = await deleteLine(result, TaskStore.activeTask);
+
+        AttributeStore.hideRelFeatures();
+        AttributeStore.hide();
+
+        return historyLog;
+    }
 
     copyLine = () => {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
         DataLayerStore.dragCopyedFeature();
         RightMenuStore.hide();
+        AttributeStore.hideRelFeatures();
     };
 
     insertPoints = () => {
@@ -587,132 +503,84 @@ class RightMenuModal extends React.Component {
         if (this.checkDisabled()) return;
         DataLayerStore.selectPointFromHighlight();
         RightMenuStore.hide();
+        AttributeStore.hideRelFeatures();
     };
 
     reverseOrderLine = () => {
-        const {
-            RightMenuStore,
-            DataLayerStore,
-            AttributeStore,
-            OperateHistoryStore,
-            RenderModeStore
-        } = this.props;
+        const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
         Modal.confirm({
             title: '您确认执行线要素逆序操作？',
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
-            onOk: async () => {
-                let features = RightMenuStore.getFeatures();
-
-                try {
-                    let oldFeatures = _.cloneDeep(features);
-                    let newFeatures = features.map(item => {
-                        item.data.geometry.coordinates.reverse();
-                        return item;
-                    });
-                    let layer = getLayerByName(newFeatures[0].layerName);
-                    //layer.updateFeatures(newFeatures);
-                    layerUpdateFeatures(layer, newFeatures);
-
-                    DataLayerStore.exitEdit();
-                    AttributeStore.hideRelFeatures();
-                    let historyLog = {
-                        features: [oldFeatures, newFeatures]
-                    };
-                    let history = {
-                        type: 'updateFeatureRels',
-                        data: historyLog
-                    };
-                    let log = {
-                        operateHistory: history,
-                        action: 'reverseOrderLine',
-                        result: 'success'
-                    };
-                    OperateHistoryStore.add(history);
-                    editLog.store.add(log);
-                    message.success('线要素逆序已完成', 3);
-                    RenderModeStore.updateRels(history);
-                } catch (e) {
-                    message.warning('线要素逆序处理失败：' + e.message, 3);
-                    let history = { features };
-                    let log = {
-                        operateHistory: history,
-                        action: 'reverseOrderLine',
-                        result: 'fail',
-                        failReason: e.message
-                    };
-                    editLog.store.add(log);
-                }
-            },
+            onOk: this.reverseOrderLineHandler.bind(this),
             onCancel() {
                 DataLayerStore.exitEdit();
-                AttributeStore.hideRelFeatures();
             }
         });
-
         RightMenuStore.hide();
     };
 
+    @logDecorator({ operate: '线要素逆序' })
+    reverseOrderLineHandler() {
+        try {
+            const { RightMenuStore } = this.props;
+            let features = RightMenuStore.getFeatures();
+
+            let oldFeatures = _.cloneDeep(features);
+            let newFeatures = features.map(item => {
+                item.data.geometry.coordinates.reverse();
+                return item;
+            });
+            let layer = getLayerByName(newFeatures[0].layerName);
+            layerUpdateFeatures(layer, newFeatures);
+
+            let historyLog = {
+                features: [oldFeatures, newFeatures]
+            };
+            message.success('线要素逆序已完成', 3);
+            return historyLog;
+        } catch (e) {
+            message.warning('线要素逆序处理失败：' + e.message, 3);
+            throw e;
+        }
+    }
+
     mergeLine = () => {
-        const {
-            RightMenuStore,
-            DataLayerStore,
-            OperateHistoryStore,
-            AttributeStore,
-            TaskStore,
-            RenderModeStore
-        } = this.props;
+        const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
-        let { activeTask } = TaskStore;
+
         Modal.confirm({
             title: '您确认执行操作？',
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
-            onOk: async () => {
-                let features = RightMenuStore.getFeatures();
-                try {
-                    let historyLog = await mergeLine(features, activeTask);
-                    let history = {
-                        type: 'updateFeatureRels',
-                        data: historyLog
-                    };
-                    let log = {
-                        operateHistory: history,
-                        action: 'mergeLine',
-                        result: 'success'
-                    };
-                    OperateHistoryStore.add(history);
-                    editLog.store.add(log);
-                    AdEmitter.emit('fetchViewAttributeData');
-                    RenderModeStore.updateRels(history);
-                } catch (e) {
-                    console.log(e);
-                    message.warning('合并失败：' + e.message, 3);
-                    let history = { features };
-                    let log = {
-                        operateHistory: history,
-                        action: 'mergeLine',
-                        result: 'fail',
-                        failReason: e.message
-                    };
-                    editLog.store.add(log);
-                }
-                DataLayerStore.exitEdit();
-                AttributeStore.hideRelFeatures();
-            },
+            onOk: this.mergeLineHandler.bind(this),
             onCancel() {
                 DataLayerStore.exitEdit();
-                AttributeStore.hideRelFeatures();
             }
         });
         RightMenuStore.hide();
+        AttributeStore.hideRelFeatures();
     };
 
+    @logDecorator({ operate: '合并线要素' })
+    async mergeLineHandler() {
+        try {
+            const { RightMenuStore } = this.props;
+            let features = RightMenuStore.getFeatures();
+
+            let historyLog = await mergeLine(features, TaskStore.activeTask);
+            return historyLog;
+        } catch (e) {
+            message.warning('合并失败：' + e.message, 3);
+            throw e;
+        }
+    }
+
     batchAssign = () => {
-        const { RightMenuStore, BatchAssignStore } = this.props;
+        const { RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         let features = RightMenuStore.getFeatures();
         BatchAssignStore.show(features);
@@ -724,74 +592,48 @@ class RightMenuModal extends React.Component {
         if (this.checkDisabled()) return;
         DataLayerStore.createBreakLine();
         RightMenuStore.hide();
+        AttributeStore.hideRelFeatures();
     };
 
-    breakByLineCallback = result => {
-        const {
-            DataLayerStore,
-            RightMenuStore,
-            OperateHistoryStore,
-            AttributeStore,
-            TaskStore,
-            RenderModeStore
-        } = this.props;
+    @logDecorator({ operate: '拉线齐打断', onlyRun: true })
+    breakByLineCallback(result) {
+        try {
+            const { DataLayerStore } = this.props;
 
-        if (result.errorCode) {
-            message.warning('打断辅助线绘制失败', 3);
-            DataLayerStore.exitEdit();
-            return;
-        }
-        let { activeTask } = TaskStore;
-        Modal.confirm({
-            title: '您确认执行操作？',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk: async () => {
-                let features = RightMenuStore.getFeatures();
-                try {
-                    let historyLog = await breakLineByLine(
-                        result,
-                        features,
-                        activeTask
-                    );
-                    let history = {
-                        type: 'updateFeatureRels',
-                        data: historyLog
-                    };
-                    let log = {
-                        operateHistory: history,
-                        action: 'breakLineByLine',
-                        result: 'success'
-                    };
-                    OperateHistoryStore.add(history);
-                    editLog.store.add(log);
-                    AdEmitter.emit('fetchViewAttributeData');
-                    RenderModeStore.updateRels(history);
-                } catch (e) {
-                    //console.log(e);
-                    message.warning('拉线齐打断失败：' + e.message, 3);
-                    let history = {
-                        features,
-                        breakLine: result
-                    };
-                    let log = {
-                        operateHistory: history,
-                        action: 'breakLineByLine',
-                        result: 'fail',
-                        failReason: e.message
-                    };
-                    editLog.store.add(log);
+            checkSdkError(result, '打断辅助线绘制失败');
+
+            Modal.confirm({
+                title: '您确认执行操作？',
+                okText: '确定',
+                okType: 'danger',
+                cancelText: '取消',
+                onOk: this.breakByLineHandler.bind(this, result),
+                onCancel() {
+                    DataLayerStore.exitEdit();
                 }
-                DataLayerStore.exitEdit();
-                AttributeStore.hideRelFeatures();
-            },
-            onCancel() {
-                DataLayerStore.exitEdit();
-                AttributeStore.hideRelFeatures();
-            }
-        });
-    };
+            });
+        } catch (e) {
+            message.error(e.message);
+            throw e;
+        }
+    }
+
+    @logDecorator({ operate: '拉线齐打断' })
+    async breakByLineHandler(result) {
+        const { RightMenuStore } = this.props;
+        let features = RightMenuStore.getFeatures();
+        try {
+            let historyLog = await breakLineByLine(
+                result,
+                features,
+                TaskStore.activeTask
+            );
+            return historyLog;
+        } catch (e) {
+            message.warning('拉线齐打断失败：' + e.message, 3);
+            throw e;
+        }
+    }
 
     checkDisabled = () => {
         const { RightMenuStore } = this.props;

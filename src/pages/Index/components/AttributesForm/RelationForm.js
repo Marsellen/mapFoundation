@@ -46,9 +46,9 @@ class RelationForm extends React.Component {
     };
 
     getReadonlyStatus = () => {
-        const { AttributeStore, TaskStore } = this.props;
+        const { AttributeStore } = this.props;
 
-        return AttributeStore.readonly || !isManbuildTask(TaskStore.activeTask);
+        return AttributeStore.readonly || !isManbuildTask();
     };
 
     renderInputNumber = (item, index, filedKey) => {

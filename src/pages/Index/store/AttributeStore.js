@@ -62,7 +62,7 @@ class AttributeStore {
         this.loading = false;
     };
 
-    setModel = flow(function*(obj) {
+    setModel = flow(function* (obj) {
         this.showLoading(LOAD_DATA_MESSAGE);
         this.model = obj;
         this.type = this.model.layerName;
@@ -84,7 +84,7 @@ class AttributeStore {
         );
     };
 
-    fetchRels = flow(function*() {
+    fetchRels = flow(function* () {
         try {
             this.relRecords = yield relFactory.getFeatureRels(
                 this.model.layerName,
@@ -101,7 +101,7 @@ class AttributeStore {
         }
     });
 
-    fetchAttrs = flow(function*() {
+    fetchAttrs = flow(function* () {
         try {
             this.attrRecords = yield attrFactory.getFeatureAttrs(
                 this.model.layerName,
@@ -114,7 +114,7 @@ class AttributeStore {
         }
     });
 
-    getRelFeatureOptions = flow(function*(relRecords) {
+    getRelFeatureOptions = flow(function* (relRecords) {
         if (!relRecords) {
             relRecords = yield relFactory.getFeatureRels(
                 this.model.layerName,
@@ -205,7 +205,7 @@ class AttributeStore {
         }
     };
 
-    submit = flow(function*(data, task) {
+    submit = flow(function* (data) {
         let relLog = yield this.calcRelLog(data.rels);
 
         let attrLog = this.calcAttrLog(data.attrs);
@@ -213,7 +213,7 @@ class AttributeStore {
         let oldFeature = _.cloneDeep(this.model);
         let newFeature = _.cloneDeep(this.model);
 
-        if (!isManbuildTask(task)) {
+        if (!isManbuildTask()) {
             newFeature = modUpdStatProperties(newFeature, data.attributes);
         }
         newFeature.data.properties = {
@@ -272,10 +272,10 @@ class AttributeStore {
         return [oldRelRecords, newRelRecords];
     };
 
-    calcRelFeaturesLog = (relLog, newFeature, task) => {
+    calcRelFeaturesLog = (relLog, newFeature) => {
         if (!relLog) return [[], []];
         let allRels = [...relLog[0], ...relLog[1]];
-        if (!allRels.length || isManbuildTask(task)) return [[], []];
+        if (!allRels.length || isManbuildTask()) return [[], []];
 
         let allRelFeatureOptions = uniqOptions(
             getAllRelFeatureOptions(allRels)
@@ -329,7 +329,7 @@ class AttributeStore {
         id && this.delAttrs.push(id);
     };
 
-    newAttr = flow(function*(key, value, properties) {
+    newAttr = flow(function* (key, value, properties) {
         try {
             const _result = yield IDService.initID({
                 id_type: key

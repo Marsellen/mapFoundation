@@ -13,7 +13,6 @@ import {
 } from 'src/utils/vectorUtils';
 import IDService from 'src/services/IDService';
 import { distance } from 'src/utils/utils';
-import TaskStore from 'src/pages/Index/store/TaskStore';
 import { isManbuildTask } from 'src/utils/taskUtils';
 
 const batchAddRels = async rels => {
@@ -389,9 +388,7 @@ const relUniqCheck = async (mainFeature, feature) => {
 };
 
 const calcRelChangeLog = (features, rels) => {
-    const { activeTask } = TaskStore;
-
-    if (!isManbuildTask(activeTask)) {
+    if (!isManbuildTask()) {
         let newFeatures = features.map(modUpdStatRelation);
         return {
             features: [features, newFeatures],
