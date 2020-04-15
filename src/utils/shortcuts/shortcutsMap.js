@@ -173,7 +173,7 @@ export const shortcutMap = [
     },
     {
         id: 'merge-line-btn',
-        ctrl: true,
+        ctrl: false,
         alt: false,
         shift: false,
         keyCode: 77,
