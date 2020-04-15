@@ -219,7 +219,7 @@ class VizComponent extends React.Component {
             this.initMultiProjectResource(task)
         ]);
         const { TaskStore } = this.props;
-        TaskStore.editTaskId && this.initBoundary();
+        TaskStore.isEditableTask && this.initBoundary();
         this.initResouceLayer(resources);
         this.installListener();
     };
