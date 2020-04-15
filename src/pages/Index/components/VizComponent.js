@@ -353,12 +353,7 @@ class VizComponent extends React.Component {
 
     initBoundary = async () => {
         try {
-            const {
-                TaskStore,
-                DataLayerStore,
-                ResourceLayerStore,
-                VectorsStore
-            } = this.props;
+            const { TaskStore } = this.props;
             window.boundaryLayerGroup = await TaskStore.getBoundaryLayer();
             if (!window.boundaryLayerGroup) return;
             DataLayerStore.addTargetLayers(window.boundaryLayerGroup.layers);
