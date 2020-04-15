@@ -254,14 +254,14 @@ class TaskStore {
 
     getTaskInfo = flow(function* () {
         try {
+            if (!this.activeTaskUrl) return;
             const { taskInfo } = CONFIG.urlConfig;
             const url = completeSecendUrl(taskInfo, this.activeTask);
             const { data } = yield axios.get(url);
             const { projectNames } = data;
             this.projectNameArr = projectNames.split(';').sort();
         } catch (e) {
-            console.error(e.message);
-            message.warning('获取任务信息失败' + e.message);
+            console.log(e.message);
         }
     });
 
@@ -294,10 +294,7 @@ class TaskStore {
                 region,
                 vectors,
                 rels,
-                attrs,
-                boundaryAdsAll,
-                boundaryRels,
-                boundaryAttrs
+                attrs
             } = CONFIG.urlConfig;
 
             let task = {
@@ -312,24 +309,6 @@ class TaskStore {
                 attrs: completeEditUrl(attrs, this.activeTask)
             };
 
-            if (this.isEditableTask && this.isGetTaskBoundaryFile()) {
-                Object.assign(task, {
-                    boundary: {
-                        adsAll: completeBoundaryUrl(
-                            boundaryAdsAll,
-                            this.activeTask
-                        ),
-                        rels: completeBoundaryUrl(
-                            boundaryRels,
-                            this.activeTask
-                        ),
-                        attrs: completeBoundaryUrl(
-                            boundaryAttrs,
-                            this.activeTask
-                        )
-                    }
-                });
-            }
             return task;
         } catch (e) {
             console.log(e);
