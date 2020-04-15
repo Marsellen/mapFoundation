@@ -10,8 +10,8 @@ class DefineRenderMode extends React.Component {
     render() {
         return (
             <div className="define-mode-wrap">
-                <Tabs defaultActiveKey="icon" animated={false}>
-                    <TabPane tab="符号设置" key="icon">
+                <Tabs defaultActiveKey="text" animated={false}>
+                    <TabPane tab="符号设置" key="icon" disabled>
                         <DefineVectorConfig />
                     </TabPane>
                     <TabPane tab="注记设置" key="text">

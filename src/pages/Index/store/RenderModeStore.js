@@ -86,28 +86,6 @@ class RenderModeStore {
         this.allChecked = false;
     };
 
-    //重设画布渲染样式
-    @action resetStyleConfig = async mode => {
-        switch (mode) {
-            case 'common':
-                this.commonRenderMode();
-                break;
-            case 'relation':
-                this.whiteRenderMode();
-                //将有关联关系的要素，按专题图进行分组
-                this.setRels();
-                break;
-            case 'update':
-                this.whiteRenderMode();
-                break;
-            case 'define':
-                this.whiteRenderMode();
-                break;
-            default:
-                break;
-        }
-    };
-
     //通用渲染模式/彩色渲染模式
     @action commonRenderMode = () => {
         //任务范围内要素，采用配置：VectorsConfig

@@ -17,12 +17,6 @@ class LayerTextVectorConfig extends React.Component {
         currentOffset: ''
     };
 
-    componentDidMount() {
-        const { DefineModeStore, config } = this.props;
-        const { initLayerTextConfig } = DefineModeStore;
-        const { key } = config;
-        initLayerTextConfig(key, config);
-    }
     //显隐注记
     toggle = e => {
         const { checked } = e.target;
@@ -230,7 +224,7 @@ class LayerTextVectorConfig extends React.Component {
     render() {
         const { config, DefineModeStore } = this.props;
         const { key, label } = config;
-        const { vectorTextConfig, setVectorsConfig } = DefineModeStore;
+        const { vectorTextConfig } = DefineModeStore;
         const { checked } = vectorTextConfig[key] || {};
         return (
             <div>
@@ -242,9 +236,11 @@ class LayerTextVectorConfig extends React.Component {
                         />
                         <span>{label}</span>
                     </div>
-                    <Checkbox onChange={this.toggle}>显示注记</Checkbox>
+                    <Checkbox checked={checked} onChange={this.toggle}>
+                        显示注记
+                    </Checkbox>
                 </div>
-                {checked && this._layerConfigNode(setVectorsConfig)}
+                {checked && this._layerConfigNode()}
             </div>
         );
     }
