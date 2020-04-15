@@ -11,6 +11,7 @@ class UnderView extends React.Component {
         return activeTaskId ? (
             <div>
                 <ToolIcon
+                    id="under-view-btn"
                     icon="compass"
                     title="视角还原"
                     placement="left"
