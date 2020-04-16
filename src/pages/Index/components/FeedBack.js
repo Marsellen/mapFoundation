@@ -73,18 +73,18 @@ class FeedBack extends React.Component {
 
     render() {
         const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
+        const { isEditableTask } = TaskStore;
         const { visible } = this.state;
 
         return (
-            <div className="feedback">
-                <span onClick={this.toggle}>
-                    <ToolIcon icon="wentifankui" className="feedback" />
+            <div className={isEditableTask ? 'feedback' : 'feedback-disabled'}>
+                <span onClick={isEditableTask ? this.toggle : null}>
+                    <ToolIcon icon="wentifankui" />
                     问题反馈
                 </span>
                 <Modal
                     className="feedback-modal"
-                    footer={activeTaskId ? this.renderFooter() : null}
+                    footer={this.renderFooter()}
                     title={<span className="modal-title">问题数据反馈</span>}
                     visible={visible}
                     maskClosable={false}
@@ -103,51 +103,45 @@ class FeedBack extends React.Component {
         const pjIndex = processName.findIndex(item => {
             return item.name === activeTask.processName;
         });
-        if (activeTask.taskId) {
-            return (
-                <div className="feedback-content">
-                    <div className="feedback-eg">
-                        注：会将当前任务内的所有矢量数据打包反馈
-                    </div>
-                    <Descriptions
-                        className="path-content"
-                        title={
-                            <span className="feedback-title">环境基本信息</span>
-                        }>
-                        <Descriptions.Item>
-                            环境地址: {activeTask.Input_imp_data_path}
-                            <br />
-                            编辑平台版本: {CONFIG.version}
-                            <br />
-                        </Descriptions.Item>
-                    </Descriptions>
-                    <Descriptions
-                        bordered
-                        className="task-content"
-                        title={
-                            <span className="feedback-title">任务基本信息</span>
-                        }
-                        size="small">
-                        <Descriptions.Item label="工程编号" span={3}>
-                            {activeTask.isLocal ? '-' : activeTask.projectId}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="工作人员" span={3}>
-                            {loginUser.name} {loginUser.roleName}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="任务编号" span={3}>
-                            {activeTask.taskId}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="任务类型&amp;状态" span={3}>
-                            {activeTask.isLocal
-                                ? processName[pjIndex].label
-                                : `${activeTask.nodeDesc}-${activeTask.manualStatusDesc}`}
-                        </Descriptions.Item>
-                    </Descriptions>
+        return (
+            <div className="feedback-content">
+                <div className="feedback-eg">
+                    注：会将当前任务内的所有矢量数据打包反馈
                 </div>
-            );
-        } else {
-            return <div>请打开一个任务</div>;
-        }
+                <Descriptions
+                    className="path-content"
+                    title={
+                        <span className="feedback-title">环境基本信息</span>
+                    }>
+                    <Descriptions.Item>
+                        环境地址: {activeTask.Input_imp_data_path}
+                        <br />
+                        编辑平台版本: {CONFIG.version}
+                        <br />
+                    </Descriptions.Item>
+                </Descriptions>
+                <Descriptions
+                    bordered
+                    className="task-content"
+                    title={<span className="feedback-title">任务基本信息</span>}
+                    size="small">
+                    <Descriptions.Item label="工程编号" span={3}>
+                        {activeTask.isLocal ? '-' : activeTask.projectId}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="工作人员" span={3}>
+                        {loginUser.name} {loginUser.roleName}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="任务编号" span={3}>
+                        {activeTask.taskId}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="任务类型&amp;状态" span={3}>
+                        {activeTask.isLocal
+                            ? processName[pjIndex].label
+                            : `${activeTask.nodeDesc}-${activeTask.manualStatusDesc}`}
+                    </Descriptions.Item>
+                </Descriptions>
+            </div>
+        );
     };
 
     renderFooter = () => {
@@ -214,7 +208,6 @@ class FeedBack extends React.Component {
                 projectId: activeTask.projectId,
                 operator: loginUser.username
             };
-            // console.log('params', params);
 
             await TaskStore.submit();
             await TaskStore.writeEditLog();
