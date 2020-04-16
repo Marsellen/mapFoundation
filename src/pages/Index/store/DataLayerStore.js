@@ -5,7 +5,8 @@ import { Modal, message } from 'antd';
 import {
     getLayerExByName,
     getFeatureOption,
-    getLayerByName
+    getLayerByName,
+    getAllLayersExByName
 } from 'src/utils/vectorUtils';
 import { addClass, removeClass, throttle, getCSYS } from 'src/utils/utils';
 import AdEmitter from 'src/models/event';
@@ -276,8 +277,8 @@ class DataLayerStore {
         this.editor.clear();
         this.editor.toggleMode(61); //多选模式
         this.removeCur();
-        let layer = getLayerExByName('AD_LaneDivider');
-        this.editor.setTargetLayers([layer]);
+        let layers = getAllLayersExByName('AD_LaneDivider');
+        this.editor.setTargetLayers(layers);
     };
 
     // 路口内直行中心线生成
@@ -289,8 +290,8 @@ class DataLayerStore {
         this.editor.clear();
         this.editor.toggleMode(61);
         this.removeCur();
-        let layer = getLayerExByName(this.editor.editLayer.layerName);
-        this.editor.setTargetLayers([layer]);
+        let layers = getAllLayersExByName(this.editor.editLayer.layerName);
+        this.editor.setTargetLayers(layers);
     };
 
     // 路口内转弯中心线生成
@@ -302,8 +303,8 @@ class DataLayerStore {
         this.editor.clear();
         this.editor.toggleMode(61);
         this.removeCur();
-        let layer = getLayerExByName(this.editor.editLayer.layerName);
-        this.editor.setTargetLayers([layer]);
+        let layers = getAllLayersExByName(this.editor.editLayer.layerName);
+        this.editor.setTargetLayers(layers);
     };
 
     // 路口内掉头中心线生成
@@ -315,8 +316,8 @@ class DataLayerStore {
         this.editor.clear();
         this.editor.toggleMode(61);
         this.removeCur();
-        let layer = getLayerExByName(this.editor.editLayer.layerName);
-        this.editor.setTargetLayers([layer]);
+        let layers = getAllLayersExByName(this.editor.editLayer.layerName);
+        this.editor.setTargetLayers(layers);
     };
 
     @action topViewMode = opt => {
@@ -366,8 +367,8 @@ class DataLayerStore {
             this.setEditType('line_snap_stop');
         } else if (step === 1) {
             this.editor.selectFeature(1);
-            let layer = getLayerExByName('AD_StopLocation');
-            this.editor.setTargetLayers([layer]);
+            let layers = getAllLayersExByName('AD_StopLocation');
+            this.editor.setTargetLayers(layers);
         }
     };
 

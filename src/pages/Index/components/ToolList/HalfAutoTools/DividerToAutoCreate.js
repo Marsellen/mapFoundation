@@ -75,9 +75,19 @@ class DividerToAutoCreate extends React.Component {
         let editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
         if (
-            (result.length === 2 && layerName == 'AD_Lane') ||
-            (result.length === 1 && layerName == 'AD_Road')
+            !(result.length === 2 && layerName == 'AD_Lane') &&
+            !(result.length === 1 && layerName == 'AD_Road')
         ) {
+            let layerNameCN = DATA_LAYER_MAP[layerName].label;
+            let errorMessage = `${layerNameCN}生成失败`;
+            message.error({
+                content: errorMessage,
+                key: 'new_around_line',
+                duration: 3
+            });
+            throw new Error(errorMessage);
+        }
+        try {
             message.loading({
                 content: '处理中...',
                 key: 'new_around_line',
@@ -90,15 +100,13 @@ class DividerToAutoCreate extends React.Component {
                 AD_LaneDivider.features.push(item.data);
             });
             return await this.addLines({ AD_LaneDivider });
-        } else {
-            let layerNameCN = DATA_LAYER_MAP[layerName].label;
-            let errorMessage = `${layerNameCN}生成失败`;
+        } catch (e) {
             message.error({
-                content: errorMessage,
+                content: e.message,
                 key: 'new_around_line',
                 duration: 3
             });
-            throw new Error(errorMessage);
+            throw e;
         }
     }
 
