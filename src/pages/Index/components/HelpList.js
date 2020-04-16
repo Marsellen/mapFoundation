@@ -2,38 +2,36 @@ import React from 'react';
 import HotKey from './HotKey';
 import 'src/assets/less/components/hotkey.less';
 import ToolIcon from 'src/components/ToolIcon';
-import FeedBack from './FeedBack'
+import FeedBack from './FeedBack';
 
 class HelpList extends React.Component {
     state = {
-        clicked: false,
         hovered: false
     };
 
     hide = () => {
         this.setState({
-            clicked: false,
             hovered: false
         });
     };
 
     handleClickChange = visible => {
         this.setState({
-            clicked: visible,
-            hovered: false
+            hovered: visible
         });
     };
 
     render() {
+        const { hovered } = this.state;
         return (
             <ToolIcon
                 icon="bangzhu"
                 className="ad-sider-bottom-item"
-                visible={this.state.clicked}
+                visible={hovered}
                 popover={{
                     title: '帮助中心',
                     placement: 'rightBottom',
-                    visible: this.state.clicked,
+                    visible: hovered,
                     overlayClassName: 'help-list',
                     onVisibleChange: this.handleClickChange,
                     content: this._renderContent(),
@@ -44,7 +42,7 @@ class HelpList extends React.Component {
     }
     _renderContent() {
         return (
-            <div onClick={this.hide}>
+            <div onMouseLeave={this.hide}>
                 <HotKey />
                 <FeedBack />
             </div>
