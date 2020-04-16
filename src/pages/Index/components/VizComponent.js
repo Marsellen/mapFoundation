@@ -59,6 +59,9 @@ import {
     showAttributesModal,
     showRightMenu
 } from 'src/utils/map/viewCtrl';
+
+@inject('DefineModeStore')
+@inject('RenderModeStore')
 @inject('TaskStore')
 @observer
 class VizComponent extends React.Component {
@@ -203,13 +206,13 @@ class VizComponent extends React.Component {
     };
 
     initEditResource = async task => {
+        const { TaskStore } = this.props;
+        TaskStore.isEditableTask && this.initBoundary();
         const resources = await Promise.all([
             this.initVectors(task.vectors),
             this.initRegion(task.region),
             this.initMultiProjectResource(task)
         ]);
-        const { TaskStore } = this.props;
-        TaskStore.isEditableTask && this.initBoundary();
         this.initResouceLayer(resources);
         this.installListener();
     };
@@ -362,8 +365,38 @@ class VizComponent extends React.Component {
                 window.boundaryLayerGroup
             );
             VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
+            this.handleBoundaryfeature();
         } catch (e) {
             message.warning('周边底图数据加载失败', 3);
+        }
+    };
+
+    //关联关系模式下，处理底图数据
+    handleBoundaryfeature = () => {
+        const { RenderModeStore, DefineModeStore } = this.props;
+        const {
+            whiteRenderMode,
+            resetSelectOption,
+            setRels,
+            activeMode
+        } = RenderModeStore;
+        const { resetBoundaryStyle } = DefineModeStore;
+
+        switch (activeMode) {
+            case 'relation':
+                //将重置专题图
+                resetSelectOption();
+                //周边底图要素，采用配置：HalfWhiteVectorsConfig，半透明白
+                whiteRenderMode();
+                //将有关联关系的要素，按专题图进行分组
+                setRels();
+                break;
+            case 'define':
+                //重置周边底图高精数据图层样式
+                resetBoundaryStyle();
+                break;
+            default:
+                break;
         }
     };
 

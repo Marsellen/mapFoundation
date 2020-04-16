@@ -6,6 +6,7 @@ import RelationRenderMode from './RelationRenderMode';
 import ToolIcon from 'src/components/ToolIcon';
 import { RENDER_MODE_MAP } from 'src/config/RenderModeConfig';
 
+@inject('DefineModeStore')
 @inject('AttributeStore')
 @inject('DataLayerStore')
 @inject('TaskStore')
@@ -56,12 +57,12 @@ class RenderMode extends React.Component {
                     RenderModeStore,
                     AttributeStore
                 } = this.props;
-                const { resetStyleConfig, setMode } = RenderModeStore;
+                const { setMode } = RenderModeStore;
                 const { mode } = this.state;
                 //设置渲染模式
                 setMode(mode);
                 //重设画布渲染样式
-                resetStyleConfig(mode);
+                this.resetStyleConfig(mode);
                 //关闭渲染模式弹窗
                 this.setState({
                     visible: false
@@ -72,6 +73,32 @@ class RenderMode extends React.Component {
                 AttributeStore.hide();
             }
         });
+    };
+
+    resetStyleConfig = mode => {
+        const { RenderModeStore, DefineModeStore } = this.props;
+        const { commonRenderMode, whiteRenderMode, setRels } = RenderModeStore;
+        const { initLayerTextConfig } = DefineModeStore;
+
+        switch (mode) {
+            case 'common':
+                commonRenderMode();
+                break;
+            case 'relation':
+                whiteRenderMode();
+                //将有关联关系的要素，按专题图进行分组
+                setRels();
+                break;
+            case 'update':
+                whiteRenderMode();
+                break;
+            case 'define':
+                //初始化文字注记配置
+                initLayerTextConfig();
+                break;
+            default:
+                break;
+        }
     };
 
     //加载各模式组件
@@ -118,16 +145,14 @@ class RenderMode extends React.Component {
                     onCancel={this.handleClose}
                     width={720}
                     maskClosable={false}
-                    zIndex={9999}
-                >
+                    zIndex={9999}>
                     <div className="modal-body">
                         <ul>
                             {RENDER_MODE_MAP.map((item, index) => (
                                 <li
                                     className={item.mode === mode ? 'on' : ''}
                                     key={`mode-${index}`}
-                                    onClick={() => this.chooseMode(item)}
-                                >
+                                    onClick={() => this.chooseMode(item)}>
                                     <div className="checkbox"></div>
                                     <div>
                                         <img src={item.icon} />
@@ -142,8 +167,7 @@ class RenderMode extends React.Component {
                                 type="primary"
                                 onClick={this.handleOk}
                                 style={{ width: 100 }}
-                                disabled={disabled}
-                            >
+                                disabled={disabled}>
                                 应用
                             </Button>
                         </div>

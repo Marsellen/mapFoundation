@@ -55,7 +55,7 @@ class MultimediaView extends React.Component {
 
                 {isDefineMode && (
                     <div
-                        title="符号设置"
+                        title="渲染设置窗口"
                         onClick={this.toggleDefine}
                         className={`define-icon ${DefineVisible ? 'on' : ''}`}>
                         <ToolIcon icon="xuanranshezhi" />
