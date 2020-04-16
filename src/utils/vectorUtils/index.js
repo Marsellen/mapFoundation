@@ -26,8 +26,18 @@ export const getFeatureOption = feature => {
     };
 };
 
+export const getAllLayersExByName = layerName => {
+    let layers = window.vectorLayerGroup.layers;
+    if (window.boundaryLayerGroup) {
+        layers = layers.concat(window.boundaryLayerGroup.layers);
+    }
+    return layers.filter(layer => layer.layerName == layerName);
+};
+
 export const getLayerExByName = layerName => {
-    return vectorLayerGroup.layers.find(layer => layer.layerName == layerName);
+    return window.vectorLayerGroup.layers.find(
+        layer => layer.layerName == layerName
+    );
 };
 
 export const getLayerByName = layerName => {
