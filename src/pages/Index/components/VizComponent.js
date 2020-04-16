@@ -169,8 +169,6 @@ class VizComponent extends React.Component {
 
     initTask = async task => {
         console.time('taskLoad');
-        const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
         const hide = message.loading({
             content: '正在加载任务数据...',
             key: 'init_task'
@@ -185,21 +183,19 @@ class VizComponent extends React.Component {
                 key: 'init_task',
                 duration: 1
             });
-
-            const { taskScale } =
-                AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
-            taskScale ? window.map.setEyeView(taskScale) : map.setView('U');
         } catch (e) {
             console.log(e);
             hide();
             // 任务列表快速切换时旧任务加载过程会报错
+            const { TaskStore } = this.props;
+            const { activeTaskId, tasksPop } = TaskStore;
             if (activeTaskId === task.taskId) {
                 Modal.error({
                     title: '资料加载失败，请确认输入正确路径。',
                     okText: '确定'
                 });
             }
-            TaskStore.tasksPop();
+            tasksPop();
         }
 
         console.timeEnd('taskLoad');
@@ -270,6 +266,12 @@ class VizComponent extends React.Component {
                 };
             });
         });
+
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
+        const { taskScale } =
+            AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
+        taskScale ? window.map.setEyeView(taskScale) : map.setView('U');
     };
 
     initVectors = async vectors => {
