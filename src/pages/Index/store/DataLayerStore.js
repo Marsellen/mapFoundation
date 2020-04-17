@@ -11,6 +11,7 @@ import {
 import { addClass, removeClass, throttle, getCSYS } from 'src/utils/utils';
 import AdEmitter from 'src/models/event';
 import EditorConfig from 'src/config/ConctrolConfig';
+import AttributeStore from 'src/pages/Index/store/AttributeStore.js';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore {
@@ -377,6 +378,7 @@ class DataLayerStore {
             if (this.editType == 'assign_line_batch') return;
             this.disableOtherCtrl();
             this.clearChoose();
+            AttributeStore.hide(); //隐藏属性窗口
             this.setEditType('assign_line_batch');
         } else if (step === 1) {
             this.editor.newFixLine(2, 1);
