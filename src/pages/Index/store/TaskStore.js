@@ -393,7 +393,7 @@ class TaskStore {
     });
 
     @action loadLocalTask = task => {
-        if (this.tasks.map(t => t.taskId).includes(task.taskId)) {
+        if (this.taskIdList.includes(Number(task.taskId))) {
             throw new Error('资料目录重复');
         }
         this.activeTask = {
