@@ -2,22 +2,13 @@ import IndexedDB from 'src/utils/IndexedDB';
 
 class editLog {
     constructor() {
-        this.store = new IndexedDB(
-            'editLogs',
-            'editLogs',
-            (request, event) => {
-                let db = request.result;
-                if (event.oldVersion < 1) {
-                    db.createObjectStore('editLogs', {
-                        keyPath: 'id',
-                        autoIncrement: true
-                    });
-                }
-            },
-            1
-        );
-
-        this.store.clear();
+        this.store = new IndexedDB('editLogs', 'editLogs', (request, event) => {
+            let db = request.result;
+            db.createObjectStore('editLogs', {
+                keyPath: 'id',
+                autoIncrement: true
+            });
+        });
     }
 
     add(log) {

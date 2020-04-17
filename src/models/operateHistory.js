@@ -7,17 +7,12 @@ class operateHistory {
             'operateHistories',
             (request, event) => {
                 let db = request.result;
-                if (event.oldVersion < 1) {
-                    db.createObjectStore('operateHistories', {
-                        keyPath: 'id',
-                        autoIncrement: true
-                    });
-                }
-            },
-            2
+                db.createObjectStore('operateHistories', {
+                    keyPath: 'id',
+                    autoIncrement: true
+                });
+            }
         );
-
-        this.store.clear();
     }
 }
 

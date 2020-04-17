@@ -9,6 +9,7 @@ import 'less/home.less';
 import logo from 'src/assets/img/logo.png';
 import { shortcut } from 'src/utils/shortcuts';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
+import { deleteDatabase } from 'src/utils/IndexedDB';
 
 const { Header } = Layout;
 
@@ -16,7 +17,13 @@ const { Header } = Layout;
 window.onbeforeunload = e => editVisiteHistory.removeVisitedHistory();
 editVisiteHistory.addVisitedHistory();
 editVisiteHistory.pollingVisiteHistory();
-editVisiteHistory.LinkToBlank();
+let jump = editVisiteHistory.LinkToBlank();
+if (!jump) {
+    deleteDatabase('attributes');
+    deleteDatabase('editLogs');
+    deleteDatabase('adEditor');
+    deleteDatabase('relationships');
+}
 
 @inject('MenuStore')
 @observer
