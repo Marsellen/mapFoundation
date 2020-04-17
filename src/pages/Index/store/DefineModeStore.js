@@ -68,7 +68,7 @@ class DefineModeStore {
     };
 
     @action initLayerTextConfig = () => {
-        Object.values(LAYER_TEXT_MAP).map(item => {
+        Object.values(LAYER_TEXT_MAP).forEach(item => {
             const { key } = item;
             this.vectorTextConfig[key] = item;
         });

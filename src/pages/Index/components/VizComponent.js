@@ -22,7 +22,6 @@ import {
 } from 'src/config/DataLayerConfig';
 import MultimediaView from './MultimediaView';
 import VectorsConfig from '../../../config/VectorsConfig';
-import OutsideVectorsConfig from '../../../config/OutsideVectorsConfig';
 import 'less/components/viz-compnent.less';
 // import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
