@@ -39,6 +39,7 @@ class VisitedHistory {
         const visiteHistory = this.getVisitedHistory();
         if (visiteHistory.length > 1) {
             window.location.href = '/blank';
+            return true;
         }
     };
 

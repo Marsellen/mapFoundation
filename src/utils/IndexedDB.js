@@ -205,3 +205,13 @@ class IndexedDB {
 }
 
 export default IndexedDB;
+
+export const deleteDatabase = dbName => {
+    let deleteRequest = window.indexedDB.deleteDatabase(dbName);
+    deleteRequest.onerror = function (event) {
+        console.log(`删除失败: ${dbName}不存在`);
+    };
+    deleteRequest.onsuccess = function (event) {
+        console.log(`${dbName}删除成功`);
+    };
+};
