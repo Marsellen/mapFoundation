@@ -49,10 +49,10 @@ class LayerTextVectorConfig extends React.Component {
     };
 
     _layerConfigNode = () => {
-        const { currentFontSize, currentInterval, currentOffset } = this.state;
         const { config, DefineModeStore } = this.props;
         const { vectorTextConfig, updateKey } = DefineModeStore;
         const { key } = config;
+        let { currentFontSize, currentInterval, currentOffset } = this.state;
         let {
             interval,
             offset,
@@ -69,11 +69,11 @@ class LayerTextVectorConfig extends React.Component {
         } = vectorTextConfig[key] || {};
         const defaultInterval =
             defaultIntervalMap && defaultIntervalMap[showMode];
-        interval = defaultInterval ? interval || defaultInterval : '';
         const defaultOffset = defaultOffsetMap && defaultOffsetMap[showMode];
-        offset = offset || offset == 0 ? offset : defaultOffset;
         const isOffset = textModeMap[showMode].offset;
         const isInterval = textModeMap[showMode].interval;
+        currentInterval = currentInterval || interval || defaultInterval;
+        currentOffset = currentOffset || offset || defaultOffset;
 
         return (
             <div className="config-content config-content-2">
@@ -173,7 +173,7 @@ class LayerTextVectorConfig extends React.Component {
                                 width={76}
                                 precision={2}
                                 disabled={!isInterval}
-                                value={currentInterval || interval}
+                                value={isInterval && currentInterval}
                                 onChange={val =>
                                     this.handleChange(
                                         'currentInterval',
@@ -198,7 +198,7 @@ class LayerTextVectorConfig extends React.Component {
                                 width={76}
                                 precision={2}
                                 disabled={!isOffset}
-                                value={currentOffset || offset}
+                                value={isOffset && currentOffset}
                                 onChange={val =>
                                     this.handleChange(
                                         'currentOffset',
