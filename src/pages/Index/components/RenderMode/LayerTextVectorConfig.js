@@ -26,20 +26,35 @@ class LayerTextVectorConfig extends React.Component {
         toggleLayerTextConfig(key, checked);
     };
 
-    handleChange = (styleKey, styleValue, oldValue) => {
+    handleChange = ({ styleKey, styleValue, oldValue }) => {
         this.setState({
             [styleKey]: styleValue === 0 ? oldValue : styleValue
         });
     };
 
     //重新渲染画布
-    updateConfig = (styleKey, styleValue, oldValue) => {
+    updateConfig = ({
+        styleKey,
+        currentStyleKey,
+        styleValue,
+        oldValue,
+        rule
+    }) => {
         if (!styleValue) return;
         if (oldValue && oldValue === styleValue) {
             this.setState({
-                [styleKey]: styleValue
+                [currentStyleKey]: oldValue
             });
             return;
+        }
+        if (rule) {
+            const { min, max } = rule;
+            if (styleValue < min || styleValue > max) {
+                this.setState({
+                    [currentStyleKey]: oldValue
+                });
+                return;
+            }
         }
         const { DefineModeStore, config } = this.props;
         const { setLayerTextConfig } = DefineModeStore;
@@ -82,7 +97,12 @@ class LayerTextVectorConfig extends React.Component {
                     <Select
                         value={textKey}
                         style={{ width: 260 }}
-                        onChange={val => this.updateConfig('textKey', val)}>
+                        onChange={val =>
+                            this.updateConfig({
+                                styleKey: 'textKey',
+                                styleValue: val
+                            })
+                        }>
                         {textTypeArr.map(item => {
                             const { key, label } = item;
                             return (
@@ -101,7 +121,10 @@ class LayerTextVectorConfig extends React.Component {
                             icon="wenben"
                             color={textColor}
                             onChange={val =>
-                                this.updateConfig('textColor', val)
+                                this.updateConfig({
+                                    styleKey: 'textColor',
+                                    styleValue: val
+                                })
                             }
                         />
                     </div>
@@ -112,7 +135,10 @@ class LayerTextVectorConfig extends React.Component {
                             color={strokeColor}
                             background={{ r: 255, g: 255, b: 255, a: 1 }}
                             onChange={val =>
-                                this.updateConfig('strokeColor', val)
+                                this.updateConfig({
+                                    styleKey: 'strokeColor',
+                                    styleValue: val
+                                })
                             }
                         />
                     </div>
@@ -121,7 +147,10 @@ class LayerTextVectorConfig extends React.Component {
                         <AdColorInput
                             color={backgroundColor}
                             onChange={val =>
-                                this.updateConfig('backgroundColor', val)
+                                this.updateConfig({
+                                    styleKey: 'backgroundColor',
+                                    styleValue: val
+                                })
                             }
                         />
                     </div>
@@ -131,18 +160,20 @@ class LayerTextVectorConfig extends React.Component {
                             width={76}
                             value={currentFontSize || fontSize}
                             onChange={val =>
-                                this.handleChange(
-                                    'currentFontSize',
-                                    val,
-                                    fontSize
-                                )
+                                this.handleChange({
+                                    styleKey: 'currentFontSize',
+                                    styleValue: val,
+                                    oldValue: fontSize
+                                })
                             }
                             onBlur={() =>
-                                this.updateConfig(
-                                    'fontSize',
-                                    currentFontSize,
-                                    fontSize
-                                )
+                                this.updateConfig({
+                                    styleKey: 'fontSize',
+                                    currentStyleKey: 'currentFontSize',
+                                    styleValue: currentFontSize,
+                                    oldValue: fontSize,
+                                    rule: { min: 12, max: 1000 }
+                                })
                             }
                         />
                     </div>
@@ -154,7 +185,10 @@ class LayerTextVectorConfig extends React.Component {
                             value={showMode}
                             style={{ width: 105 }}
                             onChange={val =>
-                                this.updateConfig('showMode', val)
+                                this.updateConfig({
+                                    styleKey: 'showMode',
+                                    styleValue: val
+                                })
                             }>
                             {Object.values(textModeMap).map(item => {
                                 const { key, label } = item;
@@ -175,18 +209,20 @@ class LayerTextVectorConfig extends React.Component {
                                 disabled={!isInterval}
                                 value={isInterval && currentInterval}
                                 onChange={val =>
-                                    this.handleChange(
-                                        'currentInterval',
-                                        val,
-                                        interval
-                                    )
+                                    this.handleChange({
+                                        styleKey: 'currentInterval',
+                                        styleValue: val,
+                                        oldValue: interval
+                                    })
                                 }
                                 onBlur={() =>
-                                    this.updateConfig(
-                                        'interval',
-                                        currentInterval,
-                                        interval
-                                    )
+                                    this.updateConfig({
+                                        styleKey: 'interval',
+                                        currentStyleKey: 'currentInterval',
+                                        styleValue: currentInterval,
+                                        oldValue: interval,
+                                        rule: { min: 0, max: 1000 }
+                                    })
                                 }
                             />
                         </div>
@@ -200,18 +236,20 @@ class LayerTextVectorConfig extends React.Component {
                                 disabled={!isOffset}
                                 value={isOffset && currentOffset}
                                 onChange={val =>
-                                    this.handleChange(
-                                        'currentOffset',
-                                        val,
-                                        offset
-                                    )
+                                    this.handleChange({
+                                        styleKey: 'currentOffset',
+                                        styleValue: val,
+                                        oldValue: offset
+                                    })
                                 }
                                 onBlur={() =>
-                                    this.updateConfig(
-                                        'offset',
-                                        currentOffset,
-                                        offset
-                                    )
+                                    this.updateConfig({
+                                        styleKey: 'offset',
+                                        currentStyleKey: 'currentOffset',
+                                        styleValue: currentOffset,
+                                        oldValue: offset,
+                                        rule: { min: 0, max: 1000 }
+                                    })
                                 }
                             />
                         </div>
