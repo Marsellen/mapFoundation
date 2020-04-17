@@ -171,7 +171,8 @@ class Task extends React.Component {
             const {
                 TaskStore,
                 QualityCheckStore,
-                RenderModeStore
+                RenderModeStore,
+                DataLayerStore
             } = this.props;
             const { current } = this.state;
             const { taskIdList, activeTaskId } = TaskStore;
@@ -188,6 +189,9 @@ class Task extends React.Component {
                     });
                 }
             }
+
+            //退出编辑状态
+            DataLayerStore.exitEdit();
 
             //渲染模式重置
             activeTaskId !== id && RenderModeStore.setMode('common');
