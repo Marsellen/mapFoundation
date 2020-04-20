@@ -15,7 +15,6 @@ const formLayout = {
 @inject('RenderModeStore')
 @inject('TaskStore')
 @inject('OperateHistoryStore')
-@inject('DataLayerStore')
 @inject('ToolCtrlStore')
 @observer
 class ResourceLoader extends React.Component {
@@ -161,7 +160,7 @@ class ResourceLoader extends React.Component {
     };
 
     save = () => {
-        const { form, TaskStore, DataLayerStore } = this.props;
+        const { form, TaskStore } = this.props;
 
         form.validateFields((err, values) => {
             if (err) {
@@ -171,8 +170,6 @@ class ResourceLoader extends React.Component {
                 if (!/^\d+$/.test(values.taskId)) {
                     throw new Error('资料目录不符合规范');
                 }
-                //退出编辑状态
-                DataLayerStore.exitEdit();
                 TaskStore.loadLocalTask(values);
                 this.setState({
                     visible: false

@@ -20,6 +20,7 @@ class ResourceLayerStore {
     @observable updateKey;
     //获取多工程图层map
     @computed get multiProjectResource() {
+        if (this.layers.length === 0) return;
         const name = RESOURCE_LAYER_MULTI_PROJECT;
         const { layerMap } =
             this.layers.find(layer => layer.value == name) || {};
@@ -27,20 +28,22 @@ class ResourceLayerStore {
     }
     //所有点云都未勾选为false，其余情况都为true
     @computed get pointCloudChecked() {
+        if (this.layers.length === 0) return;
         const layerMap = this.multiProjectResource;
         const isAllUnChecked = Object.keys(layerMap).every(projectName => {
             const { point_clouds } = layerMap[projectName];
-            const { checked } = point_clouds;
+            const { checked } = point_clouds || {};
             return !checked;
         });
         return !isAllUnChecked;
     }
     //所有点云都勾选为true
     @computed get pointCloudAllChecked() {
+        if (this.layers.length === 0) return;
         const layerMap = this.multiProjectResource;
         const isAllChecked = Object.keys(layerMap).every(projectName => {
             const { point_clouds } = layerMap[projectName];
-            const { checked } = point_clouds;
+            const { checked } = point_clouds || {};
             return checked;
         });
         return isAllChecked;
@@ -98,14 +101,9 @@ class ResourceLayerStore {
             };
         });
 
-        this.layers = this.layers
-            .concat(layers)
-            .slice()
-            .sort((a, b) => {
-                return LAYER_SORT_MAP[a.value] < LAYER_SORT_MAP[b.value]
-                    ? -1
-                    : 1;
-            });
+        this.layers = layers.slice().sort((a, b) => {
+            return LAYER_SORT_MAP[a.value] < LAYER_SORT_MAP[b.value] ? -1 : 1;
+        });
     };
 
     @action updateLayerByName = (name, layer) => {

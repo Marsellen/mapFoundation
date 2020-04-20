@@ -257,7 +257,7 @@ class TaskStore {
             if (!this.activeTaskUrl) return;
             const { taskInfo } = CONFIG.urlConfig;
             const url = completeSecendUrl(taskInfo, this.activeTask);
-            const { data } = yield axios.get(url);
+            const { data } = yield axios.get(url, { signal: window.signal });
             const { projectNames } = data;
             this.projectNameArr = projectNames.split(';').sort();
         } catch (e) {
