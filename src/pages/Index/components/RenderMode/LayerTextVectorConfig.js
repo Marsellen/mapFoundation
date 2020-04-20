@@ -65,7 +65,7 @@ class LayerTextVectorConfig extends React.Component {
 
     _layerConfigNode = () => {
         const { config, DefineModeStore } = this.props;
-        const { vectorTextConfig, updateKey } = DefineModeStore;
+        const { vectorTextConfig } = DefineModeStore;
         const { key } = config;
         let { currentFontSize, currentInterval, currentOffset } = this.state;
         let {
@@ -154,7 +154,7 @@ class LayerTextVectorConfig extends React.Component {
                             }
                         />
                     </div>
-                    <div className="flex-between" key={updateKey}>
+                    <div className="flex-between">
                         <label>字大：</label>
                         <AdInputPositiveNumber
                             width={76}
@@ -172,13 +172,13 @@ class LayerTextVectorConfig extends React.Component {
                                     currentStyleKey: 'currentFontSize',
                                     styleValue: currentFontSize,
                                     oldValue: fontSize,
-                                    rule: { min: 12, max: 1000 }
+                                    rule: { min: 20, max: 100 }
                                 })
                             }
                         />
                     </div>
                 </div>
-                <div className="flex-between input-wrap" key={updateKey}>
+                <div className="flex-between input-wrap">
                     <div className="flex-between">
                         <label>显示模式：</label>
                         <Select

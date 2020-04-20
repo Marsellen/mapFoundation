@@ -5,11 +5,8 @@ import { LAYER_TEXT_MAP } from 'src/config/TextVectorConfig';
 
 configure({ enforceActions: 'always' });
 class DefineModeStore {
-    config;
-    boundaryConfig;
     @observable vectorTextConfig = {};
     @observable visible = false;
-    @observable updateKey;
     //获取文字注记窗口中已勾选的项目
     @computed get checkedList() {
         const vectorTextConfigArr = Object.values(this.vectorTextConfig);
@@ -30,8 +27,8 @@ class DefineModeStore {
         //拷贝配置
         const initConfig = JSON.parse(JSON.stringify(WhiteVectorsConfig));
         //在当前任务和周边底图配置对象中加入文字注记配置
-        this.config = this.setConfig(initConfig);
-        window.vectorLayerGroup.resetStyleConfig(this.config);
+        const config = this.setConfig(initConfig);
+        window.vectorLayerGroup.resetStyleConfig(config);
     };
 
     //重置周边底图高精数据图层样式
@@ -42,8 +39,8 @@ class DefineModeStore {
             JSON.stringify(HalfWhiteVectorsConfig)
         );
         //在当前任务和周边底图配置对象中加入文字注记配置
-        this.boundaryConfig = this.setConfig(initBoundaryConfig);
-        window.boundaryLayerGroup.resetStyleConfig(this.boundaryConfig);
+        const boundaryConfig = this.setConfig(initBoundaryConfig);
+        window.boundaryLayerGroup.resetStyleConfig(boundaryConfig);
     };
 
     setConfig = vectorsConfig => {
