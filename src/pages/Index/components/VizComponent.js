@@ -68,12 +68,14 @@ class VizComponent extends React.Component {
         super(props);
         //多工程任务资料map，例：{工程名:{track:{},point_clouds:{}}}
         this.multiProjectResource = {};
+        //取消请求
+        window.controller = new AbortController();
+        window.signal = controller.signal;
     }
 
     componentDidMount = async () => {
         const { TaskStore } = this.props;
         await TaskStore.initTask({ type: 4 });
-
         //清除多余任务比例记录
         AdLocalStorage.filterTaskInfosStorage(TaskStore.taskIdList);
     };
@@ -83,13 +85,13 @@ class VizComponent extends React.Component {
     }
 
     init = async () => {
+        await this.release();
+        const div = document.getElementById('viz');
+        window.map = new Map(div);
         const { TaskStore } = this.props;
         await TaskStore.getTaskInfo();
         const task = TaskStore.getTaskFile();
         if (!task) return;
-        const div = document.getElementById('viz');
-        await this.release();
-        window.map = new Map(div);
         await this.initTask(task);
     };
 
@@ -108,13 +110,18 @@ class VizComponent extends React.Component {
 
         await RelStore.destroy();
         await AttrStore.destroy();
+
+        window.map = null;
     };
 
     clearWorkSpace = async () => {
         await OperateHistoryStore.destroy();
         await editLog.store.clear();
-        window.map && DataLayerStore.activeEditor();
-        DataLayerStore.topViewMode(false);
+        if (window.map) {
+            DataLayerStore.exitEdit();
+            DataLayerStore.activeEditor();
+            DataLayerStore.topViewMode(false);
+        }
         ToolCtrlStore.updateByEditLayer();
         AttributeStore.hide();
         PictureShowStore.hide();
@@ -442,10 +449,13 @@ class VizComponent extends React.Component {
         let boundaryLayers = window.boundaryLayerGroup
             ? window.boundaryLayerGroup.layers
             : [];
+        const vectorLayers = window.vectorLayerGroup
+            ? window.vectorLayerGroup.layers
+            : [];
 
         DataLayerStore.initEditor([
             { layer: pointCloudLayer },
-            ...vectorLayerGroup.layers,
+            ...vectorLayers,
             { layer: window.trackLayer },
             ...boundaryLayers
         ]);
