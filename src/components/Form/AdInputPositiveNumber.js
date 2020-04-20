@@ -32,7 +32,9 @@ export default class AdInputPositiveNumber extends React.Component {
             '8',
             '9',
             '.',
-            'Backspace'
+            'Backspace',
+            'ArrowLeft',
+            'ArrowRight'
         ];
 
         if (!reg.includes(e.key)) {
