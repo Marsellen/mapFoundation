@@ -107,6 +107,7 @@ class ResourceLayerStore {
     };
 
     @action updateLayerByName = (name, layer) => {
+        if (this.layers.length === 0) return;
         let result = this.layers.find(layer => layer.value === name);
         if (result) {
             result.layer = layer;

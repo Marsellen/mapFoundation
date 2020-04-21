@@ -3,6 +3,7 @@ import { getAuthentication, logout } from 'src/utils/Session';
 import { Modal } from 'antd';
 import { SERVICE_MAP } from 'src/config/ServiceMapConfig';
 
+window.__cancelRequestArr = [];
 const TIME_OUT = 60000;
 
 const ERROR_MAP = {
@@ -21,6 +22,20 @@ const logoutModal = title => {
         }
     });
 };
+
+// http request 拦截器
+axios.interceptors.request.use(
+    function (config) {
+        // 获取每个请求的cancel方法
+        config.cancelToken = new axios.CancelToken(cancel => {
+            window.__cancelRequestArr.push({ cancel });
+        });
+        return config;
+    },
+    function (error) {
+        return Promise.reject(error);
+    }
+);
 
 // http response 拦截器
 axios.interceptors.response.use(

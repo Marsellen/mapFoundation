@@ -30,7 +30,7 @@ import { getTaskProcessType } from 'src/utils/taskUtils';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
-    projectNameArr; //当前任务工程名
+    projectNameArr = []; //当前任务工程名
     @observable onlineTasks = [];
     @observable localTasks = [];
     @observable activeTask = {};
@@ -248,7 +248,7 @@ class TaskStore {
                 taskId: this.activeTaskId,
                 taskBoundaryIsUpdate: false
             });
-            message.warning('获取底图失败，请重新加载页面：' + e.message, 3);
+            console.log('获取底图失败，请重新加载页面：' + e.message || '', 3);
         }
     });
 
@@ -257,9 +257,10 @@ class TaskStore {
             if (!this.activeTaskUrl) return;
             const { taskInfo } = CONFIG.urlConfig;
             const url = completeSecendUrl(taskInfo, this.activeTask);
-            const { data } = yield axios.get(url, { signal: window.signal });
+            const { data } = yield axios.get(url);
             const { projectNames } = data;
             this.projectNameArr = projectNames.split(';').sort();
+            return this.projectNameArr;
         } catch (e) {
             console.log(e.message);
         }
@@ -267,7 +268,7 @@ class TaskStore {
 
     //获取工程名和该工程点云的映射和数组，例：{工程名:{点云:url,轨迹:url}}
     getMultiProjectDataMap = (lastPath, name) => {
-        if (!this.projectNameArr || this.projectNameArr.length === 0) return;
+        if (!this.projectNameArr.length === 0) return;
         const urlMap = {};
         const urlArr = [];
 
