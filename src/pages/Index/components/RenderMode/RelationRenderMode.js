@@ -6,7 +6,6 @@ import IconFont from 'src/components/IconFont';
 
 @inject('AttributeStore')
 @inject('DataLayerStore')
-@inject('PictureShowStore')
 @inject('RenderModeStore')
 @observer
 class RelationRenderMode extends React.Component {
@@ -14,20 +13,17 @@ class RelationRenderMode extends React.Component {
 
     render() {
         const { isShow } = this.state;
-        const { PictureShowStore, RenderModeStore } = this.props;
-        const { visible } = PictureShowStore;
+        const { RenderModeStore } = this.props;
         const { indeterminate, allChecked, relSelectOptions } = RenderModeStore;
         return (
-            <div className={`relation-render-mode ${visible ? 'move' : ''}`}>
-                <div
-                    className={`title ${isShow ? 'on' : ''}`}
-                    onClick={this.toggleSelect}>
+            <div className={`relation-render-mode ${isShow ? '' : 'hide'}`}>
+                <div className="title" onClick={this.toggleSelect}>
                     <p>
                         <IconFont type="icon-guanlianguanxi" className="icon" />
                         {isShow && <span>关联关系专题图</span>}
                     </p>
                     <Icon
-                        type="double-right"
+                        type="double-left"
                         style={{ fontSize: '12px' }}
                         className="arrow"
                     />

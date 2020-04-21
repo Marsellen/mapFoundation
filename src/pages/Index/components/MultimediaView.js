@@ -10,6 +10,7 @@ import UnderView from './ToolList/UnderView';
 import TopView from './ToolList/TopView';
 import SaveTimeView from './SaveTimeView';
 import ToolIcon from 'src/components/ToolIcon';
+import RelationRenderMode from 'src/pages/Index/components/RenderMode/RelationRenderMode';
 
 @inject('RenderModeStore')
 @inject('DefineModeStore')
@@ -31,39 +32,36 @@ class MultimediaView extends React.Component {
     };
 
     render() {
-        let { PictureShowStore, DefineModeStore, RenderModeStore } = this.props;
-        let { visible: pictureVisible } = PictureShowStore;
-        let { visible: DefineVisible } = DefineModeStore;
-        let { activeMode } = RenderModeStore;
-        let isDefineMode = activeMode === 'define';
+        const {
+            PictureShowStore,
+            RenderModeStore,
+            DefineModeStore
+        } = this.props;
+        const { activeMode } = RenderModeStore;
+        const { visible: pictureVisible } = PictureShowStore;
+        const { visible: DefineVisible } = DefineModeStore;
 
         return (
-            <div
-                className={`multimedia-container ${
-                    isDefineMode ? '' : 'inner'
-                }`}>
+            <div className="multimedia-container">
                 <div
                     id="muti-toggle-icon"
                     title="图片显示窗口"
                     onClick={this.togglePicture}
                     className={`picture-icon ${pictureVisible ? 'on' : ''}`}>
-                    {!isDefineMode && (
-                        <Icon type={pictureVisible ? 'right' : 'left'} />
-                    )}
-                    {isDefineMode && <ToolIcon icon="zhaopianshezhi" />}
+                    <ToolIcon icon="zhaopianshezhi" />
+                </div>
+                <div
+                    title="渲染设置窗口"
+                    onClick={this.toggleDefine}
+                    className={`define-icon ${DefineVisible ? 'on' : ''}`}>
+                    <ToolIcon icon="xuanranshezhi" />
                 </div>
 
-                {isDefineMode && (
-                    <div
-                        title="渲染设置窗口"
-                        onClick={this.toggleDefine}
-                        className={`define-icon ${DefineVisible ? 'on' : ''}`}>
-                        <ToolIcon icon="xuanranshezhi" />
-                    </div>
-                )}
-
                 {pictureVisible && <PictureShowView />}
-                {isDefineMode && DefineVisible && <DefineRenderMode />}
+                {DefineVisible && <DefineRenderMode />}
+
+                {/* 关联关系专题图 */}
+                {activeMode === 'relation' && <RelationRenderMode />}
 
                 <div className="right-footer">
                     {/* 俯视图、放大、缩小、还原 */}

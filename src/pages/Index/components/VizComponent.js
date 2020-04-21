@@ -85,12 +85,14 @@ class VizComponent extends React.Component {
         await this.release();
         const div = document.getElementById('viz');
         window.map = new Map(div);
-        const { TaskStore } = this.props;
+        const { TaskStore, DefineModeStore } = this.props;
         const taskInfo = await TaskStore.getTaskInfo();
         if (!taskInfo) return;
         const task = TaskStore.getTaskFile();
         if (!task) return;
         await this.initTask(task);
+        //初始化文字注记配置
+        DefineModeStore.initLayerTextConfig();
     };
 
     release = async () => {
@@ -114,6 +116,7 @@ class VizComponent extends React.Component {
     };
 
     clearWorkSpace = async () => {
+        const { DefineModeStore } = this.props;
         await OperateHistoryStore.destroy();
         await editLog.store.clear();
         if (window.map) {
@@ -125,6 +128,7 @@ class VizComponent extends React.Component {
         AttributeStore.hide();
         PictureShowStore.hide();
         PictureShowStore.destory();
+        DefineModeStore.hide();
 
         //切换任务 关闭所有弹框
         document.querySelectorAll('.ant-modal-close').forEach(element => {

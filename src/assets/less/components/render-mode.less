@@ -82,18 +82,14 @@
 }
 
 .relation-render-mode {
-    position: fixed;
+    position: absolute;
     z-index: 1;
-    right: 40px;
-    top: 61px;
+    left: -320px;
+    top: 0;
     overflow: hidden;
     border-radius: 4px;
     min-width: 50px;
     background: #fff;
-
-    &.move {
-        right: 600px;
-    }
 
     dl {
         display: block;
@@ -118,7 +114,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        height: 38px;
+        height: 40px;
         padding: 0 10px;
 
         p {
@@ -129,17 +125,21 @@
 
         .icon {
             padding: 0 8px 0 0;
-            color: #7f7f7f;
+            font-size: 20px;
+            color: #3f80e6;
         }
 
         .arrow {
             transition: transform 200ms;
             color: #7f7f7f;
         }
+    }
 
-        &.on {
+    &.hide {
+        left: -126px;
+        .title {
             .icon {
-                color: #3f80e6;
+                color: #7f7f7f;
             }
             .arrow {
                 transform: rotate(180deg);
