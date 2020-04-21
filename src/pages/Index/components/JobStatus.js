@@ -123,7 +123,6 @@ class JobStatus extends React.Component {
         } else {
             message.success('成功获取任务', 3);
         }
-
     };
 
     // 提交
@@ -144,12 +143,17 @@ class JobStatus extends React.Component {
         const { QualityCheckStore, TaskStore, appStore } = this.props;
         const {
             handleProducerCheck,
-            handleProducerGetReport
+            handleProducerGetReport,
+            closeCheckReport,
+            clearCheckReport
         } = QualityCheckStore;
         const { activeTask } = TaskStore;
         const { taskId, processName, projectId } = activeTask;
         const { loginUser } = appStore;
         const { roleCode, username } = loginUser;
+
+        clearCheckReport(); //重置质检列表
+        closeCheckReport(); //关闭质检弹窗
 
         //质量检查
         const checkRes = await handleProducerCheck({
@@ -254,18 +258,13 @@ class JobStatus extends React.Component {
     };
 
     taskSubmit = async option => {
-        const { TaskStore, QualityCheckStore, RenderModeStore } = this.props;
-        const { closeCheckReport, clearCheckReport } = QualityCheckStore;
+        const { TaskStore, RenderModeStore } = this.props;
         try {
             await TaskStore.initSubmit(option);
             TaskStore.setActiveTask();
             RenderModeStore.setMode('common');
             this.clearWorkSpace();
             message.success('提交成功');
-
-            //关闭质检弹窗，重置质检列表
-            closeCheckReport();
-            clearCheckReport();
 
             // 获取新任务，更新任务列表
             await TaskStore.initTask({ type: 3 });

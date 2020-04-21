@@ -192,8 +192,8 @@ class Task extends React.Component {
             //渲染模式重置
             activeTaskId !== id && RenderModeStore.setMode('common');
 
-            QualityCheckStore.closeCheckReport();
             QualityCheckStore.clearCheckReport();
+            QualityCheckStore.closeCheckReport();
             TaskStore.setActiveTask(id);
             isEdit && TaskStore.startTaskEdit(id);
             this.handleReportOpen();
