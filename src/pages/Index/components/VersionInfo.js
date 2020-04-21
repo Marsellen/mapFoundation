@@ -2,7 +2,6 @@ import React from 'react';
 import CONFIG from 'src/config';
 import { Modal } from 'antd';
 import ToolIcon from 'src/components/ToolIcon';
-import { flow, configure } from 'mobx';
 import EditorService from 'src/services/EditorService';
 
 configure({ enforceActions: 'always' });
@@ -17,8 +16,13 @@ class VersionInfo extends React.Component {
     }
 
     backVersion = async () => {
-        const result = await EditorService.versionInfo();
-        this.setState({ versionData: result.data });
+        try {
+            const result = await EditorService.versionInfo();
+            this.setState({ versionData: result.data });
+        }
+        catch (e) {
+            this.setState({ versionData: '暂未获取到版本信息' })
+        }
     }
 
     render() {
