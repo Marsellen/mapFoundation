@@ -68,9 +68,6 @@ class VizComponent extends React.Component {
         super(props);
         //多工程任务资料map，例：{工程名:{track:{},point_clouds:{}}}
         this.multiProjectResource = {};
-        //取消请求
-        window.controller = new AbortController();
-        window.signal = controller.signal;
     }
 
     componentDidMount = async () => {
@@ -89,13 +86,15 @@ class VizComponent extends React.Component {
         const div = document.getElementById('viz');
         window.map = new Map(div);
         const { TaskStore } = this.props;
-        await TaskStore.getTaskInfo();
+        const taskInfo = await TaskStore.getTaskInfo();
+        if (!taskInfo) return;
         const task = TaskStore.getTaskFile();
         if (!task) return;
         await this.initTask(task);
     };
 
     release = async () => {
+        await this.cancelRequest();
         await this.clearWorkSpace();
 
         window.map && window.map.release();
@@ -131,6 +130,14 @@ class VizComponent extends React.Component {
         document.querySelectorAll('.ant-modal-close').forEach(element => {
             element.click();
         });
+    };
+
+    //取消请求
+    cancelRequest = async () => {
+        await window.__cancelRequestArr.map(item => {
+            return item.cancel();
+        });
+        window.__cancelRequestArr = [];
     };
 
     addShortcut = event => {
@@ -358,7 +365,7 @@ class VizComponent extends React.Component {
             };
         } catch (e) {
             console.log(e);
-            message.warning('作业范围数据加载失败：' + e.message, 3);
+            message.warning('作业范围数据加载失败：' + e.message || '', 3);
         }
     };
 
