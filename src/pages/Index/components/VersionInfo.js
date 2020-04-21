@@ -2,9 +2,24 @@ import React from 'react';
 import CONFIG from 'src/config';
 import { Modal } from 'antd';
 import ToolIcon from 'src/components/ToolIcon';
+import { flow, configure } from 'mobx';
+import EditorService from 'src/services/EditorService';
 
+configure({ enforceActions: 'always' });
 class VersionInfo extends React.Component {
-    state = { visible: false };
+    state = {
+        visible: false,
+        versionData: ''
+    };
+
+    componentDidMount() {
+        this.backVersion()
+    }
+
+    backVersion = async () => {
+        const result = await EditorService.versionInfo();
+        this.setState({ versionData: result.data });
+    }
 
     render() {
         return (
@@ -23,13 +38,21 @@ class VersionInfo extends React.Component {
         this.setState({ visible: true });
         Modal.info({
             title: '版本号',
-            content: CONFIG.version,
+            content: this.renderVersion(),
             okText: '确定',
             onOk: () => {
                 this.setState({ visible: false });
             }
         });
     };
+
+    renderVersion = () => {
+        return (
+            <div>
+                <div>前端：{CONFIG.version}</div>
+                <div>后台：{this.state.versionData}</div>
+            </div>)
+    }
 }
 
 export default VersionInfo;

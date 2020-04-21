@@ -33,7 +33,16 @@ const EditorService = {
             data
         };
         return service({ config });
-    }
+    },
+    versionInfo: data => {
+        const config = {
+            url: EditApiPath('/adcommon/getVersion'),
+            method: 'get',
+            data
+        };
+        return service({ config });
+    },
+
 };
 
 export default EditorService;
