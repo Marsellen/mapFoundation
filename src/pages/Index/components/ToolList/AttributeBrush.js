@@ -58,7 +58,7 @@ class AttributeBrush extends React.Component {
         });
     };
 
-    @logDecorator({ operate: '属性刷', onlyRun: true })
+    @logDecorator({ operate: '属性刷' })
     attributeBrushCallback = async (result, event) => {
         const { DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
@@ -87,8 +87,6 @@ class AttributeBrush extends React.Component {
             DataLayerStore.exitEdit();
         }
     };
-
-    handleAttr = event;
 
     content = () => {
         return <label>选择一个要被自动刷属性的要素，右键完成操作</label>;
