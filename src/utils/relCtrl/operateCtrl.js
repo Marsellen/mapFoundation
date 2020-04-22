@@ -269,6 +269,56 @@ const calcNewLanes = (featurs, newFeatures, layerName) => {
 };
 
 /**
+ * 属性刷
+ * @param {Object} feature  被复制的线要素
+ * @param {Object} copyFeature  复制的线要素
+ * @param {string} layerName  操作图层
+ */
+const copyAttributeLines = async (feature, copyFeature, layerName) => {
+    const adLaneDividerKey = [
+        //复制属性--车道线
+        'RD_LINE',
+        'SHARE_LINE',
+        'RD_EDGE',
+        'DIRECTION',
+        'LANESTATUS',
+        'LANE_TYPE',
+        'RD_FORM'
+    ];
+    const adLaneKey = [
+        //复制属性--车道中心线
+        'DIRECTION',
+        'STATUS',
+        'MAX_SPEED',
+        'MAX_SP_TYP',
+        'MIN_SPEED',
+        'MIN_SP_TYP'
+    ];
+    let adKey =
+        layerName === 'AD_LaneDivider'
+            ? adLaneDividerKey
+            : layerName === 'AD_Lane'
+            ? adLaneKey
+            : [];
+    let properties = copyFeature.data.properties;
+    let UPD_STAT = JSON.parse(copyFeature.data.properties.UPD_STAT); //更新标识维护
+    Object.keys(properties).forEach(key => {
+        if (
+            adKey.indexOf(key) !== -1 &&
+            properties[key] !== feature.data.properties[key]
+        ) {
+            properties[key] = feature.data.properties[key];
+            UPD_STAT[key] = 'MOD';
+        }
+    });
+    copyFeature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);
+    let historyLog = {
+        features: [feature, copyFeature]
+    };
+    return historyLog;
+};
+
+/**
  * 路口内中心线/参考线半自动构建
  * @method autoCreateLine
  * @param {String} layerName 操作图层
@@ -443,8 +493,6 @@ const getNewFeaturesInfo = (features, resultData) => {
         total.newAllFeatureOptions = total.newAllFeatureOptions.concat(
             allFeatureOptions
         );
-        console.log('total', total);
-
         return total;
     }, initialInfo);
 };
@@ -537,8 +585,6 @@ const fetchFeatureRels = (oldFeatures, features) => {
 };
 
 const calcFeatureRels = (layerName, features) => {
-    console.log('layerName, features1111', layerName, features);
-
     features = Array.isArray(features) ? features : [features];
     return features.map(feature => {
         return {
@@ -550,7 +596,6 @@ const calcFeatureRels = (layerName, features) => {
 };
 
 const calcFeatures = (feature, layerName) => {
-    console.log('feature, layerName2222', feature, layerName);
     let { geom, ...properties } = feature;
     return {
         layerName,
@@ -901,5 +946,6 @@ export {
     breakLineByLine,
     autoCreateLineByLaneDivider,
     getAllRelFeatureOptions,
-    uniqOptions
+    uniqOptions,
+    copyAttributeLines
 };

@@ -28,6 +28,7 @@ class DataLayerStore {
     @observable isTopView = false;
     @observable readCoordinateResult;
     @observable updateKey;
+    @observable brushDisadled = true;
 
     initEditor = layers => {
         this.editor = new EditControl();
@@ -109,8 +110,20 @@ class DataLayerStore {
                 case 'assign_line_batch':
                     this.newFixLineCallback(result, event);
                     break;
+                case 'attribute_brush':
+                    this.attributeBrushCallback(result, event);
+                    break;
             }
         });
+    };
+
+    @action attributeBrushPick = () => {
+        //属性刷置灰
+        this.brushDisadled = true;
+    };
+    @action unAttributeBrushPick = () => {
+        //属性刷置灰
+        this.brushDisadled = false;
     };
 
     normalLocatePicture = (result, event) => {
@@ -165,6 +178,7 @@ class DataLayerStore {
         this.editor.clear();
         this.editor.cancel();
         this.unPick();
+        this.attributeBrushPick();
     };
 
     @action setEditType = type => {
@@ -173,7 +187,13 @@ class DataLayerStore {
 
     changeCur = () => {
         let viz = document.querySelector('#viz');
-        addClass(viz, 'edit-viz');
+        if (this.editType == 'attribute_brush') {
+            addClass(viz, 'shuxingshau-viz');
+        } else if (this.editType == 'line_snap_stop') {
+            addClass(viz, 'move-point-viz');
+        } else {
+            addClass(viz, 'edit-viz');
+        }
     };
 
     ruler = () => {
@@ -204,6 +224,7 @@ class DataLayerStore {
         removeClass(viz, 'shape-viz');
         removeClass(viz, 'crosshair-viz');
         removeClass(viz, 'move-point-viz');
+        removeClass(viz, 'shuxingshau-viz');
     };
 
     newPoint = () => {
@@ -225,12 +246,21 @@ class DataLayerStore {
     };
 
     newCurvedLine = () => {
+        //绘制曲线
         this.exitEdit();
         if (!this.editor) return;
         this.disableOtherCtrl();
         this.setEditType('new_curved_line');
         this.changeCur();
         this.editor.newLine();
+    };
+
+    AttributeBrush = visible => {
+        //属性刷
+        if (this.editType == 'attribute_brush') return;
+        this.disableOtherCtrl();
+        this.setEditType('attribute_brush');
+        if (visible) this.changeCur();
     };
 
     newPolygon = () => {
@@ -358,7 +388,20 @@ class DataLayerStore {
         this.setEditType('delRel');
     };
 
-    //
+    AttributeBrushFitSDK = (step = 0) => {
+        if (step === 0) {
+            if (this.editType == 'attribute_brush') return;
+            this.disableOtherCtrl();
+            this.clearChoose();
+            this.setEditType('attribute_brush');
+        } else if (step === 1) {
+            this.editor.selectFeature(1);
+            let layers = [];
+            let editLayer = this.getEditLayer();
+            layers.push(editLayer);
+            this.editor.setTargetLayers(layers);
+        }
+    };
 
     lineSnapStop = (step = 0) => {
         if (step === 0) {
@@ -395,6 +438,10 @@ class DataLayerStore {
 
     setNewRelCallback = callback => {
         this.newRelCallback = callback;
+    };
+
+    setAttributeBrushCallback = callback => {
+        this.attributeBrushCallback = callback;
     };
 
     setRoadPlaneCallback = callback => {
@@ -583,6 +630,7 @@ class DataLayerStore {
                 this.fetchTargetLayers();
                 break;
             case 'line_snap_stop':
+            case 'attribute_brush':
             case 'new_around_line':
             case 'new_straight_line':
             case 'new_turn_line':

@@ -15,7 +15,7 @@ class AddCurvedLine extends React.Component {
                 id="add-curved-line-btn"
                 className="flex-1"
                 onClick={this.action}>
-                <ToolIcon icon="icon-curved-line-graph" />
+                <ToolIcon icon="huizhiquxian" />
                 <div>绘制曲线</div>
                 <AdMessage visible={visible} content={this.content()} />
             </div>

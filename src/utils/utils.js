@@ -4,17 +4,25 @@
  * @param max
  * @returns {number}
  */
+import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 export function randomNum(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
 export function addClass(dom, className) {
+    const { editType } = DataLayerStore;
     let oriName = dom.className;
+    let specClassName =
+        editType === 'line_snap_stop'
+            ? 'move-point-viz'
+            : editType === 'attribute_brush'
+            ? 'shuxingshau-viz'
+            : className;
     if (oriName) {
-        let newName = oriName + ' ' + className;
+        let newName = oriName + ' ' + specClassName;
         dom.className = newName;
     } else {
-        dom.className = className;
+        dom.className = specClassName;
     }
 }
 

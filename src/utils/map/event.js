@@ -31,13 +31,11 @@ const pointsTooCloseListener = () => {
     });
 };
 
-
 const copyLineListener = () => {
-    const { exitEdit } = DataLayerStore
+    const { exitEdit } = DataLayerStore;
     mapEventManager().register('editor_event_dragcopyedFeature_error', e => {
         exitEdit();
         message.warn('框选时，不能复制线要素', 3);
-
     });
 };
 
@@ -66,8 +64,6 @@ const addEditorExitListener = (eventType, className) => {
     });
 };
 
-
-
 const installMapListener = () => {
     addEditorListener('editor_event_regionselect_start', 'crosshair-viz');
     addEditorExitListener('editor_event_regionselect_end', 'crosshair-viz');
@@ -92,6 +88,8 @@ const installMapListener = () => {
     addEditorExitListener('editor_event_lqdtzx_end', 'move-point-viz'); //线要素对齐到停止线
     addEditorListener('editor_event_plfcdfzbh_start', 'edit-viz');
     addEditorExitListener('editor_event_plfcdfzbh_end', 'edit-viz'); //批量赋车道分组编号
+    addEditorListener('editor_event_lqdtzx_start', 'shuxingshau-viz'); //属性刷
+    addEditorExitListener('editor_event_lqdtzx_end', 'shuxingshau-viz');
     pointsTooCloseListener();
     movePointTooCloseListener();
     movePointTooFarListener();

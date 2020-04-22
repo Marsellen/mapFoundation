@@ -55,7 +55,7 @@
         "label": "车道线",
         "id": "LDIV_ID",
         "spec": "AD_LaneDivider",
-        "tools": ["LINE", "ADD_REL", "DEL_REL"],
+        "tools": ["LINE", "ADD_REL", "DEL_REL", "ATTRIBUTE_BRUSH"],
         "rightTools": [
             "setEditLayer",
             "delete",
@@ -240,7 +240,8 @@
             "ADD_REL",
             "DEL_REL",
             "DIVIDER_TO_AUTO_CREATE",
-            "HALF_AUTO_CREATE"
+            "HALF_AUTO_CREATE",
+            "ATTRIBUTE_BRUSH"
         ],
         "rightTools": [
             "setEditLayer",

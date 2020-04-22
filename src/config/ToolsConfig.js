@@ -23,7 +23,8 @@ export const TOOLS_MAP = {
         TOOL_BOX: true,
         DRAW_TOOL_BOX: false,
         RESOURCE_LOADER: true,
-        BATCH_TOOL_BOX: false
+        BATCH_TOOL_BOX: false,
+        ATTRIBUTE_BRUSH: false
     },
     CHECK: {}
 };
