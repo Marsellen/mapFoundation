@@ -57,18 +57,17 @@ class DefineModeStore {
         return vectorsConfig;
     };
 
+    @action initLayerTextConfig = () => {
+        const newVectorTextConfig = {};
+        Object.values(LAYER_TEXT_MAP).forEach(item => {
+            newVectorTextConfig[item.key] = item;
+        });
+        this.vectorTextConfig = newVectorTextConfig;
+    };
+
     @action toggleLayerTextConfig = (key, checked) => {
         this.vectorTextConfig[key] = this.vectorTextConfig[key] || {};
         this.vectorTextConfig[key].checked = checked;
-        this.resetVectorStyle();
-        this.resetBoundaryStyle();
-    };
-
-    @action initLayerTextConfig = () => {
-        Object.values(LAYER_TEXT_MAP).forEach(item => {
-            const { key } = item;
-            this.vectorTextConfig[key] = item;
-        });
         this.resetVectorStyle();
         this.resetBoundaryStyle();
     };

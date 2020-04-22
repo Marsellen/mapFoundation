@@ -2,7 +2,6 @@ import React from 'react';
 import { Modal, Button } from 'antd';
 import 'src/assets/less/components/render-mode.less';
 import { observer, inject } from 'mobx-react';
-import RelationRenderMode from './RelationRenderMode';
 import ToolIcon from 'src/components/ToolIcon';
 import { RENDER_MODE_MAP } from 'src/config/RenderModeConfig';
 
@@ -55,12 +54,12 @@ class RenderMode extends React.Component {
                 const {
                     DataLayerStore,
                     RenderModeStore,
-                    AttributeStore
+                    AttributeStore,
+                    DefineModeStore
                 } = this.props;
-                const { setMode } = RenderModeStore;
                 const { mode } = this.state;
                 //设置渲染模式
-                setMode(mode);
+                RenderModeStore.setMode(mode);
                 //重设画布渲染样式
                 this.resetStyleConfig(mode);
                 //关闭渲染模式弹窗
@@ -71,14 +70,18 @@ class RenderMode extends React.Component {
                 DataLayerStore.clearPick();
                 //隐藏属性窗口
                 AttributeStore.hide();
+
+                //初始化文字注记配置
+                DefineModeStore.initLayerTextConfig();
+                //关闭文字注记弹窗
+                DefineModeStore.hide();
             }
         });
     };
 
     resetStyleConfig = mode => {
-        const { RenderModeStore, DefineModeStore } = this.props;
+        const { RenderModeStore } = this.props;
         const { commonRenderMode, whiteRenderMode, setRels } = RenderModeStore;
-        const { initLayerTextConfig } = DefineModeStore;
 
         switch (mode) {
             case 'common':
@@ -93,29 +96,10 @@ class RenderMode extends React.Component {
                 whiteRenderMode();
                 break;
             case 'define':
-                //初始化文字注记配置
-                initLayerTextConfig();
+                whiteRenderMode();
                 break;
             default:
                 break;
-        }
-    };
-
-    //加载各模式组件
-    renderModeComponent = () => {
-        const { RenderModeStore } = this.props;
-        const { activeMode } = RenderModeStore;
-        switch (activeMode) {
-            case 'common':
-                return null;
-            case 'update':
-                return null;
-            case 'relation':
-                return <RelationRenderMode />;
-            case 'define':
-                return null;
-            default:
-                return null;
         }
     };
 
@@ -173,7 +157,6 @@ class RenderMode extends React.Component {
                         </div>
                     </div>
                 </Modal>
-                {this.renderModeComponent()}
             </div>
         );
     }

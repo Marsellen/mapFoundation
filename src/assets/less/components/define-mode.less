@@ -8,8 +8,10 @@
         overflow: unset;
     }
 
-    .ant-tabs-nav {
-        width: 100%;
+    .ant-tabs-nav > div:first-child {
+        display: flex;
+        justify-content: space-around;
+        width: 370px;
     }
 
     .ant-tabs .ant-tabs-bar {
@@ -18,16 +20,24 @@
     }
 
     .ant-tabs .ant-tabs-bar .ant-tabs-tab {
+        flex: 1;
         margin: 0;
-        width: 50%;
         text-align: center;
         line-height: 18px;
         font-size: 16px;
+
+        &.ant-tabs-tab-active {
+            border-bottom: 2px solid #1890ff;
+        }
     }
 
     .ant-tabs .ant-tabs-top-content,
     .ant-tabs .ant-tabs-bottom-content {
         position: relative;
+    }
+
+    .ant-tabs-ink-bar {
+        height: 0 !important;
     }
 
     // 修改antd select默认样式
