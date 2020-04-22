@@ -37,6 +37,10 @@ export const HOT_KEYS_CONFIG = {
     EDITING_KEY: [
         //编辑功能
         {
+            value: '选择一个要素+Ctrl+Alt+Z',
+            label: '设置为可编辑图层'
+        },
+        {
             value: 'Alt+1',
             label: '绘制点、折线、面要素'
         },
@@ -96,6 +100,10 @@ export const HOT_KEYS_CONFIG = {
         {
             value: '选择1个要素+J',
             label: '修整线要素'
+        },
+        {
+            value: '修整线要素进行中+Space',
+            label: '吸附到线要素'
         },
         {
             value: '选中要素+V',

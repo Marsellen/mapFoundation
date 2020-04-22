@@ -30,8 +30,14 @@ export const DATA_LAYER_MAP = {
         id: 'LDIV_ID',
         spec: 'AD_LaneDivider',
         tools: {
-            recognition: ['DRAW_TOOL_BOX', 'BATCH_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX']
+            recognition: ['DRAW_TOOL_BOX', 'BATCH_TOOL_BOX', 'ATTRIBUTE_BRUSH'],
+            manbuild: [
+                'DRAW_TOOL_BOX',
+                'ADD_REL',
+                'DEL_REL',
+                'BATCH_TOOL_BOX',
+                'ATTRIBUTE_BRUSH'
+            ]
         },
         drawTools: {
             recognition: ['LINE', 'CURVED_LINE'],
@@ -112,8 +118,14 @@ export const DATA_LAYER_MAP = {
         id: 'LANE_ID',
         spec: 'AD_Lane',
         tools: {
-            recognition: ['DRAW_TOOL_BOX', 'BATCH_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX']
+            recognition: ['DRAW_TOOL_BOX', 'BATCH_TOOL_BOX', 'ATTRIBUTE_BRUSH'],
+            manbuild: [
+                'DRAW_TOOL_BOX',
+                'ADD_REL',
+                'DEL_REL',
+                'BATCH_TOOL_BOX',
+                'ATTRIBUTE_BRUSH'
+            ]
         },
         drawTools: {
             recognition: ['LINE', 'CURVED_LINE'],

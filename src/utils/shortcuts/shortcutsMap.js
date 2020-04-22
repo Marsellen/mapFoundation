@@ -267,5 +267,13 @@ export const shortcutMap = [
         shift: false,
         keyCode: 90,
         describe: '设置可编辑图层 Ctrl+Alt+Z'
+    },
+    {
+        id: 'attribute-brush-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 89,
+        describe: '属性刷 Y'
     }
 ];

@@ -42,7 +42,7 @@ const OPTIONS = {
         actionid: 'add-line-btn'
     },
     CURVED_LINE: {
-        key: 'icon-curved-line-graph',
+        key: 'huizhiquxian',
         title: '绘制曲线',
         actionid: 'add-curved-line-btn'
     },
@@ -71,8 +71,6 @@ const OPTIONS = {
 class DrawToolBox extends React.Component {
     render() {
         let drawTools = this.getDrawTools();
-        console.log('drawTools', drawTools);
-
         return (
             <CheckButton
                 defaultOption={this.getDefaultOption()}
@@ -158,7 +156,7 @@ class DrawToolBox extends React.Component {
             </Menu.Item>,
             <Menu.Item
                 name="CURVED_LINE"
-                key="icon-curved-line-graph"
+                key="huizhiquxian"
                 title="绘制曲线"
                 actionid="add-curved-line-btn">
                 <AddCurvedLine />

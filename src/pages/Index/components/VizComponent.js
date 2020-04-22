@@ -476,7 +476,8 @@ class VizComponent extends React.Component {
 
     selectedCallBack = (result, event) => {
         const { activeMode, cancelSelect } = RenderModeStore;
-        console.log('选中', result, event);
+        let editLayer = DataLayerStore.getEditLayer();
+        // console.log(result, event);
         if (result && result.length > 0) {
             /**
              * 判断是轨迹或轨迹点
@@ -493,9 +494,20 @@ class VizComponent extends React.Component {
                 showPictureShowView(result[0]);
                 PictureShowStore.show();
             }
+            // 属性刷置灰
+            if (
+                result.length === 1 &&
+                editLayer &&
+                editLayer.layerName === result[0].layerName
+            ) {
+                DataLayerStore.unAttributeBrushPick();
+            } else {
+                DataLayerStore.attributeBrushPick();
+            }
             window.currentSelectFeatures = result;
         } else {
             DataLayerStore.unPick();
+            DataLayerStore.attributeBrushPick();
             AttributeStore.hide();
             switch (activeMode) {
                 case 'common':
