@@ -36,8 +36,6 @@ const copyLineListener = () => {
     mapEventManager().register('editor_event_dragcopyedFeature_error', e => {
         exitEdit();
         message.warn('框选时，不能复制线要素', 3);
-<<<<<<< HEAD
-=======
     });
 };
 
@@ -48,7 +46,6 @@ const trimLinstener = () => {
             duration: 0,
             content: '在红色线上选取修整线起点，点击右键完成修整'
         });
->>>>>>> 修整线要素
     });
 
     mapEventManager().register('editor_event_modifyline_end', e => {
