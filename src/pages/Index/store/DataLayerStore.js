@@ -225,6 +225,7 @@ class DataLayerStore {
         removeClass(viz, 'crosshair-viz');
         removeClass(viz, 'move-point-viz');
         removeClass(viz, 'shuxingshua-viz');
+        removeClass(viz, 'curve-viz');
     };
 
     newPoint = () => {
