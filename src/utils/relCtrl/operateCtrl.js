@@ -308,6 +308,7 @@ const copyAttributeLines = async (
             : layerName === 'AD_Lane'
             ? adLaneKey
             : [];
+    let oldFeature = _.cloneDeep(copyFeature);
     let properties = copyFeature.data.properties;
     let UPD_STAT = copyFeature.data.properties.UPD_STAT
         ? JSON.parse(copyFeature.data.properties.UPD_STAT)
@@ -327,8 +328,11 @@ const copyAttributeLines = async (
         copyFeature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);
     }
     let historyLog = {
-        features: [feature, copyFeature]
+        features: [[oldFeature], [copyFeature]]
     };
+
+    await updateFeatures(historyLog);
+
     return historyLog;
 };
 
