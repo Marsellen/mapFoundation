@@ -12,6 +12,7 @@ const formLayout = {
 };
 
 @Form.create()
+@inject('QualityCheckStore')
 @inject('RenderModeStore')
 @inject('TaskStore')
 @inject('OperateHistoryStore')
@@ -160,7 +161,8 @@ class ResourceLoader extends React.Component {
     };
 
     save = () => {
-        const { form, TaskStore } = this.props;
+        const { form, TaskStore, QualityCheckStore } = this.props;
+        const { closeCheckReport, clearCheckReport } = QualityCheckStore;
 
         form.validateFields((err, values) => {
             if (err) {
@@ -170,6 +172,8 @@ class ResourceLoader extends React.Component {
                 if (!/^\d+$/.test(values.taskId)) {
                     throw new Error('资料目录不符合规范');
                 }
+                closeCheckReport();
+                clearCheckReport();
                 TaskStore.loadLocalTask(values);
                 this.setState({
                     visible: false
