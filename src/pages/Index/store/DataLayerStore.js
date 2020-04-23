@@ -642,7 +642,7 @@ class DataLayerStore {
             case 'trim':
                 message.destroy();
                 this.modifyLineAdsorbMode = 1;
-                this.setModifyLineAdsorbMode();
+                this.editor.setModifyLineAdsorbMode(this.modifyLineAdsorbMode);
                 break;
             default:
                 break;
