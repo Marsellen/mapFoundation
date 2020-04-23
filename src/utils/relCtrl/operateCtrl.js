@@ -273,10 +273,17 @@ const calcNewLanes = (featurs, newFeatures, layerName) => {
  * @param {Object} feature  被复制的线要素
  * @param {Object} copyFeature  复制的线要素
  * @param {string} layerName  操作图层
+ * @param {string} processName  任务类型
  */
-const copyAttributeLines = async (feature, copyFeature, layerName) => {
+const copyAttributeLines = async (
+    feature,
+    copyFeature,
+    layerName,
+    processName
+) => {
     const adLaneDividerKey = [
         //复制属性--车道线
+        'TYPE',
         'RD_LINE',
         'SHARE_LINE',
         'RD_EDGE',
@@ -287,6 +294,7 @@ const copyAttributeLines = async (feature, copyFeature, layerName) => {
     ];
     const adLaneKey = [
         //复制属性--车道中心线
+        'TYPE',
         'DIRECTION',
         'STATUS',
         'MAX_SPEED',
@@ -308,7 +316,9 @@ const copyAttributeLines = async (feature, copyFeature, layerName) => {
             properties[key] !== feature.data.properties[key]
         ) {
             properties[key] = feature.data.properties[key];
-            UPD_STAT[key] = 'MOD';
+            if (processName === 'imp_recognition') {
+                UPD_STAT[key] = 'MOD';
+            }
         }
     });
     copyFeature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);

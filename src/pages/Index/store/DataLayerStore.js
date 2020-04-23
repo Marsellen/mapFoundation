@@ -188,7 +188,7 @@ class DataLayerStore {
     changeCur = () => {
         let viz = document.querySelector('#viz');
         if (this.editType == 'attribute_brush') {
-            addClass(viz, 'shuxingshau-viz');
+            addClass(viz, 'shuxingshua-viz');
         } else if (this.editType == 'line_snap_stop') {
             addClass(viz, 'move-point-viz');
         } else {
@@ -224,7 +224,8 @@ class DataLayerStore {
         removeClass(viz, 'shape-viz');
         removeClass(viz, 'crosshair-viz');
         removeClass(viz, 'move-point-viz');
-        removeClass(viz, 'shuxingshau-viz');
+        removeClass(viz, 'shuxingshua-viz');
+        removeClass(viz, 'curve-viz');
     };
 
     newPoint = () => {
@@ -252,7 +253,7 @@ class DataLayerStore {
         this.disableOtherCtrl();
         this.setEditType('new_curved_line');
         this.changeCur();
-        this.editor.newLine();
+        this.editor.newCurveLine();
     };
 
     AttributeBrush = visible => {
