@@ -239,11 +239,8 @@ class DataLayerStore {
         removeClass(viz, 'shape-viz');
         removeClass(viz, 'crosshair-viz');
         removeClass(viz, 'move-point-viz');
-<<<<<<< HEAD
         removeClass(viz, 'shuxingshua-viz');
-=======
         removeClass(viz, 'trim-viz');
->>>>>>> 修整线要素
         removeClass(viz, 'curve-viz');
     };
 
