@@ -50,7 +50,8 @@ export const DATA_LAYER_MAP = {
             'changePoints',
             'deletePoints',
             'reverseOrderLine',
-            'break'
+            'break',
+            'trim'
         ],
         batchTools: [
             'LINE_FEATURES_SNAP_TO_STOP_LINE',
@@ -109,7 +110,13 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE'],
             manbuild: ['LINE']
         },
-        rightTools: ['delete', 'insertPoints', 'changePoints', 'deletePoints'],
+        rightTools: [
+            'delete',
+            'insertPoints',
+            'changePoints',
+            'deletePoints',
+            'trim'
+        ],
         groupRightTools: ['batchAssign'],
         editName: '停止位置'
     },
@@ -150,7 +157,8 @@ export const DATA_LAYER_MAP = {
             'changePoints',
             'deletePoints',
             'reverseOrderLine',
-            'break'
+            'break',
+            'trim'
         ],
         groupRightTools: [
             'breakGroup',
@@ -215,7 +223,8 @@ export const DATA_LAYER_MAP = {
             'changePoints',
             'deletePoints',
             'reverseOrderLine',
-            'break'
+            'break',
+            'trim'
         ],
         groupRightTools: [
             'breakGroup',
@@ -299,7 +308,8 @@ export const DATA_LAYER_MAP = {
             'insertPoints',
             'changePoints',
             'deletePoints',
-            'break'
+            'break',
+            'trim'
         ],
         groupRightTools: ['breakGroup', 'merge', 'batchAssign', 'breakByLine'],
         editName: '隔离带、\n护栏'

@@ -22,7 +22,7 @@ import {
 } from 'src/config/DataLayerConfig';
 import MultimediaView from './MultimediaView';
 import VectorsConfig from '../../../config/VectorsConfig';
-import 'less/components/viz-compnent.less';
+import 'less/components/viz-component.less';
 // import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
 import {

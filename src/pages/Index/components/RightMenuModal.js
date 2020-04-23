@@ -182,6 +182,13 @@ class RightMenuModal extends React.Component {
                 <span>线要素逆序</span>
             </Menu.Item>,
             <Menu.Item
+                id="trim"
+                key="trim"
+                onClick={this.trim}
+                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                <span>修整</span>
+            </Menu.Item>,
+            <Menu.Item
                 id="break-group-btn"
                 key="breakGroup"
                 onClick={this.breakLine}
@@ -634,6 +641,14 @@ class RightMenuModal extends React.Component {
             throw e;
         }
     }
+
+    trim = () => {
+        const { DataLayerStore, RightMenuStore } = this.props;
+        if (this.checkDisabled()) return;
+        DataLayerStore.trim();
+        RightMenuStore.hide();
+        AttributeStore.hideRelFeatures();
+    };
 
     checkDisabled = () => {
         const { RightMenuStore } = this.props;

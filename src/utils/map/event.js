@@ -39,6 +39,58 @@ const copyLineListener = () => {
     });
 };
 
+const trimLinstener = () => {
+    mapEventManager().register('editor_event_modifyline_start', e => {
+        message.info({
+            key: 'trim',
+            duration: 0,
+            content: '在红色线上选取修整线起点，点击右键完成修整'
+        });
+    });
+
+    mapEventManager().register('editor_event_modifyline_end', e => {
+        message.info({
+            key: 'trim',
+            duration: 0,
+            content: '线要素修整成功'
+        });
+    });
+
+    mapEventManager().register(
+        'editor_event_modifyline_segment_firstpoint_infeature',
+        e => {
+            message.info({
+                key: 'trim',
+                duration: 0,
+                content:
+                    '绘制修整线，然后在红色线上取修整线的终点；快捷键Space可开启/关闭吸附到矢量功能'
+            });
+        }
+    );
+
+    mapEventManager().register(
+        'editor_event_modifyline_segment_secondpoint_infeature',
+        e => {
+            message.info({
+                key: 'trim',
+                duration: 0,
+                content: '在红色线上选取修整线起点，点击右键完成修整'
+            });
+        }
+    );
+
+    mapEventManager().register(
+        'editor_event_modifyline_segment_firstpoint_notinfeature',
+        e => {
+            message.warning({
+                key: 'trim_warn',
+                duration: 2,
+                content: '点位没有选在红色线上'
+            });
+        }
+    );
+};
+
 const movePointTooCloseListener = () => {
     mapEventManager().register('editor_event_movepoint_tooclose', e => {
         message.warning('与原始点位距离过近，请重新选点', 3);
@@ -98,6 +150,7 @@ const installMapListener = () => {
     pointsOutBoundaryListener();
     copyLineListener();
     clickright();
+    trimLinstener();
 };
 
 export { installMapListener };
