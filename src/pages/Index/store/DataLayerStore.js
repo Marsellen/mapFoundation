@@ -20,6 +20,11 @@ class DataLayerStore {
         this.measureControl;
         this.highLightFeatures = [];
 
+        // 修整线要素的吸附模式,默认为1
+        // 1 表示既能拾取修正的线要素，又能拾取点云；
+        // 0 表示只能拾取点云
+        this.modifyLineAdsorbMode = 1;
+
         this.bindKeyEvent();
         this.readCoordinateEvent = throttle(this.readCoordinate, 10);
     }
@@ -217,6 +222,16 @@ class DataLayerStore {
         addClass(viz, 'crosshair-viz');
     };
 
+    trimStyle = () => {
+        let viz = document.querySelector('#viz');
+        addClass(viz, 'trim-viz');
+    };
+
+    curveStyle = () => {
+        let viz = document.querySelector('#viz');
+        addClass(viz, 'curve-viz');
+    };
+
     removeCur = () => {
         let viz = document.querySelector('#viz');
         removeClass(viz, 'edit-viz');
@@ -224,14 +239,17 @@ class DataLayerStore {
         removeClass(viz, 'shape-viz');
         removeClass(viz, 'crosshair-viz');
         removeClass(viz, 'move-point-viz');
+<<<<<<< HEAD
         removeClass(viz, 'shuxingshua-viz');
+=======
+        removeClass(viz, 'trim-viz');
+>>>>>>> 修整线要素
         removeClass(viz, 'curve-viz');
     };
 
     newPoint = () => {
         this.exitEdit();
         if (!this.editor) return;
-        this.disableOtherCtrl();
         this.setEditType('new_point');
         this.changeCur();
         this.editor.newPoint();
@@ -240,7 +258,6 @@ class DataLayerStore {
     newLine = () => {
         this.exitEdit();
         if (!this.editor) return;
-        this.disableOtherCtrl();
         this.setEditType('new_line');
         this.changeCur();
         this.editor.newLine();
@@ -250,7 +267,6 @@ class DataLayerStore {
         //绘制曲线
         this.exitEdit();
         if (!this.editor) return;
-        this.disableOtherCtrl();
         this.setEditType('new_curved_line');
         this.changeCur();
         this.editor.newCurveLine();
@@ -267,7 +283,6 @@ class DataLayerStore {
     newPolygon = () => {
         this.exitEdit();
         if (!this.editor) return;
-        this.disableOtherCtrl();
         this.setEditType('new_polygon');
         this.changeCur();
         this.editor.newPolygon();
@@ -276,7 +291,6 @@ class DataLayerStore {
     newGroundRectangle = () => {
         this.exitEdit();
         if (!this.editor) return;
-        this.disableOtherCtrl();
         this.setEditType('new_ground_rectangle');
         this.changeCur();
         this.editor.newPlaneTextMatrix();
@@ -285,7 +299,6 @@ class DataLayerStore {
     newFacadeRectangle = () => {
         this.exitEdit();
         if (!this.editor) return;
-        this.disableOtherCtrl();
         this.setEditType('new_facade_rectangle');
         this.changeCur();
         this.editor.newMatrix();
@@ -294,7 +307,6 @@ class DataLayerStore {
     selectPointFromPC = () => {
         this.exitEdit();
         if (!this.editor) return;
-        this.disableOtherCtrl();
         this.setEditType('select_road_plane');
         this.editor.selectPointFromPC();
         this.roadPlanePointStyle();
@@ -304,7 +316,6 @@ class DataLayerStore {
     newAroundLine = () => {
         this.exitEdit();
         if (!this.editor) return;
-        this.disableOtherCtrl();
         this.setEditType('new_around_line');
         this.editor.clear();
         this.editor.toggleMode(61); //多选模式
@@ -317,7 +328,6 @@ class DataLayerStore {
     newStraightLine = () => {
         this.exitEdit();
         if (!this.editor) return;
-        this.disableOtherCtrl();
         this.setEditType('new_straight_line');
         this.editor.clear();
         this.editor.toggleMode(61);
@@ -330,7 +340,6 @@ class DataLayerStore {
     newTurnLine = () => {
         this.exitEdit();
         if (!this.editor) return;
-        this.disableOtherCtrl();
         this.setEditType('new_turn_line');
         this.editor.clear();
         this.editor.toggleMode(61);
@@ -343,7 +352,6 @@ class DataLayerStore {
     newUTurnLine = () => {
         this.exitEdit();
         if (!this.editor) return;
-        this.disableOtherCtrl();
         this.setEditType('new_Uturn_line');
         this.editor.clear();
         this.editor.toggleMode(61);
@@ -368,7 +376,6 @@ class DataLayerStore {
     newVerticalMatrix = () => {
         this.exitEdit();
         if (!this.editor) return;
-        this.disableOtherCtrl();
         this.setEditType('new_vertical_matrix');
         this.changeCur();
         this.editor.newVerticalMatrix();
@@ -377,7 +384,6 @@ class DataLayerStore {
     newRel = () => {
         this.exitEdit();
         if (this.editType == 'newRel') return;
-        this.disableOtherCtrl();
         this.setEditType('newRel');
         this.editor.clear();
         this.editor.toggleMode(61);
@@ -492,7 +498,6 @@ class DataLayerStore {
     newCircle = () => {
         this.exitEdit();
         if (!this.editor) return;
-        this.disableOtherCtrl();
         this.setEditType('new_circle');
         this.changeCur();
         this.editor.newFixedPolygon(3);
@@ -637,6 +642,11 @@ class DataLayerStore {
             case 'new_turn_line':
                 this.fetchTargetLayers();
                 break;
+            case 'trim':
+                message.destroy();
+                this.modifyLineAdsorbMode = 1;
+                this.setModifyLineAdsorbMode();
+                break;
             default:
                 break;
         }
@@ -659,8 +669,15 @@ class DataLayerStore {
             }
             if (e && e.keyCode == 90) {
                 //Z
-                if (this.editType.includes('new_')) {
+                if (this.editType.includes('new_') || this.editType == 'trim') {
                     this.editor.undo();
+                }
+            }
+            if (e && e.keyCode == 32) {
+                // space
+                if (this.editType == 'trim') {
+                    this.modifyLineAdsorbMode = 1 - this.modifyLineAdsorbMode;
+                    this.setModifyLineAdsorbMode();
                 }
             }
         };
@@ -778,6 +795,27 @@ class DataLayerStore {
         if (isNotNormal && this.locatePictureStatus && event.button === 0) {
             this.locatePictureEvent(event);
         }
+    };
+
+    trim() {
+        if (!this.editor) return;
+        this.disableOtherCtrl();
+        this.setEditType('trim');
+        this.trimStyle();
+        this.editor.modifyLine();
+    }
+
+    setModifyLineAdsorbMode = () => {
+        this.editor.setModifyLineAdsorbMode(this.modifyLineAdsorbMode);
+        let content = `${
+            this.modifyLineAdsorbMode ? '开启' : '关闭'
+        }吸附到矢量功能`;
+
+        message.info({
+            key: 'trim_info',
+            duration: 2,
+            content
+        });
     };
 }
 
