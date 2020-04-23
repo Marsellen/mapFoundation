@@ -309,7 +309,9 @@ const copyAttributeLines = async (
             ? adLaneKey
             : [];
     let properties = copyFeature.data.properties;
-    let UPD_STAT = JSON.parse(copyFeature.data.properties.UPD_STAT); //更新标识维护
+    let UPD_STAT = copyFeature.data.properties.UPD_STAT
+        ? JSON.parse(copyFeature.data.properties.UPD_STAT)
+        : {}; //更新标识维护
     Object.keys(properties).forEach(key => {
         if (
             adKey.indexOf(key) !== -1 &&
@@ -321,7 +323,9 @@ const copyAttributeLines = async (
             }
         }
     });
-    copyFeature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);
+    if (processName === 'imp_recognition') {
+        copyFeature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);
+    }
     let historyLog = {
         features: [feature, copyFeature]
     };
