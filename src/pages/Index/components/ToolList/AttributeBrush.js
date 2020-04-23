@@ -8,6 +8,7 @@ import { message } from 'antd';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
+@inject('TaskStore')
 @observer
 class AttributeBrush extends React.Component {
     constructor() {
@@ -61,6 +62,8 @@ class AttributeBrush extends React.Component {
     @logDecorator({ operate: '属性刷' })
     attributeBrushCallback = async (result, event) => {
         const { DataLayerStore } = this.props;
+        const { TaskStore } = this.props;
+        const { activeTask } = TaskStore;
         let editLayer = DataLayerStore.getEditLayer();
         let [[feature], [copyFeature]] = result;
         if (event.button !== 2) return;
@@ -72,7 +75,8 @@ class AttributeBrush extends React.Component {
             let historyLog = copyAttributeLines(
                 feature,
                 copyFeature,
-                editLayer.layerName
+                editLayer.layerName,
+                activeTask.processName
             );
             this.setState({
                 messageVisible: false

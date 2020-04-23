@@ -88,8 +88,10 @@ const installMapListener = () => {
     addEditorExitListener('editor_event_lqdtzx_end', 'move-point-viz'); //线要素对齐到停止线
     addEditorListener('editor_event_plfcdfzbh_start', 'edit-viz');
     addEditorExitListener('editor_event_plfcdfzbh_end', 'edit-viz'); //批量赋车道分组编号
-    addEditorListener('editor_event_lqdtzx_start', 'shuxingshau-viz'); //属性刷
-    addEditorExitListener('editor_event_lqdtzx_end', 'shuxingshau-viz');
+    addEditorListener('editor_event_lqdtzx_start', 'shuxingshua-viz'); //属性刷
+    addEditorExitListener('editor_event_lqdtzx_end', 'shuxingshua-viz');
+    addEditorListener('editor_event_newcurveline_start', 'curve-viz'); //绘制曲线
+    addEditorExitListener('editor_event_newcurveline_end', 'curve-viz');
     pointsTooCloseListener();
     movePointTooCloseListener();
     movePointTooFarListener();

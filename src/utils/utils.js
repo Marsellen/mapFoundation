@@ -16,7 +16,7 @@ export function addClass(dom, className) {
         editType === 'line_snap_stop'
             ? 'move-point-viz'
             : editType === 'attribute_brush'
-            ? 'shuxingshau-viz'
+            ? 'shuxingshua-viz'
             : className;
     if (oriName) {
         let newName = oriName + ' ' + specClassName;
