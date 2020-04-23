@@ -40,11 +40,12 @@ class QualityCheckStore {
     }
 
     @action openCheckReport = () => {
+        this.filterOption.isUpdate = true;
         this.checkReportVisible = true;
     };
 
     @action closeCheckReport = () => {
-        this.filterOption = {};
+        this.filterOption.isUpdate = false;
         this.checkReportVisible = false;
     };
 

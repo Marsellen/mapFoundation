@@ -34,7 +34,7 @@ class QualityCheckResultTable extends React.Component {
         const { columns, currentPage, total } = this.state;
         const { QualityCheckStore } = this.props;
         const { reportList, reportListL, tableHeight } = QualityCheckStore;
-        const newTotal = total ? total : total === 0 ? total : reportListL;
+        const newTotal = total || total === 0 ? total : reportListL;
 
         return (
             <div
@@ -88,9 +88,11 @@ class QualityCheckResultTable extends React.Component {
     }
 
     componentDidMount() {
-        if (!this.props.QualityCheckStore) return;
+        const { QualityCheckStore } = this.props;
+        if (!QualityCheckStore) return;
+
         this.qualityCheckTabelColumns();
-        this.props.QualityCheckStore.toResizeDom();
+        QualityCheckStore.toResizeDom();
         this.checkReportTable = document.querySelector(
             '.check-result-table .ant-table-body'
         );
@@ -100,10 +102,8 @@ class QualityCheckResultTable extends React.Component {
         const { QualityCheckStore } = this.props;
         if (!QualityCheckStore) return;
 
-        const { filterOption, toResizeDom } = QualityCheckStore;
-        const { isUpdate } = filterOption || {};
-        isUpdate ? this.qualityCheckTabelColumns() : this.handlePagination();
-        toResizeDom();
+        this.qualityCheckTabelColumns();
+        QualityCheckStore.toResizeDom();
     }
 
     handlePagination = (current, size) => {
@@ -139,11 +139,9 @@ class QualityCheckResultTable extends React.Component {
         );
     };
 
-    qualityCheckTabelColumns = () => {
+    handleTableColumns = filterOption => {
         const _ = this;
         const { columns } = this.state;
-        const { QualityCheckStore } = this.props;
-        let { filterOption, toResizeDom, reportListL } = QualityCheckStore;
         let { filteredInfo } = this.state;
         filteredInfo = filteredInfo || {};
 
@@ -203,18 +201,31 @@ class QualityCheckResultTable extends React.Component {
             }
         });
 
-        if (filterOption.isUpdate) {
+        return currentColumns;
+    };
+
+    qualityCheckTabelColumns = () => {
+        const { QualityCheckStore } = this.props;
+        const { filterOption, toResizeDom } = QualityCheckStore;
+        const { isUpdate } = filterOption;
+
+        if (isUpdate) {
             this.setState(
                 {
-                    columns: currentColumns
+                    columns: this.handleTableColumns(filterOption)
                 },
                 toResizeDom
             );
         } else {
+            //首次加载
             this.setState(
                 {
+                    columns: this.handleTableColumns(filterOption),
+                    currentIndex: -1,
+                    currentPage: 1,
+                    pageSize: 10,
                     filteredInfo: null,
-                    total: reportListL
+                    total: null
                 },
                 toResizeDom
             );
