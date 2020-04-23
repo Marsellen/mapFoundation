@@ -59,20 +59,24 @@ class AttributeBrush extends React.Component {
         });
     };
 
-    @logDecorator({ operate: '属性刷' })
     attributeBrushCallback = async (result, event) => {
-        const { DataLayerStore } = this.props;
-        const { TaskStore } = this.props;
-        const { activeTask } = TaskStore;
-        let editLayer = DataLayerStore.getEditLayer();
-        let [[feature], [copyFeature]] = result;
         if (event.button !== 2) return;
+        this.attributeBrush(result, event);
+    };
+
+    @logDecorator({ operate: '属性刷' })
+    async attributeBrush(result, event) {
         try {
+            const { DataLayerStore } = this.props;
+            const { TaskStore } = this.props;
+            const { activeTask } = TaskStore;
+            let editLayer = DataLayerStore.getEditLayer();
+            let [[feature], [copyFeature]] = result;
             if (!copyFeature) {
                 throw new Error('未执行数据拷贝赋值！');
             }
-            message.success('完成赋值成功！', 3);
-            let historyLog = copyAttributeLines(
+
+            let historyLog = await copyAttributeLines(
                 feature,
                 copyFeature,
                 editLayer.layerName,
@@ -81,16 +85,15 @@ class AttributeBrush extends React.Component {
             this.setState({
                 messageVisible: false
             });
-            DataLayerStore.exitEdit();
+            message.success('完成赋值成功！', 3);
             return historyLog;
         } catch (e) {
             this.setState({
                 messageVisible: false
             });
-            message.error('未执行数据拷贝赋值！', 3);
-            DataLayerStore.exitEdit();
+            throw new Error('未执行数据拷贝赋值！');
         }
-    };
+    }
 
     content = () => {
         return <label>选择一个要被自动刷属性的要素，右键完成操作</label>;
