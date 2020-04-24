@@ -16,9 +16,9 @@ class DefineRenderMode extends React.Component {
         const isDefineMode = activeMode === 'define';
         return (
             <div className="define-mode-wrap">
-                <Tabs defaultActiveKey="text" animated={false}>
+                <Tabs animated={false}>
                     {isDefineMode && (
-                        <TabPane tab="符号设置" key="icon" disabled>
+                        <TabPane tab="符号设置" key="icon">
                             <DefineVectorConfig />
                         </TabPane>
                     )}
