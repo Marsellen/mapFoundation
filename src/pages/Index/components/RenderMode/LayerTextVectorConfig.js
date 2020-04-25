@@ -4,6 +4,7 @@ import { Checkbox, Icon, Select } from 'antd';
 import AdColorInput from 'src/components/Form/AdColorInput';
 import AdInputPositiveNumber from 'src/components/Form/AdInputPositiveNumber';
 import { inject, observer } from 'mobx-react';
+import { TABLE_DATA_MAP } from 'src/config/ADMapDataConfig';
 
 const { Option } = Select;
 
@@ -69,19 +70,21 @@ class LayerTextVectorConfig extends React.Component {
         const { key } = config;
         let { currentFontSize, currentInterval, currentOffset } = this.state;
         let {
-            interval,
-            offset,
-            showMode,
-            fontSize,
-            textKey,
-            strokeColor,
-            backgroundColor,
-            textColor,
             defaultIntervalMap,
             defaultOffsetMap,
             textModeMap,
-            textTypeArr
+            defaultStyle
         } = vectorTextConfig[key] || {};
+        let {
+            textField,
+            offset,
+            interval,
+            showMode,
+            fontSize,
+            strokeColor,
+            backgroundColor,
+            textColor
+        } = defaultStyle;
         const defaultInterval =
             defaultIntervalMap && defaultIntervalMap[showMode];
         const defaultOffset = defaultOffsetMap && defaultOffsetMap[showMode];
@@ -95,19 +98,19 @@ class LayerTextVectorConfig extends React.Component {
                 <div className="flex-between input-wrap">
                     <label>注记字段：</label>
                     <Select
-                        value={textKey}
+                        value={textField}
                         style={{ width: 260 }}
                         onChange={val =>
                             this.updateConfig({
-                                styleKey: 'textKey',
+                                styleKey: 'textField',
                                 styleValue: val
                             })
                         }>
-                        {textTypeArr.map(item => {
-                            const { key, label } = item;
+                        {TABLE_DATA_MAP[key].map(item => {
+                            const { key: typeKey, name } = item;
                             return (
-                                <Option value={key} key={key}>
-                                    {label}
+                                <Option value={typeKey} key={typeKey}>
+                                    {name}
                                 </Option>
                             );
                         })}
