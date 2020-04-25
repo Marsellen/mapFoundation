@@ -8,7 +8,7 @@ import AdInputNumber from 'src/components/Form/AdInputNumber';
 
 const { Option } = Select;
 
-class DefineVectorConfig extends React.Component {
+class LayerVectorConfig extends React.Component {
     state = {
         isClassSet: false
     };
@@ -213,4 +213,4 @@ class DefineVectorConfig extends React.Component {
     }
 }
 
-export default DefineVectorConfig;
+export default LayerVectorConfig;

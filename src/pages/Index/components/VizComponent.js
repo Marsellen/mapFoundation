@@ -59,7 +59,7 @@ import {
     showRightMenu
 } from 'src/utils/map/viewCtrl';
 
-@inject('DefineModeStore')
+@inject('TextStore')
 @inject('RenderModeStore')
 @inject('TaskStore')
 @observer
@@ -85,14 +85,14 @@ class VizComponent extends React.Component {
         await this.release();
         const div = document.getElementById('viz');
         window.map = new Map(div);
-        const { TaskStore, DefineModeStore } = this.props;
+        const { TaskStore, TextStore } = this.props;
         const taskInfo = await TaskStore.getTaskInfo();
         if (!taskInfo) return;
         const task = TaskStore.getTaskFile();
         if (!task) return;
         await this.initTask(task);
         //初始化文字注记配置
-        DefineModeStore.initLayerTextConfig();
+        TextStore.initLayerTextConfig();
     };
 
     release = async () => {
@@ -116,7 +116,7 @@ class VizComponent extends React.Component {
     };
 
     clearWorkSpace = async () => {
-        const { DefineModeStore } = this.props;
+        const { TextStore } = this.props;
         await OperateHistoryStore.destroy();
         await editLog.store.clear();
         if (window.map) {
@@ -128,7 +128,7 @@ class VizComponent extends React.Component {
         AttributeStore.hide();
         PictureShowStore.hide();
         PictureShowStore.destory();
-        DefineModeStore.hide();
+        TextStore.hide();
 
         //切换任务 关闭所有弹框
         document.querySelectorAll('.ant-modal-close').forEach(element => {
@@ -392,14 +392,14 @@ class VizComponent extends React.Component {
 
     //关联关系模式下，处理底图数据
     handleBoundaryfeature = () => {
-        const { RenderModeStore, DefineModeStore } = this.props;
+        const { RenderModeStore, TextStore } = this.props;
         const {
             whiteRenderMode,
             resetSelectOption,
             setRels,
             activeMode
         } = RenderModeStore;
-        const { resetBoundaryTextStyle } = DefineModeStore;
+        const { resetBoundaryTextStyle } = TextStore;
 
         //将后加载的周边底图按当前注记配置渲染
         resetBoundaryTextStyle();

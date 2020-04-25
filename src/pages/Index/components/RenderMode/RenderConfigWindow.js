@@ -1,15 +1,15 @@
 import React from 'react';
 import 'src/assets/less/components/define-mode.less';
 import { Tabs } from 'antd';
-import DefineTextVectorConfig from 'src/pages/Index/components/RenderMode/DefineTextVectorConfig';
-import DefineVectorConfig from 'src/pages/Index/components/RenderMode/DefineVectorConfig';
+import TextConfig from 'src/pages/Index/components/RenderMode/TextConfig';
+import VectorConfig from 'src/pages/Index/components/RenderMode/VectorConfig';
 import { inject, observer } from 'mobx-react';
 
 const { TabPane } = Tabs;
 
 @inject('RenderModeStore')
 @observer
-class DefineRenderMode extends React.Component {
+class RenderConfigWindow extends React.Component {
     render() {
         const { RenderModeStore } = this.props;
         const { activeMode } = RenderModeStore;
@@ -19,11 +19,11 @@ class DefineRenderMode extends React.Component {
                 <Tabs animated={false}>
                     {isDefineMode && (
                         <TabPane tab="符号设置" key="icon">
-                            <DefineVectorConfig />
+                            <VectorConfig />
                         </TabPane>
                     )}
                     <TabPane tab="注记设置" key="text">
-                        <DefineTextVectorConfig />
+                        <TextConfig />
                     </TabPane>
                 </Tabs>
             </div>
@@ -31,4 +31,4 @@ class DefineRenderMode extends React.Component {
     }
 }
 
-export default DefineRenderMode;
+export default RenderConfigWindow;

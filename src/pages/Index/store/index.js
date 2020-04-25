@@ -17,6 +17,7 @@ import VectorsStore from './VectorsStore';
 import RenderModeStore from './RenderModeStore';
 import DefineModeStore from './DefineModeStore';
 import FeedbackStore from './FeedbackStore';
+import TextStore from './TextStore';
 
 export default {
     MenuStore,
@@ -37,5 +38,6 @@ export default {
     VectorsStore,
     RenderModeStore,
     DefineModeStore,
-    FeedbackStore
+    FeedbackStore,
+    TextStore
 };

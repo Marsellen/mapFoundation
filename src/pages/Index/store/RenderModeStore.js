@@ -14,7 +14,7 @@ import VectorsStore from './VectorsStore';
 import { calculateMiddlePoint } from 'src/utils/computeLineMidpoint';
 import relFactory from 'src/utils/relCtrl/relFactory';
 import VectorsConfig from 'src/config/VectorsConfig';
-import OutsideVectorsConfig from 'src/config/OutsideVectorsConfig';
+import BoundaryVectorsConfig from 'src/config/BoundaryVectorsConfig';
 import WhiteVectorsConfig from 'src/config/WhiteVectorsConfig';
 import HalfWhiteVectorsConfig from 'src/config/HalfWhiteVectorsConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
@@ -92,9 +92,9 @@ class RenderModeStore {
         if (window.vectorLayerGroup) {
             window.vectorLayerGroup.resetStyleConfig(VectorsConfig);
         }
-        //周边底图要素，采用配置：OutsideVectorsConfig
+        //周边底图要素，采用配置：BoundaryVectorsConfig
         if (window.boundaryLayerGroup) {
-            window.boundaryLayerGroup.resetStyleConfig(OutsideVectorsConfig);
+            window.boundaryLayerGroup.resetStyleConfig(BoundaryVectorsConfig);
         }
     };
 

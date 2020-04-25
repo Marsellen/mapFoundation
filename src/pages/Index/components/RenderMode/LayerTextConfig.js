@@ -8,9 +8,9 @@ import { TABLE_DATA_MAP } from 'src/config/ADMapDataConfig';
 
 const { Option } = Select;
 
-@inject('DefineModeStore')
+@inject('TextStore')
 @observer
-class LayerTextVectorConfig extends React.Component {
+class LayerTextConfig extends React.Component {
     state = {
         visible: false,
         currentFontSize: '',
@@ -21,8 +21,8 @@ class LayerTextVectorConfig extends React.Component {
     //显隐注记
     toggle = e => {
         const { checked } = e.target;
-        const { DefineModeStore, config } = this.props;
-        const { toggleLayerTextConfig } = DefineModeStore;
+        const { TextStore, config } = this.props;
+        const { toggleLayerTextConfig } = TextStore;
         const { key } = config;
         toggleLayerTextConfig(key, checked);
     };
@@ -57,16 +57,16 @@ class LayerTextVectorConfig extends React.Component {
                 return;
             }
         }
-        const { DefineModeStore, config } = this.props;
-        const { setLayerTextConfig } = DefineModeStore;
+        const { TextStore, config } = this.props;
+        const { setLayerTextConfig } = TextStore;
         const { key } = config;
 
         setLayerTextConfig(key, styleKey, styleValue);
     };
 
     _layerConfigNode = () => {
-        const { config, DefineModeStore } = this.props;
-        const { vectorTextConfig } = DefineModeStore;
+        const { config, TextStore } = this.props;
+        const { vectorTextConfig } = TextStore;
         const { key } = config;
         let { currentFontSize, currentInterval, currentOffset } = this.state;
         let {
@@ -263,9 +263,9 @@ class LayerTextVectorConfig extends React.Component {
     };
 
     render() {
-        const { config, DefineModeStore } = this.props;
+        const { config, TextStore } = this.props;
         const { key, label } = config;
-        const { vectorTextConfig } = DefineModeStore;
+        const { vectorTextConfig } = TextStore;
         const { checked } = vectorTextConfig[key] || {};
         return (
             <div>
@@ -287,4 +287,4 @@ class LayerTextVectorConfig extends React.Component {
     }
 }
 
-export default LayerTextVectorConfig;
+export default LayerTextConfig;

@@ -5,7 +5,7 @@ import { observer, inject } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
 import { RENDER_MODE_MAP } from 'src/config/RenderModeConfig';
 
-@inject('DefineModeStore')
+@inject('TextStore')
 @inject('AttributeStore')
 @inject('DataLayerStore')
 @inject('TaskStore')
@@ -55,7 +55,7 @@ class RenderMode extends React.Component {
                     DataLayerStore,
                     RenderModeStore,
                     AttributeStore,
-                    DefineModeStore
+                    TextStore
                 } = this.props;
                 const { mode } = this.state;
                 //设置渲染模式
@@ -72,9 +72,9 @@ class RenderMode extends React.Component {
                 AttributeStore.hide();
 
                 //初始化文字注记配置
-                DefineModeStore.initLayerTextConfig();
+                TextStore.initLayerTextConfig();
                 //关闭文字注记弹窗
-                DefineModeStore.hide();
+                TextStore.hide();
             }
         });
     };
