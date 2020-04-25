@@ -8,7 +8,7 @@ import IconFont from 'src/components/IconFont';
 @inject('DataLayerStore')
 @inject('RenderModeStore')
 @observer
-class RelationRenderMode extends React.Component {
+class RelationModal extends React.Component {
     state = { isShow: true };
 
     render() {
@@ -96,4 +96,4 @@ class RelationRenderMode extends React.Component {
     };
 }
 
-export default RelationRenderMode;
+export default RelationModal;

@@ -9,7 +9,7 @@ import CONFIG from 'src/config';
 
 const processNameOptions = CONFIG.processNameOptions;
 
-@inject('DefineModeStore')
+@inject('TextStore')
 @inject('RenderModeStore')
 @inject('QualityCheckStore')
 @inject('appStore')
@@ -212,14 +212,14 @@ class Task extends React.Component {
 
     //关联关系模式下，处理底图数据
     handleBoundaryfeature = () => {
-        const { RenderModeStore, DefineModeStore } = this.props;
+        const { RenderModeStore, TextStore } = this.props;
         const {
             whiteRenderMode,
             resetSelectOption,
             setRels,
             activeMode
         } = RenderModeStore;
-        const { resetBoundaryTextStyle } = DefineModeStore;
+        const { resetBoundaryTextStyle } = TextStore;
 
         //将后加载的周边底图按当前注记配置渲染
         resetBoundaryTextStyle();
