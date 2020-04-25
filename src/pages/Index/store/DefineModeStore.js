@@ -8,13 +8,17 @@ import {
 
 configure({ enforceActions: 'always' });
 class DefineModeStore {
-    visiteStatusMap = {}; //记录当前图层是否设置过文字注记
+    textSettedMap = {}; //记录当前图层是否设置过文字注记
     @observable vectorTextConfig = {}; //注记默认配置，页面根据这个字段渲染
     @observable visible = false; //显隐渲染模式窗口
     //获取文字注记窗口中已勾选的项目
     @computed get checkedList() {
-        const vectorTextConfigArr = Object.values(this.vectorTextConfig);
-        return vectorTextConfigArr.filter(item => item.checked);
+        const textConfigArr = Object.values(this.vectorTextConfig);
+        const checkedTextKeyArr = textConfigArr.flatMap(item => {
+            const { key, checked } = item;
+            return checked ? [key] : [];
+        });
+        return checkedTextKeyArr;
     }
 
     @action show = () => {
@@ -28,7 +32,7 @@ class DefineModeStore {
     //初始化文字注记配置
     @action initLayerTextConfig = () => {
         this.vectorTextConfig = JSON.parse(JSON.stringify(LAYER_TEXT_MAP));
-        this.visiteStatusMap = {};
+        this.textSettedMap = {};
     };
 
     //重置图层注记样式
@@ -53,12 +57,12 @@ class DefineModeStore {
         this.vectorTextConfig[key].checked = checked;
 
         //第一次勾选调设置方法，第二次勾选调显隐方法
-        if (this.visiteStatusMap[key]) {
+        if (this.textSettedMap[key]) {
             this.toggleText(window.vectorLayerGroup, key, checked);
             this.toggleText(window.boundaryLayerGroup, key, checked);
         } else {
             const config = TextVectorConfig[key];
-            this.visiteStatusMap[key] = true;
+            this.textSettedMap[key] = config;
             this.resetTextStyle(window.vectorLayerGroup, key, config);
             this.resetTextStyle(window.boundaryLayerGroup, key, config);
         }
@@ -92,10 +96,23 @@ class DefineModeStore {
             }
         };
 
+        this.textSettedMap[key] = config;
         this.vectorTextConfig[key] = this.vectorTextConfig[key] || {};
         this.vectorTextConfig[key].defaultStyle = newDefaultStyle;
         this.resetTextStyle(window.vectorLayerGroup, key, config);
         this.resetTextStyle(window.boundaryLayerGroup, key, config);
+    };
+
+    //将后加载的周边底图按当前注记配置渲染
+    @action resetBoundaryTextStyle = () => {
+        //遍历所有设置过注记的图层，将底图按配置显示注记
+        Object.keys(this.textSettedMap).forEach(key => {
+            const config = this.textSettedMap[key];
+            this.resetTextStyle(window.boundaryLayerGroup, key, config);
+            //未勾选的图层，隐藏注记
+            if (this.checkedList.includes(key)) return;
+            this.toggleText(window.boundaryLayerGroup, key, false);
+        });
     };
 }
 

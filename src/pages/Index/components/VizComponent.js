@@ -399,20 +399,23 @@ class VizComponent extends React.Component {
             setRels,
             activeMode
         } = RenderModeStore;
-        const { resetBoundaryStyle } = DefineModeStore;
+        const { resetBoundaryTextStyle } = DefineModeStore;
+
+        //将后加载的周边底图按当前注记配置渲染
+        resetBoundaryTextStyle();
 
         switch (activeMode) {
             case 'relation':
                 //将重置专题图
                 resetSelectOption();
-                //周边底图要素，采用配置：HalfWhiteVectorsConfig，半透明白
+                //白色渲染模式/要素都是白色
                 whiteRenderMode();
                 //将有关联关系的要素，按专题图进行分组
                 setRels();
                 break;
             case 'define':
-                //重置周边底图高精数据图层样式
-                resetBoundaryStyle();
+                //白色渲染模式/要素都是白色
+                whiteRenderMode();
                 break;
             default:
                 break;
