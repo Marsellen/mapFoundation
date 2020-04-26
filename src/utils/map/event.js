@@ -48,14 +48,6 @@ const trimLinstener = () => {
         });
     });
 
-    mapEventManager().register('editor_event_modifyline_end', e => {
-        message.info({
-            key: 'trim',
-            duration: 3,
-            content: '线要素修整成功'
-        });
-    });
-
     mapEventManager().register(
         'editor_event_modifyline_segment_firstpoint_infeature',
         e => {

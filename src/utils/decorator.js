@@ -48,7 +48,7 @@ export const logDecorator = option => {
             }
             log.editType = DataLayerStore.editType;
             editLog.add(log);
-            DataLayerStore.exitEdit();
+            DataLayerStore.clearChoose();
         };
         return descriptor;
     };

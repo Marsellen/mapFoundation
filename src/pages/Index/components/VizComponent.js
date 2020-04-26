@@ -571,6 +571,13 @@ class VizComponent extends React.Component {
             if (DataLayerStore.editType === 'changePoints') {
                 message.success('修改形状点完成，需检查数据的关联关系正确性');
             }
+            if (DataLayerStore.editType === 'trim') {
+                message.info({
+                    key: 'trim',
+                    duration: 3,
+                    content: '线要素修整成功'
+                });
+            }
 
             if (!isManbuildTask()) {
                 result = modUpdStatGeometry(result);
@@ -581,7 +588,11 @@ class VizComponent extends React.Component {
         } catch (e) {
             //恢复要素
             DataLayerStore.updateFeature(oldFeature);
-            message.error(e.message, 3);
+            message.error({
+                key: DataLayerStore.editType,
+                duration: 3,
+                content: e.message
+            });
             throw e;
         }
     }
