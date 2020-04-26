@@ -182,7 +182,7 @@ class RightMenuModal extends React.Component {
                 <span>线要素逆序</span>
             </Menu.Item>,
             <Menu.Item
-                id="trim"
+                id="trim-btn"
                 key="trim"
                 onClick={this.trim}
                 style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>

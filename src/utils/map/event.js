@@ -51,7 +51,7 @@ const trimLinstener = () => {
     mapEventManager().register('editor_event_modifyline_end', e => {
         message.info({
             key: 'trim',
-            duration: 0,
+            duration: 3,
             content: '线要素修整成功'
         });
     });

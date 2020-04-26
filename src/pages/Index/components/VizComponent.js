@@ -555,7 +555,7 @@ class VizComponent extends React.Component {
                 let layer = DataLayerStore.getEditLayer();
                 layer.layer.removeFeatureById(data.uuid);
             }
-            message.warning('新建要素失败：' + e.message, 3);
+            message.error(e.message, 3);
             throw e;
         }
     }
@@ -581,7 +581,7 @@ class VizComponent extends React.Component {
         } catch (e) {
             //恢复要素
             DataLayerStore.updateFeature(oldFeature);
-            message.warning('修改要素失败：' + e.message, 3);
+            message.error(e.message, 3);
             throw e;
         }
     }

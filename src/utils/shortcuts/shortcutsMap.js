@@ -275,5 +275,13 @@ export const shortcutMap = [
         shift: false,
         keyCode: 89,
         describe: '属性刷 Y'
+    },
+    {
+        id: 'trim-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 74,
+        describe: '修整线要素 J'
     }
 ];
