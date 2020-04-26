@@ -26,9 +26,11 @@ class AdColorSelect extends React.Component {
         const newOptions = [];
         this.props.options.forEach(item => {
             const { key, color } = item;
+            const { r, g, b, a } = color;
+            const newColor = `rgba(${r},${g},${b},${a})`;
             const newItem = {
                 key,
-                label: this._optionIconNode(color)
+                label: this._optionIconNode(newColor)
             };
             newOptions.push(newItem);
         });
@@ -45,6 +47,7 @@ class AdColorSelect extends React.Component {
                     style={{
                         height: '15px',
                         width: width - 30,
+                        border: '1px solid #D7D7D7',
                         background: color
                     }}></div>
             </div>

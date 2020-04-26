@@ -1,21 +1,107 @@
 import React from 'react';
-import 'src/assets/less/components/define-mode.less';
+import { inject, observer } from 'mobx-react';
 import { Checkbox, Icon, Select } from 'antd';
+import 'src/assets/less/components/define-mode.less';
 import AdColorInput from 'src/components/Form/AdColorInput';
 import AdNodeSelect from 'src/components/Form/AdNodeSelect';
 import AdColorSelect from 'src/components/Form/AdColorSelect';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 
 const { Option } = Select;
+const colorOptionArr = [
+    {
+        key: 0,
+        color: {
+            r: 255,
+            g: 255,
+            b: 255,
+            a: 1
+        }
+    },
+    {
+        key: 1,
+        color: {
+            r: 33,
+            g: 273,
+            b: 255,
+            a: 1
+        }
+    },
+    {
+        key: 2,
+        color: {
+            r: 255,
+            g: 247,
+            b: 31,
+            a: 1
+        }
+    },
+    {
+        key: 3,
+        color: {
+            r: 70,
+            g: 109,
+            b: 255,
+            a: 1
+        }
+    },
+    {
+        key: 4,
+        color: {
+            r: 30,
+            g: 170,
+            b: 106,
+            a: 1
+        }
+    },
+    {
+        key: 5,
+        color: {
+            r: 255,
+            g: 61,
+            b: 161,
+            a: 1
+        }
+    },
+    {
+        key: 6,
+        color: {
+            r: 231,
+            g: 120,
+            b: 0,
+            a: 1
+        }
+    },
+    {
+        key: 7,
+        color: {
+            r: 255,
+            g: 0,
+            b: 0,
+            a: 1
+        }
+    }
+];
 
+@inject('DefineModeStore')
+@observer
 class LayerVectorConfig extends React.Component {
-    state = {
-        isClassSet: false
-    };
+    constructor(props) {
+        super(props);
+
+        const { config } = props;
+        const { type } = config;
+        this.isPolygon = type === 'Polygon';
+        this.isLine = type === 'Line';
+
+        this.state = {
+            visible: false
+        };
+    }
 
     toggle = () => {
         this.setState({
-            isClassSet: !this.state.isClassSet
+            visible: !this.state.visible
         });
     };
 
@@ -27,187 +113,176 @@ class LayerVectorConfig extends React.Component {
         console.log('color', color);
     };
 
-    _setNode = () => {
+    _configRender = () => {
+        const { DefineModeStore, key, config } = this.props;
+        // const { vectorConfig } = DefineModeStore;
+        let {
+            type,
+            showFields,
+            defaultStyle,
+            styleOptionArr,
+            arrowOptionArr,
+            fieldStyle,
+            typeArr
+        } = config;
+        const {
+            colorFieldSize,
+            colorFieldIcon,
+            styleFieldWidth,
+            styleFieldSize
+        } = fieldStyle || {};
+        const { color, radius } = defaultStyle;
         return (
             <div className="config-content config-content-1">
-                <div className="flex-center">
+                <div className="field-box">
                     <label>颜色:</label>
                     <AdColorInput
-                        size={28}
-                        icon="xianyaosu"
+                        className="field"
+                        color={color}
+                        size={colorFieldSize}
+                        icon={colorFieldIcon}
                         onClick={this.handleColorClick}
                         onChange={this.handleColorChange}
                     />
                 </div>
-                <div className="flex-center">
-                    <label>样式:</label>
-                    <AdNodeSelect
-                        width={76}
-                        options={[
-                            { key: 0, icon: 'dianzhixian' },
-                            { key: 1, icon: 'dianxuxian' },
-                            { key: 2, icon: 'zhixian' },
-                            { key: 3, icon: 'xuxian' }
-                        ]}
-                    />
-                </div>
-                <div className="flex-center">
-                    <label>尺寸:</label>
-                    <AdInputNumber
-                        min={1}
-                        max={10}
-                        width={76}
-                        defaultValue={3}
-                        onChange={() => {}}
-                    />
-                </div>
+                {!this.isLine && styleOptionArr && (
+                    <div className="field-box">
+                        <label>样式:</label>
+                        <AdNodeSelect
+                            className="field"
+                            size={styleFieldSize}
+                            options={styleOptionArr}
+                        />
+                    </div>
+                )}
+                {!this.isLine && arrowOptionArr && (
+                    <div className="field-box">
+                        <label>箭头:</label>
+                        <AdNodeSelect
+                            className="field"
+                            options={arrowOptionArr}
+                        />
+                    </div>
+                )}
+                {radius && (
+                    <div className="field-box">
+                        <label>尺寸:</label>
+                        <AdInputNumber
+                            className="field"
+                            defaultValue={radius}
+                            onChange={() => {}}
+                        />
+                    </div>
+                )}
             </div>
         );
     };
 
-    _classSetNode = () => {
+    _detailConfigRender = () => {
+        const { DefineModeStore, key, config } = this.props;
+        // const { vectorConfig } = DefineModeStore;
+        let {
+            type,
+            showFields,
+            defaultStyle,
+            styleOptionArr,
+            arrowOptionArr,
+            fieldStyle,
+            typeArr
+        } = config;
+        const {
+            colorFieldSize,
+            colorFieldIcon,
+            styleFieldWidth,
+            styleFieldSize
+        } = fieldStyle || {};
+        const { color, radius } = defaultStyle;
+        if (!typeArr) return null;
         return (
             <div className="config-content config-content-2">
                 <div className="flex-between input-wrap">
                     <label>分类字段</label>
-                    <Select defaultValue={0} style={{ width: 190 }}>
-                        <Option value={0}>车道类型</Option>
-                        <Option value={1}>车道通行方向</Option>
-                        <Option value={2}>车道通行状态</Option>
-                        <Option value={3}>车道最高行驶速度数据来源</Option>
-                        <Option value={4}>车道最低行驶速度数据来源</Option>
+                    <Select
+                        disabled={typeArr.length === 1}
+                        defaultValue={showFields}
+                        style={{ width: 190 }}>
+                        {typeArr.map(item => {
+                            const { key, name } = item || {};
+                            return (
+                                <Option value={key} key={key}>
+                                    {name}
+                                </Option>
+                            );
+                        })}
                     </Select>
                 </div>
                 <div className="flex-between input-wrap">
                     <label>颜色</label>
-                    <AdColorSelect
-                        width={190}
-                        options={[
-                            { key: 0, color: 'yellow' },
-                            { key: 1, color: 'blue' },
-                            { key: 2, color: 'green' },
-                            { key: 3, color: 'red' }
-                        ]}
-                    />
+                    <AdColorSelect width={190} options={colorOptionArr} />
                 </div>
-                <div className="flex-between input-wrap">
-                    <label>颜色设置</label>
-                    <div className="flex-between input-box">
-                        <AdColorInput
-                            size={28}
-                            icon="dianyaosu"
-                            onClick={this.handleColorClick}
-                            onChange={this.handleColorChange}
-                        />
-                        <AdNodeSelect
-                            width={155}
-                            options={[
-                                { key: 0, icon: 'dianzhixian' },
-                                { key: 1, icon: 'dianxuxian' },
-                                { key: 2, icon: 'zhixian' },
-                                { key: 3, icon: 'xuxian' }
-                            ]}
-                        />
-                    </div>
-                </div>
-                <div className="flex-between input-wrap">
-                    <label>普通机动车信号灯</label>
-                    <div className="flex-between input-box">
-                        <AdColorInput
-                            size={26}
-                            icon="mianyaosu"
-                            onClick={this.handleColorClick}
-                            onChange={this.handleColorChange}
-                        />
-                        <AdNodeSelect
-                            width={155}
-                            options={[
-                                { key: 0, icon: 'zhixiankuang' },
-                                { key: 1, icon: 'xuxiankuang' }
-                            ]}
-                        />
-                    </div>
-                </div>
-                <div className="flex-between input-wrap">
-                    <label>普通机动车信号灯</label>
-                    <div className="flex-between input-box">
-                        <AdColorInput
-                            size={26}
-                            icon="mianyaosu"
-                            onClick={this.handleColorClick}
-                            onChange={this.handleColorChange}
-                        />
-                        <AdNodeSelect
-                            width={155}
-                            size={18}
-                            options={[
-                                { key: 0, icon: 'dianyaosu' },
-                                { key: 1, icon: 'dianfuhao' },
-                                { key: 2, icon: 'dianfuhao1' },
-                                { key: 3, icon: 'dianfuhao2' },
-                                { key: 4, icon: 'dianfuhao3' },
-                                { key: 5, icon: 'dianfuhao4' },
-                                { key: 6, icon: 'dianfuhao5' },
-                                { key: 7, icon: 'dianfuhao6' },
-                                { key: 8, icon: 'dianfuhao7' },
-                                { key: 9, icon: 'dianfuhao8' }
-                            ]}
-                        />
-                    </div>
-                </div>
-                <div className="flex-between input-wrap">
-                    <label>方向指示信号灯</label>
-                    <div className="flex-between input-box">
-                        <AdColorInput
-                            size={28}
-                            icon="xianyaosu"
-                            onClick={this.handleColorClick}
-                            onChange={this.handleColorChange}
-                        />
-                        <AdNodeSelect
-                            width={76}
-                            options={[
-                                { key: 0, icon: 'jiantou' },
-                                { key: 1, icon: 'wujiantou' }
-                            ]}
-                        />
-                        <AdNodeSelect
-                            width={76}
-                            size={18}
-                            options={[
-                                { key: 0, icon: 'dianyaosu' },
-                                { key: 1, icon: 'dianfuhao' },
-                                { key: 2, icon: 'dianfuhao1' },
-                                { key: 3, icon: 'dianfuhao2' },
-                                { key: 4, icon: 'dianfuhao3' },
-                                { key: 5, icon: 'dianfuhao4' },
-                                { key: 6, icon: 'dianfuhao5' },
-                                { key: 7, icon: 'dianfuhao6' },
-                                { key: 8, icon: 'dianfuhao7' },
-                                { key: 9, icon: 'dianfuhao8' }
-                            ]}
-                        />
-                    </div>
-                </div>
+                {typeArr.map(item => {
+                    const { key, name } = item || {};
+                    return (
+                        <div className="flex-between input-wrap" key={key}>
+                            <label>{name}</label>
+                            <div className="flex-between input-box">
+                                <AdColorInput
+                                    className="field"
+                                    color={color}
+                                    size={colorFieldSize}
+                                    icon={colorFieldIcon}
+                                    onClick={this.handleColorClick}
+                                    onChange={this.handleColorChange}
+                                />
+                                {!this.isLine && styleOptionArr && (
+                                    <AdNodeSelect
+                                        className={`field ${
+                                            this.isPolygon ? 'point-field' : ''
+                                        }`}
+                                        size={styleFieldSize}
+                                        options={styleOptionArr}
+                                    />
+                                )}
+                                {!this.isLine && arrowOptionArr && (
+                                    <AdNodeSelect
+                                        className="field"
+                                        options={arrowOptionArr}
+                                    />
+                                )}
+                                {radius && (
+                                    <AdInputNumber
+                                        className="field"
+                                        defaultValue={radius}
+                                        onChange={() => {}}
+                                    />
+                                )}
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
         );
     };
     render() {
-        const { isClassSet } = this.state;
+        const { config } = this.props;
+        const { visible } = this.state;
+        const { label, typeArr } = config;
         return (
-            <div className="config-wrap">
+            <div>
                 <div className="config-title">
                     <div>
                         <Icon
-                            type={isClassSet ? 'caret-up' : 'caret-right'}
-                            className={isClassSet ? 'blue' : ''}
+                            type={visible ? 'caret-up' : 'caret-right'}
+                            className={visible ? 'blue' : ''}
                         />
-                        <span>车道中心线</span>
+                        <span>{label}</span>
                     </div>
-                    <Checkbox onChange={this.toggle}>分类设色</Checkbox>
+                    {typeArr && (
+                        <Checkbox onChange={this.toggle}>分类设色</Checkbox>
+                    )}
                 </div>
-                {!isClassSet && this._setNode()}
-                {isClassSet && this._classSetNode()}
+                {!visible && this._configRender()}
+                {visible && this._detailConfigRender()}
             </div>
         );
     }

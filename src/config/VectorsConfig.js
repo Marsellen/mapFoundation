@@ -6,7 +6,7 @@ export default {
         showFields: ['TYPE'],
         order: 15,
         //要展示的样式，['vectorStyle','textStyle','pointFLStyle','arrowStyle']
-        showStyles: ['vectorStyle'],
+        showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
         //符号样式配置
         vectorStyle: {
             TYPE: [
@@ -32,7 +32,7 @@ export default {
         type: 'Line',
         showFields: ['RD_LINE'],
         order: 14,
-        showStyles: ['vectorStyle'],
+        showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
         vectorStyle: {
             RD_LINE: [
                 {
@@ -57,7 +57,7 @@ export default {
         type: 'Line',
         showFields: ['TYPE'],
         order: 13,
-        showStyles: ['vectorStyle'],
+        showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
         vectorStyle: {
             TYPE: [
                 {
@@ -624,7 +624,7 @@ export default {
         type: 'Line',
         showFields: ['TYPE'],
         order: 3,
-        showStyles: ['vectorStyle'],
+        showStyles: ['vectorStyle', 'pointFLStyle'],
         vectorStyle: {
             TYPE: [
                 {

@@ -5,6 +5,7 @@ import { observer, inject } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
 import { RENDER_MODE_MAP } from 'src/config/RenderModeConfig';
 
+@inject('DefineModeStore')
 @inject('TextStore')
 @inject('AttributeStore')
 @inject('DataLayerStore')
@@ -52,6 +53,7 @@ class RenderMode extends React.Component {
             zIndex: 99999,
             onOk: () => {
                 const {
+                    DefineModeStore,
                     DataLayerStore,
                     RenderModeStore,
                     AttributeStore,
@@ -80,8 +82,9 @@ class RenderMode extends React.Component {
     };
 
     resetStyleConfig = mode => {
-        const { RenderModeStore } = this.props;
+        const { RenderModeStore, DefineModeStore } = this.props;
         const { commonRenderMode, whiteRenderMode, setRels } = RenderModeStore;
+        const { initLayerTextConfig } = DefineModeStore;
 
         switch (mode) {
             case 'common':
@@ -97,6 +100,7 @@ class RenderMode extends React.Component {
                 break;
             case 'define':
                 whiteRenderMode();
+                initLayerTextConfig();
                 break;
             default:
                 break;
