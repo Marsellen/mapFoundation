@@ -179,6 +179,7 @@ class DataLayerStore {
     clearChoose = () => {
         this.removeCur();
         if (!this.editor) return;
+        this.clearSelfDebuff();
         this.setEditType();
         this.editor.clear();
         this.editor.cancel();
@@ -272,7 +273,7 @@ class DataLayerStore {
     AttributeBrush = visible => {
         //属性刷
         if (this.editType == 'attribute_brush') return;
-        this.disableOtherCtrl();
+        this.clearAllEditDebuff();
         this.setEditType('attribute_brush');
         if (visible) this.changeCur();
     };
@@ -388,15 +389,14 @@ class DataLayerStore {
 
     delRel = () => {
         if (this.editType == 'delRel') return;
-        this.disableOtherCtrl();
+        this.clearAllEditDebuff();
         this.setEditType('delRel');
     };
 
     AttributeBrushFitSDK = (step = 0) => {
         if (step === 0) {
             if (this.editType == 'attribute_brush') return;
-            this.disableOtherCtrl();
-            this.clearChoose();
+            this.exitEdit();
             this.setEditType('attribute_brush');
         } else if (step === 1) {
             this.editor.selectFeature(1);
@@ -410,8 +410,7 @@ class DataLayerStore {
     lineSnapStop = (step = 0) => {
         if (step === 0) {
             if (this.editType == 'line_snap_stop') return;
-            this.disableOtherCtrl();
-            this.clearChoose();
+            this.exitEdit();
             this.setEditType('line_snap_stop');
         } else if (step === 1) {
             this.editor.selectFeature(1);
@@ -423,8 +422,7 @@ class DataLayerStore {
     batchAssinLaneNo = (step = 0) => {
         if (step === 0) {
             if (this.editType == 'assign_line_batch') return;
-            this.disableOtherCtrl();
-            this.clearChoose();
+            this.exitEdit();
             AttributeStore.hide(); //隐藏属性窗口
             this.setEditType('assign_line_batch');
         } else if (step === 1) {
@@ -522,7 +520,7 @@ class DataLayerStore {
 
     insertPoints = () => {
         if (!this.editor) return;
-        this.disableOtherCtrl();
+        this.clearAllEditDebuff();
         this.setEditType('insertPoints');
         this.editor.insertPoints();
         this.addShapePoint();
@@ -530,14 +528,14 @@ class DataLayerStore {
 
     changePoints = () => {
         if (!this.editor) return;
-        this.disableOtherCtrl();
+        this.clearAllEditDebuff();
         this.setEditType('changePoints');
         this.editor.changePoints();
     };
 
     deletePoints = () => {
         if (!this.editor) return;
-        this.disableOtherCtrl();
+        this.clearAllEditDebuff();
         this.setEditType('delPoint');
         this.editor.deletePoints();
         this.delPointStyle();
@@ -545,14 +543,14 @@ class DataLayerStore {
 
     movePointFeature = () => {
         if (!this.editor) return;
-        this.disableOtherCtrl();
+        this.clearAllEditDebuff();
         this.setEditType('movePointFeature');
         this.editor.movePointFeature();
     };
 
     dragCopyedFeature = () => {
         if (!this.editor) return;
-        this.disableOtherCtrl();
+        this.clearAllEditDebuff();
         this.setEditType('copyLine');
         this.changeCur();
         this.editor.dragCopyedFeature();
@@ -590,7 +588,7 @@ class DataLayerStore {
     };
 
     selectPointFromHighlight = () => {
-        this.disableOtherCtrl();
+        this.clearAllEditDebuff();
         this.setEditType('select_point');
         this.editor.selectPointFromHighlight();
         this.addShapePoint();
@@ -619,7 +617,12 @@ class DataLayerStore {
         this.editor.selectFeaturesFromSpecified(options);
     };
 
-    //启用编辑控件时禁用测距和拾取控件
+    clearAllEditDebuff = () => {
+        this.disableOtherCtrl();
+        this.clearSelfDebuff();
+    };
+
+    //未执行完此次编辑操作切换控件时触发
     disableOtherCtrl = () => {
         switch (this.editType) {
             case 'meature_distance':
@@ -630,8 +633,19 @@ class DataLayerStore {
                 break;
             case 'new_Uturn_line':
                 this.newUturnExitEvent();
-                this.fetchTargetLayers();
                 break;
+            case 'trim':
+                message.destroy();
+                break;
+            default:
+                break;
+        }
+    };
+
+    //执行完此次编辑操作切换控件时触发
+    clearSelfDebuff = () => {
+        switch (this.editType) {
+            case 'new_Uturn_line':
             case 'line_snap_stop':
             case 'attribute_brush':
             case 'new_around_line':
@@ -658,7 +672,7 @@ class DataLayerStore {
                         title: '是否退出',
                         okText: '确定',
                         cancelText: '取消',
-                        onOk: this.escEvent
+                        onOk: this.exitEdit
                     });
                 }
                 return;
@@ -677,11 +691,6 @@ class DataLayerStore {
                 }
             }
         };
-    };
-
-    escEvent = () => {
-        if (this.editType === 'trim') message.destroy();
-        this.exitEdit();
     };
 
     exitEdit = () => {
@@ -800,7 +809,7 @@ class DataLayerStore {
 
     trim() {
         if (!this.editor) return;
-        this.disableOtherCtrl();
+        this.clearAllEditDebuff();
         this.setEditType('trim');
         this.trimStyle();
         this.editor.modifyLine();
