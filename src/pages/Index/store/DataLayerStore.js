@@ -640,7 +640,11 @@ class DataLayerStore {
                 this.fetchTargetLayers();
                 break;
             case 'trim':
-                message.destroy();
+                message.info({
+                    key: 'trim',
+                    duration: 0.01,
+                    content: '操作结束'
+                });
                 this.modifyLineAdsorbMode = 1;
                 this.editor.setModifyLineAdsorbMode(this.modifyLineAdsorbMode);
                 break;
