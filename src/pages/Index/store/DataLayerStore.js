@@ -640,11 +640,6 @@ class DataLayerStore {
                 this.fetchTargetLayers();
                 break;
             case 'trim':
-                message.info({
-                    key: 'trim',
-                    duration: 0.01,
-                    content: '操作结束'
-                });
                 this.modifyLineAdsorbMode = 1;
                 this.editor.setModifyLineAdsorbMode(this.modifyLineAdsorbMode);
                 break;
@@ -663,7 +658,7 @@ class DataLayerStore {
                         title: '是否退出',
                         okText: '确定',
                         cancelText: '取消',
-                        onOk: this.exitEdit
+                        onOk: this.escEvent
                     });
                 }
                 return;
@@ -682,6 +677,11 @@ class DataLayerStore {
                 }
             }
         };
+    };
+
+    escEvent = () => {
+        if (this.editType === 'trim') message.destroy();
+        this.exitEdit();
     };
 
     exitEdit = () => {
