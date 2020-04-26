@@ -44,13 +44,13 @@ class AdNodeSelect extends React.Component {
     };
 
     render() {
-        const { width } = this.props;
+        const { width, className } = this.props;
         return (
             // labelInValue={true} 会把 Select 的 value 类型从 string 变为 {key: string, label: ReactNode} 的格式
             // 所以defaultValue 也应该是这种格式 {key: string, label: ReactNode}
             <Select
                 style={{ width }}
-                className="ad-node-select"
+                className={`ad-node-select ${className}`}
                 defaultValue={this.options[0]}
                 labelInValue={true}
                 dropdownClassName={`ad-node-select-dropdown ${this.padding}`}

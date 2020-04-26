@@ -67,8 +67,10 @@ class VectorsStore {
         const featuresMap = {};
         const featuresArr = [];
 
-        layers.map(layer => {
-            const { features, layerName } = layer.layer || {};
+        layers.map(layerItem => {
+            const { layer } = layerItem;
+            const { layerName } = layer;
+            const features = layer.getAllFeatures().map(item => item.data);
             if (!features || features.length === 0) return;
             features.map(feature => {
                 const { geometry, properties } = feature;

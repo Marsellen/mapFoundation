@@ -3,11 +3,16 @@ export const LAYER_VECTOR_MAP = {
         key: 'AD_Road',
         label: '道路参考线',
         checked: false,
-        type: 'TYPE',
+        showFields: 'TYPE',
+        type: 'Line',
         defaultStyle: {
-            color: '#fff'
+            color: { r: 255, g: 255, b: 255, a: 1 }
             // 样式:首尾带圆点的实线
             // 箭头:尾部箭头
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'xianyaosu'
         },
         styleOptionArr: [
             { key: 0, icon: 'dianzhixian' },
@@ -62,11 +67,16 @@ export const LAYER_VECTOR_MAP = {
         key: 'AD_LaneDivider',
         label: '车道线',
         checked: false,
-        type: 'TYPE',
+        showFields: 'TYPE',
+        type: 'Line',
         defaultStyle: {
-            color: '#fff'
+            color: { r: 255, g: 255, b: 255, a: 1 }
             // 样式:首尾带圆点的实线
             // 箭头:尾部箭头
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'xianyaosu'
         },
         styleOptionArr: [
             { key: 0, icon: 'dianzhixian' },
@@ -133,11 +143,16 @@ export const LAYER_VECTOR_MAP = {
         key: 'AD_Lane',
         label: '车道中心线',
         checked: false,
-        type: 'TYPE',
+        showFields: 'TYPE',
+        type: 'Line',
         defaultStyle: {
-            color: '#fff'
+            color: { r: 255, g: 255, b: 255, a: 1 }
             // 样式:首尾带圆点的实线
             // 箭头:尾部箭头
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'xianyaosu'
         },
         styleOptionArr: [
             { key: 0, icon: 'dianzhixian' },
@@ -156,7 +171,6 @@ export const LAYER_VECTOR_MAP = {
                 type: 'AD_LANE_TYPE',
                 domType: 'RadioIconGroup'
             },
-            ,
             {
                 key: 'DIRECTION',
                 name: '车道通行方向',
@@ -187,11 +201,17 @@ export const LAYER_VECTOR_MAP = {
         key: 'AD_LaneAttrPoint',
         label: '车道属性变化点',
         checked: false,
-        type: 'TYPE',
+        showFields: 'TYPE',
+        type: 'Point',
         defaultStyle: {
-            color: '#fff',
+            color: { r: 255, g: 255, b: 255, a: 1 },
             // 样式:定位点
             radius: 0.03
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'dianyaosu',
+            styleFieldSize: 18
         },
         styleOptionArr: [
             { key: 0, icon: 'dianyaosu' },
@@ -218,10 +238,15 @@ export const LAYER_VECTOR_MAP = {
         key: 'AD_Arrow',
         label: '地面导向箭头',
         checked: false,
-        type: 'ARR_DIRECT',
+        showFields: 'ARR_DIRECT',
+        type: 'Polygon',
         defaultStyle: {
-            color: '#fff'
+            color: { r: 255, g: 255, b: 255, a: 1 }
             // 样式:实线边线
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
             { key: 0, icon: 'zhixiankuang' },
@@ -240,11 +265,16 @@ export const LAYER_VECTOR_MAP = {
         key: 'AD_StopLocation',
         label: '停止位置',
         checked: false,
-        type: 'TYPE',
+        showFields: 'TYPE',
+        type: 'Line',
         defaultStyle: {
-            color: '#fff'
+            color: { r: 255, g: 255, b: 255, a: 1 }
             // 样式:实线
             // 箭头:无箭头
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'xianyaosu'
         },
         styleOptionArr: [
             { key: 0, icon: 'dianzhixian' },
@@ -269,10 +299,15 @@ export const LAYER_VECTOR_MAP = {
         key: 'AD_LaneMark_Plg',
         label: '面状标识物',
         checked: false,
-        type: 'TYPE',
+        showFields: 'TYPE',
+        type: 'Polygon',
         defaultStyle: {
-            color: '#fff'
+            color: { r: 255, g: 255, b: 255, a: 1 }
             // 样式:实线边线
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
             { key: 0, icon: 'zhixiankuang' },
@@ -291,10 +326,15 @@ export const LAYER_VECTOR_MAP = {
         key: 'AD_Text',
         label: '地面文字符号',
         checked: false,
-        type: 'TYPE',
+        showFields: 'TYPE',
+        type: 'Polygon',
         defaultStyle: {
-            color: '#fff'
+            color: { r: 255, g: 255, b: 255, a: 1 }
             // 样式:实线边线
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
             { key: 0, icon: 'zhixiankuang' },
@@ -313,10 +353,15 @@ export const LAYER_VECTOR_MAP = {
         key: 'AD_TrafficSign',
         label: '交通标志牌',
         checked: false,
-        type: 'SIGN_STYLE',
+        showFields: 'SIGN_STYLE',
+        type: 'Polygon',
         defaultStyle: {
-            color: '#fff'
+            color: { r: 255, g: 255, b: 255, a: 1 }
             // 样式:实线边线
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
             { key: 0, icon: 'zhixiankuang' },
@@ -335,10 +380,15 @@ export const LAYER_VECTOR_MAP = {
         key: 'AD_TrafficLight',
         label: '交通信号灯',
         checked: false,
-        type: 'TYPE',
+        showFields: 'TYPE',
+        type: 'Polygon',
         defaultStyle: {
-            color: '#fff'
+            color: { r: 255, g: 255, b: 255, a: 1 }
             // 样式:实线边线
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
             { key: 0, icon: 'zhixiankuang' },
@@ -363,10 +413,15 @@ export const LAYER_VECTOR_MAP = {
         key: 'AD_Pole',
         label: '杆状物',
         checked: false,
+        type: 'Line',
         defaultStyle: {
-            color: '#fff'
+            color: { r: 255, g: 255, b: 255, a: 1 }
             // 样式:实线
             // 箭头:无箭头
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'xianyaosu'
         },
         styleOptionArr: [
             { key: 0, icon: 'dianzhixian' },
@@ -383,11 +438,16 @@ export const LAYER_VECTOR_MAP = {
         key: 'AD_RS_Barrier',
         label: '隔离带、护栏',
         checked: false,
-        type: 'TYPE',
+        showFields: 'TYPE',
+        type: 'Line',
         defaultStyle: {
-            color: '#fff'
+            color: { r: 255, g: 255, b: 255, a: 1 }
             // 样式:首尾带圆点的实线
             // 箭头:无箭头
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'xianyaosu'
         },
         styleOptionArr: [
             { key: 0, icon: 'dianzhixian' },

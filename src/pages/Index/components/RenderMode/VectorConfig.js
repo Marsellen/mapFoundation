@@ -3,20 +3,19 @@ import { inject, observer } from 'mobx-react';
 import 'src/assets/less/components/define-mode.less';
 import LayerVectorConfig from 'src/pages/Index/components/RenderMode/LayerVectorConfig.js';
 
-@inject('TextStore')
+@inject('DefineModeStore')
 @observer
 class VectorConfig extends React.Component {
     render() {
-        const { TextStore } = this.props;
-        const { vectorTextConfig } = TextStore;
+        const { DefineModeStore } = this.props;
+        const { vectorConfig } = DefineModeStore;
         return (
-            // <div className="config-wrap">
-            //     {Object.values(vectorTextConfig).map(item => {
-            //         const { key } = item;
-            //         return <LayerTextConfig key={key} config={item} />;
-            //     })}
-            // </div>
-            <LayerVectorConfig />
+            <div className="config-wrap">
+                {Object.values(vectorConfig).map(item => {
+                    const { key } = item;
+                    return <LayerVectorConfig key={key} config={item} />;
+                })}
+            </div>
         );
     }
 }

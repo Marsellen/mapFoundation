@@ -66,9 +66,10 @@
     .rels-input-number,
     .ant-input-number {
         height: 26px;
+        width: unset;
     }
 
-    .ad-input-number .ant-input-number-input-wrap .ant-input-number-input {
+    .ant-input-number-input {
         height: 26px;
         line-height: 26px !important;
     }
@@ -92,18 +93,31 @@
 
     .config-content-1 {
         display: flex;
-        justify-content: space-around;
         align-items: center;
         height: 36px;
+        margin: 0 0 10px;
 
         label {
+            width: 37px;
             padding: 0 5px 0 0;
+        }
+
+        .field {
+            flex: 1;
         }
     }
 
     .config-content-2 {
         margin: 0 0 10px;
         padding: 5px 10px;
+
+        .field {
+            width: 76px;
+        }
+
+        .point-field {
+            width: 154px;
+        }
     }
 
     .flex-center {
@@ -117,12 +131,27 @@
         align-items: center;
     }
 
+    .field-box {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        box-sizing: border-box;
+        width: 130px;
+        padding: 0 10px;
+        &:first-of-type {
+            width: 85px;
+        }
+    }
+
     .input-wrap {
         padding: 5px 0;
     }
 
     .input-box {
         width: 190px;
+        .fleld {
+            max-width: 80%;
+        }
     }
 
     .blue {
