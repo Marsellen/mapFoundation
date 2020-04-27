@@ -193,13 +193,7 @@ class DataLayerStore {
 
     changeCur = () => {
         let viz = document.querySelector('#viz');
-        if (this.editType == 'attribute_brush') {
-            addClass(viz, 'shuxingshua-viz');
-        } else if (this.editType == 'line_snap_stop') {
-            addClass(viz, 'move-point-viz');
-        } else {
-            addClass(viz, 'edit-viz');
-        }
+        addClass(viz, 'edit-viz');
     };
 
     ruler = () => {

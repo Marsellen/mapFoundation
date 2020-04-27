@@ -10,20 +10,24 @@ export function randomNum(min, max) {
 }
 
 export function addClass(dom, className) {
-    const { editType } = DataLayerStore;
     let oriName = dom.className;
+    if (oriName) {
+        let newName = oriName + ' ' + specClass(className);
+        dom.className = newName;
+    } else {
+        dom.className = specClass(className);
+    }
+}
+
+function specClass(className) {
+    const { editType } = DataLayerStore;
     let specClassName =
         editType === 'line_snap_stop'
             ? 'move-point-viz'
             : editType === 'attribute_brush'
             ? 'shuxingshua-viz'
             : className;
-    if (oriName) {
-        let newName = oriName + ' ' + specClassName;
-        dom.className = newName;
-    } else {
-        dom.className = specClassName;
-    }
+    return specClassName;
 }
 
 export function removeClass(dom, className) {
