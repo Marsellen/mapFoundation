@@ -439,6 +439,8 @@ class RightMenuModal extends React.Component {
         const { RightMenuStore, DataLayerStore } = this.props;
 
         if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble())
+            return message.error('请先结束当前编辑操作！');
 
         Modal.confirm({
             title: '您确认删除该要素？',
@@ -468,6 +470,9 @@ class RightMenuModal extends React.Component {
     copyLine = () => {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble())
+            return message.error('请先结束当前编辑操作！');
+
         DataLayerStore.dragCopyedFeature();
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();
@@ -476,9 +481,9 @@ class RightMenuModal extends React.Component {
     insertPoints = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
 
-        if (this.checkDisabled()) {
-            return;
-        }
+        if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble())
+            return message.error('请先结束当前编辑操作！');
 
         DataLayerStore.insertPoints();
         RightMenuStore.hide();
@@ -487,6 +492,8 @@ class RightMenuModal extends React.Component {
     changePoints = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble())
+            return message.error('请先结束当前编辑操作！');
         DataLayerStore.changePoints();
         RightMenuStore.hide();
     };
@@ -494,12 +501,17 @@ class RightMenuModal extends React.Component {
     deletePoints = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble())
+            return message.error('请先结束当前编辑操作！');
         DataLayerStore.deletePoints();
         RightMenuStore.hide();
     };
 
     movePointFeature = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
+        if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble())
+            return message.error('请先结束当前编辑操作！');
 
         DataLayerStore.movePointFeature();
         RightMenuStore.hide();
@@ -508,6 +520,8 @@ class RightMenuModal extends React.Component {
     breakLine = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble())
+            return message.error('请先结束当前编辑操作！');
         DataLayerStore.selectPointFromHighlight();
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();
@@ -516,6 +530,8 @@ class RightMenuModal extends React.Component {
     reverseOrderLine = () => {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble())
+            return message.error('请先结束当前编辑操作！');
         Modal.confirm({
             title: '您确认执行线要素逆序操作？',
             okText: '确定',
@@ -557,6 +573,8 @@ class RightMenuModal extends React.Component {
     mergeLine = () => {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble())
+            return message.error('请先结束当前编辑操作！');
 
         Modal.confirm({
             title: '您确认执行操作？',
@@ -589,6 +607,8 @@ class RightMenuModal extends React.Component {
     batchAssign = () => {
         const { RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble())
+            return message.error('请先结束当前编辑操作！');
         let features = RightMenuStore.getFeatures();
         BatchAssignStore.show(features);
         RightMenuStore.hide();
@@ -597,6 +617,8 @@ class RightMenuModal extends React.Component {
     breakByLine = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble())
+            return message.error('请先结束当前编辑操作！');
         DataLayerStore.createBreakLine();
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();
@@ -645,6 +667,8 @@ class RightMenuModal extends React.Component {
     trim = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble())
+            return message.error('请先结束当前编辑操作！');
         DataLayerStore.trim();
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();

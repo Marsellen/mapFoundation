@@ -52,12 +52,17 @@ class DelRel extends React.Component {
     action = () => {
         const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'delRel') return;
+        if (DataLayerStore.changeUnAble())
+            return message.error('请先结束当前编辑操作！');
         let mainFeature = AttributeStore.getModel();
+        if (!mainFeature) return message.error('未选中要素');
         let layerId = mainFeature && mainFeature.layerId;
         let editLayer = DataLayerStore.getEditLayer();
         let editLayerId = editLayer && editLayer.layerId;
         if (layerId !== editLayerId) return;
         let { relFeatures } = AttributeStore;
+        if (!relFeatures || relFeatures.length === 0)
+            return message.error('暂无关联要素显示');
         DataLayerStore.selectFormFeatrues(relFeatures);
         DataLayerStore.delRel();
     };

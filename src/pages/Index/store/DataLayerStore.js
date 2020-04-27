@@ -177,7 +177,6 @@ class DataLayerStore {
     };
 
     clearChoose = () => {
-        this.removeCur();
         if (!this.editor) return;
         this.clearSelfDebuff();
         this.setEditType();
@@ -264,12 +263,15 @@ class DataLayerStore {
         this.editor.newCurveLine();
     };
 
-    AttributeBrush = visible => {
+    AttributeBrush = () => {
         //属性刷
         if (this.editType == 'attribute_brush') return;
         this.clearAllEditDebuff();
         this.setEditType('attribute_brush');
-        if (visible) this.changeCur();
+        this.changeCur();
+        this.editor.selectFeature(1);
+        let editLayer = this.getEditLayer();
+        this.editor.setTargetLayers([editLayer]);
     };
 
     newPolygon = () => {
@@ -385,20 +387,6 @@ class DataLayerStore {
         if (this.editType == 'delRel') return;
         this.clearAllEditDebuff();
         this.setEditType('delRel');
-    };
-
-    AttributeBrushFitSDK = (step = 0) => {
-        if (step === 0) {
-            if (this.editType == 'attribute_brush') return;
-            this.exitEdit();
-            this.setEditType('attribute_brush');
-        } else if (step === 1) {
-            this.editor.selectFeature(1);
-            let layers = [];
-            let editLayer = this.getEditLayer();
-            layers.push(editLayer);
-            this.editor.setTargetLayers(layers);
-        }
     };
 
     lineSnapStop = (step = 0) => {
@@ -650,10 +638,13 @@ class DataLayerStore {
             case 'trim':
                 this.modifyLineAdsorbMode = 1;
                 this.editor.setModifyLineAdsorbMode(this.modifyLineAdsorbMode);
+                this.editor.toggleMode(0);
                 break;
             default:
                 break;
         }
+
+        this.removeCur();
     };
 
     bindKeyEvent = () => {
@@ -821,6 +812,22 @@ class DataLayerStore {
             content
         });
     };
+
+    changeUnAble = () => {
+        return UNABLE_CHANGE_TYPES.includes(this.editType);
+    };
 }
+
+const UNABLE_CHANGE_TYPES = [
+    'delRel',
+    'trim',
+    'attribute_brush',
+    'select_point',
+    'copyLine',
+    'movePointFeature',
+    'delPoint',
+    'changePoints',
+    'insertPoints'
+];
 
 export default new DataLayerStore();
