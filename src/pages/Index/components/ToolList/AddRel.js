@@ -1,7 +1,7 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import { message, Icon, Modal } from 'antd';
+import { message, Icon, Modal, Button } from 'antd';
 import {
     newRel,
     basicCheck,
@@ -22,6 +22,12 @@ import './AddRel.less';
 @inject('AttributeStore')
 @observer
 class AddRel extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            textVisible: false
+        };
+    }
     componentDidMount() {
         const { DataLayerStore } = this.props;
         DataLayerStore.setNewRelCallback(this.newRelCallBack);
@@ -48,6 +54,72 @@ class AddRel extends React.Component {
                     }}
                     onOk={this.addLRLaneDriverRel}
                 />
+                <Modal
+                    title={
+                        <span className="text-modal-title">
+                            新增关联关系指引
+                        </span>
+                    }
+                    width={465}
+                    className="text-modal"
+                    visible={this.state.textVisible}
+                    onCancel={this.handleCancel}
+                    footer={
+                        <Button type="primary" onClick={this.handleCancel}>
+                            确定
+                        </Button>
+                    }>
+                    <div>
+                        <p className="tips">
+                            TIPS : 选择要素的顺序必须严格遵守
+                        </p>
+                        <p className="text-body-title">
+                            1、当前可编辑图层：“车道中心线”
+                        </p>
+                        <p className="text-body-content">
+                            (1).
+                            一个车道中心线 + 一个或多个某一类obj要素（交通标志牌、交通信号灯、地面导向箭头、地面文字符号）
+                            例如：一个“车道中心线”+ 多个“交通标志牌”——可建立多对【车道中心线&交通标志牌关联关系】
+                            <br />
+                            (2). 一个车道中心线 + 一个道路参考线
+                            <br />
+                            (3). 一个车道中心线 + 一个车道线
+                            <br />
+                            (4). 一个车道中心线 + 左侧车道线+右侧车道线
+                            <br />
+                            (5). 一个驶入车道中心线 + 一个驶出车道中心线
+                        </p>
+                        <p className="text-body-title">
+                            2、当前可编辑图层：“道路参考线”{' '}
+                        </p>
+                        <p className="text-body-content">
+                            (1). 一个道路参考线 + 一个或多个车道属性变化点
+                            <br />
+                            (2). 一个道路参考线 + 一个或多个车道中心线
+                            例如：一个“道路参考线”+ 多个“车道中心线”——可建立多对【车道中心线&道路参考线属性关系】
+                            <br />
+                            (3). 一个驶入道路参考线 + 一个驶出道路参考线
+                            <br />
+                        </p>
+                        <p className="text-body-title">
+                            3、当前可编辑图层：“停止位置”、“面状标识物”、“交通标志牌”、“交通信号灯”
+                            一个当前编辑图层的obj要素 + 一个或多个车道中心线
+                        </p>
+                        <p className="text-body-content">
+                            (1).例如：一个“停止位置”+ 多个“车道中心线”——可建立多对【车道中心线&停止位置关联关系】
+                        </p>
+                        <p className="text-body-title">
+                            4、当前可编辑图层：“地面导向箭头”、“地面文字符号”、“车道属性变化点”
+                        </p>
+                        <p className="text-body-content">
+                            (1).
+                            一个当前编辑图层的obj要素（地面导向箭头、地面文字符号） + 一个车道中心线
+                            <br />
+                            (2).
+                            一个当前编辑图层的obj要素（车道属性变化点） + 一个道路参考线
+                        </p>
+                    </div>
+                </Modal>
             </span>
         );
     }
@@ -59,59 +131,17 @@ class AddRel extends React.Component {
         DataLayerStore.newRel();
     };
 
-    renderTips() {
-        Modal.info({
-            title: '新增关联关系指引',
-            content: (
-                <div className="layerScroll">
-                    <div>
-                        <h3>TIPS : 选择要素的顺序必须严格遵守</h3>
-                        <p>
-                            1、当前可编辑图层：“车道中心线” <br />
-                            &emsp;1).
-                            一个车道中心线 + 一个或多个某一类obj要素（交通标志牌、交通信号灯、地面导向箭头、地面文字符号）
-                            例如：一个“车道中心线”+ 多个“交通标志牌”——可建立多对【车道中心线&交通标志牌关联关系】
-                            <br />
-                            &emsp;2). 一个车道中心线 + 一个道路参考线
-                            <br />
-                            &emsp;3). 一个车道中心线 + 一个车道线
-                            <br />
-                            &emsp;4). 一个车道中心线 + 左侧车道线+右侧车道线
-                            <br />
-                            &emsp;5). 一个驶入车道中心线 + 一个驶出车道中心线
-                        </p>
-
-                        <p>
-                            2、当前可编辑图层：“道路参考线” <br />
-                            &emsp;1). 一个道路参考线 + 一个或多个车道属性变化点
-                            <br />
-                            &emsp;2). 一个道路参考线 + 一个或多个车道中心线
-                            例如：一个“道路参考线”+ 多个“车道中心线”——可建立多对【车道中心线&道路参考线属性关系】
-                            <br />
-                            &emsp;3). 一个驶入道路参考线 + 一个驶出道路参考线
-                            <br />
-                        </p>
-                        <p>
-                            3、当前可编辑图层：“停止位置”、“面状标识物”、“交通标志牌”、“交通信号灯”
-                            一个当前编辑图层的obj要素 + 一个或多个车道中心线
-                            <br />
-                            &emsp;例如：一个“停止位置”+ 多个“车道中心线”——可建立多对【车道中心线&停止位置关联关系】
-                        </p>
-                        <p>
-                            4、当前可编辑图层：“地面导向箭头”、“地面文字符号”、“车道属性变化点”
-                            <br />
-                            &emsp;1).
-                            一个当前编辑图层的obj要素（地面导向箭头、地面文字符号） + 一个车道中心线
-                            <br />
-                            &emsp;2).
-                            一个当前编辑图层的obj要素（车道属性变化点） + 一个道路参考线
-                        </p>
-                    </div>
-                </div>
-            ),
-            onOk() {}
+    renderTips = () => {
+        this.setState({
+            textVisible: true
         });
-    }
+    };
+
+    handleCancel = () => {
+        this.setState({
+            textVisible: false
+        });
+    };
 
     content = () => {
         return (
