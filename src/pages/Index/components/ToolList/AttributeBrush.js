@@ -91,7 +91,8 @@ class AttributeBrush extends React.Component {
             this.setState({
                 messageVisible: false
             });
-            throw new Error('未执行数据拷贝赋值！');
+            message.warning('未执行数据拷贝赋值！', 3);
+            throw e;
         }
     }
 
