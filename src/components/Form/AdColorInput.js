@@ -8,28 +8,26 @@ class AdColorInput extends React.Component {
         super(props);
         let { color, background } = this.props;
         this.state = {
-            color: color || { r: 255, g: 255, b: 255, a: 1 },
-            background: background || { r: 18, g: 25, b: 35, a: 1 },
+            color: color || 'rgba(255,255,255,1)',
+            background: background || 'rgba(18,25,35,1)',
             visible: false
         };
         this.timeout = false;
     }
 
-    objectToString = rgba => {
-        const { r, g, b, a } = rgba;
-        return `rgba(${r},${g},${b},${a})`;
-    };
-
     handleChange = value => {
         const { rgb } = value;
+        const { r, g, b, a } = rgb;
+        const color = `rgba(${r},${g},${b},${a})`;
+
         this.setState({
-            color: rgb
+            color
         });
 
         //防抖，减少重置画布次数
         this.timeout && clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
-            this.props.onChange && this.props.onChange(rgb);
+            this.props.onChange && this.props.onChange(color);
         }, 500);
     };
 
@@ -107,10 +105,8 @@ class AdColorInput extends React.Component {
 
     render() {
         //有icon参数，background才有效
-        const { size, icon } = this.props;
+        const { size, icon, disableAlpha } = this.props;
         const { color, visible, background, top, left } = this.state;
-        const currentColor = this.objectToString(color);
-        const currentBackground = this.objectToString(background);
         return (
             // 当前AdColorInput组件设置z-index，防图层遮盖
             <div className={`color-box ${visible ? 'set-z-index' : ''}`}>
@@ -118,16 +114,16 @@ class AdColorInput extends React.Component {
                     type="primary"
                     className="color-btn"
                     onClick={this.show}
-                    style={{ background: currentBackground }}>
+                    style={{ background }}>
                     {icon ? (
                         <IconFont
                             type={`icon-${icon}`}
-                            style={{ fontSize: size, color: currentColor }}
+                            style={{ fontSize: size, color }}
                         />
                     ) : (
                         <div
                             className="color-content"
-                            style={{ background: currentColor }}></div>
+                            style={{ background: color }}></div>
                     )}
                 </div>
                 {/* 调色板 */}
@@ -137,7 +133,8 @@ class AdColorInput extends React.Component {
                         className="color-palette"
                         style={{ top, left }}>
                         <SketchPicker
-                            color={currentColor}
+                            color={color}
+                            disableAlpha={disableAlpha}
                             onChange={this.handleChange}
                         />
                     </div>

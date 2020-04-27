@@ -8,9 +8,9 @@ export const LAYER_TEXT_MAP = {
             interval: 10,
             showMode: 'line-repeat',
             fontSize: 32,
-            strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
-            textColor: { r: 255, g: 255, b: 255, a: 1.0 }
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
         },
         defaultIntervalMap: {
             'line-repeat': 10
@@ -33,9 +33,9 @@ export const LAYER_TEXT_MAP = {
             interval: 10,
             showMode: 'line-repeat',
             fontSize: 32,
-            strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
-            textColor: { r: 255, g: 255, b: 255, a: 1.0 }
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
         },
         defaultIntervalMap: {
             'line-repeat': 10
@@ -58,9 +58,9 @@ export const LAYER_TEXT_MAP = {
             interval: 10,
             showMode: 'line-repeat',
             fontSize: 32,
-            strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
-            textColor: { r: 255, g: 255, b: 255, a: 1.0 }
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
         },
         defaultIntervalMap: {
             'line-repeat': 10
@@ -83,9 +83,9 @@ export const LAYER_TEXT_MAP = {
             offset: 10,
             showMode: 'top',
             fontSize: 32,
-            strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
-            textColor: { r: 255, g: 255, b: 255, a: 1.0 }
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
         },
         defaultOffsetMap: {
             top: 20,
@@ -109,9 +109,9 @@ export const LAYER_TEXT_MAP = {
             interval: 10,
             showMode: 'longest-center',
             fontSize: 32,
-            strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
-            textColor: { r: 255, g: 255, b: 255, a: 1.0 }
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
         },
         defaultIntervalMap: {
             'line-repeat': 10
@@ -135,9 +135,9 @@ export const LAYER_TEXT_MAP = {
             interval: 10,
             showMode: 'line-center',
             fontSize: 32,
-            strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
-            textColor: { r: 255, g: 255, b: 255, a: 1.0 }
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
         },
         defaultIntervalMap: {
             'line-repeat': 10
@@ -160,9 +160,9 @@ export const LAYER_TEXT_MAP = {
             interval: 10,
             showMode: 'polygon-center',
             fontSize: 32,
-            strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
-            textColor: { r: 255, g: 255, b: 255, a: 1.0 }
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
         },
         defaultIntervalMap: {
             'line-repeat': 10
@@ -186,9 +186,9 @@ export const LAYER_TEXT_MAP = {
             interval: 10,
             showMode: 'longest-center',
             fontSize: 32,
-            strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
-            textColor: { r: 255, g: 255, b: 255, a: 1.0 }
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
         },
         defaultIntervalMap: {
             'line-repeat': 10
@@ -212,9 +212,9 @@ export const LAYER_TEXT_MAP = {
             interval: 10,
             showMode: 'polygon-center',
             fontSize: 32,
-            strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
-            textColor: { r: 255, g: 255, b: 255, a: 1.0 }
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
         },
         defaultIntervalMap: {
             'line-repeat': 10
@@ -238,9 +238,9 @@ export const LAYER_TEXT_MAP = {
             interval: 10,
             showMode: 'polygon-center',
             fontSize: 32,
-            strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
-            textColor: { r: 255, g: 255, b: 255, a: 1.0 }
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
         },
         defaultIntervalMap: {
             'line-repeat': 10
@@ -264,9 +264,9 @@ export const LAYER_TEXT_MAP = {
             interval: 10,
             showMode: 'line-center',
             fontSize: 32,
-            strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
-            textColor: { r: 255, g: 255, b: 255, a: 1.0 }
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
         },
         defaultIntervalMap: {
             'line-repeat': 10
@@ -289,9 +289,9 @@ export const LAYER_TEXT_MAP = {
             interval: 10,
             showMode: 'line-repeat',
             fontSize: 32,
-            strokeColor: { r: 0, g: 0, b: 0, a: 1.0 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 0.7 },
-            textColor: { r: 255, g: 255, b: 255, a: 1.0 }
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
         },
         defaultIntervalMap: {
             'line-repeat': 10

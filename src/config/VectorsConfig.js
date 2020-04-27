@@ -1,4 +1,5 @@
 const dianfuhao = require('../assets/img/dianfuhao.png');
+
 export default {
     AD_Road: {
         type: 'Line',
@@ -241,7 +242,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -250,7 +252,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -259,7 +262,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -268,7 +272,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -277,7 +282,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -286,7 +292,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
 
@@ -296,7 +303,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -305,7 +313,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
 
@@ -315,7 +324,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -324,7 +334,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -333,7 +344,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -342,7 +354,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -351,7 +364,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -360,7 +374,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -369,7 +384,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -378,7 +394,8 @@ export default {
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 }
             ]

@@ -84,7 +84,7 @@ class RenderMode extends React.Component {
     resetStyleConfig = mode => {
         const { RenderModeStore, DefineModeStore } = this.props;
         const { commonRenderMode, whiteRenderMode, setRels } = RenderModeStore;
-        const { initLayerTextConfig } = DefineModeStore;
+        const { initVectorConfig } = DefineModeStore;
 
         switch (mode) {
             case 'common':
@@ -100,7 +100,7 @@ class RenderMode extends React.Component {
                 break;
             case 'define':
                 whiteRenderMode();
-                initLayerTextConfig();
+                initVectorConfig();
                 break;
             default:
                 break;

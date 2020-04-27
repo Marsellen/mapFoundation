@@ -157,9 +157,9 @@ export const REL_FEATURE_COLOR_MAP = {
             z: 0
         },
         style: {
-            borderColor: { r: 0, g: 0, b: 0, a: 1 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 1 },
-            textColor: { r: 255, g: 255, b: 255, a: 1 }
+            borderColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,1)',
+            textColor: 'rgba(255,255,255,1)'
         }
     },
     R_LDIV_ID: {
@@ -171,9 +171,9 @@ export const REL_FEATURE_COLOR_MAP = {
             z: 0
         },
         style: {
-            borderColor: { r: 0, g: 0, b: 0, a: 1 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 1 },
-            textColor: { r: 255, g: 255, b: 255, a: 1 }
+            borderColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,1)',
+            textColor: 'rgba(255,255,255,1)'
         }
     },
     FROM_LANE: {
@@ -185,9 +185,9 @@ export const REL_FEATURE_COLOR_MAP = {
             z: 0
         },
         style: {
-            borderColor: { r: 0, g: 0, b: 0, a: 1 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 1 },
-            textColor: { r: 255, g: 255, b: 255, a: 1 }
+            borderColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,1)',
+            textColor: 'rgba(255,255,255,1)'
         }
     },
     FROM_LANE_ID: {
@@ -199,9 +199,9 @@ export const REL_FEATURE_COLOR_MAP = {
             z: 0
         },
         style: {
-            borderColor: { r: 0, g: 0, b: 0, a: 1 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 1 },
-            textColor: { r: 255, g: 255, b: 255, a: 1 }
+            borderColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,1)',
+            textColor: 'rgba(255,255,255,1)'
         }
     },
     TO_LANE: {
@@ -213,9 +213,9 @@ export const REL_FEATURE_COLOR_MAP = {
             z: 0
         },
         style: {
-            borderColor: { r: 0, g: 0, b: 0, a: 1 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 1 },
-            textColor: { r: 255, g: 255, b: 255, a: 1 }
+            borderColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,1)',
+            textColor: 'rgba(255,255,255,1)'
         }
     },
     TO_LANE_ID: {
@@ -227,9 +227,9 @@ export const REL_FEATURE_COLOR_MAP = {
             z: 0
         },
         style: {
-            borderColor: { r: 0, g: 0, b: 0, a: 1 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 1 },
-            textColor: { r: 255, g: 255, b: 255, a: 1 }
+            borderColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,1)',
+            textColor: 'rgba(255,255,255,1)'
         }
     },
     FROM_ROAD: {
@@ -241,9 +241,9 @@ export const REL_FEATURE_COLOR_MAP = {
             z: 0
         },
         style: {
-            borderColor: { r: 0, g: 0, b: 0, a: 1 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 1 },
-            textColor: { r: 255, g: 255, b: 255, a: 1 }
+            borderColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,1)',
+            textColor: 'rgba(255,255,255,1)'
         }
     },
     FROM_ROAD_ID: {
@@ -255,9 +255,9 @@ export const REL_FEATURE_COLOR_MAP = {
             z: 0
         },
         style: {
-            borderColor: { r: 0, g: 0, b: 0, a: 1 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 1 },
-            textColor: { r: 255, g: 255, b: 255, a: 1 }
+            borderColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,1)',
+            textColor: 'rgba(255,255,255,1)'
         }
     },
     TO_ROAD: {
@@ -269,9 +269,9 @@ export const REL_FEATURE_COLOR_MAP = {
             z: 0
         },
         style: {
-            borderColor: { r: 0, g: 0, b: 0, a: 1 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 1 },
-            textColor: { r: 255, g: 255, b: 255, a: 1 }
+            borderColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,1)',
+            textColor: 'rgba(255,255,255,1)'
         }
     },
     TO_ROAD_ID: {
@@ -283,9 +283,9 @@ export const REL_FEATURE_COLOR_MAP = {
             z: 0
         },
         style: {
-            borderColor: { r: 0, g: 0, b: 0, a: 1 },
-            backgroundColor: { r: 0, g: 0, b: 0, a: 1 },
-            textColor: { r: 255, g: 255, b: 255, a: 1 }
+            borderColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,1)',
+            textColor: 'rgba(255,255,255,1)'
         }
     }
 };

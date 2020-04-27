@@ -70,6 +70,7 @@ class TextStore {
 
     //重置文字注记
     @action setLayerTextConfig = (key, styleKey, styleValue) => {
+        let config = {};
         //获取新的默认样式
         const newDefaultStyle = {
             ...this.vectorTextConfig[key].defaultStyle,
@@ -80,21 +81,39 @@ class TextStore {
         const { type } = TABLE_DATA_MAP[key].find(
             item => item.key === textField
         );
-        //获取当前图层当前分类的所有值，并加上文字样式
-        const textStyleArr = TYPE_SELECT_OPTION_MAP[type].map(item => {
-            return {
-                ...item,
-                style: newDefaultStyle
+
+        if (TYPE_SELECT_OPTION_MAP[type]) {
+            //获取当前图层当前分类的所有值，并加上文字样式
+            const textStyleArr = TYPE_SELECT_OPTION_MAP[type].map(item => {
+                return {
+                    ...item,
+                    style: newDefaultStyle
+                };
+            });
+            //组合成新的注记配置
+            config = {
+                ...TextVectorConfig[key],
+                textField,
+                textStyle: {
+                    [textField]: textStyleArr
+                }
             };
-        });
-        //组合成新的注记配置
-        const config = {
-            ...TextVectorConfig[key],
-            textField,
-            textStyle: {
-                [textField]: textStyleArr
-            }
-        };
+        } else {
+            //用户编辑类如何处理
+
+            // //组合成新的注记配置
+            // config = {
+            //     ...TextVectorConfig[key],
+            //     textField,
+            //     textStyle: {
+            //         dataType: 'value',
+            //         Type: Object.this.textSettedMap[key].textStyle.Type
+            //     }
+            // };
+            // config.textStyle.dataType='value'
+
+            return;
+        }
 
         this.textSettedMap[key] = config;
         this.vectorTextConfig[key] = this.vectorTextConfig[key] || {};

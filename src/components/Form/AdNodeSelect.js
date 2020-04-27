@@ -15,7 +15,7 @@ class AdNodeSelect extends React.Component {
 
     handleChange = value => {
         const { key } = value;
-        console.log(`selected`, key);
+        this.props.onChange && this.props.onChange(key);
     };
 
     //图标组件
@@ -44,14 +44,18 @@ class AdNodeSelect extends React.Component {
     };
 
     render() {
-        const { width, className } = this.props;
+        const { width, className, disabled, value } = this.props;
+        const currentValue =
+            this.options.find(item => item.key === value) || this.options[0];
+
         return (
             // labelInValue={true} 会把 Select 的 value 类型从 string 变为 {key: string, label: ReactNode} 的格式
             // 所以defaultValue 也应该是这种格式 {key: string, label: ReactNode}
             <Select
                 style={{ width }}
+                disabled={disabled}
                 className={`ad-node-select ${className}`}
-                defaultValue={this.options[0]}
+                value={currentValue}
                 labelInValue={true}
                 dropdownClassName={`ad-node-select-dropdown ${this.padding}`}
                 onChange={this.handleChange}>
