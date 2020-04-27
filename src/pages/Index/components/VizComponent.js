@@ -505,7 +505,8 @@ class VizComponent extends React.Component {
             if (
                 result.length === 1 &&
                 editLayer &&
-                editLayer.layerName === result[0].layerName
+                editLayer.layerName === result[0].layerName &&
+                editLayer.layerId === result[0].layerId
             ) {
                 DataLayerStore.unAttributeBrushPick();
             } else {
