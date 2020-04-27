@@ -46,14 +46,15 @@ class AttributeBrush extends React.Component {
         );
     }
 
-    action = async () => {
+    action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'attribute_brush') return;
+        if (DataLayerStore.changeUnAble())
+            return message.error('请先结束当前编辑操作！');
 
-        await AttributeStore.hideRelFeatures();
-        await DataLayerStore.AttributeBrush(true);
-        await DataLayerStore.AttributeBrushFitSDK();
-        await DataLayerStore.AttributeBrushFitSDK(1);
+        AttributeStore.hideRelFeatures();
+        DataLayerStore.AttributeBrush();
+
         this.setState({
             messageVisible: true
         });
@@ -72,7 +73,7 @@ class AttributeBrush extends React.Component {
             const { activeTask } = TaskStore;
             let editLayer = DataLayerStore.getEditLayer();
             let [[feature], [copyFeature]] = result;
-            if (!copyFeature) {
+            if (!feature || !copyFeature) {
                 throw new Error('未执行数据拷贝赋值！');
             }
 
@@ -91,7 +92,7 @@ class AttributeBrush extends React.Component {
             this.setState({
                 messageVisible: false
             });
-            message.warning('未执行数据拷贝赋值！', 3);
+            message.error(e.message);
             throw e;
         }
     }
