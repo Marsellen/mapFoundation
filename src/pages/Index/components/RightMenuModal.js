@@ -440,7 +440,11 @@ class RightMenuModal extends React.Component {
 
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble())
-            return message.error('请先结束当前编辑操作！');
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
 
         Modal.confirm({
             title: '您确认删除该要素？',
@@ -471,7 +475,11 @@ class RightMenuModal extends React.Component {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble())
-            return message.error('请先结束当前编辑操作！');
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
 
         DataLayerStore.dragCopyedFeature();
         RightMenuStore.hide();
@@ -483,7 +491,11 @@ class RightMenuModal extends React.Component {
 
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble())
-            return message.error('请先结束当前编辑操作！');
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
 
         DataLayerStore.insertPoints();
         RightMenuStore.hide();
@@ -493,7 +505,11 @@ class RightMenuModal extends React.Component {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble())
-            return message.error('请先结束当前编辑操作！');
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
         DataLayerStore.changePoints();
         RightMenuStore.hide();
     };
@@ -502,7 +518,11 @@ class RightMenuModal extends React.Component {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble())
-            return message.error('请先结束当前编辑操作！');
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
         DataLayerStore.deletePoints();
         RightMenuStore.hide();
     };
@@ -511,7 +531,11 @@ class RightMenuModal extends React.Component {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble())
-            return message.error('请先结束当前编辑操作！');
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
 
         DataLayerStore.movePointFeature();
         RightMenuStore.hide();
@@ -521,7 +545,11 @@ class RightMenuModal extends React.Component {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble())
-            return message.error('请先结束当前编辑操作！');
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
         DataLayerStore.selectPointFromHighlight();
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();
@@ -531,7 +559,11 @@ class RightMenuModal extends React.Component {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble())
-            return message.error('请先结束当前编辑操作！');
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
         Modal.confirm({
             title: '您确认执行线要素逆序操作？',
             okText: '确定',
@@ -574,7 +606,11 @@ class RightMenuModal extends React.Component {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble())
-            return message.error('请先结束当前编辑操作！');
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
 
         Modal.confirm({
             title: '您确认执行操作？',
@@ -608,7 +644,11 @@ class RightMenuModal extends React.Component {
         const { RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble())
-            return message.error('请先结束当前编辑操作！');
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
         let features = RightMenuStore.getFeatures();
         BatchAssignStore.show(features);
         RightMenuStore.hide();
@@ -618,7 +658,11 @@ class RightMenuModal extends React.Component {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble())
-            return message.error('请先结束当前编辑操作！');
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
         DataLayerStore.createBreakLine();
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();
@@ -668,7 +712,11 @@ class RightMenuModal extends React.Component {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble())
-            return message.error('请先结束当前编辑操作！');
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
         DataLayerStore.trim();
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();

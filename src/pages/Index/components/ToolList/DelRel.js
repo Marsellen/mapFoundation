@@ -53,7 +53,11 @@ class DelRel extends React.Component {
         const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'delRel') return;
         if (DataLayerStore.changeUnAble())
-            return message.error('请先结束当前编辑操作！');
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
         let mainFeature = AttributeStore.getModel();
         if (!mainFeature) return message.error('未选中要素');
         let layerId = mainFeature && mainFeature.layerId;
