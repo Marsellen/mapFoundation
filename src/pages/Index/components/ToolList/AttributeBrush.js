@@ -50,7 +50,11 @@ class AttributeBrush extends React.Component {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'attribute_brush') return;
         if (DataLayerStore.changeUnAble())
-            return message.error('请先结束当前编辑操作！');
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
 
         AttributeStore.hideRelFeatures();
         DataLayerStore.AttributeBrush();
