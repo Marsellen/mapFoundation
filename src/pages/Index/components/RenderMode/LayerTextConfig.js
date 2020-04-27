@@ -136,7 +136,7 @@ class LayerTextConfig extends React.Component {
                             size={14}
                             icon="miaobian"
                             color={strokeColor}
-                            background={{ r: 255, g: 255, b: 255, a: 1 }}
+                            background={'rgba(255,255,255,1)'}
                             onChange={val =>
                                 this.updateConfig({
                                     styleKey: 'strokeColor',

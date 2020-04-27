@@ -8,14 +8,15 @@ const { Option } = Select;
 class AdColorSelect extends React.Component {
     constructor(props) {
         super(props);
+        let { color } = this.props;
         this.options = this.handleOptions();
         //为让select内容居中，区分下拉框里有无滚动条，padding距离不同
         this.margin = this.options.length > 8 ? 'margin-5' : 'margin-12';
 
         this.state = {
             visible: false,
-            color: '#fff',
-            currentValue: this.options[0]
+            color: color || '#fff',
+            currentValue: this.getColorNodeKey(color || '#fff')
         };
 
         this.timeout = false;
@@ -26,11 +27,9 @@ class AdColorSelect extends React.Component {
         const newOptions = [];
         this.props.options.forEach(item => {
             const { key, color } = item;
-            const { r, g, b, a } = color;
-            const newColor = `rgba(${r},${g},${b},${a})`;
             const newItem = {
                 key,
-                label: this._optionIconNode(newColor)
+                label: this._optionIconNode(color)
             };
             newOptions.push(newItem);
         });
@@ -54,13 +53,17 @@ class AdColorSelect extends React.Component {
         );
     };
 
+    getColorNodeKey = color => {
+        return {
+            key: color,
+            label: this._optionIconNode(color)
+        };
+    };
+
     setColor = color => {
         this.setState({
             color,
-            currentValue: {
-                key: color,
-                label: this._optionIconNode(color)
-            }
+            currentValue: this.getColorNodeKey(color)
         });
         this.props.onChange && this.props.onChange(color);
     };
@@ -132,7 +135,7 @@ class AdColorSelect extends React.Component {
     };
 
     render() {
-        const { width } = this.props;
+        const { width, disableAlpha } = this.props;
         const { visible, color, currentValue } = this.state;
         return (
             // labelInValue={true} 会把 Select 的 value 类型从 string 变为 {key: string, label: ReactNode} 的格式
@@ -167,6 +170,7 @@ class AdColorSelect extends React.Component {
                         <SketchPicker
                             className="color-palette"
                             color={color}
+                            disableAlpha={disableAlpha}
                             onChange={this.handleDefineChange}
                         />
                     </div>

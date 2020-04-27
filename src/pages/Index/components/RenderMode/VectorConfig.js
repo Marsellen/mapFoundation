@@ -8,12 +8,18 @@ import LayerVectorConfig from 'src/pages/Index/components/RenderMode/LayerVector
 class VectorConfig extends React.Component {
     render() {
         const { DefineModeStore } = this.props;
-        const { vectorConfig } = DefineModeStore;
+        const { vectorConfigMap } = DefineModeStore;
         return (
             <div className="config-wrap">
-                {Object.values(vectorConfig).map(item => {
+                {Object.values(vectorConfigMap).map(item => {
                     const { key } = item;
-                    return <LayerVectorConfig key={key} config={item} />;
+                    return (
+                        <LayerVectorConfig
+                            key={key}
+                            layerName={key}
+                            config={item}
+                        />
+                    );
                 })}
             </div>
         );

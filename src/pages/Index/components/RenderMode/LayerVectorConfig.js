@@ -1,87 +1,14 @@
 import React from 'react';
+import 'src/assets/less/components/define-mode.less';
 import { inject, observer } from 'mobx-react';
 import { Checkbox, Icon, Select } from 'antd';
-import 'src/assets/less/components/define-mode.less';
+import { colorOptionArr } from 'src/config/VectorConfigMap';
 import AdColorInput from 'src/components/Form/AdColorInput';
 import AdNodeSelect from 'src/components/Form/AdNodeSelect';
 import AdColorSelect from 'src/components/Form/AdColorSelect';
-import AdInputNumber from 'src/components/Form/AdInputNumber';
+import AdInputPositiveNumber from 'src/components/Form/AdInputPositiveNumber';
 
 const { Option } = Select;
-const colorOptionArr = [
-    {
-        key: 0,
-        color: {
-            r: 255,
-            g: 255,
-            b: 255,
-            a: 1
-        }
-    },
-    {
-        key: 1,
-        color: {
-            r: 33,
-            g: 273,
-            b: 255,
-            a: 1
-        }
-    },
-    {
-        key: 2,
-        color: {
-            r: 255,
-            g: 247,
-            b: 31,
-            a: 1
-        }
-    },
-    {
-        key: 3,
-        color: {
-            r: 70,
-            g: 109,
-            b: 255,
-            a: 1
-        }
-    },
-    {
-        key: 4,
-        color: {
-            r: 30,
-            g: 170,
-            b: 106,
-            a: 1
-        }
-    },
-    {
-        key: 5,
-        color: {
-            r: 255,
-            g: 61,
-            b: 161,
-            a: 1
-        }
-    },
-    {
-        key: 6,
-        color: {
-            r: 231,
-            g: 120,
-            b: 0,
-            a: 1
-        }
-    },
-    {
-        key: 7,
-        color: {
-            r: 255,
-            g: 0,
-            b: 0,
-            a: 1
-        }
-    }
-];
 
 @inject('DefineModeStore')
 @observer
@@ -93,47 +20,109 @@ class LayerVectorConfig extends React.Component {
         const { type } = config;
         this.isPolygon = type === 'Polygon';
         this.isLine = type === 'Line';
+        this.isPoint = type === 'Point';
 
         this.state = {
-            visible: false
+            commonRadius: 0
         };
     }
 
-    toggle = () => {
+    toggle = e => {
+        const { checked } = e.target;
+        const { DefineModeStore, layerName } = this.props;
+        const { initLayerVectorConfig } = DefineModeStore;
+        initLayerVectorConfig(layerName, checked);
+    };
+
+    handleChange = ({ styleKey, styleValue, oldValue }) => {
         this.setState({
-            visible: !this.state.visible
+            [styleKey]: styleValue === 0 ? oldValue : styleValue
         });
     };
 
-    handleChange = value => {
-        console.log(`selected`, value);
+    checkStyleValue = ({ currentStyleKey, styleValue, oldValue, rule }) => {
+        if (!styleValue) return false;
+        if (oldValue && oldValue === styleValue) {
+            this.setState({
+                [currentStyleKey]: oldValue
+            });
+            return false;
+        }
+        if (rule) {
+            const { min, max } = rule;
+            if (styleValue < min || styleValue > max) {
+                this.setState({
+                    [currentStyleKey]: oldValue
+                });
+                return false;
+            }
+        }
+        return true;
     };
 
-    handleColorChange = color => {
-        console.log('color', color);
+    setVectorStyle = ({
+        typeValkey,
+        styleKey,
+        currentStyleKey,
+        styleValue,
+        oldValue,
+        rule
+    }) => {
+        const isValid = this.checkStyleValue({
+            currentStyleKey,
+            styleValue,
+            oldValue,
+            rule
+        });
+        if (!isValid) return;
+
+        const { layerName, DefineModeStore } = this.props;
+        const { setVectorConfig } = DefineModeStore;
+        setVectorConfig(layerName, typeValkey, styleKey, styleValue);
+    };
+
+    batchSetVectorStyle = ({
+        styleKey,
+        currentStyleKey,
+        styleValue,
+        oldValue,
+        rule
+    }) => {
+        const isValid = this.checkStyleValue({
+            currentStyleKey,
+            styleValue,
+            oldValue,
+            rule
+        });
+        if (!isValid) return;
+
+        const { layerName, DefineModeStore } = this.props;
+        const { batchSetVectorConfig } = DefineModeStore;
+        batchSetVectorConfig(layerName, styleKey, styleValue);
+    };
+
+    batchSetVectorColor = ({ styleKey, styleValue }) => {
+        const { layerName, DefineModeStore } = this.props;
+        const { batchSetVectorColor } = DefineModeStore;
+        batchSetVectorColor(layerName, styleKey, styleValue);
     };
 
     _configRender = () => {
-        const { DefineModeStore, key, config } = this.props;
-        // const { vectorConfig } = DefineModeStore;
-        let {
-            type,
-            showFields,
+        const { commonRadius } = this.state;
+        const { DefineModeStore, layerName } = this.props;
+        const { vectorConfigMap, updateKey } = DefineModeStore;
+        const {
             defaultStyle,
             styleOptionArr,
             arrowOptionArr,
-            fieldStyle,
-            typeArr
-        } = config;
-        const {
-            colorFieldSize,
-            colorFieldIcon,
-            styleFieldWidth,
-            styleFieldSize
-        } = fieldStyle || {};
-        const { color, radius } = defaultStyle;
+            pointIconOptionArr,
+            fieldStyle
+        } = vectorConfigMap[layerName];
+        const { colorFieldSize, colorFieldIcon, styleFieldSize } =
+            fieldStyle || {};
+        let { color, radius, lineStyle, pointIcon } = defaultStyle || {};
         return (
-            <div className="config-content config-content-1">
+            <div className="config-content config-content-1" key={updateKey}>
                 <div className="field-box">
                     <label>颜色:</label>
                     <AdColorInput
@@ -141,36 +130,90 @@ class LayerVectorConfig extends React.Component {
                         color={color}
                         size={colorFieldSize}
                         icon={colorFieldIcon}
-                        onClick={this.handleColorClick}
-                        onChange={this.handleColorChange}
+                        disableAlpha={this.isPoint}
+                        onChange={currentColor =>
+                            this.batchSetVectorStyle({
+                                styleKey: 'color',
+                                styleValue: currentColor
+                            })
+                        }
                     />
                 </div>
-                {!this.isLine && styleOptionArr && (
+                {styleOptionArr && (
                     <div className="field-box">
                         <label>样式:</label>
                         <AdNodeSelect
                             className="field"
+                            value={lineStyle}
+                            disabled={this.isLine}
                             size={styleFieldSize}
                             options={styleOptionArr}
+                            onChange={currentLineStyle =>
+                                this.batchSetVectorStyle({
+                                    styleKey: 'lineStyle',
+                                    styleValue: currentLineStyle
+                                })
+                            }
                         />
                     </div>
                 )}
-                {!this.isLine && arrowOptionArr && (
+                {pointIconOptionArr && (
+                    <div className="field-box">
+                        <label>样式:</label>
+                        <AdNodeSelect
+                            className="field"
+                            value={pointIcon || 'dianyaosu'}
+                            disabled={this.isLine}
+                            size={styleFieldSize}
+                            options={pointIconOptionArr}
+                            onChange={currentPointIcon =>
+                                this.batchSetVectorStyle({
+                                    styleKey: 'pointIcon',
+                                    styleValue: currentPointIcon
+                                })
+                            }
+                        />
+                    </div>
+                )}
+                {arrowOptionArr && (
                     <div className="field-box">
                         <label>箭头:</label>
                         <AdNodeSelect
                             className="field"
+                            disabled={this.isLine}
                             options={arrowOptionArr}
+                            onChange={() =>
+                                this.batchSetVectorStyle({
+                                    styleKey: 'arrowStyle',
+                                    styleValue: ''
+                                })
+                            }
                         />
                     </div>
                 )}
                 {radius && (
                     <div className="field-box">
                         <label>尺寸:</label>
-                        <AdInputNumber
+                        <AdInputPositiveNumber
                             className="field"
-                            defaultValue={radius}
-                            onChange={() => {}}
+                            value={commonRadius || radius}
+                            step={0.01}
+                            onChange={val =>
+                                this.handleChange({
+                                    styleKey: 'commonRadius',
+                                    styleValue: val,
+                                    oldValue: radius
+                                })
+                            }
+                            onBlur={() =>
+                                this.batchSetVectorStyle({
+                                    styleKey: 'radius',
+                                    currentStyleKey: 'commonRadius',
+                                    styleValue: commonRadius,
+                                    oldValue: radius,
+                                    rule: { min: 0, max: 1 }
+                                })
+                            }
                         />
                     </div>
                 )}
@@ -179,37 +222,39 @@ class LayerVectorConfig extends React.Component {
     };
 
     _detailConfigRender = () => {
-        const { DefineModeStore, key, config } = this.props;
-        // const { vectorConfig } = DefineModeStore;
-        let {
-            type,
-            showFields,
+        const { DefineModeStore, layerName } = this.props;
+        const { updateKey, vectorConfig, vectorConfigMap } = DefineModeStore;
+        const {
             defaultStyle,
             styleOptionArr,
             arrowOptionArr,
+            pointIconOptionArr,
             fieldStyle,
             typeArr
-        } = config;
-        const {
-            colorFieldSize,
-            colorFieldIcon,
-            styleFieldWidth,
-            styleFieldSize
-        } = fieldStyle || {};
-        const { color, radius } = defaultStyle;
-        if (!typeArr) return null;
+        } = vectorConfigMap[layerName];
+        const { colorFieldSize, colorFieldIcon, styleFieldSize } =
+            fieldStyle || {};
+        const { color, showFields } = defaultStyle;
+        const layerVectorConfig = vectorConfig[layerName] || {};
+        const typeVectorConfig = layerVectorConfig.vectorStyle[showFields];
         return (
             <div className="config-content config-content-2">
                 <div className="flex-between input-wrap">
                     <label>分类字段</label>
                     <Select
                         disabled={typeArr.length === 1}
-                        defaultValue={showFields}
-                        style={{ width: 190 }}>
+                        value={showFields}
+                        style={{ width: 190 }}
+                        onChange={currentShowFields =>
+                            this.batchSetVectorStyle({
+                                styleKey: 'showFields',
+                                styleValue: currentShowFields
+                            })
+                        }>
                         {typeArr.map(item => {
-                            const { key, name } = item || {};
+                            const { key: optionKey, name } = item || {};
                             return (
-                                <Option value={key} key={key}>
+                                <Option value={optionKey} key={optionKey}>
                                     {name}
                                 </Option>
                             );
@@ -218,71 +263,154 @@ class LayerVectorConfig extends React.Component {
                 </div>
                 <div className="flex-between input-wrap">
                     <label>颜色</label>
-                    <AdColorSelect width={190} options={colorOptionArr} />
+                    <AdColorSelect
+                        width={190}
+                        color={color}
+                        options={colorOptionArr}
+                        onChange={currentColor =>
+                            this.batchSetVectorColor({
+                                styleKey: 'color',
+                                styleValue: currentColor
+                            })
+                        }
+                    />
                 </div>
-                {typeArr.map(item => {
-                    const { key, name } = item || {};
-                    return (
-                        <div className="flex-between input-wrap" key={key}>
-                            <label>{name}</label>
-                            <div className="flex-between input-box">
-                                <AdColorInput
-                                    className="field"
-                                    color={color}
-                                    size={colorFieldSize}
-                                    icon={colorFieldIcon}
-                                    onClick={this.handleColorClick}
-                                    onChange={this.handleColorChange}
-                                />
-                                {!this.isLine && styleOptionArr && (
-                                    <AdNodeSelect
-                                        className={`field ${
-                                            this.isPolygon ? 'point-field' : ''
-                                        }`}
-                                        size={styleFieldSize}
-                                        options={styleOptionArr}
-                                    />
-                                )}
-                                {!this.isLine && arrowOptionArr && (
-                                    <AdNodeSelect
-                                        className="field"
-                                        options={arrowOptionArr}
-                                    />
-                                )}
-                                {radius && (
-                                    <AdInputNumber
-                                        className="field"
-                                        defaultValue={radius}
-                                        onChange={() => {}}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    );
-                })}
+                <div key={updateKey}>
+                    {typeVectorConfig &&
+                        typeVectorConfig.map((item, index) => {
+                            const { value: typeValkey, label, style } =
+                                item || {};
+                            const {
+                                color,
+                                radius,
+                                pointIcon,
+                                lineStyle
+                            } = style;
+                            const typeValRadius = this.state[`radius${index}`];
+                            return (
+                                <div
+                                    className="flex-between input-wrap"
+                                    key={typeValkey}>
+                                    <label>{label}</label>
+                                    <div className="flex-between input-box">
+                                        <AdColorInput
+                                            className="field"
+                                            color={color}
+                                            size={colorFieldSize}
+                                            icon={colorFieldIcon}
+                                            disableAlpha={this.isPoint}
+                                            onChange={currentColor =>
+                                                this.setVectorStyle({
+                                                    typeValkey,
+                                                    styleKey: 'color',
+                                                    styleValue: currentColor
+                                                })
+                                            }
+                                        />
+                                        {styleOptionArr && (
+                                            <AdNodeSelect
+                                                className={`field ${
+                                                    this.isPolygon
+                                                        ? 'point-field'
+                                                        : ''
+                                                }`}
+                                                value={lineStyle}
+                                                disabled={this.isLine}
+                                                size={styleFieldSize}
+                                                options={styleOptionArr}
+                                                onChange={currentLineStyle =>
+                                                    this.setVectorStyle({
+                                                        typeValkey,
+                                                        styleKey: 'lineStyle',
+                                                        styleValue: currentLineStyle
+                                                    })
+                                                }
+                                            />
+                                        )}
+                                        {pointIconOptionArr && (
+                                            <AdNodeSelect
+                                                className="field"
+                                                value={pointIcon}
+                                                disabled={this.isLine}
+                                                size={styleFieldSize}
+                                                options={pointIconOptionArr}
+                                                onChange={currentPointIcon =>
+                                                    this.setVectorStyle({
+                                                        typeValkey,
+                                                        styleKey: 'pointIcon',
+                                                        styleValue: currentPointIcon
+                                                    })
+                                                }
+                                            />
+                                        )}
+                                        {arrowOptionArr && (
+                                            <AdNodeSelect
+                                                className="field"
+                                                disabled={this.isLine}
+                                                options={arrowOptionArr}
+                                                onChange={() =>
+                                                    this.setVectorStyle({
+                                                        typeValkey,
+                                                        styleKey: 'arrowStyle',
+                                                        styleValue: ''
+                                                    })
+                                                }
+                                            />
+                                        )}
+                                        {radius && (
+                                            <AdInputPositiveNumber
+                                                className="field"
+                                                value={typeValRadius || radius}
+                                                step={0.01}
+                                                onChange={val =>
+                                                    this.handleChange({
+                                                        styleKey: `radius${index}`,
+                                                        styleValue: val,
+                                                        oldValue: radius
+                                                    })
+                                                }
+                                                onBlur={() =>
+                                                    this.setVectorStyle({
+                                                        typeValkey,
+                                                        styleKey: 'radius',
+                                                        currentStyleKey: `radius${index}`,
+                                                        styleValue: typeValRadius,
+                                                        oldValue: radius,
+                                                        rule: { min: 0, max: 1 }
+                                                    })
+                                                }
+                                            />
+                                        )}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                </div>
             </div>
         );
     };
     render() {
-        const { config } = this.props;
-        const { visible } = this.state;
-        const { label, typeArr } = config;
+        const { DefineModeStore, layerName } = this.props;
+        const { vectorConfigMap } = DefineModeStore;
+        const { label, typeArr, checked } = vectorConfigMap[layerName];
         return (
             <div>
                 <div className="config-title">
                     <div>
                         <Icon
-                            type={visible ? 'caret-up' : 'caret-right'}
-                            className={visible ? 'blue' : ''}
+                            type={checked ? 'caret-up' : 'caret-right'}
+                            className={checked ? 'blue' : ''}
                         />
                         <span>{label}</span>
                     </div>
                     {typeArr && (
-                        <Checkbox onChange={this.toggle}>分类设色</Checkbox>
+                        <Checkbox checked={checked} onChange={this.toggle}>
+                            分类设色
+                        </Checkbox>
                     )}
                 </div>
-                {!visible && this._configRender()}
-                {visible && this._detailConfigRender()}
+                {!checked && this._configRender()}
+                {checked && this._detailConfigRender()}
             </div>
         );
     }
