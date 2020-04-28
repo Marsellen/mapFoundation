@@ -198,6 +198,7 @@ class LayerVectorConfig extends React.Component {
                             className="field"
                             value={commonRadius || radius}
                             step={0.01}
+                            precision={2}
                             onChange={val =>
                                 this.handleChange({
                                     styleKey: 'commonRadius',
@@ -362,6 +363,7 @@ class LayerVectorConfig extends React.Component {
                                                 className="field"
                                                 value={typeValRadius || radius}
                                                 step={0.01}
+                                                precision={2}
                                                 onChange={val =>
                                                     this.handleChange({
                                                         styleKey: `radius${index}`,
