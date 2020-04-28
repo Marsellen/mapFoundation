@@ -284,14 +284,14 @@ export const LAYER_VECTOR_MAP = {
             colorFieldIcon: 'xianyaosu'
         },
         styleOptionArr: [
-            { key: 0, icon: 'dianzhixian' },
-            { key: 1, icon: 'dianxuxian' },
-            { key: 2, icon: 'zhixian' },
+            { key: 0, icon: 'zhixian' },
+            { key: 1, icon: 'dianzhixian' },
+            { key: 2, icon: 'dianxuxian' },
             { key: 3, icon: 'xuxian' }
         ],
         arrowOptionArr: [
-            { key: 0, icon: 'jiantou' },
-            { key: 1, icon: 'wujiantou' }
+            { key: 0, icon: 'wujiantou' },
+            { key: 1, icon: 'jiantou' }
         ],
         typeArr: [
             {
@@ -436,14 +436,14 @@ export const LAYER_VECTOR_MAP = {
             colorFieldIcon: 'xianyaosu'
         },
         styleOptionArr: [
-            { key: 0, icon: 'dianzhixian' },
-            { key: 1, icon: 'dianxuxian' },
-            { key: 2, icon: 'zhixian' },
+            { key: 0, icon: 'zhixian' },
+            { key: 1, icon: 'dianzhixian' },
+            { key: 2, icon: 'dianxuxian' },
             { key: 3, icon: 'xuxian' }
         ],
         arrowOptionArr: [
-            { key: 0, icon: 'jiantou' },
-            { key: 1, icon: 'wujiantou' }
+            { key: 0, icon: 'wujiantou' },
+            { key: 1, icon: 'jiantou' }
         ]
     },
     AD_RS_Barrier: {
@@ -469,8 +469,8 @@ export const LAYER_VECTOR_MAP = {
             { key: 3, icon: 'xuxian' }
         ],
         arrowOptionArr: [
-            { key: 0, icon: 'jiantou' },
-            { key: 1, icon: 'wujiantou' }
+            { key: 0, icon: 'wujiantou' },
+            { key: 1, icon: 'jiantou' }
         ],
         typeArr: [
             {

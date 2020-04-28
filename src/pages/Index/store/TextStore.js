@@ -3,7 +3,7 @@ import { LAYER_TEXT_MAP } from 'src/config/TextConfigMap';
 import TextVectorConfig from 'src/config/TextVectorConfig';
 import {
     TYPE_SELECT_OPTION_MAP,
-    TABLE_DATA_MAP
+    LAYER_TYPE_MAP
 } from 'src/config/ADMapDataConfig';
 
 configure({ enforceActions: 'always' });
@@ -78,7 +78,7 @@ class TextStore {
         };
         const { textField } = newDefaultStyle;
         //获取当前图层当前分类的组合名
-        const { type } = TABLE_DATA_MAP[key].find(
+        const { type } = LAYER_TYPE_MAP[key].find(
             item => item.key === textField
         );
 
