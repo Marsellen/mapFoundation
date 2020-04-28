@@ -53,7 +53,6 @@ class RenderMode extends React.Component {
             zIndex: 99999,
             onOk: () => {
                 const {
-                    DefineModeStore,
                     DataLayerStore,
                     RenderModeStore,
                     AttributeStore,

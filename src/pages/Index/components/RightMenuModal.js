@@ -9,9 +9,7 @@ import {
 } from 'src/utils/relCtrl/operateCtrl';
 import { getLayerByName, checkSdkError } from 'src/utils/vectorUtils';
 import AdMessage from 'src/components/AdMessage';
-import editLog from 'src/models/editLog';
 import _ from 'lodash';
-import AdEmitter from 'src/models/event';
 import {
     getLayerIDKey,
     isRegionContainsElement,

@@ -406,7 +406,7 @@ class RenderModeStore {
     @action updateRels = history => {
         if (this.activeMode !== 'relation') return;
         if (!history) return;
-        const { rels = [], features = [] } = history || {};
+        const { rels = [], features = [] } = history;
         const newFeatures = features[1];
         const [oldRels, newRels] = rels;
 

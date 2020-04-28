@@ -1,4 +1,4 @@
-import { observable, configure, action, computed } from 'mobx';
+import { observable, configure, action } from 'mobx';
 import { LAYER_VECTOR_MAP } from 'src/config/VectorConfigMap.js';
 import VectorsConfig from 'src/config/VectorsConfig';
 import {

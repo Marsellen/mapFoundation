@@ -1,5 +1,4 @@
 import React from 'react';
-import { Icon } from 'antd';
 import { inject, observer } from 'mobx-react';
 import PictureShowView from './PictureShowView';
 import RenderConfigWindow from './RenderMode/RenderConfigWindow';
