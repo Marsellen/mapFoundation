@@ -935,6 +935,7 @@ export default {
         order: 10,
         showStyles: ['textStyle'],
         textStyle: {
+            dataType: 'value',
             ARR_DIRECT: [
                 {
                     value: '0',
