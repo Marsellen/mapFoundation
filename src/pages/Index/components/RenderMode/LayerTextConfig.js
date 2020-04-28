@@ -99,7 +99,7 @@ class LayerTextConfig extends React.Component {
                     <label>注记字段：</label>
                     <Select
                         value={textField}
-                        style={{ width: 254 }}
+                        style={{ width: 252 }}
                         onChange={val =>
                             this.updateConfig({
                                 styleKey: 'textField',
