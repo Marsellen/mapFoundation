@@ -5,6 +5,7 @@ import {
     TYPE_SELECT_OPTION_MAP,
     LAYER_TYPE_MAP
 } from 'src/config/ADMapDataConfig';
+import HalfWhiteVectorsConfig from 'src/config/HalfWhiteVectorsConfig';
 import dianfuhao from 'src/assets/img/dianfuhao.png';
 import dianfuhao1 from 'src/assets/img/dianfuhao1.png';
 import dianfuhao2 from 'src/assets/img/dianfuhao2.png';
@@ -29,6 +30,7 @@ const dianfuhaoMap = {
 
 configure({ enforceActions: 'always' });
 class DefineModeStore {
+    boundaryVectorConfig = {};
     @observable updateKey;
     @observable vectorConfig = {}; //符号默认配置，页面根据这个字段渲染
 
@@ -50,9 +52,48 @@ class DefineModeStore {
     };
 
     //重新渲染符号样式
-    resetVectorStyle = (layerGroup, key, config) => {
-        if (!layerGroup) return;
-        const { layers } = layerGroup;
+    resetVectorStyle = (key, config) => {
+        if (!window.vectorLayerGroup) return;
+        const { layers } = window.vectorLayerGroup;
+        const { layer } = layers.find(item => item.layerName === key) || {};
+        layer.resetConfig(config);
+    };
+
+    halfColor = color => {
+        let newColor = color;
+        let newColorArr = [];
+
+        if (newColor.includes('rgba')) {
+            newColor = newColor.replace('rgba(', '');
+            newColor = newColor.replace(')', '');
+            newColorArr = newColor.split(',');
+            newColorArr.pop();
+        } else if (newColor.includes('rgb')) {
+            newColor = newColor.replace('rgb(', '');
+            newColor = newColor.replace(')', '');
+            newColorArr = newColor.split(',');
+        }
+
+        const newColorStr = newColorArr.map(item => parseInt(item / 2)).join();
+
+        return `rgba(${newColorStr})`;
+    };
+
+    //重新渲染周边底图符号样式
+    resetBoundaryVectorStyle = (key, config) => {
+        //颜色改成半透明
+        const typeKey = Object.keys(config.vectorStyle)[0];
+        const vectorStyleArr = config.vectorStyle[typeKey];
+        vectorStyleArr.map(item => {
+            const { style } = item;
+            const { color } = style;
+            item.style = { ...style, color: this.halfColor(color) };
+            return item;
+        });
+        this.boundaryVectorConfig[key] = config;
+
+        if (!window.boundaryLayerGroup) return;
+        const { layers } = window.boundaryLayerGroup;
         const { layer } = layers.find(item => item.layerName === key) || {};
         layer.resetConfig(config);
     };
@@ -116,8 +157,8 @@ class DefineModeStore {
         this.vectorConfig[key] = config;
         this.vectorConfigMap[key] = this.vectorConfigMap[key] || {};
         this.vectorConfigMap[key].defaultStyle = newDefaultStyle;
-        this.resetVectorStyle(window.vectorLayerGroup, key, config);
-        this.resetVectorStyle(window.boundaryLayerGroup, key, config);
+        this.resetVectorStyle(key, config);
+        this.resetBoundaryVectorStyle(key, config);
     };
 
     //重置符号样式
@@ -135,8 +176,8 @@ class DefineModeStore {
 
         //更新渲染画布
         const config = this.vectorConfig[key];
-        this.resetVectorStyle(window.vectorLayerGroup, key, config);
-        this.resetVectorStyle(window.boundaryLayerGroup, key, config);
+        this.resetVectorStyle(key, config);
+        this.resetBoundaryVectorStyle(key, config);
     };
 
     //只批量重置颜色符号样式
@@ -155,9 +196,18 @@ class DefineModeStore {
         const config = this.vectorConfig[key];
         this.vectorConfig[key] = config;
         this.vectorConfigMap[key].defaultStyle.color = styleValue;
-        this.resetVectorStyle(window.vectorLayerGroup, key, config);
-        this.resetVectorStyle(window.boundaryLayerGroup, key, config);
+        this.resetVectorStyle(key, config);
+        this.resetBoundaryVectorStyle(key, config);
         this.updateKey = Math.random();
+    };
+
+    @action updateBoundaryVectorStyle = () => {
+        if (!window.boundaryLayerGroup) return;
+        const config = Object.assign(
+            HalfWhiteVectorsConfig,
+            this.boundaryVectorConfig
+        );
+        window.boundaryLayerGroup.resetStyleConfig(config);
     };
 }
 

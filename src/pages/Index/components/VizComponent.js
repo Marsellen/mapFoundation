@@ -59,6 +59,7 @@ import {
     showRightMenu
 } from 'src/utils/map/viewCtrl';
 
+@inject('DefineModeStore')
 @inject('TextStore')
 @inject('RenderModeStore')
 @inject('TaskStore')
@@ -390,9 +391,9 @@ class VizComponent extends React.Component {
         }
     };
 
-    //关联关系模式下，处理底图数据
+    //不同模式下，处理底图数据
     handleBoundaryfeature = () => {
-        const { RenderModeStore, TextStore } = this.props;
+        const { RenderModeStore, TextStore, DefineModeStore } = this.props;
         const {
             whiteRenderMode,
             resetSelectOption,
@@ -400,6 +401,7 @@ class VizComponent extends React.Component {
             activeMode
         } = RenderModeStore;
         const { resetBoundaryTextStyle } = TextStore;
+        const { updateBoundaryVectorStyle } = DefineModeStore;
 
         //将后加载的周边底图按当前注记配置渲染
         resetBoundaryTextStyle();
@@ -414,8 +416,8 @@ class VizComponent extends React.Component {
                 setRels();
                 break;
             case 'define':
-                //白色渲染模式/要素都是白色
-                whiteRenderMode();
+                //按符号设置，更新后加载的周边底图
+                updateBoundaryVectorStyle();
                 break;
             default:
                 break;
