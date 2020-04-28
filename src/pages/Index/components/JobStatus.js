@@ -258,13 +258,28 @@ class JobStatus extends React.Component {
     };
 
     taskSubmit = async option => {
-        const { TaskStore, RenderModeStore } = this.props;
+        const {
+            TaskStore,
+            RenderModeStore,
+            QualityCheckStore,
+            appStore
+        } = this.props;
+        const { clearCheckReport, closeCheckReport } = QualityCheckStore;
+        const { loginUser } = appStore;
+        const { roleCode } = loginUser;
+
         try {
             await TaskStore.initSubmit(option);
             TaskStore.setActiveTask();
             RenderModeStore.setMode('common');
             this.clearWorkSpace();
             message.success('提交成功');
+
+            //质检员在任务提交成功时，重置质检列表并关闭质检弹窗
+            if (roleCode === 'quality') {
+                clearCheckReport();
+                closeCheckReport();
+            }
 
             // 获取新任务，更新任务列表
             await TaskStore.initTask({ type: 3 });
