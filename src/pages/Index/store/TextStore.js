@@ -99,20 +99,15 @@ class TextStore {
                 }
             };
         } else {
-            //用户编辑类如何处理
-
-            // //组合成新的注记配置
-            // config = {
-            //     ...TextVectorConfig[key],
-            //     textField,
-            //     textStyle: {
-            //         dataType: 'value',
-            //         Type: Object.this.textSettedMap[key].textStyle.Type
-            //     }
-            // };
-            // config.textStyle.dataType='value'
-
-            return;
+            //用户编辑类不做翻译
+            config = {
+                ...TextVectorConfig[key],
+                textField,
+                textStyle: {
+                    dataType: 'value',
+                    [textField]: [{ style: newDefaultStyle }]
+                }
+            };
         }
 
         this.textSettedMap[key] = config;
