@@ -1466,3 +1466,363 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_Pole: '{"RADIUS_UP":{},"RADIUS_DN":{},"GEOMETRY":{}}',
     AD_RS_Barrier: '{"TYPE":{},"MATERIAL":{},"GEOMETRY":{}}'
 };
+
+export const LAYER_TYPE_MAP = {
+    AD_LaneDivider: [
+        {
+            key: 'LDIV_ID',
+            name: '用户编号',
+            type: 'AD_LANE_DIVIDER_LDIV_ID',
+
+        },
+        {
+            key: 'TYPE',
+            name: '车道线类型',
+            type: 'AD_LANE_DIVIDER_TYPE',
+        },
+        {
+            key: 'LANE_TYPE',
+            name: '车道类型',
+            type: 'AD_LANE_DIVIDER_LANE_TYPE',
+        },
+        {
+            key: 'RD_LINE',
+            name: '道路参考线标识',
+            type: 'AD_LANE_DIVIDER_RD_LINE',
+        },
+        {
+            key: 'SHARE_LINE',
+            name: '共用车道线标识',
+            type: 'AD_LANE_DIVIDER_SHARE_LINE',
+        },
+        {
+            key: 'RD_EDGE',
+            name: '道路边界标识',
+            type: 'AD_LANE_DIVIDER_RD_EDGE',
+        },
+        {
+            key: 'DIRECTION',
+            name: '车道通行方向',
+            type: 'AD_LANE_DIVIDER_DIRECTION',
+        },
+        {
+            key: 'LANESTATUS',
+            name: '车道通行状态',
+            type: 'AD_LANE_DIVIDER_LANESTATUS',
+        },
+        {
+            key: 'LANE_NO',
+            name: '车道编号',
+            type: 'AD_LANE_DIVIDER_LANE_NO',
+        },
+        {
+            key: 'RD_FORM',
+            name: '道路形态',
+            type: 'AD_LANE_DIVIDER_RD_FORM',
+        }
+    ],
+    AD_Text: [
+        {
+            key: 'TEXT_ID',
+            name: '用户编号',
+            type: 'AD_TEXT_ID',
+        },
+        {
+            key: 'TYPE',
+            name: '文字符号类型',
+            type: 'AD_TEXT_TYPE',
+        },
+        {
+            key: 'VALUE',
+            name: '地面文字内容',
+            type: 'AD_TEXT_VALUE',
+        },
+        {
+            key: 'LANE_ID',
+            name: '关联车道中心线ID',
+            type: 'AD_TEXT_LANE_ID',
+        }
+    ],
+    AD_Road: [
+        {
+            key: 'ROAD_ID',
+            name: '用户编号',
+            type: 'AD_ROAD_ID',
+        },
+        {
+            key: 'TYPE',
+            name: '参考线类型',
+            type: 'AD_ROAD_TYPE',
+        },
+        {
+            key: 'RD_STATUS',
+            name: '道路通行状态',
+            type: 'AD_ROAD_RD_STATUS',
+        },
+        {
+            key: 'RD_CLASS',
+            name: '道路等级',
+            type: 'AD_ROAD_RD_CLASS',
+        },
+        {
+            key: 'CROSSING',
+            name: '交叉路口标识',
+            type: 'AD_ROAD_CROSSING',
+        },
+        {
+            key: 'RD_FORM',
+            name: '道路形态',
+            type: 'AD_ROAD_RD_FORM',
+        },
+        {
+            key: 'DIRECTION',
+            name: '道路通行方向',
+            type: 'AD_ROAD_DIRECTION',
+        },
+        {
+            key: 'LENGTH',
+            name: '道路长度',
+            type: 'AD_ROAD_LENGTH',
+        },
+        {
+            key: 'MAX_SPEED',
+            name: '道路最高行驶速度',
+            type: 'AD_ROAD_MAX_SPEED',
+        }
+    ],
+    AD_Lane: [
+        {
+            key: 'LANE_ID',
+            name: '用户编号',
+            type: 'AD_LANE_LANE_ID',
+        },
+        {
+            key: 'TYPE',
+            name: '车道类型',
+            type: 'AD_LANE_TYPE',
+        },
+        {
+            key: 'LANE_NO',
+            name: '车道编号',
+            type: 'AD_LANE_LANE_NO',
+        },
+        {
+            key: 'DIRECTION',
+            name: '车道通行方向',
+            type: 'AD_LANE_DIRECTION',
+        },
+        {
+            key: 'MAX_SPEED',
+            name: '最高行驶速度',
+            type: 'AD_LANE_MAX_SPEED',
+        },
+        {
+            key: 'MAX_SP_TYP',
+            name: '最高速度来源',
+            type: 'AD_LANE_MAX_SP_TYP',
+        },
+        {
+            key: 'MIN_SPEED',
+            name: '最低行驶速度',
+            type: 'AD_LANE_MIN_SPEED',
+        },
+        {
+            key: 'MIN_SP_TYP',
+            name: '最低速度来源',
+            type: 'AD_LANE_MIN_SP_TYP',
+        },
+        {
+            key: 'STATUS',
+            name: '车道通行状态',
+            type: 'AD_LANE_STATUS',
+        },
+        {
+            key: 'ROAD_ID',
+            name: '关联对应道路参考线ID',
+            type: 'AD_LANE_ROAD_ID',
+        },
+        {
+            key: 'L_LDIV_ID',
+            name: '关联车道左侧车道线ID',
+            type: 'AD_LANE_L_LDIV_ID',
+        },
+        {
+            key: 'R_LDIV_ID',
+            name: '关联车道右侧车道线ID',
+            type: 'AD_LANE_R_LDIV_ID',
+        }
+    ],
+    AD_StopLocation: [
+        {
+            key: 'STOPL_ID',
+            name: '用户编号',
+            type: 'AD_STOPLOCATION_STOPL_ID',
+        },
+        {
+            key: 'TYPE',
+            name: '停车线类型',
+            type: 'AD_STOPLOCATION_TYPE',
+        }
+    ],
+    AD_LaneMark_Plg: [
+        {
+            key: 'PLG_ID',
+            name: '用户编号',
+            type: 'AD_LANEMARK_PLG_ID',
+        },
+        {
+            key: 'TYPE',
+            name: '面状标识物类型',
+            type: 'AD_LANEMARK_PLG_TYPE',
+        }
+    ],
+    AD_Arrow: [
+        {
+            key: 'ARR_ID',
+            name: '用户编号',
+            type: 'AD_ARROW_ID',
+        },
+        {
+            key: 'ARR_DIRECT',
+            name: '箭头方向',
+            type: 'AD_ARROW_ARR_DIRECT',
+        },
+        {
+            key: 'LANE_ID',
+            name: '关联车道中心线ID',
+            type: 'AD_ARROW_LANE_ID',
+        }
+    ],
+    AD_LaneAttrPoint: [
+        {
+            key: 'LAP_ID',
+            name: '用户编号',
+            type: 'AD_LANE_ATTRPOINT_ID',
+        },
+        {
+            key: 'TYPE',
+            name: '属性变化点类型',
+            type: 'AD_LANE_ATTRPOINT_TYPE',
+        },
+        {
+            key: 'ROAD_ID',
+            name: '关联道路参考线ID',
+            type: 'AD_LANE_ATTRPOINT_ROAD_ID',
+        }
+    ],
+    AD_TrafficSign: [
+        {
+            key: 'SIGN_ID',
+            name: '用户编号',
+            type: 'AD_TRAFFICSIGN_ID',
+        },
+        {
+            key: 'SIGN_STYLE',
+            name: '交通标志牌样式',
+            type: 'AD_TRAFFICSIGN_SIGN_STYLE',
+        }
+    ],
+    AD_TrafficLight: [
+        {
+            key: 'LIGHT_ID',
+            name: '用户编号',
+            type: 'AD_TRAFFIC_LIGHT_ID',
+        },
+        {
+            key: 'TYPE',
+            name: '交通灯类型',
+            type: 'AD_TRAFFIC_LIGHT_TYPE',
+        },
+        {
+            key: 'LAYOUT',
+            name: '信号灯灯头布局',
+            type: 'AD_TRAFFIC_LIGHT_LAYOUT',
+        },
+        {
+            key: 'LAMP_COUNT',
+            name: '信号灯灯头数量',
+            type: 'AD_TRAFFIC_LIGHT_LAMP_COUNT',
+        }
+    ],
+    AD_Map_QC: [
+        {
+            key: 'ID',
+            name: '用户编号',
+            type: 'AD_MAP_QC_ID',
+        },
+        {
+            key: 'FILE_NAME',
+            name: '错误图层名称',
+            type: 'AD_MAP_QC_FILE_NAME',
+        },
+        {
+            key: 'FEAT_ID',
+            name: '错误数据ID',
+            type: 'AD_MAP_QC_FEAT_ID',
+        },
+        {
+            key: 'ERROR_TYPE',
+            name: '错误类型',
+            type: 'AD_MAP_QC_ERROR_TYPE',
+        },
+        {
+            key: 'ERROR_DESC',
+            name: '错误描述',
+            type: 'AD_MAP_QC_ERROR_DESC',
+        },
+        {
+            key: 'FIX_STATUS',
+            name: '修正状态',
+            type: 'AD_MAP_QC_FIX_STATUS',
+        },
+        {
+            key: 'QC_STATUS',
+            name: '检查结果',
+            type: 'AD_MAP_QC_QC_STATUS',
+        },
+        {
+            key: 'FIX_PERSON',
+            name: '返工修改人员',
+            type: 'AD_MAP_QC_FIX_PERSON',
+        },
+        {
+            key: 'QC_PERSON',
+            name: '质检人员',
+            type: 'AD_MAP_QC_QC_PERSON',
+        }
+    ],
+    AD_RS_Barrier: [
+        {
+            key: 'BARR_ID',
+            name: '用户编号',
+            type: 'AD_RS_BARRIER_BARR_ID',
+        },
+        {
+            key: 'TYPE',
+            name: '护栏类型',
+            type: 'AD_RS_BARRIER_TYPE',
+        },
+        {
+            key: 'MATERIAL',
+            name: '护栏材质',
+            type: 'AD_RS_BARRIER_MATERIAL',
+        }
+    ],
+    AD_Pole: [
+        {
+            key: 'POLE_ID',
+            name: '用户编号',
+            type: 'AD_POLE_ID',
+        },
+        {
+            key: 'RADIUS_UP',
+            name: '杆状物立柱顶部半径',
+            type: 'AD_POLE_RADIUS_UP',
+        },
+        {
+            key: 'RADIUS_DN',
+            name: '杆状物立柱底部半径',
+            type: 'AD_POLE_RADIUS_DN',
+        }
+    ]
+};
