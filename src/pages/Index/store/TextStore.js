@@ -95,6 +95,7 @@ class TextStore {
                 ...TextVectorConfig[key],
                 textField,
                 textStyle: {
+                    dataType: 'label',
                     [textField]: textStyleArr
                 }
             };

@@ -937,8 +937,176 @@ export default {
         textStyle: {
             ARR_DIRECT: [
                 {
-                    value: 0,
-                    label: '箭头',
+                    value: '0',
+                    label: '未定义',
+                    style: {
+                        interval: 10,
+                        showMode: 'longest-center',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 'A',
+                    label: '直行',
+                    style: {
+                        interval: 10,
+                        showMode: 'longest-center',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 'B',
+                    label: '左转',
+                    style: {
+                        interval: 10,
+                        showMode: 'longest-center',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 'C',
+                    label: '右转',
+                    style: {
+                        interval: 10,
+                        showMode: 'longest-center',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 'D',
+                    label: '左掉头',
+                    style: {
+                        interval: 10,
+                        showMode: 'longest-center',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 'E',
+                    label: '右掉头',
+                    style: {
+                        interval: 10,
+                        showMode: 'longest-center',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 'F',
+                    label: '左弯或需向左合流',
+                    style: {
+                        interval: 10,
+                        showMode: 'longest-center',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 'G',
+                    label: '右弯或需向右合流',
+                    style: {
+                        interval: 10,
+                        showMode: 'longest-center',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 'H',
+                    label: '左后方转弯',
+                    style: {
+                        interval: 10,
+                        showMode: 'longest-center',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 'I',
+                    label: '右后方转弯',
+                    style: {
+                        interval: 10,
+                        showMode: 'longest-center',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 'J',
+                    label: '禁止左掉头',
+                    style: {
+                        interval: 10,
+                        showMode: 'longest-center',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 'K',
+                    label: '禁止右掉头',
+                    style: {
+                        interval: 10,
+                        showMode: 'longest-center',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 'L',
+                    label: '禁止左转',
+                    style: {
+                        interval: 10,
+                        showMode: 'longest-center',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 'M',
+                    label: '禁止右转',
+                    style: {
+                        interval: 10,
+                        showMode: 'longest-center',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 'X',
+                    label: '待确认',
                     style: {
                         interval: 10,
                         showMode: 'longest-center',
@@ -1163,11 +1331,11 @@ export default {
     },
     AD_TrafficSign: {
         type: 'Polygon',
-        textField: 'SIGN_STYPE',
+        textField: 'SIGN_STYLE',
         order: 6,
         showStyles: ['textStyle'],
         textStyle: {
-            SIGN_STYPE: [
+            SIGN_STYLE: [
                 {
                     value: 0,
                     label: '未定义',
@@ -1291,14 +1459,13 @@ export default {
     },
     AD_Pole: {
         type: 'Line',
-        textField: 'TYPE',
+        textField: 'POLE_ID',
         order: 4,
         showStyles: ['textStyle'],
         textStyle: {
-            TYPE: [
+            dataType: 'value',
+            POLE_ID: [
                 {
-                    value: 0,
-                    label: '',
                     style: {
                         interval: 10,
                         showMode: 'line-center',
@@ -1369,6 +1536,30 @@ export default {
                 {
                     value: 4,
                     label: '隔音墙',
+                    style: {
+                        interval: 10,
+                        showMode: 'line-repeat',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 5,
+                    label: '其他墙体',
+                    style: {
+                        interval: 10,
+                        showMode: 'line-repeat',
+                        fontSize: 32,
+                        strokeColor: 'rgba(0,0,0,1)',
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        textColor: 'rgba(255,255,255,1)'
+                    }
+                },
+                {
+                    value: 6,
+                    label: '道路轮廓标',
                     style: {
                         interval: 10,
                         showMode: 'line-repeat',
