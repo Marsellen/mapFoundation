@@ -82,7 +82,8 @@ class TextStore {
             item => item.key === textField
         );
 
-        if (TYPE_SELECT_OPTION_MAP[type]) {
+        // if (TYPE_SELECT_OPTION_MAP[type]) {
+        if (key !== 'AD_Arrow') {
             //获取当前图层当前分类的所有值，并加上文字样式
             const textStyleArr = TYPE_SELECT_OPTION_MAP[type].map(item => {
                 return {
