@@ -89,6 +89,7 @@ class AttributesModal extends React.Component {
                 TaskStore.activeTask
             );
             result = await updateFeatures(result);
+            AttributeStore.hideRelFeatures();
             AttributeStore.hide();
             return result;
         } catch (e) {
