@@ -403,9 +403,6 @@ class VizComponent extends React.Component {
         const { resetBoundaryTextStyle } = TextStore;
         const { updateBoundaryVectorStyle } = DefineModeStore;
 
-        //将后加载的周边底图按当前注记配置渲染
-        resetBoundaryTextStyle();
-
         switch (activeMode) {
             case 'relation':
                 //将重置专题图
@@ -422,6 +419,9 @@ class VizComponent extends React.Component {
             default:
                 break;
         }
+
+        //将后加载的周边底图按当前注记配置渲染
+        resetBoundaryTextStyle();
     };
 
     initResouceLayer = layers => {
