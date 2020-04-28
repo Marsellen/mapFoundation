@@ -4,7 +4,7 @@ import { Checkbox, Icon, Select } from 'antd';
 import AdColorInput from 'src/components/Form/AdColorInput';
 import AdInputPositiveNumber from 'src/components/Form/AdInputPositiveNumber';
 import { inject, observer } from 'mobx-react';
-import { TABLE_DATA_MAP } from 'src/config/ADMapDataConfig';
+import { LAYER_TYPE_MAP } from 'src/config/ADMapDataConfig';
 
 const { Option } = Select;
 
@@ -106,7 +106,7 @@ class LayerTextConfig extends React.Component {
                                 styleValue: val
                             })
                         }>
-                        {TABLE_DATA_MAP[key].map(item => {
+                        {LAYER_TYPE_MAP[key].map(item => {
                             const { key: typeKey, name } = item;
                             return (
                                 <Option value={typeKey} key={typeKey}>

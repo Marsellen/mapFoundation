@@ -3,7 +3,7 @@ import { LAYER_VECTOR_MAP } from 'src/config/VectorConfigMap.js';
 import VectorsConfig from 'src/config/VectorsConfig';
 import {
     TYPE_SELECT_OPTION_MAP,
-    TABLE_DATA_MAP
+    LAYER_TYPE_MAP
 } from 'src/config/ADMapDataConfig';
 import dianfuhao from 'src/assets/img/dianfuhao.png';
 import dianfuhao1 from 'src/assets/img/dianfuhao1.png';
@@ -46,6 +46,7 @@ class DefineModeStore {
         this.vectorConfigMap[key].checked = checked;
         this.vectorConfig[key] = vectorConfig[key];
         this.batchSetVectorConfig(key);
+        this.updateKey = Math.random();
     };
 
     //重新渲染符号样式
@@ -92,7 +93,7 @@ class DefineModeStore {
         const { showFields } = newDefaultStyle;
 
         //获取当前图层当前分类的组合名
-        const { type } = TABLE_DATA_MAP[key].find(
+        const { type } = LAYER_TYPE_MAP[key].find(
             item => item.key === showFields
         );
         //获取当前图层当前分类的所有值，并加上符号样式
@@ -117,7 +118,6 @@ class DefineModeStore {
         this.vectorConfigMap[key].defaultStyle = newDefaultStyle;
         this.resetVectorStyle(window.vectorLayerGroup, key, config);
         this.resetVectorStyle(window.boundaryLayerGroup, key, config);
-        this.updateKey = Math.random();
     };
 
     //重置符号样式
