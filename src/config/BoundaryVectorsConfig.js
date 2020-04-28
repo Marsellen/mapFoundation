@@ -6,7 +6,7 @@ export default {
         showFields: ['TYPE'],
         order: 15,
         //要展示的样式，['vectorStyle','textStyle','pointFLStyle','arrowStyle']
-        showStyles: ['vectorStyle'],
+        showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
         //符号样式配置
         vectorStyle: {
             TYPE: [
@@ -32,7 +32,7 @@ export default {
         type: 'Line',
         showFields: ['RD_LINE'],
         order: 14,
-        showStyles: ['vectorStyle'],
+        showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
         vectorStyle: {
             RD_LINE: [
                 {
@@ -57,7 +57,7 @@ export default {
         type: 'Line',
         showFields: ['TYPE'],
         order: 13,
-        showStyles: ['vectorStyle'],
+        showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
         vectorStyle: {
             TYPE: [
                 {
@@ -229,7 +229,7 @@ export default {
                 },
                 {
                     value: 31,
-                    label: '加减速复合车道',
+                    label: '复合车道',
                     style: {
                         color: 'rgb(127,118,18)',
                         linewidth: 1
@@ -356,7 +356,7 @@ export default {
                 },
                 {
                     value: 44,
-                    label: '点云遮挡结束点',
+                    label: '点云遮挡结束',
                     style: {
                         color: 'rgb(51,127,51)',
                         radius: 0.015,
@@ -365,7 +365,7 @@ export default {
                 },
                 {
                     value: 45,
-                    label: '精度误差起点',
+                    label: '精度误差起始',
                     style: {
                         color: 'rgb(51,127,51)',
                         radius: 0.015,
@@ -374,7 +374,7 @@ export default {
                 },
                 {
                     value: 46,
-                    label: '精度误差结束点',
+                    label: '精度误差结束',
                     style: {
                         color: 'rgb(51,127,51)',
                         radius: 0.015,
@@ -383,7 +383,7 @@ export default {
                 },
                 {
                     value: 47,
-                    label: '道路施工起点',
+                    label: '道路施工起始',
                     style: {
                         color: 'rgb(51,127,51)',
                         radius: 0.015,
@@ -392,7 +392,7 @@ export default {
                 },
                 {
                     value: 48,
-                    label: '道路施工结束点',
+                    label: '道路施工结束',
                     style: {
                         color: 'rgb(51,127,51)',
                         radius: 0.015,
@@ -411,7 +411,7 @@ export default {
             ARR_DIRECT: [
                 {
                     value: 0,
-                    label: '箭头',
+                    label: '未定义',
                     style: { color: 'rgb(127,127,127)', linewidth: 1 }
                 }
             ]
@@ -569,11 +569,11 @@ export default {
     },
     AD_TrafficSign: {
         type: 'Polygon',
-        showFields: ['SIGN_STYPE'],
+        showFields: ['SIGN_STYLE'],
         order: 6,
         showStyles: ['vectorStyle'],
         vectorStyle: {
-            SIGN_STYPE: [
+            SIGN_STYLE: [
                 {
                     value: 0,
                     label: '未定义',
@@ -631,7 +631,7 @@ export default {
                 },
                 {
                     value: 2,
-                    label: '方向指示灯',
+                    label: '方向指示信号灯',
                     style: {
                         color: 'rgb(115,60,0)',
                         linewidth: 1,
@@ -687,7 +687,7 @@ export default {
         type: 'Line',
         showFields: ['TYPE'],
         order: 3,
-        showStyles: ['vectorStyle'],
+        showStyles: ['vectorStyle', 'pointFLStyle'],
         vectorStyle: {
             TYPE: [
                 {
@@ -725,6 +725,22 @@ export default {
                 {
                     value: 4,
                     label: '隔音墙',
+                    style: {
+                        color: 'rgb(35,54,127)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 5,
+                    label: '其他墙体',
+                    style: {
+                        color: 'rgb(35,54,127)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 6,
+                    label: '道路轮廓标',
                     style: {
                         color: 'rgb(35,54,127)',
                         linewidth: 1
