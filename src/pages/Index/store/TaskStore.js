@@ -268,7 +268,7 @@ class TaskStore {
 
     //获取工程名和该工程点云的映射和数组，例：{工程名:{点云:url,轨迹:url}}
     getMultiProjectDataMap = (lastPath, name) => {
-        if (!this.projectNameArr.length === 0) return;
+        if (!this.projectNameArr.length == 0) return;
         const urlMap = {};
         const urlArr = [];
 

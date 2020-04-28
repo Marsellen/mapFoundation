@@ -2,8 +2,6 @@ import React from 'react';
 import { message } from 'antd';
 import ToolIcon from 'src/components/ToolIcon';
 import AdMessage from 'src/components/AdMessage';
-import editLog from 'src/models/editLog';
-import AdEmitter from 'src/models/event';
 import { inject, observer } from 'mobx-react';
 import { lineToStop } from 'src/utils/relCtrl/operateCtrl';
 import { logDecorator } from 'src/utils/decorator';
