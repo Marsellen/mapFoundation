@@ -7,7 +7,8 @@ export const LAYER_VECTOR_MAP = {
         defaultStyle: {
             showFields: 'TYPE',
             lineStyle: 'solid',
-            color: 'rgba(255,255,255,1)'
+            color: 'rgb(255,255,255)',
+            opacity: 1
             // 样式:首尾带圆点的实线
             // 箭头:尾部箭头
         },
@@ -72,7 +73,8 @@ export const LAYER_VECTOR_MAP = {
         defaultStyle: {
             showFields: 'TYPE',
             lineStyle: 'solid',
-            color: 'rgba(255,255,255,1)'
+            color: 'rgb(255,255,255)',
+            opacity: 1
             // 样式:首尾带圆点的实线
             // 箭头:尾部箭头
         },
@@ -149,7 +151,8 @@ export const LAYER_VECTOR_MAP = {
         defaultStyle: {
             showFields: 'TYPE',
             lineStyle: 'solid',
-            color: 'rgba(255,255,255,1)'
+            color: 'rgb(255,255,255)',
+            opacity: 1
             // 样式:首尾带圆点的实线
             // 箭头:尾部箭头
         },
@@ -207,7 +210,8 @@ export const LAYER_VECTOR_MAP = {
         type: 'Point',
         defaultStyle: {
             showFields: 'TYPE',
-            color: 'rgba(255,255,255,1)',
+            color: 'rgb(255,255,255)',
+            opacity: 1,
             // 样式:定位点
             radius: 0.03,
             size: 80,
@@ -247,7 +251,8 @@ export const LAYER_VECTOR_MAP = {
         defaultStyle: {
             showFields: 'ARR_DIRECT',
             lineStyle: 'solid',
-            color: 'rgba(255,255,255,1)'
+            color: 'rgb(255,255,255)',
+            opacity: 1
             // 样式:实线边线
         },
         fieldStyle: {
@@ -275,7 +280,8 @@ export const LAYER_VECTOR_MAP = {
         defaultStyle: {
             showFields: 'TYPE',
             lineStyle: 'solid',
-            color: 'rgba(255,255,255,1)'
+            color: 'rgb(255,255,255)',
+            opacity: 1
             // 样式:实线
             // 箭头:无箭头
         },
@@ -310,7 +316,8 @@ export const LAYER_VECTOR_MAP = {
         defaultStyle: {
             showFields: 'TYPE',
             lineStyle: 'solid',
-            color: 'rgba(255,255,255,1)'
+            color: 'rgb(255,255,255)',
+            opacity: 1
             // 样式:实线边线
         },
         fieldStyle: {
@@ -338,7 +345,8 @@ export const LAYER_VECTOR_MAP = {
         defaultStyle: {
             showFields: 'TYPE',
             lineStyle: 'solid',
-            color: 'rgba(255,255,255,1)'
+            color: 'rgb(255,255,255)',
+            opacity: 1
             // 样式:实线边线
         },
         fieldStyle: {
@@ -366,7 +374,8 @@ export const LAYER_VECTOR_MAP = {
         defaultStyle: {
             showFields: 'SIGN_STYLE',
             lineStyle: 'solid',
-            color: 'rgba(255,255,255,1)'
+            color: 'rgb(255,255,255)',
+            opacity: 1
             // 样式:实线边线
         },
         fieldStyle: {
@@ -394,7 +403,8 @@ export const LAYER_VECTOR_MAP = {
         defaultStyle: {
             showFields: 'TYPE',
             lineStyle: 'solid',
-            color: 'rgba(255,255,255,1)'
+            color: 'rgb(255,255,255)',
+            opacity: 1
             // 样式:实线边线
         },
         fieldStyle: {
@@ -427,7 +437,8 @@ export const LAYER_VECTOR_MAP = {
         type: 'Line',
         defaultStyle: {
             lineStyle: 'solid',
-            color: 'rgba(255,255,255,1)'
+            color: 'rgb(255,255,255)',
+            opacity: 1
             // 样式:实线
             // 箭头:无箭头
         },
@@ -454,7 +465,8 @@ export const LAYER_VECTOR_MAP = {
         defaultStyle: {
             showFields: 'TYPE',
             lineStyle: 'solid',
-            color: 'rgba(255,255,255,1)'
+            color: 'rgb(255,255,255)',
+            opacity: 1
             // 样式:首尾带圆点的实线
             // 箭头:无箭头
         },
@@ -491,35 +503,35 @@ export const LAYER_VECTOR_MAP = {
 
 export const colorOptionArr = [
     {
-        key: 'rgba(255,255,255,1)',
-        color: 'rgba(255,255,255,1)'
+        key: 'rgb(255,255,255)',
+        color: 'rgb(255,255,255)'
     },
     {
-        key: 'rgba(33,237,255,1)',
-        color: 'rgba(33,237,255,1)'
+        key: 'rgb(33,237,255)',
+        color: 'rgb(33,237,255)'
     },
     {
-        key: 'rgba(255,247,31,1)',
-        color: 'rgba(255,247,31,1)'
+        key: 'rgb(255,247,31)',
+        color: 'rgb(255,247,31)'
     },
     {
-        key: 'rgba(70,109,255,1)',
-        color: 'rgba(70,109,255,1)'
+        key: 'rgb(70,109,255)',
+        color: 'rgb(70,109,255)'
     },
     {
-        key: 'rgba(30,170,106,1)',
-        color: 'rgba(30,170,106,1)'
+        key: 'rgb(30,170,106)',
+        color: 'rgb(30,170,106)'
     },
     {
-        key: 'rgba(255,61,161,1)',
-        color: 'rgba(255,61,161,1)'
+        key: 'rgb(255,61,161)',
+        color: 'rgb(255,61,161)'
     },
     {
-        key: 'rgba(231,120,0,1)',
-        color: 'rgba(231,120,0,1)'
+        key: 'rgb(231,120,0)',
+        color: 'rgb(231,120,0)'
     },
     {
-        key: 'rgba(255, 0, 0, 1)',
-        color: 'rgba(255, 0, 0, 1)'
+        key: 'rgb(255,0,0)',
+        color: 'rgb(255,0,0)'
     }
 ];

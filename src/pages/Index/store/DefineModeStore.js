@@ -59,54 +59,51 @@ class DefineModeStore {
         layer.resetConfig(config);
     };
 
-    halfColor = color => {
-        let newColor = color;
-        let newColorArr = [];
-
-        if (newColor.includes('rgba')) {
-            newColor = newColor.replace('rgba(', '');
-            newColor = newColor.replace(')', '');
-            newColorArr = newColor.split(',');
-            newColorArr.pop();
-        } else if (newColor.includes('rgb')) {
-            newColor = newColor.replace('rgb(', '');
-            newColor = newColor.replace(')', '');
-            newColorArr = newColor.split(',');
-        }
-
-        const newColorStr = newColorArr.map(item => parseInt(item / 2)).join();
-
-        return `rgba(${newColorStr})`;
-    };
-
     //重新渲染周边底图符号样式
     resetBoundaryVectorStyle = (key, config) => {
         //颜色改成半透明
+        config = JSON.parse(JSON.stringify(config));
         const typeKey = Object.keys(config.vectorStyle)[0];
         const vectorStyleArr = config.vectorStyle[typeKey];
         vectorStyleArr.map(item => {
-            const { style } = item;
-            const { color } = style;
-            item.style = { ...style, color: this.halfColor(color) };
+            item.style.opacity = item.style.opacity || 1;
+            item.style.opacity = item.style.opacity / 2;
             return item;
         });
         this.boundaryVectorConfig[key] = config;
-
+        //重新渲染周边底图符号样式
         if (!window.boundaryLayerGroup) return;
         const { layers } = window.boundaryLayerGroup;
         const { layer } = layers.find(item => item.layerName === key) || {};
         layer.resetConfig(config);
     };
 
+    handleColor = color => {
+        const newColor = color.replace('rgba(', '').replace(')', '');
+        const newColorArr = newColor.split(',');
+        const [r, g, b, a] = newColorArr || [];
+
+        return {
+            color: `rgb(${r},${g},${b})`,
+            opacity: a
+        };
+    };
+
     //处理style
     handleStyle = (styleObj, styleKey, styleValue) => {
         switch (styleKey) {
+            case 'color':
+                const { color, opacity } = this.handleColor(styleValue);
+                styleObj.color = color;
+                styleObj.opacity = opacity;
+                break;
             case 'pointIcon':
                 if (styleValue === 'dianyaosu') {
                     styleObj.url && delete styleObj.url;
                 } else {
                     styleObj.url = dianfuhaoMap[styleValue];
                 }
+                styleObj[styleKey] = styleValue;
                 break;
             case 'lineStyle':
                 if (styleValue === 'solid') {
@@ -117,11 +114,12 @@ class DefineModeStore {
                     styleObj.dashSize = 0.5;
                     styleObj.gapSize = 0.5;
                 }
+                styleObj[styleKey] = styleValue;
                 break;
             default:
+                styleObj[styleKey] = styleValue;
                 break;
         }
-        styleObj[styleKey] = styleValue;
 
         return styleObj;
     };
@@ -159,6 +157,8 @@ class DefineModeStore {
         this.vectorConfigMap[key].defaultStyle = newDefaultStyle;
         this.resetVectorStyle(key, config);
         this.resetBoundaryVectorStyle(key, config);
+        if (styleKey !== 'showFields') return;
+        this.updateKey = Math.random();
     };
 
     //重置符号样式
@@ -194,8 +194,10 @@ class DefineModeStore {
 
         //更新数据并重新渲染画布
         const config = this.vectorConfig[key];
+        const { color, opacity } = this.handleColor(styleValue);
         this.vectorConfig[key] = config;
-        this.vectorConfigMap[key].defaultStyle.color = styleValue;
+        this.vectorConfigMap[key].defaultStyle.color = color;
+        this.vectorConfigMap[key].defaultStyle.opacity = opacity;
         this.resetVectorStyle(key, config);
         this.resetBoundaryVectorStyle(key, config);
         this.updateKey = Math.random();
