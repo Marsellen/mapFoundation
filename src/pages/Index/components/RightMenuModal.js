@@ -639,7 +639,7 @@ class RightMenuModal extends React.Component {
     }
 
     batchAssign = () => {
-        const { RightMenuStore } = this.props;
+        const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble())
             return message.error({
