@@ -1,4 +1,5 @@
 const dianfuhao = require('../assets/img/dianfuhao.png');
+
 export default {
     AD_Road: {
         type: 'Line',
@@ -223,7 +224,7 @@ export default {
                 {
                     value: 99,
                     label: '其他',
-                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                    style: { color: 'rgb(255,255,255 )', linewidth: 1 }
                 }
             ]
         }
@@ -241,7 +242,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -250,7 +252,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -259,7 +262,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -268,7 +272,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -277,7 +282,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -286,7 +292,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
 
@@ -296,7 +303,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -305,7 +313,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
 
@@ -315,7 +324,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -324,7 +334,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -333,7 +344,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -342,7 +354,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -351,7 +364,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -360,7 +374,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -369,7 +384,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 },
                 {
@@ -378,7 +394,8 @@ export default {
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.015,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        size: 80
                     }
                 }
             ]
@@ -392,8 +409,78 @@ export default {
         vectorStyle: {
             ARR_DIRECT: [
                 {
-                    value: 0,
+                    value: '0',
                     label: '未定义',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 'A',
+                    label: '直行',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 'B',
+                    label: '左转',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 'C',
+                    label: '右转',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 'D',
+                    label: '左掉头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 'E',
+                    label: '右掉头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 'F',
+                    label: '左弯或需向左合流',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 'G',
+                    label: '右弯或需向右合流',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 'H',
+                    label: '左后方转弯',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 'I',
+                    label: '右后方转弯',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 'J',
+                    label: '禁止左掉头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 'K',
+                    label: '禁止右掉头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 'L',
+                    label: '禁止左转',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 'M',
+                    label: '禁止右转',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 'X',
+                    label: '待确认',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 }
             ]
@@ -688,14 +775,34 @@ export default {
     },
     AD_Map_QC: {
         type: 'Point',
-        showFields: ['TYPE'],
+        showFields: ['QC_STATUS'],
         order: 2,
         showStyles: ['vectorStyle'],
         vectorStyle: {
-            TYPE: [
+            QC_STATUS: [
                 {
                     value: 0,
                     label: '未定义',
+                    style: {
+                        color: 'rgb(255,255,255)',
+                        radius: 0.03,
+                        url: dianfuhao,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1,
+                    label: '已修正',
+                    style: {
+                        color: 'rgb(255,255,255)',
+                        radius: 0.03,
+                        url: dianfuhao,
+                        size: 80
+                    }
+                },
+                {
+                    value: 2,
+                    label: '未修正',
                     style: {
                         color: 'rgb(255,255,255)',
                         radius: 0.03,
