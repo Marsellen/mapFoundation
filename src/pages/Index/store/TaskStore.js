@@ -88,7 +88,8 @@ class TaskStore {
             this.onlineTasks = result.data.taskList;
             return result.data;
         } catch (e) {
-            message.warning('任务加载失败：' + e.message || '', 3);
+            const error = e.message || e || '';
+            message.warning('任务加载失败' + error, 3);
         }
     });
 
