@@ -22,10 +22,11 @@ class Redo extends React.Component {
     }
 
     disabled = () => {
-        const { OperateHistoryStore } = this.props;
+        const { OperateHistoryStore, DataLayerStore } = this.props;
+        const { editType } = DataLayerStore;
         let { currentNode, finalNode, pendding } = OperateHistoryStore;
         let shouldRedo = currentNode < finalNode;
-        return !shouldRedo || pendding;
+        return !shouldRedo || pendding || editType !== 'normal';
     };
 
     action = () => {
