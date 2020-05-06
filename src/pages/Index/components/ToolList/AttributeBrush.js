@@ -90,7 +90,7 @@ class AttributeBrush extends React.Component {
             this.setState({
                 messageVisible: false
             });
-            message.success('完成赋值成功！', 3);
+            message.success('完成属性拷贝赋值！', 3);
             return historyLog;
         } catch (e) {
             this.setState({

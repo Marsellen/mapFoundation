@@ -43,12 +43,12 @@ class TextStore {
         layer.resetConfig(config);
     };
 
-    //显隐图层注记样式
-    toggleText = (layerGroup, key, checked) => {
+    //删除图层文字注记
+    removeLayerText = (layerGroup, key) => {
         if (!layerGroup) return;
         const { layers } = layerGroup;
         const { layer } = layers.find(item => item.layerName === key) || {};
-        checked ? layer.showText() : layer.hideText();
+        layer.removeAllConfigTexts();
     };
 
     @action toggleLayerTextConfig = (key, checked) => {
@@ -56,15 +56,14 @@ class TextStore {
         this.vectorTextConfig[key] = this.vectorTextConfig[key] || {};
         this.vectorTextConfig[key].checked = checked;
 
-        //第一次勾选调设置方法，第二次勾选调显隐方法
-        if (this.textSettedMap[key]) {
-            this.toggleText(window.vectorLayerGroup, key, checked);
-            this.toggleText(window.boundaryLayerGroup, key, checked);
-        } else {
-            const config = TextVectorConfig[key];
+        if (checked) {
+            const config = this.textSettedMap[key] || TextVectorConfig[key];
             this.textSettedMap[key] = config;
             this.resetTextStyle(window.vectorLayerGroup, key, config);
             this.resetTextStyle(window.boundaryLayerGroup, key, config);
+        } else {
+            this.removeLayerText(window.vectorLayerGroup, key);
+            this.removeLayerText(window.boundaryLayerGroup, key);
         }
     };
 
@@ -120,13 +119,9 @@ class TextStore {
 
     //将后加载的周边底图按当前注记配置渲染
     @action resetBoundaryTextStyle = () => {
-        //遍历所有设置过注记的图层，将底图按配置显示注记
-        Object.keys(this.textSettedMap).forEach(key => {
+        this.checkedList.forEach(key => {
             const config = this.textSettedMap[key];
             this.resetTextStyle(window.boundaryLayerGroup, key, config);
-            //未勾选的图层，隐藏注记
-            if (this.checkedList.includes(key)) return;
-            this.toggleText(window.boundaryLayerGroup, key, false);
         });
     };
 }

@@ -22,10 +22,11 @@ class Undo extends React.Component {
     }
 
     disabled = () => {
-        const { OperateHistoryStore } = this.props;
+        const { OperateHistoryStore, DataLayerStore } = this.props;
+        const { editType } = DataLayerStore;
         let { currentNode, savedNode, pendding } = OperateHistoryStore;
         let shouldUndo = currentNode > savedNode;
-        return !shouldUndo || pendding;
+        return !shouldUndo || pendding || editType !== 'normal';
     };
 
     action = () => {
