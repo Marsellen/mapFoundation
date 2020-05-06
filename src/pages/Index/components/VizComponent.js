@@ -530,6 +530,7 @@ class VizComponent extends React.Component {
                     AttributeStore.hideRelFeatures();
                     break;
             }
+            RightMenuStore.hide();
             window.trackLayer.unSelect();
         }
         BatchAssignStore.hide();
