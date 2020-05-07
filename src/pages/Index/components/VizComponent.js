@@ -557,7 +557,7 @@ class VizComponent extends React.Component {
         } catch (e) {
             if (data) {
                 let layer = DataLayerStore.getEditLayer();
-                layer.layer.removeFeatureById(data.uuid);
+                layer && layer.layer.removeFeatureById(data.uuid);
             }
             message.error(e.message, 3);
             throw e;
