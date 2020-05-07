@@ -79,9 +79,12 @@ class DefineModeStore {
     };
 
     handleColor = color => {
-        const newColor = color.replace('rgba(', '').replace(')', '');
+        const newColor = color
+            .replace('rgba(', '')
+            .replace('rgb(', '')
+            .replace(')', '');
         const newColorArr = newColor.split(',');
-        const [r, g, b, a] = newColorArr || [];
+        const [r, g, b, a = 1] = newColorArr || [];
 
         return {
             color: `rgb(${r},${g},${b})`,
