@@ -161,6 +161,7 @@ class LayerTextConfig extends React.Component {
                         <label>字大：</label>
                         <AdInputPositiveNumber
                             width={76}
+                            precision={0}
                             value={currentFontSize || fontSize}
                             onChange={val =>
                                 this.handleChange({
