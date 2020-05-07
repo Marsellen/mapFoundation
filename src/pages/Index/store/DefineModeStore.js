@@ -171,6 +171,7 @@ class DefineModeStore {
         this.vectorConfigMap[key].defaultStyle = newDefaultStyle;
         this.resetVectorStyle(key, config);
         this.resetBoundaryVectorStyle(key, config);
+        if (styleKey === 'color') return;
         this.updateKey = Math.random();
     };
 
