@@ -38,6 +38,7 @@ class DefineModeStore {
     @action initVectorConfig = () => {
         this.vectorConfigMap = JSON.parse(JSON.stringify(LAYER_VECTOR_MAP));
         this.vectorConfig = JSON.parse(JSON.stringify(VectorsConfig));
+        this.boundaryVectorConfig = {};
     };
 
     //初始化某图层符号配置
