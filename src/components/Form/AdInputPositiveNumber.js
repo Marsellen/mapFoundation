@@ -9,13 +9,26 @@ export default class AdInputPositiveNumber extends React.Component {
         return (
             <div className={`rels-input-number ${className}`} style={{ width }}>
                 <InputNumber
-                    className="ad-input-number ant-col-xs-16 ant-col-sm-14"
                     {...this.props}
+                    className="ad-input-number ant-col-xs-16 ant-col-sm-14"
+                    onChange={this.handleChange}
                     onKeyDown={e => this.handleKeyDown(e)}
                 />
             </div>
         );
     }
+
+    //只能输入一个点
+    handleChange = value => {
+        const { onChange } = this.props;
+        const matched = String(value).match(/\./g) || [];
+        const pointCount = matched.length;
+        if (pointCount <= 1) {
+            onChange && onChange(Number(value));
+        }
+    };
+
+    //只能输入这些字符
     handleKeyDown = e => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
