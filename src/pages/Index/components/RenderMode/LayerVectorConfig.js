@@ -79,6 +79,9 @@ class LayerVectorConfig extends React.Component {
         const { layerName, DefineModeStore } = this.props;
         const { setVectorConfig } = DefineModeStore;
         setVectorConfig(layerName, typeValkey, styleKey, styleValue);
+        this.setState({
+            [currentStyleKey]: 0
+        });
     };
 
     batchSetVectorStyle = ({
@@ -99,6 +102,9 @@ class LayerVectorConfig extends React.Component {
         const { layerName, DefineModeStore } = this.props;
         const { batchSetVectorConfig } = DefineModeStore;
         batchSetVectorConfig(layerName, styleKey, styleValue);
+        this.setState({
+            [currentStyleKey]: 0
+        });
     };
 
     batchSetVectorColor = ({ styleKey, styleValue }) => {
