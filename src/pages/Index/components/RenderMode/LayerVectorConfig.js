@@ -128,7 +128,7 @@ class LayerVectorConfig extends React.Component {
             fieldStyle || {};
         let { color, radius, lineStyle, pointIcon } = defaultStyle || {};
         return (
-            <div className="config-content config-content-1">
+            <div className="config-content config-content-1" key={updateKey}>
                 <div className="field-box">
                     <label>颜色:</label>
                     <AdColorInput
