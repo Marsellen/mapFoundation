@@ -122,7 +122,7 @@ class LayerVectorConfig extends React.Component {
             fieldStyle || {};
         let { color, radius, lineStyle, pointIcon } = defaultStyle || {};
         return (
-            <div className="config-content config-content-1" key={updateKey}>
+            <div className="config-content config-content-1">
                 <div className="field-box">
                     <label>颜色:</label>
                     <AdColorInput
@@ -239,7 +239,7 @@ class LayerVectorConfig extends React.Component {
         const layerVectorConfig = vectorConfig[layerName] || {};
         const typeVectorConfig = layerVectorConfig.vectorStyle[showFields];
         return (
-            <div className="config-content config-content-2">
+            <div className="config-content config-content-2" key={updateKey}>
                 <div className="flex-between input-wrap">
                     <label>分类字段</label>
                     <Select

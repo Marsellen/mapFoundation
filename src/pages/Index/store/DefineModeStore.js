@@ -130,7 +130,17 @@ class DefineModeStore {
     //批量重置符号样式
     @action batchSetVectorConfig = (key, styleKey, styleValue) => {
         //生成新的默认样式
-        const newDefaultStyle = { ...this.vectorConfigMap[key].defaultStyle };
+        let newDefaultStyle;
+        //更换分类时，初始化样式；修改其它批量设置时，用最新的样式；
+        if (styleKey === 'showFields') {
+            const vectorConfigMap = JSON.parse(
+                JSON.stringify(LAYER_VECTOR_MAP)
+            );
+            newDefaultStyle = { ...vectorConfigMap[key].defaultStyle };
+        } else {
+            newDefaultStyle = { ...this.vectorConfigMap[key].defaultStyle };
+        }
+
         this.handleStyle(newDefaultStyle, styleKey, styleValue);
         const { showFields } = newDefaultStyle;
 
@@ -160,7 +170,6 @@ class DefineModeStore {
         this.vectorConfigMap[key].defaultStyle = newDefaultStyle;
         this.resetVectorStyle(key, config);
         this.resetBoundaryVectorStyle(key, config);
-        if (styleKey !== 'showFields') return;
         this.updateKey = Math.random();
     };
 
