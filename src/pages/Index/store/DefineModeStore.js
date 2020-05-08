@@ -32,6 +32,7 @@ configure({ enforceActions: 'always' });
 class DefineModeStore {
     boundaryVectorConfig = {};
     @observable updateKey;
+    @observable updateColorKey;
     @observable vectorConfig = {}; //符号默认配置，页面根据这个字段渲染
 
     //初始化符号配置
@@ -214,7 +215,7 @@ class DefineModeStore {
         this.vectorConfigMap[key].defaultStyle.opacity = opacity;
         this.resetVectorStyle(key, config);
         this.resetBoundaryVectorStyle(key, config);
-        this.updateKey = Math.random();
+        this.updateColorKey = Math.random();
     };
 
     @action updateBoundaryVectorStyle = () => {
