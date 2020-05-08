@@ -230,7 +230,12 @@ class LayerVectorConfig extends React.Component {
 
     _detailConfigRender = () => {
         const { DefineModeStore, layerName } = this.props;
-        const { updateKey, vectorConfig, vectorConfigMap } = DefineModeStore;
+        const {
+            updateKey,
+            vectorConfig,
+            vectorConfigMap,
+            updateColorKey
+        } = DefineModeStore;
         const {
             defaultStyle,
             styleOptionArr,
@@ -282,7 +287,7 @@ class LayerVectorConfig extends React.Component {
                         }
                     />
                 </div>
-                <div key={updateKey}>
+                <div key={updateColorKey}>
                     {typeVectorConfig &&
                         typeVectorConfig.map((item, index) => {
                             const { value: typeValkey, label, style } =
