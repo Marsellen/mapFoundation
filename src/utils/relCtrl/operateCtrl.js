@@ -769,7 +769,7 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
             updateFeatures.push(option.key + option.value);
             feature = {
                 ..._feature.properties,
-                ...feature
+                data: feature.data
             };
             layer.updateFeatures([feature]);
         } else {

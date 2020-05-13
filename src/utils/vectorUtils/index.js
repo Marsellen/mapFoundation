@@ -299,7 +299,11 @@ export const layerUpdateFeatures = (layer, features) => {
         let option = getFeatureOption(feature);
         let result = layer.getFeatureByOption(option);
         if (result) {
-            feature.uuid = result.properties.uuid; //确保要素uuid和sdk内部一致
+            // 使用sdk内部数据的外衣,防止数据变更过程中外衣属性丢失或uuid变更
+            feature = {
+                ...result.properties,
+                data: feature.data
+            };
         } else {
             throw new Error(
                 `${feature.layerName}要素${option.value}不存在，请检查数据`
