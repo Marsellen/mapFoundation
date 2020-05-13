@@ -496,7 +496,8 @@ class DataLayerStore {
     });
 
     updateFeature = result => {
-        this.editor.editLayer.layer.updateFeatures([result]);
+        let layer = getLayerByName(result.layerName);
+        layer.updateFeatures([result]);
         return result;
     };
 
