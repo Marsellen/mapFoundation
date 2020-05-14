@@ -35,7 +35,7 @@ class BatchAssignLaneNo extends React.Component {
         if (props.layerName !== state.layerName) {
             return {
                 ...state,
-                startNumber: props.startNumber,
+                startNumber: props.defaultNumber,
                 layerName: props.layerName
             };
         }
@@ -80,7 +80,7 @@ class BatchAssignLaneNo extends React.Component {
     }
 
     _renderModal = () => {
-        const { layerName } = this.props;
+        const { layerName, defaultNumber } = this.props;
         const { startNumber } = this.state;
 
         return (
@@ -98,8 +98,8 @@ class BatchAssignLaneNo extends React.Component {
                             className="batch-content"
                             value={startNumber}
                             onChange={this.handleChange}>
-                            <Option value={layerName === 'AD_Lane' ? '1' : '0'}>
-                                {layerName === 'AD_Lane' ? '1' : '0'}
+                            <Option value={defaultNumber}>
+                                {defaultNumber}
                             </Option>
                             <Option value="-1">-1</Option>
                             <Option value="-2">-2</Option>
