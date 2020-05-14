@@ -151,9 +151,8 @@ class BatchSnapLineToStopLine extends React.Component {
 
     action = () => {
         const { DataLayerStore } = this.props;
-        this.result = [];
         if (DataLayerStore.editType == 'line_snap_stop') return;
-
+        this.result = [];
         AttributeStore.hideRelFeatures();
         this.addEventListener();
         DataLayerStore.lineSnapStop();

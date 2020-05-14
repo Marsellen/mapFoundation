@@ -103,10 +103,8 @@ class FeedBack extends React.Component {
         const pjIndex = processName.findIndex(item => {
             return item.name === activeTask.processName;
         });
-        const splitId =
-            activeTask.projectId && activeTask.projectId !== 1
-                ? activeTask.projectId.split(';')
-                : [];
+        const ProjectIdType = typeof activeTask.projectId === 'string';
+        const splitId = ProjectIdType && activeTask.projectId.split(';');
         const splitIdL = splitId.length;
         return (
             <div className="feedback-content">
@@ -135,7 +133,7 @@ class FeedBack extends React.Component {
                             className={
                                 splitIdL > 3 ? 'task-content-projectId' : ''
                             }>
-                            {activeTask.isLocal || splitIdL === 0 ? (
+                            {activeTask.isLocal || !ProjectIdType ? (
                                 '-'
                             ) : (
                                 <span>
