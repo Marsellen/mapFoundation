@@ -24,13 +24,17 @@ class BatchAssignLaneNo extends React.Component {
             step: 0,
             messageVisible: false,
             message: '',
-            startNumber: 0
+            startNumber: null
         };
         this.result = [];
     }
     componentDidMount() {
         const { DataLayerStore } = this.props;
         DataLayerStore.setNewFixLineCallback(this.newFixLineCallback);
+    }
+
+    componentWillUnmount() {
+        this.removeEventListener();
     }
     render() {
         const { DataLayerStore } = this.props;
@@ -66,6 +70,7 @@ class BatchAssignLaneNo extends React.Component {
         const { DataLayerStore } = this.props;
         const editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
+        let startNumber = layerName == 'AD_Lane' ? '1' : '0';
 
         return (
             <div>
@@ -80,9 +85,15 @@ class BatchAssignLaneNo extends React.Component {
                     {
                         <Select
                             className="batch-content"
-                            value={this.state.startNumber}
+                            value={
+                                !this.state.startNumber
+                                    ? startNumber
+                                    : this.state.startNumber
+                            }
                             onChange={this.handleChange}>
-                            <Option value="0">0</Option>
+                            <Option value={layerName == 'AD_Lane' ? '1' : '0'}>
+                                {layerName == 'AD_Lane' ? 1 : 0}
+                            </Option>
                             <Option value="-1">-1</Option>
                             <Option value="-2">-2</Option>
                         </Select>
@@ -94,6 +105,7 @@ class BatchAssignLaneNo extends React.Component {
 
     action = () => {
         const { DataLayerStore } = this.props;
+        this.result = [];
         if (DataLayerStore.editType == 'assign_line_batch') return;
         this.addEventListener();
         DataLayerStore.batchAssinLaneNo();
@@ -115,7 +127,12 @@ class BatchAssignLaneNo extends React.Component {
     };
 
     shiftCallback = event => {
-        if (event.key !== 'Shift') return;
+        const { DataLayerStore } = this.props;
+        if (
+            event.key !== 'Shift' ||
+            DataLayerStore.editType !== 'assign_line_batch'
+        )
+            return;
         try {
             this.lineCheck(); //条件判断
             const { DataLayerStore } = this.props;
@@ -175,6 +192,7 @@ class BatchAssignLaneNo extends React.Component {
         try {
             const { activeTask } = TaskStore;
             let layerName = DataLayerStore.getEditLayer().layerName;
+            let startNumber = layerName == 'AD_Lane' ? '1' : '0';
             message.loading({
                 content: '处理中...',
                 key: 'assign_lane_no',
@@ -187,7 +205,7 @@ class BatchAssignLaneNo extends React.Component {
                 features,
                 fixLine,
                 layerName,
-                this.state.startNumber,
+                !this.state.startNumber ? startNumber : this.state.startNumber,
                 activeTask
             );
 

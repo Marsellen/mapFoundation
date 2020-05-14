@@ -104,9 +104,10 @@ class FeedBack extends React.Component {
             return item.name === activeTask.processName;
         });
         const splitId =
-            (activeTask.projectId && activeTask.projectId.match(/[;；]/g)) ||
-            [];
-
+            activeTask.projectId && activeTask.projectId !== 1
+                ? activeTask.projectId.split(';')
+                : [];
+        const splitIdL = splitId.length;
         return (
             <div className="feedback-content">
                 <div className="feedback-eg">
@@ -132,21 +133,19 @@ class FeedBack extends React.Component {
                     <Descriptions.Item label="工程编号" span={3}>
                         <span
                             className={
-                                splitId.length >= 3
-                                    ? 'task-content-projectId'
-                                    : ''
+                                splitIdL > 3 ? 'task-content-projectId' : ''
                             }>
-                            {activeTask.isLocal ? (
+                            {activeTask.isLocal || splitIdL === 0 ? (
                                 '-'
-                            ) : splitId.length > 0 ? (
-                                <span>
-                                    {activeTask.projectId.replace(
-                                        /[;；]/g,
-                                        '$&\r\n'
-                                    )}
-                                </span>
                             ) : (
-                                <span>{activeTask.projectId || '-'}</span>
+                                <span>
+                                    {splitId.map((item, index) => (
+                                        <span key={index}>
+                                            {item}
+                                            <br></br>
+                                        </span>
+                                    ))}
+                                </span>
                             )}
                         </span>
                     </Descriptions.Item>
