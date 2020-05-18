@@ -987,8 +987,8 @@ export const DEFAULT_PROPERTIES_MAP = {
         QC_PERSON: ''
     },
     AD_RS_Barrier: {
-        TYPE: 2,
-        MATERIAL: 2
+        TYPE: 3,
+        MATERIAL: 1
     },
     AD_TS_Content: {
         SIGN_TYPE: 0,
