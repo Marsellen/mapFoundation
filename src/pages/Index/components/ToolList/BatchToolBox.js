@@ -97,6 +97,10 @@ class BatchToolBox extends React.Component {
     };
 
     getMenus = () => {
+        const { DataLayerStore } = this.props;
+        const editLayer = DataLayerStore.getEditLayer();
+        let layerName = editLayer && editLayer.layerName;
+        let defaultNumber = layerName === 'AD_Lane' ? '1' : '0';
         const menus = [
             <Menu.Item
                 name="LINE_FEATURES_SNAP_TO_STOP_LINE"
@@ -110,7 +114,10 @@ class BatchToolBox extends React.Component {
                 key="piliangfuchedaofenzubianhao"
                 title="批量赋车道分组编号"
                 actionid="assign-line-batch-btn">
-                <BatchAssignLaneNo />
+                <BatchAssignLaneNo
+                    layerName={layerName}
+                    defaultNumber={defaultNumber}
+                />
             </Menu.Item>
         ];
         return menus;

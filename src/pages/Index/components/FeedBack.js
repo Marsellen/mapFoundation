@@ -103,6 +103,9 @@ class FeedBack extends React.Component {
         const pjIndex = processName.findIndex(item => {
             return item.name === activeTask.processName;
         });
+        const projectIdType = typeof activeTask.projectId === 'string';
+        const splitId = projectIdType && activeTask.projectId.split(';');
+        const splitIdL = splitId.length;
         return (
             <div className="feedback-content">
                 <div className="feedback-eg">
@@ -126,7 +129,22 @@ class FeedBack extends React.Component {
                     title={<span className="feedback-title">任务基本信息</span>}
                     size="small">
                     <Descriptions.Item label="工程编号" span={3}>
-                        {activeTask.isLocal ? '-' : activeTask.projectId}
+                        <span
+                            className={
+                                splitIdL > 3 ? 'task-content-projectId' : ''
+                            }>
+                            {activeTask.isLocal || !projectIdType ? (
+                                '-'
+                            ) : (
+                                <span>
+                                    {splitId.map((item, index) => (
+                                        <div key={index}>
+                                            {item}
+                                        </div>
+                                    ))}
+                                </span>
+                            )}
+                        </span>
                     </Descriptions.Item>
                     <Descriptions.Item label="工作人员" span={3}>
                         {loginUser.name} {loginUser.roleName}

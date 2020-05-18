@@ -27,6 +27,10 @@ class BatchSnapLineToStopLine extends React.Component {
         const { DataLayerStore } = this.props;
         DataLayerStore.setSelectFeatureCallback(this.selectFeatureCallback);
     }
+
+    componentWillUnmount() {
+        this.removeEventListener();
+    }
     render() {
         const { DataLayerStore } = this.props;
         const { message, visible } = this.state;
@@ -49,7 +53,12 @@ class BatchSnapLineToStopLine extends React.Component {
     };
 
     shiftCallback = event => {
-        if (event.key !== 'Shift') return;
+        const { DataLayerStore } = this.props;
+        if (
+            event.key !== 'Shift' ||
+            DataLayerStore.editType !== 'line_snap_stop'
+        )
+            return;
         try {
             this.lineCheck(); //条件判断
             this.gotoCheckStop();
@@ -143,7 +152,7 @@ class BatchSnapLineToStopLine extends React.Component {
     action = () => {
         const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'line_snap_stop') return;
-
+        this.result = [];
         AttributeStore.hideRelFeatures();
         this.addEventListener();
         DataLayerStore.lineSnapStop();

@@ -36,6 +36,9 @@
     .ant-modal-close {
         top: -6px;
     }
+    .ant-modal-content {
+        width: 406px;
+    }
 }
 .feedback-content {
     .feedback-eg {
@@ -57,6 +60,29 @@
         .ant-descriptions-title {
             margin-top: -10px;
             margin-bottom: 11px;
+        }
+        .task-content-projectId {
+            height: 60px;
+            display: inline-block;
+            overflow-y: auto;
+            width: 100%;
+            /*滚动条样式*/
+            &::-webkit-scrollbar {
+                /*滚动条整体样式*/
+                margin-right: -12px;
+                width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
+                height: 10px;
+            }
+            &::-webkit-scrollbar-thumb {
+                /*滚动条里面小方块*/
+                border-radius: 12px;
+                background: #b7b7b7;
+            }
+            &::-webkit-scrollbar-track {
+                /*滚动条里面轨道*/
+                border-radius: 12px;
+                background: #e5e5e5;
+            }
         }
     }
     .ant-descriptions-item-label,
