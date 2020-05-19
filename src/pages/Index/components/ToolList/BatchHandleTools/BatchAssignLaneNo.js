@@ -20,13 +20,12 @@ const { Option } = Select;
 class BatchAssignLaneNo extends React.Component {
     constructor(props) {
         super(props);
-        const { DataLayerStore } = props;
         this.state = {
             step: 0,
             messageVisible: false,
             message: '',
-            startNumber: 0,
-            layerName: DataLayerStore.getEditLayer().layerName
+            startNumber: props.layerName === 'AD_Lane' ? '1' : '0',
+            layerName: props.layerName
         };
         this.result = [];
     }
