@@ -30,7 +30,10 @@ import { getTaskProcessType } from 'src/utils/taskUtils';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
+    multiProjectMap = {}; //多工程映射
     projectNameArr = []; //当前任务工程名
+    lidarNameArr = []; //多工程点云，每个工程下对应的点云名
+    defaultLidarName = []; //多工程点云，每个工程下默认显示的点云名
     @observable onlineTasks = [];
     @observable localTasks = [];
     @observable activeTask = {};
@@ -259,30 +262,120 @@ class TaskStore {
             const { taskInfo } = CONFIG.urlConfig;
             const url = completeSecendUrl(taskInfo, this.activeTask);
             const { data } = yield axios.get(url);
-            const { projectNames } = data;
+            const { projectNames, lidarNames, defaultLidarName } = data;
             this.projectNameArr = projectNames.split(';').sort();
+            this.multiProjectMap = this.initMultiProjectMap();
+            this.lidarNameArr = JSON.parse(lidarNames);
+            this.defaultLidarName = JSON.parse(defaultLidarName);
             return this.projectNameArr;
         } catch (e) {
             console.log(e.message);
         }
     });
 
-    //获取工程名和该工程点云的映射和数组，例：{工程名:{点云:url,轨迹:url}}
-    getMultiProjectDataMap = (lastPath, name) => {
-        const urlMap = {};
-        const urlArr = [];
+    //初始化多工程对象
+    initMultiProjectMap = () => {
+        const multiProjectMap = {};
+        this.projectNameArr.forEach((projectName, index) => {
+            multiProjectMap[projectName] = {
+                key: projectName,
+                checked: true,
+                disabled: false,
+                level: 1,
+                label: `工程${index + 1}：${projectName}`,
+                children: {
+                    point_clouds: {
+                        key: `${projectName}|point_clouds`,
+                        checked: true,
+                        disabled: false,
+                        label: '点云',
+                        layerName: 'pointCloudLayer',
+                        children: {}
+                    },
+                    track: {
+                        key: `${projectName}|track`,
+                        checked: true,
+                        disabled: false,
+                        label: '轨迹',
+                        layerName: 'trackLayer'
+                    }
+                }
+            };
+        });
+        return multiProjectMap;
+    };
 
+    //通过拼接key(projectName|typeName|layerName)更新多工程对象
+    updateMultiProjectMap = (key, addObj) => {
+        const keyArr = key.split('|');
+        let obj = this.multiProjectMap;
+        keyArr.forEach((item, index) => {
+            obj = index === 0 ? obj[item] : obj.children[item];
+        });
+        obj = Object.assign(obj, addObj);
+    };
+
+    //根据taskInfo.json，将点云数据加入到多工程对象中
+    handleMultiPointCloud = lastPath => {
+        const lidarUrlArr = [];
         this.projectNameArr.forEach(projectName => {
+            const projectLidarMap = {};
+            this.lidarNameArr[projectName].forEach(lidarName => {
+                const url = completeMultiProjectUrl(
+                    `point_clouds/${lidarName}/${lastPath}`,
+                    this.activeTask,
+                    projectName
+                );
+                //获取雷达的默认数组，判断当前雷达是否属于默认数组
+                const defaultLidarArr = this.defaultLidarName[projectName];
+                const isDefaultLidar = defaultLidarArr.includes(lidarName);
+
+                const lidar = {
+                    key: `${projectName}|point_clouds|${lidarName}`,
+                    label: lidarName,
+                    layerKey: url,
+                    checked: isDefaultLidar,
+                    layerName: 'pointCloudLayer'
+                };
+
+                projectLidarMap[lidarName] = projectLidarMap[lidarName] || {};
+                projectLidarMap[lidarName] = lidar;
+
+                //如果不是默认选中雷达则返回
+                if (!isDefaultLidar) return;
+                lidarUrlArr.push(url);
+            });
+            //将点云添加到 multiProjectMap
+            this.updateMultiProjectMap(`${projectName}|point_clouds`, {
+                children: projectLidarMap
+            });
+        });
+        return lidarUrlArr;
+    };
+
+    //根据taskInfo.json，将轨迹数据加入到多工程对象中
+    handleMultiTrack = lastPath => {
+        const trackUrlMap = {};
+        this.projectNameArr.forEach((projectName, i) => {
             const url = completeMultiProjectUrl(
                 lastPath,
                 this.activeTask,
                 projectName
             );
-            urlMap[projectName] = { [name]: url };
-            urlArr.push(url);
-        });
 
-        return { urlMap, urlArr };
+            trackUrlMap[projectName] = url;
+
+            this.updateMultiProjectMap(`${projectName}|track`, {
+                url,
+                key: `${projectName}|track`,
+                label: '轨迹',
+                checked: true,
+                layerKey: url,
+                layerName: 'trackLayer',
+                active: i === 0
+            });
+        });
+        return trackUrlMap;
     };
 
     @action getTaskFile = () => {
@@ -299,11 +392,8 @@ class TaskStore {
             } = CONFIG.urlConfig;
 
             let task = {
-                point_clouds: this.getMultiProjectDataMap(
-                    point_clouds,
-                    'point_clouds'
-                ),
-                tracks: this.getMultiProjectDataMap(track, 'track'),
+                point_clouds: this.handleMultiPointCloud(point_clouds),
+                tracks: this.handleMultiTrack(track),
                 region: completeSecendUrl(region, this.activeTask),
                 vectors: completeEditUrl(vectors, this.activeTask),
                 rels: completeEditUrl(rels, this.activeTask),

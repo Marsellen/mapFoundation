@@ -262,7 +262,7 @@ class Task extends React.Component {
             VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
             this.handleBoundaryfeature();
         } catch (e) {
-            message.warning('周边底图数据加载失败', 3);
+            console.error(`周边底图数据加载失败: ${e.message || e}`);
         }
     };
 }

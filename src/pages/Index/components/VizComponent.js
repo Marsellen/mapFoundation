@@ -67,8 +67,6 @@ import {
 class VizComponent extends React.Component {
     constructor(props) {
         super(props);
-        //多工程任务资料map，例：{工程名:{track:{},point_clouds:{}}}
-        this.multiProjectResource = {};
     }
 
     componentDidMount = async () => {
@@ -108,7 +106,6 @@ class VizComponent extends React.Component {
         window.pointCloudLayer = null;
         window.vectorLayerGroup = null;
         window.trackLayer = null;
-        this.multiProjectResource = {};
 
         await RelStore.destroy();
         await AttrStore.destroy();
@@ -247,13 +244,12 @@ class VizComponent extends React.Component {
 
         return {
             layerName: RESOURCE_LAYER_MULTI_PROJECT,
-            layerMap: this.multiProjectResource
+            layerMap: this.props.TaskStore.multiProjectMap
         };
     };
 
-    initPointCloud = async pointCloudObj => {
-        if (!pointCloudObj) return;
-        const { urlArr, urlMap } = pointCloudObj;
+    initPointCloud = async urlArr => {
+        if (!urlArr) return;
         //实例化点云
         const pointCloudLayer = new DynamicPCLayer(null);
         window.pointCloudLayer = pointCloudLayer;
@@ -261,30 +257,15 @@ class VizComponent extends React.Component {
         map.getLayerManager().addLayer('DynamicPCLayer', pointCloudLayer);
         //点云实例调用updatePointClouds方法，传入点云url数组，批量添加点云
         //{点云url:点云图层}
-        const pointCloudUrlArr = Object.values(urlArr);
-        await pointCloudLayer.updatePointClouds(pointCloudUrlArr).then(() => {
-            //所有点云添加成功回调
+        await pointCloudLayer.updatePointClouds(urlArr);
+        //获取点云高度范围
+        const range = pointCloudLayer.getElevationRange();
+        PointCloudStore.initHeightRange(range);
+        //设置画面缩放比例
+        this.setMapScale();
+    };
 
-            //获取点云高度范围
-            const range = pointCloudLayer.getElevationRange();
-            PointCloudStore.initHeightRange(range);
-
-            //存储多工程点云信息
-            Object.keys(urlMap).forEach(projectName => {
-                const { point_clouds: url } = urlMap[projectName];
-                this.multiProjectResource[projectName] =
-                    this.multiProjectResource[projectName] || {};
-                this.multiProjectResource[projectName].point_clouds = {
-                    projectName,
-                    layerName: 'point_clouds',
-                    layerKey: url,
-                    layer: pointCloudLayer,
-                    value: RESOURCE_LAYER_POINT_CLOUD,
-                    checked: true
-                };
-            });
-        });
-
+    setMapScale = () => {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         const { taskScale } =
@@ -308,40 +289,33 @@ class VizComponent extends React.Component {
         };
     };
 
-    initTracks = async trackObj => {
-        if (!trackObj) return;
+    initTracks = async urlMap => {
+        if (!urlMap) return;
         const { TaskStore } = this.props;
-        const { projectNameArr } = TaskStore;
-        const { urlMap } = trackObj;
+        const { projectNameArr, updateMultiProjectMap } = TaskStore;
         const traceListLayer = new TraceListLayer();
         window.trackLayer = traceListLayer;
         map.getLayerManager().addTraceListLayer(traceListLayer);
         const fetchTrackArr = Object.keys(urlMap).map(projectName => {
-            const { track: trackUrl } = urlMap[projectName];
+            const trackUrl = urlMap[projectName];
             //获取轨迹
             return axios.get(trackUrl).then(res => {
                 const { data } = res;
-                const trackMap = {};
+                const trackPartMap = {};
                 data.forEach(tackPart => {
                     const { name, tracks } = tackPart;
+                    const trackName = `${projectName}_${name}`;
                     traceListLayer.addTrace({
-                        taskId: `${projectName}_${name}`,
+                        taskId: trackName,
                         data: tracks
                     });
-                    trackMap[`${projectName}_${name}`] = tracks;
+                    trackPartMap[trackName] = tracks;
                 });
-                //存储多工程轨迹信息
-                this.multiProjectResource[projectName] =
-                    this.multiProjectResource[projectName] || {};
-                this.multiProjectResource[projectName].track = {
-                    projectName,
-                    layerName: 'track',
-                    layerKey: Object.keys(trackMap),
-                    layerMap: trackMap,
-                    layer: window.trackLayer,
-                    value: RESOURCE_LAYER_TRACK,
-                    checked: true
-                };
+                //更新
+                updateMultiProjectMap(`${projectName}|track`, {
+                    layerKey: Object.keys(trackPartMap),
+                    layerMap: trackPartMap
+                });
                 return data;
             });
         });
@@ -387,7 +361,7 @@ class VizComponent extends React.Component {
             VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
             this.handleBoundaryfeature();
         } catch (e) {
-            message.warning('周边底图数据加载失败', 3);
+            console.error(`周边底图数据加载失败: ${e.message || e}`);
         }
     };
 

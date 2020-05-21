@@ -16,41 +16,38 @@ const LAYER_SORT_MAP = {
 configure({ enforceActions: 'always' });
 class ResourceLayerStore {
     activeTrackName = '';
+    @observable multiProjectMap = {};
     @observable layers = [];
     @observable updateKey;
-    //获取多工程图层map
-    @computed get multiProjectResource() {
-        if (this.layers.length === 0) return;
-        const name = RESOURCE_LAYER_MULTI_PROJECT;
-        const { layerMap } =
-            this.layers.find(layer => layer.value == name) || {};
-        return layerMap || [];
+    //获取所有已勾选点云
+    @computed get pointCloudCheckedList() {
+        const checkedArr = [];
+        Object.values(this.multiProjectMap).forEach(project => {
+            const projectLidarMap = project.children.point_clouds.children;
+            Object.values(projectLidarMap).forEach(lidar => {
+                const { checked, disabled, layerKey } = lidar;
+                if (checked && !disabled) {
+                    checkedArr.push(layerKey);
+                }
+            });
+        });
+        return checkedArr;
     }
     //所有点云都未勾选为false，其余情况都为true
     @computed get pointCloudChecked() {
-        if (this.layers.length === 0) return;
-        const layerMap = this.multiProjectResource;
-        const isAllUnChecked = Object.keys(layerMap).every(projectName => {
-            const { point_clouds } = layerMap[projectName];
-            const { checked } = point_clouds || {};
-            return !checked;
-        });
-        return !isAllUnChecked;
+        return this.pointCloudCheckedList.length > 0;
     }
-    //所有点云都勾选为true
-    @computed get pointCloudAllChecked() {
-        if (this.layers.length === 0) return;
-        const layerMap = this.multiProjectResource;
-        const isAllChecked = Object.keys(layerMap).every(projectName => {
-            const { point_clouds } = layerMap[projectName];
-            const { checked } = point_clouds || {};
-            return checked;
+
+    setActiveTrack = projectName => {
+        Object.values(this.multiProjectMap).forEach(project => {
+            project.children.track.active = project.key === projectName;
         });
-        return isAllChecked;
-    }
+    };
+
     //选择当前与点云联动的轨迹
     @action selectLinkTrack = projectName => {
         this.activeProjectName = projectName;
+        this.setActiveTrack(projectName);
         this.updateKey = Math.random();
     };
 
@@ -59,9 +56,8 @@ class ResourceLayerStore {
         const activeTrackPointX = activeTrackPoint.x || activeTrackPoint.X;
         const activeTrackPointY = activeTrackPoint.y || activeTrackPoint.Y;
         const activeTrackPointZ = activeTrackPoint.z || activeTrackPoint.Z;
-        Object.values(this.multiProjectResource).find(layerItem => {
-            const { track } = layerItem;
-            const { layerMap } = track;
+        Object.values(this.multiProjectMap).find(project => {
+            const { layerMap } = project.children.track;
             this.activeTrackName = Object.keys(layerMap).find(trackName => {
                 const isIncloud = layerMap[trackName].find(item => {
                     const { X, Y, Z } = item;
@@ -93,6 +89,9 @@ class ResourceLayerStore {
 
         layers = layers.map(layerItem => {
             const { layerName, layer, layerMap } = layerItem;
+            if (layerMap) {
+                this.multiProjectMap = layerMap;
+            }
             return {
                 layerMap,
                 layer,
@@ -127,45 +126,20 @@ class ResourceLayerStore {
 
     //快捷键显隐所有点云
     @action pointCloudToggle = () => {
-        const checked = this.pointCloudChecked ? false : true;
-        const resourceName = RESOURCE_LAYER_MULTI_PROJECT;
-        const layerName = 'point_clouds';
-        const currentLayer = this.layers.find(
-            layer => layer.value == resourceName
-        );
-        const { layerMap } = currentLayer;
-
-        Object.keys(layerMap).forEach(projectName => {
-            const layerItem = currentLayer.layerMap[projectName][layerName];
-            const { layerKey, layer } = layerItem;
-            layerItem.checked = checked;
-            checked ? layer.show(layerKey) : layer.hide(layerKey);
+        //所有点云都未勾选为false，其余情况都为true
+        const checked = Object.values(this.multiProjectMap).some(project => {
+            const { children, checked } = project;
+            return checked && children.point_clouds.checked;
         });
-
-        this.updateKey = Math.random();
-    };
-
-    //显隐藏多工程资料的所有图层
-    @action projectsToggleAll = (projectName, checked) => {
-        const name = RESOURCE_LAYER_MULTI_PROJECT;
-        const projectsLayer = this.layers.find(layer => layer.value == name);
-        const currentLayer = projectsLayer.layerMap[projectName];
-        Object.keys(currentLayer).forEach(layerName => {
-            currentLayer[layerName].checked = checked;
-            const { layer, layerKey } = currentLayer[layerName];
-            checked ? layer.show(layerKey) : layer.hide(layerKey);
+        //更新多工程对象点云（二层级）勾选状态
+        Object.values(this.multiProjectMap).forEach(project => {
+            if (!project.checked) return;
+            const obj = project.children.point_clouds;
+            const key = obj.key;
+            this.loopMultiProjectMap(key, !checked, obj, true);
         });
-
-        this.updateKey = Math.random();
-    };
-
-    //显隐藏多工程资料的单个图层，如：点云、轨迹
-    @action projectsToggle = (layerItem, checked) => {
-        const { projectName, layerName, layerKey, layer } = layerItem;
-        const name = RESOURCE_LAYER_MULTI_PROJECT;
-        const projectsLayer = this.layers.find(layer => layer.value == name);
-        projectsLayer.layerMap[projectName][layerName].checked = checked;
-        checked ? layer.show(layerKey) : layer.hide(layerKey);
+        //显隐点云图层
+        this.toggleProjectsPointCloud();
         this.updateKey = Math.random();
     };
 
@@ -177,6 +151,69 @@ class ResourceLayerStore {
         this.updateKey = Math.random();
     };
 
+    //更新多工程映射的checked和disabled，显隐图层
+    @action toggleProjectsResource = (key, checked) => {
+        const keyArr = key.split('|');
+        let obj = this.multiProjectMap;
+        keyArr.forEach((item, index) => {
+            obj = index === 0 ? obj[item] : obj.children[item];
+        });
+        this.loopMultiProjectMap(key, checked, obj, true);
+        this.toggleProjectsPointCloud();
+        this.updateKey = Math.random();
+    };
+
+    // 给updatePointClouds传什么显示什么，不传的不显示
+    toggleProjectsPointCloud = () => {
+        window.pointCloudLayer.updatePointClouds(this.pointCloudCheckedList);
+    };
+
+    handleProjectsLayer = (checked, obj, parent, key) => {
+        const { checked: layerChecked, layerKey, layerName } = obj;
+        const layer = window[layerName]; //获取当前图层
+        //点击最里层，设置最里层checked；点击非最里层，设置最里层disabled
+        if (parent) {
+            obj.disabled = !(checked && parent.checked);
+        } else {
+            obj.checked = checked;
+        }
+        //点击非最里层，最里层未勾选，则返回
+        if (parent && !layerChecked) return;
+        //点击非最里层，非倒数第二层，倒数第二层未勾选，则返回
+        if (parent && parent.key !== key && !parent.checked) return;
+        //显隐图层
+        if (layerName === 'trackLayer') {
+            checked ? layer.show(layerKey) : layer.hide(layerKey);
+        }
+        // console.log(obj.label, checked, layerKey);
+    };
+
+    //递归多工程资料图层对象
+    loopMultiProjectMap = (key, checked, obj, isFirst) => {
+        const children = obj.children;
+        //当前点击层级，只改变其checked
+        //非当前点击层级，只改变期disabled
+        if (isFirst) {
+            obj.checked = checked;
+        } else {
+            obj.disabled = !checked;
+        }
+        //递归遍历，直到找到最里层
+        if (children) {
+            Object.keys(children).forEach(secondKey => {
+                const secondObj = children[secondKey];
+                const secondChildren = secondObj.children;
+                if (secondChildren) {
+                    this.loopMultiProjectMap(obj.key, checked, secondObj);
+                } else {
+                    this.handleProjectsLayer(checked, secondObj, obj, key);
+                }
+            });
+        } else {
+            this.handleProjectsLayer(checked, obj);
+        }
+    };
+
     @action setIndeterminate = name => {
         let layerEx = this.layers.find(layer => layer.value == name);
         layerEx.checked = true;
@@ -185,6 +222,7 @@ class ResourceLayerStore {
 
     @action release = () => {
         this.layers = [];
+        this.multiProjectMap = {};
         this.activeProjectName = '';
     };
 }
