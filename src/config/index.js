@@ -3,7 +3,7 @@ export default {
     version: 'v1.0.20',
 
     urlConfig: {
-        point_clouds: 'point_clouds/cloud.js',
+        point_clouds: 'cloud.js',
         track: 'track.json',
         region: 'region.geojson',
         boundaryAdsAll: 'around/ads_all.geojson',

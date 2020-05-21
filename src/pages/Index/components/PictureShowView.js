@@ -134,10 +134,9 @@ class PictureShowView extends React.Component {
     };
 
     render() {
-        const { PictureShowStore, ResourceLayerStore } = this.props;
+        const { PictureShowStore, TaskStore } = this.props;
         const { picData } = PictureShowStore;
-        const { multiProjectResource = [] } = ResourceLayerStore;
-        const projectNameArr = Object.keys(multiProjectResource);
+        const { projectNameArr } = TaskStore;
 
         let imgs = picData.filter(img => !!img);
 
@@ -173,12 +172,9 @@ class PictureShowView extends React.Component {
 
     _renderModal = () => {
         const { modalVisible, currentProjectName } = this.state;
-        const { ResourceLayerStore } = this.props;
-        const {
-            multiProjectResource = [],
-            activeProjectName
-        } = ResourceLayerStore;
-        const sortProjectsTracks = Object.keys(multiProjectResource).sort();
+        const { ResourceLayerStore, TaskStore } = this.props;
+        const { activeProjectName } = ResourceLayerStore;
+        const { projectNameArr } = TaskStore;
 
         return (
             <Modal
@@ -199,7 +195,7 @@ class PictureShowView extends React.Component {
                 <Radio.Group
                     value={currentProjectName}
                     onChange={this.handleRadioChange}>
-                    {sortProjectsTracks.map((projectName, index) => {
+                    {projectNameArr.map((projectName, index) => {
                         return (
                             <Radio value={projectName} key={`track_${index}`}>
                                 工程{index + 1}：{projectName}
