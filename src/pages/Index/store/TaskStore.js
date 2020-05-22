@@ -321,8 +321,9 @@ class TaskStore {
         this.projectNameArr.forEach(projectName => {
             const projectLidarMap = {};
             this.lidarNameArr[projectName].forEach(lidarName => {
+                //因雷达名中有特殊符号，需要进行转码
                 const url = completeMultiProjectUrl(
-                    `point_clouds/${lidarName}/${lastPath}`,
+                    `point_clouds/${encodeURIComponent(lidarName)}/${lastPath}`,
                     this.activeTask,
                     projectName
                 );
