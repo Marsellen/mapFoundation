@@ -144,28 +144,46 @@ class DefineModeStore {
         }
 
         this.handleStyle(newDefaultStyle, styleKey, styleValue);
+
         const { showFields } = newDefaultStyle;
+        let config = {};
+        if (showFields) {
+            //获取当前图层当前分类的组合名
+            const { type } = LAYER_TYPE_MAP[key].find(
+                item => item.key === showFields
+            );
+            //获取当前图层当前分类的所有值，并加上符号样式
+            const vectorStyleArr = TYPE_SELECT_OPTION_MAP[type].map(item => {
+                return {
+                    ...item,
+                    style: newDefaultStyle
+                };
+            });
 
-        //获取当前图层当前分类的组合名
-        const { type } = LAYER_TYPE_MAP[key].find(
-            item => item.key === showFields
-        );
-        //获取当前图层当前分类的所有值，并加上符号样式
-        const vectorStyleArr = TYPE_SELECT_OPTION_MAP[type].map(item => {
-            return {
-                ...item,
-                style: newDefaultStyle
+            //组合成新的注记配置
+            config = {
+                ...VectorsConfig[key],
+                showFields: [showFields],
+                vectorStyle: {
+                    [showFields]: vectorStyleArr
+                }
             };
-        });
-
-        //组合成新的注记配置
-        const config = {
-            ...VectorsConfig[key],
-            showFields: [showFields],
-            vectorStyle: {
-                [showFields]: vectorStyleArr
-            }
-        };
+        } else {
+            //如果图层没有showFields字段，则采用默认分类配置
+            config = {
+                ...VectorsConfig[key],
+                showFields: ['TYPE'],
+                vectorStyle: {
+                    TYPE: [
+                        {
+                            value: 0,
+                            label: '',
+                            style: newDefaultStyle
+                        }
+                    ]
+                }
+            };
+        }
 
         this.vectorConfig[key] = config;
         this.vectorConfigMap[key] = this.vectorConfigMap[key] || {};
