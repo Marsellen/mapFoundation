@@ -33,7 +33,7 @@ class ResourceLayerStore {
         });
         return checkedArr;
     }
-    //所有点云都未勾选为false，其余情况都为true
+    //只要有一个点云显示，即为true
     @computed get pointCloudChecked() {
         return this.pointCloudCheckedList.length > 0;
     }
@@ -126,12 +126,12 @@ class ResourceLayerStore {
 
     //快捷键显隐所有点云
     @action pointCloudToggle = () => {
-        //所有点云都未勾选为false，其余情况都为true
+        //当前启用工程至少一个点云【二级】勾选，即为true
         const checked = Object.values(this.multiProjectMap).some(project => {
             const { children, checked } = project;
             return checked && children.point_clouds.checked;
         });
-        //更新多工程对象点云（二层级）勾选状态
+        //更新多工程对象点云【二级】勾选状态
         Object.values(this.multiProjectMap).forEach(project => {
             if (!project.checked) return;
             const obj = project.children.point_clouds;
