@@ -510,7 +510,7 @@ class VizComponent extends React.Component {
         BatchAssignStore.hide();
     };
 
-    @logDecorator({ operate: '新建要素' })
+    @logDecorator({ operate: '新建要素', skipRenderMode: true })
     async createdCallBack(result) {
         //console.log(result);
         let data;
@@ -538,7 +538,7 @@ class VizComponent extends React.Component {
         }
     }
 
-    @logDecorator({ operate: '修改要素几何' })
+    @logDecorator({ operate: '修改要素几何', skipRenderMode: true })
     editedCallBack(result) {
         const oldFeature = RightMenuStore.getFeatures()[0];
         try {

@@ -75,7 +75,7 @@ class BatchAssignModal extends React.Component {
         form.validateFields(this.submit);
     };
 
-    @logDecorator({ operate: '批量赋值' })
+    @logDecorator({ operate: '批量赋值', skipRenderMode: true })
     async submit(err, values) {
         if (err) {
             return;
