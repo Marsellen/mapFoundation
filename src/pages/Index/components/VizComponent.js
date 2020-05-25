@@ -6,7 +6,7 @@ import {
     TraceListLayer,
     VectorLayer
 } from 'addis-viz-sdk';
-import { Modal, message } from 'antd';
+import { message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
 //import NewFeatureModal from './NewFeatureModal';

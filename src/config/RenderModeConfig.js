@@ -92,6 +92,7 @@ export const REL_SELECT_OPTIONS = [
 
 //id与图层名、key值映射
 export const LAYER_NAME_MAP = {
+    LDIV_ID: { layerName: 'AD_LaneDivider', key: 'LDIV_ID' },
     L_LDIV_ID: { layerName: 'AD_LaneDivider', key: 'LDIV_ID' },
     R_LDIV_ID: { layerName: 'AD_LaneDivider', key: 'LDIV_ID' },
     ROAD_ID: { layerName: 'AD_Road', key: 'ROAD_ID' },
@@ -112,7 +113,9 @@ export const LAYER_NAME_MAP = {
     SIGN_ID: { layerName: 'AD_TrafficSign', key: 'SIGN_ID' },
     LIGHT_ID: { layerName: 'AD_TrafficLight', key: 'LIGHT_ID' },
     LAP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' },
-    LANEP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' }
+    LANEP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' },
+    POLE_ID: { layerName: 'AD_Pole', key: 'POLE_ID' },
+    BARR_ID: { layerName: 'AD_RS_Barrier', key: 'BARR_ID' }
 };
 
 //关联关系与id映射
