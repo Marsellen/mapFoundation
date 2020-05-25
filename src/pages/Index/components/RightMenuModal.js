@@ -327,7 +327,7 @@ class RightMenuModal extends React.Component {
         }
     }
 
-    @logDecorator({ operate: '复制线要素' })
+    @logDecorator({ operate: '复制线要素', skipRenderMode: true })
     async copyLineCallback(result) {
         const { DataLayerStore, RightMenuStore } = this.props;
 
@@ -385,7 +385,7 @@ class RightMenuModal extends React.Component {
         });
     }
 
-    @logDecorator({ operate: '平移点要素' })
+    @logDecorator({ operate: '平移点要素', skipRenderMode: true })
     async movePointFeatureHandler(result, oldFeature) {
         try {
             this.regionCheck(result);
