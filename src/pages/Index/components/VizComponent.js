@@ -206,10 +206,7 @@ class VizComponent extends React.Component {
             // 任务列表快速切换时旧任务加载过程会报错
             // e.message是加载报错的taskId
             if (activeTaskId == e.message) {
-                Modal.error({
-                    title: '资料加载失败，请确认输入正确路径。',
-                    okText: '确定'
-                });
+                message.error(e.message + '任务资料加载失败');
             }
             //删除本地导入加载失败的任务
             tasksPop();
@@ -228,6 +225,8 @@ class VizComponent extends React.Component {
         ]);
         this.initResouceLayer(resources);
         this.installListener();
+        //设置画面缩放比例
+        this.setMapScale();
     };
 
     initExResource = async task => {
@@ -263,8 +262,6 @@ class VizComponent extends React.Component {
         //获取点云高度范围
         const range = pointCloudLayer.getElevationRange();
         PointCloudStore.initHeightRange(range);
-        //设置画面缩放比例
-        this.setMapScale();
     };
 
     setMapScale = () => {
