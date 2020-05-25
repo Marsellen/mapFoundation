@@ -84,14 +84,9 @@ class VizComponent extends React.Component {
         await this.release();
         const div = document.getElementById('viz');
         window.map = new Map(div);
-        const { TaskStore, TextStore } = this.props;
-        const taskInfo = await TaskStore.getTaskInfo();
-        if (!taskInfo) return;
-        const task = TaskStore.getTaskFile();
-        if (!task) return;
-        await this.initTask(task);
+        await this.initTask();
         //初始化文字注记配置
-        TextStore.initLayerTextConfig();
+        this.props.TextStore.initLayerTextConfig();
     };
 
     release = async () => {
@@ -182,13 +177,20 @@ class VizComponent extends React.Component {
         this.addShortcut(event);
     };
 
-    initTask = async task => {
+    initTask = async () => {
         console.time('taskLoad');
+        const { TaskStore } = this.props;
+        const { getTaskInfo, getTaskFile, activeTaskId, tasksPop } = TaskStore;
         const hide = message.loading({
             content: '正在加载任务数据...',
             key: 'init_task'
         });
         try {
+            //获取任务信息 taskinfos.json
+            await getTaskInfo();
+            //获取任务资料文件路径
+            const task = getTaskFile();
+            //加载资料
             await Promise.all([
                 this.initEditResource(task),
                 this.initExResource(task)
@@ -199,20 +201,20 @@ class VizComponent extends React.Component {
                 duration: 1
             });
         } catch (e) {
-            console.log(e);
+            //关闭loading弹窗
             hide();
             // 任务列表快速切换时旧任务加载过程会报错
-            const { TaskStore } = this.props;
-            const { activeTaskId, tasksPop } = TaskStore;
-            if (activeTaskId === task.taskId) {
+            // e.message是加载报错的taskId
+            if (activeTaskId == e.message) {
                 Modal.error({
                     title: '资料加载失败，请确认输入正确路径。',
                     okText: '确定'
                 });
             }
+            //删除本地导入加载失败的任务
             tasksPop();
+            console.log('任务数据加载失败' + e.message || e || '');
         }
-
         console.timeEnd('taskLoad');
     };
 

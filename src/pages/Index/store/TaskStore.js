@@ -252,7 +252,7 @@ class TaskStore {
                 taskId: this.activeTaskId,
                 taskBoundaryIsUpdate: false
             });
-            console.log('获取底图失败，请重新加载页面：' + e.message || '', 3);
+            console.log('获取底图失败' + e.message || e || '');
         }
     });
 
@@ -267,11 +267,11 @@ class TaskStore {
             this.multiProjectMap = this.initMultiProjectMap();
             this.lidarNameArr = JSON.parse(lidarNames);
             this.defaultLidarName = JSON.parse(defaultLidarName);
-            return this.projectNameArr;
         } catch (e) {
-            console.log(e.message);
+            console.log('taskInfos.json请求失败' + e.message || e || '');
+            throw new Error(this.activeTaskId);
         }
-    });
+    }).bind(this);
 
     //初始化多工程对象
     initMultiProjectMap = () => {
@@ -403,7 +403,8 @@ class TaskStore {
 
             return task;
         } catch (e) {
-            console.log(e);
+            console.log('获取任务资料路径失败' + e.message || e || '');
+            throw new Error(this.activeTaskId);
         }
     };
 
