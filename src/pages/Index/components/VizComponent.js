@@ -225,6 +225,8 @@ class VizComponent extends React.Component {
         ]);
         this.initResouceLayer(resources);
         this.installListener();
+        //设置画面缩放比例
+        this.setMapScale();
     };
 
     initExResource = async task => {
@@ -260,8 +262,6 @@ class VizComponent extends React.Component {
         //获取点云高度范围
         const range = pointCloudLayer.getElevationRange();
         PointCloudStore.initHeightRange(range);
-        //设置画面缩放比例
-        this.setMapScale();
     };
 
     setMapScale = () => {
