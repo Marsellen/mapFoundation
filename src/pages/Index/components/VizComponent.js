@@ -13,9 +13,7 @@ import AttributesModal from './AttributesModal';
 import RightMenuModal from './RightMenuModal';
 
 import {
-    RESOURCE_LAYER_POINT_CLOUD,
     RESOURCE_LAYER_VECTOR,
-    RESOURCE_LAYER_TRACK,
     RESOURCE_LAYER_TASK_SCOPE,
     RESOURCE_LAYER_BOUNDARY,
     RESOURCE_LAYER_MULTI_PROJECT

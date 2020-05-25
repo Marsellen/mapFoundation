@@ -2,10 +2,8 @@ import React from 'react';
 import { Checkbox, List } from 'antd';
 import { inject, observer } from 'mobx-react';
 import {
-    RESOURCE_LAYER_TRACK,
     RESOURCE_LAYER_VECTOR,
-    RESOURCE_LAYER_BOUNDARY,
-    RESOURCE_LAYER_POINT_CLOUD
+    RESOURCE_LAYER_BOUNDARY
 } from 'src/config/DataLayerConfig';
 import 'src/assets/less/components/resource-layer.less';
 import ToolIcon from 'src/components/ToolIcon';
