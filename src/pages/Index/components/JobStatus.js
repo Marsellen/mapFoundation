@@ -6,6 +6,7 @@ import editLog from 'src/models/editLog';
 import 'less/components/jobstatus.less';
 import ToolIcon from 'src/components/ToolIcon';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
+import { saveTaskDate } from 'src/utils/taskUtils';
 
 const MANUALSTATUS = {
     4: '返修',
@@ -293,11 +294,7 @@ class JobStatus extends React.Component {
 
     // 自动保存
     action = async () => {
-        const { TaskStore, OperateHistoryStore } = this.props;
-
-        await TaskStore.submit();
-        await TaskStore.writeEditLog();
-        OperateHistoryStore.save();
+        await saveTaskDate();
     };
 
     clearWorkSpace = () => {

@@ -4,6 +4,7 @@ import CONFIG from 'src/config';
 import { Modal, Descriptions, Button } from 'antd';
 import 'src/assets/less/components/hotkey.less';
 import ToolIcon from 'src/components/ToolIcon';
+import { saveTaskDate } from 'src/utils/taskUtils';
 
 const taskType = [
     {
@@ -138,9 +139,7 @@ class FeedBack extends React.Component {
                             ) : (
                                 <span>
                                     {splitId.map((item, index) => (
-                                        <div key={index}>
-                                            {item}
-                                        </div>
+                                        <div key={index}>{item}</div>
                                     ))}
                                 </span>
                             )}
@@ -227,9 +226,7 @@ class FeedBack extends React.Component {
                 operator: loginUser.username
             };
 
-            await TaskStore.submit();
-            await TaskStore.writeEditLog();
-            OperateHistoryStore.save();
+            await saveTaskDate();
             await FeedbackStore.feedback(params);
             this._successModal();
             this.setState({
@@ -237,20 +234,20 @@ class FeedBack extends React.Component {
                 loading: false
             });
         } catch (e) {
-            Modal.error({
-                title: '反馈失败！',
-                content: (
-                    <div className="fail-modal">
-                        <p>问题数据反馈失败，</p>
-                        <p>请再次提交反馈申请。</p>
-                    </div>
-                ),
-                okText: '确定'
-            });
-            this.setState({
-                visible: false,
-                loading: false
-            });
+            if (e.message !== '取消保存') {
+                Modal.error({
+                    title: '反馈失败！',
+                    content: (
+                        <div className="fail-modal">
+                            <p>问题数据反馈失败，</p>
+                            <p>请再次提交反馈申请。</p>
+                        </div>
+                    ),
+                    okText: '确定'
+                });
+                this.setState({ visible: false });
+            }
+            this.setState({ loading: false });
         }
     };
 

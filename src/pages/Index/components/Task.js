@@ -6,6 +6,7 @@ import { RESOURCE_LAYER_BOUNDARY } from 'src/config/DataLayerConfig';
 import 'less/components/sider.less';
 import ToolIcon from 'src/components/ToolIcon';
 import CONFIG from 'src/config';
+import { saveTaskDate } from 'src/utils/taskUtils';
 
 const processNameOptions = CONFIG.processNameOptions;
 
@@ -116,11 +117,7 @@ class Task extends React.Component {
                 cancelText: '取消',
                 okType: 'danger',
                 onOk: async () => {
-                    const { TaskStore, OperateHistoryStore } = this.props;
-
-                    await TaskStore.submit();
-                    await TaskStore.writeEditLog();
-                    OperateHistoryStore.save();
+                    await saveTaskDate();
                     this.toggleTask(id, isEdit);
                 }
             });

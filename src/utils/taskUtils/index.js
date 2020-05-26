@@ -1,5 +1,11 @@
+import React from 'react';
+import { message, Modal } from 'antd';
 import CONFIG from 'src/config';
 import TaskStore from 'src/pages/Index/store/TaskStore';
+import OperateHistoryStore from 'src/pages/Index/store/OperateHistoryStore';
+import Relevance from 'src/models/relevance';
+import Attr from 'src/models/attr';
+import IconFont from 'src/components/IconFont';
 
 const SECEND_PATH = '13_ED_DATA';
 const THIRD_PATH = '1301_RAW_DATA';
@@ -67,4 +73,66 @@ export const getTaskProcessType = () => {
     } else {
         return 'recognition';
     }
+};
+
+export const saveTaskDate = () => {
+    return new Promise(async (resolve, reject) => {
+        let hasEmptyData = await checkEmptyData();
+        if (hasEmptyData) {
+            window.modal && window.modal.destroy();
+            window.modal = Modal.confirm({
+                icon: <IconFont type="icon-jinggao" className="error-icon" />,
+                title: (
+                    <div className="error-title">
+                        <div>
+                            <span className="error-title-first">警告</span>
+                            <span className="error-title-second">
+                                存在空文件
+                            </span>
+                        </div>
+                        <div className="error-title-third">
+                            继续保存可能导致数据丢失
+                        </div>
+                    </div>
+                ),
+                content: (
+                    <div className="error-content">
+                        请检查当前任务数据的子属性表和关联关系表，避免数据丢失。
+                    </div>
+                ),
+                className: 'save-error-modal',
+                okText: '继续保存',
+                cancelText: '退出保存',
+                onOk: async () => {
+                    await saveData();
+                    resolve();
+                },
+                okType: 'danger',
+                onCancel: () => {
+                    reject(new Error('取消保存'));
+                }
+            });
+        } else {
+            await saveData();
+            resolve();
+        }
+    });
+};
+
+const saveData = async () => {
+    message.loading({ key: 'save', content: '正在保存...', duration: 0 });
+    await TaskStore.submit();
+    await TaskStore.writeEditLog();
+    OperateHistoryStore.save();
+    message.success({ key: 'save', content: '保存完成', duration: 2 });
+};
+
+const checkEmptyData = async () => {
+    let attrs = await Attr.store.getAll();
+    let hasEmptyData = attrs.length === 0;
+    if (isManbuildTask()) {
+        let rels = await Relevance.store.getAll();
+        hasEmptyData = hasEmptyData || rels.length === 0;
+    }
+    return hasEmptyData;
 };
