@@ -110,22 +110,28 @@ class AdColorInput extends React.Component {
         return (
             // 当前AdColorInput组件设置z-index，防图层遮盖
             <div className={`color-box ${visible ? 'set-z-index' : ''}`}>
-                <div
-                    type="primary"
-                    className="color-btn"
-                    onClick={this.show}
-                    style={{ background }}>
-                    {icon ? (
+                {icon ? (
+                    <div
+                        type="primary"
+                        className="color-btn"
+                        onClick={this.show}
+                        style={{ background }}>
                         <IconFont
                             type={`icon-${icon}`}
                             style={{ fontSize: size, color }}
                         />
-                    ) : (
+                    </div>
+                ) : (
+                    <div
+                        type="primary"
+                        className="color-btn"
+                        onClick={this.show}>
                         <div
                             className="color-content"
                             style={{ background: color }}></div>
-                    )}
-                </div>
+                    </div>
+                )}
+
                 {/* 调色板 */}
                 {visible && (
                     <div
