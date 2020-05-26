@@ -146,7 +146,8 @@ export const RELS_ID_MAP_REVERSE = {
     [['LANE', 'TEXT']]: 'AD_Lane_Text_Rel',
     [['LANE', 'SIGN']]: 'AD_Sign_Lane_Rel',
     [['LANE', 'LIGHT']]: 'AD_Light_Lane_Rel',
-    [['LAP', 'ROAD']]: 'AD_Road_Point_Rel'
+    [['LAP', 'ROAD']]: 'AD_Road_Point_Rel',
+    [['LANEP', 'ROAD']]: 'AD_Road_Point_Rel'
 };
 
 //id与文字标注配置映射
