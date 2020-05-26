@@ -37,7 +37,7 @@ const OPTIONS = {
         actionid: 'add-point-btn'
     },
     LINE: {
-        key: 'icon-line-graph',
+        key: 'line-graph',
         title: '绘制折线',
         actionid: 'add-line-btn'
     },
@@ -149,7 +149,7 @@ class DrawToolBox extends React.Component {
             </Menu.Item>,
             <Menu.Item
                 name="LINE"
-                key="icon-line-graph"
+                key="line-graph"
                 title="绘制折线"
                 actionid="add-line-btn">
                 <AddLine />

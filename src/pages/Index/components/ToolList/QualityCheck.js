@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
 import { Modal } from 'antd';
+import { saveTaskDate } from 'src/utils/taskUtils';
 
 @inject('appStore')
 @inject('TaskStore')
@@ -34,14 +35,12 @@ class QualityCheck extends React.Component {
     }
 
     save = async () => {
-        const { TaskStore, OperateHistoryStore } = this.props;
+        const { OperateHistoryStore } = this.props;
         const { currentNode, savedNode } = OperateHistoryStore;
         const shouldSave = currentNode > savedNode;
 
         if (!shouldSave) return;
-        await TaskStore.submit();
-        await TaskStore.writeEditLog();
-        OperateHistoryStore.save();
+        await saveTaskDate();
     };
 
     handleClick = () => {
