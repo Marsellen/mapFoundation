@@ -6,6 +6,7 @@ import OperateHistoryStore from 'src/pages/Index/store/OperateHistoryStore';
 import Relevance from 'src/models/relevance';
 import Attr from 'src/models/attr';
 import IconFont from 'src/components/IconFont';
+import editLog from 'src/models/editLog';
 
 const SECEND_PATH = '13_ED_DATA';
 const THIRD_PATH = '1301_RAW_DATA';
@@ -104,11 +105,23 @@ export const saveTaskDate = () => {
                 okText: '继续保存',
                 cancelText: '退出保存',
                 onOk: async () => {
+                    let log = {
+                        action: 'save-with-empty',
+                        result: 'success',
+                        message: 'agree'
+                    };
+                    editLog.add(log);
                     await saveData();
                     resolve();
                 },
                 okType: 'danger',
                 onCancel: () => {
+                    let log = {
+                        action: 'save-with-empty',
+                        result: 'fail',
+                        message: 'reject'
+                    };
+                    editLog.add(log);
                     reject(new Error('取消保存'));
                 }
             });
