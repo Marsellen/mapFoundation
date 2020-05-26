@@ -165,7 +165,10 @@ class ResourceLayerStore {
 
     // 给updatePointClouds传什么显示什么，不传的不显示
     toggleProjectsPointCloud = () => {
-        window.pointCloudLayer.updatePointClouds(this.pointCloudCheckedList);
+        window.pointCloudLayer.updatePointClouds(
+            this.pointCloudCheckedList,
+            false
+        );
     };
 
     handleProjectsLayer = (checked, obj, parent, key) => {
