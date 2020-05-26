@@ -6,13 +6,9 @@ import axios from 'axios';
 configure({ enforceActions: 'always' });
 class RelStore {
     addRecords = flow(function* (url, dataType) {
-        try {
-            let response = yield axios.get(url);
-            let records = relFactory.relDataToTable(response.data, dataType);
-            yield Relevance.store.batchAdd(records);
-        } catch (e) {
-            console.log(e);
-        }
+        let response = yield axios.get(url);
+        let records = relFactory.relDataToTable(response.data, dataType);
+        yield Relevance.store.batchAdd(records);
     });
 
     destroy = flow(function* () {

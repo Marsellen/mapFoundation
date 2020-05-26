@@ -179,9 +179,11 @@ class VizComponent extends React.Component {
         console.time('taskLoad');
         const { TaskStore } = this.props;
         const { getTaskInfo, getTaskFile, activeTaskId, tasksPop } = TaskStore;
-        const hide = message.loading({
+        if (!activeTaskId) return;
+        const key = Math.random();
+        message.loading({
             content: '正在加载任务数据...',
-            key: 'init_task'
+            key
         });
         try {
             //获取任务信息 taskinfos.json
@@ -195,43 +197,59 @@ class VizComponent extends React.Component {
             ]);
             message.success({
                 content: '资料加载成功',
-                key: 'init_task',
-                duration: 1
+                duration: 1,
+                key
             });
         } catch (e) {
-            //关闭loading弹窗
-            hide();
-            // 任务列表快速切换时旧任务加载过程会报错
-            // e.message是加载报错的taskId
-            if (activeTaskId == e.message) {
-                message.error(e.message + '任务资料加载失败');
-            }
-            //删除本地导入加载失败的任务
-            tasksPop();
-            console.log('任务数据加载失败' + e.message || e || '');
+            const currentTaskId = e.message;
+            setTimeout(() => {
+                message.error({
+                    content: currentTaskId + '任务资料加载失败',
+                    key
+                });
+            });
+
+            // 删除本地导入加载失败的任务
+            tasksPop(currentTaskId);
+            console.log('任务数据加载失败' + currentTaskId || e || '');
         }
         console.timeEnd('taskLoad');
     };
 
     initEditResource = async task => {
         const { TaskStore } = this.props;
-        TaskStore.isEditableTask && this.initBoundary();
-        const resources = await Promise.all([
-            this.initVectors(task.vectors),
-            this.initRegion(task.region),
-            this.initMultiProjectResource(task)
-        ]);
-        this.initResouceLayer(resources);
-        this.installListener();
-        //设置画面缩放比例
-        this.setMapScale();
+        const { isEditableTask, activeTaskId } = TaskStore;
+        try {
+            isEditableTask && this.initBoundary();
+            const resources = await Promise.all([
+                this.initVectors(task.vectors),
+                this.initRegion(task.region),
+                this.initMultiProjectResource(task)
+            ]);
+            this.initResouceLayer(resources);
+            this.installListener();
+            //设置画面缩放比例
+            this.setMapScale();
+        } catch (e) {
+            console.log('任务资料加载异常' + e.message || e || '');
+            throw new Error(activeTaskId);
+        }
     };
 
     initExResource = async task => {
-        await Promise.all([
-            this.installRel(task.rels),
-            this.installAttr(task.attrs)
-        ]);
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
+        try {
+            await Promise.all([
+                this.installRel(task.rels),
+                this.installAttr(task.attrs)
+            ]);
+        } catch (e) {
+            console.log(
+                'rels.geojson或attrs.geojson加载异常' + e.message || e || ''
+            );
+            throw new Error(activeTaskId);
+        }
     };
 
     initMultiProjectResource = async task => {

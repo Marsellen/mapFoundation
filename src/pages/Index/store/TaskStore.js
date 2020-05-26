@@ -498,10 +498,18 @@ class TaskStore {
         this.LocalTaskCallback && this.LocalTaskCallback(this.activeTask);
     };
 
-    @action tasksPop = () => {
-        if (this.activeTask.isLocal) {
-            this.localTasks.pop();
+    @action tasksPop = currentTaskId => {
+        //如果当前任务加载报错，则回到无任务状态
+        if (this.activeTaskId == currentTaskId) {
             this.activeTask = {};
+        }
+        //如果是本地加载任务报错，则从任务列表中删除该任务
+        const currentTaskIndex = this.localTasks.findIndex(
+            item => item.taskId === currentTaskId
+        );
+        if (currentTaskIndex > -1) {
+            const isLocalTask = this.localTasks[currentTaskIndex].isLocal;
+            isLocalTask && this.localTasks.splice(currentTaskIndex, 1);
         }
     };
 
