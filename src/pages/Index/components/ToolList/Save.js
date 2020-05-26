@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { message, Modal } from 'antd';
 import CONFIG from 'src/config';
 import { getAuthentication, logout } from 'src/utils/Session';
+import { saveTaskDate } from 'src/utils/taskUtils';
 
 @inject('TaskStore')
 @inject('OperateHistoryStore')
@@ -32,15 +33,10 @@ class Save extends React.Component {
 
     action = async () => {
         await this.save();
-        message.success('保存成功', 3);
     };
 
     save = async () => {
-        const { TaskStore, OperateHistoryStore } = this.props;
-
-        await TaskStore.submit();
-        await TaskStore.writeEditLog();
-        OperateHistoryStore.save();
+        await saveTaskDate();
     };
 
     loop = () => {
@@ -58,13 +54,10 @@ class Save extends React.Component {
     };
 
     autoSave = async () => {
-        const { OperateHistoryStore, TaskStore } = this.props;
+        const { OperateHistoryStore } = this.props;
         let { couldSave } = OperateHistoryStore;
         if (couldSave) {
-            await TaskStore.submit();
-            await TaskStore.writeEditLog();
-            OperateHistoryStore.autoSave();
-            message.success('自动保存成功', 3);
+            await saveTaskDate();
         }
     };
 

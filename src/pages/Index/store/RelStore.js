@@ -5,7 +5,7 @@ import axios from 'axios';
 
 configure({ enforceActions: 'always' });
 class RelStore {
-    addRecords = flow(function*(url, dataType) {
+    addRecords = flow(function* (url, dataType) {
         try {
             let response = yield axios.get(url);
             let records = relFactory.relDataToTable(response.data, dataType);
@@ -15,7 +15,7 @@ class RelStore {
         }
     });
 
-    destroy = flow(function*() {
+    destroy = flow(function* () {
         try {
             yield Relevance.store.clear();
         } catch (e) {

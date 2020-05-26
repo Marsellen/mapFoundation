@@ -437,7 +437,7 @@ class TaskStore {
                 TaskService.saveFile(attrPayload),
                 TaskService.saveFile(relPayload)
             ]).catch(e => {
-                message.warning('数据保存失败：' + e.message, 3);
+                message.error('数据保存失败：' + e.message, 3);
             });
 
             this.taskSaveTime = moment().format('YYYY-MM-DD HH:mm:ss');
