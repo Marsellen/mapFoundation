@@ -5,17 +5,13 @@ import Attr from 'src/models/attr';
 
 configure({ enforceActions: 'always' });
 class AttrStore {
-    addRecords = flow(function*(url, dataType) {
-        try {
-            let response = yield axios.get(url);
-            let records = attrFactory.attrDataToTable(response.data, dataType);
-            yield Attr.store.batchAdd(records);
-        } catch (e) {
-            console.log(e);
-        }
-    })
+    addRecords = flow(function* (url, dataType) {
+        let response = yield axios.get(url);
+        let records = attrFactory.attrDataToTable(response.data, dataType);
+        yield Attr.store.batchAdd(records);
+    });
 
-    destroy = flow(function*() {
+    destroy = flow(function* () {
         try {
             yield Attr.store.clear();
         } catch (e) {
