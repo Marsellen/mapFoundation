@@ -162,50 +162,50 @@ class Task extends React.Component {
     };
 
     toggleTask = async (id, isEdit) => {
-        if (this.isToggling) return;
-        this.isToggling = true;
+        //防抖，减少重置画布次数
+        this.timeout && clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+            try {
+                const {
+                    TaskStore,
+                    QualityCheckStore,
+                    RenderModeStore
+                } = this.props;
+                const { current } = this.state;
+                const { taskIdList, activeTaskId } = TaskStore;
 
-        try {
-            const {
-                TaskStore,
-                QualityCheckStore,
-                RenderModeStore
-            } = this.props;
-            const { current } = this.state;
-            const { taskIdList, activeTaskId } = TaskStore;
-
-            // 切换任务时，保存上一个任务的缩放比例，该方法需最先执行
-            if (current && taskIdList.includes(current)) {
-                const preTaskScale = map.getEyeView();
-                const { position } = preTaskScale;
-                const { x, y, z } = position;
-                if (!(x === 0 && y === 0 && z === 0)) {
-                    AdLocalStorage.setTaskInfosStorage({
-                        taskId: current,
-                        taskScale: preTaskScale
-                    });
+                // 切换任务时，保存上一个任务的缩放比例，该方法需最先执行
+                if (current && taskIdList.includes(current)) {
+                    const preTaskScale = map.getEyeView();
+                    const { position } = preTaskScale;
+                    const { x, y, z } = position;
+                    if (!(x === 0 && y === 0 && z === 0)) {
+                        AdLocalStorage.setTaskInfosStorage({
+                            taskId: current,
+                            taskScale: preTaskScale
+                        });
+                    }
                 }
+
+                if (activeTaskId !== id) {
+                    RenderModeStore.setMode('common');
+                    QualityCheckStore.closeCheckReport();
+                    QualityCheckStore.clearCheckReport();
+                }
+
+                TaskStore.setActiveTask(id);
+                isEdit && TaskStore.startTaskEdit(id);
+                this.handleReportOpen();
+
+                //先浏览再开始任务时，获取周边底图
+                activeTaskId === id && isEdit && this.fetchLayerGroup();
+
+                this.setState({ current: id });
+            } catch (e) {
+                const msg = e.message || e || '';
+                console.log('切换任务报错' + msg);
             }
-
-            if (activeTaskId !== id) {
-                RenderModeStore.setMode('common');
-                QualityCheckStore.closeCheckReport();
-                QualityCheckStore.clearCheckReport();
-            }
-
-            TaskStore.setActiveTask(id);
-            isEdit && TaskStore.startTaskEdit(id);
-            this.handleReportOpen();
-
-            //先浏览再开始任务时，获取周边底图
-            activeTaskId === id && isEdit && this.fetchLayerGroup();
-
-            this.setState({ current: id }, () => {
-                this.isToggling = false;
-            });
-        } catch (e) {
-            this.isToggling = false;
-        }
+        }, 1000);
     };
 
     //不同模式下，处理底图数据
