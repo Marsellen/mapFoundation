@@ -1,7 +1,7 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import { message, Modal } from 'antd';
+import { Modal } from 'antd';
 import CONFIG from 'src/config';
 import { getAuthentication, logout } from 'src/utils/Session';
 import { saveTaskDate } from 'src/utils/taskUtils';
