@@ -102,6 +102,7 @@ class TaskStore {
             this.activeTask = this.validTasks.find(item => {
                 return item.taskId === id;
             });
+            this.activeTask.firstTime = false;
         } else {
             this.activeTask = {};
         }
@@ -492,7 +493,8 @@ class TaskStore {
         this.activeTask = {
             ...task,
             projectId: 1,
-            isLocal: true
+            isLocal: true,
+            firstTime: true
         };
         this.localTasks.push(this.activeTask);
         this.LocalTaskCallback && this.LocalTaskCallback(this.activeTask);
@@ -508,8 +510,9 @@ class TaskStore {
             item => item.taskId === currentTaskId
         );
         if (currentTaskIndex > -1) {
-            const isLocalTask = this.localTasks[currentTaskIndex].isLocal;
-            isLocalTask && this.localTasks.splice(currentTaskIndex, 1);
+            const currentTask = this.localTasks[currentTaskIndex];
+            const { isLocal, firstTime } = currentTask;
+            isLocal && firstTime && this.localTasks.splice(currentTaskIndex, 1);
         }
     };
 
