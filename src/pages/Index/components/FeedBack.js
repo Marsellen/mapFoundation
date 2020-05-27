@@ -196,12 +196,7 @@ class FeedBack extends React.Component {
     };
 
     setFeedback = async () => {
-        const {
-            TaskStore,
-            OperateHistoryStore,
-            FeedbackStore,
-            appStore
-        } = this.props;
+        const { TaskStore, FeedbackStore, appStore } = this.props;
         this.setState({ loading: true });
         const { loginUser } = appStore;
         const { activeTask } = TaskStore;
