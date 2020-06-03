@@ -56,20 +56,19 @@ class ResourceLayerStore {
         const activeTrackPointX = activeTrackPoint.x || activeTrackPoint.X;
         const activeTrackPointY = activeTrackPoint.y || activeTrackPoint.Y;
         const activeTrackPointZ = activeTrackPoint.z || activeTrackPoint.Z;
-        Object.values(this.multiProjectMap).find(project => {
-            const { layerMap } = project.children.track;
-            this.activeTrackName = Object.keys(layerMap).find(trackName => {
-                const isIncloud = layerMap[trackName].find(item => {
-                    const { X, Y, Z } = item;
-                    return (
-                        activeTrackPointX === X &&
-                        activeTrackPointY === Y &&
-                        activeTrackPointZ === Z
-                    );
-                });
-                return isIncloud ? trackName : false;
+        //获取当前工程轨迹
+        const activeProject = this.multiProjectMap[this.activeProjectName];
+        const { layerMap } = activeProject.children.track;
+        this.activeTrackName = Object.keys(layerMap).find(trackName => {
+            const isIncloud = layerMap[trackName].find(item => {
+                const { X, Y, Z } = item;
+                return (
+                    activeTrackPointX === X &&
+                    activeTrackPointY === Y &&
+                    activeTrackPointZ === Z
+                );
             });
-            return this.activeTrackName;
+            return isIncloud ? trackName : false;
         });
         return this.activeTrackName;
     };
