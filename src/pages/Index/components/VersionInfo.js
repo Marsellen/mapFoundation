@@ -44,6 +44,9 @@ class VersionInfo extends React.Component {
             okText: '确定',
             onOk: () => {
                 this.setState({ visible: false });
+            },
+            onCancel: () => {
+                this.setState({ visible: false });
             }
         });
     };
