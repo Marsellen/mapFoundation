@@ -262,9 +262,9 @@ export const TYPE_SELECT_OPTION_MAP = {
     //排序（icon后期补）
     AD_TS_CONTENT_SIGN_TYPE: [
         // 交通标志牌种类变化（比之前减少了部分种类，之前种类暂不删除，以防后面加上）
-        // 1  缺少icon （警告类标志，禁令类标志， 指示类标志）
+        // 1
         [
-            { value: 100, label: '警告类标志', icon: 'qitajinggao' },
+            { value: 100, label: '警告类标志', icon: 'jinggaolei' },
             {
                 value: 136,
                 label: '建议速度',
@@ -273,7 +273,7 @@ export const TYPE_SELECT_OPTION_MAP = {
             {
                 value: 200,
                 label: '禁令类标志',
-                icon: 'youceheliu'
+                icon: 'jinlinglei'
             },
             { value: 219, label: '限制速度', icon: 'xianzhisudu' },
             { value: 216, label: '禁止停车', icon: 'jinzhitingche' },
@@ -357,7 +357,7 @@ export const TYPE_SELECT_OPTION_MAP = {
             {
                 value: 300,
                 label: '指示类标志',
-                icon: 'youceheliu'
+                icon: 'zhishilei'
             },
             {
                 value: 328,

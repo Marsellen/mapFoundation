@@ -4,10 +4,10 @@ import Redo from './Redo';
 import Save from './Save';
 import EditLayer from './EditLayer';
 import ResourceLoader from './ResourceLoader';
-// import ExportShp from './ExportShp';
+import ExportShp from './ExportShp';
 import AddRel from './AddRel';
 import DelRel from './DelRel';
-// import SearchInfo from './SearchInfo';
+import SearchInfo from './SearchInfo';
 import QualityCheck from './QualityCheck';
 import PointCloud from './PointCloud';
 import TopBreakLine from './TopBreakLine';
@@ -20,11 +20,11 @@ export default [
     <Undo key="UNDO" />,
     <Redo key="REDO" />,
     <ResourceLoader key="RESOURCE_LOADER" />,
-    // <ExportShp key="EXPORT_SHP" />,
+    <ExportShp key="EXPORT_SHP" />,
     <Save key="SAVE" />,
     <PointCloud key="POINT_CLOUD" />,
     <ToolBox key="TOOL_BOX" />,
-    // <SearchInfo key="SEARCH_INFO" />,
+    <SearchInfo key="SEARCH_INFO" />,
     <QualityCheck key="QUALITY_TEST" />,
     <TopBreakLine key="TOP_BREAK_LINE" />,
     <EditLayer key="EDIT_LAYER" />,
