@@ -10,7 +10,7 @@ export const TOOLS_MAP = {
         TOP_VIEW: true,
         INTENSITY: true,
         POINT_STRATIFICATION: true,
-        SEARCHINFO: true,
+        // SEARCHINFO: true,
         TOP_BREAK_LINE: true,
         EDIT_LAYER: true,
         ADD_REL: false,

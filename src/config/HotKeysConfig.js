@@ -8,8 +8,8 @@ export const HOT_KEYS_CONFIG = {
             value: '俯视图视角下，ctrl+鼠标左键拉框',
             label: '框选'
         },
-        { value: 'Ctrl+F', label: '查询' },
-        { value: 'Ctrl+P', label: '坐标拾取' },
+        // { value: 'Ctrl+F', label: '查询' },
+        // { value: 'Ctrl+P', label: '坐标拾取' },
         { value: 'L', label: '测距' }
     ],
     VIEW_ADJUST_KEY: [

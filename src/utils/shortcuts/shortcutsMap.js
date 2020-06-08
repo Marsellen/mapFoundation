@@ -32,24 +32,24 @@ export const shortcutMap = [
         keyCode: 76,
         describe: '测距 L'
     },
-    {
-        id: 'search-btn',
-        ctrl: true,
-        alt: false,
-        shift: false,
-        keyCode: 70,
-        preventDefault: true,
-        describe: 'ID查询/坐标查询 Ctrl+f'
-    },
-    {
-        id: 'read-coordinate-btn',
-        ctrl: true,
-        alt: false,
-        shift: false,
-        keyCode: 80,
-        preventDefault: true,
-        describe: '坐标拾取 Ctrl+P'
-    },
+    // {
+    //     id: 'search-btn',
+    //     ctrl: true,
+    //     alt: false,
+    //     shift: false,
+    //     keyCode: 70,
+    //     preventDefault: true,
+    //     describe: 'ID查询/坐标查询 Ctrl+f'
+    // },
+    // {
+    //     id: 'read-coordinate-btn',
+    //     ctrl: true,
+    //     alt: false,
+    //     shift: false,
+    //     keyCode: 80,
+    //     preventDefault: true,
+    //     describe: '坐标拾取 Ctrl+P'
+    // },
     {
         id: 'under-view-btn',
         ctrl: true,
