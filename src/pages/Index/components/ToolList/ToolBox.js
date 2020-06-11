@@ -3,7 +3,7 @@ import { Menu } from 'antd';
 import CheckButton from 'src/components/CheckButton';
 import { inject, observer } from 'mobx-react';
 import Ranging from './Ranging';
-import ReadCoordinate from './ReadCoordinate';
+// import ReadCoordinate from './ReadCoordinate';
 import RoadSet from './RoadSet';
 
 const EDIT_TYPES = ['meature_distance', 'read_coordinate', 'select_road_plane'];
@@ -55,13 +55,13 @@ class ToolBox extends React.Component {
                     disabled={this.disabled('ceju')}>
                     <Ranging disabled={this.disabled('ceju')} />
                 </Menu.Item>
-                <Menu.Item
+                {/* <Menu.Item
                     key="zuobiaoshiqu1"
                     title="坐标拾取"
                     actionid="read-coordinate-btn"
                     disabled={this.disabled('zuobiaoshiqu')}>
                     <ReadCoordinate disabled={this.disabled('zuobiaoshiqu')} />
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item
                     key="lumianshezhi"
                     title="路面设置"
