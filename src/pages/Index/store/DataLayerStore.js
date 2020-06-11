@@ -34,6 +34,7 @@ class DataLayerStore {
     @observable readCoordinateResult;
     @observable updateKey;
     @observable brushDisadled = true;
+    @observable isQcOpen = false;
 
     initEditor = layers => {
         this.editor = new EditControl();
@@ -77,6 +78,17 @@ class DataLayerStore {
         return layer;
     };
 
+    // 质检员选取错误数据
+    @action QCAttrModal = () => {
+        this.isQcOpen = true;
+    };
+    // 质检员选取错误数据
+    @action UnQCAttrModal = () => {
+        this.isQcOpen = false;
+        let viz = document.querySelector('#viz');
+        removeClass(viz, 'error-viz');
+    };
+
     setSelectedCallBack = callback => {
         this.editor.onFeatureSelected((result, event) => {
             switch (this.editType) {
@@ -117,6 +129,9 @@ class DataLayerStore {
                     break;
                 case 'attribute_brush':
                     this.attributeBrushCallback(result, event);
+                    break;
+                case 'error_layer':
+                    this.errorLayerCallback(result, event);
                     break;
             }
         });
@@ -183,6 +198,7 @@ class DataLayerStore {
         this.editor.clear();
         this.editor.cancel();
         this.unPick();
+        this.UnQCAttrModal();
         this.attributeBrushPick();
     };
 
@@ -198,6 +214,11 @@ class DataLayerStore {
     ruler = () => {
         let viz = document.querySelector('#viz');
         addClass(viz, 'ruler-viz');
+    };
+
+    errorLayer = () => {
+        let viz = document.querySelector('#viz');
+        addClass(viz, 'error-viz');
     };
 
     // 新增，打断形状点鼠标样式
@@ -236,6 +257,7 @@ class DataLayerStore {
         removeClass(viz, 'shuxingshua-viz');
         removeClass(viz, 'trim-viz');
         removeClass(viz, 'curve-viz');
+        removeClass(viz, 'error-viz');
     };
 
     newPoint = () => {
@@ -472,6 +494,17 @@ class DataLayerStore {
         this.uturnCallback = callback;
     };
 
+    setErrorLayerCallback = callback => {
+        this.errorLayerCallback = callback;
+    };
+
+    chooseErrorLayer = () => {
+        this.exitEdit();
+        if (!this.editor) return;
+        this.setEditType('error_layer');
+        this.errorLayer();
+    };
+
     newCircle = () => {
         this.exitEdit();
         if (!this.editor) return;
@@ -619,6 +652,9 @@ class DataLayerStore {
                 break;
             case 'trim':
                 message.destroy();
+                break;
+            case 'error_layer':
+                this.UnQCAttrModal();
                 break;
             default:
                 break;

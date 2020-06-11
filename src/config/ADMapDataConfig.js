@@ -1382,7 +1382,7 @@ export const TABLE_DATA_MAP = {
             name: '错误图层名称',
             type: 'AD_MAP_QC_FILE_NAME',
             required: true,
-            domType: 'Select'
+            domType: 'ChooseErrorLayer'
         },
         {
             key: 'FEAT_ID',

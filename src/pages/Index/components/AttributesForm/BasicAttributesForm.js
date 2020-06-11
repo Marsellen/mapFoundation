@@ -5,6 +5,7 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
+import ChooseErrorLayer from 'src/components/ChooseErrorLayer';
 import { getValidator } from 'src/utils/form/validator';
 import Filter from 'src/utils/table/filter';
 
@@ -20,6 +21,7 @@ const formItemLayout = {
 };
 
 @inject('AttributeStore')
+@inject('appStore')
 @observer
 class BasicAttributesForm extends React.Component {
     render() {
@@ -95,7 +97,11 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderInput = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
+        const {
+            form,
+            AttributeStore,
+            appStore: { loginUser }
+        } = this.props;
         const { readonly } = AttributeStore;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
@@ -108,10 +114,17 @@ class BasicAttributesForm extends React.Component {
                             },
                             ...this.getValidatorSetting(item.validates)
                         ],
-                        initialValue: item.value
+                        initialValue:
+                            item.key === 'QC_PERSON'
+                                ? loginUser.name
+                                : item.value
                     })(
                         <Input
-                            disabled={readonly}
+                            disabled={
+                                readonly ||
+                                item.key === 'QC_PERSON' ||
+                                item.key === 'FIX_PERSON'
+                            }
                             onChange={val => this.handleChange(val, item, name)}
                         />
                     )
@@ -170,6 +183,45 @@ class BasicAttributesForm extends React.Component {
                 )}
             </Form.Item>
         );
+    };
+
+    renderChooseErrorLayer = (item, index, name) => {
+        const { form, AttributeStore } = this.props;
+        const { readonly } = AttributeStore;
+        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
+                {!readonly ? (
+                    form.getFieldDecorator(name + '.' + item.key, {
+                        rules: [
+                            {
+                                required: item.required,
+                                message: `${item.name}必填,请输入合法的数字`
+                            },
+                            ...this.getValidatorSetting(item.validates)
+                        ],
+                        initialValue: item.value
+                    })(
+                        <ChooseErrorLayer
+                            options={options}
+                            firstValue={item.value}
+                            handleErrorLayerId={this.handleErrorLayerId}
+                            form={form}
+                        />
+                    )
+                ) : (
+                    <span className="ant-form-text">
+                        {this.getArrayOption(item.value, options)}
+                    </span>
+                )}
+            </Form.Item>
+        );
+    };
+
+    handleErrorLayerId = (layerName, layerId) => {
+        const { form } = this.props;
+        form.setFieldsValue({ 'attributes.FILE_NAME': layerName });
+        form.setFieldsValue({ 'attributes.FEAT_ID': layerId });
     };
 
     handleChange = (val, filed, name) => {

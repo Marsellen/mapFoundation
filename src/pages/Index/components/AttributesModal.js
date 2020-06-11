@@ -14,6 +14,7 @@ import 'less/components/attributes-modal.less';
 
 @Form.create()
 @inject('AttributeStore')
+@inject('DataLayerStore')
 @observer
 class AttributesModal extends React.Component {
     componentDidMount() {
@@ -22,7 +23,8 @@ class AttributesModal extends React.Component {
     }
 
     handleCancel = e => {
-        const { AttributeStore } = this.props;
+        const { DataLayerStore, AttributeStore } = this.props;
+        DataLayerStore.UnQCAttrModal();
         AttributeStore.hide();
     };
 
