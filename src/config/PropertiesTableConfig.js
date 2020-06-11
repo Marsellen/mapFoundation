@@ -577,6 +577,7 @@ export const COLUMNS_CONFIG = {
 export const SELECT_OPTIONS = [
     {
         group: '几何要素图层',
+        type: 'vector',
         class: 'four-layer-out',
         items: [
             'AD_Road',
@@ -595,6 +596,7 @@ export const SELECT_OPTIONS = [
     },
     {
         group: '关系图层',
+        type: 'rel',
         class: 'three-layer-out',
         items: [
             'AD_Road_Con',
@@ -607,6 +609,7 @@ export const SELECT_OPTIONS = [
     },
     {
         group: '属性图层',
+        type: 'attr',
         class: 'three-layer-out',
         items: [
             'AD_TS_Content',
@@ -618,7 +621,37 @@ export const SELECT_OPTIONS = [
     },
     {
         group: '其他图层',
+        type: 'other',
         class: 'three-layer-out',
         items: ['AD_Map_QC']
     }
 ];
+
+export const OPTION_LAYER_MAP = {
+    //矢量要素
+    AD_Road: ['AD_Road'],
+    AD_LaneDivider: ['AD_LaneDivider'],
+    AD_Lane: ['AD_Lane'],
+    AD_LaneAttrPoint: ['AD_LaneAttrPoint'],
+    AD_Arrow: ['AD_Arrow'],
+    AD_StopLocation: ['AD_StopLocation'],
+    AD_LaneMark_Plg: ['AD_LaneMark_Plg'],
+    AD_Text: ['AD_Text'],
+    AD_TrafficSign: ['AD_TrafficSign'],
+    AD_TrafficLight: ['AD_TrafficLight'],
+    AD_Pole: ['AD_Pole'],
+    AD_RS_Barrier: ['AD_RS_Barrier'],
+    //关联关系
+    AD_Road_Con: ['AD_Road'],
+    AD_Lane_Con: ['AD_Lane'],
+    AD_StopL_Lane_Rel: ['AD_Lane', 'AD_StopLocation'],
+    AD_Plg_Lane_Rel: ['AD_Lane', 'AD_Pole'],
+    AD_Sign_Lane_Rel: ['AD_Lane', 'AD_TrafficSign'],
+    AD_Light_Lane_Rel: ['AD_Lane', 'AD_TrafficLight'],
+    //关联属性
+    AD_TS_Content: ['AD_TrafficSign'],
+    AD_Sub_Lamp: ['AD_TrafficLight'],
+    AD_Lane_RS: ['AD_Lane'],
+    AD_Road_Con_RS: ['AD_Road'],
+    AD_Lane_Con_RS: ['AD_Lane']
+};

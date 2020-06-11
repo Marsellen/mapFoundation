@@ -30,6 +30,7 @@ import _ from 'lodash';
  * @returns {Object} 删除后的操作记录
  */
 const deleteLine = async features => {
+    //获取要删除要素的关联关系和关联属性
     let { rels, attrs } = await features.reduce(
         async (total, feature) => {
             let layerName = feature.layerName;
@@ -45,7 +46,7 @@ const deleteLine = async features => {
         },
         { rels: [], attrs: [] }
     );
-
+    //获取所有关联要素的options
     let allRelFeatureOptions = getAllRelFeatureOptions(rels);
     let featuresLog = calcFeaturesLog(
         [features, []],
@@ -58,6 +59,31 @@ const deleteLine = async features => {
     };
 
     await updateFeatures(historyLog);
+
+    return historyLog;
+};
+
+/**
+ * 强制删除要素
+ * @method forceDelete
+ * @param {Array<Object>} features 被删除要素集合
+ * @returns {Object} 删除后的操作记录
+ */
+const forceDelete = async features => {
+    let historyLog = {
+        features: [features, []],
+        rels: [[], []],
+        attrs: [[], []]
+    };
+
+    //获取图层映射{layerName:layer}
+    let featuresMap = getFeaturesMap(features);
+
+    //通过uuid删除要素
+    features.forEach(feature => {
+        let layer = featuresMap[feature.layerName];
+        layer.removeFeatureById(feature.uuid);
+    });
 
     return historyLog;
 };
@@ -760,12 +786,15 @@ const attrsDataFormat = (data, source) => {
 const updateFeatures = async ({ features, rels, attrs } = {}) => {
     let [oldFeatures, newFeatures] = features;
     let updateFeatures = [];
+    //获取图层映射{layerName:layer}
     let featuresMap = getFeaturesMap([...oldFeatures, ...newFeatures]);
     newFeatures.forEach(feature => {
+        //从sdk图层中查找该要素
         let layer = featuresMap[feature.layerName];
         let option = getFeatureOption(feature);
         let _feature = layer.getFeatureByOption(option);
         if (_feature) {
+            //如果是已有要素，则更新该要素
             updateFeatures.push(option.key + option.value);
             feature = {
                 ..._feature.properties,
@@ -773,6 +802,7 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
             };
             layer.updateFeatures([feature]);
         } else {
+            //如果不是已有要素，则新增该要素
             layer.addFeatures([feature.data]);
         }
     });
@@ -782,6 +812,7 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
     if (attrs) {
         await attrFactory.replaceAttrs(attrs);
     }
+    //删除旧要素
     oldFeatures.forEach(feature => {
         let layer = featuresMap[feature.layerName];
         let option = getFeatureOption(feature);
@@ -793,6 +824,7 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
 
 const updateRels = async ([oldRels, newRels] = []) => {
     let relStore = Relevance.store;
+    //从indexDB中获取旧关联关系id的集合
     let oldRelIds = await oldRels.reduce(async (total, record) => {
         total = await total;
         let _record = await relStore.get(
@@ -802,8 +834,11 @@ const updateRels = async ([oldRels, newRels] = []) => {
         total.push(_record.id);
         return total;
     }, []);
+    //通过旧关联关系id的集合，删除旧关联关系
     await Promise.all(oldRelIds.map(id => relStore.deleteById(id)));
+    //向indexDB中添加新关联关系
     await relStore.batchAdd(newRels);
+    //更新sdk图层中要素属性的关联关系
     updateFeaturesByRels(oldRels, true);
     updateFeaturesByRels(newRels);
 };
@@ -818,22 +853,28 @@ const updateRels = async ([oldRels, newRels] = []) => {
 const calcFeaturesLog = (features, allFeatureOptions) => {
     let [oldFeatures, newFeatures] = features;
     let [oldAllFeatureOptions, newAllFeatureOptions] = allFeatureOptions;
+    //获取所有旧要素的id集合
     let oldFeaturesIds = oldFeatures.map(
         feature => getFeatureOption(feature).value
     );
+    //获取要删除要素的关联要素的option集合
     let relFeatureOptions = oldAllFeatureOptions.filter(option => {
         return !oldFeaturesIds.includes(option.value);
     });
+    //获取关联要素的集合
     let relFeatures = relFeatureOptions.flatMap(option => {
         let feature = getLayerByName(option.layerName).getFeatureByOption(
             option
         );
         return feature ? feature.properties : [];
     });
+    //更新关联要素的properties
     let newRelFeatures = relFeatures.map(feature => {
         return completeProperties(feature);
     });
+    //获取所有新关联要素的id集合
     let newAllFeaturesIds = newAllFeatureOptions.map(option => option.value);
+    //将新增要素进行类型：带关联关系的、不带关联关系的
     let { newWithRelFeatures, newWithoutRelFeatures } = newFeatures.reduce(
         (total, feature) => {
             if (newAllFeaturesIds.includes(getFeatureOption(feature).value)) {
@@ -845,16 +886,19 @@ const calcFeaturesLog = (features, allFeatureOptions) => {
         },
         { newWithRelFeatures: [], newWithoutRelFeatures: [] }
     );
+    //更新新增要素（带关联关系）的UPD_STAT字段
     newWithRelFeatures = newWithRelFeatures.map(feature => {
         return completeProperties(feature, {
             UPD_STAT: '{"GEOMETRY":"ADD","RELATION":"MOD"}'
         });
     });
+    //更新新增要素（不带关联关系）的UPD_STAT字段
     newWithoutRelFeatures = newWithoutRelFeatures.map(feature => {
         return completeProperties(feature, {
             UPD_STAT: '{"GEOMETRY":"ADD"}'
         });
     });
+    //返回features，features[0]是该操作涉及到的所有要素，features[1]是该操作新生成的要素
     return [
         [...oldFeatures, ...relFeatures],
         [...newWithRelFeatures, ...newWithoutRelFeatures, ...newRelFeatures]
@@ -957,6 +1001,7 @@ const WKTToGeom = wkt => {
 
 export {
     deleteLine,
+    forceDelete,
     breakLine,
     mergeLine,
     lineToStop,

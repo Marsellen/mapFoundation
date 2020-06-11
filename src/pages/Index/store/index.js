@@ -18,6 +18,7 @@ import RenderModeStore from './RenderModeStore';
 import DefineModeStore from './DefineModeStore';
 import FeedbackStore from './FeedbackStore';
 import TextStore from './TextStore';
+import AttrRightMenuStore from './AttrRightMenuStore';
 
 export default {
     MenuStore,
@@ -39,5 +40,6 @@ export default {
     RenderModeStore,
     DefineModeStore,
     FeedbackStore,
-    TextStore
+    TextStore,
+    AttrRightMenuStore
 };

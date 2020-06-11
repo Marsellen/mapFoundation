@@ -3,7 +3,11 @@ import ToolIcon from 'src/components/ToolIcon';
 import { Select, ConfigProvider, Input, Button, Icon, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdTable from 'src/components/AdTable';
-import { COLUMNS_CONFIG, SELECT_OPTIONS } from 'config/PropertiesTableConfig';
+import {
+    COLUMNS_CONFIG,
+    SELECT_OPTIONS,
+    OPTION_LAYER_MAP
+} from 'config/PropertiesTableConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import {
     getLayerItems,
@@ -21,7 +25,9 @@ import Resize from 'src/utils/resize';
 import Filter from 'src/utils/table/filter';
 import { ATTR_SPEC_CONFIG, REL_ATTR_LAYERS } from 'config/AttrsConfig';
 import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
+import AttrRightMenu from 'src/pages/Index/components/ToolList/AttrRightMenu';
 
+@inject('AttrRightMenuStore')
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('TaskStore')
@@ -81,6 +87,7 @@ class ViewAttribute extends React.Component {
                     wrapClassName="view-attribute-modal-wrap">
                     {this.renderContent()}
                 </SeniorModal>
+                <AttrRightMenu />
             </span>
         );
     }
@@ -103,7 +110,8 @@ class ViewAttribute extends React.Component {
                     onRow={record => {
                         return {
                             onClick: this.tableOnClick(record),
-                            onDoubleClick: this.tableOnDoubleClick(record)
+                            onDoubleClick: this.tableOnDoubleClick(record),
+                            onContextMenu: this.tableOnContextMenu(record)
                         };
                     }}
                     bordered
@@ -292,10 +300,7 @@ class ViewAttribute extends React.Component {
                 ? Filter.get(col.filterBy)(record[col.dataIndex], record)
                 : record[col.dataIndex];
 
-            return text
-                .toString()
-                .toLowerCase()
-                .includes(value.toLowerCase());
+            return text.toString().toLowerCase().includes(value.toLowerCase());
         },
         onFilterDropdownVisibleChange: visible => {
             if (visible) {
@@ -376,11 +381,29 @@ class ViewAttribute extends React.Component {
         };
     };
 
+    //属性列表强制删除快捷键
+    forceDeleteHotKey = event => {
+        const { ctrlKey, keyCode } = event;
+        if (ctrlKey && keyCode === 46) {
+            event.preventDefault();
+            event.stopPropagation();
+            const { AttrRightMenuStore } = this.props;
+            const { handleForceDelete } = AttrRightMenuStore;
+            handleForceDelete();
+        }
+    };
+
     toggle = () => {
         if (this.state.visible) {
-            return this.setState({
+            this.setState({
                 visible: false
             });
+            //隐藏属性列表时，解绑快捷键监听
+            window.removeEventListener('keydown', this.forceDeleteHotKey);
+            return false;
+        } else {
+            //显示属性列表时，绑定快捷键监听
+            window.addEventListener('keydown', this.forceDeleteHotKey);
         }
 
         const { DataLayerStore, TaskStore } = this.props;
@@ -409,6 +432,8 @@ class ViewAttribute extends React.Component {
         this.setState({
             visible: false
         });
+        //隐藏属性列表时，解绑快捷键监听
+        window.removeEventListener('keydown', this.forceDeleteHotKey);
     };
 
     getLabel = item => {
@@ -432,10 +457,12 @@ class ViewAttribute extends React.Component {
     tableOnClick = record => {
         const { DataLayerStore } = this.props;
         return async e => {
+            //初始化右键菜单
+            this.initRightMenu(e, record);
             let feature = await this.searchFeature(record);
             DataLayerStore.exitEdit();
             this.showAttributesModal(feature);
-            //展开
+            //展开行
             this.openRowStyle(record.index);
         };
     };
@@ -445,12 +472,36 @@ class ViewAttribute extends React.Component {
             let feature = await this.searchFeature(record, true);
             if (!feature) return;
             let extent = map.getExtent(feature.data.geometry);
-            //console.log(extent);
             map.setView('U');
             map.setExtent(extent);
-            //展开
+            //展开行
             this.openRowStyle(record.index);
         };
+    };
+
+    tableOnContextMenu = record => {
+        return e => this.initRightMenu(e, record, true);
+    };
+
+    initRightMenu = (e, record, visible) => {
+        const { layerName } = this.state;
+        const { AttrRightMenuStore, DataLayerStore } = this.props;
+        const {
+            show,
+            getMenuStyle,
+            getData,
+            getLayerName
+        } = AttrRightMenuStore;
+        const editLayer = DataLayerStore.getEditLayer();
+        if (!editLayer) return;
+        const currentLayerName = editLayer.layerName;
+        const enableLayerNames = OPTION_LAYER_MAP[layerName];
+        const isEnableLayer = enableLayerNames.includes(currentLayerName);
+        if (!isEnableLayer) return;
+        visible && show();
+        getMenuStyle(e, visible);
+        getData(record);
+        getLayerName(layerName);
     };
 
     showAttributesModal = async obj => {

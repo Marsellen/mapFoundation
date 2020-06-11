@@ -140,6 +140,14 @@ export const shortcutMap = [
         describe: '删除要素 Delete'
     },
     {
+        id: 'force-delete-btn',
+        ctrl: true,
+        alt: false,
+        shift: false,
+        keyCode: 46,
+        describe: '强制删除要素 Delete'
+    },
+    {
         id: 'add-rel-btn',
         ctrl: false,
         alt: false,

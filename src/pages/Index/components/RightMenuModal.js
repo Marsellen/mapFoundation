@@ -3,6 +3,7 @@ import { Modal, Menu, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import {
     deleteLine,
+    forceDelete,
     breakLine,
     mergeLine,
     breakLineByLine
@@ -108,8 +109,7 @@ class RightMenuModal extends React.Component {
                         paddingBottom: 0,
                         ...this.getPosition(menuList)
                     }}
-                    width={136}
-                    bodyStyle={{ padding: 0, fontSize: 12 }}
+                    className="right-menu-modal"
                     onCancel={this.handleCancel}>
                     <Menu className="menu">{menuList}</Menu>
                 </Modal>
@@ -134,84 +134,91 @@ class RightMenuModal extends React.Component {
                 id="set-edit-layer-btn"
                 key="setEditLayer"
                 onClick={this.setEditLayerFeature}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                className="right-menu-item">
                 <span>设置为可编辑图层</span>
             </Menu.Item>,
             <Menu.Item
                 id="delete-btn"
                 key="delete"
                 onClick={this.deleteFeature}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                className="right-menu-item">
                 <span>删除</span>
+            </Menu.Item>,
+            <Menu.Item
+                id="force-delete-btn"
+                key="forceDelete"
+                onClick={this.forceDeleteFeature}
+                className="right-menu-item">
+                <span>强制删除</span>
             </Menu.Item>,
             <Menu.Item
                 id="insert-points-btn"
                 key="insertPoints"
                 onClick={this.insertPoints}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                className="right-menu-item">
                 <span>新增形状点</span>
             </Menu.Item>,
             <Menu.Item
                 id="change-points-btn"
                 key="changePoints"
                 onClick={this.changePoints}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                className="right-menu-item">
                 <span>修改形状点</span>
             </Menu.Item>,
             <Menu.Item
                 id="delete-points-btn"
                 key="deletePoints"
                 onClick={this.deletePoints}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                className="right-menu-item">
                 <span>删除形状点</span>
             </Menu.Item>,
             <Menu.Item
                 id="break-line-btn"
                 key="break"
                 onClick={this.breakLine}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                className="right-menu-item">
                 <span>打断</span>
             </Menu.Item>,
             <Menu.Item
                 id="reverse-order-line-btn"
                 key="reverseOrderLine"
                 onClick={this.reverseOrderLine}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                className="right-menu-item">
                 <span>线要素逆序</span>
             </Menu.Item>,
             <Menu.Item
                 id="trim-btn"
                 key="trim"
                 onClick={this.trim}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                className="right-menu-item">
                 <span>修整</span>
             </Menu.Item>,
             <Menu.Item
                 id="break-group-btn"
                 key="breakGroup"
                 onClick={this.breakLine}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                className="right-menu-item">
                 <span>齐打断</span>
             </Menu.Item>,
             <Menu.Item
                 id="merge-line-btn"
                 key="merge"
                 onClick={this.mergeLine}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                className="right-menu-item">
                 <span>合并</span>
             </Menu.Item>,
             <Menu.Item
                 id="batch-assign-btn"
                 key="batchAssign"
                 onClick={this.batchAssign}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                className="right-menu-item">
                 <span>批量赋值</span>
             </Menu.Item>,
             <Menu.Item
                 id="break-by-line-btn"
                 key="breakByLine"
                 onClick={this.breakByLine}
-                style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                className="right-menu-item">
                 <span>拉线齐打断</span>
             </Menu.Item>
         ];
@@ -225,14 +232,14 @@ class RightMenuModal extends React.Component {
                     id="copy-btn"
                     key="copyLine"
                     onClick={this.copyLine}
-                    style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                    className="right-menu-item">
                     <span>复制</span>
                 </Menu.Item>,
                 <Menu.Item
                     id="translation-point-btn"
                     key="movePointFeature"
                     onClick={this.movePointFeature}
-                    style={{ marginTop: 0, marginBottom: 0, fontSize: 12 }}>
+                    className="right-menu-item">
                     <span>平移</span>
                 </Menu.Item>
             );
@@ -462,6 +469,42 @@ class RightMenuModal extends React.Component {
         const { RightMenuStore } = this.props;
         let result = RightMenuStore.delete();
         let historyLog = await deleteLine(result, TaskStore.activeTask);
+
+        AttributeStore.hideRelFeatures();
+        AttributeStore.hide();
+
+        return historyLog;
+    }
+
+    forceDeleteFeature = () => {
+        const { RightMenuStore, DataLayerStore } = this.props;
+
+        if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble())
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
+
+        Modal.confirm({
+            title: '您确认强制删除此要素？删除时关联属性和关联关系不会连带删除',
+            okText: '确定',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk: this.forceDeleteFeatureHandler.bind(this),
+            onCancel() {
+                DataLayerStore.exitEdit();
+            }
+        });
+        RightMenuStore.hide();
+    };
+
+    @logDecorator({ operate: '强制删除要素' })
+    async forceDeleteFeatureHandler() {
+        const { RightMenuStore } = this.props;
+        let result = RightMenuStore.delete();
+        let historyLog = await forceDelete(result, TaskStore.activeTask);
 
         AttributeStore.hideRelFeatures();
         AttributeStore.hide();
