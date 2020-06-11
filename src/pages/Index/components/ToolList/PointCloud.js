@@ -2,6 +2,8 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import PointStratification from './PointStratification';
 import Intensity from './Intensity';
+import PointBright from './PointBright';
+import Contrast from './Contrast';
 import AdjustPointSize from './AdjustPointSize';
 import 'src/assets/less/components/point-cloud.less';
 import ToolIcon from 'src/components/ToolIcon';
@@ -34,9 +36,13 @@ class PointCloud extends React.Component {
         return (
             <div className="point-cloud">
                 <div className="point-cloud-right">
-                    <div className="point-cloud-right-content">
-                        <span>点云反射率</span>
+                    <div className="point-cloud-right-content-top">
+                        <span>反射率</span>
                         <Intensity clicked={clicked} />
+                        <span>亮度</span>
+                        <PointBright clicked={clicked} />
+                        <span>对比度</span>
+                        <Contrast clicked={clicked} />
                     </div>
                     <div className="point-cloud-right-content">
                         <span>点云大小</span>
