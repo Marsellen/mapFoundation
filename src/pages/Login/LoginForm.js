@@ -84,7 +84,7 @@ class LoginForm extends React.Component {
         let userName = localStorage.getItem('userName');
         return (
             <div className={this.props.className}>
-                <h3 className="title">管理员登录</h3>
+                <h3 className="title">用户登录</h3>
                 <Form onSubmit={this.loginSubmit}>
                     <Form.Item>
                         {getFieldDecorator('username', {
