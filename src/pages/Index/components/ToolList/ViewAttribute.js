@@ -399,11 +399,11 @@ class ViewAttribute extends React.Component {
                 visible: false
             });
             //隐藏属性列表时，解绑快捷键监听
-            window.removeEventListener('keydown', this.forceDeleteHotKey);
+            window.removeEventListener('keyup', this.forceDeleteHotKey);
             return false;
         } else {
             //显示属性列表时，绑定快捷键监听
-            window.addEventListener('keydown', this.forceDeleteHotKey);
+            window.addEventListener('keyup', this.forceDeleteHotKey);
         }
 
         const { DataLayerStore, TaskStore } = this.props;
@@ -433,7 +433,7 @@ class ViewAttribute extends React.Component {
             visible: false
         });
         //隐藏属性列表时，解绑快捷键监听
-        window.removeEventListener('keydown', this.forceDeleteHotKey);
+        window.removeEventListener('keyup', this.forceDeleteHotKey);
     };
 
     getLabel = item => {
@@ -492,16 +492,16 @@ class ViewAttribute extends React.Component {
             getData,
             getLayerName
         } = AttrRightMenuStore;
+        getLayerName(layerName);
         const editLayer = DataLayerStore.getEditLayer();
         if (!editLayer) return;
         const currentLayerName = editLayer.layerName;
         const enableLayerNames = OPTION_LAYER_MAP[layerName];
         const isEnableLayer = enableLayerNames.includes(currentLayerName);
         if (!isEnableLayer) return;
-        visible && show();
         getMenuStyle(e, visible);
         getData(record);
-        getLayerName(layerName);
+        visible && show();
     };
 
     showAttributesModal = async obj => {
