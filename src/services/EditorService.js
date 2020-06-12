@@ -18,6 +18,14 @@ const EditorService = {
         };
         return service({ config });
     },
+    batchMergeLines: data => {
+        const config = {
+            url: EditApiPath('/adcommon/batch_join'),
+            method: 'post',
+            data
+        };
+        return service({ config });
+    },
     locatePicture: (data, errorCallback) => {
         const config = {
             url: EditApiPath('/api/getbestfitjpg'),
@@ -41,8 +49,7 @@ const EditorService = {
             data
         };
         return service({ config });
-    },
-
+    }
 };
 
 export default EditorService;

@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import {
     deleteLine,
     forceDelete,
+    batchMergeLine,
     breakLine,
     mergeLine,
     breakLineByLine
@@ -206,6 +207,13 @@ class RightMenuModal extends React.Component {
                 onClick={this.mergeLine}
                 className="right-menu-item">
                 <span>合并</span>
+            </Menu.Item>,
+            <Menu.Item
+                id="batch-merge-btn"
+                key="batchMerge"
+                onClick={this.batchMergeLine}
+                className="right-menu-item">
+                <span>批量合并</span>
             </Menu.Item>,
             <Menu.Item
                 id="batch-assign-btn"
@@ -677,6 +685,47 @@ class RightMenuModal extends React.Component {
             return historyLog;
         } catch (e) {
             message.warning('合并失败：' + e.message, 3);
+            throw e;
+        }
+    }
+
+    batchMergeLine = () => {
+        const { RightMenuStore, DataLayerStore } = this.props;
+        if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble())
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
+
+        Modal.confirm({
+            title: '您确认执行操作？',
+            okText: '确定',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk: this.batchMergeLineHandler.bind(this),
+            onCancel() {
+                DataLayerStore.exitEdit();
+            }
+        });
+        RightMenuStore.hide();
+        AttributeStore.hideRelFeatures();
+    };
+
+    @logDecorator({ operate: '批量合并线要素' })
+    async batchMergeLineHandler() {
+        try {
+            const { RightMenuStore } = this.props;
+            let features = RightMenuStore.getFeatures();
+
+            let historyLog = await batchMergeLine(
+                features,
+                TaskStore.activeTask
+            );
+            return historyLog;
+        } catch (e) {
+            message.warning('批量合并失败：' + e.message, 3);
             throw e;
         }
     }

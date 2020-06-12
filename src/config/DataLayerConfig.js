@@ -67,6 +67,7 @@ export const DATA_LAYER_MAP = {
         groupRightTools: [
             'breakGroup',
             'merge',
+            'batchMerge',
             'batchAssign',
             'reverseOrderLine',
             'breakByLine'
@@ -184,6 +185,7 @@ export const DATA_LAYER_MAP = {
         groupRightTools: [
             'breakGroup',
             'merge',
+            'batchMerge',
             'batchAssign',
             'reverseOrderLine',
             'breakByLine'
@@ -257,6 +259,7 @@ export const DATA_LAYER_MAP = {
         groupRightTools: [
             'breakGroup',
             'merge',
+            'batchMerge',
             'batchAssign',
             'reverseOrderLine',
             'breakByLine'
