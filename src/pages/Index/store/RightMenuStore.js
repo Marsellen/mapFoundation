@@ -70,7 +70,14 @@ class RightMenuStore {
             rightTools = DATA_LAYER_MAP[layerName].rightTools;
         } else {
             rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
+            //小于3个要素，不显示批量合并线要素
+            if (this.features.length < 3) {
+                rightTools = rightTools.flatMap(item =>
+                    item === 'batchMerge' ? [] : [item]
+                );
+            }
         }
+
         if (this.zIndex !== -1) {
             // 右键菜单显示时
             this.menus = rightTools;

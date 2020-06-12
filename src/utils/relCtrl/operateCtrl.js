@@ -157,6 +157,40 @@ const mergeLine = async (features, activeTask) => {
 };
 
 /**
+ * 批量合并线要素
+ * @method batchMergeLine
+ * @param {Array<Object>} features 被打断线要素集合
+ * @param {Object} activeTask 任务对象
+ * @returns {Object} 打断后的操作记录
+ */
+const batchMergeLine = async (features, activeTask) => {
+    let { lines, oldRels, oldAttrs, oldAllFeatureOptions } = await getLinesInfo(
+        features
+    );
+    let option = { lines, task_id: activeTask.taskId };
+    let result = await EditorService.batchMergeLines(option);
+    let { newFeatures, rels, attrs, newAllFeatureOptions } = getNewFeaturesInfo(
+        features,
+        result.data,
+        true
+    );
+
+    let featuresLog = calcFeaturesLog(
+        [features, newFeatures],
+        [uniqOptions(oldAllFeatureOptions), uniqOptions(newAllFeatureOptions)]
+    );
+    let historyLog = {
+        features: featuresLog,
+        rels: [uniqRels(oldRels), uniqRels(rels)],
+        attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)]
+    };
+    await updateFeatures(historyLog);
+
+    message.success(result.message, 3);
+    return historyLog;
+};
+
+/**
  * 拉线齐打断线要素
  * @method breakLineByLine
  * @param {Object} line 打断辅助线
@@ -508,13 +542,14 @@ const getRelation = async feature => {
 };
 
 /**
- * 获取打断/合并后线要素的相关信息
+ * 获取打断/合并/批量合并后线要素的相关信息
  * @method getNewFeaturesInfo
  * @param {Array<Object>} features 被打断/合并要素集合
  * @param {Array<Object>} resultData 打断/合并后返回数据
+ * @param {boolean} isNewReponse 返回体是新返回体还是旧返回体（打断、合并是旧返回体，批量合并是新返回体）
  * @returns {Object} 打断/合并后线要素的相关信息
  */
-const getNewFeaturesInfo = (features, resultData) => {
+const getNewFeaturesInfo = (features, resultData, isNewResponse) => {
     let initialInfo = {
         newFeatures: [],
         // 打断/合并后 线要素集合
@@ -526,9 +561,11 @@ const getNewFeaturesInfo = (features, resultData) => {
         // 打断/合并后 所有存在关联关系的要素 option集合
     };
     return resultData.reduce((total, data) => {
+        const oldFeatures = isNewResponse ? data : data.features;
         let { newFeatures, rels, attrs } = fetchFeatureRels(
             features,
-            data.features
+            oldFeatures,
+            isNewResponse
         );
         total.newFeatures = total.newFeatures.concat(newFeatures);
         total.rels = total.rels.concat(rels);
@@ -616,9 +653,9 @@ const queryFeature = (layerName, option) => {
     return feature && feature.properties;
 };
 
-const fetchFeatureRels = (oldFeatures, features) => {
+const fetchFeatureRels = (oldFeatures, features, isNewResponse) => {
     let layerName = oldFeatures[0].layerName;
-    return calcFeatureRels(layerName, features).reduce(
+    return calcFeatureRels(layerName, features, isNewResponse).reduce(
         (total, fr) => {
             total.newFeatures.push(fr.feature);
             total.rels = total.rels.concat(fr.rels);
@@ -629,12 +666,13 @@ const fetchFeatureRels = (oldFeatures, features) => {
     );
 };
 
-const calcFeatureRels = (layerName, features) => {
+const calcFeatureRels = (layerName, features, isNewResponse) => {
     features = Array.isArray(features) ? features : [features];
     return features.map(feature => {
+        const featureInfo = isNewResponse ? feature.attr : feature[layerName];
         return {
-            feature: calcFeatures(feature[layerName], layerName),
-            rels: calcRels(layerName, feature.relation, feature[layerName]),
+            feature: calcFeatures(featureInfo, layerName),
+            rels: calcRels(layerName, feature.relation, featureInfo),
             attrs: calcAttrs(feature.relation)
         };
     });
@@ -1003,6 +1041,7 @@ const WKTToGeom = wkt => {
 export {
     deleteLine,
     forceDelete,
+    batchMergeLine,
     breakLine,
     mergeLine,
     lineToStop,
