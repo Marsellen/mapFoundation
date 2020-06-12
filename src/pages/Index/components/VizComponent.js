@@ -91,7 +91,6 @@ class VizComponent extends React.Component {
         await this.cancelRequest();
         await this.clearWorkSpace();
 
-        window.map && window.map.release();
         ResourceLayerStore.release();
         VectorsStore.release();
         DataLayerStore.setRegionGeojson();
@@ -103,6 +102,7 @@ class VizComponent extends React.Component {
         await RelStore.destroy();
         await AttrStore.destroy();
 
+        window.map && window.map.release();
         window.map = null;
     };
 
