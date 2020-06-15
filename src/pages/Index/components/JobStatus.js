@@ -107,6 +107,8 @@ class JobStatus extends React.Component {
         oldTasks = oldTasks || [];
         let result = await TaskStore.initTask({ type: 2 });
 
+        if (!result) return;
+
         if (result.overLimit) {
             message.warning('任务已达领取上限', 3);
             return;

@@ -91,8 +91,15 @@ class TaskStore {
             this.onlineTasks = result.data.taskList;
             return result.data;
         } catch (e) {
+            const { type } = option;
             const error = e.message || e || '';
-            message.warning('任务加载失败' + error, 3);
+            if (type === 4) {
+                //获取任务列表报错，控制台打印error message
+                console.error('任务加载失败：' + error);
+            } else {
+                //其它类型，浮窗提示用户error message
+                message.warning('任务加载失败：' + error, 3);
+            }
         }
     });
 
