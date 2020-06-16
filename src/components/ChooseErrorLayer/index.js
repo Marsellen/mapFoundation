@@ -3,7 +3,6 @@ import { Button, Select } from 'antd';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
 import AdMessage from 'src/components/AdMessage';
-import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import 'src/assets/less/components/ad-error-layer.less';
 
 const { Option } = Select;
@@ -14,31 +13,22 @@ class ChooseErrorLayer extends React.Component {
     constructor() {
         super();
         this.state = {
-            layerName: '',
-            layerId: null
+            layerName: ''
         };
     }
-    componentDidMount() {
-        const { DataLayerStore } = this.props;
-        DataLayerStore.setErrorLayerCallback((result, event) => {
-            if (result.length > 0) {
-                const layerId =
-                    result[0].data.properties[
-                        DATA_LAYER_MAP[result[0].layerName].id
-                    ];
-                const layerName = result[0].layerName;
-                this.setState({
-                    layerName: layerName,
-                    layerId: layerId
-                });
-                this.props.handleErrorLayerId(layerName, layerId);
-            }
-        });
+    static getDerivedStateFromProps(props, state) {
+        if (props.value !== state.layerName) {
+            return {
+                ...state,
+                layerName: props.value
+            };
+        }
+        return null;
     }
     handleErrorLayer = () => {
         const { DataLayerStore } = this.props;
-        DataLayerStore.chooseErrorLayer();
         DataLayerStore.QCAttrModal();
+        DataLayerStore.chooseErrorLayer();
     };
 
     onChange = val => {
@@ -52,14 +42,21 @@ class ChooseErrorLayer extends React.Component {
     };
     render() {
         const { layerName } = this.state;
-        const { DataLayerStore, options, firstValue } = this.props;
+        const { DataLayerStore, options, disabled } = this.props;
         let visible = DataLayerStore.editType == 'error_layer';
         return (
             <span className="error-layer">
-                <ToolIcon icon="cuowutuceng" action={this.handleErrorLayer} />
+                <ToolIcon
+                    visible={visible}
+                    disabled={disabled}
+                    icon="cuowutuceng"
+                    title="选取错误数据"
+                    action={this.handleErrorLayer}
+                />
                 <Select
-                    onChange={this.onChange}
-                    value={!layerName ? firstValue : layerName}>
+                    disabled={disabled}
+                    value={layerName}
+                    onChange={this.onChange}>
                     {options.map((opt, index) => (
                         <Option key={index} value={opt.value}>
                             {opt.label}

@@ -4,11 +4,12 @@ import 'src/assets/less/components/ad-input-number.less';
 
 export default class AdInputNumber extends React.Component {
     render() {
-        const { width, className } = this.props;
+        const { width, className, disabled } = this.props;
         return (
             <div className={`rels-input-number ${className}`} style={{ width }}>
                 <InputNumber
                     className="ad-input-number ant-col-xs-16 ant-col-sm-14"
+                    disabled={disabled}
                     {...this.props}
                     onKeyDown={e => this.handleKeyDown(e)}
                 />
