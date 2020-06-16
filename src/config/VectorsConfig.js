@@ -1,4 +1,4 @@
-const dianfuhao = require('../assets/img/dianfuhao.png');
+const biaojituce = require('../assets/img/biaojituce.png');
 
 export default {
     AD_Road: {
@@ -786,7 +786,7 @@ export default {
                     style: {
                         color: 'rgb(235,45,19)',
                         radius: 0.03,
-                        url: dianfuhao,
+                        url: biaojituce,
                         size: 80
                     }
                 },
@@ -796,7 +796,7 @@ export default {
                     style: {
                         color: 'rgb(235,45,19)',
                         radius: 0.03,
-                        url: dianfuhao,
+                        url: biaojituce,
                         size: 80
                     }
                 },
@@ -806,7 +806,7 @@ export default {
                     style: {
                         color: 'rgb(235,45,19)',
                         radius: 0.03,
-                        url: dianfuhao,
+                        url: biaojituce,
                         size: 80
                     }
                 }
