@@ -64,6 +64,10 @@ export const HOT_KEYS_CONFIG = {
             value: '选中要素+Delete',
             label: '删除要素'
         },
+        {
+            value: '选中要素+Ctrl+Delete',
+            label: '强制删除要素'
+        },
         { value: 'R', label: '新建关联关系' },
         {
             value: '选中要素+Alt+R',
@@ -92,6 +96,10 @@ export const HOT_KEYS_CONFIG = {
         {
             value: 'Ctrl 多选要素+M',
             label: '合并线要素'
+        },
+        {
+            value: 'Ctrl 多选要素+M',
+            label: '批量合并线要素'
         },
         {
             value: '选择1个要素+I',
