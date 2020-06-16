@@ -188,6 +188,14 @@ export const shortcutMap = [
         describe: '合并 M'
     },
     {
+        id: 'batch-merge-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 77,
+        describe: '合并 M'
+    },
+    {
         id: 'change-points-btn',
         ctrl: false,
         alt: false,
