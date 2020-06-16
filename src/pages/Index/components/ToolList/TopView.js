@@ -37,7 +37,7 @@ class TopView extends React.Component {
             AttributeStore,
             RightMenuStore
         } = this.props;
-        const { isTopView } = DataLayerStore;
+        const { isTopView, isQcOpen } = DataLayerStore;
         let layer = DataLayerStore.getEditLayer() || {};
 
         if (!isTopView) {
@@ -52,7 +52,7 @@ class TopView extends React.Component {
             } else {
                 ToolCtrlStore.updateByEditLayer(layer);
             }
-            AttributeStore.hide();
+            !isQcOpen && AttributeStore.hide();
             RightMenuStore.hide();
         } else {
             if (

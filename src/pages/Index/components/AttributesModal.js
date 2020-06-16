@@ -9,11 +9,14 @@ import AdTabs from 'src/components/AdTabs/index';
 import { updateFeatures } from 'src/utils/relCtrl/operateCtrl';
 import { logDecorator } from 'src/utils/decorator';
 import AttributeStore from 'src/pages/Index/store/AttributeStore';
+import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
+import appStore from 'src/store/appStore';
 import 'less/components/attributes-modal.less';
 
 @Form.create()
 @inject('AttributeStore')
+@inject('DataLayerStore')
 @observer
 class AttributesModal extends React.Component {
     componentDidMount() {
@@ -22,7 +25,8 @@ class AttributesModal extends React.Component {
     }
 
     handleCancel = e => {
-        const { AttributeStore } = this.props;
+        const { DataLayerStore, AttributeStore } = this.props;
+        DataLayerStore.UnQCAttrModal();
         AttributeStore.hide();
     };
 
@@ -81,16 +85,24 @@ class AttributesModal extends React.Component {
         if (err) {
             return;
         }
-        // console.log(values);
+        const roleCode = appStore.loginUser.roleCode;
+        const name = appStore.loginUser.name;
+        let attributes = values.attributes;
+        attributes = {
+            ...attributes,
+            QC_PERSON: roleCode === 'quality' ? name : attributes.QC_PERSON,
+            FIX_PERSON: roleCode === 'producer' ? name : attributes.FIX_PERSON
+        };
         try {
             AttributeStore.showLoading('保存数据...');
             let result = await AttributeStore.submit(
-                values,
+                { attributes },
                 TaskStore.activeTask
             );
             result = await updateFeatures(result);
             AttributeStore.hideRelFeatures();
             AttributeStore.hide();
+            DataLayerStore.UnQCAttrModal();
             return result;
         } catch (e) {
             message.error(e.message || '更新失败: 数据重复');

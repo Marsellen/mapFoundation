@@ -5,6 +5,8 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
+import ChooseErrorLayer from 'src/components/ChooseErrorLayer';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { getValidator } from 'src/utils/form/validator';
 import Filter from 'src/utils/table/filter';
 
@@ -20,8 +22,30 @@ const formItemLayout = {
 };
 
 @inject('AttributeStore')
+@inject('DataLayerStore')
+@inject('appStore')
 @observer
 class BasicAttributesForm extends React.Component {
+    componentDidMount() {
+        const { DataLayerStore } = this.props;
+        DataLayerStore.setErrorLayerCallback(this.errorCallback);
+    }
+    errorCallback = result => {
+        let layerId,
+            layerName = '';
+        const { form } = this.props;
+        if (result.length > 0) {
+            layerId =
+                result[0].data.properties[
+                    DATA_LAYER_MAP[result[0].layerName].id
+                ];
+            layerName = result[0].layerName;
+        }
+        form.setFieldsValue({
+            'attributes.FILE_NAME': layerName,
+            'attributes.FEAT_ID': layerId
+        });
+    };
     render() {
         const { AttributeStore } = this.props;
         const { attributes } = AttributeStore;
@@ -65,8 +89,15 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderInputNumber = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const {
+            form,
+            AttributeStore,
+            appStore: { loginUser }
+        } = this.props;
+        const { readonly, type } = AttributeStore;
+        const producerDisabled =
+            loginUser.roleCode === 'producer' && type === 'AD_Map_QC'; //作业员员标记图层禁用项
+        const disabledKey = item.key === 'FEAT_ID'; //作业员标记图层需要禁用项
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
@@ -82,6 +113,7 @@ class BasicAttributesForm extends React.Component {
                     })(
                         <AdInputNumber
                             type="number"
+                            disabled={producerDisabled && disabledKey}
                             onChange={val => this.handleChange(val, item, name)}
                         />
                     )
@@ -96,7 +128,10 @@ class BasicAttributesForm extends React.Component {
 
     renderInput = (item, index, name) => {
         const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { readonly, type } = AttributeStore;
+        const disabledKey =
+            item.key === 'QC_PERSON' || item.key === 'FIX_PERSON';
+
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
@@ -111,7 +146,10 @@ class BasicAttributesForm extends React.Component {
                         initialValue: item.value
                     })(
                         <Input
-                            disabled={readonly}
+                            disabled={
+                                readonly ||
+                                (type === 'AD_Map_QC' && disabledKey)
+                            }
                             onChange={val => this.handleChange(val, item, name)}
                         />
                     )
@@ -125,9 +163,17 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderSelect = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const {
+            form,
+            AttributeStore,
+            appStore: { loginUser }
+        } = this.props;
+        const { readonly, type } = AttributeStore;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+        const producerDisabled =
+            loginUser.roleCode === 'producer' && type === 'AD_Map_QC'; //作业员员标记图层禁用项
+        const disabledKey =
+            item.key === 'ERROR_TYPE' || item.key === 'QC_STATUS'; //作业员标记图层需要禁用项
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
@@ -143,7 +189,9 @@ class BasicAttributesForm extends React.Component {
                         <Select
                             showSearch
                             optionFilterProp="children"
-                            disabled={readonly}
+                            disabled={
+                                readonly || (producerDisabled && disabledKey)
+                            }
                             filterOption={(input, option) =>
                                 option.props.children
                                     .toLowerCase()
@@ -162,6 +210,48 @@ class BasicAttributesForm extends React.Component {
                                 );
                             })}
                         </Select>
+                    )
+                ) : (
+                    <span className="ant-form-text">
+                        {this.getArrayOption(item.value, options)}
+                    </span>
+                )}
+            </Form.Item>
+        );
+    };
+
+    renderChooseErrorLayer = (item, index, name) => {
+        const {
+            form,
+            AttributeStore,
+            appStore: { loginUser }
+        } = this.props;
+        const { readonly, type } = AttributeStore;
+        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+        const producerDisabled =
+            loginUser.roleCode === 'producer' && type === 'AD_Map_QC'; //作业员员标记图层禁用项
+        return (
+            <Form.Item
+                key={index}
+                label={item.name}
+                {...formItemLayout}
+                shouldupdate="true">
+                {!readonly ? (
+                    form.getFieldDecorator(name + '.' + item.key, {
+                        rules: [
+                            {
+                                required: item.required,
+                                message: `${item.name}必填,请输入合法的数字`
+                            },
+                            ...this.getValidatorSetting(item.validates)
+                        ],
+                        initialValue: item.value
+                    })(
+                        <ChooseErrorLayer
+                            options={options}
+                            disabled={readonly || producerDisabled}
+                            onChange={val => this.handleChange(val, item, name)}
+                        />
                     )
                 ) : (
                     <span className="ant-form-text">
