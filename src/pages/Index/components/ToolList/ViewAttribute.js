@@ -484,24 +484,28 @@ class ViewAttribute extends React.Component {
     };
 
     initRightMenu = (e, record, visible) => {
-        const { layerName } = this.state;
-        const { AttrRightMenuStore, DataLayerStore } = this.props;
-        const {
-            show,
-            getMenuStyle,
-            getData,
-            getLayerName
-        } = AttrRightMenuStore;
-        getLayerName(layerName);
-        const editLayer = DataLayerStore.getEditLayer();
-        if (!editLayer) return;
-        const currentLayerName = editLayer.layerName;
-        const enableLayerNames = OPTION_LAYER_MAP[layerName];
-        const isEnableLayer = enableLayerNames.includes(currentLayerName);
-        if (!isEnableLayer) return;
-        getMenuStyle(e, visible);
-        getData(record);
-        visible && show();
+        try {
+            const { layerName } = this.state;
+            const { AttrRightMenuStore, DataLayerStore } = this.props;
+            const {
+                show,
+                getMenuStyle,
+                getData,
+                getLayerName
+            } = AttrRightMenuStore;
+            getLayerName(layerName);
+            const editLayer = DataLayerStore.getEditLayer();
+            if (!editLayer) return;
+            const currentLayerName = editLayer.layerName;
+            const enableLayerNames = OPTION_LAYER_MAP[layerName];
+            const isEnableLayer = enableLayerNames.includes(currentLayerName);
+            if (!isEnableLayer) return;
+            getMenuStyle(e, visible);
+            getData(record);
+            visible && show();
+        } catch (e) {
+            //console.log(存在异常数据)
+        }
     };
 
     showAttributesModal = async obj => {

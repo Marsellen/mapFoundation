@@ -78,6 +78,9 @@ class AttributeRightMenu extends React.Component {
             case 'attr':
                 this.forceDeleteAttr();
                 break;
+            case 'other':
+                this.forceDeleteFeature();
+                break;
             default:
                 break;
         }
