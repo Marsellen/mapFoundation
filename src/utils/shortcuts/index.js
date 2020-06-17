@@ -7,10 +7,10 @@ export default class Shortcut {
 
     init() {
         document.addEventListener('keydown', event => {
-            const { className, nodeName } = event.target;
-            const targetIsAnt = className.includes('ant');
-            const targetIsInput = nodeName.toLowerCase().includes('input');
-            if (targetIsAnt || targetIsInput) return;
+            //阻止原生事件冒泡
+            event.stopPropagation();
+            //如果target是react组件，则阻止事件冒泡
+            event.nativeEvent && event.nativeEvent.stopImmediatePropagation();
             shortcutMap.forEach(this.getEventCallBack(event));
         });
     }

@@ -33,9 +33,13 @@ export const showRightMenu = (features, event) => {
 
     const isCurrentLayer = layerName && !hasOtherFeature;
 
+    // 不是通过点击选中要素，无event
+    if (!event) {
+        RightMenuStore.show(features, {}, -1, isCurrentLayer);
+    }
+
     // 左键，加载“右键菜单”，隐藏起来
-    // console.log('features', features);
-    if (event.button === 0) {
+    if (event && event.button === 0) {
         RightMenuStore.show(
             features,
             {
@@ -48,7 +52,7 @@ export const showRightMenu = (features, event) => {
     }
 
     //右键，加载“右键菜单”，显示出来
-    if (event.button === 2) {
+    if (event && event.button === 2) {
         AttributeStore.hide();
         RightMenuStore.show(
             features,

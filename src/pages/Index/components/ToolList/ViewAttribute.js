@@ -463,9 +463,11 @@ class ViewAttribute extends React.Component {
     };
 
     tableOnClick = record => {
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, RightMenuStore } = this.props;
         return async e => {
-            //初始化右键菜单
+            //消除上次选中的要素
+            RightMenuStore.clearFeatures();
+            //初始化属性列表的右键菜单
             this.initRightMenu(e, record);
             let feature = await this.searchFeature(record);
             DataLayerStore.exitEdit();
@@ -484,19 +486,7 @@ class ViewAttribute extends React.Component {
             map.setExtent(extent);
             //展开行
             this.openRowStyle(record.index);
-            //加载“右键菜单”，隐藏起来，为快捷键做准备
-            this.loadRightMenu(feature);
         };
-    };
-
-    //加载“右键菜单”，隐藏起来，为快捷键做准备
-    loadRightMenu = feature => {
-        const { layerName } = this.state;
-        const { RightMenuStore } = this.props;
-        const { fetchMenus, show } = RightMenuStore;
-        const isCurrentLayer = this.isCurrentLayer(layerName);
-        show([feature], {}, -1, isCurrentLayer);
-        fetchMenus();
     };
 
     tableOnContextMenu = record => {
@@ -544,7 +534,7 @@ class ViewAttribute extends React.Component {
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.clearPick();
         await AttributeStore.setModel(obj);
-        DataLayerStore.setFeatureColor(obj, 'rgb(255,134,237)');
+        DataLayerStore.setSelectFeature(obj.layerId, obj.uuid);
         AttributeStore.show(readonly);
     };
 

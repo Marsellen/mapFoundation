@@ -157,7 +157,7 @@ const mergeLine = async (features, activeTask) => {
 };
 
 /**
- * 批量合并线要素
+ * 批量线合并
  * @method batchMergeLine
  * @param {Array<Object>} features 被打断线要素集合
  * @param {Object} activeTask 任务对象
@@ -542,11 +542,11 @@ const getRelation = async feature => {
 };
 
 /**
- * 获取打断/合并/批量合并后线要素的相关信息
+ * 获取打断/合并/批量线合并后线要素的相关信息
  * @method getNewFeaturesInfo
  * @param {Array<Object>} features 被打断/合并要素集合
  * @param {Array<Object>} resultData 打断/合并后返回数据
- * @param {boolean} isNewReponse 返回体是新返回体还是旧返回体（打断、合并是旧返回体，批量合并是新返回体）
+ * @param {boolean} isNewReponse 返回体是新返回体还是旧返回体（打断、合并是旧返回体，批量线合并是新返回体）
  * @returns {Object} 打断/合并后线要素的相关信息
  */
 const getNewFeaturesInfo = (features, resultData, isNewResponse) => {

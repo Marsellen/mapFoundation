@@ -630,6 +630,12 @@ class DataLayerStore {
         this.addShapePoint();
     };
 
+    //选中要素，要素将处于选中状态(变色)，将该要素设置成sdk当前操作要素
+    setSelectFeature = (layerId, uuid) => {
+        this.editor.setSelectFeature(layerId, uuid);
+    };
+
+    //只是改变要素颜色
     setFeatureColor = (obj, color) => {
         let option = getFeatureOption(obj);
         getLayerByName(obj.layerName).updateFeatureColor(option, color);
