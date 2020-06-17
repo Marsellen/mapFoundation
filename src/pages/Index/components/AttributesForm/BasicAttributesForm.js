@@ -143,7 +143,7 @@ class BasicAttributesForm extends React.Component {
                             },
                             ...this.getValidatorSetting(item.validates)
                         ],
-                        initialValue: item.value
+                        initialValue: decodeURI(item.value)
                     })(
                         <Input
                             disabled={
