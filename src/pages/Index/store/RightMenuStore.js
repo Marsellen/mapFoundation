@@ -45,7 +45,8 @@ class RightMenuStore {
         // 判断被选中要素是否为周边底图数据
         let boundaryLayerIds = VectorsStore.getBoundaryLayerIds();
         if (boundaryLayerIds.includes(this.features[0].layerId)) return;
-        if (this.features.length == 1) {
+        const featuresL = this.features.length;
+        if (featuresL == 1) {
             // 俯视图模式禁用立面图层 ‘设置为可编辑图层’ 按钮
             if (
                 !DataLayerStore.isTopView ||
@@ -65,18 +66,7 @@ class RightMenuStore {
             return;
         }
 
-        let rightTools;
-        if (this.features.length == 1) {
-            rightTools = DATA_LAYER_MAP[layerName].rightTools;
-        } else {
-            rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
-            //小于3个要素，不显示批量合并线要素
-            if (this.features.length < 3) {
-                rightTools = rightTools.flatMap(item =>
-                    item === 'batchMerge' ? [] : [item]
-                );
-            }
-        }
+        let rightTools = this.getRightTools(layerName, featuresL);
 
         if (this.zIndex !== -1) {
             // 右键菜单显示时
@@ -85,6 +75,33 @@ class RightMenuStore {
             // 右键菜单隐藏时
             this.menus = [...this.menus, ...rightTools];
         }
+    };
+
+    //根据选择要素的数量获取右键菜单
+    getRightTools = (layerName, featuresL = 0) => {
+        let rightTools = [];
+        switch (featuresL) {
+            case 0:
+                break;
+            case 1:
+                rightTools = DATA_LAYER_MAP[layerName].rightTools;
+                break;
+            case 2:
+                //所选要素数量等于2时，隐藏批量合并
+                rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
+                rightTools = rightTools.flatMap(item =>
+                    item === 'batchMerge' ? [] : [item]
+                );
+                break;
+            default:
+                //所选要素数量大于2时，隐藏合并
+                rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
+                rightTools = rightTools.flatMap(item =>
+                    item === 'merge' ? [] : [item]
+                );
+                break;
+        }
+        return rightTools;
     };
 
     @action delete = () => {

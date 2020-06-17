@@ -21,11 +21,7 @@ export default class Shortcut {
     }
 
     getEventCallBack = event => {
-        const {
-            altKey: eAltKey,
-            ctrlKey: eCtrlKey,
-            keyCode: eKeyCode
-        } = event;
+        const { altKey: eAltKey, ctrlKey: eCtrlKey, keyCode: eKeyCode } = event;
         return item => {
             const { id, ctrl, alt, keyCode, callback } = item;
             if (alt === eAltKey && ctrl === eCtrlKey && keyCode === eKeyCode) {

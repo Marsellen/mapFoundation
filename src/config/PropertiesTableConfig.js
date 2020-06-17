@@ -641,6 +641,7 @@ export const OPTION_LAYER_MAP = {
     AD_TrafficLight: ['AD_TrafficLight'],
     AD_Pole: ['AD_Pole'],
     AD_RS_Barrier: ['AD_RS_Barrier'],
+    AD_Map_QC: ['AD_Map_QC'],
     //关联关系
     AD_Road_Con: ['AD_Road'],
     AD_Lane_Con: ['AD_Lane'],
