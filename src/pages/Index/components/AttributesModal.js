@@ -89,9 +89,13 @@ class AttributesModal extends React.Component {
             const roleCode = appStore.loginUser.roleCode;
             const name = appStore.loginUser.name;
             values.attributes.QC_PERSON =
-                roleCode === 'quality' ? name : values.attributes.QC_PERSON;
+                roleCode === 'quality'
+                    ? encodeURI(name)
+                    : values.attributes.QC_PERSON;
             values.attributes.FIX_PERSON =
-                roleCode === 'producer' ? name : values.attributes.FIX_PERSON;
+                roleCode === 'producer'
+                    ? encodeURI(name)
+                    : values.attributes.FIX_PERSON;
             AttributeStore.showLoading('保存数据...');
             let result = await AttributeStore.submit(
                 values,
