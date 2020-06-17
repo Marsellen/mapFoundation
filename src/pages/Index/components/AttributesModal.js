@@ -85,18 +85,16 @@ class AttributesModal extends React.Component {
         if (err) {
             return;
         }
-        const roleCode = appStore.loginUser.roleCode;
-        const name = appStore.loginUser.name;
-        let attributes = values.attributes;
-        attributes = {
-            ...attributes,
-            QC_PERSON: roleCode === 'quality' ? name : attributes.QC_PERSON,
-            FIX_PERSON: roleCode === 'producer' ? name : attributes.FIX_PERSON
-        };
         try {
+            const roleCode = appStore.loginUser.roleCode;
+            const name = appStore.loginUser.name;
+            values.attributes.QC_PERSON =
+                roleCode === 'quality' ? name : values.attributes.QC_PERSON;
+            values.attributes.FIX_PERSON =
+                roleCode === 'producer' ? name : values.attributes.FIX_PERSON;
             AttributeStore.showLoading('保存数据...');
             let result = await AttributeStore.submit(
-                { attributes },
+                values,
                 TaskStore.activeTask
             );
             result = await updateFeatures(result);
