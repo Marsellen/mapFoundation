@@ -240,7 +240,7 @@ class BasicAttributesForm extends React.Component {
                     form.getFieldDecorator(name + '.' + item.key, {
                         rules: [
                             {
-                                required: item.required,
+                                required: loginUser.roleCode === 'quality',
                                 message: `${item.name}必填,请输入合法的数字`
                             },
                             ...this.getValidatorSetting(item.validates)

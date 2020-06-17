@@ -12,6 +12,7 @@ import { addClass, removeClass, throttle, getCSYS } from 'src/utils/utils';
 import AdEmitter from 'src/models/event';
 import EditorConfig from 'src/config/ConctrolConfig';
 import AttributeStore from 'src/pages/Index/store/AttributeStore.js';
+import appStore from 'src/store/appStore.js';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore {
@@ -529,6 +530,23 @@ class DataLayerStore {
             message.warning('三点画圆服务请求失败：' + e.message, 3);
         }
     });
+
+    updateQCPerson = result => {
+        try {
+            if (this.editType != 'new_point') {
+                return result;
+            }
+            if (
+                appStore.loginUser.roleCode === 'quality' &&
+                result.layerName === 'AD_Map_QC'
+            ) {
+                result.data.properties.QC_PERSON = appStore.loginUser.name;
+                return result;
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     updateFeature = result => {
         let layer = getLayerByName(result.layerName);
