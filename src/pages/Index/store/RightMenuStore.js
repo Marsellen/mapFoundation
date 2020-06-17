@@ -20,6 +20,11 @@ class RightMenuStore {
     @observable zIndex;
     @observable isCurrentLayer;
 
+    //清除上一次选中要素
+    @action clearFeatures = () => {
+        this.features = null;
+    };
+
     @action show = (features, option, zIndex, isCurrentLayer) => {
         this.zIndex = zIndex || 'auto'; //让右键弹窗隐藏起来
         this.isCurrentLayer = isCurrentLayer; //当前选中要素和当前编辑图层是否一致
@@ -87,7 +92,7 @@ class RightMenuStore {
                 rightTools = DATA_LAYER_MAP[layerName].rightTools;
                 break;
             case 2:
-                //所选要素数量等于2时，隐藏批量合并
+                //所选要素数量等于2时，隐藏批量线合并
                 rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
                 rightTools = rightTools.flatMap(item =>
                     item === 'batchMerge' ? [] : [item]

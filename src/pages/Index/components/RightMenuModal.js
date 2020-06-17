@@ -213,7 +213,7 @@ class RightMenuModal extends React.Component {
                 key="batchMerge"
                 onClick={this.batchMergeLine}
                 className="right-menu-item">
-                <span>批量合并</span>
+                <span>批量线合并</span>
             </Menu.Item>,
             <Menu.Item
                 id="batch-assign-btn"
@@ -713,7 +713,7 @@ class RightMenuModal extends React.Component {
         AttributeStore.hideRelFeatures();
     };
 
-    @logDecorator({ operate: '批量合并线要素' })
+    @logDecorator({ operate: '批量线合并' })
     async batchMergeLineHandler() {
         try {
             const { RightMenuStore } = this.props;
@@ -725,7 +725,7 @@ class RightMenuModal extends React.Component {
             );
             return historyLog;
         } catch (e) {
-            message.warning('批量合并失败：' + e.message, 3);
+            message.warning('批量线合并失败：' + e.message, 3);
             throw e;
         }
     }
@@ -814,7 +814,9 @@ class RightMenuModal extends React.Component {
 
     checkDisabled = () => {
         const { RightMenuStore } = this.props;
-        if (!RightMenuStore.isCurrentLayer) {
+        const { features, isCurrentLayer } = RightMenuStore;
+        if (!features) return true;
+        if (!isCurrentLayer) {
             message.warning('只能选取当前编辑图层要素！', 3);
             return true;
         }
