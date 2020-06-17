@@ -27,6 +27,7 @@ import { ATTR_SPEC_CONFIG, REL_ATTR_LAYERS } from 'config/AttrsConfig';
 import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
 import AttrRightMenu from 'src/pages/Index/components/ToolList/AttrRightMenu';
 
+@inject('RightMenuStore')
 @inject('AttrRightMenuStore')
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -476,7 +477,19 @@ class ViewAttribute extends React.Component {
             map.setExtent(extent);
             //展开行
             this.openRowStyle(record.index);
+            //加载“右键菜单”，隐藏起来，为快捷键做准备
+            this.loadRightMenu(feature);
         };
+    };
+
+    //加载“右键菜单”，隐藏起来，为快捷键做准备
+    loadRightMenu = feature => {
+        const { layerName } = this.state;
+        const { RightMenuStore } = this.props;
+        const { fetchMenus, show } = RightMenuStore;
+        const isCurrentLayer = this.isCurrentLayer(layerName);
+        show([feature], {}, -1, isCurrentLayer);
+        fetchMenus();
     };
 
     tableOnContextMenu = record => {
@@ -486,7 +499,7 @@ class ViewAttribute extends React.Component {
     initRightMenu = (e, record, visible) => {
         try {
             const { layerName } = this.state;
-            const { AttrRightMenuStore, DataLayerStore } = this.props;
+            const { AttrRightMenuStore } = this.props;
             const {
                 show,
                 getMenuStyle,
@@ -494,18 +507,25 @@ class ViewAttribute extends React.Component {
                 getLayerName
             } = AttrRightMenuStore;
             getLayerName(layerName);
-            const editLayer = DataLayerStore.getEditLayer();
-            if (!editLayer) return;
-            const currentLayerName = editLayer.layerName;
-            const enableLayerNames = OPTION_LAYER_MAP[layerName];
-            const isEnableLayer = enableLayerNames.includes(currentLayerName);
-            if (!isEnableLayer) return;
+            if (!this.isCurrentLayer(layerName)) return;
             getMenuStyle(e, visible);
             getData(record);
             visible && show();
         } catch (e) {
             //console.log(存在异常数据)
         }
+    };
+
+    //是否是当前图层
+    isCurrentLayer = layerName => {
+        const { DataLayerStore } = this.props;
+        const editLayer = DataLayerStore.getEditLayer();
+        if (!editLayer) return false;
+        const currentLayerName = editLayer.layerName;
+        const enableLayerNames = OPTION_LAYER_MAP[layerName];
+        const isEnableLayer = enableLayerNames.includes(currentLayerName);
+        if (!isEnableLayer) return false;
+        return true;
     };
 
     showAttributesModal = async obj => {
