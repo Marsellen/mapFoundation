@@ -8,6 +8,7 @@ const TIME_OUT = 60000;
 
 const ERROR_MAP = {
     '500': '服务异常，请联系系统管理员',
+    '503': '服务器尚未处于可以接受请求的状态',
     '504': '服务超时，请稍后重试'
 };
 
@@ -62,7 +63,8 @@ axios.interceptors.response.use(
                 }
             }
 
-            return Promise.reject(error.response.data);
+            const isHtml = typeof data === 'string' && data.includes('html');
+            return Promise.reject(isHtml ? '请求失败' : data);
         }
         return Promise.reject(error);
     }

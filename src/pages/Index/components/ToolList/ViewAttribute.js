@@ -297,11 +297,18 @@ class ViewAttribute extends React.Component {
             />
         ),
         onFilter: (value, record) => {
-            let text = col.filterBy
-                ? Filter.get(col.filterBy)(record[col.dataIndex], record)
-                : record[col.dataIndex];
+            try {
+                let text = col.filterBy
+                    ? Filter.get(col.filterBy)(record[col.dataIndex], record)
+                    : record[col.dataIndex];
 
-            return text.toString().toLowerCase().includes(value.toLowerCase());
+                return text
+                    .toString()
+                    .toLowerCase()
+                    .includes(value.toLowerCase());
+            } catch (e) {
+                //console.log(存在异常数据)
+            }
         },
         onFilterDropdownVisibleChange: visible => {
             if (visible) {

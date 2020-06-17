@@ -193,6 +193,7 @@ class DataLayerStore {
     };
 
     clearChoose = () => {
+        if (!window.map) return;
         if (!this.editor) return;
         this.clearSelfDebuff();
         this.setEditType();
