@@ -80,6 +80,9 @@ class VizComponent extends React.Component {
 
     init = async () => {
         await this.release();
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
+        if (!activeTaskId) return;
         const div = document.getElementById('viz');
         window.map = new Map(div);
         await this.initTask();
