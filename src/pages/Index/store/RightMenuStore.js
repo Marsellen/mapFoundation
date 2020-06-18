@@ -49,7 +49,11 @@ class RightMenuStore {
         if (getEditLayerDisabled(layerName)) return;
         // 判断被选中要素是否为周边底图数据
         let boundaryLayerIds = VectorsStore.getBoundaryLayerIds();
-        if (boundaryLayerIds.includes(this.features[0].layerId)) return;
+        const isBoundaryFeature = this.features.some(item => {
+            return boundaryLayerIds.includes(item.layerId);
+        });
+        if (isBoundaryFeature) return;
+
         const featuresL = this.features.length;
         if (featuresL == 1) {
             // 俯视图模式禁用立面图层 ‘设置为可编辑图层’ 按钮
