@@ -88,14 +88,19 @@ class AttributesModal extends React.Component {
         try {
             const roleCode = appStore.loginUser.roleCode;
             const name = appStore.loginUser.name;
-            values.attributes.QC_PERSON =
-                roleCode === 'quality'
-                    ? encodeURI(name)
-                    : values.attributes.QC_PERSON;
-            values.attributes.FIX_PERSON =
-                roleCode === 'producer'
-                    ? encodeURI(name)
-                    : values.attributes.FIX_PERSON;
+            if (roleCode === 'quality' && values.attributes.ID) {
+                //登录账号为质检员且保存的要素是标记图层时
+                values.attributes.QC_PERSON = encodeURI(name); //点击保存直接赋值当前账号
+            }
+            if (
+                roleCode === 'producer' &&
+                TaskStore.activeTask.manualStatus === 4 &&
+                values.attributes.ID
+            ) {
+                //登录账号为作业员且是返修任务时且保存要素为标记图层时
+                values.attributes.FIX_PERSON = encodeURI(name); //点击保存直接赋值当前账号
+            }
+
             AttributeStore.showLoading('保存数据...');
             let result = await AttributeStore.submit(
                 values,
