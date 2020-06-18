@@ -175,8 +175,8 @@ class Task extends React.Component {
                 const { taskIdList, activeTaskId } = TaskStore;
 
                 // 切换任务时，保存上一个任务的缩放比例，该方法需最先执行
-                if (current && taskIdList.includes(current)) {
-                    const preTaskScale = map.getEyeView();
+                if (window.map && current && taskIdList.includes(current)) {
+                    const preTaskScale = window.map.getEyeView();
                     const { position } = preTaskScale;
                     const { x, y, z } = position;
                     if (!(x === 0 && y === 0 && z === 0)) {
