@@ -23,45 +23,26 @@ export const showAttributesModal = (obj, event) => {
     AttributeStore.show(readonly);
 };
 
+/**
+ * 不是通过点击选中要素，无event，加载“右键菜单”，隐藏起来
+ * 左键，加载“右键菜单”，隐藏起来
+ * 右键，加载“右键菜单”，显示出来
+ * @param {Array} features 选中要素
+ * @param {Object} option 右键菜单位置
+ * @param {String<Number>} zIndex 右键菜单z轴层级，控制右键菜单显隐
+ * @param {<boolean} isCurrentLayer 判断所选要素和当前图层是否一致
+ * @param {Object} event 鼠标点击事件的event对象，可用event判断本次操作是否鼠标点击事件
+ */
 export const showRightMenu = (features, event) => {
     const editLayer = DataLayerStore.getEditLayer();
-    let layerName = editLayer && editLayer.layerName;
-
-    let hasOtherFeature = features.find(
+    const layerName = editLayer && editLayer.layerName;
+    const hasOtherFeature = features.find(
         feature => feature.layerName != layerName
     );
-
+    const { x, y, button } = event || {};
+    const isRightClick = button === 2;
+    const option = event ? { x, y } : {};
+    const zIndex = isRightClick ? 'auto' : -1;
     const isCurrentLayer = layerName && !hasOtherFeature;
-
-    // 不是通过点击选中要素，无event
-    if (!event) {
-        RightMenuStore.show(features, {}, -1, isCurrentLayer);
-    }
-
-    // 左键，加载“右键菜单”，隐藏起来
-    if (event && event.button === 0) {
-        RightMenuStore.show(
-            features,
-            {
-                x: event.x,
-                y: event.y
-            },
-            -1,
-            isCurrentLayer
-        );
-    }
-
-    //右键，加载“右键菜单”，显示出来
-    if (event && event.button === 2) {
-        AttributeStore.hide();
-        RightMenuStore.show(
-            features,
-            {
-                x: event.x,
-                y: event.y
-            },
-            'auto',
-            isCurrentLayer
-        );
-    }
+    RightMenuStore.show(features, option, zIndex, isCurrentLayer, event);
 };

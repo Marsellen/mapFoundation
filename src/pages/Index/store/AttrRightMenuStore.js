@@ -7,6 +7,7 @@ class AttrRightMenuStore {
     @observable MenuStyle = {};
     @observable currentData = {};
     @observable layerName = '';
+    @observable zIndex = -1;
 
     @action show = () => {
         this.visible = true;
@@ -18,12 +19,12 @@ class AttrRightMenuStore {
 
     //右击菜单显示在鼠标旁边,左击菜单显示在屏幕外
     @action getMenuStyle = (e, visible) => {
-        var e = event || window.event;
         this.MenuStyle = {
             position: 'absolute',
-            top: visible ? e.clientY : -1000,
-            left: visible ? e.clientX : -1000
+            top: e.clientY,
+            left: e.clientX
         };
+        this.zIndex = visible ? 999 : -1;
     };
 
     @action getData = data => {

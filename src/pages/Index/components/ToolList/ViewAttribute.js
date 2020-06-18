@@ -389,29 +389,12 @@ class ViewAttribute extends React.Component {
         };
     };
 
-    //属性列表强制删除快捷键
-    forceDeleteHotKey = event => {
-        const { ctrlKey, keyCode } = event;
-        if (ctrlKey && keyCode === 46) {
-            event.preventDefault();
-            event.stopPropagation();
-            const { AttrRightMenuStore } = this.props;
-            const { handleForceDelete } = AttrRightMenuStore;
-            handleForceDelete();
-        }
-    };
-
     toggle = () => {
         if (this.state.visible) {
             this.setState({
                 visible: false
             });
-            //隐藏属性列表时，解绑快捷键监听
-            window.removeEventListener('keyup', this.forceDeleteHotKey);
             return false;
-        } else {
-            //显示属性列表时，绑定快捷键监听
-            window.addEventListener('keyup', this.forceDeleteHotKey);
         }
 
         const { DataLayerStore, TaskStore } = this.props;
@@ -440,8 +423,6 @@ class ViewAttribute extends React.Component {
         this.setState({
             visible: false
         });
-        //隐藏属性列表时，解绑快捷键监听
-        window.removeEventListener('keyup', this.forceDeleteHotKey);
     };
 
     getLabel = item => {
@@ -507,7 +488,7 @@ class ViewAttribute extends React.Component {
             if (!this.isCurrentLayer(layerName)) return;
             getMenuStyle(e, visible);
             getData(record);
-            visible && show();
+            show();
         } catch (e) {
             //console.log(存在异常数据)
         }
