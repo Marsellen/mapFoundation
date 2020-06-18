@@ -160,7 +160,7 @@ class AttributeRightMenu extends React.Component {
 
     render() {
         const { AttrRightMenuStore } = this.props;
-        const { visible, MenuStyle, hide } = AttrRightMenuStore;
+        const { visible, MenuStyle, hide, zIndex } = AttrRightMenuStore;
         return (
             <Modal
                 title={null}
@@ -170,6 +170,7 @@ class AttributeRightMenu extends React.Component {
                 mask={false}
                 style={MenuStyle}
                 onCancel={hide}
+                zIndex={zIndex}
                 className="right-menu-modal">
                 <Menu>
                     <Menu.Item
