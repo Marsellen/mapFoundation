@@ -33,6 +33,8 @@ class PointCloud extends React.Component {
 
     _renderContent = () => {
         const { clicked } = this.state;
+        const { TaskStore } = this.props;
+        const { activeTaskId } = TaskStore;
         return (
             <div className="point-cloud">
                 <div className="point-cloud-right">
@@ -40,9 +42,15 @@ class PointCloud extends React.Component {
                         <span>反射率</span>
                         <Intensity clicked={clicked} />
                         <span>亮度</span>
-                        <PointBright clicked={clicked} />
+                        <PointBright
+                            activeTaskId={activeTaskId}
+                            clicked={clicked}
+                        />
                         <span>对比度</span>
-                        <Contrast clicked={clicked} />
+                        <Contrast
+                            activeTaskId={activeTaskId}
+                            clicked={clicked}
+                        />
                     </div>
                     <div className="point-cloud-right-content">
                         <span>点云大小</span>
