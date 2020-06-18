@@ -83,7 +83,7 @@ class RightMenuStore {
     };
 
     //根据选择要素的数量获取右键菜单
-    getRightTools = (layerName, featuresL = 0, event) => {
+    getRightTools = (layerName, featuresL, event) => {
         let rightTools = [];
         switch (featuresL) {
             case 0:
