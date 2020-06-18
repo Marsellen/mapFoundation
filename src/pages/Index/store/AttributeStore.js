@@ -80,21 +80,16 @@ class AttributeStore {
 
     @action fetchAttributes = () => {
         const qualityCreatedPoint = appStore.loginUser.roleCode === 'quality'; //质检员登录新建标记点
-        const producerCreatedPoint = appStore.loginUser.roleCode === 'producer'; //返工返修作业员登录新建标记点
-        let properties = {
-            ...this.model.data.properties,
-            QC_PERSON:
-                qualityCreatedPoint && !this.model.data.properties.QC_PERSON
-                    ? appStore.loginUser.name
-                    : this.model.data.properties.QC_PERSON,
-            FIX_PERSON:
-                producerCreatedPoint && !this.model.data.properties.FIX_PERSON
-                    ? appStore.loginUser.name
-                    : this.model.data.properties.FIX_PERSON
-        };
+        if (
+            qualityCreatedPoint &&
+            this.model.data.properties.ID &&
+            !this.model.data.properties.QC_PERSON
+        ) {
+            this.model.data.properties.QC_PERSON = appStore.loginUser.name;
+        }
         this.attributes = modelFactory.getTabelData(
             this.model.layerName,
-            properties
+            this.model.data.properties
         );
     };
 

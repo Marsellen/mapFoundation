@@ -534,16 +534,13 @@ class DataLayerStore {
 
     updateQCPerson = result => {
         try {
-            if (this.editType != 'new_point') {
-                return result;
-            }
             if (
-                appStore.loginUser.roleCode === 'quality' &&
-                result.layerName === 'AD_Map_QC'
+                result.layerName == 'AD_Map_QC' &&
+                this.editType == 'new_point'
             ) {
                 result.data.properties.QC_PERSON = appStore.loginUser.name;
-                return result;
             }
+            return result;
         } catch (e) {
             console.log(e);
         }
