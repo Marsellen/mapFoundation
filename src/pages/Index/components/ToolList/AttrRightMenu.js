@@ -15,7 +15,7 @@ import { findRelDataById } from 'src/utils/vectorCtrl/propertyTableCtrl';
 @inject('DataLayerStore')
 @inject('AttrRightMenuStore')
 @observer
-class AttributeRightMenu extends React.Component {
+class AttrRightMenu extends React.Component {
     constructor(props) {
         super(props);
         const { AttrRightMenuStore } = this.props;
@@ -185,4 +185,4 @@ class AttributeRightMenu extends React.Component {
     }
 }
 
-export default AttributeRightMenu;
+export default AttrRightMenu;
