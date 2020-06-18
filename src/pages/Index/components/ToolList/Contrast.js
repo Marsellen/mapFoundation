@@ -2,9 +2,29 @@ import React from 'react';
 import { Slider } from 'antd';
 
 class Contrast extends React.Component {
-    state = {
-        updateKey: 0
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            updateKey: 0,
+            value: window.pointCloudLayer
+                ? pointCloudLayer.setIntensityContrast(35)
+                : 0,
+            activeTaskId: props.activeTaskId
+        };
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.activeTaskId !== state.activeTaskId) {
+            return {
+                ...state,
+                activeTaskId: props.activeTaskId,
+                value: window.pointCloudLayer
+                    ? pointCloudLayer.setIntensityContrast(35)
+                    : 0
+            };
+        }
+        return null;
+    }
 
     hide = () => {
         this.setState({
