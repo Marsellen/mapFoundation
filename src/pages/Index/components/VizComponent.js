@@ -43,6 +43,7 @@ import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import AttributeStore from 'src/pages/Index/store/AttributeStore';
 import PictureShowStore from 'src/pages/Index/store/PictureShowStore';
 import RightMenuStore from 'src/pages/Index/store/RightMenuStore';
+import AttrRightMenuStore from 'src/pages/Index/store/AttrRightMenuStore';
 import NewFeatureStore from 'src/pages/Index/store/NewFeatureStore';
 import OperateHistoryStore from 'src/pages/Index/store/OperateHistoryStore';
 import RelStore from 'src/pages/Index/store/RelStore';
@@ -523,6 +524,7 @@ class VizComponent extends React.Component {
                     break;
             }
             RightMenuStore.hide();
+            AttrRightMenuStore.hide();
             window.trackLayer.unSelect();
         }
         BatchAssignStore.hide();
