@@ -85,6 +85,7 @@ class DataLayerStore {
     };
     // 质检员选取错误数据
     @action UnQCAttrModal = () => {
+        if (this.editType != 'error_layer') return;
         this.isQcOpen = false;
         this.setEditType();
         let viz = document.querySelector('#viz');

@@ -40,11 +40,11 @@ class BasicAttributesForm extends React.Component {
                     DATA_LAYER_MAP[result[0].layerName].id
                 ];
             layerName = result[0].layerName;
+            form.setFieldsValue({
+                'attributes.FILE_NAME': layerName,
+                'attributes.FEAT_ID': layerId
+            });
         }
-        form.setFieldsValue({
-            'attributes.FILE_NAME': layerName,
-            'attributes.FEAT_ID': layerId
-        });
     };
     render() {
         const { AttributeStore } = this.props;
@@ -155,7 +155,9 @@ class BasicAttributesForm extends React.Component {
                     )
                 ) : (
                     <span className="ant-form-text">
-                        {this.isPresent(item.value) ? item.value : '--'}
+                        {this.isPresent(item.value)
+                            ? decodeURI(item.value)
+                            : '--'}
                     </span>
                 )}
             </Form.Item>
