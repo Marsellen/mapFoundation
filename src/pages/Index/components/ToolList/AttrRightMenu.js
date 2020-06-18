@@ -171,6 +171,7 @@ class AttrRightMenu extends React.Component {
                 style={MenuStyle}
                 onCancel={hide}
                 zIndex={zIndex}
+                destroyOnClose={true}
                 className="right-menu-modal">
                 <Menu>
                     <Menu.Item
