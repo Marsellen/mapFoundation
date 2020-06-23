@@ -143,7 +143,7 @@ class BasicAttributesForm extends React.Component {
                             },
                             ...this.getValidatorSetting(item.validates)
                         ],
-                        initialValue: decodeURI(item.value)
+                        initialValue: item.value
                     })(
                         <Input
                             disabled={
@@ -155,9 +155,7 @@ class BasicAttributesForm extends React.Component {
                     )
                 ) : (
                     <span className="ant-form-text">
-                        {this.isPresent(item.value)
-                            ? decodeURI(item.value)
-                            : '--'}
+                        {this.isPresent(item.value) ? item.value : '--'}
                     </span>
                 )}
             </Form.Item>

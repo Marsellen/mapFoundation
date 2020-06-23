@@ -646,7 +646,7 @@ export const OPTION_LAYER_MAP = {
     AD_Road_Con: ['AD_Road'],
     AD_Lane_Con: ['AD_Lane'],
     AD_StopL_Lane_Rel: ['AD_Lane', 'AD_StopLocation'],
-    AD_Plg_Lane_Rel: ['AD_Lane', 'AD_Pole'],
+    AD_Plg_Lane_Rel: ['AD_Lane', 'AD_LaneMark_Plg'],
     AD_Sign_Lane_Rel: ['AD_Lane', 'AD_TrafficSign'],
     AD_Light_Lane_Rel: ['AD_Lane', 'AD_TrafficLight'],
     //关联属性
