@@ -88,13 +88,14 @@ class AttributesModal extends React.Component {
         try {
             const roleCode = appStore.loginUser.roleCode;
             const name = appStore.loginUser.name;
+            const validStatus = [4, 5]; //4返修，5返工
             if (roleCode === 'quality' && values.attributes.ID) {
                 //登录账号为质检员且保存的要素是标记图层时
                 values.attributes.QC_PERSON = name; //点击保存直接赋值当前账号
             }
             if (
                 roleCode === 'producer' &&
-                TaskStore.activeTask.manualStatus === 4 &&
+                validStatus.includes(TaskStore.activeTask.manualStatus) &&
                 values.attributes.ID
             ) {
                 //登录账号为作业员且是返修任务时且保存要素为标记图层时
