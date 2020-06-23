@@ -3,6 +3,7 @@ import { Dropdown, Menu, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { logout } from 'src/utils/Session';
 import ToolIcon from 'src/components/ToolIcon';
+import { editVisiteHistory } from 'src/utils/visiteHistory';
 
 @inject('appStore')
 @inject('TaskStore')
@@ -66,6 +67,7 @@ class Avatar extends React.Component {
             onOk() {
                 logout();
                 location.reload();
+                editVisiteHistory.removeVisitedHistory();
             }
         });
     };
