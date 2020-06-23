@@ -90,7 +90,7 @@ class AttributesModal extends React.Component {
             const name = appStore.loginUser.name;
             if (roleCode === 'quality' && values.attributes.ID) {
                 //登录账号为质检员且保存的要素是标记图层时
-                values.attributes.QC_PERSON = encodeURI(name); //点击保存直接赋值当前账号
+                values.attributes.QC_PERSON = name; //点击保存直接赋值当前账号
             }
             if (
                 roleCode === 'producer' &&
@@ -98,7 +98,7 @@ class AttributesModal extends React.Component {
                 values.attributes.ID
             ) {
                 //登录账号为作业员且是返修任务时且保存要素为标记图层时
-                values.attributes.FIX_PERSON = encodeURI(name); //点击保存直接赋值当前账号
+                values.attributes.FIX_PERSON = name; //点击保存直接赋值当前账号
             }
 
             AttributeStore.showLoading('保存数据...');
