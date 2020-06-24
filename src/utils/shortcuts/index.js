@@ -7,10 +7,9 @@ export default class Shortcut {
 
     init() {
         document.addEventListener('keydown', event => {
-            const { className, nodeName } = event.target;
-            const targetIsAnt = className.includes('ant');
-            const targetIsInput = nodeName.toLowerCase().includes('input');
-            if (targetIsAnt || targetIsInput) return;
+            const { nodeName } = event.target;
+            const targetIsInput = nodeName.includes('INPUT');
+            if (targetIsInput) return;
             shortcutMap.forEach(this.getEventCallBack(event));
         });
     }
