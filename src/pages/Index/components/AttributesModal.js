@@ -67,9 +67,9 @@ class AttributesModal extends React.Component {
 
     renderFooter = () => {
         const { AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { readonly, loading } = AttributeStore;
         return readonly ? null : (
-            <Button type="primary" onClick={this.save} size="small" ghost>
+            <Button type="primary" disabled={loading} onClick={this.save} size="small" ghost>
                 保存
             </Button>
         );
