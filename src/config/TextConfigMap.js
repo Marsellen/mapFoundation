@@ -6,8 +6,8 @@ export const LAYER_TEXT_MAP = {
         defaultStyle: {
             textField: 'TYPE',
             interval: 10,
-            showMode: 'line-repeat',
-            fontSize: 32,
+            showMode: 'line-center',
+            fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
@@ -31,8 +31,8 @@ export const LAYER_TEXT_MAP = {
         defaultStyle: {
             textField: 'TYPE', //看数据规格
             interval: 10,
-            showMode: 'line-repeat',
-            fontSize: 32,
+            showMode: 'line-center',
+            fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
@@ -56,8 +56,8 @@ export const LAYER_TEXT_MAP = {
         defaultStyle: {
             textField: 'TYPE', //看数据规格
             interval: 10,
-            showMode: 'line-repeat',
-            fontSize: 32,
+            showMode: 'line-center',
+            fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
@@ -82,7 +82,7 @@ export const LAYER_TEXT_MAP = {
             textField: 'TYPE', //看数据规格
             offset: 10,
             showMode: 'top',
-            fontSize: 32,
+            fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
@@ -108,7 +108,7 @@ export const LAYER_TEXT_MAP = {
             textField: 'ARR_DIRECT', //看数据规格
             interval: 10,
             showMode: 'longest-center',
-            fontSize: 32,
+            fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
@@ -134,7 +134,7 @@ export const LAYER_TEXT_MAP = {
             textField: 'TYPE', //看数据规格
             interval: 10,
             showMode: 'line-center',
-            fontSize: 32,
+            fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
@@ -159,7 +159,7 @@ export const LAYER_TEXT_MAP = {
             textField: 'TYPE', //看数据规格
             interval: 10,
             showMode: 'polygon-center',
-            fontSize: 32,
+            fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
@@ -185,7 +185,7 @@ export const LAYER_TEXT_MAP = {
             textField: 'TYPE', //看数据规格
             interval: 10,
             showMode: 'longest-center',
-            fontSize: 32,
+            fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
@@ -211,7 +211,7 @@ export const LAYER_TEXT_MAP = {
             textField: 'SIGN_STYLE', //看数据规格
             interval: 10,
             showMode: 'polygon-center',
-            fontSize: 32,
+            fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
@@ -237,7 +237,7 @@ export const LAYER_TEXT_MAP = {
             textField: 'TYPE', //看数据规格
             interval: 10,
             showMode: 'polygon-center',
-            fontSize: 32,
+            fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
@@ -263,7 +263,7 @@ export const LAYER_TEXT_MAP = {
             textField: 'POLE_ID', //看数据规格
             interval: 10,
             showMode: 'line-center',
-            fontSize: 32,
+            fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
@@ -287,8 +287,8 @@ export const LAYER_TEXT_MAP = {
         defaultStyle: {
             textField: 'TYPE', //看数据规格
             interval: 10,
-            showMode: 'line-repeat',
-            fontSize: 32,
+            showMode: 'line-center',
+            fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
