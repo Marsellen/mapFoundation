@@ -5,6 +5,8 @@ import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { COLUMNS_CONFIG } from 'src/config/CheckTableConfig';
 import Resize from 'src/utils/resize';
+import _ from 'lodash';
+import { getQualityChecked } from 'src/utils/permissionCtrl';
 
 const needFilterColumns = (() => {
     const columns = [];
@@ -181,7 +183,7 @@ class QualityCheckStore {
         const filterOption = {};
 
         data.map((item, index) => {
-            const { layerName, misrepId, repId } = item;
+            const { layerName, repId } = item;
             const layerNameText =
                 DATA_LAYER_MAP[layerName] && DATA_LAYER_MAP[layerName].label;
             item.index = index;
@@ -189,7 +191,7 @@ class QualityCheckStore {
             item.visitedText = item.visited ? '已查看' : '未查看';
             item.layerNameText = layerNameText;
             item.ellipsis = true;
-            item.checked = misrepId ? true : false;
+            item.checked = getQualityChecked(item);
 
             needFilterColumns.map(column => {
                 filterOption[`${column}Obj`] =
@@ -216,7 +218,7 @@ class QualityCheckStore {
         filterOption.isUpdate = true;
         this.filterOption = { ...filterOption };
         this.reportListInit = data;
-        this.reportList = data.concat();
+        this.reportList = _.cloneDeep(data);
     };
 
     //记录访问状态
@@ -243,15 +245,15 @@ class QualityCheckStore {
     };
 
     //作业员新增一条误报
-    @action producerInsertMisreport = flow(function* (record, index, checked) {
+    @action producerInsertMisreport = flow(function* (record, index) {
         try {
             const { data } = yield CheckService.insertMisreport(record);
             this.reportListInit[index] = {
                 ...this.reportListInit[index],
                 ...data
             };
-            this.reportList = this.reportListInit.concat();
-            this.handleReportChecked(index, checked);
+            this.reportList = _.cloneDeep(this.reportListInit);
+            this.handleReportChecked(index, true);
         } catch (e) {
             console.error('请求失败');
             message.warning('新增误报请求失败：' + e.message, 3);
@@ -259,15 +261,12 @@ class QualityCheckStore {
     }).bind(this);
 
     //作业员删除一条误报
-    @action producerDeleteMisreport = flow(function* (record, index, checked) {
+    @action producerDeleteMisreport = flow(function* (record, index) {
         try {
             yield CheckService.deleteMisreport(record);
-            this.reportListInit[index] = {
-                ...this.reportListInit[index],
-                misrepId: null
-            };
-            this.reportList = this.reportListInit.concat();
-            this.handleReportChecked(index, checked);
+            this.reportListInit[index].misrepId = null;
+            this.reportList = _.cloneDeep(this.reportListInit);
+            this.handleReportChecked(index, false);
         } catch (e) {
             console.error('请求失败');
             message.warning('删除误报请求失败：' + e.message, 3);
@@ -291,18 +290,17 @@ class QualityCheckStore {
     });
 
     handleReportChecked = (index, checked) => {
-        this.reportListInit[index] = {
-            ...this.reportListInit[index],
-            checked: checked
-        };
-        this.reportList = this.reportListInit.concat();
+        this.reportListInit[index].checked = checked;
+        this.reportList = _.cloneDeep(this.reportListInit);
     };
 
     //质检员更新单条误报
-    @action qualityUpdateMisreport = flow(function* (option, index, checked) {
+    @action qualityUpdateMisreport = flow(function* (option, index) {
         try {
             yield CheckService.updateMisreport(option);
-            this.handleReportChecked(index, checked);
+            this.reportListInit[index].status = option.status;
+            this.reportList = _.cloneDeep(this.reportListInit);
+            this.handleReportChecked(index, true);
         } catch (e) {
             console.error('请求失败');
             message.warning('更新报表请求失败：' + e.message, 3);

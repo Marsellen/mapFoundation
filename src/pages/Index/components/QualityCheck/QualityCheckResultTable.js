@@ -1,11 +1,12 @@
 import React from 'react';
-import { ConfigProvider, Checkbox, Button } from 'antd';
+import { ConfigProvider, Button } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { COLUMNS_CONFIG } from 'src/config/CheckTableConfig';
 import { shortcut } from 'src/utils/shortcuts';
 import AdTable from 'src/components/AdTable';
 import zh_CN from 'antd/es/locale/zh_CN';
+import { getQualityMisrepStatus } from 'src/utils/permissionCtrl';
 
 const showTotal = total => `共${total}条`;
 
@@ -27,7 +28,8 @@ class QualityCheckResultTable extends React.Component {
         columns: [],
         currentPage: 1,
         pageSize: 10,
-        filteredInfo: null
+        filteredInfo: null,
+        loadings: []
     };
 
     render() {
@@ -140,7 +142,6 @@ class QualityCheckResultTable extends React.Component {
     };
 
     handleTableColumns = filterOption => {
-        const _ = this;
         const { columns } = this.state;
         let { filteredInfo } = this.state;
         filteredInfo = filteredInfo || {};
@@ -187,21 +188,45 @@ class QualityCheckResultTable extends React.Component {
             dataIndex: 'misrepId',
             key: 'misrepId',
             align: 'center',
-            width: 80,
-            render(text, record) {
-                const { index, checked } = record;
-                return (
-                    <Checkbox
-                        checked={checked}
-                        onChange={e => {
-                            _.handleChange(e, record, index);
-                        }}
-                    />
-                );
+            width: 100,
+            render: (text, record) => {
+                return this.renderActions(record);
             }
         });
 
         return currentColumns;
+    };
+
+    renderActions = record => {
+        const { index } = record;
+        let { loadings } = this.state;
+        let { addDisabled, delDisabled } = getQualityMisrepStatus(record);
+        return (
+            <div className="button-list">
+                <Button
+                    type="link"
+                    disabled={addDisabled || loadings[index]}
+                    onClick={() => {
+                        this.enterLoading(
+                            index,
+                            this.handleChange.bind(this, true, record)
+                        );
+                    }}>
+                    加入
+                </Button>
+                <Button
+                    type="link"
+                    disabled={delDisabled || loadings[index]}
+                    onClick={() => {
+                        this.enterLoading(
+                            index,
+                            this.handleChange.bind(this, false, record)
+                        );
+                    }}>
+                    撤销
+                </Button>
+            </div>
+        );
     };
 
     qualityCheckTabelColumns = () => {
@@ -343,8 +368,20 @@ class QualityCheckResultTable extends React.Component {
         AttributeStore.show(readonly);
     };
 
+    enterLoading = (index, fn) => {
+        const newLoadings = [...this.state.loadings];
+        newLoadings[index] = true;
+        this.setState({
+            loadings: newLoadings
+        });
+        fn().then(() => {
+            newLoadings[index] = false;
+            this.setState({ loadings: newLoadings });
+        });
+    };
+
     //处理勾选
-    handleChange = (e, record, index) => {
+    handleChange = async (checked, record) => {
         const { QualityCheckStore, appStore } = this.props;
         const {
             producerInsertMisreport,
@@ -353,18 +390,17 @@ class QualityCheckResultTable extends React.Component {
         } = QualityCheckStore;
         const { loginUser } = appStore;
         const { roleCode } = loginUser;
-        const { checked } = e.target;
-        const { misrepId } = record;
+        const { misrepId, index } = record;
 
         switch (roleCode) {
             case 'producer':
                 checked
-                    ? producerInsertMisreport(record, index, checked)
-                    : producerDeleteMisreport({ misrepId }, index, checked);
+                    ? await producerInsertMisreport(record, index)
+                    : await producerDeleteMisreport({ misrepId }, index);
                 break;
             case 'quality':
                 const status = checked ? 2 : 4;
-                qualityUpdateMisreport({ misrepId, status }, index, checked);
+                await qualityUpdateMisreport({ misrepId, status }, index);
                 break;
             default:
                 break;
