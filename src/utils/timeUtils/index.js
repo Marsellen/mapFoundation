@@ -15,7 +15,13 @@ export const timeParse = timeString => {
     let hourDiff = Number(timeArr[2] || 0);
     let minDiff = Number(timeArr[3] || 0);
     let endTime = startTime.add({ hours: hourDiff, minutes: minDiff });
-    let endHour = completeTime(endTime.get('hours'));
+    let endHour =
+        Number(startHour) + hourDiff === 24 ||
+        (Number(startHour) + hourDiff === 23 &&
+            Number(startMin) + minDiff === 60)
+            ? 24
+            : completeTime(endTime.get('hours'));
+    // let endHour = completeTime(endTime.get('hours'));
     let endMin = completeTime(endTime.get('minutes'));
     return { startHour, startMin, endHour, endMin };
 };

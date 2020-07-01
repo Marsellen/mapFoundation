@@ -222,7 +222,11 @@ class TimePicker extends React.Component {
                                     key={`${item}-${index}`}
                                     value={item}
                                     disabled={
-                                        timeData.isHour.indexOf(item) > -1
+                                        timeData.isHour.indexOf(item) > -1 ||
+                                        this.handleSecondValues(
+                                            addHour,
+                                            timeData.startHour
+                                        ).indexOf(item) > -1
                                             ? true
                                             : false
                                     }>
@@ -245,7 +249,7 @@ class TimePicker extends React.Component {
                     })(
                         <Select
                             showSearch
-                            disabled={disabled || timeData.endHour === '24'}
+                            disabled={timeData.endHour == '24' || disabled}
                             onChange={this.handleEndMin}>
                             {min.map((item, index) => (
                                 <Option
@@ -253,7 +257,11 @@ class TimePicker extends React.Component {
                                     value={item}
                                     disabled={
                                         equal &&
-                                        timeData.isMin.indexOf(item) > -1
+                                        (timeData.isMin.indexOf(item) > -1 ||
+                                            this.handleSecondValues(
+                                                min,
+                                                timeData.startMin
+                                            ).indexOf(item) > -1)
                                             ? true
                                             : false
                                     }>
@@ -278,6 +286,16 @@ class TimePicker extends React.Component {
             </Form>
         );
     }
+
+    handleSecondValues = (data, curVal) => {
+        let ranges = [];
+        data.map((item, index) => {
+            if (item === curVal) {
+                ranges = data.slice(0, index);
+            }
+        });
+        return ranges;
+    };
 
     handleStartHour = startHour => {
         const { timeChange, index } = this.props;
