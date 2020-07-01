@@ -15,12 +15,17 @@ export const timeParse = timeString => {
     let hourDiff = Number(timeArr[2] || 0);
     let minDiff = Number(timeArr[3] || 0);
     let endTime = startTime.add({ hours: hourDiff, minutes: minDiff });
-    let endHour =
+    let endHour;
+    if (
         Number(startHour) + hourDiff === 24 ||
         (Number(startHour) + hourDiff === 23 &&
             Number(startMin) + minDiff === 60)
-            ? 24
-            : completeTime(endTime.get('hours'));
+    ) {
+        //第一个时间和第二个时间相加等于24或者第一个时间和第二个时间相加等于23且第一个分钟与第二个分钟相加等于60分时
+        endHour = 24;
+    } else {
+        endHour = completeTime(endTime.get('hours'));
+    }
     // let endHour = completeTime(endTime.get('hours'));
     let endMin = completeTime(endTime.get('minutes'));
     return { startHour, startMin, endHour, endMin };

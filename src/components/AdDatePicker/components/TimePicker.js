@@ -192,7 +192,10 @@ class TimePicker extends React.Component {
                                     disabled={
                                         equal &&
                                         timeData.isEndMin &&
-                                        timeData.isEndMin.indexOf(item) === -1
+                                        this.handleFirstRanges(
+                                            min,
+                                            timeData.endMin
+                                        ).indexOf(item) > -1
                                             ? true
                                             : false
                                     }>
@@ -222,8 +225,8 @@ class TimePicker extends React.Component {
                                     key={`${item}-${index}`}
                                     value={item}
                                     disabled={
-                                        timeData.isHour.indexOf(item) > -1 ||
                                         this.handleSecondValues(
+                                            timeData.isHour,
                                             addHour,
                                             timeData.startHour
                                         ).indexOf(item) > -1
@@ -257,11 +260,11 @@ class TimePicker extends React.Component {
                                     value={item}
                                     disabled={
                                         equal &&
-                                        (timeData.isMin.indexOf(item) > -1 ||
-                                            this.handleSecondValues(
-                                                min,
-                                                timeData.startMin
-                                            ).indexOf(item) > -1)
+                                        this.handleSecondValues(
+                                            timeData.isMin,
+                                            min,
+                                            timeData.startMin
+                                        ).indexOf(item) > -1
                                             ? true
                                             : false
                                     }>
@@ -287,13 +290,22 @@ class TimePicker extends React.Component {
         );
     }
 
-    handleSecondValues = (data, curVal) => {
+    // 时间域时分的第二个下拉框依据第一个下拉框选项来决定禁用的范围
+    handleSecondValues = (isRange, data, curVal) => {
         let ranges = [];
-        data.map((item, index) => {
-            if (item === curVal) {
-                ranges = data.slice(0, index);
-            }
-        });
+        if (isRange.length > 0) {
+            ranges = isRange;
+        } else {
+            let index = data.findIndex(item => item === curVal);
+            ranges = index != -1 ? data.slice(0, index) : []; //禁用前几位--第二个下拉框
+        }
+        return ranges;
+    };
+
+    handleFirstRanges = (data, curVal) => {
+        let ranges = [];
+        let index = data.findIndex(item => item === curVal);
+        ranges = index != -1 ? data.slice(-(data.length - index)) : []; //禁用后几位--第一个下拉框
         return ranges;
     };
 
