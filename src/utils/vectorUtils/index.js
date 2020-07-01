@@ -9,6 +9,7 @@ import _ from 'lodash';
 import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
 import TaskStore from 'src/pages/Index/store/TaskStore';
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
+import { message } from 'antd';
 const jsts = require('jsts');
 
 export const getLayerIDKey = layerName => {
@@ -322,5 +323,35 @@ export const checkSdkError = (result, message) => {
         }
 
         throw new Error(message);
+    }
+};
+
+// 通过质检项定位
+export const locateCheckItem = record => {
+    // 定位，判断是否为可定位图层
+    let { geom, location } = record;
+
+    try {
+        location = JSON.parse(location);
+        let IDKey = getLayerIDKey(location.layerName);
+        let option = {
+            key: IDKey,
+            value: Number(location.featureId)
+        };
+        let layer = getLayerByName(location.layerName);
+        let feature = layer.getFeatureByOption(option).properties;
+        let extent = window.map.getExtent(feature.data.geometry);
+        window.map.setView('U');
+        window.map.setExtent(extent);
+        return feature;
+    } catch (e) {
+        try {
+            geom = JSON.parse(geom);
+            let extent = window.map.getExtent(geom);
+            window.map.setView('U');
+            window.map.setExtent(extent);
+        } catch (e) {
+            message.error('检查项定位失败');
+        }
     }
 };
