@@ -1,7 +1,7 @@
 import React from 'react';
 import { ConfigProvider, Button } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
+import { locateCheckItem } from 'src/utils/vectorUtils';
 import { COLUMNS_CONFIG } from 'src/config/CheckTableConfig';
 import { shortcut } from 'src/utils/shortcuts';
 import AdTable from 'src/components/AdTable';
@@ -300,16 +300,9 @@ class QualityCheckResultTable extends React.Component {
     //双击
     tableOnDoubleClick = (record, index) => {
         return e => {
-            const {
-                QualityCheckStore,
-                TaskStore,
-                VectorsStore,
-                DataLayerStore
-            } = this.props;
+            const { QualityCheckStore, TaskStore, DataLayerStore } = this.props;
             const { visitedReport } = QualityCheckStore;
             const { activeTaskId } = TaskStore;
-            let { geom, location } = record;
-            location = JSON.parse(location);
             DataLayerStore.exitEdit();
             //已访问
             visitedReport(record, activeTaskId);
@@ -317,30 +310,8 @@ class QualityCheckResultTable extends React.Component {
             this.updateTablePageTotal();
             //展开
             this.openRowStyle(index);
-            // 定位，判断是否为可定位图层
-            try {
-                let layers = VectorsStore.vectors.vector;
-                const isValidLayer = layers.find(
-                    item => item.value === location.layerName
-                );
-                if (!isValidLayer) return;
-                let IDKey = getLayerIDKey(location.layerName);
-                let option = {
-                    key: IDKey,
-                    value: Number(location.featureId)
-                };
-                let layer = getLayerByName(location.layerName);
-                // if (!layer.getFeatureByOption(option)) return;
-                let feature = layer.getFeatureByOption(option).properties;
-                let extent = map.getExtent(feature.data.geometry);
-                map.setView('U');
-                map.setExtent(extent);
-                this.showAttributesModal(feature);
-                this.scrollTop = this.checkReportTable.scrollTop;
-            } catch (e) {
-                let geomPoint = geom.slice(6, -1).split(' ');
-                window.map.lookDownOn(geomPoint[0], geomPoint[1], geomPoint[2]);
-            }
+            let feature = locateCheckItem(record);
+            feature && this.showAttributesModal(feature);
         };
     };
 
