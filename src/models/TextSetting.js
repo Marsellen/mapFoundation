@@ -1,9 +1,6 @@
 import TextVectorConfig from 'src/config/TextVectorConfig';
 import { LAYER_TEXT_MAP } from 'src/config/TextConfigMap';
-import {
-    TYPE_SELECT_OPTION_MAP,
-    LAYER_TYPE_MAP
-} from 'src/config/ADMapDataConfig';
+import { TYPE_SELECT_OPTION_MAP, LAYER_TYPE_MAP } from 'src/config/ADMapDataConfig';
 import _ from 'lodash';
 
 class TextSetting {
@@ -34,9 +31,7 @@ class TextSetting {
         let vectorConfig = this.vectorConfig[layerName];
         let { textFields, ...style } = this.layerConfig[layerName].defaultStyle;
         vectorConfig.textFields = textFields;
-        Object.keys(vectorConfig.textStyle).forEach(key => {
-            vectorConfig.textStyle[key].style = style;
-        });
+        vectorConfig.textStyle.defaultStyle = style;
         return vectorConfig;
     };
 

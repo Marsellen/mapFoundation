@@ -49,12 +49,15 @@ const TaskService = {
 
         let url = EditApiPath('/api/v1/geoio/json2Shp' + searchParams);
 
-        // link.style.display = 'none';
-        // link.href = url;
         window.open(url);
-        // document.body.appendChild(link);
-        // link.click();
-        // document.body.removeChild(link);
+    },
+    statisticsTime: data => {
+        const config = {
+            url: 'http://localhost:1115/menus/time',
+            method: 'post',
+            data
+        };
+        return service({ config });
     }
 };
 

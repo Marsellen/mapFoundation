@@ -7,6 +7,7 @@ import Relevance from 'src/models/relevance';
 import Attr from 'src/models/attr';
 import IconFont from 'src/components/IconFont';
 import editLog from 'src/models/editLog';
+import TaskService from 'src/services/TaskService';
 
 const SECEND_PATH = '13_ED_DATA';
 const THIRD_PATH = '1301_RAW_DATA';
@@ -137,6 +138,7 @@ const saveData = async () => {
     await TaskStore.submit();
     await TaskStore.writeEditLog();
     OperateHistoryStore.save();
+    statisticsTime('endTask');
     message.success({ key: 'save', content: '保存完成', duration: 2 });
 };
 
@@ -148,4 +150,15 @@ const checkEmptyData = async () => {
         hasEmptyData = hasEmptyData || rels.length === 0;
     }
     return hasEmptyData;
+};
+
+export const statisticsTime = status => {
+    let { activeTaskId, isEditableTask } = TaskStore;
+    if (!isEditableTask && /endTask/.test(status)) return;
+    if (!activeTaskId) return;
+    let params = {
+        status,
+        taskId: activeTaskId
+    };
+    TaskService.statisticsTime(params);
 };

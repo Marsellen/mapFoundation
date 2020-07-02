@@ -33,7 +33,7 @@ import { shortcut } from 'src/utils/shortcuts';
 import { installMapListener } from 'src/utils/map/event';
 import _ from 'lodash';
 import editLog from 'src/models/editLog';
-import { isManbuildTask } from 'src/utils/taskUtils';
+import { isManbuildTask, statisticsTime } from 'src/utils/taskUtils';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
 import axios from 'axios';
 import { logDecorator } from 'src/utils/decorator';
@@ -444,9 +444,9 @@ class VizComponent extends React.Component {
                     taskScale: preTaskScale
                 });
             }
-
             //离开页面时减少访问次数
             editVisiteHistory.removeVisitedHistory();
+            statisticsTime('endTask2');
             const visiteHistory = editVisiteHistory.getVisitedHistory();
             if (visiteHistory.length < 1) {
                 e = window.event || e;

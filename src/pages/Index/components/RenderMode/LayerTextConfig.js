@@ -5,6 +5,7 @@ import AdColorInput from 'src/components/Form/AdColorInput';
 import AdInputPositiveNumber from 'src/components/Form/AdInputPositiveNumber';
 import { inject, observer } from 'mobx-react';
 import { LAYER_TYPE_MAP } from 'src/config/ADMapDataConfig';
+import CheckSelect from 'src/components/CheckSelect';
 
 const { Option } = Select;
 
@@ -34,13 +35,7 @@ class LayerTextConfig extends React.Component {
     };
 
     //重新渲染画布
-    updateConfig = ({
-        styleKey,
-        currentStyleKey,
-        styleValue,
-        oldValue,
-        rule
-    }) => {
+    updateConfig = ({ styleKey, currentStyleKey, styleValue, oldValue, rule }) => {
         if (!styleValue) return;
         if (oldValue && oldValue === styleValue) {
             this.setState({
@@ -69,14 +64,9 @@ class LayerTextConfig extends React.Component {
         const { vectorTextConfig } = TextStore;
         const { key } = config;
         let { currentFontSize, currentInterval, currentOffset } = this.state;
+        let { defaultIntervalMap, defaultOffsetMap, textModeMap, defaultStyle } = vectorTextConfig[key] || {};
         let {
-            defaultIntervalMap,
-            defaultOffsetMap,
-            textModeMap,
-            defaultStyle
-        } = vectorTextConfig[key] || {};
-        let {
-            textField,
+            textFields,
             offset,
             interval,
             showMode,
@@ -85,8 +75,7 @@ class LayerTextConfig extends React.Component {
             backgroundColor,
             textColor
         } = defaultStyle;
-        const defaultInterval =
-            defaultIntervalMap && defaultIntervalMap[showMode];
+        const defaultInterval = defaultIntervalMap && defaultIntervalMap[showMode];
         const defaultOffset = defaultOffsetMap && defaultOffsetMap[showMode];
         const isOffset = textModeMap[showMode].offset;
         const isInterval = textModeMap[showMode].interval;
@@ -97,24 +86,22 @@ class LayerTextConfig extends React.Component {
             <div className="config-content config-content-2">
                 <div className="flex-between input-wrap">
                     <label>注记字段：</label>
-                    <Select
-                        value={textField}
+                    <CheckSelect
+                        value={textFields}
                         style={{ width: 252 }}
                         onChange={val =>
                             this.updateConfig({
-                                styleKey: 'textField',
+                                styleKey: 'textFields',
                                 styleValue: val
                             })
-                        }>
-                        {LAYER_TYPE_MAP[key].map(item => {
-                            const { key: typeKey, name } = item;
-                            return (
-                                <Option value={typeKey} key={typeKey}>
-                                    {name}
-                                </Option>
-                            );
+                        }
+                        options={LAYER_TYPE_MAP[key].map(option => {
+                            return {
+                                value: option.key,
+                                label: option.name
+                            };
                         })}
-                    </Select>
+                    />
                 </div>
                 <div className="flex-between input-wrap">
                     <div className="flex-between">
@@ -272,10 +259,7 @@ class LayerTextConfig extends React.Component {
             <div>
                 <div className="config-title">
                     <div>
-                        <Icon
-                            type={checked ? 'caret-up' : 'caret-right'}
-                            className={checked ? 'blue' : ''}
-                        />
+                        <Icon type={checked ? 'caret-up' : 'caret-right'} className={checked ? 'blue' : ''} />
                         <span>{label}</span>
                     </div>
                     <Checkbox checked={checked} onChange={this.toggle}>

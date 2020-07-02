@@ -22,7 +22,8 @@ import {
     completeSecendUrl,
     completeEditUrl,
     completeBoundaryUrl,
-    completeMultiProjectUrl
+    completeMultiProjectUrl,
+    statisticsTime
 } from 'src/utils/taskUtils';
 import RelStore from './RelStore';
 import AttrStore from './AttrStore';
@@ -105,6 +106,10 @@ class TaskStore {
 
     // 任务切换
     @action setActiveTask = id => {
+        if (this.activeTaskId !== id) {
+            statisticsTime('endTask1');
+        }
+
         if (this.validTasks && this.validTasks.length && id) {
             this.activeTask = this.validTasks.find(item => {
                 return item.taskId === id;
@@ -121,6 +126,7 @@ class TaskStore {
     @action startTaskEdit = id => {
         this.editTaskId = id;
         this.fetchTask();
+        statisticsTime('startTask');
     };
 
     @action getBoundaryLayer = () => {
@@ -497,6 +503,8 @@ class TaskStore {
         if (this.taskIdList.includes(Number(task.taskId))) {
             throw new Error('资料目录重复');
         }
+        statisticsTime('endTask4');
+
         this.activeTask = {
             ...task,
             projectId: 1,
@@ -508,6 +516,7 @@ class TaskStore {
     };
 
     @action tasksPop = currentTaskId => {
+        statisticsTime('endTask5');
         //如果当前任务加载报错，则回到无任务状态
         if (this.activeTaskId == currentTaskId) {
             this.activeTask = {};
