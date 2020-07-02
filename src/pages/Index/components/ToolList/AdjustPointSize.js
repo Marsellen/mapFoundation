@@ -4,7 +4,8 @@ import { inject, observer } from 'mobx-react';
 
 const marks = {
     5: '0.5',
-    30: '3'
+    30: '3',
+    100: '10'
 };
 
 @inject('TaskStore')
@@ -24,6 +25,7 @@ class AdjustPointSize extends React.Component {
                 <Slider
                     className="flex-1"
                     value={value}
+                    min={5}
                     step={5}
                     marks={marks}
                     onChange={this.onChange}
