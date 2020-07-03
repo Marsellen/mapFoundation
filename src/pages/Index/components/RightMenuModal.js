@@ -30,21 +30,15 @@ import TaskStore from 'src/pages/Index/store/TaskStore';
 import 'src/assets/less/components/right-menu-modal.less';
 
 const EDIT_TYPE = [
-    'delPoint',
     'movePointFeature',
     'copyLine',
     'changePoints',
-    'insertPoints',
     'select_point',
     'reverseOrderLine',
     'create_break_line'
 ];
 
 const CHINESE_EDIT_TYPE = [
-    {
-        type: 'delPoint',
-        value: '删除形状点'
-    },
     {
         type: 'movePointFeature',
         value: '左键选择新点位，点击右键实现平移'
@@ -56,10 +50,6 @@ const CHINESE_EDIT_TYPE = [
     {
         type: 'changePoints',
         value: '修改形状点'
-    },
-    {
-        type: 'insertPoints',
-        value: '新增形状点'
     },
     {
         type: 'select_point',
@@ -153,25 +143,11 @@ class RightMenuModal extends React.Component {
                 <span>强制删除</span>
             </Menu.Item>,
             <Menu.Item
-                id="insert-points-btn"
-                key="insertPoints"
-                onClick={this.insertPoints}
-                className="right-menu-item">
-                <span>新增形状点</span>
-            </Menu.Item>,
-            <Menu.Item
                 id="change-points-btn"
                 key="changePoints"
                 onClick={this.changePoints}
                 className="right-menu-item">
                 <span>修改形状点</span>
-            </Menu.Item>,
-            <Menu.Item
-                id="delete-points-btn"
-                key="deletePoints"
-                onClick={this.deletePoints}
-                className="right-menu-item">
-                <span>删除形状点</span>
             </Menu.Item>,
             <Menu.Item
                 id="break-line-btn"
@@ -535,21 +511,6 @@ class RightMenuModal extends React.Component {
         AttributeStore.hideRelFeatures();
     };
 
-    insertPoints = () => {
-        const { DataLayerStore, RightMenuStore } = this.props;
-
-        if (this.checkDisabled()) return;
-        if (DataLayerStore.changeUnAble())
-            return message.error({
-                content: '请先结束当前编辑操作！',
-                duration: 3,
-                key: 'edit_error'
-            });
-
-        DataLayerStore.insertPoints();
-        RightMenuStore.hide();
-    };
-
     changePoints = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
@@ -560,19 +521,6 @@ class RightMenuModal extends React.Component {
                 key: 'edit_error'
             });
         DataLayerStore.changePoints();
-        RightMenuStore.hide();
-    };
-
-    deletePoints = () => {
-        const { DataLayerStore, RightMenuStore } = this.props;
-        if (this.checkDisabled()) return;
-        if (DataLayerStore.changeUnAble())
-            return message.error({
-                content: '请先结束当前编辑操作！',
-                duration: 3,
-                key: 'edit_error'
-            });
-        DataLayerStore.deletePoints();
         RightMenuStore.hide();
     };
 
