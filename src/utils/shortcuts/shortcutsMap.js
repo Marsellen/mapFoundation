@@ -204,23 +204,6 @@ export const shortcutMap = [
         describe: '修改形状点 V'
     },
     {
-        id: 'insert-points-btn',
-        ctrl: false,
-        alt: false,
-        shift: false,
-        keyCode: 70,
-        describe: '新增形状点 F'
-    },
-    {
-        id: 'delete-points-btn',
-        ctrl: false,
-        alt: true,
-        shift: false,
-        keyCode: 70,
-        preventDefault: true,
-        describe: '删除形状点 Alt+F'
-    },
-    {
         id: 'reverse-order-line-btn',
         ctrl: false,
         alt: false,
@@ -299,5 +282,13 @@ export const shortcutMap = [
         shift: false,
         keyCode: 74,
         describe: '修整线要素 J'
+    },
+    {
+        id: 'posture-adjust-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 70,
+        describe: '位姿调整 F'
     }
 ];
