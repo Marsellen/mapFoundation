@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-    Map,
-    DynamicPCLayer,
-    LayerGroup,
-    TraceListLayer,
-    VectorLayer
-} from 'addis-viz-sdk';
+import { Map, DynamicPCLayer, LayerGroup, TraceListLayer, VectorLayer } from 'addis-viz-sdk';
 import { message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
@@ -23,11 +17,7 @@ import VectorsConfig from '../../../config/VectorsConfig';
 import 'less/components/viz-component.less';
 // import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
-import {
-    regionCheck,
-    modUpdStatGeometry,
-    checkSdkError
-} from 'src/utils/vectorUtils';
+import { regionCheck, modUpdStatGeometry, checkSdkError } from 'src/utils/vectorUtils';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { shortcut } from 'src/utils/shortcuts';
 import { installMapListener } from 'src/utils/map/event';
@@ -52,11 +42,7 @@ import BatchAssignStore from 'src/pages/Index/store/BatchAssignStore';
 import PointCloudStore from 'src/pages/Index/store/PointCloudStore';
 import VectorsStore from 'src/pages/Index/store/VectorsStore';
 import ToolCtrlStore from 'src/pages/Index/store/ToolCtrlStore';
-import {
-    showPictureShowView,
-    showAttributesModal,
-    showRightMenu
-} from 'src/utils/map/viewCtrl';
+import { showPictureShowView, showAttributesModal, showRightMenu } from 'src/utils/map/viewCtrl';
 
 @inject('DefineModeStore')
 @inject('TextStore')
@@ -161,11 +147,7 @@ class VizComponent extends React.Component {
                 callback: () => {
                     event.preventDefault();
                     event.stopPropagation();
-                    ResourceLayerStore.toggle(
-                        RESOURCE_LAYER_VECTOR,
-                        true,
-                        true
-                    );
+                    ResourceLayerStore.toggle(RESOURCE_LAYER_VECTOR, true, true);
                     VectorsStore.toggleAll(true, RESOURCE_LAYER_VECTOR, true);
                 },
                 describe: '开关轨迹图层 2'
@@ -195,10 +177,7 @@ class VizComponent extends React.Component {
             //获取任务资料文件路径
             const task = getTaskFile();
             //加载资料
-            await Promise.all([
-                this.initEditResource(task),
-                this.initExResource(task)
-            ]);
+            await Promise.all([this.initEditResource(task), this.initExResource(task)]);
             message.success({
                 content: '资料加载成功',
                 duration: 1,
@@ -244,24 +223,16 @@ class VizComponent extends React.Component {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         try {
-            await Promise.all([
-                this.installRel(task.rels),
-                this.installAttr(task.attrs)
-            ]);
+            await Promise.all([this.installRel(task.rels), this.installAttr(task.attrs)]);
         } catch (e) {
-            console.log(
-                'rels.geojson或attrs.geojson加载异常' + e.message || e || ''
-            );
+            console.log('rels.geojson或attrs.geojson加载异常' + e.message || e || '');
             throw new Error(activeTaskId);
         }
     };
 
     initMultiProjectResource = async task => {
         const { point_clouds, tracks } = task;
-        await Promise.all([
-            this.initPointCloud(point_clouds),
-            this.initTracks(tracks)
-        ]);
+        await Promise.all([this.initPointCloud(point_clouds), this.initTracks(tracks)]);
 
         return {
             layerName: RESOURCE_LAYER_MULTI_PROJECT,
@@ -287,8 +258,7 @@ class VizComponent extends React.Component {
     setMapScale = () => {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
-        const { taskScale } =
-            AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
+        const { taskScale } = AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
         taskScale ? window.map.setEyeView(taskScale) : map.setView('U');
     };
 
@@ -373,10 +343,7 @@ class VizComponent extends React.Component {
             window.boundaryLayerGroup = await TaskStore.getBoundaryLayer();
             if (!window.boundaryLayerGroup) return;
             DataLayerStore.addTargetLayers(window.boundaryLayerGroup.layers);
-            ResourceLayerStore.updateLayerByName(
-                RESOURCE_LAYER_BOUNDARY,
-                window.boundaryLayerGroup
-            );
+            ResourceLayerStore.updateLayerByName(RESOURCE_LAYER_BOUNDARY, window.boundaryLayerGroup);
             VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
             this.handleBoundaryfeature();
         } catch (e) {
@@ -387,12 +354,7 @@ class VizComponent extends React.Component {
     //不同模式下，处理底图数据
     handleBoundaryfeature = () => {
         const { RenderModeStore, TextStore, DefineModeStore } = this.props;
-        const {
-            whiteRenderMode,
-            resetSelectOption,
-            setRels,
-            activeMode
-        } = RenderModeStore;
+        const { whiteRenderMode, resetSelectOption, setRels, activeMode } = RenderModeStore;
         const { resetBoundaryTextStyle } = TextStore;
         const { updateBoundaryVectorStyle } = DefineModeStore;
 
@@ -446,7 +408,7 @@ class VizComponent extends React.Component {
             }
             //离开页面时减少访问次数
             editVisiteHistory.removeVisitedHistory();
-            statisticsTime('endTask2');
+            statisticsTime(1);
             const visiteHistory = editVisiteHistory.getVisitedHistory();
             if (visiteHistory.length < 1) {
                 e = window.event || e;
@@ -455,12 +417,8 @@ class VizComponent extends React.Component {
         };
 
         // attributes 拾取控件
-        let boundaryLayers = window.boundaryLayerGroup
-            ? window.boundaryLayerGroup.layers
-            : [];
-        const vectorLayers = window.vectorLayerGroup
-            ? window.vectorLayerGroup.layers
-            : [];
+        let boundaryLayers = window.boundaryLayerGroup ? window.boundaryLayerGroup.layers : [];
+        const vectorLayers = window.vectorLayerGroup ? window.vectorLayerGroup.layers : [];
 
         DataLayerStore.initEditor([
             { layer: pointCloudLayer },
@@ -487,9 +445,7 @@ class VizComponent extends React.Component {
              * TraceLayer 轨迹点
              */
             if (result[0].type === 'VectorLayer') {
-                result.length === 1
-                    ? DataLayerStore.pick()
-                    : DataLayerStore.unPick();
+                result.length === 1 ? DataLayerStore.pick() : DataLayerStore.unPick();
                 showAttributesModal(result[0], event);
                 showRightMenu(result, event);
             } else if (result[0].type === 'TraceListLayer') {

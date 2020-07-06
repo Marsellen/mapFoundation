@@ -88,20 +88,12 @@ export const saveTaskDate = () => {
                     <div className="error-title">
                         <div>
                             <span className="error-title-first">警告</span>
-                            <span className="error-title-second">
-                                存在空文件
-                            </span>
+                            <span className="error-title-second">存在空文件</span>
                         </div>
-                        <div className="error-title-third">
-                            继续保存可能导致数据丢失
-                        </div>
+                        <div className="error-title-third">继续保存可能导致数据丢失</div>
                     </div>
                 ),
-                content: (
-                    <div className="error-content">
-                        请检查当前任务数据的子属性表和关联关系表，避免数据丢失。
-                    </div>
-                ),
+                content: <div className="error-content">请检查当前任务数据的子属性表和关联关系表，避免数据丢失。</div>,
                 className: 'save-error-modal',
                 okText: '继续保存',
                 cancelText: '退出保存',
@@ -138,7 +130,7 @@ const saveData = async () => {
     await TaskStore.submit();
     await TaskStore.writeEditLog();
     OperateHistoryStore.save();
-    statisticsTime('endTask');
+    statisticsTime(1);
     message.success({ key: 'save', content: '保存完成', duration: 2 });
 };
 
@@ -153,12 +145,15 @@ const checkEmptyData = async () => {
 };
 
 export const statisticsTime = status => {
-    let { activeTaskId, isEditableTask } = TaskStore;
-    if (!isEditableTask && /endTask/.test(status)) return;
-    if (!activeTaskId) return;
+    let {
+        activeTask: { taskFetchId },
+        isEditableTask
+    } = TaskStore;
+    if (!isEditableTask && status === 1) return;
+    if (!taskFetchId) return;
     let params = {
-        status,
-        taskId: activeTaskId
+        startOrEnd: status,
+        taskFetchId
     };
     TaskService.statisticsTime(params);
 };

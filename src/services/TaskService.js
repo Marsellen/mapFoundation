@@ -1,5 +1,5 @@
 import service from 'src/services';
-import { EditApiPath, updateBoundaryApiPath } from 'src/utils/Api';
+import { EditApiPath, updateBoundaryApiPath, TaskApiPath } from 'src/utils/Api';
 import { getAuthentication } from 'src/utils/Session';
 
 const TaskService = {
@@ -53,7 +53,7 @@ const TaskService = {
     },
     statisticsTime: data => {
         const config = {
-            url: 'http://localhost:1115/menus/time',
+            url: TaskApiPath('/outside/task/tag'),
             method: 'post',
             data
         };
