@@ -51,11 +51,11 @@ const TaskService = {
 
         window.open(url);
     },
-    statisticsTime: data => {
+    statisticsTime: params => {
         const config = {
             url: TaskApiPath('/outside/task/tag'),
             method: 'post',
-            data
+            params
         };
         return service({ config });
     }
