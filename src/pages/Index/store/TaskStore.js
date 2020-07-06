@@ -101,7 +101,7 @@ class TaskStore {
 
     // 任务切换
     @action setActiveTask = id => {
-        if (this.activeTaskId !== id) {
+        if (id && this.activeTaskId !== id) {
             statisticsTime(1);
         }
 
@@ -118,11 +118,17 @@ class TaskStore {
         this.editTaskId = null;
     };
 
-    @action startTaskEdit = id => {
+    startTaskEdit = flow(function* (id) {
         this.editTaskId = id;
         this.fetchTask();
-        statisticsTime(0);
-    };
+        try {
+            if (id) {
+                yield statisticsTime(0);
+            }
+        } catch (e) {
+            throw { message: '工作流请求失败', key: 'task_error' };
+        }
+    });
 
     @action getBoundaryLayer = () => {
         const taskType = this.taskProcessName;

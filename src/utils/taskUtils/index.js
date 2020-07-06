@@ -155,5 +155,5 @@ export const statisticsTime = status => {
         startOrEnd: status,
         taskFetchId
     };
-    TaskService.statisticsTime(params);
+    return TaskService.statisticsTime(params);
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Empty, Modal } from 'antd';
+import { Menu, Empty, Modal, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { RESOURCE_LAYER_BOUNDARY } from 'src/config/DataLayerConfig';
@@ -37,32 +37,21 @@ class Task extends React.Component {
         const { activeTaskId, validTasks, isEditableTask } = TaskStore;
 
         if (validTasks && validTasks.length > 0) {
-            let taskIndex = TaskStore.validTasks.findIndex(
-                item => item.taskId === activeTaskId
-            );
+            let taskIndex = TaskStore.validTasks.findIndex(item => item.taskId === activeTaskId);
             taskIndex = taskIndex > -1 ? taskIndex.toString() : '';
             return (
                 <Menu className="menu" selectedKeys={[taskIndex]}>
                     {validTasks.map((item, index) => (
                         <Menu.Item key={index}>
                             <p className="menu-item-box">
-                                <span
-                                    onClick={e =>
-                                        this.chooseTask(e, item.taskId, false)
-                                    }>
+                                <span onClick={e => this.chooseTask(e, item.taskId, false)}>
                                     {this.getTaskLabel(item)}
                                 </span>
                                 <ToolIcon
                                     icon="kaishi"
                                     className="task-start-button"
-                                    disabled={
-                                        isEditableTask &&
-                                        taskIndex &&
-                                        index == taskIndex
-                                    }
-                                    action={e =>
-                                        this.chooseTask(e, item.taskId, true)
-                                    }
+                                    disabled={isEditableTask && taskIndex && index == taskIndex}
+                                    action={e => this.chooseTask(e, item.taskId, true)}
                                 />
                             </p>
                         </Menu.Item>
@@ -92,9 +81,7 @@ class Task extends React.Component {
 
     getTaskLabel = task => {
         if (task.isLocal) {
-            let processName = processNameOptions.find(
-                option => option.value === task.processName
-            ).label;
+            let processName = processNameOptions.find(option => option.value === task.processName).label;
             return `${task.taskId}-${processName}`;
         }
         return `${task.taskId}-${task.nodeDesc}-${task.manualStatusDesc}`;
@@ -131,10 +118,7 @@ class Task extends React.Component {
         const { activeTaskId } = TaskStore;
         const { loginUser } = appStore;
         const { roleCode } = loginUser;
-        const {
-            handleQualityGetMisreport,
-            openCheckReport
-        } = QualityCheckStore;
+        const { handleQualityGetMisreport, openCheckReport } = QualityCheckStore;
 
         switch (roleCode) {
             case 'producer':
@@ -161,16 +145,12 @@ class Task extends React.Component {
         }
     };
 
-    toggleTask = async (id, isEdit) => {
+    toggleTask = (id, isEdit) => {
         //防抖，减少重置画布次数
         this.timeout && clearTimeout(this.timeout);
-        this.timeout = setTimeout(() => {
+        this.timeout = setTimeout(async () => {
             try {
-                const {
-                    TaskStore,
-                    QualityCheckStore,
-                    RenderModeStore
-                } = this.props;
+                const { TaskStore, QualityCheckStore, RenderModeStore } = this.props;
                 const { current } = this.state;
                 const { taskIdList, activeTaskId } = TaskStore;
 
@@ -194,7 +174,7 @@ class Task extends React.Component {
                 }
 
                 TaskStore.setActiveTask(id);
-                isEdit && TaskStore.startTaskEdit(id);
+                isEdit && (await TaskStore.startTaskEdit(id));
                 this.handleReportOpen();
 
                 //先浏览再开始任务时，获取周边底图
@@ -203,7 +183,11 @@ class Task extends React.Component {
                 this.setState({ current: id });
             } catch (e) {
                 const msg = e.message || e || '';
-                console.log('切换任务报错' + msg);
+                console.log('切换任务报错:' + msg);
+                if (e.key === 'task_error') {
+                    this.props.TaskStore.startTaskEdit();
+                    message.error(msg);
+                }
             }
         }, 1000);
     };
@@ -211,12 +195,7 @@ class Task extends React.Component {
     //不同模式下，处理底图数据
     handleBoundaryfeature = () => {
         const { RenderModeStore, TextStore, DefineModeStore } = this.props;
-        const {
-            whiteRenderMode,
-            resetSelectOption,
-            setRels,
-            activeMode
-        } = RenderModeStore;
+        const { whiteRenderMode, resetSelectOption, setRels, activeMode } = RenderModeStore;
         const { resetBoundaryTextStyle } = TextStore;
         const { updateBoundaryVectorStyle } = DefineModeStore;
 
@@ -243,19 +222,11 @@ class Task extends React.Component {
 
     fetchLayerGroup = async () => {
         try {
-            const {
-                TaskStore,
-                DataLayerStore,
-                ResourceLayerStore,
-                VectorsStore
-            } = this.props;
+            const { TaskStore, DataLayerStore, ResourceLayerStore, VectorsStore } = this.props;
             window.boundaryLayerGroup = await TaskStore.getBoundaryLayer();
             if (!window.boundaryLayerGroup) return;
             DataLayerStore.addTargetLayers(window.boundaryLayerGroup.layers);
-            ResourceLayerStore.updateLayerByName(
-                RESOURCE_LAYER_BOUNDARY,
-                window.boundaryLayerGroup
-            );
+            ResourceLayerStore.updateLayerByName(RESOURCE_LAYER_BOUNDARY, window.boundaryLayerGroup);
             VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
             this.handleBoundaryfeature();
         } catch (e) {
