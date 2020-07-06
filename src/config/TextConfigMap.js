@@ -4,7 +4,7 @@ export const LAYER_TEXT_MAP = {
         label: '道路参考线',
         checked: false,
         defaultStyle: {
-            textField: 'TYPE',
+            textFields: ['TYPE', 'RD_STATUS', 'CROSSING', 'DIRECTION'],
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -29,7 +29,7 @@ export const LAYER_TEXT_MAP = {
         label: '车道线',
         checked: false,
         defaultStyle: {
-            textField: 'TYPE', //看数据规格
+            textFields: ['TYPE', 'LANE_TYPE', 'SHARE_LINE', 'DIRECTION', 'LANESTATUS', 'LANE_NO'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -54,7 +54,7 @@ export const LAYER_TEXT_MAP = {
         label: '车道中心线',
         checked: false,
         defaultStyle: {
-            textField: 'TYPE', //看数据规格
+            textFields: ['TYPE', 'LANE_NO', 'DIRECTION', 'STATUS'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -79,7 +79,7 @@ export const LAYER_TEXT_MAP = {
         label: '车道属性变化点',
         checked: false,
         defaultStyle: {
-            textField: 'TYPE', //看数据规格
+            textFields: ['TYPE'], //看数据规格
             offset: 10,
             showMode: 'top',
             fontSize: 40,
@@ -105,7 +105,7 @@ export const LAYER_TEXT_MAP = {
         label: '地面导向箭头',
         checked: false,
         defaultStyle: {
-            textField: 'ARR_DIRECT', //看数据规格
+            textFields: ['ARR_DIRECT'], //看数据规格
             interval: 10,
             showMode: 'longest-center',
             fontSize: 40,
@@ -131,7 +131,7 @@ export const LAYER_TEXT_MAP = {
         label: '停止位置',
         checked: false,
         defaultStyle: {
-            textField: 'TYPE', //看数据规格
+            textFields: ['TYPE'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -156,7 +156,7 @@ export const LAYER_TEXT_MAP = {
         label: '面状标识物',
         checked: false,
         defaultStyle: {
-            textField: 'TYPE', //看数据规格
+            textFields: ['TYPE'], //看数据规格
             interval: 10,
             showMode: 'polygon-center',
             fontSize: 40,
@@ -182,7 +182,7 @@ export const LAYER_TEXT_MAP = {
         label: '地面文字符号',
         checked: false,
         defaultStyle: {
-            textField: 'TYPE', //看数据规格
+            textFields: ['TYPE'], //看数据规格
             interval: 10,
             showMode: 'longest-center',
             fontSize: 40,
@@ -208,7 +208,7 @@ export const LAYER_TEXT_MAP = {
         label: '交通标志牌',
         checked: false,
         defaultStyle: {
-            textField: 'SIGN_STYLE', //看数据规格
+            textFields: ['SIGN_STYLE'], //看数据规格
             interval: 10,
             showMode: 'polygon-center',
             fontSize: 40,
@@ -234,7 +234,7 @@ export const LAYER_TEXT_MAP = {
         label: '交通信号灯',
         checked: false,
         defaultStyle: {
-            textField: 'TYPE', //看数据规格
+            textFields: ['TYPE'], //看数据规格
             interval: 10,
             showMode: 'polygon-center',
             fontSize: 40,
@@ -260,7 +260,7 @@ export const LAYER_TEXT_MAP = {
         label: '杆状物',
         checked: false,
         defaultStyle: {
-            textField: 'POLE_ID', //看数据规格
+            textFields: ['POLE_ID'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -285,7 +285,7 @@ export const LAYER_TEXT_MAP = {
         label: '隔离带、护栏',
         checked: false,
         defaultStyle: {
-            textField: 'TYPE', //看数据规格
+            textFields: ['TYPE', 'MATERIAL'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,

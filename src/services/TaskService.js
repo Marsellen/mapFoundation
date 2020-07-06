@@ -1,5 +1,5 @@
 import service from 'src/services';
-import { EditApiPath, updateBoundaryApiPath } from 'src/utils/Api';
+import { EditApiPath, updateBoundaryApiPath, TaskApiPath } from 'src/utils/Api';
 import { getAuthentication } from 'src/utils/Session';
 
 const TaskService = {
@@ -49,12 +49,15 @@ const TaskService = {
 
         let url = EditApiPath('/api/v1/geoio/json2Shp' + searchParams);
 
-        // link.style.display = 'none';
-        // link.href = url;
         window.open(url);
-        // document.body.appendChild(link);
-        // link.click();
-        // document.body.removeChild(link);
+    },
+    statisticsTime: data => {
+        const config = {
+            url: TaskApiPath('/outside/task/tag'),
+            method: 'post',
+            data
+        };
+        return service({ config });
     }
 };
 

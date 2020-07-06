@@ -4,12 +4,7 @@ import JobService from 'src/services/JobService';
 import axios from 'axios';
 import { message } from 'antd';
 import CONFIG from 'src/config';
-import {
-    getAllVectorData,
-    getAllRelData,
-    getAllAttrData,
-    getAllDataSnapshot
-} from 'src/utils/vectorUtils';
+import { getAllVectorData, getAllRelData, getAllAttrData, getAllDataSnapshot } from 'src/utils/vectorUtils';
 import { getAuthentication } from 'src/utils/Session';
 import editLog from 'src/models/editLog';
 import moment from 'moment';
@@ -22,7 +17,8 @@ import {
     completeSecendUrl,
     completeEditUrl,
     completeBoundaryUrl,
-    completeMultiProjectUrl
+    completeMultiProjectUrl,
+    statisticsTime
 } from 'src/utils/taskUtils';
 import RelStore from './RelStore';
 import AttrStore from './AttrStore';
@@ -105,6 +101,10 @@ class TaskStore {
 
     // 任务切换
     @action setActiveTask = id => {
+        if (this.activeTaskId !== id) {
+            statisticsTime(1);
+        }
+
         if (this.validTasks && this.validTasks.length && id) {
             this.activeTask = this.validTasks.find(item => {
                 return item.taskId === id;
@@ -121,6 +121,7 @@ class TaskStore {
     @action startTaskEdit = id => {
         this.editTaskId = id;
         this.fetchTask();
+        statisticsTime(0);
     };
 
     @action getBoundaryLayer = () => {
@@ -141,9 +142,7 @@ class TaskStore {
                 taskId: this.activeTaskId,
                 '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
                 targetDirectory: this.activeTask['1302_MS_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask[
-                    'MS_EDITOR_QUERYDB_PATHS'
-                ],
+                EDITOR_QUERYDB_PATHS: this.activeTask['MS_EDITOR_QUERYDB_PATHS'],
                 incsys: 'mct',
                 outcsys: 'mct'
             },
@@ -151,9 +150,7 @@ class TaskStore {
                 taskId: this.activeTaskId,
                 '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
                 targetDirectory: this.activeTask['1303_MS_QC_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask[
-                    'MS_EDITOR_QUERYDB_PATHS'
-                ],
+                EDITOR_QUERYDB_PATHS: this.activeTask['MS_EDITOR_QUERYDB_PATHS'],
                 incsys: 'mct',
                 outcsys: 'mct'
             },
@@ -161,9 +158,7 @@ class TaskStore {
                 taskId: this.activeTaskId,
                 '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
                 targetDirectory: this.activeTask['1304_MB_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask[
-                    'MB_EDITOR_QUERYDB_PATHS'
-                ],
+                EDITOR_QUERYDB_PATHS: this.activeTask['MB_EDITOR_QUERYDB_PATHS'],
                 incsys: 'mct',
                 outcsys: 'mct'
             },
@@ -171,9 +166,7 @@ class TaskStore {
                 taskId: this.activeTaskId,
                 '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
                 targetDirectory: this.activeTask['1305_MB_QC_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask[
-                    'MB_EDITOR_QUERYDB_PATHS'
-                ],
+                EDITOR_QUERYDB_PATHS: this.activeTask['MB_EDITOR_QUERYDB_PATHS'],
                 incsys: 'mct',
                 outcsys: 'mct'
             }
@@ -217,31 +210,21 @@ class TaskStore {
     });
 
     isGetTaskBoundaryFile = () => {
-        const { taskBoundaryIsUpdate } =
-            AdLocalStorage.getTaskInfosStorage(this.activeTaskId) || {};
+        const { taskBoundaryIsUpdate } = AdLocalStorage.getTaskInfosStorage(this.activeTaskId) || {};
         // 本地任务不请求更新底图数据
         return taskBoundaryIsUpdate || this.activeTask.isLocal;
     };
 
     getTaskBoundaryFile = flow(function* () {
         if (!window.map) return;
-        const boundaryUrl = completeBoundaryUrl(
-            CONFIG.urlConfig.boundaryAdsAll,
-            this.activeTask
-        );
+        const boundaryUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryAdsAll, this.activeTask);
         const layerGroup = new LayerGroup(boundaryUrl, {
             styleConifg: BoundaryVectorsConfig
         });
         yield window.map.getLayerManager().addLayerGroup(layerGroup);
 
-        const relUrl = completeBoundaryUrl(
-            CONFIG.urlConfig.boundaryRels,
-            this.activeTask
-        );
-        const AttrUrl = completeBoundaryUrl(
-            CONFIG.urlConfig.boundaryAttrs,
-            this.activeTask
-        );
+        const relUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryRels, this.activeTask);
+        const AttrUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryAttrs, this.activeTask);
         yield AttrStore.addRecords(AttrUrl, 'boundary');
         yield RelStore.addRecords(relUrl, 'boundary');
         return layerGroup;
@@ -366,11 +349,7 @@ class TaskStore {
     handleMultiTrack = lastPath => {
         const trackUrlMap = {};
         this.projectNameArr.forEach((projectName, i) => {
-            const url = completeMultiProjectUrl(
-                lastPath,
-                this.activeTask,
-                projectName
-            );
+            const url = completeMultiProjectUrl(lastPath, this.activeTask, projectName);
 
             trackUrlMap[projectName] = url;
 
@@ -391,14 +370,7 @@ class TaskStore {
         try {
             if (!this.activeTaskUrl) return;
 
-            const {
-                point_clouds,
-                track,
-                region,
-                vectors,
-                rels,
-                attrs
-            } = CONFIG.urlConfig;
+            const { point_clouds, track, region, vectors, rels, attrs } = CONFIG.urlConfig;
 
             let task = {
                 point_clouds: this.handleMultiPointCloud(point_clouds),
@@ -471,11 +443,7 @@ class TaskStore {
         try {
             let log = yield editLog.store.getAll();
             let snapshot = yield getAllDataSnapshot(true);
-            let {
-                taskId,
-                processName,
-                Input_imp_data_path: inputImpDataPath
-            } = this.activeTask;
+            let { taskId, processName, Input_imp_data_path: inputImpDataPath } = this.activeTask;
             const { username: userName } = getAuthentication();
             let payload = {
                 taskId,
@@ -497,6 +465,8 @@ class TaskStore {
         if (this.taskIdList.includes(Number(task.taskId))) {
             throw new Error('资料目录重复');
         }
+        statisticsTime(1);
+
         this.activeTask = {
             ...task,
             projectId: 1,
@@ -508,14 +478,13 @@ class TaskStore {
     };
 
     @action tasksPop = currentTaskId => {
+        statisticsTime(1);
         //如果当前任务加载报错，则回到无任务状态
         if (this.activeTaskId == currentTaskId) {
             this.activeTask = {};
         }
         //如果是本地加载任务报错，则从任务列表中删除该任务
-        const currentTaskIndex = this.localTasks.findIndex(
-            item => item.taskId === currentTaskId
-        );
+        const currentTaskIndex = this.localTasks.findIndex(item => item.taskId === currentTaskId);
         if (currentTaskIndex > -1) {
             const currentTask = this.localTasks[currentTaskIndex];
             const { isLocal, firstTime } = currentTask;

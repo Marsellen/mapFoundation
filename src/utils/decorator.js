@@ -11,7 +11,7 @@ import AdEmitter from 'src/models/event';
  * @property {Object | String} option.operate 操作类型，为字符串或图层映射对象
  * @property {Boolean} option.onlyRun 为true时只运行包装函数并记录可能的错误日志，默认false
  * @property {Boolean} option.skipHistory 为true时跳过历史记录，默认false
- * * @property {Boolean} option.skipRenderMode 为true时跳过渲染模式重绘，默认false
+ * @property {Boolean} option.skipRenderMode 为true时跳过渲染模式重绘，默认false
  * @returns {Object} 被打断/合并线要素的lines相关信息
  */
 export const logDecorator = option => {

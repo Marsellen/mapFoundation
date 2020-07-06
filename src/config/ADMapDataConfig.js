@@ -1499,8 +1499,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_Plg_Lane_Rel: '{"PLG_ID":{},"LANE_ID":{}}',
     AD_Text: '{"TYPE":{},"VALUE":{},"LANE_ID":{},"GEOMETRY":{}}',
     AD_TrafficSign: '{"SIGN_STYLE":{},"GEOMETRY":{}}',
-    AD_TS_Content:
-        '{"SIGN_ID":{},"SIGN_TYPE":{},"CONT_TYPE":{},"TIMEDOM":{},"CONT_VALUE":{},"SIGN_NO":{}}',
+    AD_TS_Content: '{"SIGN_ID":{},"SIGN_TYPE":{},"CONT_TYPE":{},"TIMEDOM":{},"CONT_VALUE":{},"SIGN_NO":{}}',
     AD_Sign_Lane_Rel: '{"SIGN_ID":{},"LANE_ID":{}}',
     AD_TrafficLight: '{"TYPE":{},"LAYOUT":{},"LAMP_COUNT":{},"GEOMETRY":{}}',
     AD_Sub_Lamp: '{"LIGHT_ID":{},"LAMP_TYPE":{},"LAMP_NO":{}}',
@@ -1679,17 +1678,17 @@ export const LAYER_TYPE_MAP = {
         },
         {
             key: 'ROAD_ID',
-            name: '关联对应道路参考线ID',
+            name: '关联道路参考线ID',
             type: 'AD_LANE_ROAD_ID'
         },
         {
             key: 'L_LDIV_ID',
-            name: '关联车道左侧车道线ID',
+            name: '关联左侧车道线ID',
             type: 'AD_LANE_L_LDIV_ID'
         },
         {
             key: 'R_LDIV_ID',
-            name: '关联车道右侧车道线ID',
+            name: '关联右侧车道线ID',
             type: 'AD_LANE_R_LDIV_ID'
         }
     ],

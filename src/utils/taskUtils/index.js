@@ -7,6 +7,7 @@ import Relevance from 'src/models/relevance';
 import Attr from 'src/models/attr';
 import IconFont from 'src/components/IconFont';
 import editLog from 'src/models/editLog';
+import TaskService from 'src/services/TaskService';
 
 const SECEND_PATH = '13_ED_DATA';
 const THIRD_PATH = '1301_RAW_DATA';
@@ -87,20 +88,12 @@ export const saveTaskDate = () => {
                     <div className="error-title">
                         <div>
                             <span className="error-title-first">警告</span>
-                            <span className="error-title-second">
-                                存在空文件
-                            </span>
+                            <span className="error-title-second">存在空文件</span>
                         </div>
-                        <div className="error-title-third">
-                            继续保存可能导致数据丢失
-                        </div>
+                        <div className="error-title-third">继续保存可能导致数据丢失</div>
                     </div>
                 ),
-                content: (
-                    <div className="error-content">
-                        请检查当前任务数据的子属性表和关联关系表，避免数据丢失。
-                    </div>
-                ),
+                content: <div className="error-content">请检查当前任务数据的子属性表和关联关系表，避免数据丢失。</div>,
                 className: 'save-error-modal',
                 okText: '继续保存',
                 cancelText: '退出保存',
@@ -137,6 +130,7 @@ const saveData = async () => {
     await TaskStore.submit();
     await TaskStore.writeEditLog();
     OperateHistoryStore.save();
+    statisticsTime(1);
     message.success({ key: 'save', content: '保存完成', duration: 2 });
 };
 
@@ -148,4 +142,18 @@ const checkEmptyData = async () => {
         hasEmptyData = hasEmptyData || rels.length === 0;
     }
     return hasEmptyData;
+};
+
+export const statisticsTime = status => {
+    let {
+        activeTask: { taskFetchId },
+        isEditableTask
+    } = TaskStore;
+    if (!isEditableTask && status === 1) return;
+    if (!taskFetchId) return;
+    let params = {
+        startOrEnd: status,
+        taskFetchId
+    };
+    TaskService.statisticsTime(params);
 };
