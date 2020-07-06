@@ -16,9 +16,7 @@ class TextSetting {
             let types = LAYER_TYPE_MAP[layerName];
             config[layerName].textStyle = types.reduce((set, type) => {
                 let constants = TYPE_SELECT_OPTION_MAP[type.type];
-                if (constants) {
-                    set[type.key] = constants;
-                }
+                set[type.key] = constants ? constants : [];
                 return set;
             }, {});
         });

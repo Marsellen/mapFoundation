@@ -81,7 +81,6 @@ class CheckSelect extends React.Component {
             checkAll: checkedList.length === options.length
         });
         onChange(checkedList);
-        console.log(checkedList);
     };
 
     getLabels = () => {
