@@ -1,0 +1,41 @@
+.configurable-form {
+    .ant-form {
+        label,
+        .ant-select,
+        .ant-input {
+            font-size: 13px;
+        }
+        .ant-input[disabled] {
+            color: rgba(0, 0, 0, 0.65);
+            background-color: #fff;
+        }
+    }
+
+    .ant-form-item {
+        margin-bottom: 0;
+    }
+
+    .form-item-textarea .ant-form-item-control {
+        line-height: 102px;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    .tool {
+        position: absolute;
+        top: 50%;
+        right: -30px;
+        z-index: 1;
+        transform: translate(0px, -20px);
+    }
+
+    .bottom-border:after {
+        content: '';
+        display: block;
+        height: 10px;
+        border-bottom: 1px dashed #c0c0c0;
+        margin-bottom: 10px;
+    }
+}

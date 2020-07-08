@@ -3,6 +3,7 @@ import { Tabs, Icon } from 'antd';
 import SeniorModal from 'src/components/SeniorModal';
 import 'src/assets/less/components/quality-check.less';
 import QualityCheckResultTable from 'src/pages/Index/components/QualityCheck/QualityCheckResultTable';
+import QCMarkerListTable from 'src/pages/Index/components/QualityMarker/QCMarkerListTable';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
 
@@ -11,95 +12,45 @@ const { TabPane } = Tabs;
 @inject('appStore')
 @inject('TaskStore')
 @inject('QualityCheckStore')
+@inject('QCMarkerStore')
 @observer
 class QualityCheckResult extends React.Component {
-    render() {
-        const { QualityCheckStore, TaskStore } = this.props;
-        const { checkReportVisible } = QualityCheckStore;
-        const { activeTaskId } = TaskStore;
-
-        return (
-            <div>
-                <ToolIcon
-                    id="check-result-btn"
-                    icon="jianchajieguo"
-                    title="检查结果"
-                    placement="right"
-                    className="ad-menu-icon"
-                    visible={checkReportVisible}
-                    disabled={!activeTaskId}
-                    action={this.handleClick}
-                />
-                <SeniorModal
-                    dragDom={this._dragDom()}
-                    visible={checkReportVisible}
-                    footer={null}
-                    mask={false}
-                    zIndex={999}
-                    maskClosable={false}
-                    closable={false}
-                    width={'100%'}
-                    bodyStyle={{ padding: 0 }}
-                    onCancel={this.handleClose}
-                    dragCallback={this.dragCallback}
-                    className="quality-check-result-modal"
-                    wrapClassName="quality-check-result-modal-wrap">
-                    {this._renderContent()}
-                </SeniorModal>
-            </div>
-        );
+    constructor(props) {
+        super(props);
+        this.state = { activeKey: '' };
     }
-
-    _dragDom = () => <div className="drag-dom"></div>;
-
-    _renderContent = () => {
-        const { QualityCheckStore } = this.props;
-        const { reportList } = QualityCheckStore;
-        return (
-            <Tabs
-                defaultActiveKey="1"
-                onChange={this.handleTabsChange}
-                tabBarExtraContent={this._closeIcon()}>
-                <TabPane tab="检查结果" key="1">
-                    <QualityCheckResultTable reportList={reportList} />
-                </TabPane>
-            </Tabs>
-        );
-    };
-
-    _closeIcon = () => (
-        <Icon
-            type="close"
-            className="close-icon"
-            onClick={this.handleClose}
-            id="check-result-close-btn"
-        />
-    );
 
     dragCallback = (transformStr, tx, ty) => {
         const { QualityCheckStore } = this.props;
         QualityCheckStore.getResizeStyle(tx, ty);
     };
 
-    handleClick = () => {
-        const { TaskStore, QualityCheckStore } = this.props;
-        const { activeTaskId } = TaskStore;
-        const { checkReportVisible } = QualityCheckStore;
+    handleCheckClick = () => {
+        const {
+            TaskStore: { activeTaskId },
+            QualityCheckStore: { checkReportVisible },
+            QCMarkerStore: { visibleList }
+        } = this.props;
         if (!activeTaskId) return;
-
-        checkReportVisible ? this.handleClose() : this.handleOpen();
+        if (checkReportVisible) {
+            this.handleCheckClose();
+            this.setState({
+                activeKey: visibleList ? 'marker' : ''
+            });
+        } else {
+            this.handleCheckOpen();
+            this.setState({
+                activeKey: 'check'
+            });
+        }
     };
 
-    handleOpen = () => {
+    handleCheckOpen = () => {
         const { appStore, QualityCheckStore, TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         const { loginUser } = appStore;
         const { roleCode } = loginUser;
-        const {
-            handleQualityGetMisreport,
-            getReport,
-            openCheckReport
-        } = QualityCheckStore;
+        const { handleQualityGetMisreport, getReport, openCheckReport } = QualityCheckStore;
 
         openCheckReport();
 
@@ -120,13 +71,146 @@ class QualityCheckResult extends React.Component {
         }
     };
 
-    handleClose = () => {
-        const { QualityCheckStore } = this.props;
-        const { closeCheckReport } = QualityCheckStore;
+    handleCheckClose = () => {
+        const { QualityCheckStore: { closeCheckReport } = {} } = this.props;
         closeCheckReport();
     };
 
-    handleTabsChange = () => {};
+    handleMarkerClick = () => {
+        const {
+            TaskStore: { activeTaskId },
+            QCMarkerStore: { visibleList, showList, hideList },
+            QualityCheckStore: { checkReportVisible }
+        } = this.props;
+        if (!activeTaskId) return;
+
+        if (visibleList) {
+            hideList();
+            this.setState({
+                activeKey: checkReportVisible ? 'check' : ''
+            });
+        } else {
+            showList();
+            this.setState({
+                activeKey: 'marker'
+            });
+        }
+    };
+
+    handleTabsChange = activeKey => {
+        this.setState({
+            activeKey
+        });
+    };
+
+    handleAllClose = () => {
+        const {
+            QualityCheckStore: { closeCheckReport },
+            QCMarkerStore: { hideList }
+        } = this.props;
+        closeCheckReport();
+        hideList();
+        this.setState({
+            activeKey: ''
+        });
+    };
+
+    _dragDom = () => <div className="drag-dom"></div>;
+
+    _closeIcon = () => (
+        <Icon
+            type="close"
+            className="close-icon"
+            onClick={this.handleAllClose}
+            id="check-result-close-btn"
+        />
+    );
+
+    _renderContent = () => {
+        const { activeKey } = this.state;
+        const {
+            QualityCheckStore: { reportList, checkReportVisible },
+            QCMarkerStore: { visibleList, updateKey }
+        } = this.props;
+
+        let initActiveKey;
+        initActiveKey = visibleList && 'marker';
+        initActiveKey = checkReportVisible && 'check';
+
+        return (
+            <Tabs
+                animated={false}
+                activeKey={activeKey || initActiveKey}
+                onChange={this.handleTabsChange}
+                tabBarExtraContent={this._closeIcon()}
+            >
+                {checkReportVisible && (
+                    <TabPane tab="检查结果" key="check">
+                        <QualityCheckResultTable reportList={reportList} />
+                    </TabPane>
+                )}
+                {visibleList && (
+                    <TabPane tab="质检标注" key="marker">
+                        <QCMarkerListTable key={updateKey} />
+                    </TabPane>
+                )}
+            </Tabs>
+        );
+    };
+
+    render() {
+        const {
+            QualityCheckStore: { checkReportVisible },
+            TaskStore: { activeTaskId },
+            QCMarkerStore: { visibleList }
+        } = this.props;
+
+        return (
+            <div>
+                <div className="ad-sider-item">
+                    <ToolIcon
+                        id="check-result-btn"
+                        icon="jianchajieguo"
+                        title="检查结果"
+                        placement="right"
+                        className="ad-menu-icon"
+                        visible={checkReportVisible}
+                        disabled={!activeTaskId}
+                        action={this.handleCheckClick}
+                    />
+                </div>
+                <div className="ad-sider-item">
+                    <ToolIcon
+                        id="marker-list-btn"
+                        icon="jianchajieguo"
+                        title="质检标注"
+                        placement="right"
+                        className="ad-menu-icon"
+                        visible={visibleList}
+                        disabled={!activeTaskId}
+                        action={this.handleMarkerClick}
+                    />
+                </div>
+                <SeniorModal
+                    dragDom={this._dragDom()}
+                    visible={checkReportVisible || visibleList}
+                    footer={null}
+                    mask={false}
+                    zIndex={999}
+                    maskClosable={false}
+                    closable={false}
+                    width={'100%'}
+                    bodyStyle={{ padding: 0 }}
+                    onCancel={this.handleAllClose}
+                    dragCallback={this.dragCallback}
+                    className="quality-check-result-modal"
+                    wrapClassName="quality-check-result-modal-wrap"
+                >
+                    {this._renderContent()}
+                </SeniorModal>
+            </div>
+        );
+    }
 }
 
 export default QualityCheckResult;

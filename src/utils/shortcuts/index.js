@@ -1,5 +1,7 @@
 import { shortcutMap } from 'src/utils/shortcuts/shortcutsMap';
 
+const invalidElements = ['INPUT', 'TEXTAREA'];
+
 export default class Shortcut {
     constructor() {
         this.preventDefault();
@@ -8,7 +10,7 @@ export default class Shortcut {
     init() {
         document.addEventListener('keydown', event => {
             const { nodeName } = event.target;
-            const targetIsInput = nodeName.includes('INPUT');
+            const targetIsInput = invalidElements.includes(nodeName);
             if (targetIsInput) return;
             shortcutMap.forEach(this.getEventCallBack(event));
         });
@@ -30,9 +32,7 @@ export default class Shortcut {
                 if (id) {
                     const btn = document.getElementById(id);
                     const btnClassName = btn && btn.className;
-                    const isDisabled = btnClassName
-                        ? btnClassName.includes('disabled')
-                        : false;
+                    const isDisabled = btnClassName ? btnClassName.includes('disabled') : false;
                     if (btn && !isDisabled) {
                         btn.click();
                     }

@@ -3,6 +3,7 @@ import { Map, DynamicPCLayer, LayerGroup, TraceListLayer, VectorLayer } from 'ad
 import { message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './AttributesModal';
+import QCMarkerModal from './QualityMarker/QCMarkerModal';
 //import NewFeatureModal from './NewFeatureModal';
 import RightMenuModal from './RightMenuModal';
 
@@ -13,7 +14,8 @@ import {
     RESOURCE_LAYER_MULTI_PROJECT
 } from 'src/config/DataLayerConfig';
 import MultimediaView from './MultimediaView';
-import VectorsConfig from '../../../config/VectorsConfig';
+import VectorsConfig from 'src/config/VectorsConfig';
+import MarkerVectorsConfig from 'src/config/MarkerVectorsConfig';
 import 'less/components/viz-component.less';
 // import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
@@ -42,6 +44,7 @@ import BatchAssignStore from 'src/pages/Index/store/BatchAssignStore';
 import PointCloudStore from 'src/pages/Index/store/PointCloudStore';
 import VectorsStore from 'src/pages/Index/store/VectorsStore';
 import ToolCtrlStore from 'src/pages/Index/store/ToolCtrlStore';
+import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
 import { showPictureShowView, showAttributesModal, showRightMenu } from 'src/utils/map/viewCtrl';
 
 @inject('DefineModeStore')
@@ -207,6 +210,7 @@ class VizComponent extends React.Component {
             const resources = await Promise.all([
                 this.initVectors(task.vectors),
                 this.initRegion(task.region),
+                this.initMarkerLayer(task),
                 this.initMultiProjectResource(task)
             ]);
             this.initResouceLayer(resources);
@@ -343,11 +347,50 @@ class VizComponent extends React.Component {
             window.boundaryLayerGroup = await TaskStore.getBoundaryLayer();
             if (!window.boundaryLayerGroup) return;
             DataLayerStore.addTargetLayers(window.boundaryLayerGroup.layers);
-            ResourceLayerStore.updateLayerByName(RESOURCE_LAYER_BOUNDARY, window.boundaryLayerGroup);
+            ResourceLayerStore.updateLayerByName(
+                RESOURCE_LAYER_BOUNDARY,
+                window.boundaryLayerGroup
+            );
             VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
             this.handleBoundaryfeature();
         } catch (e) {
             console.error(`周边底图数据加载失败: ${e.message || e}`);
+        }
+    };
+
+    initMarkerLayer = async () => {
+        try {
+            const {
+                TaskStore: {
+                    activeTask: { taskId, processName }
+                }
+            } = this.props;
+            const { AD_Marker } = MarkerVectorsConfig;
+            const markerLayer = new VectorLayer();
+            markerLayer.layerName = 'AD_Marker';
+            markerLayer.resetConfig(AD_Marker);
+            await map.getLayerManager().addLayer('VectorLayer', markerLayer);
+            //获取质检标列表，获取筛选条件
+            const { data } = await QCMarkerStore.getMarkerList({
+                taskId,
+                processName
+            });
+            if (!data) return;
+            const features = data.map(item => {
+                QCMarkerStore.updateFilters(item);
+                return { geometry: item.geom, properties: item };
+            });
+            QCMarkerStore.initMarkerList(data);
+            markerLayer.addFeatures(features);
+            //赋值给全局对象
+            window.markerLayer = {
+                layer: markerLayer,
+                layerId: markerLayer.layerId,
+                layerName: markerLayer.layerName
+            };
+        } catch (e) {
+            const msg = e.message || e || '';
+            console.error('获取质检列表失败：' + msg);
         }
     };
 
@@ -424,7 +467,8 @@ class VizComponent extends React.Component {
             { layer: pointCloudLayer },
             ...vectorLayers,
             { layer: window.trackLayer },
-            ...boundaryLayers
+            ...boundaryLayers,
+            window.markerLayer
         ]);
         DataLayerStore.initMeasureControl();
         DataLayerStore.setSelectedCallBack(this.selectedCallBack);
@@ -435,7 +479,6 @@ class VizComponent extends React.Component {
     };
 
     selectedCallBack = (result, event) => {
-        const { activeMode, cancelSelect } = RenderModeStore;
         let editLayer = DataLayerStore.getEditLayer();
         // console.log(result, event);
         if (result && result.length > 0) {
@@ -446,7 +489,7 @@ class VizComponent extends React.Component {
              */
             if (result[0].type === 'VectorLayer') {
                 result.length === 1 ? DataLayerStore.pick() : DataLayerStore.unPick();
-                showAttributesModal(result[0], event);
+                this.showAttributesModal(result, event);
                 showRightMenu(result, event);
             } else if (result[0].type === 'TraceListLayer') {
                 showPictureShowView(result[0]);
@@ -468,22 +511,40 @@ class VizComponent extends React.Component {
             DataLayerStore.unPick();
             DataLayerStore.attributeBrushPick();
             AttributeStore.hide();
-            switch (activeMode) {
-                case 'common':
-                    AttributeStore.hideRelFeatures();
-                    break;
-                case 'relation':
-                    cancelSelect();
-                    break;
-                default:
-                    AttributeStore.hideRelFeatures();
-                    break;
-            }
             RightMenuStore.hide();
             AttrRightMenuStore.hide();
             window.trackLayer.unSelect();
+            this.handleCancelSelect();
         }
         BatchAssignStore.hide();
+    };
+
+    //不同模式下取消关联要素高亮
+    handleCancelSelect = () => {
+        const { activeMode, cancelSelect } = RenderModeStore;
+        switch (activeMode) {
+            case 'common':
+                AttributeStore.hideRelFeatures();
+                break;
+            case 'relation':
+                cancelSelect();
+                break;
+            default:
+                AttributeStore.hideRelFeatures();
+                break;
+        }
+    };
+
+    //显示属性窗口
+    showAttributesModal = (result, event) => {
+        const isMarkerLayer = result[0].layerName === 'AD_Marker';
+        if (isMarkerLayer) {
+            QCMarkerStore.show();
+            QCMarkerStore.setEditStatus('visite');
+            QCMarkerStore.initCurrentMarker(result[0]);
+        } else {
+            showAttributesModal(result[0], event);
+        }
     };
 
     @logDecorator({ operate: '新建要素', skipRenderMode: true })
@@ -511,6 +572,12 @@ class VizComponent extends React.Component {
                 let layer = DataLayerStore.getEditLayer();
                 layer && layer.layer.removeFeatureById(data.uuid);
             }
+
+            //如果是标注图层，报错应退出图层
+            const editLayerName = DataLayerStore.getEditLayerName();
+            const isMarkerLayer = editLayerName === 'AD_Marker';
+            isMarkerLayer && DataLayerStore.exitMarker();
+
             message.error(e.message, 3);
             throw e;
         }
@@ -570,11 +637,13 @@ class VizComponent extends React.Component {
                     id="viz"
                     key={TaskStore.activeTaskId}
                     className="viz-box"
-                    onKeyDown={e => this.handleKeyDown(e)}></div>
+                    onKeyDown={e => this.handleKeyDown(e)}
+                ></div>
                 {TaskStore.activeTaskId ? <MultimediaView /> : <span />}
                 <AttributesModal />
                 <RightMenuModal />
                 <BatchAssignModal />
+                <QCMarkerModal />
             </React.Fragment>
         );
     }

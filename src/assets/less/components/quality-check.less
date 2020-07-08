@@ -41,8 +41,8 @@
         .drag-dom {
             position: absolute;
             top: 0;
-            left: 88px;
-            width: calc(100% - 88px - 45px);
+            left: 210px;
+            width: calc(100% - 210px - 45px);
             height: 45px;
             z-index: 99999;
         }
@@ -82,7 +82,8 @@
             table {
                 overflow: hidden;
                 table-layout: fixed;
-                width: 100%;
+                width: max-content;
+                min-width: max-content;
                 border-collapse: collapse;
             }
 

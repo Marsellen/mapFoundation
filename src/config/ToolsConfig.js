@@ -11,6 +11,7 @@ export const TOOLS_MAP = {
         INTENSITY: true,
         POINT_STRATIFICATION: true,
         SEARCHINFO: true,
+        QC_MARKER: true,
         TOP_BREAK_LINE: true,
         EDIT_LAYER: true,
         ADD_REL: false,

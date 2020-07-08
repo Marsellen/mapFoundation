@@ -39,9 +39,7 @@ class QualityCheckResultTable extends React.Component {
         const newTotal = total || total === 0 ? total : reportListL;
 
         return (
-            <div
-                onKeyUp={e => this.handleKeyUp(e)}
-                onKeyDown={e => this.handleKeyDown(e)}>
+            <div onKeyUp={e => this.handleKeyUp(e)} onKeyDown={e => this.handleKeyDown(e)}>
                 <ConfigProvider locale={zh_CN}>
                     <AdTable
                         dataSource={reportList}
@@ -49,15 +47,10 @@ class QualityCheckResultTable extends React.Component {
                         onRow={(record, index) => {
                             return {
                                 onClick: this.tableOnClick(index),
-                                onDoubleClick: this.tableOnDoubleClick(
-                                    record,
-                                    index
-                                )
+                                onDoubleClick: this.tableOnDoubleClick(record, index)
                             };
                         }}
-                        rowClassName={(record, index) =>
-                            `check-table-row check-table-row-${index}`
-                        }
+                        rowClassName={(record, index) => `check-table-row check-table-row-${index}`}
                         pagination={{
                             current: currentPage,
                             size: 'small',
@@ -77,9 +70,7 @@ class QualityCheckResultTable extends React.Component {
                     />
                     {reportListL > 0 && (
                         <div className="check-table-footer">
-                            <Button
-                                className="reset-button"
-                                onClick={this.clearFilters}>
+                            <Button className="reset-button" onClick={this.clearFilters}>
                                 筛选重置
                             </Button>
                         </div>
@@ -95,9 +86,7 @@ class QualityCheckResultTable extends React.Component {
 
         this.qualityCheckTabelColumns();
         QualityCheckStore.toResizeDom();
-        this.checkReportTable = document.querySelector(
-            '.check-result-table .ant-table-body'
-        );
+        this.checkReportTable = document.querySelector('.check-result-table .ant-table-body');
     }
 
     UNSAFE_componentWillReceiveProps() {
@@ -207,22 +196,18 @@ class QualityCheckResultTable extends React.Component {
                     type="link"
                     disabled={addDisabled || loadings[index]}
                     onClick={() => {
-                        this.enterLoading(
-                            index,
-                            this.handleChange.bind(this, true, record)
-                        );
-                    }}>
+                        this.enterLoading(index, this.handleChange.bind(this, true, record));
+                    }}
+                >
                     加入
                 </Button>
                 <Button
                     type="link"
                     disabled={delDisabled || loadings[index]}
                     onClick={() => {
-                        this.enterLoading(
-                            index,
-                            this.handleChange.bind(this, false, record)
-                        );
-                    }}>
+                        this.enterLoading(index, this.handleChange.bind(this, false, record));
+                    }}
+                >
                     撤销
                 </Button>
             </div>
@@ -285,9 +270,7 @@ class QualityCheckResultTable extends React.Component {
     //单击
     tableOnClick = index => {
         return e => {
-            this.checkReportTableRow = document.querySelector(
-                '.check-table-row'
-            );
+            this.checkReportTableRow = document.querySelector('.check-table-row');
             this.checkReportTableRowH = this.checkReportTableRow.offsetHeight;
             //变色
             this.activeRowStyle(index);
@@ -330,8 +313,7 @@ class QualityCheckResultTable extends React.Component {
     showAttributesModal = async obj => {
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
-        let readonly =
-            (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
+        let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.clearPick();
         await AttributeStore.setModel(obj);
@@ -416,8 +398,7 @@ class QualityCheckResultTable extends React.Component {
                     const prevIndex = currentIndex - 1;
                     this.activeRowStyle(prevIndex);
                     this.setState({ currentIndex: prevIndex });
-                    const currentScrollTop =
-                        this.scrollTop - this.checkReportTableRowH;
+                    const currentScrollTop = this.scrollTop - this.checkReportTableRowH;
                     this.checkReportTable.scrollTop = currentScrollTop;
                     this.scrollTop = currentScrollTop;
                     this.removeOpenStyle();
@@ -430,12 +411,7 @@ class QualityCheckResultTable extends React.Component {
                 shift: false,
                 keyCode: 40,
                 callback: () => {
-                    const {
-                        currentIndex,
-                        currentPage,
-                        pageSize,
-                        total
-                    } = this.state;
+                    const { currentIndex, currentPage, pageSize, total } = this.state;
                     const maxPageSize = Math.ceil(total / pageSize); //获取最大页数
                     const isLastPage = currentPage === maxPageSize; //判断当前是否是最后一页
                     const lastPageNum = total % pageSize; //获取最后一页的条目数
@@ -444,8 +420,7 @@ class QualityCheckResultTable extends React.Component {
                     if (nextIndex >= maxPage) return;
                     this.activeRowStyle(nextIndex);
                     this.setState({ currentIndex: nextIndex });
-                    const currentScrollTop =
-                        this.scrollTop + this.checkReportTableRowH;
+                    const currentScrollTop = this.scrollTop + this.checkReportTableRowH;
                     this.checkReportTable.scrollTop = currentScrollTop;
                     this.scrollTop = currentScrollTop;
                     this.removeOpenStyle();

@@ -16,6 +16,18 @@ export const getLayerIDKey = layerName => {
     return DATA_LAYER_MAP[layerName] ? DATA_LAYER_MAP[layerName].id : 'id';
 };
 
+export const getFeatureInfo = feature => {
+    let layerName = feature.layerName;
+    let properties = feature.data.properties;
+    let IDKey = getLayerIDKey(layerName);
+    let id = properties[IDKey];
+    return {
+        layerName,
+        key: IDKey,
+        value: id
+    };
+};
+
 export const getFeatureOption = feature => {
     let layerName = feature.layerName;
     let properties = feature.data.properties;
@@ -36,9 +48,11 @@ export const getAllLayersExByName = layerName => {
 };
 
 export const getLayerExByName = layerName => {
-    return window.vectorLayerGroup.layers.find(
-        layer => layer.layerName == layerName
-    );
+    if (layerName === 'AD_Marker') {
+        return window.markerLayer;
+    } else {
+        return window.vectorLayerGroup.layers.find(layer => layer.layerName == layerName);
+    }
 };
 
 export const getLayerByName = layerName => {
@@ -52,11 +66,9 @@ export const updateFeatureColor = (layerName, option, color) => {
 
 export const getFeatureByOptionFormAll = (layerName, option) => {
     if (window.vectorLayerGroup) {
-        let vectorLayer = window.vectorLayerGroup.layers.find(
-            layer => layer.layerName == layerName
-        ).layer;
-        let vectorFeature =
-            vectorLayer && vectorLayer.getFeatureByOption(option);
+        let vectorLayer = window.vectorLayerGroup.layers.find(layer => layer.layerName == layerName)
+            .layer;
+        let vectorFeature = vectorLayer && vectorLayer.getFeatureByOption(option);
         if (vectorFeature) {
             return [vectorLayer, vectorFeature.properties];
         }
@@ -65,8 +77,7 @@ export const getFeatureByOptionFormAll = (layerName, option) => {
         let boundaryLayer = window.boundaryLayerGroup.layers.find(
             layer => layer.layerName == layerName
         ).layer;
-        let boundaryFeature =
-            boundaryLayer && boundaryLayer.getFeatureByOption(option);
+        let boundaryFeature = boundaryLayer && boundaryLayer.getFeatureByOption(option);
         if (boundaryFeature) {
             return [boundaryLayer, boundaryFeature.properties];
         }
@@ -93,9 +104,7 @@ const toLineStringGeojson = geojson => {
     try {
         if (geojson.geometry.type === 'Polygon') {
             geojson.geometry.type = 'LineString';
-            geojson.geometry.coordinates = getSingleDimensionArray(
-                geojson.geometry.coordinates
-            );
+            geojson.geometry.coordinates = getSingleDimensionArray(geojson.geometry.coordinates);
         }
         return geojson;
     } catch {
@@ -108,10 +117,7 @@ export const regionCheck = data => {
     if (isLocal) return;
     //判断要素是否在任务范围内
     const elementGeojson = _.cloneDeep(data.data);
-    let isInRegion = isRegionContainsElement(
-        elementGeojson,
-        DataLayerStore.regionGeojson
-    );
+    let isInRegion = isRegionContainsElement(elementGeojson, DataLayerStore.regionGeojson);
     if (!isInRegion) {
         throw new Error('绘制失败，请在任务范围内绘制');
     }
@@ -159,9 +165,9 @@ export const getAllVectorData = isCurrent => {
         let boundaryData = window.boundaryLayerGroup.getAllVectorData();
         // 因为vectorData和boundaryData的结构一致，故用此法
         for (let i = 0; i < vectorData.features.length; i++) {
-            vectorData.features[i].features = vectorData.features[
-                i
-            ].features.concat(boundaryData.features[i].features);
+            vectorData.features[i].features = vectorData.features[i].features.concat(
+                boundaryData.features[i].features
+            );
         }
     }
 
@@ -234,8 +240,7 @@ export const modUpdStatRelation = feature => {
 };
 
 export const completeConfidence = feature => {
-    feature.data.properties.CONFIDENCE =
-        DEFAULT_CONFIDENCE_MAP[feature.layerName] || '{}';
+    feature.data.properties.CONFIDENCE = DEFAULT_CONFIDENCE_MAP[feature.layerName] || '{}';
     return feature;
 };
 
@@ -273,17 +278,13 @@ export const getAllDataSnapshot = async isCurrent => {
     let vectorFeatures = vectorData.features;
     let attrRecords = await Attr.store.getAll();
     if (isCurrent) {
-        attrRecords = attrRecords.filter(
-            record => record.dataType !== 'boundary'
-        );
+        attrRecords = attrRecords.filter(record => record.dataType !== 'boundary');
     }
     let attrFeatures = attrFactory.attrTableToData(attrRecords);
 
     let relRecords = await Relevance.store.getAll();
     if (isCurrent) {
-        relRecords = relRecords.filter(
-            record => record.dataType !== 'boundary'
-        );
+        relRecords = relRecords.filter(record => record.dataType !== 'boundary');
     }
     let relFeatures = relFactory.relTableToData(relRecords);
 
@@ -306,9 +307,7 @@ export const layerUpdateFeatures = (layer, features) => {
                 data: feature.data
             };
         } else {
-            throw new Error(
-                `${feature.layerName}要素${option.value}不存在，请检查数据`
-            );
+            throw new Error(`${feature.layerName}要素${option.value}不存在，请检查数据`);
         }
     });
     layer.updateFeatures(features);

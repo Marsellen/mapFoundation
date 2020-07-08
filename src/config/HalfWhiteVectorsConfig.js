@@ -1,4 +1,4 @@
-const biaojituce = require('../assets/img/biaojituce.png');
+const biaojituceng = require('../assets/img/biaojituceng.png');
 
 export default {
     AD_Road: {
@@ -1071,7 +1071,7 @@ export default {
                         opacity: 0.5,
                         color: 'rgb(255,255,255)',
                         radius: 0.03,
-                        url: biaojituce,
+                        url: biaojituceng,
                         size: 80
                     }
                 },
@@ -1082,7 +1082,7 @@ export default {
                         opacity: 0.5,
                         color: 'rgb(255,255,255)',
                         radius: 0.03,
-                        url: biaojituce,
+                        url: biaojituceng,
                         size: 80
                     }
                 },
@@ -1093,7 +1093,7 @@ export default {
                         opacity: 0.5,
                         color: 'rgb(255,255,255)',
                         radius: 0.03,
-                        url: biaojituce,
+                        url: biaojituceng,
                         size: 80
                     }
                 }
