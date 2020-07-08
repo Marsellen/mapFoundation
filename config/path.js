@@ -1,7 +1,7 @@
 //本地环境接口根路径
 const LOCAL_PATH = 'http://10.43.75.55:30000/mock/20';
 //开发环境接口根路径
-const DEV_PATH = 'http://10.43.75.150:43303 ';
+const DEV_PATH = 'http://10.43.75.150:43303';
 //测试环境接口根路径
 const DOME_PATH = 'http://10.43.75.17:13003';
 //线上环境接口根路径
@@ -26,7 +26,7 @@ module.exports = PROXY_MAP = {
         manualBuild: DEV_PATH,
         boundary: DEV_PATH,
         edit: DEV_PATH,
-        check: DEV_PATH,
+        check: LOCAL_PATH,
         // checkMarker: 'http://10.43.86.150:13308'
         checkMarker: LOCAL_PATH
     },

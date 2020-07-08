@@ -80,7 +80,7 @@ class QualityCheckMarker extends React.Component {
             <span key={updateKey}>
                 <ToolIcon
                     id="attribute-brush-btn"
-                    icon="shuxingshua"
+                    icon="zhijianbiaozhugongju"
                     title="质检标注工具"
                     className="ad-tool-icon"
                     focusClassName="ad-tool-icon-active"

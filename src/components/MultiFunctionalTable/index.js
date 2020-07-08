@@ -84,9 +84,6 @@ class MultiFunctionalTable extends React.Component {
                 onHeaderCell: column => ({
                     width: column.width,
                     onResize: this.handleResize(index)
-                }),
-                onCell: record => ({
-                    className: record.visited ? 'visited' : ''
                 })
             };
 

@@ -28,14 +28,8 @@ class QualityCheckStore {
     @observable checkReportVisible = false;
     @observable tableHeight = 0;
 
-    @computed get isAllVisited() {
-        return this.reportListInit.every(item => item.visited);
-    }
     @computed get hasChecked() {
         return this.reportListInit.some(item => item.checked);
-    }
-    @computed get isAllChecked() {
-        return this.reportListInit.every(item => item.checked);
     }
     @computed get reportListL() {
         return this.reportList ? this.reportList.length : 0;
@@ -122,8 +116,7 @@ class QualityCheckStore {
                                     if (this.pollingCount < 10) {
                                         this.pollingGetReport(option, resolve);
                                     } else {
-                                        this.pollingCount < 100 &&
-                                            message.error(`请求超时`);
+                                        this.pollingCount < 100 && message.error(`请求超时`);
 
                                         this.pollingCount = 0;
                                         resolve && resolve(false);
@@ -137,9 +130,7 @@ class QualityCheckStore {
                             }
                         },
                         error => {
-                            message.warning(
-                                '获取报表失败：' + error.message || '请求失败'
-                            );
+                            message.warning('获取报表失败：' + error.message || '请求失败');
                             console.error(error.message || '请求失败');
                             resolve && resolve(false);
                         }
@@ -178,14 +169,12 @@ class QualityCheckStore {
             this.filterOption.isUpdate = true;
             return;
         }
-        const { checkReport = {} } =
-            AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
+        const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
         const filterOption = {};
 
         data.map((item, index) => {
             const { layerName, repId } = item;
-            const layerNameText =
-                DATA_LAYER_MAP[layerName] && DATA_LAYER_MAP[layerName].label;
+            const layerNameText = DATA_LAYER_MAP[layerName] && DATA_LAYER_MAP[layerName].label;
             item.index = index;
             item.visited = checkReport[repId] ? checkReport[repId] : false;
             item.visitedText = item.visited ? '已查看' : '未查看';
@@ -194,8 +183,7 @@ class QualityCheckStore {
             item.checked = getQualityChecked(item);
 
             needFilterColumns.map(column => {
-                filterOption[`${column}Obj`] =
-                    filterOption[`${column}Obj`] || {};
+                filterOption[`${column}Obj`] = filterOption[`${column}Obj`] || {};
                 if (item[column]) {
                     filterOption[`${column}Obj`][item[column]] = item[column];
                 }
@@ -236,8 +224,7 @@ class QualityCheckStore {
         };
         this.checkReportIsVisited[repId] = true;
         //访问状态记录在缓存中
-        const { checkReport = {} } =
-            AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
+        const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
         AdLocalStorage.setTaskInfosStorage({
             taskId: activeTaskId,
             checkReport: { ...checkReport, ...this.checkReportIsVisited }

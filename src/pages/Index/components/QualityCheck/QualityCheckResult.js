@@ -140,7 +140,7 @@ class QualityCheckResult extends React.Component {
         return (
             <Tabs
                 animated={false}
-                activeKey={activeKey || initActiveKey}
+                activeKey={activeKey || initActiveKey || ''}
                 onChange={this.handleTabsChange}
                 tabBarExtraContent={this._closeIcon()}
             >
@@ -182,7 +182,7 @@ class QualityCheckResult extends React.Component {
                 <div className="ad-sider-item">
                     <ToolIcon
                         id="marker-list-btn"
-                        icon="jianchajieguo"
+                        icon="zhijianbiaozhuliebiao"
                         title="质检标注"
                         placement="right"
                         className="ad-menu-icon"

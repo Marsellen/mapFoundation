@@ -265,15 +265,24 @@ export const MARKER_TABLE_COLUMNS = [
         dataIndex: 'errorType',
         key: 'errorType',
         isFilter: true,
-        describe: ERROR_TYPE,
+        describe: {
+            data: ERROR_TYPE,
+            label: 'label',
+            value: 'value'
+        },
         width: 130
     },
     {
         title: '字段名称',
         dataIndex: 'fieldName',
         key: 'fieldName',
-        describe: TABLE_DATA_MAP,
-        width: 100
+        width: 100,
+        describe: {
+            data: TABLE_DATA_MAP,
+            second: 'fileName',
+            label: 'name',
+            value: 'key'
+        }
     },
     {
         title: '错误描述',
@@ -292,8 +301,12 @@ export const MARKER_TABLE_COLUMNS = [
         dataIndex: 'fileName',
         key: 'fileName',
         isFilter: true,
-        describe: AD_MAP_QC_FILE_NAME,
-        width: 160
+        width: 160,
+        describe: {
+            data: AD_MAP_QC_FILE_NAME,
+            label: 'label',
+            value: 'value'
+        }
     },
     {
         title: '要素ID',
@@ -305,16 +318,26 @@ export const MARKER_TABLE_COLUMNS = [
         title: '作业查看状态',
         dataIndex: 'fixStatus',
         key: 'fixStatus',
+        className: 'red-text',
         isFilter: true,
-        describe: FIX_STATUS_OPTIONS,
-        width: 120
+        width: 120,
+        describe: {
+            data: FIX_STATUS_OPTIONS,
+            label: 'label',
+            value: 'value'
+        }
     },
     {
         title: '质检查看状态',
         dataIndex: 'qcStatus',
         key: 'qcStatus',
+        className: 'red-text',
         isFilter: true,
-        describe: QC_STATUS_OPTIONS,
-        width: 120
+        width: 120,
+        describe: {
+            data: QC_STATUS_OPTIONS,
+            label: 'label',
+            value: 'value'
+        }
     }
 ];

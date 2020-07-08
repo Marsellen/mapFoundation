@@ -1,4 +1,4 @@
-const markerIcon = require('src/assets/img/biaojituceng.png');
+const markerIcon = require('src/assets/img/zhijianbiaozhu.png');
 
 export default {
     AD_Marker: {
@@ -51,7 +51,7 @@ export default {
                     style: {
                         showMode: 'first-point',
                         url: markerIcon,
-                        size: 128
+                        size: 80
                     }
                 },
                 {
@@ -60,7 +60,7 @@ export default {
                     style: {
                         showMode: 'first-point',
                         url: markerIcon,
-                        size: 128
+                        size: 80
                     }
                 },
                 {
@@ -69,7 +69,7 @@ export default {
                     style: {
                         showMode: 'first-point',
                         url: markerIcon,
-                        size: 128
+                        size: 80
                     }
                 },
                 {
@@ -78,7 +78,7 @@ export default {
                     style: {
                         showMode: 'first-point',
                         url: markerIcon,
-                        size: 128
+                        size: 80
                     }
                 }
             ]

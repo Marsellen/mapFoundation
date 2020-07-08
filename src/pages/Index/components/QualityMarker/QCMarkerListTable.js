@@ -2,6 +2,7 @@ import React from 'react';
 import { MARKER_TABLE_COLUMNS } from 'src/config/QCMarkerConfig';
 import { inject, observer } from 'mobx-react';
 import MultiFunctionalTable from 'src/components/MultiFunctionalTable';
+import 'src/assets/less/components/qc-marker-table.less';
 
 @inject('QualityCheckStore')
 @inject('QCMarkerStore')
@@ -9,27 +10,22 @@ import MultiFunctionalTable from 'src/components/MultiFunctionalTable';
 class QCMarkerListTable extends React.Component {
     getColumns = total => {
         const columns = MARKER_TABLE_COLUMNS.map(item => {
-            const { dataIndex, describe } = item;
+            const { dataIndex, describe, className } = item;
             const newItem = {
                 ...item,
                 render: (text, record, index) => {
-                    const { fileName } = record;
-                    switch (dataIndex) {
-                        case 'index':
-                            return total - index;
-                        case 'fieldName':
-                            if (!text) return '--';
-                            const specialDescribe = describe[fileName];
-                            const describeObj = specialDescribe.find(item => item.key === text);
-                            return describeObj.name;
-                        default:
-                            if (describe) {
-                                const describeObj = describe.find(item => item.value === text);
-                                return describeObj.label;
-                            } else {
-                                return text || '--';
-                            }
+                    if (dataIndex === 'index') {
+                        text = total - index;
                     }
+                    if (!text) return '--';
+                    if (describe) {
+                        const { data, second, label, value } = describe;
+                        const secondStr = record[second];
+                        const descArr = second ? data[secondStr] : data;
+                        const describeObj = descArr.find(item => item[value] === text);
+                        text = describeObj ? describeObj[label] : text;
+                    }
+                    return <span className={className}>{text}</span>;
                 }
             };
             return newItem;
