@@ -4,7 +4,12 @@ import JobService from 'src/services/JobService';
 import axios from 'axios';
 import { message } from 'antd';
 import CONFIG from 'src/config';
-import { getAllVectorData, getAllRelData, getAllAttrData, getAllDataSnapshot } from 'src/utils/vectorUtils';
+import {
+    getAllVectorData,
+    getAllRelData,
+    getAllAttrData,
+    getAllDataSnapshot
+} from 'src/utils/vectorUtils';
 import { getAuthentication } from 'src/utils/Session';
 import editLog from 'src/models/editLog';
 import moment from 'moment';
@@ -203,6 +208,7 @@ class TaskStore {
             process_name
         };
         yield JobService.submitTask(payload);
+        statisticsTime(1);
     });
 
     // 更新任务状态
@@ -216,7 +222,8 @@ class TaskStore {
     });
 
     isGetTaskBoundaryFile = () => {
-        const { taskBoundaryIsUpdate } = AdLocalStorage.getTaskInfosStorage(this.activeTaskId) || {};
+        const { taskBoundaryIsUpdate } =
+            AdLocalStorage.getTaskInfosStorage(this.activeTaskId) || {};
         // 本地任务不请求更新底图数据
         return taskBoundaryIsUpdate || this.activeTask.isLocal;
     };
