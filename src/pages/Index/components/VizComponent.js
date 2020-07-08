@@ -84,6 +84,7 @@ class VizComponent extends React.Component {
         await this.cancelRequest();
         await this.clearWorkSpace();
 
+        QCMarkerStore.release();
         ResourceLayerStore.release();
         VectorsStore.release();
         DataLayerStore.setRegionGeojson();

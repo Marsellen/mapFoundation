@@ -1,4 +1,4 @@
-import { observable, configure, action, flow, toJS, computed } from 'mobx';
+import { observable, configure, action, flow, toJS } from 'mobx';
 import QCMarkerService from 'src/services/QCMarkerService';
 import { message } from 'antd';
 import { MARKER_TABLE_COLUMNS } from 'src/config/QCMarkerConfig';
@@ -43,15 +43,23 @@ class QCMarkerStore {
     };
 
     @action updateFilters = marker => {
-        filterKeys.forEach(item => {
-            const { key, describe } = item;
-            const value = marker[key];
-            this.filterMap[key] = this.filterMap[key] || {};
-            this.filterMap[key][value] = {
-                value: value,
-                text: describe.find(item => item.value === value).label
-            };
-        });
+        try {
+            filterKeys.forEach(item => {
+                const { key, describe } = item;
+                const { data, second, label, value } = describe;
+                const currentVal = marker[key];
+                const secondStr = marker[second];
+                const descArr = second ? data[secondStr] : data;
+                const describeObj = descArr.find(desc => desc[value] === currentVal);
+                this.filterMap[key] = this.filterMap[key] || {};
+                this.filterMap[key][currentVal] = {
+                    value: currentVal,
+                    text: describeObj[label]
+                };
+            });
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     @action getFilters = () => {
@@ -166,5 +174,15 @@ class QCMarkerStore {
             message.warning('更新标注状态失败 ' + msg);
         }
     });
+
+    @action release = () => {
+        this.filterMap = {};
+        this.filters = {};
+        this.editStatus = ''; // create, visite, modify
+        this.visible = false;
+        this.visibleList = false;
+        this.currentMarker = {};
+        this.markerList = [];
+    };
 }
 export default new QCMarkerStore();

@@ -14,6 +14,7 @@ const MANUALSTATUS = {
 };
 
 @withRouter
+@inject('QCMarkerStore')
 @inject('RenderModeStore')
 @inject('QualityCheckStore')
 @inject('appStore')
@@ -75,7 +76,8 @@ class JobStatus extends React.Component {
                     title="当前任务是否通过质检？"
                     visible={qualityVisible}
                     footer={this.renderFooter()}
-                    onCancel={this.closeQualityComfirm}></Modal>
+                    onCancel={this.closeQualityComfirm}
+                ></Modal>
             </div>
         );
     }
@@ -197,48 +199,103 @@ class JobStatus extends React.Component {
         });
     };
 
-    handleCheck = async option => {
-        const { QualityCheckStore, appStore } = this.props;
-        const { loginUser } = appStore;
-        const { roleCode } = loginUser;
-        const {
-            isAllVisited,
-            isAllChecked,
-            openCheckReport
-        } = QualityCheckStore;
-        const { manualStatus } = option;
-        const taskStatus = MANUALSTATUS[manualStatus] || '提交';
-
-        if (!isAllVisited) {
-            const modalContent = `质检报表存在未查看检查条目，当前任务不允许${taskStatus}`;
-            message.warning(modalContent);
-            openCheckReport();
-            return false;
+    qualityCheckTask = async option => {
+        const reportList = await this.check();
+        if (!reportList) return false;
+        const reportListL = reportList.length;
+        if (reportListL > 0) {
+            const modalContent = `质量检查结束，发现${reportListL}个错误，是否查看？`;
+            this.hasReportModal(modalContent);
+        } else {
+            const modalContent = `质量检查结束，未发现数据问题，任务可正常提交`;
+            this.noReportModal(modalContent, option);
         }
+        return false;
+    };
 
-        switch (roleCode) {
-            case 'producer':
-                const reportList = await this.check();
-                if (!reportList) return false;
-                const reportListL = reportList.length;
-                if (reportListL > 0) {
-                    const modalContent = `质量检查结束，发现${reportListL}个错误，是否查看？`;
-                    this.hasReportModal(modalContent);
-                    return false;
-                } else {
-                    const modalContent = `质量检查结束，未发现数据问题，任务可正常提交`;
-                    this.noReportModal(modalContent, option);
+    //判断生产任务是否满足提交条件 processName='imp_recognition','imp_manbuild'
+    checkProdutionTask = async (manualStatus, option) => {
+        const {
+            QualityCheckStore: { reportListInit },
+            QCMarkerStore: { markerList }
+        } = this.props;
+        const isAllVisited = reportListInit.every(item => item.visited);
+        switch (manualStatus) {
+            case 1: //已领取
+            case 2: //进行中
+                if (!isAllVisited) {
+                    message.warning(`存在未查看的检查项，当前任务不允许提交`);
                     return false;
                 }
-            case 'quality':
-                if (!isAllChecked && taskStatus === '提交') {
-                    const modalContent = `存在需返修条目，当前任务不允许提交`;
-                    message.warning(modalContent);
+                return await this.qualityCheckTask(option);
+            case 4: //返修
+            case 5: //返工
+                const markerStatusIsValid = markerList.every(item => {
+                    return item.fixStatus === 2 || item.fixStatus === 3;
+                });
+                if (!isAllVisited && markerStatusIsValid) {
+                    message.warning(`存在未查看的检查项，当前任务不允许提交`);
+                    return false;
+                }
+                if (isAllVisited && !markerStatusIsValid) {
+                    message.warning(`存在未确认的质检标注，当前任务不允许提交`);
+                    return false;
+                }
+                if (!isAllVisited && !markerStatusIsValid) {
+                    message.warning(`存在未确认的质检标注与检查项，当前任务不允许提交`);
+                    return false;
+                }
+                return await this.qualityCheckTask(option);
+        }
+    };
+
+    //判断质检任务是否满足提交条件 processName='imp_check_after_recognition','imp_check_after_manbuild'
+    checkQualityCheckTask = async manualStatus => {
+        const {
+            QualityCheckStore: { reportListInit },
+            QCMarkerStore: { markerList, updateMarkerStatus }
+        } = this.props;
+        switch (manualStatus) {
+            case 4: //提交成“返修”
+            case 5: //提交成“返工”
+                const { TaskStore: { activeTask: { taskId } = {} } = {} } = this.props;
+                const result = await updateMarkerStatus({ taskId });
+                return result ? true : false;
+            default:
+                //提交成“通过”
+                const checkStatusIsValid = reportListInit.every(item => {
+                    return item.status === 2 || item.status === 4;
+                });
+                const markerStatusIsValid = markerList.every(item => {
+                    return item.qcStatus === 2 || item.qcStatus === 3;
+                });
+                if (!checkStatusIsValid && markerStatusIsValid) {
+                    message.warning(`存在未确认的检查项，当前任务不允许提交`);
+                    return false;
+                }
+                if (checkStatusIsValid && !markerStatusIsValid) {
+                    message.warning(`存在未确认的质检标注，当前任务不允许提交`);
+                    return false;
+                }
+                if (!checkStatusIsValid && !markerStatusIsValid) {
+                    message.warning(`存在未确认的质检标注与检查项，当前任务不允许提交`);
                     return false;
                 }
                 return true;
+        }
+    };
+
+    handleCheck = async option => {
+        const { TaskStore: { activeTask: { processName, manualStatus } } = {} } = this.props;
+        switch (processName) {
+            case 'imp_recognition': //人工识别
+            case 'imp_manbuild': //人工构建
+                return this.checkProdutionTask(manualStatus, option);
+            case 'imp_check_after_recognition': //人工识别后质检
+            case 'imp_check_after_manbuild': //人工构建后质检
+                return this.checkQualityCheckTask(option.manualStatus);
             default:
-                break;
+                return true;
         }
     };
 
@@ -252,7 +309,7 @@ class JobStatus extends React.Component {
             await this.action();
         }
 
-        //第二步：质检
+        //第二步：判断任务是否满足提交条件
         const res = await this.handleCheck(option);
         if (!res) return false;
 
@@ -263,13 +320,11 @@ class JobStatus extends React.Component {
     taskSubmit = async option => {
         const {
             TaskStore,
+            QCMarkerStore,
             RenderModeStore,
-            QualityCheckStore,
-            appStore
+            appStore: { loginUser: { roleCode } } = {},
+            QualityCheckStore: { clearCheckReport, closeCheckReport }
         } = this.props;
-        const { clearCheckReport, closeCheckReport } = QualityCheckStore;
-        const { loginUser } = appStore;
-        const { roleCode } = loginUser;
 
         try {
             await TaskStore.initSubmit(option);
@@ -283,6 +338,9 @@ class JobStatus extends React.Component {
                 clearCheckReport();
                 closeCheckReport();
             }
+
+            //清除质检标注相关数据
+            QCMarkerStore.release();
 
             // 获取新任务，更新任务列表
             await TaskStore.initTask({ type: 3 });
@@ -329,21 +387,24 @@ class JobStatus extends React.Component {
                     onClick={() => {
                         this.submitJob(this.passOption);
                         this.closeQualityComfirm();
-                    }}>
+                    }}
+                >
                     质检通过
                 </Button>
                 <Button
                     onClick={() => {
                         this.submitJob(this.repairOption);
                         this.closeQualityComfirm();
-                    }}>
+                    }}
+                >
                     任务返修
                 </Button>
                 <Button
                     onClick={() => {
                         this.submitJob(this.remadeOption);
                         this.closeQualityComfirm();
-                    }}>
+                    }}
+                >
                     任务返工
                 </Button>
             </div>
@@ -352,7 +413,6 @@ class JobStatus extends React.Component {
 
     submitTask = e => {
         e || e.target || e.target.blur(); //在click事件中主动去掉button的焦点，回车就不会触发click
-
         const { appStore } = this.props;
         const { loginUser } = appStore;
         if (loginUser.roleCode === 'quality') {
@@ -360,15 +420,6 @@ class JobStatus extends React.Component {
         } else {
             return this.submitJob(this.submitOption);
         }
-
-        // switch (loginUser.roleCode) {
-        //     case 'quality':
-        //         this.showQualityComfirm();
-        //         break;
-        //     default:
-        //         this.submitJob(this.submitOption);
-        //         break;
-        // }
     };
 
     showQualityComfirm = () => {

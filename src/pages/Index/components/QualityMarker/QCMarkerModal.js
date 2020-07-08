@@ -173,7 +173,7 @@ class QCMarkerModal extends React.Component {
             formConfigName = 'QC_CREATE_CONFIG';
         } else if (isQuality && isFirst && isVisite) {
             formConfigName = 'QC_FIRST_VISITE_CONFIG';
-        } else if (isQuality && !isFirst && isModify) {
+        } else if (isQuality && !isFirst && isVisite) {
             formConfigName = 'QC_NOT_FIRST_VISITE_CONFIG';
         } else if (isQuality && isFirst && isModify) {
             formConfigName = 'QC_FIRST_MOD_CONFIG';
