@@ -15,6 +15,7 @@ import ToolBox from './ToolBox';
 import DrawToolBox from './DrawToolBox';
 import BatchToolBox from './BatchToolBox';
 import AttributeBrush from './AttributeBrush';
+import QualityCheckMarker from './QualityCheckMarker';
 
 export default [
     <Undo key="UNDO" />,
@@ -26,6 +27,7 @@ export default [
     <ToolBox key="TOOL_BOX" />,
     <SearchInfo key="SEARCH_INFO" />,
     <QualityCheck key="QUALITY_TEST" />,
+    <QualityCheckMarker key="QC_MARKER" />,
     <TopBreakLine key="TOP_BREAK_LINE" />,
     <EditLayer key="EDIT_LAYER" />,
     <DrawToolBox key="DRAW_TOOL_BOX" />,

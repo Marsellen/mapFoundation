@@ -19,6 +19,7 @@ import DefineModeStore from './DefineModeStore';
 import FeedbackStore from './FeedbackStore';
 import TextStore from './TextStore';
 import AttrRightMenuStore from './AttrRightMenuStore';
+import QCMarkerStore from './QCMarkerStore';
 
 export default {
     MenuStore,
@@ -41,5 +42,6 @@ export default {
     DefineModeStore,
     FeedbackStore,
     TextStore,
-    AttrRightMenuStore
+    AttrRightMenuStore,
+    QCMarkerStore
 };

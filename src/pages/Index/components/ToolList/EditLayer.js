@@ -1,13 +1,25 @@
 import React from 'react';
 import { Radio, List } from 'antd';
 import { inject, observer } from 'mobx-react';
-import {
-    DATA_LAYER_MAP,
-    TOP_VIEW_DISABLED_LAYERS
-} from 'src/config/DataLayerConfig';
+import { DATA_LAYER_MAP, TOP_VIEW_DISABLED_LAYERS } from 'src/config/DataLayerConfig';
 import { getEditLayers } from 'src/utils/permissionCtrl';
 import ToolIcon from 'src/components/ToolIcon';
 import 'src/assets/less/home.less';
+
+const EDIT_LAYER = [
+    'AD_Road',
+    'AD_LaneDivider',
+    'AD_Lane',
+    'AD_LaneAttrPoint',
+    'AD_Arrow',
+    'AD_StopLocation',
+    'AD_LaneMark_Plg',
+    'AD_Text',
+    'AD_TrafficSign',
+    'AD_TrafficLight',
+    'AD_Pole',
+    'AD_RS_Barrier'
+];
 
 @inject('DataLayerStore')
 @inject('TaskStore')
@@ -35,13 +47,15 @@ class EditLayer extends React.Component {
     };
 
     render() {
-        const { layerPicker, clicked } = this.state;
+        const { clicked } = this.state;
         const { DataLayerStore } = this.props;
-        const { getEditLayer, updateKey } = DataLayerStore;
+        const { getEditLayer } = DataLayerStore;
         //获取当前编辑图层，若无编辑图层则返回false
         const editLayer = getEditLayer();
+        const layerName = editLayer && editLayer.layerName;
+        const isActive = layerName && EDIT_LAYER.includes(layerName);
         return (
-            <span className={`bianjituceng ${editLayer ? 'active' : ''}`}>
+            <span className={`bianjituceng ${isActive ? 'active' : ''}`}>
                 <ToolIcon
                     icon="bianji3"
                     title="设置编辑图层"
@@ -55,15 +69,26 @@ class EditLayer extends React.Component {
                         trigger: 'click'
                     }}
                 />
-                {editLayer && (
-                    <div className="value-color" key={updateKey}>
-                        {DATA_LAYER_MAP[editLayer && editLayer.layerName]
-                            .editName || layerPicker}
-                    </div>
-                )}
+                {isActive && this._renderLayerName(editLayer)}
             </span>
         );
     }
+
+    _renderLayerName = editLayer => {
+        if (!editLayer) return null;
+        const { layerName } = editLayer;
+        const layerInfo = DATA_LAYER_MAP[layerName];
+        if (!layerInfo) return null;
+        const { DataLayerStore } = this.props;
+        const { updateKey } = DataLayerStore;
+        const { layerPicker } = this.state;
+        const layerNameLabel = layerInfo.editName || layerPicker;
+        return (
+            <div className="value-color" key={updateKey}>
+                {layerNameLabel}
+            </div>
+        );
+    };
 
     _renderValue = layerPicker => {
         this.setState({
@@ -96,7 +121,8 @@ class EditLayerPicker extends React.Component {
             <Radio.Group
                 onChange={this.onChange}
                 value={editLayer ? editLayer.layerName : false}
-                style={{ width: '100%' }}>
+                style={{ width: '100%' }}
+            >
                 <List
                     key={DataLayerStore.updateKey}
                     dataSource={this.topViewLayerDisabled()}
@@ -135,18 +161,11 @@ class EditLayerPicker extends React.Component {
         if (!item.value) {
             return item.label;
         }
-        return DATA_LAYER_MAP[item.value]
-            ? DATA_LAYER_MAP[item.value].label
-            : item.value;
+        return DATA_LAYER_MAP[item.value] ? DATA_LAYER_MAP[item.value].label : item.value;
     };
 
     onChange = e => {
-        const {
-            DataLayerStore,
-            ToolCtrlStore,
-            AttributeStore,
-            appStore
-        } = this.props;
+        const { DataLayerStore, ToolCtrlStore, AttributeStore, appStore } = this.props;
         const layerPicker = DATA_LAYER_MAP[e.target.value]
             ? DATA_LAYER_MAP[e.target.value].editName
             : '';

@@ -16,9 +16,9 @@ export function IdApiPath(url) {
 
 export function updateBoundaryApiPath(url) {
     if (/^\//.test(url)) {
-        return `/update_boundary_service${url}`;
+        return `/updateBoundary_service${url}`;
     } else {
-        return `/update_boundary_service/${url}`;
+        return `/updateBoundary_service/${url}`;
     }
 }
 
@@ -51,5 +51,13 @@ export function CheckApiPath(url) {
         return `/check_service${url}`;
     } else {
         return `/check_service/${url}`;
+    }
+}
+
+export function MarkerApiPath(url) {
+    if (/^\//.test(url)) {
+        return `/checkMarker_service${url}`;
+    } else {
+        return `/checkMarker_service/${url}`;
     }
 }

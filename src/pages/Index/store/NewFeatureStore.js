@@ -5,7 +5,7 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });
 class NewFeatureStore {
-    init = flow(function*(result, isManbuildTask) {
+    init = flow(function* (result, isManbuildTask) {
         let feature = result.data;
         let layerName = result.layerName;
         const _result = yield IDService.initID({
@@ -13,11 +13,7 @@ class NewFeatureStore {
         });
 
         let id = _result.data[0].min;
-        const defaultProperties = modelFactory.getDefaultProperties(
-            layerName,
-            id,
-            isManbuildTask
-        );
+        const defaultProperties = modelFactory.getDefaultProperties(layerName, id, isManbuildTask);
         feature.properties = {
             ...feature.properties,
             ...defaultProperties

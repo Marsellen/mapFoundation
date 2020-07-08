@@ -8,13 +8,7 @@ export const DATA_LAYER_MAP = {
             manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
         },
         drawTools: { recognition: ['POLYGON'], manbuild: ['POLYGON'] },
-        rightTools: [
-            'delete',
-            'forceDelete',
-            'insertPoints',
-            'changePoints',
-            'deletePoints'
-        ],
+        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '地面导向\n箭头'
     },
@@ -37,13 +31,7 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_LaneDivider',
         tools: {
             recognition: ['DRAW_TOOL_BOX', 'BATCH_TOOL_BOX', 'ATTRIBUTE_BRUSH'],
-            manbuild: [
-                'DRAW_TOOL_BOX',
-                'ADD_REL',
-                'DEL_REL',
-                'BATCH_TOOL_BOX',
-                'ATTRIBUTE_BRUSH'
-            ]
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX', 'ATTRIBUTE_BRUSH']
         },
         drawTools: {
             recognition: ['LINE', 'CURVED_LINE'],
@@ -60,10 +48,7 @@ export const DATA_LAYER_MAP = {
             'break',
             'trim'
         ],
-        batchTools: [
-            'LINE_FEATURES_SNAP_TO_STOP_LINE',
-            'ASSIGN_LINE_NO_IN_BATCH'
-        ],
+        batchTools: ['LINE_FEATURES_SNAP_TO_STOP_LINE', 'ASSIGN_LINE_NO_IN_BATCH'],
         groupRightTools: [
             'breakGroup',
             'merge',
@@ -86,13 +71,7 @@ export const DATA_LAYER_MAP = {
             recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
             manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
         },
-        rightTools: [
-            'delete',
-            'forceDelete',
-            'insertPoints',
-            'changePoints',
-            'deletePoints'
-        ],
+        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '面状标识物'
     },
@@ -108,13 +87,7 @@ export const DATA_LAYER_MAP = {
             recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],
             manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON']
         },
-        rightTools: [
-            'delete',
-            'forceDelete',
-            'insertPoints',
-            'changePoints',
-            'deletePoints'
-        ],
+        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '地面文字\n符号'
     },
@@ -147,13 +120,7 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_Lane',
         tools: {
             recognition: ['DRAW_TOOL_BOX', 'BATCH_TOOL_BOX', 'ATTRIBUTE_BRUSH'],
-            manbuild: [
-                'DRAW_TOOL_BOX',
-                'ADD_REL',
-                'DEL_REL',
-                'BATCH_TOOL_BOX',
-                'ATTRIBUTE_BRUSH'
-            ]
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'BATCH_TOOL_BOX', 'ATTRIBUTE_BRUSH']
         },
         drawTools: {
             recognition: ['LINE', 'CURVED_LINE'],
@@ -167,10 +134,7 @@ export const DATA_LAYER_MAP = {
                 'NEW_UTURN_LINE'
             ]
         },
-        batchTools: [
-            'LINE_FEATURES_SNAP_TO_STOP_LINE',
-            'ASSIGN_LINE_NO_IN_BATCH'
-        ],
+        batchTools: ['LINE_FEATURES_SNAP_TO_STOP_LINE', 'ASSIGN_LINE_NO_IN_BATCH'],
         rightTools: [
             'delete',
             'forceDelete',
@@ -201,26 +165,10 @@ export const DATA_LAYER_MAP = {
             manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
         },
         drawTools: {
-            recognition: [
-                'ADD_OUTSIDE_RECTANGLE',
-                'POLYGON',
-                'ADD_FACADE_RECTANGLE',
-                'ADD_CIRCLE'
-            ],
-            manbuild: [
-                'ADD_OUTSIDE_RECTANGLE',
-                'POLYGON',
-                'ADD_FACADE_RECTANGLE',
-                'ADD_CIRCLE'
-            ]
+            recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE'],
+            manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE']
         },
-        rightTools: [
-            'delete',
-            'forceDelete',
-            'insertPoints',
-            'changePoints',
-            'deletePoints'
-        ],
+        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '交通标志牌'
     },
@@ -275,24 +223,10 @@ export const DATA_LAYER_MAP = {
             manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
         },
         drawTools: {
-            recognition: [
-                'ADD_OUTSIDE_RECTANGLE',
-                'POLYGON',
-                'ADD_FACADE_RECTANGLE'
-            ],
-            manbuild: [
-                'ADD_OUTSIDE_RECTANGLE',
-                'POLYGON',
-                'ADD_FACADE_RECTANGLE'
-            ]
+            recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE'],
+            manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE']
         },
-        rightTools: [
-            'delete',
-            'forceDelete',
-            'insertPoints',
-            'changePoints',
-            'deletePoints'
-        ],
+        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '交通信号灯'
     },
@@ -308,13 +242,7 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE'],
             manbuild: ['LINE']
         },
-        rightTools: [
-            'delete',
-            'forceDelete',
-            'insertPoints',
-            'changePoints',
-            'deletePoints'
-        ],
+        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '杆状物'
     },
@@ -333,6 +261,22 @@ export const DATA_LAYER_MAP = {
         rightTools: ['delete', 'forceDelete'],
         groupRightTools: ['batchAssign'],
         editName: '标记图层'
+    },
+    AD_Marker: {
+        label: '质检标注图层',
+        id: 'ID',
+        spec: 'AD_Marker',
+        tools: {
+            recognition: [],
+            manbuild: []
+        },
+        drawTools: {
+            recognition: [],
+            manbuild: []
+        },
+        rightTools: [],
+        groupRightTools: [],
+        editName: '质检标注图层'
     },
     AD_RS_Barrier: {
         label: '隔离带、护栏',

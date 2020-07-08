@@ -13,6 +13,7 @@ import AdEmitter from 'src/models/event';
 import EditorConfig from 'src/config/ConctrolConfig';
 import AttributeStore from 'src/pages/Index/store/AttributeStore.js';
 import appStore from 'src/store/appStore.js';
+import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
 
 configure({ enforceActions: 'always' });
 class DataLayerStore {
@@ -44,8 +45,7 @@ class DataLayerStore {
         this.fetchTargetLayers();
         this.editor.setConfig && this.editor.setConfig(EditorConfig);
         this.editor.setAdsorbThreshold && this.editor.setAdsorbThreshold(0.05);
-        this.editor.setEditBoundary &&
-            this.editor.setEditBoundary(this.regionGeojson);
+        this.editor.setEditBoundary && this.editor.setEditBoundary(this.regionGeojson);
     };
 
     addTargetLayers = layers => {
@@ -67,14 +67,22 @@ class DataLayerStore {
         });
     };
 
+    //可能不传参数，可能传图层名，可能传图层
     @action activeEditor = name => {
-        let layer = name ? getLayerExByName(name) : null;
-        if (this.editor) {
-            this.exitEdit();
-        } else {
-            this.initEditor();
+        let layer;
+        switch (typeof name) {
+            case 'object':
+                layer = name;
+                break;
+            case 'string':
+                layer = getLayerExByName(name);
+                break;
+            default:
+                layer = null;
+                break;
         }
-        this.editor.editLayer = layer;
+        this.editor ? this.exitEdit() : this.initEditor();
+        this.editor.setEditLayer(layer);
         this.updateKey = Math.random();
         return layer;
     };
@@ -83,6 +91,7 @@ class DataLayerStore {
     @action QCAttrModal = () => {
         this.isQcOpen = true;
     };
+
     // 质检员选取错误数据
     @action UnQCAttrModal = () => {
         if (this.editType != 'error_layer') return;
@@ -161,15 +170,24 @@ class DataLayerStore {
 
     setCreatedCallBack = callback => {
         this.editor.onFeatureCreated(async result => {
-            if (this.editType === 'create_break_line') {
-                this.breakByLineCallback(result);
-            } else if (this.editType == 'copyLine') {
-                this.copyLineCallback(result, event);
-            } else if (this.editType == 'assign_line_batch') {
-                this.newFixLineCallback(result, event);
+            if (result.layerName === 'AD_Marker') {
+                this.QCMarkerCallback(result, event);
             } else {
-                callback && (await callback(result));
-                AdEmitter.emit('fetchViewAttributeData');
+                switch (this.editType) {
+                    case 'create_break_line':
+                        this.breakByLineCallback(result);
+                        break;
+                    case 'copyLine':
+                        this.copyLineCallback(result, event);
+                        break;
+                    case 'assign_line_batch':
+                        this.newFixLineCallback(result, event);
+                        break;
+                    default:
+                        callback && (await callback(result));
+                        AdEmitter.emit('fetchViewAttributeData');
+                        break;
+                }
             }
         });
     };
@@ -186,6 +204,12 @@ class DataLayerStore {
 
     getEditLayer = () => {
         return this.editor && this.editor.editLayer;
+    };
+
+    //获取编辑图层名
+    getEditLayerName = () => {
+        if (!this.editor || !this.editor.editLayer) return;
+        return this.editor.editLayer.layerName;
     };
 
     //只消除选择
@@ -330,6 +354,14 @@ class DataLayerStore {
         this.setEditType('select_road_plane');
         this.editor.selectPointFromPC();
         this.roadPlanePointStyle();
+    };
+
+    newQCMarker = () => {
+        this.exitEdit();
+        if (!this.editor) return;
+        this.setEditType('qc_marker');
+        this.changeCur();
+        this.editor.newLine();
     };
 
     // 左右车道线生成中心线
@@ -502,6 +534,10 @@ class DataLayerStore {
         this.errorLayerCallback = callback;
     };
 
+    setQCMarkerCallback = callback => {
+        this.QCMarkerCallback = callback;
+    };
+
     chooseErrorLayer = () => {
         this.exitEdit();
         if (!this.editor) return;
@@ -534,10 +570,7 @@ class DataLayerStore {
 
     updateQCPerson = result => {
         try {
-            if (
-                result.layerName == 'AD_Map_QC' &&
-                this.editType == 'new_point'
-            ) {
+            if (result.layerName == 'AD_Map_QC' && this.editType == 'new_point') {
                 result.data.properties.QC_PERSON = appStore.loginUser.name;
             }
             return result;
@@ -708,33 +741,51 @@ class DataLayerStore {
         this.removeCur();
     };
 
+    //注册“退出质检标注图层”事件
+    exitMarker = () => {
+        this.exitEdit();
+        this.activeEditor();
+        QCMarkerStore.exitMarker();
+    };
+
+    //esc提示窗
+    escModal = callback => {
+        Modal.confirm({
+            title: '是否退出',
+            okText: '确定',
+            cancelText: '取消',
+            onOk: callback
+        });
+    };
+
     bindKeyEvent = () => {
         document.onkeyup = event => {
-            var e = event || window.event;
-            if (e && e.keyCode == 27) {
-                // esc
-                if (this.editType != 'normal') {
-                    Modal.confirm({
-                        title: '是否退出',
-                        okText: '确定',
-                        cancelText: '取消',
-                        onOk: this.exitEdit
-                    });
-                }
-                return;
-            }
-            if (e && e.keyCode == 90) {
-                //Z
-                if (this.editType.includes('new_') || this.editType == 'trim') {
-                    this.editor.undo();
-                }
-            }
-            if (e && e.keyCode == 32) {
-                // space
-                if (this.editType == 'trim') {
-                    this.modifyLineAdsorbMode = 1 - this.modifyLineAdsorbMode;
-                    this.setModifyLineAdsorbMode();
-                }
+            if (!event) return;
+            switch (event.keyCode) {
+                case 27:
+                    //esc
+                    const editLayerName = this.getEditLayerName();
+                    if (editLayerName === 'AD_Marker') {
+                        this.escModal(this.exitMarker);
+                    } else if (this.editType !== 'normal') {
+                        this.escModal(this.exitEdit);
+                    }
+                    break;
+                case 90:
+                    //Z
+                    if (this.editType.includes('new_') || this.editType == 'trim') {
+                        this.editor.undo();
+                    }
+                    break;
+                case 32:
+                    //space
+                    if (this.editType == 'trim') {
+                        this.modifyLineAdsorbMode = 1 - this.modifyLineAdsorbMode;
+                        this.setModifyLineAdsorbMode();
+                    }
+                    break;
+                default:
+                    break;
             }
         };
     };
@@ -820,9 +871,7 @@ class DataLayerStore {
 
     toggleLocatePicture = () => {
         this.locatePictureStatus = !this.locatePictureStatus;
-        this.locatePictureStatus
-            ? this.openLocatePicture()
-            : this.closeLocatePicture();
+        this.locatePictureStatus ? this.openLocatePicture() : this.closeLocatePicture();
     };
 
     registerLocatePictureEvent = event => {
@@ -863,9 +912,7 @@ class DataLayerStore {
 
     setModifyLineAdsorbMode = () => {
         this.editor.setModifyLineAdsorbMode(this.modifyLineAdsorbMode);
-        let content = `${
-            this.modifyLineAdsorbMode ? '开启' : '关闭'
-        }吸附到矢量功能`;
+        let content = `${this.modifyLineAdsorbMode ? '开启' : '关闭'}吸附到矢量功能`;
 
         message.info({
             key: 'trim_info',

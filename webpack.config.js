@@ -148,9 +148,9 @@ module.exports = (env = {}) => {
                     changeOrigin: true,
                     logLevel: 'debug'
                 },
-                '/update_boundary_service': {
+                '/updateBoundary_service': {
                     target: PROXY_MAP[proxy].boundary,
-                    pathRewrite: { '^/update_boundary_service': '/querydb' },
+                    pathRewrite: { '^/updateBoundary_service': '/querydb' },
                     changeOrigin: true,
                     logLevel: 'debug'
                 },
@@ -163,6 +163,12 @@ module.exports = (env = {}) => {
                 '/check_service': {
                     target: PROXY_MAP[proxy].check,
                     pathRewrite: { '^/check_service': '/check' },
+                    changeOrigin: true,
+                    logLevel: 'debug'
+                },
+                '/checkMarker_service': {
+                    target: PROXY_MAP[proxy].checkMarker,
+                    pathRewrite: { '^/checkMarker_service': '/check-marker' },
                     changeOrigin: true,
                     logLevel: 'debug'
                 }

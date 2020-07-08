@@ -31,15 +31,7 @@ class ToolIcon extends React.Component {
     };
 
     _icon = () => {
-        const {
-            id,
-            icon,
-            action,
-            disabled,
-            tooltip,
-            title,
-            placement
-        } = this.props;
+        const { id, icon, action, disabled, tooltip, title, placement } = this.props;
         const { tooltipVisible } = this.state;
 
         return (
