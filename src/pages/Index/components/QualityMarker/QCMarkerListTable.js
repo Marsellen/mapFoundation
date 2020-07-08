@@ -1,5 +1,5 @@
 import React from 'react';
-import { MARKER_TABLE_COLUMNS } from 'src/config/QCMArkerConfig';
+import { MARKER_TABLE_COLUMNS } from 'src/config/QCMarkerConfig';
 import { inject, observer } from 'mobx-react';
 import MultiFunctionalTable from 'src/components/MultiFunctionalTable';
 
