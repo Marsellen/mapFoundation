@@ -72,7 +72,7 @@ class QCMarkerStore {
     };
 
     @action initMarkerList = list => {
-        this.markerList = list.reverse();
+        this.markerList = list;
         this.getFilters();
         this.updateKey = Math.random();
     };

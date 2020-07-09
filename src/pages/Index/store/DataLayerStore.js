@@ -55,7 +55,6 @@ class DataLayerStore {
     };
 
     fetchTargetLayers = () => {
-        if (!this.editor) return;
         this.editor.setTargetLayers(this.targetLayers);
     };
 
@@ -760,6 +759,7 @@ class DataLayerStore {
     exitMarker = () => {
         this.exitEdit();
         this.activeEditor();
+        this.fetchTargetLayers(); //重置可选图层
         QCMarkerStore.exitMarker();
     };
 

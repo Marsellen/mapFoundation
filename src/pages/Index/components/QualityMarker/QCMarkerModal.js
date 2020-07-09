@@ -115,11 +115,12 @@ class QCMarkerModal extends React.Component {
 
     release = () => {
         const {
-            DataLayerStore: { exitEdit, activeEditor },
+            DataLayerStore: { exitEdit, activeEditor, fetchTargetLayers },
             QCMarkerStore: { exitMarker }
         } = this.props;
         exitEdit();
         activeEditor();
+        fetchTargetLayers();
         exitMarker(false);
     };
 
@@ -192,7 +193,7 @@ class QCMarkerModal extends React.Component {
         const isModify = editStatus === 'modify';
         const isQuality = roleCode === 'quality';
         const isProductor = roleCode === 'producer';
-        const isFirst = fetchId === taskFetchId;
+        const isFirst = fetchId == taskFetchId;
 
         let formConfigName;
         if (isQuality && isCreate) {

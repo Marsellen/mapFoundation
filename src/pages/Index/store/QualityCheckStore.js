@@ -113,7 +113,7 @@ class QualityCheckStore {
                                     break;
                                 case 201:
                                     this.pollingCount += 1;
-                                    if (this.pollingCount < 10) {
+                                    if (this.pollingCount < 30) {
                                         this.pollingGetReport(option, resolve);
                                     } else {
                                         this.pollingCount < 100 && message.error(`请求超时`);

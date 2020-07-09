@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import MultiFunctionalTable from 'src/components/MultiFunctionalTable';
 import 'src/assets/less/components/qc-marker-table.less';
 
+@inject('DataLayerStore')
 @inject('QualityCheckStore')
 @inject('QCMarkerStore')
 @observer
@@ -33,25 +34,34 @@ class QCMarkerListTable extends React.Component {
         return columns;
     };
 
-    handleDoudleClick = (record, index) => {
+    //单击：选中此质检标注，弹出“质检标注窗口”
+    handleClick = record => {
+        const {
+            DataLayerStore: { setSelectFeature },
+            QCMarkerStore: { show, setEditStatus, initCurrentMarker }
+        } = this.props;
+        //显示marker属性编辑窗口
+        const option = {
+            key: 'id',
+            value: record.id
+        };
+        const feature = window.markerLayer.layer.getFeatureByOption(option);
+        const marker = feature.properties;
+        initCurrentMarker(marker);
+        setEditStatus('visite');
+        show();
+        //选中要素
+        const { layerId, uuid } = marker;
+        setSelectFeature(layerId, uuid);
+    };
+
+    //双击定位；
+    handleDoudleClick = record => {
         try {
-            const {
-                QCMarkerStore: { show, setEditStatus, initCurrentMarker }
-            } = this.props;
-            const { geom, id } = record;
-            //双击定位
-            const extent = map.getExtent(geom);
+            const geometry = JSON.parse(record.geom);
+            const extent = map.getExtent(geometry);
             map.setView('U');
             map.setExtent(extent);
-            //显示marker属性编辑窗口
-            const option = {
-                key: 'id',
-                value: id
-            };
-            const marker = window.markerLayer.layer.getFeatureByOption(option);
-            marker && initCurrentMarker(marker.properties);
-            setEditStatus('visite');
-            show();
         } catch (e) {
             console.log(e);
         }
@@ -75,7 +85,7 @@ class QCMarkerListTable extends React.Component {
                 filters={filters}
                 isFirstLoading={visible}
                 className="quality-marker-list-table"
-                // onClick={}
+                onClick={this.handleClick}
                 onDoubleClick={this.handleDoudleClick}
             />
         );
