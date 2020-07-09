@@ -96,7 +96,7 @@ class PostureAdjust extends React.Component {
                             <IconFont
                                 type="icon-shangyi"
                                 className="shangyi pingyi"
-                                onClick={() => this.changePoint('front', polygonValue)}
+                                onClick={() => this.changePoint('up', polygonValue)}
                             />
                         </div>
                         <div className="row">
@@ -123,7 +123,7 @@ class PostureAdjust extends React.Component {
                             <IconFont
                                 type="icon-xiayi"
                                 className="xiayi pingyi"
-                                onClick={() => this.changePoint('back', polygonValue)}
+                                onClick={() => this.changePoint('down', polygonValue)}
                             />
                         </div>
                     </div>
@@ -133,7 +133,7 @@ class PostureAdjust extends React.Component {
                     <IconFont
                         type="icon-zuoyi"
                         className="zuoyi pingyi"
-                        onClick={() => this.changePoint('up', verticalValue)}
+                        onClick={() => this.changePoint('front', verticalValue)}
                     />
                     <AdInputNumber
                         width={76}
@@ -146,7 +146,7 @@ class PostureAdjust extends React.Component {
                     <IconFont
                         type="icon-youyi"
                         className="youyi pingyi"
-                        onClick={() => this.changePoint('down', verticalValue)}
+                        onClick={() => this.changePoint('back', verticalValue)}
                     />
                 </div>
             </span>
