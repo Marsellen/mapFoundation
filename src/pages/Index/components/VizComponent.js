@@ -371,24 +371,25 @@ class VizComponent extends React.Component {
             markerLayer.layerName = 'AD_Marker';
             markerLayer.resetConfig(AD_Marker);
             await map.getLayerManager().addLayer('VectorLayer', markerLayer);
-            //获取质检标列表，获取筛选条件
-            const { data } = await QCMarkerStore.getMarkerList({
-                taskId,
-                processName
-            });
-            if (!data) return;
-            const features = data.map(item => {
-                QCMarkerStore.updateFilters(item);
-                return { geometry: item.geom, properties: item };
-            });
-            QCMarkerStore.initMarkerList(data);
-            markerLayer.addFeatures(features);
             //赋值给全局对象
             window.markerLayer = {
                 layer: markerLayer,
                 layerId: markerLayer.layerId,
                 layerName: markerLayer.layerName
             };
+            //获取质检标列表，获取筛选条件
+            const res = await QCMarkerStore.getMarkerList({
+                taskId,
+                processName
+            });
+            if (!res) return;
+            const { data } = res;
+            const features = data.map(item => {
+                QCMarkerStore.updateFilters(item);
+                return { geometry: item.geom, properties: item };
+            });
+            QCMarkerStore.initMarkerList(data);
+            window.markerLayer.addFeatures(features);
         } catch (e) {
             const msg = e.message || e || '';
             console.error('获取质检列表失败：' + msg);
