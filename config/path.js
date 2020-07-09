@@ -26,9 +26,8 @@ module.exports = PROXY_MAP = {
         manualBuild: DEV_PATH,
         boundary: DEV_PATH,
         edit: DEV_PATH,
-        check: LOCAL_PATH,
-        // checkMarker: 'http://10.43.86.150:13308'
-        checkMarker: LOCAL_PATH
+        check: DEV_PATH,
+        checkMarker: DEV_PATH
     },
     demo: {
         gateway: DOME_PATH,

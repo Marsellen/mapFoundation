@@ -10,8 +10,7 @@ module.exports = (env = {}) => {
     console.log('env:', env);
     const devMode = env.mode !== 'production';
     const proxy = env.proxy || 'dev';
-    const configPath =
-        env.spec === 'semantic' ? 'src/config/semantic/' : 'src/config/';
+    const configPath = env.spec === 'semantic' ? 'src/config/semantic/' : 'src/config/';
     return {
         entry: {
             index: './src/index.js'
@@ -168,7 +167,7 @@ module.exports = (env = {}) => {
                 },
                 '/checkMarker_service': {
                     target: PROXY_MAP[proxy].checkMarker,
-                    pathRewrite: { '^/checkMarker_service': '/check-marker' },
+                    pathRewrite: { '^/checkMarker_service': '/check-web' },
                     changeOrigin: true,
                     logLevel: 'debug'
                 }
