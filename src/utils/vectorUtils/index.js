@@ -47,6 +47,14 @@ export const getAllLayersExByName = layerName => {
     return layers.filter(layer => layer.layerName == layerName);
 };
 
+export const getAllChooseLayersExByName = layerName => {
+    let layers = window.vectorLayerGroup.layers;
+    if (window.boundaryLayerGroup) {
+        layers = layers.concat(window.boundaryLayerGroup.layers);
+    }
+    return layers.filter(layer => layer.layerName != layerName);
+};
+
 export const getLayerExByName = layerName => {
     if (layerName === 'AD_Marker') {
         return window.markerLayer;

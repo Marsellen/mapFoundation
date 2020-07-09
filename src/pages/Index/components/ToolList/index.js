@@ -16,6 +16,7 @@ import DrawToolBox from './DrawToolBox';
 import BatchToolBox from './BatchToolBox';
 import AttributeBrush from './AttributeBrush';
 import QualityCheckMarker from './QualityCheckMarker';
+import PostureAdjust from './PostureAdjust';
 
 export default [
     <Undo key="UNDO" />,
@@ -34,5 +35,6 @@ export default [
     <AddRel key="ADD_REL" />,
     <DelRel key="DEL_REL" />,
     <BatchToolBox key="BATCH_TOOL_BOX" />,
-    <AttributeBrush key="ATTRIBUTE_BRUSH" />
+    <AttributeBrush key="ATTRIBUTE_BRUSH" />,
+    <PostureAdjust key="POSTURE_ADJUST" />
 ];

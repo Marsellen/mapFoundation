@@ -25,7 +25,8 @@ export const TOOLS_MAP = {
         DRAW_TOOL_BOX: false,
         RESOURCE_LOADER: true,
         BATCH_TOOL_BOX: false,
-        ATTRIBUTE_BRUSH: false
+        ATTRIBUTE_BRUSH: false,
+        POSTURE_ADJUST: false
     },
     CHECK: {}
 };

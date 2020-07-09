@@ -22,6 +22,7 @@ class TopView extends React.Component {
                     placement="left"
                     className="ad-icon-topview"
                     visible={isTopView}
+                    disabled={DataLayerStore.editType == 'posture_adjust'}
                     action={this.action}
                 />
             </div>

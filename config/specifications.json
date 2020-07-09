@@ -354,7 +354,8 @@
             "ADD_OUTSIDE_RECTANGLE",
             "ADD_CIRCLE",
             "ADD_REL",
-            "DEL_REL"
+            "DEL_REL",
+            "POSTURE_ADJUST"
         ],
         "rightTools": [
             "setEditLayer",
@@ -493,7 +494,8 @@
             "ADD_FACADEREC_TANGLE",
             "ADD_OUTSIDE_RECTANGLE",
             "ADD_REL",
-            "DEL_REL"
+            "DEL_REL",
+            "POSTURE_ADJUST"
         ],
         "rightTools": [
             "setEditLayer",
