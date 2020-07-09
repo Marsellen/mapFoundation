@@ -132,15 +132,13 @@ class QualityCheckResult extends React.Component {
             QualityCheckStore: { reportList, checkReportVisible },
             QCMarkerStore: { visibleList, updateKey }
         } = this.props;
-
-        let initActiveKey;
-        initActiveKey = visibleList && 'marker';
-        initActiveKey = checkReportVisible && 'check';
+        const checkKey = checkReportVisible && 'check';
+        const markerKey = visibleList && 'marker';
 
         return (
             <Tabs
                 animated={false}
-                activeKey={activeKey || initActiveKey || ''}
+                activeKey={activeKey || checkKey || markerKey || ''}
                 onChange={this.handleTabsChange}
                 tabBarExtraContent={this._closeIcon()}
             >
