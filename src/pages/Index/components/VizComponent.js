@@ -45,8 +45,10 @@ import PointCloudStore from 'src/pages/Index/store/PointCloudStore';
 import VectorsStore from 'src/pages/Index/store/VectorsStore';
 import ToolCtrlStore from 'src/pages/Index/store/ToolCtrlStore';
 import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
+import QualityCheckStore from 'src/pages/Index/store/QualityCheckStore';
 import { showPictureShowView, showAttributesModal, showRightMenu } from 'src/utils/map/viewCtrl';
 
+@inject('QCMarkerStore')
 @inject('DefineModeStore')
 @inject('TextStore')
 @inject('RenderModeStore')
@@ -84,6 +86,7 @@ class VizComponent extends React.Component {
         await this.cancelRequest();
         await this.clearWorkSpace();
 
+        QualityCheckStore.clearCheckReport();
         QCMarkerStore.release();
         ResourceLayerStore.release();
         VectorsStore.release();
@@ -360,12 +363,16 @@ class VizComponent extends React.Component {
     };
 
     initMarkerLayer = async () => {
+        const {
+            QCMarkerStore: { getMarkerList, updateFilters, initMarkerList, showList },
+            TaskStore: {
+                isFixTask,
+                activeTask: { taskId, processName, manualStatus, isLocal }
+            }
+        } = this.props;
+        if (isLocal) return; //如果是本地任务，返回，不加载质检标注
+        if (isFixTask) return; //如果是人工识别或人工构建任务，且状态是已领取或进行中，返回，不加载质检标注
         try {
-            const {
-                TaskStore: {
-                    activeTask: { taskId, processName }
-                }
-            } = this.props;
             const { AD_Marker } = MarkerVectorsConfig;
             const markerLayer = new VectorLayer();
             markerLayer.layerName = 'AD_Marker';
@@ -378,18 +385,16 @@ class VizComponent extends React.Component {
                 layerName: markerLayer.layerName
             };
             //获取质检标列表，获取筛选条件
-            const res = await QCMarkerStore.getMarkerList({
-                taskId,
-                processName
-            });
+            const res = await getMarkerList({ taskId, processName });
             if (!res) return;
             const { data } = res;
             if (!data) return;
             const features = data.map(item => {
-                QCMarkerStore.updateFilters(item);
+                updateFilters(item);
                 return { geometry: JSON.parse(item.geom), properties: item };
             });
-            QCMarkerStore.initMarkerList(data);
+            initMarkerList(data);
+            showList();
             window.markerLayer.layer.addFeatures(features);
         } catch (e) {
             const msg = e.message || e || '';

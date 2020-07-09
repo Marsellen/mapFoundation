@@ -223,7 +223,14 @@ export const QC_MARKER_FORM_CONFIG = {
     ],
     //作业员查看标注的表单配置
     FIX_VISITE_CONFIG: [
-        { name: 'fixStatus', editable: true },
+        {
+            name: 'fixStatus',
+            editable: true,
+            editableByField: {
+                fieldName: 'qcStatus',
+                fieldValue: 1
+            }
+        },
         { name: 'qcStatus', editable: false },
         { name: 'fileName', editable: false },
         { name: 'featId', editable: false },
@@ -234,7 +241,14 @@ export const QC_MARKER_FORM_CONFIG = {
     ],
     //作业员修改标注的表单配置
     FIX_MOD_CONFIG: [
-        { name: 'fixStatus', editable: true },
+        {
+            name: 'fixStatus',
+            editable: true,
+            editableByField: {
+                fieldName: 'qcStatus',
+                fieldValue: 1
+            }
+        },
         { name: 'qcStatus', editable: false },
         { name: 'fileName', editable: false },
         { name: 'featId', editable: false },
@@ -243,7 +257,7 @@ export const QC_MARKER_FORM_CONFIG = {
         { name: 'errorDesc', editable: false },
         { name: 'editDesc', editable: true }
     ],
-    //质检员首次查看的表单配置
+    //默认配置，只能查看，不能修改
     QC_ONLEY_READ_CONFIG: [
         { name: 'fixStatus', editable: false },
         { name: 'qcStatus', editable: false },

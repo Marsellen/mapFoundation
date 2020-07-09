@@ -28,6 +28,7 @@ import {
 import RelStore from './RelStore';
 import AttrStore from './AttrStore';
 import { getTaskProcessType } from 'src/utils/taskUtils';
+import { PROD_TASK_TYPES, TASK_START_STATUS } from 'src/config/TaskConfig';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -71,6 +72,14 @@ class TaskStore {
 
     @computed get isEditableTask() {
         return this.activeTaskId && this.activeTaskId == this.editTaskId;
+    }
+
+    //是否是作业任务：人工识别或人工构建，且状态是已领取或进行中
+    @computed get isFixTask() {
+        const { processName, manualStatus } = this.activeTask;
+        const isProdTask = PROD_TASK_TYPES.includes(processName);
+        const isStartStatus = TASK_START_STATUS.includes(manualStatus);
+        if (isProdTask && isStartStatus) return true;
     }
 
     @computed get taskProcessName() {
