@@ -55,6 +55,7 @@ class DataLayerStore {
     };
 
     fetchTargetLayers = () => {
+        if (!this.editor) return;
         this.editor.setTargetLayers(this.targetLayers);
     };
 

@@ -64,7 +64,6 @@ class QCMarkerModal extends React.Component {
             this.release();
         } catch (e) {
             exitMarker();
-            message.error(e.message, 3);
             console.error(e.message, 3);
         }
     };
@@ -82,7 +81,7 @@ class QCMarkerModal extends React.Component {
                 }
             } = this.props;
             try {
-                const param = this.getParam(values);
+                const param = this[`getParam_${type}`](values);
                 //添加到数据库
                 const res = await QCMarkerStore[`${type}Marker`](param);
                 if (!res && !res.data) return;
@@ -102,14 +101,13 @@ class QCMarkerModal extends React.Component {
                 this.release();
             } catch (e) {
                 exitMarker();
-                message.error(e.message, 3);
                 console.error(e.message, 3);
             }
         });
     };
 
     //更新历史记录，用于撤销回退
-    // @logDecorator({ operate: '新建质检标注', skipRenderMode: true })
+    // @logDecorator({ operate: '新建质检标注', skipRenderMode: true, skipHistory:true })
     async handleHistory(marker) {
         const history = { features: [[], [marker]] };
         return history;
@@ -125,27 +123,55 @@ class QCMarkerModal extends React.Component {
         exitMarker(false);
     };
 
-    //获取参数
-    getParam = values => {
+    //获取新增质检标注参数
+    getParam_insert = values => {
         const {
             QCMarkerStore: { currentMarker: { data: { geometry } = {} } } = {},
             TaskStore: { activeTask: { taskId, taskFetchId, processName } } = {},
-            appStore: { loginUser: { name } } = {}
+            appStore: { loginUser: { name, roleCode } } = {}
         } = this.props;
+        const fixPerson = roleCode === 'producer' ? name : null;
+        const qcPerson = roleCode === 'quality' ? name : null;
         const param = {
             fixStatus: 1,
             fixStatusFetch: null,
             qcStatus: 1,
             qcStatusFetch: null,
-            fixPersion: null,
-            qcPresion: name, //当前用户名
             taskId, //工作流：任务id
             fetchId: taskFetchId, //工作流：任务批次号
-            geom: geometry,
+            geom: JSON.stringify(geometry),
             errLevel: null,
             processName, //工作流：任务所在节点
             editDesc: null,
+            fixPerson,
+            qcPerson,
             ...values
+        };
+        return param;
+    };
+
+    //获取修改质检标注参数
+    getParam_update = values => {
+        const {
+            QCMarkerStore: { currentMarker: { data: { properties } = {} } } = {},
+            TaskStore: { activeTask: { taskFetchId } } = {},
+            appStore: { loginUser: { name, roleCode } } = {}
+        } = this.props;
+        let roleParam;
+        switch (roleCode) {
+            case 'producer':
+                roleParam = { fixPerson: name, fixStatusFetch: taskFetchId };
+                break;
+            case 'quality':
+                roleParam = { qcPerson: name, qcStatusFetch: taskFetchId };
+                break;
+            default:
+                break;
+        }
+        const param = {
+            ...properties,
+            ...values,
+            ...roleParam
         };
         return param;
     };
