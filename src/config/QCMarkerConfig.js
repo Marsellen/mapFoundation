@@ -31,6 +31,7 @@ export const ATTR_FORM_FIELD_MAP = {
         label: '作业查看状态',
         name: 'fixStatus',
         type: 'Select',
+        initialValue: 1,
         editable: false,
         rules: {
             required: {
@@ -155,12 +156,14 @@ export const ATTR_FORM_FIELD_MAP = {
         label: '错误描述',
         name: 'errorDesc',
         type: 'TextArea',
+        initialValue: null,
         editable: false
     },
     editDesc: {
         label: '作业说明',
         name: 'editDesc',
         type: 'TextArea',
+        initialValue: null,
         editable: false
     }
 };

@@ -384,15 +384,17 @@ class VizComponent extends React.Component {
             });
             if (!res) return;
             const { data } = res;
+            if (!data) return;
             const features = data.map(item => {
                 QCMarkerStore.updateFilters(item);
-                return { geometry: item.geom, properties: item };
+                return { geometry: JSON.parse(item.geom), properties: item };
             });
             QCMarkerStore.initMarkerList(data);
-            window.markerLayer.addFeatures(features);
+            window.markerLayer.layer.addFeatures(features);
         } catch (e) {
             const msg = e.message || e || '';
-            console.error('获取质检列表失败：' + msg);
+            message.error('质检标注获取失败');
+            console.log('获取质检列表失败：' + msg);
         }
     };
 
