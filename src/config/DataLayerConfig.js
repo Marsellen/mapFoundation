@@ -161,8 +161,8 @@ export const DATA_LAYER_MAP = {
         id: 'SIGN_ID',
         spec: 'AD_TrafficSign',
         tools: {
-            recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
+            recognition: ['DRAW_TOOL_BOX', 'POSTURE_ADJUST'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'POSTURE_ADJUST']
         },
         drawTools: {
             recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE'],
@@ -219,8 +219,8 @@ export const DATA_LAYER_MAP = {
         id: 'LIGHT_ID',
         spec: 'AD_TrafficLight',
         tools: {
-            recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
+            recognition: ['DRAW_TOOL_BOX', 'POSTURE_ADJUST'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'POSTURE_ADJUST']
         },
         drawTools: {
             recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE'],

@@ -35,10 +35,7 @@ class BasicAttributesForm extends React.Component {
             layerName = '';
         const { form } = this.props;
         if (result.length > 0) {
-            layerId =
-                result[0].data.properties[
-                    DATA_LAYER_MAP[result[0].layerName].id
-                ];
+            layerId = result[0].data.properties[DATA_LAYER_MAP[result[0].layerName].id];
             layerName = result[0].layerName;
             form.setFieldsValue({
                 'attributes.FILE_NAME': layerName,
@@ -50,11 +47,7 @@ class BasicAttributesForm extends React.Component {
         const { AttributeStore } = this.props;
         const { attributes } = AttributeStore;
         return (
-            <div>
-                {attributes.map((item, index) =>
-                    this.renderItem(item, index, 'attributes')
-                )}
-            </div>
+            <div>{attributes.map((item, index) => this.renderItem(item, index, 'attributes'))}</div>
         );
     }
 
@@ -65,24 +58,15 @@ class BasicAttributesForm extends React.Component {
     renderText = (item, index, name) => {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
-        let value = item.filterBy
-            ? Filter.get(item.filterBy)(item.value)
-            : item.value;
+        let value = item.filterBy ? Filter.get(item.filterBy)(item.value) : item.value;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         initialValue: value
-                    })(
-                        <Input
-                            disabled
-                            onChange={val => this.handleChange(val, item, name)}
-                        />
-                    )
+                    })(<Input disabled onChange={val => this.handleChange(val, item, name)} />)
                 ) : (
-                    <span className="ant-form-text">
-                        {this.isPresent(value) ? value : '--'}
-                    </span>
+                    <span className="ant-form-text">{this.isPresent(value) ? value : '--'}</span>
                 )}
             </Form.Item>
         );
@@ -95,8 +79,7 @@ class BasicAttributesForm extends React.Component {
             appStore: { loginUser }
         } = this.props;
         const { readonly, type } = AttributeStore;
-        const producerDisabled =
-            loginUser.roleCode === 'producer' && type === 'AD_Map_QC'; //作业员员标记图层禁用项
+        const producerDisabled = loginUser.roleCode === 'producer' && type === 'AD_Map_QC'; //作业员员标记图层禁用项
         const disabledKey = item.key === 'FEAT_ID'; //作业员标记图层需要禁用项
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
@@ -129,8 +112,7 @@ class BasicAttributesForm extends React.Component {
     renderInput = (item, index, name) => {
         const { form, AttributeStore } = this.props;
         const { readonly, type } = AttributeStore;
-        const disabledKey =
-            item.key === 'QC_PERSON' || item.key === 'FIX_PERSON';
+        const disabledKey = item.key === 'QC_PERSON' || item.key === 'FIX_PERSON';
 
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
@@ -146,10 +128,7 @@ class BasicAttributesForm extends React.Component {
                         initialValue: item.value
                     })(
                         <Input
-                            disabled={
-                                readonly ||
-                                (type === 'AD_Map_QC' && disabledKey)
-                            }
+                            disabled={readonly || (type === 'AD_Map_QC' && disabledKey)}
                             onChange={val => this.handleChange(val, item, name)}
                         />
                     )
@@ -170,10 +149,8 @@ class BasicAttributesForm extends React.Component {
         } = this.props;
         const { readonly, type } = AttributeStore;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
-        const producerDisabled =
-            loginUser.roleCode === 'producer' && type === 'AD_Map_QC'; //作业员员标记图层禁用项
-        const disabledKey =
-            item.key === 'ERROR_TYPE' || item.key === 'QC_STATUS'; //作业员标记图层需要禁用项
+        const producerDisabled = loginUser.roleCode === 'producer' && type === 'AD_Map_QC'; //作业员员标记图层禁用项
+        const disabledKey = item.key === 'ERROR_TYPE' || item.key === 'QC_STATUS'; //作业员标记图层需要禁用项
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
@@ -189,22 +166,16 @@ class BasicAttributesForm extends React.Component {
                         <Select
                             showSearch
                             optionFilterProp="children"
-                            disabled={
-                                readonly || (producerDisabled && disabledKey)
-                            }
+                            disabled={readonly || (producerDisabled && disabledKey)}
                             filterOption={(input, option) =>
-                                option.props.children
-                                    .toLowerCase()
-                                    .indexOf(input.toLowerCase()) >= 0
+                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                                0
                             }
-                            onChange={val =>
-                                this.handleChange(val, item, name)
-                            }>
+                            onChange={val => this.handleChange(val, item, name)}
+                        >
                             {options.map((option, index) => {
                                 return (
-                                    <Select.Option
-                                        key={index}
-                                        value={option.value}>
+                                    <Select.Option key={index} value={option.value}>
                                         {option.label}
                                     </Select.Option>
                                 );
@@ -228,14 +199,9 @@ class BasicAttributesForm extends React.Component {
         } = this.props;
         const { readonly, type } = AttributeStore;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
-        const producerDisabled =
-            loginUser.roleCode === 'producer' && type === 'AD_Map_QC'; //作业员员标记图层禁用项
+        const producerDisabled = loginUser.roleCode === 'producer' && type === 'AD_Map_QC'; //作业员员标记图层禁用项
         return (
-            <Form.Item
-                key={index}
-                label={item.name}
-                {...formItemLayout}
-                shouldupdate="true">
+            <Form.Item key={index} label={item.name} {...formItemLayout} shouldupdate="true">
                 {!readonly ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         rules: [
@@ -272,8 +238,7 @@ class BasicAttributesForm extends React.Component {
     getArrayOption = (value, arr) => {
         let text = '';
         const pos = arr.findIndex(val => val.value === value);
-        text =
-            pos != -1 && this.isPresent(arr[pos].label) ? arr[pos].label : '--';
+        text = pos != -1 && this.isPresent(arr[pos].label) ? arr[pos].label : value;
         return text;
     };
 

@@ -1,0 +1,118 @@
+.posture-modal-wrap {
+    top: 60px;
+    left: 21px;
+    right: unset;
+    bottom: unset;
+    width: 318px;
+    border-radius: 4px;
+    overflow: hidden;
+
+    .posture-modal {
+        top: 0;
+        height: 100%;
+        padding-bottom: 0;
+    }
+    .ant-modal-content {
+        height: 100%;
+        min-height: 280px;
+        background: rgba(255, 255, 255, 0.92) !important;
+        box-shadow: unset;
+        .ant-modal-header {
+            padding: 10px 10px;
+        }
+        .ant-modal-body {
+            position: relative;
+            padding: 14px;
+        }
+    }
+    .change-point-label {
+        width: 100px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+    }
+    .change-point-label::before {
+        content: '';
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 3px;
+        background: rgba(255, 255, 255, 1);
+        border: 3px solid rgba(62, 127, 224, 1);
+    }
+    .center-point-label {
+        margin: 0 0 10px 13px;
+        .center-point-span {
+            font-size: 14px;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            color: rgba(51, 51, 51, 1);
+        }
+        .center-point-icon {
+            margin-left: 52px;
+        }
+    }
+    .polygon-pan {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        height: 100px;
+        margin-bottom: 10px;
+        .label {
+            display: inline-block;
+            line-height: 100px;
+            width: 85px;
+            margin-left: 12px;
+        }
+        .box {
+            display: flex;
+            flex-wrap: wrap;
+            .row {
+                flex-basis: 100%;
+                display: flex;
+                justify-content: center;
+                .pingyi:hover {
+                    color: #37a1ff;
+                }
+                .shangyi {
+                    margin-bottom: -6px;
+                    margin-top: 10px;
+                }
+                .zuoyi {
+                    margin-top: 10px;
+                    margin-right: 6px;
+                }
+                .youyi {
+                    margin-top: 10px;
+                    margin-left: 6px;
+                }
+                .xiayi {
+                    margin-top: -8px;
+                }
+            }
+        }
+    }
+    .vertical-pan {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        align-items: center;
+        .label {
+            display: inline-block;
+            width: 85px;
+            margin-left: 12px;
+        }
+        .zuoyi {
+            margin-left: -6px;
+            margin-right: 6px;
+        }
+        .youyi {
+            margin-left: 6px;
+        }
+        .pingyi:hover {
+            color: #37a1ff;
+        }
+    }
+}

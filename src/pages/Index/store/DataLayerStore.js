@@ -6,7 +6,8 @@ import {
     getLayerExByName,
     getFeatureOption,
     getLayerByName,
-    getAllLayersExByName
+    getAllLayersExByName,
+    getAllChooseLayersExByName
 } from 'src/utils/vectorUtils';
 import { addClass, removeClass, throttle, getCSYS } from 'src/utils/utils';
 import AdEmitter from 'src/models/event';
@@ -255,11 +256,6 @@ class DataLayerStore {
         addClass(viz, 'shape-viz');
     };
 
-    delPointStyle = () => {
-        let viz = document.querySelector('#viz');
-        addClass(viz, 'move-point-viz');
-    };
-
     roadPlanePointStyle = () => {
         let viz = document.querySelector('#viz');
         addClass(viz, 'crosshair-viz');
@@ -412,6 +408,36 @@ class DataLayerStore {
         this.editor.setTargetLayers(layers);
     };
 
+    // 位姿调整
+    postureAdjust = () => {
+        if (this.editType == 'posture_adjust') return;
+        this.clearAllEditDebuff();
+        this.setEditType('posture_adjust');
+        this.editor.changeFeaturePos();
+    };
+
+    // 中心点平移
+    ChangeFeaturePosMode = mode => {
+        if (!this.editor) return;
+        this.changeCur();
+        if (mode == 0) {
+            //判断是否允许点点平移，0允许，1不允许
+            this.editor.setChangeFeaturePosMode(0);
+        } else if (mode == 1) {
+            this.editor.setChangeFeaturePosMode(1);
+        }
+    };
+
+    // 位姿调整完成
+    finishChangeFeaturePos = () => {
+        return this.editor.finishChangeFeaturePos();
+    };
+
+    // 位姿调整平移
+    changeFeaturePosMicro = (dir, pre) => {
+        this.editor.changeFeaturePosMicro(dir, pre);
+    };
+
     @action topViewMode = opt => {
         if (!window.map) return;
         this.isTopView = opt;
@@ -543,6 +569,8 @@ class DataLayerStore {
         if (!this.editor) return;
         this.setEditType('error_layer');
         this.errorLayer();
+        let layers = getAllChooseLayersExByName('AD_Map_QC');
+        this.editor.setTargetLayers(layers);
     };
 
     newCircle = () => {
@@ -585,27 +613,12 @@ class DataLayerStore {
         return result;
     };
 
-    insertPoints = () => {
-        if (!this.editor) return;
-        this.clearAllEditDebuff();
-        this.setEditType('insertPoints');
-        this.editor.insertPoints();
-        this.addShapePoint();
-    };
-
     changePoints = () => {
         if (!this.editor) return;
         this.clearAllEditDebuff();
         this.setEditType('changePoints');
-        this.editor.changePoints();
-    };
-
-    deletePoints = () => {
-        if (!this.editor) return;
-        this.clearAllEditDebuff();
-        this.setEditType('delPoint');
-        this.editor.deletePoints();
-        this.delPointStyle();
+        this.addShapePoint();
+        this.editor.modifyFeaturePoints();
     };
 
     movePointFeature = () => {
@@ -727,6 +740,7 @@ class DataLayerStore {
             case 'new_around_line':
             case 'new_straight_line':
             case 'new_turn_line':
+            case 'posture_adjust':
                 this.fetchTargetLayers();
                 break;
             case 'trim':
@@ -933,9 +947,8 @@ const UNABLE_CHANGE_TYPES = [
     'select_point',
     'copyLine',
     'movePointFeature',
-    'delPoint',
     'changePoints',
-    'insertPoints'
+    'posture_adjust'
 ];
 
 export default new DataLayerStore();
