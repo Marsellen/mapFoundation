@@ -47,8 +47,6 @@ class QCMarkerTool extends React.Component {
     //质检标注线绘制完成回调
     QCMarkerCallback = (result, event) => {
         const { QCMarkerStore, DataLayerStore } = this.props;
-        console.log('result', result);
-        console.log('event', event);
         try {
             //判断是否绘制成功
             checkSdkError(result);
@@ -67,9 +65,12 @@ class QCMarkerTool extends React.Component {
     };
 
     content = () => {
+        const { editType } = this.props.DataLayerStore;
+        const tip1 = '正在进行质检标注';
+        const tip2 = '正在选取错误数据';
         return (
             <label>
-                <Icon type="info-circle" onClick={this.renderTips} /> 开始进行质检标注
+                <Icon type="info-circle" /> {editType === 'error_layer' ? tip2 : tip1}
             </label>
         );
     };

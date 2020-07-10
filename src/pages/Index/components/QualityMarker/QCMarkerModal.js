@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Modal, message } from 'antd';
+import { Form, Button, Modal, Spin, Icon } from 'antd';
 import { inject, observer } from 'mobx-react';
 import 'less/components/qc-marker-modal.less';
 // import { logDecorator } from 'src/utils/decorator';
@@ -15,6 +15,7 @@ import { ATTR_FORM_FIELD_MAP, QC_MARKER_FORM_CONFIG } from 'src/config/QCMarkerC
 class QCMarkerModal extends React.Component {
     constructor(props) {
         super(props);
+        this.state = { isLoading: false };
         this.handleHistory = this.handleHistory.bind(this);
     }
 
@@ -42,7 +43,16 @@ class QCMarkerModal extends React.Component {
         setEditStatus('modify');
     };
 
-    handleDelete = async () => {
+    handleDelete = () => {
+        Modal.confirm({
+            title: '您确认执行该操作？',
+            okText: '确定',
+            cancelText: '取消',
+            onOk: this.handleDeleteMarker
+        });
+    };
+
+    handleDeleteMarker = async () => {
         const {
             DataLayerStore: { exitMarker },
             QCMarkerStore: {
@@ -53,6 +63,7 @@ class QCMarkerModal extends React.Component {
             }
         } = this.props;
         try {
+            this.setState({ isLoading: true });
             //添加到数据库
             await deleteMarker({ id });
             //通过uuid删除要素
@@ -62,7 +73,9 @@ class QCMarkerModal extends React.Component {
             //记录history
             this.handleHistory(currentMarker);
             this.release();
+            this.setState({ isLoading: false });
         } catch (e) {
+            this.setState({ isLoading: false });
             exitMarker();
             console.error(e.message, 3);
         }
@@ -81,6 +94,7 @@ class QCMarkerModal extends React.Component {
                 }
             } = this.props;
             try {
+                this.setState({ isLoading: true });
                 const param = this[`getParam_${type}`](values);
                 //添加到数据库
                 const res = await QCMarkerStore[`${type}Marker`](param);
@@ -99,7 +113,9 @@ class QCMarkerModal extends React.Component {
                 //记录history
                 this.handleHistory(marker);
                 this.release();
+                this.setState({ isLoading: false });
             } catch (e) {
+                this.setState({ isLoading: false });
                 exitMarker();
                 console.error(e.message, 3);
             }
@@ -224,7 +240,7 @@ class QCMarkerModal extends React.Component {
 
     createMarkerFooter = () => {
         return (
-            <div>
+            <div className="footer-wrap">
                 <Button type="primary" size="small" onClick={() => this.handleSubmit('insert')}>
                     保存
                 </Button>
@@ -235,7 +251,7 @@ class QCMarkerModal extends React.Component {
     visiteMarkerFooter = () => {
         const { isQCTask } = this.props.TaskStore;
         return (
-            <div>
+            <div className="footer-wrap">
                 {isQCTask && (
                     <Button type="danger" size="small" onClick={this.handleDelete} ghost>
                         删除
@@ -250,7 +266,7 @@ class QCMarkerModal extends React.Component {
 
     modifyMarkerFooter = () => {
         return (
-            <div>
+            <div className="footer-wrap">
                 <Button
                     className="cancel-button"
                     size="small"
@@ -267,6 +283,7 @@ class QCMarkerModal extends React.Component {
     };
 
     render() {
+        const { isLoading } = this.state;
         const { QCMarkerStore, form } = this.props;
         const {
             visible,
@@ -278,7 +295,8 @@ class QCMarkerModal extends React.Component {
 
         return (
             <Modal
-                title="质检标注"
+                title={null}
+                closable={false}
                 visible={visible}
                 mask={false}
                 maskClosable={false}
@@ -286,19 +304,33 @@ class QCMarkerModal extends React.Component {
                 keyboard={false}
                 width={320}
                 wrapClassName="qc-marker-modal"
-                footer={renderFooter && renderFooter()}
+                footer={null}
                 onCancel={this.handleCancel}
             >
-                <ConfigurableForm
-                    form={form}
-                    updateKey={editStatus}
-                    initData={properties}
-                    formConfig={formConfig}
-                    fieldChange={{
-                        fixStatus: () => this.handleSubmit('update'),
-                        qcStatus: () => this.handleSubmit('update')
-                    }}
-                />
+                <Spin tip="Loading..." spinning={isLoading}>
+                    <div className="title-wrap">
+                        <span>质检标注</span>
+                        <Icon
+                            type="close"
+                            className="close-icon"
+                            onCancel={this.handleCancel}
+                            id="check-result-close-btn"
+                        />
+                    </div>
+                    <div className="content-wrap">
+                        <ConfigurableForm
+                            form={form}
+                            updateKey={editStatus}
+                            initData={properties}
+                            formConfig={formConfig}
+                            fieldChange={{
+                                fixStatus: () => this.handleSubmit('update'),
+                                qcStatus: () => this.handleSubmit('update')
+                            }}
+                        />
+                    </div>
+                    {renderFooter && renderFooter()}
+                </Spin>
             </Modal>
         );
     }
