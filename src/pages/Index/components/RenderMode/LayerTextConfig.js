@@ -163,7 +163,7 @@ class LayerTextConfig extends React.Component {
                                     currentStyleKey: 'currentFontSize',
                                     styleValue: currentFontSize,
                                     oldValue: fontSize,
-                                    rule: { min: 20, max: 100 }
+                                    rule: { min: 1, max: 100 }
                                 })
                             }
                         />
