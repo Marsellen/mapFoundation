@@ -12,7 +12,7 @@ import { regionCheck, checkSdkError } from 'src/utils/vectorUtils';
 @inject('QCMarkerStore')
 @inject('TaskStore')
 @observer
-class QualityCheckMarker extends React.Component {
+class QCMarkerTool extends React.Component {
     componentDidMount() {
         const { DataLayerStore } = this.props;
         //注册质检标注绘制完成回调函数
@@ -20,13 +20,18 @@ class QualityCheckMarker extends React.Component {
     }
 
     action = () => {
-        const { DataLayerStore, QCMarkerStore } = this.props;
+        const {
+            DataLayerStore: { newQCMarker },
+            QCMarkerStore: { setEditStatus, hide }
+        } = this.props;
+        //关闭当前标注属性窗口
+        hide();
         //切换到质检注记图层
         this.enterMarkerLayer();
         //进入质检标注绘制模式
-        DataLayerStore.newQCMarker();
+        newQCMarker();
         //标识当前是新增标注
-        QCMarkerStore.setEditStatus('create');
+        setEditStatus('create');
     };
 
     //切换到质检注记图层
@@ -99,4 +104,4 @@ class QualityCheckMarker extends React.Component {
     }
 }
 
-export default QualityCheckMarker;
+export default QCMarkerTool;
