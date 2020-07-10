@@ -70,27 +70,32 @@ class QualityCheckMarker extends React.Component {
     };
 
     render() {
-        const { TaskStore, DataLayerStore } = this.props;
-        const { activeTaskId } = TaskStore;
-        const { getEditLayer, updateKey } = DataLayerStore;
+        const {
+            TaskStore: { activeTaskId, isQCTask },
+            DataLayerStore: { getEditLayer, updateKey }
+        } = this.props;
         const editLayer = getEditLayer();
         const visible = editLayer && editLayer.layerName === 'AD_Marker';
-
-        return (
-            <span key={updateKey}>
-                <ToolIcon
-                    id="attribute-brush-btn"
-                    icon="zhijianbiaozhugongju"
-                    title="质检标注工具"
-                    className="ad-tool-icon"
-                    focusClassName="ad-tool-icon-active"
-                    visible={visible}
-                    action={this.action}
-                    disabled={!activeTaskId}
-                />
-                <AdMessage visible={visible} content={this.content()} />
-            </span>
-        );
+        //当前任务是质检任务，才会显示质检标注工具
+        if (activeTaskId && isQCTask) {
+            return (
+                <span key={updateKey}>
+                    <ToolIcon
+                        id="attribute-brush-btn"
+                        icon="zhijianbiaozhugongju"
+                        title="质检标注工具"
+                        className="ad-tool-icon"
+                        focusClassName="ad-tool-icon-active"
+                        visible={visible}
+                        action={this.action}
+                        disabled={!activeTaskId}
+                    />
+                    <AdMessage visible={visible} content={this.content()} />
+                </span>
+            );
+        } else {
+            return null;
+        }
     }
 }
 

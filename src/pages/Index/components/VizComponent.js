@@ -367,11 +367,12 @@ class VizComponent extends React.Component {
             QCMarkerStore: { getMarkerList, updateFilters, initMarkerList, showList },
             TaskStore: {
                 isFixTask,
-                activeTask: { taskId, processName, manualStatus, isLocal }
+                isFixStatus,
+                activeTask: { taskId, processName, isLocal }
             }
         } = this.props;
         if (isLocal) return; //如果是本地任务，返回，不加载质检标注
-        if (isFixTask) return; //如果是人工识别或人工构建任务，且状态是已领取或进行中，返回，不加载质检标注
+        if (isFixTask && isFixStatus) return; //如果是人工识别或人工构建任务，且状态是已领取或进行中，返回，不加载质检标注
         try {
             const { AD_Marker } = MarkerVectorsConfig;
             const markerLayer = new VectorLayer();

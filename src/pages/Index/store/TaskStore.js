@@ -28,7 +28,12 @@ import {
 import RelStore from './RelStore';
 import AttrStore from './AttrStore';
 import { getTaskProcessType } from 'src/utils/taskUtils';
-import { PROD_TASK_TYPES, TASK_START_STATUS } from 'src/config/TaskConfig';
+import {
+    TASK_FIX_TYPES,
+    TASK_QC_TYPES,
+    TASK_FIX_STATUS,
+    TASK_REFIX_STATUS
+} from 'src/config/TaskConfig';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -74,12 +79,28 @@ class TaskStore {
         return this.activeTaskId && this.activeTaskId == this.editTaskId;
     }
 
-    //是否是作业任务：人工识别或人工构建，且状态是已领取或进行中
+    //是否是作业任务：人工识别或人工构建
     @computed get isFixTask() {
-        const { processName, manualStatus } = this.activeTask;
-        const isProdTask = PROD_TASK_TYPES.includes(processName);
-        const isStartStatus = TASK_START_STATUS.includes(manualStatus);
-        if (isProdTask && isStartStatus) return true;
+        if (!this.activeTask) return;
+        return TASK_FIX_TYPES.includes(this.activeTask.processName);
+    }
+
+    //是否是质检任务：人工识别后质检或人工构建后质检
+    @computed get isQCTask() {
+        if (!this.activeTask) return;
+        return TASK_QC_TYPES.includes(this.activeTask.processName);
+    }
+
+    //任务状态是已领取或进行中
+    @computed get isFixStatus() {
+        if (!this.activeTask) return;
+        return TASK_FIX_STATUS.includes(this.activeTask.manualStatus);
+    }
+
+    //任务状态是返修或返工
+    @computed get isRefixStatus() {
+        if (!this.activeTask) return;
+        return TASK_REFIX_STATUS.includes(this.activeTask.manualStatus);
     }
 
     @computed get taskProcessName() {
