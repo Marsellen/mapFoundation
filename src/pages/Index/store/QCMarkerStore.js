@@ -12,7 +12,7 @@ class QCMarkerStore {
     @observable filterMap = {};
     @observable filters = {};
     @observable updateKey;
-    @observable editStatus = ''; // create, visite, modify
+    @observable editStatus = null; // create, visite, modify
     @observable visible = false;
     @observable visibleList = false;
     @observable currentMarker = {};
@@ -178,7 +178,7 @@ class QCMarkerStore {
     @action release = () => {
         this.filterMap = {};
         this.filters = {};
-        this.editStatus = ''; // create, visite, modify
+        this.editStatus = null; // create, visite, modify
         this.visible = false;
         this.visibleList = false;
         this.currentMarker = {};

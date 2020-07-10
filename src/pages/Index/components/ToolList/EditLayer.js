@@ -107,6 +107,7 @@ class EditLayer extends React.Component {
     };
 }
 
+@inject('QCMarkerStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
 @inject('AttributeStore')
@@ -169,11 +170,12 @@ class EditLayerPicker extends React.Component {
             DataLayerStore: { getEditLayerName, exitMarker, activeEditor },
             ToolCtrlStore: { updateByEditLayer },
             AttributeStore: { hide, hideRelFeatures },
-            appStore: { loginUser }
+            appStore: { loginUser },
+            QCMarkerStore: { editStatus }
         } = this.props;
         //如果上一个编辑图层是标注图层，则退出标注图层
         const editLayerName = getEditLayerName();
-        if (editLayerName === 'AD_Marker') {
+        if (editStatus || editLayerName === 'AD_Marker') {
             exitMarker();
         }
         //切换编辑图层

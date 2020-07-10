@@ -4,6 +4,8 @@ import { inject, observer } from 'mobx-react';
 import MultiFunctionalTable from 'src/components/MultiFunctionalTable';
 import 'src/assets/less/components/qc-marker-table.less';
 
+@inject('AttributeStore')
+@inject('ToolCtrlStore')
 @inject('DataLayerStore')
 @inject('QualityCheckStore')
 @inject('QCMarkerStore')
@@ -34,25 +36,51 @@ class QCMarkerListTable extends React.Component {
         return columns;
     };
 
+    //清扫工作区域
+    clearWorkSpace = () => {
+        const {
+            ToolCtrlStore: { updateByEditLayer },
+            AttributeStore: { hide, hideRelFeatures },
+            DataLayerStore: { activeEditor, getEditLayerName, editStatus, exitMarker }
+        } = this.props;
+        //如果当前编辑图层是标注图层，则退出标注图层
+        const editLayerName = getEditLayerName();
+        if (editStatus || editLayerName === 'AD_Marker') {
+            exitMarker();
+        }
+        //重置编辑图层，重置编辑工具，退出编辑状态
+        activeEditor();
+        updateByEditLayer();
+        hide();
+        hideRelFeatures();
+    };
+
     //单击：选中此质检标注，弹出“质检标注窗口”
     handleClick = record => {
-        const {
-            DataLayerStore: { setSelectFeature },
-            QCMarkerStore: { show, setEditStatus, initCurrentMarker }
-        } = this.props;
-        //显示marker属性编辑窗口
-        const option = {
-            key: 'id',
-            value: record.id
-        };
-        const feature = window.markerLayer.layer.getFeatureByOption(option);
-        const marker = feature.properties;
-        initCurrentMarker(marker);
-        setEditStatus('visite');
-        show();
-        //选中要素
-        const { layerId, uuid } = marker;
-        setSelectFeature(layerId, uuid);
+        try {
+            const {
+                QCMarkerStore: { show, setEditStatus, initCurrentMarker },
+                DataLayerStore: { setSelectFeature }
+            } = this.props;
+            //清扫工作区域
+            this.clearWorkSpace();
+            //显示marker属性编辑窗口
+            const option = {
+                key: 'id',
+                value: record.id
+            };
+            const feature = window.markerLayer.layer.getFeatureByOption(option);
+            if (!feature) return;
+            const marker = feature.properties;
+            initCurrentMarker(marker);
+            setEditStatus('visite');
+            show();
+            //选中要素
+            const { layerId, uuid } = marker;
+            setSelectFeature(layerId, uuid);
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     //双击定位；
