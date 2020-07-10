@@ -148,22 +148,18 @@ class TimePicker extends React.Component {
                             }
                         ]
                     })(
-                        <Select
-                            showSearch
-                            disabled={disabled}
-                            onChange={this.handleStartHour}>
+                        <Select showSearch disabled={disabled} onChange={this.handleStartHour}>
                             {hour.map((item, index) => (
                                 <Option
                                     key={`${item}-${index}`}
                                     value={item}
                                     disabled={
-                                        (timeData.endHour &&
-                                            timeData.endHour < item) ||
-                                        (startHourRange &&
-                                            timeData.endHour <= item)
+                                        (timeData.endHour && timeData.endHour < item) ||
+                                        (startHourRange && timeData.endHour <= item)
                                             ? true
                                             : false
-                                    }>
+                                    }
+                                >
                                     {item}
                                 </Option>
                             ))}
@@ -181,10 +177,7 @@ class TimePicker extends React.Component {
                             }
                         ]
                     })(
-                        <Select
-                            showSearch
-                            disabled={disabled}
-                            onChange={this.handleStartMin}>
+                        <Select showSearch disabled={disabled} onChange={this.handleStartMin}>
                             {min.map((item, index) => (
                                 <Option
                                     key={`${item}-${index}`}
@@ -192,13 +185,12 @@ class TimePicker extends React.Component {
                                     disabled={
                                         equal &&
                                         timeData.isEndMin &&
-                                        this.handleFirstRanges(
-                                            min,
-                                            timeData.endMin
-                                        ).indexOf(item) > -1
+                                        this.handleFirstRanges(min, timeData.endMin).indexOf(item) >
+                                            -1
                                             ? true
                                             : false
-                                    }>
+                                    }
+                                >
                                     {item}
                                 </Option>
                             ))}
@@ -216,10 +208,7 @@ class TimePicker extends React.Component {
                             }
                         ]
                     })(
-                        <Select
-                            showSearch
-                            disabled={disabled}
-                            onChange={this.handleEndHour}>
+                        <Select showSearch disabled={disabled} onChange={this.handleEndHour}>
                             {addHour.map((item, index) => (
                                 <Option
                                     key={`${item}-${index}`}
@@ -232,7 +221,8 @@ class TimePicker extends React.Component {
                                         ).indexOf(item) > -1
                                             ? true
                                             : false
-                                    }>
+                                    }
+                                >
                                     {item}
                                 </Option>
                             ))}
@@ -253,7 +243,8 @@ class TimePicker extends React.Component {
                         <Select
                             showSearch
                             disabled={timeData.endHour == '24' || disabled}
-                            onChange={this.handleEndMin}>
+                            onChange={this.handleEndMin}
+                        >
                             {min.map((item, index) => (
                                 <Option
                                     key={`${item}-${index}`}
@@ -267,7 +258,8 @@ class TimePicker extends React.Component {
                                         ).indexOf(item) > -1
                                             ? true
                                             : false
-                                    }>
+                                    }
+                                >
                                     {item}
                                 </Option>
                             ))}
@@ -348,6 +340,7 @@ class TimePicker extends React.Component {
                 endHour: endHour,
                 endMin: '00'
             };
+            this.props.form.setFieldsValue({ [`timeArr[${index}].endMin`]: '00' });
         } else {
             timeData = {
                 ...this.state.timeData,
