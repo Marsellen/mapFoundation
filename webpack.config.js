@@ -123,51 +123,51 @@ module.exports = (env = {}) => {
             port: 15900,
             host: '0.0.0.0',
             proxy: {
-                '/gateway': {
+                '/gateway/login': {
                     target: PROXY_MAP[proxy].gateway,
-                    pathRewrite: { '^/gateway': '/' },
+                    pathRewrite: { '^/gateway/login': '/' },
                     changeOrigin: true,
                     logLevel: 'debug'
                 },
-                '/task_service': {
+                '/gateway/task': {
                     target: PROXY_MAP[proxy].task,
-                    pathRewrite: { '^/task_service': '/task' },
+                    pathRewrite: { '^/gateway/task': '/task' },
                     changeOrigin: true,
                     logLevel: 'debug'
                 },
-                '/id_service': {
+                '/gateway/imppublic': {
                     target: PROXY_MAP[proxy].id,
-                    pathRewrite: { '^/id_service': '/imppublic' },
+                    pathRewrite: { '^/gateway/imppublic': '/imppublic' },
                     changeOrigin: true,
                     logLevel: 'debug'
                 },
-                '/manualBuild_service': {
+                '/gateway/manualBuild': {
                     target: PROXY_MAP[proxy].manualBuild,
-                    pathRewrite: { '^/manualBuild_service': '/manualBuild' },
+                    pathRewrite: { '^/gateway/manualBuild': '/manualBuild' },
                     changeOrigin: true,
                     logLevel: 'debug'
                 },
-                '/updateBoundary_service': {
+                '/gateway/querydb': {
                     target: PROXY_MAP[proxy].boundary,
-                    pathRewrite: { '^/updateBoundary_service': '/querydb' },
+                    pathRewrite: { '^/gateway/querydb': '/querydb' },
                     changeOrigin: true,
                     logLevel: 'debug'
                 },
-                '/edit_service': {
+                '/gateway/edit': {
                     target: PROXY_MAP[proxy].edit,
-                    pathRewrite: { '^/edit_service': '/edit' },
+                    pathRewrite: { '^/gateway/edit': '/edit' },
                     changeOrigin: true,
                     logLevel: 'debug'
                 },
-                '/check_service': {
+                '/gateway/check': {
                     target: PROXY_MAP[proxy].check,
-                    pathRewrite: { '^/check_service': '/check' },
+                    pathRewrite: { '^/gateway/check': '/check' },
                     changeOrigin: true,
                     logLevel: 'debug'
                 },
-                '/checkMarker_service': {
+                '/gateway/check-web': {
                     target: PROXY_MAP[proxy].checkMarker,
-                    pathRewrite: { '^/checkMarker_service': '/check-web' },
+                    pathRewrite: { '^/gateway/check-web': '/check-web' },
                     changeOrigin: true,
                     logLevel: 'debug'
                 }
