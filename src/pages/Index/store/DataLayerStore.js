@@ -100,6 +100,7 @@ class DataLayerStore {
         this.setEditType();
         let viz = document.querySelector('#viz');
         removeClass(viz, 'error-viz');
+        this.fetchTargetLayers();
     };
 
     setSelectedCallBack = callback => {
@@ -741,6 +742,7 @@ class DataLayerStore {
             case 'new_straight_line':
             case 'new_turn_line':
             case 'posture_adjust':
+            case 'error_layer':
                 this.fetchTargetLayers();
                 break;
             case 'trim':

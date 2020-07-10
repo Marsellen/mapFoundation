@@ -27,15 +27,6 @@ class PostureAdjust extends React.Component {
         };
     }
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.DataLayerStore.editType !== state.editType) {
-            return {
-                ...state,
-                centerVisible: true
-            };
-        }
-        return null;
-    }
     render() {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'posture_adjust';
@@ -83,10 +74,10 @@ class PostureAdjust extends React.Component {
                     <span className="center-point-span">中心点平移</span>
                     <ToolIcon
                         className="center-point-icon"
-                        visible={!centerVisible && visible}
+                        visible={centerVisible && visible}
                         icon="zhongxindianpingyi"
                         title="中心点平移"
-                        action={this.toggle}
+                        action={this.toggle.bind(this, !centerVisible)}
                     />
                 </div>
                 <div className="polygon-pan">
@@ -176,7 +167,6 @@ class PostureAdjust extends React.Component {
             let historyLog = {
                 features: [[oldFeature], [data]]
             };
-
             message.success('位姿调整成功', 3);
             return historyLog;
         } catch (e) {
@@ -193,22 +183,14 @@ class PostureAdjust extends React.Component {
     };
 
     // 中心点平移
-    toggle = () => {
+    toggle = visible => {
         const { DataLayerStore } = this.props;
-        const { centerVisible } = this.state;
-        if (centerVisible) {
-            DataLayerStore.ChangeFeaturePosMode(0);
-            DataLayerStore.changeCur();
-            this.setState({
-                centerVisible: false
-            });
-        } else {
-            DataLayerStore.ChangeFeaturePosMode(1);
-            DataLayerStore.removeCur();
-            this.setState({
-                centerVisible: true
-            });
-        }
+        this.setState({
+            centerVisible: visible
+        });
+        let mode = visible ? 0 : 1;
+        DataLayerStore.ChangeFeaturePosMode(mode);
+        visible ? DataLayerStore.changeCur() : DataLayerStore.removeCur();
     };
 
     // 前后左右上下移
@@ -235,7 +217,7 @@ class PostureAdjust extends React.Component {
         const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'posture_adjust') return;
         DataLayerStore.postureAdjust();
-        this.toggle();
+        this.toggle(true);
     };
 }
 
