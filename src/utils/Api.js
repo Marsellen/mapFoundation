@@ -1,63 +1,63 @@
 export function ApiPath(url) {
     if (/^\//.test(url)) {
-        return `/gateway${url}`;
+        return `/gateway/login${url}`;
     } else {
-        return `/gateway/${url}`;
+        return `/gateway/login/${url}`;
     }
 }
 
 export function IdApiPath(url) {
     if (/^\//.test(url)) {
-        return `/id_service${url}`;
+        return `/gateway/imppublic${url}`;
     } else {
-        return `/id_service/${url}`;
+        return `/gateway/imppublic/${url}`;
     }
 }
 
 export function updateBoundaryApiPath(url) {
     if (/^\//.test(url)) {
-        return `/updateBoundary_service${url}`;
+        return `/gateway/querydb${url}`;
     } else {
-        return `/updateBoundary_service/${url}`;
+        return `/gateway/querydb/${url}`;
     }
 }
 
 export function EditApiPath(url) {
     if (/^\//.test(url)) {
-        return `/edit_service${url}`;
+        return `/gateway/edit${url}`;
     } else {
-        return `/edit_service/${url}`;
+        return `/gateway/edit/${url}`;
     }
 }
 
 export function TaskApiPath(url) {
     if (/^\//.test(url)) {
-        return `/task_service${url}`;
+        return `/gateway/task${url}`;
     } else {
-        return `/task_service/${url}`;
+        return `/gateway/task/${url}`;
     }
 }
 
 export function ManualBuildApiPath(url) {
     if (/^\//.test(url)) {
-        return `/manualBuild_service${url}`;
+        return `/gateway/manualBuild${url}`;
     } else {
-        return `/manualBuild_service/${url}`;
+        return `/gateway/manualBuild/${url}`;
     }
 }
 
 export function CheckApiPath(url) {
     if (/^\//.test(url)) {
-        return `/check_service${url}`;
+        return `/gateway/check${url}`;
     } else {
-        return `/check_service/${url}`;
+        return `/gateway/check/${url}`;
     }
 }
 
 export function MarkerApiPath(url) {
     if (/^\//.test(url)) {
-        return `/checkMarker_service${url}`;
+        return `/gateway/check-web${url}`;
     } else {
-        return `/checkMarker_service/${url}`;
+        return `/gateway/check-web/${url}`;
     }
 }
