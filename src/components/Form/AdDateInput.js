@@ -33,8 +33,7 @@ export default class AdDateInput extends React.Component {
             newChecked.push('radio');
             const date = value.match(/\[(.+?)\]/g)[0];
             let dateDiff = value.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0];
-            const endDate =
-                dateDiff === '1' ? null : String(this.getNumber(date));
+            const endDate = dateDiff === '1' ? null : String(this.getNumber(date));
             newEchoDateParams = {
                 startDate: value.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
                 endDate: endDate,
@@ -120,13 +119,14 @@ export default class AdDateInput extends React.Component {
         if (isCheckbox.includes('checkbox')) {
             //TODO 时间勾选
             let timeDiffs = timeArr.map(t => {
+                if (t.startHour == '00' && t.startMin == '00' && t.endHour == '24') {
+                    return '[(h0m0){h24}]';
+                }
                 let startTime = moment(`${t.startHour}:${t.startMin}`, 'HH:mm');
                 let endTime = moment(`${t.endHour}:${t.endMin}`, 'HH:mm');
                 let duration = timeSubtract(startTime, endTime);
                 let hDiff = `h${duration.get('hours')}`;
-                let mDiff = duration.get('minutes')
-                    ? `m${duration.get('minutes')}`
-                    : '';
+                let mDiff = duration.get('minutes') ? `m${duration.get('minutes')}` : '';
                 let timeDiff = hDiff + mDiff;
                 let startHour = startTime.get('hours');
                 let startMin = startTime.get('minutes');
@@ -162,9 +162,7 @@ export default class AdDateInput extends React.Component {
                     {...this.props}
                     onKeyDown={e => this.handleKeyDown(e)}
                     addonAfter={
-                        <span
-                            className="addon-after"
-                            onClick={this.handleAfter}>
+                        <span className="addon-after" onClick={this.handleAfter}>
                             ...
                         </span>
                     }
