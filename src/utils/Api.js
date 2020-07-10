@@ -1,8 +1,8 @@
 export function ApiPath(url) {
     if (/^\//.test(url)) {
-        return `/gateway/login${url}`;
+        return `/gateway${url}`;
     } else {
-        return `/gateway/login/${url}`;
+        return `/gateway/${url}`;
     }
 }
 
