@@ -42,7 +42,7 @@ class DataLayerStore {
     initEditor = layers => {
         this.editor = new EditControl();
         window.map && window.map.getControlManager().addControl(this.editor);
-        this.targetLayers = layers || [];
+        this.targetLayers = (layers || []).flatMap(item => (item ? [item] : []));
         this.fetchTargetLayers();
         this.editor.setConfig && this.editor.setConfig(EditorConfig);
         this.editor.setAdsorbThreshold && this.editor.setAdsorbThreshold(0.05);

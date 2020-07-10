@@ -380,9 +380,9 @@ class VizComponent extends React.Component {
             await map.getLayerManager().addLayer('VectorLayer', markerLayer);
             //赋值给全局对象
             window.markerLayer = {
-                layer: markerLayer,
+                layerName: markerLayer.layerName,
                 layerId: markerLayer.layerId,
-                layerName: markerLayer.layerName
+                layer: markerLayer
             };
             //获取质检标列表，获取筛选条件
             const res = await getMarkerList({ taskId, processName });
