@@ -145,35 +145,39 @@ class PostureAdjust extends React.Component {
     };
 
     // 完成
-    @logDecorator({ operate: '位姿调整' })
-    async handleOk() {
+    handleOk = () => {
         try {
             let data = DataLayerStore.finishChangeFeaturePos();
-            const oldFeature = RightMenuStore.getFeatures()[0];
+            //特殊情况，中心点平移要素点在范围内，但该要素处于范围外的状况判断，需单独把日志处理逻辑分开存放，放一起会导致退出位姿调整状态
             if (data.desc) {
-                message.error(data.desc.split(':')[1], 3);
+                message.warning(data.desc.split(':')[1], 3);
                 return;
             }
-            if (!isManbuildTask()) {
-                // 更新标识
-                data = modUpdStatGeometry(data);
-                // 置信度维护
-                if (!data.data.properties.CONFIDENCE) {
-                    data.data.properties.CONFIDENCE =
-                        DEFAULT_CONFIDENCE_MAP[data.layerName] || '{}';
-                }
-            }
-
-            let historyLog = {
-                features: [[oldFeature], [data]]
-            };
-            message.success('位姿调整成功', 3);
-            return historyLog;
+            this.finishChangeFeaturePos(data);
         } catch (e) {
             message.error('位姿调整失败' + e, 3);
             DataLayerStore.exitEdit();
             throw e;
         }
+    };
+
+    @logDecorator({ operate: '位姿调整' })
+    async finishChangeFeaturePos(data) {
+        const oldFeature = RightMenuStore.getFeatures()[0];
+        if (!isManbuildTask()) {
+            // 更新标识
+            data = modUpdStatGeometry(data);
+            // 置信度维护
+            if (!data.data.properties.CONFIDENCE) {
+                data.data.properties.CONFIDENCE = DEFAULT_CONFIDENCE_MAP[data.layerName] || '{}';
+            }
+        }
+
+        let historyLog = {
+            features: [[oldFeature], [data]]
+        };
+        message.success('位姿调整成功', 3);
+        return historyLog;
     }
 
     handleCancel = () => {
