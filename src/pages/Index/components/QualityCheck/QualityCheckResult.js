@@ -159,10 +159,10 @@ class QualityCheckResult extends React.Component {
     render() {
         const {
             QualityCheckStore: { checkReportVisible },
-            TaskStore: { activeTaskId },
+            TaskStore: { activeTaskId, isQCTask, isRefixStatus },
             QCMarkerStore: { visibleList }
         } = this.props;
-
+        const isMarkerTask = isQCTask || isRefixStatus;
         return (
             <div>
                 <div className="ad-sider-item">
@@ -177,18 +177,21 @@ class QualityCheckResult extends React.Component {
                         action={this.handleCheckClick}
                     />
                 </div>
-                <div className="ad-sider-item">
-                    <ToolIcon
-                        id="marker-list-btn"
-                        icon="zhijianbiaozhuliebiao"
-                        title="质检标注"
-                        placement="right"
-                        className="ad-menu-icon"
-                        visible={visibleList}
-                        disabled={!activeTaskId}
-                        action={this.handleMarkerClick}
-                    />
-                </div>
+                {/* 如果当前任务是返工、返修、质检任务，显示质检标主列表按钮 */}
+                {activeTaskId && isMarkerTask && (
+                    <div className="ad-sider-item">
+                        <ToolIcon
+                            id="marker-list-btn"
+                            icon="zhijianbiaozhuliebiao"
+                            title="质检标注"
+                            placement="right"
+                            className="ad-menu-icon"
+                            visible={visibleList}
+                            disabled={!activeTaskId}
+                            action={this.handleMarkerClick}
+                        />
+                    </div>
+                )}
                 <SeniorModal
                     dragDom={this._dragDom()}
                     visible={checkReportVisible || visibleList}
