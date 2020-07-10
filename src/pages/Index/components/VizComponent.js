@@ -395,7 +395,7 @@ class VizComponent extends React.Component {
                 return { geometry: JSON.parse(item.geom), properties: item };
             });
             initMarkerList(data);
-            showList();
+            data.length > 0 && showList();
             window.markerLayer.layer.addFeatures(features);
         } catch (e) {
             const msg = e.message || e || '';

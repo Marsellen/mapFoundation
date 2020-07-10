@@ -3,11 +3,7 @@ import ToolIcon from 'src/components/ToolIcon';
 import { Select, ConfigProvider, Input, Button, Icon, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdTable from 'src/components/AdTable';
-import {
-    COLUMNS_CONFIG,
-    SELECT_OPTIONS,
-    OPTION_LAYER_MAP
-} from 'config/PropertiesTableConfig';
+import { COLUMNS_CONFIG, SELECT_OPTIONS, OPTION_LAYER_MAP } from 'config/PropertiesTableConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import {
     getLayerItems,
@@ -85,7 +81,8 @@ class ViewAttribute extends React.Component {
                     maskClosable={false}
                     dragCallback={this.dragCallback}
                     className="view-attribute-modal"
-                    wrapClassName="view-attribute-modal-wrap">
+                    wrapClassName="view-attribute-modal-wrap"
+                >
                     {this.renderContent()}
                 </SeniorModal>
                 <AttrRightMenu />
@@ -136,9 +133,7 @@ class ViewAttribute extends React.Component {
                     onChange={this.handleChange}
                 />
                 {!!dataSource.length && (
-                    <Button
-                        className="reset-button"
-                        onClick={this.clearFilters}>
+                    <Button className="reset-button" onClick={this.clearFilters}>
                         筛选重置
                     </Button>
                 )}
@@ -177,18 +172,18 @@ class ViewAttribute extends React.Component {
                     value={layerName}
                     onChange={this.changeLayer}
                     className="layer-select"
-                    dropdownClassName="layer-select-dropdown">
+                    dropdownClassName="layer-select-dropdown"
+                >
                     {SELECT_OPTIONS.map((option, key) => {
                         return (
-                            <Select.OptGroup
-                                key={`group-${key}`}
-                                label={option.group}>
+                            <Select.OptGroup key={`group-${key}`} label={option.group}>
                                 {option.items.map((item, index) => {
                                     return (
                                         <Select.Option
                                             key={`option-${key}-${index}`}
                                             value={item}
-                                            className={option.class}>
+                                            className={option.class}
+                                        >
                                             {this.getLabel(item)}
                                         </Select.Option>
                                     );
@@ -202,10 +197,9 @@ class ViewAttribute extends React.Component {
     };
 
     changeLayer = layerName => {
-        this.setState(
-            { layerName, filteredInfo: null, sortedInfo: null },
-            this.getData
-        );
+        const isMarkerLayer = layerName === 'AD_Marker';
+        layerName = isMarkerLayer ? this.state.layerName : layerName;
+        this.setState({ layerName, filteredInfo: null, sortedInfo: null }, this.getData);
     };
 
     getData = () => {
@@ -255,12 +249,7 @@ class ViewAttribute extends React.Component {
         key: col.dataIndex,
         filteredValue: this.getFilteredValue(col.dataIndex),
         sortOrder: this.getSortOrder(col.dataIndex),
-        filterDropdown: ({
-            setSelectedKeys,
-            selectedKeys,
-            confirm,
-            clearFilters
-        }) => (
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
                 <Input
                     ref={node => {
@@ -268,9 +257,7 @@ class ViewAttribute extends React.Component {
                     }}
                     placeholder="搜索关键字..."
                     value={selectedKeys}
-                    onChange={e =>
-                        setSelectedKeys(e.target.value ? [e.target.value] : [])
-                    }
+                    onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={confirm}
                     style={{ width: 188, marginBottom: 8, display: 'block' }}
                 />
@@ -279,22 +266,17 @@ class ViewAttribute extends React.Component {
                     onClick={confirm}
                     icon="search"
                     size="small"
-                    style={{ width: 90, marginRight: 8 }}>
+                    style={{ width: 90, marginRight: 8 }}
+                >
                     搜索
                 </Button>
-                <Button
-                    onClick={clearFilters}
-                    size="small"
-                    style={{ width: 90 }}>
+                <Button onClick={clearFilters} size="small" style={{ width: 90 }}>
                     重置
                 </Button>
             </div>
         ),
         filterIcon: filtered => (
-            <Icon
-                type="search"
-                style={{ color: filtered ? '#1890ff' : undefined }}
-            />
+            <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
         ),
         onFilter: (value, record) => {
             try {
@@ -302,10 +284,7 @@ class ViewAttribute extends React.Component {
                     ? Filter.get(col.filterBy)(record[col.dataIndex], record)
                     : record[col.dataIndex];
 
-                return text
-                    .toString()
-                    .toLowerCase()
-                    .includes(value.toLowerCase());
+                return text.toString().toLowerCase().includes(value.toLowerCase());
             } catch (e) {
                 //console.log(存在异常数据)
             }
@@ -372,10 +351,7 @@ class ViewAttribute extends React.Component {
 
     sorter = col => {
         return (a, b) => {
-            if (
-                /[0-9]/.test(a[col.dataIndex]) &&
-                /[0-9]/.test(b[col.dataIndex])
-            ) {
+            if (/[0-9]/.test(a[col.dataIndex]) && /[0-9]/.test(b[col.dataIndex])) {
                 return parseInt(a[col.dataIndex]) - parseInt(b[col.dataIndex]);
             } else {
                 if (!a[col.dataIndex] && a[col.dataIndex] !== 0) {
@@ -402,6 +378,8 @@ class ViewAttribute extends React.Component {
         if (activeTaskId !== this.state.currentTask) {
             let editLayer = DataLayerStore.getEditLayer();
             let layerName = editLayer ? editLayer.layerName : null;
+            let isMarkerLayer = layerName === 'AD_Marker';
+            layerName = isMarkerLayer ? this.state.layerName : layerName;
             this.setState(
                 {
                     visible: true,
@@ -481,12 +459,7 @@ class ViewAttribute extends React.Component {
         try {
             const { layerName } = this.state;
             const { AttrRightMenuStore } = this.props;
-            const {
-                show,
-                getMenuStyle,
-                getData,
-                getLayerName
-            } = AttrRightMenuStore;
+            const { show, getMenuStyle, getData, getLayerName } = AttrRightMenuStore;
             getLayerName(layerName);
             if (!this.isCurrentLayer(layerName)) return;
             getMenuStyle(e, visible);
@@ -513,8 +486,7 @@ class ViewAttribute extends React.Component {
         if (!obj) return;
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
-        let readonly =
-            (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
+        let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.clearPick();
         await AttributeStore.setModel(obj);

@@ -233,11 +233,14 @@ class QCMarkerModal extends React.Component {
     };
 
     visiteMarkerFooter = () => {
+        const { isQCTask } = this.props.TaskStore;
         return (
             <div>
-                <Button type="danger" size="small" onClick={this.handleDelete} ghost>
-                    删除
-                </Button>
+                {isQCTask && (
+                    <Button type="danger" size="small" onClick={this.handleDelete} ghost>
+                        删除
+                    </Button>
+                )}
                 <Button type="primary" size="small" onClick={this.handleModify}>
                     修改
                 </Button>
