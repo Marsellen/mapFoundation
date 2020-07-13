@@ -97,7 +97,7 @@ class QCMarkerListTable extends React.Component {
     render() {
         const {
             QualityCheckStore: { tableHeight, toResizeDom },
-            QCMarkerStore: { updateKey, markerList, filters, visible }
+            QCMarkerStore: { updateKey, markerList, filters }
         } = this.props;
         const markerListL = markerList.length;
         const columns = this.getColumns(markerListL);

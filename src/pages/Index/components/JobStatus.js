@@ -241,7 +241,7 @@ class JobStatus extends React.Component {
                     message.warning(`存在未确认的质检标注，当前任务不允许提交`);
                     return false;
                 }
-                if (!isAllVisited && !markerStatusIsValid) {
+                if (!(isAllVisited || markerStatusIsValid)) {
                     message.warning(`存在未确认的质检标注与检查项，当前任务不允许提交`);
                     return false;
                 }
@@ -277,7 +277,7 @@ class JobStatus extends React.Component {
                     message.warning(`存在未确认的质检标注，当前任务不允许提交`);
                     return false;
                 }
-                if (!checkStatusIsValid && !markerStatusIsValid) {
+                if (!(checkStatusIsValid || markerStatusIsValid)) {
                     message.warning(`存在未确认的质检标注与检查项，当前任务不允许提交`);
                     return false;
                 }

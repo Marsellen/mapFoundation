@@ -76,7 +76,7 @@ class MultiFunctionalTable extends React.Component {
         filteredInfo = filteredInfo || {};
 
         const newColumns = COLUMNS_CONFIG.map((item, index) => {
-            const { key, isFilter, dataIndex } = item;
+            const { isFilter, dataIndex } = item;
             item = {
                 ...item,
                 ...columns[index],

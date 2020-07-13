@@ -1,7 +1,5 @@
 import { observable, configure, action, computed } from 'mobx';
 import { LAYER_TEXT_MAP } from 'src/config/TextConfigMap';
-import TextVectorConfig from 'src/config/TextVectorConfig';
-import { TYPE_SELECT_OPTION_MAP, LAYER_TYPE_MAP } from 'src/config/ADMapDataConfig';
 import TextSetting from 'src/models/TextSetting';
 
 configure({ enforceActions: 'always' });
