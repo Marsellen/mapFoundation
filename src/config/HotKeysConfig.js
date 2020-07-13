@@ -118,6 +118,10 @@ export const HOT_KEYS_CONFIG = {
             label: '修改形状点'
         },
         {
+            value: '选择1个要素+F',
+            label: '位姿调整'
+        },
+        {
             value: '线、面绘制过程中+Z',
             label: '节点撤回'
         },
