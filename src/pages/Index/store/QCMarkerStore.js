@@ -72,7 +72,6 @@ class QCMarkerStore {
     };
 
     updataListIndex = list => {
-        const listL = list.length;
         return list.map((item, index) => {
             item.index = index + 1;
             return item;
@@ -114,7 +113,7 @@ class QCMarkerStore {
     @action updateCurrentMarker = newProperties => {
         if (!this.currentMarker || !this.currentMarker.data) return;
         let properties = this.currentMarker.data.properties;
-        properties = Object.assign(properties, newProperties);
+        Object.assign(properties, newProperties);
         return toJS(this.currentMarker);
     };
 

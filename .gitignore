@@ -35,7 +35,5 @@ screenshot
 .firebase
 
 #sonar
-.scannerwork/.sonar_lock
-.scannerwork/class-mapping.csv
-.scannerwork/report-task.txt
+.scannerwork
 sonar-project.properties
