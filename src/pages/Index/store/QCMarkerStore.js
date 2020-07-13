@@ -71,8 +71,16 @@ class QCMarkerStore {
         this.filters = filters;
     };
 
+    updataListIndex = list => {
+        const listL = list.length;
+        return list.map((item, index) => {
+            item.index = listL - index;
+            return item;
+        });
+    };
+
     @action initMarkerList = list => {
-        this.markerList = list;
+        this.markerList = this.updataListIndex(list);
         this.getFilters();
         this.updateKey = Math.random();
     };
@@ -95,6 +103,7 @@ class QCMarkerStore {
         }
         this.updateFilters(marker);
         this.getFilters();
+        this.markerList = this.updataListIndex(this.markerList);
         this.updateKey = Math.random();
     };
 

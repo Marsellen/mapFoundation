@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Modal, Spin, Icon } from 'antd';
+import { Form, Button, Modal, Spin, Icon, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import 'less/components/qc-marker-modal.less';
 // import { logDecorator } from 'src/utils/decorator';
@@ -31,9 +31,14 @@ class QCMarkerModal extends React.Component {
 
     handleCancelModify = () => {
         const {
-            QCMarkerStore: { setEditStatus }
+            QCMarkerStore: { setEditStatus },
+            DataLayerStore: { exitEdit, activeEditor, fetchTargetLayers }
         } = this.props;
         setEditStatus('visite');
+        //退出编辑状态，退出编辑工具，重置可编辑图层
+        exitEdit();
+        activeEditor();
+        fetchTargetLayers();
     };
 
     handleModify = () => {
@@ -74,6 +79,7 @@ class QCMarkerModal extends React.Component {
             this.handleHistory(currentMarker);
             this.release();
             this.setState({ isLoading: false });
+            message.error('已删除质检标注');
         } catch (e) {
             this.setState({ isLoading: false });
             exitMarker();
@@ -114,6 +120,7 @@ class QCMarkerModal extends React.Component {
                 this.handleHistory(marker);
                 this.release();
                 this.setState({ isLoading: false });
+                type === 'insert' && message.success('质检标注生成');
             } catch (e) {
                 this.setState({ isLoading: false });
                 exitMarker();
@@ -174,6 +181,7 @@ class QCMarkerModal extends React.Component {
             TaskStore: { activeTask: { taskFetchId } } = {},
             appStore: { loginUser: { name, roleCode } } = {}
         } = this.props;
+        const { index, ...markerProperties } = properties;
         let roleParam;
         switch (roleCode) {
             case 'producer':
@@ -186,7 +194,16 @@ class QCMarkerModal extends React.Component {
                 break;
         }
         const param = {
-            ...properties,
+            fixStatus: 1,
+            fixStatusFetch: null,
+            qcStatus: 1,
+            qcStatusFetch: null,
+            errLevel: null,
+            editDesc: null,
+            fixPerson: null,
+            qcPerson: null,
+            fieldName: null,
+            ...markerProperties,
             ...values,
             ...roleParam
         };
