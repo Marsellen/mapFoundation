@@ -157,6 +157,7 @@ export const ATTR_FORM_FIELD_MAP = {
         label: '图层',
         name: 'fileName',
         type: 'Select',
+        initialValue: null,
         editable: false,
         tool: ChooseErrorFeature,
         rules: {
@@ -191,6 +192,7 @@ export const ATTR_FORM_FIELD_MAP = {
         label: '要素ID',
         name: 'featId',
         type: 'Input',
+        initialValue: null,
         editable: false
     },
     errorType: {
