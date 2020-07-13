@@ -345,10 +345,9 @@ class QCMarkerModal extends React.Component {
                             id="check-result-close-btn"
                         />
                     </div>
-                    <div className="content-wrap">
+                    <div className="content-wrap" key={`${editStatus}_${properties.id}`}>
                         <ConfigurableForm
                             form={form}
-                            updateKey={`${editStatus}_${properties.id}`}
                             initData={properties}
                             formConfig={formConfig}
                             fieldChange={{
