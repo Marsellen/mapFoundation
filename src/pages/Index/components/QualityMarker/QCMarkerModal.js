@@ -334,7 +334,7 @@ class QCMarkerModal extends React.Component {
                 wrapClassName="qc-marker-modal"
                 footer={null}
                 onCancel={this.handleCancel}
-                key={`${editStatus}_${properties.id}`}
+                key={properties.id}
             >
                 <Spin tip="Loading..." spinning={isLoading}>
                     <div className="title-wrap">
