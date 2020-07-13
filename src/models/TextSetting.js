@@ -1,6 +1,10 @@
 import TextVectorConfig from 'src/config/TextVectorConfig';
 import { LAYER_TEXT_MAP } from 'src/config/TextConfigMap';
-import { TYPE_SELECT_OPTION_MAP, LAYER_TYPE_MAP } from 'src/config/ADMapDataConfig';
+import {
+    TYPE_SELECT_OPTION_MAP,
+    EXTRA_TEXT_CONFIG,
+    LAYER_TYPE_MAP
+} from 'src/config/ADMapDataConfig';
 import _ from 'lodash';
 
 class TextSetting {
@@ -15,8 +19,7 @@ class TextSetting {
         Object.keys(config).forEach(layerName => {
             let types = LAYER_TYPE_MAP[layerName];
             config[layerName].textStyle = types.reduce((set, type) => {
-                let constants = TYPE_SELECT_OPTION_MAP[type.type];
-                set[type.key] = constants ? constants : [];
+                set[type.key] = this.getTextConfig(type.type);
                 return set;
             }, {});
         });
@@ -31,6 +34,19 @@ class TextSetting {
         vectorConfig.textFields = textFields;
         vectorConfig.textStyle.defaultStyle = style;
         return vectorConfig;
+    };
+
+    getTextConfig = type => {
+        if (TYPE_SELECT_OPTION_MAP[type]) {
+            let constants = TYPE_SELECT_OPTION_MAP[type];
+            if (EXTRA_TEXT_CONFIG[type]) {
+                constants = constants.concat(EXTRA_TEXT_CONFIG[type]);
+            }
+            return constants.map(config => {
+                return { value: config.value, label: config.abbreviation };
+            });
+        }
+        return [];
     };
 
     updateLayerConfig = (layerName, config) => {
