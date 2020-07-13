@@ -1,4 +1,4 @@
-import { TYPE_SELECT_OPTION_MAP, TABLE_DATA_MAP } from 'src/config/ADMapDataConfig';
+import { TYPE_SELECT_OPTION_MAP } from 'src/config/ADMapDataConfig';
 import ChooseErrorFeature from 'src/pages/Index/components/ToolList/ChooseErrorFeature';
 
 const { AD_MAP_QC_FILE_NAME } = TYPE_SELECT_OPTION_MAP;
@@ -25,6 +25,95 @@ const QC_STATUS_OPTIONS = [
     { value: 2, label: '无需修正' },
     { value: 3, label: '已修正' }
 ];
+
+const FIELD_NAME_MAP = {
+    AD_Road: [
+        { value: 'TYPE', label: '道路参考线类型' },
+        { value: 'RD_CLASS', label: '道路等级' },
+        { value: 'CROSSING', label: '交叉口标识' },
+        { value: 'RD_STATUS', label: '道路通行状态' },
+        { value: 'RD_FORM', label: '道路形态' },
+        { value: 'DIRECTION', label: '道路通行方向' },
+        { value: 'LENGTH', label: '道路长度' },
+        { value: 'MAX_SPEED', label: '道路最高行驶速度' },
+        { value: 'CONNECTION', label: '道路参考线连通关系' },
+        { value: 'RS_TYPE', label: '参考线连接关系限制类型' },
+        { value: 'TIMEDOM', label: '参考线连接关系限制时间' }
+    ],
+    AD_LaneDivider: [
+        { value: 'TYPE', label: '车道线类型' },
+        { value: 'RD_LINE', label: '道路参考线标识' },
+        { value: 'SHARE_LINE', label: '共用车道线标识' },
+        { value: 'RD_EDGE', label: '道路边界标识' },
+        { value: 'DIRECTION', label: '车道通行方向' },
+        { value: 'LANESTATUS', label: '车道通行状态' },
+        { value: 'LANE_TYPE', label: '车道类型' },
+        { value: 'LANE_NO', label: '车道编号' },
+        { value: 'RD_FORM', label: '道路形态' }
+    ],
+    AD_Lane: [
+        { value: 'ROAD_ID', label: '关联道路参考线' },
+        { value: 'L_LDIV_ID', label: '左侧车道线' },
+        { value: 'R_LDIV_ID', label: '右侧车道线' },
+        { value: 'TYPE', label: '车道类型' },
+        { value: 'LANE_NO', label: '车道编号' },
+        { value: 'DIRECTION', label: '车道通行方向' },
+        { value: 'STATUS', label: '车道通行状态' },
+        { value: 'MAX_SPEED', label: '车道最高行驶速度' },
+        { value: 'MAX_SP_TYP', label: '车道最高行驶速度来源' },
+        { value: 'MIN_SPEED', label: '车道最低行驶速度' },
+        { value: 'MIN_SP_TYP', label: '车道最低行驶速度来源' },
+        { value: 'CONNECTION', label: '车道中心线连接关系' },
+        { value: 'RS_TYPE', label: '车道中心线限制类型' },
+        { value: 'RS_VALUE', label: '车道中心线限制取值' },
+        { value: 'TIMEDOM', label: '车道中心线限制时间描述' },
+        { value: 'CON_RS_TYPE', label: '车道中心线连接关系限制类型' },
+        { value: 'CON_TIMEDOM', label: '车道中心线连接关系限制时间描述' }
+    ],
+    AD_LaneAttrPoint: [
+        { value: 'TYPE', label: '属性变化点类型' },
+        { value: 'ROAD_ID', label: '属性变化点关联关系' }
+    ],
+    AD_Arrow: [
+        { value: 'ARR_DIRECT', lable: '箭头方向' },
+        { value: 'LANE_ID', lable: '箭头关联关系' }
+    ],
+    AD_StopLocation: [
+        { value: 'TYPE', label: '停止位置类型' },
+        { value: 'LANE_ID', label: '停止位置关联关系' }
+    ],
+    AD_LaneMark_Plg: [
+        { value: 'TYPE', label: '面状标识物类型' },
+        { value: 'LANE_ID', label: '面状标识物关联关系' }
+    ],
+    AD_Text: [
+        { value: 'TYPE', label: '文字类型' },
+        { value: 'VALUE', label: '文字内容' },
+        { value: 'LANE_ID', label: '文字关联关系' }
+    ],
+    AD_TrafficSign: [
+        { value: 'SIGN_STYLE', label: '交通牌样式' },
+        { value: 'SIGN_NO', label: '交通牌编号' },
+        { value: 'SIGN_TYPE', label: '交通牌类型' },
+        { value: 'CONT_TYPE', label: '交通牌语义类型' },
+        { value: 'CONT_VALUE', label: '交通牌语义内容' },
+        { value: 'TIMEDOM', label: '交通牌限制时间' },
+        { value: 'LANE_ID', label: '交通牌关联关系' }
+    ],
+    AD_TrafficLight: [
+        { value: 'TYPE', label: '交通灯类型' },
+        { value: 'LAYOUT', label: '交通灯灯头布局' },
+        { value: 'LAMP_COUNT', label: '交通灯灯头数量' },
+        { value: 'LAMP_NO', label: '交通灯灯头编号' },
+        { value: 'LAMP_TYPE', label: '交通灯灯头子类型' },
+        { value: 'LANE_ID', label: '交通灯关联关系' }
+    ],
+    AD_Pole: [],
+    AD_RS_Barrier: [
+        { value: 'TYPE', label: '隔离带护栏类型' },
+        { value: 'MATERIAL', label: '隔离带护栏材质' }
+    ]
+};
 
 export const ATTR_FORM_FIELD_MAP = {
     fixStatus: {
@@ -146,10 +235,10 @@ export const ATTR_FORM_FIELD_MAP = {
             }
         },
         option: {
-            data: TABLE_DATA_MAP,
+            data: FIELD_NAME_MAP,
             fieldName: 'fileName',
-            label: 'name',
-            value: 'key'
+            label: 'label',
+            value: 'value'
         }
     },
     errorDesc: {
@@ -295,10 +384,10 @@ export const MARKER_TABLE_COLUMNS = [
         key: 'fieldName',
         width: 100,
         describe: {
-            data: TABLE_DATA_MAP,
+            data: FIELD_NAME_MAP,
             second: 'fileName',
-            label: 'name',
-            value: 'key'
+            label: 'label',
+            value: 'value'
         }
     },
     {
