@@ -335,26 +335,32 @@ export const MARKER_TABLE_COLUMNS = [
         title: '作业查看状态',
         dataIndex: 'fixStatus',
         key: 'fixStatus',
-        className: 'red-text',
         isFilter: true,
         width: 120,
         describe: {
             data: FIX_STATUS_OPTIONS,
             label: 'label',
             value: 'value'
+        },
+        style: {
+            styleByValue: 1,
+            styleName: 'red-text'
         }
     },
     {
         title: '质检查看状态',
         dataIndex: 'qcStatus',
         key: 'qcStatus',
-        className: 'red-text',
         isFilter: true,
         width: 120,
         describe: {
             data: QC_STATUS_OPTIONS,
             label: 'label',
             value: 'value'
+        },
+        style: {
+            styleByValue: 1,
+            styleName: 'red-text'
         }
     }
 ];
