@@ -20,7 +20,7 @@ class QCMarkerModal extends React.Component {
         this.state = { isLoading: false };
         this.handleHistory = this.handleHistory.bind(this);
     }
-
+    //关闭和esc回调
     handleCancel = () => {
         const {
             ToolCtrlStore: { updateByEditLayer },
@@ -86,7 +86,7 @@ class QCMarkerModal extends React.Component {
             message.success('已删除质检标注');
         } catch (e) {
             this.setState({ isLoading: false });
-            exitMarker();
+            this.handleCancel();
             console.error(e.message, 3);
         }
     };
@@ -127,7 +127,7 @@ class QCMarkerModal extends React.Component {
                 type === 'insert' && message.success('质检标注生成');
             } catch (e) {
                 this.setState({ isLoading: false });
-                exitMarker();
+                this.handleCancel();
                 console.error(e.message, 3);
             }
         });
@@ -143,12 +143,16 @@ class QCMarkerModal extends React.Component {
     release = () => {
         const {
             DataLayerStore: { exitEdit, activeEditor, fetchTargetLayers },
-            QCMarkerStore: { exitMarker }
+            QCMarkerStore: { exitMarker },
+            ToolCtrlStore: { updateByEditLayer },
+            AttributeStore: { hideRelFeatures }
         } = this.props;
         exitEdit();
         activeEditor();
         fetchTargetLayers();
         exitMarker(false);
+        hideRelFeatures();
+        updateByEditLayer();
     };
 
     //获取新增质检标注参数
