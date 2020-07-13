@@ -3,6 +3,23 @@ import React from 'react';
 import { InputNumber } from 'antd';
 import 'src/assets/less/components/ad-input-number.less';
 
+const reg = [
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '.',
+    'Backspace',
+    'ArrowLeft',
+    'ArrowRight'
+];
+
 export default class AdInputPositiveNumber extends React.Component {
     render() {
         const { width, className } = this.props;
@@ -32,28 +49,9 @@ export default class AdInputPositiveNumber extends React.Component {
     handleKeyDown = e => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-
-        const reg = [
-            '0',
-            '1',
-            '2',
-            '3',
-            '4',
-            '5',
-            '6',
-            '7',
-            '8',
-            '9',
-            '.',
-            'Backspace',
-            'ArrowLeft',
-            'ArrowRight'
-        ];
-
         if (!reg.includes(e.key)) {
             e.preventDefault();
         }
-
         return false;
     };
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Select, Input } from 'antd';
 import 'less/components/configurable-form.less';
+import AdInputNumber from 'src/components/Form/AdInputNumber';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -121,6 +122,30 @@ class ConfigurableForm extends React.Component {
         );
     };
 
+    _renderInputNumber = (item, initData) => {
+        const { form } = this.props;
+        const { getFieldDecorator } = form;
+        const { name, tool: Tool, className, editable, editableByField, layout } = item;
+        const isDisabled = this.getDisabledStatus(editableByField, initData);
+
+        return (
+            <Form.Item label={item.label} key={item.name} className={className} {...layout}>
+                {getFieldDecorator(
+                    item.name,
+                    this.formItemConfig(item)
+                )(
+                    <AdInputNumber
+                        disabled={editable ? !isDisabled : true}
+                        onChange={value => this.handleChange(name, value)}
+                    />
+                )}
+                {Tool && (
+                    <Tool form={form} className="tool" disabled={editable ? !isDisabled : true} />
+                )}
+            </Form.Item>
+        );
+    };
+
     _renderSelect = (item, initData) => {
         const { form } = this.props;
         const { getFieldDecorator } = form;
@@ -135,6 +160,7 @@ class ConfigurableForm extends React.Component {
                     this.formItemConfig(item)
                 )(
                     <Select
+                        dropdownMatchSelectWidth={false}
                         disabled={editable ? !isDisabled : true}
                         onChange={value => this.handleChange(name, value)}
                     >

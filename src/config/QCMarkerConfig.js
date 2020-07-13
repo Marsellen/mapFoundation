@@ -191,7 +191,7 @@ export const ATTR_FORM_FIELD_MAP = {
     featId: {
         label: '要素ID',
         name: 'featId',
-        type: 'Input',
+        type: 'InputNumber',
         initialValue: null,
         editable: false
     },
