@@ -10,7 +10,7 @@ const filterKeys = MARKER_TABLE_COLUMNS.flatMap(item => {
 configure({ enforceActions: 'always' });
 class QCMarkerStore {
     @observable filterMap = {};
-    @observable filters = {};
+    @observable filters = null;
     @observable updateKey;
     @observable editStatus = null; // create, visite, modify
     @observable visible = false;
@@ -74,7 +74,7 @@ class QCMarkerStore {
     updataListIndex = list => {
         const listL = list.length;
         return list.map((item, index) => {
-            item.index = listL - index;
+            item.index = index + 1;
             return item;
         });
     };
@@ -186,7 +186,7 @@ class QCMarkerStore {
 
     @action release = () => {
         this.filterMap = {};
-        this.filters = {};
+        this.filters = null;
         this.editStatus = null; // create, visite, modify
         this.visible = false;
         this.visibleList = false;
