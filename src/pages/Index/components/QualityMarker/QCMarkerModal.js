@@ -249,10 +249,17 @@ class QCMarkerModal extends React.Component {
     };
 
     visiteMarkerFooter = () => {
-        const { isQCTask } = this.props.TaskStore;
+        const {
+            QCMarkerStore: {
+                currentMarker: { data: { properties: { fetchId } = {} } = {} }
+            },
+            TaskStore: { isQCTask, activeTask: { taskFetchId } = {} }
+        } = this.props;
+        const isFirst = fetchId == taskFetchId;
+
         return (
             <div className="footer-wrap">
-                {isQCTask && (
+                {isQCTask && isFirst && (
                     <Button type="danger" size="small" onClick={this.handleDelete} ghost>
                         删除
                     </Button>
@@ -313,7 +320,7 @@ class QCMarkerModal extends React.Component {
                         <Icon
                             type="close"
                             className="close-icon"
-                            onCancel={this.handleCancel}
+                            onClick={this.handleCancel}
                             id="check-result-close-btn"
                         />
                     </div>
