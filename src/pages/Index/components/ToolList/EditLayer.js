@@ -49,7 +49,7 @@ class EditLayer extends React.Component {
     render() {
         const { clicked } = this.state;
         const { DataLayerStore } = this.props;
-        const { getEditLayer } = DataLayerStore;
+        const { getEditLayer, updateKey } = DataLayerStore;
         //获取当前编辑图层，若无编辑图层则返回false
         const editLayer = getEditLayer();
         const layerName = editLayer && editLayer.layerName;
@@ -69,7 +69,7 @@ class EditLayer extends React.Component {
                         trigger: 'click'
                     }}
                 />
-                {isActive && this._renderLayerName(editLayer)}
+                <div key={updateKey}>{isActive && this._renderLayerName(editLayer)}</div>
             </span>
         );
     }
@@ -79,15 +79,9 @@ class EditLayer extends React.Component {
         const { layerName } = editLayer;
         const layerInfo = DATA_LAYER_MAP[layerName];
         if (!layerInfo) return null;
-        const { DataLayerStore } = this.props;
-        const { updateKey } = DataLayerStore;
         const { layerPicker } = this.state;
         const layerNameLabel = layerInfo.editName || layerPicker;
-        return (
-            <div className="value-color" key={updateKey}>
-                {layerNameLabel}
-            </div>
-        );
+        return <div className="value-color">{layerNameLabel}</div>;
     };
 
     _renderValue = layerPicker => {

@@ -11,6 +11,8 @@ import { ATTR_FORM_FIELD_MAP, QC_MARKER_FORM_CONFIG } from 'src/config/QCMarkerC
 @inject('TaskStore')
 @inject('QCMarkerStore')
 @inject('DataLayerStore')
+@inject('ToolCtrlStore')
+@inject('AttributeStore')
 @observer
 class QCMarkerModal extends React.Component {
     constructor(props) {
@@ -20,13 +22,15 @@ class QCMarkerModal extends React.Component {
     }
 
     handleCancel = () => {
-        const { DataLayerStore } = this.props;
-        Modal.confirm({
-            title: '是否退出',
-            okText: '确定',
-            cancelText: '取消',
-            onOk: DataLayerStore.exitMarker
-        });
+        const {
+            ToolCtrlStore: { updateByEditLayer },
+            AttributeStore: { hide, hideRelFeatures },
+            DataLayerStore: { exitMarker }
+        } = this.props;
+        exitMarker();
+        hide();
+        hideRelFeatures();
+        updateByEditLayer();
     };
 
     handleCancelModify = () => {
@@ -79,7 +83,7 @@ class QCMarkerModal extends React.Component {
             this.handleHistory(currentMarker);
             this.release();
             this.setState({ isLoading: false });
-            message.error('已删除质检标注');
+            message.success('已删除质检标注');
         } catch (e) {
             this.setState({ isLoading: false });
             exitMarker();
@@ -87,7 +91,7 @@ class QCMarkerModal extends React.Component {
         }
     };
 
-    handleSubmit = type => {
+    handleSubmit = (type, isExit = true) => {
         this.props.form.validateFields(async (err, values) => {
             if (err) return;
             const {
@@ -118,7 +122,7 @@ class QCMarkerModal extends React.Component {
                 });
                 //记录history
                 this.handleHistory(marker);
-                this.release();
+                isExit && this.release();
                 this.setState({ isLoading: false });
                 type === 'insert' && message.success('质检标注生成');
             } catch (e) {
@@ -348,8 +352,8 @@ class QCMarkerModal extends React.Component {
                             initData={properties}
                             formConfig={formConfig}
                             fieldChange={{
-                                fixStatus: () => this.handleSubmit('update'),
-                                qcStatus: () => this.handleSubmit('update')
+                                fixStatus: () => this.handleSubmit('update', false),
+                                qcStatus: () => this.handleSubmit('update', false)
                             }}
                         />
                     </div>
