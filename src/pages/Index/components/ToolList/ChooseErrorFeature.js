@@ -2,6 +2,7 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { getFeatureInfo } from 'src/utils/vectorUtils';
+import { getAllChooseLayersExByName } from 'src/utils/vectorUtils';
 
 @inject('DataLayerStore')
 @observer
@@ -14,11 +15,14 @@ class ChooseErrorFeature extends React.Component {
 
     handleToggle = () => {
         const {
-            DataLayerStore: { QCAttrModal, chooseErrorLayer, editType, exitEdit }
+            DataLayerStore: { QCAttrModal, chooseErrorLayer, editType, exitEdit, setTargetLayers }
         } = this.props;
 
         if (editType === 'error_layer') {
             exitEdit();
+            //只能选除标记图层、质检标注以外的图层
+            const layers = getAllChooseLayersExByName('AD_Map_QC');
+            setTargetLayers(layers);
         } else {
             QCAttrModal();
             chooseErrorLayer();

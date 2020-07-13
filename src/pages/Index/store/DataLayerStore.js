@@ -59,6 +59,11 @@ class DataLayerStore {
         this.editor.setTargetLayers(this.targetLayers);
     };
 
+    setTargetLayers = layers => {
+        if (!this.editor) return;
+        this.editor.setTargetLayers(layers);
+    };
+
     initMeasureControl = () => {
         this.measureControl = new MeasureControl();
         //设置测距参考坐标系1、墨卡托，2、局部地心
