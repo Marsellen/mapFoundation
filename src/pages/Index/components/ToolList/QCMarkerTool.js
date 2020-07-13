@@ -66,8 +66,8 @@ class QCMarkerTool extends React.Component {
 
     content = () => {
         const { editType } = this.props.DataLayerStore;
-        const tip1 = '正在进行质检标注';
-        const tip2 = '正在选取错误数据';
+        const tip1 = '正在进行质检标注，按Esc退出质检标注工具';
+        const tip2 = '正选取待标注的错误数据，按Esc退出质检标注工具';
         return (
             <label>
                 <Icon type="info-circle" /> {editType === 'error_layer' ? tip2 : tip1}
