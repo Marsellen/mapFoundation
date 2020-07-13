@@ -51,8 +51,8 @@ export const TYPE_SELECT_OPTION_MAP = {
     ],
     AD_LANE_DIVIDER_RD_EDGE: [
         { value: 0, label: '未定义', abbreviation: '0' },
-        { value: 1, label: '道路边界', abbreviation: '道' },
-        { value: 2, label: '非道路边界', abbreviation: '非道' }
+        { value: 1, label: '道路边界', abbreviation: '边' },
+        { value: 2, label: '非道路边界', abbreviation: '非边' }
     ],
     AD_LANE_DIVIDER_LANESTATUS: [
         { value: 0, label: '未定义', abbreviation: '0' },
