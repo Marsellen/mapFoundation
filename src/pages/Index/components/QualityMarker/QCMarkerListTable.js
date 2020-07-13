@@ -39,7 +39,8 @@ class QCMarkerListTable extends React.Component {
         const {
             ToolCtrlStore: { updateByEditLayer },
             AttributeStore: { hide, hideRelFeatures },
-            DataLayerStore: { activeEditor, getEditLayerName, editStatus, exitMarker }
+            DataLayerStore: { activeEditor, getEditLayerName, exitMarker },
+            QCMarkerStore: { editStatus }
         } = this.props;
         //如果当前编辑图层是标注图层，则退出标注图层
         const editLayerName = getEditLayerName();

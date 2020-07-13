@@ -334,6 +334,7 @@ class QCMarkerModal extends React.Component {
                 wrapClassName="qc-marker-modal"
                 footer={null}
                 onCancel={this.handleCancel}
+                key={`${editStatus}_${properties.id}`}
             >
                 <Spin tip="Loading..." spinning={isLoading}>
                     <div className="title-wrap">
@@ -345,11 +346,12 @@ class QCMarkerModal extends React.Component {
                             id="check-result-close-btn"
                         />
                     </div>
-                    <div className="content-wrap" key={`${editStatus}_${properties.id}`}>
+                    <div className="content-wrap">
                         <ConfigurableForm
                             form={form}
                             initData={properties}
                             formConfig={formConfig}
+                            updateKey={`${editStatus}_${properties.id}`}
                             fieldChange={{
                                 fixStatus: () => this.handleSubmit('update', false),
                                 qcStatus: () => this.handleSubmit('update', false)
