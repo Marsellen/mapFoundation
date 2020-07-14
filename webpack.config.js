@@ -123,9 +123,9 @@ module.exports = (env = {}) => {
             port: 15900,
             host: '0.0.0.0',
             proxy: {
-                '/user_center': {
+                '/gateway/auth': {
                     target: PROXY_MAP[proxy].gateway,
-                    pathRewrite: { '^/user_center': '/' },
+                    pathRewrite: { '^/gateway/auth': '/auth' },
                     changeOrigin: true,
                     logLevel: 'debug'
                 },
