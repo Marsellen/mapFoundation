@@ -4,7 +4,7 @@ import { ApiPath } from 'src/utils/Api';
 const AppService = {
     login: data => {
         const config = {
-            url: ApiPath('/auth/login'),
+            url: ApiPath('/login'),
             method: 'post',
             data
         };
