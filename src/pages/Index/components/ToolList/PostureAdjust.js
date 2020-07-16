@@ -98,7 +98,7 @@ class PostureAdjust extends React.Component {
                             />
                             <AdInputNumber
                                 width={76}
-                                min={0}
+                                min={0.01}
                                 max={0.1}
                                 step={0.01}
                                 value={polygonValue}
@@ -128,7 +128,7 @@ class PostureAdjust extends React.Component {
                     />
                     <AdInputNumber
                         width={76}
-                        min={0}
+                        min={0.01}
                         max={0.1}
                         step={0.01}
                         value={verticalValue}
@@ -206,14 +206,14 @@ class PostureAdjust extends React.Component {
     // 面内平移输入框
     handlePolygonChange = val => {
         this.setState({
-            polygonValue: val
+            polygonValue: val || 0.01
         });
     };
 
     // 垂向平移输入框
     handleVerticalChange = val => {
         this.setState({
-            verticalValue: val
+            verticalValue: val || 0.01
         });
     };
 
