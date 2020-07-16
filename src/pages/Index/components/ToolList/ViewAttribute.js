@@ -423,8 +423,8 @@ class ViewAttribute extends React.Component {
 
     tableOnClick = record => {
         const { DataLayerStore, RightMenuStore } = this.props;
-        if (DataLayerStore.editType != 'normal') return;
         return async e => {
+            if (DataLayerStore.editType != 'normal') return;
             //消除上次选中的要素
             RightMenuStore.clearFeatures();
             //初始化属性列表的右键菜单
@@ -439,8 +439,8 @@ class ViewAttribute extends React.Component {
 
     tableOnDoubleClick = record => {
         const { DataLayerStore } = this.props;
-        if (DataLayerStore.editType != 'normal') return;
         return async e => {
+            if (DataLayerStore.editType != 'normal') return;
             let feature = await this.searchFeature(record, true);
             if (!feature) return;
             let extent = map.getExtent(feature.data.geometry);
