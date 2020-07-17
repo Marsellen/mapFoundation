@@ -17,7 +17,6 @@ const { TabPane } = Tabs;
 class QualityCheckResult extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { activeKey: '' };
     }
 
     dragCallback = (transformStr, tx, ty) => {
@@ -28,20 +27,16 @@ class QualityCheckResult extends React.Component {
     handleCheckClick = () => {
         const {
             TaskStore: { activeTaskId },
-            QualityCheckStore: { checkReportVisible },
+            QualityCheckStore: { checkReportVisible, setActiveKey },
             QCMarkerStore: { visibleList }
         } = this.props;
         if (!activeTaskId) return;
         if (checkReportVisible) {
             this.handleCheckClose();
-            this.setState({
-                activeKey: visibleList ? 'marker' : ''
-            });
+            visibleList && setActiveKey('marker');
         } else {
             this.handleCheckOpen();
-            this.setState({
-                activeKey: 'check'
-            });
+            setActiveKey('check');
         }
     };
 
@@ -80,27 +75,24 @@ class QualityCheckResult extends React.Component {
         const {
             TaskStore: { activeTaskId },
             QCMarkerStore: { visibleList, showList, hideList },
-            QualityCheckStore: { checkReportVisible }
+            QualityCheckStore: { checkReportVisible, setActiveKey }
         } = this.props;
         if (!activeTaskId) return;
 
         if (visibleList) {
             hideList();
-            this.setState({
-                activeKey: checkReportVisible ? 'check' : ''
-            });
+            checkReportVisible && setActiveKey('check');
         } else {
             showList();
-            this.setState({
-                activeKey: 'marker'
-            });
+            setActiveKey('marker');
         }
     };
 
     handleTabsChange = activeKey => {
-        this.setState({
-            activeKey
-        });
+        const {
+            QualityCheckStore: { setActiveKey }
+        } = this.props;
+        setActiveKey(activeKey);
     };
 
     handleAllClose = () => {
@@ -110,9 +102,6 @@ class QualityCheckResult extends React.Component {
         } = this.props;
         closeCheckReport();
         hideList();
-        this.setState({
-            activeKey: ''
-        });
     };
 
     _dragDom = () => <div className="drag-dom"></div>;
@@ -127,18 +116,15 @@ class QualityCheckResult extends React.Component {
     );
 
     _renderContent = () => {
-        const { activeKey } = this.state;
         const {
-            QualityCheckStore: { reportList, checkReportVisible },
+            QualityCheckStore: { reportList, checkReportVisible, activeKey },
             QCMarkerStore: { visibleList, updateKey }
         } = this.props;
-        const checkKey = checkReportVisible && 'check';
-        const markerKey = visibleList && 'marker';
 
         return (
             <Tabs
                 animated={false}
-                activeKey={activeKey || checkKey || markerKey || ''}
+                activeKey={activeKey}
                 onChange={this.handleTabsChange}
                 tabBarExtraContent={this._closeIcon()}
             >

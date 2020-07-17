@@ -176,14 +176,17 @@ class JobStatus extends React.Component {
     //质检有报表提示
     hasReportModal = content => {
         const { QualityCheckStore } = this.props;
-        const { openCheckReport } = QualityCheckStore;
+        const { openCheckReport, setActiveKey } = QualityCheckStore;
         Modal.confirm({
             title: '质检提示',
             content,
             okText: '确定',
             cancelText: '取消',
             autoFocusButton: null,
-            onOk: openCheckReport
+            onOk: () => {
+                setActiveKey('check');
+                openCheckReport();
+            }
         });
     };
 

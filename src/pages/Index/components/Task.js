@@ -81,7 +81,8 @@ class Task extends React.Component {
 
     getTaskLabel = task => {
         if (task.isLocal) {
-            let processName = processNameOptions.find(option => option.value === task.processName).label;
+            let processName = processNameOptions.find(option => option.value === task.processName)
+                .label;
             return `${task.taskId}-${processName}`;
         }
         return `${task.taskId}-${task.nodeDesc}-${task.manualStatusDesc}`;
@@ -114,11 +115,16 @@ class Task extends React.Component {
     };
 
     handleReportOpen = async () => {
-        const { appStore, QualityCheckStore, TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
-        const { loginUser } = appStore;
-        const { roleCode } = loginUser;
-        const { handleQualityGetMisreport, openCheckReport } = QualityCheckStore;
+        const {
+            TaskStore: { activeTaskId },
+            appStore: { loginUser: { roleCode } } = {},
+            QualityCheckStore: {
+                handleQualityGetMisreport,
+                openCheckReport,
+                reportListL,
+                setActiveKey
+            }
+        } = this.props;
 
         switch (roleCode) {
             case 'producer':
@@ -138,7 +144,9 @@ class Task extends React.Component {
                     taskId: activeTaskId,
                     status: '1,2,4'
                 });
-                QualityCheckStore.reportListL > 0 && openCheckReport();
+                if (reportListL === 0) return;
+                setActiveKey('check');
+                openCheckReport();
                 break;
             default:
                 break;
@@ -226,7 +234,10 @@ class Task extends React.Component {
             window.boundaryLayerGroup = await TaskStore.getBoundaryLayer();
             if (!window.boundaryLayerGroup) return;
             DataLayerStore.addTargetLayers(window.boundaryLayerGroup.layers);
-            ResourceLayerStore.updateLayerByName(RESOURCE_LAYER_BOUNDARY, window.boundaryLayerGroup);
+            ResourceLayerStore.updateLayerByName(
+                RESOURCE_LAYER_BOUNDARY,
+                window.boundaryLayerGroup
+            );
             VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
             this.handleBoundaryfeature();
         } catch (e) {

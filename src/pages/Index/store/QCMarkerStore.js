@@ -10,7 +10,7 @@ const filterKeys = MARKER_TABLE_COLUMNS.flatMap(item => {
 configure({ enforceActions: 'always' });
 class QCMarkerStore {
     @observable filterMap = {};
-    @observable filters = null;
+    @observable filters = {};
     @observable updateKey;
     @observable editStatus = null; // create, visite, modify
     @observable visible = false;
@@ -139,7 +139,7 @@ class QCMarkerStore {
             return res;
         } catch (e) {
             const msg = e.message || e || '';
-            message.warning('质检标注新增失败 ' + msg);
+            message.error('质检标注新增失败 ' + msg);
         }
     });
 
@@ -149,7 +149,7 @@ class QCMarkerStore {
             return res;
         } catch (e) {
             const msg = e.message || e || '';
-            message.warning('质检标注更新失败 ' + msg);
+            message.error('质检标注更新失败 ' + msg);
         }
     });
 
@@ -159,7 +159,7 @@ class QCMarkerStore {
             return res;
         } catch (e) {
             const msg = e.message || e || '';
-            message.warning('质检标注删除失败 ' + msg);
+            message.error('质检标注删除失败 ' + msg);
         }
     });
 
@@ -169,7 +169,7 @@ class QCMarkerStore {
             return res;
         } catch (e) {
             const msg = e.message || e || '';
-            message.warning('获取质检标注列表 ' + msg);
+            message.error('获取质检标注列表 ' + msg);
         }
     });
 
@@ -179,13 +179,13 @@ class QCMarkerStore {
             return res;
         } catch (e) {
             const msg = e.message || e || '';
-            message.warning('更新标注状态失败 ' + msg);
+            message.error('更新标注状态失败 ' + msg);
         }
     });
 
     @action release = () => {
         this.filterMap = {};
-        this.filters = null;
+        this.filters = {};
         this.editStatus = null; // create, visite, modify
         this.visible = false;
         this.visibleList = false;
