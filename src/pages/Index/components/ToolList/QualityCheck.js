@@ -68,17 +68,17 @@ class QualityCheck extends React.Component {
         try {
             await this.save();
 
-            const { QualityCheckStore, TaskStore, appStore } = this.props;
             const {
-                handleProducerCheck,
-                handleProducerGetReport,
-                openCheckReport,
-                clearCheckReport
-            } = QualityCheckStore;
-            const { activeTask } = TaskStore;
-            const { taskId, processName, projectId } = activeTask;
-            const { loginUser } = appStore;
-            const { roleCode, username } = loginUser;
+                QualityCheckStore: {
+                    handleProducerCheck,
+                    handleProducerGetReport,
+                    openCheckReport,
+                    clearCheckReport,
+                    setActiveKey
+                },
+                TaskStore: { activeTask: { taskId, processName, projectId } } = {},
+                appStore: { loginUser: { roleCode, username } } = {}
+            } = this.props;
 
             //清空质检数据
             clearCheckReport();
@@ -101,10 +101,10 @@ class QualityCheck extends React.Component {
             if (!reportList) throw new Error('获取检查列表失败');
             const reportListL = reportList.length;
             reportListL > 0
-                ? this.checkModal(
-                      `质量检查结束，发现${reportListL}个错误，是否查看？`,
-                      openCheckReport
-                  )
+                ? this.checkModal(`质量检查结束，发现${reportListL}个错误，是否查看？`, () => {
+                      setActiveKey('check');
+                      openCheckReport();
+                  })
                 : this.checkModal(`质量检查结束，未发现数据问题`);
 
             this.setState({ visible: false });

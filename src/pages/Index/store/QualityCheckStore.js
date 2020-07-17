@@ -27,6 +27,7 @@ class QualityCheckStore {
     @observable checkReportIsVisited = {};
     @observable checkReportVisible = false;
     @observable tableHeight = 0;
+    @observable activeKey = 'check';
 
     @computed get hasChecked() {
         return this.reportListInit.some(item => item.checked);
@@ -34,6 +35,10 @@ class QualityCheckStore {
     @computed get reportListL() {
         return this.reportList ? this.reportList.length : 0;
     }
+
+    @action setActiveKey = activeKey => {
+        this.activeKey = activeKey;
+    };
 
     @action openCheckReport = () => {
         this.filterOption.isUpdate = true;

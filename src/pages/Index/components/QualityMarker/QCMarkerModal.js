@@ -63,7 +63,6 @@ class QCMarkerModal extends React.Component {
 
     handleDeleteMarker = async () => {
         const {
-            DataLayerStore: { exitMarker },
             QCMarkerStore: {
                 currentMarker,
                 currentMarker: { uuid, data: { properties, properties: { id } } = {} },
@@ -74,7 +73,8 @@ class QCMarkerModal extends React.Component {
         try {
             this.setState({ isLoading: true });
             //添加到数据库
-            await deleteMarker({ id });
+            const res = await deleteMarker({ id });
+            if (!res) throw Error('标注delete失败');
             //通过uuid删除要素
             window.markerLayer.layer.removeFeatureById(uuid);
             //更新质检标注列表
@@ -95,7 +95,6 @@ class QCMarkerModal extends React.Component {
         this.props.form.validateFields(async (err, values) => {
             if (err) return;
             const {
-                DataLayerStore: { exitMarker },
                 QCMarkerStore,
                 QCMarkerStore: {
                     updateCurrentMarker,
@@ -108,7 +107,7 @@ class QCMarkerModal extends React.Component {
                 const param = this[`getParam_${type}`](values);
                 //添加到数据库
                 const res = await QCMarkerStore[`${type}Marker`](param);
-                if (!res && !res.data) return;
+                if (!res || !res.data) throw Error(`标注${type}失败`);
                 const newProperties = { ...param, ...res.data };
                 //更新currentMarker
                 const marker = updateCurrentMarker(newProperties);
@@ -125,6 +124,7 @@ class QCMarkerModal extends React.Component {
                 isExit && this.release();
                 this.setState({ isLoading: false });
                 type === 'insert' && message.success('质检标注生成');
+                type === 'update' && message.success('质检标注修改成功');
             } catch (e) {
                 this.setState({ isLoading: false });
                 this.handleCancel();
