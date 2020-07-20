@@ -118,7 +118,7 @@ class QualityCheckResult extends React.Component {
     _renderContent = () => {
         const {
             QualityCheckStore: { reportList, checkReportVisible, activeKey },
-            QCMarkerStore: { visibleList, updateKey }
+            QCMarkerStore: { visibleList }
         } = this.props;
 
         return (
@@ -135,7 +135,7 @@ class QualityCheckResult extends React.Component {
                 )}
                 {visibleList && (
                     <TabPane tab="质检标注" key="marker">
-                        <QCMarkerListTable key={updateKey} />
+                        <QCMarkerListTable />
                     </TabPane>
                 )}
             </Tabs>
