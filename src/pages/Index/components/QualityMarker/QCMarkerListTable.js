@@ -97,20 +97,17 @@ class QCMarkerListTable extends React.Component {
     render() {
         const {
             QualityCheckStore: { tableHeight, toResizeDom },
-            QCMarkerStore: { updateKey, markerList, filters }
+            QCMarkerStore: { markerList, filters }
         } = this.props;
         const markerListL = markerList.length;
         const columns = this.getColumns(markerListL);
         return (
             <MultiFunctionalTable
-                key={updateKey}
-                updateKey={updateKey}
                 dataSource={markerList}
                 tableHeight={tableHeight}
                 toResizeDom={toResizeDom}
                 columns={columns}
                 filters={filters}
-                isFirstLoading={!filters}
                 className="quality-marker-list-table"
                 onClick={this.handleClick}
                 onDoubleClick={this.handleDoudleClick}

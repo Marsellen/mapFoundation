@@ -26,16 +26,13 @@ class MultiFunctionalTable extends React.Component {
     }
 
     componentDidMount() {
+        const { className } = this.props;
         this.setColumns();
-        const { toResizeDom, className } = this.props;
-        toResizeDom && toResizeDom();
         this.table = document.querySelector(`.${className} .ant-table-body`);
     }
 
     UNSAFE_componentWillReceiveProps() {
         this.setColumns();
-        const { toResizeDom } = this.props;
-        toResizeDom && toResizeDom();
     }
 
     handlePagination = (current, size) => {
@@ -103,29 +100,13 @@ class MultiFunctionalTable extends React.Component {
     };
 
     setColumns = () => {
-        const { toResizeDom, isFirstLoading } = this.props;
-
-        if (isFirstLoading) {
-            //首次加载
-            this.setState(
-                {
-                    columns: this.handleColumns(),
-                    currentIndex: -1,
-                    currentPage: 1,
-                    pageSize: 10,
-                    filteredInfo: null,
-                    total: null
-                },
-                toResizeDom
-            );
-        } else {
-            this.setState(
-                {
-                    columns: this.handleColumns()
-                },
-                toResizeDom
-            );
-        }
+        const { toResizeDom } = this.props;
+        this.setState(
+            {
+                columns: this.handleColumns()
+            },
+            toResizeDom
+        );
     };
 
     //展开某行
@@ -294,8 +275,8 @@ class MultiFunctionalTable extends React.Component {
     };
 
     render() {
-        const { columns, currentPage, total } = this.state;
-        const { dataSource, tableHeight, updateKey, className } = this.props;
+        const { currentPage, total } = this.state;
+        const { dataSource, tableHeight, className } = this.props;
         const dataSourceL = dataSource.length;
         const newTotal = total || total === 0 ? total : dataSourceL;
 
@@ -307,9 +288,8 @@ class MultiFunctionalTable extends React.Component {
             >
                 <ConfigProvider locale={zh_CN}>
                     <AdTable
-                        key={updateKey}
                         dataSource={dataSource}
-                        columns={columns}
+                        columns={this.handleColumns()}
                         onRow={(record, index) => {
                             return {
                                 onClick: this.tableOnClick(record, index),

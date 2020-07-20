@@ -9,7 +9,6 @@ const filterKeys = MARKER_TABLE_COLUMNS.flatMap(item => {
 
 configure({ enforceActions: 'always' });
 class QCMarkerStore {
-    @observable filterMap = {};
     @observable filters = {};
     @observable updateKey;
     @observable editStatus = null; // create, visite, modify
@@ -42,45 +41,43 @@ class QCMarkerStore {
         this.editStatus = status;
     };
 
-    @action updateFilters = marker => {
+    @action getFilters = filterMap => {
+        const filters = {};
+        Object.keys(filterMap).forEach(key => {
+            filters[key] = filters[key] || [];
+            filters[key] = Object.values(filterMap[key]);
+        });
+        this.filters = filters;
+    };
+
+    handleMarkerList = markerList => {
         try {
-            filterKeys.forEach(item => {
-                const { key, describe } = item;
-                const { data, second, label, value } = describe;
-                const currentVal = marker[key];
-                const secondStr = marker[second];
-                const descArr = second ? data[secondStr] : data;
-                const describeObj = descArr.find(desc => desc[value] === currentVal);
-                this.filterMap[key] = this.filterMap[key] || {};
-                this.filterMap[key][currentVal] = {
-                    value: currentVal,
-                    text: describeObj[label]
-                };
+            const filterMap = {};
+            this.markerList = markerList.map((marker, index) => {
+                marker.index = index + 1;
+                filterKeys.forEach(item => {
+                    const { key, describe } = item;
+                    const { data, second, label, value } = describe;
+                    const currentVal = marker[key];
+                    const secondStr = marker[second];
+                    const descArr = second ? data[secondStr] : data;
+                    const describeObj = descArr.find(desc => desc[value] === currentVal);
+                    filterMap[key] = filterMap[key] || {};
+                    filterMap[key][currentVal] = {
+                        value: currentVal,
+                        text: describeObj[label]
+                    };
+                });
+                return marker;
             });
+            this.getFilters(filterMap);
         } catch (e) {
             console.log(e);
         }
     };
 
-    @action getFilters = () => {
-        const filters = {};
-        Object.keys(this.filterMap).forEach(key => {
-            filters[key] = filters[key] || [];
-            filters[key] = Object.values(this.filterMap[key]);
-        });
-        this.filters = filters;
-    };
-
-    updataListIndex = list => {
-        return list.map((item, index) => {
-            item.index = index + 1;
-            return item;
-        });
-    };
-
     @action initMarkerList = list => {
-        this.markerList = this.updataListIndex(list);
-        this.getFilters();
+        this.handleMarkerList(list);
         this.updateKey = Math.random();
     };
 
@@ -100,9 +97,7 @@ class QCMarkerStore {
             default:
                 break;
         }
-        this.updateFilters(marker);
-        this.getFilters();
-        this.markerList = this.updataListIndex(this.markerList);
+        this.handleMarkerList(this.markerList);
         this.updateKey = Math.random();
     };
 
@@ -184,7 +179,6 @@ class QCMarkerStore {
     });
 
     @action release = () => {
-        this.filterMap = {};
         this.filters = {};
         this.editStatus = null; // create, visite, modify
         this.visible = false;
