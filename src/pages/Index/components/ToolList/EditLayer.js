@@ -18,7 +18,8 @@ const EDIT_LAYER = [
     'AD_TrafficSign',
     'AD_TrafficLight',
     'AD_Pole',
-    'AD_RS_Barrier'
+    'AD_RS_Barrier',
+    'AD_Map_QC'
 ];
 
 @inject('DataLayerStore')

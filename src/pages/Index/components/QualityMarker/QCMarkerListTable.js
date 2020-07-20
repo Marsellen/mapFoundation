@@ -108,6 +108,7 @@ class QCMarkerListTable extends React.Component {
                 toResizeDom={toResizeDom}
                 columns={columns}
                 filters={filters}
+                addJumpToFirstPage={true}
                 className="quality-marker-list-table"
                 onClick={this.handleClick}
                 onDoubleClick={this.handleDoudleClick}
