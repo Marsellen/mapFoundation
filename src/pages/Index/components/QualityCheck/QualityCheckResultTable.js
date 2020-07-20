@@ -46,7 +46,7 @@ class QualityCheckResultTable extends React.Component {
                         columns={columns}
                         onRow={(record, index) => {
                             return {
-                                onClick: this.tableOnClick(index),
+                                onClick: this.tableOnClick(record, index),
                                 onDoubleClick: this.tableOnDoubleClick(record, index)
                             };
                         }}
@@ -268,8 +268,10 @@ class QualityCheckResultTable extends React.Component {
     };
 
     //单击
-    tableOnClick = index => {
+    tableOnClick = (record, index) => {
         return e => {
+            const { DataLayerStore } = this.props;
+            if (DataLayerStore.editType != 'normal') return;
             this.checkReportTableRow = document.querySelector('.check-table-row');
             this.checkReportTableRowH = this.checkReportTableRow.offsetHeight;
             //变色
@@ -277,6 +279,8 @@ class QualityCheckResultTable extends React.Component {
             //展开
             this.openRowStyle(index);
             this.scrollTop = this.checkReportTable.scrollTop;
+            let feature = locateCheckItem(record);
+            feature && this.showAttributesModal(feature);
         };
     };
 
@@ -286,6 +290,7 @@ class QualityCheckResultTable extends React.Component {
             const { QualityCheckStore, TaskStore, DataLayerStore } = this.props;
             const { visitedReport } = QualityCheckStore;
             const { activeTaskId } = TaskStore;
+            if (DataLayerStore.editType != 'normal') return;
             DataLayerStore.exitEdit();
             //已访问
             visitedReport(record, activeTaskId);
@@ -293,8 +298,6 @@ class QualityCheckResultTable extends React.Component {
             this.updateTablePageTotal();
             //展开
             this.openRowStyle(index);
-            let feature = locateCheckItem(record);
-            feature && this.showAttributesModal(feature);
         };
     };
 
@@ -311,6 +314,7 @@ class QualityCheckResultTable extends React.Component {
 
     //显示属性框
     showAttributesModal = async obj => {
+        if (!obj) return;
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
@@ -318,6 +322,7 @@ class QualityCheckResultTable extends React.Component {
         DataLayerStore.clearPick();
         await AttributeStore.setModel(obj);
         DataLayerStore.setFeatureColor(obj, 'rgb(255,134,237)');
+        DataLayerStore.setSelectFeature(obj.layerId, obj.uuid);
         AttributeStore.show(readonly);
     };
 
