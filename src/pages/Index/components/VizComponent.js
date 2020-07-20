@@ -364,7 +364,7 @@ class VizComponent extends React.Component {
 
     initMarkerLayer = async () => {
         const {
-            QCMarkerStore: { getMarkerList, updateFilters, initMarkerList, showList },
+            QCMarkerStore: { getMarkerList, initMarkerList, showList },
             TaskStore: {
                 isFixTask,
                 isFixStatus,
