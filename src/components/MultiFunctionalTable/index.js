@@ -49,7 +49,10 @@ class MultiFunctionalTable extends React.Component {
                     dataSource: newDataSource,
                     dataSourceL: newDataSourceL
                 },
-                this.updateTable
+                () => {
+                    this.updateTable();
+                    this.table.scrollTop = 0;
+                }
             );
         } else {
             this.updateTable();
