@@ -16,26 +16,47 @@ class MultiFunctionalTable extends React.Component {
         this.tableRowH = null;
         this.scrollTop = 0;
 
+        const { dataSource } = props;
         this.state = {
             currentIndex: -1,
             columns: [],
             currentPage: 1,
             pageSize: 10,
-            filteredInfo: null
+            filteredInfo: null,
+            dataSource,
+            dataSourceL: dataSource.length
         };
     }
 
     componentDidMount() {
-        this.setColumns();
-        const { toResizeDom, className } = this.props;
-        toResizeDom && toResizeDom();
+        const { className } = this.props;
+        this.updateTable();
         this.table = document.querySelector(`.${className} .ant-table-body`);
     }
 
-    UNSAFE_componentWillReceiveProps() {
-        this.setColumns();
-        const { toResizeDom } = this.props;
-        toResizeDom && toResizeDom();
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        const newDataSource = nextProps.dataSource;
+        const newDataSourceL = newDataSource.length;
+        const { addJumpToFirstPage } = this.props;
+        const { dataSourceL: oldDataSourceL } = this.state;
+        const isAdd = newDataSourceL > oldDataSourceL;
+        if (addJumpToFirstPage && isAdd) {
+            //是新增就跳到第一页
+            this.setState(
+                {
+                    currentPage: 1,
+                    pageSize: 10,
+                    dataSource: newDataSource,
+                    dataSourceL: newDataSourceL
+                },
+                () => {
+                    this.updateTable();
+                    this.table.scrollTop = 0;
+                }
+            );
+        } else {
+            this.updateTable();
+        }
     }
 
     handlePagination = (current, size) => {
@@ -44,7 +65,7 @@ class MultiFunctionalTable extends React.Component {
                 currentPage: current || 1,
                 pageSize: size || 10
             },
-            this.setColumns
+            this.updateTable
         );
     };
 
@@ -60,13 +81,13 @@ class MultiFunctionalTable extends React.Component {
     };
 
     clearFilters = () => {
-        const { dataSource } = this.props;
+        const { dataSource } = this.state;
         this.setState(
             {
                 filteredInfo: null,
                 total: dataSource.length
             },
-            this.setColumns
+            this.updateTable
         );
     };
 
@@ -102,30 +123,16 @@ class MultiFunctionalTable extends React.Component {
         return newColumns;
     };
 
-    setColumns = () => {
-        const { toResizeDom, isFirstLoading } = this.props;
-
-        if (isFirstLoading) {
-            //首次加载
-            this.setState(
-                {
-                    columns: this.handleColumns(),
-                    currentIndex: -1,
-                    currentPage: 1,
-                    pageSize: 10,
-                    filteredInfo: null,
-                    total: null
-                },
-                toResizeDom
-            );
-        } else {
-            this.setState(
-                {
-                    columns: this.handleColumns()
-                },
-                toResizeDom
-            );
-        }
+    updateTable = () => {
+        const { toResizeDom, dataSource } = this.props;
+        this.setState(
+            {
+                dataSource,
+                dataSourceL: dataSource.length,
+                columns: this.handleColumns()
+            },
+            toResizeDom
+        );
     };
 
     //展开某行
@@ -192,7 +199,7 @@ class MultiFunctionalTable extends React.Component {
                 filteredInfo: filters,
                 total: extra.currentDataSource && extra.currentDataSource.length
             },
-            this.setColumns
+            this.updateTable
         );
     };
 
@@ -238,8 +245,7 @@ class MultiFunctionalTable extends React.Component {
                 shift: false,
                 keyCode: 40,
                 callback: () => {
-                    let { currentIndex, currentPage, pageSize, total } = this.state;
-                    const { dataSource } = this.props;
+                    let { currentIndex, currentPage, pageSize, total, dataSource } = this.state;
                     total = total || dataSource.length;
                     const maxPageSize = Math.ceil(total / pageSize); //获取最大页数
                     const isLastPage = currentPage === maxPageSize; //判断当前是否是最后一页
@@ -268,7 +274,7 @@ class MultiFunctionalTable extends React.Component {
                         {
                             currentPage: currentPage - 1
                         },
-                        this.setColumns
+                        this.updateTable
                     );
                 },
                 describe: '←'
@@ -279,8 +285,7 @@ class MultiFunctionalTable extends React.Component {
                 shift: false,
                 keyCode: 39,
                 callback: () => {
-                    let { currentPage, pageSize } = this.state;
-                    const { dataSource } = this.props;
+                    let { currentPage, pageSize, dataSource } = this.state;
                     const dataSourceL = dataSource.length;
                     const maxPageSize = Math.ceil(dataSourceL / pageSize);
                     if (currentPage >= maxPageSize) return;
@@ -294,10 +299,9 @@ class MultiFunctionalTable extends React.Component {
     };
 
     render() {
-        const { columns, currentPage, total } = this.state;
-        const { dataSource, tableHeight, updateKey, className } = this.props;
+        const { currentPage, pageSize, dataSource } = this.state;
+        const { tableHeight, className } = this.props;
         const dataSourceL = dataSource.length;
-        const newTotal = total || total === 0 ? total : dataSourceL;
 
         return (
             <div
@@ -307,9 +311,8 @@ class MultiFunctionalTable extends React.Component {
             >
                 <ConfigProvider locale={zh_CN}>
                     <AdTable
-                        key={updateKey}
                         dataSource={dataSource}
-                        columns={columns}
+                        columns={this.handleColumns()}
                         onRow={(record, index) => {
                             return {
                                 onClick: this.tableOnClick(record, index),
@@ -320,7 +323,7 @@ class MultiFunctionalTable extends React.Component {
                         pagination={{
                             current: currentPage,
                             size: 'small',
-                            total: newTotal,
+                            pageSize: pageSize,
                             showTotal: showTotal,
                             showSizeChanger: true,
                             onChange: this.handlePagination,

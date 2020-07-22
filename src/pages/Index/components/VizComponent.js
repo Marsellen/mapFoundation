@@ -364,7 +364,7 @@ class VizComponent extends React.Component {
 
     initMarkerLayer = async () => {
         const {
-            QCMarkerStore: { getMarkerList, updateFilters, initMarkerList, showList },
+            QCMarkerStore: { getMarkerList, initMarkerList, showList },
             TaskStore: {
                 isFixTask,
                 isFixStatus,
@@ -392,7 +392,6 @@ class VizComponent extends React.Component {
             if (!data) return;
             if (data.length === 0) return;
             const features = data.map(item => {
-                updateFilters(item);
                 return { geometry: JSON.parse(item.geom), properties: item };
             });
             initMarkerList(data);

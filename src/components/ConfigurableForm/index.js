@@ -26,7 +26,12 @@ class ConfigurableForm extends React.Component {
 
     static getDerivedStateFromProps(props, state) {
         if (props.updateKey !== state.updateKey) {
-            props.form.resetFields();
+            //重置表单值
+            const formData = props.form.getFieldsValue();
+            for (let i in formData) {
+                formData[i] = props.initData[i];
+            }
+            props.form.setFieldsValue(formData);
             return {
                 ...state,
                 updateKey: props.updateKey

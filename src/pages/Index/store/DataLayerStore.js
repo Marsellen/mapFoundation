@@ -683,6 +683,7 @@ class DataLayerStore {
 
     //选中要素，要素将处于选中状态(变色)，将该要素设置成sdk当前操作要素
     setSelectFeature = (layerId, uuid) => {
+        if (!this.editor) return;
         this.editor.setSelectFeature(layerId, uuid);
     };
 
