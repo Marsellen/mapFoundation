@@ -41,7 +41,9 @@ class AttributesModal extends React.Component {
                 wrapClassName="ad-attributes-modal"
                 title={this.renderTitle()}
                 visible={visible}
-                onCancel={this.handleCancel}>
+                zIndex={2}
+                onCancel={this.handleCancel}
+            >
                 <div className="obscuration" />
                 <Spin spinning={loading} tip={loadingMessage}>
                     <Form colon={false} hideRequiredMark={true}>
@@ -49,7 +51,8 @@ class AttributesModal extends React.Component {
                             tabs={[
                                 { label: '基础属性', key: 'basicAttribute' },
                                 { label: '关联关系', key: 'relation' }
-                            ]}>
+                            ]}
+                        >
                             {this.renderForm()}
                             {this.renderRels()}
                         </AdTabs>
@@ -103,10 +106,7 @@ class AttributesModal extends React.Component {
             }
 
             AttributeStore.showLoading('保存数据...');
-            let result = await AttributeStore.submit(
-                values,
-                TaskStore.activeTask
-            );
+            let result = await AttributeStore.submit(values, TaskStore.activeTask);
             result = await updateFeatures(result);
             AttributeStore.hideRelFeatures();
             AttributeStore.hide();
