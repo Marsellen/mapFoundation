@@ -66,8 +66,6 @@ class ResourceLayer extends React.Component {
                     {value}
                 </Checkbox>
                 <Switch
-                    checkedChildren="启用"
-                    unCheckedChildren="禁用"
                     size="small"
                     checked={!disabled}
                     onChange={this.handleSwitchChange.bind(this, item)}

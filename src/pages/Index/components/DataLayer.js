@@ -64,8 +64,6 @@ class DataLayer extends React.Component {
                                 全选
                             </Checkbox>
                             <Switch
-                                checkedChildren="启用"
-                                unCheckedChildren="禁用"
                                 size="small"
                                 checked={!disabled}
                                 onChange={this.handleSwitchChange}
