@@ -98,8 +98,7 @@ class VectorsStore {
         const type = this.layerType;
         if (!this.vectors[type]) return false;
         this.vectors[type].find(layer => layer.value == name).checked = checked;
-        const layer = this.vectors[type].find(layer => layer.value == name)
-            .layer;
+        const layer = this.vectors[type].find(layer => layer.value == name).layer;
         checked ? layer.show() : layer.hide();
         this.updateKey = Math.random();
     };
@@ -109,6 +108,17 @@ class VectorsStore {
         if (!this.vectors[type]) return false;
         this.vectors[type].map(layer => {
             return (layer.checked = isInvert ? !layer.checked : checked);
+        });
+        this.updateKey = Math.random();
+    };
+
+    @action switchToggle = (disabled, layerType, isInvert) => {
+        const type = layerType || this.layerType;
+        if (!this.vectors[type]) return false;
+        disabled = isInvert ? !this.vectors[type].disabled : disabled;
+        this.vectors[type].disabled = disabled;
+        this.vectors[type].forEach(layer => {
+            layer.checked && !disabled ? layer.layer.show() : layer.layer.hide();
         });
         this.updateKey = Math.random();
     };
