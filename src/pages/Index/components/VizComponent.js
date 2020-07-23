@@ -9,6 +9,7 @@ import RightMenuModal from './RightMenuModal';
 
 import {
     RESOURCE_LAYER_VECTOR,
+    RESOURCE_LAYER_TRACK,
     RESOURCE_LAYER_TASK_SCOPE,
     RESOURCE_LAYER_BOUNDARY,
     RESOURCE_LAYER_MULTI_PROJECT
@@ -159,10 +160,35 @@ class VizComponent extends React.Component {
                 callback: () => {
                     event.preventDefault();
                     event.stopPropagation();
-                    ResourceLayerStore.toggle(RESOURCE_LAYER_VECTOR, true, true);
-                    VectorsStore.toggleAll(true, RESOURCE_LAYER_VECTOR, true);
+                    ResourceLayerStore.switchToggle(RESOURCE_LAYER_VECTOR, true, true);
+                    VectorsStore.switchToggle(true, 'vector', true);
                 },
-                describe: '开关轨迹图层 2'
+                describe: '开关高精地图图层 2'
+            },
+            {
+                ctrl: true,
+                alt: false,
+                shift: false,
+                keyCode: 50,
+                callback: () => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    ResourceLayerStore.switchToggle(RESOURCE_LAYER_BOUNDARY, true, true);
+                    VectorsStore.switchToggle(true, 'boundary', true);
+                },
+                describe: '开关周边底图图层 Ctrl+2'
+            },
+            {
+                ctrl: false,
+                alt: false,
+                shift: false,
+                keyCode: 51,
+                callback: () => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    ResourceLayerStore.trackToggle();
+                },
+                describe: '开关轨迹图层 3'
             }
         ];
 

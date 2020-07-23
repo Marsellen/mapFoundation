@@ -63,9 +63,7 @@ class ResourceLayerStore {
             const isIncloud = layerMap[trackName].find(item => {
                 const { X, Y, Z } = item;
                 return (
-                    activeTrackPointX === X &&
-                    activeTrackPointY === Y &&
-                    activeTrackPointZ === Z
+                    activeTrackPointX === X && activeTrackPointY === Y && activeTrackPointZ === Z
                 );
             });
             return isIncloud ? trackName : false;
@@ -74,9 +72,7 @@ class ResourceLayerStore {
     };
 
     @action toggleVertor = value => {
-        let vetor = this.layers.find(
-            layer => layer.value == RESOURCE_LAYER_VECTOR
-        );
+        let vetor = this.layers.find(layer => layer.value == RESOURCE_LAYER_VECTOR);
         if (vetor && vetor.checked != value) {
             vetor.checked = value;
             this.updateKey = Math.random();
@@ -116,9 +112,7 @@ class ResourceLayerStore {
                 checked: true
             });
             this.layers = this.layers.slice().sort((a, b) => {
-                return LAYER_SORT_MAP[a.value] < LAYER_SORT_MAP[b.value]
-                    ? -1
-                    : 1;
+                return LAYER_SORT_MAP[a.value] < LAYER_SORT_MAP[b.value] ? -1 : 1;
             });
         }
     };
@@ -142,11 +136,36 @@ class ResourceLayerStore {
         this.updateKey = Math.random();
     };
 
+    //快捷键显隐所有轨迹
+    @action trackToggle = () => {
+        //当前启用工程至少一个轨迹【二级】勾选，即为true
+        const checked = Object.values(this.multiProjectMap).some(project => {
+            const { children, checked } = project;
+            return checked && children.track.checked;
+        });
+        //更新多工程对象轨迹【二级】勾选状态
+        Object.values(this.multiProjectMap).forEach(project => {
+            if (!project.checked) return;
+            const obj = project.children.track;
+            const key = obj.key;
+            this.loopMultiProjectMap(key, !checked, obj, true);
+        });
+
+        this.updateKey = Math.random();
+    };
+
     //isHotKey 指是否是快捷键调用的toggle方法
     @action toggle = (name, checked, isHotKey) => {
         let layerEx = this.layers.find(layer => layer.value == name);
         layerEx.checked = isHotKey ? !layerEx.checked : checked;
         layerEx.checked ? layerEx.layer.show() : layerEx.layer.hide();
+        this.updateKey = Math.random();
+    };
+
+    @action switchToggle = (name, disabled, isHotKey) => {
+        let layerEx = this.layers.find(layer => layer.value == name);
+        layerEx.disabled = isHotKey ? !layerEx.disabled : disabled;
+
         this.updateKey = Math.random();
     };
 
@@ -164,10 +183,7 @@ class ResourceLayerStore {
 
     // 给updatePointClouds传什么显示什么，不传的不显示
     toggleProjectsPointCloud = () => {
-        window.pointCloudLayer.updatePointClouds(
-            this.pointCloudCheckedList,
-            false
-        );
+        window.pointCloudLayer.updatePointClouds(this.pointCloudCheckedList, false);
     };
 
     handleProjectsLayer = (checked, obj, parent, key) => {
