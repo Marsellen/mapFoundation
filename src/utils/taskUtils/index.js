@@ -8,6 +8,8 @@ import Attr from 'src/models/attr';
 import IconFont from 'src/components/IconFont';
 import editLog from 'src/models/editLog';
 import TaskService from 'src/services/TaskService';
+import { throttle } from '../utils';
+import sysProperties from 'src/models/sysProperties';
 
 const SECEND_PATH = '13_ED_DATA';
 const THIRD_PATH = '1301_RAW_DATA';
@@ -93,7 +95,11 @@ export const saveTaskDate = () => {
                         <div className="error-title-third">继续保存可能导致数据丢失</div>
                     </div>
                 ),
-                content: <div className="error-content">请检查当前任务数据的子属性表和关联关系表，避免数据丢失。</div>,
+                content: (
+                    <div className="error-content">
+                        请检查当前任务数据的子属性表和关联关系表，避免数据丢失。
+                    </div>
+                ),
                 className: 'save-error-modal',
                 okText: '继续保存',
                 cancelText: '退出保存',
@@ -156,4 +162,29 @@ export const statisticsTime = status => {
         taskFetchId
     };
     return TaskService.statisticsTime(params);
+};
+
+export const windowObserver = () => {
+    var body = document.querySelector('html');
+    var min = sysProperties.getConfig('statisticInterval') || 10;
+    var time = min * 1000;
+    var started = true;
+    var timer;
+    var handler = () => {
+        statisticsTime(1);
+        started = false;
+    };
+    var eventFun = throttle(() => {
+        timer && clearTimeout(timer);
+        if (!TaskStore.isEditableTask) return;
+        timer = setTimeout(handler, time);
+        if (!started) {
+            statisticsTime(0);
+            started = true;
+        }
+    }, 1000);
+    body.addEventListener('click', eventFun);
+    body.addEventListener('keydown', eventFun);
+    body.addEventListener('mousemove', eventFun);
+    body.addEventListener('mousewheel', eventFun);
 };
