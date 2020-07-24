@@ -37,9 +37,12 @@ class QualityCheckResultTable extends React.Component {
         const { QualityCheckStore } = this.props;
         const { reportList, reportListL, tableHeight } = QualityCheckStore;
         const newTotal = total || total === 0 ? total : reportListL;
-
         return (
-            <div onKeyUp={e => this.handleKeyUp(e)} onKeyDown={e => this.handleKeyDown(e)}>
+            <div
+                style={{ height: '100%' }}
+                onKeyUp={e => this.handleKeyUp(e)}
+                onKeyDown={e => this.handleKeyDown(e)}
+            >
                 <ConfigProvider locale={zh_CN}>
                     <AdTable
                         dataSource={reportList}
@@ -60,12 +63,18 @@ class QualityCheckResultTable extends React.Component {
                             onChange: this.handlePagination,
                             onShowSizeChange: this.handlePagination,
                             pageSizeOptions: ['10', '20', '30', '40', '50'],
-                            className: 'check-table-pagination'
+                            className:
+                                tableHeight != 0
+                                    ? 'check-table-pagination'
+                                    : 'check-table-pagination-init'
                         }}
-                        className="check-result-table"
+                        className={
+                            tableHeight != 0 ? 'check-result-table' : 'check-result-table-init'
+                        }
                         onChange={this.handleTableChange}
                         rowKey={record => `checkResult_${record.index}`}
                         scroll={{ y: tableHeight || 170, x: 'max-content' }}
+                        height={tableHeight != 0 ? '100%' : 'max-content'}
                         isHandleBody={true}
                     />
                     {reportListL > 0 && (

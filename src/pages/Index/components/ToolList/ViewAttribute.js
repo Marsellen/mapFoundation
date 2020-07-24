@@ -39,7 +39,7 @@ class ViewAttribute extends React.Component {
             columns: [],
             dataSource: [],
             layerName: null,
-            height: 500,
+            height: 0,
             loading: false,
             filteredInfo: null,
             sortedInfo: null,
@@ -100,7 +100,9 @@ class ViewAttribute extends React.Component {
         return (
             <ConfigProvider locale={zh_CN}>
                 <AdTable
-                    className="layer-scroll"
+                    className={
+                        dataSource.length > 0 ? 'layer-scroll' : 'layer-scroll layer-scroll-init'
+                    }
                     rowKey="index"
                     columns={columns}
                     dataSource={dataSource}
@@ -126,6 +128,7 @@ class ViewAttribute extends React.Component {
                         current: page
                     }}
                     scroll={{ x: 'max-content', y: height }}
+                    height={height - 120}
                     title={() => {
                         return this.getTableTitle();
                     }}
@@ -160,7 +163,8 @@ class ViewAttribute extends React.Component {
     resizeCallback = result => {
         const { height: resizeEleHeight } = result;
         this.setState({
-            height: resizeEleHeight - 200
+            //给表格限制最小高度
+            height: parseInt(resizeEleHeight) > 200 ? resizeEleHeight : 200
         });
     };
 
@@ -197,9 +201,12 @@ class ViewAttribute extends React.Component {
     };
 
     changeLayer = layerName => {
+        const { height } = this.state;
         const isMarkerLayer = layerName === 'AD_Marker';
         layerName = isMarkerLayer ? this.state.layerName : layerName;
         this.setState({ layerName, filteredInfo: null, sortedInfo: null }, this.getData);
+        if (height > 0) return; //初始进入列表时由于将默认高度改为0导致没有表格背景色
+        document.querySelector('.layer-scroll .ant-table-tbody').style.backgroundColor = '#fff';
     };
 
     getData = () => {

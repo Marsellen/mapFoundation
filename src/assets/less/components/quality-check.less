@@ -27,6 +27,14 @@
                 background-color: #3e7fe0 !important;
             }
         }
+        .ant-table,
+        .ant-modal-body,
+        .ant-modal-body > div,
+        .ant-tabs,
+        .ant-tabs-content,
+        .ant-tabs-tabpane {
+            height: 100%;
+        }
 
         .close-icon {
             display: flex;
@@ -47,7 +55,8 @@
             z-index: 99999;
         }
 
-        .check-result-table {
+        .check-result-table,
+        .check-result-table-init {
             padding: 0 10px;
 
             .ant-table {
@@ -84,6 +93,7 @@
                 table-layout: fixed;
                 width: max-content;
                 min-width: max-content;
+                height: min-content;
                 border-collapse: collapse;
             }
 
@@ -137,8 +147,16 @@
 
             .check-table-pagination {
                 position: absolute;
-                bottom: -6px;
+                bottom: 65px;
                 right: 2px;
+            }
+
+            .check-table-pagination-init {
+                //初始分页样式
+                position: absolute;
+                bottom: 11px;
+                right: 2px;
+                margin-bottom: -17px;
             }
 
             .ant-dropdown {
@@ -150,6 +168,10 @@
                 overflow-y: scroll;
             }
         }
+        .check-result-table-init {
+            //初始表格样式
+            padding-bottom: 30px;
+        }
 
         .ant-checkbox-group-item {
             display: block;
@@ -157,7 +179,7 @@
 
         .check-table-footer {
             position: absolute;
-            bottom: 8px;
+            bottom: 23px;
             left: 10px;
             width: 85px;
         }
@@ -170,6 +192,20 @@
         .ant-tabs-bar {
             margin-bottom: 10px;
         }
+    }
+
+    .ant-table-body {
+        height: calc(100% - 120px);
+        .ant-table-fixed {
+            height: min-content;
+        }
+    }
+
+    .ant-spin-nested-loading,
+    .ant-spin-container,
+    .ant-table-content,
+    .ant-table-scroll {
+        height: 100%;
     }
 
     // 可伸缩列表格样式
