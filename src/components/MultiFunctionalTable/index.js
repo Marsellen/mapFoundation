@@ -302,6 +302,7 @@ class MultiFunctionalTable extends React.Component {
         const { currentPage, pageSize, dataSource } = this.state;
         const { tableHeight, className } = this.props;
         const dataSourceL = dataSource.length;
+        const tableH = tableHeight != 0;
 
         return (
             <div
@@ -329,18 +330,17 @@ class MultiFunctionalTable extends React.Component {
                             onChange: this.handlePagination,
                             onShowSizeChange: this.handlePagination,
                             pageSizeOptions: ['10', '20', '30', '40', '50'],
-                            className:
-                                tableHeight != 0 ? 'table-pagination' : 'table-pagination-init'
+                            className: tableH ? 'table-pagination' : 'table-pagination-init'
                         }}
                         className={
-                            tableHeight != 0
+                            tableH
                                 ? `multi-function-table ${className}`
                                 : `multi-function-table-init ${className}`
                         }
                         onChange={this.handleTableChange}
                         rowKey={record => record.id}
                         scroll={{ y: tableHeight || 170, x: 'max-content' }}
-                        height={tableHeight != 0 ? '100%' : 'max-content'} //初始打开列表时表格最大化
+                        height={dataSourceL > 0 && tableH ? '100%' : 'max-content'} //初始打开列表时表格最大化
                         isHandleBody={true}
                     />
                     {dataSourceL > 0 && (

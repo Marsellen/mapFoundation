@@ -129,12 +129,20 @@ class QualityCheckResult extends React.Component {
                 tabBarExtraContent={this._closeIcon()}
             >
                 {checkReportVisible && (
-                    <TabPane tab="检查结果" key="check">
+                    <TabPane
+                        tab="检查结果"
+                        key="check"
+                        style={{ height: activeKey === 'check' ? '100%' : 0 }}
+                    >
                         <QualityCheckResultTable reportList={reportList} />
                     </TabPane>
                 )}
                 {visibleList && (
-                    <TabPane tab="质检标注" key="marker">
+                    <TabPane
+                        tab="质检标注"
+                        key="marker"
+                        style={{ height: activeKey === 'marker' ? '100%' : 0 }}
+                    >
                         <QCMarkerListTable />
                     </TabPane>
                 )}
