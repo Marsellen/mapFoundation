@@ -201,12 +201,9 @@ class ViewAttribute extends React.Component {
     };
 
     changeLayer = layerName => {
-        const { height } = this.state;
         const isMarkerLayer = layerName === 'AD_Marker';
         layerName = isMarkerLayer ? this.state.layerName : layerName;
         this.setState({ layerName, filteredInfo: null, sortedInfo: null }, this.getData);
-        if (height > 0) return; //初始进入列表时由于将默认高度改为0导致没有表格背景色
-        document.querySelector('.layer-scroll .ant-table-tbody').style.backgroundColor = '#fff';
     };
 
     getData = () => {
