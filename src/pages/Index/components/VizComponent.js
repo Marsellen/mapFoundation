@@ -504,7 +504,7 @@ class VizComponent extends React.Component {
                 showRightMenu(result, event);
             } else if (result[0].type === 'TraceListLayer') {
                 showPictureShowView(result[0]);
-                PictureShowStore.show();
+                PictureShowStore.show('TraceListLayer');
             }
             // 属性刷置灰
             if (

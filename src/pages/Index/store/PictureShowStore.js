@@ -1,4 +1,5 @@
 import { observable, configure, action } from 'mobx';
+import TextStore from 'src/pages/Index/store/TextStore';
 
 configure({ enforceActions: 'always' });
 class PictureShowStore {
@@ -30,7 +31,10 @@ class PictureShowStore {
         return this.picIndex;
     };
 
-    @action show = () => {
+    @action show = type => {
+        if (type === 'TraceListLayer') {
+            TextStore.hide();
+        }
         this.visible = true;
     };
 
