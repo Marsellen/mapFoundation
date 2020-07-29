@@ -12,7 +12,7 @@ class OperateHistoryStore {
     @observable nodes = [];
     @observable pendding = false;
 
-    init = flow(function*() {
+    init = flow(function* () {
         try {
             const nodes = yield operateHistory.store.getAll();
             // 异步代码块会被自动包装成动作并修改状态
@@ -22,13 +22,10 @@ class OperateHistoryStore {
         }
     });
 
-    add = flow(function*(history) {
+    add = flow(function* (history) {
         try {
             if (this.currentNode < this.finalNode) {
-                operateHistory.store.deleteByRange(
-                    this.currentNode,
-                    this.finalNode
-                );
+                operateHistory.store.deleteByRange(this.currentNode, this.finalNode);
             }
             let result = yield operateHistory.store.add(history);
             this.currentNode = result;
@@ -41,7 +38,7 @@ class OperateHistoryStore {
         }
     });
 
-    redo = flow(function*() {
+    redo = flow(function* () {
         try {
             let nextNode = yield operateHistory.store.getNext(this.currentNode);
             yield OperateFactory.redo(nextNode);
@@ -53,7 +50,7 @@ class OperateHistoryStore {
         }
     });
 
-    undo = flow(function*() {
+    undo = flow(function* () {
         try {
             let preNode = yield operateHistory.store.getPrev(this.currentNode);
             let currentNode = yield operateHistory.store.get(this.currentNode);
@@ -84,7 +81,11 @@ class OperateHistoryStore {
         this.couldSave = false;
     };
 
-    destroy = flow(function*() {
+    @action saving = () => {
+        this.couldSave = true;
+    };
+
+    destroy = flow(function* () {
         try {
             yield operateHistory.store.clear();
             this.nodes = [];

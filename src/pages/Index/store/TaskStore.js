@@ -437,33 +437,31 @@ class TaskStore {
             let relData = yield getAllRelData(true);
             let attrData = yield getAllAttrData(true);
             let path = getEditPath(this.activeTask);
-            let payload = {
-                filePath: path,
-                fileName: 'ads_all',
-                fileFormat: 'geojson',
-                fileData: vectorData
+            let saveData = {
+                saveList: [
+                    {
+                        filePath: path,
+                        fileName: 'ads_all',
+                        fileFormat: 'geojson',
+                        fileData: vectorData
+                    },
+                    {
+                        filePath: path,
+                        fileName: 'attrs',
+                        fileFormat: 'geojson',
+                        fileData: attrData
+                    },
+                    {
+                        filePath: path,
+                        fileName: 'rels',
+                        fileFormat: 'geojson',
+                        fileData: relData
+                    }
+                ]
             };
-            let attrPayload = {
-                filePath: path,
-                fileName: 'attrs',
-                fileFormat: 'geojson',
-                fileData: attrData
-            };
-            let relPayload = {
-                filePath: path,
-                fileName: 'rels',
-                fileFormat: 'geojson',
-                fileData: relData
-            };
-            yield Promise.all([
-                TaskService.saveFile(payload),
-                TaskService.saveFile(attrPayload),
-                TaskService.saveFile(relPayload)
-            ]).catch(e => {
-                message.error('数据保存失败：' + e.message, 3);
-            });
-
+            const data = yield TaskService.saveFile(saveData);
             this.taskSaveTime = moment().format('YYYY-MM-DD HH:mm:ss');
+            return data;
         } catch (e) {
             console.log(e);
         }
