@@ -142,7 +142,6 @@ const saveSuccess = () => {
 };
 
 const saveFail = () => {
-    OperateHistoryStore.saving();
     message.error({
         key: 'save',
         content: '保存失败，数据可能出错，请再次保存',

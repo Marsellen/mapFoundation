@@ -81,10 +81,6 @@ class OperateHistoryStore {
         this.couldSave = false;
     };
 
-    @action saving = () => {
-        this.couldSave = true;
-    };
-
     destroy = flow(function* () {
         try {
             yield operateHistory.store.clear();
