@@ -432,41 +432,34 @@ class TaskStore {
     };
 
     submit = flow(function* () {
-        try {
-            let vectorData = getAllVectorData(true);
-            let relData = yield getAllRelData(true);
-            let attrData = yield getAllAttrData(true);
-            let path = getEditPath(this.activeTask);
-            let payload = {
-                filePath: path,
-                fileName: 'ads_all',
-                fileFormat: 'geojson',
-                fileData: vectorData
-            };
-            let attrPayload = {
-                filePath: path,
-                fileName: 'attrs',
-                fileFormat: 'geojson',
-                fileData: attrData
-            };
-            let relPayload = {
-                filePath: path,
-                fileName: 'rels',
-                fileFormat: 'geojson',
-                fileData: relData
-            };
-            yield Promise.all([
-                TaskService.saveFile(payload),
-                TaskService.saveFile(attrPayload),
-                TaskService.saveFile(relPayload)
-            ]).catch(e => {
-                message.error('数据保存失败：' + e.message, 3);
-            });
-
-            this.taskSaveTime = moment().format('YYYY-MM-DD HH:mm:ss');
-        } catch (e) {
-            console.log(e);
-        }
+        let vectorData = getAllVectorData(true);
+        let relData = yield getAllRelData(true);
+        let attrData = yield getAllAttrData(true);
+        let path = getEditPath(this.activeTask);
+        let saveData = {
+            saveList: [
+                {
+                    filePath: path,
+                    fileName: 'ads_all',
+                    fileFormat: 'geojson',
+                    fileData: vectorData
+                },
+                {
+                    filePath: path,
+                    fileName: 'attrs',
+                    fileFormat: 'geojson',
+                    fileData: attrData
+                },
+                {
+                    filePath: path,
+                    fileName: 'rels',
+                    fileFormat: 'geojson',
+                    fileData: relData
+                }
+            ]
+        };
+        yield TaskService.saveFile(saveData);
+        this.taskSaveTime = moment().format('YYYY-MM-DD HH:mm:ss');
     });
 
     exportShp = flow(function* () {

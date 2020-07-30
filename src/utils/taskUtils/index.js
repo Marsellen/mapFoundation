@@ -93,7 +93,11 @@ export const saveTaskDate = () => {
                         <div className="error-title-third">继续保存可能导致数据丢失</div>
                     </div>
                 ),
-                content: <div className="error-content">请检查当前任务数据的子属性表和关联关系表，避免数据丢失。</div>,
+                content: (
+                    <div className="error-content">
+                        请检查当前任务数据的子属性表和关联关系表，避免数据丢失。
+                    </div>
+                ),
                 className: 'save-error-modal',
                 okText: '继续保存',
                 cancelText: '退出保存',
@@ -127,11 +131,19 @@ export const saveTaskDate = () => {
 
 const saveData = async () => {
     message.loading({ key: 'save', content: '正在保存...', duration: 0 });
-    await TaskStore.submit();
-    await TaskStore.writeEditLog();
-    OperateHistoryStore.save();
-    statisticsTime(1);
-    message.success({ key: 'save', content: '保存完成', duration: 2 });
+    try {
+        statisticsTime(1);
+        await TaskStore.submit();
+        await TaskStore.writeEditLog();
+        OperateHistoryStore.save();
+        message.success({ key: 'save', content: '保存完成', duration: 2 });
+    } catch (e) {
+        message.error({
+            key: 'save',
+            content: '保存失败，数据可能出错，请再次保存',
+            duration: 2
+        });
+    }
 };
 
 const checkEmptyData = async () => {

@@ -5,7 +5,7 @@ import { getAuthentication } from 'src/utils/Session';
 const TaskService = {
     saveFile: data => {
         const config = {
-            url: EditApiPath('/api/savefile'),
+            url: EditApiPath('/api/single_file_save'),
             method: 'post',
             data
         };
