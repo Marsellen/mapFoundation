@@ -92,7 +92,7 @@ class LayerVectorConfig extends React.Component {
                     <Select
                         disabled={typeArr.length === 1}
                         value={showFields}
-                        style={{ width: 222 }}
+                        style={{ width: 227 }}
                         onChange={currentShowFields =>
                             this.batchSetVectorStyle({
                                 styleKey: 'showFields',
@@ -112,12 +112,12 @@ class LayerVectorConfig extends React.Component {
                 </div>
                 <div className={visible ? '' : 'hide'}>
                     <LayerVectorConfigForm
+                        {...commonStyle}
                         className="layer-config-line-style-2"
                         type={type}
                         updateKey={updateKey}
                         layerName={layerName}
                         styleConfigMap={vectorConfigMap} //配置映射
-                        styleValueMap={commonStyle} //值映射
                         pointEnabledStatus={pointEnabledStatus}
                         arrowEnabledStatus={arrowEnabledStatus}
                         setStyle={this.batchSetVectorStyle}
@@ -127,13 +127,13 @@ class LayerVectorConfig extends React.Component {
                             typeStyle.map(item => {
                                 return (
                                     <LayerVectorConfigForm
+                                        {...item}
                                         className="layer-config-line-style-3"
                                         type={type}
                                         key={item.value}
                                         updateKey={updateKey}
                                         layerName={layerName}
                                         styleConfigMap={vectorConfigMap} //配置映射
-                                        styleValueMap={item} //值映射
                                         pointEnabledStatus={pointEnabledStatus}
                                         arrowEnabledStatus={arrowEnabledStatus}
                                         setStyle={this.setVectorStyle}
@@ -177,18 +177,17 @@ class LayerVectorConfig extends React.Component {
                 </div>
                 {!checked && (
                     <LayerVectorConfigForm
+                        {...commonStyle}
                         className="layer-config-line-style-1"
                         type={type}
                         updateKey={updateKey}
                         layerName={layerName}
                         styleConfigMap={vectorConfigMap} //配置映射
-                        styleValueMap={commonStyle} //值映射
                         pointEnabledStatus={pointEnabledStatus}
                         arrowEnabledStatus={arrowEnabledStatus}
                         setStyle={this.batchSetVectorStyle}
                     />
                 )}
-
                 {checked && this._detailConfigRender()}
             </div>
         );

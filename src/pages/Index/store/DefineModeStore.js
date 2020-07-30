@@ -15,6 +15,7 @@ class DefineModeStore {
     @observable updateColorKey;
     @observable pointEnabledStatus = true; //全局首尾点可用状态
     @observable arrowEnabledStatus = true; //全局箭头可用状态
+    @observable vectorConfigMap = {};
 
     //初始化符号配置
     @action initVectorConfig = mode => {
@@ -125,6 +126,7 @@ class DefineModeStore {
                 styleObj[styleKey] = styleValue;
                 break;
             case 'lineStyle':
+            case 'polygonStyle':
                 if (styleValue === 'solid') {
                     styleObj.dashSize && delete styleObj.dashSize;
                     styleObj.gapSize && delete styleObj.gapSize;
@@ -173,6 +175,7 @@ class DefineModeStore {
 
     //根据typeStyle生成sdk所需的配置文件（当前任务和周边底图的配置）
     getTypeConfig = ({ key, typeStyle, showFields }) => {
+        if (!typeStyle) return;
         const vectorStyleArr = [];
         const pointFLStyleArr = [];
         const arrowStyleArr = [];
