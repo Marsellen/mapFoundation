@@ -11,22 +11,29 @@ import SaveTimeView from './SaveTimeView';
 import ToolIcon from 'src/components/ToolIcon';
 import RelationModal from 'src/pages/Index/components/RenderMode/RelationModal';
 
+@inject('DefineModeStore')
 @inject('RenderModeStore')
 @inject('TextStore')
 @inject('PictureShowStore')
 @observer
 class MultimediaView extends React.Component {
     togglePicture = () => {
-        const { PictureShowStore, TextStore } = this.props;
-        const { visible, show, hide } = PictureShowStore;
-        TextStore.hide();
+        const {
+            PictureShowStore: { visible, show, hide },
+            TextStore: { hide: hideConfig }
+        } = this.props;
+        hideConfig();
         visible ? hide() : show();
     };
 
     toggleDefine = () => {
-        const { PictureShowStore, TextStore } = this.props;
-        const { visible, show, hide } = TextStore;
-        PictureShowStore.hide();
+        const {
+            PictureShowStore: { hide: hidePicture },
+            TextStore: { visible, show, hide },
+            DefineModeStore: { vectorConfigMap }
+        } = this.props;
+        if (!vectorConfigMap) return;
+        hidePicture();
         visible ? hide() : show();
     };
 
@@ -42,13 +49,15 @@ class MultimediaView extends React.Component {
                     id="muti-toggle-icon"
                     title="图片显示窗口"
                     onClick={this.togglePicture}
-                    className={`picture-icon ${pictureVisible ? 'on' : ''}`}>
+                    className={`picture-icon ${pictureVisible ? 'on' : ''}`}
+                >
                     <ToolIcon icon="zhaopianshezhi" />
                 </div>
                 <div
                     title="渲染设置窗口"
                     onClick={this.toggleDefine}
-                    className={`define-icon ${DefineVisible ? 'on' : ''}`}>
+                    className={`define-icon ${DefineVisible ? 'on' : ''}`}
+                >
                     <ToolIcon icon="xuanranshezhi" />
                 </div>
 

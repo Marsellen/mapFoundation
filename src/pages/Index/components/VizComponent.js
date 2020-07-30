@@ -72,14 +72,19 @@ class VizComponent extends React.Component {
 
     init = async () => {
         await this.release();
-        const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
+        const {
+            TextStore: { initLayerTextConfig },
+            TaskStore: { activeTaskId },
+            DefineModeStore: { initVectorConfig }
+        } = this.props;
         if (!activeTaskId) return;
         const div = document.getElementById('viz');
         window.map = new Map(div);
         await this.initTask();
         //初始化文字注记配置
-        this.props.TextStore.initLayerTextConfig();
+        initLayerTextConfig();
+        //初始化符号配置
+        initVectorConfig('common');
     };
 
     release = async () => {
@@ -422,6 +427,7 @@ class VizComponent extends React.Component {
                 setRels();
                 break;
             case 'define':
+            case 'common':
                 //按符号设置，更新后加载的周边底图
                 updateBoundaryVectorStyle();
                 break;

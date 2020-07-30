@@ -5,6 +5,8 @@ export default {
         type: 'Line',
         //符号配置按什么类别展示，当前支持一个
         showFields: ['TYPE'],
+        pointFLFields: ['TYPE'],
+        arrowFields: ['TYPE'],
         order: 15,
         //要展示的样式，['vectorStyle','textStyle','pointFLStyle','arrowStyle']
         showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
@@ -27,14 +29,92 @@ export default {
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 }
             ]
+        },
+        pointFLStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 1,
+                    label: '实际道路参考线',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 2,
+                    label: '虚拟道路参考线',
+                    style: { color: 'rgb(255,255,255)' }
+                }
+            ]
+        },
+        arrowStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 1,
+                    label: '实际道路参考线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 2,
+                    label: '虚拟道路参考线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                }
+            ]
         }
     },
     AD_LaneDivider: {
         type: 'Line',
         showFields: ['RD_LINE'],
+        pointFLFields: ['RD_LINE'],
+        arrowFields: ['RD_LINE'],
         order: 14,
         showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
         vectorStyle: {
+            RD_LINE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 1,
+                    label: '道路参考线',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 2,
+                    label: '非道路参考线',
+                    style: { color: 'rgb(255,255,255)' }
+                }
+            ]
+        },
+        pointFLStyle: {
+            RD_LINE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 1,
+                    label: '道路参考线',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 2,
+                    label: '非道路参考线',
+                    style: { color: 'rgb(255,255,255)' }
+                }
+            ]
+        },
+        arrowStyle: {
             RD_LINE: [
                 {
                     value: 0,
@@ -57,9 +137,349 @@ export default {
     AD_Lane: {
         type: 'Line',
         showFields: ['TYPE'],
+        pointFLFields: ['TYPE'],
+        arrowFields: ['TYPE'],
         order: 13,
         showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
         vectorStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 1,
+                    label: '普通车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 2,
+                    label: '路口车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 3,
+                    label: '应急车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 4,
+                    label: '非机动车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 5,
+                    label: '机非混合车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 6,
+                    label: '公交车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 7,
+                    label: '人行道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 8,
+                    label: 'ETC车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 9,
+                    label: '收费站车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 10,
+                    label: '检查站车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 11,
+                    label: '右侧加速车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 12,
+                    label: '右侧减速车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 13,
+                    label: '匝道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 14,
+                    label: '隔离带车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 15,
+                    label: '紧急停车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 16,
+                    label: 'HOV车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 17,
+                    label: '危险用品专用车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 18,
+                    label: '爬坡车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 19,
+                    label: '可变导向车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 20,
+                    label: '海关监管车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 21,
+                    label: '避险车道引道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 22,
+                    label: '停车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 23,
+                    label: '潮汐车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 24,
+                    label: '左转待转车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 25,
+                    label: '直行待行车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 26,
+                    label: '掉头车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 27,
+                    label: '超车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 28,
+                    label: '服务区车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 29,
+                    label: '左侧加速车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 30,
+                    label: '左侧减速车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 31,
+                    label: '复合车道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 99,
+                    label: '其他',
+                    style: { color: 'rgb(255,255,255 )', linewidth: 1 }
+                }
+            ]
+        },
+        pointFLStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 1,
+                    label: '普通车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 2,
+                    label: '路口车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 3,
+                    label: '应急车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 4,
+                    label: '非机动车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 5,
+                    label: '机非混合车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 6,
+                    label: '公交车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 7,
+                    label: '人行道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 8,
+                    label: 'ETC车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 9,
+                    label: '收费站车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 10,
+                    label: '检查站车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 11,
+                    label: '右侧加速车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 12,
+                    label: '右侧减速车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 13,
+                    label: '匝道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 14,
+                    label: '隔离带车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 15,
+                    label: '紧急停车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 16,
+                    label: 'HOV车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 17,
+                    label: '危险用品专用车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 18,
+                    label: '爬坡车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 19,
+                    label: '可变导向车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 20,
+                    label: '海关监管车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 21,
+                    label: '避险车道引道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 22,
+                    label: '停车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 23,
+                    label: '潮汐车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 24,
+                    label: '左转待转车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 25,
+                    label: '直行待行车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 26,
+                    label: '掉头车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 27,
+                    label: '超车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 28,
+                    label: '服务区车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 29,
+                    label: '左侧加速车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 30,
+                    label: '左侧减速车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 31,
+                    label: '复合车道',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 99,
+                    label: '其他',
+                    style: { color: 'rgb(255,255,255 )' }
+                }
+            ]
+        },
+        arrowStyle: {
             TYPE: [
                 {
                     value: 0,
@@ -489,9 +909,59 @@ export default {
     AD_StopLocation: {
         type: 'Line',
         showFields: ['TYPE'],
+        pointFLFields: ['TYPE'],
+        arrowFields: ['TYPE'],
         order: 9,
         showStyles: ['vectorStyle'],
         vectorStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 1,
+                    label: '停止线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 2,
+                    label: '停车让行线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 3,
+                    label: '减速让行线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                }
+            ]
+        },
+        pointFLStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 1,
+                    label: '停止线',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 2,
+                    label: '停车让行线',
+                    style: { color: 'rgb(255,255,255)' }
+                },
+                {
+                    value: 3,
+                    label: '减速让行线',
+                    style: { color: 'rgb(255,255,255)' }
+                }
+            ]
+        },
+        arrowStyle: {
             TYPE: [
                 {
                     value: 0,
@@ -695,6 +1165,8 @@ export default {
     AD_Pole: {
         type: 'Line',
         showFields: ['TYPE'],
+        pointFLFields: ['TYPE'],
+        arrowFields: ['TYPE'],
         order: 4,
         showStyles: ['vectorStyle'],
         vectorStyle: {
@@ -702,7 +1174,25 @@ export default {
                 {
                     value: 0,
                     label: '',
-                    style: { color: 'rgb(255,255,255)', radius: 0.015 }
+                    style: { color: 'rgb(255,255,255)' }
+                }
+            ]
+        },
+        pointFLStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '',
+                    style: { color: 'rgb(255,255,255)' }
+                }
+            ]
+        },
+        arrowStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '',
+                    style: { color: 'rgb(255,255,255)' }
                 }
             ]
         }
@@ -710,9 +1200,124 @@ export default {
     AD_RS_Barrier: {
         type: 'Line',
         showFields: ['TYPE'],
+        pointFLFields: ['TYPE'],
+        arrowFields: ['TYPE'],
         order: 3,
         showStyles: ['vectorStyle', 'pointFLStyle'],
         vectorStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: {
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 1,
+                    label: '隧道墙',
+                    style: {
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 2,
+                    label: '路侧防护栏',
+                    style: {
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3,
+                    label: '路缘石',
+                    style: {
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 4,
+                    label: '隔音墙',
+                    style: {
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 5,
+                    label: '其他墙体',
+                    style: {
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 6,
+                    label: '道路轮廓标',
+                    style: {
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
+                }
+            ]
+        },
+        pointFLStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: {
+                        color: 'rgb(255,255,255)'
+                    }
+                },
+                {
+                    value: 1,
+                    label: '隧道墙',
+                    style: {
+                        color: 'rgb(255,255,255)'
+                    }
+                },
+                {
+                    value: 2,
+                    label: '路侧防护栏',
+                    style: {
+                        color: 'rgb(255,255,255)'
+                    }
+                },
+                {
+                    value: 3,
+                    label: '路缘石',
+                    style: {
+                        color: 'rgb(255,255,255)'
+                    }
+                },
+                {
+                    value: 4,
+                    label: '隔音墙',
+                    style: {
+                        color: 'rgb(255,255,255)'
+                    }
+                },
+                {
+                    value: 5,
+                    label: '其他墙体',
+                    style: {
+                        color: 'rgb(255,255,255)'
+                    }
+                },
+                {
+                    value: 6,
+                    label: '道路轮廓标',
+                    style: {
+                        color: 'rgb(255,255,255)'
+                    }
+                }
+            ]
+        },
+        arrowStyle: {
             TYPE: [
                 {
                     value: 0,

@@ -98,8 +98,7 @@ class VectorsStore {
         const type = this.layerType;
         if (!this.vectors[type]) return false;
         this.vectors[type].find(layer => layer.value == name).checked = checked;
-        const layer = this.vectors[type].find(layer => layer.value == name)
-            .layer;
+        const layer = this.vectors[type].find(layer => layer.value == name).layer;
         checked ? layer.show() : layer.hide();
         this.updateKey = Math.random();
     };

@@ -6,6 +6,7 @@ import VectorConfig from 'src/pages/Index/components/RenderMode/VectorConfig';
 import { inject, observer } from 'mobx-react';
 
 const { TabPane } = Tabs;
+const SUPPORT_VECTOR_CONFIG_MODE = ['common', 'define'];
 
 @inject('RenderModeStore')
 @observer
@@ -13,11 +14,11 @@ class RenderConfigWindow extends React.Component {
     render() {
         const { RenderModeStore } = this.props;
         const { activeMode } = RenderModeStore;
-        const isDefineMode = activeMode === 'define';
+        const isSupportVectorConfig = SUPPORT_VECTOR_CONFIG_MODE.includes(activeMode);
         return (
             <div className="define-mode-wrap">
                 <Tabs animated={false}>
-                    {isDefineMode && (
+                    {isSupportVectorConfig && (
                         <TabPane tab="符号设置" key="icon">
                             <VectorConfig />
                         </TabPane>

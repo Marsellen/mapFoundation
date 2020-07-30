@@ -21,25 +21,12 @@
 }
 //下拉框样式
 .ad-node-select-dropdown {
+    .ant-select-dropdown-menu-item {
+        padding: 3px 0;
+    }
+    //当前选中样式
     .select-icon-box {
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 16px;
-        font-size: 38px;
-    }
-
-    &.padding-5 {
-        .select-icon-box {
-            padding: 0 5px 0 0;
-        }
-    }
-
-    &.padding-12 {
-        .select-icon-box {
-            padding: 0 15px 0 0;
-        }
+        margin: 0 0 0 -16px;
     }
 }
 //当前选中样式
@@ -50,5 +37,6 @@
     justify-content: center;
     height: 16px;
     padding: 0;
+    margin: 0;
     font-size: 38px;
 }
