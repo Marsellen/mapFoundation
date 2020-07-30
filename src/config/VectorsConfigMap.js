@@ -837,7 +837,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
             showFields: 'TYPE',
             color: 'rgb(255,255,255)',
             opacity: 1,
-            radius: 0.03,
+            radius: 0.015,
             size: 80,
             pointStyle: 'dianyaosu'
         },
@@ -848,7 +848,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             },
@@ -858,7 +858,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             },
@@ -868,7 +868,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             },
@@ -878,7 +878,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             },
@@ -888,7 +888,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             },
@@ -898,7 +898,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             },
@@ -909,7 +909,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             },
@@ -919,7 +919,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             },
@@ -930,7 +930,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             },
@@ -940,7 +940,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             },
@@ -950,7 +950,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             },
@@ -960,7 +960,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             },
@@ -970,7 +970,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             },
@@ -980,7 +980,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             },
@@ -990,7 +990,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             },
@@ -1000,7 +1000,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
-                radius: 0.03,
+                radius: 0.015,
                 size: 80,
                 pointStyle: 'dianyaosu'
             }
@@ -1039,7 +1039,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
         type: 'Polygon',
         commonStyle: {
             showFields: 'ARR_DIRECT',
-            lineStyle: 'solid',
+            polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
         },
@@ -1048,7 +1048,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: '0',
                 label: '未定义',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1056,7 +1056,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 'A',
                 label: '直行',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1064,7 +1064,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 'B',
                 label: '左转',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1072,7 +1072,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 'C',
                 label: '右转',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1080,7 +1080,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 'D',
                 label: '左掉头',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1088,7 +1088,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 'E',
                 label: '右掉头',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1096,7 +1096,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 'F',
                 label: '左弯或需向左合流',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1104,7 +1104,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 'G',
                 label: '右弯或需向右合流',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1112,7 +1112,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 'H',
                 label: '左后方转弯',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1120,7 +1120,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 'I',
                 label: '右后方转弯',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1128,7 +1128,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 'J',
                 label: '禁止左掉头',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1136,7 +1136,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 'K',
                 label: '禁止右掉头',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1144,7 +1144,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 'L',
                 label: '禁止左转',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1152,7 +1152,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 'M',
                 label: '禁止右转',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1160,13 +1160,13 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 'X',
                 label: '待确认',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             }
         ],
         fieldStyle: {
-            colorFieldSize: 28,
+            colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
@@ -1268,7 +1268,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
         type: 'Polygon',
         commonStyle: {
             showFields: 'TYPE',
-            lineStyle: 'solid',
+            polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
         },
@@ -1277,7 +1277,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 0,
                 label: '未定义',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1285,7 +1285,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 1,
                 label: '人行横道',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1293,7 +1293,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 2,
                 label: '禁止停车区',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1301,7 +1301,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 3,
                 label: '减速带',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1309,7 +1309,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 4,
                 label: '减速警示震荡线',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1317,13 +1317,13 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 5,
                 label: '斜跨路口的人行横道',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             }
         ],
         fieldStyle: {
-            colorFieldSize: 28,
+            colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
@@ -1347,7 +1347,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
         type: 'Polygon',
         commonStyle: {
             showFields: 'TYPE',
-            lineStyle: 'solid',
+            polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
         },
@@ -1356,7 +1356,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 0,
                 label: '未定义',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1364,7 +1364,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 1,
                 label: '最高限速',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1372,7 +1372,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 2,
                 label: '最低限速',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1380,7 +1380,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 3,
                 label: '公交车道时间限制',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1388,13 +1388,13 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 99,
                 label: '其他',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             }
         ],
         fieldStyle: {
-            colorFieldSize: 28,
+            colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
@@ -1418,7 +1418,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
         type: 'Polygon',
         commonStyle: {
             showFields: 'SIGN_STYLE',
-            lineStyle: 'solid',
+            polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
         },
@@ -1427,7 +1427,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 0,
                 label: '未定义',
                 showFields: 'SIGN_STYLE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1435,7 +1435,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 1,
                 label: '单个标志牌',
                 showFields: 'SIGN_STYLE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1443,13 +1443,13 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 2,
                 label: '组合标志牌',
                 showFields: 'SIGN_STYLE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             }
         ],
         fieldStyle: {
-            colorFieldSize: 28,
+            colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
@@ -1473,7 +1473,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
         type: 'Polygon',
         commonStyle: {
             showFields: 'TYPE',
-            lineStyle: 'solid',
+            polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
         },
@@ -1482,7 +1482,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 0,
                 label: '未定义',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1490,7 +1490,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 1,
                 label: '普通机动车信号灯',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1498,7 +1498,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 2,
                 label: '方向指示信号灯',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1506,7 +1506,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 3,
                 label: '铁路交叉路口信号灯',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1514,7 +1514,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 4,
                 label: '人行横道信号灯',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -1522,13 +1522,13 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 value: 99,
                 label: '其他',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             }
         ],
         fieldStyle: {
-            colorFieldSize: 28,
+            colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
@@ -2344,7 +2344,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
             showFields: 'TYPE',
             color: 'rgb(102,255,102)',
             opacity: 1,
-            radius: 0.03,
+            radius: 0.015,
             size: 80,
             pointStyle: 'dianyaosu'
         },
@@ -2356,7 +2356,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             },
             {
@@ -2366,7 +2366,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             },
             {
@@ -2376,7 +2376,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             },
             {
@@ -2386,7 +2386,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             },
             {
@@ -2396,7 +2396,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             },
             {
@@ -2406,7 +2406,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             },
 
@@ -2417,7 +2417,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             },
             {
@@ -2427,7 +2427,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             },
 
@@ -2438,7 +2438,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             },
             {
@@ -2448,7 +2448,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             },
             {
@@ -2458,7 +2458,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             },
             {
@@ -2468,7 +2468,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             },
             {
@@ -2478,7 +2478,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             },
             {
@@ -2488,7 +2488,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             },
             {
@@ -2498,7 +2498,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             },
             {
@@ -2508,170 +2508,9 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 size: 80,
                 showFields: 'TYPE',
-                radius: 0.03,
+                radius: 0.015,
                 pointStyle: 'dianyaosu'
             }
-        ][
-            ({
-                value: 0,
-                label: '未定义',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            },
-            {
-                value: 1,
-                label: '道路左侧出口',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            },
-            {
-                value: 2,
-                label: '道路右侧出口',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            },
-            {
-                value: 3,
-                label: '道路分离点',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            },
-            {
-                value: 4,
-                label: '道路合并点',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            },
-            {
-                value: 5,
-                label: '车道合并点',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            },
-            {
-                value: 21,
-                label: '服务区道路开始位置',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            },
-            {
-                value: 22,
-                label: '服务区道路结束位置',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            },
-            {
-                value: 41,
-                label: '点云不清晰起点',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            },
-            {
-                value: 42,
-                label: '点云不清晰结束点',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            },
-            {
-                value: 43,
-                label: '点云遮挡起点',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            },
-            {
-                value: 44,
-                label: '点云遮挡结束',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            },
-            {
-                value: 45,
-                label: '精度误差起始',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            },
-            {
-                value: 46,
-                label: '精度误差结束',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            },
-            {
-                value: 47,
-                label: '道路施工起始',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            },
-            {
-                value: 48,
-                label: '道路施工结束',
-                color: 'rgb(102,255,102)',
-                opacity: 1,
-                size: 80,
-                showFields: 'TYPE',
-                radius: 0.03,
-                pointStyle: 'dianyaosu'
-            })
         ],
         fieldStyle: {
             colorFieldSize: 28,
@@ -2707,7 +2546,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
         type: 'Polygon',
         commonStyle: {
             showFields: 'ARR_DIRECT',
-            lineStyle: 'solid',
+            polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
         },
@@ -2716,7 +2555,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: '0',
                 label: '未定义',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -2724,7 +2563,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 'A',
                 label: '直行',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -2732,7 +2571,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 'B',
                 label: '左转',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -2740,7 +2579,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 'C',
                 label: '右转',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -2748,7 +2587,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 'D',
                 label: '左掉头',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -2756,7 +2595,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 'E',
                 label: '右掉头',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -2764,7 +2603,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 'F',
                 label: '左弯或需向左合流',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -2772,7 +2611,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 'G',
                 label: '右弯或需向右合流',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -2780,7 +2619,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 'H',
                 label: '左后方转弯',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -2788,7 +2627,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 'I',
                 label: '右后方转弯',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -2796,7 +2635,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 'J',
                 label: '禁止左掉头',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -2804,7 +2643,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 'K',
                 label: '禁止右掉头',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -2812,7 +2651,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 'L',
                 label: '禁止左转',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -2820,7 +2659,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 'M',
                 label: '禁止右转',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
@@ -2828,13 +2667,13 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 'X',
                 label: '待确认',
                 showFields: 'ARR_DIRECT',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             }
         ],
         fieldStyle: {
-            colorFieldSize: 28,
+            colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
@@ -2936,7 +2775,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
         type: 'Polygon',
         commonStyle: {
             showFields: 'TYPE',
-            lineStyle: 'solid',
+            polygonStyle: 'solid',
             color: 'rgb(147,112,219)',
             opacity: 1
         },
@@ -2945,7 +2784,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 0,
                 label: '未定义',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(147,112,219)',
                 opacity: 1
             },
@@ -2953,7 +2792,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 1,
                 label: '人行横道',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(147,112,219)',
                 opacity: 1
             },
@@ -2961,7 +2800,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 2,
                 label: '禁止停车区',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(147,112,219)',
                 opacity: 1
             },
@@ -2969,7 +2808,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 3,
                 label: '减速带',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(147,112,219)',
                 opacity: 1
             },
@@ -2977,7 +2816,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 4,
                 label: '减速警示震荡线',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(147,112,219)',
                 opacity: 1
             },
@@ -2985,13 +2824,13 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 5,
                 label: '斜跨路口的人行横道',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(147,112,219)',
                 opacity: 1
             }
         ],
         fieldStyle: {
-            colorFieldSize: 28,
+            colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
@@ -3015,7 +2854,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
         type: 'Polygon',
         commonStyle: {
             showFields: 'TYPE',
-            lineStyle: 'solid',
+            polygonStyle: 'solid',
             color: 'rgb(255,234,149)',
             opacity: 1
         },
@@ -3024,7 +2863,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 0,
                 label: '未定义',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,234,149)',
                 opacity: 1
             },
@@ -3032,7 +2871,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 1,
                 label: '最高限速',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,234,149)',
                 opacity: 1
             },
@@ -3040,7 +2879,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 2,
                 label: '最低限速',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,234,149)',
                 opacity: 1
             },
@@ -3048,7 +2887,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 3,
                 label: '公交车道时间限制',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,234,149)',
                 opacity: 1
             },
@@ -3056,13 +2895,13 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 99,
                 label: '其他',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(255,234,149)',
                 opacity: 1
             }
         ],
         fieldStyle: {
-            colorFieldSize: 28,
+            colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
@@ -3086,7 +2925,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
         type: 'Polygon',
         commonStyle: {
             showFields: 'SIGN_STYLE',
-            lineStyle: 'solid',
+            polygonStyle: 'solid',
             color: 'rgb(70,109,255)',
             opacity: 1
         },
@@ -3095,7 +2934,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 0,
                 label: '未定义',
                 showFields: 'SIGN_STYLE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(70,109,255)',
                 opacity: 1
             },
@@ -3103,7 +2942,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 1,
                 label: '单个标志牌',
                 showFields: 'SIGN_STYLE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(70,109,255)',
                 opacity: 1
             },
@@ -3111,13 +2950,13 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 2,
                 label: '组合标志牌',
                 showFields: 'SIGN_STYLE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(70,109,255)',
                 opacity: 1
             }
         ],
         fieldStyle: {
-            colorFieldSize: 28,
+            colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
@@ -3141,7 +2980,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
         type: 'Polygon',
         commonStyle: {
             showFields: 'TYPE',
-            lineStyle: 'solid',
+            polygonStyle: 'solid',
             color: 'rgb(231,120,0)',
             opacity: 1
         },
@@ -3150,7 +2989,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 0,
                 label: '未定义',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(231,120,0)',
                 opacity: 1
             },
@@ -3158,7 +2997,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 1,
                 label: '普通机动车信号灯',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(231,120,0)',
                 opacity: 1
             },
@@ -3166,7 +3005,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 2,
                 label: '方向指示信号灯',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(231,120,0)',
                 opacity: 1
             },
@@ -3174,7 +3013,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 3,
                 label: '铁路交叉路口信号灯',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(231,120,0)',
                 opacity: 1
             },
@@ -3182,7 +3021,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 4,
                 label: '人行横道信号灯',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(231,120,0)',
                 opacity: 1
             },
@@ -3190,13 +3029,13 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 value: 99,
                 label: '其他',
                 showFields: 'TYPE',
-                lineStyle: 'solid',
+                polygonStyle: 'solid',
                 color: 'rgb(231,120,0)',
                 opacity: 1
             }
         ],
         fieldStyle: {
-            colorFieldSize: 28,
+            colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
