@@ -78,7 +78,7 @@ class QCMarkerTool extends React.Component {
         const tip2 = '正选取待标注的错误数据，按Esc退出质检标注工具';
         return (
             <label>
-                <Icon type="info-circle" /> {editType === 'error_layer' ? tip2 : tip1}
+                <Icon type="info-circle" /> {editType === 'choose_error_feature' ? tip2 : tip1}
             </label>
         );
     };

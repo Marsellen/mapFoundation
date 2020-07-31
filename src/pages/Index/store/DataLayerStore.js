@@ -100,8 +100,8 @@ class DataLayerStore {
     };
 
     // 质检员选取错误数据
-    @action UnQCAttrModal = () => {
-        if (this.editType != 'error_layer') return;
+    @action UnQCAttrModal = editTypeArr => {
+        if (!editTypeArr.includes(this.editType)) return;
         this.isQcOpen = false;
         this.setEditType();
         let viz = document.querySelector('#viz');
@@ -152,6 +152,9 @@ class DataLayerStore {
                     break;
                 case 'error_layer':
                     this.errorLayerCallback(result, event);
+                    break;
+                case 'choose_error_feature':
+                    this.chooseErrorFeatureCallback(result, event);
                     break;
             }
         });
@@ -234,7 +237,7 @@ class DataLayerStore {
         this.editor.clear();
         this.editor.cancel();
         this.unPick();
-        this.UnQCAttrModal();
+        this.UnQCAttrModal(['error_layer', 'choose_error_feature']);
         this.attributeBrushPick();
     };
 
@@ -567,14 +570,18 @@ class DataLayerStore {
         this.errorLayerCallback = callback;
     };
 
+    setChooseErrorFeatureCallback = callback => {
+        this.chooseErrorFeatureCallback = callback;
+    };
+
     setQCMarkerCallback = callback => {
         this.QCMarkerCallback = callback;
     };
 
-    chooseErrorLayer = () => {
+    chooseErrorLayer = editType => {
         this.exitEdit();
         if (!this.editor) return;
-        this.setEditType('error_layer');
+        this.setEditType(editType);
         this.errorLayer();
         let layers = getAllChooseLayersExByName('AD_Map_QC');
         this.editor.setTargetLayers(layers);
@@ -732,7 +739,8 @@ class DataLayerStore {
                 message.destroy();
                 break;
             case 'error_layer':
-                this.UnQCAttrModal();
+            case 'choose_error_feature':
+                this.UnQCAttrModal([this.editType]);
                 break;
             default:
                 break;
@@ -750,6 +758,7 @@ class DataLayerStore {
             case 'new_turn_line':
             case 'posture_adjust':
             case 'error_layer':
+            case 'choose_error_feature':
                 this.fetchTargetLayers();
                 break;
             case 'trim':

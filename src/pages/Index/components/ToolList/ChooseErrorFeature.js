@@ -9,8 +9,8 @@ import { getAllChooseLayersExByName } from 'src/utils/vectorUtils';
 class ChooseErrorFeature extends React.Component {
     componentDidMount() {
         const { DataLayerStore } = this.props;
-        const { setErrorLayerCallback } = DataLayerStore;
-        setErrorLayerCallback(this.errorLayerCallback);
+        const { setChooseErrorFeatureCallback } = DataLayerStore;
+        setChooseErrorFeatureCallback(this.chooseErrorFeatureCallback);
     }
 
     handleToggle = () => {
@@ -18,18 +18,18 @@ class ChooseErrorFeature extends React.Component {
             DataLayerStore: { QCAttrModal, chooseErrorLayer, editType, exitEdit, setTargetLayers }
         } = this.props;
 
-        if (editType === 'error_layer') {
+        if (editType === 'choose_error_feature') {
             exitEdit();
             //只能选除标记图层、质检标注以外的图层
             const layers = getAllChooseLayersExByName('AD_Map_QC');
             setTargetLayers(layers);
         } else {
             QCAttrModal();
-            chooseErrorLayer();
+            chooseErrorLayer('choose_error_feature');
         }
     };
 
-    errorLayerCallback = result => {
+    chooseErrorFeatureCallback = result => {
         if (!result || !result[0]) return;
         const option = getFeatureInfo(result[0]);
         const { layerName, value: featureId } = option;
@@ -46,7 +46,7 @@ class ChooseErrorFeature extends React.Component {
         const {
             DataLayerStore: { editType }
         } = this.props;
-        const visible = editType === 'error_layer';
+        const visible = editType === 'choose_error_feature';
         return (
             <ToolIcon
                 {...this.props}
