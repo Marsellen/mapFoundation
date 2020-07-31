@@ -308,6 +308,11 @@ class QualityCheckResultTable extends React.Component {
             visitedReport(record, activeTaskId);
             //过滤条件是未查看时，双击一条，实时减少总条数
             this.updateTablePageTotal();
+            let feature = locateCheckItem(record);
+            if (!feature) return;
+            let extent = window.map.getExtent(feature.data.geometry);
+            window.map.setView('U');
+            window.map.setExtent(extent);
             //展开
             this.openRowStyle(index);
         };
