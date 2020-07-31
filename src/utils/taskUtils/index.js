@@ -134,7 +134,7 @@ export const saveTaskDate = () => {
 const saveData = async () => {
     message.loading({ key: 'save', content: '正在保存...', duration: 0 });
     try {
-        statisticsTime(1);
+        await statisticsTime(1);
         await TaskStore.submit();
         await TaskStore.writeEditLog();
         OperateHistoryStore.save();
@@ -176,19 +176,19 @@ export const windowObserver = () => {
     var body = document.querySelector('html');
     var min = sysProperties.getConfig('statisticInterval') || 10;
     var time = min * 1000;
-    var started = true;
+    var editTaskId = null;
     var timer;
     var handler = () => {
-        statisticsTime(1);
-        started = false;
+        statisticsTime(3);
+        editTaskId = null;
     };
     var eventFun = throttle(() => {
         timer && clearTimeout(timer);
         if (!TaskStore.isEditableTask) return;
         timer = setTimeout(handler, time);
-        if (!started) {
-            statisticsTime(0);
-            started = true;
+        if (!editTaskId || editTaskId !== TaskStore.editTaskId) {
+            statisticsTime(2);
+            editTaskId = TaskStore.editTaskId;
         }
     }, 1000);
     body.addEventListener('click', eventFun);
