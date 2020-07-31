@@ -136,7 +136,7 @@ const saveData = async () => {
     await TaskStore.submit();
     await TaskStore.writeEditLog();
     OperateHistoryStore.save();
-    statisticsTime(1);
+    await statisticsTime(1);
     message.success({ key: 'save', content: '保存完成', duration: 2 });
 };
 
@@ -168,19 +168,19 @@ export const windowObserver = () => {
     var body = document.querySelector('html');
     var min = sysProperties.getConfig('statisticInterval') || 10;
     var time = min * 1000;
-    var started = true;
+    var editTaskId = null;
     var timer;
     var handler = () => {
-        statisticsTime(1);
-        started = false;
+        statisticsTime(3);
+        editTaskId = null;
     };
     var eventFun = throttle(() => {
         timer && clearTimeout(timer);
         if (!TaskStore.isEditableTask) return;
         timer = setTimeout(handler, time);
-        if (!started) {
-            statisticsTime(0);
-            started = true;
+        if (!editTaskId || editTaskId !== TaskStore.editTaskId) {
+            statisticsTime(2);
+            editTaskId = TaskStore.editTaskId;
         }
     }, 1000);
     body.addEventListener('click', eventFun);

@@ -491,10 +491,15 @@ class VizComponent extends React.Component {
             //离开页面时减少访问次数
             editVisiteHistory.removeVisitedHistory();
             statisticsTime(1);
+            statisticsTime(3);
+            setTimeout(function () {
+                setTimeout(statisticsTime.bind(null, 2), 1000);
+            }, 50);
             const visiteHistory = editVisiteHistory.getVisitedHistory();
             if (visiteHistory.length < 1) {
                 e = window.event || e;
                 e.returnValue = `确定离开当前页面吗？`;
+                return e.returnValue;
             }
         };
 

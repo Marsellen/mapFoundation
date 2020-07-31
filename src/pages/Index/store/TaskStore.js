@@ -135,9 +135,10 @@ class TaskStore {
     });
 
     // 任务切换
-    @action setActiveTask = id => {
+    setActiveTask = flow(function* (id) {
         if (id && this.activeTaskId !== id) {
-            statisticsTime(1);
+            yield statisticsTime(1);
+            yield statisticsTime(3);
         }
 
         if (this.validTasks && this.validTasks.length && id) {
@@ -151,7 +152,7 @@ class TaskStore {
 
         this.taskSaveTime = null;
         this.editTaskId = null;
-    };
+    });
 
     startTaskEdit = flow(function* (id) {
         this.editTaskId = id;
@@ -238,7 +239,8 @@ class TaskStore {
             process_name
         };
         yield JobService.submitTask(payload);
-        statisticsTime(1);
+        yield statisticsTime(1);
+        yield statisticsTime(3);
     });
 
     // 更新任务状态
@@ -504,11 +506,12 @@ class TaskStore {
         }
     });
 
-    @action loadLocalTask = task => {
+    loadLocalTask = flow(function* (task) {
         if (this.taskIdList.includes(Number(task.taskId))) {
             throw new Error('资料目录重复');
         }
-        statisticsTime(1);
+        yield statisticsTime(1);
+        yield statisticsTime(3);
 
         this.activeTask = {
             ...task,
@@ -518,10 +521,11 @@ class TaskStore {
         };
         this.localTasks.push(this.activeTask);
         this.LocalTaskCallback && this.LocalTaskCallback(this.activeTask);
-    };
+    });
 
-    @action tasksPop = currentTaskId => {
-        statisticsTime(1);
+    tasksPop = flow(function* (currentTaskId) {
+        yield statisticsTime(1);
+        yield statisticsTime(3);
         //如果当前任务加载报错，则回到无任务状态
         if (this.activeTaskId == currentTaskId) {
             this.activeTask = {};
@@ -533,7 +537,7 @@ class TaskStore {
             const { isLocal, firstTime } = currentTask;
             isLocal && firstTime && this.localTasks.splice(currentTaskIndex, 1);
         }
-    };
+    });
 
     @action bindLocalTaskCallback = LocalTaskCallback => {
         this.LocalTaskCallback = LocalTaskCallback;
