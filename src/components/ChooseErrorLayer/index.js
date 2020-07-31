@@ -28,7 +28,7 @@ class ChooseErrorLayer extends React.Component {
     handleErrorLayer = () => {
         const { DataLayerStore } = this.props;
         DataLayerStore.QCAttrModal();
-        DataLayerStore.chooseErrorLayer();
+        DataLayerStore.chooseErrorLayer('error_layer');
     };
 
     onChange = val => {
@@ -53,10 +53,7 @@ class ChooseErrorLayer extends React.Component {
                     title="选取错误数据"
                     action={this.handleErrorLayer}
                 />
-                <Select
-                    disabled={disabled}
-                    value={layerName}
-                    onChange={this.onChange}>
+                <Select disabled={disabled} value={layerName} onChange={this.onChange}>
                     {options.map((opt, index) => (
                         <Option key={index} value={opt.value}>
                             {opt.label}

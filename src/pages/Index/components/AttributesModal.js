@@ -26,7 +26,7 @@ class AttributesModal extends React.Component {
 
     handleCancel = e => {
         const { DataLayerStore, AttributeStore } = this.props;
-        DataLayerStore.UnQCAttrModal();
+        DataLayerStore.UnQCAttrModal(['error_layer']);
         AttributeStore.hide();
     };
 
@@ -110,7 +110,7 @@ class AttributesModal extends React.Component {
             result = await updateFeatures(result);
             AttributeStore.hideRelFeatures();
             AttributeStore.hide();
-            DataLayerStore.UnQCAttrModal();
+            DataLayerStore.UnQCAttrModal(['error_layer']);
             return result;
         } catch (e) {
             message.error(e.message || '更新失败: 数据重复');

@@ -32,12 +32,7 @@ class TopView extends React.Component {
     action = () => {
         // map.setView('U');
         // 按钮选中状态
-        const {
-            DataLayerStore,
-            ToolCtrlStore,
-            AttributeStore,
-            RightMenuStore
-        } = this.props;
+        const { DataLayerStore, ToolCtrlStore, AttributeStore, RightMenuStore } = this.props;
         const { isTopView, editType } = DataLayerStore;
         let layer = DataLayerStore.getEditLayer() || {};
 
@@ -53,7 +48,9 @@ class TopView extends React.Component {
             } else {
                 ToolCtrlStore.updateByEditLayer(layer);
             }
-            editType != 'error_layer' && AttributeStore.hide();
+            if (!['error_layer', 'choose_error_feature'].includes(editType)) {
+                AttributeStore.hide();
+            }
             RightMenuStore.hide();
         } else {
             if (
