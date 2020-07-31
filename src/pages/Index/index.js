@@ -10,6 +10,7 @@ import logo from 'src/assets/img/logo.png';
 import { shortcut } from 'src/utils/shortcuts';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
 import { deleteDatabase } from 'src/utils/IndexedDB';
+import sysProperties from 'src/models/sysProperties';
 
 const { Header } = Layout;
 
@@ -24,6 +25,7 @@ if (!jump) {
     deleteDatabase('adEditor');
     deleteDatabase('relationships');
 }
+sysProperties.loadConfigs();
 
 @inject('MenuStore')
 @observer

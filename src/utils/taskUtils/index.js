@@ -8,6 +8,8 @@ import Attr from 'src/models/attr';
 import IconFont from 'src/components/IconFont';
 import editLog from 'src/models/editLog';
 import TaskService from 'src/services/TaskService';
+import { throttle } from '../utils';
+import sysProperties from 'src/models/sysProperties';
 
 const SECEND_PATH = '13_ED_DATA';
 const THIRD_PATH = '1301_RAW_DATA';
@@ -132,7 +134,7 @@ export const saveTaskDate = () => {
 const saveData = async () => {
     message.loading({ key: 'save', content: '正在保存...', duration: 0 });
     try {
-        statisticsTime(1);
+        await statisticsTime(1);
         await TaskStore.submit();
         await TaskStore.writeEditLog();
         OperateHistoryStore.save();
@@ -168,4 +170,29 @@ export const statisticsTime = status => {
         taskFetchId
     };
     return TaskService.statisticsTime(params);
+};
+
+export const windowObserver = () => {
+    var body = document.querySelector('html');
+    var min = sysProperties.getConfig('statisticInterval') || 10;
+    var time = min * 1000;
+    var editTaskId = null;
+    var timer;
+    var handler = () => {
+        statisticsTime(3);
+        editTaskId = null;
+    };
+    var eventFun = throttle(() => {
+        timer && clearTimeout(timer);
+        if (!TaskStore.isEditableTask) return;
+        timer = setTimeout(handler, time);
+        if (!editTaskId || editTaskId !== TaskStore.editTaskId) {
+            statisticsTime(2);
+            editTaskId = TaskStore.editTaskId;
+        }
+    }, 1000);
+    body.addEventListener('click', eventFun);
+    body.addEventListener('keydown', eventFun);
+    body.addEventListener('mousemove', eventFun);
+    body.addEventListener('mousewheel', eventFun);
 };

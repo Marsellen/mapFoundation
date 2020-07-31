@@ -12,14 +12,14 @@
         "start-local": "webpack-dev-server --env.proxy=local",
         "start-semantic": "webpack-dev-server --env.spec=semantic --env.csys=2",
         "start-no-shp": "webpack-dev-server --env.noshp",
-        "build-sdk": "npm i @interactjs/utils@1.9.17 && npm i addis-viz-sdk --registry=http://10.43.75.53:8081/repository/npm-all/ --save",
+        "build-sdk": "npm i @interactjs/utils@1.9.17 && npm i addis-viz-sdk --registry=https://nexus.ecarx.com.cn/repository/npm-all/ --save",
         "build": "npm run build-sdk && webpack --env.mode=production",
         "build-semantic": "npm run build-sdk && webpack --env.mode=production --env.spec=semantic --env.csys=2",
         "build-no-shp": "npm run build-sdk && webpack --env.mode=production --env.noshp"
     },
     "dependencies": {
         "@interactjs/utils": "^1.9.17",
-        "addis-viz-sdk": "^0.1.23-alpha.1",
+        "addis-viz-sdk": "^0.1.22-alpha.2",
         "antd": "^3.26.13",
         "axios": "^0.18.0",
         "dragm": "0.0.5",

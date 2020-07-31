@@ -49,6 +49,14 @@ const EditorService = {
             data
         };
         return service({ config });
+    },
+    sysProperties: data => {
+        const config = {
+            url: EditApiPath('/sys_opt/sys_properties'),
+            method: 'get',
+            data
+        };
+        return service({ config });
     }
 };
 

@@ -112,6 +112,17 @@ class VectorsStore {
         this.updateKey = Math.random();
     };
 
+    @action switchToggle = (disabled, layerType, isInvert) => {
+        const type = layerType || this.layerType;
+        if (!this.vectors[type]) return false;
+        disabled = isInvert ? !this.vectors[type].disabled : disabled;
+        this.vectors[type].disabled = disabled;
+        this.vectors[type].forEach(layer => {
+            layer.checked && !disabled ? layer.layer.show() : layer.layer.hide();
+        });
+        this.updateKey = Math.random();
+    };
+
     @action release = () => {
         this.vectors = {};
         this.layerType = 'vector';

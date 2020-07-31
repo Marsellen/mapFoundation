@@ -5,7 +5,7 @@ export const HOT_KEYS_CONFIG = {
         { value: 'Ctrl+Z', label: '撤销' },
         { value: 'Ctrl+Y', label: '恢复' },
         {
-            value: '俯视图视角下，ctrl+鼠标左键拉框',
+            value: '俯视图视角下，Ctrl+鼠标左键拉框',
             label: '框选'
         },
         // { value: 'Ctrl+F', label: '查询' },
@@ -17,27 +17,29 @@ export const HOT_KEYS_CONFIG = {
         { value: 'Ctrl+G', label: '缩放至全图' },
         { value: 'X', label: '俯视图模式' },
         {
-            value: '鼠标滚轮上/下滚；W  S',
+            value: 'W（放大）、S（缩小）',
             label: '放大/缩小'
         },
         {
-            value: '鼠标右键平移；A D Q E ',
+            value: 'A（左移）、D（右移）、Q（下移）、E（上移）',
             label: '视角平移'
         },
         {
-            value: '鼠标左键视角旋转；方向键',
+            value: '←（左旋）、→（右旋）、↑（向上翻转）、↓（向下翻转）',
             label: '视角旋转'
         }
     ],
     SWITCH_KEY: [
         //开关图层
         { value: '1', label: '开关点云图层' },
-        { value: '2', label: '开关高精地图图层' }
+        { value: '2', label: '开关高精地图图层' },
+        { value: 'Ctrl+2', label: '开关周边底图图层' },
+        { value: '3', label: '开关轨迹图层' }
     ],
     EDITING_KEY: [
         //编辑功能
         {
-            value: '选择一个要素+Ctrl+Alt+Z',
+            value: '选择1个要素+ Ctrl+Alt+Z',
             label: '设置为可编辑图层'
         },
         {
@@ -61,16 +63,16 @@ export const HOT_KEYS_CONFIG = {
             label: '绘制地面矩形'
         },
         {
-            value: '选中要素+Delete',
+            value: '选择1个要素+Delete',
             label: '删除要素'
         },
         {
-            value: '选中要素+Ctrl+Delete',
+            value: '选择1个要素+Ctrl+Delete',
             label: '强制删除要素'
         },
         { value: 'R', label: '新建关联关系' },
         {
-            value: '选中要素+Alt+R',
+            value: '选择1个要素+Alt+R',
             label: '删除关联关系'
         },
         {
@@ -94,7 +96,7 @@ export const HOT_KEYS_CONFIG = {
             label: '拉线齐打断线要素'
         },
         {
-            value: 'Ctrl 多选要素+M',
+            value: 'Ctrl选择2个要素+M',
             label: '合并线要素'
         },
         {
@@ -114,7 +116,7 @@ export const HOT_KEYS_CONFIG = {
             label: '吸附到线要素'
         },
         {
-            value: '选中要素+V',
+            value: '选择1个要素+V',
             label: '修改形状点'
         },
         {
@@ -133,9 +135,10 @@ export const HOT_KEYS_CONFIG = {
     ],
     WINDOW_KEY: [
         //窗口开关
-        { value: '3', label: '开关照片窗口' },
-        { value: '4', label: '开关属性列表' },
-        { value: '5', label: '开关检查列表' }
+        { value: '4', label: '开关照片窗口' },
+        { value: '5', label: '开关属性列表' },
+        { value: '6', label: '开关检查结果列表' },
+        { value: '7', label: '开关质检标注列表' }
     ]
     // OTHER_KEY: [//其他交互
     //     { value: '窗口内对应按钮鼠标点击切换', label: '照片窗口-切换上一张/下一张照片' },

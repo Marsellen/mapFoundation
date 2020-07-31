@@ -216,24 +216,32 @@ export const shortcutMap = [
         ctrl: false,
         alt: false,
         shift: false,
-        keyCode: 51,
-        describe: '开关照片窗口 3'
+        keyCode: 52,
+        describe: '开关照片窗口 4'
     },
     {
         id: 'view-attribute-btn',
         ctrl: false,
         alt: false,
         shift: false,
-        keyCode: 52,
-        describe: '开关属性列表 4'
+        keyCode: 53,
+        describe: '开关属性列表 5'
     },
     {
         id: 'check-result-btn',
         ctrl: false,
         alt: false,
         shift: false,
-        keyCode: 53,
-        describe: '开关检查列表 5'
+        keyCode: 54,
+        describe: '开关检查列表 6'
+    },
+    {
+        id: 'marker-list-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 55,
+        describe: '开关质检标注列表 7'
     },
     {
         id: 'copy-btn',

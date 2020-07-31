@@ -9,6 +9,7 @@ import RightMenuModal from './RightMenuModal';
 
 import {
     RESOURCE_LAYER_VECTOR,
+    RESOURCE_LAYER_TRACK,
     RESOURCE_LAYER_TASK_SCOPE,
     RESOURCE_LAYER_BOUNDARY,
     RESOURCE_LAYER_MULTI_PROJECT
@@ -25,7 +26,7 @@ import { shortcut } from 'src/utils/shortcuts';
 import { installMapListener } from 'src/utils/map/event';
 import _ from 'lodash';
 import editLog from 'src/models/editLog';
-import { isManbuildTask, statisticsTime } from 'src/utils/taskUtils';
+import { isManbuildTask, statisticsTime, windowObserver } from 'src/utils/taskUtils';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
 import axios from 'axios';
 import { logDecorator } from 'src/utils/decorator';
@@ -64,6 +65,7 @@ class VizComponent extends React.Component {
         await TaskStore.initTask({ type: 4 });
         //清除多余任务比例记录
         AdLocalStorage.filterTaskInfosStorage(TaskStore.taskIdList);
+        windowObserver();
     };
 
     componentDidUpdate() {
@@ -159,10 +161,35 @@ class VizComponent extends React.Component {
                 callback: () => {
                     event.preventDefault();
                     event.stopPropagation();
-                    ResourceLayerStore.toggle(RESOURCE_LAYER_VECTOR, true, true);
-                    VectorsStore.toggleAll(true, RESOURCE_LAYER_VECTOR, true);
+                    ResourceLayerStore.switchToggle(RESOURCE_LAYER_VECTOR, true, true);
+                    VectorsStore.switchToggle(true, 'vector', true);
                 },
-                describe: '开关轨迹图层 2'
+                describe: '开关高精地图图层 2'
+            },
+            {
+                ctrl: true,
+                alt: false,
+                shift: false,
+                keyCode: 50,
+                callback: () => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    ResourceLayerStore.switchToggle(RESOURCE_LAYER_BOUNDARY, true, true);
+                    VectorsStore.switchToggle(true, 'boundary', true);
+                },
+                describe: '开关周边底图图层 Ctrl+2'
+            },
+            {
+                ctrl: false,
+                alt: false,
+                shift: false,
+                keyCode: 51,
+                callback: () => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    ResourceLayerStore.trackToggle();
+                },
+                describe: '开关轨迹图层 3'
             }
         ];
 
@@ -469,10 +496,15 @@ class VizComponent extends React.Component {
             //离开页面时减少访问次数
             editVisiteHistory.removeVisitedHistory();
             statisticsTime(1);
+            statisticsTime(3);
+            setTimeout(function () {
+                setTimeout(statisticsTime.bind(null, 2), 1000);
+            }, 50);
             const visiteHistory = editVisiteHistory.getVisitedHistory();
             if (visiteHistory.length < 1) {
                 e = window.event || e;
                 e.returnValue = `确定离开当前页面吗？`;
+                return e.returnValue;
             }
         };
 
