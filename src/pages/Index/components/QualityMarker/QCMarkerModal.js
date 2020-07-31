@@ -327,9 +327,10 @@ class QCMarkerModal extends React.Component {
 
         return (
             <Modal
+                zIndex={visible ? 1 : -1}
                 title={null}
                 closable={false}
-                visible={visible}
+                visible={true}
                 mask={false}
                 maskClosable={false}
                 destroyOnClose={true}
@@ -338,7 +339,6 @@ class QCMarkerModal extends React.Component {
                 wrapClassName="qc-marker-modal"
                 footer={null}
                 onCancel={this.handleCancel}
-                key={properties.id}
             >
                 <Spin tip="Loading..." spinning={isLoading}>
                     <div className="title-wrap">

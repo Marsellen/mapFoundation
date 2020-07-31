@@ -52,12 +52,7 @@ class RenderMode extends React.Component {
             cancelText: '取消',
             zIndex: 99999,
             onOk: () => {
-                const {
-                    DataLayerStore,
-                    RenderModeStore,
-                    AttributeStore,
-                    TextStore
-                } = this.props;
+                const { DataLayerStore, RenderModeStore, AttributeStore, TextStore } = this.props;
                 const { mode } = this.state;
                 //设置渲染模式
                 RenderModeStore.setMode(mode);
@@ -88,6 +83,7 @@ class RenderMode extends React.Component {
         switch (mode) {
             case 'common':
                 commonRenderMode();
+                initVectorConfig('common');
                 break;
             case 'relation':
                 whiteRenderMode();
@@ -99,7 +95,7 @@ class RenderMode extends React.Component {
                 break;
             case 'define':
                 whiteRenderMode();
-                initVectorConfig();
+                initVectorConfig('define');
                 break;
             default:
                 break;
@@ -132,14 +128,16 @@ class RenderMode extends React.Component {
                     onCancel={this.handleClose}
                     width={720}
                     maskClosable={false}
-                    zIndex={9999}>
+                    zIndex={9999}
+                >
                     <div className="modal-body">
                         <ul>
                             {RENDER_MODE_MAP.map((item, index) => (
                                 <li
                                     className={item.mode === mode ? 'on' : ''}
                                     key={`mode-${index}`}
-                                    onClick={() => this.chooseMode(item)}>
+                                    onClick={() => this.chooseMode(item)}
+                                >
                                     <div className="checkbox"></div>
                                     <div>
                                         <img src={item.icon} />
@@ -154,7 +152,8 @@ class RenderMode extends React.Component {
                                 type="primary"
                                 onClick={this.handleOk}
                                 style={{ width: 100 }}
-                                disabled={disabled}>
+                                disabled={disabled}
+                            >
                                 应用
                             </Button>
                         </div>

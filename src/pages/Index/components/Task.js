@@ -217,6 +217,7 @@ class Task extends React.Component {
                 setRels();
                 break;
             case 'define':
+            case 'common':
                 //按符号设置，更新后加载的周边底图
                 updateBoundaryVectorStyle();
                 break;

@@ -37,9 +37,14 @@ class QualityCheckResultTable extends React.Component {
         const { QualityCheckStore } = this.props;
         const { reportList, reportListL, tableHeight } = QualityCheckStore;
         const newTotal = total || total === 0 ? total : reportListL;
-
+        const tableH = tableHeight != 0;
+        const haveReportListL = reportListL > 0;
         return (
-            <div onKeyUp={e => this.handleKeyUp(e)} onKeyDown={e => this.handleKeyDown(e)}>
+            <div
+                style={{ height: '100%' }}
+                onKeyUp={e => this.handleKeyUp(e)}
+                onKeyDown={e => this.handleKeyDown(e)}
+            >
                 <ConfigProvider locale={zh_CN}>
                     <AdTable
                         dataSource={reportList}
@@ -60,15 +65,22 @@ class QualityCheckResultTable extends React.Component {
                             onChange: this.handlePagination,
                             onShowSizeChange: this.handlePagination,
                             pageSizeOptions: ['10', '20', '30', '40', '50'],
-                            className: 'check-table-pagination'
+                            className: tableH
+                                ? 'check-table-pagination'
+                                : 'check-table-pagination-init'
                         }}
-                        className="check-result-table"
+                        className={
+                            tableH
+                                ? 'check-result-table'
+                                : 'check-result-table check-result-table-init'
+                        }
                         onChange={this.handleTableChange}
                         rowKey={record => `checkResult_${record.index}`}
                         scroll={{ y: tableHeight || 170, x: 'max-content' }}
+                        height={haveReportListL ? (tableH ? '100%' : 'max-content') : 0}
                         isHandleBody={true}
                     />
-                    {reportListL > 0 && (
+                    {haveReportListL && (
                         <div className="check-table-footer">
                             <Button className="reset-button" onClick={this.clearFilters}>
                                 筛选重置

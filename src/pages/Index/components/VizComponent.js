@@ -74,14 +74,19 @@ class VizComponent extends React.Component {
 
     init = async () => {
         await this.release();
-        const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
+        const {
+            TextStore: { initLayerTextConfig },
+            TaskStore: { activeTaskId },
+            DefineModeStore: { initVectorConfig }
+        } = this.props;
         if (!activeTaskId) return;
         const div = document.getElementById('viz');
         window.map = new Map(div);
         await this.initTask();
         //初始化文字注记配置
-        this.props.TextStore.initLayerTextConfig();
+        initLayerTextConfig();
+        //初始化符号配置
+        initVectorConfig('common');
     };
 
     release = async () => {
@@ -391,7 +396,7 @@ class VizComponent extends React.Component {
 
     initMarkerLayer = async () => {
         const {
-            QCMarkerStore: { getMarkerList, updateFilters, initMarkerList, showList },
+            QCMarkerStore: { getMarkerList, initMarkerList, showList },
             TaskStore: {
                 isFixTask,
                 isFixStatus,
@@ -419,7 +424,6 @@ class VizComponent extends React.Component {
             if (!data) return;
             if (data.length === 0) return;
             const features = data.map(item => {
-                updateFilters(item);
                 return { geometry: JSON.parse(item.geom), properties: item };
             });
             initMarkerList(data);
@@ -450,6 +454,7 @@ class VizComponent extends React.Component {
                 setRels();
                 break;
             case 'define':
+            case 'common':
                 //按符号设置，更新后加载的周边底图
                 updateBoundaryVectorStyle();
                 break;
@@ -537,7 +542,7 @@ class VizComponent extends React.Component {
                 showRightMenu(result, event);
             } else if (result[0].type === 'TraceListLayer') {
                 showPictureShowView(result[0]);
-                PictureShowStore.show();
+                PictureShowStore.show('TraceListLayer');
             }
             // 属性刷置灰
             if (

@@ -39,7 +39,7 @@ class ViewAttribute extends React.Component {
             columns: [],
             dataSource: [],
             layerName: null,
-            height: 500,
+            height: 0,
             loading: false,
             filteredInfo: null,
             sortedInfo: null,
@@ -100,7 +100,9 @@ class ViewAttribute extends React.Component {
         return (
             <ConfigProvider locale={zh_CN}>
                 <AdTable
-                    className="layer-scroll"
+                    className={
+                        dataSource.length > 0 ? 'layer-scroll' : 'layer-scroll layer-scroll-init'
+                    }
                     rowKey="index"
                     columns={columns}
                     dataSource={dataSource}
@@ -126,6 +128,7 @@ class ViewAttribute extends React.Component {
                         current: page
                     }}
                     scroll={{ x: 'max-content', y: height }}
+                    height={height - 120}
                     title={() => {
                         return this.getTableTitle();
                     }}
@@ -160,7 +163,8 @@ class ViewAttribute extends React.Component {
     resizeCallback = result => {
         const { height: resizeEleHeight } = result;
         this.setState({
-            height: resizeEleHeight - 200
+            //给表格限制最小高度
+            height: parseInt(resizeEleHeight) > 200 ? resizeEleHeight : 200
         });
     };
 

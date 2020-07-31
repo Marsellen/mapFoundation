@@ -9,10 +9,7 @@ function AdTableCell(props) {
     let text = filterBy ? Filter.get(filterBy)(value, record) : value;
 
     return (
-        <td
-            {...restProps}
-            title={text}
-            style={{ wordWrap: 'break-word', wordBreak: 'break-all' }}>
+        <td {...restProps} title={text} style={{ wordWrap: 'break-word', wordBreak: 'break-all' }}>
             {text}
         </td>
     );
@@ -30,7 +27,8 @@ function ResizeableTitle(props) {
             width={width}
             height={0}
             onResize={onResize}
-            draggableOpts={{ enableUserSelectHack: false }}>
+            draggableOpts={{ enableUserSelectHack: false }}
+        >
             <th {...restProps} />
         </Resizable>
     );
@@ -53,6 +51,7 @@ export default function AdTable(props) {
     return (
         <Table
             components={props.isHandleBody ? components : handleBodyComponents}
+            style={{ height: props.height || 'auto' }}
             {...props}
         />
     );

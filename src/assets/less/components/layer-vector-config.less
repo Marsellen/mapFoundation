@@ -1,0 +1,172 @@
+.vector-config-wrap {
+    .vector-config-global-title-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 5px 0 5px;
+        height: 30px;
+        border-bottom: 1px solid #d7d7d7;
+        font-size: 12px;
+        color: #222;
+        .vector-config-global-title-left {
+            display: flex;
+        }
+        .reset {
+            padding: 5px 8px;
+            cursor: pointer;
+            color: #ef404b;
+        }
+        .ant-checkbox-wrapper {
+            font-size: 12px;
+        }
+    }
+
+    .vector-config-content-wrap {
+        padding: 10px 6px 300px 15px;
+    }
+
+    .layer-config-wrap {
+        margin: 0 0 10px;
+        border-bottom: 1px solid rgb(202, 202, 202);
+    }
+
+    .layer-config-title {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        margin: 0 0 5px;
+        color: #222;
+
+        .arrow-icon {
+            position: absolute;
+            left: -17px;
+            top: 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 20px;
+            width: 20px;
+            color: #3e7fe0;
+        }
+    }
+
+    .layer-config-form-wrap {
+        padding: 0 5px;
+        background: rgb(234, 241, 246);
+        color: #222;
+    }
+
+    .layer-config-detail-wrap {
+        padding: 10px 0 0 8px;
+        color: #666;
+    }
+
+    .layer-config-line-wrap {
+        display: flex;
+        align-items: center;
+        height: 36px;
+        background: rgb(234, 241, 246);
+    }
+
+    label {
+        overflow: hidden;
+        padding: 0 5px 0 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .common-label {
+        flex: 1;
+    }
+
+    .type-label {
+        flex: 1;
+        padding: 0;
+    }
+
+    //未勾选分类设色，不显示“通用设置”和“属性值名称”
+    .layer-config-line-style-1 {
+        .common-label,
+        .type-label {
+            display: none;
+            flex: 1;
+        }
+        .point-field,
+        .line-field,
+        .polygon-field {
+            width: 90px;
+        }
+    }
+
+    //勾选分类设色，通用设色表单，不显示“属性值名称”、“颜色”和“样式”
+    .layer-config-line-style-2 {
+        .type-label,
+        .field-label {
+            display: none;
+        }
+        .layer-config-field-wrap {
+            padding: 0 0 0 5px;
+        }
+        .point-field {
+            width: 143px;
+        }
+        .line-field {
+            width: 70px;
+        }
+        .polygon-field {
+            width: 197px;
+        }
+    }
+
+    //勾选分类设色，分类设色表单，不显示“通用设置”、“颜色”和“样式”
+    .layer-config-line-style-3 {
+        .common-label,
+        .field-label {
+            display: none;
+        }
+        .layer-config-field-wrap {
+            padding: 0 0 0 5px;
+        }
+        .point-field {
+            width: 143px;
+        }
+        .line-field {
+            width: 70px;
+        }
+        .polygon-field {
+            width: 197px;
+        }
+    }
+
+    .layer-config-field-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        box-sizing: border-box;
+        padding: 0 0 0 10px;
+        &:nth-of-type(1) {
+            padding: 0 0 0 5px;
+        }
+    }
+
+    .hide {
+        display: none;
+    }
+
+    //修改antd默认样式
+    .ant-checkbox + span {
+        padding-right: unset;
+        padding-left: 2px;
+        color: #222;
+    }
+
+    .ant-input-number-handler-wrap {
+        display: none;
+    }
+
+    .ant-input-number-input {
+        padding: 0 5px;
+        height: 26px;
+        line-height: 26px !important;
+    }
+}

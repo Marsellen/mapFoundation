@@ -3,7 +3,7 @@ export const COLUMNS_CONFIG = [
         title: '序号',
         dataIndex: 'index',
         key: 'index',
-        width: 50
+        width: 40
     },
     {
         title: '任务号',
@@ -41,7 +41,7 @@ export const COLUMNS_CONFIG = [
         title: '错误描述',
         dataIndex: 'errorDesc',
         key: 'errorDesc',
-        width: 280
+        width: 270
     },
     {
         title: '是否查看',

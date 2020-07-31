@@ -133,11 +133,19 @@ export const saveTaskDate = () => {
 
 const saveData = async () => {
     message.loading({ key: 'save', content: '正在保存...', duration: 0 });
-    await TaskStore.submit();
-    await TaskStore.writeEditLog();
-    OperateHistoryStore.save();
-    await statisticsTime(1);
-    message.success({ key: 'save', content: '保存完成', duration: 2 });
+    try {
+        await statisticsTime(1);
+        await TaskStore.submit();
+        await TaskStore.writeEditLog();
+        OperateHistoryStore.save();
+        message.success({ key: 'save', content: '保存完成', duration: 2 });
+    } catch (e) {
+        message.error({
+            key: 'save',
+            content: '保存失败，数据可能出错，请再次保存',
+            duration: 2
+        });
+    }
 };
 
 const checkEmptyData = async () => {
