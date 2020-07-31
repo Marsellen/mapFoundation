@@ -118,12 +118,8 @@ class Task extends React.Component {
         const {
             TaskStore: { activeTaskId },
             appStore: { loginUser: { roleCode } } = {},
-            QualityCheckStore: {
-                handleQualityGetMisreport,
-                openCheckReport,
-                reportListL,
-                setActiveKey
-            }
+            QualityCheckStore,
+            QualityCheckStore: { handleQualityGetMisreport, openCheckReport, setActiveKey }
         } = this.props;
 
         switch (roleCode) {
@@ -144,7 +140,7 @@ class Task extends React.Component {
                     taskId: activeTaskId,
                     status: '1,2,4'
                 });
-                if (reportListL === 0) return;
+                if (QualityCheckStore.reportListL === 0) return;
                 setActiveKey('check');
                 openCheckReport();
                 break;
