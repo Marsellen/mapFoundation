@@ -67,8 +67,7 @@ class Resize {
             case 'left':
                 width = this.currentWidth - addX;
                 if (width > 500) {
-                    this.currentEle.style.left =
-                        this.currentLeft + addX - this.dragX + 'px';
+                    this.currentEle.style.left = this.currentLeft + addX - this.dragX + 'px';
                     this.currentEle.style.width = width + 'px';
                 }
                 break;
@@ -81,16 +80,14 @@ class Resize {
             case 'top':
                 height = this.currentHeight - addY;
                 if (height > 170) {
-                    this.currentEle.style.top =
-                        this.currentTop + addY - this.dragY + 'px';
+                    this.currentEle.style.top = this.currentTop + addY - this.dragY + 'px';
                     this.currentEle.style.height = height + 'px';
                 }
                 break;
             case 'bottom':
                 height = this.currentHeight + addY;
                 if (height > 170) {
-                    this.currentEle.style.top =
-                        this.currentTop - this.dragY + 'px';
+                    this.currentEle.style.top = this.currentTop - this.dragY + 'px';
                     this.currentEle.style.height = height + 'px';
                 }
                 break;
@@ -170,7 +167,6 @@ class Resize {
     };
 
     handleMouseUp = e => {
-        e.stopPropagation();
         if (!this.isStartResize) return;
         const { clientX, clientY } = e;
         const endX = clientX;
@@ -193,10 +189,7 @@ class Resize {
     handleMouseLeave = e => {
         e.stopPropagation();
         if (!this.isStartResize) {
-            this.currentEle.removeEventListener(
-                'mousemove',
-                this.addMouseStyle
-            );
+            this.currentEle.removeEventListener('mousemove', this.addMouseStyle);
         }
     };
 

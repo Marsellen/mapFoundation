@@ -51,12 +51,7 @@ class AdColorInput extends React.Component {
         //获取当前点击的颜色按钮的scroll父元素
         const scrollWrap = this.getScrollWrap(e);
         //获取当前点击的颜色按钮的top、left、width、height
-        const {
-            offsetTop,
-            offsetLeft,
-            clientWidth,
-            clientHeight
-        } = currentColorBox;
+        const { offsetTop, offsetLeft, clientWidth, clientHeight } = currentColorBox;
         //获取当前点击的颜色按钮的scroll父元素的scrollTop、scrollLeft
         const { scrollTop, scrollLeft } = scrollWrap;
         //计算调色板的top、left
@@ -93,7 +88,7 @@ class AdColorInput extends React.Component {
         let i = 0;
         let node = e.target;
         let isScrollEle = false;
-        while (i < 10 && !isScrollEle) {
+        while (i < 20 && !isScrollEle) {
             isScrollEle = node.scrollTop || node.scrollLeft;
             if (!isScrollEle) {
                 node = node.parentNode;
@@ -115,20 +110,13 @@ class AdColorInput extends React.Component {
                         type="primary"
                         className="color-btn"
                         onClick={this.show}
-                        style={{ background }}>
-                        <IconFont
-                            type={`icon-${icon}`}
-                            style={{ fontSize: size, color }}
-                        />
+                        style={{ background }}
+                    >
+                        <IconFont type={`icon-${icon}`} style={{ fontSize: size, color }} />
                     </div>
                 ) : (
-                    <div
-                        type="primary"
-                        className="color-btn"
-                        onClick={this.show}>
-                        <div
-                            className="color-content"
-                            style={{ background: color }}></div>
+                    <div type="primary" className="color-btn" onClick={this.show}>
+                        <div className="color-content" style={{ background: color }}></div>
                     </div>
                 )}
 
@@ -137,7 +125,8 @@ class AdColorInput extends React.Component {
                     <div
                         onClick={this.stopPropagation}
                         className="color-palette"
-                        style={{ top, left }}>
+                        style={{ top, left }}
+                    >
                         <SketchPicker
                             color={color}
                             disableAlpha={disableAlpha}
