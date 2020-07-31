@@ -337,7 +337,6 @@ export const checkSdkError = (result, message) => {
 export const locateCheckItem = record => {
     // 定位，判断是否为可定位图层
     let { geom, location } = record;
-
     try {
         location = JSON.parse(location);
         let IDKey = getLayerIDKey(location.layerName);
@@ -347,9 +346,6 @@ export const locateCheckItem = record => {
         };
         let layer = getLayerByName(location.layerName);
         let feature = layer.getFeatureByOption(option).properties;
-        let extent = window.map.getExtent(feature.data.geometry);
-        window.map.setView('U');
-        window.map.setExtent(extent);
         return feature;
     } catch (e) {
         try {
