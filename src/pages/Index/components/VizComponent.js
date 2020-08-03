@@ -93,7 +93,6 @@ class VizComponent extends React.Component {
         await this.cancelRequest();
         await this.clearWorkSpace();
 
-        QualityCheckStore.clearCheckReport();
         QCMarkerStore.release();
         ResourceLayerStore.release();
         VectorsStore.release();
