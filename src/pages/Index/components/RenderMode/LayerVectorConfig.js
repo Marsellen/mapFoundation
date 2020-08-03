@@ -34,37 +34,6 @@ class LayerVectorConfig extends React.Component {
         });
     };
 
-    //设置某属性值的符号样式
-    setVectorStyle = ({
-        typeValKey,
-        styleKey,
-        currentStyleKey,
-        styleValue,
-        oldValue,
-        rule,
-        checkValue
-    }) => {
-        const isValid = checkValue({ currentStyleKey, styleValue, oldValue, rule });
-        if (!isValid) return;
-        const { layerName, DefineModeStore: { setVectorConfig } = {} } = this.props;
-        setVectorConfig({ key: layerName, typeValKey, styleKey, styleValue });
-    };
-
-    //通用设置：设置所有属性值的符号样式
-    batchSetVectorStyle = ({
-        styleKey,
-        currentStyleKey,
-        styleValue,
-        oldValue,
-        rule,
-        checkValue
-    }) => {
-        const isValid = checkValue({ currentStyleKey, styleValue, oldValue, rule });
-        if (!isValid) return;
-        const { layerName, DefineModeStore: { batchSetVectorConfig } = {} } = this.props;
-        batchSetVectorConfig({ key: layerName, styleKey, styleValue });
-    };
-
     _detailConfigRender = () => {
         const { visible } = this.state;
         const {
@@ -75,7 +44,9 @@ class LayerVectorConfig extends React.Component {
                 vectorConfigMap,
                 updateColorKey,
                 pointEnabledStatus,
-                arrowEnabledStatus
+                arrowEnabledStatus,
+                setVectorConfig,
+                batchSetVectorConfig
             }
         } = this.props;
         const layerVectorConfigMap = vectorConfigMap[layerName] || {};
@@ -94,7 +65,8 @@ class LayerVectorConfig extends React.Component {
                         value={showFields}
                         style={{ width: 227 }}
                         onChange={currentShowFields =>
-                            this.batchSetVectorStyle({
+                            batchSetVectorConfig({
+                                key: layerName,
                                 styleKey: 'showFields',
                                 styleValue: currentShowFields
                             })
@@ -120,7 +92,7 @@ class LayerVectorConfig extends React.Component {
                         styleConfigMap={vectorConfigMap} //配置映射
                         pointEnabledStatus={pointEnabledStatus}
                         arrowEnabledStatus={arrowEnabledStatus}
-                        setStyle={this.batchSetVectorStyle}
+                        setStyle={batchSetVectorConfig}
                     />
                     <div className="layer-config-detail-wrap" key={updateColorKey}>
                         {typeStyle &&
@@ -136,7 +108,7 @@ class LayerVectorConfig extends React.Component {
                                         styleConfigMap={vectorConfigMap} //配置映射
                                         pointEnabledStatus={pointEnabledStatus}
                                         arrowEnabledStatus={arrowEnabledStatus}
-                                        setStyle={this.setVectorStyle}
+                                        setStyle={setVectorConfig}
                                     />
                                 );
                             })}
@@ -150,7 +122,13 @@ class LayerVectorConfig extends React.Component {
         const {
             layerName,
             config: { type },
-            DefineModeStore: { vectorConfigMap, updateKey, pointEnabledStatus, arrowEnabledStatus }
+            DefineModeStore: {
+                vectorConfigMap,
+                updateKey,
+                pointEnabledStatus,
+                arrowEnabledStatus,
+                batchSetVectorConfig
+            }
         } = this.props;
         const layerVectorConfigMap = vectorConfigMap[layerName] || {};
         const { label, isClassify, checked, commonStyle } = layerVectorConfigMap;
@@ -185,7 +163,7 @@ class LayerVectorConfig extends React.Component {
                         styleConfigMap={vectorConfigMap} //配置映射
                         pointEnabledStatus={pointEnabledStatus}
                         arrowEnabledStatus={arrowEnabledStatus}
-                        setStyle={this.batchSetVectorStyle}
+                        setStyle={batchSetVectorConfig}
                     />
                 )}
                 {checked && this._detailConfigRender()}

@@ -8,13 +8,13 @@ import AdInputPositiveNumber from 'src/components/Form/AdInputPositiveNumber';
 class LayerVectorConfigForm extends React.Component {
     constructor(props) {
         super(props);
-        const { type } = props;
+        const { type, radius, pointSize } = props;
         this.isPolygon = type === 'Polygon';
         this.isLine = type === 'Line';
         this.isPoint = type === 'Point';
         this.state = {
-            currentPointSize: 0.01,
-            currentRadius: 0.015
+            currentRadius: radius,
+            currentPointSize: pointSize
         };
     }
 
@@ -27,7 +27,12 @@ class LayerVectorConfigForm extends React.Component {
 
     //检查值的正确性
     checkValue = ({ currentStyleKey, styleValue, oldValue, rule }) => {
-        if (styleValue === undefined || styleValue === null) return false;
+        if (styleValue === undefined || styleValue === null) {
+            this.setState({
+                [currentStyleKey]: oldValue
+            });
+            return false;
+        }
         if (oldValue && oldValue === styleValue) {
             this.setState({
                 [currentStyleKey]: oldValue
@@ -43,7 +48,24 @@ class LayerVectorConfigForm extends React.Component {
                 return false;
             }
         }
+        this.setState({
+            [currentStyleKey]: styleValue
+        });
         return true;
+    };
+
+    setStyle = ({ key, typeValKey, styleKey, currentStyleKey, styleValue, oldValue, rule }) => {
+        const isValid = this.checkValue({ currentStyleKey, styleValue, oldValue, rule });
+        if (!isValid) return;
+        this.props.setStyle({
+            key,
+            typeValKey,
+            styleKey,
+            currentStyleKey,
+            styleValue,
+            oldValue,
+            rule
+        });
     };
 
     render() {
@@ -51,7 +73,6 @@ class LayerVectorConfigForm extends React.Component {
         const {
             updateKey,
             className,
-            setStyle,
             layerName,
             pointEnabledStatus,
             arrowEnabledStatus,
@@ -72,6 +93,7 @@ class LayerVectorConfigForm extends React.Component {
             pointIconOptionArr,
             fieldStyle: { colorFieldSize, colorFieldIcon, styleFieldSize } = {}
         } = styleConfigMap[layerName];
+
         return (
             <div className={`layer-config-line-wrap ${className}`} key={updateKey}>
                 <label className="common-label">通用设置</label>
@@ -87,11 +109,11 @@ class LayerVectorConfigForm extends React.Component {
                         icon={colorFieldIcon}
                         disableAlpha={this.isPoint}
                         onChange={value =>
-                            setStyle({
+                            this.setStyle({
+                                key: layerName,
                                 typeValKey,
                                 styleKey: 'color',
-                                styleValue: value,
-                                checkValue: this.checkValue
+                                styleValue: value
                             })
                         }
                     />
@@ -105,11 +127,11 @@ class LayerVectorConfigForm extends React.Component {
                             size={styleFieldSize}
                             options={styleOptionArr}
                             onChange={value =>
-                                setStyle({
+                                this.setStyle({
+                                    key: layerName,
                                     typeValKey,
                                     styleKey: 'lineStyle',
-                                    styleValue: value,
-                                    checkValue: this.checkValue
+                                    styleValue: value
                                 })
                             }
                         />
@@ -124,11 +146,11 @@ class LayerVectorConfigForm extends React.Component {
                             size={styleFieldSize}
                             options={styleOptionArr}
                             onChange={value =>
-                                setStyle({
+                                this.setStyle({
+                                    key: layerName,
                                     typeValKey,
                                     styleKey: 'polygonStyle',
-                                    styleValue: value,
-                                    checkValue: this.checkValue
+                                    styleValue: value
                                 })
                             }
                         />
@@ -143,11 +165,11 @@ class LayerVectorConfigForm extends React.Component {
                             size={styleFieldSize}
                             options={pointIconOptionArr}
                             onChange={value =>
-                                setStyle({
+                                this.setStyle({
+                                    key: layerName,
                                     typeValKey,
                                     styleKey: 'pointStyle',
-                                    styleValue: value,
-                                    checkValue: this.checkValue
+                                    styleValue: value
                                 })
                             }
                         />
@@ -169,14 +191,14 @@ class LayerVectorConfigForm extends React.Component {
                                 })
                             }
                             onBlur={() =>
-                                setStyle({
+                                this.setStyle({
+                                    key: layerName,
                                     typeValKey,
                                     styleKey: 'radius',
                                     currentStyleKey: 'currentRadius',
                                     styleValue: currentRadius,
                                     oldValue: radius,
-                                    rule: { min: 0, max: 1 },
-                                    checkValue: this.checkValue
+                                    rule: { min: 0, max: 1 }
                                 })
                             }
                         />
@@ -189,11 +211,11 @@ class LayerVectorConfigForm extends React.Component {
                             checked={point}
                             disabled={!pointEnabledStatus}
                             onChange={e =>
-                                setStyle({
+                                this.setStyle({
+                                    key: layerName,
                                     typeValKey,
                                     styleKey: 'point',
-                                    styleValue: e.target.checked,
-                                    checkValue: this.checkValue
+                                    styleValue: e.target.checked
                                 })
                             }
                         >
@@ -213,14 +235,14 @@ class LayerVectorConfigForm extends React.Component {
                                 })
                             }
                             onBlur={() =>
-                                setStyle({
+                                this.setStyle({
+                                    key: layerName,
                                     typeValKey,
                                     styleKey: 'pointSize',
                                     currentStyleKey: 'currentPointSize',
                                     styleValue: currentPointSize,
                                     oldValue: pointSize,
-                                    rule: { min: 0, max: 1 },
-                                    checkValue: this.checkValue
+                                    rule: { min: 0, max: 1 }
                                 })
                             }
                         />
@@ -233,11 +255,11 @@ class LayerVectorConfigForm extends React.Component {
                             checked={arrow}
                             disabled={!arrowEnabledStatus}
                             onChange={e =>
-                                setStyle({
+                                this.setStyle({
+                                    key: layerName,
                                     typeValKey,
                                     styleKey: 'arrow',
-                                    styleValue: e.target.checked,
-                                    checkValue: this.checkValue
+                                    styleValue: e.target.checked
                                 })
                             }
                         >
