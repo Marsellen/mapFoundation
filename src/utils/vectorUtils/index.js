@@ -334,7 +334,7 @@ export const checkSdkError = (result, message) => {
 };
 
 // 通过质检项定位
-export const locateCheckItem = record => {
+export const locateCheckItem = (record, event) => {
     // 定位，判断是否为可定位图层
     let { geom, location } = record;
     try {
@@ -346,15 +346,22 @@ export const locateCheckItem = record => {
         };
         let layer = getLayerByName(location.layerName);
         let feature = layer.getFeatureByOption(option).properties;
-        return feature;
-    } catch (e) {
-        try {
-            geom = JSON.parse(geom);
-            let extent = window.map.getExtent(geom);
+        if (event) {
+            let extent = window.map.getExtent(feature.data.geometry);
             window.map.setView('U');
             window.map.setExtent(extent);
-        } catch (e) {
-            message.error('检查项定位失败');
+        }
+        return feature;
+    } catch (e) {
+        if (event) {
+            try {
+                geom = JSON.parse(geom);
+                let extent = window.map.getExtent(geom);
+                window.map.setView('U');
+                window.map.setExtent(extent);
+            } catch (e) {
+                message.error('检查项定位失败');
+            }
         }
     }
 };
