@@ -231,6 +231,7 @@ class DefineModeStore {
         return {
             config: {
                 ...this.vectorConfig[key],
+                showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
                 showFields: [showFields],
                 pointFLFields: [showFields],
                 arrowFields: [showFields],
@@ -240,6 +241,7 @@ class DefineModeStore {
             },
             boundaryConfig: {
                 ...this.boundaryVectorConfig[key],
+                showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
                 showFields: [showFields],
                 pointFLFields: [showFields],
                 arrowFields: [showFields],
