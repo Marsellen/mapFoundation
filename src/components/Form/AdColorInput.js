@@ -53,7 +53,7 @@ class AdColorInput extends React.Component {
         //获取当前点击的颜色按钮的top、left、width、height
         const { offsetTop, offsetLeft, clientWidth, clientHeight } = currentColorBox;
         //获取当前点击的颜色按钮的scroll父元素的scrollTop、scrollLeft
-        const { scrollTop, scrollLeft } = scrollWrap;
+        const { scrollTop = 0, scrollLeft = 0 } = scrollWrap;
         //计算调色板的top、left
         this.setState({
             visible: true,
@@ -89,7 +89,7 @@ class AdColorInput extends React.Component {
         let node = e.target;
         let isScrollEle = false;
         while (i < 20 && !isScrollEle) {
-            isScrollEle = node.scrollTop || node.scrollLeft;
+            isScrollEle = node.style.overflow;
             if (!isScrollEle) {
                 node = node.parentNode;
             }
