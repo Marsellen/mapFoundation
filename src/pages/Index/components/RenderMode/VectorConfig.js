@@ -11,11 +11,13 @@ class VectorConfig extends React.Component {
     reset = () => {
         const {
             RenderModeStore: { activeMode, commonRenderMode, whiteRenderMode },
-            DefineModeStore: { initVectorConfig }
+            DefineModeStore: { initVectorConfig, setPointEnabledStatus, setArrowEnabledStatus }
         } = this.props;
         initVectorConfig(activeMode);
         activeMode === 'common' && commonRenderMode();
         activeMode === 'define' && whiteRenderMode();
+        setPointEnabledStatus(true);
+        setArrowEnabledStatus(true);
     };
 
     handleChangePoint = e => {
