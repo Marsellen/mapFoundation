@@ -52,7 +52,10 @@ class VectorConfig extends React.Component {
                         重置
                     </div>
                 </div>
-                <div className="config-wrap vector-config-content-wrap">
+                <div
+                    className="config-wrap vector-config-content-wrap"
+                    style={{ overflow: 'auto' }}
+                >
                     {Object.values(vectorConfigMap).map(item => {
                         const { key } = item;
                         return <LayerVectorConfig key={key} layerName={key} config={item} />;

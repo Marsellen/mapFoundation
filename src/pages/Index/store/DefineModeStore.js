@@ -27,6 +27,7 @@ class DefineModeStore {
             const { checked } = this.vectorConfigMap[key];
             checked && this.batchSetVectorConfig({ key });
         });
+        this.updateKey = Math.random();
     };
 
     //初始化某图层符号配置

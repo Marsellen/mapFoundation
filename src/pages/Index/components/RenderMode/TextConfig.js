@@ -10,7 +10,7 @@ class TextConfig extends React.Component {
         const { TextStore } = this.props;
         const { vectorTextConfig } = TextStore;
         return (
-            <div className="config-wrap">
+            <div className="config-wrap" style={{ overflow: 'auto' }}>
                 {Object.values(vectorTextConfig).map(item => {
                     const { key } = item;
                     return <LayerTextConfig key={key} config={item} />;
