@@ -1715,14 +1715,12 @@ export default {
     },
     AD_Pole: {
         type: 'Line',
-        showFields: ['TYPE'],
+        showFields: ['NOKEY'],
         order: 4,
         showStyles: ['vectorStyle'],
         vectorStyle: {
-            TYPE: [
+            NOKEY: [
                 {
-                    value: 0,
-                    label: '',
                     style: {
                         opacity: 0.5,
                         color: 'rgb(32,52,240)'
@@ -1731,10 +1729,8 @@ export default {
             ]
         },
         pointStyle: {
-            TYPE: [
+            NOKEY: [
                 {
-                    value: 0,
-                    label: '',
                     style: {
                         opacity: 0.5,
                         color: 'rgb(32,52,240)'
@@ -1743,10 +1739,8 @@ export default {
             ]
         },
         arrowStyle: {
-            TYPE: [
+            NOKEY: [
                 {
-                    value: 0,
-                    label: '',
                     style: {
                         opacity: 0.5,
                         color: 'rgb(32,52,240)'
