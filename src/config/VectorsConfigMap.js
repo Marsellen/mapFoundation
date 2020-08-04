@@ -1557,7 +1557,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
         isClassify: false,
         type: 'Line',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'NOKEY',
             lineStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1,
@@ -1567,9 +1567,7 @@ export const WHITE_VECTOR_CONFIG_MAP = {
         },
         typeStyle: [
             {
-                value: 0,
-                label: '',
-                showFields: 'TYPE',
+                showFields: 'NOKEY',
                 lineStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
@@ -3064,7 +3062,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
         isClassify: false,
         type: 'Line',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'NOKEY',
             lineStyle: 'solid',
             color: 'rgb(32,52,240)',
             opacity: 1,
@@ -3074,9 +3072,7 @@ export const COMMON_VECTOR_CONFIG_MAP = {
         },
         typeStyle: [
             {
-                value: 0,
-                label: '',
-                showFields: 'TYPE',
+                showFields: 'NOKEY',
                 lineStyle: 'solid',
                 color: 'rgb(32,52,240)',
                 opacity: 1,

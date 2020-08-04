@@ -1164,34 +1164,28 @@ export default {
     },
     AD_Pole: {
         type: 'Line',
-        showFields: ['TYPE'],
-        pointFLFields: ['TYPE'],
-        arrowFields: ['TYPE'],
+        showFields: ['NOKEY'],
+        pointFLFields: ['NOKEY'],
+        arrowFields: ['NOKEY'],
         order: 4,
         showStyles: ['vectorStyle'],
         vectorStyle: {
-            TYPE: [
+            NOKEY: [
                 {
-                    value: 0,
-                    label: '',
                     style: { color: 'rgb(255,255,255)' }
                 }
             ]
         },
         pointFLStyle: {
-            TYPE: [
+            NOKEY: [
                 {
-                    value: 0,
-                    label: '',
                     style: { color: 'rgb(255,255,255)' }
                 }
             ]
         },
         arrowStyle: {
-            TYPE: [
+            NOKEY: [
                 {
-                    value: 0,
-                    label: '',
                     style: { color: 'rgb(255,255,255)' }
                 }
             ]
