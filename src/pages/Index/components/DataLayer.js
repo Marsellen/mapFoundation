@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, List, Switch, Empty } from 'antd';
+import { Checkbox, List, Switch } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { RESOURCE_LAYER_VECTOR, RESOURCE_LAYER_BOUNDARY } from 'src/config/DataLayerConfig';
