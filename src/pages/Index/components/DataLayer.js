@@ -26,71 +26,85 @@ const vectorsTabsConfig = [
 class DataLayer extends React.Component {
     render() {
         let { VectorsStore } = this.props;
-        let { updateKey, vectors, layerType, indeterminate, isCheckedAll } = VectorsStore;
-        const vectorsLayers = vectors[layerType];
+        let { updateKey, vectors, layerType } = VectorsStore;
         let keys = Object.keys(vectors);
-        let tabs = vectorsTabsConfig.filter(tab => keys.includes(tab.key));
+
         return (
             <div className="vectors-wrap" key={updateKey}>
                 {/* 标题 */}
-                {vectorsLayers && (
-                    <ul className="vectors-title-ul">
-                        {tabs.map(item => {
-                            return (
-                                <li
-                                    key={item.key}
-                                    className={layerType === item.key ? 'on' : ''}
-                                    onClick={() => this.handleClick(item.key)}
-                                >
-                                    {item.title}
-                                </li>
-                            );
-                        })}
-                    </ul>
-                )}
+                {keys.length > 0 && this.renderTabs(keys)}
                 {/* 选项 */}
-                <div className="vectors-content-wrap">
-                    {vectorsLayers && (
-                        <div className="flex flex-row flex-start-center">
+                <div className="vectors-content-wrap">{this.renderContent(vectors[layerType])}</div>
+            </div>
+        );
+    }
+
+    renderTabs(keys) {
+        let { VectorsStore } = this.props;
+        let { layerType } = VectorsStore;
+        let tabs = vectorsTabsConfig.filter(tab => keys.includes(tab.key));
+        return (
+            <ul className="vectors-title-ul">
+                {tabs.map(item => {
+                    return (
+                        <li
+                            key={item.key}
+                            className={layerType === item.key ? 'on' : ''}
+                            onClick={() => this.handleClick(item.key)}
+                        >
+                            {item.title}
+                        </li>
+                    );
+                })}
+            </ul>
+        );
+    }
+
+    renderContent(vectorsLayers) {
+        let { VectorsStore } = this.props;
+        let { indeterminate, isCheckedAll } = VectorsStore;
+        return (
+            <React.Fragment>
+                {vectorsLayers && (
+                    <div className="flex flex-row flex-start-center">
+                        <Checkbox
+                            className="flex flex-1"
+                            value="all"
+                            indeterminate={indeterminate}
+                            checked={isCheckedAll}
+                            disabled={vectorsLayers.disabled}
+                            onChange={this.checkAllChangeEvent}
+                        >
+                            全选
+                        </Checkbox>
+                        <Switch
+                            size="small"
+                            checked={!vectorsLayers.disabled}
+                            onChange={this.handleSwitchChange}
+                        />
+                    </div>
+                )}
+                <List
+                    className="check-group"
+                    dataSource={vectorsLayers}
+                    renderItem={item => (
+                        <div>
                             <Checkbox
-                                className="flex flex-1"
-                                value="all"
-                                indeterminate={indeterminate}
-                                checked={isCheckedAll}
+                                value={item.value}
+                                checked={item.checked}
                                 disabled={vectorsLayers.disabled}
-                                onChange={this.checkAllChangeEvent}
+                                onChange={e => {
+                                    this.changeEvent(item, e.target.checked);
+                                }}
                             >
-                                全选
+                                {DATA_LAYER_MAP[item.value]
+                                    ? DATA_LAYER_MAP[item.value].label
+                                    : item.value}
                             </Checkbox>
-                            <Switch
-                                size="small"
-                                checked={!vectorsLayers.disabled}
-                                onChange={this.handleSwitchChange}
-                            />
                         </div>
                     )}
-                    <List
-                        className="check-group"
-                        dataSource={vectors[layerType]}
-                        renderItem={item => (
-                            <div>
-                                <Checkbox
-                                    value={item.value}
-                                    checked={item.checked}
-                                    disabled={vectorsLayers.disabled}
-                                    onChange={e => {
-                                        this.changeEvent(item, e.target.checked);
-                                    }}
-                                >
-                                    {DATA_LAYER_MAP[item.value]
-                                        ? DATA_LAYER_MAP[item.value].label
-                                        : item.value}
-                                </Checkbox>
-                            </div>
-                        )}
-                    />
-                </div>
-            </div>
+                />
+            </React.Fragment>
         );
     }
 
