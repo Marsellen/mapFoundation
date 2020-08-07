@@ -6,8 +6,9 @@ class sysProperties {
     }
 
     async loadConfigs() {
-        let configs = await EditorService.sysProperties();
-        Object.assign(this.configs, configs);
+        let result = await EditorService.sysProperties();
+        if (!result.data) return;
+        Object.assign(this.configs, result.data);
     }
 
     getConfig(key) {
