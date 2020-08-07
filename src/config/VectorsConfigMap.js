@@ -26,6 +26,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
             opacity: 1,
             arrow: true,
             point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
             pointSize: 0.01
         },
         typeStyle: [
@@ -38,6 +40,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -49,6 +53,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -60,6 +66,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             }
         ],
@@ -123,6 +131,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
             opacity: 1,
             arrow: true,
             point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
             pointSize: 0.01
         },
         typeStyle: [
@@ -135,6 +145,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -146,6 +158,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -157,6 +171,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -168,6 +184,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -179,6 +197,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -190,6 +210,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -201,6 +223,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -212,6 +236,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -223,6 +249,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -234,6 +262,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -245,6 +275,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -256,6 +288,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -267,6 +301,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -278,6 +314,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -289,6 +327,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -300,6 +340,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -311,6 +353,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -322,6 +366,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -333,6 +379,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -344,6 +392,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             }
         ],
@@ -419,6 +469,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
             opacity: 1,
             arrow: true,
             point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
             pointSize: 0.01
         },
         typeStyle: [
@@ -431,6 +483,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -442,6 +496,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -453,6 +509,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -464,6 +522,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -475,6 +535,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -486,6 +548,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -497,6 +561,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -508,6 +574,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -519,6 +587,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -530,6 +600,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -541,6 +613,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -552,6 +626,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -563,6 +639,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -574,6 +652,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -585,6 +665,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -596,6 +678,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -607,6 +691,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -618,6 +704,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -629,6 +717,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -640,6 +730,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -651,6 +743,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -662,6 +756,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -673,6 +769,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -684,6 +782,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -695,6 +795,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -706,6 +808,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -717,6 +821,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -728,6 +834,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -739,6 +847,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -750,6 +860,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -761,6 +873,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -772,6 +886,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -783,6 +899,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             }
         ],
@@ -1195,6 +1313,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
             opacity: 1,
             arrow: false,
             point: false,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
             pointSize: 0.01
         },
         typeStyle: [
@@ -1207,6 +1327,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: false,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1218,6 +1340,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: false,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1229,6 +1353,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: false,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1240,6 +1366,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: false,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             }
         ],
@@ -1563,6 +1691,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
             opacity: 1,
             arrow: false,
             point: false,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
             pointSize: 0.01
         },
         typeStyle: [
@@ -1573,6 +1703,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: false,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             }
         ],
@@ -1598,6 +1730,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
             opacity: 1,
             arrow: false,
             point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
             pointSize: 0.01
         },
         typeStyle: [
@@ -1610,6 +1744,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1621,6 +1757,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1632,6 +1770,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1643,6 +1783,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1654,6 +1796,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1665,6 +1809,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1676,6 +1822,8 @@ export const WHITE_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             }
         ],
@@ -1718,6 +1866,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
             opacity: 1,
             arrow: true,
             point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
             pointSize: 0.01
         },
         typeStyle: [
@@ -1730,6 +1880,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1741,6 +1893,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1752,6 +1906,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             }
         ],
@@ -1815,6 +1971,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
             opacity: 1,
             arrow: true,
             point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
             pointSize: 0.01
         },
         typeStyle: [
@@ -1827,6 +1985,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1838,6 +1998,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1849,6 +2011,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             }
         ],
@@ -1924,6 +2088,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
             opacity: 1,
             arrow: true,
             point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
             pointSize: 0.01
         },
         typeStyle: [
@@ -1936,6 +2102,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1947,6 +2115,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1958,6 +2128,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1969,6 +2141,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1980,6 +2154,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -1991,6 +2167,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2002,6 +2180,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2013,6 +2193,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2024,6 +2206,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2035,6 +2219,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2046,6 +2232,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2057,6 +2245,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2068,6 +2258,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2079,6 +2271,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2090,6 +2284,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2101,6 +2297,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2112,6 +2310,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2123,6 +2323,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2134,6 +2336,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2145,6 +2349,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2156,6 +2362,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2167,6 +2375,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2178,6 +2388,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2189,6 +2401,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2200,6 +2414,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2211,6 +2427,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2222,6 +2440,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2233,6 +2453,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2244,6 +2466,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2255,6 +2479,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2266,6 +2492,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2277,6 +2505,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2288,6 +2518,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: true,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             }
         ],
@@ -2700,6 +2932,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
             opacity: 1,
             arrow: false,
             point: false,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
             pointSize: 0.01
         },
         typeStyle: [
@@ -2712,6 +2946,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: false,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2723,6 +2959,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: false,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2734,6 +2972,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: false,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -2745,6 +2985,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: false,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             }
         ],
@@ -3068,6 +3310,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
             opacity: 1,
             arrow: false,
             point: false,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
             pointSize: 0.01
         },
         typeStyle: [
@@ -3078,6 +3322,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: false,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             }
         ],
@@ -3103,6 +3349,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
             opacity: 1,
             arrow: false,
             point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
             pointSize: 0.01
         },
         typeStyle: [
@@ -3115,6 +3363,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -3126,6 +3376,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -3137,6 +3389,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -3148,6 +3402,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -3159,6 +3415,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -3170,6 +3428,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             },
             {
@@ -3181,6 +3441,8 @@ export const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1,
                 arrow: false,
                 point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
                 pointSize: 0.01
             }
         ],
@@ -3239,3 +3501,18 @@ export const POINT_ICON_MAP = {
     dianfuhao7: dianfuhao7,
     dianfuhao8: dianfuhao8
 };
+
+export const CONFIGURABLE_LAYERS = [
+    'AD_Road',
+    'AD_LaneDivider',
+    'AD_Lane',
+    'AD_LaneAttrPoint',
+    'AD_Arrow',
+    'AD_StopLocation',
+    'AD_LaneMark_Plg',
+    'AD_Text',
+    'AD_TrafficSign',
+    'AD_TrafficLight',
+    'AD_Pole',
+    'AD_RS_Barrier'
+];

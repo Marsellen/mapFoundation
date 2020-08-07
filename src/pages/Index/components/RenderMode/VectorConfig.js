@@ -10,41 +10,43 @@ import LayerVectorConfig from 'src/pages/Index/components/RenderMode/LayerVector
 class VectorConfig extends React.Component {
     reset = () => {
         const {
-            RenderModeStore: { activeMode, commonRenderMode, whiteRenderMode },
-            DefineModeStore: { initVectorConfig, setPointEnabledStatus, setArrowEnabledStatus }
+            RenderModeStore: { activeMode },
+            DefineModeStore: { initVectorConfig }
         } = this.props;
         initVectorConfig(activeMode);
-        activeMode === 'common' && commonRenderMode();
-        activeMode === 'define' && whiteRenderMode();
-        setPointEnabledStatus(true);
-        setArrowEnabledStatus(true);
     };
 
     handleChangePoint = e => {
         const { checked } = e.target;
-        const { DefineModeStore: { setPointEnabledStatus } = {} } = this.props;
-        setPointEnabledStatus(checked);
+        const { DefineModeStore: { setGlobalPointEnabledStatus } = {} } = this.props;
+        setGlobalPointEnabledStatus(checked);
     };
 
     handleChangeArrow = e => {
         const { checked } = e.target;
-        const { DefineModeStore: { setArrowEnabledStatus } = {} } = this.props;
-        setArrowEnabledStatus(checked);
+        const { DefineModeStore: { setGlobalArrowEnabledStatus } = {} } = this.props;
+        setGlobalArrowEnabledStatus(checked);
     };
 
     render() {
         const {
-            DefineModeStore: { vectorConfigMap, pointEnabledStatus, arrowEnabledStatus }
+            DefineModeStore: { vectorConfigMap, globalPointEnabledStatus, globalArrowEnabledStatus }
         } = this.props;
         return (
             <div className="vector-config-wrap">
                 <div className="vector-config-global-title-wrap">
                     <div className="vector-config-global-title-left">
                         <label>全局设置：</label>
-                        <Checkbox checked={pointEnabledStatus} onChange={this.handleChangePoint}>
+                        <Checkbox
+                            checked={globalPointEnabledStatus}
+                            onChange={this.handleChangePoint}
+                        >
                             圆点
                         </Checkbox>
-                        <Checkbox checked={arrowEnabledStatus} onChange={this.handleChangeArrow}>
+                        <Checkbox
+                            checked={globalArrowEnabledStatus}
+                            onChange={this.handleChangeArrow}
+                        >
                             箭头
                         </Checkbox>
                     </div>
