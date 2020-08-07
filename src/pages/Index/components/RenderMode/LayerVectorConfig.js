@@ -85,7 +85,6 @@ class LayerVectorConfig extends React.Component {
                         {...commonStyle}
                         className="layer-config-line-style-2"
                         type={type}
-                        updateKey={updateKey}
                         layerName={layerName}
                         styleConfigMap={vectorConfigMap} //配置映射
                         setStyle={batchSetVectorConfig}
@@ -99,7 +98,6 @@ class LayerVectorConfig extends React.Component {
                                         className="layer-config-line-style-3"
                                         type={type}
                                         key={item.value}
-                                        updateKey={updateKey}
                                         layerName={layerName}
                                         styleConfigMap={vectorConfigMap} //配置映射
                                         setStyle={setVectorConfig}
@@ -146,7 +144,7 @@ class LayerVectorConfig extends React.Component {
                         {...commonStyle}
                         className="layer-config-line-style-1"
                         type={type}
-                        updateKey={updateKey}
+                        key={updateKey}
                         layerName={layerName}
                         styleConfigMap={vectorConfigMap} //配置映射
                         setStyle={batchSetVectorConfig}
