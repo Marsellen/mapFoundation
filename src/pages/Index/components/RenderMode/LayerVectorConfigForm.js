@@ -181,8 +181,8 @@ class LayerVectorConfigForm extends React.Component {
                         <AdInputPositiveNumber
                             className="field"
                             value={currentRadius || radius}
-                            step={0.001}
-                            precision={3}
+                            step={0.01}
+                            precision={2}
                             width={50}
                             onChange={value =>
                                 this.handleChange({
@@ -224,8 +224,8 @@ class LayerVectorConfigForm extends React.Component {
                         <AdInputPositiveNumber
                             className="field"
                             value={point ? currentPointSize || pointSize : ''}
-                            step={0.001}
-                            precision={3}
+                            step={0.01}
+                            precision={2}
                             disabled={!point || !pointEnabledStatus}
                             width={45}
                             onChange={value =>

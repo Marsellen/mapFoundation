@@ -530,7 +530,7 @@ class TaskStore {
             const { isLocal, firstTime } = currentTask;
             isLocal && firstTime && this.localTasks.splice(currentTaskIndex, 1);
         }
-    });
+    }).bind(this);
 
     @action bindLocalTaskCallback = LocalTaskCallback => {
         this.LocalTaskCallback = LocalTaskCallback;
