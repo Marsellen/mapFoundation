@@ -30,7 +30,6 @@ class DataLayer extends React.Component {
         const vectorsLayers = vectors[layerType];
         let keys = Object.keys(vectors);
         let tabs = vectorsTabsConfig.filter(tab => keys.includes(tab.key));
-        let disabled = vectors[layerType].disabled;
         return (
             <div className="vectors-wrap" key={updateKey}>
                 {/* 标题 */}
@@ -58,14 +57,14 @@ class DataLayer extends React.Component {
                                 value="all"
                                 indeterminate={indeterminate}
                                 checked={isCheckedAll}
-                                disabled={disabled}
+                                disabled={vectorsLayers.disabled}
                                 onChange={this.checkAllChangeEvent}
                             >
                                 全选
                             </Checkbox>
                             <Switch
                                 size="small"
-                                checked={!disabled}
+                                checked={!vectorsLayers.disabled}
                                 onChange={this.handleSwitchChange}
                             />
                         </div>
@@ -78,7 +77,7 @@ class DataLayer extends React.Component {
                                 <Checkbox
                                     value={item.value}
                                     checked={item.checked}
-                                    disabled={disabled}
+                                    disabled={vectorsLayers.disabled}
                                     onChange={e => {
                                         this.changeEvent(item, e.target.checked);
                                     }}
