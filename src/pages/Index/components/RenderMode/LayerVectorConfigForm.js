@@ -71,7 +71,6 @@ class LayerVectorConfigForm extends React.Component {
     render() {
         const { currentRadius, currentPointSize } = this.state;
         const {
-            updateKey,
             className,
             layerName,
             pointEnabledStatus,
@@ -95,7 +94,7 @@ class LayerVectorConfigForm extends React.Component {
         } = styleConfigMap[layerName];
 
         return (
-            <div className={`layer-config-line-wrap ${className}`} key={updateKey}>
+            <div className={`layer-config-line-wrap ${className}`}>
                 <label className="common-label">通用设置</label>
                 <label className="type-label" title={label}>
                     {label}
