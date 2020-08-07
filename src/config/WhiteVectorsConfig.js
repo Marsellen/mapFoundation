@@ -661,7 +661,7 @@ export default {
                     label: '未定义',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -671,7 +671,7 @@ export default {
                     label: '道路左侧出口',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -681,7 +681,7 @@ export default {
                     label: '道路右侧出口',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -691,7 +691,7 @@ export default {
                     label: '道路分离点',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -701,7 +701,7 @@ export default {
                     label: '道路合并点',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -711,7 +711,7 @@ export default {
                     label: '车道合并点',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -722,7 +722,7 @@ export default {
                     label: '服务区道路开始位置',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -732,7 +732,7 @@ export default {
                     label: '服务区道路结束位置',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -743,7 +743,7 @@ export default {
                     label: '点云不清晰起点',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -753,7 +753,7 @@ export default {
                     label: '点云不清晰结束点',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -763,7 +763,7 @@ export default {
                     label: '点云遮挡起点',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -773,7 +773,7 @@ export default {
                     label: '点云遮挡结束',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -783,7 +783,7 @@ export default {
                     label: '精度误差起始',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -793,7 +793,7 @@ export default {
                     label: '精度误差结束',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -803,7 +803,7 @@ export default {
                     label: '道路施工起始',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -813,7 +813,7 @@ export default {
                     label: '道路施工结束',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.015,
+                        radius: 0.15,
                         opacity: 0.6,
                         size: 80
                     }
@@ -1384,7 +1384,7 @@ export default {
                     label: '未定义',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.03,
+                        radius: 0.3,
                         url: biaojituceng,
                         size: 80
                     }
@@ -1394,7 +1394,7 @@ export default {
                     label: '已修正',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.03,
+                        radius: 0.3,
                         url: biaojituceng,
                         size: 80
                     }
@@ -1404,7 +1404,7 @@ export default {
                     label: '未修正',
                     style: {
                         color: 'rgb(255,255,255)',
-                        radius: 0.03,
+                        radius: 0.3,
                         url: biaojituceng,
                         size: 80
                     }
