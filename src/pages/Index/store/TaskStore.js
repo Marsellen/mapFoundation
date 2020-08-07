@@ -238,9 +238,9 @@ class TaskStore {
             taskId,
             process_name
         };
-        yield JobService.submitTask(payload);
-        yield statisticsTime(1);
         yield statisticsTime(3);
+        yield statisticsTime(1);
+        yield JobService.submitTask(payload);
     });
 
     // 更新任务状态
