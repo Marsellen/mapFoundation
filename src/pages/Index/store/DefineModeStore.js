@@ -3,7 +3,8 @@ import {
     POINT_ICON_MAP,
     MODE_VECTOR_CONFIG_MAP,
     MODE_VECTOR_CONFIG,
-    MODE_BOUNDARY_VECTOR_CONFIG
+    MODE_BOUNDARY_VECTOR_CONFIG,
+    CONFIGURABLE_LAYERS
 } from 'src/config/VectorsConfigMap.js';
 import { TYPE_SELECT_OPTION_MAP, LAYER_TYPE_MAP } from 'src/config/ADMapDataConfig';
 
@@ -13,21 +14,21 @@ class DefineModeStore {
     boundaryVectorConfig = {}; //周边底图符号配置
     @observable updateKey;
     @observable updateColorKey;
-    @observable pointEnabledStatus = true; //全局首尾点可用状态
-    @observable arrowEnabledStatus = true; //全局箭头可用状态
+    @observable globalPointEnabledStatus = true; //全局首尾点可用状态
+    @observable globalArrowEnabledStatus = true; //全局箭头可用状态
     @observable vectorConfigMap = {};
 
     //初始化符号配置
     @action initVectorConfig = mode => {
+        this.globalPointEnabledStatus = true;
+        this.globalArrowEnabledStatus = true;
         this.vectorConfigMap = JSON.parse(JSON.stringify(MODE_VECTOR_CONFIG_MAP[mode]));
         this.vectorConfig = JSON.parse(JSON.stringify(MODE_VECTOR_CONFIG[mode]));
         this.boundaryVectorConfig = JSON.parse(JSON.stringify(MODE_BOUNDARY_VECTOR_CONFIG[mode]));
-        //默认勾选分类设色的图层，初始化该图层当前分类所有值的符号配置
-        Object.keys(this.vectorConfigMap).forEach(key => {
-            const { checked } = this.vectorConfigMap[key];
-            checked && this.batchSetVectorConfig({ key });
+        //初始化所有图层
+        CONFIGURABLE_LAYERS.forEach(layerName => {
+            this.batchSetVectorConfig({ key: layerName });
         });
-        this.updateKey = Math.random();
     };
 
     //初始化某图层符号配置
@@ -38,46 +39,28 @@ class DefineModeStore {
     };
 
     //设置全局首尾点的可用状态
-    @action setPointEnabledStatus = checked => {
-        this.pointEnabledStatus = checked;
-        this.toggleGlobalPointFL(checked);
+    @action setGlobalPointEnabledStatus = checked => {
+        this.globalPointEnabledStatus = checked;
+        if (!window.vectorLayerGroup || !window.boundaryLayerGroup) return;
+        CONFIGURABLE_LAYERS.forEach(layerName => {
+            this.batchSetVectorConfig({
+                key: layerName,
+                styleKey: 'pointEnabledStatus',
+                styleValue: checked
+            });
+        });
     };
 
     //设置全局箭头的可用状态
-    @action setArrowEnabledStatus = checked => {
-        this.arrowEnabledStatus = checked;
-        this.toggleGlobalArrow(checked);
-    };
-
-    //显隐所有要素的首尾点
-    toggleGlobalPointFL = checked => {
-        //显隐当前任务要素首尾点
-        if (!window.vectorLayerGroup) return;
-        window.vectorLayerGroup.layers.forEach(item => {
-            const { layer } = item;
-            checked ? layer.showPointFL() : layer.hidePointFL();
-        });
-        //显隐周边底图要素首尾点
-        if (!window.boundaryLayerGroup) return;
-        window.boundaryLayerGroup.layers.forEach(item => {
-            const { layer } = item;
-            checked ? layer.showPointFL() : layer.hidePointFL();
-        });
-    };
-
-    //显隐所有要素的箭头
-    toggleGlobalArrow = checked => {
-        //显隐当前任务要素箭头
-        if (!window.vectorLayerGroup) return;
-        window.vectorLayerGroup.layers.forEach(item => {
-            const { layer } = item;
-            checked ? layer.showArrow() : layer.hideArrow();
-        });
-        //显隐周边底图要素箭头
-        if (!window.boundaryLayerGroup) return;
-        window.boundaryLayerGroup.layers.forEach(item => {
-            const { layer } = item;
-            checked ? layer.showArrow() : layer.hideArrow();
+    @action setGlobalArrowEnabledStatus = checked => {
+        this.globalArrowEnabledStatus = checked;
+        if (!window.vectorLayerGroup || !window.boundaryLayerGroup) return;
+        CONFIGURABLE_LAYERS.forEach(layerName => {
+            this.batchSetVectorConfig({
+                key: layerName,
+                styleKey: 'arrowEnabledStatus',
+                styleValue: checked
+            });
         });
     };
 
@@ -195,7 +178,9 @@ class DefineModeStore {
                 radius,
                 size,
                 arrow,
-                point
+                point,
+                pointEnabledStatus,
+                arrowEnabledStatus
             } = item;
             let style = { url, dashSize, gapSize, color, opacity, radius, size };
             let boundaryStyle = { ...style, opacity: opacity / 2 };
@@ -207,7 +192,7 @@ class DefineModeStore {
                 value,
                 style: boundaryStyle
             });
-            if (point && this.pointEnabledStatus) {
+            if (point && pointEnabledStatus) {
                 pointFLStyleArr.push({
                     value,
                     style: { ...style, radius: pointSize }
@@ -217,7 +202,7 @@ class DefineModeStore {
                     style: { ...boundaryStyle, radius: pointSize }
                 });
             }
-            if (arrow && this.arrowEnabledStatus) {
+            if (arrow && arrowEnabledStatus) {
                 arrowStyleArr.push({
                     value,
                     style: style

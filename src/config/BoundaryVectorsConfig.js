@@ -128,7 +128,7 @@ export default {
                 }
             ]
         },
-        pointStyle: {
+        pointFLStyle: {
             RD_LINE: [
                 {
                     value: 0,
@@ -1365,6 +1365,8 @@ export default {
     AD_StopLocation: {
         type: 'Line',
         showFields: ['TYPE'],
+        pointFLFields: ['TYPE'],
+        arrowFields: ['TYPE'],
         order: 9,
         showStyles: ['vectorStyle'],
         vectorStyle: {
@@ -1716,6 +1718,8 @@ export default {
     AD_Pole: {
         type: 'Line',
         showFields: ['NOKEY'],
+        pointFLFields: ['NOKEY'],
+        arrowFields: ['NOKEY'],
         order: 4,
         showStyles: ['vectorStyle'],
         vectorStyle: {
@@ -1728,7 +1732,7 @@ export default {
                 }
             ]
         },
-        pointStyle: {
+        pointFLStyle: {
             NOKEY: [
                 {
                     style: {
@@ -1752,9 +1756,138 @@ export default {
     AD_RS_Barrier: {
         type: 'Line',
         showFields: ['TYPE'],
+        pointFLFields: ['TYPE'],
+        arrowFields: ['TYPE'],
         order: 3,
         showStyles: ['vectorStyle', 'pointFLStyle'],
         vectorStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 1,
+                    label: '隧道墙',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 2,
+                    label: '路侧防护栏',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3,
+                    label: '路缘石',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 4,
+                    label: '隔音墙',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 5,
+                    label: '其他墙体',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 6,
+                    label: '道路轮廓标',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                }
+            ]
+        },
+        pointFLStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(70,109,255)'
+                    }
+                },
+                {
+                    value: 1,
+                    label: '隧道墙',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(70,109,255)'
+                    }
+                },
+                {
+                    value: 2,
+                    label: '路侧防护栏',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(70,109,255)'
+                    }
+                },
+                {
+                    value: 3,
+                    label: '路缘石',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(70,109,255)'
+                    }
+                },
+                {
+                    value: 4,
+                    label: '隔音墙',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(70,109,255)'
+                    }
+                },
+                {
+                    value: 5,
+                    label: '其他墙体',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(70,109,255)'
+                    }
+                },
+                {
+                    value: 6,
+                    label: '道路轮廓标',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(70,109,255)'
+                    }
+                }
+            ]
+        },
+        arrowStyle: {
             TYPE: [
                 {
                     value: 0,

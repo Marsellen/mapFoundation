@@ -43,8 +43,6 @@ class LayerVectorConfig extends React.Component {
                 updateKey,
                 vectorConfigMap,
                 updateColorKey,
-                pointEnabledStatus,
-                arrowEnabledStatus,
                 setVectorConfig,
                 batchSetVectorConfig
             }
@@ -90,8 +88,6 @@ class LayerVectorConfig extends React.Component {
                         updateKey={updateKey}
                         layerName={layerName}
                         styleConfigMap={vectorConfigMap} //配置映射
-                        pointEnabledStatus={pointEnabledStatus}
-                        arrowEnabledStatus={arrowEnabledStatus}
                         setStyle={batchSetVectorConfig}
                     />
                     <div className="layer-config-detail-wrap" key={updateColorKey}>
@@ -106,8 +102,6 @@ class LayerVectorConfig extends React.Component {
                                         updateKey={updateKey}
                                         layerName={layerName}
                                         styleConfigMap={vectorConfigMap} //配置映射
-                                        pointEnabledStatus={pointEnabledStatus}
-                                        arrowEnabledStatus={arrowEnabledStatus}
                                         setStyle={setVectorConfig}
                                     />
                                 );
@@ -122,13 +116,7 @@ class LayerVectorConfig extends React.Component {
         const {
             layerName,
             config: { type },
-            DefineModeStore: {
-                vectorConfigMap,
-                updateKey,
-                pointEnabledStatus,
-                arrowEnabledStatus,
-                batchSetVectorConfig
-            }
+            DefineModeStore: { vectorConfigMap, updateKey, batchSetVectorConfig }
         } = this.props;
         const layerVectorConfigMap = vectorConfigMap[layerName] || {};
         const { label, isClassify, checked, commonStyle } = layerVectorConfigMap;
@@ -161,8 +149,6 @@ class LayerVectorConfig extends React.Component {
                         updateKey={updateKey}
                         layerName={layerName}
                         styleConfigMap={vectorConfigMap} //配置映射
-                        pointEnabledStatus={pointEnabledStatus}
-                        arrowEnabledStatus={arrowEnabledStatus}
                         setStyle={batchSetVectorConfig}
                     />
                 )}
