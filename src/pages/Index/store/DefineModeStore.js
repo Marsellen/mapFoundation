@@ -41,7 +41,6 @@ class DefineModeStore {
     //设置全局首尾点的可用状态
     @action setGlobalPointEnabledStatus = checked => {
         this.globalPointEnabledStatus = checked;
-        if (!window.vectorLayerGroup || !window.boundaryLayerGroup) return;
         CONFIGURABLE_LAYERS.forEach(layerName => {
             this.batchSetVectorConfig({
                 key: layerName,
@@ -54,7 +53,6 @@ class DefineModeStore {
     //设置全局箭头的可用状态
     @action setGlobalArrowEnabledStatus = checked => {
         this.globalArrowEnabledStatus = checked;
-        if (!window.vectorLayerGroup || !window.boundaryLayerGroup) return;
         CONFIGURABLE_LAYERS.forEach(layerName => {
             this.batchSetVectorConfig({
                 key: layerName,
