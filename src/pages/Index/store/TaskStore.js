@@ -13,7 +13,6 @@ import {
 import { getAuthentication } from 'src/utils/Session';
 import editLog from 'src/models/editLog';
 import moment from 'moment';
-import AdLocalStorage from 'src/utils/AdLocalStorage';
 import BoundaryVectorsConfig from 'src/config/BoundaryVectorsConfig';
 import { LayerGroup } from 'addis-viz-sdk';
 import {
@@ -34,6 +33,7 @@ import {
     TASK_FIX_STATUS,
     TASK_REFIX_STATUS
 } from 'src/config/TaskConfig';
+import { UPDATE_BOUNDARY_PARAM_MAP } from 'src/config/TaskConfig';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -169,51 +169,27 @@ class TaskStore {
     @action getBoundaryLayer = () => {
         const taskType = this.taskProcessName;
         const updateBoundaryParams = this.initUpdateBoundaryParams(taskType);
-        const isGetTaskBoundaryFile = this.isGetTaskBoundaryFile();
-        // 已更新底图，则直接获取底图；未更新底图，则先更新再获取底图
-        if (isGetTaskBoundaryFile) {
-            return this.getTaskBoundaryFile();
+        // 如果是本地加载任务，则直接获取底图；如果是工作流下发任务，则先更新再获取底图
+        if (this.activeTask.isLocal) {
+            return this.getBoundaryFile();
         } else {
-            return this.updateTaskBoundaryFile(updateBoundaryParams);
+            return this.updateBoundaryFile(updateBoundaryParams);
         }
     };
 
     initUpdateBoundaryParams = taskType => {
+        const region = window.vectorLayer.getAllFeatures()[0];
+        const { bufferRegionWkt } = region.data.properties;
+        const { referData, outDir } = UPDATE_BOUNDARY_PARAM_MAP[taskType];
         const params = {
-            imp_recognition: {
-                taskId: this.activeTaskId,
-                '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
-                targetDirectory: this.activeTask['1302_MS_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask['MS_EDITOR_QUERYDB_PATHS'],
-                incsys: 'mct',
-                outcsys: 'mct'
-            },
-            imp_check_after_recognition: {
-                taskId: this.activeTaskId,
-                '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
-                targetDirectory: this.activeTask['1303_MS_QC_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask['MS_EDITOR_QUERYDB_PATHS'],
-                incsys: 'mct',
-                outcsys: 'mct'
-            },
-            imp_manbuild: {
-                taskId: this.activeTaskId,
-                '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
-                targetDirectory: this.activeTask['1304_MB_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask['MB_EDITOR_QUERYDB_PATHS'],
-                incsys: 'mct',
-                outcsys: 'mct'
-            },
-            imp_check_after_manbuild: {
-                taskId: this.activeTaskId,
-                '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
-                targetDirectory: this.activeTask['1305_MB_QC_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask['MB_EDITOR_QUERYDB_PATHS'],
-                incsys: 'mct',
-                outcsys: 'mct'
-            }
+            queryType: 'wkt',
+            region: '2',
+            outFormat: 'editjson',
+            wktList: [bufferRegionWkt],
+            referData: this.activeTask[referData],
+            outDir: this.activeTask[outDir]
         };
-        return params[taskType];
+        return params;
     };
 
     fetchTask = flow(function* () {
@@ -253,14 +229,7 @@ class TaskStore {
         }
     });
 
-    isGetTaskBoundaryFile = () => {
-        const { taskBoundaryIsUpdate } =
-            AdLocalStorage.getTaskInfosStorage(this.activeTaskId) || {};
-        // 本地任务不请求更新底图数据
-        return taskBoundaryIsUpdate || this.activeTask.isLocal;
-    };
-
-    getTaskBoundaryFile = flow(function* () {
+    getBoundaryFile = flow(function* () {
         if (!window.map) return;
         const boundaryUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryAdsAll, this.activeTask);
         const layerGroup = new LayerGroup(boundaryUrl, {
@@ -275,21 +244,15 @@ class TaskStore {
         return layerGroup;
     });
 
-    updateTaskBoundaryFile = flow(function* (option) {
+    updateBoundaryFile = flow(function* (option) {
         try {
-            yield TaskService.updateTaskBoundaryFile(option);
-            AdLocalStorage.setTaskInfosStorage({
-                taskId: this.activeTaskId,
-                taskBoundaryIsUpdate: true
-            });
-            return this.getTaskBoundaryFile();
+            yield TaskService.updateBoundaryFile(option);
         } catch (e) {
-            AdLocalStorage.setTaskInfosStorage({
-                taskId: this.activeTaskId,
-                taskBoundaryIsUpdate: false
-            });
-            console.log('获取底图失败' + e.message || e || '');
+            const errMsg = e.message || e || '';
+            errMsg.includes('超时') && message.warning('过程库服务请求超时 /storeQuery');
+            console.log('获取底图失败' + errMsg);
         }
+        return this.getBoundaryFile();
     });
 
     getTaskInfo = flow(function* () {

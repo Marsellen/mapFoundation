@@ -147,9 +147,9 @@ module.exports = (env = {}) => {
                     changeOrigin: true,
                     logLevel: 'debug'
                 },
-                '/gateway/querydb': {
-                    target: PROXY_MAP[proxy].boundary,
-                    pathRewrite: { '^/gateway/querydb': '/querydb' },
+                '/gateway/store': {
+                    target: PROXY_MAP[proxy].store,
+                    pathRewrite: { '^/gateway/store': '/store' },
                     changeOrigin: true,
                     logLevel: 'debug'
                 },
