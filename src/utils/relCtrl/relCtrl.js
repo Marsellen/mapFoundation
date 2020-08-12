@@ -9,25 +9,33 @@ import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
 import {
     getLayerIDKey,
     getFeatureByOptionFormAll,
-    modUpdStatRelation
+    modUpdStatRelation,
+    getLayerByName
 } from 'src/utils/vectorUtils';
 import IDService from 'src/services/IDService';
 import { distance } from 'src/utils/utils';
 import { isManbuildTask } from 'src/utils/taskUtils';
+import { updateFeatures } from './operateCtrl';
 
 const batchAddRels = async rels => {
     let relStore = Relevance.store;
     await relStore.batchAdd(rels);
     updateFeaturesByRels(rels);
-    return rels;
 };
 
 const newRel = async (mainFeature, relFeatures) => {
-    let rels = await batchCreateRel(mainFeature, relFeatures);
-    await relsUniqCheck(rels);
+    // 根据mainFeature与relFeatures构建关联关系
+    let { rels, resolveFeatures, warningMessage } = await batchCreateRel(mainFeature, relFeatures);
+    // 新建的关联关系获取id
     rels = await batchGetRelId(rels);
 
-    return batchAddRels(rels);
+    let { rels: oldRels, features: oldFeatures } = await querySameAttrTypeRels(rels);
+
+    let log = calcRelChangeLog([mainFeature, ...resolveFeatures, ...oldFeatures], [oldRels, rels]);
+
+    await updateFeatures(log);
+
+    return { log, warningMessage };
 };
 
 const delRel = async (mainFeature, features) => {
@@ -95,36 +103,31 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
         );
     });
     if (relSpecs.length == 0) {
-        throw new Error(
-            `无法构建${layerName}和${relFeatureTypes[0]}的关联关系`
-        );
+        throw new Error(`无法构建${layerName}和${relFeatureTypes[0]}的关联关系`);
     }
 
     let isAttrRel =
-        ATTR_REL_DATA_SET.includes(relSpecs[0].source) &&
-        layerName === relSpecs[0].source;
+        ATTR_REL_DATA_SET.includes(relSpecs[0].source) && layerName === relSpecs[0].source;
     let REL_LIMIT_COUNT = 1;
     if (
         (isAttrRel && relFeatures.length > relSpecs.length) ||
         (layerName === 'AD_LaneDivider' && relFeatures.length > REL_LIMIT_COUNT)
     ) {
-        throw new Error(
-            `${layerName}和${relFeatureTypes[0]}的关联类型超出规格定义`
-        );
+        throw new Error(`${layerName}和${relFeatureTypes[0]}的关联类型超出规格定义`);
     }
 
     if (CONNECTION_RELS.includes(relSpecs[0].source)) {
         for (let i = 0; i < relFeatures.length; i++) {
             let warning = checkConnection(mainFeature, relFeatures[i]);
             if (warning) {
-                warningMessage = '新建成功；数据情况复杂，需检查连接关系正确性';
+                warningMessage = '新建成功；数据情况复杂，需检查连接关系正确性；';
             }
         }
     }
     return warningMessage;
 };
 
-function checkConnection(driveInFeature, driveOutFeature, warningMessage) {
+function checkConnection(driveInFeature, driveOutFeature) {
     let driveInDirection = driveInFeature.data.properties.DIRECTION;
     let driveOutDirection = driveOutFeature.data.properties.DIRECTION;
     let driveInPoint, driveOutPoint;
@@ -151,6 +154,16 @@ function checkConnection(driveInFeature, driveOutFeature, warningMessage) {
     }
 }
 
+/**
+ * 根据mainFeature与relFeatures构建关联关系
+ * @method batchCreateRel
+ * @param {Object} mainFeature 关联要素数据
+ * @param {Object} relFeatures 被关联要素数据集合
+ * @returns {Object} result 构建结果
+ * @returns {Array} result.rels 成功构造的关联关系数据
+ * @returns {Array} result.resolveFeatures 成功构造关联关系的被关联要素数据集合
+ */
+
 const batchCreateRel = async (mainFeature, relFeatures) => {
     let mainLayer = mainFeature.layerName;
     let relLayer = relFeatures[0].layerName;
@@ -160,15 +173,28 @@ const batchCreateRel = async (mainFeature, relFeatures) => {
             (rs.relObjSpec == mainLayer && rs.objSpec == relLayer)
         );
     });
+    let resolveFeatures = [];
     let rels = await Promise.all(
         relFeatures.map(async (feature, index) => {
-            await relUniqCheck(mainFeature, feature);
-            index = relSpecs.length > index ? index : relSpecs.length - 1;
-            return createRelBySpecConfig(relSpecs[index], mainFeature, feature);
+            try {
+                // 校验mainFeature和feature之间是否已有关联关系
+                await relUniqCheck(mainFeature, feature);
+                resolveFeatures.push(feature);
+                // 通过重复性校验后按照规则构建关联关系
+                index = relSpecs.length > index ? index : relSpecs.length - 1;
+                return createRelBySpecConfig(relSpecs[index], mainFeature, feature);
+            } catch (e) {
+                return;
+            }
         })
     );
+    if (!resolveFeatures.length) throw new Error('重复创建关联关系');
+    let warningMessage = '';
+    if (resolveFeatures.length < relFeatures.length) {
+        warningMessage = '创建关系部分成功，存在重复创建的关联关系';
+    }
 
-    return rels;
+    return { rels: _.compact(rels), resolveFeatures, warningMessage };
 };
 
 const batchCreateAllRel = (mainFeature, relFeatures) => {
@@ -237,12 +263,14 @@ const createAllRel = (mainFeature, feature) => {
     let rel1 = REL_SPEC_CONFIG.filter(rs => {
         return rs.objSpec == mainLayer && rs.relObjSpec == relLayer;
     }).map(config => {
-        let { objType, relObjType, source: spec } = config;
+        let { objType, relObjType, source: spec, objSpec, relObjSpec } = config;
         return {
             objId: mainObjId,
             relObjId: relObjId,
             objType,
             relObjType,
+            objSpec,
+            relObjSpec,
             spec
         };
     });
@@ -335,50 +363,75 @@ const batchGetRelId = async rels => {
     return rels;
 };
 
-const relsUniqCheck = rels => {
-    return Promise.all(rels.map(attrRelUniqCheck));
+/**
+ * 查询重复的属性关联关系与关系中被关联的要素集合
+ * @method querySameAttrTypeRels
+ * @param {Array} rels 待建关联关系集合
+ * @returns {Object} 重复的属性关联关系与关系中被关联的要素集合
+ */
+const querySameAttrTypeRels = async rels => {
+    return rels.reduce(
+        async (total, rel) => {
+            total = await total;
+            let result = await querySameTypeRel(rel);
+            if (result) {
+                let { rel, feature } = result;
+                rel && total.rels.push(rel);
+                feature && total.features.push(feature);
+            }
+            return total;
+        },
+        { rels: [], features: [] }
+    );
 };
 
-// 属性表管理关系唯一性校验
-const attrRelUniqCheck = async rel => {
-    if (!ATTR_REL_DATA_SET.includes(rel.spec)) {
-        return;
-    }
+// 属性表关联关系唯一性校验
+const querySameTypeRel = async rel => {
+    // 非属性关联关系不做校验
+    if (!ATTR_REL_DATA_SET.includes(rel.spec)) return;
     let relStore = Relevance.store;
-    let condition, indexName, relkey, relId;
+    let condition, indexName, relkey, relId, relSpec;
+    // 根据关联类型构造查询器
+    // 地面箭头和地面文字为被关联对象（relObj）
     if (rel.spec === 'AD_Arrow' || rel.spec === 'AD_Text') {
         condition = [rel.relObjType, rel.relObjId];
         indexName = 'REL_OBJ_TYPE_KEYS';
         relkey = 'objType';
         relId = 'objId';
+        relSpec = 'objSpec';
     } else {
+        // 车道中心线和属性变化点为主对象（obj）
         condition = [rel.objType, rel.objId];
         indexName = 'OBJ_TYPE_KEYS';
         relkey = 'relObjType';
         relId = 'relObjId';
+        relSpec = 'relObjSpec';
     }
     let rels = await relStore.getAll(condition, indexName);
-    let hadBeenRel = rels.some(r => r[relkey] === rel[relkey]);
-    if (hadBeenRel) {
-        let errorMessageKey = rel.objType + '_' + rel.relObjType;
-        throw new Error(HAD_BEEN_REL_ERROR[errorMessageKey]);
-    }
-    hadBeenRel = rels.some(r => r[relId] === rel[relId]);
-    if (hadBeenRel) {
-        throw new Error('关联关系重复');
+    // 判断是否存在同类型的关联关系
+    let sameTypeRel = rels.find(r => r[relkey] === rel[relkey]);
+    if (sameTypeRel) {
+        let layerName = sameTypeRel[relSpec];
+        let IDKey = getLayerIDKey(layerName);
+        let option = { key: IDKey, value: sameTypeRel[relId] };
+        let layer = getLayerByName(layerName);
+        let featureObj = layer.getFeatureByOption(option);
+        let feature = featureObj && featureObj.properties;
+        return { rel: sameTypeRel, feature };
     }
 };
 
-// 校验两个要素是否已存在关联关系
+// 重复项校验：校验两个要素是否已存在关联关系
 const relUniqCheck = async (mainFeature, feature) => {
+    // 预先建立mainFeature与feature的所有可能存在的关联关系
+    // 如车道中心线和车道线可能会有左侧车道线关联关系和右侧车道线关联关系
+    // 如车道中心线和车道中心线可能会有驶入关联关系和驶出关联关系
     let rels = createAllRel(mainFeature, feature);
 
-    let relStore = Relevance.store;
+    // 尝试查询所有关联关系，如果存在则说明两个要素是否已存在关联关系
     let rs = await rels.reduce(async (total, rel) => {
         total = await total;
-        let condition = [rel.objType, rel.objId, rel.relObjType, rel.relObjId];
-        let indexName = 'REL_KEYS';
-        let result = await relStore.get(condition, indexName);
+        let result = await querySameRel(rel);
         result && total.push(result);
         return total;
     }, []);
@@ -387,6 +440,20 @@ const relUniqCheck = async (mainFeature, feature) => {
     }
 };
 
+const querySameRel = async rel => {
+    let relStore = Relevance.store;
+    let condition = [rel.objType, rel.objId, rel.relObjType, rel.relObjId];
+    let indexName = 'REL_KEYS';
+    return await relStore.get(condition, indexName);
+};
+
+/**
+ * 根据任务类型构造关联关系变更更新数据
+ * @method calcRelChangeLog
+ * @param {Array} features 关联关系变更过程中影响的要素集合
+ * @param {Array} rels 关联关系变更记录
+ * @returns {Object} log 日志数据
+ */
 const calcRelChangeLog = (features, rels) => {
     if (!isManbuildTask()) {
         let newFeatures = features.map(modUpdStatRelation);
@@ -396,16 +463,7 @@ const calcRelChangeLog = (features, rels) => {
         };
     }
 
-    return { rels };
-};
-
-const HAD_BEEN_REL_ERROR = {
-    LANE_L_LDIV: '车道中心线已关联左侧车道线',
-    LANE_R_LDIV: '车道中心线已关联右侧车道线',
-    LANE_ROAD: '车道中心线已关联参考线',
-    LANE_ARROW: '地面导向箭头已关联车道中心线',
-    LANE_TEXT: '地面文字符号已关联车道中心线',
-    LANEP_ROAD: '车道属性变化点已关联参考线'
+    return { features: [[], []], rels };
 };
 
 export {
@@ -415,6 +473,7 @@ export {
     basicCheck,
     createRelBySpecConfig,
     batchAddRels,
-    attrRelUniqCheck,
-    calcRelChangeLog
+    querySameTypeRel,
+    calcRelChangeLog,
+    querySameRel
 };

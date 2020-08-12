@@ -6,10 +6,11 @@ import {
     newRel,
     basicCheck,
     createRelBySpecConfig,
-    batchAddRels,
-    attrRelUniqCheck,
+    querySameTypeRel,
+    querySameRel,
     calcRelChangeLog
 } from 'src/utils/relCtrl/relCtrl';
+import { updateFeatures } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
 import AddLRLaneDriverRel from './AddRelModal/AddLRLaneDriverRel';
 import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
@@ -55,11 +56,7 @@ class AddRel extends React.Component {
                     onOk={this.addLRLaneDriverRel}
                 />
                 <Modal
-                    title={
-                        <span className="text-modal-title">
-                            新增关联关系指引
-                        </span>
-                    }
+                    title={<span className="text-modal-title">新增关联关系指引</span>}
                     width={465}
                     className="text-modal"
                     visible={this.state.textVisible}
@@ -68,14 +65,11 @@ class AddRel extends React.Component {
                         <Button type="primary" onClick={this.handleCancel}>
                             确定
                         </Button>
-                    }>
+                    }
+                >
                     <div>
-                        <p className="tips">
-                            TIPS : 选择要素的顺序必须严格遵守
-                        </p>
-                        <p className="text-body-title">
-                            1、当前可编辑图层：“车道中心线”
-                        </p>
+                        <p className="tips">TIPS : 选择要素的顺序必须严格遵守</p>
+                        <p className="text-body-title">1、当前可编辑图层：“车道中心线”</p>
                         <p className="text-body-content">
                             (1).
                             一个车道中心线 + 一个或多个某一类obj要素（交通标志牌、交通信号灯、地面导向箭头、地面文字符号）
@@ -91,9 +85,7 @@ class AddRel extends React.Component {
                             <br />
                             (5). 一个驶入车道中心线 + 一个驶出车道中心线
                         </p>
-                        <p className="text-body-title">
-                            2、当前可编辑图层：“道路参考线”{' '}
-                        </p>
+                        <p className="text-body-title">2、当前可编辑图层：“道路参考线” </p>
                         <p className="text-body-content">
                             (1). 一个道路参考线 + 一个或多个车道属性变化点
                             <br />
@@ -120,8 +112,7 @@ class AddRel extends React.Component {
                             (1).
                             一个当前编辑图层的obj要素（地面导向箭头、地面文字符号） + 一个车道中心线
                             <br />
-                            (2).
-                            一个当前编辑图层的obj要素（车道属性变化点） + 一个道路参考线
+                            (2). 一个当前编辑图层的obj要素（车道属性变化点） + 一个道路参考线
                         </p>
                     </div>
                 </Modal>
@@ -151,8 +142,7 @@ class AddRel extends React.Component {
     content = () => {
         return (
             <label>
-                <Icon type="info-circle" onClick={this.renderTips} />{' '}
-                请按顺序选择关联对象
+                <Icon type="info-circle" onClick={this.renderTips} /> 请按顺序选择关联对象
             </label>
         );
     };
@@ -168,16 +158,9 @@ class AddRel extends React.Component {
             const { DataLayerStore } = this.props;
             let [mainFeature, ...relFeatures] = result;
             let layerName = DataLayerStore.getEditLayer().layerName;
-            let warningMessage = await basicCheck(
-                mainFeature,
-                relFeatures,
-                layerName
-            );
+            let warningMessage = await basicCheck(mainFeature, relFeatures, layerName);
             if (this.isAddLRLaneDriverRel(mainFeature, relFeatures)) {
-                this.addLRLaneDriverRelModal.show([
-                    mainFeature,
-                    relFeatures[0]
-                ]);
+                this.addLRLaneDriverRelModal.show([mainFeature, relFeatures[0]]);
             } else {
                 this.comfirmNewRel(mainFeature, relFeatures, warningMessage);
             }
@@ -194,12 +177,7 @@ class AddRel extends React.Component {
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
-            onOk: this.newRelHandler.bind(
-                this,
-                mainFeature,
-                relFeatures,
-                warningMessage
-            ),
+            onOk: this.newRelHandler.bind(this, mainFeature, relFeatures, warningMessage),
             onCancel() {
                 DataLayerStore.exitEdit();
             }
@@ -209,12 +187,9 @@ class AddRel extends React.Component {
     @logDecorator({ operate: '新建关联关系' })
     async newRelHandler(mainFeature, relFeatures, warningMessage) {
         try {
-            let rels = await newRel(mainFeature, relFeatures);
-            let log = calcRelChangeLog(
-                [mainFeature, ...relFeatures],
-                [[], rels]
-            );
-            if (warningMessage) {
+            let { log, warningMessage: wm } = await newRel(mainFeature, relFeatures);
+            if (warningMessage || wm) {
+                warningMessage = warningMessage && wm ? warningMessage + wm : warningMessage || wm;
                 message.warning(warningMessage);
             } else {
                 message.success('新建成功');
@@ -241,24 +216,36 @@ class AddRel extends React.Component {
     };
 
     @logDecorator({ operate: '新建关联关系' })
-    async addLRLaneDriverRel(type, options) {
+    async addLRLaneDriverRel(type, allFeatures) {
         try {
-            let [mainFeature, relFeature] = options;
-            let specConfig = REL_SPEC_CONFIG.find(
-                config => config.relObjType === type
-            );
-            let rel = createRelBySpecConfig(
-                specConfig,
-                mainFeature,
-                relFeature
-            );
-            await attrRelUniqCheck(rel);
-            await batchAddRels([rel]);
-            let log = calcRelChangeLog([mainFeature, relFeature], [[], [rel]]);
+            let [mainFeature, relFeature] = allFeatures;
+            let specConfig = REL_SPEC_CONFIG.find(config => config.relObjType === type);
+            // 根据规格新建关联关系
+            let rel = createRelBySpecConfig(specConfig, mainFeature, relFeature);
+            // 查询是否有重复关联关系数据
+            let sameRel = await querySameRel(rel);
+            if (sameRel) {
+                throw new Error('创建关系失败，重复创建关联关系');
+            }
+            // 查询是否有同类型关联关系数据
+            let result = await querySameTypeRel(rel);
+            let oldRels = [];
+            if (result) {
+                // 有同类型关系数据时，删除之
+                let { rel: oldRel, feature: oldFeature } = result;
+                oldRel && oldRels.push(oldRel);
+                // 被关联要素加入变更要素集合
+                oldFeature && allFeatures.push(oldFeature);
+            }
+            // 计算需要更新数据
+            let log = calcRelChangeLog(allFeatures, [oldRels, [rel]]);
+            // 执行数据更新操作
+            await updateFeatures(log);
+
             message.success('新建成功');
             return log;
         } catch (e) {
-            message.warning('与左右车道线新建关联关系失败：' + e.message);
+            message.warning(e.message);
             throw e;
         }
     }
