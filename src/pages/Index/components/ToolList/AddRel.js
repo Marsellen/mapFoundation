@@ -162,27 +162,13 @@ class AddRel extends React.Component {
             if (this.isAddLRLaneDriverRel(mainFeature, relFeatures)) {
                 this.addLRLaneDriverRelModal.show([mainFeature, relFeatures[0]]);
             } else {
-                this.comfirmNewRel(mainFeature, relFeatures, warningMessage);
+                this.newRelHandler(mainFeature, relFeatures, warningMessage);
             }
         } catch (e) {
             message.warning('新建关联关系失败：' + e.message);
             throw e;
         }
     }
-
-    comfirmNewRel = (mainFeature, relFeatures, warningMessage) => {
-        const { DataLayerStore } = this.props;
-        Modal.confirm({
-            title: '是否新建关联关系?',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk: this.newRelHandler.bind(this, mainFeature, relFeatures, warningMessage),
-            onCancel() {
-                DataLayerStore.exitEdit();
-            }
-        });
-    };
 
     @logDecorator({ operate: '新建关联关系' })
     async newRelHandler(mainFeature, relFeatures, warningMessage) {
