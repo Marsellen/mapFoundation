@@ -7,8 +7,8 @@ import {
     basicCheck,
     createRelBySpecConfig,
     querySameTypeRel,
-    querySameRel,
-    calcRelChangeLog
+    calcRelChangeLog,
+    relUniqCheck
 } from 'src/utils/relCtrl/relCtrl';
 import { updateFeatures } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
@@ -220,13 +220,10 @@ class AddRel extends React.Component {
         try {
             let [mainFeature, relFeature] = allFeatures;
             let specConfig = REL_SPEC_CONFIG.find(config => config.relObjType === type);
+            // 查询是否有重复关联关系数据
+            await relUniqCheck(mainFeature, relFeature);
             // 根据规格新建关联关系
             let rel = createRelBySpecConfig(specConfig, mainFeature, relFeature);
-            // 查询是否有重复关联关系数据
-            let sameRel = await querySameRel(rel);
-            if (sameRel) {
-                throw new Error('创建关系失败，重复创建关联关系');
-            }
             // 查询是否有同类型关联关系数据
             let result = await querySameTypeRel(rel);
             let oldRels = [];

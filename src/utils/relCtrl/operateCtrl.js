@@ -765,7 +765,7 @@ const attrsDataFormat = (data, source) => {
  * @param {Array} log.features[1] 变更后要素集合
  * @param {Array} log.rels 关联关系变更记录
  * @param {Array} log.attrs 关联属性变更记录
- * @returns {Object} 返回 log
+ * @returns {Null}
  */
 const updateFeatures = async ({ features, rels, attrs } = {}) => {
     let [oldFeatures, newFeatures] = features;
@@ -803,7 +803,6 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
         if (updateFeatures.includes(option.key + option.value)) return;
         layer.removeFeatureByOption(option);
     });
-    return { features, rels, attrs };
 };
 
 const updateRels = async ([oldRels, newRels] = []) => {

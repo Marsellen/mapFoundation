@@ -1,13 +1,7 @@
 import { REL_DATA_SET, ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
-import {
-    geojsonToDbData,
-    dbDataToGeojson,
-    getFeatureRels,
-    getRelOptions
-} from './utils';
+import { geojsonToDbData, dbDataToGeojson, getFeatureRels, getRelOptions } from './utils';
 import Relevance from 'src/models/relevance';
 import { REL_TYPE_KEY_MAP } from 'src/config/RelsConfig';
-import { updateFeaturesByRels } from './relCtrl';
 import { getLayerIDKey } from '../vectorUtils';
 
 export const relDataToTable = (data, dataType) => {
@@ -127,51 +121,10 @@ export const getTabelData = async (layerName, relRecords, properties) => {
     }, []);
 };
 
-export const updateRels = async (rels, feature) => {
-    updateRelUniqCheck(rels, feature);
-
-    let relStore = Relevance.store;
-    let newRecords = await Object.keys(rels).reduce(async (total, key) => {
-        let id = parseInt(key.replace(/\D/g, ''));
-        let relKey = key.replace(/[0-9]/g, '');
-        let newRecord;
-        if (id) {
-            if (rels[key]) {
-                let record = await relStore.get(id);
-                let isRelObj = relKey == record.relObjType;
-                let typeKey = isRelObj ? 'relObjId' : 'objId';
-                newRecord = {
-                    ...record,
-                    [typeKey]: rels[key]
-                };
-                await relStore.edit(newRecord);
-            } else {
-                await relStore.deleteById(id);
-            }
-        } else if (rels[key]) {
-            // AD_Lane 默认显示的属性关联关系 没有 id。需要新建
-            let config = AD_Lane_Default_Format[relKey][0];
-            newRecord = {
-                ...config,
-                objId: feature.data.properties.LANE_ID,
-                relObjId: rels[key]
-            };
-            await relStore.add(newRecord);
-        }
-        total = await total;
-        newRecord && total.push(newRecord);
-        return total;
-    }, []);
-    updateFeaturesByRels(newRecords);
-    return newRecords;
-};
-
 export const calcNewRels = async (rels, feature, changedKeys = []) => {
-    updateRelUniqCheck(rels, feature);
-
     let relStore = Relevance.store;
-    return Object.keys(rels).reduce(async (total, key) => {
-        if (!rels[key] || !changedKeys.includes(key)) return total;
+    return changedKeys.reduce(async (total, key) => {
+        if (!rels[key]) return total;
         let id = parseInt(key.replace(/\D/g, ''));
         let relKey = key.replace(/[0-9]/g, '');
         let newRecord;
@@ -209,70 +162,23 @@ export const tableFormat = (record, config, count) => {
     };
 };
 
-const updateRelUniqCheck = (rels, feature) => {
-    if (feature.layerName === 'AD_Lane') {
-        let { L_LDIV, R_LDIV, FROM_LANE = [], TO_LANE = [] } = Object.keys(
-            rels
-        ).reduce((total, key) => {
-            let relKey = key.replace(/[0-9]/g, '');
-            if (relKey === 'L_LDIV' || relKey === 'R_LDIV') {
-                rels[key] && (total[relKey] = rels[key]);
-            } else if (relKey === 'FROM_LANE' || relKey === 'TO_LANE') {
-                total[relKey] = total[relKey] || [];
-                rels[key] && total[relKey].push(rels[key]);
-            }
-            return total;
-        }, {});
-        if ((L_LDIV || R_LDIV) && L_LDIV === R_LDIV) {
-            throw new Error('左侧车道线和右侧车道线不能相同');
+const calcUniqChangedKeys = (rels, oldRels, changedKeys) => {
+    return changedKeys.filter(key => {
+        let { [key]: oldValue, ...other } = oldRels;
+        let value = rels[key];
+        if (!value) return true;
+        if (!Object.values(other).includes(value)) {
+            return true;
         }
-        if (uniqArrayCheck(FROM_LANE)) {
-            throw new Error('进入车道不能重复');
-        }
-        if (uniqArrayCheck(TO_LANE)) {
-            throw new Error('退出车道不能重复');
-        }
-        if (uniqArrayCheck(FROM_LANE.concat(TO_LANE))) {
-            throw new Error('进入车道和退出车道不能相同');
-        }
-    } else if (feature.layerName === 'AD_Road') {
-        let { FROM_ROAD = [], TO_ROAD = [] } = Object.keys(rels).reduce(
-            (total, key) => {
-                let relKey = key.replace(/[0-9]/g, '');
-                if (relKey === 'FROM_ROAD' || relKey === 'TO_ROAD') {
-                    total[relKey] = total[relKey] || [];
-                    rels[key] && total[relKey].push(rels[key]);
-                }
-                return total;
-            },
-            {}
-        );
-        if (uniqArrayCheck(FROM_ROAD)) {
-            throw new Error('进入车道不能重复');
-        }
-        if (uniqArrayCheck(TO_ROAD)) {
-            throw new Error('退出车道不能重复');
-        }
-        if (uniqArrayCheck(FROM_ROAD.concat(TO_ROAD))) {
-            throw new Error('进入车道和退出车道不能相同');
-        }
-    }
-};
-
-const uniqArrayCheck = array => {
-    return array.reduce((flag, item) => {
-        let uniq = array.filter(a => a === item).length > 1;
-        flag = flag || uniq;
-        return flag;
-    }, false);
+    });
 };
 
 export default {
     relDataToTable,
     relTableToData,
     getTabelData,
-    updateRels,
     getFeatureRels,
     getRelOptions,
-    calcNewRels
+    calcNewRels,
+    calcUniqChangedKeys
 };

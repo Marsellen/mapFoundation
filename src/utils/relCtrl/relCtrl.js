@@ -17,12 +17,6 @@ import { distance } from 'src/utils/utils';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import { updateFeatures } from './operateCtrl';
 
-const batchAddRels = async rels => {
-    let relStore = Relevance.store;
-    await relStore.batchAdd(rels);
-    updateFeaturesByRels(rels);
-};
-
 const newRel = async (mainFeature, relFeatures) => {
     // 根据mainFeature与relFeatures构建关联关系
     let { rels, resolveFeatures, warningMessage } = await batchCreateRel(mainFeature, relFeatures);
@@ -334,6 +328,7 @@ const updateFeatureRelAttr = (rel, isDel) => {
         value: id
     };
     let [layer, feature] = getFeatureByOptionFormAll(rel.spec, option);
+    if (!feature) return;
     if (isDel) {
         feature.data.properties[relKeyName] = 0;
     } else {
@@ -472,8 +467,7 @@ export {
     updateFeaturesByRels,
     basicCheck,
     createRelBySpecConfig,
-    batchAddRels,
     querySameTypeRel,
     calcRelChangeLog,
-    querySameRel
+    relUniqCheck
 };
