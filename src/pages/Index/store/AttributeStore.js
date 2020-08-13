@@ -11,15 +11,9 @@ import {
     modUpdStatRelation,
     modUpdStatProperties
 } from 'src/utils/vectorUtils';
-import {
-    ATTR_SPEC_CONFIG,
-    MOD_UPD_STAT_RELATION_LAYERS
-} from 'config/AttrsConfig';
+import { ATTR_SPEC_CONFIG, MOD_UPD_STAT_RELATION_LAYERS } from 'config/AttrsConfig';
 import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
-import {
-    getAllRelFeatureOptions,
-    uniqOptions
-} from 'src/utils/relCtrl/operateCtrl';
+import { getAllRelFeatureOptions, uniqOptions } from 'src/utils/relCtrl/operateCtrl';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import _ from 'lodash';
 import { message } from 'antd';
@@ -200,11 +194,7 @@ class AttributeStore {
         try {
             this.relFeatures.map(feature => {
                 try {
-                    updateFeatureColor(
-                        feature.layerName,
-                        feature.option,
-                        'rgb(49,209,255)'
-                    );
+                    updateFeatureColor(feature.layerName, feature.option, 'rgb(49,209,255)');
                 } catch (e) {
                     console.log(e);
                 }
@@ -267,17 +257,17 @@ class AttributeStore {
         let changedKeys = Object.keys(oldRels).filter(key => {
             return oldRels[key] !== rels[key];
         });
-        let changedIds = changedKeys.map(key =>
-            parseInt(key.replace(/\D/g, ''))
-        );
+        let uniqChangedKeys = relFactory.calcUniqChangedKeys(rels, oldRels, changedKeys);
+        if (changedKeys.length > 0 && uniqChangedKeys.length == 0) {
+            message.error('修改关系失败，重复创建关联关系');
+        } else if (changedKeys.length > uniqChangedKeys.length) {
+            message.warning('修改关系部分成功，存在重复的创建关联关系');
+        }
+        let changedIds = uniqChangedKeys.map(key => parseInt(key.replace(/\D/g, '')));
         let oldRelRecords = this.relRecords.filter(item => {
             return changedIds.includes(item.id);
         });
-        let newRelRecords = await relFactory.calcNewRels(
-            rels,
-            this.model,
-            changedKeys
-        );
+        let newRelRecords = await relFactory.calcNewRels(rels, this.model, uniqChangedKeys);
         return [oldRelRecords, newRelRecords];
     };
 
@@ -286,16 +276,12 @@ class AttributeStore {
         let allRels = [...relLog[0], ...relLog[1]];
         if (!allRels.length || isManbuildTask()) return [[], []];
 
-        let allRelFeatureOptions = uniqOptions(
-            getAllRelFeatureOptions(allRels)
-        );
+        let allRelFeatureOptions = uniqOptions(getAllRelFeatureOptions(allRels));
         let relFeatures = allRelFeatureOptions.reduce((total, option) => {
             if (option.value === getFeatureOption(newFeature).value) {
                 return total;
             }
-            let relFeature = getLayerByName(
-                option.layerName
-            ).getFeatureByOption(option);
+            let relFeature = getLayerByName(option.layerName).getFeatureByOption(option);
             relFeature && total.push(relFeature.properties);
             return total;
         }, []);
@@ -317,9 +303,7 @@ class AttributeStore {
             let newAttrs = attrFactory.calcNewAttrs(attrs);
             return attrFactory.calcDiffAttrs(this.attrRecords, newAttrs);
         } else if (this.delAttrs && this.delAttrs.length > 0) {
-            let newAttrs = this.attrRecords.filter(
-                record => !this.delAttrs.includes(record.id)
-            );
+            let newAttrs = this.attrRecords.filter(record => !this.delAttrs.includes(record.id));
             return attrFactory.calcDiffAttrs(this.attrRecords, newAttrs);
         }
         this.deleteAttrs();
@@ -332,9 +316,7 @@ class AttributeStore {
 
     @action spliceAttrs = (key, value) => {
         let { id, sourceId } = value;
-        this.attrs[key] = this.attrs[key].filter(
-            item => item.sourceId !== sourceId
-        );
+        this.attrs[key] = this.attrs[key].filter(item => item.sourceId !== sourceId);
         id && this.delAttrs.push(id);
     };
 

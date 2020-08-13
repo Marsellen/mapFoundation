@@ -106,12 +106,12 @@ class AttributesModal extends React.Component {
             }
 
             AttributeStore.showLoading('保存数据...');
-            let result = await AttributeStore.submit(values, TaskStore.activeTask);
-            result = await updateFeatures(result);
+            let log = await AttributeStore.submit(values, TaskStore.activeTask);
+            await updateFeatures(log);
             AttributeStore.hideRelFeatures();
             AttributeStore.hide();
             DataLayerStore.UnQCAttrModal(['error_layer']);
-            return result;
+            return log;
         } catch (e) {
             message.error(e.message || '更新失败: 数据重复');
             AttributeStore.loaded();
