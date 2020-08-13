@@ -693,16 +693,26 @@ const relDataFormat = (spec, properties) => {
     });
 };
 
+/**
+ * 根据log执行更新操作
+ * @method attrRelDataFormat
+ * @param {String} layerName 关联要素数据类型
+ * @param {String} spec 被关联要素数据类型
+ * @param {Array} properties 被关联要素数据属性集合
+ * @param {Object} feature 关联要素数据属性
+ * @returns {Array} rels 构建的关联关系集合
+ */
 const attrRelDataFormat = (layerName, spec, properties, feature) => {
+    // 查询两类要素所有可以构造的关联关系规格
     let relSpecs = REL_SPEC_CONFIG.filter(
         rs =>
             (rs.objSpec == spec && rs.relObjSpec == layerName) ||
             (rs.relObjSpec == spec && rs.objSpec == layerName)
     );
-    let relSpec;
     let IDKey1 = getLayerIDKey(spec);
     let IDKey2 = getLayerIDKey(layerName);
     return properties.reduce((arr, property) => {
+        let relSpec;
         if (relSpecs.length > 1) {
             relSpec = relSpecs.find(rs => {
                 if (rs.objSpec == spec) {
@@ -717,9 +727,9 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
         if (relSpec) {
             const { objType, relObjType, objSpec, relObjSpec } = relSpec;
             let objId, relObjId;
-            if (relSpec.objSpec == spec) {
-                objId = feature[IDKey1];
-                relObjId = property[IDKey2];
+            if (objSpec == spec && relObjSpec == layerName) {
+                objId = property[IDKey1];
+                relObjId = feature[IDKey2];
             } else {
                 objId = feature[IDKey2];
                 relObjId = property[IDKey1];
