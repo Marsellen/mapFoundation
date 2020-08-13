@@ -281,20 +281,8 @@ class RightMenuModal extends React.Component {
     @logDecorator({ operate: '线打断', onlyRun: true })
     breakCallBack(result) {
         try {
-            const { DataLayerStore } = this.props;
-
             checkSdkError(result, '未选择打断点');
-
-            Modal.confirm({
-                title: '您确认执行操作？',
-                okText: '确定',
-                okType: 'danger',
-                cancelText: '取消',
-                onOk: this.breakLineHandler.bind(this, result),
-                onCancel() {
-                    DataLayerStore.exitEdit();
-                }
-            });
+            this.breakLineHandler(result)
         } catch (e) {
             message.error(e.message);
             throw e;
@@ -359,21 +347,11 @@ class RightMenuModal extends React.Component {
 
     @logDecorator({ operate: '平移点要素', onlyRun: true })
     movePointFeatureCallback(result) {
-        const { DataLayerStore, RightMenuStore } = this.props;
+        const { RightMenuStore } = this.props;
         checkSdkError(result);
         const oldFeature = RightMenuStore.getFeatures()[0];
-        Modal.confirm({
-            title: '您确认执行该操作？',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk: this.movePointFeatureHandler.bind(this, result, oldFeature),
-            onCancel() {
-                // 恢复要素
-                DataLayerStore.updateFeature(oldFeature);
-                DataLayerStore.exitEdit();
-            }
-        });
+        this.movePointFeatureHandler(result, oldFeature)
+          
     }
 
     @logDecorator({ operate: '平移点要素', skipRenderMode: true })
@@ -434,17 +412,7 @@ class RightMenuModal extends React.Component {
                 duration: 3,
                 key: 'edit_error'
             });
-
-        Modal.confirm({
-            title: '您确认删除该要素？',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk: this.deleteFeatureHandler.bind(this),
-            onCancel() {
-                DataLayerStore.exitEdit();
-            }
-        });
+        this.deleteFeatureHandler()
         RightMenuStore.hide();
     };
 
@@ -547,6 +515,7 @@ class RightMenuModal extends React.Component {
                 duration: 3,
                 key: 'edit_error'
             });
+            
         DataLayerStore.selectPointFromHighlight();
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();
@@ -561,17 +530,8 @@ class RightMenuModal extends React.Component {
                 duration: 3,
                 key: 'edit_error'
             });
-        Modal.confirm({
-            title: '您确认执行线要素逆序操作？',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk: this.reverseOrderLineHandler.bind(this),
-            onCancel() {
-                DataLayerStore.exitEdit();
-            }
-        });
-        RightMenuStore.hide();
+        this.reverseOrderLineHandler(),
+            RightMenuStore.hide();
     };
 
     @logDecorator({ operate: '线要素逆序' })
@@ -608,17 +568,7 @@ class RightMenuModal extends React.Component {
                 duration: 3,
                 key: 'edit_error'
             });
-
-        Modal.confirm({
-            title: '您确认执行操作？',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk: this.mergeLineHandler.bind(this),
-            onCancel() {
-                DataLayerStore.exitEdit();
-            }
-        });
+        this.mergeLineHandler()
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();
     };
@@ -646,17 +596,7 @@ class RightMenuModal extends React.Component {
                 duration: 3,
                 key: 'edit_error'
             });
-
-        Modal.confirm({
-            title: '您确认执行操作？',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk: this.batchMergeLineHandler.bind(this),
-            onCancel() {
-                DataLayerStore.exitEdit();
-            }
-        });
+        this.batchMergeLineHandler()
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();
     };
@@ -709,20 +649,8 @@ class RightMenuModal extends React.Component {
     @logDecorator({ operate: '拉线齐打断', onlyRun: true })
     breakByLineCallback(result) {
         try {
-            const { DataLayerStore } = this.props;
-
             checkSdkError(result, '打断辅助线绘制失败');
-
-            Modal.confirm({
-                title: '您确认执行操作？',
-                okText: '确定',
-                okType: 'danger',
-                cancelText: '取消',
-                onOk: this.breakByLineHandler.bind(this, result),
-                onCancel() {
-                    DataLayerStore.exitEdit();
-                }
-            });
+            this.breakByLineHandler(result)
         } catch (e) {
             message.error(e.message);
             throw e;
