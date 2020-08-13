@@ -1,5 +1,5 @@
 import service from 'src/services';
-import { EditApiPath, updateBoundaryApiPath, TaskApiPath } from 'src/utils/Api';
+import { EditApiPath, StoreApiPath, TaskApiPath } from 'src/utils/Api';
 import { getAuthentication } from 'src/utils/Session';
 
 const TaskService = {
@@ -27,9 +27,9 @@ const TaskService = {
         };
         return service({ config });
     },
-    updateTaskBoundaryFile: data => {
+    updateBoundaryFile: data => {
         const config = {
-            url: updateBoundaryApiPath('/queryforoutside'),
+            url: StoreApiPath('/storeQuery'),
             method: 'post',
             data
         };

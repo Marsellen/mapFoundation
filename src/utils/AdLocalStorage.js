@@ -31,7 +31,7 @@ class AdLocalStorage {
         localStorage.removeItem(key);
     };
 
-    // 参数说明 currentTaskInfo {taskId:123,taskScale:{},taskBoundaryIsUpdate:true,checkReport:{}}
+    // 参数说明 currentTaskInfo {taskId:123,taskScale:{},checkReport:{}}
     setTaskInfosStorage = currentTaskInfo => {
         this.getUserName();
         if (!this.username) return;
@@ -50,11 +50,7 @@ class AdLocalStorage {
         this.getUserName();
         if (!this.username) return;
         const taskInfos = this.getLocalStorage('taskInfos', true) || null;
-        if (
-            taskInfos &&
-            taskInfos[this.username] &&
-            taskInfos[this.username][taskId]
-        ) {
+        if (taskInfos && taskInfos[this.username] && taskInfos[this.username][taskId]) {
             return taskInfos[this.username][taskId];
         } else {
             return false;

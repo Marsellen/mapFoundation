@@ -71,7 +71,6 @@ class LayerVectorConfigForm extends React.Component {
     render() {
         const { currentRadius, currentPointSize } = this.state;
         const {
-            updateKey,
             className,
             layerName,
             pointEnabledStatus,
@@ -95,7 +94,7 @@ class LayerVectorConfigForm extends React.Component {
         } = styleConfigMap[layerName];
 
         return (
-            <div className={`layer-config-line-wrap ${className}`} key={updateKey}>
+            <div className={`layer-config-line-wrap ${className}`}>
                 <label className="common-label">通用设置</label>
                 <label className="type-label" title={label}>
                     {label}
@@ -181,8 +180,8 @@ class LayerVectorConfigForm extends React.Component {
                         <AdInputPositiveNumber
                             className="field"
                             value={currentRadius || radius}
-                            step={0.001}
-                            precision={3}
+                            step={0.01}
+                            precision={2}
                             width={50}
                             onChange={value =>
                                 this.handleChange({
@@ -224,8 +223,8 @@ class LayerVectorConfigForm extends React.Component {
                         <AdInputPositiveNumber
                             className="field"
                             value={point ? currentPointSize || pointSize : ''}
-                            step={0.001}
-                            precision={3}
+                            step={0.01}
+                            precision={2}
                             disabled={!point || !pointEnabledStatus}
                             width={45}
                             onChange={value =>

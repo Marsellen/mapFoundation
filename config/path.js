@@ -6,7 +6,6 @@ const DEV_PATH = 'http://10.43.75.150:43303';
 const DOME_PATH = 'http://10.43.75.17:13003';
 //线上环境接口根路径
 const PROD_PATH = '';
-const LINENG_PATH = 'http://10.43.72.199:13250';
 
 //转发各服务根路径映射
 module.exports = PROXY_MAP = {
@@ -15,7 +14,7 @@ module.exports = PROXY_MAP = {
         task: LOCAL_PATH,
         id: LOCAL_PATH,
         manualBuild: LOCAL_PATH,
-        boundary: LOCAL_PATH,
+        store: LOCAL_PATH,
         edit: LOCAL_PATH,
         check: LOCAL_PATH,
         checkMarker: LOCAL_PATH
@@ -25,8 +24,8 @@ module.exports = PROXY_MAP = {
         task: DEV_PATH,
         id: DEV_PATH,
         manualBuild: DEV_PATH,
-        boundary: DEV_PATH,
-        edit: LINENG_PATH,
+        store: DEV_PATH,
+        edit: DEV_PATH,
         check: DEV_PATH,
         checkMarker: DEV_PATH
     },
@@ -35,7 +34,7 @@ module.exports = PROXY_MAP = {
         task: DOME_PATH,
         id: DOME_PATH,
         manualBuild: DOME_PATH,
-        boundary: DOME_PATH,
+        store: DOME_PATH,
         edit: DOME_PATH,
         check: DOME_PATH,
         checkMarker: DOME_PATH
@@ -45,7 +44,7 @@ module.exports = PROXY_MAP = {
         task: PROD_PATH,
         id: PROD_PATH,
         manualBuild: PROD_PATH,
-        boundary: PROD_PATH,
+        store: PROD_PATH,
         edit: PROD_PATH,
         check: PROD_PATH,
         checkMarker: PROD_PATH

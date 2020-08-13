@@ -14,11 +14,11 @@ export function IdApiPath(url) {
     }
 }
 
-export function updateBoundaryApiPath(url) {
+export function StoreApiPath(url) {
     if (/^\//.test(url)) {
-        return `/gateway/querydb${url}`;
+        return `/gateway/store${url}`;
     } else {
-        return `/gateway/querydb/${url}`;
+        return `/gateway/store/${url}`;
     }
 }
 

@@ -240,13 +240,13 @@ class VizComponent extends React.Component {
         const { TaskStore } = this.props;
         const { isEditableTask, activeTaskId } = TaskStore;
         try {
-            isEditableTask && this.initBoundary();
             const resources = await Promise.all([
                 this.initVectors(task.vectors),
                 this.initRegion(task.region),
                 this.initMarkerLayer(task),
                 this.initMultiProjectResource(task)
             ]);
+            isEditableTask && this.initBoundary();
             this.initResouceLayer(resources);
             this.installListener();
             //设置画面缩放比例

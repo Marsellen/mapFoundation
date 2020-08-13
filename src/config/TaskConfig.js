@@ -23,3 +23,23 @@ export const TASK_QC_TYPES = ['imp_check_after_recognition', 'imp_check_after_ma
 export const TASK_FIX_STATUS = [1, 2];
 //任务返工、返修状态
 export const TASK_REFIX_STATUS = [4, 5];
+
+//过程库查询底图数据时，不同任务类型和参数字段映射
+export const UPDATE_BOUNDARY_PARAM_MAP = {
+    imp_recognition: {
+        referData: 'MS_EDITOR_QUERYDB_PATHS',
+        outDir: '1302_MS_AROUND_DATA'
+    },
+    imp_check_after_recognition: {
+        referData: 'MS_EDITOR_QUERYDB_PATHS',
+        outDir: '1303_MS_QC_AROUND_DATA'
+    },
+    imp_manbuild: {
+        referData: 'MB_EDITOR_QUERYDB_PATHS',
+        outDir: '1304_MB_AROUND_DATA'
+    },
+    imp_check_after_manbuild: {
+        referData: 'MB_EDITOR_QUERYDB_PATHS',
+        outDir: '1305_MB_AROUND_DATA'
+    }
+};
