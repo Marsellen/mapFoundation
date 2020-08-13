@@ -638,12 +638,13 @@ const calcFeatures = (feature, layerName) => {
     };
 };
 
+const ALL_ATTR_REL_DATA_SET = ATTR_REL_DATA_SET.concat(['AD_LaneDivider', 'AD_Road']);
 const calcRels = (layerName, relation, feature) => {
     return Object.keys(relation || {}).flatMap(spec => {
         let properties = relation[spec];
         if (REL_DATA_SET.includes(spec)) {
             return relDataFormat(spec, properties);
-        } else if (ATTR_REL_DATA_SET.includes(spec)) {
+        } else if (ALL_ATTR_REL_DATA_SET.includes(spec)) {
             return attrRelDataFormat(layerName, spec, properties, feature);
         }
         return [];
@@ -717,10 +718,10 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
             const { objType, relObjType, objSpec, relObjSpec } = relSpec;
             let objId, relObjId;
             if (relSpec.objSpec == spec) {
-                objId = property[IDKey1];
+                objId = feature[IDKey1];
                 relObjId = property[IDKey2];
             } else {
-                objId = property[IDKey2];
+                objId = feature[IDKey2];
                 relObjId = property[IDKey1];
             }
             // 关联要素id为空或0时不建关联关系
