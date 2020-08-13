@@ -351,7 +351,7 @@ class RightMenuModal extends React.Component {
         checkSdkError(result);
         const oldFeature = RightMenuStore.getFeatures()[0];
         this.movePointFeatureHandler(result, oldFeature)
-          
+
     }
 
     @logDecorator({ operate: '平移点要素', skipRenderMode: true })
@@ -515,7 +515,7 @@ class RightMenuModal extends React.Component {
                 duration: 3,
                 key: 'edit_error'
             });
-            
+
         DataLayerStore.selectPointFromHighlight();
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();
