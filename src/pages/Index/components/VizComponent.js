@@ -216,7 +216,7 @@ class VizComponent extends React.Component {
             //加载资料
             await Promise.all([this.initEditResource(task), this.initExResource(task)]);
             message.success({
-                content: '资料加载成功',
+                content: '资料加载完毕',
                 duration: 1,
                 key
             });
@@ -224,7 +224,7 @@ class VizComponent extends React.Component {
             const currentTaskId = e.message;
             setTimeout(() => {
                 message.error({
-                    content: currentTaskId + '任务资料加载失败',
+                    content: currentTaskId + '任务内数据加载失败，请重新开始任务',
                     key
                 });
             });
@@ -301,9 +301,7 @@ class VizComponent extends React.Component {
     };
 
     initVectors = async vectors => {
-        if (!vectors) {
-            return;
-        }
+        if (!vectors) return;
         window.vectorLayerGroup = new LayerGroup(vectors, {
             styleConifg: VectorsConfig
         });
@@ -317,47 +315,55 @@ class VizComponent extends React.Component {
     };
 
     initTracks = async urlMap => {
-        if (!urlMap) return;
-        const { TaskStore } = this.props;
-        const { projectNameArr, updateMultiProjectMap } = TaskStore;
-        const traceListLayer = new TraceListLayer();
-        window.trackLayer = traceListLayer;
-        map.getLayerManager().addTraceListLayer(traceListLayer);
-        const fetchTrackArr = Object.keys(urlMap).map(projectName => {
-            const trackUrl = urlMap[projectName];
-            //获取轨迹
-            return axios.get(trackUrl).then(res => {
-                const { data } = res;
-                const trackPartMap = {};
-                data.forEach(tackPart => {
-                    const { name, tracks } = tackPart;
-                    const trackName = `${projectName}_${name}`;
-                    traceListLayer.addTrace({
-                        taskId: trackName,
-                        data: tracks
+        try {
+            if (!urlMap) return;
+            const { TaskStore } = this.props;
+            const { projectNameArr, updateMultiProjectMap } = TaskStore;
+            const traceListLayer = new TraceListLayer();
+            window.trackLayer = traceListLayer;
+            map.getLayerManager().addTraceListLayer(traceListLayer);
+            const fetchTrackArr = Object.keys(urlMap).map(projectName => {
+                const trackUrl = urlMap[projectName];
+                //获取轨迹
+                return axios.get(trackUrl).then(res => {
+                    const { data } = res;
+                    const trackPartMap = {};
+                    data.forEach(tackPart => {
+                        const { name, tracks } = tackPart;
+                        const trackName = `${projectName}_${name}`;
+                        traceListLayer.addTrace({
+                            taskId: trackName,
+                            data: tracks
+                        });
+                        trackPartMap[trackName] = tracks;
                     });
-                    trackPartMap[trackName] = tracks;
+                    //更新
+                    updateMultiProjectMap(`${projectName}|track`, {
+                        layerKey: Object.keys(trackPartMap),
+                        layerMap: trackPartMap
+                    });
+                    return data;
                 });
-                //更新
-                updateMultiProjectMap(`${projectName}|track`, {
-                    layerKey: Object.keys(trackPartMap),
-                    layerMap: trackPartMap
-                });
-                return data;
             });
-        });
 
-        await Promise.all(fetchTrackArr);
-        ResourceLayerStore.selectLinkTrack(projectNameArr[0]);
+            await Promise.all(fetchTrackArr);
+            ResourceLayerStore.selectLinkTrack(projectNameArr[0]);
+        } catch (e) {
+            message.warning('没有轨迹数据');
+            console.error('轨迹异常' + e.message || e || '');
+        }
     };
 
     initRegion = async regionUrl => {
-        if (!regionUrl) return;
         try {
+            if (!regionUrl) return;
             const { TaskStore } = this.props;
             window.vectorLayer = new VectorLayer(regionUrl);
             vectorLayer.setDefaultStyle({ color: 'rgb(16,201,133)' });
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
+            //判断任务范围是否成功加载
+            const regionLayerFeatures = window.vectorLayer.getAllFeatures();
+            if (regionLayerFeatures.length === 0) message.warning('没有任务范围框');
             //保存任务范围geojson
             let { activeTask } = TaskStore;
             if (!activeTask.isLocal) {
@@ -370,8 +376,8 @@ class VizComponent extends React.Component {
                 layer: vectorLayer
             };
         } catch (e) {
-            console.log(e);
-            message.warning('作业范围数据加载失败：' + e.message || '', 3);
+            message.warning('没有任务范围框');
+            console.error('任务范围异常：' + e.message || e || '');
         }
     };
 
@@ -388,7 +394,7 @@ class VizComponent extends React.Component {
             VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
             this.handleBoundaryfeature();
         } catch (e) {
-            console.error(`周边底图数据加载失败: ${e.message || e}`);
+            console.error('周边底图异常：' + e.message || e || '');
         }
     };
 
