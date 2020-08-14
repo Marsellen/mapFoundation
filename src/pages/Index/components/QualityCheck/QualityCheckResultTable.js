@@ -29,7 +29,7 @@ class QualityCheckResultTable extends React.Component {
         currentPage: 1,
         pageSize: 10,
         filteredInfo: null,
-        loadings: []
+        loadings: {}
     };
 
     render() {
@@ -341,12 +341,13 @@ class QualityCheckResultTable extends React.Component {
     };
 
     enterLoading = (index, fn) => {
-        const newLoadings = [...this.state.loadings];
-        newLoadings[index] = true;
+        let loadings = this.state.loadings;
+        loadings[index] = true;
         this.setState({
-            loadings: newLoadings
+            loadings: loadings
         });
-        fn().then(() => {
+        fn().finally(() => {
+            let newLoadings = this.state.loadings;
             newLoadings[index] = false;
             this.setState({ loadings: newLoadings });
         });
