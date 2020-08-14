@@ -179,6 +179,7 @@ class TaskStore {
 
     initUpdateBoundaryParams = taskType => {
         const region = window.vectorLayer.getAllFeatures()[0];
+        if (!region) return;
         const { bufferRegionWkt } = region.data.properties;
         const { referData, outDir } = UPDATE_BOUNDARY_PARAM_MAP[taskType];
         const params = {
@@ -236,7 +237,9 @@ class TaskStore {
             styleConifg: BoundaryVectorsConfig
         });
         yield window.map.getLayerManager().addLayerGroup(layerGroup);
-
+        //判断周边底图ads_all.geojson是否成功加载
+        // const regionLayerFeatures = window.boundaryLayerGroup.getAllFeatures();
+        // if (regionLayerFeatures.length === 0) message.warning('没有任务范围框');
         const relUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryRels, this.activeTask);
         const AttrUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryAttrs, this.activeTask);
         yield AttrStore.addRecords(AttrUrl, 'boundary');
