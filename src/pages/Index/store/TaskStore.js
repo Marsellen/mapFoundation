@@ -252,7 +252,9 @@ class TaskStore {
             yield TaskService.updateBoundaryFile(option);
         } catch (e) {
             const errMsg = e.message || e || '';
-            errMsg.includes('超时') && message.warning('过程库服务请求超时 /storeQuery');
+            if (errMsg.includes && errMsg.includes('超时')) {
+                message.warning('过程库服务请求超时 /storeQuery');
+            }
             console.log('获取底图失败' + errMsg);
         }
         return this.getBoundaryFile();

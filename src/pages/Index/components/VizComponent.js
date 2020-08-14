@@ -232,6 +232,7 @@ class VizComponent extends React.Component {
             // 删除本地导入加载失败的任务
             tasksPop(currentTaskId);
             console.log('任务数据加载失败' + currentTaskId || e || '');
+            window.map = null;
         }
         console.timeEnd('taskLoad');
     };
