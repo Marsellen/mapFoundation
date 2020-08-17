@@ -6,18 +6,26 @@ import VectorConfig from 'src/pages/Index/components/RenderMode/VectorConfig';
 import { inject, observer } from 'mobx-react';
 
 const { TabPane } = Tabs;
-const SUPPORT_VECTOR_CONFIG_MODE = ['common', 'define'];
+const SUPPORT_VECTOR_CONFIG_MODE = ['common', 'check', 'define'];
 
 @inject('RenderModeStore')
 @observer
 class RenderConfigWindow extends React.Component {
+    state = { tabKey: '' };
+
+    handleChange = tabKey => {
+        this.setState({ tabKey });
+    };
+
     render() {
-        const { RenderModeStore } = this.props;
-        const { activeMode } = RenderModeStore;
+        const { tabKey } = this.state;
+        const { RenderModeStore: { activeMode } = {} } = this.props;
         const isSupportVectorConfig = SUPPORT_VECTOR_CONFIG_MODE.includes(activeMode);
+        const defaultTabKey = isSupportVectorConfig ? 'icon' : 'text';
+        const currentTabKey = tabKey || defaultTabKey;
         return (
-            <div className="define-mode-wrap">
-                <Tabs animated={false}>
+            <div className={`define-mode-wrap ${currentTabKey}-width`}>
+                <Tabs animated={false} onChange={this.handleChange}>
                     {isSupportVectorConfig && (
                         <TabPane tab="符号设置" key="icon">
                             <VectorConfig />
