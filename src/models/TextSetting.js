@@ -1,5 +1,4 @@
 import TextVectorConfig from 'src/config/TextVectorConfig';
-import { LAYER_TEXT_MAP } from 'src/config/TextConfigMap';
 import {
     TYPE_SELECT_OPTION_MAP,
     EXTRA_TEXT_CONFIG,
@@ -8,13 +7,13 @@ import {
 import _ from 'lodash';
 
 class TextSetting {
-    constructor() {
+    constructor(defaultTextConfig) {
         this.vectorConfig;
         this.layerConfig;
-        this.init();
+        this.init(defaultTextConfig);
     }
 
-    init() {
+    init(defaultTextConfig) {
         let config = _.cloneDeep(TextVectorConfig);
         Object.keys(config).forEach(layerName => {
             let types = LAYER_TYPE_MAP[layerName];
@@ -25,7 +24,7 @@ class TextSetting {
         });
         this.vectorConfig = config;
 
-        this.layerConfig = _.cloneDeep(LAYER_TEXT_MAP);
+        this.layerConfig = _.cloneDeep(defaultTextConfig);
     }
 
     getVectorConfig = layerName => {

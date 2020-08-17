@@ -83,7 +83,7 @@ class VizComponent extends React.Component {
         window.map = new Map(div);
         await this.initTask();
         //初始化文字注记配置
-        initLayerTextConfig();
+        initLayerTextConfig('common');
         //初始化符号配置
         initVectorConfig('common');
     };

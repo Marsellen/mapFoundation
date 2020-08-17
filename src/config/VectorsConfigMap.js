@@ -1,3 +1,9 @@
+import VectorsConfig from 'src/config/VectorsConfig';
+import BoundaryVectorsConfig from 'src/config/BoundaryVectorsConfig';
+import WhiteVectorsConfig from 'src/config/WhiteVectorsConfig';
+import BoundaryWhiteVectorsConfig from 'src/config/BoundaryWhiteVectorsConfig';
+import CheckVectorsConfig from 'src/config/CheckVectorsConfig';
+import BoundaryCheckVectorsConfig from 'src/config/BoundaryCheckVectorsConfig';
 import dianfuhao from 'src/assets/img/dianfuhao.png';
 import dianfuhao1 from 'src/assets/img/dianfuhao1.png';
 import dianfuhao2 from 'src/assets/img/dianfuhao2.png';
@@ -8,7 +14,7 @@ import dianfuhao6 from 'src/assets/img/dianfuhao6.png';
 import dianfuhao7 from 'src/assets/img/dianfuhao7.png';
 import dianfuhao8 from 'src/assets/img/dianfuhao8.png';
 
-const WHITE_VECTOR_CONFIG_MAP = {
+const DEFINE_VECTOR_CONFIG_MAP = {
     AD_Road: {
         key: 'AD_Road',
         label: '道路参考线',
@@ -6936,11 +6942,25 @@ const CHECK_VECTOR_CONFIG_MAP = {
     }
 };
 
-//当前任务：不同渲染模式对应不同配置
+//当前任务不同渲染模式对应不同配置
 export const MODE_VECTOR_CONFIG_MAP = {
     common: COMMON_VECTOR_CONFIG_MAP,
     check: CHECK_VECTOR_CONFIG_MAP,
-    define: WHITE_VECTOR_CONFIG_MAP
+    define: DEFINE_VECTOR_CONFIG_MAP
+};
+
+//当前任务：不同渲染模式对应不同配置
+export const MODE_VECTOR_CONFIG = {
+    common: VectorsConfig,
+    check: CheckVectorsConfig,
+    define: WhiteVectorsConfig
+};
+
+//周边底图：不同渲染模式对应不同配置
+export const MODE_BOUNDARY_VECTOR_CONFIG = {
+    common: BoundaryVectorsConfig,
+    check: BoundaryCheckVectorsConfig,
+    define: BoundaryWhiteVectorsConfig
 };
 
 //点符号图标名与base64映射

@@ -52,7 +52,13 @@ class RenderMode extends React.Component {
             cancelText: '取消',
             zIndex: 99999,
             onOk: () => {
-                const { DataLayerStore, RenderModeStore, AttributeStore, TextStore } = this.props;
+                const {
+                    DataLayerStore,
+                    RenderModeStore,
+                    AttributeStore,
+                    TextStore,
+                    TaskStore: { taskProcessName }
+                } = this.props;
                 const { mode } = this.state;
                 //设置渲染模式
                 RenderModeStore.setMode(mode);
@@ -68,7 +74,7 @@ class RenderMode extends React.Component {
                 AttributeStore.hide();
 
                 //初始化文字注记配置
-                TextStore.initLayerTextConfig();
+                TextStore.initLayerTextConfig(mode, taskProcessName);
                 //关闭文字注记弹窗
                 TextStore.hide();
             }
