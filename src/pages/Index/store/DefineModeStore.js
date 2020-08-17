@@ -2,8 +2,6 @@ import { observable, configure, action } from 'mobx';
 import {
     POINT_ICON_MAP,
     MODE_VECTOR_CONFIG_MAP,
-    MODE_VECTOR_CONFIG,
-    MODE_BOUNDARY_VECTOR_CONFIG,
     CONFIGURABLE_LAYERS
 } from 'src/config/VectorsConfigMap.js';
 import { TYPE_SELECT_OPTION_MAP, LAYER_TYPE_MAP } from 'src/config/ADMapDataConfig';
@@ -23,8 +21,6 @@ class DefineModeStore {
         this.globalPointEnabledStatus = true;
         this.globalArrowEnabledStatus = true;
         this.vectorConfigMap = JSON.parse(JSON.stringify(MODE_VECTOR_CONFIG_MAP[mode]));
-        this.vectorConfig = JSON.parse(JSON.stringify(MODE_VECTOR_CONFIG[mode]));
-        this.boundaryVectorConfig = JSON.parse(JSON.stringify(MODE_BOUNDARY_VECTOR_CONFIG[mode]));
         //初始化所有图层
         CONFIGURABLE_LAYERS.forEach(key => {
             this.batchSetVectorConfig({ key });

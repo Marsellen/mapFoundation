@@ -12,6 +12,12 @@ export const RENDER_MODE_MAP = [
         icon: common
     },
     {
+        mode: 'check',
+        title: '质检符号模式',
+        desc: '用于作业自检和快速质检',
+        icon: relation
+    },
+    {
         mode: 'relation',
         title: '关联关系查看模式',
         desc: '提供系统的关联关系符号策略\n及关联关系查看工具',

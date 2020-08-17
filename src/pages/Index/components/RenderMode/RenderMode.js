@@ -77,13 +77,15 @@ class RenderMode extends React.Component {
 
     resetStyleConfig = mode => {
         const { RenderModeStore, DefineModeStore } = this.props;
-        const { commonRenderMode, whiteRenderMode, setRels } = RenderModeStore;
+        const { whiteRenderMode, setRels } = RenderModeStore;
         const { initVectorConfig } = DefineModeStore;
 
         switch (mode) {
             case 'common':
-                commonRenderMode();
                 initVectorConfig('common');
+                break;
+            case 'check':
+                initVectorConfig('check');
                 break;
             case 'relation':
                 whiteRenderMode();
@@ -94,7 +96,6 @@ class RenderMode extends React.Component {
                 whiteRenderMode();
                 break;
             case 'define':
-                whiteRenderMode();
                 initVectorConfig('define');
                 break;
             default:
@@ -126,7 +127,7 @@ class RenderMode extends React.Component {
                     visible={visible}
                     footer={null}
                     onCancel={this.handleClose}
-                    width={720}
+                    width={900}
                     maskClosable={false}
                     zIndex={9999}
                 >
