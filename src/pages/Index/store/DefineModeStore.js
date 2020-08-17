@@ -26,15 +26,15 @@ class DefineModeStore {
         this.vectorConfig = JSON.parse(JSON.stringify(MODE_VECTOR_CONFIG[mode]));
         this.boundaryVectorConfig = JSON.parse(JSON.stringify(MODE_BOUNDARY_VECTOR_CONFIG[mode]));
         //初始化所有图层
-        CONFIGURABLE_LAYERS.forEach(layerName => {
-            this.batchSetVectorConfig({ key: layerName });
+        CONFIGURABLE_LAYERS.forEach(key => {
+            this.batchSetVectorConfig({ key });
         });
     };
 
     //初始化某图层符号配置
     @action initLayerVectorConfig = (key, checked) => {
         this.vectorConfigMap[key].checked = checked;
-        this.batchSetVectorConfig({ key, isReset: true });
+        this.batchSetVectorConfig({ key, resetType: checked ? 'default' : 'common' });
         this.updateKey = Math.random();
     };
 
@@ -141,18 +141,35 @@ class DefineModeStore {
         });
     };
 
+    //获取当前分类所有属性值的默认style
+    getDefaultTypeStyle = ({ key, commonStyle }) => {
+        const { showFields } = commonStyle;
+        const defaultTypeStyle = this.vectorConfigMap[key].typeStyleMap[showFields];
+        return defaultTypeStyle && JSON.parse(JSON.stringify(defaultTypeStyle));
+    };
+
+    //以通用style重新设置当前分类所有属性值的style
+    getCommonTypeStyle = ({ key, commonStyle }) => {
+        const { showFields } = commonStyle;
+        const { type } = LAYER_TYPE_MAP[key].find(item => item.key === showFields);
+        return TYPE_SELECT_OPTION_MAP[type].map(item => {
+            return { ...item, ...commonStyle };
+        });
+    };
+
     //初始化当前分类字段所有属性值的style
-    resetTypeStyle = ({ key, styleKey, isReset, typeStyle, commonStyle }) => {
-        //当切换分类或需要重置时，将以通用style重新设置当前分类所有属性值的style
-        if (styleKey === 'showFields' || isReset) {
-            const { showFields } = commonStyle;
-            const { type } = LAYER_TYPE_MAP[key].find(item => item.key === showFields);
-            return TYPE_SELECT_OPTION_MAP[type].map(item => {
-                return { ...item, ...commonStyle };
-            });
-        } else {
-            return typeStyle;
+    resetTypeStyle = ({ key, styleKey, resetType, typeStyle, commonStyle }) => {
+        if (styleKey === 'showFields' || resetType === 'default') {
+            let defaultTypeStyle = this.getDefaultTypeStyle({ key, commonStyle });
+            if (defaultTypeStyle) return defaultTypeStyle;
+            return this.getCommonTypeStyle({ key, commonStyle });
         }
+
+        if (resetType === 'common') {
+            return this.getCommonTypeStyle({ key, commonStyle });
+        }
+
+        return typeStyle;
     };
 
     //根据typeStyle生成sdk所需的配置文件（当前任务和周边底图的配置）
@@ -237,14 +254,14 @@ class DefineModeStore {
     };
 
     //批量重置符号样式
-    @action batchSetVectorConfig = ({ key, isReset, styleKey, styleValue }) => {
+    @action batchSetVectorConfig = ({ key, resetType, styleKey, styleValue }) => {
         //修改通用style
         let commonStyle = this.vectorConfigMap[key].commonStyle;
         this.handleStyle(commonStyle, styleKey, styleValue);
-        //修改typeStyle
+        //获取typeStyle
         const { showFields } = commonStyle;
         let typeStyle = this.vectorConfigMap[key].typeStyle;
-        typeStyle = this.resetTypeStyle({ key, styleKey, isReset, typeStyle, commonStyle });
+        typeStyle = this.resetTypeStyle({ key, styleKey, resetType, typeStyle, commonStyle });
         typeStyle = this.handleAllTypeStyle({ typeStyle, styleKey, styleValue, showFields });
         //更新vectorConfig、boundaryVectorConfig、vectorConfigMap
         const { config, boundaryConfig } = this.getTypeConfig({ key, typeStyle, showFields });
