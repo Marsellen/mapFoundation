@@ -27,7 +27,7 @@ class TextStore {
     };
 
     //初始化文字注记配置
-    @action initLayerTextConfig = (mode, taskProcessName) => {
+    @action initTextConfig = (mode, taskProcessName) => {
         //质检符号模式是根据任务类型采用对应配置，其它模式采用通用配置
         const defaultTextConfig =
             mode === 'check' ? TASK_TEXT_CONFIG_MAP[taskProcessName] : COMMON_TEXT_CONFIG_MAP;

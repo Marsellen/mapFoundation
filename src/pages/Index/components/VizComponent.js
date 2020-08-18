@@ -47,6 +47,7 @@ import ToolCtrlStore from 'src/pages/Index/store/ToolCtrlStore';
 import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
 import QualityCheckStore from 'src/pages/Index/store/QualityCheckStore';
 import { showPictureShowView, showAttributesModal, showRightMenu } from 'src/utils/map/viewCtrl';
+import { TASK_MODE_MAP } from 'src/config/RenderModeConfig';
 
 @inject('QCMarkerStore')
 @inject('DefineModeStore')
@@ -73,19 +74,12 @@ class VizComponent extends React.Component {
 
     init = async () => {
         await this.release();
-        const {
-            TextStore: { initLayerTextConfig },
-            TaskStore: { activeTaskId },
-            DefineModeStore: { initVectorConfig }
-        } = this.props;
+        const { TaskStore: { activeTaskId } = {} } = this.props;
         if (!activeTaskId) return;
         const div = document.getElementById('viz');
         window.map = new Map(div);
         await this.initTask();
-        //初始化文字注记配置
-        initLayerTextConfig('common');
-        //初始化符号配置
-        initVectorConfig('common');
+        this.renderMode();
     };
 
     release = async () => {
@@ -135,6 +129,20 @@ class VizComponent extends React.Component {
             return item.cancel();
         });
         window.__cancelRequestArr = [];
+    };
+
+    //不同任务类型采用不同渲染模式
+    renderMode = () => {
+        const {
+            TextStore: { initTextConfig },
+            TaskStore: { taskProcessName },
+            DefineModeStore: { initVectorConfig }
+        } = this.props;
+        const mode = TASK_MODE_MAP[taskProcessName] || 'common';
+        //初始化文字注记配置
+        initTextConfig(mode, taskProcessName);
+        //初始化符号配置
+        initVectorConfig(mode);
     };
 
     addShortcut = event => {
