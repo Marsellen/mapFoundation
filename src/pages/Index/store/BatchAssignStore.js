@@ -13,10 +13,7 @@ class BatchAssignStore {
         this.features = features;
         this.layerName = features[0].layerName;
         let properties = features.map(feature => feature.data.properties);
-        this.attributes = modelFactory.getBatchAssignTableData(
-            this.layerName,
-            properties
-        );
+        this.attributes = modelFactory.getBatchAssignTableData(this.layerName, properties);
     };
 
     @action hide = () => {
@@ -26,12 +23,12 @@ class BatchAssignStore {
     @action submit = data => {
         let attributes = data.attributes;
         let newFeatures = _.cloneDeep(this.features);
-        newFeatures.forEach(feature => {
-            feature.data.properties = {
-                ...feature.data.properties,
-                ...attributes
-            };
-        });
+        for (let key in attributes) {
+            newFeatures.forEach(feature => {
+                if (!attributes[key]) return false;
+                feature.data.properties[key] = attributes[key];
+            });
+        }
         let layer = getLayerByName(this.layerName);
         layerUpdateFeatures(layer, newFeatures);
 

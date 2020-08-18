@@ -5,6 +5,8 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
+import ChooseErrorLayer from 'src/components/ChooseErrorLayer';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { getValidator } from 'src/utils/form/validator';
 import AdEmitter from 'src/models/event';
 import { logDecorator } from 'src/utils/decorator';
@@ -24,8 +26,28 @@ const formItemLayout = {
 
 @Form.create()
 @inject('BatchAssignStore')
+@inject('DataLayerStore')
+@inject('AttributeStore')
+@inject('appStore')
 @observer
 class BatchAssignModal extends React.Component {
+    componentDidMount() {
+        const { DataLayerStore } = this.props;
+        DataLayerStore.setErrorLayerCallback(this.errorCallback);
+    }
+    errorCallback = result => {
+        let layerId,
+            layerName = '';
+        const { form } = this.props;
+        if (result.length > 0) {
+            layerId = result[0].data.properties[DATA_LAYER_MAP[result[0].layerName].id];
+            layerName = result[0].layerName;
+            form.setFieldsValue({
+                'attributes.FILE_NAME': layerName,
+                'attributes.FEAT_ID': layerId
+            });
+        }
+    };
     render() {
         const { BatchAssignStore } = this.props;
         const { visible } = BatchAssignStore;
@@ -37,7 +59,8 @@ class BatchAssignModal extends React.Component {
                 wrapClassName="ad-attributes-modal"
                 title={this._renderTitle()}
                 visible={visible}
-                onCancel={this.handleCancel}>
+                onCancel={this.handleCancel}
+            >
                 <div className="obscuration" />
                 <Form colon={false} hideRequiredMark={true}>
                     {this._renderForm()}
@@ -92,7 +115,8 @@ class BatchAssignModal extends React.Component {
     }
 
     handleCancel = () => {
-        const { BatchAssignStore } = this.props;
+        const { BatchAssignStore, DataLayerStore } = this.props;
+        DataLayerStore.UnQCAttrModal(['error_layer']);
         BatchAssignStore.hide();
     };
 
@@ -110,9 +134,7 @@ class BatchAssignModal extends React.Component {
                         initialValue: item.value
                     })(<Input disabled />)
                 ) : (
-                    <span className="ant-form-text">
-                        {this.isPresent(item.value) ? item.value : '--'}
-                    </span>
+                    <Input placeholder="（多项内容）" disabled />
                 )}
             </Form.Item>
         );
@@ -123,21 +145,14 @@ class BatchAssignModal extends React.Component {
         const { readonly } = item;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {!readonly ? (
-                    form.getFieldDecorator(name + '.' + item.key, {
-                        rules: [
-                            {
-                                required: item.required,
-                                message: `${item.name}必填,请输入合法的数字`
-                            },
-                            ...this.getValidatorSetting(item.validates)
-                        ],
-                        initialValue: item.value
-                    })(<AdInputNumber type="number" />)
-                ) : (
-                    <span className="ant-form-text">
-                        {this.isPresent(item.value) ? item.value : '--'}
-                    </span>
+                {form.getFieldDecorator(name + '.' + item.key, {
+                    rules: [...this.getValidatorSetting(item.validates)],
+                    initialValue: !readonly ? item.value : null
+                })(
+                    <AdInputNumber
+                        placeholder={!readonly ? item.value : '（多项内容）'}
+                        type="number"
+                    />
                 )}
             </Form.Item>
         );
@@ -148,21 +163,14 @@ class BatchAssignModal extends React.Component {
         const { readonly } = item;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {!readonly ? (
-                    form.getFieldDecorator(name + '.' + item.key, {
-                        rules: [
-                            {
-                                required: item.required,
-                                message: `${item.name}必填`
-                            },
-                            ...this.getValidatorSetting(item.validates)
-                        ],
-                        initialValue: item.value
-                    })(<Input disabled={readonly} />)
-                ) : (
-                    <span className="ant-form-text">
-                        {this.isPresent(item.value) ? item.value : '--'}
-                    </span>
+                {form.getFieldDecorator(name + '.' + item.key, {
+                    rules: [...this.getValidatorSetting(item.validates)],
+                    initialValue: !readonly ? item.value : null
+                })(
+                    <Input
+                        placeholder={!readonly ? item.value : '（多项内容）'}
+                        disabled={item.key === 'FIX_PERSON' || item.key === 'QC_PERSON'}
+                    />
                 )}
             </Form.Item>
         );
@@ -174,40 +182,26 @@ class BatchAssignModal extends React.Component {
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {!readonly ? (
-                    form.getFieldDecorator(name + '.' + item.key, {
-                        rules: [
-                            {
-                                required: item.required,
-                                message: `${item.name}必填`
-                            }
-                        ],
-                        initialValue: item.value
-                    })(
-                        <Select
-                            showSearch
-                            optionFilterProp="children"
-                            disabled={readonly}
-                            filterOption={(input, option) =>
-                                option.props.children
-                                    .toLowerCase()
-                                    .indexOf(input.toLowerCase()) >= 0
-                            }>
-                            {options.map((option, index) => {
-                                return (
-                                    <Select.Option
-                                        key={index}
-                                        value={option.value}>
-                                        {option.label}
-                                    </Select.Option>
-                                );
-                            })}
-                        </Select>
-                    )
-                ) : (
-                    <span className="ant-form-text">
-                        {this.getArrayOption(item.value, options)}
-                    </span>
+                {form.getFieldDecorator(name + '.' + item.key, {
+                    initialValue: !readonly ? item.value : undefined
+                })(
+                    <Select
+                        showSearch
+                        optionFilterProp="children"
+                        // disabled={readonly}
+                        placeholder={!readonly ? item.value : '（多项内容）'}
+                        filterOption={(input, option) =>
+                            option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }
+                    >
+                        {options.map((option, index) => {
+                            return (
+                                <Select.Option key={index} value={option.value}>
+                                    {option.label}
+                                </Select.Option>
+                            );
+                        })}
+                    </Select>
                 )}
             </Form.Item>
         );
@@ -216,8 +210,7 @@ class BatchAssignModal extends React.Component {
     getArrayOption = (value, arr) => {
         let text = '';
         const pos = arr.findIndex(val => val.value === value);
-        text =
-            pos != -1 && this.isPresent(arr[pos].label) ? arr[pos].label : '--';
+        text = pos != -1 && this.isPresent(arr[pos].label) ? arr[pos].label : '--';
         return text;
     };
 
@@ -234,23 +227,27 @@ class BatchAssignModal extends React.Component {
         const { form } = this.props;
         const { readonly } = item;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
-        let layout = readonly ? formItemLayout : {};
         return (
-            <Form.Item key={index} label={item.name} {...layout}>
-                {!readonly ? (
-                    form.getFieldDecorator(name + '.' + item.key, {
-                        rules: [
-                            {
-                                required: item.required,
-                                message: `${item.name}必填`
-                            }
-                        ],
-                        initialValue: item.value
-                    })(<RadioIconGroup options={options} disabled={readonly} />)
-                ) : (
-                    <span className="ant-form-text">
-                        {this.getArrayOption(item.value, options)}
-                    </span>
+            <Form.Item
+                key={index}
+                label={
+                    !readonly ? (
+                        item.name
+                    ) : (
+                        <span>
+                            {item.name}
+                            <span style={{ color: '#9A9A9A' }}>（多项内容）</span>
+                        </span>
+                    )
+                }
+            >
+                {form.getFieldDecorator(name + '.' + item.key, {
+                    initialValue: !readonly ? item.value : null
+                })(
+                    <RadioIconGroup
+                        options={options}
+                        onChange={val => this.handleChange(val, item, name)}
+                    />
                 )}
             </Form.Item>
         );
@@ -260,31 +257,59 @@ class BatchAssignModal extends React.Component {
         const { form } = this.props;
         const { readonly } = item;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
-        let layout = readonly ? formItemLayout : {};
         return (
-            <Form.Item key={index} label={item.name} {...layout}>
-                {!readonly ? (
-                    form.getFieldDecorator(name + '.' + item.key, {
-                        rules: [
-                            {
-                                required: item.required,
-                                message: `${item.name}必填`
-                            }
-                        ],
-                        initialValue: item.value
-                    })(
-                        <CheckBoxIconGroup
-                            options={options}
-                            disabled={readonly}
-                        />
+            <Form.Item
+                key={index}
+                label={
+                    !readonly ? (
+                        item.name
+                    ) : (
+                        <span>
+                            {item.name}
+                            <span style={{ color: '#9A9A9A' }}>（多项内容）</span>
+                        </span>
                     )
-                ) : (
-                    <span className="ant-form-text">
-                        {this.getCheckBoxArrayOption(item.value, options)}
-                    </span>
+                }
+            >
+                {form.getFieldDecorator(name + '.' + item.key, {
+                    initialValue: !readonly ? item.value : ''
+                })(
+                    <CheckBoxIconGroup
+                        options={options}
+                        max={3}
+                        onChange={val => this.handleChange(val, item, name)}
+                    />
                 )}
             </Form.Item>
         );
+    };
+
+    renderChooseErrorLayer = (item, index, name) => {
+        const { form } = this.props;
+        const { readonly } = item;
+        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout} shouldupdate="true">
+                {form.getFieldDecorator(name + '.' + item.key, {
+                    rules: [...this.getValidatorSetting(item.validates)],
+                    initialValue: !readonly ? item.value : undefined
+                })(
+                    <ChooseErrorLayer
+                        options={options}
+                        errorCallback={this.errorCallback}
+                        placeholder={!readonly ? item.value : '（多项内容）'}
+                        onChange={val => this.handleChange(val, item, name)}
+                    />
+                )}
+            </Form.Item>
+        );
+    };
+
+    handleChange = (val, filed, name) => {
+        const { link } = filed;
+        if (!link) return;
+        const linkData = link[val] || link.default || null;
+        linkData && this.props.form.setFieldsValue({ [name]: linkData });
     };
 
     isPresent(obj) {
