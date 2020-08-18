@@ -74,7 +74,7 @@ class RenderMode extends React.Component {
                 AttributeStore.hide();
 
                 //初始化文字注记配置
-                TextStore.initLayerTextConfig(mode, taskProcessName);
+                TextStore.initTextConfig(mode, taskProcessName);
                 //关闭文字注记弹窗
                 TextStore.hide();
             }
@@ -88,10 +88,9 @@ class RenderMode extends React.Component {
 
         switch (mode) {
             case 'common':
-                initVectorConfig('common');
-                break;
             case 'check':
-                initVectorConfig('check');
+            case 'define':
+                initVectorConfig(mode);
                 break;
             case 'relation':
                 whiteRenderMode();
@@ -100,9 +99,6 @@ class RenderMode extends React.Component {
                 break;
             case 'update':
                 whiteRenderMode();
-                break;
-            case 'define':
-                initVectorConfig('define');
                 break;
             default:
                 break;

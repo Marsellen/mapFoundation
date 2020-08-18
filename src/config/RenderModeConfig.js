@@ -37,6 +37,14 @@ export const RENDER_MODE_MAP = [
     }
 ];
 
+//不同任务类型采用不同渲染模式
+export const TASK_MODE_MAP = {
+    imp_recognition: 'common', //人工识别
+    imp_check_after_recognition: 'check', //人工识别后质检
+    imp_manbuild: 'check', //人工构建
+    imp_check_after_manbuild: 'check' //人工构建后质检
+};
+
 //专题图下拉框配置
 export const REL_SELECT_OPTIONS = [
     {
