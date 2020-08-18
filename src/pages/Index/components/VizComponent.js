@@ -76,10 +76,11 @@ class VizComponent extends React.Component {
         await this.release();
         const { TaskStore: { activeTaskId } = {} } = this.props;
         if (!activeTaskId) return;
+        this.setMode(); //设置渲染模式
         const div = document.getElementById('viz');
         window.map = new Map(div);
         await this.initTask();
-        this.renderMode();
+        this.renderMode(); //根据渲染模式，初始化注记和符号
     };
 
     release = async () => {
@@ -131,13 +132,23 @@ class VizComponent extends React.Component {
         window.__cancelRequestArr = [];
     };
 
+    setMode = () => {
+        const {
+            TaskStore: { taskProcessName },
+            RenderModeStore: { setMode }
+        } = this.props;
+        const mode = TASK_MODE_MAP[taskProcessName] || 'common';
+        setMode(mode);
+    };
+
     //不同任务类型采用不同渲染模式
     renderMode = () => {
         const {
-            TextStore: { initTextConfig },
             TaskStore: { taskProcessName },
+            TextStore: { initTextConfig },
             DefineModeStore: { initVectorConfig }
         } = this.props;
+        //获取渲染模式
         const mode = TASK_MODE_MAP[taskProcessName] || 'common';
         //初始化文字注记配置
         initTextConfig(mode, taskProcessName);
@@ -407,6 +418,36 @@ class VizComponent extends React.Component {
         }
     };
 
+    //不同模式下，处理底图数据
+    handleBoundaryfeature = () => {
+        const { RenderModeStore, TextStore, DefineModeStore } = this.props;
+        const { whiteRenderMode, resetSelectOption, setRels, activeMode } = RenderModeStore;
+        const { resetBoundaryTextStyle } = TextStore;
+        const { updateBoundaryVectorStyle } = DefineModeStore;
+
+        switch (activeMode) {
+            case 'common':
+            case 'check':
+            case 'define':
+                //按符号设置，更新后加载的周边底图
+                updateBoundaryVectorStyle();
+                break;
+            case 'relation':
+                //将重置专题图
+                resetSelectOption();
+                //白色渲染模式/要素都是白色
+                whiteRenderMode();
+                //将有关联关系的要素，按专题图进行分组
+                setRels();
+                break;
+            default:
+                break;
+        }
+
+        //将后加载的周边底图按当前注记配置渲染
+        resetBoundaryTextStyle();
+    };
+
     initMarkerLayer = async () => {
         const {
             QCMarkerStore: { getMarkerList, initMarkerList, showList },
@@ -448,35 +489,6 @@ class VizComponent extends React.Component {
             message.error('质检标注获取失败');
             console.log('获取质检列表失败：' + msg);
         }
-    };
-
-    //不同模式下，处理底图数据
-    handleBoundaryfeature = () => {
-        const { RenderModeStore, TextStore, DefineModeStore } = this.props;
-        const { whiteRenderMode, resetSelectOption, setRels, activeMode } = RenderModeStore;
-        const { resetBoundaryTextStyle } = TextStore;
-        const { updateBoundaryVectorStyle } = DefineModeStore;
-
-        switch (activeMode) {
-            case 'relation':
-                //将重置专题图
-                resetSelectOption();
-                //白色渲染模式/要素都是白色
-                whiteRenderMode();
-                //将有关联关系的要素，按专题图进行分组
-                setRels();
-                break;
-            case 'define':
-            case 'common':
-                //按符号设置，更新后加载的周边底图
-                updateBoundaryVectorStyle();
-                break;
-            default:
-                break;
-        }
-
-        //将后加载的周边底图按当前注记配置渲染
-        resetBoundaryTextStyle();
     };
 
     initResouceLayer = layers => {
@@ -584,16 +596,10 @@ class VizComponent extends React.Component {
     //不同模式下取消关联要素高亮
     handleCancelSelect = () => {
         const { activeMode, cancelSelect } = RenderModeStore;
-        switch (activeMode) {
-            case 'common':
-                AttributeStore.hideRelFeatures();
-                break;
-            case 'relation':
-                cancelSelect();
-                break;
-            default:
-                AttributeStore.hideRelFeatures();
-                break;
+        if (activeMode === 'relation') {
+            cancelSelect();
+        } else {
+            AttributeStore.hideRelFeatures();
         }
     };
 

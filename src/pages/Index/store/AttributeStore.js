@@ -151,18 +151,12 @@ class AttributeStore {
         try {
             const { activeMode, selectFeature, cancelSelect } = RenderModeStore;
             //选中要素时，不同渲染模式不同变色方式
-            switch (activeMode) {
-                case 'common':
-                    await this.commonFetchRelFeatures(relRecords);
-                    break;
-                case 'relation':
-                    cancelSelect();
-                    selectFeature(this.model);
-                    this.getRelFeatureOptions(relRecords);
-                    break;
-                default:
-                    await this.commonFetchRelFeatures(relRecords);
-                    break;
+            if (activeMode === 'relation') {
+                cancelSelect();
+                selectFeature(this.model);
+                this.getRelFeatureOptions(relRecords);
+            } else {
+                await this.commonFetchRelFeatures(relRecords);
             }
         } catch (error) {
             console.log(error);
@@ -173,16 +167,10 @@ class AttributeStore {
         try {
             const { activeMode, cancelSelect } = RenderModeStore;
             //取消选中时，不同渲染模式不同变色方式
-            switch (activeMode) {
-                case 'common':
-                    this.commonHideRelFeatures();
-                    break;
-                case 'relation':
-                    cancelSelect();
-                    break;
-                default:
-                    this.commonHideRelFeatures();
-                    break;
+            if (activeMode === 'relation') {
+                cancelSelect();
+            } else {
+                this.commonHideRelFeatures();
             }
         } catch (error) {
             console.log(error);

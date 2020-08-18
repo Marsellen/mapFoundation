@@ -25,11 +25,7 @@ class ResourceLoader extends React.Component {
     render() {
         return (
             <span>
-                <ToolIcon
-                    icon="ziliaojiazai"
-                    title="资料加载"
-                    action={this.action}
-                />
+                <ToolIcon icon="ziliaojiazai" title="资料加载" action={this.action} />
                 {this.renderModal()}
             </span>
         );
@@ -45,7 +41,8 @@ class ResourceLoader extends React.Component {
                 destroyOnClose={true}
                 onCancel={this.handleCancel}
                 maskClosable={false}
-                footer={this.renderFooter()}>
+                footer={this.renderFooter()}
+            >
                 <Form colon={false} hideRequiredMark={true} {...formLayout}>
                     <Form.Item label="资料名称">
                         {form.getFieldDecorator('taskId', {
@@ -85,9 +82,7 @@ class ResourceLoader extends React.Component {
                             <Select>
                                 {processNameOptions.map((option, index) => {
                                     return (
-                                        <Select.Option
-                                            key={index}
-                                            value={option.value}>
+                                        <Select.Option key={index} value={option.value}>
                                             {option.label}
                                         </Select.Option>
                                     );
@@ -142,8 +137,6 @@ class ResourceLoader extends React.Component {
         let shouldSave = currentNode > savedNode;
         //保存当前任务比例
         this.saveTaskScale();
-        //切换成通用模式
-        RenderModeStore.setMode('common');
         //提示保存当前任务
         if (shouldSave) {
             Modal.confirm({
