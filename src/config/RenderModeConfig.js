@@ -1,4 +1,5 @@
 import common from 'src/assets/img/common.png';
+import check from 'src/assets/img/check.png';
 import relation from 'src/assets/img/relation.png';
 // import update from 'src/assets/img/update.png';
 import define from 'src/assets/img/define.png';
@@ -15,7 +16,7 @@ export const RENDER_MODE_MAP = [
         mode: 'check',
         title: '质检符号模式',
         desc: '用于作业自检和快速质检',
-        icon: relation
+        icon: check
     },
     {
         mode: 'relation',
