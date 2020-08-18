@@ -332,7 +332,6 @@ class JobStatus extends React.Component {
         try {
             await TaskStore.initSubmit(option);
             await TaskStore.setActiveTask();
-            RenderModeStore.setMode('common');
             this.clearWorkSpace();
             message.success('提交成功');
 

@@ -172,7 +172,6 @@ class Task extends React.Component {
                 }
 
                 if (activeTaskId !== id) {
-                    RenderModeStore.setMode('common');
                     QualityCheckStore.closeCheckReport();
                     QualityCheckStore.clearCheckReport();
                 }
@@ -204,6 +203,12 @@ class Task extends React.Component {
         const { updateBoundaryVectorStyle } = DefineModeStore;
 
         switch (activeMode) {
+            case 'common':
+            case 'check':
+            case 'define':
+                //按符号设置，更新后加载的周边底图
+                updateBoundaryVectorStyle();
+                break;
             case 'relation':
                 //将重置专题图
                 resetSelectOption();
@@ -211,11 +216,6 @@ class Task extends React.Component {
                 whiteRenderMode();
                 //将有关联关系的要素，按专题图进行分组
                 setRels();
-                break;
-            case 'define':
-            case 'common':
-                //按符号设置，更新后加载的周边底图
-                updateBoundaryVectorStyle();
                 break;
             default:
                 break;

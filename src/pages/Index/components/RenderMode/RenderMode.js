@@ -97,9 +97,6 @@ class RenderMode extends React.Component {
                 //将有关联关系的要素，按专题图进行分组
                 setRels();
                 break;
-            case 'update':
-                whiteRenderMode();
-                break;
             default:
                 break;
         }
