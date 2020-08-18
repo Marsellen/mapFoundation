@@ -131,6 +131,10 @@ export const HOT_KEYS_CONFIG = {
             value: '选择1个要素+Y',
             label: '属性刷'
         },
+        {
+            value: '选择多个要素+K',
+            label: '批量赋值'
+        },
         { value: 'Esc', label: '退出编辑状态' }
     ],
     WINDOW_KEY: [

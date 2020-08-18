@@ -216,6 +216,7 @@ class BasicAttributesForm extends React.Component {
                         <ChooseErrorLayer
                             options={options}
                             disabled={readonly || producerDisabled}
+                            errorCallback={this.errorCallback}
                             onChange={val => this.handleChange(val, item, name)}
                         />
                     )
