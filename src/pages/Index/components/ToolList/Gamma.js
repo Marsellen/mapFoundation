@@ -2,11 +2,11 @@ import React from 'react';
 import { Slider } from 'antd';
 import 'less/components/PointCloud.less';
 
-class Contrast extends React.Component {
+class Gamma extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: window.pointCloudLayer ? pointCloudLayer.getIntensityContrast() : 0,
+            value: window.pointCloudLayer ? pointCloudLayer.getIntensityGamma() : 0,
             activeTaskId: props.activeTaskId
         };
     }
@@ -15,8 +15,8 @@ class Contrast extends React.Component {
         if (props.activeTaskId !== state.activeTaskId) {
             return {
                 ...state,
-                activeTaskId: props.activeTaskId,
-                value: window.pointCloudLayer ? pointCloudLayer.getIntensityContrast() : 0
+                value: window.pointCloudLayer ? pointCloudLayer.getIntensityGamma() : 0,
+                activeTaskId: props.activeTaskId
             };
         }
         return null;
@@ -26,8 +26,9 @@ class Contrast extends React.Component {
         this.setState({
             value
         });
-        pointCloudLayer.setIntensityContrast(value);
+        pointCloudLayer.setIntensityGamma(value);
     };
+
     render() {
         const { value } = this.state;
         return (
@@ -47,4 +48,4 @@ class Contrast extends React.Component {
     }
 }
 
-export default Contrast;
+export default Gamma;

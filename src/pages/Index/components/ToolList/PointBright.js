@@ -1,14 +1,12 @@
 import React from 'react';
 import { Slider } from 'antd';
+import 'less/components/PointCloud.less';
 
 class PointBright extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            updateKey: 0,
-            value: window.pointCloudLayer
-                ? pointCloudLayer.setIntensityBrightness(35)
-                : 0,
+            value: window.pointCloudLayer ? pointCloudLayer.getIntensityBrightness() : 0,
             activeTaskId: props.activeTaskId
         };
     }
@@ -18,56 +16,35 @@ class PointBright extends React.Component {
             return {
                 ...state,
                 activeTaskId: props.activeTaskId,
-                value: window.pointCloudLayer
-                    ? pointCloudLayer.setIntensityBrightness(35)
-                    : 0
+                value: window.pointCloudLayer ? pointCloudLayer.getIntensityBrightness() : 0
             };
         }
         return null;
     }
 
-    hide = () => {
+    onChange = value => {
         this.setState({
-            clicked: false,
-            hovered: false
+            value
         });
+        pointCloudLayer.setIntensityBrightness(value);
     };
     render() {
-        let value = window.pointCloudLayer
-            ? pointCloudLayer.getIntensityBrightness()
-            : 0;
+        const { value } = this.state;
         return (
             <div className="flex flex-row">
                 <Slider
                     className="flex-1"
                     value={value}
+                    min={0}
+                    max={1}
+                    step={0.1}
                     onChange={this.onChange}
-                    tipFormatter={this.formatter}
                     style={{ width: 100 }}
                 />
-                <div
-                    style={{
-                        lineHeight: '38px',
-                        color: '#9e9e9e',
-                        width: 24,
-                        textAlign: 'center'
-                    }}>
-                    {this.formatter(value)}
-                </div>
+                <div className="pointCloud">{value}</div>
             </div>
         );
     }
-    formatter = value => {
-        return `${parseInt(value)}`;
-    };
-
-    onChange = value => {
-        this.setState({
-            updateKey: Math.random(),
-            value
-        });
-        pointCloudLayer.setIntensityBrightness(value);
-    };
 }
 
 export default PointBright;

@@ -301,7 +301,11 @@ class VizComponent extends React.Component {
     initPointCloud = async urlArr => {
         if (!urlArr) return;
         //实例化点云
-        const pointCloudLayer = new DynamicPCLayer(null);
+        const pointCloudLayer = new DynamicPCLayer(null, {
+            intensityGamma: 0.5,
+            intensityContrast: 0.4,
+            intensityBrightness: 0.3
+        });
         window.pointCloudLayer = pointCloudLayer;
         //将点云实例加到map
         map.getLayerManager().addLayer('DynamicPCLayer', pointCloudLayer);
