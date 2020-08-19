@@ -26,10 +26,6 @@ const formItemLayout = {
 @inject('appStore')
 @observer
 class BasicAttributesForm extends React.Component {
-    componentDidMount() {
-        const { DataLayerStore } = this.props;
-        DataLayerStore.setErrorLayerCallback(this.errorCallback);
-    }
     errorCallback = result => {
         let layerId,
             layerName = '';
