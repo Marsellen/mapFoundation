@@ -31,10 +31,6 @@ const formItemLayout = {
 @inject('appStore')
 @observer
 class BatchAssignModal extends React.Component {
-    componentDidMount() {
-        const { DataLayerStore } = this.props;
-        DataLayerStore.setErrorLayerCallback(this.errorCallback);
-    }
     errorCallback = result => {
         let layerId,
             layerName = '';
@@ -147,7 +143,7 @@ class BatchAssignModal extends React.Component {
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {form.getFieldDecorator(name + '.' + item.key, {
                     rules: [...this.getValidatorSetting(item.validates)],
-                    initialValue: !readonly ? item.value : null
+                    initialValue: !readonly ? item.value : undefined
                 })(
                     <AdInputNumber
                         placeholder={!readonly ? item.value : '（多项内容）'}
@@ -165,7 +161,7 @@ class BatchAssignModal extends React.Component {
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {form.getFieldDecorator(name + '.' + item.key, {
                     rules: [...this.getValidatorSetting(item.validates)],
-                    initialValue: !readonly ? item.value : null
+                    initialValue: !readonly ? item.value : undefined
                 })(
                     <Input
                         placeholder={!readonly ? item.value : '（多项内容）'}
@@ -228,21 +224,9 @@ class BatchAssignModal extends React.Component {
         const { readonly } = item;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         return (
-            <Form.Item
-                key={index}
-                label={
-                    !readonly ? (
-                        item.name
-                    ) : (
-                        <span>
-                            {item.name}
-                            <span style={{ color: '#9A9A9A' }}>（多项内容）</span>
-                        </span>
-                    )
-                }
-            >
+            <Form.Item key={index} label={this.getLabel(readonly, item)}>
                 {form.getFieldDecorator(name + '.' + item.key, {
-                    initialValue: !readonly ? item.value : null
+                    initialValue: !readonly ? item.value : undefined
                 })(
                     <RadioIconGroup
                         options={options}
@@ -258,19 +242,7 @@ class BatchAssignModal extends React.Component {
         const { readonly } = item;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         return (
-            <Form.Item
-                key={index}
-                label={
-                    !readonly ? (
-                        item.name
-                    ) : (
-                        <span>
-                            {item.name}
-                            <span style={{ color: '#9A9A9A' }}>（多项内容）</span>
-                        </span>
-                    )
-                }
-            >
+            <Form.Item key={index} label={this.getLabel(readonly, item)}>
                 {form.getFieldDecorator(name + '.' + item.key, {
                     initialValue: !readonly ? item.value : ''
                 })(
@@ -310,6 +282,16 @@ class BatchAssignModal extends React.Component {
         if (!link) return;
         const linkData = link[val] || link.default || null;
         linkData && this.props.form.setFieldsValue({ [name]: linkData });
+    };
+
+    getLabel = (readonly, item) => {
+        const placeholder = (
+            <span>
+                {item.name}
+                <span style={{ color: '#9A9A9A' }}>（多项内容）</span>
+            </span>
+        );
+        return !readonly ? item.name : placeholder;
     };
 
     isPresent(obj) {
