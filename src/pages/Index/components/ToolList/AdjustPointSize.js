@@ -1,30 +1,33 @@
 import React from 'react';
 import { Slider } from 'antd';
-import { inject, observer } from 'mobx-react';
 import 'less/components/PointCloud.less';
 
 const marks = {
-    5: '0.5',
-    30: '3',
-    100: '10'
+    0.5: '0.5',
+    3: '3',
+    10: '10'
 };
 
-@inject('TaskStore')
-@inject('ResourceLayerStore')
-@observer
 class AdjustPointSize extends React.Component {
     state = {
-        value: window.pointCloudLayer ? pointCloudLayer.material.size * 10 : 0
+        value: window.pointCloudLayer ? pointCloudLayer.material.size : 0,
+        activeTaskId: this.props.activeTaskId
     };
-
+    static getDerivedStateFromProps(props, state) {
+        if (props.activeTaskId !== state.activeTaskId) {
+            return {
+                ...state,
+                activeTaskId: props.activeTaskId,
+                value: window.pointCloudLayer ? pointCloudLayer.material.size : 0
+            };
+        }
+        return null;
+    }
     onChange = value => {
         this.setState({
             value
         });
-        pointCloudLayer.setPointSize(value / 10);
-    };
-    formatter = value => {
-        return value / 10;
+        pointCloudLayer.setPointSize(value);
     };
     render() {
         const { value } = this.state;
@@ -33,14 +36,13 @@ class AdjustPointSize extends React.Component {
                 <Slider
                     className="flex-1"
                     value={value}
-                    min={5}
-                    step={5}
+                    min={0}
+                    max={10}
+                    step={0.1}
                     marks={marks}
                     onChange={this.onChange}
-                    style={{ width: 100 }}
-                    tipFormatter={this.formatter}
                 />
-                <div className="pointCloud">{value / 10}</div>
+                <div className="pointCloud">{value}</div>
             </div>
         );
     }

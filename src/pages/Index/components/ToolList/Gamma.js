@@ -40,7 +40,6 @@ class Gamma extends React.Component {
                     max={1}
                     step={0.1}
                     onChange={this.onChange}
-                    style={{ width: 100 }}
                 />
                 <div className="pointCloud">{value}</div>
             </div>

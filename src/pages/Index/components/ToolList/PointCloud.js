@@ -48,7 +48,7 @@ class PointCloud extends React.Component {
                     </div>
                     <div className="point-cloud-right-content">
                         <span>点云大小</span>
-                        <AdjustPointSize clicked={clicked} />
+                        <AdjustPointSize activeTaskId={activeTaskId} clicked={clicked} />
                     </div>
                 </div>
                 <div className="point-cloud-left">
