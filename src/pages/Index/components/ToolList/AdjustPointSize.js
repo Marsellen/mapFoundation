@@ -14,11 +14,20 @@ const marks = {
 @observer
 class AdjustPointSize extends React.Component {
     state = {
-        updateKey: 0
+        value: window.pointCloudLayer ? pointCloudLayer.material.size * 10 : 0
     };
 
+    onChange = value => {
+        this.setState({
+            value
+        });
+        pointCloudLayer.setPointSize(value / 10);
+    };
+    formatter = value => {
+        return value / 10;
+    };
     render() {
-        let value = window.pointCloudLayer ? pointCloudLayer.material.size * 10 : 5;
+        const { value } = this.state;
         return (
             <div className="flex flex-row">
                 <Slider
@@ -28,24 +37,13 @@ class AdjustPointSize extends React.Component {
                     step={5}
                     marks={marks}
                     onChange={this.onChange}
-                    tipFormatter={this.formatter}
                     style={{ width: 100 }}
+                    tipFormatter={this.formatter}
                 />
-                <div className="pointCloud">{this.formatter(value)}</div>
+                <div className="pointCloud">{value / 10}</div>
             </div>
         );
     }
-
-    formatter = value => {
-        return value / 10;
-    };
-
-    onChange = value => {
-        this.setState({
-            updateKey: Math.random()
-        });
-        pointCloudLayer.setPointSize(value / 10);
-    };
 }
 
 export default AdjustPointSize;
