@@ -304,7 +304,8 @@ class VizComponent extends React.Component {
         const pointCloudLayer = new DynamicPCLayer(null, {
             intensityGamma: 0.5,
             intensityContrast: 0.4,
-            intensityBrightness: 0.3
+            intensityBrightness: 0.3,
+            size: 1.2
         });
         window.pointCloudLayer = pointCloudLayer;
         //将点云实例加到map
