@@ -154,7 +154,7 @@ class Task extends React.Component {
         this.timeout && clearTimeout(this.timeout);
         this.timeout = setTimeout(async () => {
             try {
-                const { TaskStore, QualityCheckStore, RenderModeStore } = this.props;
+                const { TaskStore, QualityCheckStore } = this.props;
                 const { current } = this.state;
                 const { taskIdList, activeTaskId } = TaskStore;
 
