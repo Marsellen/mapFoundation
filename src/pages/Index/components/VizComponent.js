@@ -256,6 +256,12 @@ class VizComponent extends React.Component {
         console.timeEnd('taskLoad');
     };
 
+    fetchCallback = ({ status }) => {
+        if (status && status.code === 200) return;
+        const { TaskStore: { activeTaskId } = {} } = this.props;
+        throw new Error(activeTaskId);
+    };
+
     initEditResource = async task => {
         const { TaskStore } = this.props;
         const { isEditableTask, activeTaskId } = TaskStore;
@@ -266,11 +272,10 @@ class VizComponent extends React.Component {
                 this.initMarkerLayer(task),
                 this.initMultiProjectResource(task)
             ]);
-            isEditableTask && this.initBoundary();
             this.initResouceLayer(resources);
+            if (isEditableTask) await this.initBoundary();
             this.installListener();
-            //设置画面缩放比例
-            this.setMapScale();
+            this.setMapScale(); //设置画面缩放比例
         } catch (e) {
             console.log('任务资料加载异常' + e.message || e || '');
             throw new Error(activeTaskId);
@@ -312,7 +317,12 @@ class VizComponent extends React.Component {
         map.getLayerManager().addLayer('DynamicPCLayer', pointCloudLayer);
         //点云实例调用updatePointClouds方法，传入点云url数组，批量添加点云
         //{点云url:点云图层}
-        await pointCloudLayer.updatePointClouds(urlArr);
+        let pointCloudErrorStatus;
+        await pointCloudLayer.updatePointClouds(urlArr, true, ({ status }) => {
+            if (status && status.code === 200) return;
+            pointCloudErrorStatus = true;
+        });
+        if (pointCloudErrorStatus) this.fetchCallback();
         //获取点云高度范围
         const range = pointCloudLayer.getElevationRange();
         PointCloudStore.initHeightRange(range);
@@ -330,7 +340,7 @@ class VizComponent extends React.Component {
         window.vectorLayerGroup = new LayerGroup(vectors, {
             styleConifg: VectorsConfig
         });
-        await map.getLayerManager().addLayerGroup(vectorLayerGroup);
+        await map.getLayerManager().addLayerGroup(vectorLayerGroup, this.fetchCallback);
         VectorsStore.addLayer(vectorLayerGroup);
 
         return {
@@ -419,36 +429,26 @@ class VizComponent extends React.Component {
             VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
             this.handleBoundaryfeature();
         } catch (e) {
+            message.warning('当前任务没有周边底图数据');
             console.error('周边底图异常：' + e.message || e || '');
         }
     };
 
     //不同模式下，处理底图数据
     handleBoundaryfeature = () => {
-        const { RenderModeStore, TextStore, DefineModeStore } = this.props;
-        const { whiteRenderMode, resetSelectOption, setRels, activeMode } = RenderModeStore;
-        const { resetBoundaryTextStyle } = TextStore;
-        const { updateBoundaryVectorStyle } = DefineModeStore;
-
-        switch (activeMode) {
-            case 'common':
-            case 'check':
-            case 'define':
-                //按符号设置，更新后加载的周边底图
-                updateBoundaryVectorStyle();
-                break;
-            case 'relation':
-                //将重置专题图
-                resetSelectOption();
-                //白色渲染模式/要素都是白色
-                whiteRenderMode();
-                //将有关联关系的要素，按专题图进行分组
-                setRels();
-                break;
-            default:
-                break;
+        const {
+            TextStore: { resetBoundaryTextStyle },
+            RenderModeStore: { whiteRenderMode, resetSelectOption, setRels, activeMode }
+        } = this.props;
+        //如果是关联关系渲染模式
+        if (activeMode === 'relation') {
+            //将重置专题图
+            resetSelectOption();
+            //白色渲染模式/要素都是白色
+            whiteRenderMode();
+            //将有关联关系的要素，按专题图进行分组
+            setRels();
         }
-
         //将后加载的周边底图按当前注记配置渲染
         resetBoundaryTextStyle();
     };

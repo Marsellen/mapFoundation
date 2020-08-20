@@ -236,10 +236,10 @@ class TaskStore {
         const layerGroup = new LayerGroup(boundaryUrl, {
             styleConifg: BoundaryVectorsConfig
         });
-        yield window.map.getLayerManager().addLayerGroup(layerGroup);
-        //判断周边底图ads_all.geojson是否成功加载
-        // const regionLayerFeatures = window.boundaryLayerGroup.getAllFeatures();
-        // if (regionLayerFeatures.length === 0) message.warning('没有任务范围框');
+        yield window.map.getLayerManager().addLayerGroup(layerGroup, ({ status }) => {
+            if (status && status.code === 200) return;
+            throw new Error('周边底图ads_all.geojson请求失败');
+        });
         const relUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryRels, this.activeTask);
         const AttrUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryAttrs, this.activeTask);
         yield AttrStore.addRecords(AttrUrl, 'boundary');

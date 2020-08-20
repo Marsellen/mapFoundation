@@ -7,14 +7,9 @@ import { message } from 'antd';
 configure({ enforceActions: 'always' });
 class AttrStore {
     addRecords = flow(function* (url, dataType) {
-        try {
-            let response = yield axios.get(url);
-            let records = attrFactory.attrDataToTable(response.data, dataType);
-            yield Attr.store.batchAdd(records);
-        } catch (e) {
-            if (dataType === 'boundary') message.warning('没有周边底图数据关联属性');
-            throw e;
-        }
+        let response = yield axios.get(url);
+        let records = attrFactory.attrDataToTable(response.data, dataType);
+        yield Attr.store.batchAdd(records);
     });
 
     destroy = flow(function* () {

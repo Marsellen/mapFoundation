@@ -10,8 +10,8 @@ import { TYPE_SELECT_OPTION_MAP, LAYER_TYPE_MAP } from 'src/config/ADMapDataConf
 
 configure({ enforceActions: 'always' });
 class DefineModeStore {
-    vectorConfig = {}; //当前任务符号配置
-    boundaryVectorConfig = {}; //周边底图符号配置
+    vectorConfig = null; //当前任务符号配置
+    boundaryVectorConfig = null; //周边底图符号配置
     @observable updateKey;
     @observable updateColorKey;
     @observable globalPointEnabledStatus = true; //全局首尾点可用状态
@@ -297,7 +297,7 @@ class DefineModeStore {
 
     //根据当前符号窗口配置，渲染周边底图
     @action updateBoundaryVectorStyle = () => {
-        if (!window.boundaryLayerGroup) return;
+        if (!window.boundaryLayerGroup || !this.boundaryVectorConfig) return;
         window.boundaryLayerGroup.resetStyleConfig(this.boundaryVectorConfig);
     };
 }
