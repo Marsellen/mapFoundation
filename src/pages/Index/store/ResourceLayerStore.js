@@ -1,10 +1,11 @@
-import { action, configure, computed, observable } from 'mobx';
+import { action, configure, computed, observable, flow } from 'mobx';
 import {
     RESOURCE_LAYER_VECTOR,
     RESOURCE_LAYER_TASK_SCOPE,
     RESOURCE_LAYER_BOUNDARY,
     RESOURCE_LAYER_MULTI_PROJECT
 } from 'src/config/DataLayerConfig';
+import { message } from 'antd';
 
 const LAYER_SORT_MAP = {
     [RESOURCE_LAYER_VECTOR]: 0,
@@ -177,14 +178,18 @@ class ResourceLayerStore {
             obj = index === 0 ? obj[item] : obj.children[item];
         });
         this.loopMultiProjectMap(key, checked, obj, true);
-        this.toggleProjectsPointCloud();
+        this.toggleProjectsPointCloud(obj, checked);
         this.updateKey = Math.random();
     };
 
     // 给updatePointClouds传什么显示什么，不传的不显示
-    toggleProjectsPointCloud = () => {
-        window.pointCloudLayer.updatePointClouds(this.pointCloudCheckedList, false);
-    };
+    toggleProjectsPointCloud = flow(function* (obj, checked) {
+        yield window.pointCloudLayer.updatePointClouds(this.pointCloudCheckedList, false);
+        if (!checked) return;
+        const { layerKey: url, label } = obj;
+        const currentPointCloud = window.pointCloudLayer.pointclouds.find(item => item.url === url);
+        if (!currentPointCloud) message.warning(label + ' 点云加载失败');
+    });
 
     handleProjectsLayer = (checked, obj, parent, key) => {
         const { checked: layerChecked, layerKey, layerName } = obj;
