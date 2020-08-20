@@ -157,7 +157,7 @@ class ResourceLoader extends React.Component {
         const { form, TaskStore, QualityCheckStore } = this.props;
         const { closeCheckReport, clearCheckReport } = QualityCheckStore;
 
-        form.validateFields((err, values) => {
+        form.validateFields(async (err, values) => {
             if (err) {
                 return;
             }
@@ -167,7 +167,7 @@ class ResourceLoader extends React.Component {
                 }
                 closeCheckReport();
                 clearCheckReport();
-                TaskStore.loadLocalTask(values);
+                await TaskStore.loadLocalTask(values);
                 this.setState({
                     visible: false
                 });
