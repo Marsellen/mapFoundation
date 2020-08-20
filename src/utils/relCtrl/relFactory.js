@@ -164,10 +164,9 @@ export const tableFormat = (record, config, count) => {
 
 const calcUniqChangedKeys = (rels, oldRels, changedKeys) => {
     return changedKeys.filter(key => {
-        let { [key]: oldValue, ...other } = oldRels;
         let value = rels[key];
         if (!value) return true;
-        if (!Object.values(other).includes(value)) {
+        if (!Object.values(oldRels).includes(value)) {
             return true;
         }
     });

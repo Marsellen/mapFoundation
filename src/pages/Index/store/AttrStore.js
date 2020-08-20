@@ -2,7 +2,6 @@ import { flow, configure } from 'mobx';
 import attrFactory from 'src/utils/attrCtrl/attrFactory';
 import axios from 'axios';
 import Attr from 'src/models/attr';
-import { message } from 'antd';
 
 configure({ enforceActions: 'always' });
 class AttrStore {

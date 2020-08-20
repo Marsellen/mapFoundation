@@ -132,7 +132,7 @@ class ResourceLoader extends React.Component {
     };
 
     submit = () => {
-        const { OperateHistoryStore, RenderModeStore } = this.props;
+        const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
         //保存当前任务比例

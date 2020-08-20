@@ -1,7 +1,7 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import { message, Modal } from 'antd';
+import { message } from 'antd';
 import { delRel, calcRelChangeLog } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
 import { logDecorator } from 'src/utils/decorator';

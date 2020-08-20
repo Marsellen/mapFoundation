@@ -324,7 +324,6 @@ class JobStatus extends React.Component {
         const {
             TaskStore,
             QCMarkerStore,
-            RenderModeStore,
             appStore: { loginUser: { roleCode } } = {},
             QualityCheckStore: { clearCheckReport, closeCheckReport }
         } = this.props;
