@@ -24,7 +24,7 @@ class BatchAssignStore {
         let attributes = data.attributes;
         let newFeatures = _.cloneDeep(this.features);
         for (let key in attributes) {
-            if (!attributes[key]) continue;
+            if (!attributes[key] && attributes[key] !== 0) continue;
             newFeatures.forEach(feature => {
                 feature.data.properties[key] = attributes[key];
             });
