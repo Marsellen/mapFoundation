@@ -44,7 +44,7 @@ class modelFactory {
                 }
                 return total;
             }, []);
-            this.judgeStringIsEqual(uniProperties, record);
+            uniProperties = this.judgeStringIsEqual(uniProperties, record);
             if (uniProperties.length == 1) {
                 record.value = uniProperties[0];
             } else {
@@ -57,17 +57,21 @@ class modelFactory {
 
     judgeStringIsEqual = (uniProperties, record) => {
         if (record.key === 'ARR_DIRECT') {
-            for (let i = 0; i < uniProperties.length - 1; i++) {
-                const iLength = uniProperties[i].length;
-                const iLengthMore = uniProperties[i + 1].length;
-                const iArr = uniProperties[i].split(',');
-                const iArrMore = uniProperties[i + 1].split(',');
-                if (iLength === iLengthMore && iArr.sort.toString() === iArrMore.sort.toString()) {
-                    uniProperties.splice(i, 1);
-                }
+            let sortValue = [];
+            for (let i = 0; i < uniProperties.length; i++) {
+                const currentValue = uniProperties[i].split('').sort().join('');
+                sortValue.push(currentValue);
             }
+            let newUniProperies = sortValue.reduce((prev, cur) => {
+                if (prev.indexOf(cur) == -1) {
+                    prev.push(cur);
+                }
+                return prev;
+            }, []);
+            return newUniProperies;
+        } else {
+            return uniProperties;
         }
-        return uniProperties;
     };
 }
 
