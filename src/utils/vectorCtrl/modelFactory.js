@@ -39,8 +39,13 @@ class modelFactory {
         let tableData = _.cloneDeep(TABLE_DATA_MAP[layerName]);
         return tableData.map(record => {
             let uniProperties = properties.reduce((total, property) => {
-                if (!total.includes(property[record.key])) {
-                    total.push(property[record.key]);
+                let propertyValue = property[record.key];
+                if (record.key === 'ARR_DIRECT') {
+                    // 给数组每一项的字符串重新生成数组排序变成排序后的字符串
+                    propertyValue = propertyValue.split('').sort().join('');
+                }
+                if (!total.includes(propertyValue)) {
+                    total.push(propertyValue);
                 }
                 return total;
             }, []);
