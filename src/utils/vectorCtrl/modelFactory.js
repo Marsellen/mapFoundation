@@ -39,12 +39,17 @@ class modelFactory {
         let tableData = _.cloneDeep(TABLE_DATA_MAP[layerName]);
         return tableData.map(record => {
             let uniProperties = properties.reduce((total, property) => {
-                if (!total.includes(property[record.key])) {
-                    total.push(property[record.key]);
+                const propertyKey = property[record.key];
+                if (record.key === 'ARR_DIRECT') {
+                    // 给数组每一项的字符串重新生成数组排序变成排序后的字符串
+                    total.push(propertyKey.split('').sort().join(''));
+                    // 数组去重
+                    total = [...new Set(total)];
+                } else if (!total.includes(propertyKey)) {
+                    total.push(propertyKey);
                 }
                 return total;
             }, []);
-            uniProperties = this.judgeStringIsEqual(uniProperties, record);
             if (uniProperties.length == 1) {
                 record.value = uniProperties[0];
             } else {
@@ -53,25 +58,6 @@ class modelFactory {
 
             return record;
         });
-    };
-
-    judgeStringIsEqual = (uniProperties, record) => {
-        if (record.key === 'ARR_DIRECT') {
-            let sortValue = [];
-            for (let i = 0; i < uniProperties.length; i++) {
-                const currentValue = uniProperties[i].split('').sort().join('');
-                sortValue.push(currentValue);
-            }
-            let newUniProperies = sortValue.reduce((prev, cur) => {
-                if (prev.indexOf(cur) == -1) {
-                    prev.push(cur);
-                }
-                return prev;
-            }, []);
-            return newUniProperies;
-        } else {
-            return uniProperties;
-        }
     };
 }
 
