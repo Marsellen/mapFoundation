@@ -257,7 +257,11 @@ class AttributeStore {
         let changedKeys = Object.keys(oldRels).filter(key => {
             return oldRels[key] !== rels[key];
         });
-        let uniqChangedKeys = relFactory.calcUniqChangedKeys(rels, oldRels, changedKeys);
+        let uniqChangedKeys = relFactory.calcUniqChangedKeys(
+            _.cloneDeep(rels),
+            oldRels,
+            _.cloneDeep(changedKeys)
+        );
         if (changedKeys.length > 0 && uniqChangedKeys.length == 0) {
             message.error('修改关系失败，重复创建关联关系');
         } else if (changedKeys.length > uniqChangedKeys.length) {

@@ -46,9 +46,11 @@ class RelationForm extends React.Component {
     };
 
     getReadonlyStatus = () => {
-        const { AttributeStore } = this.props;
+        const { AttributeStore, TaskStore } = this.props;
+        const { activeTask } = TaskStore;
+        const { isLocal } = activeTask;
 
-        return AttributeStore.readonly || !isManbuildTask();
+        return AttributeStore.readonly || !(isManbuildTask() || isLocal);
     };
 
     renderInputNumber = (item, index, filedKey) => {
@@ -96,24 +98,19 @@ class RelationForm extends React.Component {
         const { form, AttributeStore } = this.props;
         const { attrs } = AttributeStore;
         const readonly = this.getReadonlyStatus();
-        let AD_Lane_Con_RS = (attrs.AD_Lane_Con_RS || []).filter(
-            rs => rs.key === extraInfo.REL_ID
-        );
+        let AD_Lane_Con_RS = (attrs.AD_Lane_Con_RS || []).filter(rs => rs.key === extraInfo.REL_ID);
         let newEnable = !readonly && AD_Lane_Con_RS.length == 0;
         return (
             <div>
                 {AD_Lane_Con_RS.map(rs =>
-                    form.getFieldDecorator(
-                        'attrs.AD_Lane_Con_RS[' + index + ']',
-                        {
-                            initialValue: {
-                                ...rs,
-                                properties: {
-                                    ...rs.properties
-                                }
+                    form.getFieldDecorator('attrs.AD_Lane_Con_RS[' + index + ']', {
+                        initialValue: {
+                            ...rs,
+                            properties: {
+                                ...rs.properties
                             }
                         }
-                    )(
+                    })(
                         <EditableCard
                             key={Math.random()}
                             index={index}
@@ -125,7 +122,8 @@ class RelationForm extends React.Component {
                 {newEnable && (
                     <Button
                         onClick={this.newAttrs('AD_Lane_Con_RS', extraInfo)}
-                        title="添加连接关系交通限制">
+                        title="添加连接关系交通限制"
+                    >
                         <Icon type="plus" />
                     </Button>
                 )}
@@ -138,24 +136,19 @@ class RelationForm extends React.Component {
         const { form, AttributeStore } = this.props;
         const { attrs } = AttributeStore;
         const readonly = this.getReadonlyStatus();
-        let AD_Road_Con_RS = (attrs.AD_Road_Con_RS || []).filter(
-            rs => rs.key === extraInfo.REL_ID
-        );
+        let AD_Road_Con_RS = (attrs.AD_Road_Con_RS || []).filter(rs => rs.key === extraInfo.REL_ID);
         let newEnable = !readonly && AD_Road_Con_RS.length == 0;
         return (
             <div>
                 {AD_Road_Con_RS.map(rs =>
-                    form.getFieldDecorator(
-                        'attrs.AD_Road_Con_RS[' + index + ']',
-                        {
-                            initialValue: {
-                                ...rs,
-                                properties: {
-                                    ...rs.properties
-                                }
+                    form.getFieldDecorator('attrs.AD_Road_Con_RS[' + index + ']', {
+                        initialValue: {
+                            ...rs,
+                            properties: {
+                                ...rs.properties
                             }
                         }
-                    )(
+                    })(
                         <EditableCard
                             key={Math.random()}
                             index={index}
@@ -167,7 +160,8 @@ class RelationForm extends React.Component {
                 {newEnable && (
                     <Button
                         onClick={this.newAttrs('AD_Road_Con_RS', extraInfo)}
-                        title="添加连接关系交通限制">
+                        title="添加连接关系交通限制"
+                    >
                         <Icon type="plus" />
                     </Button>
                 )}
@@ -189,9 +183,7 @@ class RelationForm extends React.Component {
             let fieldKey = 'attrs.' + key;
             const records = form.getFieldValue(fieldKey);
             form.setFieldsValue({
-                [fieldKey]: records.filter(
-                    item => item.sourceId !== value.sourceId
-                )
+                [fieldKey]: records.filter(item => item.sourceId !== value.sourceId)
             });
         };
     };
