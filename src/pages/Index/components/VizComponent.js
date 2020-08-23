@@ -47,6 +47,7 @@ import ToolCtrlStore from 'src/pages/Index/store/ToolCtrlStore';
 import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
 import QualityCheckStore from 'src/pages/Index/store/QualityCheckStore';
 import { showPictureShowView, showAttributesModal, showRightMenu } from 'src/utils/map/viewCtrl';
+import { TASK_MODE_MAP } from 'src/config/RenderModeConfig';
 
 @inject('QCMarkerStore')
 @inject('DefineModeStore')
@@ -73,19 +74,13 @@ class VizComponent extends React.Component {
 
     init = async () => {
         await this.release();
-        const {
-            TextStore: { initLayerTextConfig },
-            TaskStore: { activeTaskId },
-            DefineModeStore: { initVectorConfig }
-        } = this.props;
+        const { TaskStore: { activeTaskId } = {} } = this.props;
         if (!activeTaskId) return;
+        this.setMode(); //设置渲染模式
         const div = document.getElementById('viz');
         window.map = new Map(div);
         await this.initTask();
-        //初始化文字注记配置
-        initLayerTextConfig();
-        //初始化符号配置
-        initVectorConfig('common');
+        this.renderMode(); //根据渲染模式，初始化注记和符号
     };
 
     release = async () => {
@@ -135,6 +130,30 @@ class VizComponent extends React.Component {
             return item.cancel();
         });
         window.__cancelRequestArr = [];
+    };
+
+    setMode = () => {
+        const {
+            TaskStore: { taskProcessName },
+            RenderModeStore: { setMode }
+        } = this.props;
+        const mode = TASK_MODE_MAP[taskProcessName] || 'common';
+        setMode(mode);
+    };
+
+    //不同任务类型采用不同渲染模式
+    renderMode = () => {
+        const {
+            TaskStore: { taskProcessName },
+            TextStore: { initTextConfig },
+            DefineModeStore: { initVectorConfig }
+        } = this.props;
+        //获取渲染模式
+        const mode = TASK_MODE_MAP[taskProcessName] || 'common';
+        //初始化文字注记配置
+        initTextConfig(mode, taskProcessName);
+        //初始化符号配置
+        initVectorConfig(mode);
     };
 
     addShortcut = event => {
@@ -216,7 +235,7 @@ class VizComponent extends React.Component {
             //加载资料
             await Promise.all([this.initEditResource(task), this.initExResource(task)]);
             message.success({
-                content: '资料加载成功',
+                content: '资料加载完毕',
                 duration: 1,
                 key
             });
@@ -224,7 +243,7 @@ class VizComponent extends React.Component {
             const currentTaskId = e.message;
             setTimeout(() => {
                 message.error({
-                    content: currentTaskId + '任务资料加载失败',
+                    content: currentTaskId + '任务内数据加载失败，请重新开始任务',
                     key
                 });
             });
@@ -232,8 +251,15 @@ class VizComponent extends React.Component {
             // 删除本地导入加载失败的任务
             tasksPop(currentTaskId);
             console.log('任务数据加载失败' + currentTaskId || e || '');
+            window.map = null;
         }
         console.timeEnd('taskLoad');
+    };
+
+    fetchCallback = ({ status }) => {
+        if (status && status.code === 200) return;
+        const { TaskStore: { activeTaskId } = {} } = this.props;
+        throw new Error(activeTaskId);
     };
 
     initEditResource = async task => {
@@ -246,11 +272,10 @@ class VizComponent extends React.Component {
                 this.initMarkerLayer(task),
                 this.initMultiProjectResource(task)
             ]);
-            isEditableTask && this.initBoundary();
             this.initResouceLayer(resources);
+            if (isEditableTask) await this.initBoundary();
             this.installListener();
-            //设置画面缩放比例
-            this.setMapScale();
+            this.setMapScale(); //设置画面缩放比例
         } catch (e) {
             console.log('任务资料加载异常' + e.message || e || '');
             throw new Error(activeTaskId);
@@ -281,13 +306,23 @@ class VizComponent extends React.Component {
     initPointCloud = async urlArr => {
         if (!urlArr) return;
         //实例化点云
-        const pointCloudLayer = new DynamicPCLayer(null);
+        const pointCloudLayer = new DynamicPCLayer(null, {
+            intensityGamma: 0.5,
+            intensityContrast: 0.4,
+            intensityBrightness: 0.3,
+            size: 1.2
+        });
         window.pointCloudLayer = pointCloudLayer;
         //将点云实例加到map
         map.getLayerManager().addLayer('DynamicPCLayer', pointCloudLayer);
         //点云实例调用updatePointClouds方法，传入点云url数组，批量添加点云
         //{点云url:点云图层}
-        await pointCloudLayer.updatePointClouds(urlArr);
+        let pointCloudErrorStatus;
+        await pointCloudLayer.updatePointClouds(urlArr, true, ({ status }) => {
+            if (status && status.code === 200) return;
+            pointCloudErrorStatus = true;
+        });
+        if (pointCloudErrorStatus) this.fetchCallback();
         //获取点云高度范围
         const range = pointCloudLayer.getElevationRange();
         PointCloudStore.initHeightRange(range);
@@ -301,13 +336,11 @@ class VizComponent extends React.Component {
     };
 
     initVectors = async vectors => {
-        if (!vectors) {
-            return;
-        }
+        if (!vectors) return;
         window.vectorLayerGroup = new LayerGroup(vectors, {
             styleConifg: VectorsConfig
         });
-        await map.getLayerManager().addLayerGroup(vectorLayerGroup);
+        await map.getLayerManager().addLayerGroup(vectorLayerGroup, this.fetchCallback);
         VectorsStore.addLayer(vectorLayerGroup);
 
         return {
@@ -317,47 +350,55 @@ class VizComponent extends React.Component {
     };
 
     initTracks = async urlMap => {
-        if (!urlMap) return;
-        const { TaskStore } = this.props;
-        const { projectNameArr, updateMultiProjectMap } = TaskStore;
-        const traceListLayer = new TraceListLayer();
-        window.trackLayer = traceListLayer;
-        map.getLayerManager().addTraceListLayer(traceListLayer);
-        const fetchTrackArr = Object.keys(urlMap).map(projectName => {
-            const trackUrl = urlMap[projectName];
-            //获取轨迹
-            return axios.get(trackUrl).then(res => {
-                const { data } = res;
-                const trackPartMap = {};
-                data.forEach(tackPart => {
-                    const { name, tracks } = tackPart;
-                    const trackName = `${projectName}_${name}`;
-                    traceListLayer.addTrace({
-                        taskId: trackName,
-                        data: tracks
+        try {
+            if (!urlMap) return;
+            const { TaskStore } = this.props;
+            const { projectNameArr, updateMultiProjectMap } = TaskStore;
+            const traceListLayer = new TraceListLayer();
+            window.trackLayer = traceListLayer;
+            map.getLayerManager().addTraceListLayer(traceListLayer);
+            const fetchTrackArr = Object.keys(urlMap).map(projectName => {
+                const trackUrl = urlMap[projectName];
+                //获取轨迹
+                return axios.get(trackUrl).then(res => {
+                    const { data } = res;
+                    const trackPartMap = {};
+                    data.forEach(tackPart => {
+                        const { name, tracks } = tackPart;
+                        const trackName = `${projectName}_${name}`;
+                        traceListLayer.addTrace({
+                            taskId: trackName,
+                            data: tracks
+                        });
+                        trackPartMap[trackName] = tracks;
                     });
-                    trackPartMap[trackName] = tracks;
+                    //更新
+                    updateMultiProjectMap(`${projectName}|track`, {
+                        layerKey: Object.keys(trackPartMap),
+                        layerMap: trackPartMap
+                    });
+                    return data;
                 });
-                //更新
-                updateMultiProjectMap(`${projectName}|track`, {
-                    layerKey: Object.keys(trackPartMap),
-                    layerMap: trackPartMap
-                });
-                return data;
             });
-        });
 
-        await Promise.all(fetchTrackArr);
-        ResourceLayerStore.selectLinkTrack(projectNameArr[0]);
+            await Promise.all(fetchTrackArr);
+            ResourceLayerStore.selectLinkTrack(projectNameArr[0]);
+        } catch (e) {
+            message.warning('没有轨迹数据');
+            console.error('轨迹异常' + e.message || e || '');
+        }
     };
 
     initRegion = async regionUrl => {
-        if (!regionUrl) return;
         try {
+            if (!regionUrl) return;
             const { TaskStore } = this.props;
             window.vectorLayer = new VectorLayer(regionUrl);
             vectorLayer.setDefaultStyle({ color: 'rgb(16,201,133)' });
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
+            //判断任务范围是否成功加载
+            const regionLayerFeatures = window.vectorLayer.getAllFeatures();
+            if (regionLayerFeatures.length === 0) message.warning('没有任务范围框');
             //保存任务范围geojson
             let { activeTask } = TaskStore;
             if (!activeTask.isLocal) {
@@ -370,8 +411,8 @@ class VizComponent extends React.Component {
                 layer: vectorLayer
             };
         } catch (e) {
-            console.log(e);
-            message.warning('作业范围数据加载失败：' + e.message || '', 3);
+            message.warning('没有任务范围框');
+            console.error('任务范围异常：' + e.message || e || '');
         }
     };
 
@@ -388,8 +429,28 @@ class VizComponent extends React.Component {
             VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
             this.handleBoundaryfeature();
         } catch (e) {
-            console.error(`周边底图数据加载失败: ${e.message || e}`);
+            message.warning('当前任务没有周边底图数据');
+            console.error('周边底图异常：' + e.message || e || '');
         }
+    };
+
+    //不同模式下，处理底图数据
+    handleBoundaryfeature = () => {
+        const {
+            TextStore: { resetBoundaryTextStyle },
+            RenderModeStore: { whiteRenderMode, resetSelectOption, setRels, activeMode }
+        } = this.props;
+        //如果是关联关系渲染模式
+        if (activeMode === 'relation') {
+            //将重置专题图
+            resetSelectOption();
+            //白色渲染模式/要素都是白色
+            whiteRenderMode();
+            //将有关联关系的要素，按专题图进行分组
+            setRels();
+        }
+        //将后加载的周边底图按当前注记配置渲染
+        resetBoundaryTextStyle();
     };
 
     initMarkerLayer = async () => {
@@ -433,35 +494,6 @@ class VizComponent extends React.Component {
             message.error('质检标注获取失败');
             console.log('获取质检列表失败：' + msg);
         }
-    };
-
-    //不同模式下，处理底图数据
-    handleBoundaryfeature = () => {
-        const { RenderModeStore, TextStore, DefineModeStore } = this.props;
-        const { whiteRenderMode, resetSelectOption, setRels, activeMode } = RenderModeStore;
-        const { resetBoundaryTextStyle } = TextStore;
-        const { updateBoundaryVectorStyle } = DefineModeStore;
-
-        switch (activeMode) {
-            case 'relation':
-                //将重置专题图
-                resetSelectOption();
-                //白色渲染模式/要素都是白色
-                whiteRenderMode();
-                //将有关联关系的要素，按专题图进行分组
-                setRels();
-                break;
-            case 'define':
-            case 'common':
-                //按符号设置，更新后加载的周边底图
-                updateBoundaryVectorStyle();
-                break;
-            default:
-                break;
-        }
-
-        //将后加载的周边底图按当前注记配置渲染
-        resetBoundaryTextStyle();
     };
 
     initResouceLayer = layers => {
@@ -569,16 +601,10 @@ class VizComponent extends React.Component {
     //不同模式下取消关联要素高亮
     handleCancelSelect = () => {
         const { activeMode, cancelSelect } = RenderModeStore;
-        switch (activeMode) {
-            case 'common':
-                AttributeStore.hideRelFeatures();
-                break;
-            case 'relation':
-                cancelSelect();
-                break;
-            default:
-                AttributeStore.hideRelFeatures();
-                break;
+        if (activeMode === 'relation') {
+            cancelSelect();
+        } else {
+            AttributeStore.hideRelFeatures();
         }
     };
 

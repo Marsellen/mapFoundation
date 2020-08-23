@@ -1,4 +1,5 @@
 import common from 'src/assets/img/common.png';
+import check from 'src/assets/img/check.png';
 import relation from 'src/assets/img/relation.png';
 // import update from 'src/assets/img/update.png';
 import define from 'src/assets/img/define.png';
@@ -10,6 +11,12 @@ export const RENDER_MODE_MAP = [
         title: '通用符号模式',
         desc: '用于基础的生产作业',
         icon: common
+    },
+    {
+        mode: 'check',
+        title: '质检符号模式',
+        desc: '用于作业自检和快速质检',
+        icon: check
     },
     {
         mode: 'relation',
@@ -30,6 +37,14 @@ export const RENDER_MODE_MAP = [
         icon: define
     }
 ];
+
+//不同任务类型采用不同渲染模式
+export const TASK_MODE_MAP = {
+    imp_recognition: 'common', //人工识别
+    imp_check_after_recognition: 'check', //人工识别后质检
+    imp_manbuild: 'check', //人工构建
+    imp_check_after_manbuild: 'check' //人工构建后质检
+};
 
 //专题图下拉框配置
 export const REL_SELECT_OPTIONS = [

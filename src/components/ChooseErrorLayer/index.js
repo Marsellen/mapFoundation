@@ -26,9 +26,10 @@ class ChooseErrorLayer extends React.Component {
         return null;
     }
     handleErrorLayer = () => {
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, errorCallback } = this.props;
         DataLayerStore.QCAttrModal();
         DataLayerStore.chooseErrorLayer('error_layer');
+        DataLayerStore.setErrorLayerCallback(errorCallback);
     };
 
     onChange = val => {
@@ -42,7 +43,7 @@ class ChooseErrorLayer extends React.Component {
     };
     render() {
         const { layerName } = this.state;
-        const { DataLayerStore, options, disabled } = this.props;
+        const { DataLayerStore, options, disabled, placeholder } = this.props;
         let visible = DataLayerStore.editType == 'error_layer';
         return (
             <span className="error-layer">
@@ -53,7 +54,12 @@ class ChooseErrorLayer extends React.Component {
                     title="选取错误数据"
                     action={this.handleErrorLayer}
                 />
-                <Select disabled={disabled} value={layerName} onChange={this.onChange}>
+                <Select
+                    placeholder={placeholder}
+                    disabled={disabled}
+                    value={layerName}
+                    onChange={this.onChange}
+                >
                     {options.map((opt, index) => (
                         <Option key={index} value={opt.value}>
                             {opt.label}

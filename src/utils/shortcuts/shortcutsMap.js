@@ -298,5 +298,13 @@ export const shortcutMap = [
         shift: false,
         keyCode: 70,
         describe: '位姿调整 F'
+    },
+    {
+        id: 'batch-assign-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 75,
+        describe: '批量赋值 K'
     }
 ];

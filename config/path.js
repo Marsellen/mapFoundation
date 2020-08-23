@@ -25,7 +25,7 @@ module.exports = PROXY_MAP = {
         id: DEV_PATH,
         manualBuild: DEV_PATH,
         store: DEV_PATH,
-        edit: PROD_PATH,
+        edit: DEV_PATH,
         check: DEV_PATH,
         checkMarker: DEV_PATH
     },

@@ -1,60 +1,51 @@
 import React from 'react';
 import { Slider } from 'antd';
-import { inject, observer } from 'mobx-react';
+import 'less/components/PointCloud.less';
 
 const marks = {
-    5: '0.5',
-    30: '3',
-    100: '10'
+    0.5: '0.5',
+    3: '3',
+    10: '10'
 };
 
-@inject('TaskStore')
-@inject('ResourceLayerStore')
-@observer
 class AdjustPointSize extends React.Component {
     state = {
-        updateKey: 0
+        value: window.pointCloudLayer ? pointCloudLayer.material.size : 0,
+        activeTaskId: this.props.activeTaskId
     };
-
+    static getDerivedStateFromProps(props, state) {
+        if (props.activeTaskId !== state.activeTaskId) {
+            return {
+                ...state,
+                activeTaskId: props.activeTaskId,
+                value: window.pointCloudLayer ? pointCloudLayer.material.size : 0
+            };
+        }
+        return null;
+    }
+    onChange = value => {
+        this.setState({
+            value
+        });
+        pointCloudLayer.setPointSize(value);
+    };
     render() {
-        let value = window.pointCloudLayer
-            ? pointCloudLayer.material.size * 10
-            : 5;
+        const { value } = this.state;
         return (
             <div className="flex flex-row">
                 <Slider
                     className="flex-1"
                     value={value}
-                    min={5}
-                    step={5}
+                    min={0}
+                    max={10}
+                    step={0.1}
                     marks={marks}
                     onChange={this.onChange}
-                    tipFormatter={this.formatter}
-                    style={{ width: 100 }}
                 />
-                <div
-                    style={{
-                        lineHeight: '38px',
-                        color: '#9e9e9e',
-                        width: 24,
-                        textAlign: 'center'
-                    }}>
-                    {this.formatter(value)}
-                </div>
+                <div className="pointCloud">{value}</div>
             </div>
         );
     }
-
-    formatter = value => {
-        return value / 10;
-    };
-
-    onChange = value => {
-        this.setState({
-            updateKey: Math.random()
-        });
-        pointCloudLayer.setPointSize(value / 10);
-    };
 }
 
 export default AdjustPointSize;

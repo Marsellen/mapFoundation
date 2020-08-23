@@ -1,14 +1,7 @@
 import { observable, configure, action, flow, computed } from 'mobx';
 import { getAllRelData } from 'src/utils/vectorUtils';
-import {
-    LAYER_NAME_MAP,
-    RELS_ID_MAP,
-    RELS_ID_MAP_REVERSE
-} from 'src/config/RenderModeConfig.js';
-import {
-    REL_SELECT_OPTIONS,
-    REL_FEATURE_COLOR_MAP
-} from 'src/config/RenderModeConfig';
+import { LAYER_NAME_MAP, RELS_ID_MAP, RELS_ID_MAP_REVERSE } from 'src/config/RenderModeConfig.js';
+import { REL_SELECT_OPTIONS, REL_FEATURE_COLOR_MAP } from 'src/config/RenderModeConfig';
 import { updateFeatureColor, getFeatureOption } from 'src/utils/vectorUtils';
 import VectorsStore from './VectorsStore';
 import { calculateMiddlePoint } from 'src/utils/computeLineMidpoint';
@@ -16,7 +9,7 @@ import relFactory from 'src/utils/relCtrl/relFactory';
 import VectorsConfig from 'src/config/VectorsConfig';
 import BoundaryVectorsConfig from 'src/config/BoundaryVectorsConfig';
 import WhiteVectorsConfig from 'src/config/WhiteVectorsConfig';
-import HalfWhiteVectorsConfig from 'src/config/HalfWhiteVectorsConfig';
+import BoundaryWhiteVectorsConfig from 'src/config/BoundaryWhiteVectorsConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });
@@ -106,7 +99,7 @@ class RenderModeStore {
         }
         //周边底图要素，采用配置：HalfWhiteVectorsConfig
         if (window.boundaryLayerGroup) {
-            window.boundaryLayerGroup.resetStyleConfig(HalfWhiteVectorsConfig);
+            window.boundaryLayerGroup.resetStyleConfig(BoundaryWhiteVectorsConfig);
         }
     };
 
@@ -116,12 +109,8 @@ class RenderModeStore {
         const { value } = option || {};
         const { boundaryFeatures } = VectorsStore;
         const isBoundary = boundaryFeatures.includes(value);
-        const whiteColor = isBoundary
-            ? 'rgb(127, 127, 127)'
-            : 'rgb(255, 255, 255)';
-        const yellowColor = isBoundary
-            ? 'rgb(127,118,18)'
-            : 'rgb(255, 237, 37)';
+        const whiteColor = isBoundary ? 'rgb(127, 127, 127)' : 'rgb(255, 255, 255)';
+        const yellowColor = isBoundary ? 'rgb(127,118,18)' : 'rgb(255, 237, 37)';
         const color = checked ? yellowColor : whiteColor;
 
         //改变要素的颜色
@@ -154,12 +143,9 @@ class RenderModeStore {
 
         //改变checkbox组相关状态
         this.checkedList = this.relSelectOptions.filter(item => item.checked);
-        this.unCheckedList = this.relSelectOptions.filter(
-            item => !item.checked
-        );
+        this.unCheckedList = this.relSelectOptions.filter(item => !item.checked);
         const checkedListL = this.checkedList.length;
-        this.indeterminate =
-            checkedListL && checkedListL < this.relSelectOptionL;
+        this.indeterminate = checkedListL && checkedListL < this.relSelectOptionL;
         this.allChecked = checkedListL === this.relSelectOptionL;
 
         //改变当前图层颜色
@@ -231,29 +217,12 @@ class RenderModeStore {
                      */
                     features.map(relItem => {
                         const { properties } = relItem;
-                        const {
-                            LANE_ID,
-                            L_LDIV_ID,
-                            R_LDIV_ID,
-                            ROAD_ID
-                        } = properties;
+                        const { LANE_ID, L_LDIV_ID, R_LDIV_ID, ROAD_ID } = properties;
 
-                        const LANE_Feature = this.setOptions(
-                            'LANE_ID',
-                            LANE_ID
-                        );
-                        const L_LDIV_feature = this.setOptions(
-                            'L_LDIV_ID',
-                            L_LDIV_ID
-                        );
-                        const R_LDIV_feature = this.setOptions(
-                            'R_LDIV_ID',
-                            R_LDIV_ID
-                        );
-                        const ROAD_Feature = this.setOptions(
-                            'ROAD_ID',
-                            ROAD_ID
-                        );
+                        const LANE_Feature = this.setOptions('LANE_ID', LANE_ID);
+                        const L_LDIV_feature = this.setOptions('L_LDIV_ID', L_LDIV_ID);
+                        const R_LDIV_feature = this.setOptions('R_LDIV_ID', R_LDIV_ID);
+                        const ROAD_Feature = this.setOptions('ROAD_ID', ROAD_ID);
 
                         if (L_LDIV_ID && LANE_ID) {
                             const relName = 'AD_Lane_Divider_Rel';
@@ -475,9 +444,7 @@ class RenderModeStore {
         //获取选中要素所在图层
         const { boundaryFeatures } = VectorsStore;
         const isBoundary = boundaryFeatures.includes(featureId);
-        const vectorLayerName = isBoundary
-            ? 'boundaryLayerGroup'
-            : 'vectorLayerGroup';
+        const vectorLayerName = isBoundary ? 'boundaryLayerGroup' : 'vectorLayerGroup';
 
         return vectorLayerName;
     };
@@ -487,10 +454,7 @@ class RenderModeStore {
         try {
             const { layerName, data } = feature;
             const { properties } = data;
-            const relRecords = yield relFactory.getFeatureRels(
-                layerName,
-                properties
-            );
+            const relRecords = yield relFactory.getFeatureRels(layerName, properties);
 
             const relDataArr = this.getRelMap(relRecords);
             if (!relDataArr && relDataArr.length === 0) return;
@@ -517,50 +481,32 @@ class RenderModeStore {
                 //当前选中要素不进行变色
                 if (value === featureId) return;
                 //判断当前选中要素是车道线,不对车道线进行变色
-                if (
-                    featureLayerName === 'AD_LaneDivider' &&
-                    featureLayerName === layerName
-                ) {
+                if (featureLayerName === 'AD_LaneDivider' && featureLayerName === layerName) {
                     return false;
                 }
                 //获取关联关系对应的文字注记样式
                 const styleConfig = REL_FEATURE_COLOR_MAP[relation] || {};
-                const {
-                    color = 'rgb(49, 209, 255)',
-                    text,
-                    style
-                } = styleConfig;
+                const { color = 'rgb(49, 209, 255)', text, style } = styleConfig;
                 //要素变颜色
                 updateFeatureColor(layerName, option, color);
 
                 if (!text) return;
                 //获取要素geometry
                 const vectorLayerName = this.getVectorLayerName(value);
-                const activeLayer = this.getLayerByName(
-                    vectorLayerName,
-                    layerName
-                );
+                const activeLayer = this.getLayerByName(vectorLayerName, layerName);
                 const activeFeature = activeLayer.getFeatureByOption(option);
                 if (!activeFeature) return;
-                const activeFeatureData =
-                    activeFeature.properties && activeFeature.properties.data;
+                const activeFeatureData = activeFeature.properties && activeFeature.properties.data;
                 const linePointArr =
-                    activeFeatureData.geometry &&
-                    activeFeatureData.geometry.coordinates;
+                    activeFeatureData.geometry && activeFeatureData.geometry.coordinates;
 
                 if (!linePointArr) return;
                 //设置文字显示位置，进出线文字在首尾点，左右线文字在中间
                 let position = {}; //文字的位置
-                if (
-                    relation.includes('FROM_ROAD') ||
-                    relation.includes('FROM_LANE')
-                ) {
+                if (relation.includes('FROM_ROAD') || relation.includes('FROM_LANE')) {
                     const [x, y, z] = linePointArr[linePointArr.length - 1];
                     position = { x, y, z };
-                } else if (
-                    relation.includes('TO_ROAD') ||
-                    relation.includes('TO_LANE')
-                ) {
+                } else if (relation.includes('TO_ROAD') || relation.includes('TO_LANE')) {
                     const [x, y, z] = linePointArr[0];
                     position = { x, y, z };
                 } else {
@@ -568,11 +514,7 @@ class RenderModeStore {
                 }
 
                 //将文字标注添加到选中要素所在的图层
-                const textId = activeLayer.addTextFeature(
-                    text,
-                    position,
-                    style
-                );
+                const textId = activeLayer.addTextFeature(text, position, style);
 
                 //图层名与文字注记映射
                 this.textMap = this.textMap || {};

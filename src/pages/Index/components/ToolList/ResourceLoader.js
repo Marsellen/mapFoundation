@@ -25,11 +25,7 @@ class ResourceLoader extends React.Component {
     render() {
         return (
             <span>
-                <ToolIcon
-                    icon="ziliaojiazai"
-                    title="资料加载"
-                    action={this.action}
-                />
+                <ToolIcon icon="ziliaojiazai" title="资料加载" action={this.action} />
                 {this.renderModal()}
             </span>
         );
@@ -45,7 +41,8 @@ class ResourceLoader extends React.Component {
                 destroyOnClose={true}
                 onCancel={this.handleCancel}
                 maskClosable={false}
-                footer={this.renderFooter()}>
+                footer={this.renderFooter()}
+            >
                 <Form colon={false} hideRequiredMark={true} {...formLayout}>
                     <Form.Item label="资料名称">
                         {form.getFieldDecorator('taskId', {
@@ -85,9 +82,7 @@ class ResourceLoader extends React.Component {
                             <Select>
                                 {processNameOptions.map((option, index) => {
                                     return (
-                                        <Select.Option
-                                            key={index}
-                                            value={option.value}>
+                                        <Select.Option key={index} value={option.value}>
                                             {option.label}
                                         </Select.Option>
                                     );
@@ -137,13 +132,11 @@ class ResourceLoader extends React.Component {
     };
 
     submit = () => {
-        const { OperateHistoryStore, RenderModeStore } = this.props;
+        const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
         //保存当前任务比例
         this.saveTaskScale();
-        //切换成通用模式
-        RenderModeStore.setMode('common');
         //提示保存当前任务
         if (shouldSave) {
             Modal.confirm({
@@ -164,7 +157,7 @@ class ResourceLoader extends React.Component {
         const { form, TaskStore, QualityCheckStore } = this.props;
         const { closeCheckReport, clearCheckReport } = QualityCheckStore;
 
-        form.validateFields((err, values) => {
+        form.validateFields(async (err, values) => {
             if (err) {
                 return;
             }
@@ -174,7 +167,7 @@ class ResourceLoader extends React.Component {
                 }
                 closeCheckReport();
                 clearCheckReport();
-                TaskStore.loadLocalTask(values);
+                await TaskStore.loadLocalTask(values);
                 this.setState({
                     visible: false
                 });

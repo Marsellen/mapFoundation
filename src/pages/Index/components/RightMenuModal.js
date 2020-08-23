@@ -80,9 +80,7 @@ class RightMenuModal extends React.Component {
         } = this.props;
         if (!visible) {
             let messageVisible = EDIT_TYPE.includes(editType);
-            return (
-                <AdMessage visible={messageVisible} content={this.content()} />
-            );
+            return <AdMessage visible={messageVisible} content={this.content()} />;
         }
         const menuList = this.menuList();
 
@@ -101,7 +99,8 @@ class RightMenuModal extends React.Component {
                         ...this.getPosition(menuList)
                     }}
                     className="right-menu-modal"
-                    onCancel={this.handleCancel}>
+                    onCancel={this.handleCancel}
+                >
                     <Menu className="menu">{menuList}</Menu>
                 </Modal>
             </div>
@@ -125,84 +124,91 @@ class RightMenuModal extends React.Component {
                 id="set-edit-layer-btn"
                 key="setEditLayer"
                 onClick={this.setEditLayerFeature}
-                className="right-menu-item">
+                className="right-menu-item"
+            >
                 <span>设置为可编辑图层</span>
             </Menu.Item>,
             <Menu.Item
                 id="delete-btn"
                 key="delete"
                 onClick={this.deleteFeature}
-                className="right-menu-item">
+                className="right-menu-item"
+            >
                 <span>删除</span>
             </Menu.Item>,
             <Menu.Item
                 id="force-delete-btn"
                 key="forceDelete"
                 onClick={this.forceDeleteFeature}
-                className="right-menu-item">
+                className="right-menu-item"
+            >
                 <span>强制删除</span>
             </Menu.Item>,
             <Menu.Item
                 id="change-points-btn"
                 key="changePoints"
                 onClick={this.changePoints}
-                className="right-menu-item">
+                className="right-menu-item"
+            >
                 <span>修改形状点</span>
             </Menu.Item>,
             <Menu.Item
                 id="break-line-btn"
                 key="break"
                 onClick={this.breakLine}
-                className="right-menu-item">
+                className="right-menu-item"
+            >
                 <span>打断</span>
             </Menu.Item>,
             <Menu.Item
                 id="reverse-order-line-btn"
                 key="reverseOrderLine"
                 onClick={this.reverseOrderLine}
-                className="right-menu-item">
+                className="right-menu-item"
+            >
                 <span>线要素逆序</span>
             </Menu.Item>,
-            <Menu.Item
-                id="trim-btn"
-                key="trim"
-                onClick={this.trim}
-                className="right-menu-item">
+            <Menu.Item id="trim-btn" key="trim" onClick={this.trim} className="right-menu-item">
                 <span>修整</span>
             </Menu.Item>,
             <Menu.Item
                 id="break-group-btn"
                 key="breakGroup"
                 onClick={this.breakLine}
-                className="right-menu-item">
+                className="right-menu-item"
+            >
                 <span>齐打断</span>
             </Menu.Item>,
             <Menu.Item
                 id="merge-line-btn"
                 key="merge"
                 onClick={this.mergeLine}
-                className="right-menu-item">
+                className="right-menu-item"
+            >
                 <span>合并</span>
             </Menu.Item>,
             <Menu.Item
                 id="batch-merge-btn"
                 key="batchMerge"
                 onClick={this.batchMergeLine}
-                className="right-menu-item">
+                className="right-menu-item"
+            >
                 <span>批量线合并</span>
             </Menu.Item>,
             <Menu.Item
                 id="batch-assign-btn"
                 key="batchAssign"
                 onClick={this.batchAssign}
-                className="right-menu-item">
+                className="right-menu-item"
+            >
                 <span>批量赋值</span>
             </Menu.Item>,
             <Menu.Item
                 id="break-by-line-btn"
                 key="breakByLine"
                 onClick={this.breakByLine}
-                className="right-menu-item">
+                className="right-menu-item"
+            >
                 <span>拉线齐打断</span>
             </Menu.Item>
         ];
@@ -216,14 +222,16 @@ class RightMenuModal extends React.Component {
                     id="copy-btn"
                     key="copyLine"
                     onClick={this.copyLine}
-                    className="right-menu-item">
+                    className="right-menu-item"
+                >
                     <span>复制</span>
                 </Menu.Item>,
                 <Menu.Item
                     id="translation-point-btn"
                     key="movePointFeature"
                     onClick={this.movePointFeature}
-                    className="right-menu-item">
+                    className="right-menu-item"
+                >
                     <span>平移</span>
                 </Menu.Item>
             );
@@ -281,20 +289,8 @@ class RightMenuModal extends React.Component {
     @logDecorator({ operate: '线打断', onlyRun: true })
     breakCallBack(result) {
         try {
-            const { DataLayerStore } = this.props;
-
             checkSdkError(result, '未选择打断点');
-
-            Modal.confirm({
-                title: '您确认执行操作？',
-                okText: '确定',
-                okType: 'danger',
-                cancelText: '取消',
-                onOk: this.breakLineHandler.bind(this, result),
-                onCancel() {
-                    DataLayerStore.exitEdit();
-                }
-            });
+            this.breakLineHandler(result);
         } catch (e) {
             message.error(e.message);
             throw e;
@@ -306,11 +302,7 @@ class RightMenuModal extends React.Component {
         const { RightMenuStore } = this.props;
         let features = RightMenuStore.getFeatures();
         try {
-            let historyLog = await breakLine(
-                result[0],
-                features,
-                TaskStore.activeTask
-            );
+            let historyLog = await breakLine(result[0], features, TaskStore.activeTask);
             return historyLog;
         } catch (e) {
             message.warning('打断失败：' + e.message, 3);
@@ -359,21 +351,10 @@ class RightMenuModal extends React.Component {
 
     @logDecorator({ operate: '平移点要素', onlyRun: true })
     movePointFeatureCallback(result) {
-        const { DataLayerStore, RightMenuStore } = this.props;
+        const { RightMenuStore } = this.props;
         checkSdkError(result);
         const oldFeature = RightMenuStore.getFeatures()[0];
-        Modal.confirm({
-            title: '您确认执行该操作？',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk: this.movePointFeatureHandler.bind(this, result, oldFeature),
-            onCancel() {
-                // 恢复要素
-                DataLayerStore.updateFeature(oldFeature);
-                DataLayerStore.exitEdit();
-            }
-        });
+        this.movePointFeatureHandler(result, oldFeature);
     }
 
     @logDecorator({ operate: '平移点要素', skipRenderMode: true })
@@ -403,10 +384,7 @@ class RightMenuModal extends React.Component {
         if (isLocal) return;
         //判断要素是否在任务范围内
         const elementGeojson = _.cloneDeep(data.data);
-        let isInRegion = isRegionContainsElement(
-            elementGeojson,
-            DataLayerStore.regionGeojson
-        );
+        let isInRegion = isRegionContainsElement(elementGeojson, DataLayerStore.regionGeojson);
         if (!isInRegion) {
             throw new Error('绘制失败，请在任务范围内绘制');
         }
@@ -434,17 +412,7 @@ class RightMenuModal extends React.Component {
                 duration: 3,
                 key: 'edit_error'
             });
-
-        Modal.confirm({
-            title: '您确认删除该要素？',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk: this.deleteFeatureHandler.bind(this),
-            onCancel() {
-                DataLayerStore.exitEdit();
-            }
-        });
+        this.deleteFeatureHandler();
         RightMenuStore.hide();
     };
 
@@ -547,6 +515,7 @@ class RightMenuModal extends React.Component {
                 duration: 3,
                 key: 'edit_error'
             });
+
         DataLayerStore.selectPointFromHighlight();
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();
@@ -561,16 +530,7 @@ class RightMenuModal extends React.Component {
                 duration: 3,
                 key: 'edit_error'
             });
-        Modal.confirm({
-            title: '您确认执行线要素逆序操作？',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk: this.reverseOrderLineHandler.bind(this),
-            onCancel() {
-                DataLayerStore.exitEdit();
-            }
-        });
+        this.reverseOrderLineHandler();
         RightMenuStore.hide();
     };
 
@@ -608,17 +568,7 @@ class RightMenuModal extends React.Component {
                 duration: 3,
                 key: 'edit_error'
             });
-
-        Modal.confirm({
-            title: '您确认执行操作？',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk: this.mergeLineHandler.bind(this),
-            onCancel() {
-                DataLayerStore.exitEdit();
-            }
-        });
+        this.mergeLineHandler();
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();
     };
@@ -646,17 +596,7 @@ class RightMenuModal extends React.Component {
                 duration: 3,
                 key: 'edit_error'
             });
-
-        Modal.confirm({
-            title: '您确认执行操作？',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk: this.batchMergeLineHandler.bind(this),
-            onCancel() {
-                DataLayerStore.exitEdit();
-            }
-        });
+        this.batchMergeLineHandler();
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();
     };
@@ -667,10 +607,7 @@ class RightMenuModal extends React.Component {
             const { RightMenuStore } = this.props;
             let features = RightMenuStore.getFeatures();
 
-            let historyLog = await batchMergeLine(
-                features,
-                TaskStore.activeTask
-            );
+            let historyLog = await batchMergeLine(features, TaskStore.activeTask);
             return historyLog;
         } catch (e) {
             message.warning('批量线合并失败：' + e.message, 3);
@@ -709,20 +646,8 @@ class RightMenuModal extends React.Component {
     @logDecorator({ operate: '拉线齐打断', onlyRun: true })
     breakByLineCallback(result) {
         try {
-            const { DataLayerStore } = this.props;
-
             checkSdkError(result, '打断辅助线绘制失败');
-
-            Modal.confirm({
-                title: '您确认执行操作？',
-                okText: '确定',
-                okType: 'danger',
-                cancelText: '取消',
-                onOk: this.breakByLineHandler.bind(this, result),
-                onCancel() {
-                    DataLayerStore.exitEdit();
-                }
-            });
+            this.breakByLineHandler(result);
         } catch (e) {
             message.error(e.message);
             throw e;
@@ -734,11 +659,7 @@ class RightMenuModal extends React.Component {
         const { RightMenuStore } = this.props;
         let features = RightMenuStore.getFeatures();
         try {
-            let historyLog = await breakLineByLine(
-                result,
-                features,
-                TaskStore.activeTask
-            );
+            let historyLog = await breakLineByLine(result, features, TaskStore.activeTask);
             return historyLog;
         } catch (e) {
             message.warning('拉线齐打断失败：' + e.message, 3);

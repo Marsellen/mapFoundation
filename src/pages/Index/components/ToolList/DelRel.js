@@ -1,7 +1,7 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import { message, Modal } from 'antd';
+import { message } from 'antd';
 import { delRel, calcRelChangeLog } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
 import { logDecorator } from 'src/utils/decorator';
@@ -16,16 +16,7 @@ class DelRel extends React.Component {
         const { DataLayerStore } = this.props;
         DataLayerStore.setDelRelCallback((result, event) => {
             if (event.button !== 2) return false;
-            Modal.confirm({
-                title: '是否删除关联关系?',
-                okText: '确定',
-                okType: 'danger',
-                cancelText: '取消',
-                onOk: this.delRel.bind(this, result),
-                onCancel() {
-                    DataLayerStore.exitEdit();
-                }
-            });
+            this.delRel(result);
         });
     }
 
@@ -65,8 +56,7 @@ class DelRel extends React.Component {
         let editLayerId = editLayer && editLayer.layerId;
         if (layerId !== editLayerId) return;
         let { relFeatures } = AttributeStore;
-        if (!relFeatures || relFeatures.length === 0)
-            return message.error('暂无关联要素显示');
+        if (!relFeatures || relFeatures.length === 0) return message.error('暂无关联要素显示');
         DataLayerStore.selectFormFeatrues(relFeatures);
         DataLayerStore.delRel();
     };

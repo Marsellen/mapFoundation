@@ -179,6 +179,7 @@ class TaskStore {
 
     initUpdateBoundaryParams = taskType => {
         const region = window.vectorLayer.getAllFeatures()[0];
+        if (!region) return;
         const { bufferRegionWkt } = region.data.properties;
         const { referData, outDir } = UPDATE_BOUNDARY_PARAM_MAP[taskType];
         const params = {
@@ -235,8 +236,10 @@ class TaskStore {
         const layerGroup = new LayerGroup(boundaryUrl, {
             styleConifg: BoundaryVectorsConfig
         });
-        yield window.map.getLayerManager().addLayerGroup(layerGroup);
-
+        yield window.map.getLayerManager().addLayerGroup(layerGroup, ({ status }) => {
+            if (status && status.code === 200) return;
+            throw new Error('周边底图ads_all.geojson请求失败');
+        });
         const relUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryRels, this.activeTask);
         const AttrUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryAttrs, this.activeTask);
         yield AttrStore.addRecords(AttrUrl, 'boundary');
@@ -249,7 +252,9 @@ class TaskStore {
             yield TaskService.updateBoundaryFile(option);
         } catch (e) {
             const errMsg = e.message || e || '';
-            errMsg.includes('超时') && message.warning('过程库服务请求超时 /storeQuery');
+            if (errMsg.includes && errMsg.includes('超时')) {
+                message.warning('过程库服务请求超时 /storeQuery');
+            }
             console.log('获取底图失败' + errMsg);
         }
         return this.getBoundaryFile();

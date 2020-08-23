@@ -52,7 +52,13 @@ class RenderMode extends React.Component {
             cancelText: '取消',
             zIndex: 99999,
             onOk: () => {
-                const { DataLayerStore, RenderModeStore, AttributeStore, TextStore } = this.props;
+                const {
+                    DataLayerStore,
+                    RenderModeStore,
+                    AttributeStore,
+                    TextStore,
+                    TaskStore: { taskProcessName }
+                } = this.props;
                 const { mode } = this.state;
                 //设置渲染模式
                 RenderModeStore.setMode(mode);
@@ -68,7 +74,7 @@ class RenderMode extends React.Component {
                 AttributeStore.hide();
 
                 //初始化文字注记配置
-                TextStore.initLayerTextConfig();
+                TextStore.initTextConfig(mode, taskProcessName);
                 //关闭文字注记弹窗
                 TextStore.hide();
             }
@@ -77,25 +83,19 @@ class RenderMode extends React.Component {
 
     resetStyleConfig = mode => {
         const { RenderModeStore, DefineModeStore } = this.props;
-        const { commonRenderMode, whiteRenderMode, setRels } = RenderModeStore;
+        const { whiteRenderMode, setRels } = RenderModeStore;
         const { initVectorConfig } = DefineModeStore;
 
         switch (mode) {
             case 'common':
-                commonRenderMode();
-                initVectorConfig('common');
+            case 'check':
+            case 'define':
+                initVectorConfig(mode);
                 break;
             case 'relation':
                 whiteRenderMode();
                 //将有关联关系的要素，按专题图进行分组
                 setRels();
-                break;
-            case 'update':
-                whiteRenderMode();
-                break;
-            case 'define':
-                whiteRenderMode();
-                initVectorConfig('define');
                 break;
             default:
                 break;
@@ -126,7 +126,7 @@ class RenderMode extends React.Component {
                     visible={visible}
                     footer={null}
                     onCancel={this.handleClose}
-                    width={720}
+                    width={900}
                     maskClosable={false}
                     zIndex={9999}
                 >
