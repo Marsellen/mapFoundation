@@ -207,8 +207,8 @@ class QualityCheckResultTable extends React.Component {
                 <Button
                     type="link"
                     disabled={addDisabled || loadings[index]}
-                    onClick={() => {
-                        this.enterLoading(index, this.handleChange.bind(this, true, record));
+                    onClick={e => {
+                        this.enterLoading(index, this.handleChange.bind(this, true, record, e));
                     }}
                 >
                     加入
@@ -216,8 +216,8 @@ class QualityCheckResultTable extends React.Component {
                 <Button
                     type="link"
                     disabled={delDisabled || loadings[index]}
-                    onClick={() => {
-                        this.enterLoading(index, this.handleChange.bind(this, false, record));
+                    onClick={e => {
+                        this.enterLoading(index, this.handleChange.bind(this, false, record, e));
                     }}
                 >
                     撤销
@@ -353,7 +353,8 @@ class QualityCheckResultTable extends React.Component {
     };
 
     //处理勾选
-    handleChange = async (checked, record) => {
+    handleChange = async (checked, record, e) => {
+        this.handleKeyDown(e);
         const { QualityCheckStore, appStore } = this.props;
         const {
             producerInsertMisreport,

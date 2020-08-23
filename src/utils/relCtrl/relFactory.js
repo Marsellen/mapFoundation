@@ -163,13 +163,25 @@ export const tableFormat = (record, config, count) => {
 };
 
 const calcUniqChangedKeys = (rels, oldRels, changedKeys) => {
-    return changedKeys.filter(key => {
-        let value = rels[key];
-        if (!value) return true;
-        if (!Object.values(oldRels).includes(value)) {
-            return true;
+    let uniqChangeKeys = [];
+    let repeat = false;
+    for (let i = 0, len = changedKeys.length; i < len; i++) {
+        let key = changedKeys[i];
+        let { [key]: value, ...other } = rels;
+        if (!value || !Object.values(other).includes(value)) {
+            uniqChangeKeys.push(key);
+            continue;
         }
-    });
+        rels[key] = oldRels[key];
+        repeat = true;
+        changedKeys.splice(i, 1);
+        break;
+    }
+
+    if (repeat) {
+        return calcUniqChangedKeys(rels, oldRels, changedKeys);
+    }
+    return uniqChangeKeys;
 };
 
 export default {
