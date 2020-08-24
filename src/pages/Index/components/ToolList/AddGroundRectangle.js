@@ -26,6 +26,7 @@ class AddGroundRectangle extends React.Component {
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_ground_rectangle') return;
+        AttributeStore.hide();
         AttributeStore.hideRelFeatures();
         DataLayerStore.newGroundRectangle();
     };

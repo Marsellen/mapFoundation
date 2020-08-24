@@ -26,6 +26,7 @@ class AddFacadeRectangle extends React.Component {
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_facade_rectangle') return;
+        AttributeStore.hide();
         AttributeStore.hideRelFeatures();
         DataLayerStore.newFacadeRectangle();
     };

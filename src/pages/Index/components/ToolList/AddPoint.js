@@ -23,6 +23,7 @@ class AddPoint extends React.Component {
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_point') return;
+        AttributeStore.hide();
         AttributeStore.hideRelFeatures();
         DataLayerStore.newPoint();
     };
