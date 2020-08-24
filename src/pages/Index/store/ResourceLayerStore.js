@@ -165,6 +165,7 @@ class ResourceLayerStore {
 
     @action switchToggle = (name, disabled, isHotKey) => {
         let layerEx = this.layers.find(layer => layer.value == name);
+        if (!layerEx) return;
         layerEx.disabled = isHotKey ? !layerEx.disabled : disabled;
 
         this.updateKey = Math.random();
