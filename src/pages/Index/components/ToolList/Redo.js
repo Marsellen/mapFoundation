@@ -43,9 +43,9 @@ class Redo extends React.Component {
                 duration: 0
             });
             OperateHistoryStore.doning();
-            let history = await OperateHistoryStore.redo();
             AttributeStore.hide();
             AttributeStore.hideRelFeatures();
+            let history = await OperateHistoryStore.redo();
             OperateHistoryStore.done();
             message.success({
                 content: '回退成功',

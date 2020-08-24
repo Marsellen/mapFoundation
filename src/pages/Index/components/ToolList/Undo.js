@@ -43,10 +43,10 @@ class Undo extends React.Component {
                 duration: 0
             });
             OperateHistoryStore.doning();
-            let history = await OperateHistoryStore.undo();
-
             AttributeStore.hide();
             AttributeStore.hideRelFeatures();
+            let history = await OperateHistoryStore.undo();
+
             OperateHistoryStore.done();
             message.success({
                 content: '撤销成功',
