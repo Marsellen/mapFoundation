@@ -244,7 +244,7 @@ class BatchAssignModal extends React.Component {
         return (
             <Form.Item key={index} label={this.getLabel(readonly, item)}>
                 {form.getFieldDecorator(name + '.' + item.key, {
-                    initialValue: !readonly ? item.value : ''
+                    initialValue: !readonly ? item.value : undefined
                 })(
                     <CheckBoxIconGroup
                         options={options}

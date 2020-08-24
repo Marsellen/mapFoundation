@@ -30,7 +30,7 @@ class CheckBoxIconGroup extends React.Component {
     onChange = record => {
         const { onChange, value, max } = this.props;
         if (typeof onChange === 'function') {
-            let _value = value + '';
+            let _value = value ? value + '' : '';
             if (_value.includes(record)) {
                 _value = _value.replace(record, '');
             } else {
@@ -41,9 +41,7 @@ class CheckBoxIconGroup extends React.Component {
                     return false;
                 }
             }
-            _value.length > 0
-                ? onChange(_value)
-                : message.warning('最少选择1个！');
+            _value.length > 0 ? onChange(_value) : message.warning('最少选择1个！');
         }
     };
 }
