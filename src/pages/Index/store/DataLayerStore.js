@@ -487,6 +487,7 @@ class DataLayerStore {
         if (step === 0) {
             if (this.editType == 'line_snap_stop') return;
             this.exitEdit();
+            AttributeStore.hide(); //隐藏属性窗口
             this.setEditType('line_snap_stop');
         } else if (step === 1) {
             this.editor.selectFeature(1);

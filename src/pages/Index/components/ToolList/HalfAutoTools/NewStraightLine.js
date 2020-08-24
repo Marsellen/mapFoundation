@@ -96,6 +96,7 @@ class NewStraightLine extends React.Component {
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_straight_line') return;
+        AttributeStore.hide();
         AttributeStore.hideRelFeatures();
         DataLayerStore.newStraightLine();
         this.setState({ visible: true });

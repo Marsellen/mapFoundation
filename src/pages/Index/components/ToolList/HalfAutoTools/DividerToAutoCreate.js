@@ -41,8 +41,7 @@ class DividerToAutoCreate extends React.Component {
     render() {
         const { DataLayerStore } = this.props;
         const { updateKey } = DataLayerStore;
-        let visible =
-            DataLayerStore.editType == 'new_around_line' && this.state.visible;
+        let visible = DataLayerStore.editType == 'new_around_line' && this.state.visible;
         let editLayer = DataLayerStore.getEditLayer();
 
         return (
@@ -50,13 +49,11 @@ class DividerToAutoCreate extends React.Component {
                 id="divider-to-auto-create"
                 className="flex-1"
                 onClick={this.action}
-                key={updateKey}>
+                key={updateKey}
+            >
                 <ToolIcon icon={editLayer && ICON_MAP[editLayer.layerName]} />
                 <div>{editLayer && ACTION_MAP[editLayer.layerName]}</div>
-                <AdMessage
-                    visible={visible}
-                    content={this.content(editLayer)}
-                />
+                <AdMessage visible={visible} content={this.content(editLayer)} />
             </div>
         );
     }
@@ -64,6 +61,7 @@ class DividerToAutoCreate extends React.Component {
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_around_line') return;
+        AttributeStore.hide();
         AttributeStore.hideRelFeatures();
         DataLayerStore.newAroundLine();
         this.setState({ visible: true });
@@ -153,8 +151,7 @@ class DividerToAutoCreate extends React.Component {
     showAttributesModal = async obj => {
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
-        let readonly =
-            (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
+        let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.clearPick();
         await AttributeStore.setModel(obj);

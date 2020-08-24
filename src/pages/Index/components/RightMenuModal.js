@@ -490,6 +490,8 @@ class RightMenuModal extends React.Component {
             });
         DataLayerStore.changePoints();
         RightMenuStore.hide();
+        AttributeStore.hide();
+        AttributeStore.hideRelFeatures();
     };
 
     movePointFeature = () => {
@@ -504,6 +506,8 @@ class RightMenuModal extends React.Component {
 
         DataLayerStore.movePointFeature();
         RightMenuStore.hide();
+        AttributeStore.hide();
+        AttributeStore.hideRelFeatures();
     };
 
     breakLine = () => {
@@ -518,6 +522,7 @@ class RightMenuModal extends React.Component {
 
         DataLayerStore.selectPointFromHighlight();
         RightMenuStore.hide();
+        AttributeStore.hide();
         AttributeStore.hideRelFeatures();
     };
 
@@ -570,6 +575,7 @@ class RightMenuModal extends React.Component {
             });
         this.mergeLineHandler();
         RightMenuStore.hide();
+        AttributeStore.hide();
         AttributeStore.hideRelFeatures();
     };
 
@@ -598,6 +604,7 @@ class RightMenuModal extends React.Component {
             });
         this.batchMergeLineHandler();
         RightMenuStore.hide();
+        AttributeStore.hide();
         AttributeStore.hideRelFeatures();
     };
 
@@ -627,6 +634,7 @@ class RightMenuModal extends React.Component {
         let features = RightMenuStore.getFeatures();
         BatchAssignStore.show(features);
         RightMenuStore.hide();
+        AttributeStore.hide();
     };
 
     breakByLine = () => {
@@ -640,6 +648,7 @@ class RightMenuModal extends React.Component {
             });
         DataLayerStore.createBreakLine();
         RightMenuStore.hide();
+        AttributeStore.hide();
         AttributeStore.hideRelFeatures();
     };
 
@@ -678,6 +687,7 @@ class RightMenuModal extends React.Component {
             });
         DataLayerStore.trim();
         RightMenuStore.hide();
+        AttributeStore.hide();
         AttributeStore.hideRelFeatures();
     };
 
