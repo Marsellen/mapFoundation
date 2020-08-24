@@ -123,6 +123,7 @@ class AddRel extends React.Component {
     action = () => {
         const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'newRel') return;
+        AttributeStore.hide();
         AttributeStore.hideRelFeatures();
         DataLayerStore.newRel();
     };
@@ -225,7 +226,6 @@ class AddRel extends React.Component {
             // 执行数据更新操作
             await updateFeatures(log);
 
-            AttributeStore.hide();
             message.success('新建成功');
             return log;
         } catch (e) {
