@@ -165,7 +165,11 @@ class QualityCheckResultTable extends React.Component {
                         case 'index':
                             return text + 1;
                         case 'visitedText':
-                            return record.visited ? '√' : '';
+                            return (
+                                <div style={{ userSelect: 'none' }}>
+                                    {record.visited ? '√' : ''}
+                                </div>
+                            );
                         default:
                             return text;
                     }
