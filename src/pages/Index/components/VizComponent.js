@@ -226,7 +226,7 @@ class VizComponent extends React.Component {
         message.loading({
             content: '正在加载任务数据...',
             key,
-            duration: 0
+            duration: 65
         });
         try {
             //获取任务信息 taskinfos.json
