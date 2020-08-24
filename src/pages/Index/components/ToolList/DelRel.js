@@ -75,6 +75,7 @@ class DelRel extends React.Component {
             let rels = await delRel(mainFeature, relFeatures);
             let log = calcRelChangeLog(result, [rels, []]);
             message.success('删除关联关系成功', 3);
+            AttributeStore.hide();
             AttributeStore.hideRelFeatures();
             return log;
         } catch (e) {
