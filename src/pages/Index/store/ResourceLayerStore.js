@@ -178,13 +178,14 @@ class ResourceLayerStore {
             obj = index === 0 ? obj[item] : obj.children[item];
         });
         this.loopMultiProjectMap(key, checked, obj, true);
-        this.toggleProjectsPointCloud(obj, checked);
+        this.toggleProjectsPointCloud(obj, checked, keyArr);
         this.updateKey = Math.random();
     };
 
     // 给updatePointClouds传什么显示什么，不传的不显示
-    toggleProjectsPointCloud = flow(function* (obj, checked) {
+    toggleProjectsPointCloud = flow(function* (obj, checked, keyArr) {
         yield window.pointCloudLayer.updatePointClouds(this.pointCloudCheckedList, false);
+        if (keyArr.length < 3) return;
         if (!checked) return;
         const { layerKey: url, label } = obj;
         const currentPointCloud = window.pointCloudLayer.pointclouds.find(item => item.url === url);
