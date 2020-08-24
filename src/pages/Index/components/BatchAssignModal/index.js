@@ -130,7 +130,7 @@ class BatchAssignModal extends React.Component {
                         initialValue: item.value
                     })(<Input disabled />)
                 ) : (
-                    <Input placeholder="（多项内容）" disabled />
+                    <Input placeholder="(多项内容)" disabled />
                 )}
             </Form.Item>
         );
@@ -146,7 +146,7 @@ class BatchAssignModal extends React.Component {
                     initialValue: !readonly ? item.value : null
                 })(
                     <AdInputNumber
-                        placeholder={!readonly ? item.value : '（多项内容）'}
+                        placeholder={!readonly ? item.value : '(多项内容)'}
                         type="number"
                     />
                 )}
@@ -164,7 +164,7 @@ class BatchAssignModal extends React.Component {
                     initialValue: !readonly ? item.value : null
                 })(
                     <Input
-                        placeholder={!readonly ? item.value : '（多项内容）'}
+                        placeholder={!readonly ? item.value : '(多项内容)'}
                         disabled={item.key === 'FIX_PERSON' || item.key === 'QC_PERSON'}
                     />
                 )}
@@ -185,7 +185,7 @@ class BatchAssignModal extends React.Component {
                         showSearch
                         optionFilterProp="children"
                         // disabled={readonly}
-                        placeholder={!readonly ? item.value : '（多项内容）'}
+                        placeholder={!readonly ? item.value : '(多项内容)'}
                         filterOption={(input, option) =>
                             option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                         }
@@ -244,7 +244,7 @@ class BatchAssignModal extends React.Component {
         return (
             <Form.Item key={index} label={this.getLabel(readonly, item)}>
                 {form.getFieldDecorator(name + '.' + item.key, {
-                    initialValue: !readonly ? item.value : ''
+                    initialValue: !readonly ? item.value : undefined
                 })(
                     <CheckBoxIconGroup
                         options={options}
@@ -269,7 +269,7 @@ class BatchAssignModal extends React.Component {
                     <ChooseErrorLayer
                         options={options}
                         errorCallback={this.errorCallback}
-                        placeholder={!readonly ? item.value : '（多项内容）'}
+                        placeholder={!readonly ? item.value : '(多项内容)'}
                         onChange={val => this.handleChange(val, item, name)}
                     />
                 )}
@@ -288,7 +288,7 @@ class BatchAssignModal extends React.Component {
         const placeholder = (
             <span>
                 {item.name}
-                <span style={{ color: '#9A9A9A' }}>（多项内容）</span>
+                <span style={{ color: '#9A9A9A' }}>(多项内容)</span>
             </span>
         );
         return !readonly ? item.name : placeholder;
