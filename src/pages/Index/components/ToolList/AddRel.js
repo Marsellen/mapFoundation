@@ -15,12 +15,12 @@ import AdMessage from 'src/components/AdMessage';
 import AddLRLaneDriverRel from './AddRelModal/AddLRLaneDriverRel';
 import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
 import { logDecorator } from 'src/utils/decorator';
+import AttributeStore from 'src/pages/Index/store/AttributeStore';
 
 import 'less/components/tool-icon.less';
 import './AddRel.less';
 
 @inject('DataLayerStore')
-@inject('AttributeStore')
 @observer
 class AddRel extends React.Component {
     constructor() {
@@ -121,7 +121,7 @@ class AddRel extends React.Component {
     }
 
     action = () => {
-        const { DataLayerStore, AttributeStore } = this.props;
+        const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'newRel') return;
         AttributeStore.hideRelFeatures();
         DataLayerStore.newRel();
@@ -225,6 +225,7 @@ class AddRel extends React.Component {
             // 执行数据更新操作
             await updateFeatures(log);
 
+            AttributeStore.hide();
             message.success('新建成功');
             return log;
         } catch (e) {

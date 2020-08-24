@@ -47,9 +47,7 @@ class NewUTurnLine extends React.Component {
         });
     }
     render() {
-        const reg = new RegExp(
-            '^[1-9]\\d{0,9}(\\.\\d{1,2})?$|^0(\\.\\d{1,2})?$'
-        );
+        const reg = new RegExp('^[1-9]\\d{0,9}(\\.\\d{1,2})?$|^0(\\.\\d{1,2})?$');
         let { visibleModal, num, visible } = this.state;
         const { DataLayerStore } = this.props;
         const { updateKey } = DataLayerStore;
@@ -58,11 +56,7 @@ class NewUTurnLine extends React.Component {
         let layerName = editLayer && editLayer.layerName;
 
         return (
-            <div
-                id="new-uturn-line"
-                key={updateKey}
-                onClick={this.action}
-                className="flex-1">
+            <div id="new-uturn-line" key={updateKey} onClick={this.action} className="flex-1">
                 <ToolIcon icon="diaotou" />
                 <div>{ACTION_MAP[layerName]}</div>
                 <AdMessage visible={visible} content={this.content()} />
@@ -76,7 +70,8 @@ class NewUTurnLine extends React.Component {
                     maskClosable={false}
                     keyboard={false}
                     okText="确定"
-                    cancelText="取消">
+                    cancelText="取消"
+                >
                     <div className="set-length-number">
                         <AdInputNumber
                             width="66%"
@@ -129,6 +124,7 @@ class NewUTurnLine extends React.Component {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_Uturn_line') return;
         DataLayerStore.newUTurnLine();
+        AttributeStore.hide();
         AttributeStore.hideRelFeatures();
         this.setState({ visible: true });
     };
@@ -155,9 +151,7 @@ class NewUTurnLine extends React.Component {
     };
 
     inputChange = val => {
-        const reg = new RegExp(
-            '^[1-9]\\d{0,9}(\\.\\d{1,2})?$|^0(\\.\\d{1,2})?$'
-        );
+        const reg = new RegExp('^[1-9]\\d{0,9}(\\.\\d{1,2})?$|^0(\\.\\d{1,2})?$');
         const checkNumber = document.getElementById('checkNumber');
         if (val < 0.01 || !reg.test(val)) {
             checkNumber.style.display = 'block';
@@ -227,8 +221,7 @@ class NewUTurnLine extends React.Component {
     showAttributesModal = async obj => {
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
-        let readonly =
-            (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
+        let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.clearPick();
         await AttributeStore.setModel(obj);
