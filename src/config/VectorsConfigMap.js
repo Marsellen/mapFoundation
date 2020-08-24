@@ -73,6 +73,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'xianyaosu'
@@ -399,6 +400,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'xianyaosu'
@@ -906,6 +908,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'xianyaosu'
@@ -1125,6 +1128,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 pointStyle: 'dianyaosu'
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'dianyaosu',
@@ -1285,6 +1289,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 opacity: 1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -1373,6 +1378,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'xianyaosu'
@@ -1452,6 +1458,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 opacity: 1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -1523,6 +1530,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 opacity: 1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -1578,6 +1586,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 opacity: 1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -1657,6 +1666,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 opacity: 1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -1710,6 +1720,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'xianyaosu'
@@ -1829,6 +1840,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'xianyaosu'
@@ -3665,6 +3677,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 pointStyle: 'dianyaosu'
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'dianyaosu',
@@ -3825,6 +3838,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -3913,6 +3927,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'xianyaosu'
@@ -3992,6 +4007,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -4063,6 +4079,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -4118,6 +4135,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -4197,6 +4215,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -4250,6 +4269,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'xianyaosu'
@@ -4369,6 +4389,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'xianyaosu'
@@ -6207,6 +6228,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 pointStyle: 'dianyaosu'
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'dianyaosu',
@@ -6367,6 +6389,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 opacity: 1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -6455,6 +6478,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'xianyaosu'
@@ -6534,6 +6558,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 opacity: 1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -6605,6 +6630,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 opacity: 1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -6660,6 +6686,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 opacity: 1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -6739,6 +6766,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 opacity: 1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -6792,6 +6820,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'xianyaosu'
@@ -6911,6 +6940,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             }
         ],
+        typeStyleMap: {},
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'xianyaosu'
