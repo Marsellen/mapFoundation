@@ -220,20 +220,23 @@ class VizComponent extends React.Component {
     initTask = async () => {
         console.time('taskLoad');
         const { TaskStore } = this.props;
-        const { getTaskInfo, getTaskFile, activeTaskId, tasksPop } = TaskStore;
+        const { getTaskInfo, getTaskFile, activeTaskId, tasksPop, isEditableTask } = TaskStore;
         if (!activeTaskId) return;
         const key = Math.random();
         message.loading({
             content: '正在加载任务数据...',
-            key
+            key,
+            duration: 0
         });
         try {
             //获取任务信息 taskinfos.json
             await getTaskInfo();
             //获取任务资料文件路径
             const task = getTaskFile();
-            //加载资料
+            //加载当前任务资料
             await Promise.all([this.initEditResource(task), this.initExResource(task)]);
+            //“开始任务”时，加载周边底图
+            if (isEditableTask) await this.initBoundary();
             message.success({
                 content: '资料加载完毕',
                 duration: 1,
@@ -264,7 +267,7 @@ class VizComponent extends React.Component {
 
     initEditResource = async task => {
         const { TaskStore } = this.props;
-        const { isEditableTask, activeTaskId } = TaskStore;
+        const { activeTaskId } = TaskStore;
         try {
             const resources = await Promise.all([
                 this.initVectors(task.vectors),
@@ -273,7 +276,6 @@ class VizComponent extends React.Component {
                 this.initMultiProjectResource(task)
             ]);
             this.initResouceLayer(resources);
-            if (isEditableTask) await this.initBoundary();
             this.installListener();
             this.setMapScale(); //设置画面缩放比例
         } catch (e) {
