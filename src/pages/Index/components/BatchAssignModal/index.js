@@ -143,7 +143,7 @@ class BatchAssignModal extends React.Component {
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {form.getFieldDecorator(name + '.' + item.key, {
                     rules: [...this.getValidatorSetting(item.validates)],
-                    initialValue: !readonly ? item.value : undefined
+                    initialValue: !readonly ? item.value : null
                 })(
                     <AdInputNumber
                         placeholder={!readonly ? item.value : '（多项内容）'}
@@ -161,7 +161,7 @@ class BatchAssignModal extends React.Component {
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {form.getFieldDecorator(name + '.' + item.key, {
                     rules: [...this.getValidatorSetting(item.validates)],
-                    initialValue: !readonly ? item.value : undefined
+                    initialValue: !readonly ? item.value : null
                 })(
                     <Input
                         placeholder={!readonly ? item.value : '（多项内容）'}
