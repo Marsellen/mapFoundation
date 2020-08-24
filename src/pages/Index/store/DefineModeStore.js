@@ -12,6 +12,7 @@ configure({ enforceActions: 'always' });
 class DefineModeStore {
     vectorConfig = null; //当前任务符号配置
     boundaryVectorConfig = null; //周边底图符号配置
+    @observable globalUpdateKey;
     @observable updateKey;
     @observable updateColorKey;
     @observable globalPointEnabledStatus = true; //全局首尾点可用状态
@@ -25,6 +26,7 @@ class DefineModeStore {
         this.vectorConfigMap = JSON.parse(JSON.stringify(MODE_VECTOR_CONFIG_MAP[mode]));
         this.vectorConfig = JSON.parse(JSON.stringify(MODE_VECTOR_CONFIG[mode]));
         this.boundaryVectorConfig = JSON.parse(JSON.stringify(MODE_BOUNDARY_VECTOR_CONFIG[mode]));
+        this.globalUpdateKey = Math.random();
         //初始化所有图层
         CONFIGURABLE_LAYERS.forEach(key => {
             this.batchSetVectorConfig({ key });
