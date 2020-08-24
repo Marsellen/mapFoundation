@@ -80,14 +80,14 @@ class AttributesModal extends React.Component {
 
     save = () => {
         const { form } = this.props;
-        form.validateFields(this.submit);
+        form.validateFields((err, values) => {
+            if (err) return;
+            this.submit(values);
+        });
     };
 
     @logDecorator({ operate: '修改要素属性' })
-    async submit(err, values) {
-        if (err) {
-            return;
-        }
+    async submit(values) {
         try {
             const roleCode = appStore.loginUser.roleCode;
             const name = appStore.loginUser.name;

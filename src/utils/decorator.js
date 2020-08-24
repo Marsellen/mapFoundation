@@ -26,7 +26,7 @@ export const logDecorator = option => {
             }
             try {
                 let history = await fn.apply(this, arguments);
-                if (onlyRun) return;
+                if (onlyRun || !history) return;
                 if (!skipHistory) {
                     OperateHistoryStore.add(history);
                 }
