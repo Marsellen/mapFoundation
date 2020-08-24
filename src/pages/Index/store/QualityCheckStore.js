@@ -96,8 +96,9 @@ class QualityCheckStore {
             const { data } = yield CheckService.getReport(option);
             this.handleReportRes(data, option.task_id);
         } catch (e) {
-            console.error(e.message);
-            message.warning('获取报表失败：' + e.message, 3);
+            const errorMsg = e.message || '';
+            console.error('获取报表失败 ' + errorMsg);
+            errorMsg && message.warning('获取报表失败：' + errorMsg, 3);
         }
     }).bind(this);
 
@@ -134,14 +135,16 @@ class QualityCheckStore {
                                     break;
                             }
                         },
-                        error => {
-                            message.warning('获取报表失败：' + error.message || '请求失败');
-                            console.error(error.message || '请求失败');
+                        e => {
+                            const errorMsg = e.message || '';
+                            console.error('获取报表失败 ' + errorMsg);
+                            errorMsg && message.warning('获取报表失败：' + errorMsg, 3);
                             resolve && resolve(false);
                         }
                     );
                 } catch (e) {
-                    console.error('获取报表失败');
+                    const errorMsg = e.message || '';
+                    console.error('获取报表失败 ' + errorMsg);
                 }
             }).bind(this),
             1000
