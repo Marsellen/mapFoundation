@@ -30,7 +30,12 @@ class VectorConfig extends React.Component {
 
     render() {
         const {
-            DefineModeStore: { vectorConfigMap, globalPointEnabledStatus, globalArrowEnabledStatus }
+            DefineModeStore: {
+                vectorConfigMap,
+                globalPointEnabledStatus,
+                globalArrowEnabledStatus,
+                globalUpdateKey
+            }
         } = this.props;
         return (
             <div className="vector-config-wrap">
@@ -57,6 +62,7 @@ class VectorConfig extends React.Component {
                 <div
                     className="config-wrap vector-config-content-wrap"
                     style={{ overflow: 'auto' }}
+                    key={globalUpdateKey}
                 >
                     {Object.values(vectorConfigMap).map(item => {
                         const { key } = item;
