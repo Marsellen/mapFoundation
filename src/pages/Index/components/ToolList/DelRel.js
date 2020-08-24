@@ -59,6 +59,7 @@ class DelRel extends React.Component {
         if (!relFeatures || relFeatures.length === 0) return message.error('暂无关联要素显示');
         DataLayerStore.selectFormFeatrues(relFeatures);
         DataLayerStore.delRel();
+        AttributeStore.hide();
     };
 
     content = () => {
@@ -75,7 +76,6 @@ class DelRel extends React.Component {
             let rels = await delRel(mainFeature, relFeatures);
             let log = calcRelChangeLog(result, [rels, []]);
             message.success('删除关联关系成功', 3);
-            AttributeStore.hide();
             AttributeStore.hideRelFeatures();
             return log;
         } catch (e) {
