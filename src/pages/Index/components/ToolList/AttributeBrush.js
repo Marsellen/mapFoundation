@@ -38,10 +38,7 @@ class AttributeBrush extends React.Component {
                     action={this.action}
                     disabled={DataLayerStore.brushDisadled}
                 />
-                <AdMessage
-                    visible={messageVisible && visible}
-                    content={this.content()}
-                />
+                <AdMessage visible={messageVisible && visible} content={this.content()} />
             </span>
         );
     }
@@ -56,6 +53,7 @@ class AttributeBrush extends React.Component {
                 key: 'edit_error'
             });
 
+        AttributeStore.hide();
         AttributeStore.hideRelFeatures();
         DataLayerStore.AttributeBrush();
 

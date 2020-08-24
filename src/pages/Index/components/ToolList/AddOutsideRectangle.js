@@ -26,6 +26,7 @@ class AddOutsideRectangle extends React.Component {
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_vertical_matrix') return;
+        AttributeStore.hide();
         AttributeStore.hideRelFeatures();
         DataLayerStore.newVerticalMatrix();
     };
