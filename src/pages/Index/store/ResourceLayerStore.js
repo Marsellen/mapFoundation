@@ -185,6 +185,7 @@ class ResourceLayerStore {
     // 给updatePointClouds传什么显示什么，不传的不显示
     toggleProjectsPointCloud = flow(function* (obj, checked, keyArr) {
         yield window.pointCloudLayer.updatePointClouds(this.pointCloudCheckedList, false);
+        if (!keyArr) return;
         if (keyArr.length < 3) return;
         if (!checked) return;
         const { layerKey: url, label } = obj;
