@@ -144,8 +144,10 @@ class DefineModeStore {
     //获取当前分类所有属性值的默认style
     getDefaultTypeStyle = ({ key, commonStyle }) => {
         const { showFields } = commonStyle;
-        const defaultTypeStyle = this.vectorConfigMap[key].typeStyleMap[showFields];
-        return defaultTypeStyle && JSON.parse(JSON.stringify(defaultTypeStyle));
+        if (!this.vectorConfigMap[key]) return;
+        if (!this.vectorConfigMap[key].typeStyleMap) return;
+        if (!this.vectorConfigMap[key].typeStyleMap[showFields]) return;
+        return JSON.parse(JSON.stringify(this.vectorConfigMap[key].typeStyleMap[showFields]));
     };
 
     //以通用style重新设置当前分类所有属性值的style
