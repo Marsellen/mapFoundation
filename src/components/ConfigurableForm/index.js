@@ -88,10 +88,19 @@ class ConfigurableForm extends React.Component {
     //获取下拉菜单的选项
     getSelectOption = (option, initData) => {
         if (!option) return;
-        const { data, fieldName } = option;
-        const optionFieldValue = this.getFieldValue(fieldName, initData[fieldName]);
-        const selectOptions = fieldName ? data[optionFieldValue] : data;
-        return selectOptions;
+        const { data, secondKey, fieldName } = option;
+        //有secondKey，secondKey的值是下拉框选项数据的第二个键，需要结合第二个键，获取下拉框选项数组
+        if (secondKey) {
+            const secondKeyValue = this.getFieldValue(secondKey, initData[secondKey]);
+            return data[secondKeyValue];
+        }
+        //有fieldName，根据该fieldName的值，获取对应data_[fieldValue]作为下拉框选项数组
+        if (fieldName) {
+            const optionFieldValue = this.getFieldValue(fieldName, initData[fieldName]);
+            return option[`data_${optionFieldValue}`];
+        }
+        //除以上两种情况，直接拿静态配置的下拉框选项数组
+        return data;
     };
 
     //获取表单可用状态

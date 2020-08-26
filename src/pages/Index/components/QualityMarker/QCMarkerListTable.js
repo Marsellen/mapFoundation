@@ -13,20 +13,20 @@ import 'src/assets/less/components/qc-marker-table.less';
 class QCMarkerListTable extends React.Component {
     getColumns = total => {
         const columns = MARKER_TABLE_COLUMNS.map(item => {
-            const { describe, style, style: { styleByValue, styleName } = {} } = item;
+            const { describe, styleByValue: { fieldValue, className } = {} } = item;
             const newItem = {
                 ...item,
                 render: (text, record) => {
                     if (!text && text !== 0) return '--';
-                    const className = style && styleByValue === text ? styleName : '';
+                    const cellClassName = fieldValue === text ? className : '';
                     if (describe) {
-                        const { data, second, label, value } = describe;
-                        const secondStr = record[second];
-                        const descArr = second ? data[secondStr] : data;
+                        const { data, secondKey, label, value } = describe;
+                        const secondKeyStr = record[secondKey];
+                        const descArr = secondKey ? data[secondKeyStr] : data;
                         const describeObj = descArr.find(item => item[value] === text);
                         text = describeObj ? describeObj[label] : text;
                     }
-                    return <span className={className}>{text}</span>;
+                    return <span className={cellClassName}>{text}</span>;
                 }
             };
             return newItem;
