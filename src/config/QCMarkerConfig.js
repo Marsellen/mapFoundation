@@ -238,7 +238,7 @@ export const ATTR_FORM_FIELD_MAP = {
         },
         option: {
             data: FIELD_NAME_MAP,
-            fieldName: 'fileName',
+            secondKey: 'fileName',
             label: 'label',
             value: 'value'
         }
@@ -282,7 +282,23 @@ export const QC_MARKER_FORM_CONFIG = {
     //质检员非首次查看的表单配置
     QC_NOT_FIRST_VISITE_CONFIG: [
         { name: 'fixStatus', editable: false },
-        { name: 'qcStatus', editable: true },
+        {
+            name: 'qcStatus',
+            editable: true,
+            option: {
+                data_2: [
+                    { value: 1, label: '待修正' },
+                    { value: 2, label: '无需修正' }
+                ], //data_[fixStatus value]
+                data_3: [
+                    { value: 1, label: '待修正' },
+                    { value: 3, label: '已修正' }
+                ], //data_[fixStatus value]
+                fieldName: 'fixStatus',
+                label: 'label',
+                value: 'value'
+            }
+        },
         { name: 'fileName', editable: false },
         { name: 'featId', editable: false },
         { name: 'errorType', editable: false },
@@ -304,7 +320,23 @@ export const QC_MARKER_FORM_CONFIG = {
     //质检员非首次修改标注的表单配置
     QC_NOT_FIRST_MOD_CONFIG: [
         { name: 'fixStatus', editable: false },
-        { name: 'qcStatus', editable: true },
+        {
+            name: 'qcStatus',
+            editable: true,
+            option: {
+                data_2: [
+                    { value: 1, label: '待修正' },
+                    { value: 2, label: '无需修正' }
+                ], //data_[fixStatus value]
+                data_3: [
+                    { value: 1, label: '待修正' },
+                    { value: 3, label: '已修正' }
+                ], //data_[fixStatus value]
+                fieldName: 'fixStatus',
+                label: 'label',
+                value: 'value'
+            }
+        },
         { name: 'fileName', editable: false },
         { name: 'featId', editable: false },
         { name: 'errorType', editable: false },
@@ -387,7 +419,7 @@ export const MARKER_TABLE_COLUMNS = [
         width: 100,
         describe: {
             data: FIELD_NAME_MAP,
-            second: 'fileName',
+            secondKey: 'fileName',
             label: 'label',
             value: 'value'
         }
@@ -433,9 +465,9 @@ export const MARKER_TABLE_COLUMNS = [
             label: 'label',
             value: 'value'
         },
-        style: {
-            styleByValue: 1,
-            styleName: 'red-text'
+        styleByValue: {
+            fieldValue: 1,
+            className: 'red-text'
         }
     },
     {
@@ -449,9 +481,9 @@ export const MARKER_TABLE_COLUMNS = [
             label: 'label',
             value: 'value'
         },
-        style: {
-            styleByValue: 1,
-            styleName: 'red-text'
+        styleByValue: {
+            fieldValue: 1,
+            className: 'red-text'
         }
     }
 ];
