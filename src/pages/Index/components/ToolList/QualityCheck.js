@@ -2,7 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
 import { Modal } from 'antd';
-import { saveTaskDate } from 'src/utils/taskUtils';
+import { saveTaskData } from 'src/utils/taskUtils';
 
 @inject('appStore')
 @inject('TaskStore')
@@ -40,7 +40,7 @@ class QualityCheck extends React.Component {
         const shouldSave = currentNode > savedNode;
 
         if (!shouldSave) return;
-        await saveTaskDate();
+        await saveTaskData();
     };
 
     handleClick = () => {

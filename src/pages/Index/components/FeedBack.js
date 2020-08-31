@@ -4,7 +4,7 @@ import CONFIG from 'src/config';
 import { Modal, Descriptions, Button } from 'antd';
 import 'src/assets/less/components/hotkey.less';
 import ToolIcon from 'src/components/ToolIcon';
-import { saveTaskDate } from 'src/utils/taskUtils';
+import { saveTaskData } from 'src/utils/taskUtils';
 
 const taskType = [
     {
@@ -90,7 +90,8 @@ class FeedBack extends React.Component {
                     visible={visible}
                     maskClosable={false}
                     onCancel={this.handleCancel}
-                    width={406}>
+                    width={406}
+                >
                     {this.feedBackList()}
                 </Modal>
             </div>
@@ -109,14 +110,11 @@ class FeedBack extends React.Component {
         const splitIdL = splitId.length;
         return (
             <div className="feedback-content">
-                <div className="feedback-eg">
-                    注：会将当前任务内的所有矢量数据打包反馈
-                </div>
+                <div className="feedback-eg">注：会将当前任务内的所有矢量数据打包反馈</div>
                 <Descriptions
                     className="path-content"
-                    title={
-                        <span className="feedback-title">环境基本信息</span>
-                    }>
+                    title={<span className="feedback-title">环境基本信息</span>}
+                >
                     <Descriptions.Item>
                         环境地址: {activeTask.Input_imp_data_path}
                         <br />
@@ -128,12 +126,10 @@ class FeedBack extends React.Component {
                     bordered
                     className="task-content"
                     title={<span className="feedback-title">任务基本信息</span>}
-                    size="small">
+                    size="small"
+                >
                     <Descriptions.Item label="工程编号" span={3}>
-                        <span
-                            className={
-                                splitIdL > 3 ? 'task-content-projectId' : ''
-                            }>
+                        <span className={splitIdL > 3 ? 'task-content-projectId' : ''}>
                             {activeTask.isLocal || !projectIdType ? (
                                 '-'
                             ) : (
@@ -167,10 +163,7 @@ class FeedBack extends React.Component {
                 <Button className="cancelBtn" onClick={this.handleCancel}>
                     取消
                 </Button>
-                <Button
-                    type="primary"
-                    loading={this.state.loading}
-                    onClick={this.setFeedback}>
+                <Button type="primary" loading={this.state.loading} onClick={this.setFeedback}>
                     反馈
                 </Button>
             </div>
@@ -221,7 +214,7 @@ class FeedBack extends React.Component {
                 operator: loginUser.username
             };
 
-            await saveTaskDate();
+            await saveTaskData();
             await FeedbackStore.feedback(params);
             this._successModal();
             this.setState({

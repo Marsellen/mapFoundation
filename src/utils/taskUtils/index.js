@@ -78,56 +78,19 @@ export const getTaskProcessType = () => {
         return 'recognition';
     }
 };
-
-export const saveTaskDate = () => {
-    return new Promise(async (resolve, reject) => {
+export const saveTaskData = () => {
+    return new Promise(async resolve => {
         let hasEmptyData = await checkEmptyData();
         if (hasEmptyData) {
-            window.modal && window.modal.destroy();
-            window.modal = Modal.confirm({
-                icon: <IconFont type="icon-jinggao" className="error-icon" />,
-                title: (
-                    <div className="error-title">
-                        <div>
-                            <span className="error-title-first">警告</span>
-                            <span className="error-title-second">存在空文件</span>
-                        </div>
-                        <div className="error-title-third">继续保存可能导致数据丢失</div>
-                    </div>
-                ),
-                content: (
-                    <div className="error-content">
-                        请检查当前任务数据的子属性表和关联关系表，避免数据丢失。
-                    </div>
-                ),
-                className: 'save-error-modal',
-                okText: '继续保存',
-                cancelText: '退出保存',
-                onOk: async () => {
-                    let log = {
-                        action: 'save-with-empty',
-                        result: 'success',
-                        message: 'agree'
-                    };
-                    editLog.add(log);
-                    await saveData();
-                    resolve();
-                },
-                okType: 'danger',
-                onCancel: () => {
-                    let log = {
-                        action: 'save-with-empty',
-                        result: 'fail',
-                        message: 'reject'
-                    };
-                    editLog.add(log);
-                    reject(new Error('取消保存'));
-                }
-            });
-        } else {
-            await saveData();
-            resolve();
+            let log = {
+                action: 'save-with-empty',
+                result: 'success',
+                message: 'agree'
+            };
+            editLog.add(log);
         }
+        await saveData();
+        resolve();
     });
 };
 
