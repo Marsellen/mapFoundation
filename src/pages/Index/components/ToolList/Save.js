@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { Modal } from 'antd';
 import CONFIG from 'src/config';
 import { getAuthentication, logout } from 'src/utils/Session';
-import { saveTaskDate } from 'src/utils/taskUtils';
+import { saveTaskData } from 'src/utils/taskUtils';
 
 @inject('TaskStore')
 @inject('OperateHistoryStore')
@@ -36,7 +36,7 @@ class Save extends React.Component {
     };
 
     save = async () => {
-        await saveTaskDate();
+        await saveTaskData();
     };
 
     loop = () => {
@@ -57,7 +57,7 @@ class Save extends React.Component {
         const { OperateHistoryStore } = this.props;
         let { couldSave } = OperateHistoryStore;
         if (couldSave) {
-            await saveTaskDate();
+            await saveTaskData();
         }
     };
 
