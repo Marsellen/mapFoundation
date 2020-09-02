@@ -245,11 +245,11 @@ export const shortcutMap = [
     },
     {
         id: 'copy-btn',
-        ctrl: true,
+        ctrl: false,
         alt: false,
         shift: false,
         keyCode: 67,
-        describe: '复制线要素 Ctrl+C'
+        describe: '复制线要素 C'
     },
     {
         id: 'translation-point-btn',

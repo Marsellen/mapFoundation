@@ -397,7 +397,6 @@ class QualityCheckResultTable extends React.Component {
 
     //阻止keyDown默认事件
     handleKeyDown = event => {
-        event.preventDefault();
         event.stopPropagation();
     };
 
