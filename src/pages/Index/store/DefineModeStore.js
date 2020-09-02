@@ -111,13 +111,30 @@ class DefineModeStore {
                 break;
             case 'lineStyle':
             case 'polygonStyle':
-                if (styleValue === 'solid') {
-                    styleObj.dashSize && delete styleObj.dashSize;
-                    styleObj.gapSize && delete styleObj.gapSize;
-                }
-                if (styleValue === 'dashed') {
-                    styleObj.dashSize = 0.5;
-                    styleObj.gapSize = 0.5;
+                switch (styleValue) {
+                    case 'solid':
+                        styleObj.dashSize && delete styleObj.dashSize;
+                        styleObj.gapSize && delete styleObj.gapSize;
+                        break;
+                    case 'dashed': //4:4
+                        styleObj.dashSize = 0.5;
+                        styleObj.gapSize = 0.5;
+                        break;
+                    case 'halfDashed': //4:2
+                        styleObj.dashSize = 0.5;
+                        styleObj.gapSize = 0.25;
+                        break;
+                    case 'quarterDashed': //4:1
+                        styleObj.dashSize = 0.5;
+                        styleObj.gapSize = 0.125;
+                        break;
+                    case 'wideDashed': //2:2
+                        styleObj.dashSize = 0.25;
+                        styleObj.gapSize = 0.25;
+                        break;
+                    default:
+                        styleObj[styleKey] = styleValue;
+                        break;
                 }
                 styleObj[styleKey] = styleValue;
                 break;
