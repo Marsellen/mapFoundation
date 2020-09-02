@@ -121,7 +121,7 @@ class DefineModeStore {
                         styleObj.gapSize = 0.5;
                         break;
                     case 'halfDashed': //4:2
-                        styleObj.dashSize = 0.5;
+                        styleObj.dashSize = 1;
                         styleObj.gapSize = 0.25;
                         break;
                     case 'quarterDashed': //4:1
