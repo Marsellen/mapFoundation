@@ -76,7 +76,7 @@ export const HOT_KEYS_CONFIG = {
             label: '删除关联关系'
         },
         {
-            value: '选择1个要素+Ctrl+C',
+            value: '选择1个要素+C',
             label: '复制线要素'
         },
         {
