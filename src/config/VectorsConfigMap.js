@@ -81,9 +81,9 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ],
         typeArr: [
             {
@@ -411,9 +411,9 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ],
         typeArr: [
             {
@@ -922,9 +922,9 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ],
         typeArr: [
             {
@@ -1306,9 +1306,9 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixiankuang' },
             { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'halfDashed', icon: 'xuxiankuang' },
-            { key: 'quarterDashed', icon: 'xuxiankuang' },
-            { key: 'wideDashed', icon: 'xuxiankuang' }
+            { key: 'dashed1', icon: 'xuxiankuang' },
+            { key: 'dashed2', icon: 'xuxiankuang' },
+            { key: 'dashed3', icon: 'xuxiankuang' }
         ],
         typeArr: [
             {
@@ -1398,9 +1398,9 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ],
         typeArr: [
             {
@@ -1481,9 +1481,9 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixiankuang' },
             { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'halfDashed', icon: 'xuxiankuang' },
-            { key: 'quarterDashed', icon: 'xuxiankuang' },
-            { key: 'wideDashed', icon: 'xuxiankuang' }
+            { key: 'dashed1', icon: 'xuxiankuang' },
+            { key: 'dashed2', icon: 'xuxiankuang' },
+            { key: 'dashed3', icon: 'xuxiankuang' }
         ],
         typeArr: [
             {
@@ -1556,9 +1556,9 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixiankuang' },
             { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'halfDashed', icon: 'xuxiankuang' },
-            { key: 'quarterDashed', icon: 'xuxiankuang' },
-            { key: 'wideDashed', icon: 'xuxiankuang' }
+            { key: 'dashed1', icon: 'xuxiankuang' },
+            { key: 'dashed2', icon: 'xuxiankuang' },
+            { key: 'dashed3', icon: 'xuxiankuang' }
         ],
         typeArr: [
             {
@@ -1615,9 +1615,9 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixiankuang' },
             { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'halfDashed', icon: 'xuxiankuang' },
-            { key: 'quarterDashed', icon: 'xuxiankuang' },
-            { key: 'wideDashed', icon: 'xuxiankuang' }
+            { key: 'dashed1', icon: 'xuxiankuang' },
+            { key: 'dashed2', icon: 'xuxiankuang' },
+            { key: 'dashed3', icon: 'xuxiankuang' }
         ],
         typeArr: [
             {
@@ -1698,9 +1698,9 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixiankuang' },
             { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'halfDashed', icon: 'xuxiankuang' },
-            { key: 'quarterDashed', icon: 'xuxiankuang' },
-            { key: 'wideDashed', icon: 'xuxiankuang' }
+            { key: 'dashed1', icon: 'xuxiankuang' },
+            { key: 'dashed2', icon: 'xuxiankuang' },
+            { key: 'dashed3', icon: 'xuxiankuang' }
         ],
         typeArr: [
             {
@@ -1755,9 +1755,9 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ]
     },
     AD_RS_Barrier: {
@@ -1878,9 +1878,9 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ],
         typeArr: [
             {
@@ -2049,9 +2049,9 @@ const COMMON_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ],
         typeArr: [
             {
@@ -2559,9 +2559,9 @@ const COMMON_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ],
         typeArr: [
             {
@@ -3504,9 +3504,9 @@ const COMMON_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ],
         typeArr: [
             {
@@ -3888,9 +3888,9 @@ const COMMON_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixiankuang' },
             { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'halfDashed', icon: 'xuxiankuang' },
-            { key: 'quarterDashed', icon: 'xuxiankuang' },
-            { key: 'wideDashed', icon: 'xuxiankuang' }
+            { key: 'dashed1', icon: 'xuxiankuang' },
+            { key: 'dashed2', icon: 'xuxiankuang' },
+            { key: 'dashed3', icon: 'xuxiankuang' }
         ],
         typeArr: [
             {
@@ -3980,9 +3980,9 @@ const COMMON_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ],
         typeArr: [
             {
@@ -4063,9 +4063,9 @@ const COMMON_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixiankuang' },
             { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'halfDashed', icon: 'xuxiankuang' },
-            { key: 'quarterDashed', icon: 'xuxiankuang' },
-            { key: 'wideDashed', icon: 'xuxiankuang' }
+            { key: 'dashed1', icon: 'xuxiankuang' },
+            { key: 'dashed2', icon: 'xuxiankuang' },
+            { key: 'dashed3', icon: 'xuxiankuang' }
         ],
         typeArr: [
             {
@@ -4138,9 +4138,9 @@ const COMMON_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixiankuang' },
             { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'halfDashed', icon: 'xuxiankuang' },
-            { key: 'quarterDashed', icon: 'xuxiankuang' },
-            { key: 'wideDashed', icon: 'xuxiankuang' }
+            { key: 'dashed1', icon: 'xuxiankuang' },
+            { key: 'dashed2', icon: 'xuxiankuang' },
+            { key: 'dashed3', icon: 'xuxiankuang' }
         ],
         typeArr: [
             {
@@ -4197,9 +4197,9 @@ const COMMON_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixiankuang' },
             { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'halfDashed', icon: 'xuxiankuang' },
-            { key: 'quarterDashed', icon: 'xuxiankuang' },
-            { key: 'wideDashed', icon: 'xuxiankuang' }
+            { key: 'dashed1', icon: 'xuxiankuang' },
+            { key: 'dashed2', icon: 'xuxiankuang' },
+            { key: 'dashed3', icon: 'xuxiankuang' }
         ],
         typeArr: [
             {
@@ -4280,9 +4280,9 @@ const COMMON_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixiankuang' },
             { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'halfDashed', icon: 'xuxiankuang' },
-            { key: 'quarterDashed', icon: 'xuxiankuang' },
-            { key: 'wideDashed', icon: 'xuxiankuang' }
+            { key: 'dashed1', icon: 'xuxiankuang' },
+            { key: 'dashed2', icon: 'xuxiankuang' },
+            { key: 'dashed3', icon: 'xuxiankuang' }
         ],
         typeArr: [
             {
@@ -4337,9 +4337,9 @@ const COMMON_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ]
     },
     AD_RS_Barrier: {
@@ -4460,9 +4460,9 @@ const COMMON_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ],
         typeArr: [
             {
@@ -4631,9 +4631,9 @@ const CHECK_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ],
         typeArr: [
             {
@@ -5141,9 +5141,9 @@ const CHECK_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ],
         typeArr: [
             {
@@ -6088,9 +6088,9 @@ const CHECK_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ],
         typeArr: [
             {
@@ -6472,9 +6472,9 @@ const CHECK_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixiankuang' },
             { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'halfDashed', icon: 'xuxiankuang' },
-            { key: 'quarterDashed', icon: 'xuxiankuang' },
-            { key: 'wideDashed', icon: 'xuxiankuang' }
+            { key: 'dashed1', icon: 'xuxiankuang' },
+            { key: 'dashed2', icon: 'xuxiankuang' },
+            { key: 'dashed3', icon: 'xuxiankuang' }
         ],
         typeArr: [
             {
@@ -6564,9 +6564,9 @@ const CHECK_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ],
         typeArr: [
             {
@@ -6647,9 +6647,9 @@ const CHECK_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixiankuang' },
             { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'halfDashed', icon: 'xuxiankuang' },
-            { key: 'quarterDashed', icon: 'xuxiankuang' },
-            { key: 'wideDashed', icon: 'xuxiankuang' }
+            { key: 'dashed1', icon: 'xuxiankuang' },
+            { key: 'dashed2', icon: 'xuxiankuang' },
+            { key: 'dashed3', icon: 'xuxiankuang' }
         ],
         typeArr: [
             {
@@ -6722,9 +6722,9 @@ const CHECK_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixiankuang' },
             { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'halfDashed', icon: 'xuxiankuang' },
-            { key: 'quarterDashed', icon: 'xuxiankuang' },
-            { key: 'wideDashed', icon: 'xuxiankuang' }
+            { key: 'dashed1', icon: 'xuxiankuang' },
+            { key: 'dashed2', icon: 'xuxiankuang' },
+            { key: 'dashed3', icon: 'xuxiankuang' }
         ],
         typeArr: [
             {
@@ -6781,9 +6781,9 @@ const CHECK_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixiankuang' },
             { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'halfDashed', icon: 'xuxiankuang' },
-            { key: 'quarterDashed', icon: 'xuxiankuang' },
-            { key: 'wideDashed', icon: 'xuxiankuang' }
+            { key: 'dashed1', icon: 'xuxiankuang' },
+            { key: 'dashed2', icon: 'xuxiankuang' },
+            { key: 'dashed3', icon: 'xuxiankuang' }
         ],
         typeArr: [
             {
@@ -6864,9 +6864,9 @@ const CHECK_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixiankuang' },
             { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'halfDashed', icon: 'xuxiankuang' },
-            { key: 'quarterDashed', icon: 'xuxiankuang' },
-            { key: 'wideDashed', icon: 'xuxiankuang' }
+            { key: 'dashed1', icon: 'xuxiankuang' },
+            { key: 'dashed2', icon: 'xuxiankuang' },
+            { key: 'dashed3', icon: 'xuxiankuang' }
         ],
         typeArr: [
             {
@@ -6921,9 +6921,9 @@ const CHECK_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ]
     },
     AD_RS_Barrier: {
@@ -7044,9 +7044,9 @@ const CHECK_VECTOR_CONFIG_MAP = {
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
-            { key: 'halfDashed', icon: 'xuxian' },
-            { key: 'quarterDashed', icon: 'xuxian' },
-            { key: 'wideDashed', icon: 'xuxian' }
+            { key: 'dashed1', icon: 'xuxian' },
+            { key: 'dashed2', icon: 'xuxian' },
+            { key: 'dashed3', icon: 'xuxian' }
         ],
         typeArr: [
             {
