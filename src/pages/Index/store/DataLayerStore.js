@@ -117,13 +117,13 @@ class DataLayerStore {
                     callback(result, event);
                     this.normalLocatePicture(result, event);
                     break;
-                case 'newRel':
+                case 'new_rel':
                     this.newRelCallback(result, event);
                     break;
-                case 'delRel':
+                case 'del_rel':
                     this.delRelCallback(result, event);
                     break;
-                case 'select_point':
+                case 'break_line':
                     this.breakCallback(result, event);
                     break;
                 case 'new_around_line':
@@ -185,10 +185,10 @@ class DataLayerStore {
                 this.QCMarkerCallback(result, event);
             } else {
                 switch (this.editType) {
-                    case 'create_break_line':
+                    case 'create_line_break_line':
                         this.breakByLineCallback(result);
                         break;
-                    case 'copyLine':
+                    case 'copy_line':
                         this.copyLineCallback(result, event);
                         break;
                     case 'assign_line_batch':
@@ -205,7 +205,7 @@ class DataLayerStore {
 
     setEditedCallBack = callback => {
         this.editor.onFeatureEdited(async result => {
-            if (this.editType == 'movePointFeature') {
+            if (this.editType == 'move_point_feature') {
                 this.movePointFeatureCallback(result, event);
             } else {
                 callback && (await callback(result));
@@ -471,16 +471,16 @@ class DataLayerStore {
 
     newRel = () => {
         this.exitEdit();
-        if (this.editType == 'newRel') return;
-        this.setEditType('newRel');
+        if (this.editType == 'new_rel') return;
+        this.setEditType('new_rel');
         this.editor.clear();
         this.editor.toggleMode(61);
     };
 
     delRel = () => {
-        if (this.editType == 'delRel') return;
+        if (this.editType == 'del_rel') return;
         this.clearAllEditDebuff();
-        this.setEditType('delRel');
+        this.setEditType('del_rel');
     };
 
     lineSnapStop = (step = 0) => {
@@ -631,7 +631,7 @@ class DataLayerStore {
     changePoints = () => {
         if (!this.editor) return;
         this.clearAllEditDebuff();
-        this.setEditType('changePoints');
+        this.setEditType('change_points');
         this.addShapePoint();
         this.editor.modifyFeaturePoints();
     };
@@ -639,14 +639,14 @@ class DataLayerStore {
     movePointFeature = () => {
         if (!this.editor) return;
         this.clearAllEditDebuff();
-        this.setEditType('movePointFeature');
+        this.setEditType('move_point_feature');
         this.editor.movePointFeature();
     };
 
     dragCopyedFeature = () => {
         if (!this.editor) return;
         this.clearAllEditDebuff();
-        this.setEditType('copyLine');
+        this.setEditType('copy_line');
         this.changeCur();
         this.editor.dragCopyedFeature();
     };
@@ -684,7 +684,7 @@ class DataLayerStore {
 
     selectPointFromHighlight = () => {
         this.clearAllEditDebuff();
-        this.setEditType('select_point');
+        this.setEditType('break_line');
         this.editor.selectPointFromHighlight();
         this.addShapePoint();
     };
@@ -914,7 +914,7 @@ class DataLayerStore {
 
     createBreakLine = () => {
         if (!this.editor) return;
-        this.setEditType('create_break_line');
+        this.setEditType('create_line_break_line');
         this.changeCur();
         this.editor.newFixLine(2);
     };
@@ -961,13 +961,13 @@ class DataLayerStore {
 }
 
 const UNABLE_CHANGE_TYPES = [
-    'delRel',
+    'del_rel',
     'trim',
     'attribute_brush',
-    'select_point',
-    'copyLine',
-    'movePointFeature',
-    'changePoints',
+    'break_line',
+    'copy_line',
+    'move_point_feature',
+    'change_points',
     'posture_adjust'
 ];
 

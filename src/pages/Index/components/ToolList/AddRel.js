@@ -36,7 +36,7 @@ class AddRel extends React.Component {
 
     render() {
         const { DataLayerStore } = this.props;
-        let visible = DataLayerStore.editType == 'newRel';
+        let visible = DataLayerStore.editType == 'new_rel';
         return (
             <span>
                 <ToolIcon
@@ -122,7 +122,7 @@ class AddRel extends React.Component {
 
     action = () => {
         const { DataLayerStore } = this.props;
-        if (DataLayerStore.editType == 'newRel') return;
+        if (DataLayerStore.editType == 'new_rel') return;
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
         DataLayerStore.newRel();
