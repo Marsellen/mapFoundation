@@ -22,7 +22,7 @@ class DelRel extends React.Component {
 
     render() {
         const { DataLayerStore } = this.props;
-        let visible = DataLayerStore.editType == 'delRel';
+        let visible = DataLayerStore.editType == 'del_rel';
         return (
             <span>
                 <ToolIcon
@@ -42,7 +42,7 @@ class DelRel extends React.Component {
 
     action = () => {
         const { DataLayerStore } = this.props;
-        if (DataLayerStore.editType == 'delRel') return;
+        if (DataLayerStore.editType == 'del_rel') return;
         if (DataLayerStore.changeUnAble())
             return message.error({
                 content: '请先结束当前编辑操作！',

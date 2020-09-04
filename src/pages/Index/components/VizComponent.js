@@ -666,7 +666,7 @@ class VizComponent extends React.Component {
             checkSdkError(result);
 
             regionCheck(result);
-            if (DataLayerStore.editType === 'changePoints') {
+            if (DataLayerStore.editType === 'change_points') {
                 message.success('修改形状点完成，需检查数据的关联关系正确性');
             }
             if (DataLayerStore.editType === 'trim') {

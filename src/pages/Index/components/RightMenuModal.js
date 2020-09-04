@@ -30,37 +30,37 @@ import TaskStore from 'src/pages/Index/store/TaskStore';
 import 'src/assets/less/components/right-menu-modal.less';
 
 const EDIT_TYPE = [
-    'movePointFeature',
-    'copyLine',
-    'changePoints',
-    'select_point',
-    'reverseOrderLine',
-    'create_break_line'
+    'move_point_feature',
+    'copy_line',
+    'change_points',
+    'break_line',
+    'reverse_order_line',
+    'create_line_break_line'
 ];
 
 const CHINESE_EDIT_TYPE = [
     {
-        type: 'movePointFeature',
+        type: 'move_point_feature',
         value: '左键选择新点位，点击右键实现平移'
     },
     {
-        type: 'copyLine',
+        type: 'copy_line',
         value: '复制线要素'
     },
     {
-        type: 'changePoints',
+        type: 'change_points',
         value: '修改形状点'
     },
     {
-        type: 'select_point',
+        type: 'break_line',
         value: '在线上选择一个打断点，右键执行打断'
     },
     {
-        type: 'reverseOrderLine',
+        type: 'reverse_order_line',
         value: '点击进行线要素逆序'
     },
     {
-        type: 'create_break_line',
+        type: 'create_line_break_line',
         value: '两点绘制一条打断线，右键执行打断'
     }
 ];
@@ -313,11 +313,9 @@ class RightMenuModal extends React.Component {
     @logDecorator({ operate: '复制线要素', skipRenderMode: true })
     async copyLineCallback(result) {
         const { DataLayerStore, RightMenuStore } = this.props;
-
         let data;
         try {
             checkSdkError(result);
-
             this.regionCheck(result);
             let feature = RightMenuStore.getFeatures()[0];
             let IDKey = getLayerIDKey(feature.layerName);
@@ -326,7 +324,6 @@ class RightMenuModal extends React.Component {
                 delete feature.data.properties.UPD_STAT;
                 delete feature.data.properties.CONFIDENCE;
             }
-
             // 请求id服务，申请id
             data = await NewFeatureStore.init(result, isManbuildTask());
             data.data.properties = {
@@ -368,7 +365,6 @@ class RightMenuModal extends React.Component {
             let history = {
                 features: [[oldFeature], [result]]
             };
-
             message.success('平移成功', 3);
             return history;
         } catch (e) {
@@ -404,41 +400,39 @@ class RightMenuModal extends React.Component {
 
     deleteFeature = () => {
         const { RightMenuStore, DataLayerStore } = this.props;
-
         if (this.checkDisabled()) return;
-        if (DataLayerStore.changeUnAble())
+        if (DataLayerStore.changeUnAble()) {
             return message.error({
                 content: '请先结束当前编辑操作！',
                 duration: 3,
                 key: 'edit_error'
             });
+        }
         this.deleteFeatureHandler();
         RightMenuStore.hide();
     };
 
     @logDecorator({ operate: '删除要素' })
     async deleteFeatureHandler() {
-        const { RightMenuStore } = this.props;
+        const { RightMenuStore, DataLayerStore } = this.props;
+        DataLayerStore.setEditType('delete');
         let result = RightMenuStore.delete();
         let historyLog = await deleteLine(result, TaskStore.activeTask);
-
         AttributeStore.hideRelFeatures();
         AttributeStore.hide();
-
         return historyLog;
     }
 
     forceDeleteFeature = () => {
         const { RightMenuStore, DataLayerStore } = this.props;
-
         if (this.checkDisabled()) return;
-        if (DataLayerStore.changeUnAble())
+        if (DataLayerStore.changeUnAble()) {
             return message.error({
                 content: '请先结束当前编辑操作！',
                 duration: 3,
                 key: 'edit_error'
             });
-
+        }
         Modal.confirm({
             title: '您确认强制删除此要素？删除时关联属性和关联关系不会连带删除',
             okText: '确定',
@@ -454,26 +448,25 @@ class RightMenuModal extends React.Component {
 
     @logDecorator({ operate: '强制删除要素' })
     async forceDeleteFeatureHandler() {
-        const { RightMenuStore } = this.props;
+        const { RightMenuStore, DataLayerStore } = this.props;
+        DataLayerStore.setEditType('force_delete');
         let result = RightMenuStore.delete();
         let historyLog = await forceDelete(result, TaskStore.activeTask);
-
         AttributeStore.hideRelFeatures();
         AttributeStore.hide();
-
         return historyLog;
     }
 
     copyLine = () => {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
-        if (DataLayerStore.changeUnAble())
+        if (DataLayerStore.changeUnAble()) {
             return message.error({
                 content: '请先结束当前编辑操作！',
                 duration: 3,
                 key: 'edit_error'
             });
-
+        }
         DataLayerStore.dragCopyedFeature();
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();
@@ -482,12 +475,13 @@ class RightMenuModal extends React.Component {
     changePoints = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
-        if (DataLayerStore.changeUnAble())
+        if (DataLayerStore.changeUnAble()) {
             return message.error({
                 content: '请先结束当前编辑操作！',
                 duration: 3,
                 key: 'edit_error'
             });
+        }
         DataLayerStore.changePoints();
         RightMenuStore.hide();
         AttributeStore.hide();
@@ -497,13 +491,13 @@ class RightMenuModal extends React.Component {
     movePointFeature = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
-        if (DataLayerStore.changeUnAble())
+        if (DataLayerStore.changeUnAble()) {
             return message.error({
                 content: '请先结束当前编辑操作！',
                 duration: 3,
                 key: 'edit_error'
             });
-
+        }
         DataLayerStore.movePointFeature();
         RightMenuStore.hide();
         AttributeStore.hide();
@@ -513,13 +507,13 @@ class RightMenuModal extends React.Component {
     breakLine = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
-        if (DataLayerStore.changeUnAble())
+        if (DataLayerStore.changeUnAble()) {
             return message.error({
                 content: '请先结束当前编辑操作！',
                 duration: 3,
                 key: 'edit_error'
             });
-
+        }
         DataLayerStore.selectPointFromHighlight();
         RightMenuStore.hide();
         AttributeStore.hide();
@@ -529,12 +523,13 @@ class RightMenuModal extends React.Component {
     reverseOrderLine = () => {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
-        if (DataLayerStore.changeUnAble())
+        if (DataLayerStore.changeUnAble()) {
             return message.error({
                 content: '请先结束当前编辑操作！',
                 duration: 3,
                 key: 'edit_error'
             });
+        }
         this.reverseOrderLineHandler();
         RightMenuStore.hide();
     };
@@ -542,9 +537,9 @@ class RightMenuModal extends React.Component {
     @logDecorator({ operate: '线要素逆序' })
     reverseOrderLineHandler() {
         try {
-            const { RightMenuStore } = this.props;
+            const { RightMenuStore, DataLayerStore } = this.props;
+            DataLayerStore.setEditType('reverse_order_line');
             let features = RightMenuStore.getFeatures();
-
             let oldFeatures = _.cloneDeep(features);
             let newFeatures = features.map(item => {
                 item.data.geometry.coordinates.reverse();
@@ -552,7 +547,6 @@ class RightMenuModal extends React.Component {
             });
             let layer = getLayerByName(newFeatures[0].layerName);
             layerUpdateFeatures(layer, newFeatures);
-
             let historyLog = {
                 features: [oldFeatures, newFeatures]
             };
@@ -567,12 +561,13 @@ class RightMenuModal extends React.Component {
     mergeLine = () => {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
-        if (DataLayerStore.changeUnAble())
+        if (DataLayerStore.changeUnAble()) {
             return message.error({
                 content: '请先结束当前编辑操作！',
                 duration: 3,
                 key: 'edit_error'
             });
+        }
         this.mergeLineHandler();
         RightMenuStore.hide();
         AttributeStore.hide();
@@ -582,9 +577,9 @@ class RightMenuModal extends React.Component {
     @logDecorator({ operate: '合并线要素' })
     async mergeLineHandler() {
         try {
-            const { RightMenuStore } = this.props;
+            const { RightMenuStore, DataLayerStore } = this.props;
+            DataLayerStore.setEditType('merge_line');
             let features = RightMenuStore.getFeatures();
-
             let historyLog = await mergeLine(features, TaskStore.activeTask);
             return historyLog;
         } catch (e) {
@@ -596,12 +591,13 @@ class RightMenuModal extends React.Component {
     batchMergeLine = () => {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
-        if (DataLayerStore.changeUnAble())
+        if (DataLayerStore.changeUnAble()) {
             return message.error({
                 content: '请先结束当前编辑操作！',
                 duration: 3,
                 key: 'edit_error'
             });
+        }
         this.batchMergeLineHandler();
         RightMenuStore.hide();
         AttributeStore.hide();
@@ -611,9 +607,9 @@ class RightMenuModal extends React.Component {
     @logDecorator({ operate: '批量线合并' })
     async batchMergeLineHandler() {
         try {
-            const { RightMenuStore } = this.props;
+            const { RightMenuStore, DataLayerStore } = this.props;
+            DataLayerStore.setEditType('batch_merge_line');
             let features = RightMenuStore.getFeatures();
-
             let historyLog = await batchMergeLine(features, TaskStore.activeTask);
             return historyLog;
         } catch (e) {
@@ -625,12 +621,13 @@ class RightMenuModal extends React.Component {
     batchAssign = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
-        if (DataLayerStore.changeUnAble())
+        if (DataLayerStore.changeUnAble()) {
             return message.error({
                 content: '请先结束当前编辑操作！',
                 duration: 3,
                 key: 'edit_error'
             });
+        }
         let features = RightMenuStore.getFeatures();
         BatchAssignStore.show(features);
         RightMenuStore.hide();
@@ -640,12 +637,13 @@ class RightMenuModal extends React.Component {
     breakByLine = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
-        if (DataLayerStore.changeUnAble())
+        if (DataLayerStore.changeUnAble()) {
             return message.error({
                 content: '请先结束当前编辑操作！',
                 duration: 3,
                 key: 'edit_error'
             });
+        }
         DataLayerStore.createBreakLine();
         RightMenuStore.hide();
         AttributeStore.hide();
@@ -679,12 +677,13 @@ class RightMenuModal extends React.Component {
     trim = () => {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
-        if (DataLayerStore.changeUnAble())
+        if (DataLayerStore.changeUnAble()) {
             return message.error({
                 content: '请先结束当前编辑操作！',
                 duration: 3,
                 key: 'edit_error'
             });
+        }
         DataLayerStore.trim();
         RightMenuStore.hide();
         AttributeStore.hide();

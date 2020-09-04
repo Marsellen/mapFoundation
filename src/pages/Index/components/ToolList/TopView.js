@@ -54,8 +54,8 @@ class TopView extends React.Component {
             RightMenuStore.hide();
         } else {
             if (
-                DataLayerStore.editType == 'copyLine' ||
-                DataLayerStore.editType == 'movePointFeature'
+                DataLayerStore.editType == 'copy_line' ||
+                DataLayerStore.editType == 'move_point_feature'
             ) {
                 DataLayerStore.exitEdit();
             }
