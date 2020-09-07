@@ -164,7 +164,7 @@ class NewUTurnLine extends React.Component {
     };
 
     // 新建
-    @logDecorator({ operate: ACTION_MAP })
+    @logDecorator({ operate: ACTION_MAP, loading: true })
     async addLines(params) {
         const { DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
@@ -172,7 +172,7 @@ class NewUTurnLine extends React.Component {
         let layerNameCN = DATA_LAYER_MAP[layerName].label;
         try {
             message.loading({
-                content: '处理中...',
+                content: '正在构建要素...',
                 key: 'new_Uturn_line',
                 duration: 0
             });

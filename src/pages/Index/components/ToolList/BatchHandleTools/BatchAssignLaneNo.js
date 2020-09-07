@@ -54,10 +54,7 @@ class BatchAssignLaneNo extends React.Component {
         let visible = DataLayerStore.editType == 'assign_line_batch';
         messageVisible = visible && messageVisible;
         return (
-            <div
-                id="assign-line-batch-btn"
-                className="flex-1"
-                onClick={this.action}>
+            <div id="assign-line-batch-btn" className="flex-1" onClick={this.action}>
                 <ToolIcon icon="piliangfuchedaofenzubianhao" />
                 <div>批量赋车道分组编号</div>
                 <AdMessage visible={messageVisible} content={message} />
@@ -71,7 +68,8 @@ class BatchAssignLaneNo extends React.Component {
                     closable={false}
                     zIndex={999}
                     width={318}
-                    maskClosable={false}>
+                    maskClosable={false}
+                >
                     {this._renderModal(visible)}
                 </Modal>
             </div>
@@ -86,9 +84,7 @@ class BatchAssignLaneNo extends React.Component {
             <div>
                 <div>
                     <span className="batch-label">赋值图层</span>
-                    <span className="batch-content">
-                        {DATA_LAYER_MAP[layerName].label}
-                    </span>
+                    <span className="batch-content">{DATA_LAYER_MAP[layerName].label}</span>
                 </div>
                 <div style={{ marginTop: 8 }}>
                     <span className="batch-label">起始车道编号</span>
@@ -96,10 +92,9 @@ class BatchAssignLaneNo extends React.Component {
                         <Select
                             className="batch-content"
                             value={startNumber}
-                            onChange={this.handleChange}>
-                            <Option value={defaultNumber}>
-                                {defaultNumber}
-                            </Option>
+                            onChange={this.handleChange}
+                        >
+                            <Option value={defaultNumber}>{defaultNumber}</Option>
                             <Option value="-1">-1</Option>
                             <Option value="-2">-2</Option>
                         </Select>
@@ -134,11 +129,7 @@ class BatchAssignLaneNo extends React.Component {
 
     shiftCallback = event => {
         const { DataLayerStore } = this.props;
-        if (
-            event.key !== 'Shift' ||
-            DataLayerStore.editType !== 'assign_line_batch'
-        )
-            return;
+        if (event.key !== 'Shift' || DataLayerStore.editType !== 'assign_line_batch') return;
         try {
             this.lineCheck(); //条件判断
             const { DataLayerStore } = this.props;
@@ -146,8 +137,7 @@ class BatchAssignLaneNo extends React.Component {
             this.removeEventListener();
             this.setState({
                 step: 1,
-                message:
-                    '两点绘制一条线与所选数据相交，线方向与车道编号增长趋势一致，右键完成赋值',
+                message: '两点绘制一条线与所选数据相交，线方向与车道编号增长趋势一致，右键完成赋值',
                 visible: true
             });
         } catch (e) {
@@ -192,18 +182,13 @@ class BatchAssignLaneNo extends React.Component {
         }
     };
 
-    @logDecorator({ operate: '批量赋值车道分组编号' })
+    @logDecorator({ operate: '批量赋值车道分组编号', loading: true })
     async handleAssign(event) {
         if (event.button !== 2) return;
         try {
             const { activeTask } = TaskStore;
             let layerName = DataLayerStore.getEditLayer().layerName;
             const { startNumber } = this.state;
-            message.loading({
-                content: '处理中...',
-                key: 'assign_lane_no',
-                duration: 0
-            });
             checkSdkError(this.result, '没有做赋值处理');
 
             let [features, [fixLine]] = this.result;
@@ -217,11 +202,6 @@ class BatchAssignLaneNo extends React.Component {
 
             return historyLog;
         } catch (e) {
-            message.error({
-                content: e.message,
-                key: 'assign_lane_no',
-                duration: 3
-            });
             this.removeEventListener();
             throw e;
         }

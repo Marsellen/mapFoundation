@@ -66,7 +66,7 @@ class DelRel extends React.Component {
         return <label>请从高亮要素中选择要被取消的关联要素</label>;
     };
 
-    @logDecorator({ operate: '删除关联关系' })
+    @logDecorator({ operate: '删除关联关系', loading: true })
     async delRel(result) {
         try {
             if (result.length < 2) {
@@ -75,11 +75,9 @@ class DelRel extends React.Component {
             let [mainFeature, ...relFeatures] = result;
             let rels = await delRel(mainFeature, relFeatures);
             let log = calcRelChangeLog(result, [rels, []]);
-            message.success('删除关联关系成功', 3);
             AttributeStore.hideRelFeatures();
             return log;
         } catch (e) {
-            message.warning(e.message, 3);
             AttributeStore.hideRelFeatures();
             throw e;
         }

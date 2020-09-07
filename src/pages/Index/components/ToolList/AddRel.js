@@ -20,6 +20,8 @@ import AttributeStore from 'src/pages/Index/store/AttributeStore';
 import 'less/components/tool-icon.less';
 import './AddRel.less';
 
+const key = 'new_rel';
+
 @inject('DataLayerStore')
 @observer
 class AddRel extends React.Component {
@@ -171,19 +173,19 @@ class AddRel extends React.Component {
         }
     }
 
-    @logDecorator({ operate: '新建关联关系' })
+    @logDecorator({ operate: '新建关联关系', loading: true })
     async newRelHandler(mainFeature, relFeatures, warningMessage) {
         try {
             let { log, warningMessage: wm } = await newRel(mainFeature, relFeatures);
             if (warningMessage || wm) {
                 warningMessage = warningMessage && wm ? warningMessage + wm : warningMessage || wm;
-                message.warning(warningMessage);
+                message.warning({ content: warningMessage, duration: 3, key });
             } else {
-                message.success('新建成功');
+                message.success({ content: '新建成功', duration: 3, key });
             }
             return log;
         } catch (e) {
-            message.warning('新建关联关系失败：' + e.message, 3);
+            message.warning({ content: '新建关联关系失败：' + e.message, duration: 3, key });
             throw e;
         }
     }
@@ -202,7 +204,7 @@ class AddRel extends React.Component {
         }
     };
 
-    @logDecorator({ operate: '新建关联关系' })
+    @logDecorator({ operate: '新建关联关系', loading: true })
     async addLRLaneDriverRel(type, allFeatures) {
         try {
             let [mainFeature, relFeature] = allFeatures;
@@ -226,10 +228,10 @@ class AddRel extends React.Component {
             // 执行数据更新操作
             await updateFeatures(log);
 
-            message.success('新建成功');
+            message.success({ content: '新建成功', duration: 3, key });
             return log;
         } catch (e) {
-            message.warning(e.message);
+            message.warning({ content: e.message, duration: 3, key });
             throw e;
         }
     }

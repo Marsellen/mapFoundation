@@ -38,18 +38,12 @@ class NewStraightLine extends React.Component {
     render() {
         const { DataLayerStore } = this.props;
         const { updateKey } = DataLayerStore;
-        let visible =
-            DataLayerStore.editType == 'new_straight_line' &&
-            this.state.visible; //直行
+        let visible = DataLayerStore.editType == 'new_straight_line' && this.state.visible; //直行
         let editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
 
         return (
-            <div
-                id="new-straight-line"
-                key={updateKey}
-                onClick={this.action}
-                className="flex-1">
+            <div id="new-straight-line" key={updateKey} onClick={this.action} className="flex-1">
                 <ToolIcon icon="zhixing1" />
                 <div>{ACTION_MAP[layerName]}</div>
                 <AdMessage visible={visible} content={this.content()} />
@@ -57,7 +51,7 @@ class NewStraightLine extends React.Component {
         );
     }
 
-    @logDecorator({ operate: ACTION_MAP })
+    @logDecorator({ operate: ACTION_MAP, loading: true })
     async handleData(result) {
         try {
             const { DataLayerStore } = this.props;
@@ -68,7 +62,7 @@ class NewStraightLine extends React.Component {
                 throw new Error(`操作错误：应选择 2 条${layerNameCN}`);
             }
             message.loading({
-                content: '处理中...',
+                content: '正在构建要素...',
                 key: 'new_straight_line',
                 duration: 0
             });

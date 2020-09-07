@@ -34,13 +34,9 @@ class BatchSnapLineToStopLine extends React.Component {
     render() {
         const { DataLayerStore } = this.props;
         const { message, visible } = this.state;
-        let messageVisible =
-            DataLayerStore.editType == 'line_snap_stop' && visible;
+        let messageVisible = DataLayerStore.editType == 'line_snap_stop' && visible;
         return (
-            <div
-                id="line-snap-stop-btn"
-                className="flex-1"
-                onClick={this.action}>
+            <div id="line-snap-stop-btn" className="flex-1" onClick={this.action}>
                 <ToolIcon icon="xianyaosuduiqidaotingzhixian" />
                 <div>线要素对齐到停止线</div>
                 <AdMessage visible={messageVisible} content={message} />
@@ -54,11 +50,7 @@ class BatchSnapLineToStopLine extends React.Component {
 
     shiftCallback = event => {
         const { DataLayerStore } = this.props;
-        if (
-            event.key !== 'Shift' ||
-            DataLayerStore.editType !== 'line_snap_stop'
-        )
-            return;
+        if (event.key !== 'Shift' || DataLayerStore.editType !== 'line_snap_stop') return;
         try {
             this.lineCheck(); //条件判断
             this.gotoCheckStop();
@@ -116,34 +108,19 @@ class BatchSnapLineToStopLine extends React.Component {
         }
     };
 
-    @logDecorator({ operate: '线要素对齐到停止线' })
+    @logDecorator({ operate: '线要素对齐到停止线', loading: true })
     async handleSnap(event) {
         if (event.button !== 2) return;
         try {
             const { activeTask } = TaskStore;
             let layerName = DataLayerStore.getEditLayer().layerName;
-            message.loading({
-                content: '处理中...',
-                key: 'line_snap_stop',
-                duration: 0
-            });
             let [features, [stopLine]] = this.result;
             if (!stopLine) {
                 throw new Error('没有做对齐处理');
             }
-            let historyLog = await lineToStop(
-                features,
-                stopLine,
-                layerName,
-                activeTask
-            );
+            let historyLog = await lineToStop(features, stopLine, layerName, activeTask);
             return historyLog;
         } catch (e) {
-            message.error({
-                content: e.message,
-                key: 'line_snap_stop',
-                duration: 3
-            });
             this.removeEventListener();
             throw e;
         }

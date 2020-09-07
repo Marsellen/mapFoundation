@@ -106,7 +106,7 @@ const breakLine = async (breakPoint, features, activeTask) => {
     };
     await updateFeatures(historyLog);
 
-    message.success(result.message, 3);
+    message.success({ content: result.message, duration: 1, key: 'break_line' });
     return historyLog;
 };
 
@@ -135,7 +135,7 @@ const mergeLine = async (features, activeTask) => {
     };
     await updateFeatures(historyLog);
 
-    message.success(result.message, 3);
+    message.success({ content: result.message, duration: 1, key: 'merge_line' });
     return historyLog;
 };
 
@@ -167,7 +167,7 @@ const batchMergeLine = async (features, activeTask) => {
     };
     await updateFeatures(historyLog);
 
-    message.success(result.message, 3);
+    message.success({ content: result.message, duration: 1, key: 'batch_merge_line' });
     return historyLog;
 };
 
@@ -200,7 +200,7 @@ const breakLineByLine = async (line, features, activeTask) => {
     };
     await updateFeatures(historyLog);
 
-    message.success(result.message, 3);
+    message.success({ content: result.message, duration: 1, key: 'create_line_break_line' });
     return historyLog;
 };
 
@@ -273,7 +273,7 @@ const batchAssignment = async (features, fixLane, layerName, startNumber, active
 
     message.success({
         content: result.message,
-        key: 'assign_lane_no',
+        key: 'assign_line_batch',
         duration: 3
     });
     return historyLog;

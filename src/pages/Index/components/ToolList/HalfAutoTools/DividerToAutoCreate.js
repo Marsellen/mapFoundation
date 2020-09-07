@@ -87,7 +87,7 @@ class DividerToAutoCreate extends React.Component {
         }
         try {
             message.loading({
-                content: '处理中...',
+                content: '正在构建要素...',
                 key: 'new_around_line',
                 duration: 0
             });
