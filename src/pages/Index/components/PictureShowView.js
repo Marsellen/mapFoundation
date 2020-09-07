@@ -94,9 +94,7 @@ class PictureShowView extends React.Component {
                 // viewer.zoomTo(0.28).move(0, -6.2);
                 const { DataLayerStore } = this.props;
                 if (DataLayerStore.locatePictureStatus) {
-                    document
-                        .querySelector('.viewer-locate-picture')
-                        .classList.add('active');
+                    document.querySelector('.viewer-locate-picture').classList.add('active');
                 }
                 titleMap.forEach(this.addTitle);
             }
@@ -190,11 +188,10 @@ class PictureShowView extends React.Component {
                     disabled: currentProjectName === activeProjectName
                 }}
                 className="select-track-modal"
-                maskStyle={{ background: 'rgba(0, 0, 0, 0)' }}>
+                maskStyle={{ background: 'rgba(0, 0, 0, 0)' }}
+            >
                 <p className="select-track-modal-title">联动轨迹选择：</p>
-                <Radio.Group
-                    value={currentProjectName}
-                    onChange={this.handleRadioChange}>
+                <Radio.Group value={currentProjectName} onChange={this.handleRadioChange}>
                     {projectNameArr.map((projectName, index) => {
                         return (
                             <Radio value={projectName} key={`track_${index}`}>
@@ -259,11 +256,7 @@ class PictureShowView extends React.Component {
     };
 
     jumpToPoint = idx => {
-        const {
-            PictureShowStore,
-            DataLayerStore,
-            ResourceLayerStore
-        } = this.props;
+        const { PictureShowStore, DataLayerStore, ResourceLayerStore } = this.props;
         const { activeTrackName } = ResourceLayerStore;
 
         window.trackLayer.getPoint(activeTrackName, idx, item => {
@@ -291,22 +284,14 @@ class PictureShowView extends React.Component {
         DataLayerStore.registerLocatePictureEvent(this.locatePictureEvent);
     };
 
-    locatePictureEvent = async event => {
+    locatePictureEvent = async pointWkt => {
         try {
-            const {
-                PictureShowStore,
-                TaskStore,
-                ResourceLayerStore
-            } = this.props;
+            const { PictureShowStore, TaskStore, ResourceLayerStore } = this.props;
             const { visible } = PictureShowStore;
             if (!visible) return;
             const { activeProjectName, getTrackPart } = ResourceLayerStore;
             const { activeTaskId } = TaskStore;
-            let result = await locatePicture(
-                event,
-                activeTaskId,
-                activeProjectName
-            );
+            let result = await locatePicture(pointWkt, activeTaskId, activeProjectName);
             const { trackpoint, index } = result;
             const activeTrackName = getTrackPart(trackpoint);
             window.trackLayer.unSelect();
@@ -318,9 +303,7 @@ class PictureShowView extends React.Component {
     };
 
     addTitle = item => {
-        document
-            .querySelector(`.${item.className}`)
-            .setAttribute('title', item.title);
+        document.querySelector(`.${item.className}`).setAttribute('title', item.title);
     };
 }
 export default PictureShowView;

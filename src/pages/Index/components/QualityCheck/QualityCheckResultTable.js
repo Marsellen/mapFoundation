@@ -274,8 +274,8 @@ class QualityCheckResultTable extends React.Component {
 
     //选中哪一行
     activeRowStyle = index => {
-        const currentRow = document.querySelector(`.check-table-row-${index}`);
-        const activeRow = document.querySelector('.active');
+        const currentRow = this.checkReportTable.querySelector(`.check-table-row-${index}`);
+        const activeRow = this.checkReportTable.querySelector('.active');
         activeRow && activeRow.classList.remove('active');
         currentRow && currentRow.classList.add('active');
         this.setState({
