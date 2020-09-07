@@ -21,7 +21,7 @@ export const HOT_KEYS_CONFIG = {
             label: '放大/缩小'
         },
         {
-            value: '-（增大）、+（降低）',
+            value: '-（减小）、+（增大）',
             label: '增大/降低步幅'
         },
 
