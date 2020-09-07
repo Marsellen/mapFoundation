@@ -21,6 +21,11 @@ export const HOT_KEYS_CONFIG = {
             label: '放大/缩小'
         },
         {
+            value: '-（增大）、+（降低）',
+            label: '增大/降低步幅'
+        },
+
+        {
             value: 'A（左移）、D（右移）、Q（下移）、E（上移）',
             label: '视角平移'
         },

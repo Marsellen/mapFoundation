@@ -17,6 +17,7 @@ import BatchToolBox from './BatchToolBox';
 import AttributeBrush from './AttributeBrush';
 import QCMarkerTool from './QCMarkerTool';
 import PostureAdjust from './PostureAdjust';
+import SetStepSize from './SetStepSize';
 
 export default [
     <Undo key="UNDO" />,
@@ -25,6 +26,7 @@ export default [
     <ExportShp key="EXPORT_SHP" />,
     <Save key="SAVE" />,
     <PointCloud key="POINT_CLOUD" />,
+    <SetStepSize key="SETSTEP_SIZE" />,
     <ToolBox key="TOOL_BOX" />,
     <SearchInfo key="SEARCH_INFO" />,
     <QualityCheck key="QUALITY_TEST" />,
