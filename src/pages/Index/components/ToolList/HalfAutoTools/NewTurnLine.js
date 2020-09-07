@@ -37,17 +37,12 @@ class NewTurnLine extends React.Component {
     render() {
         const { DataLayerStore } = this.props;
         const { updateKey } = DataLayerStore;
-        let visible =
-            DataLayerStore.editType == 'new_turn_line' && this.state.visible; //转弯
+        let visible = DataLayerStore.editType == 'new_turn_line' && this.state.visible; //转弯
         let editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
 
         return (
-            <div
-                id="new-turn-line"
-                key={updateKey}
-                onClick={this.action}
-                className="flex-1">
+            <div id="new-turn-line" key={updateKey} onClick={this.action} className="flex-1">
                 <ToolIcon icon="zhuanwan" />
                 <div>{ACTION_MAP[layerName]}</div>
                 <AdMessage visible={visible} content={this.content()} />
@@ -55,7 +50,7 @@ class NewTurnLine extends React.Component {
         );
     }
 
-    @logDecorator({ operate: ACTION_MAP })
+    @logDecorator({ operate: ACTION_MAP, loading: true })
     async handleData(result) {
         try {
             const { DataLayerStore } = this.props;
@@ -66,7 +61,7 @@ class NewTurnLine extends React.Component {
                 throw new Error(`操作错误：应选择 2 条${layerNameCN}`);
             }
             message.loading({
-                content: '处理中...',
+                content: '正在构建要素...',
                 key: 'new_turn_line',
                 duration: 0
             });
@@ -146,8 +141,7 @@ class NewTurnLine extends React.Component {
     showAttributesModal = async obj => {
         const { AttributeStore, DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
-        let readonly =
-            (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
+        let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.clearPick();
         await AttributeStore.setModel(obj);

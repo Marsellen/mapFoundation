@@ -297,17 +297,12 @@ class RightMenuModal extends React.Component {
         }
     }
 
-    @logDecorator({ operate: '线打断' })
+    @logDecorator({ operate: '线打断', loading: true })
     async breakLineHandler(result) {
         const { RightMenuStore } = this.props;
         let features = RightMenuStore.getFeatures();
-        try {
-            let historyLog = await breakLine(result[0], features, TaskStore.activeTask);
-            return historyLog;
-        } catch (e) {
-            message.warning('打断失败：' + e.message, 3);
-            throw e;
-        }
+        let historyLog = await breakLine(result[0], features, TaskStore.activeTask);
+        return historyLog;
     }
 
     @logDecorator({ operate: '复制线要素', skipRenderMode: true })
@@ -408,6 +403,7 @@ class RightMenuModal extends React.Component {
                 key: 'edit_error'
             });
         }
+        DataLayerStore.setEditType('delete');
         this.deleteFeatureHandler();
         RightMenuStore.hide();
     };
@@ -415,7 +411,6 @@ class RightMenuModal extends React.Component {
     @logDecorator({ operate: '删除要素' })
     async deleteFeatureHandler() {
         const { RightMenuStore, DataLayerStore } = this.props;
-        DataLayerStore.setEditType('delete');
         let result = RightMenuStore.delete();
         let historyLog = await deleteLine(result, TaskStore.activeTask);
         AttributeStore.hideRelFeatures();
@@ -568,24 +563,19 @@ class RightMenuModal extends React.Component {
                 key: 'edit_error'
             });
         }
+        DataLayerStore.setEditType('merge_line');
         this.mergeLineHandler();
         RightMenuStore.hide();
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
     };
 
-    @logDecorator({ operate: '合并线要素' })
+    @logDecorator({ operate: '合并线要素', loading: true })
     async mergeLineHandler() {
-        try {
-            const { RightMenuStore, DataLayerStore } = this.props;
-            DataLayerStore.setEditType('merge_line');
-            let features = RightMenuStore.getFeatures();
-            let historyLog = await mergeLine(features, TaskStore.activeTask);
-            return historyLog;
-        } catch (e) {
-            message.warning('合并失败：' + e.message, 3);
-            throw e;
-        }
+        const { RightMenuStore } = this.props;
+        let features = RightMenuStore.getFeatures();
+        let historyLog = await mergeLine(features, TaskStore.activeTask);
+        return historyLog;
     }
 
     batchMergeLine = () => {
@@ -598,24 +588,19 @@ class RightMenuModal extends React.Component {
                 key: 'edit_error'
             });
         }
+        DataLayerStore.setEditType('batch_merge_line');
         this.batchMergeLineHandler();
         RightMenuStore.hide();
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
     };
 
-    @logDecorator({ operate: '批量线合并' })
+    @logDecorator({ operate: '批量线合并', loading: true })
     async batchMergeLineHandler() {
-        try {
-            const { RightMenuStore, DataLayerStore } = this.props;
-            DataLayerStore.setEditType('batch_merge_line');
-            let features = RightMenuStore.getFeatures();
-            let historyLog = await batchMergeLine(features, TaskStore.activeTask);
-            return historyLog;
-        } catch (e) {
-            message.warning('批量线合并失败：' + e.message, 3);
-            throw e;
-        }
+        const { RightMenuStore } = this.props;
+        let features = RightMenuStore.getFeatures();
+        let historyLog = await batchMergeLine(features, TaskStore.activeTask);
+        return historyLog;
     }
 
     batchAssign = () => {
@@ -661,17 +646,12 @@ class RightMenuModal extends React.Component {
         }
     }
 
-    @logDecorator({ operate: '拉线齐打断' })
+    @logDecorator({ operate: '拉线齐打断', loading: true })
     async breakByLineHandler(result) {
         const { RightMenuStore } = this.props;
         let features = RightMenuStore.getFeatures();
-        try {
-            let historyLog = await breakLineByLine(result, features, TaskStore.activeTask);
-            return historyLog;
-        } catch (e) {
-            message.warning('拉线齐打断失败：' + e.message, 3);
-            throw e;
-        }
+        let historyLog = await breakLineByLine(result, features, TaskStore.activeTask);
+        return historyLog;
     }
 
     trim = () => {

@@ -3,6 +3,8 @@ import RenderModeStore from 'src/pages/Index/store/RenderModeStore';
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import editLog from 'src/models/editLog';
 import AdEmitter from 'src/models/event';
+import { EDIT_MESSAGE } from 'src/config/EditMessage';
+import { message } from 'antd';
 
 /**
  * 日志修饰器，提供操作结束统一处理模型
@@ -19,7 +21,15 @@ export const logDecorator = option => {
         const fn = descriptor.value;
         descriptor.value = async function () {
             var log;
-            let { operate, onlyRun, skipHistory, skipRenderMode } = option;
+            const editType = DataLayerStore.editType;
+            let { operate, onlyRun, skipHistory, skipRenderMode, loading } = option;
+            if (loading) {
+                message.loading({
+                    key: editType,
+                    duration: 65,
+                    content: EDIT_MESSAGE[editType].loadingMsg
+                });
+            }
             if (typeof operate === 'object') {
                 let layerName = DataLayerStore.getEditLayer().layerName;
                 operate = operate[layerName];
@@ -41,6 +51,13 @@ export const logDecorator = option => {
                     action: operate,
                     result: 'success'
                 };
+                if (loading && EDIT_MESSAGE[editType].hasOwnProperty('successMsg')) {
+                    message.success({
+                        key: editType,
+                        duration: 1,
+                        content: EDIT_MESSAGE[editType].successMsg
+                    });
+                }
             } catch (e) {
                 console.log(e);
                 log = {
@@ -48,8 +65,15 @@ export const logDecorator = option => {
                     result: 'fail',
                     message: e
                 };
+                if (loading && EDIT_MESSAGE[editType].hasOwnProperty('errorMsg')) {
+                    message.error({
+                        key: editType,
+                        duration: 1,
+                        content: EDIT_MESSAGE[editType].errorMsg + e
+                    });
+                }
             }
-            log.editType = DataLayerStore.editType;
+            log.editType = editType;
             editLog.add(log);
             DataLayerStore.exitEdit();
         };
