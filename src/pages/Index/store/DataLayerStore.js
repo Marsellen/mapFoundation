@@ -15,6 +15,9 @@ import EditorConfig from 'src/config/ConctrolConfig';
 import AttributeStore from 'src/pages/Index/store/AttributeStore.js';
 import appStore from 'src/store/appStore.js';
 import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
+import { getEventPointWkt, getFeaturePointWkt } from 'src/utils/pictureCtrl';
+
+const TRACKS = ['TraceListLayer', 'TraceLayer'];
 
 configure({ enforceActions: 'always' });
 class DataLayerStore {
@@ -170,12 +173,14 @@ class DataLayerStore {
     };
 
     normalLocatePicture = (result, event) => {
-        if (
-            (!result.length || result[0].type !== 'TraceLayer') &&
-            this.locatePictureStatus &&
-            event.button === 0
-        ) {
-            this.locatePictureEvent(event);
+        if (this.locatePictureStatus && (!event || event.button === 0)) {
+            if (!result.length) {
+                let pointWkt = getEventPointWkt(event);
+                this.locatePictureEvent(pointWkt);
+            } else if (!TRACKS.includes(result[0].type)) {
+                let pointWkt = getFeaturePointWkt(result[0]);
+                this.locatePictureEvent(pointWkt);
+            }
         }
     };
 
@@ -932,7 +937,8 @@ class DataLayerStore {
     locatePicture = event => {
         let isNotNormal = this.editType !== 'normal';
         if (isNotNormal && this.locatePictureStatus && event.button === 0) {
-            this.locatePictureEvent(event);
+            let pointWkt = getEventPointWkt(event);
+            this.locatePictureEvent(pointWkt);
         }
     };
 
