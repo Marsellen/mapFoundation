@@ -626,6 +626,7 @@ class VizComponent extends React.Component {
     async createdCallBack(result) {
         //console.log(result);
         let data;
+        DataLayerStore.hideMessage();
         try {
             //判断是否绘制成功
             checkSdkError(result);
@@ -653,7 +654,6 @@ class VizComponent extends React.Component {
             const isMarkerLayer = editLayerName === 'AD_Marker';
             isMarkerLayer && DataLayerStore.exitMarker();
 
-            message.error(e.message, 3);
             throw e;
         }
     }

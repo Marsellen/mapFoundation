@@ -11,14 +11,10 @@ class AddGroundRectangle extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'new_ground_rectangle';
         return (
-            <div
-                id="add-ground-rectangle-btn"
-                className="flex-1"
-                onClick={this.action}
-            >
+            <div id="add-ground-rectangle-btn" className="flex-1" onClick={this.action}>
                 <ToolIcon icon="dimianjuxing" />
                 <div>绘制地面矩形</div>
-                <AdMessage visible={visible} content={this.content()} />
+                <AdMessage visible={visible && DataLayerStore.isMessage} content={this.content()} />
             </div>
         );
     }
