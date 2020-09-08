@@ -15,7 +15,7 @@ class AddLine extends React.Component {
             <div id="add-line-btn" className="flex-1" onClick={this.action}>
                 <ToolIcon icon="line-graph" />
                 <div>绘制折线</div>
-                <AdMessage visible={visible} content={this.content()} />
+                <AdMessage visible={visible && DataLayerStore.isMessage} content={this.content()} />
             </div>
         );
     }

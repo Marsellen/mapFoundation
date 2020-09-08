@@ -14,7 +14,7 @@ class AddCircle extends React.Component {
             <div id="add-circle-btn" className="flex-1" onClick={this.action}>
                 <ToolIcon icon="sandianhuayuan" />
                 <div>绘制三点圆形</div>
-                <AdMessage visible={visible} content={this.content()} />
+                <AdMessage visible={visible && DataLayerStore.isMessage} content={this.content()} />
             </div>
         );
     }

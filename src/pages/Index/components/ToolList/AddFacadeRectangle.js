@@ -11,14 +11,10 @@ class AddFacadeRectangle extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'new_facade_rectangle';
         return (
-            <div
-                id="add-facade-rectangle-btn"
-                className="flex-1"
-                onClick={this.action}
-            >
+            <div id="add-facade-rectangle-btn" className="flex-1" onClick={this.action}>
                 <ToolIcon icon="limianjuxing" />
                 <div>绘制两点立面矩形</div>
-                <AdMessage visible={visible} content={this.content()} />
+                <AdMessage visible={visible && DataLayerStore.isMessage} content={this.content()} />
             </div>
         );
     }

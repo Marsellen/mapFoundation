@@ -15,7 +15,7 @@ class AddPoint extends React.Component {
             <div id="add-point-btn" className="flex-1" onClick={this.action}>
                 <ToolIcon icon="yuandianzhong" />
                 <div>绘制点要素</div>
-                <AdMessage visible={visible} content={this.content()} />
+                <AdMessage visible={visible && DataLayerStore.isMessage} content={this.content()} />
             </div>
         );
     }

@@ -2,42 +2,50 @@ export const EDIT_MESSAGE = {
     new_line: {
         //绘制折线
         loadingMsg: '正在绘制...',
-        successMsg: '绘制成功'
+        successMsg: '线要素绘制成功',
+        errorMsg: '线要素绘制失败'
     },
     new_curved_line: {
         //绘制曲线
         loadingMsg: '正在绘制...',
-        successMsg: '绘制成功'
+        successMsg: '线要素绘制成功',
+        errorMsg: '线要素绘制失败'
     },
     new_polygon: {
         //绘制面要素
         loadingMsg: '正在绘制...',
-        successMsg: '绘制成功'
+        successMsg: '面要素绘制成功',
+        errorMsg: '面要素绘制失败'
     },
     new_facade_rectangle: {
         //绘制两点立面矩形
         loadingMsg: '正在绘制...',
-        successMsg: '绘制成功'
+        successMsg: '面要素绘制成功',
+        errorMsg: '面要素绘制失败'
     },
     new_ground_rectangle: {
         //绘制地面矩形
         loadingMsg: '正在绘制...',
-        successMsg: '绘制成功'
+        successMsg: '面要素绘制成功',
+        errorMsg: '面要素绘制失败'
     },
     new_circle: {
         //绘制三点立面圆形
         loadingMsg: '正在绘制...',
-        successMsg: '绘制成功'
+        successMsg: '面要素绘制成功',
+        errorMsg: '面要素绘制失败'
     },
     new_vertical_matrix: {
         //绘制任意外接立面矩形
         loadingMsg: '正在绘制...',
-        successMsg: '绘制成功'
+        successMsg: '面要素绘制成功',
+        errorMsg: '面要素绘制失败'
     },
     new_point: {
         //绘制点要素
         loadingMsg: '正在绘制...',
-        successMsg: '绘制成功'
+        successMsg: '点要素绘制成功',
+        errorMsg: '点要素绘制失败'
     },
     break_line: {
         //打断线要素 齐打断线要素

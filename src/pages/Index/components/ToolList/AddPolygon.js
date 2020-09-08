@@ -15,7 +15,7 @@ class AddPolygon extends React.Component {
             <div id="add-polygon-btn" className="flex-1" onClick={this.action}>
                 <ToolIcon icon="xiankuang1" />
                 <div>绘制面要素</div>
-                <AdMessage visible={visible} content={this.content()} />
+                <AdMessage visible={visible && DataLayerStore.isMessage} content={this.content()} />
             </div>
         );
     }

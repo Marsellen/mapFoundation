@@ -11,13 +11,10 @@ class AddCurvedLine extends React.Component {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'new_curved_line';
         return (
-            <div
-                id="add-curved-line-btn"
-                className="flex-1"
-                onClick={this.action}>
+            <div id="add-curved-line-btn" className="flex-1" onClick={this.action}>
                 <ToolIcon icon="huizhiquxian" />
                 <div>绘制曲线</div>
-                <AdMessage visible={visible} content={this.content()} />
+                <AdMessage visible={visible && DataLayerStore.isMessage} content={this.content()} />
             </div>
         );
     }

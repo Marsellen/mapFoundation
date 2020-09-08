@@ -41,6 +41,7 @@ class DataLayerStore {
     @observable updateKey;
     @observable brushDisadled = true;
     @observable isQcOpen = false;
+    @observable isMessage = true;
 
     initEditor = layers => {
         this.editor = new EditControl();
@@ -244,6 +245,7 @@ class DataLayerStore {
         this.unPick();
         this.UnQCAttrModal(['error_layer', 'choose_error_feature']);
         this.attributeBrushPick();
+        this.showMessage();
     };
 
     @action setEditType = type => {
@@ -464,6 +466,14 @@ class DataLayerStore {
             window.map.enableRotate();
             this.disableRegionSelect();
         }
+    };
+
+    @action hideMessage = () => {
+        this.isMessage = false;
+    };
+
+    @action showMessage = () => {
+        this.isMessage = true;
     };
 
     newVerticalMatrix = () => {
