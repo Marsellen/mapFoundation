@@ -33,7 +33,7 @@ class SetStepSize extends React.Component {
         return (
             <div className="SetStepSize">
                 <div className="SetStepSize-top">
-                    <StepSize activeTaskId={activeTaskId} />
+                    <StepSize activeTaskId={activeTaskId} key={this.state.clicked} />
                 </div>
                 <div className="SetStepSize-content">
                     <p>相关快捷键：</p>
