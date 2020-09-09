@@ -60,7 +60,8 @@ export const EDIT_MESSAGE = {
     delete: {
         //删除几何要素
         loadingMsg: '正在删除...',
-        successMsg: '删除成功'
+        successMsg: '删除成功',
+        errorMsg: '删除失败：'
     },
     merge_line: {
         //合并线要素
