@@ -200,7 +200,7 @@ const breakLineByLine = async (line, features, activeTask) => {
     };
     await updateFeatures(historyLog);
 
-    message.success({ content: result.message, duration: 1, key: 'create_line_break_line' });
+    message.success({ content: result.message, duration: 1, key: 'break_line_by_line' });
     return historyLog;
 };
 
@@ -231,14 +231,7 @@ const lineToStop = async (features, stopLine, layerName, activeTask) => {
         features: [features, newFeatures]
     };
 
-    await updateFeatures(historyLog);
-
-    message.success({
-        content: result.message,
-        key: 'line_snap_stop',
-        duration: 3
-    });
-    return historyLog;
+    return { historyLog, result };
 };
 
 /**
@@ -396,8 +389,6 @@ const autoCreateLine = async (layerName, params) => {
         rels: [[], uniqRels(rels)]
     };
 
-    await updateFeatures(historyLog);
-
     return historyLog;
 };
 
@@ -428,8 +419,6 @@ const autoCreateLineByLaneDivider = async (layerName, params) => {
         features: [[], newFeatures],
         rels: [[], uniqRels(rels)]
     };
-
-    await updateFeatures(historyLog);
 
     return historyLog;
 };

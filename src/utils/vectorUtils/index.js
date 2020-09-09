@@ -120,17 +120,6 @@ const toLineStringGeojson = geojson => {
     }
 };
 
-export const regionCheck = data => {
-    let isLocal = TaskStore.activeTask.isLocal;
-    if (isLocal) return;
-    //判断要素是否在任务范围内
-    const elementGeojson = _.cloneDeep(data.data);
-    let isInRegion = isRegionContainsElement(elementGeojson, DataLayerStore.regionGeojson);
-    if (!isInRegion) {
-        throw new Error('绘制失败，请在任务范围内绘制');
-    }
-};
-
 /*
  * 判断要素是否在任务范围内，返回true/false
  * @param element 要素的geojson

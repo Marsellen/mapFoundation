@@ -14,7 +14,7 @@ import { updateFeatures } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
 import AddLRLaneDriverRel from './AddRelModal/AddLRLaneDriverRel';
 import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
-import { logDecorator } from 'src/utils/decorator';
+import { logDecorator, editInputLimit } from 'src/utils/decorator';
 import AttributeStore from 'src/pages/Index/store/AttributeStore';
 
 import 'less/components/tool-icon.less';
@@ -155,6 +155,7 @@ class AddRel extends React.Component {
         this.newRel(result);
     };
 
+    @editInputLimit({ editType: 'new_rel' })
     @logDecorator({ operate: '新建关联关系', onlyRun: true })
     async newRel(result) {
         try {

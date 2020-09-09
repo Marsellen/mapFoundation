@@ -3,9 +3,9 @@ import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { Icon, message } from 'antd';
-import { autoCreateLineByLaneDivider } from 'src/utils/relCtrl/operateCtrl';
+import { autoCreateLineByLaneDivider, updateFeatures } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
-import { logDecorator } from 'src/utils/decorator';
+import { logDecorator, editInputLimit, editOutputLimit } from 'src/utils/decorator';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import 'less/components/tool-icon.less';
 
@@ -26,9 +26,13 @@ const TIPS_MAP = {
 @inject('AttributeStore')
 @observer
 class DividerToAutoCreate extends React.Component {
-    state = {
-        visible: false
-    };
+    constructor(props) {
+        super(props);
+        this.addLines = this.addLines.bind(this);
+        this.state = {
+            visible: false
+        };
+    }
 
     componentDidMount() {
         const { DataLayerStore } = this.props;
@@ -67,6 +71,7 @@ class DividerToAutoCreate extends React.Component {
         this.setState({ visible: true });
     };
 
+    @editInputLimit({ editType: 'new_around_line' })
     @logDecorator({ operate: ACTION_MAP })
     async createLineByDivider(result) {
         const { DataLayerStore } = this.props;
@@ -112,11 +117,9 @@ class DividerToAutoCreate extends React.Component {
         const { DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();
         let layerName = editLayer && editLayer.layerName;
-
         let historyLog = await autoCreateLineByLaneDivider(layerName, params);
-
+        await this.drawLine(historyLog.features[1], historyLog);
         this.activeLine(layerName, historyLog);
-
         let layerNameCN = DATA_LAYER_MAP[layerName].label;
         message.success({
             content: `${layerNameCN}生成成功`,
@@ -124,6 +127,11 @@ class DividerToAutoCreate extends React.Component {
             duration: 3
         });
         return historyLog;
+    }
+
+    @editOutputLimit()
+    async drawLine(outputData, historyLog) {
+        await updateFeatures(historyLog);
     }
 
     // 显示新构建出的道路线并为选中状态

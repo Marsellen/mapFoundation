@@ -54,7 +54,7 @@ class TextStore {
         if (!layerGroup) return;
         const { layers } = layerGroup;
         const { layer } = layers.find(item => item.layerName === key) || {};
-        layer.removeAllConfigTexts();
+        layer && layer.removeAllConfigTexts();
     };
 
     @action toggleLayerTextConfig = (key, checked) => {

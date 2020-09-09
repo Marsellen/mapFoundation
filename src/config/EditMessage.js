@@ -52,7 +52,7 @@ export const EDIT_MESSAGE = {
         loadingMsg: '正在打断...',
         errorMsg: '打断失败：'
     },
-    create_line_break_line: {
+    break_line_by_line: {
         //拉线齐打断线要素
         loadingMsg: '正在拉线齐打断...',
         errorMsg: '拉线齐打断失败：'

@@ -3,12 +3,12 @@ import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { Icon, message } from 'antd';
-import { autoCreateLine } from 'src/utils/relCtrl/operateCtrl';
+import { autoCreateLine, updateFeatures } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
 import 'less/components/tool-icon.less';
 import 'less/components/uturn-line.less';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
-import { logDecorator } from 'src/utils/decorator';
+import { logDecorator, editInputLimit, editOutputLimit } from 'src/utils/decorator';
 
 const ACTION_MAP = {
     AD_Lane: '路口内直行中心线生成',
@@ -51,6 +51,7 @@ class NewStraightLine extends React.Component {
         );
     }
 
+    @editInputLimit({ editType: 'new_straight_line' })
     @logDecorator({ operate: ACTION_MAP })
     async handleData(result) {
         try {
@@ -104,6 +105,7 @@ class NewStraightLine extends React.Component {
         let layerNameCN = DATA_LAYER_MAP[layerName].label;
         try {
             let historyLog = await autoCreateLine(layerName, params);
+            await this.drawLine(historyLog.features[1], historyLog);
             this.activeLine(layerName, historyLog);
 
             message.success({
@@ -116,6 +118,11 @@ class NewStraightLine extends React.Component {
             throw new Error(`${layerNameCN}生成失败：${e.message}`);
         }
     };
+
+    @editOutputLimit()
+    async drawLine(outputData, historyLog) {
+        await updateFeatures(historyLog);
+    }
 
     // 显示新构建出的道路线并为选中状态
     activeLine = (layerLine, historyLog) => {
