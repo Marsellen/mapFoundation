@@ -3,6 +3,7 @@ import { Menu, Empty, Modal, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { RESOURCE_LAYER_BOUNDARY } from 'src/config/DataLayerConfig';
+import { TASK_TYPE } from 'src/config/TaskConfig';
 import 'less/components/sider.less';
 import ToolIcon from 'src/components/ToolIcon';
 import CONFIG from 'src/config';
@@ -80,12 +81,14 @@ class Task extends React.Component {
     };
 
     getTaskLabel = task => {
-        if (task.isLocal) {
-            let processName = processNameOptions.find(option => option.value === task.processName)
+        const { isLocal, processName, taskId, nodeDesc, manualStatusDesc, task_sub_type } = task;
+        if (isLocal) {
+            let processNameLabel = processNameOptions.find(option => option.value === processName)
                 .label;
-            return `${task.taskId}-${processName}`;
+            return `${taskId}-${processNameLabel}`;
         }
-        return `${task.taskId}-${task.nodeDesc}-${task.manualStatusDesc}`;
+        const taskSubTypeLabel = TASK_TYPE[task_sub_type] || '底图新增';
+        return `${taskId}-${taskSubTypeLabel}-${nodeDesc}-${manualStatusDesc}`;
     };
 
     chooseTask = (e, id, isEdit) => {
