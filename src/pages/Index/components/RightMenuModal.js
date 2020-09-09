@@ -408,9 +408,9 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
     };
 
-    @logDecorator({ operate: '删除要素' })
+    @logDecorator({ operate: '删除要素', loading: true })
     async deleteFeatureHandler() {
-        const { RightMenuStore, DataLayerStore } = this.props;
+        const { RightMenuStore } = this.props;
         let result = RightMenuStore.delete();
         let historyLog = await deleteLine(result, TaskStore.activeTask);
         AttributeStore.hideRelFeatures();

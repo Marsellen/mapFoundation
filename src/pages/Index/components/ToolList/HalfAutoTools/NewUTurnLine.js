@@ -164,7 +164,7 @@ class NewUTurnLine extends React.Component {
     };
 
     // 新建
-    @logDecorator({ operate: ACTION_MAP, loading: true })
+    @logDecorator({ operate: ACTION_MAP })
     async addLines(params) {
         const { DataLayerStore } = this.props;
         let editLayer = DataLayerStore.getEditLayer();

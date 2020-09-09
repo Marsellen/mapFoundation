@@ -51,7 +51,7 @@ class NewStraightLine extends React.Component {
         );
     }
 
-    @logDecorator({ operate: ACTION_MAP, loading: true })
+    @logDecorator({ operate: ACTION_MAP })
     async handleData(result) {
         try {
             const { DataLayerStore } = this.props;
