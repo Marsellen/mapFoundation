@@ -19,7 +19,7 @@ import MarkerVectorsConfig from 'src/config/MarkerVectorsConfig';
 import 'less/components/viz-component.less';
 // import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
-import { regionCheck, modUpdStatGeometry, checkSdkError } from 'src/utils/vectorUtils';
+import { modUpdStatGeometry, checkSdkError } from 'src/utils/vectorUtils';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { shortcut } from 'src/utils/shortcuts';
 import { installMapListener } from 'src/utils/map/event';
@@ -28,7 +28,7 @@ import editLog from 'src/models/editLog';
 import { isManbuildTask, statisticsTime, windowObserver } from 'src/utils/taskUtils';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
 import axios from 'axios';
-import { logDecorator } from 'src/utils/decorator';
+import { logDecorator, editOutputLimit } from 'src/utils/decorator';
 import RenderModeStore from 'src/pages/Index/store/RenderModeStore';
 import ResourceLayerStore from 'src/pages/Index/store/ResourceLayerStore';
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
@@ -58,6 +58,8 @@ import { TASK_MODE_MAP } from 'src/config/RenderModeConfig';
 class VizComponent extends React.Component {
     constructor(props) {
         super(props);
+        this.createdCallBack = this.createdCallBack.bind(this);
+        this.handleCreatedCallBack = this.handleCreatedCallBack.bind(this);
     }
 
     componentDidMount = async () => {
@@ -401,12 +403,8 @@ class VizComponent extends React.Component {
             //判断任务范围是否成功加载
             const regionLayerFeatures = window.vectorLayer.getAllFeatures();
             if (regionLayerFeatures.length === 0) message.warning('没有任务范围框');
-            //保存任务范围geojson
-            let { activeTask } = TaskStore;
-            if (!activeTask.isLocal) {
-                const getRegionRes = vectorLayer.getVectorData();
-                DataLayerStore.setRegionGeojson(getRegionRes.features[0]);
-            }
+            //不同任务类型，不同落点限制
+            TaskStore.activeTask.processLimit();
 
             return {
                 layerName: RESOURCE_LAYER_TASK_SCOPE,
@@ -577,12 +575,7 @@ class VizComponent extends React.Component {
                 PictureShowStore.show('TraceListLayer');
             }
             // 属性刷置灰
-            if (
-                result.length === 1 &&
-                editLayer &&
-                editLayer.layerName === result[0].layerName &&
-                editLayer.layerId === result[0].layerId
-            ) {
+            if (result.length === 1 && editLayer && editLayer.layerName === result[0].layerName) {
                 DataLayerStore.unAttributeBrushPick();
             } else {
                 DataLayerStore.attributeBrushPick();
@@ -630,32 +623,34 @@ class VizComponent extends React.Component {
         try {
             //判断是否绘制成功
             checkSdkError(result);
-
+            //更新要素
             data = await DataLayerStore.updateResult(result);
-            regionCheck(data);
-
-            // 请求id服务，申请id
-            data = await NewFeatureStore.init(data, isManbuildTask());
-            //新建标记点时默认给质检人员属性值
-            data = DataLayerStore.updateQCPerson(data);
-            // 更新id到sdk
-            DataLayerStore.updateFeature(data);
+            await this.handleCreatedCallBack(data);
             let history = { features: [[], [data]] };
-            showAttributesModal(data);
             return history;
         } catch (e) {
             if (data) {
                 let layer = DataLayerStore.getEditLayer();
                 layer && layer.layer.removeFeatureById(data.uuid);
             }
-
             //如果是标注图层，报错应退出图层
             const editLayerName = DataLayerStore.getEditLayerName();
             const isMarkerLayer = editLayerName === 'AD_Marker';
             isMarkerLayer && DataLayerStore.exitMarker();
-
             throw e;
         }
+    }
+
+    @editOutputLimit()
+    async handleCreatedCallBack(data) {
+        // 请求id服务，申请id
+        data = await NewFeatureStore.init(data, isManbuildTask());
+        //新建标记点时默认给质检人员属性值
+        data = DataLayerStore.updateQCPerson(data);
+        // 更新id到sdk
+        DataLayerStore.updateFeature(data);
+        //显示要素属性窗口
+        showAttributesModal(data);
     }
 
     @logDecorator({ operate: '修改要素几何', skipRenderMode: true })
@@ -665,7 +660,6 @@ class VizComponent extends React.Component {
             //判断是否绘制成功
             checkSdkError(result);
 
-            regionCheck(result);
             if (DataLayerStore.editType === 'change_points') {
                 message.success('修改形状点完成，需检查数据的关联关系正确性');
             }

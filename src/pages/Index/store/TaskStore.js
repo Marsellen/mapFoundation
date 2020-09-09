@@ -34,6 +34,10 @@ import {
     TASK_REFIX_STATUS
 } from 'src/config/TaskConfig';
 import { UPDATE_BOUNDARY_PARAM_MAP } from 'src/config/TaskConfig';
+import LocalTask from 'src/utils/Task/LocalTask';
+import AddTask from 'src/utils/Task/AddTask';
+import UpdateTask from 'src/utils/Task/UpdateTask';
+import ModifyTask from 'src/utils/Task/ModifyTask';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -134,17 +138,32 @@ class TaskStore {
         }
     });
 
+    getActiveTask = () => {
+        switch (this.activeTask.task_sub_type) {
+            case 'local':
+                return new LocalTask(this.activeTask);
+            case 100: //底图新增
+                return new AddTask(this.activeTask);
+            case 101: //底图更新
+                return new UpdateTask(this.activeTask);
+            case 102: //单点问题修正
+                return new ModifyTask(this.activeTask);
+            default:
+                return new AddTask(this.activeTask);
+        }
+    };
+
     // 任务切换
     setActiveTask = flow(function* (id) {
         if (id && this.activeTaskId !== id) {
             yield statisticsTime(1);
             yield statisticsTime(3);
         }
-
         if (this.validTasks && this.validTasks.length && id) {
             this.activeTask = this.validTasks.find(item => {
                 return item.taskId === id;
             });
+            this.activeTask = this.getActiveTask();
             this.activeTask.firstTime = false;
         } else {
             this.activeTask = {};
@@ -478,8 +497,10 @@ class TaskStore {
             ...task,
             projectId: 1,
             isLocal: true,
-            firstTime: true
+            firstTime: true,
+            task_sub_type: 'local'
         };
+        this.activeTask = this.getActiveTask();
         this.localTasks.push(this.activeTask);
         this.LocalTaskCallback && this.LocalTaskCallback(this.activeTask);
     });

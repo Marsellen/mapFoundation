@@ -3,7 +3,7 @@ import { Icon, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
 import AdMessage from 'src/components/AdMessage';
-import { regionCheck, checkSdkError, getAllChooseLayersExByName } from 'src/utils/vectorUtils';
+import { checkSdkError, getAllChooseLayersExByName } from 'src/utils/vectorUtils';
 
 @inject('appStore')
 @inject('AttributeStore')
@@ -55,8 +55,6 @@ class QCMarkerTool extends React.Component {
         try {
             //判断是否绘制成功
             checkSdkError(result);
-            //判断是否在任务范围内
-            regionCheck(result);
             //退出编辑工具
             exitEdit();
             //打开质检标注属性窗口

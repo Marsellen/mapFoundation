@@ -5,7 +5,7 @@ import AdMessage from 'src/components/AdMessage';
 import { inject, observer } from 'mobx-react';
 import { batchAssignment } from 'src/utils/relCtrl/operateCtrl';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
-import { logDecorator } from 'src/utils/decorator';
+import { logDecorator, editInputLimit } from 'src/utils/decorator';
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
 
@@ -173,7 +173,7 @@ class BatchAssignLaneNo extends React.Component {
         const { step } = this.state;
         this.result = result;
         if (step === 1) {
-            this.handleAssign(event);
+            this.handleAssign(result[0], event);
             this.setState({
                 step: 0,
                 messageVisible: false,
@@ -182,8 +182,9 @@ class BatchAssignLaneNo extends React.Component {
         }
     };
 
+    @editInputLimit({ editType: 'assign_line_batch' })
     @logDecorator({ operate: '批量赋值车道分组编号', loading: true })
-    async handleAssign(event) {
+    async handleAssign(inputData, event) {
         if (event.button !== 2) return;
         try {
             const { activeTask } = TaskStore;

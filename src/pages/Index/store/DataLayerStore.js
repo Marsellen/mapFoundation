@@ -191,7 +191,7 @@ class DataLayerStore {
                 this.QCMarkerCallback(result, event);
             } else {
                 switch (this.editType) {
-                    case 'create_line_break_line':
+                    case 'break_line_by_line':
                         this.breakByLineCallback(result);
                         break;
                     case 'copy_line':
@@ -333,8 +333,6 @@ class DataLayerStore {
         this.setEditType('attribute_brush');
         this.changeCur();
         this.editor.selectFeature(1);
-        let editLayer = this.getEditLayer();
-        this.editor.setTargetLayers([editLayer]);
     };
 
     newPolygon = () => {
@@ -929,7 +927,7 @@ class DataLayerStore {
 
     createBreakLine = () => {
         if (!this.editor) return;
-        this.setEditType('create_line_break_line');
+        this.setEditType('break_line_by_line');
         this.changeCur();
         this.editor.newFixLine(2);
     };

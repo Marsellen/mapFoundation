@@ -1,14 +1,8 @@
 import { observable, configure, action } from 'mobx';
-import {
-    DATA_LAYER_MAP,
-    TOP_VIEW_DISABLED_LAYERS
-} from 'src/config/DataLayerConfig';
+import { DATA_LAYER_MAP, TOP_VIEW_DISABLED_LAYERS } from 'src/config/DataLayerConfig';
 import DataLayerStore from './DataLayerStore';
 import VectorsStore from './VectorsStore';
-import {
-    getEditLayerDisabled,
-    getLayerEditAble
-} from 'src/utils/permissionCtrl';
+import { getEditLayerDisabled, getLayerEditAble } from 'src/utils/permissionCtrl';
 
 configure({ enforceActions: 'always' });
 class RightMenuStore {
@@ -47,20 +41,11 @@ class RightMenuStore {
         let layerName = this.features[0].layerName;
         // 判断图层是否可用设置为编辑图层
         if (getEditLayerDisabled(layerName)) return;
-        // 判断被选中要素是否为周边底图数据
-        let boundaryLayerIds = VectorsStore.getBoundaryLayerIds();
-        const isBoundaryFeature = this.features.some(item => {
-            return boundaryLayerIds.includes(item.layerId);
-        });
-        if (isBoundaryFeature) return;
 
         const featuresL = this.features.length;
         if (featuresL == 1) {
             // 俯视图模式禁用立面图层 ‘设置为可编辑图层’ 按钮
-            if (
-                !DataLayerStore.isTopView ||
-                !TOP_VIEW_DISABLED_LAYERS.includes(layerName)
-            ) {
+            if (!DataLayerStore.isTopView || !TOP_VIEW_DISABLED_LAYERS.includes(layerName)) {
                 this.menus = ['setEditLayer'];
             }
         }
@@ -95,24 +80,18 @@ class RightMenuStore {
             case 1:
                 rightTools = DATA_LAYER_MAP[layerName].rightTools;
                 if (!event) {
-                    rightTools = rightTools.flatMap(item =>
-                        item === 'forceDelete' ? [] : [item]
-                    );
+                    rightTools = rightTools.flatMap(item => (item === 'forceDelete' ? [] : [item]));
                 }
                 break;
             case 2:
                 //所选要素数量等于2时，隐藏批量线合并
                 rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
-                rightTools = rightTools.flatMap(item =>
-                    item === 'batchMerge' ? [] : [item]
-                );
+                rightTools = rightTools.flatMap(item => (item === 'batchMerge' ? [] : [item]));
                 break;
             default:
                 //所选要素数量大于2时，隐藏合并
                 rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
-                rightTools = rightTools.flatMap(item =>
-                    item === 'merge' ? [] : [item]
-                );
+                rightTools = rightTools.flatMap(item => (item === 'merge' ? [] : [item]));
                 break;
         }
         return rightTools;

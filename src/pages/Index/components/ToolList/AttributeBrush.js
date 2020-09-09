@@ -2,7 +2,7 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { copyAttributeLines } from 'src/utils/relCtrl/operateCtrl';
 import { inject, observer } from 'mobx-react';
-import { logDecorator } from 'src/utils/decorator';
+import { logDecorator, editInputLimit } from 'src/utils/decorator';
 import AdMessage from 'src/components/AdMessage';
 import { message } from 'antd';
 
@@ -64,11 +64,12 @@ class AttributeBrush extends React.Component {
 
     attributeBrushCallback = async (result, event) => {
         if (event.button !== 2) return;
-        this.attributeBrush(result, event);
+        this.attributeBrush(result[1], result, event);
     };
 
+    @editInputLimit({ editType: 'attribute_brush' })
     @logDecorator({ operate: '属性刷' })
-    async attributeBrush(result, event) {
+    async attributeBrush(inputData, result) {
         try {
             const { DataLayerStore } = this.props;
             const { TaskStore } = this.props;

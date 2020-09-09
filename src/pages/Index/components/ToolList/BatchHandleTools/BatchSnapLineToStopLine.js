@@ -3,8 +3,8 @@ import { message } from 'antd';
 import ToolIcon from 'src/components/ToolIcon';
 import AdMessage from 'src/components/AdMessage';
 import { inject, observer } from 'mobx-react';
-import { lineToStop } from 'src/utils/relCtrl/operateCtrl';
-import { logDecorator } from 'src/utils/decorator';
+import { lineToStop, updateFeatures } from 'src/utils/relCtrl/operateCtrl';
+import { logDecorator, editInputLimit, editOutputLimit } from 'src/utils/decorator';
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
 import AttributeStore from 'src/pages/Index/store/AttributeStore';
@@ -99,7 +99,7 @@ class BatchSnapLineToStopLine extends React.Component {
         const { step } = this.state;
         this.result = result;
         if (step === 1) {
-            this.handleSnap(event);
+            this.handleSnap(result[0], event);
             this.setState({
                 step: 0,
                 visible: false,
@@ -108,8 +108,9 @@ class BatchSnapLineToStopLine extends React.Component {
         }
     };
 
+    @editInputLimit({ editType: 'line_snap_stop' })
     @logDecorator({ operate: '线要素对齐到停止线', loading: true })
-    async handleSnap(event) {
+    async handleSnap(inputData, event) {
         if (event.button !== 2) return;
         try {
             const { activeTask } = TaskStore;
@@ -118,12 +119,28 @@ class BatchSnapLineToStopLine extends React.Component {
             if (!stopLine) {
                 throw new Error('没有做对齐处理');
             }
-            let historyLog = await lineToStop(features, stopLine, layerName, activeTask);
+            let { historyLog, result } = await lineToStop(
+                features,
+                stopLine,
+                layerName,
+                activeTask
+            );
+            await this.drawLine(historyLog.features[1], historyLog);
+            message.success({
+                content: result.message,
+                key: 'line_snap_stop',
+                duration: 3
+            });
             return historyLog;
         } catch (e) {
             this.removeEventListener();
             throw e;
         }
+    }
+
+    @editOutputLimit()
+    async drawLine(outputData, historyLog) {
+        await updateFeatures(historyLog);
     }
 
     action = () => {

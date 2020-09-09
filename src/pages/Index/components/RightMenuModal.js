@@ -19,7 +19,7 @@ import {
     layerUpdateFeatures
 } from 'src/utils/vectorUtils';
 import { isManbuildTask } from 'src/utils/taskUtils';
-import { logDecorator } from 'src/utils/decorator';
+import { logDecorator, editInputLimit, editOutputLimit } from 'src/utils/decorator';
 import BatchAssignStore from 'src/pages/Index/store/BatchAssignStore';
 import ToolCtrlStore from 'src/pages/Index/store/ToolCtrlStore';
 import appStore from 'src/store/appStore';
@@ -35,7 +35,7 @@ const EDIT_TYPE = [
     'change_points',
     'break_line',
     'reverse_order_line',
-    'create_line_break_line'
+    'break_line_by_line'
 ];
 
 const CHINESE_EDIT_TYPE = [
@@ -60,7 +60,7 @@ const CHINESE_EDIT_TYPE = [
         value: '点击进行线要素逆序'
     },
     {
-        type: 'create_line_break_line',
+        type: 'break_line_by_line',
         value: '两点绘制一条打断线，右键执行打断'
     }
 ];
@@ -71,6 +71,18 @@ const CHINESE_EDIT_TYPE = [
 class RightMenuModal extends React.Component {
     componentDidMount() {
         this.installListener();
+        this.changePoints = this.changePoints.bind(this);
+        this.deleteFeature = this.deleteFeature.bind(this);
+        this.forceDeleteFeature = this.forceDeleteFeature.bind(this);
+        this.copyLine = this.copyLine.bind(this);
+        this.movePointFeature = this.movePointFeature.bind(this);
+        this.breakLine = this.breakLine.bind(this);
+        this.reverseOrderLine = this.reverseOrderLine.bind(this);
+        this.mergeLine = this.mergeLine.bind(this);
+        this.batchMergeLine = this.batchMergeLine.bind(this);
+        this.batchAssign = this.batchAssign.bind(this);
+        this.breakByLine = this.breakByLine.bind(this);
+        this.trim = this.trim.bind(this);
     }
 
     render() {
@@ -305,13 +317,13 @@ class RightMenuModal extends React.Component {
         return historyLog;
     }
 
+    @editOutputLimit({ editType: 'copy_line' })
     @logDecorator({ operate: '复制线要素', skipRenderMode: true })
     async copyLineCallback(result) {
         const { DataLayerStore, RightMenuStore } = this.props;
         let data;
         try {
             checkSdkError(result);
-            this.regionCheck(result);
             let feature = RightMenuStore.getFeatures()[0];
             let IDKey = getLayerIDKey(feature.layerName);
             {
@@ -352,7 +364,6 @@ class RightMenuModal extends React.Component {
     @logDecorator({ operate: '平移点要素', skipRenderMode: true })
     async movePointFeatureHandler(result, oldFeature) {
         try {
-            this.regionCheck(result);
             // 更新标识
             if (!isManbuildTask()) {
                 result = modUpdStatGeometry(result);
@@ -369,18 +380,6 @@ class RightMenuModal extends React.Component {
         }
     }
 
-    regionCheck = data => {
-        const { DataLayerStore } = this.props;
-        let isLocal = TaskStore.activeTask.isLocal;
-        if (isLocal) return;
-        //判断要素是否在任务范围内
-        const elementGeojson = _.cloneDeep(data.data);
-        let isInRegion = isRegionContainsElement(elementGeojson, DataLayerStore.regionGeojson);
-        if (!isInRegion) {
-            throw new Error('绘制失败，请在任务范围内绘制');
-        }
-    };
-
     setEditLayerFeature = () => {
         //设置可编辑图层交互
         const { RightMenuStore, DataLayerStore } = this.props;
@@ -393,7 +392,8 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
     };
 
-    deleteFeature = () => {
+    @editInputLimit({ editType: 'delete', isRightMenu: true })
+    deleteFeature() {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble()) {
@@ -406,7 +406,7 @@ class RightMenuModal extends React.Component {
         DataLayerStore.setEditType('delete');
         this.deleteFeatureHandler();
         RightMenuStore.hide();
-    };
+    }
 
     @logDecorator({ operate: '删除要素', loading: true })
     async deleteFeatureHandler() {
@@ -418,7 +418,8 @@ class RightMenuModal extends React.Component {
         return historyLog;
     }
 
-    forceDeleteFeature = () => {
+    @editInputLimit({ editType: 'force_delete', isRightMenu: true })
+    forceDeleteFeature() {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble()) {
@@ -439,7 +440,7 @@ class RightMenuModal extends React.Component {
             }
         });
         RightMenuStore.hide();
-    };
+    }
 
     @logDecorator({ operate: '强制删除要素' })
     async forceDeleteFeatureHandler() {
@@ -452,7 +453,8 @@ class RightMenuModal extends React.Component {
         return historyLog;
     }
 
-    copyLine = () => {
+    @editInputLimit({ editType: 'copy_line', isRightMenu: true })
+    copyLine() {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble()) {
@@ -465,9 +467,10 @@ class RightMenuModal extends React.Component {
         DataLayerStore.dragCopyedFeature();
         RightMenuStore.hide();
         AttributeStore.hideRelFeatures();
-    };
+    }
 
-    changePoints = () => {
+    @editInputLimit({ editType: 'change_points', isRightMenu: true })
+    changePoints() {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble()) {
@@ -481,9 +484,10 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
-    };
+    }
 
-    movePointFeature = () => {
+    @editInputLimit({ editType: 'move_point_feature', isRightMenu: true })
+    movePointFeature() {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble()) {
@@ -497,9 +501,10 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
-    };
+    }
 
-    breakLine = () => {
+    @editInputLimit({ editType: 'break_line', isRightMenu: true })
+    breakLine() {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble()) {
@@ -513,9 +518,10 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
-    };
+    }
 
-    reverseOrderLine = () => {
+    @editInputLimit({ editType: 'reverse_order_line', isRightMenu: true })
+    reverseOrderLine() {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble()) {
@@ -527,7 +533,7 @@ class RightMenuModal extends React.Component {
         }
         this.reverseOrderLineHandler();
         RightMenuStore.hide();
-    };
+    }
 
     @logDecorator({ operate: '线要素逆序' })
     reverseOrderLineHandler() {
@@ -553,7 +559,8 @@ class RightMenuModal extends React.Component {
         }
     }
 
-    mergeLine = () => {
+    @editInputLimit({ editType: 'merge_line', isRightMenu: true })
+    mergeLine() {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble()) {
@@ -568,7 +575,7 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
-    };
+    }
 
     @logDecorator({ operate: '合并线要素', loading: true })
     async mergeLineHandler() {
@@ -578,7 +585,8 @@ class RightMenuModal extends React.Component {
         return historyLog;
     }
 
-    batchMergeLine = () => {
+    @editInputLimit({ editType: 'batch_merge_line', isRightMenu: true })
+    batchMergeLine() {
         const { RightMenuStore, DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble()) {
@@ -593,7 +601,7 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
-    };
+    }
 
     @logDecorator({ operate: '批量线合并', loading: true })
     async batchMergeLineHandler() {
@@ -603,7 +611,8 @@ class RightMenuModal extends React.Component {
         return historyLog;
     }
 
-    batchAssign = () => {
+    @editInputLimit({ editType: 'batch_assign', isRightMenu: true })
+    batchAssign() {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble()) {
@@ -617,9 +626,10 @@ class RightMenuModal extends React.Component {
         BatchAssignStore.show(features);
         RightMenuStore.hide();
         AttributeStore.hide();
-    };
+    }
 
-    breakByLine = () => {
+    @editInputLimit({ editType: 'break_line_by_line', isRightMenu: true })
+    breakByLine() {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble()) {
@@ -633,7 +643,7 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
-    };
+    }
 
     @logDecorator({ operate: '拉线齐打断', onlyRun: true })
     breakByLineCallback(result) {
@@ -654,7 +664,8 @@ class RightMenuModal extends React.Component {
         return historyLog;
     }
 
-    trim = () => {
+    @editInputLimit({ editType: 'trim', isRightMenu: true })
+    trim() {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble()) {
@@ -668,7 +679,7 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
-    };
+    }
 
     checkDisabled = () => {
         const { RightMenuStore } = this.props;

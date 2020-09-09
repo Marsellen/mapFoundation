@@ -26,7 +26,8 @@ class AddLRLaneDriverRel extends React.Component {
                 okText="确定"
                 cancelText="取消"
                 maskClosable={false}
-                width={400}>
+                width={400}
+            >
                 {this.renderContent()}
             </Modal>
         );
