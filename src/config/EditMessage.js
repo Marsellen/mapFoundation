@@ -73,10 +73,6 @@ export const EDIT_MESSAGE = {
         loadingMsg: '正在批量合并...',
         errorMsg: '批量线合并失败：'
     },
-    new_rel: {
-        //新建关联关系
-        loadingMsg: '正在新建关联关系...'
-    },
     del_rel: {
         //删除关联关系
         loadingMsg: '正在删除关联关系...',

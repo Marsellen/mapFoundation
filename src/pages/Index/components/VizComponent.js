@@ -616,7 +616,7 @@ class VizComponent extends React.Component {
         }
     };
 
-    @logDecorator({ operate: '新建要素', skipRenderMode: true, loading: true })
+    @logDecorator({ operate: '新建要素', skipRenderMode: true })
     async createdCallBack(result) {
         //console.log(result);
         let data;

@@ -77,7 +77,7 @@ class DefineModeStore {
         if (!window.boundaryLayerGroup) return;
         const { layers } = window.boundaryLayerGroup;
         const { layer } = layers.find(item => item.layerName === key) || {};
-        layer.resetConfig(config);
+        layer && layer.resetConfig(config);
     };
 
     //处理颜色，将rgba转成rgb+opacity
