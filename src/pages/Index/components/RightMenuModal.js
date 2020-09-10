@@ -78,6 +78,7 @@ class RightMenuModal extends React.Component {
         this.batchAssign = this.batchAssign.bind(this);
         this.breakByLine = this.breakByLine.bind(this);
         this.trim = this.trim.bind(this);
+        this.copyLineHandle = this.copyLineHandle.bind(this);
     }
 
     render() {
@@ -312,40 +313,42 @@ class RightMenuModal extends React.Component {
         return historyLog;
     }
 
-    @editOutputLimit({ editType: 'copy_line' })
     @logDecorator({ operate: '复制线要素', skipRenderMode: true })
     async copyLineCallback(result) {
-        const { DataLayerStore, RightMenuStore } = this.props;
-        let data;
         try {
             checkSdkError(result);
-            let feature = RightMenuStore.getFeatures()[0];
-            let IDKey = getLayerIDKey(feature.layerName);
-            {
-                delete feature.data.properties[IDKey];
-                delete feature.data.properties.UPD_STAT;
-                delete feature.data.properties.CONFIDENCE;
-            }
             // 请求id服务，申请id
-            data = await NewFeatureStore.init(result, isManbuildTask());
-            data.data.properties = {
-                ...data.data.properties,
-                ...feature.data.properties
-            };
-            // 更新id到sdk
-            DataLayerStore.updateFeature(data);
+            let data = await NewFeatureStore.init(result, isManbuildTask());
+            await this.copyLineHandle(data);
             let history = {
                 features: [[], [data]]
             };
             return history;
         } catch (e) {
             if (result) {
+                const { DataLayerStore } = this.props;
                 let layer = DataLayerStore.getEditLayer();
                 layer.layer.removeFeatureById(result.uuid);
             }
             message.warning('复制线要素失败：' + e.message, 3);
             throw e;
         }
+    }
+
+    @editOutputLimit({ editType: 'copy_line' })
+    async copyLineHandle(data) {
+        const { DataLayerStore, RightMenuStore } = this.props;
+        const feature = RightMenuStore.getFeatures()[0];
+        const IDKey = getLayerIDKey(feature.layerName);
+        delete feature.data.properties[IDKey];
+        delete feature.data.properties.UPD_STAT;
+        delete feature.data.properties.CONFIDENCE;
+        data.data.properties = {
+            ...data.data.properties,
+            ...feature.data.properties
+        };
+        // 更新id到sdk
+        DataLayerStore.updateFeature(data);
     }
 
     @logDecorator({ operate: '平移点要素', onlyRun: true })
