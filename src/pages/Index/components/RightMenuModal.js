@@ -12,12 +12,7 @@ import {
 import { getLayerByName, checkSdkError } from 'src/utils/vectorUtils';
 import AdMessage from 'src/components/AdMessage';
 import _ from 'lodash';
-import {
-    getLayerIDKey,
-    isRegionContainsElement,
-    modUpdStatGeometry,
-    layerUpdateFeatures
-} from 'src/utils/vectorUtils';
+import { getLayerIDKey, modUpdStatGeometry, layerUpdateFeatures } from 'src/utils/vectorUtils';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import { logDecorator, editInputLimit, editOutputLimit } from 'src/utils/decorator';
 import BatchAssignStore from 'src/pages/Index/store/BatchAssignStore';

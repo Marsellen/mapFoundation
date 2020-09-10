@@ -1,7 +1,6 @@
 import { observable, configure, action } from 'mobx';
 import { DATA_LAYER_MAP, TOP_VIEW_DISABLED_LAYERS } from 'src/config/DataLayerConfig';
 import DataLayerStore from './DataLayerStore';
-import VectorsStore from './VectorsStore';
 import { getEditLayerDisabled, getLayerEditAble } from 'src/utils/permissionCtrl';
 
 configure({ enforceActions: 'always' });
