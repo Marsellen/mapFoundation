@@ -169,14 +169,19 @@ class AddRel extends React.Component {
                 this.newRelHandler(mainFeature, relFeatures, warningMessage);
             }
         } catch (e) {
-            message.warning('新建关联关系失败：' + e.message);
+            message.warning({ content: '新建关联关系失败：' + e.message, duration: 3, key });
             throw e;
         }
     }
 
-    @logDecorator({ operate: '新建关联关系', loading: true })
+    @logDecorator({ operate: '新建关联关系' })
     async newRelHandler(mainFeature, relFeatures, warningMessage) {
         try {
+            message.loading({
+                key,
+                duration: 65,
+                content: '正在新建关联关系...'
+            });
             let { log, warningMessage: wm } = await newRel(mainFeature, relFeatures);
             if (warningMessage || wm) {
                 warningMessage = warningMessage && wm ? warningMessage + wm : warningMessage || wm;
@@ -205,9 +210,14 @@ class AddRel extends React.Component {
         }
     };
 
-    @logDecorator({ operate: '新建关联关系', loading: true })
+    @logDecorator({ operate: '新建关联关系' })
     async addLRLaneDriverRel(type, allFeatures) {
         try {
+            message.loading({
+                key,
+                duration: 65,
+                content: '正在新建关联关系...'
+            });
             let [mainFeature, relFeature] = allFeatures;
             let specConfig = REL_SPEC_CONFIG.find(config => config.relObjType === type);
             // 查询是否有重复关联关系数据

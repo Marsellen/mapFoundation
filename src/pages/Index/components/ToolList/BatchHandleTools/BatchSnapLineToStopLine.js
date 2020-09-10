@@ -109,7 +109,7 @@ class BatchSnapLineToStopLine extends React.Component {
     };
 
     @editInputLimit({ editType: 'line_snap_stop' })
-    @logDecorator({ operate: '线要素对齐到停止线', loading: true })
+    @logDecorator({ operate: '线要素对齐到停止线' })
     async handleSnap(inputData, event) {
         if (event.button !== 2) return;
         try {

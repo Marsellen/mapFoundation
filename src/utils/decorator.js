@@ -25,8 +25,8 @@ export const logDecorator = option => {
         descriptor.value = async function () {
             var log;
             const editType = DataLayerStore.editType;
-            let { operate, onlyRun, skipHistory, skipRenderMode, loading } = option;
-            if (loading && EDIT_MESSAGE[editType]) {
+            let { operate, onlyRun, skipHistory, skipRenderMode } = option;
+            if (EDIT_MESSAGE[editType] && EDIT_MESSAGE[editType].loadingMsg) {
                 message.loading({
                     key: editType,
                     duration: 65,
@@ -54,7 +54,7 @@ export const logDecorator = option => {
                     action: operate,
                     result: 'success'
                 };
-                if (loading && EDIT_MESSAGE[editType] && EDIT_MESSAGE[editType].successMsg) {
+                if (EDIT_MESSAGE[editType] && EDIT_MESSAGE[editType].successMsg) {
                     message.success({
                         key: editType,
                         duration: 1,
@@ -68,7 +68,7 @@ export const logDecorator = option => {
                     result: 'fail',
                     message: e
                 };
-                if (loading && EDIT_MESSAGE[editType] && EDIT_MESSAGE[editType].errorMsg) {
+                if (EDIT_MESSAGE[editType] && EDIT_MESSAGE[editType].errorMsg) {
                     message.error({
                         key: editType,
                         duration: 3,

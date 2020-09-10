@@ -304,7 +304,7 @@ class RightMenuModal extends React.Component {
         }
     }
 
-    @logDecorator({ operate: '线打断', loading: true })
+    @logDecorator({ operate: '线打断' })
     async breakLineHandler(result) {
         const { RightMenuStore } = this.props;
         let features = RightMenuStore.getFeatures();
@@ -403,7 +403,7 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
     }
 
-    @logDecorator({ operate: '删除要素', loading: true })
+    @logDecorator({ operate: '删除要素' })
     async deleteFeatureHandler() {
         const { RightMenuStore } = this.props;
         let result = RightMenuStore.delete();
@@ -572,7 +572,7 @@ class RightMenuModal extends React.Component {
         AttributeStore.hideRelFeatures();
     }
 
-    @logDecorator({ operate: '合并线要素', loading: true })
+    @logDecorator({ operate: '合并线要素' })
     async mergeLineHandler() {
         const { RightMenuStore } = this.props;
         let features = RightMenuStore.getFeatures();
@@ -598,7 +598,7 @@ class RightMenuModal extends React.Component {
         AttributeStore.hideRelFeatures();
     }
 
-    @logDecorator({ operate: '批量线合并', loading: true })
+    @logDecorator({ operate: '批量线合并' })
     async batchMergeLineHandler() {
         const { RightMenuStore } = this.props;
         let features = RightMenuStore.getFeatures();
@@ -651,7 +651,7 @@ class RightMenuModal extends React.Component {
         }
     }
 
-    @logDecorator({ operate: '拉线齐打断', loading: true })
+    @logDecorator({ operate: '拉线齐打断' })
     async breakByLineHandler(result) {
         const { RightMenuStore } = this.props;
         let features = RightMenuStore.getFeatures();

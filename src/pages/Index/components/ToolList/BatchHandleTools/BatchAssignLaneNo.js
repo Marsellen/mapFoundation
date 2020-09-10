@@ -183,7 +183,7 @@ class BatchAssignLaneNo extends React.Component {
     };
 
     @editInputLimit({ editType: 'assign_line_batch' })
-    @logDecorator({ operate: '批量赋值车道分组编号', loading: true })
+    @logDecorator({ operate: '批量赋值车道分组编号' })
     async handleAssign(inputData, event) {
         if (event.button !== 2) return;
         try {
