@@ -64,7 +64,8 @@ class LayerTextConfig extends React.Component {
         const { vectorTextConfig } = TextStore;
         const { key } = config;
         let { currentFontSize, currentInterval, currentOffset } = this.state;
-        let { defaultIntervalMap, defaultOffsetMap, textModeMap, defaultStyle } = vectorTextConfig[key] || {};
+        let { defaultIntervalMap, defaultOffsetMap, textModeMap, defaultStyle } =
+            vectorTextConfig[key] || {};
         let {
             textFields,
             offset,
@@ -88,7 +89,7 @@ class LayerTextConfig extends React.Component {
                     <label>注记字段：</label>
                     <CheckSelect
                         value={textFields}
-                        style={{ width: 252 }}
+                        style={{ width: 270 }}
                         onChange={val =>
                             this.updateConfig({
                                 styleKey: 'textFields',
@@ -180,7 +181,8 @@ class LayerTextConfig extends React.Component {
                                     styleKey: 'showMode',
                                     styleValue: val
                                 })
-                            }>
+                            }
+                        >
                             {Object.values(textModeMap).map(item => {
                                 const { key, label } = item;
                                 return (
@@ -259,7 +261,10 @@ class LayerTextConfig extends React.Component {
             <div>
                 <div className="config-title">
                     <div>
-                        <Icon type={checked ? 'caret-up' : 'caret-right'} className={checked ? 'blue' : ''} />
+                        <Icon
+                            type={checked ? 'caret-up' : 'caret-right'}
+                            className={checked ? 'blue' : ''}
+                        />
                         <span>{label}</span>
                     </div>
                     <Checkbox checked={checked} onChange={this.toggle}>

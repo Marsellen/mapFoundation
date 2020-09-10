@@ -61,7 +61,7 @@ class LayerVectorConfig extends React.Component {
                     <Select
                         disabled={typeArr.length === 1}
                         value={showFields}
-                        style={{ width: 227 }}
+                        style={{ width: 232 }}
                         onChange={currentShowFields =>
                             batchSetVectorConfig({
                                 key: layerName,
