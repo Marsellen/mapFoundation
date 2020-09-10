@@ -67,13 +67,7 @@ export const LOCAL_TASK_EDIT_LIMIT = {
             taskData: 'every'
         }
     },
-    // 打断线要素
-    break_line: {
-        inputLimit: {
-            taskData: 'every'
-        }
-    },
-    // 齐打断线要素
+    // 打断线要素、齐打断线要素
     break_line: {
         inputLimit: {
             taskData: 'every'
@@ -255,14 +249,7 @@ export const UPDATE_TASK_EDIT_LIMIT = {
             position: 'inside'
         }
     },
-    // 打断线要素
-    break_line: {
-        inputLimit: {
-            position: 'inside',
-            taskData: 'every'
-        }
-    },
-    // 齐打断线要素
+    // 打断线要素、齐打断线要素
     break_line: {
         inputLimit: {
             position: 'inside',

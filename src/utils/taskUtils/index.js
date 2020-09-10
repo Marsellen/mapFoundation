@@ -1,11 +1,10 @@
 import React from 'react';
-import { message, Modal } from 'antd';
+import { message } from 'antd';
 import CONFIG from 'src/config';
 import TaskStore from 'src/pages/Index/store/TaskStore';
 import OperateHistoryStore from 'src/pages/Index/store/OperateHistoryStore';
 import Relevance from 'src/models/relevance';
 import Attr from 'src/models/attr';
-import IconFont from 'src/components/IconFont';
 import editLog from 'src/models/editLog';
 import TaskService from 'src/services/TaskService';
 import { throttle } from '../utils';

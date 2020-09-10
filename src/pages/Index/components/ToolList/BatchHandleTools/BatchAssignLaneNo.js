@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Select, message } from 'antd';
+import { Modal, Select } from 'antd';
 import ToolIcon from 'src/components/ToolIcon';
 import AdMessage from 'src/components/AdMessage';
 import { inject, observer } from 'mobx-react';
