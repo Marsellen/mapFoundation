@@ -77,7 +77,7 @@ export const getTaskProcessType = () => {
         return 'recognition';
     }
 };
-export const saveTaskData = () => {
+export const saveTaskData = isAutoSave => {
     return new Promise(async resolve => {
         let hasEmptyData = await checkEmptyData();
         if (hasEmptyData) {
@@ -88,18 +88,18 @@ export const saveTaskData = () => {
             };
             editLog.add(log);
         }
-        await saveData();
+        await saveData(isAutoSave);
         resolve();
     });
 };
 
-const saveData = async () => {
+const saveData = async isAutoSave => {
     message.loading({ key: 'save', content: '正在保存...', duration: 0 });
     try {
         await statisticsTime(1);
         await TaskStore.submit();
         await TaskStore.writeEditLog();
-        OperateHistoryStore.save();
+        isAutoSave ? OperateHistoryStore.autoSave() : OperateHistoryStore.save();
         message.success({ key: 'save', content: '保存完成', duration: 2 });
     } catch (e) {
         message.error({

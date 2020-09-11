@@ -57,7 +57,7 @@ class Save extends React.Component {
         const { OperateHistoryStore } = this.props;
         let { couldSave } = OperateHistoryStore;
         if (couldSave) {
-            await saveTaskData();
+            await saveTaskData(true);
         }
     };
 
