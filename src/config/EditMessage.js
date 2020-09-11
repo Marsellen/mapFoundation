@@ -86,7 +86,7 @@ export const EDIT_MESSAGE = {
     },
     assign_line_batch: {
         //批量赋车道编号
-        loadingMsg: '正在赋车道分组编号...',
+        loadingMsg: '正在赋车道编号...',
         errorMsg: '赋车道分组编号失败：'
     }
 };
