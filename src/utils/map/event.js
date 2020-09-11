@@ -88,7 +88,7 @@ const movePointTooFarListener = () => {
 
 const pointsOutBoundaryListener = () => {
     mapEventManager().register('editor_event_points_out_boundary', e => {
-        message.warn('请在任务范围内绘制要素', 3);
+        message.warn('请在任务范围内编辑要素', 3);
     });
 };
 
