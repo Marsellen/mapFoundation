@@ -62,6 +62,7 @@ const CHINESE_EDIT_TYPE = [
 
 @inject('RightMenuStore')
 @inject('DataLayerStore')
+@inject('TaskStore')
 @observer
 class RightMenuModal extends React.Component {
     componentDidMount() {
@@ -91,7 +92,6 @@ class RightMenuModal extends React.Component {
             return <AdMessage visible={messageVisible} content={this.content()} />;
         }
         const menuList = this.menuList();
-
         return (
             <div>
                 <Modal
@@ -116,7 +116,18 @@ class RightMenuModal extends React.Component {
     }
 
     menuList = () => {
-        const { menus, zIndex } = this.props.RightMenuStore;
+        let { TaskStore } = this.props;
+
+        const { menus, zIndex, features } = this.props.RightMenuStore;
+        if (
+            TaskStore.activeTask.processName === 'imp_recognition' ||
+            TaskStore.activeTask.task_sub_type !== 'local'
+        ) {
+            if (features[0].layerName === 'AD_Lane' || features[0].layerName === 'AD_Road') {
+                return;
+            }
+        }
+
         return this.getMenus().map(menu => {
             if (menus) {
                 return menus.includes(menu.key) && menu;

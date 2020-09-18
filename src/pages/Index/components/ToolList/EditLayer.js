@@ -108,6 +108,7 @@ class EditLayer extends React.Component {
 @inject('AttributeStore')
 @inject('appStore')
 @inject('VectorsStore')
+@inject('TaskStore')
 @observer
 class EditLayerPicker extends React.Component {
     render() {
@@ -135,8 +136,7 @@ class EditLayerPicker extends React.Component {
     }
 
     topViewLayerDisabled = () => {
-        let { DataLayerStore, VectorsStore } = this.props;
-
+        let { DataLayerStore, VectorsStore, TaskStore } = this.props;
         let layers = VectorsStore.vectors.vector;
         layers = getEditLayers(layers);
         const { isTopView } = DataLayerStore;
@@ -149,6 +149,16 @@ class EditLayerPicker extends React.Component {
                 .forEach(item => {
                     item.disabled = true;
                 });
+        }
+        if (
+            TaskStore.activeTask.processName === 'imp_recognition' ||
+            TaskStore.activeTask.task_sub_type !== 'local'
+        ) {
+            layers.forEach(item => {
+                if (item.value === 'AD_Road' || item.value === 'AD_Lane') {
+                    item.disabled = true;
+                }
+            });
         }
         return layers;
     };
