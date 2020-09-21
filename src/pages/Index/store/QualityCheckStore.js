@@ -7,6 +7,7 @@ import { COLUMNS_CONFIG } from 'src/config/CheckTableConfig';
 import Resize from 'src/utils/resize';
 import _ from 'lodash';
 import { getQualityChecked } from 'src/utils/permissionCtrl';
+import sysProperties from 'src/models/sysProperties';
 
 const needFilterColumns = (() => {
     const columns = [];
@@ -19,7 +20,10 @@ const needFilterColumns = (() => {
 configure({ enforceActions: 'always' });
 class QualityCheckStore {
     resize = new Resize();
-    pollingCount = 0;
+    pollingLimit; //轮询时间上限
+    pollingInterval; //轮询间隔时间
+    pollingStartTime; //轮询开始时间
+    pollingStatus = true; //轮询状态
 
     @observable reportListInit = null;
     @observable reportList = null;
@@ -50,10 +54,6 @@ class QualityCheckStore {
         this.checkReportVisible = false;
     };
 
-    @action cancelPolling = () => {
-        this.pollingCount = 100;
-    };
-
     @action clearCheckReport = () => {
         this.reportListInit = [];
         this.reportList = [];
@@ -79,6 +79,11 @@ class QualityCheckStore {
     }).bind(this);
 
     @action handleProducerGetReport = option => {
+        const { configs: { pollingLimit = 180, pollingInterval = 2 } = {} } = sysProperties || {};
+        const currentTime = new Date();
+        this.pollingLimit = pollingLimit * 1000;
+        this.pollingInterval = pollingInterval * 1000;
+        this.pollingStartTime = currentTime.getTime();
         return new Promise(resolve => this.pollingGetReport(option, resolve));
     };
 
@@ -102,52 +107,67 @@ class QualityCheckStore {
         }
     }).bind(this);
 
+    //取消轮询
+    @action cancelPolling = () => {
+        this.pollingStatus = false;
+    };
+
+    //检查轮询状态，pollingStatus=false表示取消轮询
+    checkPollingStatus = resolve => {
+        if (this.pollingStatus) return;
+        this.pollingStartTime = 0;
+        this.pollingStatus = true;
+        resolve(false);
+        return true;
+    };
+
+    //检查轮询用时，超过限制时间，则停止轮询
+    checkPollingTime = resolve => {
+        const currentTime = new Date();
+        const pollingEndTime = currentTime.getTime();
+        const pollingTotalTime = pollingEndTime - this.pollingStartTime;
+        if (pollingTotalTime < this.pollingLimit) return;
+        this.pollingStartTime = 0;
+        this.pollingStatus = true;
+        message.error('请求超时');
+        resolve(false);
+        return true;
+    };
+
     //轮询质检结果
     @action pollingGetReport = (option, resolve) => {
-        return setTimeout(
-            (() => {
-                try {
-                    CheckService.getReport(
-                        option,
-                        res => {
-                            const { code, data, message: resMessage } = res;
-                            switch (code) {
-                                case 1:
-                                    this.pollingCount = 0;
-                                    this.handleReportRes(data, option.task_id);
-                                    resolve && resolve(data);
-                                    break;
-                                case 201:
-                                    this.pollingCount += 1;
-                                    if (this.pollingCount < 30) {
-                                        this.pollingGetReport(option, resolve);
-                                    } else {
-                                        this.pollingCount < 100 && message.error(`请求超时`);
-
-                                        this.pollingCount = 0;
-                                        resolve && resolve(false);
-                                    }
-                                    break;
-                                default:
-                                    this.pollingCount = 0;
-                                    message.warning(`${code} : ${resMessage}`);
-                                    resolve && resolve(false);
-                                    break;
-                            }
-                        },
-                        e => {
-                            const errorMsg = e.message || '';
-                            console.error('获取报表失败 ' + errorMsg);
-                            errorMsg && message.warning('获取报表失败：' + errorMsg, 3);
-                            resolve && resolve(false);
+        if (this.checkPollingStatus(resolve)) return;
+        if (this.checkPollingTime(resolve)) return;
+        setTimeout(
+            () => {
+                CheckService.getReport(
+                    option,
+                    res => {
+                        const { code, data, message: resMessage } = res;
+                        switch (code) {
+                            case 1:
+                                this.handleReportRes(data, option.task_id);
+                                resolve && resolve(data);
+                                break;
+                            case 201:
+                            case 203:
+                                this.pollingGetReport(option, resolve);
+                                break;
+                            default:
+                                message.warning(`${code} : ${resMessage}`);
+                                resolve && resolve(false);
+                                break;
                         }
-                    );
-                } catch (e) {
-                    const errorMsg = e.message || '';
-                    console.error('获取报表失败 ' + errorMsg);
-                }
-            }).bind(this),
-            1000
+                    },
+                    e => {
+                        const errorMsg = e.message || '';
+                        console.error('获取报表失败 ' + errorMsg);
+                        errorMsg && message.warning('获取报表失败：' + errorMsg, 3);
+                        resolve && resolve(false);
+                    }
+                );
+            },
+            this.pollingInterval //轮询间隔时间
         );
     };
 
