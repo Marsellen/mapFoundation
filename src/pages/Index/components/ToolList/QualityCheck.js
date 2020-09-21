@@ -58,7 +58,7 @@ class QualityCheck extends React.Component {
             autoFocusButton: null,
             onOk: handleOk,
             onCancel: () => {
-                this.props.QualityCheckStore.cancelPolling;
+                this.props.QualityCheckStore.cancelPolling();
                 this.setState({ visible: false });
             }
         });
