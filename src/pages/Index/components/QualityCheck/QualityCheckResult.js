@@ -52,7 +52,8 @@ class QualityCheckResult extends React.Component {
         switch (roleCode) {
             case 'producer':
                 getReport({
-                    task_id: activeTaskId
+                    task_id: activeTaskId,
+                    isEdit: 1
                 });
                 break;
             case 'quality':
@@ -117,7 +118,7 @@ class QualityCheckResult extends React.Component {
 
     _renderContent = () => {
         const {
-            QualityCheckStore: { reportList, checkReportVisible, activeKey },
+            QualityCheckStore: { checkReportVisible, activeKey },
             QCMarkerStore: { visibleList }
         } = this.props;
 
@@ -134,7 +135,7 @@ class QualityCheckResult extends React.Component {
                         key="check"
                         style={{ height: activeKey === 'check' ? '100%' : 0 }}
                     >
-                        <QualityCheckResultTable reportList={reportList} />
+                        <QualityCheckResultTable />
                     </TabPane>
                 )}
                 {visibleList && (

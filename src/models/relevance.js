@@ -17,7 +17,6 @@ class Relevance {
             objectStore.createIndex('REL_KEYS', ['objType', 'objId', 'relObjType', 'relObjId'], {
                 unique: false
             });
-            objectStore.createIndex('DATA_TYPE', ['dataType'], { unique: false });
         });
     }
 }

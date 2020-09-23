@@ -18,18 +18,6 @@ class RelStore {
             console.log(e);
         }
     });
-
-    fetchRecords = flow(function* (url, dataType) {
-        let response = yield axios.get(url);
-        let records = relFactory.relDataToTable(response.data, dataType);
-        let oldRels = yield Relevance.store.getAll([dataType], 'DATA_TYPE');
-        yield Promise.all(
-            oldRels.map(async rel => {
-                await Relevance.store.deleteById(rel.id);
-            })
-        );
-        yield Relevance.store.batchAdd(records);
-    });
 }
 
 export default new RelStore();

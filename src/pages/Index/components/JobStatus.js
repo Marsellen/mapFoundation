@@ -170,7 +170,7 @@ class JobStatus extends React.Component {
             user_type: roleCode
         });
         if (!checkRes) return false;
-        return await handleProducerGetReport({ task_id: taskId });
+        return await handleProducerGetReport({ task_id: taskId, isEdit: 1 });
     };
 
     //质检有报表提示

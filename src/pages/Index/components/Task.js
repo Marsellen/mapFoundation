@@ -125,30 +125,14 @@ class Task extends React.Component {
             QualityCheckStore: { handleQualityGetMisreport, openCheckReport, setActiveKey }
         } = this.props;
 
-        switch (roleCode) {
-            case 'producer':
-                // //返工返修任务，自动打开质检报表
-                // if (
-                //     TaskStore.activeTaskStatus === 4 ||
-                //     TaskStore.activeTaskStatus === 5
-                // ) {
-                //     await getReport({
-                //         task_id: activeTaskId
-                //     });
-                //     QualityCheckStore.reportListL > 0 && openCheckReport();
-                // }
-                break;
-            case 'quality':
-                await handleQualityGetMisreport({
-                    taskId: activeTaskId,
-                    status: '1,2,4'
-                });
-                if (QualityCheckStore.reportListL === 0) return;
-                setActiveKey('check');
-                openCheckReport();
-                break;
-            default:
-                break;
+        if (roleCode === 'quality') {
+            await handleQualityGetMisreport({
+                taskId: activeTaskId,
+                status: '1,2,4'
+            });
+            if (QualityCheckStore.reportListL === 0) return;
+            setActiveKey('check');
+            openCheckReport();
         }
     };
 

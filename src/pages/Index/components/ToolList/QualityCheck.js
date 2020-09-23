@@ -96,7 +96,8 @@ class QualityCheck extends React.Component {
 
             //轮询质检结果
             const reportList = await handleProducerGetReport({
-                task_id: taskId
+                task_id: taskId,
+                isEdit: 1
             });
             if (!reportList) throw new Error('获取检查列表失败');
             const reportListL = reportList.length;
