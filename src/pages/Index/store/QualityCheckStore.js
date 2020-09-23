@@ -8,6 +8,8 @@ import Resize from 'src/utils/resize';
 import _ from 'lodash';
 import { getQualityChecked } from 'src/utils/permissionCtrl';
 import sysProperties from 'src/models/sysProperties';
+import { updateData } from 'src/utils/map/viewCtrl';
+import TaskStore from 'src/pages/Index/store/TaskStore';
 
 const needFilterColumns = (() => {
     const columns = [];
@@ -25,6 +27,7 @@ class QualityCheckStore {
     pollingStartTime; //轮询开始时间
     pollingStatus = true; //轮询状态
 
+    @observable updateKey;
     @observable reportListInit = null;
     @observable reportList = null;
     @observable filterOption = {};
@@ -59,6 +62,7 @@ class QualityCheckStore {
         this.reportList = [];
         this.checkReportIsVisited = {};
         this.filterOption = {};
+        this.updateKey = Math.random();
     };
 
     //作业员质检
@@ -84,6 +88,7 @@ class QualityCheckStore {
         this.pollingLimit = pollingLimit * 1000;
         this.pollingInterval = pollingInterval * 1000;
         this.pollingStartTime = currentTime.getTime();
+        this.pollingStatus = true;
         return new Promise(resolve => this.pollingGetReport(option, resolve));
     };
 
@@ -115,8 +120,6 @@ class QualityCheckStore {
     //检查轮询状态，pollingStatus=false表示取消轮询
     checkPollingStatus = resolve => {
         if (this.pollingStatus) return;
-        this.pollingStartTime = 0;
-        this.pollingStatus = true;
         resolve(false);
         return true;
     };
@@ -127,8 +130,6 @@ class QualityCheckStore {
         const pollingEndTime = currentTime.getTime();
         const pollingTotalTime = pollingEndTime - this.pollingStartTime;
         if (pollingTotalTime < this.pollingLimit) return;
-        this.pollingStartTime = 0;
-        this.pollingStatus = true;
         message.error('请求超时');
         resolve(false);
         return true;
@@ -142,11 +143,13 @@ class QualityCheckStore {
             () => {
                 CheckService.getReport(
                     option,
-                    res => {
+                    async res => {
                         const { code, data, message: resMessage } = res;
                         switch (code) {
                             case 1:
                                 this.handleReportRes(data, option.task_id);
+                                const { taskProcessName } = TaskStore;
+                                if (taskProcessName === 'imp_manbuild') await updateData();
                                 resolve && resolve(data);
                                 break;
                             case 201:
@@ -195,6 +198,7 @@ class QualityCheckStore {
             this.getResizeStyle();
             this.filterOption = this.filterOption || {};
             this.filterOption.isUpdate = true;
+            this.updateKey = Math.random();
             return;
         }
         const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
@@ -235,6 +239,7 @@ class QualityCheckStore {
         this.filterOption = { ...filterOption };
         this.reportListInit = data;
         this.reportList = _.cloneDeep(data);
+        this.updateKey = Math.random();
     };
 
     //记录访问状态
@@ -269,6 +274,7 @@ class QualityCheckStore {
             };
             this.reportList = _.cloneDeep(this.reportListInit);
             this.handleReportChecked(index, true);
+            this.updateKey = Math.random();
         } catch (e) {
             console.error('请求失败');
             message.warning('新增误报请求失败：' + e.message, 3);
@@ -282,6 +288,7 @@ class QualityCheckStore {
             this.reportListInit[index].misrepId = null;
             this.reportList = _.cloneDeep(this.reportListInit);
             this.handleReportChecked(index, false);
+            this.updateKey = Math.random();
         } catch (e) {
             console.error('请求失败');
             message.warning('删除误报请求失败：' + e.message, 3);
@@ -307,6 +314,7 @@ class QualityCheckStore {
     handleReportChecked = (index, checked) => {
         this.reportListInit[index].checked = checked;
         this.reportList = _.cloneDeep(this.reportListInit);
+        this.updateKey = Math.random();
     };
 
     //质检员更新单条误报
@@ -316,6 +324,7 @@ class QualityCheckStore {
             this.reportListInit[index].status = option.status;
             this.reportList = _.cloneDeep(this.reportListInit);
             this.handleReportChecked(index, true);
+            this.updateKey = Math.random();
         } catch (e) {
             console.error('请求失败');
             message.warning('更新报表请求失败：' + e.message, 3);

@@ -299,7 +299,7 @@ class MultiFunctionalTable extends React.Component {
 
     render() {
         const { currentPage, pageSize, dataSource } = this.state;
-        const { tableHeight, className } = this.props;
+        const { tableHeight, className, rowKey } = this.props;
         const dataSourceL = dataSource.length;
         const tableH = tableHeight != 0;
 
@@ -337,7 +337,7 @@ class MultiFunctionalTable extends React.Component {
                                 : `multi-function-table-init ${className}`
                         }
                         onChange={this.handleTableChange}
-                        rowKey={record => record.id}
+                        rowKey={rowKey}
                         scroll={{ y: tableHeight || 170, x: 'max-content' }}
                         height={dataSourceL > 0 && tableH ? '100%' : 'max-content'} //初始打开列表时表格最大化
                         isHandleBody={true}
