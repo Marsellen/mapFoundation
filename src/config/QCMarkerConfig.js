@@ -75,8 +75,8 @@ const FIELD_NAME_MAP = {
         { value: 'ROAD_ID', label: '属性变化点关联关系' }
     ],
     AD_Arrow: [
-        { value: 'ARR_DIRECT', lable: '箭头方向' },
-        { value: 'LANE_ID', lable: '箭头关联关系' }
+        { value: 'ARR_DIRECT', label: '箭头方向' },
+        { value: 'LANE_ID', label: '箭头关联关系' }
     ],
     AD_StopLocation: [
         { value: 'TYPE', label: '停止位置类型' },
