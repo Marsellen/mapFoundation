@@ -57,16 +57,24 @@ class QCMarkerStore {
                 marker.index = index + 1;
                 filterKeys.forEach(item => {
                     const { key, describe } = item;
-                    const { data, secondKey, label, value } = describe;
                     const currentVal = marker[key];
-                    const secondKeyStr = marker[secondKey];
-                    const descArr = secondKey ? data[secondKeyStr] : data;
-                    const describeObj = descArr.find(desc => desc[value] === currentVal);
-                    filterMap[key] = filterMap[key] || {};
-                    filterMap[key][currentVal] = {
-                        value: currentVal,
-                        text: describeObj[label]
-                    };
+                    if (describe) {
+                        const { data, secondKey, label, value } = describe;
+                        const secondKeyStr = marker[secondKey];
+                        const descArr = secondKey ? data[secondKeyStr] : data;
+                        const describeObj = descArr.find(desc => desc[value] === currentVal);
+                        filterMap[key] = filterMap[key] || {};
+                        filterMap[key][currentVal] = {
+                            value: currentVal,
+                            text: describeObj[label]
+                        };
+                    } else {
+                        filterMap[key] = filterMap[key] || {};
+                        filterMap[key][currentVal] = {
+                            value: currentVal,
+                            text: currentVal
+                        };
+                    }
                 });
                 return marker;
             });

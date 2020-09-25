@@ -2,8 +2,7 @@ import { observable, configure, action, flow, computed } from 'mobx';
 import CheckService from 'src/services/CheckService';
 import { message } from 'antd';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
-import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
-import { COLUMNS_CONFIG } from 'src/config/CheckTableConfig';
+import { REPORT_COLUMNS } from 'src/config/CheckTableConfig';
 import Resize from 'src/utils/resize';
 import _ from 'lodash';
 import { getQualityChecked } from 'src/utils/permissionCtrl';
@@ -11,34 +10,23 @@ import sysProperties from 'src/models/sysProperties';
 import { updateData } from 'src/utils/map/viewCtrl';
 import TaskStore from 'src/pages/Index/store/TaskStore';
 
-const needFilterColumns = (() => {
-    const columns = [];
-    COLUMNS_CONFIG.forEach(item => {
-        item.isFilter && columns.push(item.dataIndex);
-    });
-    return columns;
-})();
-
 configure({ enforceActions: 'always' });
 class QualityCheckStore {
     resize = new Resize();
+    reportColumns;
+    reportFilterKeys;
     pollingLimit; //轮询时间上限
     pollingInterval; //轮询间隔时间
     pollingStartTime; //轮询开始时间
     pollingStatus = true; //轮询状态
 
-    @observable updateKey;
-    @observable reportListInit = null;
-    @observable reportList = null;
-    @observable filterOption = {};
+    @observable reportList = [];
+    @observable filters = {};
     @observable checkReportIsVisited = {};
     @observable checkReportVisible = false;
     @observable tableHeight = 0;
     @observable activeKey = 'check';
 
-    @computed get hasChecked() {
-        return this.reportListInit.some(item => item.checked);
-    }
     @computed get reportListL() {
         return this.reportList ? this.reportList.length : 0;
     }
@@ -48,21 +36,25 @@ class QualityCheckStore {
     };
 
     @action openCheckReport = () => {
-        this.filterOption.isUpdate = true;
         this.checkReportVisible = true;
     };
 
     @action closeCheckReport = () => {
-        this.filterOption.isUpdate = false;
         this.checkReportVisible = false;
     };
 
     @action clearCheckReport = () => {
-        this.reportListInit = [];
         this.reportList = [];
         this.checkReportIsVisited = {};
-        this.filterOption = {};
-        this.updateKey = Math.random();
+        this.filters = {};
+    };
+
+    initReportConfig = () => {
+        const { taskProcessName = 'imp_recognition' } = TaskStore;
+        this.reportColumns = REPORT_COLUMNS[taskProcessName];
+        this.reportFilterKeys = this.reportColumns.flatMap(item => {
+            return item.isFilter ? [item] : [];
+        });
     };
 
     //作业员质检
@@ -104,7 +96,7 @@ class QualityCheckStore {
     @action getReport = flow(function* (option) {
         try {
             const { data } = yield CheckService.getReport(option);
-            this.handleReportRes(data, option.task_id);
+            this.handleReportList(data);
         } catch (e) {
             const errorMsg = e.message || '';
             console.error('获取报表失败 ' + errorMsg);
@@ -147,7 +139,7 @@ class QualityCheckStore {
                         const { code, data, message: resMessage } = res;
                         switch (code) {
                             case 1:
-                                this.handleReportRes(data, option.task_id);
+                                this.handleReportList(data);
                                 const { taskProcessName } = TaskStore;
                                 if (taskProcessName === 'imp_manbuild') await updateData();
                                 resolve && resolve(data);
@@ -188,75 +180,71 @@ class QualityCheckStore {
         this.getResizeStyle();
     };
 
+    @action getFilters = filterMap => {
+        const filters = {};
+        Object.keys(filterMap).forEach(key => {
+            filters[key] = filters[key] || [];
+            filters[key] = Object.values(filterMap[key]);
+        });
+        this.filters = filters;
+    };
+
     //处理质检结果数据
-    @action handleReportRes = (data, activeTaskId) => {
-        if (!data) return;
-        if (data.length <= 0) {
-            this.reportListInit = [];
+    @action handleReportList = list => {
+        if (!list) return;
+        if (list.length <= 0) {
             this.reportList = [];
             this.resize.addResizeEvent('quality-check-result-modal-wrap');
             this.getResizeStyle();
-            this.filterOption = this.filterOption || {};
-            this.filterOption.isUpdate = true;
-            this.updateKey = Math.random();
+            this.filters = this.filters || {};
             return;
         }
+        const { activeTaskId } = TaskStore;
         const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
-        const filterOption = {};
-
-        data.map((item, index) => {
-            const { layerName, repId } = item;
-            const layerNameText = DATA_LAYER_MAP[layerName] && DATA_LAYER_MAP[layerName].label;
-            item.index = index;
-            item.visited = checkReport[repId] ? checkReport[repId] : false;
-            item.visitedText = item.visited ? '已查看' : '未查看';
-            item.layerNameText = layerNameText;
-            item.ellipsis = true;
-            item.checked = getQualityChecked(item);
-
-            needFilterColumns.map(column => {
-                filterOption[`${column}Obj`] = filterOption[`${column}Obj`] || {};
-                if (item[column]) {
-                    filterOption[`${column}Obj`][item[column]] = item[column];
+        const filterMap = {};
+        list.map((item, index) => {
+            const { repId } = item;
+            if (!item.index) {
+                item.index = index;
+                item.visited = checkReport[repId] ? checkReport[repId] : false;
+                item.ellipsis = true;
+                item.checked = getQualityChecked(item);
+                item.misrepId = item.misrepId ?? false;
+            }
+            this.reportFilterKeys.map(column => {
+                const { key, describe } = column;
+                const currentVal = item[key];
+                if (describe) {
+                    const { data, secondKey, label, value } = describe;
+                    const secondKeyStr = item[secondKey];
+                    const descArr = secondKey ? data[secondKeyStr] : data;
+                    const describeObj = descArr.find(desc => desc[value] === currentVal);
+                    filterMap[key] = filterMap[key] || {};
+                    filterMap[key][currentVal] = {
+                        value: currentVal,
+                        text: describeObj[label]
+                    };
+                } else {
+                    filterMap[key] = filterMap[key] || {};
+                    filterMap[key][currentVal] = {
+                        value: currentVal,
+                        text: currentVal
+                    };
                 }
             });
-
             return item;
         });
-
-        needFilterColumns.map(column => {
-            filterOption[`${column}Arr`] = filterOption[`${column}Arr`] || [];
-            filterOption[`${column}Arr`] = Object.values(
-                filterOption[`${column}Obj`]
-            ).map(filterItem => ({ text: filterItem, value: filterItem }));
-        });
-
-        filterOption.visitedTextArr = [
-            { text: '未查看', value: '未查看' },
-            { text: '已查看', value: '已查看' }
-        ];
-        filterOption.isUpdate = true;
-        this.filterOption = { ...filterOption };
-        this.reportListInit = data;
-        this.reportList = _.cloneDeep(data);
-        this.updateKey = Math.random();
+        this.getFilters(filterMap);
+        this.reportList = _.cloneDeep(list);
     };
 
     //记录访问状态
     @action visitedReport = (record, activeTaskId) => {
         const { index, repId } = record;
-        this.reportList[index] = {
-            ...this.reportList[index],
-            visited: true,
-            visitedText: '已查看'
-        };
-        this.reportListInit[index] = {
-            ...this.reportListInit[index],
-            visited: true,
-            visitedText: '已查看'
-        };
-        this.checkReportIsVisited[repId] = true;
+        this.reportList[index].visited = true;
+        this.handleReportList(this.reportList);
         //访问状态记录在缓存中
+        this.checkReportIsVisited[repId] = true;
         const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
         AdLocalStorage.setTaskInfosStorage({
             taskId: activeTaskId,
@@ -268,13 +256,12 @@ class QualityCheckStore {
     @action producerInsertMisreport = flow(function* (record, index) {
         try {
             const { data } = yield CheckService.insertMisreport(record);
-            this.reportListInit[index] = {
-                ...this.reportListInit[index],
-                ...data
+            this.reportList[index] = {
+                ...this.reportList[index],
+                ...data,
+                checked: checked
             };
-            this.reportList = _.cloneDeep(this.reportListInit);
-            this.handleReportChecked(index, true);
-            this.updateKey = Math.random();
+            this.handleReportList(this.reportList);
         } catch (e) {
             console.error('请求失败');
             message.warning('新增误报请求失败：' + e.message, 3);
@@ -285,19 +272,34 @@ class QualityCheckStore {
     @action producerDeleteMisreport = flow(function* (record, index) {
         try {
             yield CheckService.deleteMisreport(record);
-            this.reportListInit[index].misrepId = null;
-            this.reportList = _.cloneDeep(this.reportListInit);
-            this.handleReportChecked(index, false);
-            this.updateKey = Math.random();
+            this.reportList[index] = {
+                ...this.reportList[index],
+                misrepId: false,
+                checked: checked
+            };
+            this.handleReportList(this.reportList);
         } catch (e) {
             console.error('请求失败');
             message.warning('删除误报请求失败：' + e.message, 3);
         }
     }).bind(this);
 
+    //撤销一条误报的自动修正
+    @action cancelRepairMisreport = flow(function* (option, index) {
+        try {
+            yield CheckService.cancelRepair(option);
+            yield updateData();
+            this.reportList[index].repairStatus = 0;
+            this.handleReportList(this.reportList);
+        } catch (e) {
+            console.error('请求失败');
+            message.warning('撤销自动修正请求失败：' + e.message, 3);
+        }
+    }).bind(this);
+
     @action handleQualityGetMisreport = flow(function* (option) {
         const data = yield this.qualityGetMisreport(option);
-        this.handleReportRes(data, option.taskId);
+        this.handleReportList(data);
     }).bind(this);
 
     //质检员查询误报
@@ -311,20 +313,16 @@ class QualityCheckStore {
         }
     });
 
-    handleReportChecked = (index, checked) => {
-        this.reportListInit[index].checked = checked;
-        this.reportList = _.cloneDeep(this.reportListInit);
-        this.updateKey = Math.random();
-    };
-
     //质检员更新单条误报
     @action qualityUpdateMisreport = flow(function* (option, index) {
         try {
             yield CheckService.updateMisreport(option);
-            this.reportListInit[index].status = option.status;
-            this.reportList = _.cloneDeep(this.reportListInit);
-            this.handleReportChecked(index, true);
-            this.updateKey = Math.random();
+            this.reportList[index] = {
+                ...this.reportList[index],
+                status: option.status,
+                checked: checked
+            };
+            this.handleReportList(this.reportList);
         } catch (e) {
             console.error('请求失败');
             message.warning('更新报表请求失败：' + e.message, 3);

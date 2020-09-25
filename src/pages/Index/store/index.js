@@ -20,6 +20,7 @@ import FeedbackStore from './FeedbackStore';
 import TextStore from './TextStore';
 import AttrRightMenuStore from './AttrRightMenuStore';
 import QCMarkerStore from './QCMarkerStore';
+import LoadingStore from './LoadingStore';
 
 export default {
     MenuStore,
@@ -43,5 +44,6 @@ export default {
     FeedbackStore,
     TextStore,
     AttrRightMenuStore,
-    QCMarkerStore
+    QCMarkerStore,
+    LoadingStore
 };

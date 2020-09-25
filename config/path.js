@@ -17,7 +17,8 @@ module.exports = PROXY_MAP = {
         store: LOCAL_PATH,
         edit: LOCAL_PATH,
         check: LOCAL_PATH,
-        checkMarker: LOCAL_PATH
+        checkMarker: LOCAL_PATH,
+        repair: LOCAL_PATH
     },
     dev: {
         gateway: DEV_PATH,
@@ -27,7 +28,8 @@ module.exports = PROXY_MAP = {
         store: DEV_PATH,
         edit: DEV_PATH,
         check: DEV_PATH,
-        checkMarker: DEV_PATH
+        checkMarker: DEV_PATH,
+        repair: DEV_PATH
     },
     demo: {
         gateway: DOME_PATH,
@@ -37,7 +39,8 @@ module.exports = PROXY_MAP = {
         store: DOME_PATH,
         edit: DOME_PATH,
         check: DOME_PATH,
-        checkMarker: DOME_PATH
+        checkMarker: DOME_PATH,
+        repair: DOME_PATH
     },
     prod: {
         gateway: PROD_PATH,
@@ -47,6 +50,7 @@ module.exports = PROXY_MAP = {
         store: PROD_PATH,
         edit: PROD_PATH,
         check: PROD_PATH,
-        checkMarker: PROD_PATH
+        checkMarker: PROD_PATH,
+        repair: PROD_PATH
     }
 };

@@ -428,7 +428,7 @@ export const MARKER_TABLE_COLUMNS = [
         title: '错误描述',
         dataIndex: 'errorDesc',
         key: 'errorDesc',
-        width: 100
+        width: 150
     },
     {
         title: '作业说明',
@@ -441,7 +441,7 @@ export const MARKER_TABLE_COLUMNS = [
         dataIndex: 'fileName',
         key: 'fileName',
         isFilter: true,
-        width: 160,
+        width: 120,
         describe: {
             data: AD_MAP_QC_FILE_NAME,
             label: 'label',

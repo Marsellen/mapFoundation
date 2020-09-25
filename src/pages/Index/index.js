@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from 'antd';
+import { Layout, Spin } from 'antd';
 import { inject, observer } from 'mobx-react';
 import Sider from 'src/components/Sider';
 import SiderView from './components/SiderView';
@@ -27,33 +27,37 @@ if (!jump) {
 }
 sysProperties.loadConfigs();
 
+@inject('LoadingStore')
 @inject('MenuStore')
 @observer
 class Index extends React.Component {
-    state = {};
-
     componentDidMount() {
         this.props.MenuStore.initMenus();
         shortcut.init();
     }
 
     render() {
-        const { menus } = this.props.MenuStore;
+        const {
+            MenuStore: { menus },
+            LoadingStore: { globalLoading }
+        } = this.props;
         return (
-            <Layout id="home">
-                <Header className="header">
-                    <div className="logo-content">
-                        <img className="logo" src={logo} alt="logo" />
+            <Spin tip="loading..." spinning={globalLoading}>
+                <Layout id="home">
+                    <Header className="header">
+                        <div className="logo-content">
+                            <img className="logo" src={logo} alt="logo" />
+                        </div>
+                        <HeaderBar />
+                    </Header>
+                    <div className="flex flex-row">
+                        <Sider menus={menus}>{SiderView}</Sider>
+                        <div className="flex-1 viz-content" id="viz-content">
+                            <VizComponent />
+                        </div>
                     </div>
-                    <HeaderBar />
-                </Header>
-                <div className="flex flex-row">
-                    <Sider menus={menus}>{SiderView}</Sider>
-                    <div className="flex-1 viz-content" id="viz-content">
-                        <VizComponent />
-                    </div>
-                </div>
-            </Layout>
+                </Layout>
+            </Spin>
         );
     }
 }

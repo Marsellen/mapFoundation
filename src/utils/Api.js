@@ -61,3 +61,11 @@ export function MarkerApiPath(url) {
         return `/gateway/check-web/${url}`;
     }
 }
+
+export function RepairApiPath(url) {
+    if (/^\//.test(url)) {
+        return `/gateway/correct${url}`;
+    } else {
+        return `/gateway/correct/${url}`;
+    }
+}

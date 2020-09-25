@@ -1,5 +1,5 @@
 import service from 'src/services';
-import { CheckApiPath } from 'src/utils/Api';
+import { CheckApiPath, RepairApiPath } from 'src/utils/Api';
 
 const CheckService = {
     // 作业员质检接口
@@ -47,6 +47,14 @@ const CheckService = {
     updateMisreport: data => {
         const config = {
             url: CheckApiPath('/addata/update_misreport'),
+            method: 'post',
+            data
+        };
+        return service({ config });
+    },
+    cancelRepair: data => {
+        const config = {
+            url: RepairApiPath('/service/back'),
             method: 'post',
             data
         };
