@@ -327,6 +327,7 @@ class QCMarkerModal extends React.Component {
 
         return (
             <Modal
+                style={{ visibility: visible ? 'visible' : 'hidden' }}
                 zIndex={visible ? 1 : -1}
                 title={null}
                 closable={false}

@@ -170,6 +170,12 @@ module.exports = (env = {}) => {
                     pathRewrite: { '^/gateway/check-web': '/check-web' },
                     changeOrigin: true,
                     logLevel: 'debug'
+                },
+                '/gateway/correct': {
+                    target: PROXY_MAP[proxy].repair,
+                    pathRewrite: { '^/gateway/correct': '/correct' },
+                    changeOrigin: true,
+                    logLevel: 'debug'
                 }
             }
         }

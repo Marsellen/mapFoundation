@@ -54,7 +54,7 @@ export const showRightMenu = (features, event) => {
 export const updateData = async () => {
     try {
         const { activeTask, isEditableTask, getTaskFile } = TaskStore;
-        const { vectors, rels: relUrl, attrs: attrUrl } = getTaskFile() || {};
+        const { vectors: vectorUrl, rels: relUrl, attrs: attrUrl } = getTaskFile() || {};
         //销毁indexDB的关联关系表和关联属性表
         await Promise.all([RelStore.destroy(), AttrStore.destroy()]);
         //判断如果是“开始任务”，则重新获取当前任务和周边底图数据，更新indexDB表
@@ -63,6 +63,7 @@ export const updateData = async () => {
             const boundaryRelUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryRels, activeTask);
             const boundaryAttrUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryAttrs, activeTask);
             await Promise.all([
+                window.vectorLayerGroup.resetData(vectorUrl),
                 RelStore.addRecords(relUrl, 'current'),
                 AttrStore.addRecords(attrUrl, 'current'),
                 RelStore.addRecords(boundaryRelUrl, 'boundary'),
@@ -70,25 +71,15 @@ export const updateData = async () => {
             ]);
         } else {
             await Promise.all([
+                window.vectorLayerGroup.resetData(vectorUrl),
                 RelStore.addRecords(relUrl, 'current'),
                 AttrStore.addRecords(attrUrl, 'current')
             ]);
         }
         //更新高精数据图层
-        VectorsStore.addLayer(vectorLayerGroup);
+        VectorsStore.addLayer(window.vectorLayerGroup);
         return true;
     } catch (e) {
         console.error('更新数据失败', e.message ?? e ?? '');
     }
 };
-
-//更新vectors 等sdk提供接口
-//需要考虑文字注记，符号样式
-//更新高精数据图层，勾选显隐看看效果
-//需要等三个geojson都请求完成，更新完毕，才能结束loading
-//需要判断当前是浏览任务还是开始任务，如果是浏览任务，则不需要更新周边底图，如果是开始任务，则需要更新周边底图
-// window.vectorLayerGroup = new LayerGroup(vectors, {
-//     styleConifg: VectorsConfig
-// });
-// await map.getLayerManager().addLayerGroup(vectorLayerGroup, this.fetchCallback);
-// VectorsStore.addLayer(vectorLayerGroup);

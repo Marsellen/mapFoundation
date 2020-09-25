@@ -112,7 +112,7 @@ class QCMarkerListTable extends React.Component {
                 className="quality-marker-list-table"
                 onClick={this.handleClick}
                 onDoubleClick={this.handleDoudleClick}
-                rowKey={record => record.id}
+                rowKey={record => `marker_list_${record.id}`}
             />
         );
     }

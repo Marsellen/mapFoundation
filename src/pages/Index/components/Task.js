@@ -122,9 +122,16 @@ class Task extends React.Component {
             TaskStore: { activeTaskId },
             appStore: { loginUser: { roleCode } } = {},
             QualityCheckStore,
-            QualityCheckStore: { handleQualityGetMisreport, openCheckReport, setActiveKey }
+            QualityCheckStore: {
+                handleQualityGetMisreport,
+                openCheckReport,
+                setActiveKey,
+                initReportConfig
+            }
         } = this.props;
-
+        //初化化检查结果配置，不同任务采用不同配置
+        initReportConfig();
+        //质检员开始任务自动获取报表
         if (roleCode === 'quality') {
             await handleQualityGetMisreport({
                 taskId: activeTaskId,
@@ -141,8 +148,8 @@ class Task extends React.Component {
         this.timeout && clearTimeout(this.timeout);
         this.timeout = setTimeout(async () => {
             try {
-                const { TaskStore, QualityCheckStore } = this.props;
                 const { current } = this.state;
+                const { TaskStore } = this.props;
                 const { taskIdList, activeTaskId } = TaskStore;
 
                 // 切换任务时，保存上一个任务的缩放比例，该方法需最先执行
@@ -158,13 +165,8 @@ class Task extends React.Component {
                     }
                 }
 
-                if (activeTaskId !== id) {
-                    QualityCheckStore.closeCheckReport();
-                    QualityCheckStore.clearCheckReport();
-                }
-
                 await TaskStore.setActiveTask(id);
-                isEdit && (await TaskStore.startTaskEdit(id));
+                if (isEdit) await TaskStore.startTaskEdit(id);
                 this.handleReportOpen();
 
                 //先浏览再开始任务时，获取周边底图

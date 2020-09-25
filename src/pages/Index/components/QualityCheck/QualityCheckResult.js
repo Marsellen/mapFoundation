@@ -40,24 +40,21 @@ class QualityCheckResult extends React.Component {
         }
     };
 
-    handleCheckOpen = () => {
+    handleCheckOpen = async () => {
         const { appStore, QualityCheckStore, TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         const { loginUser } = appStore;
         const { roleCode } = loginUser;
         const { handleQualityGetMisreport, getReport, openCheckReport } = QualityCheckStore;
-
-        openCheckReport();
-
         switch (roleCode) {
             case 'producer':
-                getReport({
+                await getReport({
                     task_id: activeTaskId,
                     isEdit: 1
                 });
                 break;
             case 'quality':
-                handleQualityGetMisreport({
+                await handleQualityGetMisreport({
                     taskId: activeTaskId,
                     status: '1,2,4'
                 });
@@ -65,6 +62,7 @@ class QualityCheckResult extends React.Component {
             default:
                 break;
         }
+        openCheckReport();
     };
 
     handleCheckClose = () => {

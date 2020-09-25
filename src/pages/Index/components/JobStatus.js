@@ -219,10 +219,10 @@ class JobStatus extends React.Component {
     //判断生产任务是否满足提交条件 processName='imp_recognition','imp_manbuild'
     checkProdutionTask = async (manualStatus, option) => {
         const {
-            QualityCheckStore: { reportListInit },
+            QualityCheckStore: { reportList },
             QCMarkerStore: { markerList }
         } = this.props;
-        const isAllVisited = reportListInit.every(item => item.visited);
+        const isAllVisited = reportList.every(item => item.visited);
         switch (manualStatus) {
             case 1: //已领取
             case 2: //进行中
@@ -255,7 +255,7 @@ class JobStatus extends React.Component {
     //判断质检任务是否满足提交条件 processName='imp_check_after_recognition','imp_check_after_manbuild'
     checkQualityCheckTask = async manualStatus => {
         const {
-            QualityCheckStore: { reportListInit },
+            QualityCheckStore: { reportList },
             QCMarkerStore: { markerList, updateMarkerStatus }
         } = this.props;
         switch (manualStatus) {
@@ -266,7 +266,7 @@ class JobStatus extends React.Component {
                 return result ? true : false;
             default:
                 //提交成“通过”
-                const checkStatusIsValid = reportListInit.every(item => {
+                const checkStatusIsValid = reportList.every(item => {
                     return item.status === 2 || item.status === 4;
                 });
                 const markerStatusIsValid = markerList.every(item => {
