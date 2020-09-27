@@ -542,6 +542,7 @@ class RightMenuModal extends React.Component {
         }
         this.reverseOrderLineHandler();
         RightMenuStore.hide();
+        AttributeStore.hide();
     }
 
     @logDecorator({ operate: '线要素逆序' })

@@ -1,7 +1,11 @@
 import React from 'react';
 import { Checkbox, List, Switch } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { RESOURCE_LAYER_VECTOR, RESOURCE_LAYER_BOUNDARY } from 'src/config/DataLayerConfig';
+import {
+    RESOURCE_LAYER_VECTOR,
+    RESOURCE_LAYER_BOUNDARY,
+    CONFIDENCE_LAYER
+} from 'src/config/DataLayerConfig';
 import 'src/assets/less/components/resource-layer.less';
 import ToolIcon from 'src/components/ToolIcon';
 
@@ -32,6 +36,8 @@ class ResourceLayer extends React.Component {
             case RESOURCE_LAYER_VECTOR:
             case RESOURCE_LAYER_BOUNDARY:
                 return this.renderCheckSwitch(item, index);
+            case CONFIDENCE_LAYER:
+                return this.renderConfidence(item);
             default:
                 return this.renderCheck(item, index);
         }
@@ -107,6 +113,35 @@ class ResourceLayer extends React.Component {
         );
     };
 
+    renderConfidence = item => {
+        const { value, checked, children } = item;
+        return (
+            <React.Fragment>
+                <Checkbox
+                    value={value}
+                    checked={checked}
+                    onChange={e => this.handleConfidenceChange(e, value)}
+                >
+                    {value}
+                </Checkbox>
+                <div className="multi-project-item">
+                    {children.map(({ value, checked, disabled }) => (
+                        <div key={value}>
+                            <Checkbox
+                                value={value}
+                                checked={checked}
+                                disabled={disabled}
+                                onChange={e => this.handleConfidenceChange(e, value)}
+                            >
+                                {value}
+                            </Checkbox>
+                        </div>
+                    ))}
+                </div>
+            </React.Fragment>
+        );
+    };
+
     handleProjectsChange = (e, key) => {
         const { ResourceLayerStore, DataLayerStore } = this.props;
         const { checked } = e.target;
@@ -144,6 +179,12 @@ class ResourceLayer extends React.Component {
         } else if (item.value === RESOURCE_LAYER_BOUNDARY) {
             VectorsStore.switchToggle(!checked, 'boundary');
         }
+    };
+
+    handleConfidenceChange = (e, value) => {
+        const { ResourceLayerStore } = this.props;
+        const { checked } = e.target;
+        ResourceLayerStore.toggleConfidenceLayer(checked, value);
     };
 }
 

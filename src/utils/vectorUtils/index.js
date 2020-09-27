@@ -7,8 +7,6 @@ import relFactory from 'src/utils/relCtrl/relFactory';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import _ from 'lodash';
 import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
-import TaskStore from 'src/pages/Index/store/TaskStore';
-import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import { message } from 'antd';
 const jsts = require('jsts');
 
