@@ -5,7 +5,6 @@ import ToolIcon from 'src/components/ToolIcon';
 import StepSize from './StepSize';
 
 @inject('TaskStore')
-@inject('ResourceLayerStore')
 @observer
 class SetStepSize extends React.Component {
     state = {
