@@ -212,6 +212,18 @@ class VizComponent extends React.Component {
                     ResourceLayerStore.trackToggle();
                 },
                 describe: '开关轨迹图层 3'
+            },
+            {
+                ctrl: false,
+                alt: false,
+                shift: false,
+                keyCode: 56,
+                callback: () => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    ResourceLayerStore.toggleConfidenceLayer();
+                },
+                describe: '开关轨迹图层 8'
             }
         ];
 
