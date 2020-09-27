@@ -20,11 +20,9 @@ class SetStepSize extends React.Component {
     };
 
     isDisabled = () => {
-        const { TaskStore, ResourceLayerStore } = this.props;
+        const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
-        const { pointCloudChecked } = ResourceLayerStore;
-
-        return !activeTaskId || !pointCloudChecked;
+        return !activeTaskId;
     };
 
     _renderContent = () => {
