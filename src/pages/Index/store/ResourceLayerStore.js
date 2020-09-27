@@ -278,9 +278,11 @@ class ResourceLayerStore {
         }
     };
 
-    @action toggleConfidenceLayer = (checked, value) => {
+    @action toggleConfidenceLayer = (value = CONFIDENCE_LAYER, checked) => {
         let ConfidenceLayer = this.layers.find(layer => layer.value == CONFIDENCE_LAYER);
+        if (!ConfidenceLayer) return;
         if (value === CONFIDENCE_LAYER) {
+            checked = checked === undefined ? !ConfidenceLayer.checked : checked;
             ConfidenceLayer.children.forEach(layer => {
                 layer.disabled = !checked;
                 !checked ? layer.layer.hide() : layer.checked && layer.layer.show();
@@ -288,6 +290,7 @@ class ResourceLayerStore {
             ConfidenceLayer.checked = checked;
         } else {
             let layer = ConfidenceLayer.children.find(layer => layer.value == value);
+            checked = checked === undefined ? !layer.checked : checked;
             layer.checked = checked;
             checked ? layer.layer.show() : layer.layer.hide();
         }
