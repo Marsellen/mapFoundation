@@ -3,7 +3,8 @@ import {
     RESOURCE_LAYER_VECTOR,
     RESOURCE_LAYER_TASK_SCOPE,
     RESOURCE_LAYER_BOUNDARY,
-    RESOURCE_LAYER_MULTI_PROJECT
+    RESOURCE_LAYER_MULTI_PROJECT,
+    CONFIDENCE_LAYER
 } from 'src/config/DataLayerConfig';
 import { message } from 'antd';
 
@@ -250,6 +251,47 @@ class ResourceLayerStore {
         this.layers = [];
         this.multiProjectMap = {};
         this.activeProjectName = '';
+    };
+
+    @action addConfidenceLayer = layers => {
+        let ConfidenceLayer = this.layers.find(layer => layer.value == CONFIDENCE_LAYER);
+        if (ConfidenceLayer) {
+            ConfidenceLayer.children = layers;
+            ConfidenceLayer.checked = true;
+        } else {
+            ConfidenceLayer = {
+                value: CONFIDENCE_LAYER,
+                checked: true,
+                children: layers
+            };
+            this.layers.unshift(ConfidenceLayer);
+        }
+        this.updateKey = Math.random();
+    };
+
+    confidenceLayerRelease = () => {
+        let ConfidenceLayer = this.layers.find(layer => layer.value == CONFIDENCE_LAYER);
+        if (ConfidenceLayer) {
+            ConfidenceLayer.children.forEach(({ layer }) => {
+                layer.offsetMap(window.map);
+            });
+        }
+    };
+
+    @action toggleConfidenceLayer = (checked, value) => {
+        let ConfidenceLayer = this.layers.find(layer => layer.value == CONFIDENCE_LAYER);
+        if (value === CONFIDENCE_LAYER) {
+            ConfidenceLayer.children.forEach(layer => {
+                layer.disabled = !checked;
+                !checked ? layer.layer.hide() : layer.checked && layer.layer.show();
+            });
+            ConfidenceLayer.checked = checked;
+        } else {
+            let layer = ConfidenceLayer.children.find(layer => layer.value == value);
+            layer.checked = checked;
+            checked ? layer.layer.show() : layer.layer.hide();
+        }
+        this.updateKey = Math.random();
     };
 }
 

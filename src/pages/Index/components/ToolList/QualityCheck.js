@@ -1,8 +1,11 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 import { saveTaskData } from 'src/utils/taskUtils';
+import { loadVector } from 'src/utils/map/utils';
+import ResourceLayerStore from 'src/pages/Index/store/ResourceLayerStore';
+import { SUSPECT_LAYER, WRONG_LAYER } from 'src/config/DataLayerConfig';
 
 @inject('appStore')
 @inject('TaskStore')
@@ -109,11 +112,32 @@ class QualityCheck extends React.Component {
                 : this.checkModal(`质量检查结束，未发现数据问题`);
 
             this.setState({ visible: false });
+            this.loadConfidenceFiles();
         } catch (e) {
             this.setState({ visible: false });
             console.error(e.message);
         }
     };
+
+    async loadConfidenceFiles() {
+        try {
+            const { TaskStore } = this.props;
+            const { activeTask } = TaskStore;
+            const { processName, Input_imp_data_path } = activeTask;
+            if (processName !== 'imp_manbuild') return;
+            let suspectUrl = `${Input_imp_data_path}/18_QE_DATA/1809_QE_DES/AD_Suspect.geojson`;
+            let wrongUrl = `${Input_imp_data_path}/18_QE_DATA/1809_QE_DES/AD_Wrong.geojson`;
+            ResourceLayerStore.confidenceLayerRelease();
+            let suspectLayer = await loadVector(suspectUrl, 'AD_Suspect');
+            let wrongLayer = await loadVector(wrongUrl, 'AD_Wrong');
+            ResourceLayerStore.addConfidenceLayer([
+                { value: SUSPECT_LAYER, layer: suspectLayer, checked: true },
+                { value: WRONG_LAYER, layer: wrongLayer, checked: true }
+            ]);
+        } catch (e) {
+            message.error('置信度分区数据加载失败！');
+        }
+    }
 }
 
 export default QualityCheck;
