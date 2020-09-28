@@ -40,7 +40,7 @@ export const UPDATE_BOUNDARY_PARAM_MAP = {
     },
     imp_check_after_manbuild: {
         referData: 'MB_EDITOR_QUERYDB_PATHS',
-        outDir: '1305_MB_AROUND_DATA'
+        outDir: '1305_MB_QC_AROUND_DATA'
     }
 };
 
