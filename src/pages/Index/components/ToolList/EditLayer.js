@@ -140,7 +140,6 @@ class EditLayerPicker extends React.Component {
         let layers = VectorsStore.vectors.vector;
         layers = getEditLayers(layers);
         const { isTopView } = DataLayerStore;
-
         if (isTopView) {
             layers
                 .filter(item => {
@@ -151,8 +150,8 @@ class EditLayerPicker extends React.Component {
                 });
         }
         if (
-            TaskStore.activeTask.processName === 'imp_recognition' ||
-            TaskStore.activeTask.task_sub_type !== 'local'
+            TaskStore.activeTask.processName === 'imp_recognition' &&
+            !TaskStore.activeTask.isLocal
         ) {
             layers.forEach(item => {
                 if (item.value === 'AD_Road' || item.value === 'AD_Lane') {
