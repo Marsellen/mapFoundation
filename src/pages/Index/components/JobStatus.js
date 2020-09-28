@@ -149,15 +149,13 @@ class JobStatus extends React.Component {
         const {
             handleProducerCheck,
             handleProducerGetReport,
-            closeCheckReport,
-            clearCheckReport
+            closeCheckReport
         } = QualityCheckStore;
         const { activeTask } = TaskStore;
         const { taskId, processName, projectId } = activeTask;
         const { loginUser } = appStore;
         const { roleCode, username } = loginUser;
 
-        clearCheckReport(); //重置质检列表
         closeCheckReport(); //关闭质检弹窗
 
         //质量检查
@@ -321,31 +319,17 @@ class JobStatus extends React.Component {
     };
 
     taskSubmit = async option => {
-        const {
-            TaskStore,
-            QCMarkerStore,
-            appStore: { loginUser: { roleCode } } = {},
-            QualityCheckStore: { clearCheckReport, closeCheckReport }
-        } = this.props;
+        const { TaskStore, QCMarkerStore } = this.props;
 
         try {
             await TaskStore.initSubmit(option);
             await TaskStore.setActiveTask();
             this.clearWorkSpace();
             message.success('提交成功');
-
-            //质检员在任务提交成功时，重置质检列表并关闭质检弹窗
-            if (roleCode === 'quality') {
-                clearCheckReport();
-                closeCheckReport();
-            }
-
             //清除质检标注相关数据
             QCMarkerStore.release();
-
             // 获取新任务，更新任务列表
             await TaskStore.initTask({ type: 3 });
-
             // 更新任务列表后，清除浏览器缓存中多余任务信息
             AdLocalStorage.filterTaskInfosStorage(TaskStore.taskIdList);
         } catch (e) {

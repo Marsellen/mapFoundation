@@ -76,15 +76,14 @@ class QualityCheck extends React.Component {
                     handleProducerCheck,
                     handleProducerGetReport,
                     openCheckReport,
-                    clearCheckReport,
+                    closeCheckReport,
                     setActiveKey
                 },
                 TaskStore: { activeTask: { taskId, processName, projectId } } = {},
                 appStore: { loginUser: { roleCode, username } } = {}
             } = this.props;
 
-            //清空质检数据
-            clearCheckReport();
+            closeCheckReport(); //关闭质检弹窗
 
             //质量检查
             const checkRes = await handleProducerCheck({
