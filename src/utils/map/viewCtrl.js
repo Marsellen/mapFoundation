@@ -56,13 +56,13 @@ export const updateData = async () => {
         const { activeTask, isEditableTask, getTaskFile } = TaskStore;
         const { vectors: vectorUrl, rels: relUrl, attrs: attrUrl } = getTaskFile() || {};
         //销毁indexDB的关联关系表和关联属性表
-        await Promise.all([RelStore.destroy(), AttrStore.destroy()]);
+        await Promise.allSettled([RelStore.destroy(), AttrStore.destroy()]);
         //判断如果是“开始任务”，则重新获取当前任务和周边底图数据，更新indexDB表
         //判断如果是“浏览任务”，则重新获取当前任务，更新indexDB表
         if (isEditableTask) {
             const boundaryRelUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryRels, activeTask);
             const boundaryAttrUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryAttrs, activeTask);
-            await Promise.all([
+            await Promise.allSettled([
                 window.vectorLayerGroup.resetData(vectorUrl),
                 RelStore.addRecords(relUrl, 'current'),
                 AttrStore.addRecords(attrUrl, 'current'),
@@ -70,7 +70,7 @@ export const updateData = async () => {
                 AttrStore.addRecords(boundaryAttrUrl, 'boundary')
             ]);
         } else {
-            await Promise.all([
+            await Promise.allSettled([
                 window.vectorLayerGroup.resetData(vectorUrl),
                 RelStore.addRecords(relUrl, 'current'),
                 AttrStore.addRecords(attrUrl, 'current')
