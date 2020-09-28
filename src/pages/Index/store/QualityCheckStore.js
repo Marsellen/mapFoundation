@@ -222,7 +222,7 @@ class QualityCheckStore {
                     filterMap[key] = filterMap[key] || {};
                     filterMap[key][currentVal] = {
                         value: currentVal,
-                        text: describeObj[label]
+                        text: describeObj?.[label] ?? currentVal
                     };
                 } else {
                     filterMap[key] = filterMap[key] || {};
@@ -259,7 +259,7 @@ class QualityCheckStore {
             this.reportList[index] = {
                 ...this.reportList[index],
                 ...data,
-                checked: checked
+                checked: true
             };
             this.handleReportList(this.reportList);
         } catch (e) {
@@ -275,7 +275,7 @@ class QualityCheckStore {
             this.reportList[index] = {
                 ...this.reportList[index],
                 misrepId: false,
-                checked: checked
+                checked: false
             };
             this.handleReportList(this.reportList);
         } catch (e) {
@@ -320,7 +320,7 @@ class QualityCheckStore {
             this.reportList[index] = {
                 ...this.reportList[index],
                 status: option.status,
-                checked: checked
+                checked: true
             };
             this.handleReportList(this.reportList);
         } catch (e) {
