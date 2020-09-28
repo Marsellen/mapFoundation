@@ -140,8 +140,7 @@ class QualityCheckStore {
                         switch (code) {
                             case 1:
                                 this.handleReportList(data);
-                                const { taskProcessName } = TaskStore;
-                                if (taskProcessName === 'imp_manbuild') await updateData();
+                                if (TaskStore.isFixTask) await updateData();
                                 resolve && resolve(data);
                                 break;
                             case 201:
