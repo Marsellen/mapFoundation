@@ -66,7 +66,7 @@ class QCMarkerStore {
                         filterMap[key] = filterMap[key] || {};
                         filterMap[key][currentVal] = {
                             value: currentVal,
-                            text: describeObj[label]
+                            text: describeObj?.[label] ?? currentVal
                         };
                     } else {
                         filterMap[key] = filterMap[key] || {};

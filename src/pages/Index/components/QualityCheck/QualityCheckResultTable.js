@@ -38,7 +38,7 @@ class QualityCheckResultTable extends React.Component {
                                 </div>
                             );
                         case 'status':
-                        case 'misrepId':
+                        case 'misrepStatus':
                             return this.renderActions(record);
                         case 'repairStatus':
                             return this.renderCancelRepair(record);
