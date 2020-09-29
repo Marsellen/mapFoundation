@@ -81,8 +81,8 @@ class VizComponent extends React.Component {
         this.setMode(); //设置渲染模式
         const div = document.getElementById('viz');
         window.map = new Map(div);
+        window.map.setKeySpeedRange(1, 0.125, 16);
         await this.initTask();
-        map.setKeySpeedRange(1, 0.125, 16);
         this.renderMode(); //根据渲染模式，初始化注记和符号
     };
 
