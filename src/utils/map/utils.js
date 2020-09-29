@@ -1,11 +1,11 @@
 import { VectorLayer } from 'addis-viz-sdk';
 import Axios from 'axios';
-import LAYER_CONFIG from 'src/config/VectorsConfig';
+import { QualityLayerConfig } from 'src/config/QualityLayerConfig';
 
-export const loadVector = async (url, key) => {
+export const loadQualityLayer = async (url, key) => {
     let { data } = await Axios.get(url);
     let { name, features } = data;
-    let layerConfig = LAYER_CONFIG[key || name] || {};
+    let layerConfig = QualityLayerConfig[key || name] || {};
     let vectorLayer = new VectorLayer(null, { layerConfig });
     vectorLayer.setMap(window.map);
     vectorLayer.addFeatures(features);
