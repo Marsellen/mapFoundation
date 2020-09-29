@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
 import { message, Modal } from 'antd';
 import { saveTaskData } from 'src/utils/taskUtils';
-import { loadVector } from 'src/utils/map/utils';
+import { loadQualityLayer } from 'src/utils/map/utils';
 import ResourceLayerStore from 'src/pages/Index/store/ResourceLayerStore';
 import { SUSPECT_LAYER, WRONG_LAYER } from 'src/config/DataLayerConfig';
 
@@ -127,8 +127,8 @@ class QualityCheck extends React.Component {
             let suspectUrl = `${Input_imp_data_path}/18_QE_DATA/1809_QE_DES/AD_Suspect.geojson`;
             let wrongUrl = `${Input_imp_data_path}/18_QE_DATA/1809_QE_DES/AD_Wrong.geojson`;
             ResourceLayerStore.confidenceLayerRelease();
-            let suspectLayer = await loadVector(suspectUrl, 'AD_Suspect');
-            let wrongLayer = await loadVector(wrongUrl, 'AD_Wrong');
+            let suspectLayer = await loadQualityLayer(suspectUrl, 'AD_Suspect');
+            let wrongLayer = await loadQualityLayer(wrongUrl, 'AD_Wrong');
             ResourceLayerStore.addConfidenceLayer([
                 { value: SUSPECT_LAYER, layer: suspectLayer, checked: true },
                 { value: WRONG_LAYER, layer: wrongLayer, checked: true }
