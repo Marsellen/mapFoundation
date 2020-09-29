@@ -135,7 +135,7 @@ class Save extends React.Component {
 
         let restoreTasks = taskChangeList.filter(task => {
             let change = task.change;
-            return /3-/.test(change) && !/3-3/.test(change);
+            return /3-/.test(change) && !/3-3/.test(change) && !/3-x/.test(change);
         });
         if (restoreTasks.length) {
             let ids = restoreTasks.map(task => task.taskId).join('、');
