@@ -208,8 +208,8 @@ class QualityCheckStore {
                 item.visited = checkReport[repId] ? checkReport[repId] : false;
                 item.ellipsis = true;
                 item.checked = getQualityChecked(item);
-                item.misrepId = item.misrepId ?? false;
             }
+            item.misrepStatus = item.misrepId ? true : false;
             this.reportFilterKeys.map(column => {
                 const { key, describe } = column;
                 const currentVal = item[key];
@@ -273,7 +273,7 @@ class QualityCheckStore {
             yield CheckService.deleteMisreport(record);
             this.reportList[index] = {
                 ...this.reportList[index],
-                misrepId: false,
+                misrepId: null,
                 checked: false
             };
             this.handleReportList(this.reportList);

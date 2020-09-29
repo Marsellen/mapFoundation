@@ -87,8 +87,8 @@ const FIX_REPORT_COLUMNS = [
     },
     {
         title: '无需修改',
-        dataIndex: 'misrepId',
-        key: 'misrepId',
+        dataIndex: 'misrepStatus',
+        key: 'misrepStatus',
         isFilter: true,
         describe: {
             data: MIS_REP_ID_DESC,
