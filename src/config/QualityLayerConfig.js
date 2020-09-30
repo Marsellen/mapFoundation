@@ -7,7 +7,13 @@ export const QualityLayerConfig = {
         vectorStyle: {
             TYPE: [
                 {
-                    style: { color: 'rgb(0,0,255)', linewidth: 1 }
+                    style: {
+                        color: 'rgb(0,0,255)',
+                        linewidth: 1,
+                        lineStyle: 'dashed',
+                        dashSize: 0.5,
+                        gapSize: 0.5
+                    }
                 }
             ]
         }
@@ -20,7 +26,13 @@ export const QualityLayerConfig = {
         vectorStyle: {
             TYPE: [
                 {
-                    style: { color: 'rgb(255,0,0)', linewidth: 1 }
+                    style: {
+                        color: 'rgb(255,0,0)',
+                        linewidth: 1,
+                        lineStyle: 'dashed',
+                        dashSize: 0.5,
+                        gapSize: 0.5
+                    }
                 }
             ]
         }
