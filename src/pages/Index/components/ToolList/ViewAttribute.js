@@ -493,8 +493,8 @@ class ViewAttribute extends React.Component {
         let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.clearPick();
-        await AttributeStore.setModel(obj);
         DataLayerStore.setSelectFeature(obj.layerId, obj.uuid);
+        await AttributeStore.setModel(obj);
         AttributeStore.show(readonly);
     };
 

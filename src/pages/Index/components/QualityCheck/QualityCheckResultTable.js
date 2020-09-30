@@ -189,9 +189,9 @@ class QualityCheckResultTable extends React.Component {
         let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.clearPick();
-        await AttributeStore.setModel(obj);
         DataLayerStore.setFeatureColor(obj, 'rgb(255,134,237)');
         DataLayerStore.setSelectFeature(obj.layerId, obj.uuid);
+        await AttributeStore.setModel(obj);
         AttributeStore.show(readonly);
     };
 
