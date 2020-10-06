@@ -154,7 +154,7 @@ class ResourceLoader extends React.Component {
     };
 
     save = () => {
-        const { form, TaskStore, QualityCheckStore } = this.props;
+        const { form, TaskStore } = this.props;
 
         form.validateFields(async (err, values) => {
             if (err) {

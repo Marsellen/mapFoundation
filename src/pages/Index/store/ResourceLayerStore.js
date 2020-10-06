@@ -278,7 +278,7 @@ class ResourceLayerStore {
         }
     };
 
-    @action toggleConfidenceLayer = (value = CONFIDENCE_LAYER, checked) => {
+    @action toggleConfidenceLayer = (checked, value = CONFIDENCE_LAYER) => {
         let ConfidenceLayer = this.layers.find(layer => layer.value == CONFIDENCE_LAYER);
         if (!ConfidenceLayer) return;
         if (value === CONFIDENCE_LAYER) {
