@@ -71,7 +71,7 @@ const FIX_REPORT_COLUMNS = [
         title: '错误描述',
         dataIndex: 'errorDesc',
         key: 'errorDesc',
-        width: 158
+        width: 150
     },
     {
         title: '是否查看',
