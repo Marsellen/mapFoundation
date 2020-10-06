@@ -300,7 +300,6 @@ class MultiFunctionalTable extends React.Component {
 
     renderFooter = currentPageData => {
         const { currentPage, pageSize, dataSource, total } = this.state;
-        const { tableHeight, className, rowKey } = this.props;
         const dataSourceL = dataSource.length;
         return (
             dataSourceL > 0 && (
@@ -326,9 +325,8 @@ class MultiFunctionalTable extends React.Component {
     };
 
     render() {
-        const { currentPage, pageSize, dataSource, total } = this.state;
+        const { dataSource } = this.state;
         const { tableHeight, className, rowKey } = this.props;
-        const dataSourceL = dataSource.length;
 
         return (
             <div

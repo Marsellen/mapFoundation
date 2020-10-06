@@ -22,6 +22,14 @@ export function StoreApiPath(url) {
     }
 }
 
+export function QuerydbApiPath(url) {
+    if (/^\//.test(url)) {
+        return `/gateway/querydb${url}`;
+    } else {
+        return `/gateway/querydb/${url}`;
+    }
+}
+
 export function EditApiPath(url) {
     if (/^\//.test(url)) {
         return `/gateway/edit${url}`;
