@@ -1,12 +1,11 @@
 import React from 'react';
-import { ConfigProvider, Button, Pagination } from 'antd';
+import { ConfigProvider, Button } from 'antd';
 import 'src/assets/less/components/multi-functional-table.less';
 import { shortcut } from 'src/utils/shortcuts';
 import AdTable from 'src/components/AdTable';
 import zh_CN from 'antd/es/locale/zh_CN';
 
 const showTotal = total => `共${total}条`;
-
 class MultiFunctionalTable extends React.Component {
     constructor(props) {
         super(props);
@@ -298,34 +297,21 @@ class MultiFunctionalTable extends React.Component {
         ]);
     };
 
-    renderFooter = currentPageData => {
-        const { currentPage, pageSize, dataSource, total } = this.state;
-        const dataSourceL = dataSource.length;
+    renderFooter = () => {
+        const dataSourceL = this.state.dataSource.length;
         return (
             dataSourceL > 0 && (
                 <div className="table-footer">
                     <Button className="reset-button" onClick={this.clearFilters}>
                         筛选重置
                     </Button>
-                    <Pagination
-                        current={currentPage}
-                        size="small"
-                        pageSize={pageSize}
-                        total={currentPageData.length ?? total}
-                        showTotal={showTotal}
-                        showSizeChanger={true}
-                        onChange={this.handlePagination}
-                        onShowSizeChange={this.handlePagination}
-                        pageSizeOptions={['10', '20', '30', '40', '50']}
-                        className="table-pagination"
-                    />
                 </div>
             )
         );
     };
 
     render() {
-        const { dataSource } = this.state;
+        const { currentPage, pageSize, dataSource } = this.state;
         const { tableHeight, className, rowKey } = this.props;
 
         return (
@@ -345,7 +331,17 @@ class MultiFunctionalTable extends React.Component {
                             };
                         }}
                         rowClassName={(record, index) => `table-row table-row-${index}`}
-                        pagination={false}
+                        pagination={{
+                            current: currentPage,
+                            size: 'small',
+                            pageSize: pageSize,
+                            showTotal: showTotal,
+                            showSizeChanger: true,
+                            onChange: this.handlePagination,
+                            onShowSizeChange: this.handlePagination,
+                            pageSizeOptions: ['10', '20', '30', '40', '50'],
+                            style: { top: tableHeight ? tableHeight + 36 : 196 }
+                        }}
                         className={`multi-function-table ${className}`}
                         onChange={this.handleTableChange}
                         rowKey={rowKey}
