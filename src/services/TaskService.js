@@ -1,5 +1,5 @@
 import service from 'src/services';
-import { EditApiPath, StoreApiPath, TaskApiPath } from 'src/utils/Api';
+import { EditApiPath, TaskApiPath, QuerydbApiPath } from 'src/utils/Api';
 import { getAuthentication } from 'src/utils/Session';
 
 const TaskService = {
@@ -27,9 +27,19 @@ const TaskService = {
         };
         return service({ config });
     },
+    //过程库查询接口
+    // updateBoundaryFile: data => {
+    //     const config = {
+    //         url: StoreApiPath('/storeQuery'),
+    //         method: 'post',
+    //         data
+    //     };
+    //     return service({ config });
+    // },
+    //母库查询接口
     updateBoundaryFile: data => {
         const config = {
-            url: StoreApiPath('/storeQuery'),
+            url: QuerydbApiPath('/queryforoutside'),
             method: 'post',
             data
         };
