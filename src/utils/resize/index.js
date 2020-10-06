@@ -79,14 +79,14 @@ class Resize {
                 break;
             case 'top':
                 height = this.currentHeight - addY;
-                if (height > 170) {
+                if (height > 220) {
                     this.currentEle.style.top = this.currentTop + addY - this.dragY + 'px';
                     this.currentEle.style.height = height + 'px';
                 }
                 break;
             case 'bottom':
                 height = this.currentHeight + addY;
-                if (height > 170) {
+                if (height > 220) {
                     this.currentEle.style.top = this.currentTop - this.dragY + 'px';
                     this.currentEle.style.height = height + 'px';
                 }
