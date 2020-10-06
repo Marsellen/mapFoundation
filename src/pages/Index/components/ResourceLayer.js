@@ -184,7 +184,7 @@ class ResourceLayer extends React.Component {
     handleConfidenceChange = (e, value) => {
         const { ResourceLayerStore } = this.props;
         const { checked } = e.target;
-        ResourceLayerStore.toggleConfidenceLayer(value, checked);
+        ResourceLayerStore.toggleConfidenceLayer(checked, value);
     };
 }
 

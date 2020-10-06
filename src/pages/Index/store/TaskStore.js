@@ -33,7 +33,6 @@ import {
     TASK_FIX_STATUS,
     TASK_REFIX_STATUS
 } from 'src/config/TaskConfig';
-import { UPDATE_BOUNDARY_PARAM_MAP } from 'src/config/TaskConfig';
 import LocalTask from 'src/utils/Task/LocalTask';
 import AddTask from 'src/utils/Task/AddTask';
 import UpdateTask from 'src/utils/Task/UpdateTask';
