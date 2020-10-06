@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConfigProvider, Button } from 'antd';
+import { ConfigProvider, Button, Pagination } from 'antd';
 import 'src/assets/less/components/multi-functional-table.less';
 import { shortcut } from 'src/utils/shortcuts';
 import AdTable from 'src/components/AdTable';
@@ -24,7 +24,8 @@ class MultiFunctionalTable extends React.Component {
             pageSize: 10,
             filteredInfo: null,
             dataSource,
-            dataSourceL: dataSource.length
+            dataSourceL: dataSource.length,
+            total: dataSource.length
         };
     }
 
@@ -297,11 +298,37 @@ class MultiFunctionalTable extends React.Component {
         ]);
     };
 
-    render() {
-        const { currentPage, pageSize, dataSource } = this.state;
+    renderFooter = currentPageData => {
+        const { currentPage, pageSize, dataSource, total } = this.state;
         const { tableHeight, className, rowKey } = this.props;
         const dataSourceL = dataSource.length;
-        const tableH = tableHeight != 0;
+        return (
+            dataSourceL > 0 && (
+                <div className="table-footer">
+                    <Button className="reset-button" onClick={this.clearFilters}>
+                        筛选重置
+                    </Button>
+                    <Pagination
+                        current={currentPage}
+                        size="small"
+                        pageSize={pageSize}
+                        total={currentPageData.length ?? total}
+                        showTotal={showTotal}
+                        showSizeChanger={true}
+                        onChange={this.handlePagination}
+                        onShowSizeChange={this.handlePagination}
+                        pageSizeOptions={['10', '20', '30', '40', '50']}
+                        className="table-pagination"
+                    />
+                </div>
+            )
+        );
+    };
+
+    render() {
+        const { currentPage, pageSize, dataSource, total } = this.state;
+        const { tableHeight, className, rowKey } = this.props;
+        const dataSourceL = dataSource.length;
 
         return (
             <div
@@ -320,35 +347,16 @@ class MultiFunctionalTable extends React.Component {
                             };
                         }}
                         rowClassName={(record, index) => `table-row table-row-${index}`}
-                        pagination={{
-                            current: currentPage,
-                            size: 'small',
-                            pageSize: pageSize,
-                            showTotal: showTotal,
-                            showSizeChanger: true,
-                            onChange: this.handlePagination,
-                            onShowSizeChange: this.handlePagination,
-                            pageSizeOptions: ['10', '20', '30', '40', '50'],
-                            className: tableH ? 'table-pagination' : 'table-pagination-init'
-                        }}
-                        className={
-                            tableH
-                                ? `multi-function-table ${className}`
-                                : `multi-function-table-init ${className}`
-                        }
+                        pagination={false}
+                        className={`multi-function-table ${className}`}
                         onChange={this.handleTableChange}
                         rowKey={rowKey}
-                        scroll={{ y: tableHeight || 170, x: 'max-content' }}
-                        height={dataSourceL > 0 && tableH ? '100%' : 'max-content'} //初始打开列表时表格最大化
+                        scroll={{ y: tableHeight || 160, x: '100%' }}
+                        width={'100%'}
+                        height={'100%'}
                         isHandleBody={true}
+                        footer={this.renderFooter}
                     />
-                    {dataSourceL > 0 && (
-                        <div className="table-footer">
-                            <Button className="reset-button" onClick={this.clearFilters}>
-                                筛选重置
-                            </Button>
-                        </div>
-                    )}
                 </ConfigProvider>
             </div>
         );

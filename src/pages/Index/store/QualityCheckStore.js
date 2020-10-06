@@ -170,7 +170,7 @@ class QualityCheckStore {
     };
 
     @action resizeCallback = result => {
-        this.tableHeight = result && result.height - 135;
+        this.tableHeight = result && result.height - 155;
     };
 
     @action toResizeDom = () => {
