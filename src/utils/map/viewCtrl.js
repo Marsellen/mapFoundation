@@ -60,15 +60,12 @@ export const updateData = async () => {
         //判断如果是“开始任务”，则重新获取当前任务和周边底图数据，更新indexDB表
         //判断如果是“浏览任务”，则重新获取当前任务，更新indexDB表
         if (isEditableTask) {
-            const { boundaryAdsAll, boundaryRels, boundaryAttrs } = CONFIG.urlConfig;
-            const boundaryVectorUrl = completeBoundaryUrl(boundaryAdsAll, activeTask);
-            const boundaryRelUrl = completeBoundaryUrl(boundaryRels, activeTask);
-            const boundaryAttrUrl = completeBoundaryUrl(boundaryAttrs, activeTask);
+            const boundaryRelUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryRels, activeTask);
+            const boundaryAttrUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryAttrs, activeTask);
             await Promise.allSettled([
                 window.vectorLayerGroup.resetData(vectorUrl),
                 RelStore.addRecords(relUrl, 'current'),
                 AttrStore.addRecords(attrUrl, 'current'),
-                window.vectorLayerGroup.resetData(boundaryVectorUrl),
                 RelStore.addRecords(boundaryRelUrl, 'boundary'),
                 AttrStore.addRecords(boundaryAttrUrl, 'boundary')
             ]);
