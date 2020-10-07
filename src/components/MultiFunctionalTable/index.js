@@ -297,22 +297,11 @@ class MultiFunctionalTable extends React.Component {
         ]);
     };
 
-    renderFooter = () => {
-        const dataSourceL = this.state.dataSource.length;
-        return (
-            dataSourceL > 0 && (
-                <div className="table-footer">
-                    <Button className="reset-button" onClick={this.clearFilters}>
-                        筛选重置
-                    </Button>
-                </div>
-            )
-        );
-    };
-
     render() {
         const { currentPage, pageSize, dataSource } = this.state;
         const { tableHeight, className, rowKey } = this.props;
+        const dataSourceL = dataSource.length;
+        const tableH = tableHeight != 0;
 
         return (
             <div
@@ -340,17 +329,25 @@ class MultiFunctionalTable extends React.Component {
                             onChange: this.handlePagination,
                             onShowSizeChange: this.handlePagination,
                             pageSizeOptions: ['10', '20', '30', '40', '50'],
-                            style: { top: tableHeight ? tableHeight + 36 : 196 }
+                            className: tableH
+                                ? 'multi-function-pagination'
+                                : 'multi-function-pagination-init'
                         }}
-                        className={`multi-function-table ${className}`}
+                        className={tableH ? 'multi-function-table' : 'multi-function-table-init'}
                         onChange={this.handleTableChange}
                         rowKey={rowKey}
-                        scroll={{ y: tableHeight || 160, x: '100%' }}
+                        scroll={{ y: tableHeight || 175, x: '100%' }}
                         width={'100%'}
                         height={'100%'}
                         isHandleBody={true}
-                        footer={this.renderFooter}
                     />
+                    {dataSourceL > 0 && (
+                        <div className="table-footer">
+                            <Button className="reset-button" onClick={this.clearFilters}>
+                                筛选重置
+                            </Button>
+                        </div>
+                    )}
                 </ConfigProvider>
             </div>
         );

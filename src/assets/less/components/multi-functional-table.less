@@ -1,6 +1,7 @@
 .multi-function-table-wrap {
     height: 100%;
-    .multi-function-table {
+    .multi-function-table,
+    .multi-function-table-init {
         padding: 0 10px;
 
         .ant-table {
@@ -15,8 +16,6 @@
                 align-items: center;
                 justify-content: center;
                 width: 100%;
-                height: calc(100% - 155px);
-                min-height: 90px;
                 border-bottom: none;
             }
 
@@ -101,26 +100,39 @@
         }
     }
 
-    .ant-pagination {
+    .multi-function-table {
+        .ant-table-placeholder {
+            height: calc(100% - 145px);
+        }
+    }
+
+    .multi-function-table-init {
+        padding-bottom: 55px;
+        .ant-table-placeholder {
+            height: calc(100% - 30px);
+        }
+    }
+
+    .multi-function-pagination-init {
         position: absolute;
         right: 0;
+        bottom: -56px;
+    }
+
+    .multi-function-pagination {
+        position: absolute;
+        right: 0;
+        bottom: 63px;
     }
 
     .ant-dropdown {
         z-index: 999999;
     }
 
-    .ant-table-footer {
-        padding-left: 0;
-        padding-right: 0;
-        background: unset;
-    }
-
     .table-footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-sizing: border-box;
+        position: absolute;
+        left: 10px;
+        bottom: 13px;
     }
 
     .reset-button {
@@ -143,7 +155,7 @@
     }
 
     .ant-table-content {
-        min-height: 180px;
+        min-height: 120px;
     }
 
     .ant-table-scroll {
