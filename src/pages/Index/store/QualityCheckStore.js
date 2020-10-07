@@ -241,7 +241,6 @@ class QualityCheckStore {
     @action visitedReport = (record, activeTaskId) => {
         const { index, repId } = record;
         this.reportList[index].visited = true;
-        this.handleReportList(this.reportList);
         //访问状态记录在缓存中
         this.checkReportIsVisited[repId] = true;
         const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
@@ -249,6 +248,7 @@ class QualityCheckStore {
             taskId: activeTaskId,
             checkReport: { ...checkReport, ...this.checkReportIsVisited }
         });
+        this.handleReportList(this.reportList);
     };
 
     //作业员新增一条误报
