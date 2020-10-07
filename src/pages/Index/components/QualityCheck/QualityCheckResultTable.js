@@ -165,18 +165,17 @@ class QualityCheckResultTable extends React.Component {
     //单击
     handleClick = record => {
         const { DataLayerStore } = this.props;
-        if (DataLayerStore.editType != 'normal') return;
+        DataLayerStore.exitEdit();
         let feature = locateCheckItem(record);
         feature && this.showAttributesModal(feature);
     };
 
     //双击
     handleDoudleClick = record => {
-        const { QualityCheckStore, TaskStore, DataLayerStore } = this.props;
-        const { visitedReport } = QualityCheckStore;
-        const { activeTaskId } = TaskStore;
-        if (DataLayerStore.editType != 'normal') return;
-        DataLayerStore.exitEdit();
+        const {
+            QualityCheckStore: { visitedReport },
+            TaskStore: { activeTaskId }
+        } = this.props;
         visitedReport(record, activeTaskId);
         locateCheckItem(record, true);
     };
