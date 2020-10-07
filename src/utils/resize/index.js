@@ -69,12 +69,14 @@ class Resize {
                 if (width > 500) {
                     this.currentEle.style.left = this.currentLeft + addX - this.dragX + 'px';
                     this.currentEle.style.width = width + 'px';
+                    this.currentEle.style.height = this.currentHeight + 'px';
                 }
                 break;
             case 'right':
                 width = this.currentWidth + addX;
                 if (width > 500) {
                     this.currentEle.style.width = width + 'px';
+                    this.currentEle.style.height = this.currentHeight + 'px';
                 }
                 break;
             case 'top':
