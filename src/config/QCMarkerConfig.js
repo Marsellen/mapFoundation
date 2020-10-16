@@ -86,20 +86,6 @@ const FIELD_NAME_MAP = {
         { value: 'TYPE', label: '面状标识物类型' },
         { value: 'LANE_ID', label: '面状标识物关联关系' }
     ],
-    AD_Text: [
-        { value: 'TYPE', label: '文字类型' },
-        { value: 'VALUE', label: '文字内容' },
-        { value: 'LANE_ID', label: '文字关联关系' }
-    ],
-    AD_TrafficSign: [
-        { value: 'SIGN_STYLE', label: '交通牌样式' },
-        { value: 'SIGN_NO', label: '交通牌编号' },
-        { value: 'SIGN_TYPE', label: '交通牌类型' },
-        { value: 'CONT_TYPE', label: '交通牌语义类型' },
-        { value: 'CONT_VALUE', label: '交通牌语义内容' },
-        { value: 'TIMEDOM', label: '交通牌限制时间' },
-        { value: 'LANE_ID', label: '交通牌关联关系' }
-    ],
     AD_TrafficLight: [
         { value: 'TYPE', label: '交通灯类型' },
         { value: 'LAYOUT', label: '交通灯灯头布局' },
@@ -108,7 +94,6 @@ const FIELD_NAME_MAP = {
         { value: 'LAMP_TYPE', label: '交通灯灯头子类型' },
         { value: 'LANE_ID', label: '交通灯关联关系' }
     ],
-    AD_Pole: [],
     AD_RS_Barrier: [
         { value: 'TYPE', label: '隔离带护栏类型' },
         { value: 'MATERIAL', label: '隔离带护栏材质' }

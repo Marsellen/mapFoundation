@@ -272,11 +272,6 @@ export const TYPE_SELECT_OPTION_MAP = {
             abbreviation: '斜人'
         }
     ],
-    AD_TRAFFICSIGN_SIGN_STYLE: [
-        { value: 0, label: '未定义', abbreviation: '0' },
-        { value: 1, label: '单个标志牌', abbreviation: '单' },
-        { value: 2, label: '组合标志牌', abbreviation: '组合' }
-    ],
     //排序（icon后期补）
     AD_TS_CONTENT_SIGN_TYPE: [
         // 交通标志牌种类变化（比之前减少了部分种类，之前种类暂不删除，以防后面加上）
@@ -810,10 +805,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'AD_Arrow', label: '地面导向箭头' },
         { value: 'AD_StopLocation', label: '停止位置' },
         { value: 'AD_LaneMark_Plg', label: '面状标识物' },
-        { value: 'AD_Text', label: '地面文字符号' },
-        { value: 'AD_TrafficSign', label: '交通标志牌' },
         { value: 'AD_TrafficLight', label: '交通信号灯' },
-        { value: 'AD_Pole', label: '杆状物' },
         { value: 'AD_RS_Barrier', label: '隔离带、护栏' }
     ],
     AD_MAP_QC_ERROR_TYPE: [
@@ -878,18 +870,6 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '塑料', abbreviation: '塑' },
         { value: 4, label: '其他', abbreviation: '他' }
     ],
-    AD_TEXT_TYPE: [
-        { value: 0, label: '未定义', icon: 'weidingyi', abbreviation: '0' },
-        { value: 1, label: '最高限速', icon: 'zuigaoxiansu', abbreviation: '高' },
-        { value: 2, label: '最低限速', icon: 'zuidixiansu', abbreviation: '低' },
-        {
-            value: 3,
-            label: '公交车道时间限制',
-            icon: 'gongjiaochedaoshijianxianzhi',
-            abbreviation: '公交'
-        },
-        { value: 99, label: '其他', icon: 'qita', abbreviation: '99' }
-    ],
     AD_LANE_RS_TYPE: [
         { value: 0, label: '未定义' },
         { value: 1, label: '禁止驶入' },
@@ -934,14 +914,6 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_LaneMark_Plg: {
         TYPE: 1
-    },
-    AD_Text: {
-        TYPE: 99,
-        LANE_ID: 0,
-        VALUE: ''
-    },
-    AD_TrafficSign: {
-        SIGN_STYLE: 1
     },
     AD_TrafficLight: {
         TYPE: 1,
@@ -1001,10 +973,6 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_StopLocation: {
         TYPE: 1
-    },
-    AD_Pole: {
-        RADIUS_UP: 0,
-        RADIUS_DN: 0
     },
     AD_Map_QC: {
         FILE_NAME: '',
@@ -1115,27 +1083,6 @@ export const TABLE_DATA_MAP = {
             name: '道路形态',
             type: 'AD_LANE_DIVIDER_RD_FORM',
             domType: 'Select'
-        }
-    ],
-    AD_Text: [
-        {
-            key: 'TEXT_ID',
-            name: '用户编号',
-            type: 'AD_TEXT_ID',
-            domType: 'Text'
-        },
-        {
-            key: 'TYPE',
-            name: '文字符号类型',
-            type: 'AD_TEXT_TYPE',
-            domType: 'RadioIconGroup'
-        },
-        {
-            key: 'VALUE',
-            name: '地面文字内容',
-            type: 'AD_TEXT_VALUE',
-            domType: 'Input',
-            validates: 'Char|250'
         }
     ],
     AD_Road: [
@@ -1316,20 +1263,6 @@ export const TABLE_DATA_MAP = {
             domType: 'RadioIconGroup'
         }
     ],
-    AD_TrafficSign: [
-        {
-            key: 'SIGN_ID',
-            name: '用户编号',
-            type: 'AD_TRAFFICSIGN_ID',
-            domType: 'Text'
-        },
-        {
-            key: 'SIGN_STYLE',
-            name: '交通标志牌样式',
-            type: 'AD_TRAFFICSIGN_SIGN_STYLE',
-            domType: 'Select'
-        }
-    ],
     AD_TrafficLight: [
         {
             key: 'LIGHT_ID',
@@ -1439,30 +1372,6 @@ export const TABLE_DATA_MAP = {
             type: 'AD_RS_BARRIER_MATERIAL',
             domType: 'Select'
         }
-    ],
-    AD_Pole: [
-        {
-            key: 'POLE_ID',
-            name: '用户编号',
-            type: 'AD_POLE_ID',
-            domType: 'Text'
-        },
-        {
-            key: 'RADIUS_UP',
-            name: '杆状物立柱顶部半径',
-            type: 'AD_POLE_RADIUS_UP',
-            domType: 'InputNumber',
-            required: true,
-            validates: 'Decimal|10|4'
-        },
-        {
-            key: 'RADIUS_DN',
-            name: '杆状物立柱底部半径',
-            type: 'AD_POLE_RADIUS_DN',
-            domType: 'InputNumber',
-            required: true,
-            validates: 'Decimal|10|4'
-        }
     ]
 };
 
@@ -1485,15 +1394,12 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_StopL_Lane_Rel: '{"STOPL_ID":{},"LANE_ID":{}}',
     AD_LaneMark_Plg: '{"TYPE":{},"GEOMETRY":{}}',
     AD_Plg_Lane_Rel: '{"PLG_ID":{},"LANE_ID":{}}',
-    AD_Text: '{"TYPE":{},"VALUE":{},"LANE_ID":{},"GEOMETRY":{}}',
-    AD_TrafficSign: '{"SIGN_STYLE":{},"GEOMETRY":{}}',
     AD_TS_Content:
         '{"SIGN_ID":{},"SIGN_TYPE":{},"CONT_TYPE":{},"TIMEDOM":{},"CONT_VALUE":{},"SIGN_NO":{}}',
     AD_Sign_Lane_Rel: '{"SIGN_ID":{},"LANE_ID":{}}',
     AD_TrafficLight: '{"TYPE":{},"LAYOUT":{},"LAMP_COUNT":{},"GEOMETRY":{}}',
     AD_Sub_Lamp: '{"LIGHT_ID":{},"LAMP_TYPE":{},"LAMP_NO":{}}',
     AD_Light_Lane_Rel: '{"LIGHT_ID":{},"LANE_ID":{}}',
-    AD_Pole: '{"RADIUS_UP":{},"RADIUS_DN":{},"GEOMETRY":{}}',
     AD_RS_Barrier: '{"TYPE":{},"MATERIAL":{},"GEOMETRY":{}}'
 };
 
@@ -1548,28 +1454,6 @@ export const LAYER_TYPE_MAP = {
             key: 'RD_FORM',
             name: '道路形态',
             type: 'AD_LANE_DIVIDER_RD_FORM'
-        }
-    ],
-    AD_Text: [
-        {
-            key: 'TEXT_ID',
-            name: '用户编号',
-            type: 'AD_TEXT_ID'
-        },
-        {
-            key: 'TYPE',
-            name: '文字符号类型',
-            type: 'AD_TEXT_TYPE'
-        },
-        {
-            key: 'VALUE',
-            name: '地面文字内容',
-            type: 'AD_TEXT_VALUE'
-        },
-        {
-            key: 'LANE_ID',
-            name: '关联车道中心线ID',
-            type: 'AD_TEXT_LANE_ID'
         }
     ],
     AD_Road: [
@@ -1739,18 +1623,6 @@ export const LAYER_TYPE_MAP = {
             type: 'AD_LANE_ATTRPOINT_ROAD_ID'
         }
     ],
-    AD_TrafficSign: [
-        {
-            key: 'SIGN_ID',
-            name: '用户编号',
-            type: 'AD_TRAFFICSIGN_ID'
-        },
-        {
-            key: 'SIGN_STYLE',
-            name: '交通标志牌样式',
-            type: 'AD_TRAFFICSIGN_SIGN_STYLE'
-        }
-    ],
     AD_TrafficLight: [
         {
             key: 'LIGHT_ID',
@@ -1835,23 +1707,6 @@ export const LAYER_TYPE_MAP = {
             key: 'MATERIAL',
             name: '护栏材质',
             type: 'AD_RS_BARRIER_MATERIAL'
-        }
-    ],
-    AD_Pole: [
-        {
-            key: 'POLE_ID',
-            name: '用户编号',
-            type: 'AD_POLE_ID'
-        },
-        {
-            key: 'RADIUS_UP',
-            name: '杆状物立柱顶部半径',
-            type: 'AD_POLE_RADIUS_UP'
-        },
-        {
-            key: 'RADIUS_DN',
-            name: '杆状物立柱底部半径',
-            type: 'AD_POLE_RADIUS_DN'
         }
     ]
 };

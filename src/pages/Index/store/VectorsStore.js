@@ -3,6 +3,8 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });
 
+const FILTER_LAYER_CONFIG = ['AD_Text', 'AD_Pole', 'AD_TrafficSign', 'AD_Map_QC'];
+
 class VectorsStore {
     vectorLayerMap = {}; //{图层名:layer}
     boundaryLayerMap = {}; //{图层名:layer}
@@ -31,7 +33,8 @@ class VectorsStore {
 
     @action addLayer = layerGroup => {
         const { layers } = layerGroup;
-        this.vectors.vector = layers.map(layerItem => {
+        const filterLayer = this.filterLayer(layers);
+        this.vectors.vector = filterLayer.map(layerItem => {
             const { layer, layerName } = layerItem;
             this.vectorLayerMap[layerName] = layer;
 
@@ -41,6 +44,15 @@ class VectorsStore {
                 checked: true
             };
         });
+    };
+
+    filterLayer = layers => {
+        return layers.reduce((total, layer) => {
+            if (!FILTER_LAYER_CONFIG.includes(layer.layerName)) {
+                total.push(layer);
+            }
+            return total;
+        }, []);
     };
 
     @action addBoundaryLayer = layerGroup => {

@@ -7,7 +7,10 @@ export const DATA_LAYER_MAP = {
             recognition: ['DRAW_TOOL_BOX'],
             manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
         },
-        drawTools: { recognition: ['POLYGON'], manbuild: ['POLYGON'] },
+        drawTools: {
+            recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
+            manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
+        },
         rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '地面导向\n箭头'
@@ -75,22 +78,6 @@ export const DATA_LAYER_MAP = {
         groupRightTools: ['batchAssign'],
         editName: '面状标识物'
     },
-    AD_Text: {
-        label: '地面文字符号',
-        id: 'TEXT_ID',
-        spec: 'AD_Text',
-        tools: {
-            recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
-        },
-        drawTools: {
-            recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],
-            manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON']
-        },
-        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
-        groupRightTools: ['batchAssign'],
-        editName: '地面文字\n符号'
-    },
     AD_StopLocation: {
         label: '停止位置',
         id: 'STOPL_ID',
@@ -156,22 +143,6 @@ export const DATA_LAYER_MAP = {
         ],
         editName: '车道中心线'
     },
-    AD_TrafficSign: {
-        label: '交通标志牌',
-        id: 'SIGN_ID',
-        spec: 'AD_TrafficSign',
-        tools: {
-            recognition: ['DRAW_TOOL_BOX', 'POSTURE_ADJUST'],
-            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'POSTURE_ADJUST']
-        },
-        drawTools: {
-            recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE'],
-            manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE']
-        },
-        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
-        groupRightTools: ['batchAssign'],
-        editName: '交通标志牌'
-    },
     AD_Road: {
         label: '道路参考线',
         id: 'ROAD_ID',
@@ -229,38 +200,6 @@ export const DATA_LAYER_MAP = {
         rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '交通信号灯'
-    },
-    AD_Pole: {
-        label: '杆状物',
-        id: 'POLE_ID',
-        spec: 'AD_Pole',
-        tools: {
-            recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX']
-        },
-        drawTools: {
-            recognition: ['LINE'],
-            manbuild: ['LINE']
-        },
-        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
-        groupRightTools: ['batchAssign'],
-        editName: '杆状物'
-    },
-    AD_Map_QC: {
-        label: '标记图层',
-        id: 'ID',
-        spec: 'AD_Map_QC',
-        tools: {
-            recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX']
-        },
-        drawTools: {
-            recognition: ['POINT'],
-            manbuild: ['POINT']
-        },
-        rightTools: ['delete', 'forceDelete'],
-        groupRightTools: ['batchAssign'],
-        editName: '标记图层'
     },
     AD_Marker: {
         label: '质检标注图层',
@@ -372,10 +311,5 @@ export const CONFIDENCE_LAYER = '置信度分区';
 export const WRONG_LAYER = '错误区';
 export const SUSPECT_LAYER = '怀疑区';
 
-export const TOP_VIEW_DISABLED_LAYERS = [
-    'AD_TrafficLight',
-    'AD_TrafficSign',
-    'AD_Pole',
-    'AD_RS_Barrier'
-];
+export const TOP_VIEW_DISABLED_LAYERS = ['AD_TrafficLight', 'AD_RS_Barrier'];
 export const RESOURCE_LAYER_MULTI_PROJECT = '多工程';

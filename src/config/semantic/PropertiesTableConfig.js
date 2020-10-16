@@ -356,79 +356,6 @@ export const COLUMNS_CONFIG = {
             title: '时间戳'
         }
     ],
-    AD_Text: [
-        {
-            dataIndex: 'index',
-            title: '序号'
-        },
-        {
-            dataIndex: 'TEXT_ID',
-            title: '用户编号'
-        },
-        {
-            dataIndex: 'TYPE',
-            title: '文字符号类型',
-            filterBy: 'typeFilter|AD_TEXT_TYPE'
-        },
-        {
-            dataIndex: 'VALUE',
-            title: '地面文字内容'
-        },
-        {
-            dataIndex: 'LANE_ID',
-            title: '关联车道中心线用户编号'
-        },
-        {
-            dataIndex: 'UPD_STAT',
-            title: '更新标识',
-            filterBy: 'updStatFilter'
-        }
-    ],
-    AD_TrafficSign: [
-        {
-            dataIndex: 'index',
-            title: '序号'
-        },
-        {
-            dataIndex: 'SIGN_ID',
-            title: '用户编号'
-        },
-        {
-            dataIndex: 'SIGN_STYLE',
-            title: '标志牌类型',
-            filterBy: 'typeFilter|AD_TRAFFICSIGN_SIGN_STYLE'
-        },
-        {
-            dataIndex: 'UPD_STAT',
-            title: '更新标识',
-            filterBy: 'updStatFilter'
-        },
-        {
-            dataIndex: 'OBJ_ID',
-            title: 'OBJ_ID'
-        },
-        {
-            dataIndex: 'CONFIDENCE',
-            title: '置信度',
-            filterBy: 'semanticConfidenceFilter'
-        },
-        {
-            dataIndex: 'DEVICE',
-            title: '传感器 id'
-        },
-        {
-            dataIndex: 'D_HEIGHT',
-            title: '高'
-        },
-        {
-            dataIndex: 'D_WIDTH',
-            title: '宽'
-        },
-        {
-            dataIndex: 'D_TIMESTAMP',
-            title: '时间戳'
-        }
-    ],
     AD_TS_Content: [
         {
             dataIndex: 'index',
@@ -561,46 +488,6 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'D_WIDTH',
             title: '宽'
-        },
-        {
-            dataIndex: 'D_TIMESTAMP',
-            title: '时间戳'
-        }
-    ],
-    AD_Pole: [
-        {
-            dataIndex: 'index',
-            title: '序号'
-        },
-        {
-            dataIndex: 'POLE_ID',
-            title: '用户编号'
-        },
-        {
-            dataIndex: 'RADIUS_UP',
-            title: '杆状物立柱顶部半径'
-        },
-        {
-            dataIndex: 'RADIUS_DN',
-            title: '杆状物立柱底部半径'
-        },
-        {
-            dataIndex: 'UPD_STAT',
-            title: '更新标识',
-            filterBy: 'updStatFilter'
-        },
-        {
-            dataIndex: 'OBJ_ID',
-            title: 'OBJ_ID'
-        },
-        {
-            dataIndex: 'CONFIDENCE',
-            title: '置信度',
-            filterBy: 'semanticConfidenceFilter'
-        },
-        {
-            dataIndex: 'DEVICE',
-            title: '传感器 id'
         },
         {
             dataIndex: 'D_TIMESTAMP',
@@ -742,10 +629,7 @@ export const SELECT_OPTIONS = [
             'AD_Arrow',
             'AD_StopLocation',
             'AD_LaneMark_Plg',
-            'AD_Text',
-            'AD_TrafficSign',
             'AD_TrafficLight',
-            'AD_Pole',
             'AD_RS_Barrier'
         ]
     },
@@ -764,13 +648,7 @@ export const SELECT_OPTIONS = [
     {
         group: '属性图层',
         class: 'three-layer-out',
-        items: [
-            'AD_TS_Content',
-            'AD_Sub_Lamp',
-            'AD_Lane_RS',
-            'AD_Road_Con_RS',
-            'AD_Lane_Con_RS'
-        ]
+        items: ['AD_TS_Content', 'AD_Sub_Lamp', 'AD_Lane_RS', 'AD_Road_Con_RS', 'AD_Lane_Con_RS']
     },
     {
         group: '其他图层',

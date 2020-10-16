@@ -297,11 +297,6 @@
             "icon": "xiekualukourenxinghengdao"
         }
     ],
-    "AD_TRAFFICSIGN_SIGN_STYLE": [
-        { "value": 0, "label": "未定义" },
-        { "value": 1, "label": "单个标志牌" },
-        { "value": 2, "label": "组合标志牌" }
-    ],
     "AD_TS_CONTENT_SIGN_TYPE": [
         { "value": 0, "label": "未定义", "icon": "weidingyi" },
         { "value": 101, "label": "交叉路口", "icon": "jiaochalukou" },
@@ -420,10 +415,7 @@
         { "value": "AD_Arrow", "label": "地面导向箭头" },
         { "value": "AD_StopLocation", "label": "停止位置" },
         { "value": "AD_LaneMark_Plg", "label": "面状标识物" },
-        { "value": "AD_Text", "label": "道路文字符号" },
-        { "value": "AD_TrafficSign", "label": "交通标志牌" },
         { "value": "AD_TrafficLight", "label": "交通信号灯" },
-        { "value": "AD_Pole", "label": "杆状物" },
         { "value": "AD_RS_Barrier", "label": "隔离带、护栏" }
     ],
     "AD_MAP_QC_ERROR_TYPE": [
@@ -482,17 +474,6 @@
         { "value": 2, "label": "金属" },
         { "value": 3, "label": "塑料" },
         { "value": 4, "label": "其他" }
-    ],
-    "AD_TEXT_TYPE": [
-        { "value": 0, "label": "未定义", "icon": "weidingyi" },
-        { "value": 1, "label": "最高限速", "icon": "zuigaoxiansu" },
-        { "value": 2, "label": "最低限速", "icon": "zuidixiansu" },
-        {
-            "value": 3,
-            "label": "公交车道时间限制",
-            "icon": "gongjiaochedaoshijianxianzhi"
-        },
-        { "value": 99, "label": "其他", "icon": "qita" }
     ],
     "AD_LANE_RS_TYPE": [
         { "value": 0, "label": "未定义" },
