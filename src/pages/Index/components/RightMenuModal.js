@@ -241,7 +241,7 @@ class RightMenuModal extends React.Component {
             </Menu.Item>
         ];
         const { isTopView, getEditLayer } = this.props.DataLayerStore;
-        const { layerName } = getEditLayer();
+        const { layerName } = getEditLayer() || {};
         if (copyPolygonLayers.includes(layerName) || isTopView) {
             menuArr.unshift(
                 <Menu.Item

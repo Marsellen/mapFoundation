@@ -140,7 +140,11 @@ class QualityCheckStore {
                         switch (code) {
                             case 1:
                                 this.handleReportList(data);
-                                if (TaskStore.isFixTask) await updateData();
+                                //人工构建任务且执行过自动修正的才会更新任务数据
+                                if (TaskStore.taskProcessName === 'imp_manbuild') {
+                                    const repairList = data.filter(item => item.repairStatus === 1);
+                                    repairList.length > 0 && (await updateData());
+                                }
                                 resolve && resolve(data);
                                 break;
                             case 201:
