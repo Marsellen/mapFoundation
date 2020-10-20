@@ -73,11 +73,10 @@ class AddRel extends React.Component {
                         <p className="tips">TIPS : 选择要素的顺序必须严格遵守</p>
                         <p className="text-body-title">1、当前可编辑图层：“车道中心线”</p>
                         <p className="text-body-content">
-                            (1).
-                            一个车道中心线 + 一个或多个某一类obj要素（交通标志牌、交通信号灯、地面导向箭头、地面文字符号）
+                            (1). 一个车道中心线 + 一个或多个某一类obj要素（交通信号灯）
                             <br />
                             例如：一个“车道中心线”
-                            + 多个“交通标志牌”——可建立多对【车道中心线&交通标志牌关联关系】
+                            + 多个“交通信号灯”——可建立多对【车道中心线&交通信号灯关联关系】
                             <br />
                             (2). 一个车道中心线 + 一个道路参考线
                             <br />
@@ -100,21 +99,16 @@ class AddRel extends React.Component {
                             <br />
                         </p>
                         <p className="text-body-title">
-                            3、当前可编辑图层：“停止位置”、“面状标识物”、“交通标志牌”、“交通信号灯”
+                            3、当前可编辑图层：“停止位置”、“面状标识物”、“交通信号灯”
                             一个当前编辑图层的obj要素 + 一个或多个车道中心线
                         </p>
                         <p className="text-body-content">
                             例如：一个“停止位置”
                             + 多个“车道中心线”——可建立多对【车道中心线&停止位置关联关系】
                         </p>
-                        <p className="text-body-title">
-                            4、当前可编辑图层：“地面导向箭头”、“地面文字符号”、“车道属性变化点”
-                        </p>
+                        <p className="text-body-title">4、当前可编辑图层：“车道属性变化点”</p>
                         <p className="text-body-content">
-                            (1).
-                            一个当前编辑图层的obj要素（地面导向箭头、地面文字符号） + 一个车道中心线
-                            <br />
-                            (2). 一个当前编辑图层的obj要素（车道属性变化点） + 一个道路参考线
+                            (1). 一个车道属性变化点 + 一个道路参考线
                         </p>
                     </div>
                 </Modal>

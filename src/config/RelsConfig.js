@@ -4,7 +4,6 @@ export const REL_DATA_SET = [
     'AD_Road_Con',
     'AD_StopL_Lane_Rel',
     'AD_Plg_Lane_Rel',
-    'AD_Sign_Lane_Rel',
     'AD_Light_Lane_Rel'
 ];
 
@@ -178,15 +177,6 @@ export const REL_SPEC_CONFIG = [
         relObjSpec: 'AD_TrafficLight',
         objType: 'LANE',
         relObjType: 'LIGHT'
-    },
-    {
-        source: 'AD_Arrow',
-        objKeyName: 'LANE_ID',
-        relObjKeyName: 'ARR_ID',
-        objSpec: 'AD_Lane',
-        relObjSpec: 'AD_Arrow',
-        objType: 'LANE',
-        relObjType: 'ARROW'
     },
     {
         source: 'AD_LaneAttrPoint',
