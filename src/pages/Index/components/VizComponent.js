@@ -48,12 +48,12 @@ import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
 import QualityCheckStore from 'src/pages/Index/store/QualityCheckStore';
 import { showPictureShowView, showAttributesModal, showRightMenu } from 'src/utils/map/viewCtrl';
 import { TASK_MODE_MAP } from 'src/config/RenderModeConfig';
-
 @inject('QCMarkerStore')
 @inject('DefineModeStore')
 @inject('TextStore')
 @inject('RenderModeStore')
 @inject('TaskStore')
+@inject('appStore')
 @observer
 class VizComponent extends React.Component {
     constructor(props) {
@@ -235,6 +235,25 @@ class VizComponent extends React.Component {
         this.addShortcut(event);
     };
 
+    handleReportOpen = async () => {
+        const {
+            TaskStore: { activeTaskId },
+            appStore: { loginUser: { roleCode } } = {}
+        } = this.props;
+        //初化化检查结果配置，不同任务采用不同配置
+        QualityCheckStore.initReportConfig();
+        //质检员开始任务自动获取报表
+        if (roleCode === 'quality') {
+            await QualityCheckStore.handleQualityGetMisreport({
+                taskId: activeTaskId,
+                status: '1,2,4'
+            });
+            if (QualityCheckStore.reportListL === 0) return;
+            QualityCheckStore.setActiveKey('check');
+            QualityCheckStore.openCheckReport();
+        }
+    };
+
     initTask = async () => {
         console.time('taskLoad');
         const { TaskStore } = this.props;
@@ -255,6 +274,8 @@ class VizComponent extends React.Component {
             await Promise.all([this.initEditResource(task), this.initExResource(task)]);
             //“开始任务”时，加载周边底图
             if (isEditableTask) await this.initBoundary();
+            //获取检查报表
+            this.handleReportOpen();
             message.success({
                 content: '资料加载完毕',
                 duration: 1,

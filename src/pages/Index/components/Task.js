@@ -14,7 +14,6 @@ const processNameOptions = CONFIG.processNameOptions;
 @inject('DefineModeStore')
 @inject('TextStore')
 @inject('RenderModeStore')
-@inject('QualityCheckStore')
 @inject('appStore')
 @inject('TaskStore')
 @inject('AttributeStore')
@@ -117,32 +116,6 @@ class Task extends React.Component {
         }
     };
 
-    handleReportOpen = async () => {
-        const {
-            TaskStore: { activeTaskId },
-            appStore: { loginUser: { roleCode } } = {},
-            QualityCheckStore,
-            QualityCheckStore: {
-                handleQualityGetMisreport,
-                openCheckReport,
-                setActiveKey,
-                initReportConfig
-            }
-        } = this.props;
-        //初化化检查结果配置，不同任务采用不同配置
-        initReportConfig();
-        //质检员开始任务自动获取报表
-        if (roleCode === 'quality') {
-            await handleQualityGetMisreport({
-                taskId: activeTaskId,
-                status: '1,2,4'
-            });
-            if (QualityCheckStore.reportListL === 0) return;
-            setActiveKey('check');
-            openCheckReport();
-        }
-    };
-
     toggleTask = (id, isEdit) => {
         //防抖，减少重置画布次数
         this.timeout && clearTimeout(this.timeout);
@@ -167,7 +140,6 @@ class Task extends React.Component {
 
                 await TaskStore.setActiveTask(id);
                 if (isEdit) await TaskStore.startTaskEdit(id);
-                this.handleReportOpen();
 
                 //先浏览再开始任务时，获取周边底图
                 activeTaskId === id && isEdit && this.fetchLayerGroup();
