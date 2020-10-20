@@ -154,7 +154,7 @@ class ResourceLoader extends React.Component {
     };
 
     save = () => {
-        const { form, TaskStore } = this.props;
+        const { form, TaskStore, QualityCheckStore } = this.props;
 
         form.validateFields(async (err, values) => {
             if (err) {
@@ -164,6 +164,7 @@ class ResourceLoader extends React.Component {
                 if (!/^\d+$/.test(values.taskId)) {
                     throw new Error('资料目录不符合规范');
                 }
+                QualityCheckStore.initReportConfig();
                 await TaskStore.loadLocalTask(values);
                 this.setState({
                     visible: false

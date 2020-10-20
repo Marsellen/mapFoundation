@@ -46,7 +46,7 @@ class TextStore {
         if (!layerGroup) return;
         const { layers } = layerGroup;
         const { layer } = layers.find(item => item.layerName === key) || {};
-        layer.resetConfig(config);
+        layer && layer.resetConfig(config);
     };
 
     //删除图层文字注记

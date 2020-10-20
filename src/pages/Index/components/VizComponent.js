@@ -106,6 +106,7 @@ class VizComponent extends React.Component {
 
         window.map && window.map.release();
         window.map = null;
+        window.markerLayer = null;
     };
 
     clearWorkSpace = async () => {
