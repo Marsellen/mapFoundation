@@ -19,6 +19,8 @@ import _ from 'lodash';
 import { message } from 'antd';
 import RenderModeStore from './RenderModeStore';
 import appStore from 'src/store/appStore';
+import VectorsStore from 'src/pages/Index/store/VectorsStore';
+import { LAYER_NAME_MAP } from 'src/config/RenderModeConfig';
 
 const LOAD_DATA_MESSAGE = '加载数据中...';
 
@@ -193,7 +195,7 @@ class AttributeStore {
     };
 
     submit = flow(function* (data) {
-        let relLog = yield this.calcRelLog(data.rels);
+        let relLog = yield this.calcRelLog(data);
 
         let attrLog = this.calcAttrLog(data.attrs);
 
@@ -235,21 +237,51 @@ class AttributeStore {
         return historyLog;
     });
 
-    calcRelLog = async rels => {
+    handleUniqChangedKeys = (changedRelMap, uniqChangedKeys, data) => {
+        //获取当前修改要素的direction
+        const { attributes: { DIRECTION: mainFeatureDirection } = {} } = data;
+        //不需要做重复性校验的特殊关联关系key，车道中心线连接关系，道路参考线连接关系
+        const specialRelKeys = ['FROM_LANE', 'TO_LANE', 'FROM_ROAD', 'TO_ROAD'];
+        //遍历改变的关联关系，当改变车道中心线连接关系或道路参考线连接关系时，
+        //当主要素或者关联要素的direction===3时，不做重复性校验，重新加到uniqChangedKeys数组
+        Object.keys(changedRelMap).forEach(key => {
+            const relKey = key.replace(/\d/g, '');
+            if (specialRelKeys.includes(relKey)) {
+                if (mainFeatureDirection === 3) return uniqChangedKeys.push(key);
+                const { key: optionKey, layerName } = LAYER_NAME_MAP[relKey] || {};
+                const featureId = changedRelMap[key];
+                const option = { key: optionKey, value: featureId };
+                const feature = VectorsStore.vectorLayerMap[layerName].getFeatureByOption(option);
+                const { DIRECTION } = feature?.properties?.data?.properties ?? {};
+                if (DIRECTION === 3) return uniqChangedKeys.push(key);
+            }
+        });
+        return [...new Set(uniqChangedKeys)]; //去重
+    };
+
+    calcRelLog = async data => {
+        const { rels } = data;
         if (!rels) return [[], []];
         // 变更校验，只对有变化的关联关系数据做历史记录
         let oldRels = this.rels.reduce((total, rel) => {
             total[rel.key + (rel.id || '')] = rel.value;
             return total;
         }, {});
+        let changedRelMap = {};
         let changedKeys = Object.keys(oldRels).filter(key => {
-            return oldRels[key] !== rels[key];
+            if (oldRels[key] !== rels[key]) {
+                changedRelMap[key] = rels[key];
+                return true;
+            }
+            return false;
         });
         let uniqChangedKeys = relFactory.calcUniqChangedKeys(
             _.cloneDeep(rels),
             oldRels,
             _.cloneDeep(changedKeys)
         );
+        //将不需要去重的关联关系再添加回来
+        uniqChangedKeys = this.handleUniqChangedKeys(changedRelMap, uniqChangedKeys, data);
         if (changedKeys.length > 0 && uniqChangedKeys.length == 0) {
             message.error('修改关系失败，重复创建关联关系');
         } else if (changedKeys.length > uniqChangedKeys.length) {

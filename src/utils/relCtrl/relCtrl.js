@@ -112,6 +112,8 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
 
     if (CONNECTION_RELS.includes(relSpecs[0].source)) {
         for (let i = 0; i < relFeatures.length; i++) {
+            if (mainFeature?.data?.properties?.DIRECTION === 3) continue;
+            if (relFeatures[i]?.data?.properties?.DIRECTION === 3) continue;
             let warning = checkConnection(mainFeature, relFeatures[i]);
             if (warning) {
                 warningMessage = '新建成功；数据情况复杂，需检查连接关系正确性；';
@@ -417,6 +419,7 @@ const querySameTypeRel = async rel => {
 };
 
 // 重复项校验：校验两个要素是否已存在关联关系
+const specialRels = ['AD_Road_Con', 'AD_Lane_Con'];
 const relUniqCheck = async (mainFeature, feature) => {
     // 预先建立mainFeature与feature的所有可能存在的关联关系
     // 如车道中心线和车道线可能会有左侧车道线关联关系和右侧车道线关联关系
@@ -430,6 +433,16 @@ const relUniqCheck = async (mainFeature, feature) => {
         result && total.push(result);
         return total;
     }, []);
+
+    //将重复关联关系中，潮汐车道建立连接关系的删除
+    const mainFeatureDirection = mainFeature?.data?.properties?.DIRECTION;
+    const featureDirectoin = feature?.data?.properties?.DIRECTION;
+    const isbothDirection = mainFeatureDirection === 3 || featureDirectoin === 3;
+    rs = rs.filter(item => {
+        const isSpecialRel = specialRels.includes(item.spec);
+        return !(isSpecialRel && isbothDirection);
+    });
+
     if (rs.length) {
         throw new Error('关联关系重复');
     }
