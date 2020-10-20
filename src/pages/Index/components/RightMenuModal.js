@@ -24,6 +24,15 @@ import TaskStore from 'src/pages/Index/store/TaskStore';
 
 import 'src/assets/less/components/right-menu-modal.less';
 
+//可以复制的面图层
+const copyPolygonLayers = [
+    'AD_Arrow',
+    'AD_LaneMark_Plg',
+    'AD_Text',
+    'AD_TrafficSign',
+    'AD_TrafficLight'
+];
+
 const EDIT_TYPE = [
     'move_point_feature',
     'copy_line',
@@ -231,12 +240,10 @@ class RightMenuModal extends React.Component {
                 <span>拉线齐打断</span>
             </Menu.Item>
         ];
-
-        // 俯视图模式下，显示复制功能
-        if (this.props.DataLayerStore.isTopView) {
-            menuArr.splice(
-                1,
-                0,
+        const { isTopView, getEditLayer } = this.props.DataLayerStore;
+        const { layerName } = getEditLayer();
+        if (copyPolygonLayers.includes(layerName) || isTopView) {
+            menuArr.unshift(
                 <Menu.Item
                     id="copy-btn"
                     key="copyLine"
@@ -255,7 +262,6 @@ class RightMenuModal extends React.Component {
                 </Menu.Item>
             );
         }
-
         return menuArr;
     };
 
