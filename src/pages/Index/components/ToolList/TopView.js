@@ -2,6 +2,12 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
 
+//不支持俯视图模式的图层
+const UNABLE_TOP_VIEW_LAYERS = ['AD_TrafficLight', 'AD_TrafficSign', 'AD_Pole', 'AD_RS_Barrier'];
+//支持复制面要素的图层
+const COPY_POLYGON_LAYERS = ['AD_Arrow', 'AD_LaneMark_Plg', 'AD_Text'];
+//拾取错误工具
+const CHOOSE_ERROR_TOOLS = ['error_layer', 'choose_error_feature'];
 @inject('TaskStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
@@ -30,34 +36,33 @@ class TopView extends React.Component {
     }
 
     action = () => {
-        // map.setView('U');
-        // 按钮选中状态
         const { DataLayerStore, ToolCtrlStore, AttributeStore, RightMenuStore } = this.props;
         const { isTopView, editType } = DataLayerStore;
-        let layer = DataLayerStore.getEditLayer() || {};
+        const layer = DataLayerStore.getEditLayer() || {};
+        const { layerName } = layer;
 
         if (!isTopView) {
-            if (
-                layer.layerName === 'AD_TrafficLight' ||
-                layer.layerName === 'AD_TrafficSign' ||
-                layer.layerName === 'AD_Pole' ||
-                layer.layerName === 'AD_RS_Barrier'
-            ) {
+            //进入俯视图模式
+            if (UNABLE_TOP_VIEW_LAYERS.includes(layerName)) {
                 DataLayerStore.activeEditor();
                 ToolCtrlStore.updateByEditLayer();
             } else {
                 ToolCtrlStore.updateByEditLayer(layer);
             }
-            if (!['error_layer', 'choose_error_feature'].includes(editType)) {
+            if (!CHOOSE_ERROR_TOOLS.includes(editType)) {
                 AttributeStore.hide();
             }
             RightMenuStore.hide();
         } else {
-            if (
-                DataLayerStore.editType == 'copy_line' ||
-                DataLayerStore.editType == 'move_point_feature'
-            ) {
+            //退出俯视图模式
+            if (DataLayerStore.editType == 'move_point_feature') {
                 DataLayerStore.exitEdit();
+            }
+            //复制状态时，有些面图层不退出编辑状态
+            if (DataLayerStore.editType == 'copy_line') {
+                if (!COPY_POLYGON_LAYERS.includes(layerName)) {
+                    DataLayerStore.exitEdit();
+                }
             }
         }
 
