@@ -112,8 +112,6 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
 
     if (CONNECTION_RELS.includes(relSpecs[0].source)) {
         for (let i = 0; i < relFeatures.length; i++) {
-            if (mainFeature?.data?.properties?.DIRECTION === 3) continue;
-            if (relFeatures[i]?.data?.properties?.DIRECTION === 3) continue;
             let warning = checkConnection(mainFeature, relFeatures[i]);
             if (warning) {
                 warningMessage = '新建成功；数据情况复杂，需检查连接关系正确性；';
