@@ -417,7 +417,7 @@ const querySameTypeRel = async rel => {
 };
 
 // 重复项校验：校验两个要素是否已存在关联关系
-const specialRels = ['AD_Road_Con', 'AD_Lane_Con'];
+const specialLayers = ['AD_Road', 'AD_Lane'];
 const relUniqCheck = async (mainFeature, feature) => {
     // 预先建立mainFeature与feature的所有可能存在的关联关系
     // 如车道中心线和车道线可能会有左侧车道线关联关系和右侧车道线关联关系
@@ -436,10 +436,16 @@ const relUniqCheck = async (mainFeature, feature) => {
     const mainFeatureDirection = mainFeature?.data?.properties?.DIRECTION;
     const featureDirectoin = feature?.data?.properties?.DIRECTION;
     const isbothDirection = mainFeatureDirection === 3 || featureDirectoin === 3;
-    rs = rs.filter(item => {
-        const isSpecialRel = specialRels.includes(item.spec);
-        return !(isSpecialRel && isbothDirection);
-    });
+    const mainFeatureLayerName = mainFeature.layerName;
+    const featureLayerName = feature.layerName;
+    const isSameLayer = mainFeatureLayerName === featureLayerName;
+    const isSpeciaLayers = specialLayers.includes(mainFeatureLayerName);
+    //判断两个要素都是车道中心线，或者都是道路参考线，且有一个要素direction===3
+    if (isbothDirection && isSpeciaLayers && isSameLayer) {
+        let IDKey = getLayerIDKey(mainFeatureLayerName);
+        //只看正向的是否已存在关联关系
+        rs = rs.filter(item => item.objId == mainFeature?.data?.properties[IDKey]);
+    }
 
     if (rs.length) {
         throw new Error('关联关系重复');
