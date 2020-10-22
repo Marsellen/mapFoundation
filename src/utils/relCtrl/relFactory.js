@@ -3,6 +3,8 @@ import { geojsonToDbData, dbDataToGeojson, getFeatureRels, getRelOptions } from 
 import Relevance from 'src/models/relevance';
 import { REL_TYPE_KEY_MAP } from 'src/config/RelsConfig';
 import { getLayerIDKey } from '../vectorUtils';
+import VectorsStore from 'src/pages/Index/store/VectorsStore';
+import { LAYER_NAME_MAP } from 'src/config/RenderModeConfig';
 
 export const relDataToTable = (data, dataType) => {
     let relData = filterRelData(data);
@@ -162,13 +164,13 @@ export const tableFormat = (record, config, count) => {
     };
 };
 
-const calcUniqChangedKeys = (rels, oldRels, changedKeys) => {
+const calcUniqChangedKeys = (rels, oldRels, changedKeys, data) => {
     let uniqChangeKeys = [];
     let repeat = false;
     for (let i = 0, len = changedKeys.length; i < len; i++) {
         let key = changedKeys[i];
         let { [key]: value, ...other } = rels;
-        if (!value || !Object.values(other).includes(value)) {
+        if (isAllowKey(key, value, other, data)) {
             uniqChangeKeys.push(key);
             continue;
         }
@@ -182,6 +184,39 @@ const calcUniqChangedKeys = (rels, oldRels, changedKeys) => {
         return calcUniqChangedKeys(rels, oldRels, changedKeys);
     }
     return uniqChangeKeys;
+};
+
+//允许值重复的关联关系映射
+const ALLOW_REPEAT_KEYS_MAP = {
+    FROM_LANE: 'TO_LANE',
+    TO_LANE: 'FROM_LANE',
+    FROM_ROAD: 'TO_ROAD',
+    TO_ROAD: 'FROM_ROAD'
+};
+//允许值重复的关联关系key
+const ALLOW_REPEAT_KEYS = ['FROM_LANE', 'TO_LANE', 'FROM_ROAD', 'TO_ROAD'];
+//判断修改关联关系是否正确
+const isAllowKey = (key, value, other, data) => {
+    if (!value) return true;
+    const keyName = key.replace(/\d/g, '');
+    //判断当前校验的key是否允许重复，如：'FROM_LANE', 'TO_LANE', 'FROM_ROAD', 'TO_ROAD'
+    if (ALLOW_REPEAT_KEYS.includes(keyName)) {
+        //获取主要素和被修改要素的derection
+        const { attributes: { DIRECTION: mainFeatureDirection } = {} } = data || {};
+        const { key: optionKey, layerName } = LAYER_NAME_MAP[keyName] || {};
+        const option = { key: optionKey, value };
+        const feature = VectorsStore.vectorLayerMap[layerName].getFeatureByOption(option);
+        const { DIRECTION } = feature?.properties?.data?.properties ?? {};
+        //如果主要素和被修改要素的derection有一个为3（双向车道/潮汐车道）
+        if (mainFeatureDirection === 3 || DIRECTION === 3) {
+            let sameKV = Object.entries(other).filter(([k, v]) => {
+                const kName = k.replace(/\d/g, '');
+                return v == value && ALLOW_REPEAT_KEYS_MAP[keyName] !== kName;
+            });
+            return sameKV.length == 0;
+        }
+    }
+    return !Object.values(other).includes(value);
 };
 
 export default {
