@@ -19,8 +19,6 @@ import _ from 'lodash';
 import { message } from 'antd';
 import RenderModeStore from './RenderModeStore';
 import appStore from 'src/store/appStore';
-import VectorsStore from 'src/pages/Index/store/VectorsStore';
-import { LAYER_NAME_MAP } from 'src/config/RenderModeConfig';
 
 const LOAD_DATA_MESSAGE = '加载数据中...';
 
