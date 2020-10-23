@@ -14,10 +14,7 @@ const EDIT_LAYER = [
     'AD_Arrow',
     'AD_StopLocation',
     'AD_LaneMark_Plg',
-    'AD_Text',
-    'AD_TrafficSign',
     'AD_TrafficLight',
-    'AD_Pole',
     'AD_RS_Barrier',
     'AD_Map_QC'
 ];

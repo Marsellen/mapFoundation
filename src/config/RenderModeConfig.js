@@ -79,21 +79,6 @@ export const REL_SELECT_OPTIONS = [
         checked: false
     },
     {
-        title: '车道中心线 & 地面导向箭头',
-        key: 'AD_Lane_Arrow_Rel',
-        checked: false
-    },
-    {
-        title: '车道中心线 & 地面文字',
-        key: 'AD_Lane_Text_Rel',
-        checked: false
-    },
-    {
-        title: '车道中心线 & 交通标志牌',
-        key: 'AD_Sign_Lane_Rel',
-        checked: false
-    },
-    {
         title: '车道中心线 & 交通信号灯',
         key: 'AD_Light_Lane_Rel',
         checked: false
@@ -124,12 +109,9 @@ export const LAYER_NAME_MAP = {
     PLG_ID: { layerName: 'AD_LaneMark_Plg', key: 'PLG_ID' },
     ARR_ID: { layerName: 'AD_Arrow', key: 'ARR_ID' },
     ARROW_ID: { layerName: 'AD_Arrow', key: 'ARR_ID' },
-    TEXT_ID: { layerName: 'AD_Text', key: 'TEXT_ID' },
-    SIGN_ID: { layerName: 'AD_TrafficSign', key: 'SIGN_ID' },
     LIGHT_ID: { layerName: 'AD_TrafficLight', key: 'LIGHT_ID' },
     LAP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' },
     LANEP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' },
-    POLE_ID: { layerName: 'AD_Pole', key: 'POLE_ID' },
     BARR_ID: { layerName: 'AD_RS_Barrier', key: 'BARR_ID' }
 };
 
@@ -141,9 +123,6 @@ export const RELS_ID_MAP = {
     AD_Lane_Road_Rel: ['LANE_ID', 'ROAD_ID'],
     AD_StopL_Lane_Rel: ['LANE_ID', 'STOPL_ID'],
     AD_Plg_Lane_Rel: ['LANE_ID', 'PLG_ID'],
-    AD_Lane_Arrow_Rel: ['ARR_ID', 'LANE_ID'],
-    AD_Lane_Text_Rel: ['LANE_ID', 'TEXT_ID'],
-    AD_Sign_Lane_Rel: ['LANE_ID', 'SIGN_ID'],
     AD_Light_Lane_Rel: ['LANE_ID', 'LIGHT_ID'],
     AD_Road_Point_Rel: ['LAP_ID', 'ROAD_ID']
 };
@@ -157,9 +136,6 @@ export const RELS_ID_MAP_REVERSE = {
     [['LANE', 'ROAD']]: 'AD_Lane_Road_Rel',
     [['LANE', 'STOPL']]: 'AD_StopL_Lane_Rel',
     [['LANE', 'PLG']]: 'AD_Plg_Lane_Rel',
-    [['LANE', 'ARROW']]: 'AD_Lane_Arrow_Rel',
-    [['LANE', 'TEXT']]: 'AD_Lane_Text_Rel',
-    [['LANE', 'SIGN']]: 'AD_Sign_Lane_Rel',
     [['LANE', 'LIGHT']]: 'AD_Light_Lane_Rel',
     [['LAP', 'ROAD']]: 'AD_Road_Point_Rel',
     [['LANEP', 'ROAD']]: 'AD_Road_Point_Rel'

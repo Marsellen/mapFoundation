@@ -4,12 +4,11 @@ export const REL_DATA_SET = [
     'AD_Road_Con',
     'AD_StopL_Lane_Rel',
     'AD_Plg_Lane_Rel',
-    'AD_Sign_Lane_Rel',
     'AD_Light_Lane_Rel'
 ];
 
 // 属性关联关系图层
-export const ATTR_REL_DATA_SET = ['AD_Lane', 'AD_Arrow', 'AD_Text', 'AD_LaneAttrPoint'];
+export const ATTR_REL_DATA_SET = ['AD_Lane', 'AD_Arrow', 'AD_LaneAttrPoint'];
 
 // IndexDB对象类型描述映射
 export const REL_TYPE_KEY_MAP = {
@@ -92,10 +91,8 @@ export const SPEC_REL_KEY_SET = [
     { spec: 'AD_Road', relKey: 'FROM_ROAD', relType: 'OBJ_TYPE_KEYS' },
     { spec: 'AD_Road', relKey: 'ROAD', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_Arrow', relKey: 'ARROW', relType: 'REL_OBJ_TYPE_KEYS' },
-    { spec: 'AD_Text', relKey: 'TEXT', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneMark_Plg', relKey: 'PLG', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_StopLocation', relKey: 'STOPL', relType: 'REL_OBJ_TYPE_KEYS' },
-    { spec: 'AD_TrafficSign', relKey: 'SIGN', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_TrafficLight', relKey: 'LIGHT', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneAttrPoint', relKey: 'LANEP', relType: 'OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'L_LDIV', relType: 'REL_OBJ_TYPE_KEYS' },
@@ -173,15 +170,6 @@ export const REL_SPEC_CONFIG = [
         relObjType: 'PLG'
     },
     {
-        source: 'AD_Sign_Lane_Rel',
-        objKeyName: 'LANE_ID',
-        relObjKeyName: 'SIGN_ID',
-        objSpec: 'AD_Lane',
-        relObjSpec: 'AD_TrafficSign',
-        objType: 'LANE',
-        relObjType: 'SIGN'
-    },
-    {
         source: 'AD_Light_Lane_Rel',
         objKeyName: 'LANE_ID',
         relObjKeyName: 'LIGHT_ID',
@@ -189,24 +177,6 @@ export const REL_SPEC_CONFIG = [
         relObjSpec: 'AD_TrafficLight',
         objType: 'LANE',
         relObjType: 'LIGHT'
-    },
-    {
-        source: 'AD_Arrow',
-        objKeyName: 'LANE_ID',
-        relObjKeyName: 'ARR_ID',
-        objSpec: 'AD_Lane',
-        relObjSpec: 'AD_Arrow',
-        objType: 'LANE',
-        relObjType: 'ARROW'
-    },
-    {
-        source: 'AD_Text',
-        objKeyName: 'LANE_ID',
-        relObjKeyName: 'TEXT_ID',
-        objSpec: 'AD_Lane',
-        relObjSpec: 'AD_Text',
-        objType: 'LANE',
-        relObjType: 'TEXT'
     },
     {
         source: 'AD_LaneAttrPoint',

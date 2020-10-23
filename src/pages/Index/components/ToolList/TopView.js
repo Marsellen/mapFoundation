@@ -37,12 +37,7 @@ class TopView extends React.Component {
         let layer = DataLayerStore.getEditLayer() || {};
 
         if (!isTopView) {
-            if (
-                layer.layerName === 'AD_TrafficLight' ||
-                layer.layerName === 'AD_TrafficSign' ||
-                layer.layerName === 'AD_Pole' ||
-                layer.layerName === 'AD_RS_Barrier'
-            ) {
+            if (layer.layerName === 'AD_TrafficLight' || layer.layerName === 'AD_RS_Barrier') {
                 DataLayerStore.activeEditor();
                 ToolCtrlStore.updateByEditLayer();
             } else {
