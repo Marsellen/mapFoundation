@@ -8,7 +8,7 @@ export const QualityLayerConfig = {
             TYPE: [
                 {
                     style: {
-                        color: 'rgb(0,0,255)',
+                        color: 'rgb(100,255,320)',
                         linewidth: 1,
                         lineStyle: 'dashed',
                         dashSize: 0.5,
@@ -27,7 +27,7 @@ export const QualityLayerConfig = {
             TYPE: [
                 {
                     style: {
-                        color: 'rgb(255,0,0)',
+                        color: 'rgb(255,130,200)',
                         linewidth: 1,
                         lineStyle: 'dashed',
                         dashSize: 0.5,

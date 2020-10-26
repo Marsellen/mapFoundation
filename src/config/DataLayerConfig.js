@@ -11,7 +11,14 @@ export const DATA_LAYER_MAP = {
             recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
             manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
         },
-        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
+        rightTools: [
+            'delete',
+            'forceDelete',
+            'copyLine',
+            'insertPoints',
+            'changePoints',
+            'deletePoints'
+        ],
         groupRightTools: ['batchAssign'],
         editName: '地面导向\n箭头'
     },
@@ -74,7 +81,14 @@ export const DATA_LAYER_MAP = {
             recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
             manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
         },
-        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
+        rightTools: [
+            'delete',
+            'forceDelete',
+            'copyLine',
+            'insertPoints',
+            'changePoints',
+            'deletePoints'
+        ],
         groupRightTools: ['batchAssign'],
         editName: '面状标识物'
     },
@@ -197,7 +211,14 @@ export const DATA_LAYER_MAP = {
             recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE'],
             manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE']
         },
-        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
+        rightTools: [
+            'delete',
+            'forceDelete',
+            'copyLine',
+            'insertPoints',
+            'changePoints',
+            'deletePoints'
+        ],
         groupRightTools: ['batchAssign'],
         editName: '交通信号灯'
     },

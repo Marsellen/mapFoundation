@@ -193,7 +193,7 @@ class AttributeStore {
     };
 
     submit = flow(function* (data) {
-        let relLog = yield this.calcRelLog(data.rels);
+        let relLog = yield this.calcRelLog(data);
 
         let attrLog = this.calcAttrLog(data.attrs);
 
@@ -235,20 +235,27 @@ class AttributeStore {
         return historyLog;
     });
 
-    calcRelLog = async rels => {
+    calcRelLog = async data => {
+        const { rels } = data;
         if (!rels) return [[], []];
         // 变更校验，只对有变化的关联关系数据做历史记录
         let oldRels = this.rels.reduce((total, rel) => {
             total[rel.key + (rel.id || '')] = rel.value;
             return total;
         }, {});
+        let changedRelMap = {};
         let changedKeys = Object.keys(oldRels).filter(key => {
-            return oldRels[key] !== rels[key];
+            if (oldRels[key] !== rels[key]) {
+                changedRelMap[key] = rels[key];
+                return true;
+            }
+            return false;
         });
         let uniqChangedKeys = relFactory.calcUniqChangedKeys(
             _.cloneDeep(rels),
             oldRels,
-            _.cloneDeep(changedKeys)
+            _.cloneDeep(changedKeys),
+            data
         );
         if (changedKeys.length > 0 && uniqChangedKeys.length == 0) {
             message.error('修改关系失败，重复创建关联关系');
