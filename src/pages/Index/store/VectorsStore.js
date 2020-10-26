@@ -7,7 +7,7 @@ class VectorsStore {
     vectorLayerMap = {}; //{图层名:layer}
     boundaryLayerMap = {}; //{图层名:layer}
     boundaryFeaturesMap = {}; //{id:要素信息}
-    boundaryFeatures = []; //[id,id...]
+    boundaryFeatures = new Set(); //[id,id...]
     @observable vectors = {};
     @observable layerType = 'vector';
     @observable updateKey;
@@ -57,22 +57,22 @@ class VectorsStore {
             })
             .filter(layerItem => layerItem.value !== 'AD_Map_QC');
 
-        const { featuresMap, featuresArr } = this.handleFeatures(layers);
+        const { featuresMap, featuresSet } = this.handleFeatures(layers);
         this.boundaryFeaturesMap = featuresMap;
-        this.boundaryFeatures = featuresArr;
+        this.boundaryFeatures = featuresSet;
     };
 
     //存储周边底图矢量数据
     handleFeatures = layers => {
         const featuresMap = {};
-        const featuresArr = [];
+        const featuresSet = new Set();
 
-        layers.map(layerItem => {
+        layers.forEach(layerItem => {
             const { layer } = layerItem;
             const { layerName } = layer;
             const features = layer.getAllFeatures().map(item => item.data);
             if (!features || features.length === 0) return;
-            features.map(feature => {
+            features.forEach(feature => {
                 const { geometry, properties } = feature;
                 const key = DATA_LAYER_MAP[layerName].id;
                 if (!key) return;
@@ -83,11 +83,11 @@ class VectorsStore {
                     geometry,
                     properties
                 };
-                featuresArr.push(id);
+                featuresSet.add(id);
             });
         });
 
-        return { featuresMap, featuresArr };
+        return { featuresMap, featuresSet };
     };
 
     @action setLayerType = layerType => {

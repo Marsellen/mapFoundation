@@ -108,7 +108,7 @@ class RenderModeStore {
         const { layerName, option } = feature || {};
         const { value } = option || {};
         const { boundaryFeatures } = VectorsStore;
-        const isBoundary = boundaryFeatures.includes(value);
+        const isBoundary = boundaryFeatures.has(value);
         const whiteColor = isBoundary ? 'rgb(127, 127, 127)' : 'rgb(255, 255, 255)';
         const yellowColor = isBoundary ? 'rgb(127,118,18)' : 'rgb(255, 237, 37)';
         const color = checked ? yellowColor : whiteColor;
@@ -437,7 +437,7 @@ class RenderModeStore {
     getVectorLayerName = featureId => {
         //获取选中要素所在图层
         const { boundaryFeatures } = VectorsStore;
-        const isBoundary = boundaryFeatures.includes(featureId);
+        const isBoundary = boundaryFeatures.has(featureId);
         const vectorLayerName = isBoundary ? 'boundaryLayerGroup' : 'vectorLayerGroup';
 
         return vectorLayerName;
