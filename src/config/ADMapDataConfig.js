@@ -9,7 +9,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 6, label: '左虚右实', icon: 'zuoxuyoushi', abbreviation: '虚实' },
         { value: 7, label: '短粗虚线', icon: 'duancuxuxian', abbreviation: '短' },
         { value: 8, label: '导流线', icon: 'daoliuxian', abbreviation: '导' },
-        { value: 9, label: '车道虚拟车道线', icon: 'chedaoxunichedaoxian', abbreviation: '车虚' },
+        { value: 9, label: '虚拟线车道线', icon: 'chedaoxunichedaoxian', abbreviation: '车虚' },
         {
             value: 10,
             label: '路边缘虚拟车道线',
@@ -22,7 +22,12 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 14, label: '自然边界', icon: 'ziranbianjie', abbreviation: '自然' },
         { value: 15, label: '施工边界', icon: 'shigongbianjie', abbreviation: '施工' },
         { value: 16, label: '路中隔离带', icon: 'gelidaichedao', abbreviation: '中隔' },
-        { value: 17, label: '待转待行区车道线', icon: 'lukouneidaixingqu', abbreviation: '待转' },
+        {
+            value: 17,
+            label: '路口内待行区（车道线）',
+            icon: 'lukouneidaixingqu',
+            abbreviation: '待行'
+        },
         {
             value: 18,
             label: '可变导向车道线',
@@ -69,32 +74,32 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 4, label: '非机动车道', icon: 'feijidongchedao', abbreviation: '非' },
         { value: 5, label: '机非混合车道', icon: 'jifeihunhechedao', abbreviation: '机非' },
         { value: 6, label: '公交车道', icon: 'gongjiaochedao', abbreviation: '公' },
-        { value: 7, label: '人行道', icon: 'renxingdao', abbreviation: '人' },
+        { value: 7, label: '右转专用道', icon: 'youzhuanzhuanyongdao', abbreviation: '右专' },
         { value: 8, label: 'ETC车道', icon: 'etcchedao', abbreviation: 'ETC' },
         { value: 9, label: '收费站车道', icon: 'shoufeizhanchedao', abbreviation: '费' },
-        { value: 10, label: '检查站车道', icon: 'jianchazhanchedao', abbreviation: '检' },
+        { value: 10, label: '左转专用道', icon: 'zuozhuanzhuanyongdao', abbreviation: '左专' },
         { value: 11, label: '右侧加速车道', icon: 'youcejiasuchedao', abbreviation: '右加' },
         { value: 12, label: '右侧减速车道', icon: 'youcejiansuchedao', abbreviation: '右减' },
         { value: 13, label: '匝道', icon: 'zadao', abbreviation: '匝' },
-        { value: 14, label: '隔离带车道', icon: 'gelidaichedao', abbreviation: '隔离' },
+        // { value: 14, label: '隔离带车道', icon: 'gelidaichedao', abbreviation: '隔离' },
         { value: 15, label: '紧急停车道', icon: 'jinjitingchedao', abbreviation: '紧停' },
         { value: 16, label: 'HOV车道', icon: 'hovchedao', abbreviation: 'HOV' },
-        {
-            value: 17,
-            label: '危险品专用车道',
-            icon: 'weixianpinzhuanyongchedao1',
-            abbreviation: '危'
-        },
-        { value: 18, label: '爬坡车道', icon: 'papochedao', abbreviation: '坡' },
+        // {
+        //     value: 17,
+        //     label: '危险品专用车道',
+        //     icon: 'weixianpinzhuanyongchedao1',
+        //     abbreviation: '危'
+        // },
+        // { value: 18, label: '爬坡车道', icon: 'papochedao', abbreviation: '坡' },
         { value: 19, label: '可变导向车道', icon: 'kebiandaoxiangchedao', abbreviation: '可变' },
-        { value: 20, label: '海关监管车道', icon: 'haiguanjianguanchedao', abbreviation: '海' },
-        { value: 21, label: '避险车道引道', icon: 'bixianchedaoyindao', abbreviation: '避' },
+        // { value: 20, label: '海关监管车道', icon: 'haiguanjianguanchedao', abbreviation: '海' },
+        // { value: 21, label: '避险车道引道', icon: 'bixianchedaoyindao', abbreviation: '避' },
         { value: 22, label: '停车道', icon: 'tingchedao', abbreviation: '停' },
         { value: 23, label: '潮汐车道', icon: 'chaoxichedao', abbreviation: '潮' },
         { value: 24, label: '左转待转车道', icon: 'zuozhuandaizhuanchedao', abbreviation: '左待' },
         { value: 25, label: '直行待行车道', icon: 'zhixingdaixingchedao', abbreviation: '直待' },
         { value: 26, label: '掉头车道', icon: 'diaotouchedao', abbreviation: '掉头' },
-        { value: 27, label: '超车道', icon: 'chaochedao', abbreviation: '超' },
+        // { value: 27, label: '超车道', icon: 'chaochedao', abbreviation: '超' },
         { value: 28, label: '服务区车道', icon: 'fuwuquchedao', abbreviation: '服' },
         { value: 29, label: '左侧加速车道', icon: 'zuocejiasuchedao', abbreviation: '左加' },
         { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao', abbreviation: '左减' },
@@ -152,32 +157,32 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 4, label: '非机动车道', icon: 'feijidongchedao', abbreviation: '非' },
         { value: 5, label: '机非混合车道', icon: 'jifeihunhechedao', abbreviation: '机非' },
         { value: 6, label: '公交车道', icon: 'gongjiaochedao', abbreviation: '公' },
-        { value: 7, label: '人行道', icon: 'renxingdao', abbreviation: '人' },
+        { value: 7, label: '右转专用道', icon: 'youzhuanzhuanyongdao', abbreviation: '右专' },
         { value: 8, label: 'ETC车道', icon: 'etcchedao', abbreviation: 'ETC' },
         { value: 9, label: '收费站车道', icon: 'shoufeizhanchedao', abbreviation: '费' },
-        { value: 10, label: '检查站车道', icon: 'jianchazhanchedao', abbreviation: '检' },
+        { value: 10, label: '左转专用道', icon: 'zuozhuanzhuanyongdao', abbreviation: '左专' },
         { value: 11, label: '右侧加速车道', icon: 'youcejiasuchedao', abbreviation: '右加' },
         { value: 12, label: '右侧减速车道', icon: 'youcejiansuchedao', abbreviation: '右减' },
         { value: 13, label: '匝道', icon: 'zadao', abbreviation: '匝' },
-        { value: 14, label: '隔离带车道', icon: 'gelidaichedao', abbreviation: '隔离' },
+        // { value: 14, label: '隔离带车道', icon: 'gelidaichedao', abbreviation: '隔离' },
         { value: 15, label: '紧急停车道', icon: 'jinjitingchedao', abbreviation: '紧停' },
         { value: 16, label: 'HOV车道', icon: 'hovchedao', abbreviation: 'HOV' },
-        {
-            value: 17,
-            label: '危险品专用车道',
-            icon: 'weixianpinzhuanyongchedao1',
-            abbreviation: '危'
-        },
-        { value: 18, label: '爬坡车道', icon: 'papochedao', abbreviation: '坡' },
+        // {
+        //     value: 17,
+        //     label: '危险品专用车道',
+        //     icon: 'weixianpinzhuanyongchedao1',
+        //     abbreviation: '危'
+        // },
+        // { value: 18, label: '爬坡车道', icon: 'papochedao', abbreviation: '坡' },
         { value: 19, label: '可变导向车道', icon: 'kebiandaoxiangchedao', abbreviation: '可变' },
-        { value: 20, label: '海关监管车道', icon: 'haiguanjianguanchedao', abbreviation: '海' },
-        { value: 21, label: '避险车道引道', icon: 'bixianchedaoyindao', abbreviation: '避' },
+        // { value: 20, label: '海关监管车道', icon: 'haiguanjianguanchedao', abbreviation: '海' },
+        // { value: 21, label: '避险车道引道', icon: 'bixianchedaoyindao', abbreviation: '避' },
         { value: 22, label: '停车道', icon: 'tingchedao', abbreviation: '停' },
         { value: 23, label: '潮汐车道', icon: 'chaoxichedao', abbreviation: '潮' },
         { value: 24, label: '左转待转车道', icon: 'zuozhuandaizhuanchedao', abbreviation: '左待' },
         { value: 25, label: '直行待行车道', icon: 'zhixingdaixingchedao', abbreviation: '直待' },
         { value: 26, label: '掉头车道', icon: 'diaotouchedao', abbreviation: '掉头' },
-        { value: 27, label: '超车道', icon: 'chaochedao', abbreviation: '超' },
+        // { value: 27, label: '超车道', icon: 'chaochedao', abbreviation: '超' },
         { value: 28, label: '服务区车道', icon: 'fuwuquchedao', abbreviation: '服' },
         { value: 29, label: '左侧加速车道', icon: 'zuocejiasuchedao', abbreviation: '左加' },
         { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao', abbreviation: '左减' },
@@ -252,25 +257,26 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 0, label: '未定义', icon: 'weidingyi', abbreviation: '0' },
         { value: 1, label: '停止线', icon: 'tingzhixian', abbreviation: '停' },
         { value: 2, label: '停车让行线', icon: 'tingcherangxingxian', abbreviation: '停让' },
-        { value: 3, label: '减速让行线', icon: 'jiansurangxingxian', abbreviation: '减让' }
+        { value: 3, label: '减速让行线', icon: 'jiansurangxingxian', abbreviation: '减让' },
+        { value: 11, label: '虚拟停止线', icon: 'xunitingzhixian', abbreviation: '虚停' }
     ],
     AD_LANEMARK_PLG_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi', abbreviation: '0' },
         { value: 1, label: '人行横道', icon: 'renxinghengdao', abbreviation: '人' },
         { value: 2, label: '禁止停车区', icon: 'jinzhitingchexian', abbreviation: '禁' },
-        { value: 3, label: '减速带', icon: 'jiansudai', abbreviation: '减带' },
-        {
-            value: 4,
-            label: '减速警示震荡线',
-            icon: 'jiansujingshizhendangxian',
-            abbreviation: '减震'
-        },
-        {
-            value: 5,
-            label: '斜跨路口的人行横道 ',
-            icon: 'xiekualukourenxinghengdao',
-            abbreviation: '斜人'
-        }
+        { value: 3, label: '减速带', icon: 'jiansudai', abbreviation: '减带' }
+        // {
+        //     value: 4,
+        //     label: '减速警示震荡线',
+        //     icon: 'jiansujingshizhendangxian',
+        //     abbreviation: '减震'
+        // },
+        // {
+        //     value: 5,
+        //     label: '斜跨路口的人行横道 ',
+        //     icon: 'xiekualukourenxinghengdao',
+        //     abbreviation: '斜人'
+        // }
     ],
     //排序（icon后期补）
     AD_TS_CONTENT_SIGN_TYPE: [
@@ -1269,27 +1275,27 @@ export const TABLE_DATA_MAP = {
             name: '用户编号',
             type: 'AD_TRAFFIC_LIGHT_ID',
             domType: 'Text'
-        },
-        {
-            key: 'TYPE',
-            name: '交通灯类型',
-            type: 'AD_TRAFFIC_LIGHT_TYPE',
-            domType: 'RadioIconGroup'
-        },
-        {
-            key: 'LAYOUT',
-            name: '信号灯灯头布局',
-            type: 'AD_TRAFFIC_LIGHT_LAYOUT',
-            domType: 'Select'
-        },
-        {
-            key: 'LAMP_COUNT',
-            name: '信号灯灯头数量',
-            type: 'AD_TRAFFIC_LIGHT_LAMP_COUNT',
-            required: true,
-            validates: 'Numeric|range|0|99',
-            domType: 'InputNumber'
         }
+        // {
+        //     key: 'TYPE',
+        //     name: '交通灯类型',
+        //     type: 'AD_TRAFFIC_LIGHT_TYPE',
+        //     domType: 'RadioIconGroup'
+        // },
+        // {
+        //     key: 'LAYOUT',
+        //     name: '信号灯灯头布局',
+        //     type: 'AD_TRAFFIC_LIGHT_LAYOUT',
+        //     domType: 'Select'
+        // },
+        // {
+        //     key: 'LAMP_COUNT',
+        //     name: '信号灯灯头数量',
+        //     type: 'AD_TRAFFIC_LIGHT_LAMP_COUNT',
+        //     required: true,
+        //     validates: 'Numeric|range|0|99',
+        //     domType: 'InputNumber'
+        // }
     ],
     AD_Map_QC: [
         {
