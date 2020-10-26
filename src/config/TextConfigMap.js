@@ -177,58 +177,6 @@ export const COMMON_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_Text: {
-        key: 'AD_Text',
-        label: '地面文字符号',
-        checked: false,
-        defaultStyle: {
-            textFields: ['TYPE', 'VALUE'], //看数据规格
-            interval: 10,
-            showMode: 'longest-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_TrafficSign: {
-        key: 'AD_TrafficSign',
-        label: '交通标志牌',
-        checked: false,
-        defaultStyle: {
-            textFields: ['SIGN_STYLE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
     AD_TrafficLight: {
         key: 'AD_TrafficLight',
         label: '交通信号灯',
@@ -251,31 +199,6 @@ export const COMMON_TEXT_CONFIG_MAP = {
             'line-repeat': {
                 key: 'line-repeat',
                 label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_Pole: {
-        key: 'AD_Pole',
-        label: '杆状物',
-        checked: false,
-        defaultStyle: {
-            textFields: ['POLE_ID'], //看数据规格
-            interval: 10,
-            showMode: 'line-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'line-center': { key: 'line-center', label: '线中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '线上循环',
                 interval: true
             }
         }
@@ -486,58 +409,6 @@ const MS_TASK_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_Text: {
-        key: 'AD_Text',
-        label: '地面文字符号',
-        checked: false,
-        defaultStyle: {
-            textFields: ['TYPE', 'VALUE'], //看数据规格
-            interval: 10,
-            showMode: 'longest-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_TrafficSign: {
-        key: 'AD_TrafficSign',
-        label: '交通标志牌',
-        checked: false,
-        defaultStyle: {
-            textFields: ['SIGN_STYLE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
     AD_TrafficLight: {
         key: 'AD_TrafficLight',
         label: '交通信号灯',
@@ -560,31 +431,6 @@ const MS_TASK_TEXT_CONFIG_MAP = {
             'line-repeat': {
                 key: 'line-repeat',
                 label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_Pole: {
-        key: 'AD_Pole',
-        label: '杆状物',
-        checked: false,
-        defaultStyle: {
-            textFields: ['POLE_ID'], //看数据规格
-            interval: 10,
-            showMode: 'line-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'line-center': { key: 'line-center', label: '线中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '线上循环',
                 interval: true
             }
         }
@@ -795,58 +641,6 @@ const MB_TASK_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_Text: {
-        key: 'AD_Text',
-        label: '地面文字符号',
-        checked: false,
-        defaultStyle: {
-            textFields: ['TYPE', 'VALUE'], //看数据规格
-            interval: 10,
-            showMode: 'longest-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_TrafficSign: {
-        key: 'AD_TrafficSign',
-        label: '交通标志牌',
-        checked: false,
-        defaultStyle: {
-            textFields: ['SIGN_STYLE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
     AD_TrafficLight: {
         key: 'AD_TrafficLight',
         label: '交通信号灯',
@@ -869,31 +663,6 @@ const MB_TASK_TEXT_CONFIG_MAP = {
             'line-repeat': {
                 key: 'line-repeat',
                 label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_Pole: {
-        key: 'AD_Pole',
-        label: '杆状物',
-        checked: false,
-        defaultStyle: {
-            textFields: ['POLE_ID'], //看数据规格
-            interval: 10,
-            showMode: 'line-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'line-center': { key: 'line-center', label: '线中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '线上循环',
                 interval: true
             }
         }
@@ -1104,58 +873,6 @@ const QC_TASK_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_Text: {
-        key: 'AD_Text',
-        label: '地面文字符号',
-        checked: false,
-        defaultStyle: {
-            textFields: ['TYPE', 'VALUE'], //看数据规格
-            interval: 10,
-            showMode: 'longest-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_TrafficSign: {
-        key: 'AD_TrafficSign',
-        label: '交通标志牌',
-        checked: false,
-        defaultStyle: {
-            textFields: ['SIGN_STYLE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
     AD_TrafficLight: {
         key: 'AD_TrafficLight',
         label: '交通信号灯',
@@ -1178,31 +895,6 @@ const QC_TASK_TEXT_CONFIG_MAP = {
             'line-repeat': {
                 key: 'line-repeat',
                 label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_Pole: {
-        key: 'AD_Pole',
-        label: '杆状物',
-        checked: false,
-        defaultStyle: {
-            textFields: ['POLE_ID'], //看数据规格
-            interval: 10,
-            showMode: 'line-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'line-center': { key: 'line-center', label: '线中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '线上循环',
                 interval: true
             }
         }

@@ -1026,78 +1026,6 @@ export default {
             ]
         }
     },
-    AD_Text: {
-        type: 'Polygon',
-        showFields: ['TYPE'],
-        order: 7,
-        showStyles: ['vectorStyle'],
-        vectorStyle: {
-            TYPE: [
-                {
-                    value: 0,
-                    label: '未定义',
-                    style: { color: 'rgb(255,234,149)', linewidth: 1 }
-                },
-                {
-                    value: 1,
-                    label: '最高限速',
-                    style: { color: 'rgb(255,234,149)', linewidth: 1 }
-                },
-                {
-                    value: 2,
-                    label: '最低限速',
-                    style: { color: 'rgb(255,234,149)', linewidth: 1 }
-                },
-                {
-                    value: 3,
-                    label: '公交车道时间限制',
-                    style: { color: 'rgb(255,234,149)', linewidth: 1 }
-                },
-                {
-                    value: 99,
-                    label: '其他',
-                    style: { color: 'rgb(255,234,149)', linewidth: 1 }
-                }
-            ]
-        }
-    },
-    AD_TrafficSign: {
-        type: 'Polygon',
-        showFields: ['SIGN_STYLE'],
-        order: 6,
-        showStyles: ['vectorStyle'],
-        vectorStyle: {
-            SIGN_STYLE: [
-                {
-                    value: 0,
-                    label: '未定义',
-                    style: {
-                        color: 'rgb(70,109,255)',
-                        linewidth: 1,
-                        colorFill: 'rgb(250,250,250)'
-                    }
-                },
-                {
-                    value: 1,
-                    label: '单个标志牌',
-                    style: {
-                        color: 'rgb(70,109,255)',
-                        linewidth: 1,
-                        colorFill: 'rgb(250,250,250)'
-                    }
-                },
-                {
-                    value: 2,
-                    label: '组合标志牌',
-                    style: {
-                        color: 'rgb(70,109,255)',
-                        linewidth: 1,
-                        colorFill: 'rgb(250,250,250)'
-                    }
-                }
-            ]
-        }
-    },
     AD_TrafficLight: {
         type: 'Polygon',
         showFields: ['TYPE'],
@@ -1158,35 +1086,6 @@ export default {
                         linewidth: 1,
                         colorFill: 'rgb(243,5,5)'
                     }
-                }
-            ]
-        }
-    },
-    AD_Pole: {
-        type: 'Line',
-        showFields: ['NOKEY'],
-        pointFLFields: ['NOKEY'],
-        arrowFields: ['NOKEY'],
-        order: 4,
-        showStyles: ['vectorStyle'],
-        vectorStyle: {
-            NOKEY: [
-                {
-                    style: { color: 'rgb(32,52,240)', linewidth: 1 }
-                }
-            ]
-        },
-        pointFLStyle: {
-            NOKEY: [
-                {
-                    style: { color: 'rgb(32,52,240)' }
-                }
-            ]
-        },
-        arrowStyle: {
-            NOKEY: [
-                {
-                    style: { color: 'rgb(32,52,240)', linewidth: 1 }
                 }
             ]
         }

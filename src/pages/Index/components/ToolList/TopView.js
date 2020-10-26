@@ -42,8 +42,7 @@ class TopView extends React.Component {
         const { layerName } = layer;
 
         if (!isTopView) {
-            //进入俯视图模式
-            if (UNABLE_TOP_VIEW_LAYERS.includes(layerName)) {
+            if (layer.layerName === 'AD_TrafficLight' || layer.layerName === 'AD_RS_Barrier') {
                 DataLayerStore.activeEditor();
                 ToolCtrlStore.updateByEditLayer();
             } else {

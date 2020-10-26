@@ -4,13 +4,7 @@
         "id": "ARR_ID",
         "spec": "AD_Arrow",
         "tools": ["POLYGON", "ADD_REL", "DEL_REL"],
-        "rightTools": [
-            "setEditLayer",
-            "delete",
-            "insertPoints",
-            "changePoints",
-            "deletePoints"
-        ],
+        "rightTools": ["setEditLayer", "delete", "insertPoints", "changePoints", "deletePoints"],
         "groupRightTools": ["batchAssign"],
         "attributes": [
             {
@@ -65,12 +59,7 @@
             "reverseOrderLine",
             "break"
         ],
-        "groupRightTools": [
-            "breakGroup",
-            "merge",
-            "reverseOrderLine",
-            "batchAssign"
-        ],
+        "groupRightTools": ["breakGroup", "merge", "reverseOrderLine", "batchAssign"],
         "attributes": [
             {
                 "key": "LDIV_ID",
@@ -143,13 +132,7 @@
         "id": "PLG_ID",
         "spec": "AD_LaneMark_Plg",
         "tools": ["POLYGON", "ADD_GROUND_RECTANGLE", "ADD_REL", "DEL_REL"],
-        "rightTools": [
-            "setEditLayer",
-            "delete",
-            "insertPoints",
-            "changePoints",
-            "deletePoints"
-        ],
+        "rightTools": ["setEditLayer", "delete", "insertPoints", "changePoints", "deletePoints"],
         "groupRightTools": ["batchAssign"],
         "attributes": [
             {
@@ -168,52 +151,11 @@
         "defaultValue": { "TYPE": 1 }
     },
     {
-        "label": "道路文字符号",
-        "id": "TEXT_ID",
-        "spec": "AD_Text",
-        "tools": ["POLYGON", "ADD_GROUND_RECTANGLE", "ADD_REL", "DEL_REL"],
-        "rightTools": [
-            "setEditLayer",
-            "delete",
-            "insertPoints",
-            "changePoints",
-            "deletePoints"
-        ],
-        "groupRightTools": ["batchAssign"],
-        "attributes": [
-            {
-                "key": "TEXT_ID",
-                "name": "用户编号",
-                "type": "AD_TEXT_ID",
-                "domType": "Text"
-            },
-            {
-                "key": "TYPE",
-                "name": "文字符号类型",
-                "type": "AD_TEXT_TYPE",
-                "domType": "RadioIconGroup"
-            },
-            {
-                "key": "VALUE",
-                "name": "文字内容",
-                "type": "AD_TEXT_VALUE",
-                "domType": "Input"
-            }
-        ],
-        "defaultValue": { "TYPE": 99, "LANE_ID": 0, "VALUE": "" }
-    },
-    {
         "label": "停止位置",
         "id": "STOPL_ID",
         "spec": "AD_StopLocation",
         "tools": ["LINE", "ADD_REL", "DEL_REL"],
-        "rightTools": [
-            "setEditLayer",
-            "delete",
-            "insertPoints",
-            "changePoints",
-            "deletePoints"
-        ],
+        "rightTools": ["setEditLayer", "delete", "insertPoints", "changePoints", "deletePoints"],
         "groupRightTools": ["batchAssign"],
         "attributes": [
             {
@@ -252,12 +194,7 @@
             "reverseOrderLine",
             "break"
         ],
-        "groupRightTools": [
-            "breakGroup",
-            "merge",
-            "reverseOrderLine",
-            "batchAssign"
-        ],
+        "groupRightTools": ["breakGroup", "merge", "reverseOrderLine", "batchAssign"],
         "attributes": [
             {
                 "key": "LANE_ID",
@@ -357,13 +294,7 @@
             "DEL_REL",
             "POSTURE_ADJUST"
         ],
-        "rightTools": [
-            "setEditLayer",
-            "delete",
-            "insertPoints",
-            "changePoints",
-            "deletePoints"
-        ],
+        "rightTools": ["setEditLayer", "delete", "insertPoints", "changePoints", "deletePoints"],
         "groupRightTools": ["batchAssign"],
         "attributes": [
             {
@@ -385,13 +316,7 @@
         "label": "道路参考线",
         "id": "ROAD_ID",
         "spec": "AD_Road",
-        "tools": [
-            "LINE",
-            "ADD_REL",
-            "DEL_REL",
-            "DIVIDER_TO_AUTO_CREATE",
-            "HALF_AUTO_CREATE"
-        ],
+        "tools": ["LINE", "ADD_REL", "DEL_REL", "DIVIDER_TO_AUTO_CREATE", "HALF_AUTO_CREATE"],
         "rightTools": [
             "setEditLayer",
             "delete",
@@ -401,12 +326,7 @@
             "reverseOrderLine",
             "break"
         ],
-        "groupRightTools": [
-            "breakGroup",
-            "merge",
-            "reverseOrderLine",
-            "batchAssign"
-        ],
+        "groupRightTools": ["breakGroup", "merge", "reverseOrderLine", "batchAssign"],
         "attributes": [
             {
                 "key": "ROAD_ID",
@@ -454,9 +374,7 @@
                 "key": "LENGTH",
                 "name": "道路长度",
                 "type": "AD_ROAD_LENGTH",
-                "validates": [
-                    { "message": "必须为数字 单位为M", "type": "number" }
-                ],
+                "validates": [{ "message": "必须为数字 单位为M", "type": "number" }],
                 "domType": "Input"
             },
             {
@@ -497,13 +415,7 @@
             "DEL_REL",
             "POSTURE_ADJUST"
         ],
-        "rightTools": [
-            "setEditLayer",
-            "delete",
-            "insertPoints",
-            "changePoints",
-            "deletePoints"
-        ],
+        "rightTools": ["setEditLayer", "delete", "insertPoints", "changePoints", "deletePoints"],
         "groupRightTools": ["batchAssign"],
         "attributes": [
             {
@@ -539,13 +451,7 @@
         "id": "POLE_ID",
         "spec": "AD_Pole",
         "tools": ["LINE"],
-        "rightTools": [
-            "setEditLayer",
-            "delete",
-            "insertPoints",
-            "changePoints",
-            "deletePoints"
-        ],
+        "rightTools": ["setEditLayer", "delete", "insertPoints", "changePoints", "deletePoints"],
         "groupRightTools": ["batchAssign"],
         "attributes": [
             {
