@@ -2,8 +2,7 @@ import { REL_DATA_SET, ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
 import { geojsonToDbData, dbDataToGeojson, getFeatureRels, getRelOptions } from './utils';
 import Relevance from 'src/models/relevance';
 import { REL_TYPE_KEY_MAP } from 'src/config/RelsConfig';
-import { getLayerIDKey } from '../vectorUtils';
-import VectorsStore from 'src/pages/Index/store/VectorsStore';
+import { getLayerIDKey, getLayerByName } from '../vectorUtils';
 import { LAYER_NAME_MAP } from 'src/config/RenderModeConfig';
 
 export const relDataToTable = (data, dataType) => {
@@ -205,7 +204,7 @@ const isAllowKey = (key, value, other, data) => {
         const { attributes: { DIRECTION: mainFeatureDirection } = {} } = data || {};
         const { key: optionKey, layerName } = LAYER_NAME_MAP[keyName] || {};
         const option = { key: optionKey, value };
-        const feature = VectorsStore.vectorLayerMap[layerName].getFeatureByOption(option);
+        const feature = getLayerByName(layerName).getFeatureByOption(option);
         const { DIRECTION } = feature?.properties?.data?.properties ?? {};
         //如果主要素和被修改要素的derection有一个为3（双向车道/潮汐车道）
         if (mainFeatureDirection === 3 || DIRECTION === 3) {
