@@ -39,7 +39,7 @@ class RightMenuStore {
         this.menus = [];
         let layerName = this.features[0].layerName;
         // 判断图层是否可用设置为编辑图层
-        if (getEditLayerDisabled(layerName)) return;
+        if (getEditLayerDisabled()) return;
 
         const featuresL = this.features.length;
         if (featuresL == 1) {
@@ -54,7 +54,7 @@ class RightMenuStore {
         }
         // 为当前编辑图层要素时：
         // 判断图层右键菜单是否可用
-        if (!getLayerEditAble(layerName)) {
+        if (!getLayerEditAble()) {
             this.menus = [];
             return;
         }

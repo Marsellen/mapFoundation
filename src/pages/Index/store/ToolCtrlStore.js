@@ -2,8 +2,7 @@ import { observable, configure, action } from 'mobx';
 import { TOOLS_MAP } from 'src/config/ToolsConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import TaskStore from './TaskStore';
-
-const initEditTools = TOOLS_MAP.EDIT;
+import appStore from 'src/store/appStore';
 
 configure({ enforceActions: 'always' });
 class ToolCtrlStore {
@@ -12,20 +11,14 @@ class ToolCtrlStore {
     @observable batchTools = [];
 
     @action init = () => {
-        this.tools = initEditTools;
+        this.tools = this.getEditTools();
         this.drawTools = [];
         this.batchTools = [];
     };
 
-    @action updateByEditLayer = (layer, userInfo) => {
+    @action updateByEditLayer = layer => {
         let layerName = layer && layer.layerName;
-        let roleCode = userInfo && userInfo.roleCode;
         if (!DATA_LAYER_MAP[layerName]) {
-            this.init();
-            return;
-        }
-
-        if (roleCode == 'producer' && layerName == 'AD_Map_QC') {
             this.init();
             return;
         }
@@ -37,12 +30,22 @@ class ToolCtrlStore {
             return tools;
         }, {});
         this.tools = {
-            ...initEditTools,
+            ...this.getEditTools(),
             ...editTools
         };
 
         this.drawTools = DATA_LAYER_MAP[layerName].drawTools[toolType];
         this.batchTools = DATA_LAYER_MAP[layerName].batchTools;
+    };
+
+    getEditTools = () => {
+        let userInfo = appStore.loginUser;
+        let roleCode = userInfo && userInfo.roleCode;
+        if (roleCode == 'producer') {
+            return TOOLS_MAP.EDIT;
+        } else {
+            return TOOLS_MAP.CHECK;
+        }
     };
 }
 
