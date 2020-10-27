@@ -315,7 +315,19 @@ export const DATA_LAYER_MAP = {
         label: '车道中心线 & 交通信号灯关联关系',
         id: 'REL_ID',
         spec: 'AD_Light_Lane_Rel'
-    }
+    },
+    AD_LaneDivider_Pln: {
+        label: '几何层：车道线线要素',
+        id: 'OBJ_ID',
+        spec: 'AD_LaneDivider_Pln'
+    },
+    AD_LaneDivider_Plg: { label: '几何层：车道线面要素', id: 'OBJ_ID', spec: 'AD_LaneDivider_Plg' },
+    AD_StopLocation_Geo: { label: '几何层：停止位置', id: 'OBJ_ID', spec: 'AD_StopLocation_Geo' },
+    AD_Arrow_Geo: { label: '几何层：箭头', id: 'OBJ_ID', spec: 'AD_Arrow_Geo' },
+    AD_LaneMark_Geo: { label: '几何层：路面车道标记', id: 'OBJ_ID', spec: 'AD_LaneMark_Geo' },
+    AD_Pole_Geo: { label: '几何层：杆状物', id: 'OBJ_ID', spec: 'AD_Pole_Geo' },
+    AD_TrafficSign_Geo: { label: '几何层：交通标志牌', id: 'OBJ_ID', spec: 'AD_TrafficSign_Geo' },
+    AD_TrafficLight_Geo: { label: '几何层：交通信号灯', id: 'OBJ_ID', spec: 'AD_TrafficLight_Geo' }
 };
 
 export const RESOURCE_LAYER_POINT_CLOUD = '点云';
@@ -329,3 +341,27 @@ export const SUSPECT_LAYER = '怀疑区';
 
 export const TOP_VIEW_DISABLED_LAYERS = ['AD_TrafficLight', 'AD_RS_Barrier'];
 export const RESOURCE_LAYER_MULTI_PROJECT = '多工程';
+
+export const DATA_LAYER_STRATIFICATION = {
+    LOGIC: [
+        'AD_Road',
+        'AD_LaneDivider',
+        'AD_Lane',
+        'AD_LaneAttrPoint',
+        'AD_Arrow',
+        'AD_StopLocation',
+        'AD_LaneMark_Plg',
+        'AD_TrafficLight',
+        'AD_RS_Barrier'
+    ],
+    GEOMETRY: [
+        'AD_LaneDivider_Pln',
+        'AD_LaneDivider_Plg',
+        'AD_StopLocation_Geo',
+        'AD_Arrow_Geo',
+        'AD_LaneMark_Geo',
+        'AD_Pole_Geo',
+        'AD_TrafficSign_Geo',
+        'AD_TrafficLight_Geo'
+    ]
+};

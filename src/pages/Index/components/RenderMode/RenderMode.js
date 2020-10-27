@@ -10,7 +10,6 @@ import { RENDER_MODE_MAP } from 'src/config/RenderModeConfig';
 @inject('AttributeStore')
 @inject('DataLayerStore')
 @inject('TaskStore')
-@inject('VectorsStore')
 @inject('RenderModeStore')
 @observer
 class RenderMode extends React.Component {
