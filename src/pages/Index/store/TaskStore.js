@@ -216,36 +216,36 @@ class TaskStore {
     initUpdateBoundaryParams = taskType => {
         const params = {
             imp_recognition: {
-                taskId: this.activeTaskId,
-                '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
-                targetDirectory: this.activeTask['1302_MS_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask['MS_EDITOR_QUERYDB_PATHS'],
-                incsys: 'mct',
-                outcsys: 'mct'
+                task_id: this.activeTaskId,
+                comm_path: this.activeTask['10_COMMON_DATA'],
+                res_path: this.activeTask['1302_MS_AROUND_DATA'],
+                refer_path: this.activeTask['MS_EDITOR_QUERYDB_PATHS'],
+                in_csys: 'mct',
+                out_csys: 'mct'
             },
             imp_check_after_recognition: {
-                taskId: this.activeTaskId,
-                '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
-                targetDirectory: this.activeTask['1303_MS_QC_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask['MS_EDITOR_QUERYDB_PATHS'],
-                incsys: 'mct',
-                outcsys: 'mct'
+                task_id: this.activeTaskId,
+                comm_path: this.activeTask['10_COMMON_DATA'],
+                res_path: this.activeTask['1303_MS_QC_AROUND_DATA'],
+                refer_path: this.activeTask['MS_EDITOR_QUERYDB_PATHS'],
+                in_csys: 'mct',
+                out_csys: 'mct'
             },
             imp_manbuild: {
-                taskId: this.activeTaskId,
-                '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
-                targetDirectory: this.activeTask['1304_MB_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask['MB_EDITOR_QUERYDB_PATHS'],
-                incsys: 'mct',
-                outcsys: 'mct'
+                task_id: this.activeTaskId,
+                comm_path: this.activeTask['10_COMMON_DATA'],
+                res_path: this.activeTask['1304_MB_AROUND_DATA'],
+                refer_path: this.activeTask['MB_EDITOR_QUERYDB_PATHS'],
+                in_csys: 'mct',
+                out_csys: 'mct'
             },
             imp_check_after_manbuild: {
-                taskId: this.activeTaskId,
-                '10_COMMON_DATA': this.activeTask['10_COMMON_DATA'],
-                targetDirectory: this.activeTask['1305_MB_QC_AROUND_DATA'],
-                EDITOR_QUERYDB_PATHS: this.activeTask['MB_EDITOR_QUERYDB_PATHS'],
-                incsys: 'mct',
-                outcsys: 'mct'
+                task_id: this.activeTaskId,
+                comm_path: this.activeTask['10_COMMON_DATA'],
+                res_path: this.activeTask['1305_MB_QC_AROUND_DATA'],
+                refer_path: this.activeTask['MB_EDITOR_QUERYDB_PATHS'],
+                in_csys: 'mct',
+                out_csys: 'mct'
             }
         };
         return params[taskType];
