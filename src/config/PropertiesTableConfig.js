@@ -10,7 +10,7 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'TYPE',
-            title: '参考线类型',
+            title: '道路参考线类型',
             filterBy: 'typeFilter|AD_ROAD_TYPE'
         },
         {
@@ -292,42 +292,6 @@ export const COLUMNS_CONFIG = {
             filterBy: 'updStatFilter'
         }
     ],
-    AD_TS_Content: [
-        {
-            dataIndex: 'index',
-            title: '序号'
-        },
-        {
-            dataIndex: 'CONT_ID',
-            title: '用户编号'
-        },
-        {
-            dataIndex: 'SIGN_ID',
-            title: '关联标志牌用户编号'
-        },
-        {
-            dataIndex: 'SIGN_NO',
-            title: '交通标志牌编号'
-        },
-        {
-            dataIndex: 'SIGN_TYPE',
-            title: '交通标志牌类型',
-            filterBy: 'typeFilter|AD_TS_CONTENT_SIGN_TYPE'
-        },
-        {
-            dataIndex: 'CONT_TYPE',
-            title: '交通标志牌语义类型',
-            filterBy: 'typeFilter|AD_TS_CONTENT_CONT_TYPE'
-        },
-        {
-            dataIndex: 'CONT_VALUE',
-            title: '交通标志牌语义内容'
-        },
-        {
-            dataIndex: 'TIMEDOM',
-            title: '交通标志牌限制时间描述'
-        }
-    ],
     AD_TrafficLight: [
         {
             dataIndex: 'index',
@@ -355,29 +319,6 @@ export const COLUMNS_CONFIG = {
             dataIndex: 'UPD_STAT',
             title: '更新标识',
             filterBy: 'updStatFilter'
-        }
-    ],
-    AD_Sub_Lamp: [
-        {
-            dataIndex: 'index',
-            title: '序号'
-        },
-        {
-            dataIndex: 'LAMP_ID',
-            title: '用户编号'
-        },
-        {
-            dataIndex: 'LIGHT_ID',
-            title: '关联信号灯用户编号'
-        },
-        {
-            dataIndex: 'LAMP_NO',
-            title: '信号灯灯头编号'
-        },
-        {
-            dataIndex: 'LAMP_TYPE',
-            title: '信号灯灯头子类型',
-            filterBy: 'adSubLampTypeFilter'
         }
     ],
     AD_RS_Barrier: [
@@ -494,12 +435,67 @@ export const COLUMNS_CONFIG = {
         { dataIndex: 'REL_ID', title: '连接关系用户编号' },
         { dataIndex: 'RS_TYPE', title: '限制类型' },
         { dataIndex: 'TIMEDOM', title: '限制时间描述' }
+    ],
+    AD_LaneDivider_Pln: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'OBJ_ID', title: '用户编号' },
+        { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
+        { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
+        { dataIndex: 'CFD_FEAT', title: '要素类型置信度' }
+    ],
+    AD_LaneDivider_Plg: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'OBJ_ID', title: '用户编号' },
+        { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
+        { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
+        { dataIndex: 'CFD_FEAT', title: '要素类型置信度' }
+    ],
+    AD_StopLocation_Geo: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'OBJ_ID', title: '用户编号' },
+        { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
+        { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
+        { dataIndex: 'CFD_FEAT', title: '要素类型置信度' }
+    ],
+    AD_Arrow_Geo: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'OBJ_ID', title: '用户编号' },
+        { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
+        { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
+        { dataIndex: 'CFD_FEAT', title: '要素类型置信度' }
+    ],
+    AD_LaneMark_Geo: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'OBJ_ID', title: '用户编号' },
+        { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
+        { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
+        { dataIndex: 'CFD_FEAT', title: '要素类型置信度' }
+    ],
+    AD_Pole_Geo: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'OBJ_ID', title: '用户编号' },
+        { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
+        { dataIndex: 'CFD_FEAT', title: '要素类型置信度' }
+    ],
+    AD_TrafficSign_Geo: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'OBJ_ID', title: '用户编号' },
+        { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
+        { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
+        { dataIndex: 'CFD_FEAT', title: '要素类型置信度' }
+    ],
+    AD_TrafficLight_Geo: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'OBJ_ID', title: '用户编号' },
+        { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
+        { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
+        { dataIndex: 'CFD_FEAT', title: '要素类型置信度' }
     ]
 };
 
 export const SELECT_OPTIONS = [
     {
-        group: '几何要素图层',
+        group: '逻辑层：几何要素图层',
         type: 'vector',
         class: 'four-layer-out',
         items: [
@@ -515,7 +511,7 @@ export const SELECT_OPTIONS = [
         ]
     },
     {
-        group: '关系图层',
+        group: '逻辑层：关系图层',
         type: 'rel',
         class: 'three-layer-out',
         items: [
@@ -527,16 +523,25 @@ export const SELECT_OPTIONS = [
         ]
     },
     {
-        group: '属性图层',
+        group: '逻辑层：属性图层',
         type: 'attr',
         class: 'three-layer-out',
-        items: ['AD_TS_Content', 'AD_Sub_Lamp', 'AD_Lane_RS', 'AD_Road_Con_RS', 'AD_Lane_Con_RS']
+        items: ['AD_Lane_RS', 'AD_Road_Con_RS', 'AD_Lane_Con_RS']
     },
     {
-        group: '其他图层',
-        type: 'other',
+        group: '几何层',
+        type: 'geometry',
         class: 'three-layer-out',
-        items: ['AD_Map_QC']
+        items: [
+            'AD_LaneDivider_Pln',
+            'AD_LaneDivider_Plg',
+            'AD_StopLocation_Geo',
+            'AD_Arrow_Geo',
+            'AD_LaneMark_Geo',
+            'AD_Pole_Geo',
+            'AD_TrafficSign_Geo',
+            'AD_TrafficLight_Geo'
+        ]
     }
 ];
 
@@ -559,7 +564,6 @@ export const OPTION_LAYER_MAP = {
     AD_Plg_Lane_Rel: ['AD_Lane', 'AD_LaneMark_Plg'],
     AD_Light_Lane_Rel: ['AD_Lane', 'AD_TrafficLight'],
     //关联属性
-    AD_Sub_Lamp: ['AD_TrafficLight'],
     AD_Lane_RS: ['AD_Lane'],
     AD_Road_Con_RS: ['AD_Road'],
     AD_Lane_Con_RS: ['AD_Lane']

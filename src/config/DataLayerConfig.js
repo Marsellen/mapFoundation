@@ -281,16 +281,6 @@ export const DATA_LAYER_MAP = {
         label: '车道中心线曲率坡度信息',
         spec: 'AD_LaneShape'
     },
-    AD_TS_Content: {
-        label: '交通标志牌子属性',
-        id: 'CONT_ID',
-        spec: 'AD_TS_Content'
-    },
-    AD_Sub_Lamp: {
-        label: '交通信号灯灯头属性',
-        id: 'LAMP_ID',
-        spec: 'AD_Sub_Lamp'
-    },
     AD_Road_Con: {
         label: '道路参考线连接关系',
         id: 'REL_ID',

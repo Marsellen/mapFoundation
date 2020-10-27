@@ -356,42 +356,6 @@ export const COLUMNS_CONFIG = {
             title: '时间戳'
         }
     ],
-    AD_TS_Content: [
-        {
-            dataIndex: 'index',
-            title: '序号'
-        },
-        {
-            dataIndex: 'CONT_ID',
-            title: '用户编号'
-        },
-        {
-            dataIndex: 'SIGN_ID',
-            title: '关联标志牌用户编号'
-        },
-        {
-            dataIndex: 'SIGN_NO',
-            title: '交通标志牌编号'
-        },
-        {
-            dataIndex: 'SIGN_TYPE',
-            title: '交通标志牌类型',
-            filterBy: 'typeFilter|AD_TS_CONTENT_SIGN_TYPE'
-        },
-        {
-            dataIndex: 'CONT_TYPE',
-            title: '交通标志牌语义类型',
-            filterBy: 'typeFilter|AD_TS_CONTENT_CONT_TYPE'
-        },
-        {
-            dataIndex: 'CONT_VALUE',
-            title: '交通标志牌语义内容'
-        },
-        {
-            dataIndex: 'TIMEDOM',
-            title: '交通标志牌限制时间描述'
-        }
-    ],
     AD_TrafficLight: [
         {
             dataIndex: 'index',
@@ -419,54 +383,6 @@ export const COLUMNS_CONFIG = {
             dataIndex: 'UPD_STAT',
             title: '更新标识',
             filterBy: 'updStatFilter'
-        },
-        {
-            dataIndex: 'OBJ_ID',
-            title: 'OBJ_ID'
-        },
-        {
-            dataIndex: 'CONFIDENCE',
-            title: '置信度',
-            filterBy: 'semanticConfidenceFilter'
-        },
-        {
-            dataIndex: 'DEVICE',
-            title: '传感器 id'
-        },
-        {
-            dataIndex: 'D_HEIGHT',
-            title: '高'
-        },
-        {
-            dataIndex: 'D_WIDTH',
-            title: '宽'
-        },
-        {
-            dataIndex: 'D_TIMESTAMP',
-            title: '时间戳'
-        }
-    ],
-    AD_Sub_Lamp: [
-        {
-            dataIndex: 'index',
-            title: '序号'
-        },
-        {
-            dataIndex: 'LAMP_ID',
-            title: '用户编号'
-        },
-        {
-            dataIndex: 'LIGHT_ID',
-            title: '关联信号灯用户编号'
-        },
-        {
-            dataIndex: 'LAMP_NO',
-            title: '信号灯灯头编号'
-        },
-        {
-            dataIndex: 'LAMP_TYPE',
-            title: '信号灯灯头子类型',
-            filterBy: 'adSubLampTypeFilter'
         },
         {
             dataIndex: 'OBJ_ID',
@@ -641,7 +557,7 @@ export const SELECT_OPTIONS = [
     {
         group: '属性图层',
         class: 'three-layer-out',
-        items: ['AD_TS_Content', 'AD_Sub_Lamp', 'AD_Lane_RS', 'AD_Road_Con_RS', 'AD_Lane_Con_RS']
+        items: ['AD_Lane_RS', 'AD_Road_Con_RS', 'AD_Lane_Con_RS']
     },
     {
         group: '其他图层',
