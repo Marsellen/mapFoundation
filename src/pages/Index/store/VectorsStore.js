@@ -1,11 +1,20 @@
 import { observable, configure, action, computed } from 'mobx';
-import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import { DATA_LAYER_MAP, DATA_LAYER_STRATIFICATION } from 'src/config/DataLayerConfig';
+import _ from 'lodash';
+
+const DATA_LAYER_CHECK_MAP = Object.values(DATA_LAYER_STRATIFICATION).reduce(
+    (checkMap, layerNames) => {
+        return layerNames.reduce(
+            (_checkMap, layerName) => ({ ..._checkMap, [layerName]: true }),
+            checkMap
+        );
+    },
+    {}
+);
 
 configure({ enforceActions: 'always' });
-
 class VectorsStore {
-    vectorLayerMap = {}; //{图层名:layer}
-    boundaryLayerMap = {}; //{图层名:layer}
+    layerMap = {};
     boundaryFeatures = new Set(); //[id,id...]
     @observable vectors = {};
     @observable layerType = 'vector';
@@ -13,51 +22,47 @@ class VectorsStore {
     @computed get isCheckedNone() {
         const type = this.layerType;
         if (!this.vectors[type]) return false;
-        return this.vectors[type].every(layer => !layer.checked);
+        return Object.values(this.vectors[type]).every(checked => !checked);
     }
     @computed get isCheckedAll() {
         const type = this.layerType;
         if (!this.vectors[type]) return false;
-        return this.vectors[type].every(layer => layer.checked);
+        return Object.values(this.vectors[type]).every(checked => checked);
     }
     @computed get indeterminate() {
         const type = this.layerType;
         if (!this.vectors[type]) return false;
-        const checkedLayers = this.vectors[type].filter(layer => layer.checked);
-        const checkedLayersL = checkedLayers.length;
-        return checkedLayersL && checkedLayersL !== this.vectors[type].length;
+        let checkedValues = Object.values(this.vectors[type]);
+        const checkeds = checkedValues.filter(checked => checked);
+        return checkeds.length && checkeds.length !== checkedValues.length;
     }
 
     @action addLayer = layerGroup => {
         const { layers } = layerGroup;
-        this.vectors.vector = layers.map(layerItem => {
+        this.layerMap.vector = {};
+        layers.forEach(layerItem => {
             const { layer, layerName } = layerItem;
-            this.vectorLayerMap[layerName] = layer;
-
-            return {
-                layer: layer,
-                value: layerName,
-                checked: true
-            };
+            this.layerMap.vector[layerName] = layer;
         });
+        this.vectors.vector = {
+            checkMap: _.cloneDeep(DATA_LAYER_CHECK_MAP),
+            disabled: false
+        };
     };
 
     @action addBoundaryLayer = layerGroup => {
         const { layers } = layerGroup;
-        this.vectors.boundary = layers
-            .map(layerItem => {
-                const { layer, layerName } = layerItem;
-                this.boundaryLayerMap[layerName] = layer;
-                return {
-                    layer: layer,
-                    value: layerName,
-                    checked: true
-                };
-            })
-            .filter(layerItem => layerItem.value !== 'AD_Map_QC');
+        this.layerMap.boundary = {};
+        layers.forEach(layerItem => {
+            const { layer, layerName } = layerItem;
+            this.layerMap.boundary[layerName] = layer;
+        });
+        this.vectors.boundary = {
+            checkMap: _.cloneDeep(DATA_LAYER_CHECK_MAP),
+            disabled: false
+        };
 
-        const featuresSet = this.handleFeatures(layers);
-        this.boundaryFeatures = featuresSet;
+        this.boundaryFeatures = this.handleFeatures(layers);
     };
 
     //存储周边底图矢量数据
@@ -89,17 +94,28 @@ class VectorsStore {
     @action toggle = (name, checked) => {
         const type = this.layerType;
         if (!this.vectors[type]) return false;
-        this.vectors[type].find(layer => layer.value == name).checked = checked;
-        const layer = this.vectors[type].find(layer => layer.value == name).layer;
-        checked ? layer.show() : layer.hide();
+        this.vectors[type].checkMap[name] = checked;
+        const layer = this.layerMap?.[type]?.[name];
+        checked ? layer?.show() : layer?.hide();
+        this.updateKey = Math.random();
+    };
+
+    @action toggleStratification = (stratification, checked) => {
+        const type = this.layerType;
+        if (!this.vectors[type]) return false;
+        DATA_LAYER_STRATIFICATION[stratification].forEach(layerName => {
+            this.vectors[type].checkMap[layerName] = checked;
+            const layer = this.layerMap?.[type]?.[layerName];
+            checked ? layer?.show() : layer?.hide();
+        });
         this.updateKey = Math.random();
     };
 
     @action toggleAll = (checked, layerType, isInvert) => {
         const type = layerType || this.layerType;
         if (!this.vectors[type]) return false;
-        this.vectors[type].map(layer => {
-            return (layer.checked = isInvert ? !layer.checked : checked);
+        Object.entries(this.vectors[type].checkMap).forEach(([layerName, value]) => {
+            this.vectors[type][layerName] = isInvert ? !value : checked;
         });
         this.updateKey = Math.random();
     };
@@ -109,8 +125,9 @@ class VectorsStore {
         if (!this.vectors[type]) return false;
         disabled = isInvert ? !this.vectors[type].disabled : disabled;
         this.vectors[type].disabled = disabled;
-        this.vectors[type].forEach(layer => {
-            layer.checked && !disabled ? layer.layer.show() : layer.layer.hide();
+        Object.entries(this.layerMap[type]).forEach(([layerName, layer]) => {
+            let checked = this.vectors[type].checkMap[layerName];
+            checked && !disabled ? layer.show() : layer.hide();
         });
         this.updateKey = Math.random();
     };
@@ -121,8 +138,9 @@ class VectorsStore {
     };
 
     @action getBoundaryLayerIds = () => {
-        if (!this.vectors.boundary) return [];
-        return this.vectors.boundary.map(item => item.layer.layerId);
+        if (!this.layerMap.boundary) return [];
+        let boundaries = Object.values(this.layerMap.boundary);
+        return boundaries.map(item => item.layerId);
     };
 }
 
