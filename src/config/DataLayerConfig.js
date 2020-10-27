@@ -354,5 +354,14 @@ export const DATA_LAYER_STRATIFICATION = {
         'AD_TrafficLight',
         'AD_RS_Barrier'
     ],
-    GEOMETRY: []
+    GEOMETRY: [
+        'AD_LaneDivider_Pln',
+        'AD_LaneDivider_Plg',
+        'AD_StopLocation_Geo',
+        'AD_Arrow_Geo',
+        'AD_LaneMark_Geo',
+        'AD_Pole_Geo',
+        'AD_TrafficSign_Geo',
+        'AD_TrafficLight_Geo'
+    ]
 };
