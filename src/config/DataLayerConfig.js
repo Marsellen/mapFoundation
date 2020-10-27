@@ -355,3 +355,5 @@ export const DATA_LAYER_STRATIFICATION = {
         'AD_TrafficLight_Geo'
     ]
 };
+
+export const LAYER_STRATIFICATION_MAP = { LOGIC: '逻辑层', GEOMETRY: '几何层' };
