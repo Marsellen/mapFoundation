@@ -812,7 +812,15 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 'AD_StopLocation', label: '停止位置' },
         { value: 'AD_LaneMark_Plg', label: '面状标识物' },
         { value: 'AD_TrafficLight', label: '交通信号灯' },
-        { value: 'AD_RS_Barrier', label: '隔离带、护栏' }
+        { value: 'AD_RS_Barrier', label: '隔离带、护栏' },
+        { value: 'AD_LaneDivider_Pln', label: '几何层：车道线线要素' },
+        { value: 'AD_LaneDivider_Plg', label: '几何层：车道线面要素' },
+        { value: 'AD_StopLocation_Geo', label: '几何层：停止位置' },
+        { value: 'AD_Arrow_Geo', label: '几何层：箭头' },
+        { value: 'AD_LaneMark_Geo', label: '几何层：路面车道标记' },
+        { value: 'AD_TrafficSign_Geo', label: '几何层：交通标志牌' },
+        { value: 'AD_TrafficLight_Geo', label: '几何层：交通信号灯' },
+        { value: 'AD_Pole_Geo', label: '几何层：杆状物' }
     ],
     AD_MAP_QC_ERROR_TYPE: [
         { value: 0, label: '未定义' },
