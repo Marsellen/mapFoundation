@@ -39,7 +39,7 @@ const TaskService = {
     //母库查询接口
     updateBoundaryFile: data => {
         const config = {
-            url: QuerydbApiPath('/queryforoutside'),
+            url: QuerydbApiPath('/for_edit'),
             method: 'post',
             data
         };
