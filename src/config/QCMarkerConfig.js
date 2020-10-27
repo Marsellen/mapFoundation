@@ -74,10 +74,7 @@ const FIELD_NAME_MAP = {
         { value: 'TYPE', label: '属性变化点类型' },
         { value: 'ROAD_ID', label: '属性变化点关联关系' }
     ],
-    AD_Arrow: [
-        { value: 'ARR_DIRECT', label: '箭头方向' },
-        { value: 'LANE_ID', label: '箭头关联关系' }
-    ],
+    AD_Arrow: [{ value: 'ARR_DIRECT', label: '箭头方向' }],
     AD_StopLocation: [
         { value: 'TYPE', label: '停止位置类型' },
         { value: 'LANE_ID', label: '停止位置关联关系' }
@@ -86,18 +83,19 @@ const FIELD_NAME_MAP = {
         { value: 'TYPE', label: '面状标识物类型' },
         { value: 'LANE_ID', label: '面状标识物关联关系' }
     ],
-    AD_TrafficLight: [
-        { value: 'TYPE', label: '交通灯类型' },
-        { value: 'LAYOUT', label: '交通灯灯头布局' },
-        { value: 'LAMP_COUNT', label: '交通灯灯头数量' },
-        { value: 'LAMP_NO', label: '交通灯灯头编号' },
-        { value: 'LAMP_TYPE', label: '交通灯灯头子类型' },
-        { value: 'LANE_ID', label: '交通灯关联关系' }
-    ],
+    AD_TrafficLight: [{ value: 'LANE_ID', label: '交通灯关联关系' }],
     AD_RS_Barrier: [
         { value: 'TYPE', label: '隔离带护栏类型' },
         { value: 'MATERIAL', label: '隔离带护栏材质' }
-    ]
+    ],
+    AD_LaneDivider_Pln: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
+    AD_LaneDivider_Plg: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
+    AD_StopLocation_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
+    AD_Arrow_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
+    AD_LaneMark_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
+    AD_TrafficSign_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
+    AD_TrafficLight_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
+    AD_Pole_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }]
 };
 
 export const ATTR_FORM_FIELD_MAP = {
