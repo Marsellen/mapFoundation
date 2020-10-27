@@ -330,6 +330,7 @@ export const WRONG_LAYER = '错误区';
 export const SUSPECT_LAYER = '怀疑区';
 
 export const TOP_VIEW_DISABLED_LAYERS = ['AD_TrafficLight', 'AD_RS_Barrier'];
+export const IMP_RECOGNITION_DISABLED_LAYERS = ['AD_Road', 'AD_Lane'];
 export const RESOURCE_LAYER_MULTI_PROJECT = '多工程';
 
 export const DATA_LAYER_STRATIFICATION = {

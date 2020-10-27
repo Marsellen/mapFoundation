@@ -5,7 +5,6 @@ import ToolIcon from 'src/components/ToolIcon';
 import AdMessage from 'src/components/AdMessage';
 import { checkSdkError, getAllChooseLayersExByName } from 'src/utils/vectorUtils';
 
-@inject('appStore')
 @inject('AttributeStore')
 @inject('ToolCtrlStore')
 @inject('DataLayerStore')
@@ -38,10 +37,9 @@ class QCMarkerTool extends React.Component {
 
     //切换到质检注记图层
     enterMarkerLayer = () => {
-        const { DataLayerStore, ToolCtrlStore, AttributeStore, appStore } = this.props;
-        const userInfo = appStore.loginUser;
+        const { DataLayerStore, ToolCtrlStore, AttributeStore } = this.props;
         const layer = DataLayerStore.activeEditor(window.markerLayer);
-        ToolCtrlStore.updateByEditLayer(layer, userInfo);
+        ToolCtrlStore.updateByEditLayer(layer);
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
     };

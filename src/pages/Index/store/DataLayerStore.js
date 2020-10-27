@@ -464,6 +464,7 @@ class DataLayerStore {
             window.map.enableRotate();
             this.disableRegionSelect();
         }
+        this.updateKey = Math.random();
     };
 
     @action hideMessage = () => {
