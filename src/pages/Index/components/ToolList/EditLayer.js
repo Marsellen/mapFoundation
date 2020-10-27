@@ -1,8 +1,13 @@
 import React from 'react';
 import { Radio, List } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { DATA_LAYER_MAP, TOP_VIEW_DISABLED_LAYERS } from 'src/config/DataLayerConfig';
-import { getEditLayers } from 'src/utils/permissionCtrl';
+import {
+    DATA_LAYER_MAP,
+    TOP_VIEW_DISABLED_LAYERS,
+    IMP_RECOGNITION_DISABLED_LAYERS,
+    DATA_LAYER_STRATIFICATION,
+    LAYER_STRATIFICATION_MAP
+} from 'src/config/DataLayerConfig';
 import ToolIcon from 'src/components/ToolIcon';
 import 'src/assets/less/home.less';
 
@@ -15,8 +20,7 @@ const EDIT_LAYER = [
     'AD_StopLocation',
     'AD_LaneMark_Plg',
     'AD_TrafficLight',
-    'AD_RS_Barrier',
-    'AD_Map_QC'
+    'AD_RS_Barrier'
 ];
 
 @inject('DataLayerStore')
@@ -103,67 +107,70 @@ class EditLayer extends React.Component {
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
 @inject('AttributeStore')
-@inject('appStore')
 @inject('VectorsStore')
 @inject('TaskStore')
 @observer
 class EditLayerPicker extends React.Component {
     render() {
         let { DataLayerStore } = this.props;
+        const { updateKey } = DataLayerStore;
         let editLayer = DataLayerStore.getEditLayer();
         return (
             <Radio.Group
+                key={updateKey}
                 onChange={this.onChange}
                 value={editLayer ? editLayer.layerName : false}
                 style={{ width: '100%' }}
             >
-                <List
-                    key={DataLayerStore.updateKey}
-                    dataSource={this.topViewLayerDisabled()}
-                    renderItem={item => (
-                        <div>
-                            <Radio value={item.value} disabled={item.disabled}>
-                                {this.getLabel(item)}
-                            </Radio>
-                        </div>
-                    )}
-                />
+                <Radio value={false}>不启用</Radio>
+                <div className="flex flex-row">{this.renderLayersContent()}</div>
             </Radio.Group>
         );
     }
 
-    topViewLayerDisabled = () => {
-        let { DataLayerStore, VectorsStore, TaskStore } = this.props;
-        let layers = VectorsStore.vectors.vector;
-        layers = getEditLayers(layers);
-        const { isTopView } = DataLayerStore;
-        if (isTopView) {
-            layers
-                .filter(item => {
-                    return TOP_VIEW_DISABLED_LAYERS.includes(item.value);
-                })
-                .forEach(item => {
-                    item.disabled = true;
-                });
-        }
-        if (
-            TaskStore.activeTask.processName === 'imp_recognition' &&
-            !TaskStore.activeTask.isLocal
-        ) {
-            layers.forEach(item => {
-                if (item.value === 'AD_Road' || item.value === 'AD_Lane') {
-                    item.disabled = true;
-                }
-            });
-        }
-        return layers;
+    renderLayersContent() {
+        return Object.keys(DATA_LAYER_STRATIFICATION).map(key => {
+            return (
+                <div key={key} className="flex flex-column">
+                    <label style={{ fontWeight: 'bold', lineHeight: '30px' }}>
+                        {LAYER_STRATIFICATION_MAP[key]}
+                    </label>
+                    <List
+                        dataSource={DATA_LAYER_STRATIFICATION[key]}
+                        renderItem={this.renderLayerList}
+                    />
+                </div>
+            );
+        });
+    }
+
+    renderLayerList = layerName => {
+        return (
+            <div>
+                <Radio value={layerName} disabled={this.layerDisabled(layerName)}>
+                    {this.getLabel(layerName)}
+                </Radio>
+            </div>
+        );
     };
 
-    getLabel = item => {
-        if (!item.value) {
-            return item.label;
+    layerDisabled(layerName) {
+        const { TaskStore, DataLayerStore } = this.props;
+        const { activeTask } = TaskStore;
+        const { isTopView } = DataLayerStore;
+        if (activeTask.processName === 'imp_recognition' && !activeTask.isLocal) {
+            if (IMP_RECOGNITION_DISABLED_LAYERS.includes(layerName)) {
+                return true;
+            }
         }
-        return DATA_LAYER_MAP[item.value] ? DATA_LAYER_MAP[item.value].label : item.value;
+        if (isTopView && TOP_VIEW_DISABLED_LAYERS.includes(layerName)) {
+            return true;
+        }
+        return false;
+    }
+
+    getLabel = layerName => {
+        return DATA_LAYER_MAP[layerName] ? DATA_LAYER_MAP[layerName].label : layerName;
     };
 
     onChange = e => {
@@ -171,7 +178,6 @@ class EditLayerPicker extends React.Component {
             DataLayerStore: { getEditLayerName, exitMarker, activeEditor },
             ToolCtrlStore: { updateByEditLayer },
             AttributeStore: { hide, hideRelFeatures },
-            appStore: { loginUser },
             QCMarkerStore: { editStatus }
         } = this.props;
         //如果上一个编辑图层是标注图层，则退出标注图层
@@ -184,7 +190,7 @@ class EditLayerPicker extends React.Component {
         const layerPicker = DATA_LAYER_MAP[value] ? DATA_LAYER_MAP[value].editName : '';
         this.props._renderValue(layerPicker);
         const layer = activeEditor(value);
-        updateByEditLayer(layer, loginUser);
+        updateByEditLayer(layer);
         hide();
         hideRelFeatures();
     };

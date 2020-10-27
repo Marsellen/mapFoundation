@@ -330,6 +330,7 @@ export const WRONG_LAYER = '错误区';
 export const SUSPECT_LAYER = '怀疑区';
 
 export const TOP_VIEW_DISABLED_LAYERS = ['AD_TrafficLight', 'AD_RS_Barrier'];
+export const IMP_RECOGNITION_DISABLED_LAYERS = ['AD_Road', 'AD_Lane'];
 export const RESOURCE_LAYER_MULTI_PROJECT = '多工程';
 
 export const DATA_LAYER_STRATIFICATION = {
@@ -355,3 +356,5 @@ export const DATA_LAYER_STRATIFICATION = {
         'AD_TrafficLight_Geo'
     ]
 };
+
+export const LAYER_STRATIFICATION_MAP = { LOGIC: '逻辑层', GEOMETRY: '几何层' };

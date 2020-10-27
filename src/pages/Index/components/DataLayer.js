@@ -1,7 +1,11 @@
 import React from 'react';
-import { Checkbox, List, Switch } from 'antd';
+import { Checkbox, List, Switch, Empty } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import {
+    DATA_LAYER_MAP,
+    DATA_LAYER_STRATIFICATION,
+    LAYER_STRATIFICATION_MAP
+} from 'src/config/DataLayerConfig';
 import { RESOURCE_LAYER_VECTOR, RESOURCE_LAYER_BOUNDARY } from 'src/config/DataLayerConfig';
 import 'less/components/sider.less';
 
@@ -24,6 +28,8 @@ const vectorsTabsConfig = [
 @inject('AttributeStore')
 @observer
 class DataLayer extends React.Component {
+    checkedStatusMap = {};
+
     render() {
         let { VectorsStore } = this.props;
         let { updateKey, vectors, layerType } = VectorsStore;
@@ -34,7 +40,9 @@ class DataLayer extends React.Component {
                 {/* 标题 */}
                 {keys.length > 0 && this.renderTabs(keys)}
                 {/* 选项 */}
-                <div className="vectors-content-wrap">{this.renderContent(vectors[layerType])}</div>
+                <div className="vectors-content-wrap">
+                    {this.renderContent(vectors[layerType], layerType)}
+                </div>
             </div>
         );
     }
@@ -60,51 +68,68 @@ class DataLayer extends React.Component {
         );
     }
 
-    renderContent(vectorsLayers) {
-        let { VectorsStore } = this.props;
-        let { indeterminate, isCheckedAll } = VectorsStore;
+    renderContent(vectorsLayers, type) {
+        if (!vectorsLayers) return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
+        this.calcCheckStatus();
         return (
             <React.Fragment>
-                {vectorsLayers && (
-                    <div className="flex flex-row flex-start-center">
-                        <Checkbox
-                            className="flex flex-1"
-                            value="all"
-                            indeterminate={indeterminate}
-                            checked={isCheckedAll}
-                            disabled={vectorsLayers.disabled}
-                            onChange={this.checkAllChangeEvent}
-                        >
-                            全选
-                        </Checkbox>
-                        <Switch
-                            size="small"
-                            checked={!vectorsLayers.disabled}
-                            onChange={this.handleSwitchChange}
-                        />
-                    </div>
-                )}
+                <div className="flex flex-row flex-start-center">
+                    <Checkbox
+                        value="all"
+                        indeterminate={this.checkedStatusMap[type].ALL.indeterminate}
+                        checked={this.checkedStatusMap[type].ALL.checkedAll}
+                        disabled={vectorsLayers.disabled}
+                        onChange={this.checkAllChangeEvent}
+                    >
+                        全选
+                    </Checkbox>
+                    <Switch
+                        size="small"
+                        checked={!vectorsLayers.disabled}
+                        onChange={this.handleSwitchChange}
+                    />
+                </div>
+                <div className="flex flex-row">
+                    {Object.entries(DATA_LAYER_STRATIFICATION).map(([key, layerNames]) => {
+                        return this.renderLayerList(key, layerNames, vectorsLayers, type);
+                    })}
+                </div>
+            </React.Fragment>
+        );
+    }
+
+    renderLayerList(key, layerNames, vectorsLayers, type) {
+        return (
+            <div key={key} className="flex flex-column">
+                <Checkbox
+                    className="second-check"
+                    value="all"
+                    indeterminate={this.checkedStatusMap[type][key].indeterminate}
+                    checked={this.checkedStatusMap[type][key].checkedAll}
+                    disabled={vectorsLayers.disabled}
+                    onChange={this.secondCheckChangeEvent.bind(this, key)}
+                >
+                    {LAYER_STRATIFICATION_MAP[key]}
+                </Checkbox>
                 <List
                     className="check-group"
-                    dataSource={vectorsLayers}
+                    dataSource={layerNames}
                     renderItem={item => (
                         <div>
                             <Checkbox
-                                value={item.value}
-                                checked={item.checked}
+                                value={item}
+                                checked={vectorsLayers.checkMap[item]}
                                 disabled={vectorsLayers.disabled}
                                 onChange={e => {
                                     this.changeEvent(item, e.target.checked);
                                 }}
                             >
-                                {DATA_LAYER_MAP[item.value]
-                                    ? DATA_LAYER_MAP[item.value].label
-                                    : item.value}
+                                {DATA_LAYER_MAP[item] ? DATA_LAYER_MAP[item].label : item}
                             </Checkbox>
                         </div>
                     )}
                 />
-            </React.Fragment>
+            </div>
         );
     }
 
@@ -123,21 +148,31 @@ class DataLayer extends React.Component {
         toggleAll(value);
     };
 
+    secondCheckChangeEvent = (key, e) => {
+        const value = e.target.checked;
+        const { VectorsStore } = this.props;
+        VectorsStore.toggleStratification(key, value);
+        this.updateResourceLayer();
+    };
+
     changeEvent = (item, value) => {
+        const { VectorsStore } = this.props;
+        VectorsStore.toggle(item, value);
+        this.updateResourceLayer();
+    };
+
+    updateResourceLayer() {
         const { ResourceLayerStore, VectorsStore } = this.props;
         const { toggle: resourceToggle, setIndeterminate } = ResourceLayerStore;
-        const { toggle: vectorsToggle } = VectorsStore;
-
-        vectorsToggle(item.value, value);
-
-        const { layerType, isCheckedNone, isCheckedAll, indeterminate } = VectorsStore;
-
+        const { layerType } = VectorsStore;
         let resourceKey = vectorsTabsConfig.find(config => config.key === layerType).value;
 
-        isCheckedAll && resourceToggle(resourceKey, true);
-        isCheckedNone && resourceToggle(resourceKey, false);
-        indeterminate && setIndeterminate(resourceKey);
-    };
+        // 更新Resource状态前重新计算checked状态
+        this.calcCheckStatus();
+        this.checkedStatusMap[layerType].ALL.checkedAll && resourceToggle(resourceKey, true);
+        this.checkedStatusMap[layerType].ALL.checkedNone && resourceToggle(resourceKey, false);
+        this.checkedStatusMap[layerType].ALL.indeterminate && setIndeterminate(resourceKey);
+    }
 
     handleSwitchChange = checked => {
         const { ResourceLayerStore, VectorsStore } = this.props;
@@ -146,6 +181,41 @@ class DataLayer extends React.Component {
         ResourceLayerStore.switchToggle(resourceKey, !checked);
         VectorsStore.switchToggle(!checked);
     };
+
+    calcCheckStatus() {
+        let { VectorsStore } = this.props;
+        let { vectors, layerType: type } = VectorsStore;
+        this.checkedStatusMap[type] = { ALL: {}, LOGIC: {}, GEOMETRY: {} };
+        let logicLayers = DATA_LAYER_STRATIFICATION.LOGIC;
+        let geometryLayers = DATA_LAYER_STRATIFICATION.GEOMETRY;
+        this.checkedStatusMap[type].LOGIC.checkedAll = logicLayers.every(
+            layerName => vectors[type].checkMap[layerName]
+        );
+        this.checkedStatusMap[type].GEOMETRY.checkedAll = geometryLayers.every(
+            layerName => vectors[type].checkMap[layerName]
+        );
+        this.checkedStatusMap[type].ALL.checkedAll =
+            this.checkedStatusMap[type].LOGIC.checkedAll &&
+            this.checkedStatusMap[type].GEOMETRY.checkedAll;
+        this.checkedStatusMap[type].LOGIC.checkedNone = logicLayers.every(
+            layerName => !vectors[type].checkMap[layerName]
+        );
+        this.checkedStatusMap[type].GEOMETRY.checkedNone = geometryLayers.every(
+            layerName => !vectors[type].checkMap[layerName]
+        );
+        this.checkedStatusMap[type].ALL.checkedNone =
+            this.checkedStatusMap[type].LOGIC.checkedNone &&
+            this.checkedStatusMap[type].GEOMETRY.checkedNone;
+        this.checkedStatusMap[type].LOGIC.indeterminate =
+            !this.checkedStatusMap[type].LOGIC.checkedAll &&
+            !this.checkedStatusMap[type].LOGIC.checkedNone;
+        this.checkedStatusMap[type].GEOMETRY.indeterminate =
+            !this.checkedStatusMap[type].GEOMETRY.checkedAll &&
+            !this.checkedStatusMap[type].GEOMETRY.checkedNone;
+        this.checkedStatusMap[type].ALL.indeterminate =
+            !this.checkedStatusMap[type].ALL.checkedAll &&
+            !this.checkedStatusMap[type].ALL.checkedNone;
+    }
 }
 
 export default DataLayer;

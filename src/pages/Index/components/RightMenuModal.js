@@ -17,7 +17,6 @@ import { isManbuildTask } from 'src/utils/taskUtils';
 import { logDecorator, editInputLimit, editOutputLimit } from 'src/utils/decorator';
 import BatchAssignStore from 'src/pages/Index/store/BatchAssignStore';
 import ToolCtrlStore from 'src/pages/Index/store/ToolCtrlStore';
-import appStore from 'src/store/appStore';
 import AttributeStore from 'src/pages/Index/store/AttributeStore';
 import NewFeatureStore from 'src/pages/Index/store/NewFeatureStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
@@ -399,9 +398,8 @@ class RightMenuModal extends React.Component {
         //设置可编辑图层交互
         const { RightMenuStore, DataLayerStore } = this.props;
         const { features } = RightMenuStore;
-        let userInfo = appStore.loginUser;
         let layer = DataLayerStore.activeEditor(features[0].layerName);
-        ToolCtrlStore.updateByEditLayer(layer, userInfo);
+        ToolCtrlStore.updateByEditLayer(layer);
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
         RightMenuStore.hide();
