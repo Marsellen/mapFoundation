@@ -73,10 +73,7 @@ class AddRel extends React.Component {
                         <p className="tips">TIPS : 选择要素的顺序必须严格遵守</p>
                         <p className="text-body-title">1、当前可编辑图层：“车道中心线”</p>
                         <p className="text-body-content">
-                            (1). 一个车道中心线 + 一个或多个某一类obj要素（交通信号灯）
-                            <br />
-                            例如：一个“车道中心线”
-                            + 多个“交通信号灯”——可建立多对【车道中心线&交通信号灯关联关系】
+                            (1). 一个车道中心线 + 一个或多个交通信号灯
                             <br />
                             (2). 一个车道中心线 + 一个道路参考线
                             <br />

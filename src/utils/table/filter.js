@@ -51,9 +51,7 @@ class Filter {
                 MEANING.push(UPD_STAT_MAP.RELATION[RELATION]);
             }
             if (!_.isEmpty(properties)) {
-                let PROPERTIES = Object.keys(properties).some(
-                    key => properties[key] === 'MOD'
-                )
+                let PROPERTIES = Object.keys(properties).some(key => properties[key] === 'MOD')
                     ? 'MOD'
                     : 'NO_CHANGE';
                 MEANING.push(UPD_STAT_MAP.PROPERTIES[PROPERTIES]);
@@ -70,14 +68,6 @@ class Filter {
         let options = TYPE_SELECT_OPTION_MAP[type].flat();
         let option = options.find(c => c.value == value);
         return option ? option.label : value;
-    };
-
-    adSubLampTypeFilter = value => {
-        let options = TYPE_SELECT_OPTION_MAP.AD_SUB_LAMP_TYPE.flat();
-        options = options.filter(c => value.includes(c.value));
-        return options.length
-            ? options.map(option => option.label).join(',')
-            : value;
     };
 
     semanticConfidenceFilter = value => {
