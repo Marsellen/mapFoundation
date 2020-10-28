@@ -682,8 +682,6 @@ class VizComponent extends React.Component {
     async handleCreatedCallBack(data) {
         // 请求id服务，申请id
         data = await NewFeatureStore.init(data, isManbuildTask());
-        //新建标记点时默认给质检人员属性值
-        data = DataLayerStore.updateQCPerson(data);
         // 更新id到sdk
         DataLayerStore.updateFeature(data);
         //显示要素属性窗口

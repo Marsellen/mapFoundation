@@ -79,7 +79,7 @@ export const ATTR_TABLE_CONFIG = {
         {
             key: 'RS_TYPE',
             name: '限制类型',
-            type: 'AD_Road_Con_RS_TYPE',
+            type: 'AD_ROAD_CON_RS_TYPE',
             domType: 'Select'
         },
         {

@@ -421,7 +421,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 0, label: '未定义' },
         { value: 1, label: '禁止转向限制' }
     ],
-    AD_Road_Con_RS_TYPE: [
+    AD_ROAD_CON_RS_TYPE: [
         { value: 0, label: '未定义' },
         { value: 1, label: '禁止转向' }
     ]
