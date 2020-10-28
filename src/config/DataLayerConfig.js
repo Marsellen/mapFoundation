@@ -309,15 +309,116 @@ export const DATA_LAYER_MAP = {
     AD_LaneDivider_Pln: {
         label: '几何层：车道线线要素',
         id: 'OBJ_ID',
-        spec: 'AD_LaneDivider_Pln'
+        spec: 'AD_LaneDivider_Pln',
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX']
+        },
+        drawTools: {
+            recognition: ['LINE', 'CURVED_LINE'],
+            manbuild: ['LINE', 'CURVED_LINE']
+        },
+        rightTools: ['delete', 'copyLine', 'reverseOrderLine', 'changePoints', 'break', 'trim'],
+        groupRightTools: ['breakGroup', 'merge', 'batchMerge', 'breakByLine']
     },
-    AD_LaneDivider_Plg: { label: '几何层：车道线面要素', id: 'OBJ_ID', spec: 'AD_LaneDivider_Plg' },
-    AD_StopLocation_Geo: { label: '几何层：停止位置', id: 'OBJ_ID', spec: 'AD_StopLocation_Geo' },
-    AD_Arrow_Geo: { label: '几何层：箭头', id: 'OBJ_ID', spec: 'AD_Arrow_Geo' },
-    AD_LaneMark_Geo: { label: '几何层：路面车道标记', id: 'OBJ_ID', spec: 'AD_LaneMark_Geo' },
-    AD_Pole_Geo: { label: '几何层：杆状物', id: 'OBJ_ID', spec: 'AD_Pole_Geo' },
-    AD_TrafficSign_Geo: { label: '几何层：交通标志牌', id: 'OBJ_ID', spec: 'AD_TrafficSign_Geo' },
-    AD_TrafficLight_Geo: { label: '几何层：交通信号灯', id: 'OBJ_ID', spec: 'AD_TrafficLight_Geo' }
+    AD_LaneDivider_Plg: {
+        label: '几何层：车道线面要素',
+        id: 'OBJ_ID',
+        spec: 'AD_LaneDivider_Plg',
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX']
+        },
+        drawTools: {
+            recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
+            manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
+        },
+        rightTools: ['delete', 'copyLine', 'changePoints']
+    },
+    AD_StopLocation_Geo: {
+        label: '几何层：停止位置',
+        id: 'OBJ_ID',
+        spec: 'AD_StopLocation_Geo',
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX']
+        },
+        drawTools: {
+            recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
+            manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
+        },
+        rightTools: ['delete', 'copyLine', 'changePoints']
+    },
+    AD_Arrow_Geo: {
+        label: '几何层：箭头',
+        id: 'OBJ_ID',
+        spec: 'AD_Arrow_Geo',
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX']
+        },
+        drawTools: {
+            recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
+            manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
+        },
+        rightTools: ['delete', 'copyLine', 'changePoints']
+    },
+    AD_LaneMark_Geo: {
+        label: '几何层：路面车道标记',
+        id: 'OBJ_ID',
+        spec: 'AD_LaneMark_Geo',
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX']
+        },
+        drawTools: {
+            recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
+            manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
+        },
+        rightTools: ['delete', 'copyLine', 'changePoints']
+    },
+    AD_Pole_Geo: {
+        label: '几何层：杆状物',
+        id: 'OBJ_ID',
+        spec: 'AD_Pole_Geo',
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX']
+        },
+        drawTools: {
+            recognition: ['LINE', 'CURVED_LINE'],
+            manbuild: ['LINE', 'CURVED_LINE']
+        },
+        rightTools: ['delete', 'changePoints']
+    },
+    AD_TrafficSign_Geo: {
+        label: '几何层：交通标志牌',
+        id: 'OBJ_ID',
+        spec: 'AD_TrafficSign_Geo',
+        tools: {
+            recognition: ['DRAW_TOOL_BOX', 'POSTURE_ADJUST'],
+            manbuild: ['DRAW_TOOL_BOX', 'POSTURE_ADJUST']
+        },
+        drawTools: {
+            recognition: ['POLYGON', 'ADD_CIRCLE', 'ADD_OUTSIDE_RECTANGLE'],
+            manbuild: ['POLYGON', 'ADD_CIRCLE', 'ADD_OUTSIDE_RECTANGLE']
+        },
+        rightTools: ['delete', 'copyLine', 'changePoints']
+    },
+    AD_TrafficLight_Geo: {
+        label: '几何层：交通信号灯',
+        id: 'OBJ_ID',
+        spec: 'AD_TrafficLight_Geo',
+        tools: {
+            recognition: ['DRAW_TOOL_BOX', 'POSTURE_ADJUST'],
+            manbuild: ['DRAW_TOOL_BOX', 'POSTURE_ADJUST']
+        },
+        drawTools: {
+            recognition: ['POLYGON', 'ADD_OUTSIDE_RECTANGLE'],
+            manbuild: ['POLYGON', 'ADD_OUTSIDE_RECTANGLE']
+        },
+        rightTools: ['delete', 'copyLine', 'changePoints']
+    }
 };
 
 export const RESOURCE_LAYER_POINT_CLOUD = '点云';
