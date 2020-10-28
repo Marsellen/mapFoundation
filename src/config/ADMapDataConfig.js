@@ -34,6 +34,18 @@ export const TYPE_SELECT_OPTION_MAP = {
             icon: 'kebiandaoxiangchedaoxian',
             abbreviation: '可变'
         },
+        {
+            value: 19,
+            label: '路口内虚拟车道线',
+            icon: 'lukouneixunichedaoxian',
+            abbreviation: '口虚'
+        },
+        {
+            value: 20,
+            label: '其他虚拟车道线',
+            icon: 'qitaxunichedaoxian',
+            abbreviation: '其虚'
+        },
         { value: 99, label: '其他', icon: 'qita', abbreviation: '99' }
     ],
     AD_LANE_DIVIDER_DIRECTION: [
@@ -422,25 +434,130 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 0, label: '未定义' },
         { value: 1, label: '禁止转向限制' }
     ],
-    AD_Road_Con_RS_TYPE: [
+    AD_ROAD_CON_RS_TYPE: [
         { value: 0, label: '未定义' },
         { value: 1, label: '禁止转向' }
+    ],
+    AD_LANE_DIVIDER_PLN_TYPE: [
+        { value: 0, label: '未定义', icon: 'weidingyi' },
+        { value: 1001, label: '单实线', icon: 'danshixian' },
+        { value: 1003, label: '双实线', icon: 'shuangshixian' },
+        { value: 1005, label: '左实右虚线', icon: 'zuoshiyouxu' },
+        { value: 1006, label: '左虚右实线', icon: 'zuoxuyoushi' },
+        { value: 1007, label: '可变导向车道线', icon: 'kebiandaoxiangchedao' }
+    ],
+    AD_LANE_DIVIDER_PLG_TYPE: [
+        { value: 0, label: '未定义', icon: 'weidingyi' },
+        { value: 1002, label: '单虚线', icon: 'danxuxian' },
+        { value: 1004, label: '双虚线', icon: 'shuangxuxian' },
+        { value: 1005, label: '左实右虚线', icon: 'zuoshiyouxu' },
+        { value: 1006, label: '左虚右实线', icon: 'zuoxuyoushi' }
+    ],
+    AD_ARROW_GEO_TYPE: [
+        { value: 0, label: '未定义', icon: 'weidingyi' },
+        { value: 3001, label: '直行箭头', icon: 'zhixing' },
+        { value: 3002, label: '左转箭头', icon: 'zuozhuan' },
+        { value: 3003, label: '右转箭头', icon: 'youzhuan' },
+        { value: 3004, label: '直行左转箭头', icon: 'zhixingzuozhuanjiantou' },
+        { value: 3005, label: '直行右转箭头', icon: 'zhixingyouzhuanjiantou' },
+        { value: 3006, label: '左转右转箭头', icon: 'zuozhuanyouzhuanjiantou' },
+        { value: 3007, label: '直行左转右转箭头', icon: 'zhixingzuozhuanyouzhuanjiantou' },
+        { value: 3008, label: '掉头箭头', icon: 'zuodiaotou' },
+        { value: 3009, label: '左转掉头箭头', icon: 'zuozhuandiaotoujiantou' },
+        { value: 3010, label: '右转掉头箭头', icon: 'youzhuandiaotoujiantou' },
+        { value: 3011, label: '禁止标记箭头', icon: 'jinzhibiaojijiantou' },
+        { value: 3012, label: '向左合流箭头', icon: 'youzuoheliujiantou' },
+        { value: 3013, label: '向右合流箭头', icon: 'xiangyouheliujiantou' },
+        { value: 3014, label: '直行和掉头箭头', icon: 'zhixinghediaotoujiantou' },
+        { value: 3015, label: '直行左转掉头箭头', icon: 'zhixingzuozhuandiaotoujiantou' },
+        { value: 3016, label: '直行右转掉头箭头', icon: 'zhixingyouzhuandiaotoujiantou' },
+        { value: 3017, label: '直行左弯', icon: 'zhixingzuowan' },
+        { value: 3018, label: '直行右弯', icon: 'zhixingyouwan' }
+    ],
+    AD_LANE_MARK_GEO_TYPE: [
+        { value: 0, label: '未定义', icon: 'weidingyi' },
+        { value: 4001, label: '减速警示线', icon: 'jiansujingshixian' },
+        { value: 4002, label: '减速带', icon: 'jiansudai' },
+        { value: 9901, label: '人行横道', icon: 'renxinghengdao' },
+        { value: 9902, label: '禁止停车区', icon: 'jinzhitingchexian' },
+        { value: 9903, label: '导流区', icon: 'daoliuqu' },
+        { value: 9904, label: '路口内中心圈', icon: 'lukouneizhongxinquan' },
+        { value: 9905, label: '车距确认线', icon: 'chejuqurenxian' },
+        { value: 9906, label: '地面文字数字', icon: 'dimianwenzhishuzi' },
+        { value: 9907, label: '地面符号', icon: 'dimianfuhao' }
+    ],
+    AD_TRAFFIC_SIGN_GEO_TYPE: [
+        { value: 2100, label: '其他警告标志', icon: 'jinggaolei' },
+        { value: 2101, label: '建议速度', icon: 'jianyisudu' },
+        { value: 2200, label: '其他禁令标志', icon: 'jinlinglei' },
+        { value: 2201, label: '停车让行', icon: 'tingcherangxing' },
+        { value: 2202, label: '减速让行', icon: 'jiansurangxing' },
+        { value: 2203, label: '会车让行', icon: 'huicherangxing' },
+        { value: 2204, label: '禁止通行', icon: 'jinzhitongxing' },
+        { value: 2205, label: '禁止驶入', icon: 'jinzhishiru' },
+        { value: 2206, label: '禁止机动车驶入', icon: 'jinzhijidongchetongxing' },
+        { value: 2207, label: '禁止向左转弯', icon: 'jinzhizuozhuanwan' },
+        { value: 2208, label: '禁止向右转弯', icon: 'jinzhiyouzhuanwan' },
+        { value: 2209, label: '禁止直行', icon: 'jinzhizhixing' },
+        { value: 2210, label: '禁止向左向右转弯', icon: 'jinzhizuoyouzhuanwan' },
+        { value: 2211, label: '禁止直行和向左转弯', icon: 'jinzhizhixinghezuozhuanwan' },
+        { value: 2212, label: '禁止直行和向右转弯', icon: 'jinzhizhixingheyouzhuanwan' },
+        { value: 2213, label: '禁止掉头', icon: 'jinzhidiaotou' },
+        { value: 2214, label: '禁止超车', icon: 'jinzhichaoche' },
+        { value: 2215, label: '解除禁止超车', icon: 'jiechujinzhichaoche' },
+        { value: 2216, label: '禁止停车', icon: 'jinzhitingche' },
+        { value: 2217, label: '禁止长时间停车', icon: 'jinzhichangshitingche' },
+        { value: 2219, label: '限制速度', icon: 'xianzhisudu' },
+        { value: 2220, label: '解除限制速度', icon: 'jiechuxinazhisudu' },
+        { value: 2223, label: '区域禁止-禁止长时间停车', icon: 'quyujinzhichangshitingche' },
+        {
+            value: 2224,
+            label: '区域禁止解除-解除禁止长时间停车',
+            icon: 'quyujiechujinzhichangshitingche'
+        },
+        { value: 2225, label: '区域禁止-禁止停车', icon: 'quyujinzhitingche' },
+        { value: 2226, label: '区域禁止解除-解除禁止停车', icon: 'quyujiechujinzhitingche' },
+        { value: 2227, label: '区域禁止-速度限制', icon: 'quyusuduxianzhi' },
+        { value: 2228, label: '区域禁止解除-解除速度限制', icon: 'quyujiechusuduxianzhi' },
+        { value: 2300, label: '其他指示类标志', icon: 'zhishilei' },
+        { value: 2314, label: '最低限速', icon: 'zuidixiansu' },
+        { value: 2318, label: '车道行驶方向-直行', icon: 'chedaoxingshizhixing' },
+        { value: 2321, label: '允许掉头', icon: 'yunxudiaotou' },
+        { value: 2322, label: '车道行驶方向-左转', icon: 'chedaoxingshizuozhuan' },
+        { value: 2323, label: '车道行驶方向-右转', icon: 'chedaoxingshiyouzhuan' },
+        { value: 2324, label: '车道行驶方向-直行和左转', icon: 'chedaoxingshi-zhixinghezuozhuan' },
+        { value: 2325, label: '车道行驶方向-直行和右转', icon: 'chedaoxingshi-zhixingheyouzhuan' },
+        { value: 2326, label: '车道行驶方向-左转和掉头', icon: 'chedaoxingshi-diaotouhezuozhuan' },
+        { value: 2327, label: '车道行驶方向-掉头', icon: 'chedaoxingshi-diaotou' },
+        { value: 2328, label: '车道行驶方向-其他', icon: 'chedaoxingshi-qitafangxiang' },
+        { value: 2401, label: '区间测速起点', icon: 'qujiancesuqidian' },
+        { value: 2402, label: '区间测速终点', icon: 'qujiancesuzhongdian' },
+        { value: 2403, label: '区间测速起点和距离', icon: 'qujiancesuchangdu' },
+        { value: 2404, label: '表示时间标志', icon: 'biaoshishijian' },
+        { value: 2405, label: '特殊天气辅助标志', icon: 'zhuyiteshutianqi' },
+        { value: 2406, label: '特殊路段辅助标志', icon: 'teshuluduanfuzhubiaozhi' },
+        { value: 2500, label: '其他标志牌', icon: 'qitabiaozhi' },
+        { value: 2600, label: '动态限速标志', icon: 'weidingyi' },
+        { value: 2601, label: '其他电子标志牌', icon: 'qitadianzibiaozhipai' },
+        { value: 0, label: '未定义', icon: 'weidingyi' }
+    ],
+    AD_TRAFFIC_LIGHT_GEO_TYPE: [
+        { value: 0, label: '未定义', icon: 'weidingyi' },
+        { value: 3001, label: '普通交通信号灯', icon: 'putongjiaotongxinhaodeng' },
+        { value: 3002, label: '方向指示信号灯', icon: 'fangxiangzhishixinhaodeng' },
+        { value: 3003, label: '铁路平交路口信号灯', icon: 'tielupingjiaolukouxinhaodeng' },
+        { value: 3099, label: '其他', icon: 'qita' }
     ]
 };
 
 export const DEFAULT_PROPERTIES_MAP = {
     AD_Arrow: {
-        ARR_DIRECT: 'A',
-        LANE_ID: 0
+        ARR_DIRECT: 'A'
     },
     AD_LaneMark_Plg: {
         TYPE: 1
     },
-    AD_TrafficLight: {
-        TYPE: 1,
-        LAYOUT: 1,
-        LAMP_COUNT: 3
-    },
+    AD_TrafficLight: {},
     AD_LaneDivider: {
         TYPE: 1,
         DIRECTION: 0,
@@ -495,19 +612,48 @@ export const DEFAULT_PROPERTIES_MAP = {
     AD_StopLocation: {
         TYPE: 1
     },
-    AD_Map_QC: {
-        FILE_NAME: '',
-        FEAT_ID: 0,
-        ERROR_TYPE: 0,
-        ERROR_DESC: '',
-        FIX_STATUS: 0,
-        QC_STATUS: 0,
-        FIX_PERSON: '',
-        QC_PERSON: ''
-    },
     AD_RS_Barrier: {
         TYPE: 3,
         MATERIAL: 1
+    },
+    AD_LaneDivider_Pln: {
+        FEAT_TYPE: 1001,
+        CFD_GEO: 100,
+        CFD_FEAT: 100
+    },
+    AD_LaneDivider_Plg: {
+        FEAT_TYPE: 1002,
+        CFD_GEO: 100,
+        CFD_FEAT: 100
+    },
+    AD_StopLocation_Geo: {
+        FEAT_TYPE: 2001,
+        CFD_GEO: 100,
+        CFD_FEAT: 100
+    },
+    AD_Arrow_Geo: {
+        FEAT_TYPE: 3001,
+        CFD_GEO: 100,
+        CFD_FEAT: 100
+    },
+    AD_LaneMark_Geo: {
+        FEAT_TYPE: 0,
+        CFD_GEO: 100,
+        CFD_FEAT: 100
+    },
+    AD_Pole_Geo: {
+        CFD_GEO: 100,
+        CFD_FEAT: 100
+    },
+    AD_TrafficSign_Geo: {
+        FEAT_TYPE: 0,
+        CFD_GEO: 100,
+        CFD_FEAT: 100
+    },
+    AD_TrafficLight_Geo: {
+        FEAT_TYPE: 3001,
+        CFD_GEO: 100,
+        CFD_FEAT: 100
     }
 };
 

@@ -625,17 +625,6 @@ class DataLayerStore {
         }
     });
 
-    updateQCPerson = result => {
-        try {
-            if (result.layerName == 'AD_Map_QC' && this.editType == 'new_point') {
-                result.data.properties.QC_PERSON = appStore.loginUser.name;
-            }
-            return result;
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
     updateFeature = result => {
         let layer = getLayerByName(result.layerName);
         layer.updateFeatures([result]);
