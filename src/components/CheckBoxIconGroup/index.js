@@ -35,7 +35,7 @@ class CheckBoxIconGroup extends React.Component {
                 _value = _value.replace(record, '');
             } else {
                 if (_value.length < max) {
-                    _value = _value + record;
+                    _value = (_value + record).split('').sort().join('');
                 } else {
                     message.warning(`最多允许选${max}个！`);
                     return false;
