@@ -39,10 +39,6 @@ class modelFactory {
         return tableData.map(record => {
             let uniProperties = properties.reduce((total, property) => {
                 let propertyValue = property[record.key];
-                if (record.key === 'ARR_DIRECT') {
-                    // 给数组每一项的字符串重新生成数组排序变成排序后的字符串
-                    propertyValue = propertyValue.split('').sort().join('');
-                }
                 if (!total.includes(propertyValue)) {
                     total.push(propertyValue);
                 }
