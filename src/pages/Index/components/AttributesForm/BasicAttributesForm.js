@@ -5,10 +5,9 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
-import ChooseErrorLayer from 'src/components/ChooseErrorLayer';
-import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { getValidator } from 'src/utils/form/validator';
 import Filter from 'src/utils/table/filter';
+import SearchIconGroup from 'src/components/SearchIconGroup';
 
 const formItemLayout = {
     labelCol: {
@@ -23,22 +22,8 @@ const formItemLayout = {
 
 @inject('AttributeStore')
 @inject('DataLayerStore')
-@inject('appStore')
 @observer
 class BasicAttributesForm extends React.Component {
-    errorCallback = result => {
-        let layerId,
-            layerName = '';
-        const { form } = this.props;
-        if (result.length > 0) {
-            layerId = result[0].data.properties[DATA_LAYER_MAP[result[0].layerName].id];
-            layerName = result[0].layerName;
-            form.setFieldsValue({
-                'attributes.FILE_NAME': layerName,
-                'attributes.FEAT_ID': layerId
-            });
-        }
-    };
     render() {
         const { AttributeStore } = this.props;
         const { attributes } = AttributeStore;
@@ -69,14 +54,8 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderInputNumber = (item, index, name) => {
-        const {
-            form,
-            AttributeStore,
-            appStore: { loginUser }
-        } = this.props;
-        const { readonly, type } = AttributeStore;
-        const producerDisabled = loginUser.roleCode === 'producer' && type === 'AD_Map_QC'; //作业员员标记图层禁用项
-        const disabledKey = item.key === 'FEAT_ID'; //作业员标记图层需要禁用项
+        const { form, AttributeStore } = this.props;
+        const { readonly } = AttributeStore;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
@@ -92,7 +71,6 @@ class BasicAttributesForm extends React.Component {
                     })(
                         <AdInputNumber
                             type="number"
-                            disabled={producerDisabled && disabledKey}
                             onChange={val => this.handleChange(val, item, name)}
                         />
                     )
@@ -107,8 +85,7 @@ class BasicAttributesForm extends React.Component {
 
     renderInput = (item, index, name) => {
         const { form, AttributeStore } = this.props;
-        const { readonly, type } = AttributeStore;
-        const disabledKey = item.key === 'QC_PERSON' || item.key === 'FIX_PERSON';
+        const { readonly } = AttributeStore;
 
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
@@ -122,12 +99,7 @@ class BasicAttributesForm extends React.Component {
                             ...this.getValidatorSetting(item.validates)
                         ],
                         initialValue: item.value
-                    })(
-                        <Input
-                            disabled={readonly || (type === 'AD_Map_QC' && disabledKey)}
-                            onChange={val => this.handleChange(val, item, name)}
-                        />
-                    )
+                    })(<Input onChange={val => this.handleChange(val, item, name)} />)
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -138,15 +110,9 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderSelect = (item, index, name) => {
-        const {
-            form,
-            AttributeStore,
-            appStore: { loginUser }
-        } = this.props;
-        const { readonly, type } = AttributeStore;
+        const { form, AttributeStore } = this.props;
+        const { readonly } = AttributeStore;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
-        const producerDisabled = loginUser.roleCode === 'producer' && type === 'AD_Map_QC'; //作业员员标记图层禁用项
-        const disabledKey = item.key === 'ERROR_TYPE' || item.key === 'QC_STATUS'; //作业员标记图层需要禁用项
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
@@ -162,7 +128,6 @@ class BasicAttributesForm extends React.Component {
                         <Select
                             showSearch
                             optionFilterProp="children"
-                            disabled={readonly || (producerDisabled && disabledKey)}
                             filterOption={(input, option) =>
                                 option.props.children.toLowerCase().indexOf(input.toLowerCase()) >=
                                 0
@@ -177,44 +142,6 @@ class BasicAttributesForm extends React.Component {
                                 );
                             })}
                         </Select>
-                    )
-                ) : (
-                    <span className="ant-form-text">
-                        {this.getArrayOption(item.value, options)}
-                    </span>
-                )}
-            </Form.Item>
-        );
-    };
-
-    renderChooseErrorLayer = (item, index, name) => {
-        const {
-            form,
-            AttributeStore,
-            appStore: { loginUser }
-        } = this.props;
-        const { readonly, type } = AttributeStore;
-        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
-        const producerDisabled = loginUser.roleCode === 'producer' && type === 'AD_Map_QC'; //作业员员标记图层禁用项
-        return (
-            <Form.Item key={index} label={item.name} {...formItemLayout} shouldupdate="true">
-                {!readonly ? (
-                    form.getFieldDecorator(name + '.' + item.key, {
-                        rules: [
-                            {
-                                required: loginUser.roleCode === 'quality',
-                                message: `${item.name}必填,请输入合法的数字`
-                            },
-                            ...this.getValidatorSetting(item.validates)
-                        ],
-                        initialValue: item.value
-                    })(
-                        <ChooseErrorLayer
-                            options={options}
-                            disabled={readonly || producerDisabled}
-                            errorCallback={this.errorCallback}
-                            onChange={val => this.handleChange(val, item, name)}
-                        />
                     )
                 ) : (
                     <span className="ant-form-text">
@@ -304,6 +231,38 @@ class BasicAttributesForm extends React.Component {
                             onChange={val => this.handleChange(val, item, name)}
                         />
                     )
+                ) : (
+                    <span className="ant-form-text">
+                        {this.getCheckBoxArrayOption(item.value, options)}
+                    </span>
+                )}
+            </Form.Item>
+        );
+    };
+
+    renderSearchIconGroup = (item, index, name) => {
+        const { form, AttributeStore } = this.props;
+        const { readonly } = AttributeStore;
+        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+        let layout = readonly ? formItemLayout : {};
+        return (
+            <Form.Item key={index} label={item.name} {...layout}>
+                {!readonly ? (
+                    form.getFieldDecorator(name + '.' + item.key, {
+                        rules: [
+                            {
+                                required: item.required,
+                                message: `${item.name}必填`
+                            },
+                            ...(item.validates || []).map(validate => {
+                                return {
+                                    pattern: validate.pattern,
+                                    message: validate.message
+                                };
+                            })
+                        ],
+                        initialValue: item.value
+                    })(<SearchIconGroup options={options} />)
                 ) : (
                     <span className="ant-form-text">
                         {this.getCheckBoxArrayOption(item.value, options)}

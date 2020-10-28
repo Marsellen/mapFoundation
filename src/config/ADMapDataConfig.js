@@ -947,68 +947,6 @@ export const TABLE_DATA_MAP = {
         //     domType: 'InputNumber'
         // }
     ],
-    AD_Map_QC: [
-        {
-            key: 'ID',
-            name: '用户编号',
-            type: 'AD_MAP_QC_ID',
-            domType: 'Text'
-        },
-        {
-            key: 'FILE_NAME',
-            name: '错误图层名称',
-            type: 'AD_MAP_QC_FILE_NAME',
-            required: true,
-            domType: 'ChooseErrorLayer'
-        },
-        {
-            key: 'FEAT_ID',
-            name: '错误数据ID',
-            type: 'AD_MAP_QC_FEAT_ID',
-            validates: 'Numeric|maxLength|15',
-            domType: 'InputNumber'
-        },
-        {
-            key: 'ERROR_TYPE',
-            name: '错误类型',
-            type: 'AD_MAP_QC_ERROR_TYPE',
-            domType: 'Select'
-        },
-        {
-            key: 'ERROR_DESC',
-            name: '错误描述',
-            type: 'AD_MAP_QC_ERROR_DESC',
-            domType: 'Input',
-            validates: 'Char|250'
-        },
-        {
-            key: 'FIX_STATUS',
-            name: '修正状态',
-            type: 'AD_MAP_QC_FIX_STATUS',
-            domType: 'Select'
-        },
-        {
-            key: 'QC_STATUS',
-            name: '检查结果',
-            type: 'AD_MAP_QC_QC_STATUS',
-            domType: 'Select'
-        },
-        {
-            key: 'FIX_PERSON',
-            name: '返工修改人员',
-            type: 'AD_MAP_QC_FIX_PERSON',
-            domType: 'Input',
-            validates: 'Char|20'
-        },
-        {
-            key: 'QC_PERSON',
-            name: '质检人员',
-            type: 'AD_MAP_QC_QC_PERSON',
-            domType: 'Input',
-            required: true,
-            validates: 'Char|20'
-        }
-    ],
     AD_RS_Barrier: [
         {
             key: 'BARR_ID',
