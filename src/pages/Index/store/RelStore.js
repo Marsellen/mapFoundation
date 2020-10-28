@@ -5,9 +5,9 @@ import axios from 'axios';
 
 configure({ enforceActions: 'always' });
 class RelStore {
-    addRecords = flow(function* (url, dataType) {
-        let response = yield axios.get(url);
-        let records = relFactory.relDataToTable(response.data, dataType);
+    addRecords = flow(function* (urls, dataType) {
+        const response = yield Promise.all(urls.map(axios.get));
+        const records = relFactory.relDataToTable(response, dataType);
         yield Relevance.store.batchAdd(records);
     });
 

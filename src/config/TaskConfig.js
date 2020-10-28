@@ -50,3 +50,42 @@ export const TASK_TYPE = {
     101: '底图更新',
     102: '单点问题修正'
 };
+
+//任务文件-矢量文件
+export const VECTOR_FILES = [
+    'AD_LaneDivider_Pln.geojson',
+    'AD_LaneDivider_Plg.geojson',
+    'AD_StopLocation_Geo.geojson',
+    'AD_Arrow_Geo.geojson',
+    'AD_LaneMark_Geo.geojson',
+    'AD_Pole_Geo.geojson',
+    'AD_TrafficSign_Geo.geojson',
+    'AD_TrafficLight_Geo.geojson',
+    'AD_Road.geojson',
+    'AD_LaneDivider.geojson',
+    'AD_Lane.geojson',
+    'AD_LaneAttrPoint.geojson',
+    'AD_Arrow.geojson',
+    'AD_StopLocation.geojson',
+    'AD_LaneMark_Plg.geojson',
+    'AD_TrafficLight.geojson',
+    'AD_RS_Barrier.geojson'
+];
+
+//任务文件-关联属性文件
+export const ATTR_FILES = [
+    'AD_Road_Con_RS.geojson',
+    'AD_Lane_RS.geojson',
+    'AD_Lane_Con_RS.geojson'
+];
+
+//任务文件-关联关系文件
+export const REL_FILES = [
+    'AD_Lane.geojson',
+    'AD_LaneAttrPoint.geojson',
+    'AD_Road_Con.geojson',
+    'AD_Lane_Con.geojson',
+    'AD_StopL_Lane_Rel.geojson',
+    'AD_Plg_Lane_Rel.geojson',
+    'AD_Light_Lane_Rel.geojson'
+];

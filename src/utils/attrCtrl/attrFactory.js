@@ -5,13 +5,12 @@ import Relevance from 'src/models/relevance';
 import Attr from 'src/models/attr';
 
 const attrDataToTable = (data, dataType) => {
-    let attrData = filterRelData(data);
-    return attrData.reduce((total, feature) => {
-        let spec = feature.name;
-
+    return data.reduce((total, response) => {
+        const { data: feature } = response;
+        const spec = feature.name;
         feature.features.forEach(f => {
             let record = dataToTable(f.properties, spec);
-            record.dataType = dataType
+            record.dataType = dataType;
             total.push(record);
         });
         return total;
@@ -35,12 +34,6 @@ const attrTableToData = records => {
             type: 'FeatureCollection'
         };
     });
-};
-
-const filterRelData = data => {
-    return ((data && data.features) || []).filter(d =>
-        ATTR_SPEC_CONFIG.map(config => config.source).includes(d.name)
-    );
 };
 
 const dataToTable = (properties, spec) => {
@@ -106,10 +99,7 @@ const getFeatureAttrs = async (layerName, properties) => {
         let relStore = Relevance.store;
         let rels = await configs.reduce(async (total, config) => {
             total = await total;
-            let records = await relStore.getAll(
-                [config.relKey, id],
-                config.relType
-            );
+            let records = await relStore.getAll([config.relKey, id], config.relType);
             let data = records.map(record => {
                 return {
                     id: record.extraInfo.REL_ID,
@@ -163,10 +153,7 @@ const replaceAttrs = async ([oldAttrs, newAttrs] = []) => {
     let attrStore = Attr.store;
     let oldAttrIds = await oldAttrs.reduce(async (total, record) => {
         total = await total;
-        let _record = await attrStore.get(
-            [record.source, record.sourceId],
-            'SOURCE_ID'
-        );
+        let _record = await attrStore.get([record.source, record.sourceId], 'SOURCE_ID');
         total.push(_record.id);
         return total;
     }, []);
@@ -175,20 +162,12 @@ const replaceAttrs = async ([oldAttrs, newAttrs] = []) => {
 };
 
 const calcDiffAttrs = (oldAttrs, newAttrs) => {
-    let oldDiffAttrs = _.differenceWith(
-        oldAttrs,
-        newAttrs,
-        (arrVal, othVal) => {
-            return _.isEqual(arrVal.properties, othVal.properties);
-        }
-    );
-    let newDiffAttrs = _.differenceWith(
-        newAttrs,
-        oldAttrs,
-        (arrVal, othVal) => {
-            return _.isEqual(arrVal.properties, othVal.properties);
-        }
-    );
+    let oldDiffAttrs = _.differenceWith(oldAttrs, newAttrs, (arrVal, othVal) => {
+        return _.isEqual(arrVal.properties, othVal.properties);
+    });
+    let newDiffAttrs = _.differenceWith(newAttrs, oldAttrs, (arrVal, othVal) => {
+        return _.isEqual(arrVal.properties, othVal.properties);
+    });
 
     return [[...oldDiffAttrs], [...newDiffAttrs]];
 };

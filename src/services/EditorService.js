@@ -57,6 +57,14 @@ const EditorService = {
             data
         };
         return service({ config });
+    },
+    getFileList: data => {
+        const config = {
+            url: EditApiPath('/file_query/file_list'),
+            method: 'post',
+            data
+        };
+        return service({ config });
     }
 };
 

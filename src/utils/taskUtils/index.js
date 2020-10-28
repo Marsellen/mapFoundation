@@ -49,7 +49,7 @@ export const completeMultiProjectUrl = (path, task, projectName) => {
 // 补齐周边底图数据路径
 export const completeBoundaryUrl = (path, task) => {
     const getBoundaryUrl = BOUNDARY_PATH_MAP[task.processName];
-    return `${task.Input_imp_data_path}/${SECEND_PATH}/${getBoundaryUrl}/${path}`;
+    return `${task.Input_imp_data_path}/${SECEND_PATH}/${getBoundaryUrl}/around/${path}`;
 };
 
 // 补齐矢量（可编辑）数据路径
