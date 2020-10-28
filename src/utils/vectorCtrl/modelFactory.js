@@ -17,13 +17,14 @@ class modelFactory {
 
     getDefaultProperties = (layerName, id, isManbuildTask) => {
         let defaultProperties = DEFAULT_PROPERTIES_MAP[layerName] || {};
-        let extrInfo = {};
 
         let defaultConfidence = DEFAULT_CONFIDENCE_MAP[layerName] || '{}';
         let UPD_STAT = isManbuildTask ? '{}' : '{"GEOMETRY":"ADD"}';
-        extrInfo = {
+        let extrInfo = {
             CONFIDENCE: defaultConfidence,
-            UPD_STAT
+            UPD_STAT,
+            COLL_TIME: '',
+            MAKE_TIME: ''
         };
 
         let IDKey = getLayerIDKey(layerName);
