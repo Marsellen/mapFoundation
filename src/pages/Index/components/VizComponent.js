@@ -257,7 +257,14 @@ class VizComponent extends React.Component {
     initTask = async () => {
         console.time('taskLoad');
         const { TaskStore } = this.props;
-        const { getTaskInfo, getTaskFile, activeTaskId, tasksPop, isEditableTask } = TaskStore;
+        const {
+            getTaskInfo,
+            getTaskFile,
+            getTaskFileList,
+            activeTaskId,
+            tasksPop,
+            isEditableTask
+        } = TaskStore;
         if (!activeTaskId) return;
         const key = Math.random();
         message.loading({
@@ -267,7 +274,7 @@ class VizComponent extends React.Component {
         });
         try {
             //获取任务信息 taskinfos.json
-            await getTaskInfo();
+            await Promise.all([getTaskFileList(), getTaskInfo()]);
             //获取任务资料文件路径
             const task = getTaskFile();
             //加载当前任务资料
@@ -298,8 +305,14 @@ class VizComponent extends React.Component {
         console.timeEnd('taskLoad');
     };
 
-    fetchCallback = ({ status }) => {
-        if (status && status.code === 200) return;
+    fetchCallback = response => {
+        if (Array.isArray(response)) {
+            const isError = response.some(item => item.error);
+            if (!isError) return;
+        } else {
+            const { status } = response;
+            if (status && status.code === 200) return;
+        }
         const { TaskStore: { activeTaskId } = {} } = this.props;
         throw new Error(activeTaskId);
     };
@@ -308,13 +321,15 @@ class VizComponent extends React.Component {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         try {
+            //先加载任务范围，以任务范围为标准做居中定位
+            const region = await this.initRegion(task.region);
+            //再加载其它资料
             const resources = await Promise.all([
                 this.initVectors(task.vectors),
-                this.initRegion(task.region),
                 this.initMarkerLayer(task),
                 this.initMultiProjectResource(task)
             ]);
-            this.initResouceLayer(resources);
+            this.initResouceLayer([...resources, region]);
             this.installListener();
             this.setMapScale(); //设置画面缩放比例
         } catch (e) {
@@ -345,35 +360,40 @@ class VizComponent extends React.Component {
     };
 
     initPointCloud = async urlArr => {
-        if (!urlArr) return;
-        //实例化点云
-        const pointCloudLayer = new DynamicPCLayer(null, {
-            intensityGamma: 0.5,
-            intensityContrast: 0.4,
-            intensityBrightness: 0.3,
-            size: 1.2
-        });
-        window.pointCloudLayer = pointCloudLayer;
-        //将点云实例加到map
-        map.getLayerManager().addLayer('DynamicPCLayer', pointCloudLayer);
-        //点云实例调用updatePointClouds方法，传入点云url数组，批量添加点云
-        //{点云url:点云图层}
-        let pointCloudErrorStatus;
-        await pointCloudLayer.updatePointClouds(urlArr, true, ({ status }) => {
-            if (status && status.code === 200) return;
-            pointCloudErrorStatus = true;
-        });
-        if (pointCloudErrorStatus) this.fetchCallback();
-        //获取点云高度范围
-        const range = pointCloudLayer.getElevationRange();
-        PointCloudStore.initHeightRange(range);
+        try {
+            if (!urlArr) return;
+            //实例化点云
+            const pointCloudLayer = new DynamicPCLayer(null, {
+                intensityGamma: 0.5,
+                intensityContrast: 0.4,
+                intensityBrightness: 0.3,
+                size: 1.2
+            });
+            window.pointCloudLayer = pointCloudLayer;
+            //将点云实例加到map
+            map.getLayerManager().addLayer('DynamicPCLayer', pointCloudLayer);
+            //点云实例调用updatePointClouds方法，传入点云url数组，批量添加点云
+            //{点云url:点云图层}
+            let pointCloudErrorStatus;
+            await pointCloudLayer.updatePointClouds(urlArr, true, ({ status }) => {
+                if (status && status.code === 200) return;
+                pointCloudErrorStatus = true;
+            });
+            if (pointCloudErrorStatus) this.fetchCallback();
+            //获取点云高度范围
+            const range = pointCloudLayer.getElevationRange();
+            PointCloudStore.initHeightRange(range);
+        } catch (e) {
+            message.warning('没有点云数据');
+            console.log('点云加载异常 ' + e?.message);
+        }
     };
 
     setMapScale = () => {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         const { taskScale } = AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
-        taskScale ? window.map.setEyeView(taskScale) : map.setView('U');
+        taskScale && window.map.setEyeView(taskScale);
     };
 
     initVectors = async vectors => {
@@ -426,7 +446,7 @@ class VizComponent extends React.Component {
             ResourceLayerStore.selectLinkTrack(projectNameArr[0]);
         } catch (e) {
             message.warning('没有轨迹数据');
-            console.error('轨迹异常' + e.message || e || '');
+            console.error('轨迹加载异常 ' + e?.message);
         }
     };
 
@@ -434,7 +454,7 @@ class VizComponent extends React.Component {
         try {
             if (!regionUrl) return;
             const { TaskStore } = this.props;
-            window.vectorLayer = new VectorLayer(regionUrl);
+            window.vectorLayer = new VectorLayer(regionUrl, { isExtent: true });
             vectorLayer.setDefaultStyle({ color: 'rgb(16,201,133)' });
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
             //判断任务范围是否成功加载
@@ -449,7 +469,7 @@ class VizComponent extends React.Component {
             };
         } catch (e) {
             message.warning('没有任务范围框');
-            console.error('任务范围异常：' + e.message || e || '');
+            console.error('任务范围异常 ' + e?.message);
         }
     };
 
@@ -466,8 +486,8 @@ class VizComponent extends React.Component {
             VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
             this.handleBoundaryfeature();
         } catch (e) {
-            message.warning('当前任务没有周边底图数据');
-            console.error('周边底图异常：' + e.message || e || '');
+            message.warning(e?.message ?? '周边底图异常');
+            console.error('周边底图异常 ' + e?.message);
         }
     };
 
@@ -724,12 +744,12 @@ class VizComponent extends React.Component {
         }
     }
 
-    installRel = url => {
-        return RelStore.addRecords(url, 'current');
+    installRel = urls => {
+        return RelStore.addRecords(urls, 'current');
     };
 
-    installAttr = url => {
-        return AttrStore.addRecords(url, 'current');
+    installAttr = urls => {
+        return AttrStore.addRecords(urls, 'current');
     };
 
     render() {

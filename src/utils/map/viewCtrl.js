@@ -7,8 +7,6 @@ import TaskStore from 'src/pages/Index/store/TaskStore';
 import RelStore from 'src/pages/Index/store/RelStore';
 import AttrStore from 'src/pages/Index/store/AttrStore';
 import VectorsStore from 'src/pages/Index/store/VectorsStore';
-import CONFIG from 'src/config';
-import { completeBoundaryUrl } from 'src/utils/taskUtils';
 
 export const showPictureShowView = obj => {
     const { data } = obj;
@@ -53,27 +51,24 @@ export const showRightMenu = (features, event) => {
 //重新获取3个geojson，并更新画布
 export const updateData = async () => {
     try {
-        const { activeTask, isEditableTask, getTaskFile } = TaskStore;
-        const { vectors: vectorUrl, rels: relUrl, attrs: attrUrl } = getTaskFile() || {};
+        const { isEditableTask, taskFileMap, boundaryFileMap } = TaskStore;
         //销毁indexDB的关联关系表和关联属性表
         await Promise.allSettled([RelStore.destroy(), AttrStore.destroy()]);
         //判断如果是“开始任务”，则重新获取当前任务和周边底图数据，更新indexDB表
         //判断如果是“浏览任务”，则重新获取当前任务，更新indexDB表
         if (isEditableTask) {
-            const boundaryRelUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryRels, activeTask);
-            const boundaryAttrUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryAttrs, activeTask);
             await Promise.allSettled([
-                window.vectorLayerGroup.resetData(vectorUrl),
-                RelStore.addRecords(relUrl, 'current'),
-                AttrStore.addRecords(attrUrl, 'current'),
-                RelStore.addRecords(boundaryRelUrl, 'boundary'),
-                AttrStore.addRecords(boundaryAttrUrl, 'boundary')
+                window.vectorLayerGroup.resetData(taskFileMap.vectors),
+                RelStore.addRecords(taskFileMap.rels, 'current'),
+                AttrStore.addRecords(taskFileMap.attrs, 'current'),
+                RelStore.addRecords(boundaryFileMap.rels, 'boundary'),
+                AttrStore.addRecords(boundaryFileMap.attrs, 'boundary')
             ]);
         } else {
             await Promise.allSettled([
-                window.vectorLayerGroup.resetData(vectorUrl),
-                RelStore.addRecords(relUrl, 'current'),
-                AttrStore.addRecords(attrUrl, 'current')
+                window.vectorLayerGroup.resetData(taskFileMap.vectors),
+                RelStore.addRecords(taskFileMap.rels, 'current'),
+                AttrStore.addRecords(taskFileMap.attrs, 'current')
             ]);
         }
         //更新高精数据图层

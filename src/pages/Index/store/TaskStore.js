@@ -1,6 +1,7 @@
 import { observable, flow, configure, action, computed } from 'mobx';
 import TaskService from 'src/services/TaskService';
 import JobService from 'src/services/JobService';
+import EditorService from 'src/services/EditorService';
 import axios from 'axios';
 import { message } from 'antd';
 import CONFIG from 'src/config';
@@ -37,9 +38,14 @@ import LocalTask from 'src/utils/Task/LocalTask';
 import AddTask from 'src/utils/Task/AddTask';
 import UpdateTask from 'src/utils/Task/UpdateTask';
 import ModifyTask from 'src/utils/Task/ModifyTask';
+import { VECTOR_FILES, ATTR_FILES, REL_FILES } from 'src/config/TaskConfig';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
+    taskFileNames;
+    boundaryFileNames;
+    taskFileMap;
+    boundaryFileMap;
     multiProjectMap = {}; //多工程映射
     projectNameArr = []; //当前任务工程名
     lidarNameArr = []; //多工程点云，每个工程下对应的点云名
@@ -290,19 +296,22 @@ class TaskStore {
 
     getBoundaryFile = flow(function* () {
         if (!window.map) return;
-        const boundaryUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryAdsAll, this.activeTask);
-        const layerGroup = new LayerGroup(boundaryUrl, {
-            styleConifg: BoundaryVectorsConfig
-        });
-        yield window.map.getLayerManager().addLayerGroup(layerGroup, ({ status }) => {
-            if (status && status.code === 200) return;
-            throw new Error('周边底图ads_all.geojson请求失败');
-        });
-        const relUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryRels, this.activeTask);
-        const AttrUrl = completeBoundaryUrl(CONFIG.urlConfig.boundaryAttrs, this.activeTask);
-        yield AttrStore.addRecords(AttrUrl, 'boundary');
-        yield RelStore.addRecords(relUrl, 'boundary');
-        return layerGroup;
+        yield this.getBoundaryFileList();
+        try {
+            const { vectors, rels, attrs } = this.boundaryFileMap;
+            const layerGroup = new LayerGroup(vectors, { styleConifg: BoundaryVectorsConfig });
+            yield Promise.allSettled([
+                window.map.getLayerManager().addLayerGroup(layerGroup, ({ status }) => {
+                    if (status && status.code === 200) return;
+                    throw new Error('周边底图ads_all.geojson请求失败');
+                }),
+                AttrStore.addRecords(attrs, 'boundary'),
+                RelStore.addRecords(rels, 'boundary')
+            ]);
+            return layerGroup;
+        } catch (e) {
+            throw new Error('周边底图数据部分图层加载失败');
+        }
     });
 
     updateBoundaryFile = flow(function* (option) {
@@ -317,6 +326,55 @@ class TaskStore {
         }
         return this.getBoundaryFile();
     });
+
+    getTaskFileMap = (fileNames, completeUrlFn) => {
+        const fileMap = { vectors: [], attrs: [], rels: [] };
+        fileNames.forEach(fileName => {
+            const url = completeUrlFn(fileName, this.activeTask);
+            VECTOR_FILES.includes(fileName) && fileMap.vectors.push(url);
+            ATTR_FILES.includes(fileName) && fileMap.attrs.push(url);
+            REL_FILES.includes(fileName) && fileMap.rels.push(url);
+        });
+        return fileMap;
+    };
+
+    //获取任务文件列表
+    getTaskFileList = flow(function* () {
+        try {
+            if (!this.activeTaskUrl) return;
+            const { taskId, processName } = this.activeTask;
+            const result = yield EditorService.getFileList({
+                taskId: taskId,
+                queryType: 'currentTask',
+                taskType: processName
+            });
+            const { successCurrentList } = result?.data ?? {};
+            if (successCurrentList.length === 0) throw new Error(this.activeTaskId);
+            this.taskFileNames = successCurrentList;
+            this.taskFileMap = this.getTaskFileMap(successCurrentList, completeEditUrl);
+        } catch (e) {
+            console.log('task file list 请求失败' + e?.message);
+            throw new Error(this.activeTaskId);
+        }
+    }).bind(this);
+
+    //获取周边底图文件列表
+    getBoundaryFileList = flow(function* () {
+        try {
+            const { taskId, processName } = this.activeTask;
+            const result = yield EditorService.getFileList({
+                taskId: taskId,
+                queryType: 'boundary',
+                taskType: processName
+            });
+            const { successBoundaryList } = result?.data ?? {};
+            if (successBoundaryList.length === 0) throw new Error('当前任务没有周边底图数据');
+            this.boundaryFileNames = successBoundaryList;
+            this.boundaryFileMap = this.getTaskFileMap(successBoundaryList, completeBoundaryUrl);
+        } catch (e) {
+            throw new Error('当前任务没有周边底图数据');
+        }
+    }).bind(this);
 
     getTaskInfo = flow(function* () {
         try {
@@ -441,15 +499,16 @@ class TaskStore {
         try {
             if (!this.activeTaskUrl) return;
 
-            const { point_clouds, track, region, vectors, rels, attrs } = CONFIG.urlConfig;
+            const { point_clouds, track, region } = CONFIG.urlConfig;
+            const { vectors, rels, attrs } = this.taskFileMap;
 
             let task = {
                 point_clouds: this.handleMultiPointCloud(point_clouds),
                 tracks: this.handleMultiTrack(track),
                 region: completeSecendUrl(region, this.activeTask),
-                vectors: completeEditUrl(vectors, this.activeTask),
-                rels: completeEditUrl(rels, this.activeTask),
-                attrs: completeEditUrl(attrs, this.activeTask)
+                vectors,
+                rels,
+                attrs
             };
 
             return task;
@@ -484,7 +543,8 @@ class TaskStore {
                     fileFormat: 'geojson',
                     fileData: relData
                 }
-            ]
+            ],
+            fileNameList: this.taskFileNames
         };
         yield TaskService.saveFile(saveData);
         this.taskSaveTime = moment().format('YYYY-MM-DD HH:mm:ss');

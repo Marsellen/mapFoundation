@@ -1,4 +1,4 @@
-import { REL_DATA_SET, ATTR_REL_DATA_SET } from 'src/config/RelsConfig';
+import { REL_DATA_SET } from 'src/config/RelsConfig';
 import { geojsonToDbData, dbDataToGeojson, getFeatureRels, getRelOptions } from './utils';
 import Relevance from 'src/models/relevance';
 import { REL_TYPE_KEY_MAP } from 'src/config/RelsConfig';
@@ -6,12 +6,11 @@ import { getLayerIDKey, getLayerByName } from '../vectorUtils';
 import { LAYER_NAME_MAP } from 'src/config/RenderModeConfig';
 
 export const relDataToTable = (data, dataType) => {
-    let relData = filterRelData(data);
-    return relData.reduce((total, feature) => {
-        let spec = feature.name;
-
+    return data.reduce((total, response) => {
+        const { data: feature } = response;
+        const spec = feature.name;
         feature.features.map(f => {
-            let records = geojsonToDbData(f.properties, spec, dataType);
+            const records = geojsonToDbData(f.properties, spec, dataType);
             total = total.concat(records);
         });
         return total;
@@ -36,12 +35,6 @@ export const relTableToData = records => {
             type: 'FeatureCollection'
         };
     });
-};
-
-export const filterRelData = data => {
-    return ((data && data.features) || []).filter(
-        d => REL_DATA_SET.includes(d.name) || ATTR_REL_DATA_SET.includes(d.name)
-    );
 };
 
 const AD_Lane_Default_Format = {

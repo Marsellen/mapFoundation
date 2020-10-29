@@ -5,9 +5,9 @@ import Attr from 'src/models/attr';
 
 configure({ enforceActions: 'always' });
 class AttrStore {
-    addRecords = flow(function* (url, dataType) {
-        let response = yield axios.get(url);
-        let records = attrFactory.attrDataToTable(response.data, dataType);
+    addRecords = flow(function* (urls, dataType) {
+        const response = yield Promise.all(urls.map(axios.get));
+        const records = attrFactory.attrDataToTable(response, dataType);
         yield Attr.store.batchAdd(records);
     });
 

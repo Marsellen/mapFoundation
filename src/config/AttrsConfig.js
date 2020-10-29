@@ -1,5 +1,4 @@
 export const ATTR_SPEC_CONFIG = [
-    // { source: 'AD_LaneShape', key: 'LANE_ID', relSpec: 'AD_Lane' },
     {
         source: 'AD_Lane_RS',
         sourceId: 'RS_ID',
@@ -18,7 +17,6 @@ export const ATTR_SPEC_CONFIG = [
         key: 'REL_ID',
         relSpec: 'AD_Road_Con'
     }
-    //{ source: 'AD_Data_Confidence', key: 'FEAT_ID', relSpec: 'FEAT_TYPE' }
 ];
 
 export const ATTR_TABLE_CONFIG = {
