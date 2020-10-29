@@ -44,6 +44,18 @@ export default {
         order: 8,
         showStyles: ['textStyle']
     },
+    AD_Text: {
+        type: 'Polygon',
+        textFields: ['TYPE'],
+        order: 7,
+        showStyles: ['textStyle']
+    },
+    AD_TrafficSign: {
+        type: 'Polygon',
+        textFields: ['SIGN_STYLE'],
+        order: 6,
+        showStyles: ['textStyle']
+    },
     AD_TrafficLight: {
         type: 'Polygon',
         textFields: ['TYPE'],
