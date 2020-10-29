@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Select } from 'antd';
+import { message, Modal, Select } from 'antd';
 import ToolIcon from 'src/components/ToolIcon';
 import AdMessage from 'src/components/AdMessage';
 import { inject, observer } from 'mobx-react';
@@ -170,6 +170,12 @@ class BatchAssignLaneNo extends React.Component {
     };
 
     newFixLineCallback = async (result, event) => {
+        if (result && result.desc) {
+            let arr = result.desc.split(':');
+            message.warning(arr[arr.length - 1], 3);
+            DataLayerStore.exitEdit();
+            return;
+        }
         const { step } = this.state;
         this.result = result;
         if (step === 1) {
