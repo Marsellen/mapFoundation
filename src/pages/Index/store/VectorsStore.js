@@ -115,7 +115,7 @@ class VectorsStore {
         const type = layerType || this.layerType;
         if (!this.vectors[type]) return false;
         Object.entries(this.vectors[type].checkMap).forEach(([layerName, value]) => {
-            this.vectors[type][layerName] = isInvert ? !value : checked;
+            this.vectors[type].checkMap[layerName] = isInvert ? !value : checked;
         });
         this.updateKey = Math.random();
     };
