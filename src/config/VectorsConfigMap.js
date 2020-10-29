@@ -1494,6 +1494,140 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             }
         ]
     },
+    AD_Text: {
+        key: 'AD_Text',
+        label: '地面文字符号',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'TYPE',
+            polygonStyle: 'solid',
+            color: 'rgb(255,255,255)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '未定义',
+                showFields: 'TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '最高限速',
+                showFields: 'TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 2,
+                label: '最低限速',
+                showFields: 'TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 3,
+                label: '公交车道时间限制',
+                showFields: 'TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 99,
+                label: '其他',
+                showFields: 'TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'TYPE',
+                name: '文字符号类型',
+                type: 'AD_TEXT_TYPE',
+                domType: 'RadioIconGroup'
+            }
+        ]
+    },
+    AD_TrafficSign: {
+        key: 'AD_TrafficSign',
+        label: '交通标志牌',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'SIGN_STYLE',
+            polygonStyle: 'solid',
+            color: 'rgb(255,255,255)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '未定义',
+                showFields: 'SIGN_STYLE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '单个标志牌',
+                showFields: 'SIGN_STYLE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 2,
+                label: '组合标志牌',
+                showFields: 'SIGN_STYLE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'SIGN_STYLE',
+                name: '交通标志牌样式',
+                type: 'AD_TRAFFICSIGN_SIGN_STYLE',
+                domType: 'Select'
+            }
+        ]
+    },
     AD_TrafficLight: {
         key: 'AD_TrafficLight',
         label: '交通信号灯',
@@ -3896,6 +4030,140 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 name: '面状标识物类型',
                 type: 'AD_LANEMARK_PLG_TYPE',
                 domType: 'RadioIconGroup'
+            }
+        ]
+    },
+    AD_Text: {
+        key: 'AD_Text',
+        label: '地面文字符号',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'TYPE',
+            polygonStyle: 'solid',
+            color: 'rgb(255,234,149)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '未定义',
+                showFields: 'TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '最高限速',
+                showFields: 'TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            },
+            {
+                value: 2,
+                label: '最低限速',
+                showFields: 'TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            },
+            {
+                value: 3,
+                label: '公交车道时间限制',
+                showFields: 'TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            },
+            {
+                value: 99,
+                label: '其他',
+                showFields: 'TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'TYPE',
+                name: '文字符号类型',
+                type: 'AD_TEXT_TYPE',
+                domType: 'RadioIconGroup'
+            }
+        ]
+    },
+    AD_TrafficSign: {
+        key: 'AD_TrafficSign',
+        label: '交通标志牌',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'SIGN_STYLE',
+            polygonStyle: 'solid',
+            color: 'rgb(70,109,255)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '未定义',
+                showFields: 'SIGN_STYLE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '单个标志牌',
+                showFields: 'SIGN_STYLE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 2,
+                label: '组合标志牌',
+                showFields: 'SIGN_STYLE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'SIGN_STYLE',
+                name: '交通标志牌样式',
+                type: 'AD_TRAFFICSIGN_SIGN_STYLE',
+                domType: 'Select'
             }
         ]
     },
@@ -6306,6 +6574,140 @@ const CHECK_VECTOR_CONFIG_MAP = {
             }
         ]
     },
+    AD_Text: {
+        key: 'AD_Text',
+        label: '地面文字符号',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'TYPE',
+            polygonStyle: 'solid',
+            color: 'rgb(255,234,149)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '未定义',
+                showFields: 'TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '最高限速',
+                showFields: 'TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            },
+            {
+                value: 2,
+                label: '最低限速',
+                showFields: 'TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            },
+            {
+                value: 3,
+                label: '公交车道时间限制',
+                showFields: 'TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            },
+            {
+                value: 99,
+                label: '其他',
+                showFields: 'TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'TYPE',
+                name: '文字符号类型',
+                type: 'AD_TEXT_TYPE',
+                domType: 'RadioIconGroup'
+            }
+        ]
+    },
+    AD_TrafficSign: {
+        key: 'AD_TrafficSign',
+        label: '交通标志牌',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'SIGN_STYLE',
+            polygonStyle: 'solid',
+            color: 'rgb(70,109,255)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '未定义',
+                showFields: 'SIGN_STYLE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '单个标志牌',
+                showFields: 'SIGN_STYLE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 2,
+                label: '组合标志牌',
+                showFields: 'SIGN_STYLE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'SIGN_STYLE',
+                name: '交通标志牌样式',
+                type: 'AD_TRAFFICSIGN_SIGN_STYLE',
+                domType: 'Select'
+            }
+        ]
+    },
     AD_TrafficLight: {
         key: 'AD_TrafficLight',
         label: '交通信号灯',
@@ -6576,6 +6978,8 @@ export const CONFIGURABLE_LAYERS = [
     'AD_Arrow',
     'AD_StopLocation',
     'AD_LaneMark_Plg',
+    'AD_Text',
+    'AD_TrafficSign',
     'AD_TrafficLight',
     'AD_RS_Barrier'
 ];

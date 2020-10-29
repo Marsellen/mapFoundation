@@ -292,6 +292,54 @@ export const COLUMNS_CONFIG = {
             filterBy: 'updStatFilter'
         }
     ],
+    AD_Text: [
+        {
+            dataIndex: 'index',
+            title: '序号'
+        },
+        {
+            dataIndex: 'TEXT_ID',
+            title: '用户编号'
+        },
+        {
+            dataIndex: 'TYPE',
+            title: '文字符号类型',
+            filterBy: 'typeFilter|AD_TEXT_TYPE'
+        },
+        {
+            dataIndex: 'VALUE',
+            title: '地面文字内容'
+        },
+        {
+            dataIndex: 'LANE_ID',
+            title: '关联车道中心线用户编号'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
+        }
+    ],
+    AD_TrafficSign: [
+        {
+            dataIndex: 'index',
+            title: '序号'
+        },
+        {
+            dataIndex: 'SIGN_ID',
+            title: '用户编号'
+        },
+        {
+            dataIndex: 'SIGN_STYLE',
+            title: '标志牌类型',
+            filterBy: 'typeFilter|AD_TRAFFICSIGN_SIGN_STYLE'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
+        }
+    ],
     AD_TrafficLight: [
         {
             dataIndex: 'index',
@@ -461,6 +509,8 @@ export const SELECT_OPTIONS = [
             'AD_Arrow',
             'AD_StopLocation',
             'AD_LaneMark_Plg',
+            'AD_Text',
+            'AD_TrafficSign',
             'AD_TrafficLight',
             'AD_RS_Barrier'
         ]
@@ -509,6 +559,8 @@ export const OPTION_LAYER_MAP = {
     AD_Arrow: ['AD_Arrow'],
     AD_StopLocation: ['AD_StopLocation'],
     AD_LaneMark_Plg: ['AD_LaneMark_Plg'],
+    AD_Text: ['AD_Text'],
+    AD_TrafficSign: ['AD_TrafficSign'],
     AD_TrafficLight: ['AD_TrafficLight'],
     AD_RS_Barrier: ['AD_RS_Barrier'],
     AD_Map_QC: ['AD_Map_QC'],
@@ -519,6 +571,7 @@ export const OPTION_LAYER_MAP = {
     AD_Plg_Lane_Rel: ['AD_Lane', 'AD_LaneMark_Plg'],
     AD_Light_Lane_Rel: ['AD_Lane', 'AD_TrafficLight'],
     //关联属性
+    AD_TS_Content: ['AD_TrafficSign'],
     AD_Lane_RS: ['AD_Lane'],
     AD_Road_Con_RS: ['AD_Road'],
     AD_Lane_Con_RS: ['AD_Lane']
