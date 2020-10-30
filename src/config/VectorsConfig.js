@@ -1342,45 +1342,5 @@ export default {
                 }
             ]
         }
-    },
-    AD_Map_QC: {
-        type: 'Point',
-        showFields: ['QC_STATUS'],
-        order: 2,
-        showStyles: ['vectorStyle'],
-        vectorStyle: {
-            QC_STATUS: [
-                {
-                    value: 0,
-                    label: '未定义',
-                    style: {
-                        color: 'rgb(235,45,19)',
-                        radius: 0.3,
-                        url: biaojituceng,
-                        size: 80
-                    }
-                },
-                {
-                    value: 1,
-                    label: '已修正',
-                    style: {
-                        color: 'rgb(235,45,19)',
-                        radius: 0.3,
-                        url: biaojituceng,
-                        size: 80
-                    }
-                },
-                {
-                    value: 2,
-                    label: '未修正',
-                    style: {
-                        color: 'rgb(235,45,19)',
-                        radius: 0.3,
-                        url: biaojituceng,
-                        size: 80
-                    }
-                }
-            ]
-        }
     }
 };

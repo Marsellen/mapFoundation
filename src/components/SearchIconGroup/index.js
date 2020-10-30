@@ -9,11 +9,7 @@ class SearchIconGroup extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            content: {
-                label: props.content ? props.content.label : '未定义',
-                value: props.content ? props.content.value : 0,
-                icon: props.content ? props.content.icon : 'weidingyi'
-            }
+            content: this.getLabelSetting(props.value)
         };
     }
     render() {
@@ -27,25 +23,18 @@ class SearchIconGroup extends React.Component {
                     value={content.label}
                     onChange={this.ChooseIcon}
                     filterOption={(input, option) =>
-                        option.props.children
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0
-                    }>
+                        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
                     {this.getOptionsGroup(options).map(opt => (
-                        <Option
-                            key={opt.icon}
-                            value={`${opt.value}-${opt.label}`}>
+                        <Option key={opt.icon} value={`${opt.value}-${opt.label}`}>
                             {`${opt.value}-${opt.label}`}
                         </Option>
                     ))}
                 </Select>
                 <div className="set-icon-group">
                     {options.map((option, index) => {
-                        return (
-                            <div key={`${index}-parent`}>
-                                {this.SearchIcon(option, index)}
-                            </div>
-                        );
+                        return <div key={`${index}-parent`}>{this.SearchIcon(option, index)}</div>;
                     })}
                 </div>
             </div>
@@ -110,10 +99,8 @@ class SearchIconGroup extends React.Component {
         let obj = {};
         const pos = opt.findIndex(val => val.value === value);
         obj.value = value;
-        obj.label =
-            pos != -1 && this.isPresent(opt[pos].label) ? opt[pos].label : '--';
-        obj.icon =
-            pos != -1 && this.isPresent(opt[pos].icon) ? opt[pos].icon : '--';
+        obj.label = pos != -1 && this.isPresent(opt[pos].label) ? opt[pos].label : '--';
+        obj.icon = pos != -1 && this.isPresent(opt[pos].icon) ? opt[pos].icon : '--';
         return obj;
     };
 

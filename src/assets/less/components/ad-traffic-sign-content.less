@@ -1,0 +1,40 @@
+.content-box {
+    border: 1px dashed #bbb;
+    margin-bottom: 4px;
+    position: relative;
+
+    .del-icon {
+        display: none;
+        font-size: 24px;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+}
+
+.content-box:hover {
+    .del-icon.show {
+        display: inline;
+    }
+}
+
+.sign-content {
+    .search-icon-box {
+        margin-top: unset;
+
+        .search-label-icon {
+            margin: unset;
+        }
+        .ant-select {
+            padding: unset;
+            left: -120px;
+            width: 280px;
+        }
+        .set-icon-group {
+            position: relative;
+            left: -120px;
+            width: 300px;
+            padding: 4px;
+        }
+    }
+}

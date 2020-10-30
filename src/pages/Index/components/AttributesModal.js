@@ -32,7 +32,7 @@ class AttributesModal extends React.Component {
 
     render() {
         const { AttributeStore } = this.props;
-        const { visible, loading, loadingMessage } = AttributeStore;
+        const { visible, loading, loadingMessage, modelId } = AttributeStore;
         return (
             <Modal
                 footer={this.renderFooter()}
@@ -46,7 +46,7 @@ class AttributesModal extends React.Component {
             >
                 <div className="obscuration" />
                 <Spin spinning={loading} tip={loadingMessage}>
-                    <Form colon={false} hideRequiredMark={true}>
+                    <Form colon={false} hideRequiredMark={true} key={modelId}>
                         <AdTabs
                             tabs={[
                                 { label: '基础属性', key: 'basicAttribute' },
