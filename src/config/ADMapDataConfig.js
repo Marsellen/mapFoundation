@@ -1257,6 +1257,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_Plg_Lane_Rel: '{"PLG_ID":{},"LANE_ID":{}}',
     AD_Text: '{"TYPE":{},"VALUE":{},"LANE_ID":{},"GEOMETRY":{}}',
     AD_TrafficSign: '{"SIGN_STYLE":{},"GEOMETRY":{}}',
+    AD_Sign_Lane_Rel: '{"SIGN_ID":{},"LANE_ID":{}}',
     AD_TrafficLight: '{"TYPE":{},"LAYOUT":{},"LAMP_COUNT":{},"GEOMETRY":{}}',
     AD_Light_Lane_Rel: '{"LIGHT_ID":{},"LANE_ID":{}}',
     AD_RS_Barrier: '{"TYPE":{},"MATERIAL":{},"GEOMETRY":{}}'

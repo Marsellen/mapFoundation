@@ -408,6 +408,12 @@ export const COLUMNS_CONFIG = {
         { dataIndex: 'LANE_ID', title: '关联车道中心线用户编号' },
         { dataIndex: 'UPD_STAT', title: '更新标识' }
     ],
+    AD_Sign_Lane_Rel: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'REL_ID', title: '用户编号' },
+        { dataIndex: 'SIGN_ID', title: '关联交通标志牌用户编号' },
+        { dataIndex: 'LANE_ID', title: '关联车道中心线用户编号' }
+    ],
     AD_Light_Lane_Rel: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'REL_ID', title: '用户编号' },
@@ -524,6 +530,7 @@ export const SELECT_OPTIONS = [
             'AD_Lane_Con',
             'AD_StopL_Lane_Rel',
             'AD_Plg_Lane_Rel',
+            'AD_Sign_Lane_Rel',
             'AD_Light_Lane_Rel'
         ]
     },
@@ -569,6 +576,7 @@ export const OPTION_LAYER_MAP = {
     AD_Lane_Con: ['AD_Lane'],
     AD_StopL_Lane_Rel: ['AD_Lane', 'AD_StopLocation'],
     AD_Plg_Lane_Rel: ['AD_Lane', 'AD_LaneMark_Plg'],
+    AD_Sign_Lane_Rel: ['AD_Lane', 'AD_TrafficSign'],
     AD_Light_Lane_Rel: ['AD_Lane', 'AD_TrafficLight'],
     //关联属性
     AD_TS_Content: ['AD_TrafficSign'],
