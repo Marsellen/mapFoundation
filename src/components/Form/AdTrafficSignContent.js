@@ -96,9 +96,9 @@ export default function AdTrafficSignContent(props) {
                     </Form.Item>
                     <Form.Item
                         key={`SIGN_TYPE-${index}-${radomKey}`}
-                        {...formItemLayout}
                         label="交通标志牌类型"
-                        className="sign-content"
+                        className="inline-search-icon-group"
+                        {...formItemLayout}
                     >
                         {!readonly ? (
                             form.getFieldDecorator(`${name}.${key}[${index}].SIGN_TYPE`, {

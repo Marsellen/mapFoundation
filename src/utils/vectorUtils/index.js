@@ -259,7 +259,11 @@ export const modUpdStatProperties = (feature, properties) => {
     }
     let oldProperties = feature.data.properties;
     Object.keys(properties).forEach(key => {
-        if (oldProperties[key] !== properties[key]) {
+        if (Array.isArray(oldProperties[key]) && Array.isArray(properties[key])) {
+            if (JSON.stringify(oldProperties[key]) !== JSON.stringify(properties[key])) {
+                UPD_STAT[key] = 'MOD';
+            }
+        } else if (oldProperties[key] !== properties[key]) {
             UPD_STAT[key] = 'MOD';
         }
     });

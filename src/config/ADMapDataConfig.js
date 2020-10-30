@@ -465,59 +465,73 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 9907, label: '地面符号', icon: 'dimianfuhao' }
     ],
     AD_TRAFFIC_SIGN_GEO_TYPE: [
-        { value: 2100, label: '其他警告标志', icon: 'jinggaolei' },
-        { value: 2101, label: '建议速度', icon: 'jianyisudu' },
-        { value: 2200, label: '其他禁令标志', icon: 'jinlinglei' },
-        { value: 2201, label: '停车让行', icon: 'tingcherangxing' },
-        { value: 2202, label: '减速让行', icon: 'jiansurangxing' },
-        { value: 2203, label: '会车让行', icon: 'huicherangxing' },
-        { value: 2204, label: '禁止通行', icon: 'jinzhitongxing' },
-        { value: 2205, label: '禁止驶入', icon: 'jinzhishiru' },
-        { value: 2206, label: '禁止机动车驶入', icon: 'jinzhijidongchetongxing' },
-        { value: 2207, label: '禁止向左转弯', icon: 'jinzhizuozhuanwan' },
-        { value: 2208, label: '禁止向右转弯', icon: 'jinzhiyouzhuanwan' },
-        { value: 2209, label: '禁止直行', icon: 'jinzhizhixing' },
-        { value: 2210, label: '禁止向左向右转弯', icon: 'jinzhizuoyouzhuanwan' },
-        { value: 2211, label: '禁止直行和向左转弯', icon: 'jinzhizhixinghezuozhuanwan' },
-        { value: 2212, label: '禁止直行和向右转弯', icon: 'jinzhizhixingheyouzhuanwan' },
-        { value: 2213, label: '禁止掉头', icon: 'jinzhidiaotou' },
-        { value: 2214, label: '禁止超车', icon: 'jinzhichaoche' },
-        { value: 2215, label: '解除禁止超车', icon: 'jiechujinzhichaoche' },
-        { value: 2216, label: '禁止停车', icon: 'jinzhitingche' },
-        { value: 2217, label: '禁止长时间停车', icon: 'jinzhichangshitingche' },
-        { value: 2219, label: '限制速度', icon: 'xianzhisudu' },
-        { value: 2220, label: '解除限制速度', icon: 'jiechuxinazhisudu' },
-        { value: 2223, label: '区域禁止-禁止长时间停车', icon: 'quyujinzhichangshitingche' },
-        {
-            value: 2224,
-            label: '区域禁止解除-解除禁止长时间停车',
-            icon: 'quyujiechujinzhichangshitingche'
-        },
-        { value: 2225, label: '区域禁止-禁止停车', icon: 'quyujinzhitingche' },
-        { value: 2226, label: '区域禁止解除-解除禁止停车', icon: 'quyujiechujinzhitingche' },
-        { value: 2227, label: '区域禁止-速度限制', icon: 'quyusuduxianzhi' },
-        { value: 2228, label: '区域禁止解除-解除速度限制', icon: 'quyujiechusuduxianzhi' },
-        { value: 2300, label: '其他指示类标志', icon: 'zhishilei' },
-        { value: 2314, label: '最低限速', icon: 'zuidixiansu' },
-        { value: 2318, label: '车道行驶方向-直行', icon: 'chedaoxingshizhixing' },
-        { value: 2321, label: '允许掉头', icon: 'yunxudiaotou' },
-        { value: 2322, label: '车道行驶方向-左转', icon: 'chedaoxingshizuozhuan' },
-        { value: 2323, label: '车道行驶方向-右转', icon: 'chedaoxingshiyouzhuan' },
-        { value: 2324, label: '车道行驶方向-直行和左转', icon: 'chedaoxingshi-zhixinghezuozhuan' },
-        { value: 2325, label: '车道行驶方向-直行和右转', icon: 'chedaoxingshi-zhixingheyouzhuan' },
-        { value: 2326, label: '车道行驶方向-左转和掉头', icon: 'chedaoxingshi-diaotouhezuozhuan' },
-        { value: 2327, label: '车道行驶方向-掉头', icon: 'chedaoxingshi-diaotou' },
-        { value: 2328, label: '车道行驶方向-其他', icon: 'chedaoxingshi-qitafangxiang' },
-        { value: 2401, label: '区间测速起点', icon: 'qujiancesuqidian' },
-        { value: 2402, label: '区间测速终点', icon: 'qujiancesuzhongdian' },
-        { value: 2403, label: '区间测速起点和距离', icon: 'qujiancesuchangdu' },
-        { value: 2404, label: '表示时间标志', icon: 'biaoshishijian' },
-        { value: 2405, label: '特殊天气辅助标志', icon: 'zhuyiteshutianqi' },
-        { value: 2406, label: '特殊路段辅助标志', icon: 'teshuluduanfuzhubiaozhi' },
-        { value: 2500, label: '其他标志牌', icon: 'qitabiaozhi' },
-        { value: 2600, label: '动态限速标志', icon: 'weidingyi' },
-        { value: 2601, label: '其他电子标志牌', icon: 'qitadianzibiaozhipai' },
-        { value: 0, label: '未定义', icon: 'weidingyi' }
+        [
+            { value: 2100, label: '其他警告标志', icon: 'jinggaolei' },
+            { value: 2101, label: '建议速度', icon: 'jianyisudu' },
+            { value: 2200, label: '其他禁令标志', icon: 'jinlinglei' },
+            { value: 2201, label: '停车让行', icon: 'tingcherangxing' },
+            { value: 2202, label: '减速让行', icon: 'jiansurangxing' },
+            { value: 2203, label: '会车让行', icon: 'huicherangxing' },
+            { value: 2204, label: '禁止通行', icon: 'jinzhitongxing' },
+            { value: 2205, label: '禁止驶入', icon: 'jinzhishiru' },
+            { value: 2206, label: '禁止机动车驶入', icon: 'jinzhijidongchetongxing' },
+            { value: 2207, label: '禁止向左转弯', icon: 'jinzhizuozhuanwan' },
+            { value: 2208, label: '禁止向右转弯', icon: 'jinzhiyouzhuanwan' },
+            { value: 2209, label: '禁止直行', icon: 'jinzhizhixing' },
+            { value: 2210, label: '禁止向左向右转弯', icon: 'jinzhizuoyouzhuanwan' },
+            { value: 2211, label: '禁止直行和向左转弯', icon: 'jinzhizhixinghezuozhuanwan' },
+            { value: 2212, label: '禁止直行和向右转弯', icon: 'jinzhizhixingheyouzhuanwan' },
+            { value: 2213, label: '禁止掉头', icon: 'jinzhidiaotou' },
+            { value: 2214, label: '禁止超车', icon: 'jinzhichaoche' },
+            { value: 2215, label: '解除禁止超车', icon: 'jiechujinzhichaoche' },
+            { value: 2216, label: '禁止停车', icon: 'jinzhitingche' },
+            { value: 2217, label: '禁止长时间停车', icon: 'jinzhichangshitingche' },
+            { value: 2219, label: '限制速度', icon: 'xianzhisudu' },
+            { value: 2220, label: '解除限制速度', icon: 'jiechuxinazhisudu' },
+            { value: 2223, label: '区域禁止-禁止长时间停车', icon: 'quyujinzhichangshitingche' },
+            {
+                value: 2224,
+                label: '区域禁止解除-解除禁止长时间停车',
+                icon: 'quyujiechujinzhichangshitingche'
+            },
+            { value: 2225, label: '区域禁止-禁止停车', icon: 'quyujinzhitingche' },
+            { value: 2226, label: '区域禁止解除-解除禁止停车', icon: 'quyujiechujinzhitingche' },
+            { value: 2227, label: '区域禁止-速度限制', icon: 'quyusuduxianzhi' },
+            { value: 2228, label: '区域禁止解除-解除速度限制', icon: 'quyujiechusuduxianzhi' },
+            { value: 2300, label: '其他指示类标志', icon: 'zhishilei' },
+            { value: 2314, label: '最低限速', icon: 'zuidixiansu' },
+            { value: 2318, label: '车道行驶方向-直行', icon: 'chedaoxingshizhixing' },
+            { value: 2321, label: '允许掉头', icon: 'yunxudiaotou' },
+            { value: 2322, label: '车道行驶方向-左转', icon: 'chedaoxingshizuozhuan' },
+            { value: 2323, label: '车道行驶方向-右转', icon: 'chedaoxingshiyouzhuan' },
+            {
+                value: 2324,
+                label: '车道行驶方向-直行和左转',
+                icon: 'chedaoxingshi-zhixinghezuozhuan'
+            },
+            {
+                value: 2325,
+                label: '车道行驶方向-直行和右转',
+                icon: 'chedaoxingshi-zhixingheyouzhuan'
+            },
+            {
+                value: 2326,
+                label: '车道行驶方向-左转和掉头',
+                icon: 'chedaoxingshi-diaotouhezuozhuan'
+            },
+            { value: 2327, label: '车道行驶方向-掉头', icon: 'chedaoxingshi-diaotou' },
+            { value: 2328, label: '车道行驶方向-其他', icon: 'chedaoxingshi-qitafangxiang' },
+            { value: 2401, label: '区间测速起点', icon: 'qujiancesuqidian' },
+            { value: 2402, label: '区间测速终点', icon: 'qujiancesuzhongdian' },
+            { value: 2403, label: '区间测速起点和距离', icon: 'qujiancesuchangdu' },
+            { value: 2404, label: '表示时间标志', icon: 'biaoshishijian' },
+            { value: 2405, label: '特殊天气辅助标志', icon: 'zhuyiteshutianqi' },
+            { value: 2406, label: '特殊路段辅助标志', icon: 'teshuluduanfuzhubiaozhi' },
+            { value: 2500, label: '其他标志牌', icon: 'qitabiaozhi' },
+            { value: 2600, label: '动态限速标志', icon: 'weidingyi' },
+            { value: 2601, label: '其他电子标志牌', icon: 'qitadianzibiaozhipai' },
+            { value: 0, label: '未定义', icon: 'weidingyi' }
+        ]
     ],
     AD_TRAFFIC_LIGHT_GEO_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi' },
@@ -530,7 +544,13 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 1, label: '单个标志牌' },
         { value: 2, label: '组合标志牌' }
     ],
-
+    AD_TS_CONTENT_CONT_TYPE: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '禁止转向' },
+        { value: 2, label: '限制转向' },
+        { value: 3, label: '最大速度限制' },
+        { value: 4, label: '最低速度限制' }
+    ],
     AD_TS_CONTENT_SIGN_TYPE: [
         // 1
         [
@@ -1882,6 +1902,184 @@ export const TABLE_DATA_MAP = {
             name: '护栏材质',
             type: 'AD_RS_BARRIER_MATERIAL',
             domType: 'Select'
+        }
+    ],
+    AD_LaneDivider_Pln: [
+        {
+            key: 'OBJ_ID',
+            name: '用户编号',
+            domType: 'Text'
+        },
+        {
+            key: 'FEAT_TYPE',
+            name: '要素子类型',
+            type: 'AD_LANE_DIVIDER_PLN_TYPE',
+            domType: 'RadioIconGroup'
+        },
+        {
+            key: 'CFD_GEO',
+            name: '几何形状置信度',
+            domType: 'PercentInput'
+        },
+        {
+            key: 'CFD_FEAT',
+            name: '要素类型置信度',
+            domType: 'PercentInput'
+        }
+    ],
+    AD_LaneDivider_Plg: [
+        {
+            key: 'OBJ_ID',
+            name: '用户编号',
+            domType: 'Text'
+        },
+        {
+            key: 'FEAT_TYPE',
+            name: '要素子类型',
+            type: 'AD_LANE_DIVIDER_PLG_TYPE',
+            domType: 'RadioIconGroup'
+        },
+        {
+            key: 'CFD_GEO',
+            name: '几何形状置信度',
+            domType: 'PercentInput'
+        },
+        {
+            key: 'CFD_FEAT',
+            name: '要素类型置信度',
+            domType: 'PercentInput'
+        }
+    ],
+    AD_StopLocation_Geo: [
+        {
+            key: 'OBJ_ID',
+            name: '用户编号',
+            domType: 'Text'
+        },
+        {
+            key: 'FEAT_TYPE',
+            name: '要素子类型',
+            type: 'AD_STOPLOCTION_GEO_TYPE',
+            domType: 'RadioIconGroup'
+        },
+        {
+            key: 'CFD_GEO',
+            name: '几何形状置信度',
+            domType: 'PercentInput'
+        },
+        {
+            key: 'CFD_FEAT',
+            name: '要素类型置信度',
+            domType: 'PercentInput'
+        }
+    ],
+    AD_Arrow_Geo: [
+        {
+            key: 'OBJ_ID',
+            name: '用户编号',
+            domType: 'Text'
+        },
+        {
+            key: 'FEAT_TYPE',
+            name: '要素子类型',
+            type: 'AD_ARROW_GEO_TYPE',
+            domType: 'RadioIconGroup'
+        },
+        {
+            key: 'CFD_GEO',
+            name: '几何形状置信度',
+            domType: 'PercentInput'
+        },
+        {
+            key: 'CFD_FEAT',
+            name: '要素类型置信度',
+            domType: 'PercentInput'
+        }
+    ],
+    AD_LaneMark_Geo: [
+        {
+            key: 'OBJ_ID',
+            name: '用户编号',
+            domType: 'Text'
+        },
+        {
+            key: 'FEAT_TYPE',
+            name: '要素子类型',
+            type: 'AD_LANE_MARK_GEO_TYPE',
+            domType: 'RadioIconGroup'
+        },
+        {
+            key: 'CFD_GEO',
+            name: '几何形状置信度',
+            domType: 'PercentInput'
+        },
+        {
+            key: 'CFD_FEAT',
+            name: '要素类型置信度',
+            domType: 'PercentInput'
+        }
+    ],
+    AD_Pole_Geo: [
+        {
+            key: 'OBJ_ID',
+            name: '用户编号',
+            domType: 'Text'
+        },
+        {
+            key: 'CFD_GEO',
+            name: '几何形状置信度',
+            domType: 'PercentInput'
+        },
+        {
+            key: 'CFD_FEAT',
+            name: '要素类型置信度',
+            domType: 'PercentInput'
+        }
+    ],
+    AD_TrafficSign_Geo: [
+        {
+            key: 'OBJ_ID',
+            name: '用户编号',
+            domType: 'Text'
+        },
+        {
+            key: 'FEAT_TYPE',
+            name: '要素子类型',
+            type: 'AD_TRAFFIC_SIGN_GEO_TYPE',
+            domType: 'SearchIconGroup'
+        },
+        {
+            key: 'CFD_GEO',
+            name: '几何形状置信度',
+            domType: 'PercentInput'
+        },
+        {
+            key: 'CFD_FEAT',
+            name: '要素类型置信度',
+            domType: 'PercentInput'
+        }
+    ],
+    AD_TrafficLight_Geo: [
+        {
+            key: 'OBJ_ID',
+            name: '用户编号',
+            domType: 'Text'
+        },
+        {
+            key: 'FEAT_TYPE',
+            name: '要素子类型',
+            type: 'AD_TRAFFIC_LIGHT_GEO_TYPE',
+            domType: 'RadioIconGroup'
+        },
+        {
+            key: 'CFD_GEO',
+            name: '几何形状置信度',
+            domType: 'PercentInput'
+        },
+        {
+            key: 'CFD_FEAT',
+            name: '要素类型置信度',
+            domType: 'PercentInput'
         }
     ]
 };

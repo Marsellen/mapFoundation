@@ -245,9 +245,13 @@ class BasicAttributesForm extends React.Component {
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
-        let layout = readonly ? formItemLayout : {};
         return (
-            <Form.Item key={index} label={item.name} {...layout}>
+            <Form.Item
+                key={index}
+                label={item.name}
+                className="inline-search-icon-group"
+                {...formItemLayout}
+            >
                 {!readonly ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         rules: [
@@ -284,6 +288,40 @@ class BasicAttributesForm extends React.Component {
                 item={item}
                 name={name}
             />
+        );
+    };
+
+    renderPercentInput = (item, index, name) => {
+        const { form, AttributeStore } = this.props;
+        const { readonly } = AttributeStore;
+
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
+                {!readonly ? (
+                    form.getFieldDecorator(name + '.' + item.key, {
+                        rules: [
+                            {
+                                required: item.required,
+                                message: `${item.name}必填`
+                            },
+                            ...this.getValidatorSetting(item.validates)
+                        ],
+                        initialValue: item.value
+                    })(
+                        <AdInputNumber
+                            min={0}
+                            max={100}
+                            formatter={value => `${value}%`}
+                            parser={value => value.replace('%', '')}
+                            onChange={val => this.handleChange(val, item, name)}
+                        />
+                    )
+                ) : (
+                    <span className="ant-form-text">
+                        {this.isPresent(item.value) ? item.value : '--'}
+                    </span>
+                )}
+            </Form.Item>
         );
     };
 
