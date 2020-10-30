@@ -11,20 +11,6 @@ import {
 import ToolIcon from 'src/components/ToolIcon';
 import 'src/assets/less/home.less';
 
-const EDIT_LAYER = [
-    'AD_Road',
-    'AD_LaneDivider',
-    'AD_Lane',
-    'AD_LaneAttrPoint',
-    'AD_Arrow',
-    'AD_StopLocation',
-    'AD_LaneMark_Plg',
-    'AD_Text',
-    'AD_TrafficSign',
-    'AD_TrafficLight',
-    'AD_RS_Barrier'
-];
-
 @inject('DataLayerStore')
 @inject('TaskStore')
 @observer
@@ -57,7 +43,7 @@ class EditLayer extends React.Component {
         //获取当前编辑图层，若无编辑图层则返回false
         const editLayer = getEditLayer();
         const layerName = editLayer && editLayer.layerName;
-        const isActive = layerName && EDIT_LAYER.includes(layerName);
+        const isActive = !!layerName;
         return (
             <span className={`bianjituceng ${isActive ? 'active' : ''}`}>
                 <ToolIcon
