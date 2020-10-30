@@ -76,6 +76,23 @@ class Filter {
         }
         return '--';
     };
+
+    signContentFilter = value => {
+        if (!Array.isArray(value)) return '--';
+
+        return value
+            .map(
+                ({ SIGN_NO, SIGN_TYPE, CONT_TYPE, CONT_VALUE, TIMEDOM }) =>
+                    `编号：${SIGN_NO}，类型：${this.typeFilter(
+                        'AD_TS_CONTENT_SIGN_TYPE',
+                        SIGN_TYPE
+                    )}，语义类型：${this.typeFilter(
+                        'AD_TS_CONTENT_CONT_TYPE',
+                        CONT_TYPE
+                    )}，语义内容：${CONT_VALUE}，时间描述：${TIMEDOM}；`
+            )
+            .join('\n');
+    };
 }
 
 export default new Filter();
