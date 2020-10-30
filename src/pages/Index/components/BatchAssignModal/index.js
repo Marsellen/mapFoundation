@@ -117,6 +117,7 @@ class BatchAssignModal extends React.Component {
     };
 
     renderItem = (item, index, name) => {
+        if (typeof this['render' + item.domType] !== 'function') return;
         return this['render' + item.domType](item, index, name);
     };
 
