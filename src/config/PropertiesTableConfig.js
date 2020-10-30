@@ -335,6 +335,11 @@ export const COLUMNS_CONFIG = {
             filterBy: 'typeFilter|AD_TRAFFICSIGN_SIGN_STYLE'
         },
         {
+            dataIndex: 'OBJ_FUNC',
+            title: '存储标牌对象',
+            filterBy: 'signContentFilter'
+        },
+        {
             dataIndex: 'UPD_STAT',
             title: '更新标识',
             filterBy: 'updStatFilter'
