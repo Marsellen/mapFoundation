@@ -349,6 +349,11 @@ export const DATA_LAYER_MAP = {
         id: 'REL_ID',
         spec: 'AD_Plg_Lane_Rel'
     },
+    AD_Sign_Lane_Rel: {
+        label: '车道中心线 & 交通标志牌关联关系',
+        id: 'REL_ID',
+        spec: 'AD_Sign_Lane_Rel'
+    },
     AD_Light_Lane_Rel: {
         label: '车道中心线 & 交通信号灯关联关系',
         id: 'REL_ID',
