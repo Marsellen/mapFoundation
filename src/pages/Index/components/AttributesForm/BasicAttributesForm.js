@@ -270,7 +270,7 @@ class BasicAttributesForm extends React.Component {
                     })(<SearchIconGroup options={options} />)
                 ) : (
                     <span className="ant-form-text">
-                        {this.getCheckBoxArrayOption(item.value, options)}
+                        {this.getArrayOption(item.value, options.flat(1))}
                     </span>
                 )}
             </Form.Item>

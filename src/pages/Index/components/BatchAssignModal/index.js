@@ -5,13 +5,12 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
-import ChooseErrorLayer from 'src/components/ChooseErrorLayer';
-import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { getValidator } from 'src/utils/form/validator';
 import AdEmitter from 'src/models/event';
 import { logDecorator } from 'src/utils/decorator';
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import BatchAssignStore from 'src/pages/Index/store/BatchAssignStore';
+import SearchIconGroup from 'src/components/SearchIconGroup';
 
 const formItemLayout = {
     labelCol: {
@@ -28,22 +27,8 @@ const formItemLayout = {
 @inject('BatchAssignStore')
 @inject('DataLayerStore')
 @inject('AttributeStore')
-@inject('appStore')
 @observer
 class BatchAssignModal extends React.Component {
-    errorCallback = result => {
-        let layerId,
-            layerName = '';
-        const { form } = this.props;
-        if (result.length > 0) {
-            layerId = result[0].data.properties[DATA_LAYER_MAP[result[0].layerName].id];
-            layerName = result[0].layerName;
-            form.setFieldsValue({
-                'attributes.FILE_NAME': layerName,
-                'attributes.FEAT_ID': layerId
-            });
-        }
-    };
     render() {
         const { BatchAssignStore } = this.props;
         const { visible } = BatchAssignStore;
@@ -155,6 +140,24 @@ class BatchAssignModal extends React.Component {
         );
     };
 
+    renderSearchIconGroup = (item, index, name) => {
+        const { form } = this.props;
+        const { readonly, type } = item;
+        const options = TYPE_SELECT_OPTION_MAP[type] || [];
+        return (
+            <Form.Item
+                key={index}
+                label={item.name}
+                className="inline-search-icon-group"
+                {...formItemLayout}
+            >
+                {form.getFieldDecorator(name + '.' + item.key, {
+                    initialValue: !readonly ? item.value : undefined
+                })(<SearchIconGroup options={options} />)}
+            </Form.Item>
+        );
+    };
+
     renderInput = (item, index, name) => {
         const { form } = this.props;
         const { readonly } = item;
@@ -163,12 +166,7 @@ class BatchAssignModal extends React.Component {
                 {form.getFieldDecorator(name + '.' + item.key, {
                     rules: [...this.getValidatorSetting(item.validates)],
                     initialValue: !readonly ? item.value : null
-                })(
-                    <Input
-                        placeholder={!readonly ? item.value : '(多项内容)'}
-                        disabled={item.key === 'FIX_PERSON' || item.key === 'QC_PERSON'}
-                    />
-                )}
+                })(<Input placeholder={!readonly ? item.value : '(多项内容)'} />)}
             </Form.Item>
         );
     };
@@ -257,19 +255,21 @@ class BatchAssignModal extends React.Component {
         );
     };
 
-    renderChooseErrorLayer = (item, index, name) => {
+    renderPercentInput = (item, index, name) => {
         const { form } = this.props;
         const { readonly } = item;
-        const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+
         return (
-            <Form.Item key={index} label={item.name} {...formItemLayout} shouldupdate="true">
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {form.getFieldDecorator(name + '.' + item.key, {
                     rules: [...this.getValidatorSetting(item.validates)],
-                    initialValue: !readonly ? item.value : undefined
+                    initialValue: !readonly ? item.value : null
                 })(
-                    <ChooseErrorLayer
-                        options={options}
-                        errorCallback={this.errorCallback}
+                    <AdInputNumber
+                        min={0}
+                        max={100}
+                        formatter={value => `${value}%`}
+                        parser={value => value.replace('%', '')}
                         placeholder={!readonly ? item.value : '(多项内容)'}
                         onChange={val => this.handleChange(val, item, name)}
                     />

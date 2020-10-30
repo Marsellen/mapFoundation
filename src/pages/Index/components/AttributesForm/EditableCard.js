@@ -355,7 +355,7 @@ class EditableCard extends React.Component {
                     })(<SearchIconGroup options={options} />)
                 ) : (
                     <span className="ant-form-text">
-                        {this.getArrayOption(item.value, this.getOptionsGroup(options))}
+                        {this.getArrayOption(item.value, options.flat(1))}
                     </span>
                 )}
             </Form.Item>
@@ -400,13 +400,6 @@ class EditableCard extends React.Component {
                 .map(val => val.label)
                 .join('，') || '--';
         return text;
-    };
-
-    getOptionsGroup = (options = []) => {
-        const opt = options.reduce((a, b) => {
-            return a.concat(b);
-        });
-        return opt;
     };
 
     attrOnChange = key => {
