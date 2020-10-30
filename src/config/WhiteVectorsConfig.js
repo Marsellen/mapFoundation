@@ -1,4 +1,4 @@
-const biaojituceng = require('../assets/img/biaojituceng.png');
+const biaojituceng = require('../assets/img/biaojituceng.png'); // 关联关系  自定义 白
 
 export default {
     AD_Road: {
@@ -1379,6 +1379,665 @@ export default {
                         url: biaojituceng,
                         size: 80
                     }
+                }
+            ]
+        }
+    },
+    AD_LaneDivider_Pln: {
+        type: 'Line',
+        showFields: ['TYPE'],
+        pointFLFields: ['TYPE'],
+        arrowFields: ['TYPE'],
+        order: 15,
+        showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
+        vectorStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 1,
+                    label: '单实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 2,
+                    label: '双实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 3,
+                    label: '左实右虚线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 4,
+                    label: '左虚右实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 5,
+                    label: '可变导向车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                }
+            ]
+        },
+        pointFLStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 1,
+                    label: '单实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 2,
+                    label: '双实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 3,
+                    label: '左实右虚线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 4,
+                    label: '左虚右实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 5,
+                    label: '可变导向车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                }
+            ]
+        },
+        arrowStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 1,
+                    label: '单实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 2,
+                    label: '双实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 3,
+                    label: '左实右虚线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 4,
+                    label: '左虚右实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 5,
+                    label: '可变导向车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                }
+            ]
+        }
+    },
+    AD_LaneDivider_Plg: {
+        type: 'Polygon',
+        showFields: ['TYPE'],
+        order: 15,
+        showStyles: ['vectorStyle'],
+        vectorStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 1,
+                    label: '单虚线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 2,
+                    label: '双虚线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 3,
+                    label: '左实右虚线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 4,
+                    label: '左虚右实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                }
+            ]
+        }
+    },
+    AD_StopLocation_Geo: {
+        type: 'Polygon',
+        showFields: ['TYPE'],
+        order: 15,
+        showStyles: ['vectorStyle'],
+        vectorStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 1,
+                    label: '停止线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 2,
+                    label: '停车让行线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 3,
+                    label: '减速让行线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                }
+            ]
+        }
+    },
+    AD_Arrow_Geo: {
+        type: 'Polygon',
+        showFields: ['TYPE'],
+        order: 15,
+        showStyles: ['vectorStyle'],
+        vectorStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 1,
+                    label: '直行箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 2,
+                    label: '左转箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 3,
+                    label: '右转箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 4,
+                    label: '直行左转箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 5,
+                    label: '直行右转箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 6,
+                    label: '左转右转箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 7,
+                    label: '直行左转右转箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 8,
+                    label: '掉头箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 9,
+                    label: '左转掉头箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 10,
+                    label: '右转掉头箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 11,
+                    label: '禁止标记箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 12,
+                    label: '向左合流箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 13,
+                    label: '向右合流箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 14,
+                    label: '直行和掉头箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 15,
+                    label: '直行左转掉头箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 16,
+                    label: '直行右转掉头箭头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 17,
+                    label: '直行左弯',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 18,
+                    label: '直行右弯',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                }
+            ]
+        }
+    },
+    AD_LaneMark_Geo: {
+        type: 'Polygon',
+        showFields: ['TYPE'],
+        order: 15,
+        showStyles: ['vectorStyle'],
+        vectorStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 1,
+                    label: '减速警示线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 2,
+                    label: '减速带',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 3,
+                    label: '人行横道',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 4,
+                    label: '禁止停车区',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 5,
+                    label: '导流区',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 6,
+                    label: '路口内中心圈',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 7,
+                    label: '车距确认线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 8,
+                    label: '地面文字数字',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 9,
+                    label: '地面符号',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                }
+            ]
+        }
+    },
+    AD_TrafficSign_Geo: {
+        type: 'Polygon',
+        showFields: ['TYPE'],
+        order: 15,
+        showStyles: ['vectorStyle'],
+        vectorStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '其他警告标志',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 1,
+                    label: '建议速度',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 2,
+                    label: '其他禁令标志',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 3,
+                    label: '停车让行',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 4,
+                    label: '减速让行',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 5,
+                    label: '会车让行',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 6,
+                    label: '禁止通行',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 7,
+                    label: '禁止驶入',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 8,
+                    label: '禁止机动车驶入',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 9,
+                    label: '禁止向左转弯',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 10,
+                    label: '禁止向右转弯',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 11,
+                    label: '禁止直行',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 12,
+                    label: '禁止向左向右转弯',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 13,
+                    label: '禁止直行和向左转弯',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 14,
+                    label: '禁止直行和向右转弯',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 15,
+                    label: '禁止掉头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 16,
+                    label: '禁止超车',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 17,
+                    label: '解除禁止超车',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 18,
+                    label: '禁止停车',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 19,
+                    label: '禁止长时停车',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 20,
+                    label: '限制速度',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 21,
+                    label: '解除限制速度',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 22,
+                    label: '区域禁止-禁止长时停车',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 23,
+                    label: '区域禁止解除-解除禁止长时停车',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 24,
+                    label: '区域禁止-禁止停车',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 25,
+                    label: '区域禁止解除-解除禁止停车',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 26,
+                    label: '区域禁止-速度限制',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 27,
+                    label: '区域禁止解除-解除速度限制',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 28,
+                    label: '其他指示类标志',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 29,
+                    label: '最低限速',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 30,
+                    label: '车道行驶方向-直行',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 31,
+                    label: '允许掉头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 32,
+                    label: '车道行驶方向-左转',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 33,
+                    label: '车道行驶方向-右转',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 34,
+                    label: '车道行驶方向-直行和左转',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 35,
+                    label: '车道行驶方向-直行和右转',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 36,
+                    label: '车道行驶方向-左转和掉头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 37,
+                    label: '车道行驶方向-掉头',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 38,
+                    label: '车道行驶方向-其他',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 39,
+                    label: '区间测速起点',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 40,
+                    label: '区间测速终点',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 41,
+                    label: '区间测速起点和距离',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 42,
+                    label: '表示时间标志',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 43,
+                    label: '特殊天气辅助标志',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 44,
+                    label: '特殊路段辅助标志',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 45,
+                    label: '其他标志牌',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 46,
+                    label: '动态限速标志',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 47,
+                    label: '其他电子标志牌',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 48,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                }
+            ]
+        }
+    },
+    AD_TrafficLight_Geo: {
+        type: 'Polygon',
+        showFields: ['TYPE'],
+        order: 15,
+        showStyles: ['vectorStyle'],
+        vectorStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 1,
+                    label: '普通交通信号灯',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 2,
+                    label: '方向指示信号灯',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 3,
+                    label: '铁路平交路口信号灯',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 4,
+                    label: '其他',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                }
+            ]
+        }
+    },
+    AD_Pole_Geo: {
+        type: 'Line',
+        showFields: ['NOKEY'],
+        pointFLFields: ['NOKEY'],
+        arrowFields: ['NOKEY'],
+        order: 4,
+        showStyles: ['vectorStyle'],
+        vectorStyle: {
+            NOKEY: [
+                {
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                }
+            ]
+        },
+        pointFLStyle: {
+            NOKEY: [
+                {
+                    style: { color: 'rgb(255,255,255)' }
+                }
+            ]
+        },
+        arrowStyle: {
+            NOKEY: [
+                {
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 }
             ]
         }
