@@ -254,6 +254,22 @@ export const DATA_LAYER_MAP = {
         groupRightTools: ['batchAssign'],
         editName: '交通信号灯'
     },
+    AD_TrafficSign: {
+        label: '交通标志牌',
+        id: 'SIGN_ID',
+        spec: 'AD_TrafficSign',
+        tools: {
+            recognition: ['DRAW_TOOL_BOX', 'POSTURE_ADJUST'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'POSTURE_ADJUST']
+        },
+        drawTools: {
+            recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE'],
+            manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE']
+        },
+        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
+        groupRightTools: ['batchAssign'],
+        editName: '交通标志牌'
+    },
     AD_Marker: {
         label: '质检标注图层',
         id: 'ID',
@@ -476,6 +492,7 @@ export const DATA_LAYER_STRATIFICATION = {
         'AD_StopLocation',
         'AD_LaneMark_Plg',
         'AD_TrafficLight',
+        'AD_TrafficSign',
         'AD_RS_Barrier'
     ],
     GEOMETRY: [

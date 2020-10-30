@@ -8,6 +8,7 @@ import AdInputNumber from 'src/components/Form/AdInputNumber';
 import { getValidator } from 'src/utils/form/validator';
 import Filter from 'src/utils/table/filter';
 import SearchIconGroup from 'src/components/SearchIconGroup';
+import AdTrafficSignContent from 'src/components/Form/AdTrafficSignContent';
 
 const formItemLayout = {
     labelCol: {
@@ -269,6 +270,20 @@ class BasicAttributesForm extends React.Component {
                     </span>
                 )}
             </Form.Item>
+        );
+    };
+
+    renderAdTrafficSignContent = (item, index, name) => {
+        const { form, AttributeStore } = this.props;
+        const { readonly } = AttributeStore;
+        return (
+            <AdTrafficSignContent
+                key={index}
+                readonly={readonly}
+                form={form}
+                item={item}
+                name={name}
+            />
         );
     };
 

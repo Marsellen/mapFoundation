@@ -45,8 +45,7 @@ class EditableCard extends React.Component {
 
             if (attr.link == 'RS_VALUE') {
                 let index = attrs.findIndex(item => item.key == attr.link);
-                attrs[index].type =
-                    attrs[index].type.replace(/[0-9]/, '') + attr.value;
+                attrs[index].type = attrs[index].type.replace(/[0-9]/, '') + attr.value;
             }
             if (attr.link == 'CONT_VALUE') {
                 let index = attrs.findIndex(item => item.key == attr.link);
@@ -65,18 +64,12 @@ class EditableCard extends React.Component {
                 {attrs.map((item, index) => this.renderItem(item, index, true))}
                 <div className="attr">
                     {!readonly && (
-                        <Button
-                            onClick={this.edit}
-                            className="newEdit-edit"
-                            title="编辑">
+                        <Button onClick={this.edit} className="newEdit-edit" title="编辑">
                             <Icon type="edit" />
                         </Button>
                     )}
                     {!readonly && (
-                        <Button
-                            onClick={this.onDelete}
-                            className="newEdit-del"
-                            title="删除">
+                        <Button onClick={this.onDelete} className="newEdit-del" title="删除">
                             <Icon type="delete" />
                         </Button>
                     )}
@@ -89,7 +82,8 @@ class EditableCard extends React.Component {
                     destroyOnClose={true}
                     onCancel={this.onCancel}
                     onOk={this.onCreate}
-                    wrapClassName="edit-attr-modal">
+                    wrapClassName="edit-attr-modal"
+                >
                     {this.renderContent()}
                 </Modal>
             </div>
@@ -168,9 +162,7 @@ class EditableCard extends React.Component {
 
     renderText = (item, index, readonly) => {
         const { form } = this.props;
-        let value = item.filterBy
-            ? Filter.get(item.filterBy)(item.value)
-            : item.value;
+        let value = item.filterBy ? Filter.get(item.filterBy)(item.value) : item.value;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
@@ -178,9 +170,7 @@ class EditableCard extends React.Component {
                         initialValue: value
                     })(<Input disabled />)
                 ) : (
-                    <span className="ant-form-text">
-                        {this.isPresent(value) ? value : '--'}
-                    </span>
+                    <span className="ant-form-text">{this.isPresent(value) ? value : '--'}</span>
                 )}
             </Form.Item>
         );
@@ -287,16 +277,14 @@ class EditableCard extends React.Component {
                             showSearch
                             optionFilterProp="children"
                             filterOption={(input, option) =>
-                                option.props.children
-                                    .toLowerCase()
-                                    .indexOf(input.toLowerCase()) >= 0
+                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                                0
                             }
-                            onChange={this.attrOnChange(item.link)}>
+                            onChange={this.attrOnChange(item.link)}
+                        >
                             {options.map((option, index) => {
                                 return (
-                                    <Select.Option
-                                        key={index}
-                                        value={option.value}>
+                                    <Select.Option key={index} value={option.value}>
                                         {option.label}
                                     </Select.Option>
                                 );
@@ -364,18 +352,10 @@ class EditableCard extends React.Component {
                             })
                         ],
                         initialValue: item.value
-                    })(
-                        <SearchIconGroup
-                            options={options}
-                            content={this.getLabelSetting(item.value, options)}
-                        />
-                    )
+                    })(<SearchIconGroup options={options} />)
                 ) : (
                     <span className="ant-form-text">
-                        {this.getArrayOption(
-                            item.value,
-                            this.getOptionsGroup(options)
-                        )}
+                        {this.getArrayOption(item.value, this.getOptionsGroup(options))}
                     </span>
                 )}
             </Form.Item>
@@ -403,13 +383,7 @@ class EditableCard extends React.Component {
                             })
                         ],
                         initialValue: item.value
-                    })(
-                        <CheckBoxIconGroup
-                            options={options}
-                            max={3}
-                            disabled={readonly}
-                        />
-                    )
+                    })(<CheckBoxIconGroup options={options} max={3} disabled={readonly} />)
                 ) : (
                     <span className="ant-form-text">
                         {this.getCheckBoxArrayOption(item.value, options)}
@@ -426,18 +400,6 @@ class EditableCard extends React.Component {
                 .map(val => val.label)
                 .join('，') || '--';
         return text;
-    };
-
-    getLabelSetting = (value, options) => {
-        const opt = this.getOptionsGroup(options);
-        let obj = {};
-        const pos = opt.findIndex(val => val.value === value);
-        obj.value = value;
-        obj.label =
-            pos != -1 && this.isPresent(opt[pos].label) ? opt[pos].label : '--';
-        obj.icon =
-            pos != -1 && this.isPresent(opt[pos].icon) ? opt[pos].icon : '--';
-        return obj;
     };
 
     getOptionsGroup = (options = []) => {
@@ -503,8 +465,7 @@ class EditableCard extends React.Component {
     getArrayOption = (value, arr) => {
         let text = '';
         const pos = arr.findIndex(val => val.value === value);
-        text =
-            pos != -1 && this.isPresent(arr[pos].label) ? arr[pos].label : '--';
+        text = pos != -1 && this.isPresent(arr[pos].label) ? arr[pos].label : '--';
         return text;
     };
 
