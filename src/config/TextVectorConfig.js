@@ -1,5 +1,53 @@
 //文字注记默认配置
 export default {
+    AD_Pole_Geo: {
+        type: 'Line',
+        textFields: ['FEAT_TYPE'],
+        order: 23,
+        showStyles: ['textStyle']
+    },
+    AD_TrafficLight_Geo: {
+        type: 'Polygon',
+        textFields: ['FEAT_TYPE'],
+        order: 22,
+        showStyles: ['textStyle']
+    },
+    AD_TrafficSign_Geo: {
+        type: 'Polygon',
+        textFields: ['FEAT_TYPE'],
+        order: 21,
+        showStyles: ['textStyle']
+    },
+    AD_LaneMark_Geo: {
+        type: 'Polygon',
+        textFields: ['FEAT_TYPE'],
+        order: 20,
+        showStyles: ['textStyle']
+    },
+    AD_Arrow_Geo: {
+        type: 'Polygon',
+        textFields: ['FEAT_TYPE'],
+        order: 19,
+        showStyles: ['textStyle']
+    },
+    AD_StopLocation_Geo: {
+        type: 'Polygon',
+        textFields: ['FEAT_TYPE'],
+        order: 18,
+        showStyles: ['textStyle']
+    },
+    AD_LaneDivider_Plg: {
+        type: 'Polygon',
+        textFields: ['FEAT_TYPE'],
+        order: 17,
+        showStyles: ['textStyle']
+    },
+    AD_LaneDivider_Pln: {
+        type: 'Line',
+        textFields: ['FEAT_TYPE'],
+        order: 16,
+        showStyles: ['textStyle']
+    },
     AD_Road: {
         type: 'Line',
         //文字注记配置按什么类别展示，当前支持一个

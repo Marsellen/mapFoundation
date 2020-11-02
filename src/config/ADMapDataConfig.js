@@ -1761,7 +1761,7 @@ export const LAYER_TYPE_MAP = {
             name: '用户编号'
         },
         {
-            key: 'TYPE',
+            key: 'FEAT_TYPE',
             name: '要素子类型',
             type: 'AD_LANE_DIVIDER_PLN_TYPE'
         }
@@ -1772,7 +1772,7 @@ export const LAYER_TYPE_MAP = {
             name: '用户编号'
         },
         {
-            key: 'TYPE',
+            key: 'FEAT_TYPE',
             name: '要素子类型',
             type: 'AD_LANE_DIVIDER_PLG_TYPE'
         }
@@ -1783,7 +1783,7 @@ export const LAYER_TYPE_MAP = {
             name: '用户编号'
         },
         {
-            key: 'TYPE',
+            key: 'FEAT_TYPE',
             name: '要素子类型',
             type: 'AD_STOPLOCTION_GEO_TYPE'
         }
@@ -1794,7 +1794,7 @@ export const LAYER_TYPE_MAP = {
             name: '用户编号'
         },
         {
-            key: 'TYPE',
+            key: 'FEAT_TYPE',
             name: '要素子类型',
             type: 'AD_ARROW_GEO_TYPE'
         }
@@ -1805,7 +1805,7 @@ export const LAYER_TYPE_MAP = {
             name: '用户编号'
         },
         {
-            key: 'TYPE',
+            key: 'FEAT_TYPE',
             name: '要素子类型',
             type: 'AD_LANE_MARK_GEO_TYPE'
         }
@@ -1816,7 +1816,7 @@ export const LAYER_TYPE_MAP = {
             name: '用户编号'
         },
         {
-            key: 'TYPE',
+            key: 'FEAT_TYPE',
             name: '要素子类型',
             type: 'AD_TRAFFIC_SIGN_GEO_TYPE'
         }
@@ -1827,9 +1827,16 @@ export const LAYER_TYPE_MAP = {
             name: '用户编号'
         },
         {
-            key: 'TYPE',
+            key: 'FEAT_TYPE',
             name: '要素子类型',
             type: 'AD_TRAFFIC_LIGHT_GEO_TYPE'
+        }
+    ],
+    AD_Pole_Geo: [
+        {
+            key: 'POLE_ID',
+            name: '用户编号',
+            type: 'AD_POLE_GEO_TYPE_ID'
         }
     ]
 };
