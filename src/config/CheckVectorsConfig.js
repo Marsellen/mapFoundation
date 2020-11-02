@@ -1385,13 +1385,13 @@ export default {
     },
     AD_LaneDivider_Pln: {
         type: 'Line',
-        showFields: ['TYPE'],
-        pointFLFields: ['TYPE'],
-        arrowFields: ['TYPE'],
-        order: 15,
+        showFields: ['FEAT_TYPE'],
+        pointFLFields: ['FEAT_TYPE'],
+        arrowFields: ['FEAT_TYPE'],
+        order: 16,
         showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
         vectorStyle: {
-            TYPE: [
+            FEAT_TYPE: [
                 {
                     value: 0,
                     label: '未定义',
@@ -1425,7 +1425,7 @@ export default {
             ]
         },
         pointFLStyle: {
-            TYPE: [
+            FEAT_TYPE: [
                 {
                     value: 0,
                     label: '未定义',
@@ -1459,7 +1459,7 @@ export default {
             ]
         },
         arrowStyle: {
-            TYPE: [
+            FEAT_TYPE: [
                 {
                     value: 0,
                     label: '未定义',
@@ -1495,11 +1495,11 @@ export default {
     },
     AD_LaneDivider_Plg: {
         type: 'Polygon',
-        showFields: ['TYPE'],
-        order: 15,
+        showFields: ['FEAT_TYPE'],
+        order: 17,
         showStyles: ['vectorStyle'],
         vectorStyle: {
-            TYPE: [
+            FEAT_TYPE: [
                 {
                     value: 0,
                     label: '未定义',
@@ -1530,11 +1530,11 @@ export default {
     },
     AD_StopLocation_Geo: {
         type: 'Polygon',
-        showFields: ['TYPE'],
-        order: 15,
+        showFields: ['FEAT_TYPE'],
+        order: 18,
         showStyles: ['vectorStyle'],
         vectorStyle: {
-            TYPE: [
+            FEAT_TYPE: [
                 {
                     value: 0,
                     label: '未定义',
@@ -1560,11 +1560,11 @@ export default {
     },
     AD_Arrow_Geo: {
         type: 'Polygon',
-        showFields: ['TYPE'],
-        order: 15,
+        showFields: ['FEAT_TYPE'],
+        order: 19,
         showStyles: ['vectorStyle'],
         vectorStyle: {
-            TYPE: [
+            FEAT_TYPE: [
                 {
                     value: 0,
                     label: '未定义',
@@ -1665,11 +1665,11 @@ export default {
     },
     AD_LaneMark_Geo: {
         type: 'Polygon',
-        showFields: ['TYPE'],
-        order: 15,
+        showFields: ['FEAT_TYPE'],
+        order: 20,
         showStyles: ['vectorStyle'],
         vectorStyle: {
-            TYPE: [
+            FEAT_TYPE: [
                 {
                     value: 0,
                     label: '未定义',
@@ -1725,11 +1725,11 @@ export default {
     },
     AD_TrafficSign_Geo: {
         type: 'Polygon',
-        showFields: ['TYPE'],
-        order: 15,
+        showFields: ['FEAT_TYPE'],
+        order: 21,
         showStyles: ['vectorStyle'],
         vectorStyle: {
-            TYPE: [
+            FEAT_TYPE: [
                 {
                     value: 0,
                     label: '其他警告标志',
@@ -1980,11 +1980,11 @@ export default {
     },
     AD_TrafficLight_Geo: {
         type: 'Polygon',
-        showFields: ['TYPE'],
-        order: 15,
+        showFields: ['FEAT_TYPE'],
+        order: 22,
         showStyles: ['vectorStyle'],
         vectorStyle: {
-            TYPE: [
+            FEAT_TYPE: [
                 {
                     value: 0,
                     label: '未定义',
@@ -2018,7 +2018,7 @@ export default {
         showFields: ['NOKEY'],
         pointFLFields: ['NOKEY'],
         arrowFields: ['NOKEY'],
-        order: 4,
+        order: 23,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [

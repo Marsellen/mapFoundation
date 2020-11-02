@@ -391,6 +391,32 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             },
             {
+                value: 19,
+                label: '路口内虚拟车道导线',
+                showFields: 'TYPE',
+                lineStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1,
+                arrow: true,
+                point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
+            },
+            {
+                value: 20,
+                label: '其他虚拟车道导线',
+                showFields: 'TYPE',
+                lineStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1,
+                arrow: true,
+                point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
+            },
+            {
                 value: 99,
                 label: '其他',
                 showFields: 'TYPE',
@@ -1633,62 +1659,25 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         key: 'AD_TrafficLight',
         label: '交通信号灯',
         checked: false,
-        isClassify: true,
+        isClassify: false,
         type: 'Polygon',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'NOKEY',
             polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
         },
         typeStyle: [
             {
-                value: 0,
-                label: '未定义',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
+                showFields: 'NOKEY',
+                lineStyle: 'solid',
                 color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 1,
-                label: '普通机动车信号灯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 2,
-                label: '方向指示信号灯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 3,
-                label: '铁路交叉路口信号灯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '人行横道信号灯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 99,
-                label: '其他',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
+                opacity: 1,
+                arrow: false,
+                point: false,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
             }
         ],
         typeStyleMap: {},
@@ -1702,20 +1691,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             { key: 'dashed1', icon: 'xuxiankuang1' },
             { key: 'dashed2', icon: 'xuxiankuang2' },
             { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '交通灯类型',
-                type: 'AD_TRAFFIC_LIGHT_TYPE',
-                domType: 'RadioIconGroup'
-            },
-            {
-                key: 'LAYOUT',
-                name: '信号灯灯头布局',
-                type: 'AD_TRAFFIC_LIGHT_LAYOUT',
-                domType: 'Select'
-            }
         ]
     },
     AD_RS_Barrier: {
@@ -1862,7 +1837,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         isClassify: true,
         type: 'Line',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'FEAT_TYPE',
             lineStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1,
@@ -1876,7 +1851,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 0,
                 label: '未定义',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
@@ -1889,7 +1864,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 1,
                 label: '单实线',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
@@ -1902,7 +1877,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 2,
                 label: '双实线',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
@@ -1915,7 +1890,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 3,
                 label: '左实右虚线',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
@@ -1928,7 +1903,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 4,
                 label: '左虚右实线',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
@@ -1941,7 +1916,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 5,
                 label: '可变导向车道线',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
@@ -1966,7 +1941,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         ],
         typeArr: [
             {
-                key: 'TYPE',
+                key: 'FEAT_TYPE',
                 name: '要素子类型',
                 type: 'AD_LaneDivider_Pln_Element_Subtype',
                 domType: 'RadioIconGroup'
@@ -1980,7 +1955,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         isClassify: true,
         type: 'Polygon',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'FEAT_TYPE',
             polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
@@ -1989,7 +1964,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 0,
                 label: '未定义',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -1997,7 +1972,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 1,
                 label: '单虚线',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2006,7 +1981,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 2,
                 label: '双虚线',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2014,7 +1989,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 3,
                 label: '左实右虚线',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2022,7 +1997,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 4,
                 label: '左虚右实线',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2042,7 +2017,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         ],
         typeArr: [
             {
-                key: 'TYPE',
+                key: 'FEAT_TYPE',
                 name: '要素子类型',
                 type: 'AD_LaneDivider_PLG_Element_Subtype',
                 domType: 'RadioIconGroup'
@@ -2056,7 +2031,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         isClassify: true,
         type: 'Polygon',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'FEAT_TYPE',
             polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
@@ -2065,7 +2040,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 0,
                 label: '未定义',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2073,7 +2048,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 1,
                 label: '停止线',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2082,7 +2057,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 2,
                 label: '停车让行线',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2090,7 +2065,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 3,
                 label: '减速让行线',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2110,7 +2085,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         ],
         typeArr: [
             {
-                key: 'TYPE',
+                key: 'FEAT_TYPE',
                 name: '要素子类型',
                 type: 'AD_StopLocation_GEO_Element_Subtype',
                 domType: 'RadioIconGroup'
@@ -2124,7 +2099,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         isClassify: true,
         type: 'Polygon',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'FEAT_TYPE',
             polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
@@ -2133,7 +2108,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 0,
                 label: '未定义',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2141,7 +2116,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 1,
                 label: '直行箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2150,7 +2125,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 2,
                 label: '左转箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2158,7 +2133,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 3,
                 label: '右转箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2166,7 +2141,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 4,
                 label: '直行左转箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2174,7 +2149,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 5,
                 label: '直行右转箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2182,7 +2157,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 6,
                 label: '左转右转箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2190,7 +2165,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 7,
                 label: '直行左转右转箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2198,7 +2173,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 8,
                 label: '掉头箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2206,7 +2181,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 9,
                 label: '左转掉头箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2214,7 +2189,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 10,
                 label: '右转掉头箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2222,7 +2197,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 11,
                 label: '禁止标记箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2230,7 +2205,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 12,
                 label: '向左合流箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2238,7 +2213,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 13,
                 label: '向右合流箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2246,7 +2221,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 14,
                 label: '直行和掉头箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2254,7 +2229,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 15,
                 label: '直行左转掉头箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2262,7 +2237,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 16,
                 label: '直行右转掉头箭头',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2270,7 +2245,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 17,
                 label: '直行左弯',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2278,7 +2253,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 18,
                 label: '直行右弯',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2298,7 +2273,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         ],
         typeArr: [
             {
-                key: 'TYPE',
+                key: 'FEAT_TYPE',
                 name: '要素子类型',
                 type: 'AD_Arrow_GEO_Element_Subtype',
                 domType: 'RadioIconGroup'
@@ -2312,7 +2287,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         isClassify: true,
         type: 'Polygon',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'FEAT_TYPE',
             polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
@@ -2321,7 +2296,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 0,
                 label: '未定义',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2329,7 +2304,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 1,
                 label: '减速警示线',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2338,7 +2313,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 2,
                 label: '减速带',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2346,7 +2321,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 3,
                 label: '人行横道',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2354,7 +2329,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 4,
                 label: '禁止停车区',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2362,7 +2337,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 5,
                 label: '导流区',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2370,7 +2345,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 6,
                 label: '路口内中心圈',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2378,7 +2353,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 7,
                 label: '车距确认线',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2386,7 +2361,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 8,
                 label: '地面文字数字',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2394,7 +2369,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 9,
                 label: '地面符号',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -2414,511 +2389,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         ],
         typeArr: [
             {
-                key: 'TYPE',
-                name: '要素子类型',
-                type: 'AD_LANEMARK_GEO_Element_Subtype',
-                domType: 'RadioIconGroup'
-            }
-        ]
-    },
-    AD_TrafficSign_Geo: {
-        key: 'AD_TrafficSign_Geo',
-        label: ' 几何层：交通标志牌',
-        checked: false,
-        isClassify: true,
-        type: 'Polygon',
-        commonStyle: {
-            showFields: 'TYPE',
-            polygonStyle: 'solid',
-            color: 'rgb(70,109,255)',
-            opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '其他警告标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 1,
-                label: '建议速度',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-
-            {
-                value: 2,
-                label: '其他禁令标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 3,
-                label: '停车让行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '减速让行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 5,
-                label: '会车让行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 6,
-                label: '禁止通行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 7,
-                label: '禁止驶入',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 8,
-                label: '禁止机动车驶入',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 9,
-                label: '禁止向左转弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 10,
-                label: '禁止向右转弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 11,
-                label: '禁止直行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 12,
-                label: '禁止向左向右转弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 13,
-                label: '禁止直行和向左转弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 14,
-                label: '禁止直行和向右转弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 15,
-                label: '禁止掉头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 16,
-                label: '禁止超车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 17,
-                label: '解除禁止超车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 18,
-                label: '禁止停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 19,
-                label: '禁止长时停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 20,
-                label: '限制速度',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 21,
-                label: '解除限制速度',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 22,
-                label: '区域禁止-禁止长时停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 23,
-                label: '区域禁止解除-解除禁止长时停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 24,
-                label: '区域禁止-禁止停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 25,
-                label: '区域禁止解除-解除禁止停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 26,
-                label: '区域禁止-速度限制',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 27,
-                label: '区域禁止解除-解除速度限制',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 28,
-                label: '其他指示类标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 29,
-                label: '最低限速',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 30,
-                label: '车道行驶方向-直行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 31,
-                label: '允许掉头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 32,
-                label: '车道行驶方向-左转',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 33,
-                label: '车道行驶方向-右转',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 34,
-                label: '车道行驶方向-直行和左转',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 35,
-                label: '车道行驶方向-直行和右转',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 36,
-                label: '车道行驶方向-左转和掉头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 37,
-                label: '车道行驶方向-掉头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 38,
-                label: '车道行驶方向-其他',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 39,
-                label: '区间测速起点',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 40,
-                label: '区间测速终点',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 41,
-                label: '区间测速起点和距离',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 42,
-                label: '表示时间标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 43,
-                label: '特殊天气辅助标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 44,
-                label: '特殊路段辅助标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 45,
-                label: '其他标志牌',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 46,
-                label: '动态限速标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 47,
-                label: '其他电子标志牌',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 48,
-                label: '未定义',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            }
-        ],
-        typeStyleMap: {},
-        fieldStyle: {
-            colorFieldSize: 26,
-            colorFieldIcon: 'mianyaosu'
-        },
-        styleOptionArr: [
-            { key: 'solid', icon: 'zhixiankuang' },
-            { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'dashed1', icon: 'xuxiankuang1' },
-            { key: 'dashed2', icon: 'xuxiankuang2' },
-            { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '要素子类型',
-                type: 'AD_TRAFFICSIGN_GEO_Element_Subtype',
-                domType: 'RadioIconGroup'
-            }
-        ]
-    },
-    AD_TrafficLight_Geo: {
-        key: 'AD_TrafficLight_Geo',
-        label: '几何层：交通信号灯',
-        checked: false,
-        isClassify: true,
-        type: 'Polygon',
-        commonStyle: {
-            showFields: 'TYPE',
-            polygonStyle: 'solid',
-            color: 'rgb(255,255,255)',
-            opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 1,
-                label: '普通交通信号灯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-
-            {
-                value: 2,
-                label: '方向指示信号灯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 3,
-                label: '铁路平交路口信号灯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '其他',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            }
-        ],
-        typeStyleMap: {},
-        fieldStyle: {
-            colorFieldSize: 26,
-            colorFieldIcon: 'mianyaosu'
-        },
-        styleOptionArr: [
-            { key: 'solid', icon: 'zhixiankuang' },
-            { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'dashed1', icon: 'xuxiankuang1' },
-            { key: 'dashed2', icon: 'xuxiankuang2' },
-            { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
+                key: 'FEAT_TYPE',
                 name: '要素子类型',
                 type: 'AD_LANEMARK_GEO_Element_Subtype',
                 domType: 'RadioIconGroup'
@@ -2966,6 +2437,510 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             { key: 'dashed1', icon: 'xuxian1' },
             { key: 'dashed2', icon: 'xuxian2' },
             { key: 'dashed3', icon: 'xuxian3' }
+        ]
+    },
+    AD_TrafficSign_Geo: {
+        key: 'AD_TrafficSign_Geo',
+        label: ' 几何层：交通标志牌',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'FEAT_TYPE',
+            polygonStyle: 'solid',
+            color: 'rgb(70,109,255)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '其他警告标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '建议速度',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+
+            {
+                value: 2,
+                label: '其他禁令标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 3,
+                label: '停车让行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 4,
+                label: '减速让行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 5,
+                label: '会车让行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 6,
+                label: '禁止通行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 7,
+                label: '禁止驶入',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 8,
+                label: '禁止机动车驶入',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 9,
+                label: '禁止向左转弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 10,
+                label: '禁止向右转弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 11,
+                label: '禁止直行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 12,
+                label: '禁止向左向右转弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 13,
+                label: '禁止直行和向左转弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 14,
+                label: '禁止直行和向右转弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 15,
+                label: '禁止掉头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 16,
+                label: '禁止超车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 17,
+                label: '解除禁止超车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 18,
+                label: '禁止停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 19,
+                label: '禁止长时停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 20,
+                label: '限制速度',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 21,
+                label: '解除限制速度',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 22,
+                label: '区域禁止-禁止长时停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 23,
+                label: '区域禁止解除-解除禁止长时停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 24,
+                label: '区域禁止-禁止停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 25,
+                label: '区域禁止解除-解除禁止停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 26,
+                label: '区域禁止-速度限制',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 27,
+                label: '区域禁止解除-解除速度限制',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 28,
+                label: '其他指示类标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 29,
+                label: '最低限速',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 30,
+                label: '车道行驶方向-直行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 31,
+                label: '允许掉头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 32,
+                label: '车道行驶方向-左转',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 33,
+                label: '车道行驶方向-右转',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 34,
+                label: '车道行驶方向-直行和左转',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 35,
+                label: '车道行驶方向-直行和右转',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 36,
+                label: '车道行驶方向-左转和掉头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 37,
+                label: '车道行驶方向-掉头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 38,
+                label: '车道行驶方向-其他',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 39,
+                label: '区间测速起点',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 40,
+                label: '区间测速终点',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 41,
+                label: '区间测速起点和距离',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 42,
+                label: '表示时间标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 43,
+                label: '特殊天气辅助标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 44,
+                label: '特殊路段辅助标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 45,
+                label: '其他标志牌',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 46,
+                label: '动态限速标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 47,
+                label: '其他电子标志牌',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 48,
+                label: '未定义',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'FEAT_TYPE',
+                name: '要素子类型',
+                type: 'AD_TRAFFICSIGN_GEO_Element_Subtype',
+                domType: 'RadioIconGroup'
+            }
+        ]
+    },
+    AD_TrafficLight_Geo: {
+        key: 'AD_TrafficLight_Geo',
+        label: '几何层：交通信号灯',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'FEAT_TYPE',
+            polygonStyle: 'solid',
+            color: 'rgb(255,255,255)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '未定义',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '普通交通信号灯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+
+            {
+                value: 2,
+                label: '方向指示信号灯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 3,
+                label: '铁路平交路口信号灯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 4,
+                label: '其他',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'FEAT_TYPE',
+                name: '要素子类型',
+                type: 'AD_LANEMARK_GEO_Element_Subtype',
+                domType: 'RadioIconGroup'
+            }
         ]
     }
 };
@@ -3598,6 +3573,32 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 {
                     value: 18,
                     label: '可变导向车道线',
+                    showFields: 'TYPE',
+                    color: 'rgb(255,255,255)',
+                    lineStyle: 'solid',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 19,
+                    label: '路口内虚拟车道线',
+                    showFields: 'TYPE',
+                    color: 'rgb(255,255,255)',
+                    lineStyle: 'solid',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 20,
+                    label: '其他虚拟车道线',
                     showFields: 'TYPE',
                     color: 'rgb(255,255,255)',
                     lineStyle: 'solid',
@@ -5151,62 +5152,25 @@ const COMMON_VECTOR_CONFIG_MAP = {
         key: 'AD_TrafficLight',
         label: '交通信号灯',
         checked: false,
-        isClassify: true,
+        isClassify: false,
         type: 'Polygon',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'NOKEY',
             polygonStyle: 'solid',
             color: 'rgb(231,120,0)',
             opacity: 1
         },
         typeStyle: [
             {
-                value: 0,
-                label: '未定义',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
-                opacity: 1
-            },
-            {
-                value: 1,
-                label: '普通机动车信号灯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
-                opacity: 1
-            },
-            {
-                value: 2,
-                label: '方向指示信号灯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
-                opacity: 1
-            },
-            {
-                value: 3,
-                label: '铁路交叉路口信号灯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '人行横道信号灯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
-                opacity: 1
-            },
-            {
-                value: 99,
-                label: '其他',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
-                opacity: 1
+                showFields: 'NOKEY',
+                lineStyle: 'solid',
+                color: 'rgb(32,52,240)',
+                opacity: 1,
+                arrow: false,
+                point: false,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
             }
         ],
         typeStyleMap: {},
@@ -5220,20 +5184,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
             { key: 'dashed1', icon: 'xuxiankuang1' },
             { key: 'dashed2', icon: 'xuxiankuang2' },
             { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '交通灯类型',
-                type: 'AD_TRAFFIC_LIGHT_TYPE',
-                domType: 'RadioIconGroup'
-            },
-            {
-                key: 'LAYOUT',
-                name: '信号灯灯头布局',
-                type: 'AD_TRAFFIC_LIGHT_LAYOUT',
-                domType: 'Select'
-            }
         ]
     },
     AD_RS_Barrier: {
@@ -5373,952 +5323,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
             }
         ]
     },
-    AD_LaneDivider_Pln: {
-        key: 'AD_LaneDivider_Pln',
-        label: '几何层：车道线线要素',
-        checked: false,
-        isClassify: true,
-        type: 'Line',
-        commonStyle: {
-            showFields: 'TYPE',
-            lineStyle: 'solid',
-            color: 'rgb(255,255,255)',
-            opacity: 1,
-            arrow: true,
-            point: true,
-            pointEnabledStatus: true,
-            arrowEnabledStatus: true,
-            pointSize: 0.1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 1,
-                label: '单实线',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 2,
-                label: '双实线',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 3,
-                label: '左实右虚线',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 4,
-                label: '左虚右实线',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 5,
-                label: '可变导向车道线',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            }
-        ],
-        typeStyleMap: {},
-        fieldStyle: {
-            colorFieldSize: 28,
-            colorFieldIcon: 'xianyaosu'
-        },
-        styleOptionArr: [
-            { key: 'solid', icon: 'zhixian' },
-            { key: 'dashed', icon: 'xuxian' },
-            { key: 'dashed1', icon: 'xuxian1' },
-            { key: 'dashed2', icon: 'xuxian2' },
-            { key: 'dashed3', icon: 'xuxian3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '要素子类型',
-                type: 'AD_LaneDivider_Pln_Element_Subtype',
-                domType: 'RadioIconGroup'
-            }
-        ]
-    },
-    AD_LaneDivider_Plg: {
-        key: 'AD_LaneDivider_Plg',
-        label: '几何层：车道线面要素',
-        checked: false,
-        isClassify: true,
-        type: 'Polygon',
-        commonStyle: {
-            showFields: 'TYPE',
-            polygonStyle: 'solid',
-            color: 'rgb(0,255,160)',
-            opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(0,255,160)',
-                opacity: 1
-            },
-            {
-                value: 1,
-                label: '单虚线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(0,255,160)',
-                opacity: 1
-            },
-
-            {
-                value: 2,
-                label: '双虚线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(0,255,160)',
-                opacity: 1
-            },
-            {
-                value: 3,
-                label: '左实右虚线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(0,255,160)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '左虚右实线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(0,255,160)',
-                opacity: 1
-            }
-        ],
-        typeStyleMap: {},
-        fieldStyle: {
-            colorFieldSize: 26,
-            colorFieldIcon: 'mianyaosu'
-        },
-        styleOptionArr: [
-            { key: 'solid', icon: 'zhixiankuang' },
-            { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'dashed1', icon: 'xuxiankuang1' },
-            { key: 'dashed2', icon: 'xuxiankuang2' },
-            { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '要素子类型',
-                type: 'AD_LaneDivider_PLG_Element_Subtype',
-                domType: 'RadioIconGroup'
-            }
-        ]
-    },
-    AD_StopLocation_Geo: {
-        key: 'AD_StopLocation_Geo',
-        label: '几何层：停止位置',
-        checked: false,
-        isClassify: true,
-        type: 'Polygon',
-        commonStyle: {
-            showFields: 'TYPE',
-            polygonStyle: 'solid',
-            color: 'rgb(137,195,255)',
-            opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(137,195,255)',
-                opacity: 1
-            },
-            {
-                value: 1,
-                label: '停止线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(137,195,255)',
-                opacity: 1
-            },
-
-            {
-                value: 2,
-                label: '停车让行线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(137,195,255)',
-                opacity: 1
-            },
-            {
-                value: 3,
-                label: '减速让行线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(137,195,255)',
-                opacity: 1
-            }
-        ],
-        typeStyleMap: {},
-        fieldStyle: {
-            colorFieldSize: 26,
-            colorFieldIcon: 'mianyaosu'
-        },
-        styleOptionArr: [
-            { key: 'solid', icon: 'zhixiankuang' },
-            { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'dashed1', icon: 'xuxiankuang1' },
-            { key: 'dashed2', icon: 'xuxiankuang2' },
-            { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '要素子类型',
-                type: 'AD_StopLocation_GEO_Element_Subtype',
-                domType: 'RadioIconGroup'
-            }
-        ]
-    },
-    AD_Arrow_Geo: {
-        key: 'AD_Arrow_Geo',
-        label: '几何层：箭头',
-        checked: false,
-        isClassify: true,
-        type: 'Polygon',
-        commonStyle: {
-            showFields: 'TYPE',
-            polygonStyle: 'solid',
-            color: 'rgb(250,220,70)',
-            opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 1,
-                label: '直行箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-
-            {
-                value: 2,
-                label: '左转箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 3,
-                label: '右转箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '直行左转箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 5,
-                label: '直行右转箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 6,
-                label: '左转右转箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 7,
-                label: '直行左转右转箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 8,
-                label: '掉头箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 9,
-                label: '左转掉头箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 10,
-                label: '右转掉头箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 11,
-                label: '禁止标记箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 12,
-                label: '向左合流箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 13,
-                label: '向右合流箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 14,
-                label: '直行和掉头箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 15,
-                label: '直行左转掉头箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 16,
-                label: '直行右转掉头箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 17,
-                label: '直行左弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 18,
-                label: '直行右弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            }
-        ],
-        typeStyleMap: {},
-        fieldStyle: {
-            colorFieldSize: 26,
-            colorFieldIcon: 'mianyaosu'
-        },
-        styleOptionArr: [
-            { key: 'solid', icon: 'zhixiankuang' },
-            { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'dashed1', icon: 'xuxiankuang1' },
-            { key: 'dashed2', icon: 'xuxiankuang2' },
-            { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '要素子类型',
-                type: 'AD_Arrow_GEO_Element_Subtype',
-                domType: 'RadioIconGroup'
-            }
-        ]
-    },
-    AD_LaneMark_Geo: {
-        key: 'AD_LaneMark_Geo',
-        label: '几何层：路面车道标记',
-        checked: false,
-        isClassify: true,
-        type: 'Polygon',
-        commonStyle: {
-            showFields: 'TYPE',
-            polygonStyle: 'solid',
-            color: 'rgb(147,112,219)',
-            opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 1,
-                label: '减速警示线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-
-            {
-                value: 2,
-                label: '减速带',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 3,
-                label: '人行横道',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '禁止停车区',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 5,
-                label: '导流区',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 6,
-                label: '路口内中心圈',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 7,
-                label: '车距确认线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 8,
-                label: '地面文字数字',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 9,
-                label: '地面符号',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            }
-        ],
-        typeStyleMap: {},
-        fieldStyle: {
-            colorFieldSize: 26,
-            colorFieldIcon: 'mianyaosu'
-        },
-        styleOptionArr: [
-            { key: 'solid', icon: 'zhixiankuang' },
-            { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'dashed1', icon: 'xuxiankuang1' },
-            { key: 'dashed2', icon: 'xuxiankuang2' },
-            { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '要素子类型',
-                type: 'AD_LANEMARK_GEO_Element_Subtype',
-                domType: 'RadioIconGroup'
-            }
-        ]
-    },
-    AD_TrafficSign_Geo: {
-        key: 'AD_TrafficSign_Geo',
-        label: ' 几何层：交通标志牌',
-        checked: false,
-        isClassify: true,
-        type: 'Polygon',
-        commonStyle: {
-            showFields: 'TYPE',
-            polygonStyle: 'solid',
-            color: 'rgb(255,255,255)',
-            opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '其他警告标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 1,
-                label: '建议速度',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-
-            {
-                value: 2,
-                label: '其他禁令标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 3,
-                label: '停车让行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '减速让行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 5,
-                label: '会车让行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 6,
-                label: '禁止通行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 7,
-                label: '禁止驶入',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 8,
-                label: '禁止机动车驶入',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 9,
-                label: '禁止向左转弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 10,
-                label: '禁止向右转弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 11,
-                label: '禁止直行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 12,
-                label: '禁止向左向右转弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 13,
-                label: '禁止直行和向左转弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 14,
-                label: '禁止直行和向右转弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 15,
-                label: '禁止掉头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 16,
-                label: '禁止超车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 17,
-                label: '解除禁止超车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 18,
-                label: '禁止停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 19,
-                label: '禁止长时停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 20,
-                label: '限制速度',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 21,
-                label: '解除限制速度',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 22,
-                label: '区域禁止-禁止长时停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 23,
-                label: '区域禁止解除-解除禁止长时停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 24,
-                label: '区域禁止-禁止停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 25,
-                label: '区域禁止解除-解除禁止停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 26,
-                label: '区域禁止-速度限制',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 27,
-                label: '区域禁止解除-解除速度限制',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 28,
-                label: '其他指示类标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 29,
-                label: '最低限速',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 30,
-                label: '车道行驶方向-直行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 31,
-                label: '允许掉头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 32,
-                label: '车道行驶方向-左转',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 33,
-                label: '车道行驶方向-右转',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 34,
-                label: '车道行驶方向-直行和左转',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 35,
-                label: '车道行驶方向-直行和右转',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 36,
-                label: '车道行驶方向-左转和掉头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 37,
-                label: '车道行驶方向-掉头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 38,
-                label: '车道行驶方向-其他',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 39,
-                label: '区间测速起点',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 40,
-                label: '区间测速终点',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 41,
-                label: '区间测速起点和距离',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 42,
-                label: '表示时间标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            }
-        ],
-        typeStyleMap: {},
-        fieldStyle: {
-            colorFieldSize: 26,
-            colorFieldIcon: 'mianyaosu'
-        },
-        styleOptionArr: [
-            { key: 'solid', icon: 'zhixiankuang' },
-            { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'dashed1', icon: 'xuxiankuang1' },
-            { key: 'dashed2', icon: 'xuxiankuang2' },
-            { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '面状标识物类型',
-                type: 'AD_LANEMARK_PLG_TYPE',
-                domType: 'RadioIconGroup'
-            }
-        ]
-    },
     AD_Text: {
         key: 'AD_Text',
         label: '地面文字符号',
@@ -6453,141 +5457,176 @@ const COMMON_VECTOR_CONFIG_MAP = {
             }
         ]
     },
-    AD_TrafficLight: {
-        key: 'AD_TrafficLight',
-        label: '交通信号灯',
+    AD_LaneDivider_Pln: {
+        key: 'AD_LaneDivider_Pln',
+        label: '几何层：车道线线要素',
         checked: false,
         isClassify: true,
-        type: 'Polygon',
+        type: 'Line',
         commonStyle: {
-            showFields: 'TYPE',
-            polygonStyle: 'solid',
-            color: 'rgb(231,120,0)',
-            opacity: 1
+            showFields: 'FEAT_TYPE',
+            lineStyle: 'solid',
+            color: 'rgb(255,255,255)',
+            opacity: 1,
+            arrow: true,
+            point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
+            pointSize: 0.1
         },
         typeStyle: [
             {
-                value: 43,
-                label: '特殊天气辅助标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 44,
-                label: '特殊路段辅助标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 45,
-                label: '其他标志牌',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 46,
-                label: '动态限速标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 47,
-                label: '其他电子标志牌',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 48,
+                value: 0,
                 label: '未定义',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
+                showFields: 'FEAT_TYPE',
+                lineStyle: 'solid',
                 color: 'rgb(255,255,255)',
-                opacity: 1
+                opacity: 1,
+                arrow: true,
+                point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
+            },
+            {
+                value: 1,
+                label: '单实线',
+                showFields: 'FEAT_TYPE',
+                lineStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1,
+                arrow: true,
+                point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
+            },
+            {
+                value: 2,
+                label: '双实线',
+                showFields: 'FEAT_TYPE',
+                lineStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1,
+                arrow: true,
+                point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
+            },
+            {
+                value: 3,
+                label: '左实右虚线',
+                showFields: 'FEAT_TYPE',
+                lineStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1,
+                arrow: true,
+                point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
+            },
+            {
+                value: 4,
+                label: '左虚右实线',
+                showFields: 'FEAT_TYPE',
+                lineStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1,
+                arrow: true,
+                point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
+            },
+            {
+                value: 5,
+                label: '可变导向车道线',
+                showFields: 'FEAT_TYPE',
+                lineStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1,
+                arrow: true,
+                point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
             }
         ],
         typeStyleMap: {},
         fieldStyle: {
-            colorFieldSize: 26,
-            colorFieldIcon: 'mianyaosu'
+            colorFieldSize: 28,
+            colorFieldIcon: 'xianyaosu'
         },
         styleOptionArr: [
-            { key: 'solid', icon: 'zhixiankuang' },
-            { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'dashed1', icon: 'xuxiankuang1' },
-            { key: 'dashed2', icon: 'xuxiankuang2' },
-            { key: 'dashed3', icon: 'xuxiankuang3' }
+            { key: 'solid', icon: 'zhixian' },
+            { key: 'dashed', icon: 'xuxian' },
+            { key: 'dashed1', icon: 'xuxian1' },
+            { key: 'dashed2', icon: 'xuxian2' },
+            { key: 'dashed3', icon: 'xuxian3' }
         ],
         typeArr: [
             {
-                key: 'TYPE',
+                key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_TRAFFICSIGN_GEO_Element_Subtype',
+                type: 'AD_LaneDivider_Pln_Element_Subtype',
                 domType: 'RadioIconGroup'
             }
         ]
     },
-    AD_TrafficLight_Geo: {
-        key: 'AD_TrafficLight_Geo',
-        label: '几何层：交通信号灯',
+    AD_LaneDivider_Plg: {
+        key: 'AD_LaneDivider_Plg',
+        label: '几何层：车道线面要素',
         checked: false,
         isClassify: true,
         type: 'Polygon',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'FEAT_TYPE',
             polygonStyle: 'solid',
-            color: 'rgb(231,120,0)',
+            color: 'rgb(0,255,160)',
             opacity: 1
         },
         typeStyle: [
             {
                 value: 0,
                 label: '未定义',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
+                color: 'rgb(0,255,160)',
                 opacity: 1
             },
             {
                 value: 1,
-                label: '普通交通信号灯',
-                showFields: 'TYPE',
+                label: '单虚线',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
+                color: 'rgb(0,255,160)',
                 opacity: 1
             },
 
             {
                 value: 2,
-                label: '方向指示信号灯',
-                showFields: 'TYPE',
+                label: '双虚线',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
+                color: 'rgb(0,255,160)',
                 opacity: 1
             },
             {
                 value: 3,
-                label: '铁路平交路口信号灯',
-                showFields: 'TYPE',
+                label: '左实右虚线',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
+                color: 'rgb(0,255,160)',
                 opacity: 1
             },
             {
                 value: 4,
-                label: '其他',
-                showFields: 'TYPE',
+                label: '左虚右实线',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
+                color: 'rgb(0,255,160)',
                 opacity: 1
             }
         ],
@@ -6605,9 +5644,381 @@ const COMMON_VECTOR_CONFIG_MAP = {
         ],
         typeArr: [
             {
-                key: 'TYPE',
+                key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_TRAFFICLIGHT_GEO_Element_Subtype',
+                type: 'AD_LaneDivider_PLG_Element_Subtype',
+                domType: 'RadioIconGroup'
+            }
+        ]
+    },
+    AD_StopLocation_Geo: {
+        key: 'AD_StopLocation_Geo',
+        label: '几何层：停止位置',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'FEAT_TYPE',
+            polygonStyle: 'solid',
+            color: 'rgb(137,195,255)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '未定义',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(137,195,255)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '停止线',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(137,195,255)',
+                opacity: 1
+            },
+
+            {
+                value: 2,
+                label: '停车让行线',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(137,195,255)',
+                opacity: 1
+            },
+            {
+                value: 3,
+                label: '减速让行线',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(137,195,255)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'FEAT_TYPE',
+                name: '要素子类型',
+                type: 'AD_StopLocation_GEO_Element_Subtype',
+                domType: 'RadioIconGroup'
+            }
+        ]
+    },
+    AD_Arrow_Geo: {
+        key: 'AD_Arrow_Geo',
+        label: '几何层：箭头',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'FEAT_TYPE',
+            polygonStyle: 'solid',
+            color: 'rgb(250,220,70)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '未定义',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '直行箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+
+            {
+                value: 2,
+                label: '左转箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 3,
+                label: '右转箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 4,
+                label: '直行左转箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 5,
+                label: '直行右转箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 6,
+                label: '左转右转箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 7,
+                label: '直行左转右转箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 8,
+                label: '掉头箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 9,
+                label: '左转掉头箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 10,
+                label: '右转掉头箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 11,
+                label: '禁止标记箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 12,
+                label: '向左合流箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 13,
+                label: '向右合流箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 14,
+                label: '直行和掉头箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 15,
+                label: '直行左转掉头箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 16,
+                label: '直行右转掉头箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 17,
+                label: '直行左弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 18,
+                label: '直行右弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'FEAT_TYPE',
+                name: '要素子类型',
+                type: 'AD_Arrow_GEO_Element_Subtype',
+                domType: 'RadioIconGroup'
+            }
+        ]
+    },
+    AD_LaneMark_Geo: {
+        key: 'AD_LaneMark_Geo',
+        label: '几何层：路面车道标记',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'FEAT_TYPE',
+            polygonStyle: 'solid',
+            color: 'rgb(147,112,219)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '未定义',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '减速警示线',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+
+            {
+                value: 2,
+                label: '减速带',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 3,
+                label: '人行横道',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 4,
+                label: '禁止停车区',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 5,
+                label: '导流区',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 6,
+                label: '路口内中心圈',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 7,
+                label: '车距确认线',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 8,
+                label: '地面文字数字',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 9,
+                label: '地面符号',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'FEAT_TYPE',
+                name: '要素子类型',
+                type: 'AD_LANEMARK_GEO_Element_Subtype',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -6653,6 +6064,462 @@ const COMMON_VECTOR_CONFIG_MAP = {
             { key: 'dashed1', icon: 'xuxian1' },
             { key: 'dashed2', icon: 'xuxian2' },
             { key: 'dashed3', icon: 'xuxian3' }
+        ]
+    },
+    AD_TrafficSign_Geo: {
+        key: 'AD_TrafficSign_Geo',
+        label: ' 几何层：交通标志牌',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'FEAT_TYPE',
+            polygonStyle: 'solid',
+            color: 'rgb(255,255,255)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '其他警告标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '建议速度',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+
+            {
+                value: 2,
+                label: '其他禁令标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 3,
+                label: '停车让行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 4,
+                label: '减速让行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 5,
+                label: '会车让行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 6,
+                label: '禁止通行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 7,
+                label: '禁止驶入',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 8,
+                label: '禁止机动车驶入',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 9,
+                label: '禁止向左转弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 10,
+                label: '禁止向右转弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 11,
+                label: '禁止直行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 12,
+                label: '禁止向左向右转弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 13,
+                label: '禁止直行和向左转弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 14,
+                label: '禁止直行和向右转弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 15,
+                label: '禁止掉头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 16,
+                label: '禁止超车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 17,
+                label: '解除禁止超车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 18,
+                label: '禁止停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 19,
+                label: '禁止长时停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 20,
+                label: '限制速度',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 21,
+                label: '解除限制速度',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 22,
+                label: '区域禁止-禁止长时停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 23,
+                label: '区域禁止解除-解除禁止长时停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 24,
+                label: '区域禁止-禁止停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 25,
+                label: '区域禁止解除-解除禁止停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 26,
+                label: '区域禁止-速度限制',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 27,
+                label: '区域禁止解除-解除速度限制',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 28,
+                label: '其他指示类标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 29,
+                label: '最低限速',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 30,
+                label: '车道行驶方向-直行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 31,
+                label: '允许掉头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 32,
+                label: '车道行驶方向-左转',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 33,
+                label: '车道行驶方向-右转',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 34,
+                label: '车道行驶方向-直行和左转',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 35,
+                label: '车道行驶方向-直行和右转',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 36,
+                label: '车道行驶方向-左转和掉头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 37,
+                label: '车道行驶方向-掉头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 38,
+                label: '车道行驶方向-其他',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 39,
+                label: '区间测速起点',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 40,
+                label: '区间测速终点',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 41,
+                label: '区间测速起点和距离',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 42,
+                label: '表示时间标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'FEAT_TYPE',
+                name: '面状标识物类型',
+                type: 'AD_LANEMARK_PLG_TYPE',
+                domType: 'RadioIconGroup'
+            }
+        ]
+    },
+    AD_TrafficLight_Geo: {
+        key: 'AD_TrafficLight_Geo',
+        label: '几何层：交通信号灯',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'FEAT_TYPE',
+            polygonStyle: 'solid',
+            color: 'rgb(231,120,0)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '未定义',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(231,120,0)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '普通交通信号灯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(231,120,0)',
+                opacity: 1
+            },
+
+            {
+                value: 2,
+                label: '方向指示信号灯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(231,120,0)',
+                opacity: 1
+            },
+            {
+                value: 3,
+                label: '铁路平交路口信号灯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(231,120,0)',
+                opacity: 1
+            },
+            {
+                value: 4,
+                label: '其他',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(231,120,0)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'FEAT_TYPE',
+                name: '要素子类型',
+                type: 'AD_TRAFFICLIGHT_GEO_Element_Subtype',
+                domType: 'RadioIconGroup'
+            }
         ]
     }
 };
@@ -7285,6 +7152,32 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 {
                     value: 18,
                     label: '可变导向车道线',
+                    showFields: 'TYPE',
+                    color: 'rgb(255,255,255)',
+                    lineStyle: 'solid',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 19,
+                    label: '路口内虚拟车道线',
+                    showFields: 'TYPE',
+                    color: 'rgb(255,255,255)',
+                    lineStyle: 'solid',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 20,
+                    label: '其他虚拟车道线',
                     showFields: 'TYPE',
                     color: 'rgb(255,255,255)',
                     lineStyle: 'solid',
@@ -8840,62 +8733,25 @@ const CHECK_VECTOR_CONFIG_MAP = {
         key: 'AD_TrafficLight',
         label: '交通信号灯',
         checked: false,
-        isClassify: true,
+        isClassify: false,
         type: 'Polygon',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'NOKEY',
             polygonStyle: 'solid',
             color: 'rgb(231,120,0)',
             opacity: 1
         },
         typeStyle: [
             {
-                value: 0,
-                label: '未定义',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
-                opacity: 1
-            },
-            {
-                value: 1,
-                label: '普通机动车信号灯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
-                opacity: 1
-            },
-            {
-                value: 2,
-                label: '方向指示信号灯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
-                opacity: 1
-            },
-            {
-                value: 3,
-                label: '铁路交叉路口信号灯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '人行横道信号灯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
-                opacity: 1
-            },
-            {
-                value: 99,
-                label: '其他',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
-                opacity: 1
+                showFields: 'NOKEY',
+                lineStyle: 'solid',
+                color: 'rgb(32,52,240)',
+                opacity: 1,
+                arrow: false,
+                point: false,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
             }
         ],
         typeStyleMap: {},
@@ -8909,20 +8765,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
             { key: 'dashed1', icon: 'xuxiankuang1' },
             { key: 'dashed2', icon: 'xuxiankuang2' },
             { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '交通灯类型',
-                type: 'AD_TRAFFIC_LIGHT_TYPE',
-                domType: 'RadioIconGroup'
-            },
-            {
-                key: 'LAYOUT',
-                name: '信号灯灯头布局',
-                type: 'AD_TRAFFIC_LIGHT_LAYOUT',
-                domType: 'Select'
-            }
         ]
     },
     AD_RS_Barrier: {
@@ -9062,1000 +8904,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
             }
         ]
     },
-    AD_LaneDivider_Pln: {
-        key: 'AD_LaneDivider_Pln',
-        label: '几何层：车道线线要素',
-        checked: false,
-        isClassify: true,
-        type: 'Line',
-        commonStyle: {
-            showFields: 'TYPE',
-            lineStyle: 'solid',
-            color: 'rgb(255,255,255)',
-            opacity: 1,
-            arrow: true,
-            point: true,
-            pointEnabledStatus: true,
-            arrowEnabledStatus: true,
-            pointSize: 0.1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 1,
-                label: '单实线',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 2,
-                label: '双实线',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 3,
-                label: '左实右虚线',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 4,
-                label: '左虚右实线',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 5,
-                label: '可变导向车道线',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            }
-        ],
-        typeStyleMap: {},
-        fieldStyle: {
-            colorFieldSize: 28,
-            colorFieldIcon: 'xianyaosu'
-        },
-        styleOptionArr: [
-            { key: 'solid', icon: 'zhixian' },
-            { key: 'dashed', icon: 'xuxian' },
-            { key: 'dashed1', icon: 'xuxian1' },
-            { key: 'dashed2', icon: 'xuxian2' },
-            { key: 'dashed3', icon: 'xuxian3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '要素子类型',
-                type: 'AD_LaneDivider_Pln_Element_Subtype',
-                domType: 'RadioIconGroup'
-            }
-        ]
-    },
-    AD_LaneDivider_Plg: {
-        key: 'AD_LaneDivider_Plg',
-        label: '几何层：车道线面要素',
-        checked: false,
-        isClassify: true,
-        type: 'Polygon',
-        commonStyle: {
-            showFields: 'TYPE',
-            polygonStyle: 'solid',
-            color: 'rgb(0,255,160)',
-            opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(0,255,160)',
-                opacity: 1
-            },
-            {
-                value: 1,
-                label: '单虚线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(0,255,160)',
-                opacity: 1
-            },
-
-            {
-                value: 2,
-                label: '双虚线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(0,255,160)',
-                opacity: 1
-            },
-            {
-                value: 3,
-                label: '左实右虚线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(0,255,160)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '左虚右实线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(0,255,160)',
-                opacity: 1
-            }
-        ],
-        typeStyleMap: {},
-        fieldStyle: {
-            colorFieldSize: 26,
-            colorFieldIcon: 'mianyaosu'
-        },
-        styleOptionArr: [
-            { key: 'solid', icon: 'zhixiankuang' },
-            { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'dashed1', icon: 'xuxiankuang1' },
-            { key: 'dashed2', icon: 'xuxiankuang2' },
-            { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '要素子类型',
-                type: 'AD_LaneDivider_PLG_Element_Subtype',
-                domType: 'RadioIconGroup'
-            }
-        ]
-    },
-    AD_StopLocation_Geo: {
-        key: 'AD_StopLocation_Geo',
-        label: '几何层：停止位置',
-        checked: false,
-        isClassify: true,
-        type: 'Polygon',
-        commonStyle: {
-            showFields: 'TYPE',
-            polygonStyle: 'solid',
-            color: 'rgb(137,195,255)',
-            opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(137,195,255)',
-                opacity: 1
-            },
-            {
-                value: 1,
-                label: '停止线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(137,195,255)',
-                opacity: 1
-            },
-
-            {
-                value: 2,
-                label: '停车让行线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(137,195,255)',
-                opacity: 1
-            },
-            {
-                value: 3,
-                label: '减速让行线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(137,195,255)',
-                opacity: 1
-            }
-        ],
-        typeStyleMap: {},
-        fieldStyle: {
-            colorFieldSize: 26,
-            colorFieldIcon: 'mianyaosu'
-        },
-        styleOptionArr: [
-            { key: 'solid', icon: 'zhixiankuang' },
-            { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'dashed1', icon: 'xuxiankuang1' },
-            { key: 'dashed2', icon: 'xuxiankuang2' },
-            { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '要素子类型',
-                type: 'AD_StopLocation_GEO_Element_Subtype',
-                domType: 'RadioIconGroup'
-            }
-        ]
-    },
-    AD_Arrow_Geo: {
-        key: 'AD_Arrow_Geo',
-        label: '几何层：箭头',
-        checked: false,
-        isClassify: true,
-        type: 'Polygon',
-        commonStyle: {
-            showFields: 'TYPE',
-            polygonStyle: 'solid',
-            color: 'rgb(250,220,70)',
-            opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 1,
-                label: '直行箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-
-            {
-                value: 2,
-                label: '左转箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 3,
-                label: '右转箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '直行左转箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 5,
-                label: '直行右转箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 6,
-                label: '左转右转箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 7,
-                label: '直行左转右转箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 8,
-                label: '掉头箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 9,
-                label: '左转掉头箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 10,
-                label: '右转掉头箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 11,
-                label: '禁止标记箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 12,
-                label: '向左合流箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 13,
-                label: '向右合流箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 14,
-                label: '直行和掉头箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 15,
-                label: '直行左转掉头箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 16,
-                label: '直行右转掉头箭头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 17,
-                label: '直行左弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 18,
-                label: '直行右弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            }
-        ],
-        typeStyleMap: {},
-        fieldStyle: {
-            colorFieldSize: 26,
-            colorFieldIcon: 'mianyaosu'
-        },
-        styleOptionArr: [
-            { key: 'solid', icon: 'zhixiankuang' },
-            { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'dashed1', icon: 'xuxiankuang1' },
-            { key: 'dashed2', icon: 'xuxiankuang2' },
-            { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '要素子类型',
-                type: 'AD_Arrow_GEO_Element_Subtype',
-                domType: 'RadioIconGroup'
-            }
-        ]
-    },
-    AD_LaneMark_Geo: {
-        key: 'AD_LaneMark_Geo',
-        label: '几何层：路面车道标记',
-        checked: false,
-        isClassify: true,
-        type: 'Polygon',
-        commonStyle: {
-            showFields: 'TYPE',
-            polygonStyle: 'solid',
-            color: 'rgb(147,112,219)',
-            opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 1,
-                label: '减速警示线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 2,
-                label: '减速带',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-
-            {
-                value: 3,
-                label: '人行横道',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '禁止停车区',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 5,
-                label: '导流区',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 6,
-                label: '路口内中心圈',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 7,
-                label: '车距确认线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 8,
-                label: '地面文字数字',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 9,
-                label: '地面符号',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            }
-        ],
-        typeStyleMap: {},
-        fieldStyle: {
-            colorFieldSize: 26,
-            colorFieldIcon: 'mianyaosu'
-        },
-        styleOptionArr: [
-            { key: 'solid', icon: 'zhixiankuang' },
-            { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'dashed1', icon: 'xuxiankuang1' },
-            { key: 'dashed2', icon: 'xuxiankuang2' },
-            { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '要素子类型',
-                type: 'AD_LANEMARK_GEO_Element_Subtype',
-                domType: 'RadioIconGroup'
-            }
-        ]
-    },
-    AD_TrafficSign_Geo: {
-        key: 'AD_TrafficSign_Geo',
-        label: ' 几何层：交通标志牌',
-        checked: false,
-        isClassify: true,
-        type: 'Polygon',
-        commonStyle: {
-            showFields: 'TYPE',
-            polygonStyle: 'solid',
-            color: 'rgb(70,109,255)',
-            opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '其他警告标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 1,
-                label: '建议速度',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-
-            {
-                value: 2,
-                label: '其他禁令标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 3,
-                label: '停车让行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '减速让行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 5,
-                label: '会车让行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 6,
-                label: '禁止通行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 7,
-                label: '禁止驶入',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 8,
-                label: '禁止机动车驶入',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 9,
-                label: '禁止向左转弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 10,
-                label: '禁止向右转弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 11,
-                label: '禁止直行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 12,
-                label: '禁止向左向右转弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 13,
-                label: '禁止直行和向左转弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 14,
-                label: '禁止直行和向右转弯',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 15,
-                label: '禁止掉头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 16,
-                label: '禁止超车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 17,
-                label: '解除禁止超车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 18,
-                label: '禁止停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 19,
-                label: '禁止长时停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 20,
-                label: '限制速度',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 21,
-                label: '解除限制速度',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 22,
-                label: '区域禁止-禁止长时停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 23,
-                label: '区域禁止解除-解除禁止长时停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 24,
-                label: '区域禁止-禁止停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 25,
-                label: '区域禁止解除-解除禁止停车',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 26,
-                label: '区域禁止-速度限制',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 27,
-                label: '区域禁止解除-解除速度限制',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 28,
-                label: '其他指示类标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 29,
-                label: '最低限速',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 30,
-                label: '车道行驶方向-直行',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 31,
-                label: '允许掉头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 32,
-                label: '车道行驶方向-左转',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 33,
-                label: '车道行驶方向-右转',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 34,
-                label: '车道行驶方向-直行和左转',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 35,
-                label: '车道行驶方向-直行和右转',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 36,
-                label: '车道行驶方向-左转和掉头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 37,
-                label: '车道行驶方向-掉头',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 38,
-                label: '车道行驶方向-其他',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 39,
-                label: '区间测速起点',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 40,
-                label: '区间测速终点',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 41,
-                label: '区间测速起点和距离',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 42,
-                label: '表示时间标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 43,
-                label: '特殊天气辅助标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 44,
-                label: '特殊路段辅助标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 45,
-                label: '其他标志牌',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 46,
-                label: '动态限速标志',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 47,
-                label: '其他电子标志牌',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            },
-            {
-                value: 48,
-                label: '未定义',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(70,109,255)',
-                opacity: 1
-            }
-        ],
-        typeStyleMap: {},
-        fieldStyle: {
-            colorFieldSize: 26,
-            colorFieldIcon: 'mianyaosu'
-        },
-        styleOptionArr: [
-            { key: 'solid', icon: 'zhixiankuang' },
-            { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'dashed1', icon: 'xuxiankuang1' },
-            { key: 'dashed2', icon: 'xuxiankuang2' },
-            { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '要素子类型',
-                type: 'AD_TRAFFICSIGN_GEO_Element_Subtype',
-                domType: 'RadioIconGroup'
-            }
-        ]
-    },
     AD_Text: {
         key: 'AD_Text',
         label: '地面文字符号',
@@ -10190,58 +9038,176 @@ const CHECK_VECTOR_CONFIG_MAP = {
             }
         ]
     },
-    AD_TrafficLight: {
-        key: 'AD_TrafficLight',
-        label: '交通信号灯',
+    AD_LaneDivider_Pln: {
+        key: 'AD_LaneDivider_Pln',
+        label: '几何层：车道线线要素',
+        checked: false,
+        isClassify: true,
+        type: 'Line',
+        commonStyle: {
+            showFields: 'FEAT_TYPE',
+            lineStyle: 'solid',
+            color: 'rgb(255,255,255)',
+            opacity: 1,
+            arrow: true,
+            point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
+            pointSize: 0.1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '未定义',
+                showFields: 'FEAT_TYPE',
+                lineStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1,
+                arrow: true,
+                point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
+            },
+            {
+                value: 1,
+                label: '单实线',
+                showFields: 'FEAT_TYPE',
+                lineStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1,
+                arrow: true,
+                point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
+            },
+            {
+                value: 2,
+                label: '双实线',
+                showFields: 'FEAT_TYPE',
+                lineStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1,
+                arrow: true,
+                point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
+            },
+            {
+                value: 3,
+                label: '左实右虚线',
+                showFields: 'FEAT_TYPE',
+                lineStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1,
+                arrow: true,
+                point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
+            },
+            {
+                value: 4,
+                label: '左虚右实线',
+                showFields: 'FEAT_TYPE',
+                lineStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1,
+                arrow: true,
+                point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
+            },
+            {
+                value: 5,
+                label: '可变导向车道线',
+                showFields: 'FEAT_TYPE',
+                lineStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1,
+                arrow: true,
+                point: true,
+                pointEnabledStatus: true,
+                arrowEnabledStatus: true,
+                pointSize: 0.1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'xianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixian' },
+            { key: 'dashed', icon: 'xuxian' },
+            { key: 'dashed1', icon: 'xuxian1' },
+            { key: 'dashed2', icon: 'xuxian2' },
+            { key: 'dashed3', icon: 'xuxian3' }
+        ],
+        typeArr: [
+            {
+                key: 'FEAT_TYPE',
+                name: '要素子类型',
+                type: 'AD_LaneDivider_Pln_Element_Subtype',
+                domType: 'RadioIconGroup'
+            }
+        ]
+    },
+    AD_LaneDivider_Plg: {
+        key: 'AD_LaneDivider_Plg',
+        label: '几何层：车道线面要素',
         checked: false,
         isClassify: true,
         type: 'Polygon',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'FEAT_TYPE',
             polygonStyle: 'solid',
-            color: 'rgb(231,120,0)',
+            color: 'rgb(0,255,160)',
             opacity: 1
         },
         typeStyle: [
             {
                 value: 0,
                 label: '未定义',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
+                color: 'rgb(0,255,160)',
                 opacity: 1
             },
             {
                 value: 1,
-                label: '普通交通信号灯',
-                showFields: 'TYPE',
+                label: '单虚线',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
+                color: 'rgb(0,255,160)',
                 opacity: 1
             },
 
             {
                 value: 2,
-                label: '方向指示信号灯',
-                showFields: 'TYPE',
+                label: '双虚线',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
+                color: 'rgb(0,255,160)',
                 opacity: 1
             },
             {
                 value: 3,
-                label: '铁路平交路口信号灯',
-                showFields: 'TYPE',
+                label: '左实右虚线',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
+                color: 'rgb(0,255,160)',
                 opacity: 1
             },
             {
                 value: 4,
-                label: '其他',
-                showFields: 'TYPE',
+                label: '左虚右实线',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
-                color: 'rgb(231,120,0)',
+                color: 'rgb(0,255,160)',
                 opacity: 1
             }
         ],
@@ -10259,9 +9225,381 @@ const CHECK_VECTOR_CONFIG_MAP = {
         ],
         typeArr: [
             {
-                key: 'TYPE',
+                key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_TRAFFICLIGHT_GEO_Element_Subtype',
+                type: 'AD_LaneDivider_PLG_Element_Subtype',
+                domType: 'RadioIconGroup'
+            }
+        ]
+    },
+    AD_StopLocation_Geo: {
+        key: 'AD_StopLocation_Geo',
+        label: '几何层：停止位置',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'FEAT_TYPE',
+            polygonStyle: 'solid',
+            color: 'rgb(137,195,255)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '未定义',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(137,195,255)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '停止线',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(137,195,255)',
+                opacity: 1
+            },
+
+            {
+                value: 2,
+                label: '停车让行线',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(137,195,255)',
+                opacity: 1
+            },
+            {
+                value: 3,
+                label: '减速让行线',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(137,195,255)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'FEAT_TYPE',
+                name: '要素子类型',
+                type: 'AD_StopLocation_GEO_Element_Subtype',
+                domType: 'RadioIconGroup'
+            }
+        ]
+    },
+    AD_Arrow_Geo: {
+        key: 'AD_Arrow_Geo',
+        label: '几何层：箭头',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'FEAT_TYPE',
+            polygonStyle: 'solid',
+            color: 'rgb(250,220,70)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '未定义',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '直行箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+
+            {
+                value: 2,
+                label: '左转箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 3,
+                label: '右转箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 4,
+                label: '直行左转箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 5,
+                label: '直行右转箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 6,
+                label: '左转右转箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 7,
+                label: '直行左转右转箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 8,
+                label: '掉头箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 9,
+                label: '左转掉头箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 10,
+                label: '右转掉头箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 11,
+                label: '禁止标记箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 12,
+                label: '向左合流箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 13,
+                label: '向右合流箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 14,
+                label: '直行和掉头箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 15,
+                label: '直行左转掉头箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 16,
+                label: '直行右转掉头箭头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 17,
+                label: '直行左弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            },
+            {
+                value: 18,
+                label: '直行右弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(250,220,70)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'FEAT_TYPE',
+                name: '要素子类型',
+                type: 'AD_Arrow_GEO_Element_Subtype',
+                domType: 'RadioIconGroup'
+            }
+        ]
+    },
+    AD_LaneMark_Geo: {
+        key: 'AD_LaneMark_Geo',
+        label: '几何层：路面车道标记',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'FEAT_TYPE',
+            polygonStyle: 'solid',
+            color: 'rgb(147,112,219)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '未定义',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '减速警示线',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 2,
+                label: '减速带',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+
+            {
+                value: 3,
+                label: '人行横道',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 4,
+                label: '禁止停车区',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 5,
+                label: '导流区',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 6,
+                label: '路口内中心圈',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 7,
+                label: '车距确认线',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 8,
+                label: '地面文字数字',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            },
+            {
+                value: 9,
+                label: '地面符号',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(147,112,219)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'FEAT_TYPE',
+                name: '要素子类型',
+                type: 'AD_LANEMARK_GEO_Element_Subtype',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -10309,6 +9647,434 @@ const CHECK_VECTOR_CONFIG_MAP = {
             { key: 'dashed3', icon: 'xuxian3' }
         ]
     },
+    AD_TrafficSign_Geo: {
+        key: 'AD_TrafficSign_Geo',
+        label: ' 几何层：交通标志牌',
+        checked: false,
+        isClassify: true,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'FEAT_TYPE',
+            polygonStyle: 'solid',
+            color: 'rgb(70,109,255)',
+            opacity: 1
+        },
+        typeStyle: [
+            {
+                value: 0,
+                label: '其他警告标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 1,
+                label: '建议速度',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+
+            {
+                value: 2,
+                label: '其他禁令标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 3,
+                label: '停车让行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 4,
+                label: '减速让行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 5,
+                label: '会车让行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 6,
+                label: '禁止通行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 7,
+                label: '禁止驶入',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 8,
+                label: '禁止机动车驶入',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 9,
+                label: '禁止向左转弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 10,
+                label: '禁止向右转弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 11,
+                label: '禁止直行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 12,
+                label: '禁止向左向右转弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 13,
+                label: '禁止直行和向左转弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 14,
+                label: '禁止直行和向右转弯',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 15,
+                label: '禁止掉头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 16,
+                label: '禁止超车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 17,
+                label: '解除禁止超车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 18,
+                label: '禁止停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 19,
+                label: '禁止长时停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 20,
+                label: '限制速度',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 21,
+                label: '解除限制速度',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 22,
+                label: '区域禁止-禁止长时停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 23,
+                label: '区域禁止解除-解除禁止长时停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 24,
+                label: '区域禁止-禁止停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 25,
+                label: '区域禁止解除-解除禁止停车',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 26,
+                label: '区域禁止-速度限制',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 27,
+                label: '区域禁止解除-解除速度限制',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 28,
+                label: '其他指示类标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 29,
+                label: '最低限速',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 30,
+                label: '车道行驶方向-直行',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 31,
+                label: '允许掉头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 32,
+                label: '车道行驶方向-左转',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 33,
+                label: '车道行驶方向-右转',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 34,
+                label: '车道行驶方向-直行和左转',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 35,
+                label: '车道行驶方向-直行和右转',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 36,
+                label: '车道行驶方向-左转和掉头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 37,
+                label: '车道行驶方向-掉头',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 38,
+                label: '车道行驶方向-其他',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 39,
+                label: '区间测速起点',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 40,
+                label: '区间测速终点',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 41,
+                label: '区间测速起点和距离',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 42,
+                label: '表示时间标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 43,
+                label: '特殊天气辅助标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 44,
+                label: '特殊路段辅助标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 45,
+                label: '其他标志牌',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 46,
+                label: '动态限速标志',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 47,
+                label: '其他电子标志牌',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            },
+            {
+                value: 48,
+                label: '未定义',
+                showFields: 'FEAT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(70,109,255)',
+                opacity: 1
+            }
+        ],
+        typeStyleMap: {},
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ],
+        typeArr: [
+            {
+                key: 'FEAT_TYPE',
+                name: '要素子类型',
+                type: 'AD_TRAFFICSIGN_GEO_Element_Subtype',
+                domType: 'RadioIconGroup'
+            }
+        ]
+    },
     AD_TrafficLight_Geo: {
         key: 'AD_TrafficLight_Geo',
         label: '几何层：交通信号灯',
@@ -10316,7 +10082,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
         isClassify: true,
         type: 'Polygon',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'FEAT_TYPE',
             polygonStyle: 'solid',
             color: 'rgb(231,120,0)',
             opacity: 1
@@ -10325,7 +10091,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 value: 0,
                 label: '未定义',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(231,120,0)',
                 opacity: 1
@@ -10333,7 +10099,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 value: 1,
                 label: '普通交通信号灯',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(231,120,0)',
                 opacity: 1
@@ -10342,7 +10108,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 value: 2,
                 label: '方向指示信号灯',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(231,120,0)',
                 opacity: 1
@@ -10350,7 +10116,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 value: 3,
                 label: '铁路平交路口信号灯',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(231,120,0)',
                 opacity: 1
@@ -10358,7 +10124,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 value: 4,
                 label: '其他',
-                showFields: 'TYPE',
+                showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(231,120,0)',
                 opacity: 1
@@ -10378,7 +10144,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
         ],
         typeArr: [
             {
-                key: 'TYPE',
+                key: 'FEAT_TYPE',
                 name: '要素子类型',
                 type: 'AD_TRAFFICLIGHT_GEO_Element_Subtype',
                 domType: 'RadioIconGroup'
@@ -10432,6 +10198,13 @@ export const CONFIGURABLE_LAYERS = [
     'AD_Text',
     'AD_TrafficSign',
     'AD_TrafficLight',
-    'AD_RS_Barrier'
-    // 'AD_LaneDivider_Pln'
+    'AD_RS_Barrier',
+    'AD_LaneDivider_Pln',
+    'AD_LaneDivider_Plg',
+    'AD_StopLocation_Geo',
+    'AD_Arrow_Geo',
+    'AD_LaneMark_Geo',
+    'AD_Pole_Geo',
+    'AD_TrafficSign_Geo',
+    'AD_TrafficLight_Geo'
 ];
