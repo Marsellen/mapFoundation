@@ -5,6 +5,7 @@ import RadioIconGroup from 'src/components/RadioIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
+import AdDateInput from 'src/components/Form/AdDateInput';
 import { getValidator } from 'src/utils/form/validator';
 import Filter from 'src/utils/table/filter';
 import SearchIconGroup from 'src/components/SearchIconGroup';
@@ -155,9 +156,10 @@ class BasicAttributesForm extends React.Component {
 
     handleChange = (val, filed, name) => {
         const { link } = filed;
-        if (!link) return;
-        const linkData = link[val] || link.default || null;
-        linkData && this.props.form.setFieldsValue({ [name]: linkData });
+        if (link) {
+            const linkData = link[val] || link.default || null;
+            linkData && this.props.form.setFieldsValue({ [name]: linkData });
+        }
     };
 
     getArrayOption = (value, arr) => {
@@ -310,9 +312,7 @@ class BasicAttributesForm extends React.Component {
                     })(
                         <AdInputNumber
                             min={0}
-                            max={100}
-                            formatter={value => `${value}%`}
-                            parser={value => value.replace('%', '')}
+                            max={1}
                             onChange={val => this.handleChange(val, item, name)}
                         />
                     )
@@ -320,6 +320,31 @@ class BasicAttributesForm extends React.Component {
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
                     </span>
+                )}
+            </Form.Item>
+        );
+    };
+
+    renderAdDateInput = (item, index, name) => {
+        const { form, AttributeStore } = this.props;
+        const { readonly } = AttributeStore;
+
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
+                {!readonly ? (
+                    form.getFieldDecorator(name + '.' + item.key, {
+                        rules: [
+                            {
+                                required: item.required,
+                                message: `${item.name}必填`
+                            },
+                            ...this.getValidatorSetting(item.validates)
+                        ],
+                        initialValue: item.value,
+                        validateTrigger: 'onBlur'
+                    })(<AdDateInput />)
+                ) : (
+                    <span className="ant-form-text">{item.value}</span>
                 )}
             </Form.Item>
         );
