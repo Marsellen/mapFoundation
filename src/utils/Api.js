@@ -24,9 +24,9 @@ export function StoreApiPath(url) {
 
 export function QuerydbApiPath(url) {
     if (/^\//.test(url)) {
-        return `/gateway/querydb${url}`;
+        return `/gateway/querydb_new${url}`;
     } else {
-        return `/gateway/querydb/${url}`;
+        return `/gateway/querydb_new/${url}`;
     }
 }
 
