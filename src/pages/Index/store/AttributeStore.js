@@ -18,7 +18,6 @@ import { isManbuildTask } from 'src/utils/taskUtils';
 import _ from 'lodash';
 import { message } from 'antd';
 import RenderModeStore from './RenderModeStore';
-import appStore from 'src/store/appStore';
 
 const LOAD_DATA_MESSAGE = '加载数据中...';
 
@@ -73,19 +72,12 @@ class AttributeStore {
         return this.model;
     };
 
-    @action fetchAttributes = () => {
-        const qualityCreatedPoint = appStore.loginUser.roleCode === 'quality'; //质检员登录新建标记点
-        if (
-            qualityCreatedPoint &&
-            this.model.data.properties.ID &&
-            !this.model.data.properties.QC_PERSON
-        ) {
-            this.model.data.properties.QC_PERSON = appStore.loginUser.name;
-        }
-        this.attributes = modelFactory.getTabelData(
+    @action fetchAttributes = (extraAttrubutes = []) => {
+        let baseAttributes = modelFactory.getTabelData(
             this.model.layerName,
             this.model.data.properties
         );
+        this.attributes = (baseAttributes || []).concat(extraAttrubutes);
     };
 
     fetchRels = flow(function* () {
