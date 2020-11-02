@@ -759,6 +759,9 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_Text: {
         CONT_TYPE: 0,
+        SPEED: 0,
+        TIMEDOM: '',
+        VEH_LMT: 0,
         TEXT: ''
     },
     AD_TrafficSign: {
@@ -969,7 +972,7 @@ export const TABLE_DATA_MAP = {
             key: 'SPEED',
             name: '限速值',
             domType: 'InputNumber',
-            validates: 'Numeric|range|1|150'
+            validates: 'Numeric|range|0|150'
         },
         {
             key: 'TIMEDOM',

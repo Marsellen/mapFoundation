@@ -302,17 +302,26 @@ export const COLUMNS_CONFIG = {
             title: '用户编号'
         },
         {
-            dataIndex: 'TYPE',
-            title: '文字符号类型',
-            filterBy: 'typeFilter|AD_TEXT_TYPE'
+            dataIndex: 'CONT_TYPE',
+            title: '文本语义类型',
+            filterBy: 'typeFilter|AD_TEXT_CONT_TYPE'
         },
         {
-            dataIndex: 'VALUE',
-            title: '地面文字内容'
+            dataIndex: 'SPEED',
+            title: '限速值'
         },
         {
-            dataIndex: 'LANE_ID',
-            title: '关联车道中心线用户编号'
+            dataIndex: 'TIMEDOM',
+            title: '限制时间描述'
+        },
+        {
+            dataIndex: 'VEH_LMT',
+            title: '车辆限制',
+            filterBy: 'typeFilter|AD_TEXT_VEH_LMT'
+        },
+        {
+            dataIndex: 'TEXT',
+            title: '其他文本描述'
         },
         {
             dataIndex: 'UPD_STAT',
