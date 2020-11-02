@@ -191,15 +191,6 @@ export const REL_SPEC_CONFIG = [
         relObjType: 'LIGHT'
     },
     {
-        source: 'AD_Text',
-        objKeyName: 'LANE_ID',
-        relObjKeyName: 'TEXT_ID',
-        objSpec: 'AD_Lane',
-        relObjSpec: 'AD_Text',
-        objType: 'LANE',
-        relObjType: 'TEXT'
-    },
-    {
         source: 'AD_LaneAttrPoint',
         objKeyName: 'LAP_ID',
         relObjKeyName: 'ROAD_ID',
