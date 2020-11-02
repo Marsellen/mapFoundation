@@ -69,7 +69,9 @@ export const VECTOR_FILES = [
     'AD_StopLocation.geojson',
     'AD_LaneMark_Plg.geojson',
     'AD_TrafficLight.geojson',
-    'AD_RS_Barrier.geojson'
+    'AD_RS_Barrier.geojson',
+    'AD_Text.geojson',
+    'AD_Trafficsign.geojson'
 ];
 
 //任务文件-关联属性文件
@@ -87,5 +89,6 @@ export const REL_FILES = [
     'AD_Lane_Con.geojson',
     'AD_StopL_Lane_Rel.geojson',
     'AD_Plg_Lane_Rel.geojson',
-    'AD_Light_Lane_Rel.geojson'
+    'AD_Light_Lane_Rel.geojson',
+    'AD_Sign_Lane_Rel.geojson'
 ];
