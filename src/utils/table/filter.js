@@ -82,8 +82,8 @@ class Filter {
 
         return value
             .map(
-                ({ SIGN_NO, SIGN_TYPE, CONT_TYPE, CONT_VALUE, TIMEDOM }) =>
-                    `编号：${SIGN_NO}，类型：${this.typeFilter(
+                ({ SIGN_TYPE, CONT_TYPE, CONT_VALUE, TIMEDOM }) =>
+                    `类型：${this.typeFilter(
                         'AD_TS_CONTENT_SIGN_TYPE',
                         SIGN_TYPE
                     )}，语义类型：${this.typeFilter(
