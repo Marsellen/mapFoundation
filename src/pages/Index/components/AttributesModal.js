@@ -11,7 +11,6 @@ import { logDecorator } from 'src/utils/decorator';
 import AttributeStore from 'src/pages/Index/store/AttributeStore';
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
-import appStore from 'src/store/appStore';
 import 'less/components/attributes-modal.less';
 
 @Form.create()
@@ -89,22 +88,6 @@ class AttributesModal extends React.Component {
     @logDecorator({ operate: '修改要素属性' })
     async submit(values) {
         try {
-            const roleCode = appStore.loginUser.roleCode;
-            const name = appStore.loginUser.name;
-            const validStatus = [4, 5]; //4返修，5返工
-            if (roleCode === 'quality' && values.attributes.ID) {
-                //登录账号为质检员且保存的要素是标记图层时
-                values.attributes.QC_PERSON = name; //点击保存直接赋值当前账号
-            }
-            if (
-                roleCode === 'producer' &&
-                validStatus.includes(TaskStore.activeTask.manualStatus) &&
-                values.attributes.ID
-            ) {
-                //登录账号为作业员且是返修任务时且保存要素为标记图层时
-                values.attributes.FIX_PERSON = name; //点击保存直接赋值当前账号
-            }
-
             AttributeStore.showLoading('保存数据...');
             let log = await AttributeStore.submit(values, TaskStore.activeTask);
             await updateFeatures(log);
