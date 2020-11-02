@@ -436,9 +436,9 @@ export const TYPE_SELECT_OPTION_MAP = {
     ],
     AD_STOPLOCTION_GEO_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi', abbreviation: '0' },
-        { value: 1, label: '停止线', icon: 'tingzhixian', abbreviation: '停' },
-        { value: 2, label: '停车让行线', icon: 'tingcherangxingxian', abbreviation: '停让' },
-        { value: 3, label: '减速让行线', icon: 'jiansurangxingxian', abbreviation: '减让' }
+        { value: 2001, label: '停止线', icon: 'tingzhixian', abbreviation: '停' },
+        { value: 2002, label: '停车让行线', icon: 'tingcherangxingxian', abbreviation: '停让' },
+        { value: 2003, label: '减速让行线', icon: 'jiansurangxingxian', abbreviation: '减让' }
     ],
     AD_ARROW_GEO_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi' },
@@ -623,7 +623,7 @@ export const TYPE_SELECT_OPTION_MAP = {
                 label: '禁止长时停车',
                 icon: 'jinzhichangshitingche'
             },
-            { value: 220, label: '解除限制速度', icon: 'jiechuxinazhisudu' },
+            { value: 220, label: '解除限制速度', icon: 'jiechuxianzhisudu' },
             {
                 value: 223,
                 label: '区域禁止—禁止长时停车',
@@ -767,7 +767,7 @@ export const DEFAULT_PROPERTIES_MAP = {
     AD_TrafficLight: {},
     AD_TrafficSign: {
         SIGN_STYLE: 1,
-        OBJ_FUNC: [{ SIGN_NO: 1, SIGN_TYPE: 0, CONT_TYPE: 0, CONT_VALUE: 0, TIMEDOM: '' }]
+        OBJ_FUNC: [{ SIGN_TYPE: 0, CONT_TYPE: 0, CONT_VALUE: 0, TIMEDOM: '' }]
     },
     AD_LaneDivider: {
         TYPE: 1,

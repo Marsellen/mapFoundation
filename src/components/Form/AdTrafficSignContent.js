@@ -74,27 +74,6 @@ export default function AdTrafficSignContent(props) {
             {contents.map((content, index) => (
                 <div key={index} className="content-box">
                     <Form.Item
-                        key={`SIGN_NO-${index}-${radomKey}`}
-                        label="交通标志牌编号"
-                        {...formItemLayout}
-                    >
-                        {!readonly ? (
-                            form.getFieldDecorator(`${name}.${key}[${index}].SIGN_NO`, {
-                                initialValue: content.SIGN_NO,
-                                rules: [
-                                    {
-                                        required: true,
-                                        message: '交通标志牌编号必填,请输入合法的数字'
-                                    }
-                                ]
-                            })(<Input />)
-                        ) : (
-                            <span className="ant-form-text">
-                                {isPresent(content.SIGN_NO) ? content.SIGN_NO : '--'}
-                            </span>
-                        )}
-                    </Form.Item>
-                    <Form.Item
                         key={`SIGN_TYPE-${index}-${radomKey}`}
                         label="交通标志牌类型"
                         className="inline-search-icon-group"
