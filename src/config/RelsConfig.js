@@ -173,6 +173,15 @@ export const REL_SPEC_CONFIG = [
         relObjType: 'PLG'
     },
     {
+        source: 'AD_Sign_Lane_Rel',
+        objKeyName: 'LANE_ID',
+        relObjKeyName: 'SIGN_ID',
+        objSpec: 'AD_Lane',
+        relObjSpec: 'AD_TrafficSign',
+        objType: 'LANE',
+        relObjType: 'SIGN'
+    },
+    {
         source: 'AD_Light_Lane_Rel',
         objKeyName: 'LANE_ID',
         relObjKeyName: 'LIGHT_ID',
