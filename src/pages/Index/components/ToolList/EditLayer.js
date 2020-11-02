@@ -5,10 +5,11 @@ import {
     DATA_LAYER_MAP,
     TOP_VIEW_DISABLED_LAYERS,
     IMP_RECOGNITION_DISABLED_LAYERS,
-    DATA_LAYER_STRATIFICATION,
     LAYER_STRATIFICATION_MAP
 } from 'src/config/DataLayerConfig';
 import ToolIcon from 'src/components/ToolIcon';
+import { getEditableLayerConfig } from 'src/utils/taskUtils';
+
 import 'src/assets/less/home.less';
 
 @inject('DataLayerStore')
@@ -117,16 +118,14 @@ class EditLayerPicker extends React.Component {
     }
 
     renderLayersContent() {
-        return Object.keys(DATA_LAYER_STRATIFICATION).map(key => {
+        const layerConfig = getEditableLayerConfig();
+        return Object.keys(layerConfig).map(key => {
             return (
                 <div key={key} className="flex flex-column">
                     <label style={{ fontWeight: 'bold', lineHeight: '30px' }}>
                         {LAYER_STRATIFICATION_MAP[key]}
                     </label>
-                    <List
-                        dataSource={DATA_LAYER_STRATIFICATION[key]}
-                        renderItem={this.renderLayerList}
-                    />
+                    <List dataSource={layerConfig[key]} renderItem={this.renderLayerList} />
                 </div>
             );
         });

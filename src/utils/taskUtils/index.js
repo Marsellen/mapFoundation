@@ -9,6 +9,10 @@ import editLog from 'src/models/editLog';
 import TaskService from 'src/services/TaskService';
 import { throttle } from '../utils';
 import sysProperties from 'src/models/sysProperties';
+import {
+    DATA_LAYER_STRATIFICATION,
+    RECOGNITION_DATA_LAYER_STRATIFICATION
+} from 'src/config/DataLayerConfig';
 
 const SECEND_PATH = '13_ED_DATA';
 const THIRD_PATH = '1301_RAW_DATA';
@@ -157,4 +161,12 @@ export const windowObserver = () => {
     body.addEventListener('keydown', eventFun);
     body.addEventListener('mousemove', eventFun);
     body.addEventListener('mousewheel', eventFun);
+};
+
+export const getEditableLayerConfig = () => {
+    if (isManbuildTask()) {
+        return DATA_LAYER_STRATIFICATION;
+    } else {
+        return RECOGNITION_DATA_LAYER_STRATIFICATION;
+    }
 };
