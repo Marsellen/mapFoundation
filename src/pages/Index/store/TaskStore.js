@@ -518,10 +518,28 @@ class TaskStore {
         }
     };
 
+    completeData = (data, typeName) => {
+        this.taskFileMap[typeName].forEach(fileName => {
+            const layerName = fileName.match(/\/([^/]+)\.geojson/)[1];
+            const isInclude = data.features.find(item => item.name === layerName);
+            if (!isInclude) {
+                data.features.push({
+                    features: [],
+                    name: layerName,
+                    type: 'FeatureCollection'
+                });
+            }
+        });
+        return data;
+    };
+
     submit = flow(function* () {
         let vectorData = getAllVectorData(true);
         let relData = yield getAllRelData(true);
         let attrData = yield getAllAttrData(true);
+        relData = this.completeData(relData, 'rels');
+        attrData = this.completeData(attrData, 'attrs');
+
         let path = getEditPath(this.activeTask);
         let saveData = {
             saveList: [
