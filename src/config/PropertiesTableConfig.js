@@ -312,11 +312,11 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'TIMEDOM',
-            title: '限制时间描述'
+            title: '时间限制描述'
         },
         {
             dataIndex: 'VEH_LMT',
-            title: '车辆限制',
+            title: '车辆限制描述',
             filterBy: 'typeFilter|AD_TEXT_VEH_LMT'
         },
         {
