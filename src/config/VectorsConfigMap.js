@@ -1943,7 +1943,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LaneDivider_Pln_Element_Subtype',
+                type: 'AD_LANE_DIVIDER_PLN_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2019,7 +2019,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LaneDivider_PLG_Element_Subtype',
+                type: 'AD_LANE_DIVIDER_PLG_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2087,7 +2087,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_StopLocation_GEO_Element_Subtype',
+                type: 'AD_STOPLOCATION_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2275,7 +2275,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_Arrow_GEO_Element_Subtype',
+                type: 'AD_ARROW_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2391,7 +2391,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LANEMARK_GEO_Element_Subtype',
+                type: 'AD_LANEMARK_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2862,7 +2862,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_TRAFFICSIGN_GEO_Element_Subtype',
+                type: 'AD_TRAFFICSIGN_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2938,7 +2938,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_TRAFFICLIGHT_GEO_Element_Subtype',
+                type: 'AD_TRAFFICLIGHT_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -5570,7 +5570,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LaneDivider_Pln_Element_Subtype',
+                type: 'AD_LANE_DIVIDER_PLN_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -5646,7 +5646,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LaneDivider_PLG_Element_Subtype',
+                type: 'AD_LANE_DIVIDER_PLG_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -5714,7 +5714,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_StopLocation_GEO_Element_Subtype',
+                type: 'AD_STOPLOCATION_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -5902,7 +5902,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_Arrow_GEO_Element_Subtype',
+                type: 'AD_ARROW_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -6018,7 +6018,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LANEMARK_GEO_Element_Subtype',
+                type: 'AD_LANEMARK_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -6489,7 +6489,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_TRAFFICSIGN_GEO_Element_Subtype',
+                type: 'AD_TRAFFICSIGN_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -6565,7 +6565,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_TRAFFICLIGHT_GEO_Element_Subtype',
+                type: 'AD_TRAFFICLIGHT_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -9199,7 +9199,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LaneDivider_Pln_Element_Subtype',
+                type: 'AD_LANE_DIVIDER_PLN_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -9275,7 +9275,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LaneDivider_PLG_Element_Subtype',
+                type: 'AD_LANE_DIVIDER_PLG_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -9343,7 +9343,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_StopLocation_GEO_Element_Subtype',
+                type: 'AD_STOPLOCATION_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -9530,7 +9530,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_Arrow_GEO_Element_Subtype',
+                type: 'AD_ARROW_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -9646,7 +9646,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LANEMARK_GEO_Element_Subtype',
+                type: 'AD_LANEMARK_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -10117,7 +10117,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_TRAFFICSIGN_GEO_Element_Subtype',
+                type: 'AD_TRAFFICSIGN_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -10193,7 +10193,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_TRAFFICLIGHT_GEO_Element_Subtype',
+                type: 'AD_TRAFFICLIGHT_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
