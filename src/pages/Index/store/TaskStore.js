@@ -144,19 +144,23 @@ class TaskStore {
         }
     });
 
+    // getActiveTask = () => {
+    //     switch (this.activeTask.task_sub_type) {
+    //         case 'local':
+    //             return new LocalTask(this.activeTask);
+    //         case 100: //底图新增
+    //             return new AddTask(this.activeTask);
+    //         case 101: //底图更新
+    //             return new UpdateTask(this.activeTask);
+    //         case 102: //单点问题修正
+    //             return new ModifyTask(this.activeTask);
+    //         default:
+    //             return new AddTask(this.activeTask);
+    //     }
+    // };
+
     getActiveTask = () => {
-        switch (this.activeTask.task_sub_type) {
-            case 'local':
-                return new LocalTask(this.activeTask);
-            case 100: //底图新增
-                return new AddTask(this.activeTask);
-            case 101: //底图更新
-                return new UpdateTask(this.activeTask);
-            case 102: //单点问题修正
-                return new ModifyTask(this.activeTask);
-            default:
-                return new AddTask(this.activeTask);
-        }
+        return new AddTask(this.activeTask);
     };
 
     // 任务切换
