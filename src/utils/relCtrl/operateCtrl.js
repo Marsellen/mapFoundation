@@ -672,7 +672,9 @@ const relDataFormat = (spec, properties) => {
             relObjSpec,
             extraInfo: {
                 REL_ID,
-                CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec]
+                CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec],
+                COLL_TIME: '',
+                MAKE_TIME: ''
             }
         };
     });
@@ -730,7 +732,9 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
                     objSpec,
                     relObjSpec,
                     extraInfo: {
-                        CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec]
+                        CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec],
+                        COLL_TIME: '',
+                        MAKE_TIME: ''
                     }
                 });
             }
@@ -864,17 +868,13 @@ const calcFeaturesLog = (features, allFeatureOptions) => {
     //更新新增要素（带关联关系）的UPD_STAT字段
     newWithRelFeatures = newWithRelFeatures.map(feature => {
         return completeProperties(feature, {
-            UPD_STAT: '{"GEOMETRY":"ADD","RELATION":"MOD"}',
-            COLL_TIME: '',
-            MAKE_TIME: ''
+            UPD_STAT: '{"GEOMETRY":"ADD","RELATION":"MOD"}'
         });
     });
     //更新新增要素（不带关联关系）的UPD_STAT字段
     newWithoutRelFeatures = newWithoutRelFeatures.map(feature => {
         return completeProperties(feature, {
-            UPD_STAT: '{"GEOMETRY":"ADD"}',
-            COLL_TIME: '',
-            MAKE_TIME: ''
+            UPD_STAT: '{"GEOMETRY":"ADD"}'
         });
     });
     //返回features，features[0]是该操作涉及到的所有要素，features[1]是该操作新生成的要素

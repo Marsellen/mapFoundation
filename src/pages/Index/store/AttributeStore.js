@@ -320,6 +320,8 @@ class AttributeStore {
             properties = properties || this.model.data.properties;
             value[MainFId] = properties[MainFId];
             value.CONFIDENCE = DEFAULT_CONFIDENCE_MAP[key];
+            value.COLL_TIME = '';
+            value.MAKE_TIME = '';
             let record = attrFactory.dataToTable(value, key);
             this.attrs[key] = this.attrs[key] || [];
             this.attrs[key].push(record);

@@ -209,6 +209,8 @@ export const completeProperties = (feature, config) => {
     if (!_feature.data.properties.CONFIDENCE) {
         _feature = completeConfidence(_feature);
     }
+    _feature.data.properties.COLL_TIME = '';
+    _feature.data.properties.MAKE_TIME = '';
     return _feature;
 };
 

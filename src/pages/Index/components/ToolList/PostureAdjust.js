@@ -170,6 +170,8 @@ class PostureAdjust extends React.Component {
             // 置信度维护
             if (!data.data.properties.CONFIDENCE) {
                 data.data.properties.CONFIDENCE = DEFAULT_CONFIDENCE_MAP[data.layerName] || '{}';
+                data.data.properties.COLL_TIME = '';
+                data.data.properties.MAKE_TIME = '';
             }
         }
 
