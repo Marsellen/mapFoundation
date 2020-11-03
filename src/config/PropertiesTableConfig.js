@@ -399,41 +399,42 @@ export const COLUMNS_CONFIG = {
         { dataIndex: 'REL_ID', title: '用户编号' },
         { dataIndex: 'FROM_ROAD', title: '进入道路用户编号' },
         { dataIndex: 'TO_ROAD', title: '退出道路用户编号' },
-        { dataIndex: 'UPD_STAT', title: '更新标识' }
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_Lane_Con: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'REL_ID', title: '用户编号' },
         { dataIndex: 'FROM_LANE', title: '进入道路用户编号' },
         { dataIndex: 'TO_LANE', title: '退出道路用户编号' },
-        { dataIndex: 'UPD_STAT', title: '更新标识' }
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_StopL_Lane_Rel: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'REL_ID', title: '用户编号' },
         { dataIndex: 'STOPL_ID', title: '关联停止位置用户编号' },
         { dataIndex: 'LANE_ID', title: '关联车道中心线用户编号' },
-        { dataIndex: 'UPD_STAT', title: '更新标识' }
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_Plg_Lane_Rel: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'REL_ID', title: '用户编号' },
         { dataIndex: 'PLG_ID', title: '关联面状标识物用户编号' },
         { dataIndex: 'LANE_ID', title: '关联车道中心线用户编号' },
-        { dataIndex: 'UPD_STAT', title: '更新标识' }
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_Sign_Lane_Rel: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'REL_ID', title: '用户编号' },
         { dataIndex: 'SIGN_ID', title: '关联交通标志牌用户编号' },
-        { dataIndex: 'LANE_ID', title: '关联车道中心线用户编号' }
+        { dataIndex: 'LANE_ID', title: '关联车道中心线用户编号' },
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_Light_Lane_Rel: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'REL_ID', title: '用户编号' },
         { dataIndex: 'LIGHT_ID', title: '关联交通信号灯用户编号' },
         { dataIndex: 'LANE_ID', title: '关联车道中心线用户编号' },
-        { dataIndex: 'UPD_STAT', title: '更新标识' }
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_Road_Con_RS: [
         { dataIndex: 'index', title: '序号' },
@@ -441,7 +442,7 @@ export const COLUMNS_CONFIG = {
         { dataIndex: 'REL_ID', title: '连接关系用户编号' },
         { dataIndex: 'RS_TYPE', title: '限制类型' },
         { dataIndex: 'TIMEDOM', title: '限制时间描述' },
-        { dataIndex: 'UPD_STAT', title: '更新标识' }
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_Lane_Con_RS: [
         { dataIndex: 'index', title: '序号' },
@@ -449,7 +450,7 @@ export const COLUMNS_CONFIG = {
         { dataIndex: 'REL_ID', title: '连接关系用户编号' },
         { dataIndex: 'RS_TYPE', title: '限制类型' },
         { dataIndex: 'TIMEDOM', title: '限制时间描述' },
-        { dataIndex: 'UPD_STAT', title: '更新标识' }
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_LaneDivider_Pln: [
         { dataIndex: 'index', title: '序号' },
@@ -457,7 +458,7 @@ export const COLUMNS_CONFIG = {
         { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
-        { dataIndex: 'UPD_STAT', title: '更新标识' }
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_LaneDivider_Plg: [
         { dataIndex: 'index', title: '序号' },
@@ -465,7 +466,7 @@ export const COLUMNS_CONFIG = {
         { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
-        { dataIndex: 'UPD_STAT', title: '更新标识' }
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_StopLocation_Geo: [
         { dataIndex: 'index', title: '序号' },
@@ -473,7 +474,7 @@ export const COLUMNS_CONFIG = {
         { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
-        { dataIndex: 'UPD_STAT', title: '更新标识' }
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_Arrow_Geo: [
         { dataIndex: 'index', title: '序号' },
@@ -481,7 +482,7 @@ export const COLUMNS_CONFIG = {
         { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
-        { dataIndex: 'UPD_STAT', title: '更新标识' }
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_LaneMark_Geo: [
         { dataIndex: 'index', title: '序号' },
@@ -489,14 +490,14 @@ export const COLUMNS_CONFIG = {
         { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
-        { dataIndex: 'UPD_STAT', title: '更新标识' }
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_Pole_Geo: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'OBJ_ID', title: '用户编号' },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
-        { dataIndex: 'UPD_STAT', title: '更新标识' }
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_TrafficSign_Geo: [
         { dataIndex: 'index', title: '序号' },
@@ -504,7 +505,7 @@ export const COLUMNS_CONFIG = {
         { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
-        { dataIndex: 'UPD_STAT', title: '更新标识' }
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_TrafficLight_Geo: [
         { dataIndex: 'index', title: '序号' },
@@ -512,7 +513,7 @@ export const COLUMNS_CONFIG = {
         { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
-        { dataIndex: 'UPD_STAT', title: '更新标识' }
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ]
 };
 
