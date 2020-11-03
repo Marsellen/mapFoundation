@@ -227,7 +227,9 @@ const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
     }
     let extraInfo = REL_DATA_SET.includes(spec)
         ? {
-              CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec]
+              CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec],
+              COLL_TIME: '',
+              MAKE_TIME: ''
           }
         : {};
     return {
