@@ -497,8 +497,15 @@ export const RESOURCE_LAYER_BOUNDARY = '周边底图';
 export const CONFIDENCE_LAYER = '置信度分区';
 export const WRONG_LAYER = '错误区';
 export const SUSPECT_LAYER = '怀疑区';
-
-export const TOP_VIEW_DISABLED_LAYERS = ['AD_TrafficLight', 'AD_TrafficSign', 'AD_RS_Barrier'];
+//俯视图下禁用图层
+export const TOP_VIEW_DISABLED_LAYERS = [
+    'AD_TrafficLight',
+    'AD_TrafficSign',
+    'AD_RS_Barrier',
+    'AD_TrafficSign_Geo',
+    'AD_TrafficLight_Geo',
+    'AD_Pole_Geo'
+];
 export const IMP_RECOGNITION_DISABLED_LAYERS = ['AD_Road', 'AD_Lane'];
 export const RESOURCE_LAYER_MULTI_PROJECT = '多工程';
 
