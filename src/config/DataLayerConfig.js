@@ -5,7 +5,7 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_Arrow',
         tools: {
             recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
+            manbuild: ['DRAW_TOOL_BOX']
         },
         drawTools: {
             recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
@@ -98,7 +98,7 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_Text',
         tools: {
             recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
+            manbuild: ['DRAW_TOOL_BOX']
         },
         drawTools: {
             recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],

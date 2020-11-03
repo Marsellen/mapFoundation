@@ -2938,7 +2938,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LANEMARK_GEO_Element_Subtype',
+                type: 'AD_TRAFFICLIGHT_GEO_Element_Subtype',
                 domType: 'RadioIconGroup'
             }
         ]
