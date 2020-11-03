@@ -1979,27 +1979,27 @@ export default {
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 1,
+                    value: 1001,
                     label: '单实线',
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 2,
+                    value: 1003,
                     label: '双实线',
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 3,
+                    value: 1005,
                     label: '左实右虚线',
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 4,
+                    value: 1006,
                     label: '左虚右实线',
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 5,
+                    value: 1007,
                     label: '可变导向车道线',
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 }
@@ -2013,27 +2013,27 @@ export default {
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 1,
+                    value: 1001,
                     label: '单实线',
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 2,
+                    value: 1003,
                     label: '双实线',
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 3,
+                    value: 1005,
                     label: '左实右虚线',
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 4,
+                    value: 1006,
                     label: '左虚右实线',
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 5,
+                    value: 1007,
                     label: '可变导向车道线',
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 }
@@ -2047,27 +2047,27 @@ export default {
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 1,
+                    value: 1001,
                     label: '单实线',
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 2,
+                    value: 1003,
                     label: '双实线',
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 3,
+                    value: 1005,
                     label: '左实右虚线',
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 4,
+                    value: 1006,
                     label: '左虚右实线',
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 5,
+                    value: 1007,
                     label: '可变导向车道线',
                     style: { color: 'rgb(255,255,255)', linewidth: 1, opacity: 0.5 }
                 }
@@ -2087,22 +2087,22 @@ export default {
                     style: { color: 'rgb(0,255,160)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 1,
+                    value: 1002,
                     label: '单虚线',
                     style: { color: 'rgb(0,255,160)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 2,
+                    value: 1004,
                     label: '双虚线',
                     style: { color: 'rgb(0,255,160)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 3,
+                    value: 1005,
                     label: '左实右虚线',
                     style: { color: 'rgb(0,255,160)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 4,
+                    value: 1006,
                     label: '左虚右实线',
                     style: { color: 'rgb(0,255,160)', linewidth: 1, opacity: 0.5 }
                 }
@@ -2122,17 +2122,17 @@ export default {
                     style: { color: 'rgb(137,195,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 1,
+                    value: 2001,
                     label: '停止线',
                     style: { color: 'rgb(137,195,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 2,
+                    value: 2002,
                     label: '停车让行线',
                     style: { color: 'rgb(137,195,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 3,
+                    value: 2003,
                     label: '减速让行线',
                     style: { color: 'rgb(137,195,255)', linewidth: 1, opacity: 0.5 }
                 }
@@ -2152,92 +2152,92 @@ export default {
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 1,
+                    value: 3001,
                     label: '直行箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 2,
+                    value: 3002,
                     label: '左转箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 3,
+                    value: 3003,
                     label: '右转箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 4,
+                    value: 3004,
                     label: '直行左转箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 5,
+                    value: 3005,
                     label: '直行右转箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 6,
+                    value: 3006,
                     label: '左转右转箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 7,
+                    value: 3007,
                     label: '直行左转右转箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 8,
+                    value: 3008,
                     label: '掉头箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 9,
+                    value: 3009,
                     label: '左转掉头箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 10,
+                    value: 3010,
                     label: '右转掉头箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 11,
+                    value: 3011,
                     label: '禁止标记箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 12,
+                    value: 3012,
                     label: '向左合流箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 13,
+                    value: 3013,
                     label: '向右合流箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 14,
+                    value: 3014,
                     label: '直行和掉头箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 15,
+                    value: 3015,
                     label: '直行左转掉头箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 16,
+                    value: 3016,
                     label: '直行右转掉头箭头',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 17,
+                    value: 3017,
                     label: '直行左弯',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 18,
+                    value: 3018,
                     label: '直行右弯',
                     style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 }
@@ -2257,47 +2257,47 @@ export default {
                     style: { color: 'rgb(147,112,219)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 1,
+                    value: 4001,
                     label: '减速警示线',
                     style: { color: 'rgb(147,112,219)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 2,
+                    value: 4002,
                     label: '减速带',
                     style: { color: 'rgb(147,112,219)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 3,
+                    value: 9901,
                     label: '人行横道',
                     style: { color: 'rgb(147,112,219)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 4,
+                    value: 9902,
                     label: '禁止停车区',
                     style: { color: 'rgb(147,112,219)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 5,
+                    value: 9903,
                     label: '导流区',
                     style: { color: 'rgb(147,112,219)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 6,
+                    value: 9904,
                     label: '路口内中心圈',
                     style: { color: 'rgb(147,112,219)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 7,
+                    value: 9905,
                     label: '车距确认线',
                     style: { color: 'rgb(147,112,219)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 8,
+                    value: 9906,
                     label: '地面文字数字',
                     style: { color: 'rgb(147,112,219)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 9,
+                    value: 9907,
                     label: '地面符号',
                     style: { color: 'rgb(147,112,219)', linewidth: 1, opacity: 0.5 }
                 }
@@ -2317,242 +2317,242 @@ export default {
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 1,
+                    value: 2100,
                     label: '建议速度',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 2,
+                    value: 2101,
                     label: '其他禁令标志',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 3,
+                    value: 2201,
                     label: '停车让行',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 4,
+                    value: 2202,
                     label: '减速让行',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 5,
+                    value: 2203,
                     label: '会车让行',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 6,
+                    value: 2204,
                     label: '禁止通行',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 7,
+                    value: 2205,
                     label: '禁止驶入',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 8,
+                    value: 2206,
                     label: '禁止机动车驶入',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 9,
+                    value: 2207,
                     label: '禁止向左转弯',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 10,
+                    value: 2208,
                     label: '禁止向右转弯',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 11,
+                    value: 2209,
                     label: '禁止直行',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 12,
+                    value: 2210,
                     label: '禁止向左向右转弯',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 13,
+                    value: 2211,
                     label: '禁止直行和向左转弯',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 14,
+                    value: 2212,
                     label: '禁止直行和向右转弯',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 15,
+                    value: 2213,
                     label: '禁止掉头',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 16,
+                    value: 2214,
                     label: '禁止超车',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 17,
+                    value: 2215,
                     label: '解除禁止超车',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 18,
+                    value: 2216,
                     label: '禁止停车',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 19,
+                    value: 2217,
                     label: '禁止长时停车',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 20,
+                    value: 2219,
                     label: '限制速度',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 21,
+                    value: 2220,
                     label: '解除限制速度',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 22,
+                    value: 2223,
                     label: '区域禁止-禁止长时停车',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 23,
+                    value: 2224,
                     label: '区域禁止解除-解除禁止长时停车',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 24,
+                    value: 2225,
                     label: '区域禁止-禁止停车',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 25,
+                    value: 2226,
                     label: '区域禁止解除-解除禁止停车',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 26,
+                    value: 2227,
                     label: '区域禁止-速度限制',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 27,
+                    value: 2228,
                     label: '区域禁止解除-解除速度限制',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 28,
+                    value: 2220,
                     label: '其他指示类标志',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 29,
+                    value: 2300,
                     label: '最低限速',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 30,
+                    value: 2314,
                     label: '车道行驶方向-直行',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 31,
+                    value: 2318,
                     label: '允许掉头',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 32,
+                    value: 2321,
                     label: '车道行驶方向-左转',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 33,
+                    value: 2322,
                     label: '车道行驶方向-右转',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 34,
+                    value: 2323,
                     label: '车道行驶方向-直行和左转',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 35,
+                    value: 2324,
                     label: '车道行驶方向-直行和右转',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 36,
+                    value: 2325,
                     label: '车道行驶方向-左转和掉头',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 37,
+                    value: 2326,
                     label: '车道行驶方向-掉头',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 38,
+                    value: 2327,
                     label: '车道行驶方向-其他',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 39,
+                    value: 2328,
                     label: '区间测速起点',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 40,
+                    value: 2401,
                     label: '区间测速终点',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 41,
+                    value: 2402,
                     label: '区间测速起点和距离',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 42,
+                    value: 2403,
                     label: '表示时间标志',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 43,
+                    value: 2404,
                     label: '特殊天气辅助标志',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 44,
+                    value: 2405,
                     label: '特殊路段辅助标志',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 45,
+                    value: 2406,
                     label: '其他标志牌',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 46,
+                    value: 2500,
                     label: '动态限速标志',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 47,
+                    value: 2600,
                     label: '其他电子标志牌',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 48,
+                    value: 2601,
                     label: '未定义',
                     style: { color: 'rgb(70,109,255)', linewidth: 1, opacity: 0.5 }
                 }
@@ -2572,22 +2572,22 @@ export default {
                     style: { color: 'rgb(231,120,0)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 1,
+                    value: 3001,
                     label: '普通交通信号灯',
                     style: { color: 'rgb(231,120,0)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 2,
+                    value: 3002,
                     label: '方向指示信号灯',
                     style: { color: 'rgb(231,120,0)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 3,
+                    value: 3003,
                     label: '铁路平交路口信号灯',
                     style: { color: 'rgb(231,120,0)', linewidth: 1, opacity: 0.5 }
                 },
                 {
-                    value: 4,
+                    value: 3099,
                     label: '其他',
                     style: { color: 'rgb(231,120,0)', linewidth: 1, opacity: 0.5 }
                 }
