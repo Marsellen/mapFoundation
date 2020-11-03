@@ -375,7 +375,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '潮汐车道限制', icon: 'chaoxichedaoxianzhifh', abbreviation: '潮汐' },
         { value: 4, label: '禁止停车限制', icon: 'jinzhitingchefh', abbreviation: '禁停' },
         { value: 5, label: 'HOV车道限制', icon: 'hovchedaoxianzhifh', abbreviation: 'HOV' },
-        { value: 6, label: '公交车道时间限制', icon: 'shijianfh', abbreviation: '公交' },
+        { value: 6, label: '公交车道时间限制', icon: 'gongjiaochedaoshijianxianzhi', abbreviation: '公交' },
         { value: 99, label: '其他', icon: 'qitafh', abbreviation: '其他' }
     ],
     AD_TEXT_VEH_LMT: [
