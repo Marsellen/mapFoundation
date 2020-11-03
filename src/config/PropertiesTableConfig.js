@@ -455,7 +455,7 @@ export const COLUMNS_CONFIG = {
     AD_LaneDivider_Pln: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'OBJ_ID', title: '用户编号' },
-        { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
+        { dataIndex: 'FEAT_TYPE', title: '要素子类型', filterBy: 'typeFilter|AD_LANE_DIVIDER_PLN_TYPE' },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
         { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
@@ -463,7 +463,7 @@ export const COLUMNS_CONFIG = {
     AD_LaneDivider_Plg: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'OBJ_ID', title: '用户编号' },
-        { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
+        { dataIndex: 'FEAT_TYPE', title: '要素子类型', filterBy: 'typeFilter|AD_LANE_DIVIDER_PLG_TYPE' },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
         { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
@@ -471,7 +471,7 @@ export const COLUMNS_CONFIG = {
     AD_StopLocation_Geo: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'OBJ_ID', title: '用户编号' },
-        { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
+        { dataIndex: 'FEAT_TYPE', title: '要素子类型', filterBy: 'typeFilter|AD_STOPLOCTION_GEO_TYPE' },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
         { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
@@ -479,7 +479,7 @@ export const COLUMNS_CONFIG = {
     AD_Arrow_Geo: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'OBJ_ID', title: '用户编号' },
-        { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
+        { dataIndex: 'FEAT_TYPE', title: '要素子类型', filterBy: 'typeFilter|AD_ARROW_GEO_TYPE' },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
         { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
@@ -487,7 +487,7 @@ export const COLUMNS_CONFIG = {
     AD_LaneMark_Geo: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'OBJ_ID', title: '用户编号' },
-        { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
+        { dataIndex: 'FEAT_TYPE', title: '要素子类型', filterBy: 'typeFilter|AD_LANE_MARK_GEO_TYPE' },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
         { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
@@ -502,7 +502,7 @@ export const COLUMNS_CONFIG = {
     AD_TrafficSign_Geo: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'OBJ_ID', title: '用户编号' },
-        { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
+        { dataIndex: 'FEAT_TYPE', title: '要素子类型', filterBy: 'typeFilter|AD_TRAFFIC_SIGN_GEO_TYPE' },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
         { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
@@ -510,7 +510,7 @@ export const COLUMNS_CONFIG = {
     AD_TrafficLight_Geo: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'OBJ_ID', title: '用户编号' },
-        { dataIndex: 'FEAT_TYPE', title: '要素子类型' },
+        { dataIndex: 'FEAT_TYPE', title: '要素子类型', filterBy: 'typeFilter|AD_TRAFFIC_LIGHT_GEO_TYPE' },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
         { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
