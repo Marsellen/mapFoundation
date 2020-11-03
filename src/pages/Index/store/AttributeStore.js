@@ -11,13 +11,14 @@ import {
     modUpdStatRelation,
     modUpdStatProperties
 } from 'src/utils/vectorUtils';
-import { ATTR_SPEC_CONFIG, MOD_UPD_STAT_RELATION_LAYERS } from 'config/AttrsConfig';
+import { ATTR_SPEC_CONFIG } from 'config/AttrsConfig';
 import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
 import { getAllRelFeatureOptions, uniqOptions } from 'src/utils/relCtrl/operateCtrl';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import _ from 'lodash';
 import { message } from 'antd';
 import RenderModeStore from './RenderModeStore';
+import TaskStore from 'src/pages/Index/store/TaskStore';
 
 const LOAD_DATA_MESSAGE = '加载数据中...';
 
@@ -187,44 +188,37 @@ class AttributeStore {
 
     submit = flow(function* (data) {
         let relLog = yield this.calcRelLog(data);
-
         let attrLog = this.calcAttrLog(data.attrs);
-
         let oldFeature = _.cloneDeep(this.model);
         let newFeature = _.cloneDeep(this.model);
 
-        if (!isManbuildTask()) {
-            newFeature = modUpdStatProperties(newFeature, data.attributes);
-        }
+        //维护属性的更新标识
+        newFeature = modUpdStatProperties(newFeature, data.attributes);
         newFeature.data.properties = {
             ...newFeature.data.properties,
             ...data.attributes
         };
 
-        // 人工识别无法编辑关联关系，人工构建不维护“更新状态标识”字段
-        // let [oldRelFeatures, newRelFeatures] = this.calcRelFeaturesLog(
-        //     relLog,
-        //     newFeature,
-        //     task
-        // );
-        // if (oldRelFeatures.length || newRelFeatures.length) {
-        //     newFeature = modUpdStatRelation(newFeature);
-        // }
-        // historyLog.features = [
-        //     [oldFeature, ...oldRelFeatures],
-        //     [newFeature, ...newRelFeatures]
-        // ];
-        if (
-            (attrLog[0].length || attrLog[1].length) &&
-            MOD_UPD_STAT_RELATION_LAYERS.includes(newFeature.layerName)
-        ) {
-            newFeature = modUpdStatRelation(newFeature);
-        }
         let historyLog = {
             features: [[oldFeature], [newFeature]],
             rels: relLog,
             attrs: attrLog
         };
+
+        //人工构建任务和本地任务需要维护关联关系的更新标识
+        if (isManbuildTask() || TaskStore.activeTask.isLocal) {
+            //查找出当前修改影响到的关联要素，oldRelFeatures是关联要素被影响前，newRelFeatures是关联要素被影响后
+            let [oldRelFeatures, newRelFeatures] = this.calcRelFeaturesLog(relLog, newFeature);
+            //如果修改了关联关系，则更新当前要素“更新标识”
+            if (oldRelFeatures.length || newRelFeatures.length) {
+                newFeature = modUpdStatRelation(newFeature);
+            }
+            historyLog.features = [
+                [oldFeature, ...oldRelFeatures],
+                [newFeature, ...newRelFeatures]
+            ];
+        }
+
         return historyLog;
     });
 
@@ -266,7 +260,7 @@ class AttributeStore {
     calcRelFeaturesLog = (relLog, newFeature) => {
         if (!relLog) return [[], []];
         let allRels = [...relLog[0], ...relLog[1]];
-        if (!allRels.length || isManbuildTask()) return [[], []];
+        if (!allRels.length) return [[], []];
 
         let allRelFeatureOptions = uniqOptions(getAllRelFeatureOptions(allRels));
         let relFeatures = allRelFeatureOptions.reduce((total, option) => {

@@ -3,7 +3,7 @@ import { Modal, Menu, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import 'src/assets/less/components/right-menu-modal.less';
 import { SELECT_OPTIONS, OPTION_LAYER_MAP } from 'config/PropertiesTableConfig';
-import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
+import { getLayerIDKey, getLayerByName, modUpdStatRelation } from 'src/utils/vectorUtils';
 import { logDecorator } from 'src/utils/decorator';
 import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
 import Attr from 'src/models/attr';
@@ -65,9 +65,7 @@ class AttrRightMenu extends React.Component {
     forceDeleteHandlerOk = () => {
         const { AttrRightMenuStore } = this.props;
         const { layerName, hide } = AttrRightMenuStore;
-        const selectOption = SELECT_OPTIONS.find(item =>
-            item.items.includes(layerName)
-        );
+        const selectOption = SELECT_OPTIONS.find(item => item.items.includes(layerName));
         switch (selectOption.type) {
             case 'vector':
                 this.forceDeleteFeature();
@@ -85,6 +83,18 @@ class AttrRightMenu extends React.Component {
                 break;
         }
         hide();
+    };
+
+    //更新关联关系更新字段
+    updateRelationUpdStat = (layerName, id) => {
+        const IDKey = getLayerIDKey(layerName);
+        const layer = getLayerByName(layerName);
+        const option = { key: IDKey, value: id };
+        const sdkFeature = layer.getFeatureByOption(option);
+        if (!sdkFeature) return;
+        const feature = sdkFeature.properties;
+        modUpdStatRelation(feature);
+        layer.updateFeatures([feature]);
     };
 
     @logDecorator({ operate: '属性列表-强制删除要素' })
@@ -121,6 +131,12 @@ class AttrRightMenu extends React.Component {
         //删除关联关系
         const relStore = Relevance.store;
         relStore.deleteById(rel.id);
+
+        //更新关联关系更新字段
+        const { objId, objSpec, relObjId, relObjSpec } = rel;
+        this.updateRelationUpdStat(objSpec, objId);
+        this.updateRelationUpdStat(relObjSpec, relObjId);
+
         //关闭弹窗
         AttributeStore.hideRelFeatures();
         AttributeStore.hide();
@@ -138,9 +154,7 @@ class AttrRightMenu extends React.Component {
         const { AttrRightMenuStore, AttributeStore } = this.props;
         const { layerName, currentData } = AttrRightMenuStore;
         //找到关联属性
-        const { source, sourceId } = ATTR_SPEC_CONFIG.find(
-            item => item.source === layerName
-        );
+        const { source, sourceId } = ATTR_SPEC_CONFIG.find(item => item.source === layerName);
         const sourceIdVal = currentData[sourceId];
         const attrStore = Attr.store;
         const attr = await attrStore.get([source, sourceIdVal], 'SOURCE_ID');
@@ -172,12 +186,14 @@ class AttrRightMenu extends React.Component {
                 onCancel={hide}
                 zIndex={zIndex}
                 destroyOnClose={true}
-                className="right-menu-modal">
+                className="right-menu-modal"
+            >
                 <Menu>
                     <Menu.Item
                         id="force-delete-btn"
                         className="right-menu-item"
-                        onClick={this.handleForceDelete}>
+                        onClick={this.handleForceDelete}
+                    >
                         强制删除
                     </Menu.Item>
                 </Menu>

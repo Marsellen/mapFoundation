@@ -13,7 +13,6 @@ import { getLayerByName, checkSdkError } from 'src/utils/vectorUtils';
 import AdMessage from 'src/components/AdMessage';
 import _ from 'lodash';
 import { getLayerIDKey, modUpdStatGeometry, layerUpdateFeatures } from 'src/utils/vectorUtils';
-import { isManbuildTask } from 'src/utils/taskUtils';
 import { logDecorator, editInputLimit, editOutputLimit } from 'src/utils/decorator';
 import BatchAssignStore from 'src/pages/Index/store/BatchAssignStore';
 import ToolCtrlStore from 'src/pages/Index/store/ToolCtrlStore';
@@ -334,7 +333,7 @@ class RightMenuModal extends React.Component {
         try {
             checkSdkError(result);
             // 请求id服务，申请id
-            let data = await NewFeatureStore.init(result, isManbuildTask());
+            let data = await NewFeatureStore.init(result);
             await this.copyLineHandle(data);
             let history = {
                 features: [[], [data]]
@@ -379,9 +378,7 @@ class RightMenuModal extends React.Component {
     async movePointFeatureHandler(result, oldFeature) {
         try {
             // 更新标识
-            if (!isManbuildTask()) {
-                result = modUpdStatGeometry(result);
-            }
+            result = modUpdStatGeometry(result);
             let history = {
                 features: [[oldFeature], [result]]
             };
@@ -558,6 +555,7 @@ class RightMenuModal extends React.Component {
             let oldFeatures = _.cloneDeep(features);
             let newFeatures = features.map(item => {
                 item.data.geometry.coordinates.reverse();
+                item = modUpdStatGeometry(item);
                 return item;
             });
             let layer = getLayerByName(newFeatures[0].layerName);

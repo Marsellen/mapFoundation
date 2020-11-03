@@ -459,15 +459,11 @@ const querySameRel = async rel => {
  * @returns {Object} log 日志数据
  */
 const calcRelChangeLog = (features, rels) => {
-    if (!isManbuildTask()) {
-        let newFeatures = features.map(modUpdStatRelation);
-        return {
-            features: [features, newFeatures],
-            rels
-        };
-    }
-
-    return { features: [[], []], rels };
+    let newFeatures = features.map(modUpdStatRelation);
+    return {
+        features: [features, newFeatures],
+        rels
+    };
 };
 
 export {
