@@ -39,6 +39,7 @@ import AddTask from 'src/utils/Task/AddTask';
 import UpdateTask from 'src/utils/Task/UpdateTask';
 import ModifyTask from 'src/utils/Task/ModifyTask';
 import { VECTOR_FILES, ATTR_FILES, REL_FILES } from 'src/config/TaskConfig';
+import { fetchCallback } from 'src/utils/map/utils';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -301,10 +302,7 @@ class TaskStore {
             const { vectors, rels, attrs } = this.boundaryFileMap;
             const layerGroup = new LayerGroup(vectors, { styleConifg: BoundaryVectorsConfig });
             yield Promise.allSettled([
-                window.map.getLayerManager().addLayerGroup(layerGroup, ({ status }) => {
-                    if (status && status.code === 200) return;
-                    throw new Error('周边底图ads_all.geojson请求失败');
-                }),
+                window.map.getLayerManager().addLayerGroup(layerGroup, fetchCallback),
                 AttrStore.addRecords(attrs, 'boundary'),
                 RelStore.addRecords(rels, 'boundary')
             ]);

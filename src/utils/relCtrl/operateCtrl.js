@@ -338,14 +338,10 @@ const copyAttributeLines = async (feature, copyFeature, layerName, processName) 
     Object.keys(properties).forEach(key => {
         if (adKey.indexOf(key) !== -1 && properties[key] !== feature.data.properties[key]) {
             properties[key] = feature.data.properties[key];
-            if (processName === 'imp_recognition') {
-                UPD_STAT[key] = 'MOD';
-            }
+            UPD_STAT[key] = 'MOD';
         }
     });
-    if (processName === 'imp_recognition') {
-        copyFeature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);
-    }
+    copyFeature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);
     let historyLog = {
         features: [[oldFeature], [copyFeature]]
     };

@@ -4,7 +4,6 @@ import Relevance from 'src/models/relevance';
 import Attr from 'src/models/attr';
 import attrFactory from 'src/utils/attrCtrl/attrFactory';
 import relFactory from 'src/utils/relCtrl/relFactory';
-import { isManbuildTask } from 'src/utils/taskUtils';
 import _ from 'lodash';
 import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
 import { message } from 'antd';
@@ -201,24 +200,14 @@ export const getAllAttrData = async isCurrent => {
 };
 
 export const completeProperties = (feature, config) => {
-    let isManbuild = isManbuildTask();
     let _feature = _.cloneDeep(feature);
-    if (isManbuild) {
-        if ((config && config.UPD_STAT) || !_feature.data.properties.UPD_STAT) {
-            _feature.data.properties.UPD_STAT = '{}';
-        }
-        if (!_feature.data.properties.CONFIDENCE) {
-            _feature = completeConfidence(_feature);
-        }
+    if (config && config.UPD_STAT) {
+        _feature.data.properties.UPD_STAT = config && config.UPD_STAT;
     } else {
-        if (config && config.UPD_STAT) {
-            _feature.data.properties.UPD_STAT = config && config.UPD_STAT;
-        } else {
-            _feature = modUpdStatRelation(_feature);
-        }
-        if (!_feature.data.properties.CONFIDENCE) {
-            _feature = completeConfidence(_feature);
-        }
+        _feature = modUpdStatRelation(_feature);
+    }
+    if (!_feature.data.properties.CONFIDENCE) {
+        _feature = completeConfidence(_feature);
     }
     return _feature;
 };

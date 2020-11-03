@@ -15,11 +15,11 @@ class modelFactory {
         });
     };
 
-    getDefaultProperties = (layerName, id, isManbuildTask) => {
+    getDefaultProperties = (layerName, id) => {
         let defaultProperties = DEFAULT_PROPERTIES_MAP[layerName] || {};
 
         let defaultConfidence = DEFAULT_CONFIDENCE_MAP[layerName] || '{}';
-        let UPD_STAT = isManbuildTask ? '{}' : '{"GEOMETRY":"ADD"}';
+        let UPD_STAT = '{"GEOMETRY":"ADD"}';
         let extrInfo = {
             CONFIDENCE: defaultConfidence,
             UPD_STAT,

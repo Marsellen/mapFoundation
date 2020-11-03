@@ -48,6 +48,7 @@ import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
 import QualityCheckStore from 'src/pages/Index/store/QualityCheckStore';
 import { showPictureShowView, showAttributesModal, showRightMenu } from 'src/utils/map/viewCtrl';
 import { TASK_MODE_MAP } from 'src/config/RenderModeConfig';
+import { fetchCallback } from 'src/utils/map/utils';
 @inject('QCMarkerStore')
 @inject('DefineModeStore')
 @inject('TextStore')
@@ -305,18 +306,6 @@ class VizComponent extends React.Component {
         console.timeEnd('taskLoad');
     };
 
-    fetchCallback = response => {
-        if (Array.isArray(response)) {
-            const isError = response.some(item => item.error);
-            if (!isError) return;
-        } else {
-            const { status } = response;
-            if (status && status.code === 200) return;
-        }
-        const { TaskStore: { activeTaskId } = {} } = this.props;
-        throw new Error(activeTaskId);
-    };
-
     initEditResource = async task => {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
@@ -379,7 +368,7 @@ class VizComponent extends React.Component {
                 if (status && status.code === 200) return;
                 pointCloudErrorStatus = true;
             });
-            if (pointCloudErrorStatus) this.fetchCallback();
+            if (pointCloudErrorStatus) fetchCallback();
             //获取点云高度范围
             const range = pointCloudLayer.getElevationRange();
             PointCloudStore.initHeightRange(range);
@@ -401,7 +390,7 @@ class VizComponent extends React.Component {
         window.vectorLayerGroup = new LayerGroup(vectors, {
             styleConifg: VectorsConfig
         });
-        await map.getLayerManager().addLayerGroup(vectorLayerGroup, this.fetchCallback);
+        await map.getLayerManager().addLayerGroup(vectorLayerGroup, fetchCallback);
         VectorsStore.addLayer(vectorLayerGroup);
 
         return {
@@ -459,7 +448,7 @@ class VizComponent extends React.Component {
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
             //判断任务范围是否成功加载
             const regionLayerFeatures = window.vectorLayer.getAllFeatures();
-            if (regionLayerFeatures.length === 0) message.warning('没有任务范围框');
+            if (regionLayerFeatures.length === 0) throw new Error('没有任务范围框');
             //不同任务类型，不同落点限制
             TaskStore.activeTask.processLimit();
 
@@ -701,7 +690,7 @@ class VizComponent extends React.Component {
     @editOutputLimit()
     async handleCreatedCallBack(data) {
         // 请求id服务，申请id
-        data = await NewFeatureStore.init(data, isManbuildTask());
+        data = await NewFeatureStore.init(data);
         // 更新id到sdk
         DataLayerStore.updateFeature(data);
         //显示要素属性窗口
@@ -726,9 +715,7 @@ class VizComponent extends React.Component {
                 });
             }
 
-            if (!isManbuildTask()) {
-                result = modUpdStatGeometry(result);
-            }
+            result = modUpdStatGeometry(result);
 
             let history = { features: [[oldFeature], [result]] };
             return history;
