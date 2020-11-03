@@ -976,13 +976,13 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'TIMEDOM',
-            name: '限制时间描述',
+            name: '时间限制描述',
             domType: 'AdDateInput',
             validates: 'Char|250'
         },
         {
             key: 'VEH_LMT',
-            name: '车辆限制',
+            name: '车辆限制描述',
             type: 'AD_TEXT_VEH_LMT',
             domType: 'Select'
         },
@@ -1528,11 +1528,11 @@ export const LAYER_TYPE_MAP = {
         },
         {
             key: 'TIMEDOM',
-            name: '限制时间描述'
+            name: '时间限制描述'
         },
         {
             key: 'VEH_LMT',
-            name: '车辆限制',
+            name: '车辆限制描述',
             type: 'AD_TEXT_VEH_LMT'
         },
         {
