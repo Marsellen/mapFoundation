@@ -20,6 +20,7 @@ const UPD_STAT_MAP = {
         NO_CHANGE: '属性未变化'
     }
 };
+const COMPLEX_TYPES = ['AD_ARROW_ARR_DIRECT'];
 
 class Filter {
     get = filter => {
@@ -35,8 +36,17 @@ class Filter {
             return '--';
         }
         let options = TYPE_SELECT_OPTION_MAP[type].flat();
-        let option = options.find(c => c.value == value);
-        return option ? option.label : value;
+        if (COMPLEX_TYPES.includes(type)) {
+            return (
+                options
+                    .filter(val => value.includes(val.value))
+                    .map(val => val.label)
+                    .join('+') || '--'
+            );
+        } else {
+            let option = options.find(c => c.value == value);
+            return option ? option.label : value;
+        }
     };
 
     updStatFilter = value => {
