@@ -1,9 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
-
-//不支持俯视图模式的图层
-const UNABLE_TOP_VIEW_LAYERS = ['AD_TrafficLight', 'AD_TrafficSign', 'AD_Pole', 'AD_RS_Barrier'];
+import { TOP_VIEW_DISABLED_LAYERS } from 'src/config/DataLayerConfig';
 //支持复制面要素的图层
 const COPY_POLYGON_LAYERS = ['AD_Arrow', 'AD_LaneMark_Plg', 'AD_Text'];
 //拾取错误工具
@@ -42,11 +40,7 @@ class TopView extends React.Component {
         const { layerName } = layer;
 
         if (!isTopView) {
-            if (
-                layer.layerName === 'AD_TrafficLight' ||
-                layer.layerName === 'AD_TrafficSign' ||
-                layer.layerName === 'AD_RS_Barrier'
-            ) {
+            if (TOP_VIEW_DISABLED_LAYERS.includes(layerName)) {
                 DataLayerStore.activeEditor();
                 ToolCtrlStore.updateByEditLayer();
             } else {
