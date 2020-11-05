@@ -266,7 +266,7 @@ export const DATA_LAYER_MAP = {
             recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE'],
             manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE']
         },
-        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
+        rightTools: ['delete', 'forceDelete','copyLine', 'insertPoints', 'changePoints', 'deletePoints'],
         groupRightTools: ['batchAssign'],
         editName: '交通标志牌'
     },
