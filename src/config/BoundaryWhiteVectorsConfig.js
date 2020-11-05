@@ -1553,11 +1553,11 @@ export default {
 
     AD_Text: {
         type: 'Polygon',
-        showFields: ['TYPE'],
+        showFields: ['CONT_TYPE'],
         order: 7,
         showStyles: ['vectorStyle'],
         vectorStyle: {
-            TYPE: [
+            CONT_TYPE: [
                 {
                     value: 0,
                     label: '未定义',
@@ -1569,7 +1569,7 @@ export default {
                 },
                 {
                     value: 1,
-                    label: '最高限速',
+                    label: '最高速度限制',
                     style: {
                         opacity: 0.5,
                         color: 'rgb(255,255,255)',
@@ -1578,7 +1578,7 @@ export default {
                 },
                 {
                     value: 2,
-                    label: '最低限速',
+                    label: '最低速度限制',
                     style: {
                         opacity: 0.5,
                         color: 'rgb(255,255,255)',
@@ -1587,6 +1587,33 @@ export default {
                 },
                 {
                     value: 3,
+                    label: '潮汐车道时间限制',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 4,
+                    label: '禁止停车时间限制',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 5,
+                    label: 'HOV车道时间限制',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 6,
                     label: '公交车道时间限制',
                     style: {
                         opacity: 0.5,
