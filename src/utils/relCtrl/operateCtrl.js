@@ -674,7 +674,8 @@ const relDataFormat = (spec, properties) => {
                 REL_ID,
                 CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec],
                 COLL_TIME: '',
-                MAKE_TIME: ''
+                MAKE_TIME: '',
+                UPD_STAT: '{}'
             }
         };
     });
@@ -734,7 +735,8 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
                     extraInfo: {
                         CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec],
                         COLL_TIME: '',
-                        MAKE_TIME: ''
+                        MAKE_TIME: '',
+                        UPD_STAT: '{}'
                     }
                 });
             }

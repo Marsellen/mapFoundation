@@ -229,7 +229,8 @@ const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
         ? {
               CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec],
               COLL_TIME: '',
-              MAKE_TIME: ''
+              MAKE_TIME: '',
+              UPD_STAT: '{}'
           }
         : {};
     return {
