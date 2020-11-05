@@ -173,6 +173,13 @@ class DefineModeStore {
     getCommonTypeStyle = ({ key, commonStyle }) => {
         const { showFields } = commonStyle;
         const { type } = LAYER_TYPE_MAP[key].find(item => item.key === showFields);
+        let constants = TYPE_SELECT_OPTION_MAP[type];
+        if (Array.isArray(constants[0])) {
+            constants = constants.flat();
+            return constants.map(item => {
+                return { ...item, ...commonStyle };
+            });
+        }
         return TYPE_SELECT_OPTION_MAP[type].map(item => {
             return { ...item, ...commonStyle };
         });
