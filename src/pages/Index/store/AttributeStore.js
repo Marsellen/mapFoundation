@@ -316,12 +316,15 @@ class AttributeStore {
             let IDKey = getLayerIDKey(key);
             let MainKey = ATTR_SPEC_CONFIG.find(config => config.source == key);
             let MainFId = MainKey.key;
-            value[IDKey] = id;
             properties = properties || this.model.data.properties;
-            value[MainFId] = properties[MainFId];
-            value.CONFIDENCE = DEFAULT_CONFIDENCE_MAP[key];
-            value.COLL_TIME = '';
-            value.MAKE_TIME = '';
+            Object.assign(value, {
+                [MainFId]: properties[MainFId],
+                [IDKey]: id,
+                CONFIDENCE: DEFAULT_CONFIDENCE_MAP[key],
+                COLL_TIME: '',
+                MAKE_TIME: '',
+                UPD_STAT: '{}'
+            });
             let record = attrFactory.dataToTable(value, key);
             this.attrs[key] = this.attrs[key] || [];
             this.attrs[key].push(record);
