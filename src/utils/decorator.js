@@ -66,13 +66,13 @@ export const logDecorator = option => {
                 log = {
                     action: operate,
                     result: 'fail',
-                    message: e
+                    message: e.message
                 };
                 if (EDIT_MESSAGE[editType] && EDIT_MESSAGE[editType].errorMsg) {
                     message.error({
                         key: editType,
                         duration: 3,
-                        content: EDIT_MESSAGE[editType].errorMsg + e
+                        content: EDIT_MESSAGE[editType].errorMsg + e.message
                     });
                 }
             }
