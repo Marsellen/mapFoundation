@@ -145,6 +145,7 @@ export default class AdDateInput extends React.Component {
     };
 
     handleAfter = () => {
+        if (this.props.disabled) return;
         this.setState({
             visible: true,
             key: Math.random()

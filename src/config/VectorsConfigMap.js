@@ -1528,7 +1528,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         isClassify: true,
         type: 'Polygon',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'CONT_TYPE',
             polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
@@ -1537,31 +1537,55 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 0,
                 label: '未定义',
-                showFields: 'TYPE',
+                showFields: 'CONT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
             {
                 value: 1,
-                label: '最高限速',
-                showFields: 'TYPE',
+                label: '最高速度限制',
+                showFields: 'CONT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
             {
                 value: 2,
-                label: '最低限速',
-                showFields: 'TYPE',
+                label: '最低速度限制',
+                showFields: 'CONT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
             },
             {
                 value: 3,
+                label: '潮汐车道时间限制',
+                showFields: 'CONT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 4,
+                label: '禁止停车时间限制',
+                showFields: 'CONT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 5,
+                label: 'HOV车道时间限制',
+                showFields: 'CONT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,255,255)',
+                opacity: 1
+            },
+            {
+                value: 6,
                 label: '公交车道时间限制',
-                showFields: 'TYPE',
+                showFields: 'CONT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -1569,7 +1593,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 99,
                 label: '其他',
-                showFields: 'TYPE',
+                showFields: 'CONT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
@@ -5330,7 +5354,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
         isClassify: true,
         type: 'Polygon',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'CONT_TYPE',
             polygonStyle: 'solid',
             color: 'rgb(255,234,149)',
             opacity: 1
@@ -5339,31 +5363,55 @@ const COMMON_VECTOR_CONFIG_MAP = {
             {
                 value: 0,
                 label: '未定义',
-                showFields: 'TYPE',
+                showFields: 'CONT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,234,149)',
                 opacity: 1
             },
             {
                 value: 1,
-                label: '最高限速',
-                showFields: 'TYPE',
+                label: '最高速度限制',
+                showFields: 'CONT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,234,149)',
                 opacity: 1
             },
             {
                 value: 2,
-                label: '最低限速',
-                showFields: 'TYPE',
+                label: '最低速度限制',
+                showFields: 'CONT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,234,149)',
                 opacity: 1
             },
             {
                 value: 3,
+                label: '潮汐车道时间限制',
+                showFields: 'CONT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            },
+            {
+                value: 4,
+                label: '禁止停车时间限制',
+                showFields: 'CONT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            },
+            {
+                value: 5,
+                label: 'HOV车道时间限制',
+                showFields: 'CONT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            },
+            {
+                value: 6,
                 label: '公交车道时间限制',
-                showFields: 'TYPE',
+                showFields: 'CONT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,234,149)',
                 opacity: 1
@@ -5371,7 +5419,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             {
                 value: 99,
                 label: '其他',
-                showFields: 'TYPE',
+                showFields: 'CONT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,234,149)',
                 opacity: 1
@@ -8959,7 +9007,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
         isClassify: true,
         type: 'Polygon',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'CONT_TYPE',
             polygonStyle: 'solid',
             color: 'rgb(255,234,149)',
             opacity: 1
@@ -8968,31 +9016,55 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 value: 0,
                 label: '未定义',
-                showFields: 'TYPE',
+                showFields: 'CONT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,234,149)',
                 opacity: 1
             },
             {
                 value: 1,
-                label: '最高限速',
-                showFields: 'TYPE',
+                label: '最高速度限制',
+                showFields: 'CONT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,234,149)',
                 opacity: 1
             },
             {
                 value: 2,
-                label: '最低限速',
-                showFields: 'TYPE',
+                label: '最低速度限制',
+                showFields: 'CONT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,234,149)',
                 opacity: 1
             },
             {
                 value: 3,
+                label: '潮汐车道时间限制',
+                showFields: 'CONT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            },
+            {
+                value: 4,
+                label: '禁止停车时间限制',
+                showFields: 'CONT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            },
+            {
+                value: 5,
+                label: 'HOV车道时间限制',
+                showFields: 'CONT_TYPE',
+                polygonStyle: 'solid',
+                color: 'rgb(255,234,149)',
+                opacity: 1
+            },
+            {
+                value: 6,
                 label: '公交车道时间限制',
-                showFields: 'TYPE',
+                showFields: 'CONT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,234,149)',
                 opacity: 1
@@ -9000,7 +9072,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 value: 99,
                 label: '其他',
-                showFields: 'TYPE',
+                showFields: 'CONT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,234,149)',
                 opacity: 1

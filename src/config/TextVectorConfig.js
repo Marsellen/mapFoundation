@@ -94,7 +94,7 @@ export default {
     },
     AD_Text: {
         type: 'Polygon',
-        textFields: ['TYPE'],
+        textFields: ['CONT_TYPE'],
         order: 7,
         showStyles: ['textStyle']
     },

@@ -26,6 +26,23 @@ const formItemLayout = {
 @inject('DataLayerStore')
 @observer
 class BasicAttributesForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { disabledList: this.setDisabledList() };
+    }
+
+    setDisabledList = currentValues => {
+        const { AttributeStore } = this.props;
+        const { attributes } = AttributeStore;
+        const disabledList = attributes.reduce((total, item) => {
+            const { key, linkDisabled } = item;
+            const value = currentValues ? currentValues[key] : item.value;
+            const fieldDisabledList = linkDisabled?.[value] ?? [];
+            return [...total, ...fieldDisabledList];
+        }, []);
+        return [...new Set(disabledList)];
+    };
+
     render() {
         const { AttributeStore } = this.props;
         const { attributes } = AttributeStore;
@@ -56,6 +73,7 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderInputNumber = (item, index, name) => {
+        const { disabledList } = this.state;
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
         return (
@@ -73,6 +91,7 @@ class BasicAttributesForm extends React.Component {
                     })(
                         <AdInputNumber
                             type="number"
+                            disabled={disabledList?.includes(item.key)}
                             onChange={val => this.handleChange(val, item, name)}
                         />
                     )
@@ -86,9 +105,9 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderInput = (item, index, name) => {
+        const { disabledList } = this.state;
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
-
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
@@ -101,7 +120,12 @@ class BasicAttributesForm extends React.Component {
                             ...this.getValidatorSetting(item.validates)
                         ],
                         initialValue: item.value
-                    })(<Input onChange={val => this.handleChange(val, item, name)} />)
+                    })(
+                        <Input
+                            disabled={disabledList?.includes(item.key)}
+                            onChange={val => this.handleChange(val, item, name)}
+                        />
+                    )
                 ) : (
                     <span className="ant-form-text">
                         {this.isPresent(item.value) ? item.value : '--'}
@@ -112,6 +136,7 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderSelect = (item, index, name) => {
+        const { disabledList } = this.state;
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
@@ -134,6 +159,7 @@ class BasicAttributesForm extends React.Component {
                                 option.props.children.toLowerCase().indexOf(input.toLowerCase()) >=
                                 0
                             }
+                            disabled={disabledList?.includes(item.key)}
                             onChange={val => this.handleChange(val, item, name)}
                         >
                             {options.map((option, index) => {
@@ -155,11 +181,16 @@ class BasicAttributesForm extends React.Component {
     };
 
     handleChange = (val, filed, name) => {
-        const { link } = filed;
+        const { key, link } = filed;
+        //表单内容联动
         if (link) {
             const linkData = link[val] || link.default || null;
             linkData && this.props.form.setFieldsValue({ [name]: linkData });
         }
+        //表单disabled状态联动
+        const fieldsValue = this.props.form.getFieldsValue().attributes;
+        fieldsValue[key] = val;
+        this.setState({ disabledList: this.setDisabledList(fieldsValue) });
     };
 
     getArrayOption = (value, arr) => {
@@ -294,9 +325,9 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderPercentInput = (item, index, name) => {
+        const { disabledList } = this.state;
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
-
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
@@ -313,6 +344,7 @@ class BasicAttributesForm extends React.Component {
                         <AdInputNumber
                             min={0}
                             max={1}
+                            disabled={disabledList?.includes(item.key)}
                             onChange={val => this.handleChange(val, item, name)}
                         />
                     )
@@ -326,9 +358,9 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderAdDateInput = (item, index, name) => {
+        const { disabledList } = this.state;
         const { form, AttributeStore } = this.props;
         const { readonly } = AttributeStore;
-
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
@@ -342,7 +374,12 @@ class BasicAttributesForm extends React.Component {
                         ],
                         initialValue: item.value,
                         validateTrigger: 'onBlur'
-                    })(<AdDateInput />)
+                    })(
+                        <AdDateInput
+                            disabled={disabledList?.includes(item.key)}
+                            key={Math.random()}
+                        />
+                    )
                 ) : (
                     <span className="ant-form-text">{item.value}</span>
                 )}

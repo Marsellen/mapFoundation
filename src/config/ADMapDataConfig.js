@@ -370,24 +370,29 @@ export const TYPE_SELECT_OPTION_MAP = {
     ],
     AD_TEXT_CONT_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi', abbreviation: '0' },
-        { value: 1, label: '最高速度限速', icon: 'zuigaoxiansufh', abbreviation: '高' },
-        { value: 2, label: '最低速度限速', icon: 'zuidixiansufh', abbreviation: '低' },
-        { value: 3, label: '潮汐车道限制', icon: 'chaoxichedaoxianzhifh', abbreviation: '潮汐' },
-        { value: 4, label: '禁止停车限制', icon: 'jinzhitingchefh', abbreviation: '禁停' },
-        { value: 5, label: 'HOV车道限制', icon: 'hovchedaoxianzhifh', abbreviation: 'HOV' },
+        { value: 1, label: '最高速度限制', icon: 'zuigaoxiansufh', abbreviation: '高限' },
+        { value: 2, label: '最低速度限制', icon: 'zuidixiansufh', abbreviation: '低限' },
+        {
+            value: 3,
+            label: '潮汐车道时间限制',
+            icon: 'chaoxichedaoxianzhifh',
+            abbreviation: '潮限'
+        },
+        { value: 4, label: '禁止停车时间限制', icon: 'jinzhitingchefh', abbreviation: '禁停' },
+        { value: 5, label: 'HOV车道时间限制', icon: 'hovchedaoxianzhifh', abbreviation: 'HOV限' },
         {
             value: 6,
             label: '公交车道时间限制',
             icon: 'gongjiaochedaoshijianxianzhi',
-            abbreviation: '公交'
+            abbreviation: '公交限'
         },
-        { value: 99, label: '其他', icon: 'qitafh', abbreviation: '其他' }
+        { value: 99, label: '其他', icon: 'qitafh', abbreviation: '99' }
     ],
     AD_TEXT_VEH_LMT: [
         { value: 0, label: '未定义', abbreviation: '0' },
-        { value: 1, label: '小客车', abbreviation: '客车' },
-        { value: 2, label: '公交车', abbreviation: '公交' },
-        { value: 99, label: '其他', abbreviation: '其他' }
+        { value: 1, label: '小客车', abbreviation: '客' },
+        { value: 2, label: '公交车', abbreviation: '公' },
+        { value: 99, label: '其他', abbreviation: '99' }
     ],
     AD_LANE_RS_TYPE: [
         { value: 0, label: '未定义' },
@@ -969,7 +974,27 @@ export const TABLE_DATA_MAP = {
             key: 'CONT_TYPE',
             name: '文本语义类型',
             type: 'AD_TEXT_CONT_TYPE',
-            domType: 'RadioIconGroup'
+            domType: 'RadioIconGroup',
+            link: {
+                0: { SPEED: 0, TIMEDOM: '', VEH_LMT: 0 },
+                1: { TIMEDOM: '' },
+                2: { TIMEDOM: '' },
+                3: { SPEED: 0 },
+                4: { SPEED: 0 },
+                5: { SPEED: 0 },
+                6: { SPEED: 0 },
+                99: { SPEED: 0, TIMEDOM: '', VEH_LMT: 0 }
+            },
+            linkDisabled: {
+                0: ['SPEED', 'TIMEDOM', 'VEH_LMT'],
+                1: ['TIMEDOM'],
+                2: ['TIMEDOM'],
+                3: ['SPEED'],
+                4: ['SPEED'],
+                5: ['SPEED'],
+                6: ['SPEED'],
+                99: ['SPEED', 'TIMEDOM', 'VEH_LMT']
+            }
         },
         {
             key: 'SPEED',
