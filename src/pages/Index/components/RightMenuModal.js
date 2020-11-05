@@ -315,7 +315,6 @@ class RightMenuModal extends React.Component {
             checkSdkError(result, '未选择打断点');
             this.breakLineHandler(result);
         } catch (e) {
-            message.error(e.message);
             throw e;
         }
     }
@@ -663,7 +662,6 @@ class RightMenuModal extends React.Component {
             checkSdkError(result, '打断辅助线绘制失败');
             this.breakByLineHandler(result);
         } catch (e) {
-            message.error(e.message);
             throw e;
         }
     }

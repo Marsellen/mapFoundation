@@ -1967,7 +1967,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LANE_DIVIDER_PLN_FEAT_TYPE',
+                type: 'AD_LANE_DIVIDER_PLN_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2043,7 +2043,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LANE_DIVIDER_PLG_FEAT_TYPE',
+                type: 'AD_LANE_DIVIDER_PLG_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2111,7 +2111,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_STOPLOCATION_GEO_FEAT_TYPE',
+                type: 'AD_STOPLOCTION_GEO_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2299,7 +2299,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_ARROW_GEO_FEAT_TYPE',
+                type: 'AD_ARROW_GEO_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2415,7 +2415,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LANEMARK_GEO_FEAT_TYPE',
+                type: 'AD_LANE_MARK_GEO_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2886,7 +2886,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_TRAFFICSIGN_GEO_FEAT_TYPE',
+                type: 'AD_TRAFFIC_SIGN_GEO_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2962,7 +2962,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_TRAFFICLIGHT_GEO_FEAT_TYPE',
+                type: 'AD_TRAFFIC_LIGHT_GEO_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
