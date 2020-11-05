@@ -22,13 +22,23 @@ import TaskStore from 'src/pages/Index/store/TaskStore';
 
 import 'src/assets/less/components/right-menu-modal.less';
 
-//可以复制的面图层
+//可以复制的图层
 const copyPolygonLayers = [
+    'AD_LaneDivider',
+    'AD_Lane',
+    'AD_Road',
+    'AD_LaneDivider_Pln',
     'AD_Arrow',
     'AD_LaneMark_Plg',
     'AD_Text',
     'AD_TrafficSign',
-    'AD_TrafficLight'
+    'AD_TrafficLight',
+    'AD_LaneDivider_Plg',
+    'AD_Arrow_Geo',
+    'AD_LaneMark_Geo',
+    'AD_TrafficSign_Geo',
+    'AD_TrafficLight_Geo',
+    'AD_StopLocation_Geo'
 ];
 
 const EDIT_TYPE = [

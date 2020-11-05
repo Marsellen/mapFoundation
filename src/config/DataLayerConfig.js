@@ -254,22 +254,6 @@ export const DATA_LAYER_MAP = {
         groupRightTools: ['batchAssign'],
         editName: '交通信号灯'
     },
-    AD_TrafficSign: {
-        label: '交通标志牌',
-        id: 'SIGN_ID',
-        spec: 'AD_TrafficSign',
-        tools: {
-            recognition: ['DRAW_TOOL_BOX', 'POSTURE_ADJUST'],
-            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'POSTURE_ADJUST']
-        },
-        drawTools: {
-            recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE'],
-            manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE']
-        },
-        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'deletePoints'],
-        groupRightTools: ['batchAssign'],
-        editName: '交通标志牌'
-    },
     AD_Marker: {
         label: '质检标注图层',
         id: 'ID',
@@ -371,7 +355,7 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE', 'CURVED_LINE'],
             manbuild: ['LINE', 'CURVED_LINE']
         },
-        rightTools: ['delete', 'copyLine', 'reverseOrderLine', 'changePoints', 'break', 'trim'],
+        rightTools: ['delete', 'copyLine', 'reverseOrderLine', 'changePoints', 'break', 'trim', 'forceDelete'],
         groupRightTools: ['breakGroup', 'merge', 'batchMerge', 'breakByLine', 'batchAssign'],
         editName: '几何层：\n车道线线要素'
     },
@@ -387,7 +371,7 @@ export const DATA_LAYER_MAP = {
             recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
             manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
         },
-        rightTools: ['delete', 'copyLine', 'changePoints'],
+        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
         groupRightTools: ['batchAssign'],
         editName: '几何层：\n车道线面要素'
     },
@@ -403,7 +387,7 @@ export const DATA_LAYER_MAP = {
             recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
             manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
         },
-        rightTools: ['delete', 'copyLine', 'changePoints'],
+        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
         groupRightTools: ['batchAssign'],
         editName: '几何层：\n停止位置'
     },
@@ -419,7 +403,7 @@ export const DATA_LAYER_MAP = {
             recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
             manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
         },
-        rightTools: ['delete', 'copyLine', 'changePoints'],
+        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
         groupRightTools: ['batchAssign'],
         editName: '几何层：\n箭头'
     },
@@ -435,7 +419,7 @@ export const DATA_LAYER_MAP = {
             recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
             manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
         },
-        rightTools: ['delete', 'copyLine', 'changePoints'],
+        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
         groupRightTools: ['batchAssign'],
         editName: '几何层：\n路面车道标记'
     },
@@ -451,7 +435,7 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE', 'CURVED_LINE'],
             manbuild: ['LINE', 'CURVED_LINE']
         },
-        rightTools: ['delete', 'changePoints'],
+        rightTools: ['delete', 'changePoints', 'forceDelete'],
         groupRightTools: ['batchAssign'],
         editName: '几何层：\n杆状物'
     },
@@ -467,7 +451,7 @@ export const DATA_LAYER_MAP = {
             recognition: ['POLYGON', 'ADD_CIRCLE', 'ADD_OUTSIDE_RECTANGLE'],
             manbuild: ['POLYGON', 'ADD_CIRCLE', 'ADD_OUTSIDE_RECTANGLE']
         },
-        rightTools: ['delete', 'copyLine', 'changePoints'],
+        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
         groupRightTools: ['batchAssign'],
         editName: '几何层：\n交通标志牌'
     },
@@ -483,7 +467,7 @@ export const DATA_LAYER_MAP = {
             recognition: ['POLYGON', 'ADD_OUTSIDE_RECTANGLE'],
             manbuild: ['POLYGON', 'ADD_OUTSIDE_RECTANGLE']
         },
-        rightTools: ['delete', 'copyLine', 'changePoints'],
+        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
         groupRightTools: ['batchAssign'],
         editName: '几何层：\n交通信号灯'
     }
