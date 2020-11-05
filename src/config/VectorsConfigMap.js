@@ -9092,10 +9092,14 @@ const CHECK_VECTOR_CONFIG_MAP = {
         ],
         typeArr: [
             {
-                key: 'TYPE',
-                name: '文字符号类型',
-                type: 'AD_TEXT_TYPE',
-                domType: 'RadioIconGroup'
+                key: 'CONT_TYPE',
+                name: '文本语义类型',
+                type: 'AD_TEXT_CONT_TYPE'
+            },
+            {
+                key: 'VEH_LMT',
+                name: '车辆限制描述',
+                type: 'AD_TEXT_VEH_LMT'
             }
         ]
     },

@@ -979,8 +979,8 @@ export const TABLE_DATA_MAP = {
             domType: 'RadioIconGroup',
             link: {
                 0: { SPEED: 0, TIMEDOM: '', VEH_LMT: 0 },
-                1: { TIMEDOM: '' },
-                2: { TIMEDOM: '' },
+                1: { SPEED: 120, TIMEDOM: '' },
+                2: { SPEED: 60, TIMEDOM: '' },
                 3: { SPEED: 0 },
                 4: { SPEED: 0 },
                 5: { SPEED: 0 },
