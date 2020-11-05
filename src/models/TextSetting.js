@@ -38,6 +38,9 @@ class TextSetting {
     getTextConfig = type => {
         if (TYPE_SELECT_OPTION_MAP[type]) {
             let constants = TYPE_SELECT_OPTION_MAP[type];
+            if (Array.isArray(constants[0])) {
+                constants = constants.flat();
+            }
             if (EXTRA_TEXT_CONFIG[type]) {
                 constants = constants.concat(EXTRA_TEXT_CONFIG[type]);
             }
