@@ -181,7 +181,7 @@ export default function AdTrafficSignContent(props) {
                     )}
                 </div>
             ))}
-            {!readonly && (
+            {!readonly && contents.length < 10 && (
                 <Button
                     onClick={() => {
                         const values = form.getFieldValue(`${name}.${key}`);
