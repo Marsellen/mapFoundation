@@ -774,9 +774,6 @@ export const DEFAULT_PROPERTIES_MAP = {
         VEH_LMT: 0,
         TEXT: ''
     },
-    AD_TrafficSign: {
-        SIGN_STYLE: 1
-    },
     AD_TrafficLight: {},
     AD_TrafficSign: {
         SIGN_STYLE: 1,
@@ -1198,20 +1195,6 @@ export const TABLE_DATA_MAP = {
             name: '属性变化点类型',
             type: 'AD_LANE_ATTRPOINT_TYPE',
             domType: 'RadioIconGroup'
-        }
-    ],
-    AD_TrafficSign: [
-        {
-            key: 'SIGN_ID',
-            name: '用户编号',
-            type: 'AD_TRAFFICSIGN_ID',
-            domType: 'Text'
-        },
-        {
-            key: 'SIGN_STYLE',
-            name: '交通标志牌样式',
-            type: 'AD_TRAFFICSIGN_SIGN_STYLE',
-            domType: 'Select'
         }
     ],
     AD_TrafficLight: [
