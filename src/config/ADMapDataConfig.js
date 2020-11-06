@@ -571,173 +571,71 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 4, label: '最低速度限制' }
     ],
     AD_TS_CONTENT_SIGN_TYPE: [
-        // 1
         [
-            { value: 100, label: '警告类标志', icon: 'jinggaolei' },
+            { value: 2100, label: '其他警告标志', icon: 'jinggaolei' },
+            { value: 2101, label: '建议速度', icon: 'jianyisudu' },
+            { value: 2200, label: '其他禁令标志', icon: 'jinlinglei' },
+            { value: 2201, label: '停车让行', icon: 'tingcherangxing' },
+            { value: 2202, label: '减速让行', icon: 'jiansurangxing' },
+            { value: 2203, label: '会车让行', icon: 'huicherangxing' },
+            { value: 2204, label: '禁止通行', icon: 'jinzhitongxing' },
+            { value: 2205, label: '禁止驶入', icon: 'jinzhishiru' },
+            { value: 2206, label: '禁止机动车驶入', icon: 'jinzhijidongchetongxing' },
+            { value: 2207, label: '禁止向左转弯', icon: 'jinzhizuozhuanwan' },
+            { value: 2208, label: '禁止向右转弯', icon: 'jinzhiyouzhuanwan' },
+            { value: 2209, label: '禁止直行', icon: 'jinzhizhixing' },
+            { value: 2210, label: '禁止向左向右转弯', icon: 'jinzhizuoyouzhuanwan' },
+            { value: 2211, label: '禁止直行和向左转弯', icon: 'jinzhizhixinghezuozhuanwan' },
+            { value: 2212, label: '禁止直行和向右转弯', icon: 'jinzhizhixingheyouzhuanwan' },
+            { value: 2213, label: '禁止掉头', icon: 'jinzhidiaotou' },
+            { value: 2214, label: '禁止超车', icon: 'jinzhichaoche' },
+            { value: 2215, label: '解除禁止超车', icon: 'jiechujinzhichaoche' },
+            { value: 2216, label: '禁止停车', icon: 'jinzhitingche' },
+            { value: 2217, label: '禁止长时间停车', icon: 'jinzhichangshitingche' },
+            { value: 2219, label: '限制速度', icon: 'xianzhisudu' },
+            { value: 2220, label: '解除限制速度', icon: 'jiechuxianzhisudu' },
+            { value: 2223, label: '区域禁止-禁止长时间停车', icon: 'quyujinzhichangshitingche' },
             {
-                value: 136,
-                label: '建议速度',
-                icon: 'jianyisudu'
-            },
-            {
-                value: 200,
-                label: '禁令类标志',
-                icon: 'jinlinglei'
-            },
-            { value: 219, label: '限制速度', icon: 'xianzhisudu' },
-            { value: 216, label: '禁止停车', icon: 'jinzhitingche' },
-            { value: 202, label: '减速让行', icon: 'jiansurangxing' },
-            { value: 201, label: '停车让行', icon: 'tingcherangxing' },
-            { value: 207, label: '禁止向左转弯', icon: 'jinzhizuozhuanwan' },
-            { value: 208, label: '禁止向右转弯', icon: 'jinzhiyouzhuanwan' },
-            { value: 209, label: '禁止直行', icon: 'jinzhizhixing' },
-            { value: 213, label: '禁止掉头', icon: 'jinzhidiaotou' },
-            {
-                value: 206,
-                label: '禁止机动车驶入',
-                icon: 'jinzhijidongchetongxing'
-            },
-            { value: 214, label: '禁止超车', icon: 'jinzhichaoche' }
-        ],
-        // 2
-        [
-            { value: 205, label: '禁止驶入', icon: 'jinzhishiru' },
-            {
-                value: 203,
-                label: '会车让行',
-                icon: 'huicherangxing'
-            },
-            {
-                value: 204,
-                label: '禁止通行',
-                icon: 'jinzhitongxing'
-            },
-            {
-                value: 210,
-                label: '禁止向左向右转弯',
-                icon: 'jinzhizuoyouzhuanwan'
-            },
-            {
-                value: 211,
-                label: '禁止直行和向左转弯',
-                icon: 'jinzhizhixinghezuozhuanwan'
-            },
-            {
-                value: 212,
-                label: '禁止直行和向右转弯',
-                icon: 'jinzhizhixingheyouzhuanwan'
-            },
-            { value: 215, label: '解除禁止超车', icon: 'jiechujinzhichaoche' },
-            {
-                value: 217,
-                label: '禁止长时停车',
-                icon: 'jinzhichangshitingche'
-            },
-            { value: 220, label: '解除限制速度', icon: 'jiechuxianzhisudu' },
-            {
-                value: 223,
-                label: '区域禁止—禁止长时停车',
-                icon: 'quyujinzhichangshitingche'
-            },
-            {
-                value: 224,
-                label: '区域禁止解除—解除禁止长时停车',
+                value: 2224,
+                label: '区域禁止解除-解除禁止长时间停车',
                 icon: 'quyujiechujinzhichangshitingche'
             },
+            { value: 2225, label: '区域禁止-禁止停车', icon: 'quyujinzhitingche' },
+            { value: 2226, label: '区域禁止解除-解除禁止停车', icon: 'quyujiechujinzhitingche' },
+            { value: 2227, label: '区域禁止-速度限制', icon: 'quyusuduxianzhi' },
+            { value: 2228, label: '区域禁止解除-解除速度限制', icon: 'quyujiechusuduxianzhi' },
+            { value: 2300, label: '其他指示类标志', icon: 'zhishilei' },
+            { value: 2314, label: '最低限速', icon: 'zuidixiansu' },
+            { value: 2318, label: '车道行驶方向-直行', icon: 'chedaoxingshizhixing' },
+            { value: 2321, label: '允许掉头', icon: 'yunxudiaotou' },
+            { value: 2322, label: '车道行驶方向-左转', icon: 'chedaoxingshizuozhuan' },
+            { value: 2323, label: '车道行驶方向-右转', icon: 'chedaoxingshiyouzhuan' },
             {
-                value: 225,
-                label: '区域禁止—禁止停车',
-                icon: 'quyujinzhitingche'
-            },
-            {
-                value: 226,
-                label: '区域禁止解除—解除禁止停车',
-                icon: 'quyujiechujinzhitingche'
-            }
-        ],
-        // 3
-        [
-            { value: 227, label: '区域禁止—速度限制', icon: 'quyusuduxianzhi' },
-            {
-                value: 228,
-                label: '区域禁止解除—解除速度限制',
-                icon: 'quyujiechusuduxianzhi'
-            },
-            {
-                value: 300,
-                label: '指示类标志',
-                icon: 'zhishilei'
-            },
-            {
-                value: 328,
-                label: '车道行驶方向--其他',
-                icon: 'chedaoxingshi-qitafangxiang'
-            },
-            { value: 321, label: '允许掉头', icon: 'yunxudiaotou' },
-            {
-                value: 318,
-                label: '车道行驶方向--直行',
-                icon: 'chedaoxingshizhixing'
-            },
-            {
-                value: 322,
-                label: '车道行驶方向--左转',
-                icon: 'chedaoxingshizuozhuan'
-            },
-            {
-                value: 323,
-                label: '车道行驶方向--右转',
-                icon: 'chedaoxingshiyouzhuan'
-            },
-            {
-                value: 324,
-                label: '车道行驶方向--直行和左转',
+                value: 2324,
+                label: '车道行驶方向-直行和左转',
                 icon: 'chedaoxingshi-zhixinghezuozhuan'
             },
             {
-                value: 325,
-                label: '车道行驶方向--直行和右转',
+                value: 2325,
+                label: '车道行驶方向-直行和右转',
                 icon: 'chedaoxingshi-zhixingheyouzhuan'
             },
             {
-                value: 326,
-                label: '车道行驶方向--左转和掉头',
+                value: 2326,
+                label: '车道行驶方向-左转和掉头',
                 icon: 'chedaoxingshi-diaotouhezuozhuan'
             },
-            {
-                value: 327,
-                label: '车道行驶方向--掉头',
-                icon: 'chedaoxingshi-diaotou'
-            },
-            { value: 314, label: '最低限速', icon: 'zuidixiansu' }
-        ],
-        // 4
-        [
-            { value: 404, label: '表示时间标志', icon: 'biaoshishijian' },
-            {
-                value: 406,
-                label: '特殊路段辅助标志',
-                icon: 'teshuluduanfuzhubiaozhi'
-            },
-            {
-                value: 600,
-                label: '动态限速标志',
-                icon: 'dongtaixiansu'
-            },
-            { value: 500, label: '其他标志牌', icon: 'qitabiaozhi' },
-            { value: 401, label: '区间测速起点', icon: 'qujiancesuqidian' },
-            { value: 402, label: '区间测速终点', icon: 'qujiancesuzhongdian' },
-            {
-                value: 403,
-                label: '区间测速起点和距离',
-                icon: 'qujiancesuchangdu'
-            },
-            { value: 405, label: '特殊天气辅助标志', icon: 'zhuyiteshutianqi' },
-            {
-                value: 601,
-                label: '其他电子标志牌',
-                icon: 'qitadianzibiaozhipai'
-            },
+            { value: 2327, label: '车道行驶方向-掉头', icon: 'chedaoxingshi-diaotou' },
+            { value: 2328, label: '车道行驶方向-其他', icon: 'chedaoxingshi-qitafangxiang' },
+            { value: 2401, label: '区间测速起点', icon: 'qujiancesuqidian' },
+            { value: 2402, label: '区间测速终点', icon: 'qujiancesuzhongdian' },
+            { value: 2403, label: '区间测速起点和距离', icon: 'qujiancesuchangdu' },
+            { value: 2404, label: '表示时间标志', icon: 'biaoshishijian' },
+            { value: 2405, label: '特殊天气辅助标志', icon: 'zhuyiteshutianqi' },
+            { value: 2406, label: '特殊路段辅助标志', icon: 'teshuluduanfuzhubiaozhi' },
+            { value: 2500, label: '其他标志牌', icon: 'qitabiaozhi' },
+            { value: 2600, label: '动态限速标志', icon: 'dongtaixiansu' },
+            { value: 2601, label: '其他电子标志牌', icon: 'qitadianzibiaozhipai' },
             { value: 0, label: '未定义', icon: 'weidingyi' }
         ]
     ],
