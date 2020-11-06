@@ -290,12 +290,11 @@ export const TYPE_SELECT_OPTION_MAP = {
         //     abbreviation: '斜人'
         // }
     ],
-    AD_TRAFFICSIGN_SIGN_STYLE: [
+    AD_TRAFFIC_SIGN_STYLE: [
         { value: 0, label: '未定义', abbreviation: '0' },
         { value: 1, label: '单个标志牌', abbreviation: '单' },
         { value: 2, label: '组合标志牌', abbreviation: '组合' }
     ],
-
     AD_TRAFFIC_LIGHT_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi', abbreviation: '0' },
         {
@@ -559,10 +558,6 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3003, label: '铁路平交路口信号灯', icon: 'tielupingjiaolukouxinhaodeng' },
         { value: 3099, label: '其他', icon: 'qita' }
     ],
-    AD_TRAFFIC_SIGN_STYLE: [
-        { value: 1, label: '单个标志牌' },
-        { value: 2, label: '组合标志牌' }
-    ],
     AD_TS_CONTENT_CONT_TYPE: [
         { value: 0, label: '未定义' },
         { value: 1, label: '禁止转向' },
@@ -674,7 +669,7 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_TrafficLight: {},
     AD_TrafficSign: {
-        SIGN_STYLE: 1,
+        SIGN_STYLE: 0,
         OBJ_FUNC: [{ SIGN_TYPE: 0, CONT_TYPE: 0, CONT_VALUE: 0, TIMEDOM: '' }]
     },
     AD_LaneDivider: {
@@ -1621,13 +1616,12 @@ export const LAYER_TYPE_MAP = {
     AD_TrafficSign: [
         {
             key: 'SIGN_ID',
-            name: '用户编号',
-            type: 'AD_TRAFFICSIGN_ID'
+            name: '用户编号'
         },
         {
             key: 'SIGN_STYLE',
             name: '交通标志牌样式',
-            type: 'AD_TRAFFICSIGN_SIGN_STYLE'
+            type: 'AD_TRAFFIC_SIGN_STYLE'
         }
     ],
     AD_TrafficLight: [

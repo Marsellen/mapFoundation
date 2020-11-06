@@ -1674,7 +1674,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'SIGN_STYLE',
                 name: '交通标志牌样式',
-                type: 'AD_TRAFFICSIGN_SIGN_STYLE',
+                type: 'AD_TRAFFIC_SIGN_STYLE',
                 domType: 'Select'
             }
         ]
@@ -5500,7 +5500,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             {
                 key: 'SIGN_STYLE',
                 name: '交通标志牌样式',
-                type: 'AD_TRAFFICSIGN_SIGN_STYLE',
+                type: 'AD_TRAFFIC_SIGN_STYLE',
                 domType: 'Select'
             }
         ]
@@ -9157,7 +9157,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 key: 'SIGN_STYLE',
                 name: '交通标志牌样式',
-                type: 'AD_TRAFFICSIGN_SIGN_STYLE',
+                type: 'AD_TRAFFIC_SIGN_STYLE',
                 domType: 'Select'
             }
         ]
