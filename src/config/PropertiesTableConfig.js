@@ -341,7 +341,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'SIGN_STYLE',
             title: '标志牌类型',
-            filterBy: 'typeFilter|AD_TRAFFICSIGN_SIGN_STYLE'
+            filterBy: 'typeFilter|AD_TRAFFIC_SIGN_STYLE'
         },
         {
             dataIndex: 'OBJ_FUNC',
