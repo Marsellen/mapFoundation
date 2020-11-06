@@ -669,7 +669,7 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_TrafficLight: {},
     AD_TrafficSign: {
-        SIGN_STYLE: 0,
+        SIGN_STYLE: 1,
         OBJ_FUNC: [{ SIGN_TYPE: 0, CONT_TYPE: 0, CONT_VALUE: 0, TIMEDOM: '' }]
     },
     AD_LaneDivider: {
