@@ -321,12 +321,8 @@ class RightMenuModal extends React.Component {
 
     @logDecorator({ operate: '线打断', onlyRun: true })
     breakCallBack(result) {
-        try {
-            checkSdkError(result, '未选择打断点');
-            this.breakLineHandler(result);
-        } catch (e) {
-            throw e;
-        }
+        checkSdkError(result, '未选择打断点');
+        this.breakLineHandler(result);
     }
 
     @logDecorator({ operate: '线打断' })
@@ -668,12 +664,8 @@ class RightMenuModal extends React.Component {
 
     @logDecorator({ operate: '拉线齐打断', onlyRun: true })
     breakByLineCallback(result) {
-        try {
-            checkSdkError(result, '打断辅助线绘制失败');
-            this.breakByLineHandler(result);
-        } catch (e) {
-            throw e;
-        }
+        checkSdkError(result, '打断辅助线绘制失败');
+        this.breakByLineHandler(result);
     }
 
     @logDecorator({ operate: '拉线齐打断' })

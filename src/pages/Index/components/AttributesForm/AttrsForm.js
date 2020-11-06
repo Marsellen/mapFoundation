@@ -12,12 +12,7 @@ class AttrsForm extends React.Component {
         const { AttributeStore } = this.props;
         const { type } = AttributeStore;
 
-        switch (type) {
-            case 'AD_Lane':
-                return this.renderADLaneAttr();
-            default:
-                return <div />;
-        }
+        return type === 'AD_Lane' ? this.renderADLaneAttr() : null;
     }
 
     renderADLaneAttr = () => {

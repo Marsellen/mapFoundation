@@ -13,7 +13,6 @@ import { addClass, removeClass, throttle, getCSYS } from 'src/utils/utils';
 import AdEmitter from 'src/models/event';
 import EditorConfig from 'src/config/ConctrolConfig';
 import AttributeStore from 'src/pages/Index/store/AttributeStore.js';
-import appStore from 'src/store/appStore.js';
 import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
 import { getEventPointWkt, getFeaturePointWkt } from 'src/utils/pictureCtrl';
 
