@@ -557,7 +557,7 @@ export const SELECT_OPTIONS = [
     },
     {
         group: '几何层',
-        type: 'geometry',
+        type: 'vector',
         class: 'three-layer-out',
         items: [
             'AD_LaneDivider_Pln',
@@ -586,6 +586,14 @@ export const OPTION_LAYER_MAP = {
     AD_TrafficLight: ['AD_TrafficLight'],
     AD_RS_Barrier: ['AD_RS_Barrier'],
     AD_Map_QC: ['AD_Map_QC'],
+    AD_LaneDivider_Pln: ['AD_LaneDivider_Pln'],
+    AD_LaneDivider_Plg: ['AD_LaneDivider_Plg'],
+    AD_StopLocation_Geo: ['AD_StopLocation_Geo'],
+    AD_Arrow_Geo: ['AD_Arrow_Geo'],
+    AD_LaneMark_Geo: ['AD_LaneMark_Geo'],
+    AD_Pole_Geo: ['AD_Pole_Geo'],
+    AD_TrafficSign_Geo: ['AD_TrafficSign_Geo'],
+    AD_TrafficLight_Geo: ['AD_TrafficLight_Geo'],
     //关联关系
     AD_Road_Con: ['AD_Road'],
     AD_Lane_Con: ['AD_Lane'],

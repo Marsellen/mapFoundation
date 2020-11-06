@@ -8,6 +8,7 @@ import { message } from 'antd';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
+@inject('RightMenuStore')
 @inject('TaskStore')
 @observer
 class AttributeBrush extends React.Component {
@@ -44,7 +45,7 @@ class AttributeBrush extends React.Component {
     }
 
     action = () => {
-        const { DataLayerStore, AttributeStore } = this.props;
+        const { DataLayerStore, AttributeStore, RightMenuStore } = this.props;
         if (DataLayerStore.editType == 'attribute_brush') return;
         if (DataLayerStore.changeUnAble())
             return message.error({
@@ -52,7 +53,7 @@ class AttributeBrush extends React.Component {
                 duration: 3,
                 key: 'edit_error'
             });
-
+        RightMenuStore.hide();
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
         DataLayerStore.AttributeBrush();
