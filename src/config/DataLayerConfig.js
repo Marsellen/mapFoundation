@@ -368,8 +368,8 @@ export const DATA_LAYER_MAP = {
             manbuild: ['DRAW_TOOL_BOX']
         },
         drawTools: {
-            recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
-            manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
+            recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],
+            manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON']
         },
         rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
         groupRightTools: ['batchAssign'],
@@ -384,8 +384,8 @@ export const DATA_LAYER_MAP = {
             manbuild: ['DRAW_TOOL_BOX']
         },
         drawTools: {
-            recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
-            manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
+            recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],
+            manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON']
         },
         rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
         groupRightTools: ['batchAssign'],
@@ -448,8 +448,8 @@ export const DATA_LAYER_MAP = {
             manbuild: ['DRAW_TOOL_BOX', 'POSTURE_ADJUST']
         },
         drawTools: {
-            recognition: ['POLYGON', 'ADD_CIRCLE', 'ADD_OUTSIDE_RECTANGLE'],
-            manbuild: ['POLYGON', 'ADD_CIRCLE', 'ADD_OUTSIDE_RECTANGLE']
+            recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE'],
+            manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE']
         },
         rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
         groupRightTools: ['batchAssign'],
@@ -464,8 +464,8 @@ export const DATA_LAYER_MAP = {
             manbuild: ['DRAW_TOOL_BOX', 'POSTURE_ADJUST']
         },
         drawTools: {
-            recognition: ['POLYGON', 'ADD_OUTSIDE_RECTANGLE'],
-            manbuild: ['POLYGON', 'ADD_OUTSIDE_RECTANGLE']
+            recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE'],
+            manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE']
         },
         rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
         groupRightTools: ['batchAssign'],
