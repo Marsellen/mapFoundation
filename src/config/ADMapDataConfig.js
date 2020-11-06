@@ -1278,12 +1278,12 @@ export const TABLE_DATA_MAP = {
         {
             key: 'CFD_GEO',
             name: '几何形状置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         },
         {
             key: 'CFD_FEAT',
             name: '要素类型置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         }
     ],
     AD_LaneDivider_Plg: [
@@ -1301,12 +1301,12 @@ export const TABLE_DATA_MAP = {
         {
             key: 'CFD_GEO',
             name: '几何形状置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         },
         {
             key: 'CFD_FEAT',
             name: '要素类型置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         }
     ],
     AD_StopLocation_Geo: [
@@ -1324,12 +1324,12 @@ export const TABLE_DATA_MAP = {
         {
             key: 'CFD_GEO',
             name: '几何形状置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         },
         {
             key: 'CFD_FEAT',
             name: '要素类型置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         }
     ],
     AD_Arrow_Geo: [
@@ -1347,12 +1347,12 @@ export const TABLE_DATA_MAP = {
         {
             key: 'CFD_GEO',
             name: '几何形状置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         },
         {
             key: 'CFD_FEAT',
             name: '要素类型置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         }
     ],
     AD_LaneMark_Geo: [
@@ -1370,12 +1370,12 @@ export const TABLE_DATA_MAP = {
         {
             key: 'CFD_GEO',
             name: '几何形状置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         },
         {
             key: 'CFD_FEAT',
             name: '要素类型置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         }
     ],
     AD_Pole_Geo: [
@@ -1387,12 +1387,12 @@ export const TABLE_DATA_MAP = {
         {
             key: 'CFD_GEO',
             name: '几何形状置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         },
         {
             key: 'CFD_FEAT',
             name: '要素类型置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         }
     ],
     AD_TrafficSign_Geo: [
@@ -1410,12 +1410,12 @@ export const TABLE_DATA_MAP = {
         {
             key: 'CFD_GEO',
             name: '几何形状置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         },
         {
             key: 'CFD_FEAT',
             name: '要素类型置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         }
     ],
     AD_TrafficLight_Geo: [
@@ -1433,12 +1433,12 @@ export const TABLE_DATA_MAP = {
         {
             key: 'CFD_GEO',
             name: '几何形状置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         },
         {
             key: 'CFD_FEAT',
             name: '要素类型置信度',
-            domType: 'PercentInput'
+            domType: 'Text'
         }
     ]
 };
