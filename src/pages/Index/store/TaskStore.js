@@ -351,7 +351,6 @@ class TaskStore {
                 taskType: processName
             });
             const { successCurrentList } = result?.data ?? {};
-            if (successCurrentList.length === 0) throw new Error(this.activeTaskId);
             this.taskFileNames = successCurrentList;
             this.taskFileMap = this.getTaskFileMap(successCurrentList, completeEditUrl);
         } catch (e) {
