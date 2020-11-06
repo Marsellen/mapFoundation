@@ -1967,7 +1967,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LANE_DIVIDER_PLN_TYPE',
+                type: 'AD_LANE_DIVIDER_PLN_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2043,7 +2043,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LANE_DIVIDER_PLG_TYPE',
+                type: 'AD_LANE_DIVIDER_PLG_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2111,7 +2111,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_STOPLOCTION_GEO_TYPE',
+                type: 'AD_STOPLOCTION_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2299,7 +2299,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_ARROW_GEO_TYPE',
+                type: 'AD_ARROW_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2415,7 +2415,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LANE_MARK_GEO_TYPE',
+                type: 'AD_LANE_MARK_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2886,7 +2886,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_TRAFFIC_SIGN_GEO_TYPE',
+                type: 'AD_TRAFFIC_SIGN_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -2962,7 +2962,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_TRAFFIC_LIGHT_GEO_TYPE',
+                type: 'AD_TRAFFIC_LIGHT_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -5188,7 +5188,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             {
                 showFields: 'NOKEY',
                 lineStyle: 'solid',
-                color: 'rgb(32,52,240)',
+                color: 'rgb(231,120,0)',
                 opacity: 1,
                 arrow: false,
                 point: false,
@@ -8841,7 +8841,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 showFields: 'NOKEY',
                 lineStyle: 'solid',
-                color: 'rgb(32,52,240)',
+                color: 'rgb(231,120,0)',
                 opacity: 1,
                 arrow: false,
                 point: false,
