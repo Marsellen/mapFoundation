@@ -6,7 +6,6 @@ import AdMessage from 'src/components/AdMessage';
 import 'less/components/tool-icon.less';
 
 @inject('DataLayerStore')
-@inject('RightMenuStore')
 @observer
 class Ranging extends React.Component {
     render() {
@@ -23,8 +22,7 @@ class Ranging extends React.Component {
 
     action = () => {
         if (this.props.disabled) return;
-        const { DataLayerStore, RightMenuStore } = this.props;
-        RightMenuStore.hide();
+        const { DataLayerStore } = this.props;
         let mode = DataLayerStore.getMeasureControlMode();
         if (mode == 71) return;
         DataLayerStore.startMeatureDistance();

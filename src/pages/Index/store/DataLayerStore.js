@@ -14,6 +14,7 @@ import AdEmitter from 'src/models/event';
 import EditorConfig from 'src/config/ConctrolConfig';
 import AttributeStore from 'src/pages/Index/store/AttributeStore.js';
 import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
+import RightMenuStore from 'src/pages/Index/store/RightMenuStore';
 import { getEventPointWkt, getFeaturePointWkt } from 'src/utils/pictureCtrl';
 
 const TRACKS = ['TraceListLayer', 'TraceLayer'];
@@ -248,6 +249,7 @@ class DataLayerStore {
     };
 
     @action setEditType = type => {
+        RightMenuStore.hide();
         this.editType = type || 'normal';
     };
 

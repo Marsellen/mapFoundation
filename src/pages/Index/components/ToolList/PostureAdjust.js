@@ -15,7 +15,6 @@ import RightMenuStore from 'src/pages/Index/store/RightMenuStore';
 
 @inject('DataLayerStore')
 @inject('TaskStore')
-@inject('RightMenuStore')
 @observer
 class PostureAdjust extends React.Component {
     constructor(props) {
@@ -224,9 +223,8 @@ class PostureAdjust extends React.Component {
     };
 
     action = () => {
-        const { DataLayerStore, RightMenuStore } = this.props;
+        const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'posture_adjust') return;
-        RightMenuStore.hide();
         DataLayerStore.postureAdjust();
         this.toggle(true);
     };
