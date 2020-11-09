@@ -956,7 +956,7 @@ const MS_TASK_TEXT_CONFIG_MAP = {
         label: '几何层：杆状物',
         checked: false,
         defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
+            textFields: ['POLE_ID'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -1446,7 +1446,7 @@ const MB_TASK_TEXT_CONFIG_MAP = {
         label: '几何层：杆状物',
         checked: false,
         defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
+            textFields: ['POLE_ID'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -1936,7 +1936,7 @@ const QC_TASK_TEXT_CONFIG_MAP = {
         label: '几何层：杆状物',
         checked: false,
         defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
+            textFields: ['POLE_ID'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
