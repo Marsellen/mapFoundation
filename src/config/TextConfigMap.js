@@ -234,7 +234,7 @@ export const COMMON_TEXT_CONFIG_MAP = {
         label: '交通信号灯',
         checked: false,
         defaultStyle: {
-            textFields: ['TYPE'], //看数据规格
+            textFields: ['LIGHT_ID'], //看数据规格
             interval: 10,
             showMode: 'polygon-center',
             fontSize: 40,
@@ -724,7 +724,7 @@ const MS_TASK_TEXT_CONFIG_MAP = {
         label: '交通信号灯',
         checked: false,
         defaultStyle: {
-            textFields: ['TYPE'], //看数据规格
+            textFields: ['LIGHT_ID'], //看数据规格
             interval: 10,
             showMode: 'polygon-center',
             fontSize: 40,
@@ -1214,7 +1214,7 @@ const MB_TASK_TEXT_CONFIG_MAP = {
         label: '交通信号灯',
         checked: false,
         defaultStyle: {
-            textFields: ['TYPE'], //看数据规格
+            textFields: ['LIGHT_ID'], //看数据规格
             interval: 10,
             showMode: 'polygon-center',
             fontSize: 40,
@@ -1704,7 +1704,7 @@ const QC_TASK_TEXT_CONFIG_MAP = {
         label: '交通信号灯',
         checked: false,
         defaultStyle: {
-            textFields: ['TYPE'], //看数据规格
+            textFields: ['LIGHT_ID'], //看数据规格
             interval: 10,
             showMode: 'polygon-center',
             fontSize: 40,

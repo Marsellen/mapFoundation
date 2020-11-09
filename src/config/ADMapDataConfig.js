@@ -1773,11 +1773,6 @@ export const LAYER_TYPE_MAP = {
             key: 'ARR_DIRECT',
             name: '箭头方向',
             type: 'AD_ARROW_ARR_DIRECT'
-        },
-        {
-            key: 'LANE_ID',
-            name: '关联车道中心线ID',
-            type: 'AD_ARROW_LANE_ID'
         }
     ],
     AD_LaneAttrPoint: [
@@ -1813,21 +1808,6 @@ export const LAYER_TYPE_MAP = {
             key: 'LIGHT_ID',
             name: '用户编号',
             type: 'AD_TRAFFIC_LIGHT_ID'
-        },
-        {
-            key: 'TYPE',
-            name: '交通灯类型',
-            type: 'AD_TRAFFIC_LIGHT_TYPE'
-        },
-        {
-            key: 'LAYOUT',
-            name: '信号灯灯头布局',
-            type: 'AD_TRAFFIC_LIGHT_LAYOUT'
-        },
-        {
-            key: 'LAMP_COUNT',
-            name: '信号灯灯头数量',
-            type: 'AD_TRAFFIC_LIGHT_LAMP_COUNT'
         }
     ],
     AD_RS_Barrier: [
