@@ -5909,7 +5909,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
         commonStyle: {
             showFields: 'FEAT_TYPE',
             polygonStyle: 'solid',
-            color: 'rgb(255,255,255)',
+            color: 'rgb(70,109,255)',
             opacity: 1
         },
         typeStyle: [
