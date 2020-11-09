@@ -211,8 +211,7 @@ export const completeProperties = (feature, config) => {
     }
     Object.assign(_feature.data.properties, {
         COLL_TIME: '',
-        MAKE_TIME: '',
-        UPD_STAT: '{}'
+        MAKE_TIME: ''
     });
     return _feature;
 };
