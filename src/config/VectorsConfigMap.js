@@ -694,19 +694,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             },
             {
-                value: 14,
-                label: '隔离带车道',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
                 value: 15,
                 label: '紧急停车道',
                 showFields: 'TYPE',
@@ -733,47 +720,8 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             },
             {
-                value: 17,
-                label: '危险用品专用车道',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 18,
-                label: '爬坡车道',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
                 value: 19,
                 label: '可变导向车道',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 20,
-                label: '海关监管车道',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,255,255)',
@@ -852,19 +800,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 26,
                 label: '掉头车道',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 27,
-                label: '超车道',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,255,255)',
@@ -1478,22 +1413,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             {
                 value: 3,
                 label: '减速带',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '减速警示震荡线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 5,
-                label: '斜跨路口的人行横道',
                 showFields: 'TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
@@ -3911,19 +3830,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             },
             {
-                value: 14,
-                label: '隔离带车道',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,237,37)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
                 value: 15,
                 label: '紧急停车道',
                 showFields: 'TYPE',
@@ -3950,47 +3856,8 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             },
             {
-                value: 17,
-                label: '危险用品专用车道',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,237,37)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 18,
-                label: '爬坡车道',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,237,37)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
                 value: 19,
                 label: '可变导向车道',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,237,37)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 20,
-                label: '海关监管车道',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,237,37)',
@@ -4069,19 +3936,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
             {
                 value: 26,
                 label: '掉头车道',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,237,37)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 27,
-                label: '超车道',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,237,37)',
@@ -4345,19 +4199,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                     pointSize: 0.1
                 },
                 {
-                    value: 14,
-                    label: '隔离带车道',
-                    showFields: 'TYPE',
-                    lineStyle: 'solid',
-                    color: 'rgb(255,237,37)',
-                    opacity: 1,
-                    arrow: true,
-                    point: true,
-                    pointEnabledStatus: true,
-                    arrowEnabledStatus: true,
-                    pointSize: 0.1
-                },
-                {
                     value: 15,
                     label: '紧急停车道',
                     showFields: 'TYPE',
@@ -4397,34 +4238,8 @@ const COMMON_VECTOR_CONFIG_MAP = {
                     pointSize: 0.1
                 },
                 {
-                    value: 18,
-                    label: '爬坡车道',
-                    showFields: 'TYPE',
-                    lineStyle: 'solid',
-                    color: 'rgb(255,237,37)',
-                    opacity: 1,
-                    arrow: true,
-                    point: true,
-                    pointEnabledStatus: true,
-                    arrowEnabledStatus: true,
-                    pointSize: 0.1
-                },
-                {
                     value: 19,
                     label: '可变导向车道',
-                    showFields: 'TYPE',
-                    lineStyle: 'solid',
-                    color: 'rgb(255,237,37)',
-                    opacity: 1,
-                    arrow: true,
-                    point: true,
-                    pointEnabledStatus: true,
-                    arrowEnabledStatus: true,
-                    pointSize: 0.1
-                },
-                {
-                    value: 20,
-                    label: '海关监管车道',
                     showFields: 'TYPE',
                     lineStyle: 'solid',
                     color: 'rgb(255,237,37)',
@@ -4503,19 +4318,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 {
                     value: 26,
                     label: '掉头车道',
-                    showFields: 'TYPE',
-                    lineStyle: 'solid',
-                    color: 'rgb(255,237,37)',
-                    opacity: 1,
-                    arrow: true,
-                    point: true,
-                    pointEnabledStatus: true,
-                    arrowEnabledStatus: true,
-                    pointSize: 0.1
-                },
-                {
-                    value: 27,
-                    label: '超车道',
                     showFields: 'TYPE',
                     lineStyle: 'solid',
                     color: 'rgb(255,237,37)',
@@ -5129,22 +4931,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
             {
                 value: 3,
                 label: '减速带',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '减速警示震荡线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 5,
-                label: '斜跨路口的人行横道',
                 showFields: 'TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(147,112,219)',
@@ -7564,19 +7350,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             },
             {
-                value: 14,
-                label: '隔离带车道',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,237,37)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
                 value: 15,
                 label: '紧急停车道',
                 showFields: 'TYPE',
@@ -7603,47 +7376,8 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             },
             {
-                value: 17,
-                label: '危险用品专用车道',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,237,37)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 18,
-                label: '爬坡车道',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,237,37)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
                 value: 19,
                 label: '可变导向车道',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,237,37)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 20,
-                label: '海关监管车道',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,237,37)',
@@ -7722,19 +7456,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 value: 26,
                 label: '掉头车道',
-                showFields: 'TYPE',
-                lineStyle: 'solid',
-                color: 'rgb(255,237,37)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            },
-            {
-                value: 27,
-                label: '超车道',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,237,37)',
@@ -7998,19 +7719,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                     pointSize: 0.1
                 },
                 {
-                    value: 14,
-                    label: '隔离带车道',
-                    showFields: 'TYPE',
-                    lineStyle: 'solid',
-                    color: 'rgb(255,237,37)',
-                    opacity: 1,
-                    arrow: true,
-                    point: true,
-                    pointEnabledStatus: true,
-                    arrowEnabledStatus: true,
-                    pointSize: 0.1
-                },
-                {
                     value: 15,
                     label: '紧急停车道',
                     showFields: 'TYPE',
@@ -8050,34 +7758,8 @@ const CHECK_VECTOR_CONFIG_MAP = {
                     pointSize: 0.1
                 },
                 {
-                    value: 18,
-                    label: '爬坡车道',
-                    showFields: 'TYPE',
-                    lineStyle: 'solid',
-                    color: 'rgb(255,237,37)',
-                    opacity: 1,
-                    arrow: true,
-                    point: true,
-                    pointEnabledStatus: true,
-                    arrowEnabledStatus: true,
-                    pointSize: 0.1
-                },
-                {
                     value: 19,
                     label: '可变导向车道',
-                    showFields: 'TYPE',
-                    lineStyle: 'solid',
-                    color: 'rgb(255,237,37)',
-                    opacity: 1,
-                    arrow: true,
-                    point: true,
-                    pointEnabledStatus: true,
-                    arrowEnabledStatus: true,
-                    pointSize: 0.1
-                },
-                {
-                    value: 20,
-                    label: '海关监管车道',
                     showFields: 'TYPE',
                     lineStyle: 'solid',
                     color: 'rgb(255,237,37)',
@@ -8156,19 +7838,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 {
                     value: 26,
                     label: '掉头车道',
-                    showFields: 'TYPE',
-                    lineStyle: 'solid',
-                    color: 'rgb(255,237,37)',
-                    opacity: 1,
-                    arrow: true,
-                    point: true,
-                    pointEnabledStatus: true,
-                    arrowEnabledStatus: true,
-                    pointSize: 0.1
-                },
-                {
-                    value: 27,
-                    label: '超车道',
                     showFields: 'TYPE',
                     lineStyle: 'solid',
                     color: 'rgb(255,237,37)',
@@ -8782,22 +8451,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 value: 3,
                 label: '减速带',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 4,
-                label: '减速警示震荡线',
-                showFields: 'TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 5,
-                label: '斜跨路口的人行横道',
                 showFields: 'TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(147,112,219)',
