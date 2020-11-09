@@ -13,7 +13,8 @@ import {
     getFeatureOption,
     getLayerIDKey,
     getLayerByName,
-    completeProperties
+    completeProperties,
+    getFeatureByOptionFormAll
 } from '../vectorUtils';
 import { message } from 'antd';
 import _ from 'lodash';
@@ -531,7 +532,7 @@ const relToSpecData = (record, layerName, total) => {
         id = record.objId;
     }
     let IDKey = getLayerIDKey(specKey);
-    let feature = queryFeature(specKey, {
+    let [, feature] = getFeatureByOptionFormAll(specKey, {
         key: IDKey,
         value: id
     });
@@ -579,11 +580,6 @@ const attrRelationFormat = attrs => {
         total[attr.source].push(attr.properties);
         return total;
     }, {});
-};
-
-const queryFeature = (layerName, option) => {
-    let feature = getLayerByName(layerName).getFeatureByOption(option);
-    return feature && feature.properties;
 };
 
 const fetchFeatureRels = (oldFeatures, features, isNewResponse) => {
