@@ -172,8 +172,7 @@ class PostureAdjust extends React.Component {
                 Object.assign(data.data.properties, {
                     CONFIDENCE: DEFAULT_CONFIDENCE_MAP[data.layerName] || '{}',
                     COLL_TIME: '',
-                    MAKE_TIME: '',
-                    UPD_STAT: '{}'
+                    MAKE_TIME: ''
                 });
             }
         }
