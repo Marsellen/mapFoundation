@@ -1220,32 +1220,8 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 opacity: 1
             },
             {
-                value: 'J',
-                label: '禁止左掉头',
-                showFields: 'ARR_DIRECT',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
                 value: 'K',
-                label: '禁止右掉头',
-                showFields: 'ARR_DIRECT',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 'L',
-                label: '禁止左转',
-                showFields: 'ARR_DIRECT',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 'M',
-                label: '禁止右转',
+                label: '禁止标记',
                 showFields: 'ARR_DIRECT',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
@@ -4742,32 +4718,8 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 opacity: 1
             },
             {
-                value: 'J',
-                label: '禁止左掉头',
-                showFields: 'ARR_DIRECT',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
                 value: 'K',
-                label: '禁止右掉头',
-                showFields: 'ARR_DIRECT',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 'L',
-                label: '禁止左转',
-                showFields: 'ARR_DIRECT',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 'M',
-                label: '禁止右转',
+                label: '禁止标记',
                 showFields: 'ARR_DIRECT',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
@@ -8266,32 +8218,8 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 opacity: 1
             },
             {
-                value: 'J',
-                label: '禁止左掉头',
-                showFields: 'ARR_DIRECT',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
                 value: 'K',
-                label: '禁止右掉头',
-                showFields: 'ARR_DIRECT',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 'L',
-                label: '禁止左转',
-                showFields: 'ARR_DIRECT',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 'M',
-                label: '禁止右转',
+                label: '禁止标记',
                 showFields: 'ARR_DIRECT',
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',

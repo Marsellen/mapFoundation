@@ -879,23 +879,8 @@ export default {
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
-                    value: 'J',
-                    label: '禁止左掉头',
-                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
-                },
-                {
                     value: 'K',
-                    label: '禁止右掉头',
-                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
-                },
-                {
-                    value: 'L',
-                    label: '禁止左转',
-                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
-                },
-                {
-                    value: 'M',
-                    label: '禁止右转',
+                    label: '禁止标记',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
