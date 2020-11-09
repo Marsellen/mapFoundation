@@ -12,6 +12,7 @@ import { logDecorator } from 'src/utils/decorator';
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import BatchAssignStore from 'src/pages/Index/store/BatchAssignStore';
 import SearchIconGroup from 'src/components/SearchIconGroup';
+import { testDataString } from 'src/utils/timeUtils';
 
 const formItemLayout = {
     labelCol: {
@@ -320,19 +321,28 @@ class BatchAssignModal extends React.Component {
                             required: item.required,
                             message: `${item.name}必填`
                         },
+                        { validator: this.checkDate },
                         ...this.getValidatorSetting(item.validates)
                     ],
                     initialValue: item.value,
                     validateTrigger: 'onBlur'
                 })(
                     <AdDateInput
-                        key={Math.random()}
+                        key={disabledList?.includes(item.key)}
                         disabled={disabledList?.includes(item.key)}
                         onChange={val => this.handleChange(val, item, name)}
                     />
                 )}
             </Form.Item>
         );
+    };
+
+    checkDate = (rule, value, callback) => {
+        let testResult = testDataString(value);
+        if (!testResult) {
+            callback(new Error('与值域不符合'));
+        }
+        callback();
     };
 
     handleChange = (val, filed, name) => {
