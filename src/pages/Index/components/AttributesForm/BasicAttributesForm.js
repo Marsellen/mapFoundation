@@ -10,6 +10,7 @@ import { getValidator } from 'src/utils/form/validator';
 import Filter from 'src/utils/table/filter';
 import SearchIconGroup from 'src/components/SearchIconGroup';
 import AdTrafficSignContent from 'src/components/Form/AdTrafficSignContent';
+import { testDataString } from 'src/utils/timeUtils';
 
 const formItemLayout = {
     labelCol: {
@@ -370,14 +371,15 @@ class BasicAttributesForm extends React.Component {
                                 required: item.required,
                                 message: `${item.name}必填`
                             },
+                            { validator: this.checkDate },
                             ...this.getValidatorSetting(item.validates)
                         ],
                         initialValue: item.value,
                         validateTrigger: 'onBlur'
                     })(
                         <AdDateInput
+                            key={disabledList?.includes(item.key)}
                             disabled={disabledList?.includes(item.key)}
-                            key={Math.random()}
                         />
                     )
                 ) : (
@@ -385,6 +387,14 @@ class BasicAttributesForm extends React.Component {
                 )}
             </Form.Item>
         );
+    };
+
+    checkDate = (rule, value, callback) => {
+        let testResult = testDataString(value);
+        if (!testResult) {
+            callback(new Error('与值域不符合'));
+        }
+        callback();
     };
 
     isPresent(obj) {
