@@ -345,10 +345,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         },
         { value: 'H', label: '左后方转弯', icon: 'zuohoufangzhuanwan', abbreviation: '左后转' },
         { value: 'I', label: '右后方转弯', icon: 'youhoufangzhuanwan', abbreviation: '右后转' },
-        { value: 'J', label: '禁止左掉头', icon: 'jinzhizuodiaotou', abbreviation: '禁左掉' },
-        { value: 'K', label: '禁止右掉头', icon: 'jinzhiyoudiaotou', abbreviation: '禁右掉' },
-        { value: 'L', label: '禁止左转', icon: 'jinzhizuozhuan', abbreviation: '禁左转' },
-        { value: 'M', label: '禁止右转', icon: 'jinzhiyouzhuan', abbreviation: '禁右转' },
+        { value: 'K', label: '禁止标记', icon: 'jinzhibiaojijt', abbreviation: '禁标' },
         { value: 'X', label: '待确认', icon: 'daiqueren', abbreviation: 'X' }
     ],
     AD_RS_BARRIER_TYPE: [
