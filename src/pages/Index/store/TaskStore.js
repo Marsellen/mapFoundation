@@ -534,13 +534,21 @@ class TaskStore {
         return data;
     };
 
+    //获取当前所有图层名，合并到文件列表中，合成新的文件列表
+    getFileNameList = (vectorData, relData, attrData) => {
+        const allData = [...vectorData.features, ...relData.features, ...attrData.features];
+        const newFileNameList = allData.map(item => item.name + '.geojson');
+        const allFileNameList = [...newFileNameList, ...this.taskFileNames];
+        const fileNameList = [...new Set(allFileNameList)];
+        return fileNameList;
+    };
+
     submit = flow(function* () {
         let vectorData = getAllVectorData(true);
         let relData = yield getAllRelData(true);
         let attrData = yield getAllAttrData(true);
         relData = this.completeData(relData, 'rels');
         attrData = this.completeData(attrData, 'attrs');
-
         let path = getEditPath(this.activeTask);
         let saveData = {
             saveList: [
@@ -563,7 +571,7 @@ class TaskStore {
                     fileData: relData
                 }
             ],
-            fileNameList: this.taskFileNames
+            fileNameList: this.getFileNameList(vectorData, relData, attrData)
         };
         yield TaskService.saveFile(saveData);
         this.taskSaveTime = moment().format('YYYY-MM-DD HH:mm:ss');
