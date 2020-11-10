@@ -259,11 +259,11 @@ export const TYPE_SELECT_OPTION_MAP = {
             abbreviation: '不清结'
         },
         { value: 43, label: '点云遮挡起点', icon: 'dianyunzhedangqishi', abbreviation: '遮起' },
-        { value: 44, label: '点云遮挡结束', icon: 'dianyunzhedangjieshu', abbreviation: '遮结' },
-        { value: 45, label: '精度误差起始', icon: 'jingduwuchaqishi', abbreviation: '差起' },
-        { value: 46, label: '精度误差结束', icon: 'jingduwuchajieshu', abbreviation: '差结' },
-        { value: 47, label: '道路施工起始', icon: 'daolushigongqishi', abbreviation: '施工起' },
-        { value: 48, label: '道路施工结束', icon: 'daolushigongjieshu', abbreviation: '施工结' }
+        { value: 44, label: '点云遮挡结束点', icon: 'dianyunzhedangjieshu', abbreviation: '遮结' },
+        { value: 45, label: '精度误差起点', icon: 'jingduwuchaqishi', abbreviation: '差起' },
+        { value: 46, label: '精度误差结束点', icon: 'jingduwuchajieshu', abbreviation: '差结' },
+        { value: 47, label: '道路施工起点', icon: 'daolushigongqishi', abbreviation: '施工起' },
+        { value: 48, label: '道路施工结束点', icon: 'daolushigongjieshu', abbreviation: '施工结' }
     ],
     AD_STOPLOCATION_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi', abbreviation: '0' },

@@ -770,7 +770,7 @@ export default {
                 },
                 {
                     value: 44,
-                    label: '点云遮挡结束',
+                    label: '点云遮挡结束点',
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.15,
@@ -780,7 +780,7 @@ export default {
                 },
                 {
                     value: 45,
-                    label: '精度误差起始',
+                    label: '精度误差起点',
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.15,
@@ -790,7 +790,7 @@ export default {
                 },
                 {
                     value: 46,
-                    label: '精度误差结束',
+                    label: '精度误差结束点',
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.15,
@@ -800,7 +800,7 @@ export default {
                 },
                 {
                     value: 47,
-                    label: '道路施工起始',
+                    label: '道路施工起点',
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.15,
@@ -810,7 +810,7 @@ export default {
                 },
                 {
                     value: 48,
-                    label: '道路施工结束',
+                    label: '道路施工结束点',
                     style: {
                         color: 'rgb(102,255,102)',
                         radius: 0.15,
