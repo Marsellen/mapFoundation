@@ -20,7 +20,7 @@ const UPD_STAT_MAP = {
         NO_CHANGE: '属性未变化'
     }
 };
-const COMPLEX_TYPES = ['AD_ARROW_ARR_DIRECT'];
+const COMPLEX_TYPES = ['AD_ARROW_ARR_DIRECT', 'AD_ARROW_GEO_FEAT_TYPE'];
 
 class Filter {
     get = filter => {

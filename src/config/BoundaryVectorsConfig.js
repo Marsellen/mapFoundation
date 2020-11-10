@@ -2143,99 +2143,112 @@ export default {
         vectorStyle: {
             FEAT_TYPE: [
                 {
-                    value: 0,
+                    value: '0',
                     label: '未定义',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
                 },
                 {
-                    value: 3001,
-                    label: '直行箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
+                    value: 'A',
+                    label: '直行',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
                 },
                 {
-                    value: 3002,
-                    label: '左转箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
+                    value: 'B',
+                    label: '左转',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
                 },
                 {
-                    value: 3003,
-                    label: '右转箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
+                    value: 'C',
+                    label: '右转',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
                 },
                 {
-                    value: 3004,
-                    label: '直行左转箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
+                    value: 'D',
+                    label: '左掉头',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
                 },
                 {
-                    value: 3005,
-                    label: '直行右转箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
+                    value: 'E',
+                    label: '右掉头',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
                 },
                 {
-                    value: 3006,
-                    label: '左转右转箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
+                    value: 'F',
+                    label: '左弯或需向左合流',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
                 },
                 {
-                    value: 3007,
-                    label: '直行左转右转箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
+                    value: 'G',
+                    label: '右弯或需向右合流',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
                 },
                 {
-                    value: 3008,
-                    label: '掉头箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
+                    value: 'H',
+                    label: '左后方转弯',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
                 },
                 {
-                    value: 3009,
-                    label: '左转掉头箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
+                    value: 'I',
+                    label: '右后方转弯',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
                 },
                 {
-                    value: 3010,
-                    label: '右转掉头箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
+                    value: 'K',
+                    label: '禁止标记',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
                 },
                 {
-                    value: 3011,
-                    label: '禁止标记箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
-                },
-                {
-                    value: 3012,
-                    label: '向左合流箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
-                },
-                {
-                    value: 3013,
-                    label: '向右合流箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
-                },
-                {
-                    value: 3014,
-                    label: '直行和掉头箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
-                },
-                {
-                    value: 3015,
-                    label: '直行左转掉头箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
-                },
-                {
-                    value: 3016,
-                    label: '直行右转掉头箭头',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
-                },
-                {
-                    value: 3017,
-                    label: '直行左弯',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
-                },
-                {
-                    value: 3018,
-                    label: '直行右弯',
-                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
+                    value: 'X',
+                    label: '待确认',
+                    style: {
+                        opacity: 0.5,
+                        color: 'rgb(255,255,255)',
+                        linewidth: 1
+                    }
                 }
             ]
         }
