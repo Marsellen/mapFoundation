@@ -363,6 +363,11 @@ class RightMenuModal extends React.Component {
         delete feature.data.properties[IDKey];
         delete feature.data.properties.UPD_STAT;
         delete feature.data.properties.CONFIDENCE;
+        if (feature.layerName == 'AD_Lane') {
+            delete feature.data.properties.L_LDIV_ID;
+            delete feature.data.properties.R_LDIV_ID;
+            delete feature.data.properties.ROAD_ID;
+        }
         data.data.properties = {
             ...data.data.properties,
             ...feature.data.properties
