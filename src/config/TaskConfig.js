@@ -71,7 +71,7 @@ export const VECTOR_FILES = [
     'AD_TrafficLight.geojson',
     'AD_RS_Barrier.geojson',
     'AD_Text.geojson',
-    'AD_Trafficsign.geojson'
+    'AD_TrafficSign.geojson'
 ];
 
 //任务文件-关联属性文件
