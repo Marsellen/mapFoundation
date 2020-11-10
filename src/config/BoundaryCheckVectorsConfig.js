@@ -2149,110 +2149,62 @@ export default {
                 {
                     value: '0',
                     label: '未定义',
-                    style: {
-                        opacity: 0.5,
-                        color: 'rgb(255,255,255)',
-                        linewidth: 1
-                    }
+                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
                     value: 'A',
                     label: '直行',
-                    style: {
-                        opacity: 0.5,
-                        color: 'rgb(255,255,255)',
-                        linewidth: 1
-                    }
+                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
                     value: 'B',
                     label: '左转',
-                    style: {
-                        opacity: 0.5,
-                        color: 'rgb(255,255,255)',
-                        linewidth: 1
-                    }
+                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
                     value: 'C',
                     label: '右转',
-                    style: {
-                        opacity: 0.5,
-                        color: 'rgb(255,255,255)',
-                        linewidth: 1
-                    }
+                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
                     value: 'D',
                     label: '左掉头',
-                    style: {
-                        opacity: 0.5,
-                        color: 'rgb(255,255,255)',
-                        linewidth: 1
-                    }
+                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
                     value: 'E',
                     label: '右掉头',
-                    style: {
-                        opacity: 0.5,
-                        color: 'rgb(255,255,255)',
-                        linewidth: 1
-                    }
+                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
                     value: 'F',
                     label: '左弯或需向左合流',
-                    style: {
-                        opacity: 0.5,
-                        color: 'rgb(255,255,255)',
-                        linewidth: 1
-                    }
+                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
                     value: 'G',
                     label: '右弯或需向右合流',
-                    style: {
-                        opacity: 0.5,
-                        color: 'rgb(255,255,255)',
-                        linewidth: 1
-                    }
+                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
                     value: 'H',
                     label: '左后方转弯',
-                    style: {
-                        opacity: 0.5,
-                        color: 'rgb(255,255,255)',
-                        linewidth: 1
-                    }
+                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
                     value: 'I',
                     label: '右后方转弯',
-                    style: {
-                        opacity: 0.5,
-                        color: 'rgb(255,255,255)',
-                        linewidth: 1
-                    }
+                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
                     value: 'K',
                     label: '禁止标记',
-                    style: {
-                        opacity: 0.5,
-                        color: 'rgb(255,255,255)',
-                        linewidth: 1
-                    }
+                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 },
                 {
                     value: 'X',
                     label: '待确认',
-                    style: {
-                        opacity: 0.5,
-                        color: 'rgb(255,255,255)',
-                        linewidth: 1
-                    }
+                    style: { color: 'rgb(250,220,70)', linewidth: 1, opacity: 0.5 }
                 }
             ]
         }
