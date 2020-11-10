@@ -1963,17 +1963,17 @@ export const LAYER_TYPE_MAP = {
         {
             key: 'OBJ_ID',
             name: '用户编号',
-            type: 'AD_POLE_GEO_TYPE_ID'
+            type: 'AD_POLE_GEO_OBJ_ID'
         },
         {
             key: 'CFD_GEO',
             name: '几何形状置信度',
-            type: 'AD_POLE_GEO_TYPE_CFD_GEO'
+            type: 'AD_POLE_GEO_CFD_GEO'
         },
         {
             key: 'CFD_FEAT',
             name: '要素类型置信度',
-            type: 'AD_POLE_GEO_TYPE_CFD_FEAT'
+            type: 'AD_POLE_GEO_CFD_FEAT'
         }
     ]
 };
