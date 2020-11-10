@@ -447,40 +447,28 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 2003, label: '减速让行线', icon: 'jiansurangxingxian', abbreviation: '减让' }
     ],
     AD_ARROW_GEO_FEAT_TYPE: [
-        { value: 0, label: '未定义', icon: 'weidingyi', abbreviation: '0' },
-        { value: 3001, label: '直行箭头', icon: 'zhixingjt', abbreviation: '直行' },
-        { value: 3002, label: '左转箭头', icon: 'zuozhuanjt', abbreviation: '左转' },
-        { value: 3003, label: '右转箭头', icon: 'youzhuanjt', abbreviation: '右转' },
-        { value: 3004, label: '直行左转箭头', icon: 'zhixingzuozhuanjt', abbreviation: '直左转' },
-        { value: 3005, label: '直行右转箭头', icon: 'zhixingyouzhuanjt', abbreviation: '直右转' },
-        { value: 3006, label: '左转右转箭头', icon: 'zuozhuanyouzhuanjt', abbreviation: '左右转' },
+        { value: '0', label: '未定义', icon: 'weidingyi', abbreviation: '0' },
+        { value: 'A', label: '直行', icon: 'zhixing', abbreviation: '直行' },
+        { value: 'B', label: '左转', icon: 'zuozhuan', abbreviation: '左转' },
+        { value: 'C', label: '右转', icon: 'youzhuan', abbreviation: '右转' },
+        { value: 'D', label: '左掉头', icon: 'zuodiaotou', abbreviation: '左掉' },
+        { value: 'E', label: '右掉头', icon: 'youdiaotou', abbreviation: '右掉' },
         {
-            value: 3007,
-            label: '直行左转右转箭头',
-            icon: 'zhixingzuozhuanyouzhuanjt',
-            abbreviation: '直左右'
-        },
-        { value: 3008, label: '掉头箭头', icon: 'diaotoujt', abbreviation: '掉' },
-        { value: 3009, label: '左转掉头箭头', icon: 'zuozhuandiaotoujt', abbreviation: '左掉' },
-        { value: 3010, label: '右转掉头箭头', icon: 'youzhuandiaotoujt', abbreviation: '右掉' },
-        { value: 3011, label: '禁止标记箭头', icon: 'jinzhibiaojijt', abbreviation: '禁标' },
-        { value: 3012, label: '向左合流箭头', icon: 'xiangzuoheliujt', abbreviation: '左合流' },
-        { value: 3013, label: '向右合流箭头', icon: 'xiangyouheliujt', abbreviation: '右合流' },
-        { value: 3014, label: '直行和掉头箭头', icon: 'zhixinghediaotoujt', abbreviation: '直掉' },
-        {
-            value: 3015,
-            label: '直行左转掉头箭头',
-            icon: 'zhixingzuozhuandiaotoujt',
-            abbreviation: '直左掉'
+            value: 'F',
+            label: '左弯或需向左合流',
+            icon: 'zuowanhuoxuxiangzuoheliu',
+            abbreviation: '左弯合流'
         },
         {
-            value: 3016,
-            label: '直行右转掉头箭头',
-            icon: 'zhixingyouzhuandiaotoujt',
-            abbreviation: '直右掉'
+            value: 'G',
+            label: '右弯或需向右合流',
+            icon: 'youwanhuoxuxiangyouheliu',
+            abbreviation: '右弯合流'
         },
-        { value: 3017, label: '直行左弯', icon: 'zhixingzuowanjt', abbreviation: '直左弯' },
-        { value: 3018, label: '直行右弯', icon: 'zhixingyouwanjt', abbreviation: '直右弯' }
+        { value: 'H', label: '左后方转弯', icon: 'zuohoufangzhuanwan', abbreviation: '左后转' },
+        { value: 'I', label: '右后方转弯', icon: 'youhoufangzhuanwan', abbreviation: '右后转' },
+        { value: 'K', label: '禁止标记', icon: 'jinzhibiaojijt', abbreviation: '禁标' },
+        { value: 'X', label: '待确认', icon: 'daiqueren', abbreviation: 'X' }
     ],
     AD_LANE_MARK_GEO_FEAT_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi', abbreviation: '0' },
@@ -927,7 +915,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         CFD_FEAT: 1
     },
     AD_Arrow_Geo: {
-        FEAT_TYPE: 3001,
+        FEAT_TYPE: 'A',
         CFD_GEO: 1,
         CFD_FEAT: 1
     },
@@ -1416,7 +1404,7 @@ export const TABLE_DATA_MAP = {
             key: 'FEAT_TYPE',
             name: '要素子类型',
             type: 'AD_ARROW_GEO_FEAT_TYPE',
-            domType: 'RadioIconGroup'
+            domType: 'CheckBoxIconGroup'
         },
         {
             key: 'CFD_GEO',
@@ -1996,6 +1984,17 @@ export const EXTRA_TEXT_CONFIG = {
         { value: 12, label: '虚拟禁止停车区', abbreviation: '虚禁' }
     ],
     AD_ARROW_ARR_DIRECT: [
+        { value: 'AB', abbreviation: '直左' },
+        { value: 'AC', abbreviation: '直右' },
+        { value: 'ABC', abbreviation: '左直右' },
+        { value: 'AD', abbreviation: '直左掉' },
+        { value: 'AE', abbreviation: '直右掉' },
+        { value: 'BC', abbreviation: '左右转' },
+        { value: 'BD', abbreviation: '左转掉' },
+        { value: 'BE', abbreviation: '左转右掉' },
+        { value: 'CE', abbreviation: '右转掉' }
+    ],
+    AD_ARROW_GEO_FEAT_TYPE: [
         { value: 'AB', abbreviation: '直左' },
         { value: 'AC', abbreviation: '直右' },
         { value: 'ABC', abbreviation: '左直右' },

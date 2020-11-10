@@ -2029,157 +2029,112 @@ const DEFINE_VECTOR_CONFIG_MAP = {
         },
         typeStyle: [
             {
-                value: 0,
+                value: '0',
                 label: '未定义',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3001,
-                label: '直行箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-
-            {
-                value: 3002,
-                label: '左转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
+                value: 'A',
+                label: '直行',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3003,
-                label: '右转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
+                value: 'B',
+                label: '左转',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3004,
-                label: '直行左转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
+                value: 'C',
+                label: '右转',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3005,
-                label: '直行右转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
+                value: 'D',
+                label: '左掉头',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3006,
-                label: '左转右转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
+                value: 'E',
+                label: '右掉头',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3007,
-                label: '直行左转右转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
+                value: 'F',
+                label: '左弯或需向左合流',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3008,
-                label: '掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
+                value: 'G',
+                label: '右弯或需向右合流',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3009,
-                label: '左转掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
+                value: 'H',
+                label: '左后方转弯',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3010,
-                label: '右转掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
+                value: 'I',
+                label: '右后方转弯',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3011,
-                label: '禁止标记箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
+                value: 'K',
+                label: '禁止标记',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3012,
-                label: '向左合流箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 3013,
-                label: '向右合流箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 3014,
-                label: '直行和掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 3015,
-                label: '直行左转掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 3016,
-                label: '直行右转掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 3017,
-                label: '直行左弯',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 3018,
-                label: '直行右弯',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
+                value: 'X',
+                label: '待确认',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             }
         ],
         typeStyleMap: {},
@@ -2199,7 +2154,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
                 type: 'AD_ARROW_GEO_FEAT_TYPE',
-                domType: 'RadioIconGroup'
+                domType: 'CheckBoxIconGroup'
             }
         ]
     },
@@ -5527,157 +5482,112 @@ const COMMON_VECTOR_CONFIG_MAP = {
         },
         typeStyle: [
             {
-                value: 0,
+                value: '0',
                 label: '未定义',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3001,
-                label: '直行箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-
-            {
-                value: 3002,
-                label: '左转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'A',
+                label: '直行',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3003,
-                label: '右转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'B',
+                label: '左转',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3004,
-                label: '直行左转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'C',
+                label: '右转',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3005,
-                label: '直行右转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'D',
+                label: '左掉头',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3006,
-                label: '左转右转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'E',
+                label: '右掉头',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3007,
-                label: '直行左转右转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'F',
+                label: '左弯或需向左合流',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3008,
-                label: '掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'G',
+                label: '右弯或需向右合流',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3009,
-                label: '左转掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'H',
+                label: '左后方转弯',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3010,
-                label: '右转掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'I',
+                label: '右后方转弯',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3011,
-                label: '禁止标记箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'K',
+                label: '禁止标记',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3012,
-                label: '向左合流箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 3013,
-                label: '向右合流箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 3014,
-                label: '直行和掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 3015,
-                label: '直行左转掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 3016,
-                label: '直行右转掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 3017,
-                label: '直行左弯',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 3018,
-                label: '直行右弯',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'X',
+                label: '待确认',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             }
         ],
         typeStyleMap: {},
@@ -5697,7 +5607,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
                 type: 'AD_ARROW_GEO_FEAT_TYPE',
-                domType: 'RadioIconGroup'
+                domType: 'CheckBoxIconGroup'
             }
         ]
     },
@@ -9027,156 +8937,112 @@ const CHECK_VECTOR_CONFIG_MAP = {
         },
         typeStyle: [
             {
-                value: 0,
+                value: '0',
                 label: '未定义',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3001,
-                label: '直行箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'A',
+                label: '直行',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3002,
-                label: '左转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'B',
+                label: '左转',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3003,
-                label: '右转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'C',
+                label: '右转',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3004,
-                label: '直行左转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'D',
+                label: '左掉头',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3005,
-                label: '直行右转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'E',
+                label: '右掉头',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3006,
-                label: '左转右转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'F',
+                label: '左弯或需向左合流',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3007,
-                label: '直行左转右转箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'G',
+                label: '右弯或需向右合流',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3008,
-                label: '掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'H',
+                label: '左后方转弯',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3009,
-                label: '左转掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'I',
+                label: '右后方转弯',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3010,
-                label: '右转掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'K',
+                label: '禁止标记',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             },
             {
-                value: 3011,
-                label: '禁止标记箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 3012,
-                label: '向左合流箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 3013,
-                label: '向右合流箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 3014,
-                label: '直行和掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 3015,
-                label: '直行左转掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 3016,
-                label: '直行右转掉头箭头',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 3017,
-                label: '直行左弯',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
-            },
-            {
-                value: 3018,
-                label: '直行右弯',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(250,220,70)',
-                opacity: 1
+                value: 'X',
+                label: '待确认',
+                style: {
+                    opacity: 0.5,
+                    color: 'rgb(255,255,255)',
+                    linewidth: 1
+                }
             }
         ],
         typeStyleMap: {},
@@ -9196,7 +9062,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
                 type: 'AD_ARROW_GEO_FEAT_TYPE',
-                domType: 'RadioIconGroup'
+                domType: 'CheckBoxIconGroup'
             }
         ]
     },
