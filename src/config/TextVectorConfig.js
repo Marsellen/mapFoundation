@@ -2,7 +2,7 @@
 export default {
     AD_Pole_Geo: {
         type: 'Line',
-        textFields: ['POLE_ID'],
+        textFields: ['OBJ_ID'],
         order: 23,
         showStyles: ['textStyle']
     },
