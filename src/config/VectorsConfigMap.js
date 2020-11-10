@@ -1050,7 +1050,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 44,
-                label: '点云遮挡结束',
+                label: '点云遮挡结束点',
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
@@ -1060,7 +1060,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 45,
-                label: '精度误差起始',
+                label: '精度误差起点',
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
@@ -1070,7 +1070,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 46,
-                label: '精度误差结束',
+                label: '精度误差结束点',
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
@@ -1080,7 +1080,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 47,
-                label: '道路施工起始',
+                label: '道路施工起点',
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
@@ -1090,7 +1090,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 48,
-                label: '道路施工结束',
+                label: '道路施工结束点',
                 showFields: 'TYPE',
                 color: 'rgb(255,255,255)',
                 opacity: 1,
@@ -4503,7 +4503,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 44,
-                label: '点云遮挡结束',
+                label: '点云遮挡结束点',
                 color: 'rgb(102,255,102)',
                 opacity: 1,
                 size: 80,
@@ -4513,7 +4513,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 45,
-                label: '精度误差起始',
+                label: '精度误差起点',
                 color: 'rgb(102,255,102)',
                 opacity: 1,
                 size: 80,
@@ -4523,7 +4523,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 46,
-                label: '精度误差结束',
+                label: '精度误差结束点',
                 color: 'rgb(102,255,102)',
                 opacity: 1,
                 size: 80,
@@ -4533,7 +4533,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 47,
-                label: '道路施工起始',
+                label: '道路施工起点',
                 color: 'rgb(102,255,102)',
                 opacity: 1,
                 size: 80,
@@ -4543,7 +4543,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 48,
-                label: '道路施工结束',
+                label: '道路施工结束点',
                 color: 'rgb(102,255,102)',
                 opacity: 1,
                 size: 80,
@@ -7958,7 +7958,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 44,
-                label: '点云遮挡结束',
+                label: '点云遮挡结束点',
                 color: 'rgb(102,255,102)',
                 opacity: 1,
                 size: 80,
@@ -7968,7 +7968,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 45,
-                label: '精度误差起始',
+                label: '精度误差起点',
                 color: 'rgb(102,255,102)',
                 opacity: 1,
                 size: 80,
@@ -7978,7 +7978,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 46,
-                label: '精度误差结束',
+                label: '精度误差结束点',
                 color: 'rgb(102,255,102)',
                 opacity: 1,
                 size: 80,
@@ -7988,7 +7988,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 47,
-                label: '道路施工起始',
+                label: '道路施工起点',
                 color: 'rgb(102,255,102)',
                 opacity: 1,
                 size: 80,
@@ -7998,7 +7998,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 48,
-                label: '道路施工结束',
+                label: '道路施工结束点',
                 color: 'rgb(102,255,102)',
                 opacity: 1,
                 size: 80,
