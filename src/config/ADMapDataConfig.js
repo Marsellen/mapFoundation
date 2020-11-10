@@ -1961,7 +1961,7 @@ export const LAYER_TYPE_MAP = {
     ],
     AD_Pole_Geo: [
         {
-            key: 'POLE_ID',
+            key: 'OBJ_ID',
             name: '用户编号',
             type: 'AD_POLE_GEO_TYPE_ID'
         },
