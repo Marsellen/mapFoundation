@@ -103,13 +103,14 @@ const FIELD_NAME_MAP = {
         { value: 'LANE_ID', label: '面状标识物关联关系' }
     ],
     AD_Text: [
-        { value: 'TYPE', label: '文字类型' },
-        { value: 'VALUE', label: '文字内容' },
-        { value: 'LANE_ID', label: '文字关联关系' }
+        { value: 'CONT_TYPE', label: '文本语义类型' },
+        { value: 'SPEED', label: '限速值' },
+        { value: 'TIMEDOM', label: '时间限制描述' },
+        { value: 'VEH_LMT', label: '车辆限制' },
+        { value: 'TEXT ', label: '其他文本描述' }
     ],
     AD_TrafficSign: [
         { value: 'SIGN_STYLE', label: '交通牌样式' },
-        { value: 'SIGN_NO', label: '交通牌编号' },
         { value: 'SIGN_TYPE', label: '交通牌类型' },
         { value: 'CONT_TYPE', label: '交通牌语义类型' },
         { value: 'CONT_VALUE', label: '交通牌语义内容' },
@@ -127,8 +128,7 @@ const FIELD_NAME_MAP = {
     AD_Arrow_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
     AD_LaneMark_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
     AD_TrafficSign_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
-    AD_TrafficLight_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
-    AD_Pole_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }]
+    AD_TrafficLight_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }]
 };
 
 export const ATTR_FORM_FIELD_MAP = {
