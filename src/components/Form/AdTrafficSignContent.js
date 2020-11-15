@@ -8,6 +8,7 @@ import ToolIcon from 'src/components/ToolIcon';
 import Filter from 'src/utils/table/filter';
 import { getValidator } from 'src/utils/form/validator';
 import { testDataString } from 'src/utils/timeUtils';
+import { parseArrayString } from 'src/utils/utils';
 
 const formItemLayout = {
     labelCol: {
@@ -38,6 +39,7 @@ function getValidatorSetting(CONT_TYPE) {
             return [];
     }
 }
+
 function checkDate(rule, value, callback) {
     let testResult = testDataString(value);
     if (!testResult) {
@@ -45,16 +47,14 @@ function checkDate(rule, value, callback) {
     }
     callback();
 }
+
 let radomKey = 0;
 
 export default function AdTrafficSignContent(props) {
     let { form, readonly, item, name } = props;
     let { value, key } = item;
 
-    if (!Array.isArray(value)) {
-        value = [];
-    }
-    const [contents, setContents] = useState(value);
+    const [contents, setContents] = useState(parseArrayString(value));
 
     useEffect(() => {
         form.validateFields();
@@ -184,7 +184,7 @@ export default function AdTrafficSignContent(props) {
             {!readonly && contents.length < 10 && (
                 <Button
                     onClick={() => {
-                        const values = form.getFieldValue(`${name}.${key}`);
+                        const values = form.getFieldValue(`${name}.${key}`) || [];
                         setContents(values.concat(DEFAULT_CONTENT));
                     }}
                 >

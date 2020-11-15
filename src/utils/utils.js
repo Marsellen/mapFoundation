@@ -67,9 +67,7 @@ export function throttle(fn, time, context) {
 }
 
 export const funDownload = (content, filename) => {
-    var datastr =
-        'data:text/json;charset=utf-8,' +
-        encodeURIComponent(JSON.stringify(content));
+    var datastr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(content));
     var downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute('href', datastr);
     downloadAnchorNode.setAttribute('download', `${filename}.json`);
@@ -130,9 +128,7 @@ function mercatorDistance(vec1, vec2) {
 function mercatorToWgs84(x, y, z) {
     const lon = (x / 2.0037508342789e7) * 180.0;
     let lat = (y / 2.0037508342789e7) * 180.0;
-    lat =
-        (180 / Math.PI) *
-        (2.0 * Math.atan(Math.exp((lat * Math.PI) / 180.0)) - Math.PI / 2);
+    lat = (180 / Math.PI) * (2.0 * Math.atan(Math.exp((lat * Math.PI) / 180.0)) - Math.PI / 2);
     return [lon, lat, z];
 }
 
@@ -156,8 +152,14 @@ function wgs84ToGeocent(longitude, latitude, height) {
         (N + height) *
         Math.cos(latitude * 0.017453292519943295) *
         Math.sin(longitude * 0.017453292519943295);
-    const z =
-        (N * 0.9933056200098587 + height) *
-        Math.sin(latitude * 0.017453292519943295);
+    const z = (N * 0.9933056200098587 + height) * Math.sin(latitude * 0.017453292519943295);
     return [x, y, z];
+}
+
+export function parseArrayString(arrayString) {
+    try {
+        return JSON.parse(arrayString);
+    } catch (error) {
+        return [];
+    }
 }

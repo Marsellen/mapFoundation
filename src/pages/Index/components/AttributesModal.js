@@ -89,6 +89,11 @@ class AttributesModal extends React.Component {
     async submit(values) {
         try {
             AttributeStore.showLoading('保存数据...');
+            if (values.attributes.OBJ_FUNC) {
+                // 交通标牌子对象转为字符串
+                values.attributes.OBJ_FUNC = JSON.stringify(values.attributes.OBJ_FUNC);
+            }
+
             let log = await AttributeStore.submit(values, TaskStore.activeTask);
             await updateFeatures(log);
             AttributeStore.hideRelFeatures();
