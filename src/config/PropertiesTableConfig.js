@@ -95,7 +95,7 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'LANE_STATUS',
             title: '车道通行状态',
-            filterBy: 'typeFilter|AD_LANE_DIVIDER_LANESTATUS'
+            filterBy: 'typeFilter|AD_LANE_DIVIDER_LANE_STATUS'
         },
         {
             dataIndex: 'LANE_NO',

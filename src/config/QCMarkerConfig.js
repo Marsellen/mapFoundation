@@ -65,7 +65,7 @@ const FIELD_NAME_MAP = {
         { value: 'SHARE_LINE', label: '共用车道线标识' },
         { value: 'RD_EDGE', label: '道路边界标识' },
         { value: 'DIRECTION', label: '车道通行方向' },
-        { value: 'LANESTATUS', label: '车道通行状态' },
+        { value: 'LANE_STATUS', label: '车道通行状态' },
         { value: 'LANE_TYPE', label: '车道类型' },
         { value: 'LANE_NO', label: '车道编号' },
         { value: 'RD_FORM', label: '道路形态' }

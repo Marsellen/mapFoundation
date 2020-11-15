@@ -311,7 +311,7 @@ const copyAttributeLines = async (feature, copyFeature, layerName, processName) 
         'SHARE_LINE',
         'RD_EDGE',
         'DIRECTION',
-        'LANESTATUS',
+        'LANE_STATUS',
         'LANE_TYPE',
         'RD_FORM'
     ];

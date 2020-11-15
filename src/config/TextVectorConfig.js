@@ -58,7 +58,7 @@ export default {
     },
     AD_LaneDivider: {
         type: 'Line',
-        textFields: ['TYPE', 'LANE_TYPE', 'SHARE_LINE', 'DIRECTION', 'LANESTATUS', 'LANE_NO'],
+        textFields: ['TYPE', 'LANE_TYPE', 'SHARE_LINE', 'DIRECTION', 'LANE_STATUS', 'LANE_NO'],
         order: 14,
         showStyles: ['textStyle']
     },
