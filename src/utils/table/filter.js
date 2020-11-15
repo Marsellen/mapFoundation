@@ -1,5 +1,6 @@
 import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
 import _ from 'lodash';
+import { parseArrayString } from '../utils';
 
 const DEFAULT_FILTER = () => {
     return '--';
@@ -88,7 +89,8 @@ class Filter {
     };
 
     signContentFilter = value => {
-        if (!Array.isArray(value)) return '--';
+        value = parseArrayString(value);
+        if (!value.length) return '--';
 
         return value
             .map(
