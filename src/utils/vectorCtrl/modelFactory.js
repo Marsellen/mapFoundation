@@ -18,14 +18,16 @@ class modelFactory {
     getDefaultProperties = (layerName, id) => {
         let defaultProperties = DEFAULT_PROPERTIES_MAP[layerName] || {};
 
-        let defaultConfidence = DEFAULT_CONFIDENCE_MAP[layerName] || '{}';
+        let defaultConfidence = DEFAULT_CONFIDENCE_MAP[layerName];
         let UPD_STAT = '{"GEOMETRY":"ADD"}';
         let extrInfo = {
-            CONFIDENCE: defaultConfidence,
             UPD_STAT,
             COLL_TIME: '',
             MAKE_TIME: ''
         };
+        if (defaultConfidence) {
+            extrInfo.CONFIDENCE = defaultConfidence;
+        }
 
         let IDKey = getLayerIDKey(layerName);
         return {
