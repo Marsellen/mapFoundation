@@ -228,8 +228,8 @@ export const modUpdStatRelation = feature => {
 };
 
 export const completeConfidence = feature => {
-    if(DEFAULT_CONFIDENCE_MAP[feature.layerName]) {
-        feature.data.properties.CONFIDENCE = DEFAULT_CONFIDENCE_MAP[feature.layerName]
+    if (DEFAULT_CONFIDENCE_MAP[feature.layerName]) {
+        feature.data.properties.CONFIDENCE = DEFAULT_CONFIDENCE_MAP[feature.layerName];
     }
     return feature;
 };
@@ -247,20 +247,28 @@ export const modUpdStatGeometry = feature => {
     return feature;
 };
 
-export const modUpdStatProperties = (feature, properties) => {
-    let UPD_STAT = {};
-    if (feature.data.properties.UPD_STAT) {
-        UPD_STAT = JSON.parse(feature.data.properties.UPD_STAT);
-    }
+export const getDiffFields = (feature, properties) => {
+    let modFields = [];
     let oldProperties = feature.data.properties;
     Object.keys(properties).forEach(key => {
         if (Array.isArray(oldProperties[key]) && Array.isArray(properties[key])) {
             if (JSON.stringify(oldProperties[key]) !== JSON.stringify(properties[key])) {
-                UPD_STAT[key] = 'MOD';
+                modFields.push(key);
             }
         } else if (oldProperties[key] !== properties[key]) {
-            UPD_STAT[key] = 'MOD';
+            modFields.push(key);
         }
+    });
+    return modFields;
+};
+
+export const modUpdStatPropertiesFields = (feature, fields) => {
+    let UPD_STAT = {};
+    if (feature.data.properties.UPD_STAT) {
+        UPD_STAT = JSON.parse(feature.data.properties.UPD_STAT);
+    }
+    fields.forEach(fieldName => {
+        UPD_STAT[fieldName] = 'MOD';
     });
     feature.data.properties.UPD_STAT = JSON.stringify(UPD_STAT);
     return feature;

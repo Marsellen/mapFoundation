@@ -1,6 +1,10 @@
 import { action, configure, observable } from 'mobx';
 import modelFactory from 'src/utils/vectorCtrl/modelFactory';
-import { getLayerByName, layerUpdateFeatures, modUpdStatProperties } from 'src/utils/vectorUtils';
+import {
+    getLayerByName,
+    layerUpdateFeatures,
+    modUpdStatPropertiesFields
+} from 'src/utils/vectorUtils';
 import _ from 'lodash';
 
 configure({ enforceActions: 'always' });
@@ -26,8 +30,10 @@ class BatchAssignStore {
         for (let key in attributes) {
             if (!(attributes[key] || attributes[key] == 0)) continue;
             newFeatures.forEach(feature => {
-                feature.data.properties[key] = attributes[key];
-                feature = modUpdStatProperties(feature, data.attributes); //维护更新标识
+                if (feature.data.properties[key] !== attributes[key]) {
+                    feature.data.properties[key] = attributes[key];
+                    feature = modUpdStatPropertiesFields(feature, [key]); //维护更新标识
+                }
             });
         }
         let layer = getLayerByName(this.layerName);

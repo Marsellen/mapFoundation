@@ -9,7 +9,8 @@ import {
     getFeatureOption,
     getLayerByName,
     modUpdStatRelation,
-    modUpdStatProperties
+    getDiffFields,
+    modUpdStatPropertiesFields
 } from 'src/utils/vectorUtils';
 import { ATTR_SPEC_CONFIG } from 'config/AttrsConfig';
 import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
@@ -193,11 +194,8 @@ class AttributeStore {
         let newFeature = _.cloneDeep(this.model);
 
         //维护属性的更新标识
-        newFeature = modUpdStatProperties(newFeature, data.attributes);
-        newFeature.data.properties = {
-            ...newFeature.data.properties,
-            ...data.attributes
-        };
+        let diffFields = getDiffFields(newFeature, data.attributes);
+        newFeature = modUpdStatPropertiesFields(newFeature, diffFields);
 
         let historyLog = {
             features: [[oldFeature], [newFeature]],
