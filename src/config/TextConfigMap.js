@@ -29,7 +29,7 @@ export const COMMON_TEXT_CONFIG_MAP = {
         label: '车道线',
         checked: false,
         defaultStyle: {
-            textFields: ['TYPE', 'LANE_TYPE', 'SHARE_LINE', 'DIRECTION', 'LANESTATUS', 'LANE_NO'], //看数据规格
+            textFields: ['TYPE', 'LANE_TYPE', 'SHARE_LINE', 'DIRECTION', 'LANE_STATUS', 'LANE_NO'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -519,7 +519,7 @@ const MS_TASK_TEXT_CONFIG_MAP = {
         label: '车道线',
         checked: true,
         defaultStyle: {
-            textFields: ['TYPE', 'LANE_TYPE', 'SHARE_LINE', 'DIRECTION', 'LANESTATUS', 'LANE_NO'], //看数据规格
+            textFields: ['TYPE', 'LANE_TYPE', 'SHARE_LINE', 'DIRECTION', 'LANE_STATUS', 'LANE_NO'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -1009,7 +1009,7 @@ const MB_TASK_TEXT_CONFIG_MAP = {
         label: '车道线',
         checked: false,
         defaultStyle: {
-            textFields: ['TYPE', 'LANE_TYPE', 'SHARE_LINE', 'DIRECTION', 'LANESTATUS', 'LANE_NO'], //看数据规格
+            textFields: ['TYPE', 'LANE_TYPE', 'SHARE_LINE', 'DIRECTION', 'LANE_STATUS', 'LANE_NO'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,

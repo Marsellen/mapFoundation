@@ -474,9 +474,9 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 domType: 'Select'
             },
             {
-                key: 'LANESTATUS',
+                key: 'LANE_STATUS',
                 name: '车道通行状态',
-                type: 'AD_LANE_DIVIDER_LANESTATUS',
+                type: 'AD_LANE_DIVIDER_LANE_STATUS',
                 domType: 'Select'
             },
             {
@@ -3545,9 +3545,9 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 domType: 'Select'
             },
             {
-                key: 'LANESTATUS',
+                key: 'LANE_STATUS',
                 name: '车道通行状态',
-                type: 'AD_LANE_DIVIDER_LANESTATUS',
+                type: 'AD_LANE_DIVIDER_LANE_STATUS',
                 domType: 'Select'
             },
             {
@@ -6998,9 +6998,9 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 domType: 'Select'
             },
             {
-                key: 'LANESTATUS',
+                key: 'LANE_STATUS',
                 name: '车道通行状态',
-                type: 'AD_LANE_DIVIDER_LANESTATUS',
+                type: 'AD_LANE_DIVIDER_LANE_STATUS',
                 domType: 'Select'
             },
             {
