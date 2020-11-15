@@ -195,6 +195,10 @@ class AttributeStore {
 
         //维护属性的更新标识
         let diffFields = getDiffFields(newFeature, data.attributes);
+        newFeature.data.properties = {
+            ...newFeature.data.properties,
+            ...data.attributes
+        };
         newFeature = modUpdStatPropertiesFields(newFeature, diffFields);
 
         let historyLog = {
