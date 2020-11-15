@@ -228,7 +228,9 @@ export const modUpdStatRelation = feature => {
 };
 
 export const completeConfidence = feature => {
-    feature.data.properties.CONFIDENCE = DEFAULT_CONFIDENCE_MAP[feature.layerName] || '{}';
+    if(DEFAULT_CONFIDENCE_MAP[feature.layerName]) {
+        feature.data.properties.CONFIDENCE = DEFAULT_CONFIDENCE_MAP[feature.layerName]
+    }
     return feature;
 };
 
