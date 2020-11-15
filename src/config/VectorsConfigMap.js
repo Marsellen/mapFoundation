@@ -604,7 +604,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 7,
-                label: '人行道',
+                label: '右转专用道',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,255,255)',
@@ -643,7 +643,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 10,
-                label: '检查站车道',
+                label: '左转专用道',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,255,255)',
@@ -851,7 +851,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 31,
-                label: '复合车道',
+                label: '加减速复合车道',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,255,255)',
@@ -3675,7 +3675,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 7,
-                label: '人行道',
+                label: '右转专用道',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,237,37)',
@@ -3714,7 +3714,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 10,
-                label: '检查站车道',
+                label: '左转专用道',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,237,37)',
@@ -3922,7 +3922,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 31,
-                label: '复合车道',
+                label: '加减速复合车道',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,237,37)',
@@ -4044,7 +4044,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 },
                 {
                     value: 7,
-                    label: '人行道',
+                    label: '右转专用道',
                     showFields: 'TYPE',
                     lineStyle: 'solid',
                     color: 'rgb(255,237,37)',
@@ -4083,7 +4083,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 },
                 {
                     value: 10,
-                    label: '检查站车道',
+                    label: '左转专用道',
                     showFields: 'TYPE',
                     lineStyle: 'solid',
                     color: 'rgb(255,237,37)',
@@ -4149,19 +4149,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 {
                     value: 16,
                     label: 'HOV车道',
-                    showFields: 'TYPE',
-                    lineStyle: 'solid',
-                    color: 'rgb(255,237,37)',
-                    opacity: 1,
-                    arrow: true,
-                    point: true,
-                    pointEnabledStatus: true,
-                    arrowEnabledStatus: true,
-                    pointSize: 0.1
-                },
-                {
-                    value: 17,
-                    label: '危险用品专用车道',
                     showFields: 'TYPE',
                     lineStyle: 'solid',
                     color: 'rgb(255,237,37)',
@@ -4304,7 +4291,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 },
                 {
                     value: 31,
-                    label: '复合车道',
+                    label: '加减速复合车道',
                     showFields: 'TYPE',
                     lineStyle: 'solid',
                     color: 'rgb(255,237,37)',
@@ -7130,7 +7117,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 7,
-                label: '人行道',
+                label: '右转专用道',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,237,37)',
@@ -7169,7 +7156,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 10,
-                label: '检查站车道',
+                label: '左转专用道',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,237,37)',
@@ -7377,7 +7364,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
             },
             {
                 value: 31,
-                label: '复合车道',
+                label: '加减速复合车道',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
                 color: 'rgb(255,237,37)',
@@ -7499,7 +7486,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 },
                 {
                     value: 7,
-                    label: '人行道',
+                    label: '右转专用道',
                     showFields: 'TYPE',
                     lineStyle: 'solid',
                     color: 'rgb(255,237,37)',
@@ -7538,7 +7525,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 },
                 {
                     value: 10,
-                    label: '检查站车道',
+                    label: '左转专用道',
                     showFields: 'TYPE',
                     lineStyle: 'solid',
                     color: 'rgb(255,237,37)',
@@ -7604,19 +7591,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 {
                     value: 16,
                     label: 'HOV车道',
-                    showFields: 'TYPE',
-                    lineStyle: 'solid',
-                    color: 'rgb(255,237,37)',
-                    opacity: 1,
-                    arrow: true,
-                    point: true,
-                    pointEnabledStatus: true,
-                    arrowEnabledStatus: true,
-                    pointSize: 0.1
-                },
-                {
-                    value: 17,
-                    label: '危险用品专用车道',
                     showFields: 'TYPE',
                     lineStyle: 'solid',
                     color: 'rgb(255,237,37)',
@@ -7759,7 +7733,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 },
                 {
                     value: 31,
-                    label: '复合车道',
+                    label: '加减速复合车道',
                     showFields: 'TYPE',
                     lineStyle: 'solid',
                     color: 'rgb(255,237,37)',

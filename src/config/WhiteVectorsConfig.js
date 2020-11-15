@@ -180,7 +180,7 @@ export default {
                 },
                 {
                     value: 7,
-                    label: '人行道',
+                    label: '右转专用道',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
@@ -195,7 +195,7 @@ export default {
                 },
                 {
                     value: 10,
-                    label: '检查站车道',
+                    label: '左转专用道',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
@@ -226,11 +226,6 @@ export default {
                 {
                     value: 16,
                     label: 'HOV车道',
-                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
-                },
-                {
-                    value: 17,
-                    label: '危险用品专用车道',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
@@ -300,7 +295,7 @@ export default {
                 },
                 {
                     value: 31,
-                    label: '复合车道',
+                    label: '加减速复合车道',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
@@ -349,7 +344,7 @@ export default {
                 },
                 {
                     value: 7,
-                    label: '人行道',
+                    label: '右转专用道',
                     style: { color: 'rgb(255,255,255)' }
                 },
                 {
@@ -364,7 +359,7 @@ export default {
                 },
                 {
                     value: 10,
-                    label: '检查站车道',
+                    label: '左转专用道',
                     style: { color: 'rgb(255,255,255)' }
                 },
                 {
@@ -395,11 +390,6 @@ export default {
                 {
                     value: 16,
                     label: 'HOV车道',
-                    style: { color: 'rgb(255,255,255)' }
-                },
-                {
-                    value: 17,
-                    label: '危险用品专用车道',
                     style: { color: 'rgb(255,255,255)' }
                 },
                 {
@@ -469,7 +459,7 @@ export default {
                 },
                 {
                     value: 31,
-                    label: '复合车道',
+                    label: '加减速复合车道',
                     style: { color: 'rgb(255,255,255)' }
                 },
                 {
@@ -518,7 +508,7 @@ export default {
                 },
                 {
                     value: 7,
-                    label: '人行道',
+                    label: '右转专用道',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
@@ -533,7 +523,7 @@ export default {
                 },
                 {
                     value: 10,
-                    label: '检查站车道',
+                    label: '左转专用道',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
@@ -564,11 +554,6 @@ export default {
                 {
                     value: 16,
                     label: 'HOV车道',
-                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
-                },
-                {
-                    value: 17,
-                    label: '危险用品专用车道',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
@@ -638,7 +623,7 @@ export default {
                 },
                 {
                     value: 31,
-                    label: '复合车道',
+                    label: '加减速复合车道',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
