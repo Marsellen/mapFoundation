@@ -71,7 +71,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 1, label: '道路边界', abbreviation: '边' },
         { value: 2, label: '非道路边界', abbreviation: '非边' }
     ],
-    AD_LANE_DIVIDER_LANESTATUS: [
+    AD_LANE_DIVIDER_LANE_STATUS: [
         { value: 0, label: '未定义', abbreviation: '0' },
         { value: 1, label: '正常通行', abbreviation: '正常' },
         { value: 2, label: '建设中', abbreviation: '建设' },
@@ -847,7 +847,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         RD_LINE: 2,
         SHARE_LINE: 1,
         RD_EDGE: 2,
-        LANESTATUS: 0,
+        LANE_STATUS: 0,
         LANE_TYPE: 1,
         LANE_NO: 0,
         RD_FORM: 0
@@ -980,7 +980,7 @@ export const TABLE_DATA_MAP = {
             link: {
                 1: {
                     DIRECTION: 0,
-                    LANESTATUS: 0,
+                    LANE_STATUS: 0,
                     LANE_TYPE: 0,
                     LANE_NO: 0,
                     RD_FORM: 0
@@ -994,9 +994,9 @@ export const TABLE_DATA_MAP = {
             domType: 'Select'
         },
         {
-            key: 'LANESTATUS',
+            key: 'LANE_STATUS',
             name: '车道通行状态',
-            type: 'AD_LANE_DIVIDER_LANESTATUS',
+            type: 'AD_LANE_DIVIDER_LANE_STATUS',
             domType: 'Select'
         },
         {
@@ -1009,11 +1009,11 @@ export const TABLE_DATA_MAP = {
             link: {
                 default: {
                     DIRECTION: 1,
-                    LANESTATUS: 1
+                    LANE_STATUS: 1
                 },
                 0: {
                     DIRECTION: 0,
-                    LANESTATUS: 0
+                    LANE_STATUS: 0
                 }
             }
         },
@@ -1511,7 +1511,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_Road_Con: '{"FROM_ROAD":{},"TO_ROAD":{}}',
     AD_Road_Con_RS: '{"REL_ID":{},"RS_TYPE":{},"TIMEDOM":{}}',
     AD_LaneDivider:
-        '{"TYPE":{},"RD_LINE":{},"SHARE_LINE":{},"RD_EDGE":{},"DIRECTION":{},"LANESTATUS":{},"LANE_TYPE":{},"LANE_NO":{},"RD_FORM":{},"GEOMETRY":{}}',
+        '{"TYPE":{},"RD_LINE":{},"SHARE_LINE":{},"RD_EDGE":{},"DIRECTION":{},"LANE_STATUS":{},"LANE_TYPE":{},"LANE_NO":{},"RD_FORM":{},"GEOMETRY":{}}',
     AD_Lane:
         '{"ROAD_ID":{},"L_LDIV_ID":{},"R_LDIV_ID":{},"TYPE":{},"LANE_NO":{},"DIRECTION":{},"STATUS":{},"MAX_SPEED":{},"MAX_SP_TYP":{},"MIN_SPEED":{},"MIN_SP_TYP":{},"GEOMETRY":{}}',
     AD_Lane_Con: '{"FROM_LANE":{},"TO_LANE":{}}',
@@ -1571,9 +1571,9 @@ export const LAYER_TYPE_MAP = {
             type: 'AD_LANE_DIVIDER_DIRECTION'
         },
         {
-            key: 'LANESTATUS',
+            key: 'LANE_STATUS',
             name: '车道通行状态',
-            type: 'AD_LANE_DIVIDER_LANESTATUS'
+            type: 'AD_LANE_DIVIDER_LANE_STATUS'
         },
         {
             key: 'LANE_NO',
