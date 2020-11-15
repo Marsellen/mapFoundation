@@ -205,7 +205,8 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'UPD_STAT',
-            title: '更新标识'
+            title: '更新标识',
+            filterBy: 'updStatFilter'
         }
     ],
     AD_LaneAttrPoint: [
