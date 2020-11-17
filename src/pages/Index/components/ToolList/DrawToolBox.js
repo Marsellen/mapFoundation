@@ -14,6 +14,7 @@ import NewStraightLine from './HalfAutoTools/NewStraightLine';
 import NewTurnLine from './HalfAutoTools/NewTurnLine';
 import NewUTurnLine from './HalfAutoTools/NewUTurnLine';
 import AddCurvedLine from './AddCurvedLine';
+import DashedPolygonCreate from './DashedPolygonCreate';
 
 const EDIT_TYPES = [
     'new_point',
@@ -27,7 +28,8 @@ const EDIT_TYPES = [
     'new_around_line',
     'new_straight_line',
     'new_turn_line',
-    'new_Uturn_line'
+    'new_Uturn_line',
+    'dashed_polygon_create'
 ];
 
 const OPTIONS = {
@@ -227,6 +229,14 @@ class DrawToolBox extends React.Component {
                 actionid="new-uturn-line"
             >
                 <NewUTurnLine />
+            </Menu.Item>,
+            <Menu.Item
+                name="DASHED_POLYGON_CREATE"
+                key="xuxianmiangoujian"
+                title="虚线面构建"
+                actionid="dashed-polygon-create"
+            >
+                <DashedPolygonCreate />
             </Menu.Item>
         ];
 

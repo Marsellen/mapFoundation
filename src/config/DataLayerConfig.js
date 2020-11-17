@@ -368,8 +368,8 @@ export const DATA_LAYER_MAP = {
             manbuild: ['DRAW_TOOL_BOX']
         },
         drawTools: {
-            recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],
-            manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON']
+            recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON', 'DASHED_POLYGON_CREATE'],
+            manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON', 'DASHED_POLYGON_CREATE']
         },
         rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
         groupRightTools: ['batchAssign'],
