@@ -454,6 +454,16 @@ class DataLayerStore {
         this.editor.changeFeaturePosMicro(dir, pre);
     };
 
+    // 虚线面构建
+    dashedPolygonCreate = () => {
+        this.exitEdit();
+        if (!this.editor) return;
+        this.setEditType('dashed_polygon_create');
+        let layers = getAllLayersExByName(['AD_LaneDivider', 'AD_LaneDivider_Pln']);
+        this.editor.setTargetLayers(layers);
+        // this.addShapePoint();
+    }
+
     @action topViewMode = opt => {
         if (!window.map) return;
         this.isTopView = opt;
