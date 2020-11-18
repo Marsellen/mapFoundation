@@ -306,5 +306,13 @@ export const shortcutMap = [
         shift: false,
         keyCode: 75,
         describe: '批量赋值 K'
+    },
+    {
+        id: 'group-move-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 84,
+        describe: '批量平移 T'
     }
 ];

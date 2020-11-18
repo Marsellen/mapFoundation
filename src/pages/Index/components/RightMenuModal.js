@@ -47,7 +47,8 @@ const EDIT_TYPE = [
     'change_points',
     'break_line',
     'reverse_order_line',
-    'break_line_by_line'
+    'break_line_by_line',
+    'group_move'
 ];
 
 const CHINESE_EDIT_TYPE = [
@@ -74,6 +75,10 @@ const CHINESE_EDIT_TYPE = [
     {
         type: 'break_line_by_line',
         value: '两点绘制一条打断线，右键执行打断'
+    },
+    {
+        type: 'group_move',
+        value: '左键选择平移参考点，按shift进入下一步'
     }
 ];
 
@@ -96,6 +101,7 @@ class RightMenuModal extends React.Component {
         this.batchAssign = this.batchAssign.bind(this);
         this.breakByLine = this.breakByLine.bind(this);
         this.trim = this.trim.bind(this);
+        this.groupMove = this.groupMove.bind(this);
         this.copyLineHandle = this.copyLineHandle.bind(this);
     }
 
@@ -246,6 +252,14 @@ class RightMenuModal extends React.Component {
                 className="right-menu-item"
             >
                 <span>拉线齐打断</span>
+            </Menu.Item>,
+            <Menu.Item
+                id="group-move-btn"
+                key="groupMove"
+                onClick={this.groupMove}
+                className="right-menu-item"
+            >
+                <span>批量平移</span>
             </Menu.Item>
         ];
         const { isTopView, getEditLayer } = this.props.DataLayerStore;
@@ -696,6 +710,20 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
+    }
+
+    @editInputLimit({ editType: 'group_move', isRightMenu: true })
+    groupMove() {
+        const { DataLayerStore } = this.props;
+        if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble()) {
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
+        }
+        DataLayerStore.groupMove();
     }
 
     checkDisabled = () => {
