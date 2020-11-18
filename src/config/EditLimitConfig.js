@@ -144,6 +144,18 @@ export const LOCAL_TASK_EDIT_LIMIT = {
         inputLimit: {
             taskData: 'atLastOne'
         }
+    },
+    // 批量平移
+    group_move: {
+        inputLimit: {
+            taskData: 'every'
+        }
+    },
+    // 虚线面构建
+    dashed_polygon_create: {
+        inputLimit: {
+            taskData: 'every'
+        }
     }
 };
 
@@ -345,6 +357,18 @@ export const UPDATE_TASK_EDIT_LIMIT = {
     new_rel: {
         inputLimit: {
             taskData: 'atLastOne'
+        }
+    },
+    // 批量平移
+    group_move: {
+        inputLimit: {
+            taskData: 'every'
+        }
+    },
+    // 虚线面构建
+    dashed_polygon_create: {
+        inputLimit: {
+            taskData: 'every'
         }
     }
 };

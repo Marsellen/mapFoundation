@@ -17,9 +17,10 @@ export const DATA_LAYER_MAP = {
             'copyLine',
             'insertPoints',
             'changePoints',
-            'deletePoints'
+            'deletePoints',
+            'groupMove'
         ],
-        groupRightTools: ['batchAssign'],
+        groupRightTools: ['batchAssign', 'groupMove'],
         editName: '地面导向\n箭头'
     },
     AD_LaneAttrPoint: {
@@ -56,7 +57,8 @@ export const DATA_LAYER_MAP = {
             'deletePoints',
             'reverseOrderLine',
             'break',
-            'trim'
+            'trim',
+            'groupMove'
         ],
         batchTools: ['LINE_FEATURES_SNAP_TO_STOP_LINE', 'ASSIGN_LINE_NO_IN_BATCH'],
         groupRightTools: [
@@ -65,7 +67,8 @@ export const DATA_LAYER_MAP = {
             'batchMerge',
             'batchAssign',
             'reverseOrderLine',
-            'breakByLine'
+            'breakByLine',
+            'groupMove'
         ],
         editName: '车道线'
     },
@@ -87,9 +90,10 @@ export const DATA_LAYER_MAP = {
             'copyLine',
             'insertPoints',
             'changePoints',
-            'deletePoints'
+            'deletePoints',
+            'groupMove'
         ],
-        groupRightTools: ['batchAssign'],
+        groupRightTools: ['batchAssign', 'groupMove'],
         editName: '面状标识物'
     },
     AD_Text: {
@@ -104,8 +108,8 @@ export const DATA_LAYER_MAP = {
             recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],
             manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON']
         },
-        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'copyLine', 'deletePoints'],
-        groupRightTools: ['batchAssign'],
+        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'copyLine', 'deletePoints', 'groupMove'],
+        groupRightTools: ['batchAssign', 'groupMove'],
         editName: '地面文字\n符号'
     },
     AD_StopLocation: {
@@ -126,9 +130,10 @@ export const DATA_LAYER_MAP = {
             'insertPoints',
             'changePoints',
             'deletePoints',
-            'trim'
+            'trim',
+            'groupMove'
         ],
-        groupRightTools: ['batchAssign'],
+        groupRightTools: ['batchAssign', 'groupMove'],
         editName: '停止位置'
     },
     AD_Lane: {
@@ -161,7 +166,8 @@ export const DATA_LAYER_MAP = {
             'deletePoints',
             'reverseOrderLine',
             'break',
-            'trim'
+            'trim',
+            'groupMove'
         ],
         groupRightTools: [
             'breakGroup',
@@ -169,7 +175,8 @@ export const DATA_LAYER_MAP = {
             'batchMerge',
             'batchAssign',
             'reverseOrderLine',
-            'breakByLine'
+            'breakByLine',
+            'groupMove'
         ],
         editName: '车道中心线'
     },
@@ -185,8 +192,8 @@ export const DATA_LAYER_MAP = {
             recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE'],
             manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE']
         },
-        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'copyLine','deletePoints'],
-        groupRightTools: ['batchAssign'],
+        rightTools: ['delete', 'forceDelete', 'insertPoints', 'changePoints', 'copyLine','deletePoints', 'groupMove'],
+        groupRightTools: ['batchAssign', 'groupMove'],
         editName: '交通标志牌'
     },
     AD_Road: {
@@ -219,7 +226,8 @@ export const DATA_LAYER_MAP = {
             'deletePoints',
             'reverseOrderLine',
             'break',
-            'trim'
+            'trim',
+            'groupMove'
         ],
         groupRightTools: [
             'breakGroup',
@@ -227,7 +235,8 @@ export const DATA_LAYER_MAP = {
             'batchMerge',
             'batchAssign',
             'reverseOrderLine',
-            'breakByLine'
+            'breakByLine',
+            'groupMove'
         ],
         editName: '道路参考线'
     },
@@ -249,9 +258,10 @@ export const DATA_LAYER_MAP = {
             'copyLine',
             'insertPoints',
             'changePoints',
-            'deletePoints'
+            'deletePoints',
+            'groupMove'
         ],
-        groupRightTools: ['batchAssign'],
+        groupRightTools: ['batchAssign', 'groupMove'],
         editName: '交通信号灯'
     },
     AD_Marker: {
@@ -289,9 +299,10 @@ export const DATA_LAYER_MAP = {
             'changePoints',
             'deletePoints',
             'break',
-            'trim'
+            'trim',
+            'groupMove'
         ],
-        groupRightTools: ['breakGroup', 'merge', 'batchAssign', 'breakByLine'],
+        groupRightTools: ['breakGroup', 'merge', 'batchAssign', 'breakByLine', 'groupMove'],
         editName: '隔离带、\n护栏'
     },
     AD_Lane_RS: {
@@ -355,8 +366,8 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE', 'CURVED_LINE'],
             manbuild: ['LINE', 'CURVED_LINE']
         },
-        rightTools: ['delete', 'copyLine', 'reverseOrderLine', 'changePoints', 'break', 'trim', 'forceDelete'],
-        groupRightTools: ['breakGroup', 'merge', 'batchMerge', 'breakByLine', 'batchAssign'],
+        rightTools: ['delete', 'copyLine', 'reverseOrderLine', 'changePoints', 'break', 'trim', 'forceDelete', 'groupMove'],
+        groupRightTools: ['breakGroup', 'merge', 'batchMerge', 'breakByLine', 'batchAssign', 'groupMove'],
         editName: '几何层：\n车道线线要素'
     },
     AD_LaneDivider_Plg: {
@@ -371,8 +382,8 @@ export const DATA_LAYER_MAP = {
             recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON', 'DASHED_POLYGON_CREATE'],
             manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON', 'DASHED_POLYGON_CREATE']
         },
-        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
-        groupRightTools: ['batchAssign'],
+        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete', 'groupMove'],
+        groupRightTools: ['batchAssign', 'groupMove'],
         editName: '几何层：\n车道线面要素'
     },
     AD_StopLocation_Geo: {
@@ -387,8 +398,8 @@ export const DATA_LAYER_MAP = {
             recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],
             manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON']
         },
-        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
-        groupRightTools: ['batchAssign'],
+        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete', 'groupMove'],
+        groupRightTools: ['batchAssign', 'groupMove'],
         editName: '几何层：\n停止位置'
     },
     AD_Arrow_Geo: {
@@ -403,8 +414,8 @@ export const DATA_LAYER_MAP = {
             recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
             manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
         },
-        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
-        groupRightTools: ['batchAssign'],
+        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete', 'groupMove'],
+        groupRightTools: ['batchAssign', 'groupMove'],
         editName: '几何层：\n箭头'
     },
     AD_LaneMark_Geo: {
@@ -419,8 +430,8 @@ export const DATA_LAYER_MAP = {
             recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
             manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
         },
-        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
-        groupRightTools: ['batchAssign'],
+        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete', 'groupMove'],
+        groupRightTools: ['batchAssign', 'groupMove'],
         editName: '几何层：\n路面车道标记'
     },
     AD_Pole_Geo: {
@@ -435,8 +446,8 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE', 'CURVED_LINE'],
             manbuild: ['LINE', 'CURVED_LINE']
         },
-        rightTools: ['delete', 'changePoints', 'forceDelete'],
-        groupRightTools: ['batchAssign'],
+        rightTools: ['delete', 'changePoints', 'forceDelete', 'groupMove'],
+        groupRightTools: ['batchAssign', 'groupMove'],
         editName: '几何层：\n杆状物'
     },
     AD_TrafficSign_Geo: {
@@ -451,8 +462,8 @@ export const DATA_LAYER_MAP = {
             recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE'],
             manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE']
         },
-        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
-        groupRightTools: ['batchAssign'],
+        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete', 'groupMove'],
+        groupRightTools: ['batchAssign', 'groupMove'],
         editName: '几何层：\n交通标志牌'
     },
     AD_TrafficLight_Geo: {
@@ -467,8 +478,8 @@ export const DATA_LAYER_MAP = {
             recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE'],
             manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE']
         },
-        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
-        groupRightTools: ['batchAssign'],
+        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete', 'groupMove'],
+        groupRightTools: ['batchAssign', 'groupMove'],
         editName: '几何层：\n交通信号灯'
     }
 };

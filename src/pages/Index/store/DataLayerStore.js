@@ -959,6 +959,12 @@ class DataLayerStore {
         this.editor.modifyLine();
     }
 
+    groupMove = () => {
+        if (!this.editor) return;
+        this.setEditType('group_move');
+        this.addShapePoint();
+    }
+
     setModifyLineAdsorbMode = () => {
         this.editor.setModifyLineAdsorbMode(this.modifyLineAdsorbMode);
         let content = `${this.modifyLineAdsorbMode ? '开启' : '关闭'}吸附到矢量功能`;
