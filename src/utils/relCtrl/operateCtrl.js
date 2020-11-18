@@ -39,6 +39,15 @@ const deleteLine = async features => {
         },
         { rels: [], attrs: [] }
     );
+
+    let hash = {};
+    rels = rels.reduce((v, i) => {
+        if (!hash[i.id]) {
+            hash[i.id] = true;
+            v.push(i);
+        }
+        return v;
+    }, []);
     //获取所有关联要素的options
     let allRelFeatureOptions = getAllRelFeatureOptions(rels);
     let featuresLog = calcFeaturesLog([features, []], [uniqOptions(allRelFeatureOptions), []]);
@@ -47,7 +56,6 @@ const deleteLine = async features => {
         rels: [rels, []],
         attrs: [attrs, []]
     };
-
     await updateFeatures(historyLog);
 
     return historyLog;

@@ -73,26 +73,27 @@ class RightMenuStore {
     //根据选择要素的数量获取右键菜单
     getRightTools = (layerName, featuresL, event) => {
         let rightTools = [];
-        switch (featuresL) {
-            case 0:
-                break;
-            case 1:
-                rightTools = DATA_LAYER_MAP[layerName].rightTools;
-                if (!event) {
-                    rightTools = rightTools.flatMap(item => (item === 'forceDelete' ? [] : [item]));
-                }
-                break;
-            case 2:
-                //所选要素数量等于2时，隐藏批量线合并
-                rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
-                rightTools = rightTools.flatMap(item => (item === 'batchMerge' ? [] : [item]));
-                break;
-            default:
-                //所选要素数量大于2时，隐藏合并
-                rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
-                rightTools = rightTools.flatMap(item => (item === 'merge' ? [] : [item]));
-                break;
+        if (featuresL === 1) {
+            rightTools = DATA_LAYER_MAP[layerName].rightTools;
+            if (!event) {
+                rightTools = rightTools.flatMap(item => (item === 'forceDelete' ? [] : [item]));
+            }
+        } else if (featuresL === 2) {
+            //所选要素数量等于2时，隐藏批量线合并
+            rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
+            rightTools = rightTools.flatMap(item => (item === 'batchMerge' ? [] : [item]));
+        } else if (featuresL > 2 && featuresL <= 12) {
+            //所选要素数量大于2时，隐藏合并
+            rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
+            rightTools = rightTools.flatMap(item => (item === 'merge' ? [] : [item]));
+        } else if (featuresL > 12) {
+            //所选要素数量大于12时，隐藏批量删除
+            rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
+            rightTools = rightTools.flatMap(item =>
+                item === 'delete' || item === 'merge' ? [] : [item]
+            );
         }
+
         return rightTools;
     };
 
