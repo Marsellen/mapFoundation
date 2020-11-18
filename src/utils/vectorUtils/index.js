@@ -41,7 +41,7 @@ export const getAllLayersExByName = layerName => {
     if (window.boundaryLayerGroup) {
         layers = layers.concat(window.boundaryLayerGroup.layers);
     }
-    if (typeof layerName == 'object') {
+    if (Array.isArray(layerName)) {
         return layers.filter(layer => layerName.includes(layer.layerName));
     } else {
         return layers.filter(layer => layer.layerName == layerName);
