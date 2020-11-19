@@ -28,23 +28,23 @@ const TaskService = {
         return service({ config });
     },
     //过程库查询接口
-    // updateBoundaryFile: data => {
-    //     const config = {
-    //         url: StoreApiPath('/storeQuery'),
-    //         method: 'post',
-    //         data
-    //     };
-    //     return service({ config });
-    // },
-    //母库查询接口
     updateBoundaryFile: data => {
         const config = {
-            url: QuerydbApiPath('/for_edit'),
+            url: StoreApiPath('/storeQuery'),
             method: 'post',
             data
         };
         return service({ config });
     },
+    //母库查询接口
+    // updateBoundaryFile: data => {
+    //     const config = {
+    //         url: QuerydbApiPath('/for_edit'),
+    //         method: 'post',
+    //         data
+    //     };
+    //     return service({ config });
+    // },
     exportShp: params => {
         // let link = document.createElement('a');
         let userInfo = getAuthentication();
