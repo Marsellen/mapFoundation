@@ -207,60 +207,60 @@ class TaskStore {
     };
 
     //过程库查询参数
-    // initUpdateBoundaryParams = taskType => {
-    //     const region = window.vectorLayer.getAllFeatures()[0];
-    //     if (!region) return;
-    //     const { bufferRegionWkt } = region.data.properties;
-    //     const { referData, outDir } = UPDATE_BOUNDARY_PARAM_MAP[taskType];
-    //     const params = {
-    //         queryType: 'wkt',
-    //         region: '2',
-    //         outFormat: 'editjson',
-    //         wktList: [bufferRegionWkt],
-    //         referData: this.activeTask[referData],
-    //         outDir: this.activeTask[outDir]
-    //     };
-    //     return params;
-    // };
+    initUpdateBoundaryParams = taskType => {
+        const region = window.vectorLayer.getAllFeatures()[0];
+        if (!region) return;
+        const { bufferRegionWkt } = region.data.properties;
+        const { referData, outDir } = UPDATE_BOUNDARY_PARAM_MAP[taskType];
+        const params = {
+            queryType: 'wkt',
+            region: '2',
+            outFormat: 'editjson',
+            wktList: [bufferRegionWkt],
+            referData: this.activeTask[referData],
+            outDir: this.activeTask[outDir]
+        };
+        return params;
+    };
 
     //母库查询参数
-    initUpdateBoundaryParams = taskType => {
-        const params = {
-            imp_recognition: {
-                task_id: this.activeTaskId,
-                comm_path: this.activeTask['10_COMMON_DATA'],
-                res_path: this.activeTask['1302_MS_AROUND_DATA'],
-                refer_path: this.activeTask['MS_EDITOR_QUERYDB_PATHS'],
-                in_csys: 'mct',
-                out_csys: 'mct'
-            },
-            imp_check_after_recognition: {
-                task_id: this.activeTaskId,
-                comm_path: this.activeTask['10_COMMON_DATA'],
-                res_path: this.activeTask['1303_MS_QC_AROUND_DATA'],
-                refer_path: this.activeTask['MS_EDITOR_QUERYDB_PATHS'],
-                in_csys: 'mct',
-                out_csys: 'mct'
-            },
-            imp_manbuild: {
-                task_id: this.activeTaskId,
-                comm_path: this.activeTask['10_COMMON_DATA'],
-                res_path: this.activeTask['1304_MB_AROUND_DATA'],
-                refer_path: this.activeTask['MB_EDITOR_QUERYDB_PATHS'],
-                in_csys: 'mct',
-                out_csys: 'mct'
-            },
-            imp_check_after_manbuild: {
-                task_id: this.activeTaskId,
-                comm_path: this.activeTask['10_COMMON_DATA'],
-                res_path: this.activeTask['1305_MB_QC_AROUND_DATA'],
-                refer_path: this.activeTask['MB_EDITOR_QUERYDB_PATHS'],
-                in_csys: 'mct',
-                out_csys: 'mct'
-            }
-        };
-        return params[taskType];
-    };
+    // initUpdateBoundaryParams = taskType => {
+    //     const params = {
+    //         imp_recognition: {
+    //             task_id: this.activeTaskId,
+    //             comm_path: this.activeTask['10_COMMON_DATA'],
+    //             res_path: this.activeTask['1302_MS_AROUND_DATA'],
+    //             refer_path: this.activeTask['MS_EDITOR_QUERYDB_PATHS'],
+    //             in_csys: 'mct',
+    //             out_csys: 'mct'
+    //         },
+    //         imp_check_after_recognition: {
+    //             task_id: this.activeTaskId,
+    //             comm_path: this.activeTask['10_COMMON_DATA'],
+    //             res_path: this.activeTask['1303_MS_QC_AROUND_DATA'],
+    //             refer_path: this.activeTask['MS_EDITOR_QUERYDB_PATHS'],
+    //             in_csys: 'mct',
+    //             out_csys: 'mct'
+    //         },
+    //         imp_manbuild: {
+    //             task_id: this.activeTaskId,
+    //             comm_path: this.activeTask['10_COMMON_DATA'],
+    //             res_path: this.activeTask['1304_MB_AROUND_DATA'],
+    //             refer_path: this.activeTask['MB_EDITOR_QUERYDB_PATHS'],
+    //             in_csys: 'mct',
+    //             out_csys: 'mct'
+    //         },
+    //         imp_check_after_manbuild: {
+    //             task_id: this.activeTaskId,
+    //             comm_path: this.activeTask['10_COMMON_DATA'],
+    //             res_path: this.activeTask['1305_MB_QC_AROUND_DATA'],
+    //             refer_path: this.activeTask['MB_EDITOR_QUERYDB_PATHS'],
+    //             in_csys: 'mct',
+    //             out_csys: 'mct'
+    //         }
+    //     };
+    //     return params[taskType];
+    // };
 
     fetchTask = flow(function* () {
         const { taskFetchId, manualStatus } = this.activeTask;
