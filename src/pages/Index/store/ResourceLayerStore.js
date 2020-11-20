@@ -1,4 +1,4 @@
-import { action, configure, computed, observable, flow } from 'mobx';
+import { action, configure, computed, observable } from 'mobx';
 import {
     RESOURCE_LAYER_VECTOR,
     RESOURCE_LAYER_TASK_SCOPE,
@@ -6,7 +6,9 @@ import {
     RESOURCE_LAYER_MULTI_PROJECT,
     CONFIDENCE_LAYER
 } from 'src/config/DataLayerConfig';
-import { message } from 'antd';
+import Tree from 'src/utils/Tree';
+
+const ProjectsTree = new Tree('disabled');
 
 const LAYER_SORT_MAP = {
     [RESOURCE_LAYER_VECTOR]: 0,
@@ -119,40 +121,27 @@ class ResourceLayerStore {
         }
     };
 
-    //快捷键显隐所有点云
-    @action pointCloudToggle = () => {
-        //当前启用工程至少一个点云【二级】勾选，即为true
-        const checked = Object.values(this.multiProjectMap).some(project => {
-            const { children, checked } = project;
-            return checked && children.point_clouds.checked;
-        });
-        //更新多工程对象点云【二级】勾选状态
+    @action initMultiProjectLayer = () => {
         Object.values(this.multiProjectMap).forEach(project => {
-            if (!project.checked) return;
-            const obj = project.children.point_clouds;
-            const key = obj.key;
-            this.loopMultiProjectMap(key, !checked, obj, true);
+            Object.values(project.children).forEach(obj => {
+                ProjectsTree.loopData(obj.checked, obj, true);
+            });
         });
-        //显隐点云图层
-        this.toggleProjectsPointCloud();
-        this.updateKey = Math.random();
     };
 
-    //快捷键显隐所有轨迹
-    @action trackToggle = () => {
+    //快捷键显隐点云或轨迹图层
+    @action layerToggle = layerName => {
         //当前启用工程至少一个轨迹【二级】勾选，即为true
         const checked = Object.values(this.multiProjectMap).some(project => {
             const { children, checked } = project;
-            return checked && children.track.checked;
+            return checked && children[layerName].checked;
         });
         //更新多工程对象轨迹【二级】勾选状态
         Object.values(this.multiProjectMap).forEach(project => {
             if (!project.checked) return;
-            const obj = project.children.track;
-            const key = obj.key;
-            this.loopMultiProjectMap(key, !checked, obj, true);
+            const obj = project.children[layerName];
+            ProjectsTree.loopData(!checked, obj, true);
         });
-
         this.updateKey = Math.random();
     };
 
@@ -173,72 +162,15 @@ class ResourceLayerStore {
     };
 
     //更新多工程映射的checked和disabled，显隐图层
-    @action toggleProjectsResource = (key, checked) => {
-        const keyArr = key.split('|');
-        let obj = this.multiProjectMap;
-        keyArr.forEach((item, index) => {
-            obj = index === 0 ? obj[item] : obj.children[item];
-        });
-        this.loopMultiProjectMap(key, checked, obj, true);
-        this.toggleProjectsPointCloud(obj, checked, keyArr);
+    @action toggleProjectsChecked = (key, checked) => {
+        ProjectsTree.toggleChecked(this.multiProjectMap, key, checked);
         this.updateKey = Math.random();
     };
 
-    // 给updatePointClouds传什么显示什么，不传的不显示
-    toggleProjectsPointCloud = flow(function* (obj, checked, keyArr) {
-        yield window.pointCloudLayer.updatePointClouds(this.pointCloudCheckedList, false);
-        if (!keyArr) return;
-        if (keyArr.length < 3) return;
-        if (!checked) return;
-        const { layerKey: url, label } = obj;
-        const currentPointCloud = window.pointCloudLayer.pointclouds.find(item => item.url === url);
-        if (!currentPointCloud) message.warning(label + ' 点云加载失败');
-    });
-
-    handleProjectsLayer = (checked, obj, parent, key) => {
-        const { checked: layerChecked, layerKey, layerName } = obj;
-        const layer = window[layerName]; //获取当前图层
-        //点击最里层，设置最里层checked；点击非最里层，设置最里层disabled
-        if (parent) {
-            obj.disabled = !(checked && parent.checked);
-        } else {
-            obj.checked = checked;
-        }
-        //点击非最里层，最里层未勾选，则返回
-        if (parent && !layerChecked) return;
-        //点击非最里层，非倒数第二层，倒数第二层未勾选，则返回
-        if (parent && parent.key !== key && !parent.checked) return;
-        //显隐图层
-        if (layerName === 'trackLayer') {
-            checked ? layer.show(layerKey) : layer.hide(layerKey);
-        }
-        // console.log(obj.label, checked, layerKey);
-    };
-
-    //递归多工程资料图层对象
-    loopMultiProjectMap = (key, checked, obj, isFirst) => {
-        const children = obj.children;
-        //当前点击层级，只改变其checked
-        //非当前点击层级，只改变期disabled
-        if (isFirst) {
-            obj.checked = checked;
-        } else {
-            obj.disabled = !checked;
-        }
-        //递归遍历，直到找到最里层
-        if (children) {
-            Object.keys(children).forEach(secondKey => {
-                const secondObj = children[secondKey];
-                const secondChildren = secondObj.children;
-                if (secondChildren) {
-                    this.loopMultiProjectMap(obj.key, checked, secondObj);
-                } else {
-                    this.handleProjectsLayer(checked, secondObj, obj, key);
-                }
-            });
-        } else {
-            this.handleProjectsLayer(checked, obj);
-        }
+    //设置伸缩状态
+    @action toggleProjectsStretch = key => {
+        ProjectsTree.toggleStretch(this.multiProjectMap, key);
+        this.updateKey = Math.random();
     };
 
     @action setIndeterminate = name => {

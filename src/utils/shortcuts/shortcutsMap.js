@@ -212,7 +212,7 @@ export const shortcutMap = [
         describe: '线要素逆序 I'
     },
     {
-        id: 'muti-toggle-icon',
+        id: 'picture-icon',
         ctrl: false,
         alt: false,
         shift: false,

@@ -1,9 +1,9 @@
 import React from 'react';
 import 'src/assets/less/components/define-mode.less';
+import { inject, observer } from 'mobx-react';
 import { Tabs } from 'antd';
 import TextConfig from 'src/pages/Index/components/RenderMode/TextConfig';
 import VectorConfig from 'src/pages/Index/components/RenderMode/VectorConfig';
-import { inject, observer } from 'mobx-react';
 
 const { TabPane } = Tabs;
 const SUPPORT_VECTOR_CONFIG_MODE = ['common', 'check', 'define'];

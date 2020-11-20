@@ -41,6 +41,7 @@ import UpdateTask from 'src/utils/Task/UpdateTask';
 import ModifyTask from 'src/utils/Task/ModifyTask';
 import { VECTOR_FILES, ATTR_FILES, REL_FILES } from 'src/config/TaskConfig';
 import { fetchCallback } from 'src/utils/map/utils';
+import PointCloudStore from 'src/pages/Index/store/PointCloudStore';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -385,11 +386,13 @@ class TaskStore {
             const { taskInfo } = CONFIG.urlConfig;
             const url = completeSecendUrl(taskInfo, this.activeTask);
             const { data } = yield axios.get(url);
-            const { projectNames, lidarNames, defaultLidarName } = data;
+            const { projectNames, lidarNames, defaultLidarName, treeContent } = data;
             this.projectNameArr = projectNames.split(';').sort();
             this.multiProjectMap = this.initMultiProjectMap();
             this.lidarNameArr = JSON.parse(lidarNames);
             this.defaultLidarName = JSON.parse(defaultLidarName);
+            this.multiProjectTree = treeContent;
+            PointCloudStore.initPointCloudMap(data, this.activeTask);
         } catch (e) {
             console.log('taskInfos.json请求失败' + e.message || e || '');
             throw new Error(this.activeTaskId);
@@ -440,34 +443,36 @@ class TaskStore {
 
     //根据taskInfo.json，将点云数据加入到多工程对象中
     handleMultiPointCloud = lastPath => {
-        const lidarUrlArr = [];
-        this.projectNameArr.forEach(projectName => {
+        let lidarUrlArr = [];
+        Object.entries(this.multiProjectTree).forEach(([projectName, project]) => {
             const projectLidarMap = {};
-            this.lidarNameArr[projectName].forEach(lidarName => {
+            Object.entries(project.POINTCLOUD).forEach(([pcName, trees]) => {
                 //因雷达名中有特殊符号，需要进行转码
-                const url = completeMultiProjectUrl(
-                    `point_clouds/${encodeURIComponent(lidarName)}/${lastPath}`,
-                    this.activeTask,
-                    projectName
-                );
+                pcName = encodeURIComponent(pcName);
+
+                //获取该点云所有八叉树的url
+                const urls = trees.map(treeName => {
+                    const url = completeMultiProjectUrl(
+                        `point_clouds/${pcName}/${treeName}/${lastPath}`,
+                        this.activeTask,
+                        projectName
+                    );
+                    return url;
+                });
+
                 //获取雷达的默认数组，判断当前雷达是否属于默认数组
                 const defaultLidarArr = this.defaultLidarName[projectName];
-                const isDefaultLidar = defaultLidarArr.includes(lidarName);
+                const isDefaultLidar = defaultLidarArr.includes(pcName);
 
-                const lidar = {
-                    key: `${projectName}|point_clouds|${lidarName}`,
-                    label: lidarName,
-                    layerKey: url,
+                projectLidarMap[pcName] = {
+                    key: `${projectName}|point_clouds|${pcName}`,
+                    label: pcName,
+                    layerKey: urls,
                     checked: isDefaultLidar,
                     layerName: 'pointCloudLayer'
                 };
 
-                projectLidarMap[lidarName] = projectLidarMap[lidarName] || {};
-                projectLidarMap[lidarName] = lidar;
-
-                //如果不是默认选中雷达则返回
-                if (!isDefaultLidar) return;
-                lidarUrlArr.push(url);
+                lidarUrlArr = [...lidarUrlArr, ...urls];
             });
             //将点云添加到 multiProjectMap
             this.updateMultiProjectMap(`${projectName}|point_clouds`, {

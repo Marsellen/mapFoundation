@@ -1,6 +1,6 @@
 import React from 'react';
 import { Slider } from 'antd';
-import 'less/components/PointCloud.less';
+import 'less/components/point-cloud.less';
 
 const marks = {
     0.5: '0.5',
