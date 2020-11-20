@@ -547,6 +547,7 @@ export const TOP_VIEW_DISABLED_LAYERS = [
 export const IMP_RECOGNITION_DISABLED_LAYERS = ['AD_Road', 'AD_Lane'];
 export const RESOURCE_LAYER_MULTI_PROJECT = '多工程';
 
+//人工构建设置编辑图层配置
 export const DATA_LAYER_STRATIFICATION = {
     LOGIC: [
         'AD_Road',
@@ -555,45 +556,46 @@ export const DATA_LAYER_STRATIFICATION = {
         'AD_LaneAttrPoint',
         'AD_Arrow',
         'AD_StopLocation',
-        'AD_LaneMark_Plg',
+        // 'AD_LaneMark_Plg',
         'AD_Text',
         'AD_TrafficLight',
         'AD_TrafficSign',
         'AD_RS_Barrier'
     ],
     GEOMETRY: [
-        'AD_LaneDivider_Pln',
+        // 'AD_LaneDivider_Pln',
         'AD_LaneDivider_Plg',
         'AD_StopLocation_Geo',
-        'AD_Arrow_Geo',
+        // 'AD_Arrow_Geo',
         'AD_LaneMark_Geo',
-        'AD_Pole_Geo',
-        'AD_TrafficSign_Geo',
-        'AD_TrafficLight_Geo'
+        'AD_Pole_Geo'
+        // 'AD_TrafficSign_Geo',
+        // 'AD_TrafficLight_Geo'
     ]
 };
-// 人工识别设置编辑图层配置
+
+//人工识别设置编辑图层配置
 export const RECOGNITION_DATA_LAYER_STRATIFICATION = {
     LOGIC: [
         'AD_LaneDivider',
         'AD_LaneAttrPoint',
         'AD_Arrow',
         'AD_StopLocation',
-        'AD_LaneMark_Plg',
+        // 'AD_LaneMark_Plg',
         'AD_Text',
         'AD_TrafficLight',
         'AD_TrafficSign',
         'AD_RS_Barrier'
     ],
     GEOMETRY: [
-        'AD_LaneDivider_Pln',
+        // 'AD_LaneDivider_Pln',
         'AD_LaneDivider_Plg',
         'AD_StopLocation_Geo',
-        'AD_Arrow_Geo',
+        // 'AD_Arrow_Geo',
         'AD_LaneMark_Geo',
-        'AD_Pole_Geo',
-        'AD_TrafficSign_Geo',
-        'AD_TrafficLight_Geo'
+        'AD_Pole_Geo'
+        // 'AD_TrafficSign_Geo',
+        // 'AD_TrafficLight_Geo'
     ]
 };
 
