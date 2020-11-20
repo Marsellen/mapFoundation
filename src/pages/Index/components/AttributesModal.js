@@ -45,8 +45,9 @@ class AttributesModal extends React.Component {
             >
                 <div className="obscuration" />
                 <Spin spinning={loading} tip={loadingMessage}>
-                    <Form colon={false} hideRequiredMark={true} key={modelId}>
+                    <Form colon={false} hideRequiredMark={true}>
                         <AdTabs
+                            updateKey={modelId}
                             tabs={[
                                 { label: '基础属性', key: 'basicAttribute' },
                                 { label: '关联关系', key: 'relation' }
