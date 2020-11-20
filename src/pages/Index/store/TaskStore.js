@@ -32,7 +32,8 @@ import {
     TASK_FIX_TYPES,
     TASK_QC_TYPES,
     TASK_FIX_STATUS,
-    TASK_REFIX_STATUS
+    TASK_REFIX_STATUS,
+    UPDATE_BOUNDARY_PARAM_MAP
 } from 'src/config/TaskConfig';
 import LocalTask from 'src/utils/Task/LocalTask';
 import AddTask from 'src/utils/Task/AddTask';
