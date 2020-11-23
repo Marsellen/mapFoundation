@@ -19,7 +19,7 @@
     },
     "dependencies": {
         "@interactjs/utils": "^1.9.17",
-        "addis-viz-sdk": "1.0.4",
+        "addis-viz-sdk": "1.0.5",
         "antd": "^3.26.13",
         "axios": "^0.18.0",
         "dragm": "0.0.5",

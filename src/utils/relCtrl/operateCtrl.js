@@ -281,6 +281,45 @@ const batchAssignment = async (features, fixLane, layerName, startNumber, active
     return historyLog;
 };
 
+/**
+ * 虚线面构建
+ * @method plgCreate
+ * @param {Object} feature 一条车道线
+ * @param {Array<Object>} LOOP_SIZE 构成虚线框的三个点
+ * @param {Object} PLG_TYPE 操作图层
+ * @param {Object} activeTask 任务对象
+ * @returns {Object}
+ */
+const plgCreate = async (feature, LOOP_SIZE, PLG_WIDTH, PLG_TYPE) => {
+    let AD_LaneDivider = {
+        type: 'FeatureCollection',
+        features: [feature[0].data]
+    }
+    let params = {
+        PLG_TYPE,
+        AD_LaneDivider,
+        LOOP_SIZE,
+        PLG_WIDTH
+    };
+    let result = await AdLineService.dashedCreate(params);
+    let newFeatures = result.data['AD_LaneDivider_Plg'].features.reduce((total, feature) => {
+        total.push({ data: feature, layerName: 'AD_LaneDivider_Plg' });
+        return total;
+    }, []);
+    let historyLog = {
+        features: [[], newFeatures]
+    };
+
+    await updateFeatures(historyLog);
+    
+    message.success({
+        content: result.message,
+        key: 'dashed_polygon_create',
+        duration: 3
+    })
+    return historyLog;
+}
+
 const calcNewLanes = (featurs, newFeatures, layerName) => {
     const IDKey = DATA_LAYER_MAP[layerName].id;
     let oldFeatures = _.cloneDeep(featurs);
@@ -999,5 +1038,6 @@ export {
     autoCreateLineByLaneDivider,
     getAllRelFeatureOptions,
     uniqOptions,
-    copyAttributeLines
+    copyAttributeLines,
+    plgCreate
 };

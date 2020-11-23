@@ -160,6 +160,9 @@ class DataLayerStore {
                 case 'choose_error_feature':
                     this.chooseErrorFeatureCallback(result, event);
                     break;
+                case 'dashed_polygon_create':
+                    this.dashedPolygonCreateCallback(result, event);
+                    break;
             }
         });
     };
@@ -455,13 +458,17 @@ class DataLayerStore {
     };
 
     // 虚线面构建
-    dashedPolygonCreate = () => {
-        this.exitEdit();
-        if (!this.editor) return;
-        this.setEditType('dashed_polygon_create');
-        let layers = getAllLayersExByName(['AD_LaneDivider', 'AD_LaneDivider_Pln']);
-        this.editor.setTargetLayers(layers);
-        // this.addShapePoint();
+    dashedPolygonCreate = (step = 0) => {
+        if (step == 0) {
+            this.exitEdit();
+            if (!this.editor) return;
+            this.setEditType('dashed_polygon_create');
+            let layers = getAllLayersExByName('AD_LaneDivider');
+            this.editor.setTargetLayers(layers);
+        } else if (step == 1) {
+            this.addShapePoint();
+            this.editor.selectFixedPointFromHighlight(3);
+        }
     }
 
     @action topViewMode = opt => {
@@ -603,6 +610,10 @@ class DataLayerStore {
     setQCMarkerCallback = callback => {
         this.QCMarkerCallback = callback;
     };
+
+    setDashedPolygonCreateCallback = callback => {
+        this.dashedPolygonCreateCallback = callback;
+    }
 
     chooseErrorLayer = editType => {
         this.exitEdit();
@@ -773,6 +784,7 @@ class DataLayerStore {
             case 'new_turn_line':
             case 'posture_adjust':
             case 'error_layer':
+            case 'dashed_polygon_create':
             case 'choose_error_feature':
                 this.fetchTargetLayers();
                 break;
@@ -821,7 +833,7 @@ class DataLayerStore {
                     break;
                 case 90:
                     //Z
-                    if (this.editType.includes('new_') || this.editType == 'trim') {
+                    if (this.editType.includes('new_') || this.editType == 'trim' || this.editType == 'dashed_polygon_create') {
                         this.editor.undo();
                     }
                     break;

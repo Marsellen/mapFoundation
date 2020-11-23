@@ -37,6 +37,14 @@ const AdLineService = {
             data
         };
         return service({ config });
+    },
+    dashedCreate: data => {
+        const config = {
+            url: ManualBuildApiPath('/divider/computeDivBound'),
+            method: 'post',
+            data
+        };
+        return service({ config });
     }
 };
 
