@@ -18,7 +18,7 @@ class QualityCheckResultTable extends React.Component {
     };
 
     getColumns = () => {
-        const cloumns = this.props.QualityCheckStore.reportColumns;
+        const cloumns = this.props.QualityCheckStore.reportColumns || [];
         const newColumns = cloumns.map((item, index) => {
             const { describe, styleByValue: { fieldValue, className } = {} } = item;
             item = {

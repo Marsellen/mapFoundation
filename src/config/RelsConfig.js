@@ -93,7 +93,7 @@ export const SPEC_REL_KEY_SET = [
     { spec: 'AD_Road', relKey: 'ROAD', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_Arrow', relKey: 'ARROW', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_Text', relKey: 'TEXT', relType: 'REL_OBJ_TYPE_KEYS' },
-    { spec: 'AD_LaneMark_Plg', relKey: 'PLG', relType: 'REL_OBJ_TYPE_KEYS' },
+    { spec: 'AD_LaneMark_Geo', relKey: 'PLG', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_StopLocation', relKey: 'STOPL', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_TrafficSign', relKey: 'SIGN', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_TrafficLight', relKey: 'LIGHT', relType: 'REL_OBJ_TYPE_KEYS' },
@@ -168,7 +168,7 @@ export const REL_SPEC_CONFIG = [
         objKeyName: 'LANE_ID',
         relObjKeyName: 'PLG_ID',
         objSpec: 'AD_Lane',
-        relObjSpec: 'AD_LaneMark_Plg',
+        relObjSpec: 'AD_LaneMark_Geo',
         objType: 'LANE',
         relObjType: 'PLG'
     },
