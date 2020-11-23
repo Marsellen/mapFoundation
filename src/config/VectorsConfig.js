@@ -888,22 +888,22 @@ export default {
                 {
                     value: 0,
                     label: '未定义',
-                    style: { color: 'rgb(137,195,255)', linewidth: 1 }
+                    style: { color: 'rgb(255,150,150)', linewidth: 1 }
                 },
                 {
                     value: 1,
                     label: '停止线',
-                    style: { color: 'rgb(137,195,255)', linewidth: 1 }
+                    style: { color: 'rgb(255,150,150)', linewidth: 1 }
                 },
                 {
                     value: 2,
                     label: '停车让行线',
-                    style: { color: 'rgb(137,195,255)', linewidth: 1 }
+                    style: { color: 'rgb(255,150,150)', linewidth: 1 }
                 },
                 {
                     value: 3,
                     label: '减速让行线',
-                    style: { color: 'rgb(137,195,255)', linewidth: 1 }
+                    style: { color: 'rgb(255,150,150)', linewidth: 1 }
                 }
             ]
         },
@@ -912,22 +912,22 @@ export default {
                 {
                     value: 0,
                     label: '未定义',
-                    style: { color: 'rgb(137,195,255)' }
+                    style: { color: 'rgb(255,150,150)' }
                 },
                 {
                     value: 1,
                     label: '停止线',
-                    style: { color: 'rgb(137,195,255)' }
+                    style: { color: 'rgb(255,150,150)' }
                 },
                 {
                     value: 2,
                     label: '停车让行线',
-                    style: { color: 'rgb(137,195,255)' }
+                    style: { color: 'rgb(255,150,150)' }
                 },
                 {
                     value: 3,
                     label: '减速让行线',
-                    style: { color: 'rgb(137,195,255)' }
+                    style: { color: 'rgb(255,150,150)' }
                 }
             ]
         },
@@ -936,22 +936,22 @@ export default {
                 {
                     value: 0,
                     label: '未定义',
-                    style: { color: 'rgb(137,195,255)', linewidth: 1 }
+                    style: { color: 'rgb(255,150,150)', linewidth: 1 }
                 },
                 {
                     value: 1,
                     label: '停止线',
-                    style: { color: 'rgb(137,195,255)', linewidth: 1 }
+                    style: { color: 'rgb(255,150,150)', linewidth: 1 }
                 },
                 {
                     value: 2,
                     label: '停车让行线',
-                    style: { color: 'rgb(137,195,255)', linewidth: 1 }
+                    style: { color: 'rgb(255,150,150)', linewidth: 1 }
                 },
                 {
                     value: 3,
                     label: '减速让行线',
-                    style: { color: 'rgb(137,195,255)', linewidth: 1 }
+                    style: { color: 'rgb(255,150,150)', linewidth: 1 }
                 }
             ]
         }

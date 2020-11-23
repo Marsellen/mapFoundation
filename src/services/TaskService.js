@@ -1,5 +1,5 @@
 import service from 'src/services';
-import { EditApiPath, TaskApiPath, QuerydbApiPath } from 'src/utils/Api';
+import { EditApiPath, TaskApiPath, StoreApiPath } from 'src/utils/Api';
 import { getAuthentication } from 'src/utils/Session';
 
 const TaskService = {
