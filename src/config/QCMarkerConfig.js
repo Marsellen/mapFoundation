@@ -126,7 +126,10 @@ const FIELD_NAME_MAP = {
     AD_LaneDivider_Plg: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
     AD_StopLocation_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
     AD_Arrow_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
-    AD_LaneMark_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
+    AD_LaneMark_Geo: [
+        { value: 'FEAT_TYPE', label: '要素子类型' },
+        { value: 'LANE_ID', label: '面状标识物关联关系' }
+    ],
     AD_TrafficSign_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }],
     AD_TrafficLight_Geo: [{ value: 'FEAT_TYPE', label: '要素子类型' }]
 };

@@ -467,7 +467,7 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_LaneMark_Geo',
         tools: {
             recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX']
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
         },
         drawTools: {
             recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],

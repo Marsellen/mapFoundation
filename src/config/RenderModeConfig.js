@@ -111,7 +111,7 @@ export const LAYER_NAME_MAP = {
     TO_ROAD: { layerName: 'AD_Road', key: 'ROAD_ID' },
     TO_ROAD_ID: { layerName: 'AD_Road', key: 'ROAD_ID' },
     STOPL_ID: { layerName: 'AD_StopLocation', key: 'STOPL_ID' },
-    PLG_ID: { layerName: 'AD_LaneMark_Plg', key: 'PLG_ID' },
+    PLG_ID: { layerName: 'AD_LaneMark_Geo', key: 'OBJ_ID' },
     ARR_ID: { layerName: 'AD_Arrow', key: 'ARR_ID' },
     ARROW_ID: { layerName: 'AD_Arrow', key: 'ARR_ID' },
     TEXT_ID: { layerName: 'AD_Text', key: 'TEXT_ID' },
