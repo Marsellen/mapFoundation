@@ -1269,7 +1269,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
             color: 'rgb(255,255,255)',
             opacity: 1,
             arrow: false,
-            point: false,
+            point: true,
             pointEnabledStatus: true,
             arrowEnabledStatus: true,
             pointSize: 0.1
@@ -2035,7 +2035,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
-
             },
             {
                 value: 'A',
@@ -2044,7 +2043,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
-
             },
             {
                 value: 'B',
@@ -2053,7 +2051,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
-
             },
             {
                 value: 'C',
@@ -2062,7 +2059,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
-
             },
             {
                 value: 'D',
@@ -2071,7 +2067,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
-
             },
             {
                 value: 'E',
@@ -2080,7 +2075,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
-
             },
             {
                 value: 'F',
@@ -2089,7 +2083,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
-
             },
             {
                 value: 'G',
@@ -2098,7 +2091,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
-
             },
             {
                 value: 'H',
@@ -2107,7 +2099,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
-
             },
             {
                 value: 'I',
@@ -2116,7 +2107,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
-
             },
             {
                 value: 'K',
@@ -2125,7 +2115,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
-
             },
             {
                 value: 'X',
@@ -2134,7 +2123,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
-
             }
         ],
         typeStyleMap: {},
@@ -4706,10 +4694,10 @@ const COMMON_VECTOR_CONFIG_MAP = {
         commonStyle: {
             showFields: 'TYPE',
             lineStyle: 'solid',
-            color: 'rgb(137,195,255)',
+            color: 'rgb(255,150,150)',
             opacity: 1,
             arrow: false,
-            point: false,
+            point: true,
             pointEnabledStatus: true,
             arrowEnabledStatus: true,
             pointSize: 0.1
@@ -4720,7 +4708,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 label: '未定义',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
-                color: 'rgb(137,195,255)',
+                color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
                 point: false,
@@ -4733,7 +4721,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 label: '停止线',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
-                color: 'rgb(137,195,255)',
+                color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
                 point: false,
@@ -4746,7 +4734,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 label: '停车让行线',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
-                color: 'rgb(137,195,255)',
+                color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
                 point: false,
@@ -4759,7 +4747,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 label: '减速让行线',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
-                color: 'rgb(137,195,255)',
+                color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
                 point: false,
@@ -5475,7 +5463,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'A',
@@ -5484,7 +5471,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'B',
@@ -5493,7 +5479,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'C',
@@ -5502,7 +5487,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'D',
@@ -5511,7 +5495,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'E',
@@ -5520,7 +5503,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'F',
@@ -5529,7 +5511,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'G',
@@ -5538,7 +5519,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'H',
@@ -5547,7 +5527,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'I',
@@ -5556,7 +5535,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'K',
@@ -5565,7 +5543,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'X',
@@ -5574,7 +5551,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             }
         ],
         typeStyleMap: {},
@@ -8148,10 +8124,10 @@ const CHECK_VECTOR_CONFIG_MAP = {
         commonStyle: {
             showFields: 'TYPE',
             lineStyle: 'solid',
-            color: 'rgb(137,195,255)',
+            color: 'rgb(255,150,150)',
             opacity: 1,
             arrow: false,
-            point: false,
+            point: true,
             pointEnabledStatus: true,
             arrowEnabledStatus: true,
             pointSize: 0.1
@@ -8162,7 +8138,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 label: '未定义',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
-                color: 'rgb(137,195,255)',
+                color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
                 point: false,
@@ -8175,7 +8151,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 label: '停止线',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
-                color: 'rgb(137,195,255)',
+                color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
                 point: false,
@@ -8188,7 +8164,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 label: '停车让行线',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
-                color: 'rgb(137,195,255)',
+                color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
                 point: false,
@@ -8201,7 +8177,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 label: '减速让行线',
                 showFields: 'TYPE',
                 lineStyle: 'solid',
-                color: 'rgb(137,195,255)',
+                color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
                 point: false,
@@ -8917,7 +8893,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'A',
@@ -8926,7 +8901,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'B',
@@ -8935,7 +8909,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'C',
@@ -8944,7 +8917,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'D',
@@ -8953,7 +8925,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'E',
@@ -8962,7 +8933,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'F',
@@ -8971,7 +8941,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'G',
@@ -8980,7 +8949,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'H',
@@ -8989,7 +8957,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'I',
@@ -8998,7 +8965,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'K',
@@ -9007,7 +8973,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             },
             {
                 value: 'X',
@@ -9016,7 +8981,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(250,220,70)',
                 opacity: 1
-
             }
         ],
         typeStyleMap: {},

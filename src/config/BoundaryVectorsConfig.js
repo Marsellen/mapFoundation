@@ -1323,7 +1323,7 @@ export default {
                     label: '未定义',
                     style: {
                         opacity: 0.5,
-                        color: 'rgb(137,195,255)',
+                        color: 'rgb(255,150,150)',
                         linewidth: 1
                     }
                 },
@@ -1332,7 +1332,7 @@ export default {
                     label: '停止线',
                     style: {
                         opacity: 0.5,
-                        color: 'rgb(137,195,255)',
+                        color: 'rgb(255,150,150)',
                         linewidth: 1
                     }
                 },
@@ -1341,7 +1341,7 @@ export default {
                     label: '停车让行线',
                     style: {
                         opacity: 0.5,
-                        color: 'rgb(137,195,255)',
+                        color: 'rgb(255,150,150)',
                         linewidth: 1
                     }
                 },
@@ -1350,7 +1350,7 @@ export default {
                     label: '减速让行线',
                     style: {
                         opacity: 0.5,
-                        color: 'rgb(137,195,255)',
+                        color: 'rgb(255,150,150)',
                         linewidth: 1
                     }
                 }
@@ -1363,7 +1363,7 @@ export default {
                     label: '未定义',
                     style: {
                         opacity: 0.5,
-                        color: 'rgb(137,195,255)'
+                        color: 'rgb(255,150,150)'
                     }
                 },
                 {
@@ -1371,7 +1371,7 @@ export default {
                     label: '停止线',
                     style: {
                         opacity: 0.5,
-                        color: 'rgb(137,195,255)'
+                        color: 'rgb(255,150,150)'
                     }
                 },
                 {
@@ -1379,7 +1379,7 @@ export default {
                     label: '停车让行线',
                     style: {
                         opacity: 0.5,
-                        color: 'rgb(137,195,255)'
+                        color: 'rgb(255,150,150)'
                     }
                 },
                 {
@@ -1387,7 +1387,7 @@ export default {
                     label: '减速让行线',
                     style: {
                         opacity: 0.5,
-                        color: 'rgb(137,195,255)'
+                        color: 'rgb(255,150,150)'
                     }
                 }
             ]
@@ -1399,7 +1399,7 @@ export default {
                     label: '未定义',
                     style: {
                         opacity: 0.5,
-                        color: 'rgb(137,195,255)',
+                        color: 'rgb(255,150,150)',
                         linewidth: 1
                     }
                 },
@@ -1408,7 +1408,7 @@ export default {
                     label: '停止线',
                     style: {
                         opacity: 0.5,
-                        color: 'rgb(137,195,255)',
+                        color: 'rgb(255,150,150)',
                         linewidth: 1
                     }
                 },
@@ -1417,7 +1417,7 @@ export default {
                     label: '停车让行线',
                     style: {
                         opacity: 0.5,
-                        color: 'rgb(137,195,255)',
+                        color: 'rgb(255,150,150)',
                         linewidth: 1
                     }
                 },
@@ -1426,7 +1426,7 @@ export default {
                     label: '减速让行线',
                     style: {
                         opacity: 0.5,
-                        color: 'rgb(137,195,255)',
+                        color: 'rgb(255,150,150)',
                         linewidth: 1
                     }
                 }
