@@ -98,6 +98,12 @@ const modifyfeaturepointsListener = () => {
     });
 };
 
+const pointOutDistance = () => {
+    mapEventManager().register('editor_event_points_out_distance', e => {
+        message.warn('与原始点位距离过远，请重新选点', 3);
+    });
+}
+
 const addEditorExitListener = (eventType, className) => {
     let viz = document.querySelector('#viz');
     mapEventManager().register(eventType, e => {
@@ -132,6 +138,7 @@ const installMapListener = () => {
     clickright();
     trimLinstener();
     modifyfeaturepointsListener();
+    pointOutDistance();
 };
 
 export { installMapListener };
