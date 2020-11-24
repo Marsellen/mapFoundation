@@ -163,6 +163,9 @@ class DataLayerStore {
                 case 'dashed_polygon_create':
                     this.dashedPolygonCreateCallback(result, event);
                     break;
+                case 'group_move':
+                    this.groupMoveCallback(result, event);
+                    break;
             }
         });
     };
@@ -199,6 +202,9 @@ class DataLayerStore {
                         break;
                     case 'copy_line':
                         this.copyLineCallback(result, event);
+                        break;
+                    case 'group_move':
+                        this.groupMoveRightCallback(result, event);
                         break;
                     case 'assign_line_batch':
                         this.newFixLineCallback(result, event);
@@ -615,6 +621,14 @@ class DataLayerStore {
         this.dashedPolygonCreateCallback = callback;
     }
 
+    setGroupMoveCallback = callback => {
+        this.groupMoveCallback = callback;
+    }
+
+    setGroupMoveRightCallback = callback => {
+        this.groupMoveRightCallback = callback;
+    }
+
     chooseErrorLayer = editType => {
         this.exitEdit();
         if (!this.editor) return;
@@ -971,10 +985,16 @@ class DataLayerStore {
         this.editor.modifyLine();
     }
 
-    groupMove = () => {
-        if (!this.editor) return;
+    groupMove = (step = 0, data) => {
+        if (step == 0) {
+            if (!this.editor) return;
         this.setEditType('group_move');
         this.addShapePoint();
+        this.editor.selectPointFromHighlight();
+        } else if (step == 1) {
+            this.changeCur();
+            this.editor.dragMoveFeature(data, 10)
+        }
     }
 
     setModifyLineAdsorbMode = () => {
@@ -1001,7 +1021,9 @@ const UNABLE_CHANGE_TYPES = [
     'copy_line',
     'move_point_feature',
     'change_points',
-    'posture_adjust'
+    'posture_adjust',
+    'dashed_polygon_create',
+    'group_move'
 ];
 
 export default new DataLayerStore();
