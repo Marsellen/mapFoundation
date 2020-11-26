@@ -104,7 +104,7 @@ class RightMenuModal extends React.Component {
         this.breakByLine = this.breakByLine.bind(this);
         this.trim = this.trim.bind(this);
         this.groupMove = this.groupMove.bind(this);
-        this.copyLineHandle = this.copyLineHandle.bind(this);        
+        this.copyLineHandle = this.copyLineHandle.bind(this);
         DataLayerStore.setGroupMoveCallback(this.groupMoveCallback);
     }
 
@@ -735,7 +735,7 @@ class RightMenuModal extends React.Component {
 
     addEventListener = () => {
         document.addEventListener('keyup', this.shiftCallback);
-    }
+    };
 
     shiftCallback = event => {
         const { DataLayerStore, RightMenuStore } = this.props;
@@ -751,7 +751,7 @@ class RightMenuModal extends React.Component {
         } catch (e) {
             message.warning(e.message, 3);
         }
-    }
+    };
 
     groupMoveCallback = (_, event) => {
         try {
@@ -763,11 +763,11 @@ class RightMenuModal extends React.Component {
         } catch (e) {
             message.warning(e.message, 3);
         }
-    }
+    };
 
     removeEventListener = () => {
         document.removeEventListener('keyup', this.shiftCallback);
-    }
+    };
 
     @logDecorator({ operate: '批量平移', skipRenderMode: true })
     async groupMoveRightCallback(features) {
@@ -775,7 +775,7 @@ class RightMenuModal extends React.Component {
         try {
             let oldFeatures = RightMenuStore.features;
             let cloneOldFeatures = _.cloneDeep(oldFeatures);
-            let newFeatures = features.map((feature) => {
+            let newFeatures = features.map(feature => {
                 feature = modUpdStatGeometry(feature);
                 return feature;
             });
@@ -783,7 +783,7 @@ class RightMenuModal extends React.Component {
                 features: [cloneOldFeatures, newFeatures]
             };
             await this.drawLine(history.features[1], history);
-            message.success('批量平移成功', 3)
+            message.success('批量平移成功', 3);
             return history;
         } catch (e) {
             message.warning('批量平移失败：' + e.message, 3);
@@ -797,9 +797,12 @@ class RightMenuModal extends React.Component {
     }
 
     checkDisabled = () => {
-        const { RightMenuStore } = this.props;
-        const { features, isCurrentLayer } = RightMenuStore;
+        const {
+            DataLayerStore: { isUnionBreak },
+            RightMenuStore: { features, isCurrentLayer }
+        } = this.props;
         if (!features) return true;
+        if (isUnionBreak) return false;
         if (!isCurrentLayer) {
             message.warning('只能选取当前编辑图层要素！', 3);
             return true;

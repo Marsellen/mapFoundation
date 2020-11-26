@@ -18,6 +18,7 @@ import AttributeBrush from './AttributeBrush';
 import QCMarkerTool from './QCMarkerTool';
 import PostureAdjust from './PostureAdjust';
 import SetStepSize from './SetStepSize';
+import UnionBreak from './UnionBreak';
 
 export default [
     <Undo key="UNDO" />,
@@ -38,5 +39,6 @@ export default [
     <DelRel key="DEL_REL" />,
     <BatchToolBox key="BATCH_TOOL_BOX" />,
     <AttributeBrush key="ATTRIBUTE_BRUSH" />,
-    <PostureAdjust key="POSTURE_ADJUST" />
+    <PostureAdjust key="POSTURE_ADJUST" />,
+    <UnionBreak key="UNION_BREAK" />
 ];

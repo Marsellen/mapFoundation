@@ -539,7 +539,7 @@ export const SUSPECT_LAYER = '怀疑区';
 export const TOP_VIEW_DISABLED_LAYERS = [
     'AD_TrafficLight',
     'AD_TrafficSign',
-    'AD_RS_Barrier',
+    // 'AD_RS_Barrier',
     'AD_TrafficSign_Geo',
     'AD_TrafficLight_Geo',
     'AD_Pole_Geo'

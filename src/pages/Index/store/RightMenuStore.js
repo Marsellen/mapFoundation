@@ -24,50 +24,25 @@ class RightMenuStore {
         this.features = features;
         this.cloneFeatures = JSON.parse(JSON.stringify(this.features));
         this.option = option;
-        features.length > 0 && this.fetchMenus(event);
-        if (this.menus.length !== 0) {
-            // 菜单栏无内容时不显示
-            this.visible = true;
+        if (features.length === 0) return;
+        //根据不同模式，获取不同右键菜单
+        switch (DataLayerStore.editStatus) {
+            case 'nomal':
+                this.fetchNomalMenus(event);
+                break;
+            case 'union-break':
+                this.fetchUnionBreakMenus();
+                break;
+            default:
+                this.fetchNomalMenus(event);
+                break;
         }
+        //菜单栏无内容时不显示
+        if (this.menus.length !== 0) this.visible = true;
     };
 
     @action hide = () => {
         this.visible = false;
-    };
-
-    @action fetchMenus = event => {
-        this.menus = [];
-        let layerName = this.features[0].layerName;
-        // 判断图层是否可用设置为编辑图层
-        if (getEditLayerDisabled()) return;
-
-        const featuresL = this.features.length;
-        if (featuresL == 1) {
-            // 俯视图模式禁用立面图层 ‘设置为可编辑图层’ 按钮
-            if (!DataLayerStore.isTopView || !TOP_VIEW_DISABLED_LAYERS.includes(layerName)) {
-                this.menus = ['setEditLayer'];
-            }
-        }
-        // 非当前编辑图层要素不显示操作列表
-        if (!this.isCurrentLayer && this.zIndex !== -1) {
-            return;
-        }
-        // 为当前编辑图层要素时：
-        // 判断图层右键菜单是否可用
-        if (!getLayerEditAble()) {
-            this.menus = [];
-            return;
-        }
-
-        let rightTools = this.getRightTools(layerName, featuresL, event);
-
-        if (this.zIndex !== -1) {
-            // 右键菜单显示时
-            this.menus = rightTools;
-        } else {
-            // 右键菜单隐藏时
-            this.menus = [...this.menus, ...rightTools];
-        }
     };
 
     //根据选择要素的数量获取右键菜单
@@ -93,8 +68,48 @@ class RightMenuStore {
                 item === 'delete' || item === 'merge' ? [] : [item]
             );
         }
-
         return rightTools;
+    };
+
+    // 获取普通模式右键菜单
+    @action fetchNomalMenus = event => {
+        this.menus = [];
+        // 判断图层右键菜单是否可用（用户角色）
+        if (!getLayerEditAble()) return;
+        // 判断图层是否可以设置为编辑图层（是否开始任务）
+        if (getEditLayerDisabled()) return;
+        // 俯视图模式禁用立面图层 ‘设置为可编辑图层’ 按钮
+        const featuresL = this.features.length;
+        const layerName = this.features[0].layerName;
+        if (featuresL == 1) {
+            if (!DataLayerStore.isTopView || !TOP_VIEW_DISABLED_LAYERS.includes(layerName)) {
+                this.menus = ['setEditLayer'];
+            }
+        }
+        // 非当前编辑图层要素不显示操作列表
+        if (!this.isCurrentLayer) return;
+        // 获取操作列表
+        let rightTools = this.getRightTools(layerName, featuresL, event);
+        if (this.zIndex !== -1) {
+            this.menus = rightTools; //右键菜单显示时
+        } else {
+            this.menus = [...this.menus, ...rightTools]; //右键菜单隐藏时
+        }
+    };
+
+    // 获取联合打断模式右键菜单
+    @action fetchUnionBreakMenus = () => {
+        this.menus = [];
+        const layerNames = ['AD_LaneDivider', 'AD_RS_Barrier'];
+        const isErrorSelect = this.features.some(
+            feature => !layerNames.includes(feature.layerName)
+        );
+        if (isErrorSelect) return;
+        if (this.features.length === 1) {
+            this.menus = ['break'];
+        } else {
+            this.menus = ['breakGroup', 'breakByLine'];
+        }
     };
 
     @action delete = () => {

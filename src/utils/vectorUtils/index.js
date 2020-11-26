@@ -68,6 +68,17 @@ export const getLayerByName = layerName => {
     return getLayerExByName(layerName).layer;
 };
 
+//根据传入的图层名数据返回图层数组
+export const getLayersByNames = layerNames => {
+    const layers = window.vectorLayerGroup.layers.filter(layer =>
+        layerNames.includes(layer.layerName)
+    );
+    if (layerNames.includes('AD_Marker')) {
+        layers.push(window.markerLayer);
+    }
+    return layers;
+};
+
 export const updateFeatureColor = (layerName, option, color) => {
     let [layer] = getFeatureByOptionFormAll(layerName, option);
     layer && layer.updateFeatureColor(option, color);

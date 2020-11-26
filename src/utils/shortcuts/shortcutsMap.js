@@ -314,5 +314,13 @@ export const shortcutMap = [
         shift: false,
         keyCode: 84,
         describe: '批量平移 T'
+    },
+    {
+        id: 'union-break',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 72,
+        describe: '联合打断 H'
     }
 ];

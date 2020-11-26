@@ -25,7 +25,8 @@ export const TOOLS_MAP = {
         BATCH_TOOL_BOX: false,
         ATTRIBUTE_BRUSH: false,
         POSTURE_ADJUST: false,
-        SETSTEP_SIZE: true
+        SETSTEP_SIZE: true,
+        UNION_BREAK: true
     },
     CHECK: {
         UNDO: true,
