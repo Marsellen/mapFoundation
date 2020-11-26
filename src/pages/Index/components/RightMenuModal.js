@@ -766,9 +766,6 @@ class RightMenuModal extends React.Component {
             AttributeStore.hideRelFeatures();
         } catch (e) {
             message.warning(e.message, 3);
-            this.setState({
-                msgVisible: false
-            })
         }
     };
 
@@ -802,7 +799,7 @@ class RightMenuModal extends React.Component {
                 return feature;
             });
             let history = {
-                features: [cloneOldFeatures, newFeatures]
+                features: [oldFeatures, newFeatures]
             };
             await this.drawLine(history.features[1], history);
             message.success('批量平移成功', 3)
@@ -811,13 +808,13 @@ class RightMenuModal extends React.Component {
             message.warning('批量平移失败：' + e.message, 3);
         }
         finally {
+            this.removeEventListener();
             DataLayerStore.clearCheckedPoint();
             DataLayerStore.exitEdit();
             this.setState({
                 msgVisible: false
-            })
+            });
         }
-        DataLayerStore.clearCheckedPoint();
     }
 
     @editOutputLimit()
