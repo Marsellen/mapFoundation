@@ -294,7 +294,7 @@ const plgCreate = async (feature, LOOP_SIZE, PLG_WIDTH, PLG_TYPE) => {
     let AD_LaneDivider = {
         type: 'FeatureCollection',
         features: [feature[0].data]
-    }
+    };
     let params = {
         PLG_TYPE,
         AD_LaneDivider,
@@ -311,14 +311,14 @@ const plgCreate = async (feature, LOOP_SIZE, PLG_WIDTH, PLG_TYPE) => {
     };
 
     await updateFeatures(historyLog);
-    
+
     message.success({
         content: result.message,
         key: 'dashed_polygon_create',
         duration: 3
-    })
+    });
     return historyLog;
-}
+};
 
 const calcNewLanes = (featurs, newFeatures, layerName) => {
     const IDKey = DATA_LAYER_MAP[layerName].id;
@@ -630,8 +630,8 @@ const attrRelationFormat = attrs => {
 };
 
 const fetchFeatureRels = (oldFeatures, features, isNewResponse) => {
-    let layerName = oldFeatures[0].layerName;
-    return calcFeatureRels(layerName, features, isNewResponse).reduce(
+    const layerNames = oldFeatures.map(feature => feature.layerName);
+    return calcFeatureRels(layerNames, features, isNewResponse).reduce(
         (total, fr) => {
             total.newFeatures.push(fr.feature);
             total.rels = total.rels.concat(fr.rels);
@@ -642,9 +642,10 @@ const fetchFeatureRels = (oldFeatures, features, isNewResponse) => {
     );
 };
 
-const calcFeatureRels = (layerName, features, isNewResponse) => {
+const calcFeatureRels = (layerNames, features, isNewResponse) => {
     features = Array.isArray(features) ? features : [features];
     return features.map(feature => {
+        const layerName = layerNames.find(item => feature[item]);
         const featureInfo = isNewResponse ? feature.attr : feature[layerName];
         return {
             feature: calcFeatures(featureInfo, layerName),
