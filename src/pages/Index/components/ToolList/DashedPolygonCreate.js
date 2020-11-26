@@ -203,10 +203,10 @@ class DashedPolygonCreate extends React.Component {
             console.log(err);
             message.warning({ content: '虚线面构建失败：' + err.message, duration: 3, key });
             DataLayerStore.exitEdit();
+            this.removeEventListener();
         }
     }
 
-    
     @editOutputLimit()
     async drawLine(_, historyLog) {
         await updateFeatures(historyLog);
