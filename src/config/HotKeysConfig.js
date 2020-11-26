@@ -48,6 +48,10 @@ export const HOT_KEYS_CONFIG = {
             label: '设置为可编辑图层'
         },
         {
+            value: 'H',
+            label: '联合打断'
+        },
+        {
             value: 'Alt+1',
             label: '绘制点、折线、面要素'
         },

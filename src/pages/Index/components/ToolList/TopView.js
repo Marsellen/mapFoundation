@@ -2,10 +2,8 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
 import { TOP_VIEW_DISABLED_LAYERS } from 'src/config/DataLayerConfig';
-//支持复制面要素的图层
-const COPY_POLYGON_LAYERS = ['AD_Arrow', 'AD_LaneMark_Plg', 'AD_Text'];
-//拾取错误工具
-const CHOOSE_ERROR_TOOLS = ['error_layer', 'choose_error_feature'];
+import { getLayersByNames } from 'src/utils/vectorUtils';
+
 @inject('TaskStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
@@ -34,36 +32,46 @@ class TopView extends React.Component {
     }
 
     action = () => {
-        const { DataLayerStore, ToolCtrlStore, AttributeStore, RightMenuStore } = this.props;
-        const { isTopView, editType } = DataLayerStore;
-        const layer = DataLayerStore.getEditLayer() || {};
-        const { layerName } = layer;
-
+        if (!window.map) return;
+        const {
+            ToolCtrlStore,
+            RightMenuStore,
+            DataLayerStore: {
+                isTopView,
+                topViewMode,
+                isUnionBreak,
+                activeEditor,
+                getEditLayerName,
+                enableRegionSelect,
+                disableRegionSelect
+            }
+        } = this.props;
         if (!isTopView) {
+            //进入俯视图模式
+            window.map.setCurrentView('U');
+            window.map.disableRotate();
+            //不支持俯视图模式的图层，退出编辑图层，退出编辑状态，隐藏右键菜单
+            const layerName = getEditLayerName();
             if (TOP_VIEW_DISABLED_LAYERS.includes(layerName)) {
-                DataLayerStore.activeEditor();
+                activeEditor();
                 ToolCtrlStore.updateByEditLayer();
+                RightMenuStore.hide();
+            }
+            //如果是联合打断状态，设置可框选车道线和隔离带、护栏
+            //如果不是联合打断状态，设置可框选当前编辑图层
+            if (isUnionBreak) {
+                const layerNames = ['AD_LaneDivider', 'AD_RS_Barrier'];
+                const layers = getLayersByNames(layerNames);
+                enableRegionSelect(layers);
             } else {
-                ToolCtrlStore.updateByEditLayer(layer);
+                enableRegionSelect();
             }
-            if (!CHOOSE_ERROR_TOOLS.includes(editType)) {
-                AttributeStore.hide();
-            }
-            RightMenuStore.hide();
         } else {
             //退出俯视图模式
-            if (DataLayerStore.editType == 'move_point_feature') {
-                DataLayerStore.exitEdit();
-            }
-            //复制状态时，有些面图层不退出编辑状态
-            if (DataLayerStore.editType == 'copy_line') {
-                if (!COPY_POLYGON_LAYERS.includes(layerName)) {
-                    DataLayerStore.exitEdit();
-                }
-            }
+            window.map.enableRotate();
+            disableRegionSelect();
         }
-
-        DataLayerStore.topViewMode(!isTopView);
+        topViewMode(!isTopView);
     };
 }
 

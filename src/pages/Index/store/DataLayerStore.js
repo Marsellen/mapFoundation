@@ -1,4 +1,4 @@
-import { action, configure, flow, observable } from 'mobx';
+import { action, configure, flow, observable, computed } from 'mobx';
 import { EditControl, MeasureControl } from 'addis-viz-sdk';
 import TaskService from 'src/services/TaskService';
 import { Modal, message } from 'antd';
@@ -35,6 +35,7 @@ class DataLayerStore {
         this.readCoordinateEvent = throttle(this.readCoordinate, 10);
     }
     @observable editType = 'normal';
+    @observable editStatus = 'normal'; //当前有两种编辑状态：normal（普通模式）、union-break（联合打断模式）
     @observable beenPick;
     @observable isTopView = false;
     @observable readCoordinateResult;
@@ -43,6 +44,25 @@ class DataLayerStore {
     @observable isQcOpen = false;
     @observable isMessage = true;
     @observable checkedPoint = [];
+    //是否是联合打断模式
+    @computed get isUnionBreak() {
+        return this.editStatus === 'union-break';
+    }
+    //设置编辑状态
+    @action setEditStatus = status => {
+        this.clearEffect();
+        this.editStatus = status;
+    };
+    //清除重置编辑状态的复作用
+    clearEffect = () => {
+        if (this.editStatus === 'union-break') {
+            message.info({
+                content: '退出联合打断状态',
+                key: 'union-break',
+                duration: 1
+            });
+        }
+    };
 
     initEditor = layers => {
         this.editor = new EditControl();
@@ -77,16 +97,18 @@ class DataLayerStore {
         this.measureControl.onMeasureFinish(() => {
             this.measureControl.startMeatureDistance();
         });
-        map.getEventManager().register('editor_event_selectpoint_start', (data) => this.moveSelectPoint(data));
+        map.getEventManager().register('editor_event_selectpoint_start', data =>
+            this.moveSelectPoint(data)
+        );
     };
 
-    @action moveSelectPoint = (data) => {
+    @action moveSelectPoint = data => {
         this.checkedPoint = data;
-    }
+    };
 
     @action clearCheckedPoint = () => {
         this.checkedPoint = [];
-    }
+    };
 
     //可能不传参数，可能传图层名，可能传图层
     @action activeEditor = name => {
@@ -104,6 +126,8 @@ class DataLayerStore {
         }
         this.editor ? this.exitEdit() : this.initEditor();
         this.editor.setEditLayer(layer);
+        this.setEditStatus('normal'); //设置编辑状态
+        this.isTopView && this.enableRegionSelect(); //重置框选可选图层
         this.updateKey = Math.random();
         return layer;
     };
@@ -176,7 +200,6 @@ class DataLayerStore {
                 case 'group_move':
                     this.groupMoveCallback(result, event);
                     break;
-    
             }
         });
     };
@@ -486,19 +509,10 @@ class DataLayerStore {
             this.addShapePoint();
             this.editor.selectFixedPointFromHighlight(3);
         }
-    }
+    };
 
     @action topViewMode = opt => {
-        if (!window.map) return;
         this.isTopView = opt;
-        if (opt) {
-            window.map.setCurrentView('U');
-            window.map.disableRotate();
-            this.enableRegionSelect();
-        } else {
-            window.map.enableRotate();
-            this.disableRegionSelect();
-        }
         this.updateKey = Math.random();
     };
 
@@ -630,15 +644,15 @@ class DataLayerStore {
 
     setDashedPolygonCreateCallback = callback => {
         this.dashedPolygonCreateCallback = callback;
-    }
-    
+    };
+
     setGroupMoveCallback = callback => {
         this.groupMoveCallback = callback;
-    }
+    };
 
     setGroupMoveRightCallback = callback => {
         this.groupMoveRightCallback = callback;
-    }
+    };
 
     chooseErrorLayer = editType => {
         this.exitEdit();
@@ -858,7 +872,11 @@ class DataLayerStore {
                     break;
                 case 90:
                     //Z
-                    if (this.editType.includes('new_') || this.editType == 'trim' || this.editType == 'dashed_polygon_create') {
+                    if (
+                        this.editType.includes('new_') ||
+                        this.editType == 'trim' ||
+                        this.editType == 'dashed_polygon_create'
+                    ) {
                         this.editor.undo();
                     }
                     break;
@@ -942,8 +960,8 @@ class DataLayerStore {
         this.regionGeojson = RegionGeojson;
     };
 
-    enableRegionSelect = () => {
-        this.editor && this.editor.enableRegionSelect();
+    enableRegionSelect = layers => {
+        this.editor && this.editor.enableRegionSelect(layers);
     };
 
     disableRegionSelect = () => {
@@ -999,14 +1017,14 @@ class DataLayerStore {
     groupMove = (step = 0, data) => {
         if (step == 0) {
             if (!this.editor) return;
-        this.setEditType('group_move');
-        this.addShapePoint();
-        this.editor.selectPointFromHighlight();
+            this.setEditType('group_move');
+            this.addShapePoint();
+            this.editor.selectPointFromHighlight();
         } else if (step == 1) {
             this.changeCur();
-            this.editor.dragMoveFeature(data, 10)
+            this.editor.dragMoveFeature(data, 10);
         }
-    }
+    };
 
     setModifyLineAdsorbMode = () => {
         this.editor.setModifyLineAdsorbMode(this.modifyLineAdsorbMode);
