@@ -771,25 +771,24 @@ class RightMenuModal extends React.Component {
 
     @logDecorator({ operate: '批量平移', skipRenderMode: true })
     async groupMoveRightCallback(features) {
+        const { DataLayerStore, RightMenuStore } = this.props;
         try {
-            const { DataLayerStore } = this.props;
-            let oldFeatures = _.cloneDeep(features);
-            let newFeatures = oldFeatures.map((feature) => {
+            let oldFeatures = RightMenuStore.features;
+            let cloneOldFeatures = _.cloneDeep(oldFeatures);
+            let newFeatures = features.map((feature) => {
                 feature = modUpdStatGeometry(feature);
                 return feature;
             });
             let history = {
-                features: [oldFeatures, newFeatures]
+                features: [cloneOldFeatures, newFeatures]
             };
             await this.drawLine(history.features[1], history);
-            DataLayerStore.clearCheckedPoint();
             message.success('批量平移成功', 3)
             return history;
         } catch (e) {
-            DataLayerStore.clearCheckedPoint();
             message.warning('批量平移失败：' + e.message, 3);
-            throw e;
         }
+        DataLayerStore.clearCheckedPoint();
     }
 
     @editOutputLimit()
