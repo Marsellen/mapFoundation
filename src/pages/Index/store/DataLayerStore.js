@@ -42,6 +42,7 @@ class DataLayerStore {
     @observable brushDisadled = true;
     @observable isQcOpen = false;
     @observable isMessage = true;
+    @observable checkedPoint = [];
 
     initEditor = layers => {
         this.editor = new EditControl();
@@ -76,7 +77,16 @@ class DataLayerStore {
         this.measureControl.onMeasureFinish(() => {
             this.measureControl.startMeatureDistance();
         });
+        map.getEventManager().register('editor_event_selectpoint_start', (data) => this.moveSelectPoint(data));
     };
+
+    @action moveSelectPoint = (data) => {
+        this.checkedPoint = data;
+    }
+
+    @action clearCheckedPoint = () => {
+        this.checkedPoint = [];
+    }
 
     //可能不传参数，可能传图层名，可能传图层
     @action activeEditor = name => {
@@ -166,6 +176,7 @@ class DataLayerStore {
                 case 'group_move':
                     this.groupMoveCallback(result, event);
                     break;
+    
             }
         });
     };
@@ -620,7 +631,7 @@ class DataLayerStore {
     setDashedPolygonCreateCallback = callback => {
         this.dashedPolygonCreateCallback = callback;
     }
-
+    
     setGroupMoveCallback = callback => {
         this.groupMoveCallback = callback;
     }

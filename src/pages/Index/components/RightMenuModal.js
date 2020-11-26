@@ -7,7 +7,8 @@ import {
     batchMergeLine,
     breakLine,
     mergeLine,
-    breakLineByLine
+    breakLineByLine,
+    updateFeatures
 } from 'src/utils/relCtrl/operateCtrl';
 import { getLayerByName, checkSdkError } from 'src/utils/vectorUtils';
 import AdMessage from 'src/components/AdMessage';
@@ -87,10 +88,6 @@ const CHINESE_EDIT_TYPE = [
 @inject('TaskStore')
 @observer
 class RightMenuModal extends React.Component {
-    constructor() {
-        super();
-        this.checkedPoint = [];
-    }
     componentDidMount() {
         const { DataLayerStore } = this.props;
         this.installListener();
@@ -107,7 +104,7 @@ class RightMenuModal extends React.Component {
         this.breakByLine = this.breakByLine.bind(this);
         this.trim = this.trim.bind(this);
         this.groupMove = this.groupMove.bind(this);
-        this.copyLineHandle = this.copyLineHandle.bind(this);
+        this.copyLineHandle = this.copyLineHandle.bind(this);        
         DataLayerStore.setGroupMoveCallback(this.groupMoveCallback);
     }
 
@@ -721,6 +718,7 @@ class RightMenuModal extends React.Component {
         AttributeStore.hideRelFeatures();
     }
 
+    @editInputLimit({ editType: 'group_move', isRightMenu: true })
     groupMove() {
         const { DataLayerStore } = this.props;
         if (this.checkDisabled()) return;
@@ -743,15 +741,27 @@ class RightMenuModal extends React.Component {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (event.key !== 'Shift' || DataLayerStore.editType !== 'group_move') return;
         try {
-            if (!this.checkedPoint || this.checkedPoint.length === 0) {
+            if (!DataLayerStore.checkedPoint || DataLayerStore.checkedPoint.length === 0) {
                 throw new Error('请在要素上选点！');
             }
-            DataLayerStore.groupMove(1, this.checkedPoint[0].data);
+            DataLayerStore.groupMove(1, DataLayerStore.checkedPoint[0].data);
             this.removeEventListener();
             RightMenuStore.hide();
             AttributeStore.hideRelFeatures();
         } catch (e) {
-            console.log(e);
+            message.warning(e.message, 3);
+        }
+    }
+
+    groupMoveCallback = (_, event) => {
+        try {
+            const { DataLayerStore } = this.props;
+            if (event.button == 2) {
+                DataLayerStore.exitEdit();
+                throw new Error('批量平移失败！');
+            }
+        } catch (e) {
+            message.warning(e.message, 3);
         }
     }
 
@@ -760,46 +770,30 @@ class RightMenuModal extends React.Component {
     }
 
     @logDecorator({ operate: '批量平移', skipRenderMode: true })
-    async groupMoveRightCallback(result) {
+    async groupMoveRightCallback(features) {
+        const { DataLayerStore, RightMenuStore } = this.props;
         try {
-            checkSdkError(result);
-            // 请求id服务，申请id
-            let data = await NewFeatureStore.init(result[0]);
-            await this.groupMoveHandle(data);
+            let oldFeatures = RightMenuStore.features;
+            let cloneOldFeatures = _.cloneDeep(oldFeatures);
+            let newFeatures = features.map((feature) => {
+                feature = modUpdStatGeometry(feature);
+                return feature;
+            });
             let history = {
-                features: [[], [data]]
+                features: [cloneOldFeatures, newFeatures]
             };
+            await this.drawLine(history.features[1], history);
             message.success('批量平移成功', 3)
             return history;
         } catch (e) {
             message.warning('批量平移失败：' + e.message, 3);
-            throw e;
         }
+        DataLayerStore.clearCheckedPoint();
     }
 
-    @editInputLimit({ editType: 'group_move', isRightMenu: true })
-    async groupMoveHandle(data) {
-        const { DataLayerStore, RightMenuStore } = this.props;
-        const feature = RightMenuStore.getFeatures()[0];
-        const IDKey = getLayerIDKey(feature.layerName);
-        delete feature.data.properties[IDKey];
-        delete feature.data.properties.UPD_STAT;
-        delete feature.data.properties.CONFIDENCE;
-        if (feature.layerName == 'AD_Lane') {
-            delete feature.data.properties.L_LDIV_ID;
-            delete feature.data.properties.R_LDIV_ID;
-            delete feature.data.properties.ROAD_ID;
-        }
-        data.data.properties = {
-            ...data.data.properties,
-            ...feature.data.properties
-        };
-        // 更新id到sdk
-        DataLayerStore.updateFeature(data);
-    }
-
-    groupMoveCallback = (result) => {
-        this.checkedPoint = result;
+    @editOutputLimit()
+    async drawLine(_, historyLog) {
+        await updateFeatures(historyLog);
     }
 
     checkDisabled = () => {
