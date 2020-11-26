@@ -52,6 +52,11 @@ const EDIT_TYPE = [
     'group_move'
 ];
 
+const GROUP_MOVE_TYPE = {
+    point: '左键选择平移参考点，按shift进入下一步',
+    Shift: '选择平移目标点位，点击右键完成平移'
+}
+
 const CHINESE_EDIT_TYPE = [
     {
         type: 'move_point_feature',
@@ -79,7 +84,7 @@ const CHINESE_EDIT_TYPE = [
     },
     {
         type: 'group_move',
-        value: '左键选择平移参考点，按shift进入下一步'
+        value: GROUP_MOVE_TYPE
     }
 ];
 
@@ -88,6 +93,12 @@ const CHINESE_EDIT_TYPE = [
 @inject('TaskStore')
 @observer
 class RightMenuModal extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            msgVisible: false
+        }
+    }
     componentDidMount() {
         const { DataLayerStore } = this.props;
         this.installListener();
@@ -291,11 +302,10 @@ class RightMenuModal extends React.Component {
     };
 
     content = () => {
-        const {
-            DataLayerStore: { editType }
-        } = this.props;
+        const { editType } = this.props.DataLayerStore;
+        const { msgVisible } = this.state;
         let config = CHINESE_EDIT_TYPE.find(item => item.type == editType);
-        const text = config ? config.value : '';
+        let text =  config?.value?.[msgVisible] ??　config?.value　?? ''
         return <div>{text}</div>;
     };
 
@@ -729,6 +739,9 @@ class RightMenuModal extends React.Component {
                 key: 'edit_error'
             });
         }
+        this.setState({
+            msgVisible: 'point'
+        })
         DataLayerStore.groupMove();
         this.addEventListener();
     }
@@ -744,12 +757,18 @@ class RightMenuModal extends React.Component {
             if (!DataLayerStore.checkedPoint || DataLayerStore.checkedPoint.length === 0) {
                 throw new Error('请在要素上选点！');
             }
+            this.setState({
+                msgVisible: 'Shift'
+            })
             DataLayerStore.groupMove(1, DataLayerStore.checkedPoint[0].data);
             this.removeEventListener();
             RightMenuStore.hide();
             AttributeStore.hideRelFeatures();
         } catch (e) {
             message.warning(e.message, 3);
+            this.setState({
+                msgVisible: false
+            })
         }
     };
 
@@ -758,6 +777,9 @@ class RightMenuModal extends React.Component {
             const { DataLayerStore } = this.props;
             if (event.button == 2) {
                 DataLayerStore.exitEdit();
+                this.setState({
+                    msgVisible: false
+                })
                 throw new Error('批量平移失败！');
             }
         } catch (e) {
@@ -773,9 +795,9 @@ class RightMenuModal extends React.Component {
     async groupMoveRightCallback(features) {
         const { DataLayerStore, RightMenuStore } = this.props;
         try {
-            let oldFeatures = RightMenuStore.features;
-            let cloneOldFeatures = _.cloneDeep(oldFeatures);
-            let newFeatures = features.map(feature => {
+            checkSdkError(features);
+            let oldFeatures = RightMenuStore.cloneFeatures;
+            let newFeatures = features.map((feature) => {
                 feature = modUpdStatGeometry(feature);
                 return feature;
             });
@@ -783,10 +805,17 @@ class RightMenuModal extends React.Component {
                 features: [cloneOldFeatures, newFeatures]
             };
             await this.drawLine(history.features[1], history);
-            message.success('批量平移成功', 3);
+            message.success('批量平移成功', 3)
             return history;
         } catch (e) {
             message.warning('批量平移失败：' + e.message, 3);
+        }
+        finally {
+            DataLayerStore.clearCheckedPoint();
+            DataLayerStore.exitEdit();
+            this.setState({
+                msgVisible: false
+            })
         }
         DataLayerStore.clearCheckedPoint();
     }

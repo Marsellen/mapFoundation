@@ -1,11 +1,13 @@
 import React from 'react';
-import { Modal, Select } from 'antd';
+import { message, Modal, Select } from 'antd';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/components/AdMessage';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
-import { plgCreate } from 'src/utils/relCtrl/operateCtrl';
-import { logDecorator, editInputLimit } from 'src/utils/decorator';
+import { checkSdkError } from 'src/utils/vectorUtils';
+import { plgCreate, updateFeatures } from 'src/utils/relCtrl/operateCtrl';
+import { logDecorator, editInputLimit, editOutputLimit } from 'src/utils/decorator';
+
 import 'less/components/tool-icon.less';
 import 'less/components/dashed-polygon-create.less';
 
@@ -30,6 +32,7 @@ const PLG_TYPE_GROUP = [
     }
 ];
 
+const key = 'dashed_polygon_create';
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @observer
@@ -148,6 +151,7 @@ class DashedPolygonCreate extends React.Component {
         }
     }
 
+    @editInputLimit({ editType: 'dashed_polygon_create' })
     useSdk = () => {
         const { DataLayerStore } = this.props;
         DataLayerStore.dashedPolygonCreate(1);
@@ -169,25 +173,43 @@ class DashedPolygonCreate extends React.Component {
             this.setState({
                 step: 0,
                 msgVisible: false,
-                message: ''
+                message: '',
+                PLG_WIDTH: 0.15,
+                PLG_TYPE: 1002
             })
         }
     }
 
-    @editInputLimit({ editType: 'dashed_polygon_create' })
     @logDecorator({ operate: '虚线面构建' })
     async handerDashedPolygon(pointData, event) {
+        const { DataLayerStore } = this.props;
         if (event.button !== 2) return;
         try {
             const { PLG_WIDTH, PLG_TYPE } = this.state;
+            checkSdkError(pointData);
+            if (pointData.length != 3) {
+                throw new Error('请选择三个点！')
+            }
+            message.loading({
+                key,
+                duration: 65,
+                content: '正在构建要素...'
+            });
             let LOOP_SIZE = [pointData[0].data.geometry.coordinates, pointData[1].data.geometry.coordinates, pointData[2].data.geometry.coordinates];
             let history = await plgCreate(this.result, LOOP_SIZE, PLG_WIDTH, PLG_TYPE);
+            await this.drawLine(history.features[1], history);
             return history;
         } catch (err) {
             console.log(err);
-            this.removeEventListener();
-            throw err;
+            message.warning({ content: '虚线面构建失败：' + err.message, duration: 3, key });
+            DataLayerStore.exitEdit();
         }
+    }
+
+    
+    @editOutputLimit()
+    async drawLine(_, historyLog) {
+        await updateFeatures(historyLog);
     }
 
     action = () => {
