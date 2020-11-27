@@ -1014,7 +1014,7 @@ class DataLayerStore {
         this.editor.modifyLine();
     }
 
-    groupMove = (step = 0, data) => {
+    groupMove = (data, step = 0) => {
         if (step == 0) {
             if (!this.editor) return;
             this.setEditType('group_move');
