@@ -134,7 +134,7 @@ class QualityCheck extends React.Component {
                 { value: WRONG_LAYER, layer: wrongLayer, checked: true }
             ]);
         } catch (e) {
-            message.error('置信度分区数据加载失败！');
+            console.error('置信度分区数据加载失败！');
         }
     }
 }
