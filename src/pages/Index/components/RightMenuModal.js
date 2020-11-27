@@ -55,7 +55,7 @@ const EDIT_TYPE = [
 const GROUP_MOVE_TYPE = {
     point: '左键选择平移参考点，按shift进入下一步',
     Shift: '选择平移目标点位，点击右键完成平移'
-}
+};
 
 const CHINESE_EDIT_TYPE = [
     {
@@ -97,7 +97,7 @@ class RightMenuModal extends React.Component {
         super();
         this.state = {
             msgVisible: false
-        }
+        };
     }
     componentDidMount() {
         const { DataLayerStore } = this.props;
@@ -305,7 +305,7 @@ class RightMenuModal extends React.Component {
         const { editType } = this.props.DataLayerStore;
         const { msgVisible } = this.state;
         let config = CHINESE_EDIT_TYPE.find(item => item.type == editType);
-        let text =  config?.value?.[msgVisible] ??　config?.value　?? ''
+        let text = config?.value?.[msgVisible] ?? config?.value ?? '';
         return <div>{text}</div>;
     };
 
@@ -741,7 +741,7 @@ class RightMenuModal extends React.Component {
         }
         this.setState({
             msgVisible: 'point'
-        })
+        });
         DataLayerStore.groupMove();
         this.addEventListener();
     }
@@ -759,8 +759,8 @@ class RightMenuModal extends React.Component {
             }
             this.setState({
                 msgVisible: 'Shift'
-            })
-            DataLayerStore.groupMove(1, DataLayerStore.checkedPoint[0].data);
+            });
+            DataLayerStore.groupMove(DataLayerStore.checkedPoint[0].data, 1);
             this.removeEventListener();
             RightMenuStore.hide();
             AttributeStore.hideRelFeatures();
@@ -776,7 +776,7 @@ class RightMenuModal extends React.Component {
                 DataLayerStore.exitEdit();
                 this.setState({
                     msgVisible: false
-                })
+                });
                 throw new Error('批量平移失败！');
             }
         } catch (e) {
@@ -794,7 +794,7 @@ class RightMenuModal extends React.Component {
         try {
             checkSdkError(features);
             let oldFeatures = RightMenuStore.cloneFeatures;
-            let newFeatures = features.map((feature) => {
+            let newFeatures = features.map(feature => {
                 feature = modUpdStatGeometry(feature);
                 return feature;
             });
@@ -802,12 +802,11 @@ class RightMenuModal extends React.Component {
                 features: [oldFeatures, newFeatures]
             };
             await this.drawLine(history.features[1], history);
-            message.success('批量平移成功', 3)
+            message.success('批量平移成功', 3);
             return history;
         } catch (e) {
             message.warning('批量平移失败：' + e.message, 3);
-        }
-        finally {
+        } finally {
             this.removeEventListener();
             DataLayerStore.clearCheckedPoint();
             DataLayerStore.exitEdit();
