@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
-import { message, Modal } from 'antd';
+import { Modal } from 'antd';
 import { saveTaskData } from 'src/utils/taskUtils';
 import { loadQualityLayer } from 'src/utils/map/utils';
 import ResourceLayerStore from 'src/pages/Index/store/ResourceLayerStore';
