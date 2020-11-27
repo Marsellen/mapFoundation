@@ -1399,16 +1399,6 @@ export default {
                     value: 9905,
                     label: '车距确认线',
                     style: { color: 'rgb(147,112,219)', linewidth: 1 }
-                },
-                {
-                    value: 9906,
-                    label: '地面文字数字',
-                    style: { color: 'rgb(147,112,219)', linewidth: 1 }
-                },
-                {
-                    value: 9907,
-                    label: '地面符号',
-                    style: { color: 'rgb(147,112,219)', linewidth: 1 }
                 }
             ]
         }

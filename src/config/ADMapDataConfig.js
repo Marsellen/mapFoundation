@@ -478,9 +478,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 9902, label: '禁止停车区', icon: 'jinzhitingchexian', abbreviation: '禁停' },
         { value: 9903, label: '导流区', icon: 'daoliuqu', abbreviation: '导流' },
         { value: 9904, label: '路口内中心圈', icon: 'lukouneizhongxinquan', abbreviation: '圈' },
-        { value: 9905, label: '车距确认线', icon: 'chejuquerenxian', abbreviation: '车距' },
-        { value: 9906, label: '地面文字数字', icon: 'dimianwenzishuzi', abbreviation: '地文' },
-        { value: 9907, label: '地面符号', icon: 'dimianfuhao', abbreviation: '地符' }
+        { value: 9905, label: '车距确认线', icon: 'chejuquerenxian', abbreviation: '车距' }
     ],
     AD_TRAFFIC_SIGN_GEO_FEAT_TYPE: [
         [

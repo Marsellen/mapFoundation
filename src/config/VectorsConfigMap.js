@@ -2223,22 +2223,6 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 polygonStyle: 'solid',
                 color: 'rgb(255,255,255)',
                 opacity: 1
-            },
-            {
-                value: 9906,
-                label: '地面文字数字',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            },
-            {
-                value: 9907,
-                label: '地面符号',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
             }
         ],
         typeStyleMap: {},
@@ -5647,22 +5631,6 @@ const COMMON_VECTOR_CONFIG_MAP = {
             {
                 value: 9905,
                 label: '车距确认线',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 9906,
-                label: '地面文字数字',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 9907,
-                label: '地面符号',
                 showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(147,112,219)',
@@ -9077,22 +9045,6 @@ const CHECK_VECTOR_CONFIG_MAP = {
             {
                 value: 9905,
                 label: '车距确认线',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 9906,
-                label: '地面文字数字',
-                showFields: 'FEAT_TYPE',
-                polygonStyle: 'solid',
-                color: 'rgb(147,112,219)',
-                opacity: 1
-            },
-            {
-                value: 9907,
-                label: '地面符号',
                 showFields: 'FEAT_TYPE',
                 polygonStyle: 'solid',
                 color: 'rgb(147,112,219)',
