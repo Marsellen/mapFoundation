@@ -118,20 +118,27 @@ class DashedPolygonCreate extends React.Component {
     }
 
     calcWidth = (val => {
-        const floatNum = val && String(val).split('.')[1];
-        if (!val || val == 0) {
+        let floatNum = val && String(val).split('.')[1];
+        if (!val || val <= 0) {
             this.setState({
                 PLG_WIDTH: 0.01
             })
         }
-        if (val > 1) {
+        if (val >= 1) {
             this.setState({
-                PLG_WIDTH: 1
+                PLG_WIDTH: 1.00
             })
         }
-        if (floatNum && floatNum.length > 2) {
+        if (floatNum && floatNum.length >= 2) {
             this.setState({
-                PLG_WIDTH: Number(PLG_WIDTH.toFixed(2))
+                PLG_WIDTH: Number(val).toFixed(2)
+            })
+        }
+        if (floatNum && floatNum.length < 2) {
+            floatNum += '0';
+            let num = String(val).split('.')[0] + '.' + floatNum;
+            this.setState({
+                PLG_WIDTH: Number(num)
             })
         }
     })

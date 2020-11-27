@@ -289,6 +289,7 @@ class DataLayerStore {
         this.UnQCAttrModal(['error_layer', 'choose_error_feature']);
         this.attributeBrushPick();
         this.showMessage();
+        this.clearCheckedPoint();
     };
 
     @action setEditType = type => {
