@@ -13,7 +13,7 @@ import { getLayersByNames } from 'src/utils/vectorUtils';
 class UnionBreak extends React.Component {
     render() {
         const {
-            TaskStore: { activeTaskId },
+            TaskStore: { isEditableTask },
             DataLayerStore: { updateKey, isUnionBreak }
         } = this.props;
         return (
@@ -23,7 +23,7 @@ class UnionBreak extends React.Component {
                 icon="lianhedaduan"
                 title="联合打断"
                 action={this.action}
-                disabled={!activeTaskId}
+                disabled={!isEditableTask}
                 className="ad-tool-icon"
                 focusClassName="ad-tool-icon-active"
                 visible={isUnionBreak}
