@@ -1319,7 +1319,7 @@ export default {
         pointFLFields: ['TYPE'],
         arrowFields: ['TYPE'],
         order: 9,
-        showStyles: ['vectorStyle'],
+        showStyles: ['vectorStyle', 'pointFLStyle'],
         vectorStyle: {
             TYPE: [
                 {
