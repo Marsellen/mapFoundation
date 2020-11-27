@@ -5,8 +5,8 @@ import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/components/AdMessage';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import { checkSdkError } from 'src/utils/vectorUtils';
-import { plgCreate, updateFeatures } from 'src/utils/relCtrl/operateCtrl';
-import { logDecorator, editInputLimit, editOutputLimit } from 'src/utils/decorator';
+import { plgCreate } from 'src/utils/relCtrl/operateCtrl';
+import { logDecorator, editInputLimit } from 'src/utils/decorator';
 
 import 'less/components/tool-icon.less';
 import 'less/components/dashed-polygon-create.less';
@@ -218,7 +218,6 @@ class DashedPolygonCreate extends React.Component {
             });
             let LOOP_SIZE = [pointData[0].data.geometry.coordinates, pointData[1].data.geometry.coordinates, pointData[2].data.geometry.coordinates];
             let history = await plgCreate(this.result, LOOP_SIZE, PLG_WIDTH, PLG_TYPE);
-            await this.drawLine(history.features[1], history);
             return history;
         } catch (err) {
             console.log(err);
@@ -226,11 +225,6 @@ class DashedPolygonCreate extends React.Component {
             DataLayerStore.exitEdit();
             this.removeEventListener();
         }
-    }
-
-    @editOutputLimit()
-    async drawLine(_, historyLog) {
-        await updateFeatures(historyLog);
     }
 
     action = () => {
