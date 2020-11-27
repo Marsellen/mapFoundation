@@ -60,7 +60,7 @@ class DashedPolygonCreate extends React.Component {
     render() {
         const { DataLayerStore } = this.props;
         let visible = DataLayerStore.editType == 'dashed_polygon_create';
-        let { message, msgVisible } = this.state;
+        let { message, msgVisible, PLG_WIDTH } = this.state;
         msgVisible = visible && msgVisible;
         return (
             <div id="dashed-polygon-create" className="flex-1" onClick={this.action}>
@@ -79,14 +79,14 @@ class DashedPolygonCreate extends React.Component {
                     width={318}
                     maskClosable={false}
                 >
-                    {this._renderModal()}
+                    {this._renderModal(PLG_WIDTH)}
                 </Modal>
             </div>
         )
     }
 
-    _renderModal = () => {
-        const { PLG_WIDTH, PLG_TYPE } = this.state;
+    _renderModal = (PLG_WIDTH) => {
+        const { PLG_TYPE } = this.state;
         return (
             <div>
                 <div className="modal-flex">
@@ -98,7 +98,8 @@ class DashedPolygonCreate extends React.Component {
                         max={1}
                         min={0.01}
                         step={0.01}
-                        onChange={(val) => { this.setState({ PLG_WIDTH: val }) }}
+                        precision={2}
+                        onChange={(val) => this.calcWidth(val)}
                      />
                      <span>m</span>
                 </div>
@@ -116,6 +117,25 @@ class DashedPolygonCreate extends React.Component {
         )
     }
 
+    calcWidth = (val => {
+        const floatNum = val && String(val).split('.')[1];
+        if (!val || val == 0) {
+            this.setState({
+                PLG_WIDTH: 0.01
+            })
+        }
+        if (val > 1) {
+            this.setState({
+                PLG_WIDTH: 1
+            })
+        }
+        if (floatNum && floatNum.length > 2) {
+            this.setState({
+                PLG_WIDTH: Number(PLG_WIDTH.toFixed(2))
+            })
+        }
+    })
+
     addEventListener = () => {
         document.addEventListener('keyup', this.shiftCallback);
     }
@@ -123,6 +143,7 @@ class DashedPolygonCreate extends React.Component {
     shiftCallback = event => {
         const { DataLayerStore } = this.props;
         if (event.key !== 'Shift' || DataLayerStore.editType !== 'dashed_polygon_create') return;
+        this.calcWidth(this.state.PLG_WIDTH);
         try {
             this.check();
             this.useSdk();
