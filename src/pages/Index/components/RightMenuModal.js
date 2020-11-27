@@ -23,25 +23,6 @@ import TaskStore from 'src/pages/Index/store/TaskStore';
 
 import 'src/assets/less/components/right-menu-modal.less';
 
-//可以复制的图层
-const copyPolygonLayers = [
-    'AD_LaneDivider',
-    'AD_Lane',
-    'AD_Road',
-    'AD_LaneDivider_Pln',
-    'AD_Arrow',
-    'AD_LaneMark_Plg',
-    'AD_Text',
-    'AD_TrafficSign',
-    'AD_TrafficLight',
-    'AD_LaneDivider_Plg',
-    'AD_Arrow_Geo',
-    'AD_LaneMark_Geo',
-    'AD_TrafficSign_Geo',
-    'AD_TrafficLight_Geo',
-    'AD_StopLocation_Geo'
-];
-
 const EDIT_TYPE = [
     'move_point_feature',
     'copy_line',
@@ -274,30 +255,24 @@ class RightMenuModal extends React.Component {
                 className="right-menu-item"
             >
                 <span>批量平移</span>
+            </Menu.Item>,
+            <Menu.Item
+                id="copy-btn"
+                key="copyLine"
+                onClick={this.copyLine}
+                className="right-menu-item"
+            >
+                <span>复制</span>
+            </Menu.Item>,
+            <Menu.Item
+                id="translation-point-btn"
+                key="movePointFeature"
+                onClick={this.movePointFeature}
+                className="right-menu-item"
+            >
+                <span>平移</span>
             </Menu.Item>
         ];
-        const { isTopView, getEditLayer } = this.props.DataLayerStore;
-        const { layerName } = getEditLayer() || {};
-        if (copyPolygonLayers.includes(layerName) || isTopView) {
-            menuArr.unshift(
-                <Menu.Item
-                    id="copy-btn"
-                    key="copyLine"
-                    onClick={this.copyLine}
-                    className="right-menu-item"
-                >
-                    <span>复制</span>
-                </Menu.Item>,
-                <Menu.Item
-                    id="translation-point-btn"
-                    key="movePointFeature"
-                    onClick={this.movePointFeature}
-                    className="right-menu-item"
-                >
-                    <span>平移</span>
-                </Menu.Item>
-            );
-        }
         return menuArr;
     };
 
