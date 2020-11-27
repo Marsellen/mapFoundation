@@ -91,10 +91,9 @@ export const DATA_LAYER_MAP = {
             'copyLine',
             'insertPoints',
             'changePoints',
-            'deletePoints',
-            'groupMove'
+            'deletePoints'
         ],
-        groupRightTools: ['batchAssign', 'groupMove', 'delete'],
+        groupRightTools: ['batchAssign', 'delete'],
         editName: '面状标识物'
     },
     AD_Text: {
@@ -399,8 +398,7 @@ export const DATA_LAYER_MAP = {
             'changePoints',
             'break',
             'trim',
-            'forceDelete',
-            'groupMove'
+            'forceDelete'
         ],
         groupRightTools: [
             'breakGroup',
@@ -408,7 +406,6 @@ export const DATA_LAYER_MAP = {
             'batchMerge',
             'breakByLine',
             'batchAssign',
-            'groupMove',
             'delete'
         ],
         editName: '几何层：\n车道线线要素'
@@ -457,8 +454,8 @@ export const DATA_LAYER_MAP = {
             recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
             manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
         },
-        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete', 'groupMove'],
-        groupRightTools: ['batchAssign', 'groupMove', 'delete'],
+        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
+        groupRightTools: ['batchAssign', 'delete'],
         editName: '几何层：\n箭头'
     },
     AD_LaneMark_Geo: {
@@ -505,8 +502,8 @@ export const DATA_LAYER_MAP = {
             recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE'],
             manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE']
         },
-        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete', 'groupMove'],
-        groupRightTools: ['batchAssign', 'groupMove', 'delete'],
+        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
+        groupRightTools: ['batchAssign', 'delete'],
         editName: '几何层：\n交通标志牌'
     },
     AD_TrafficLight_Geo: {
@@ -521,8 +518,8 @@ export const DATA_LAYER_MAP = {
             recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE'],
             manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE']
         },
-        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete', 'groupMove'],
-        groupRightTools: ['batchAssign', 'groupMove', 'delete'],
+        rightTools: ['delete', 'copyLine', 'changePoints', 'forceDelete'],
+        groupRightTools: ['batchAssign', 'delete'],
         editName: '几何层：\n交通信号灯'
     }
 };

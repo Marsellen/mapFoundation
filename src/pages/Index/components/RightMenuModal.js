@@ -770,8 +770,8 @@ class RightMenuModal extends React.Component {
     };
 
     groupMoveCallback = (_, event) => {
+        const { DataLayerStore } = this.props;
         try {
-            const { DataLayerStore } = this.props;
             if (event.button == 2) {
                 DataLayerStore.exitEdit();
                 this.setState({
@@ -781,6 +781,7 @@ class RightMenuModal extends React.Component {
             }
         } catch (e) {
             message.warning(e.message, 3);
+            DataLayerStore.clearCheckedPoint();
         }
     };
 
