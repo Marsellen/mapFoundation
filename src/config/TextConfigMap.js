@@ -151,32 +151,6 @@ export const COMMON_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_LaneMark_Plg: {
-        key: 'AD_LaneMark_Plg',
-        label: '面状标识物',
-        checked: false,
-        defaultStyle: {
-            textFields: ['TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
     AD_Text: {
         key: 'AD_Text',
         label: '地面文字符号',
@@ -280,31 +254,6 @@ export const COMMON_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_LaneDivider_Pln: {
-        key: 'AD_LaneDivider_Pln',
-        label: '几何层：车道线线要素',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'line-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'line-center': { key: 'line-center', label: '线中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '线上循环',
-                interval: true
-            }
-        }
-    },
     AD_LaneDivider_Plg: {
         key: 'AD_LaneDivider_Plg',
         label: '几何层：车道线面要素',
@@ -357,87 +306,9 @@ export const COMMON_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_Arrow_Geo: {
-        key: 'AD_Arrow_Geo',
-        label: '几何层：箭头',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'longest-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
     AD_LaneMark_Geo: {
         key: 'AD_LaneMark_Geo',
         label: '几何层：路面车道标记',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_TrafficSign_Geo: {
-        key: 'AD_TrafficSign_Geo',
-        label: ' 几何层：交通标志牌',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_TrafficLight_Geo: {
-        key: 'AD_TrafficLight_Geo',
-        label: '几何层：交通信号灯',
         checked: false,
         defaultStyle: {
             textFields: ['FEAT_TYPE'], //看数据规格
@@ -641,32 +512,6 @@ const MS_TASK_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_LaneMark_Plg: {
-        key: 'AD_LaneMark_Plg',
-        label: '面状标识物',
-        checked: false,
-        defaultStyle: {
-            textFields: ['TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
     AD_Text: {
         key: 'AD_Text',
         label: '地面文字符号',
@@ -770,31 +615,6 @@ const MS_TASK_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_LaneDivider_Pln: {
-        key: 'AD_LaneDivider_Pln',
-        label: '几何层：车道线线要素',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'line-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'line-center': { key: 'line-center', label: '线中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '线上循环',
-                interval: true
-            }
-        }
-    },
     AD_LaneDivider_Plg: {
         key: 'AD_LaneDivider_Plg',
         label: '几何层：车道线面要素',
@@ -847,87 +667,9 @@ const MS_TASK_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_Arrow_Geo: {
-        key: 'AD_Arrow_Geo',
-        label: '几何层：箭头',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'longest-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
     AD_LaneMark_Geo: {
         key: 'AD_LaneMark_Geo',
         label: '几何层：路面车道标记',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_TrafficSign_Geo: {
-        key: 'AD_TrafficSign_Geo',
-        label: ' 几何层：交通标志牌',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_TrafficLight_Geo: {
-        key: 'AD_TrafficLight_Geo',
-        label: '几何层：交通信号灯',
         checked: false,
         defaultStyle: {
             textFields: ['FEAT_TYPE'], //看数据规格
@@ -1131,32 +873,6 @@ const MB_TASK_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_LaneMark_Plg: {
-        key: 'AD_LaneMark_Plg',
-        label: '面状标识物',
-        checked: false,
-        defaultStyle: {
-            textFields: ['TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
     AD_Text: {
         key: 'AD_Text',
         label: '地面文字符号',
@@ -1260,31 +976,6 @@ const MB_TASK_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_LaneDivider_Pln: {
-        key: 'AD_LaneDivider_Pln',
-        label: '几何层：车道线线要素',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'line-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'line-center': { key: 'line-center', label: '线中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '线上循环',
-                interval: true
-            }
-        }
-    },
     AD_LaneDivider_Plg: {
         key: 'AD_LaneDivider_Plg',
         label: '几何层：车道线面要素',
@@ -1337,87 +1028,9 @@ const MB_TASK_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_Arrow_Geo: {
-        key: 'AD_Arrow_Geo',
-        label: '几何层：箭头',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'longest-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
     AD_LaneMark_Geo: {
         key: 'AD_LaneMark_Geo',
         label: '几何层：路面车道标记',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_TrafficSign_Geo: {
-        key: 'AD_TrafficSign_Geo',
-        label: ' 几何层：交通标志牌',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_TrafficLight_Geo: {
-        key: 'AD_TrafficLight_Geo',
-        label: '几何层：交通信号灯',
         checked: false,
         defaultStyle: {
             textFields: ['FEAT_TYPE'], //看数据规格
@@ -1621,32 +1234,6 @@ const QC_TASK_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_LaneMark_Plg: {
-        key: 'AD_LaneMark_Plg',
-        label: '面状标识物',
-        checked: false,
-        defaultStyle: {
-            textFields: ['TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
     AD_Text: {
         key: 'AD_Text',
         label: '地面文字符号',
@@ -1750,31 +1337,6 @@ const QC_TASK_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_LaneDivider_Pln: {
-        key: 'AD_LaneDivider_Pln',
-        label: '几何层：车道线线要素',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'line-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'line-center': { key: 'line-center', label: '线中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '线上循环',
-                interval: true
-            }
-        }
-    },
     AD_LaneDivider_Plg: {
         key: 'AD_LaneDivider_Plg',
         label: '几何层：车道线面要素',
@@ -1827,87 +1389,9 @@ const QC_TASK_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_Arrow_Geo: {
-        key: 'AD_Arrow_Geo',
-        label: '几何层：箭头',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'longest-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
     AD_LaneMark_Geo: {
         key: 'AD_LaneMark_Geo',
         label: '几何层：路面车道标记',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_TrafficSign_Geo: {
-        key: 'AD_TrafficSign_Geo',
-        label: ' 几何层：交通标志牌',
-        checked: false,
-        defaultStyle: {
-            textFields: ['FEAT_TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'polygon-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
-        textModeMap: {
-            'polygon-center': { key: 'polygon-center', label: '面中心' },
-            'longest-center': { key: 'longest-center', label: '最长边中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_TrafficLight_Geo: {
-        key: 'AD_TrafficLight_Geo',
-        label: '几何层：交通信号灯',
         checked: false,
         defaultStyle: {
             textFields: ['FEAT_TYPE'], //看数据规格

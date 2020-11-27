@@ -6,28 +6,10 @@ export default {
         order: 23,
         showStyles: ['textStyle']
     },
-    AD_TrafficLight_Geo: {
-        type: 'Polygon',
-        textFields: ['FEAT_TYPE'],
-        order: 22,
-        showStyles: ['textStyle']
-    },
-    AD_TrafficSign_Geo: {
-        type: 'Polygon',
-        textFields: ['FEAT_TYPE'],
-        order: 21,
-        showStyles: ['textStyle']
-    },
     AD_LaneMark_Geo: {
         type: 'Polygon',
         textFields: ['FEAT_TYPE'],
         order: 20,
-        showStyles: ['textStyle']
-    },
-    AD_Arrow_Geo: {
-        type: 'Polygon',
-        textFields: ['FEAT_TYPE'],
-        order: 19,
         showStyles: ['textStyle']
     },
     AD_StopLocation_Geo: {
@@ -40,12 +22,6 @@ export default {
         type: 'Polygon',
         textFields: ['FEAT_TYPE'],
         order: 17,
-        showStyles: ['textStyle']
-    },
-    AD_LaneDivider_Pln: {
-        type: 'Line',
-        textFields: ['FEAT_TYPE'],
-        order: 16,
         showStyles: ['textStyle']
     },
     AD_Road: {
@@ -84,12 +60,6 @@ export default {
         type: 'Line',
         textFields: ['TYPE'],
         order: 9,
-        showStyles: ['textStyle']
-    },
-    AD_LaneMark_Plg: {
-        type: 'Polygon',
-        textFields: ['TYPE'],
-        order: 8,
         showStyles: ['textStyle']
     },
     AD_Text: {
