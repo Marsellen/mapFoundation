@@ -1283,7 +1283,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 color: 'rgb(255,255,255)',
                 opacity: 1,
                 arrow: false,
-                point: false,
+                point: true,
                 pointEnabledStatus: true,
                 arrowEnabledStatus: true,
                 pointSize: 0.1
@@ -1296,7 +1296,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 color: 'rgb(255,255,255)',
                 opacity: 1,
                 arrow: false,
-                point: false,
+                point: true,
                 pointEnabledStatus: true,
                 arrowEnabledStatus: true,
                 pointSize: 0.1
@@ -1309,7 +1309,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 color: 'rgb(255,255,255)',
                 opacity: 1,
                 arrow: false,
-                point: false,
+                point: true,
                 pointEnabledStatus: true,
                 arrowEnabledStatus: true,
                 pointSize: 0.1
@@ -1322,7 +1322,7 @@ const DEFINE_VECTOR_CONFIG_MAP = {
                 color: 'rgb(255,255,255)',
                 opacity: 1,
                 arrow: false,
-                point: false,
+                point: true,
                 pointEnabledStatus: true,
                 arrowEnabledStatus: true,
                 pointSize: 0.1
@@ -4711,7 +4711,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
-                point: false,
+                point: true,
                 pointEnabledStatus: true,
                 arrowEnabledStatus: true,
                 pointSize: 0.1
@@ -4724,7 +4724,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
-                point: false,
+                point: true,
                 pointEnabledStatus: true,
                 arrowEnabledStatus: true,
                 pointSize: 0.1
@@ -4737,7 +4737,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
-                point: false,
+                point: true,
                 pointEnabledStatus: true,
                 arrowEnabledStatus: true,
                 pointSize: 0.1
@@ -4750,7 +4750,7 @@ const COMMON_VECTOR_CONFIG_MAP = {
                 color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
-                point: false,
+                point: true,
                 pointEnabledStatus: true,
                 arrowEnabledStatus: true,
                 pointSize: 0.1
@@ -8141,7 +8141,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
-                point: false,
+                point: true,
                 pointEnabledStatus: true,
                 arrowEnabledStatus: true,
                 pointSize: 0.1
@@ -8154,7 +8154,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
-                point: false,
+                point: true,
                 pointEnabledStatus: true,
                 arrowEnabledStatus: true,
                 pointSize: 0.1
@@ -8167,7 +8167,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
-                point: false,
+                point: true,
                 pointEnabledStatus: true,
                 arrowEnabledStatus: true,
                 pointSize: 0.1
@@ -8180,7 +8180,7 @@ const CHECK_VECTOR_CONFIG_MAP = {
                 color: 'rgb(255,150,150)',
                 opacity: 1,
                 arrow: false,
-                point: false,
+                point: true,
                 pointEnabledStatus: true,
                 arrowEnabledStatus: true,
                 pointSize: 0.1
