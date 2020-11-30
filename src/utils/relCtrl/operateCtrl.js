@@ -630,7 +630,8 @@ const attrRelationFormat = attrs => {
 };
 
 const fetchFeatureRels = (oldFeatures, features, isNewResponse) => {
-    const layerNames = oldFeatures.map(feature => feature.layerName);
+    let layerNames = oldFeatures.map(feature => feature.layerName);
+    layerNames = [...new Set(layerNames)];
     return calcFeatureRels(layerNames, features, isNewResponse).reduce(
         (total, fr) => {
             total.newFeatures.push(fr.feature);
@@ -645,7 +646,7 @@ const fetchFeatureRels = (oldFeatures, features, isNewResponse) => {
 const calcFeatureRels = (layerNames, features, isNewResponse) => {
     features = Array.isArray(features) ? features : [features];
     return features.map(feature => {
-        const layerName = layerNames.find(item => feature[item]);
+        const layerName = layerNames.find(item => feature[item]) || feature.type;
         const featureInfo = isNewResponse ? feature.attr : feature[layerName];
         return {
             feature: calcFeatures(featureInfo, layerName),
