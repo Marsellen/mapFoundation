@@ -1,6 +1,6 @@
 import React from 'react';
 import { notification } from 'antd';
-import './style.css';
+import 'src/assets/less/login.less';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import LoginForm from './LoginForm';

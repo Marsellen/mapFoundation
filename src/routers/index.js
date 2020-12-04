@@ -3,8 +3,9 @@ import { Route, Switch } from 'react-router-dom';
 import LoadingPage from 'src/components/LoadingPage';
 import PrivateRoute from 'src/components/PrivateRoute';
 
-const Home = lazy(() => import('src/pages/Index'));
 const Login = lazy(() => import('src/pages/Login'));
+const Home = lazy(() => import('src/pages/Index'));
+const Search = lazy(() => import('src/pages/Search'));
 const Blank = lazy(() => import('src/pages/Blank'));
 
 class Routers extends React.Component {
@@ -14,6 +15,7 @@ class Routers extends React.Component {
                 <Switch>
                     <Route key="Login" path="/login" component={Login} />
                     <Route key="Blank" path="/blank" component={Blank} />
+                    <PrivateRoute key="Search" path="/search" component={Search} />
                     <PrivateRoute key="Home" path="/" component={Home} />
                 </Switch>
             </Suspense>
