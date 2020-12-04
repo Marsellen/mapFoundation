@@ -1020,6 +1020,12 @@ export const TABLE_DATA_MAP = {
             name: '道路形态',
             type: 'AD_LANE_DIVIDER_RD_FORM',
             domType: 'Select'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
         }
     ],
     AD_Text: [
@@ -1077,6 +1083,12 @@ export const TABLE_DATA_MAP = {
             key: 'TEXT',
             name: '其他文本描述',
             domType: 'Input'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
         }
     ],
     AD_Road: [
@@ -1137,6 +1149,12 @@ export const TABLE_DATA_MAP = {
             domType: 'InputNumber',
             required: true,
             validates: 'Numeric|range|0|120'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
         }
     ],
     AD_Lane: [
@@ -1199,6 +1217,12 @@ export const TABLE_DATA_MAP = {
             name: '车道通行状态',
             type: 'AD_LANE_STATUS',
             domType: 'Select'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
         }
     ],
     AD_StopLocation: [
@@ -1213,6 +1237,12 @@ export const TABLE_DATA_MAP = {
             name: '停车线类型',
             type: 'AD_STOPLOCATION_TYPE',
             domType: 'RadioIconGroup'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
         }
     ],
     AD_LaneMark_Plg: [
@@ -1241,6 +1271,12 @@ export const TABLE_DATA_MAP = {
             name: '箭头方向',
             type: 'AD_ARROW_ARR_DIRECT',
             domType: 'CheckBoxIconGroup'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
         }
     ],
     AD_LaneAttrPoint: [
@@ -1255,6 +1291,12 @@ export const TABLE_DATA_MAP = {
             name: '属性变化点类型',
             type: 'AD_LANE_ATTRPOINT_TYPE',
             domType: 'RadioIconGroup'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
         }
     ],
     AD_TrafficLight: [
@@ -1262,6 +1304,12 @@ export const TABLE_DATA_MAP = {
             key: 'LIGHT_ID',
             name: '用户编号',
             type: 'AD_TRAFFIC_LIGHT_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
             domType: 'Text'
         }
         // {
@@ -1298,6 +1346,12 @@ export const TABLE_DATA_MAP = {
             domType: 'Select'
         },
         {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
+        },
+        {
             key: 'OBJ_FUNC',
             name: '存储标牌对象',
             domType: 'AdTrafficSignContent'
@@ -1321,6 +1375,12 @@ export const TABLE_DATA_MAP = {
             name: '护栏材质',
             type: 'AD_RS_BARRIER_MATERIAL',
             domType: 'Select'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
         }
     ],
     AD_LaneDivider_Pln: [
@@ -1367,6 +1427,12 @@ export const TABLE_DATA_MAP = {
             key: 'CFD_FEAT',
             name: '要素类型置信度',
             domType: 'Text'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
         }
     ],
     AD_StopLocation_Geo: [
@@ -1389,6 +1455,12 @@ export const TABLE_DATA_MAP = {
         {
             key: 'CFD_FEAT',
             name: '要素类型置信度',
+            domType: 'Text'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
             domType: 'Text'
         }
     ],
@@ -1436,6 +1508,12 @@ export const TABLE_DATA_MAP = {
             key: 'CFD_FEAT',
             name: '要素类型置信度',
             domType: 'Text'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
         }
     ],
     AD_Pole_Geo: [
@@ -1452,6 +1530,12 @@ export const TABLE_DATA_MAP = {
         {
             key: 'CFD_FEAT',
             name: '要素类型置信度',
+            domType: 'Text'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
             domType: 'Text'
         }
     ],
