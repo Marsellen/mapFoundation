@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import { Modal } from 'antd';
-import JsonHtml from 'json-pretty-html';
 import { LogStore } from 'src/pages/Search/store/LogStore';
 import { getLogDetail } from 'src/pages/Search/request/LogRequest';
 
@@ -12,7 +11,7 @@ function LogModal(props) {
     } = useContext(LogStore);
     const { type, label, record } = props;
     const detailJsonIndex = `${record.userName}:${record.taskId}:${record.saveTime}`;
-    const totalData = logDetailData[detailJsonIndex];
+    const totalData = JSON.stringify(logDetailData[detailJsonIndex], null, 4);
 
     const handleClick = async () => {
         const logDetailData = await getLogDetail({
@@ -29,16 +28,13 @@ function LogModal(props) {
         <span>
             <a onClick={handleClick}>{label}</a>
             <Modal
-                width="50vw"
+                width="60vw"
                 title={label}
                 visible={visible}
                 onOk={() => setVisible(false)}
                 onCancel={() => setVisible(false)}
             >
-                <div
-                    className="log-content"
-                    dangerouslySetInnerHTML={{ __html: JsonHtml(totalData) }}
-                />
+                <pre className="log-content">{totalData}</pre>
             </Modal>
         </span>
     );
