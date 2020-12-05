@@ -219,7 +219,8 @@ class TaskStore {
             outFormat: 'editjson',
             wktList: [bufferRegionWkt],
             referData: this.activeTask[referData],
-            outDir: this.activeTask[outDir]
+            outDir: this.activeTask[outDir],
+            taskId: this.activeTaskId
         };
         return params;
     };
