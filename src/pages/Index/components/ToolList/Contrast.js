@@ -1,6 +1,6 @@
 import React from 'react';
 import { Slider } from 'antd';
-import 'less/components/PointCloud.less';
+import 'less/components/point-cloud.less';
 
 class Contrast extends React.Component {
     constructor(props) {

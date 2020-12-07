@@ -94,6 +94,7 @@ class VizComponent extends React.Component {
         QCMarkerStore.release();
         ResourceLayerStore.release();
         VectorsStore.release();
+        PointCloudStore.release();
         DataLayerStore.setRegionGeojson();
         QualityCheckStore.closeCheckReport();
         QualityCheckStore.clearCheckReport();
@@ -173,7 +174,7 @@ class VizComponent extends React.Component {
                 callback: () => {
                     event.preventDefault();
                     event.stopPropagation();
-                    ResourceLayerStore.pointCloudToggle();
+                    ResourceLayerStore.layerToggle('point_clouds');
                 },
                 describe: '开关点云图层 1'
             },
@@ -211,7 +212,7 @@ class VizComponent extends React.Component {
                 callback: () => {
                     event.preventDefault();
                     event.stopPropagation();
-                    ResourceLayerStore.trackToggle();
+                    ResourceLayerStore.layerToggle('track');
                 },
                 describe: '开关轨迹图层 3'
             },
@@ -320,7 +321,10 @@ class VizComponent extends React.Component {
             ]);
             this.initResouceLayer([...resources, region]);
             this.installListener();
-            this.setMapScale(); //设置画面缩放比例
+            //设置画面缩放比例
+            this.setMapScale();
+            //初始化显隐点云和轨迹，只显示默认点云
+            ResourceLayerStore.initMultiProjectLayer();
         } catch (e) {
             console.log('任务资料加载异常' + e.message || e || '');
             throw new Error(activeTaskId);
