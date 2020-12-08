@@ -44,8 +44,12 @@ const trimLinstener = () => {
         message.info({
             key: 'trim',
             duration: 0,
-            content: '在红色线上选取修整线起点，点击右键完成修整'
+            content: '快捷键G切换曲线修复或直线修复；在红色线上选取修整线起点；点击右键完成修整'
         });
+    });
+    
+    mapEventManager().register('editor_event_modifyline_segment_firstpoint_infeature', e => {
+        DataLayerStore.setModifyLineType(false);
     });
 
     mapEventManager().register('editor_event_modifyline_segment_firstpoint_infeature', e => {
@@ -61,8 +65,9 @@ const trimLinstener = () => {
         message.info({
             key: 'trim',
             duration: 0,
-            content: '在红色线上选取修整线起点，点击右键完成修整'
+            content: '快捷键G切换曲线修复或直线修复；在红色线上选取修整线起点；点击右键完成修整'
         });
+        DataLayerStore.setModifyLineType(true);
     });
 
     mapEventManager().register('editor_event_modifyline_segment_firstpoint_notinfeature', e => {

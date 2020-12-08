@@ -125,6 +125,10 @@ export const HOT_KEYS_CONFIG = {
             label: '吸附到线要素'
         },
         {
+            value: '修整线要素未开始绘制时+G',
+            label: '切换曲线修复或折线修复'
+        },
+        {
             value: '选择1个要素+V',
             label: '修改形状点'
         },

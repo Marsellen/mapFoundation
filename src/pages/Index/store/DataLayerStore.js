@@ -44,6 +44,7 @@ class DataLayerStore {
     @observable isQcOpen = false;
     @observable isMessage = true;
     @observable checkedPoint = [];
+    @observable modifyLineType = true;
     //是否是联合打断模式
     @computed get isUnionBreak() {
         return this.editStatus === 'union-break';
@@ -832,6 +833,8 @@ class DataLayerStore {
                 this.modifyLineAdsorbMode = 1;
                 this.editor.setModifyLineAdsorbMode(this.modifyLineAdsorbMode);
                 this.editor.toggleMode(0);
+                this.editor.modifyLineType  = 'broken';
+                this.setModifyLineType(true);
                 break;
             default:
                 break;
@@ -888,11 +891,45 @@ class DataLayerStore {
                         this.setModifyLineAdsorbMode();
                     }
                     break;
+                case 71:
+                    //G
+                    if (this.editType == 'trim' && this.modifyLineType) {
+                        let viz = document.querySelector('#viz');
+                        switch (this.editor.modifyLineType) {
+                            case 'broken': 
+                                this.editor.modifyLineType  = 'curve';
+                                this.setModifyTypeContent('curve');
+                                this.removeCur();
+                                addClass(viz, 'curve-viz');
+                                break;
+                            case 'curve':
+                                this.editor.modifyLineType  = 'broken';
+                                this.setModifyTypeContent('broken');
+                                this.removeCur();
+                                addClass(viz, 'trim-viz');
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
                 default:
                     break;
             }
         };
     };
+
+    @action setModifyLineType = visible => {
+        this.modifyLineType = visible;
+    }
+
+    @action setModifyTypeContent = text => {
+        message.info({
+            key: 'trim_info',
+            duration: 2,
+            content: `${text == 'broken' ? '折线' : '曲线'}修复`
+        });
+    }
 
     exitEdit = () => {
         this.disableOtherCtrl();
@@ -1012,7 +1049,7 @@ class DataLayerStore {
         this.clearAllEditDebuff();
         this.setEditType('trim');
         this.trimStyle();
-        this.editor.modifyLine();
+        this.editor.modifyLine(this.editor.modifyLineType, 0.5);
     }
 
     groupMove = (data, step = 0) => {
