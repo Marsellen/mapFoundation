@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import 'src/assets/less/components/point-cloud.less';
 import AdTree from 'src/components/AdTree';
+import ToolIcon from 'src/components/ToolIcon';
 
 @inject('DataLayerStore')
 @inject('PointCloudStore')
@@ -11,14 +12,28 @@ class PointCloudLayer extends React.Component {
         const { PointCloudStore, DataLayerStore } = this.props;
         const { checked } = e.target;
         DataLayerStore.exitReadCoordinate();
-        PointCloudStore.toggleChecked(key, checked);
+        PointCloudStore.toggleChecked(key, checked, 'checked');
     };
 
     render() {
-        const { pointCloudMap, toggleStretch, updateKey } = this.props.PointCloudStore;
-
+        const {
+            pointCloudMap,
+            toggleStretch,
+            updateKey,
+            same,
+            toggleSame
+        } = this.props.PointCloudStore;
         return (
             <div className="point-cloud-layer">
+                <div className="same-box">
+                    <ToolIcon
+                        icon="renwuguanli"
+                        title="同开同关"
+                        placement="left"
+                        className={`same-button ${same ? 'on' : ''}`}
+                        action={toggleSame}
+                    />
+                </div>
                 <AdTree
                     key={updateKey}
                     stretch={true}

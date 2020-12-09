@@ -11,7 +11,8 @@ export default {
         vectors: 'ads_all.geojson',
         rels: 'rels.geojson',
         attrs: 'attrs.geojson',
-        taskInfo: 'taskinfos.json'
+        taskInfo: 'taskinfos.json',
+        octreeIndex: 'octreeIndex.json'
     },
 
     expireTime: 86400,

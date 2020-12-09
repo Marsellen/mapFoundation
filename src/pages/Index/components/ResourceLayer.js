@@ -28,17 +28,11 @@ class ResourceLayer extends React.Component {
 
     renderItem = (item, index) => {
         const { ResourceLayerStore } = this.props;
-        const { multiProjectMap, toggleProjectsStretch } = ResourceLayerStore;
+        const { multiProjectMap } = ResourceLayerStore;
 
         switch (item.value) {
             case '多工程':
-                return (
-                    <AdTree
-                        handleStretch={toggleProjectsStretch}
-                        dataSource={multiProjectMap}
-                        onChange={this.handleProjectsChange}
-                    />
-                );
+                return <AdTree dataSource={multiProjectMap} onChange={this.handleProjectsChange} />;
             case RESOURCE_LAYER_VECTOR:
             case RESOURCE_LAYER_BOUNDARY:
                 return this.renderCheckSwitch(item, index);

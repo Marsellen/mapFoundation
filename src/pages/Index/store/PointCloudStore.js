@@ -1,7 +1,8 @@
 import { observable, configure, action } from 'mobx';
 import CONFIG from 'src/config';
 import { completeMultiProjectUrl } from 'src/utils/taskUtils';
-import Tree from 'src/utils/Tree';
+import Tree from 'src/utils/TreeCtrl';
+import ResourceLayerStore from 'src/pages/Index/store/ResourceLayerStore';
 
 const PointCloudTree = new Tree();
 
@@ -12,6 +13,7 @@ class PointCloudStore {
     @observable pointCloudMap = {};
     @observable updateKey;
     @observable visible = false;
+    @observable same = false;
 
     @action show = () => {
         this.visible = true;
@@ -19,6 +21,10 @@ class PointCloudStore {
 
     @action hide = () => {
         this.visible = false;
+    };
+
+    @action toggleSame = () => {
+        this.same = !this.same;
     };
 
     @action initHeightRange = range => {
@@ -78,13 +84,51 @@ class PointCloudStore {
                 pointCloudMap[projectName].children[pcName].layerKey = urls;
             });
         });
+        PointCloudTree.loopAllData(pointCloudMap);
         this.pointCloudMap = pointCloudMap;
     };
 
-    //更新多工程映射的checked和disabled，显隐图层
-    @action toggleChecked = (key, checked) => {
-        PointCloudTree.toggleChecked(this.pointCloudMap, key, checked);
+    //联动资料图层-点云
+    togglePointCloud = () => {
+        Object.entries(this.pointCloudMap).forEach(([projectName, project]) => {
+            Object.entries(project.children).forEach(([pointCloudName, pointCloud]) => {
+                const { checked } = pointCloud;
+                const key = projectName + '|point_clouds|' + pointCloudName;
+                ResourceLayerStore.togglePointCloud(key, checked);
+            });
+        });
+    };
+
+    //更新点云图层
+    @action togglePointCloudLayer = (key, checked, mode) => {
+        PointCloudTree.toggleChecked(this.pointCloudMap, key, checked, mode);
         this.updateKey = Math.random();
+    };
+
+    @action toggleChecked = (key, checked, mode) => {
+        try {
+            const keyArr = key.split('|');
+            const pcLayerKey = keyArr[2];
+            if (this.same && pcLayerKey) {
+                Object.entries(this.pointCloudMap).forEach(([projectName, project]) => {
+                    Object.keys(project.children).forEach((pointCloudName, index) => {
+                        const newPcLayerKey = pcLayerKey.replace(/(?<=_).*(?=_)/, index + 1);
+                        const newKey = `${projectName}|${pointCloudName}|${newPcLayerKey}`;
+                        this.togglePointCloudLayer(newKey, checked, mode);
+                    });
+                });
+                this.togglePointCloud();
+            } else {
+                this.togglePointCloudLayer(key, checked, mode);
+                this.togglePointCloud();
+            }
+        } catch (e) {
+            console.error('点云图层窗口异常', e);
+        }
+    };
+
+    getCheckStatus = key => {
+        return PointCloudTree.getObj(this.pointCloudMap, key);
     };
 
     //设置伸缩状态

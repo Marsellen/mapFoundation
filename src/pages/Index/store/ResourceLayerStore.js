@@ -6,9 +6,17 @@ import {
     RESOURCE_LAYER_MULTI_PROJECT,
     CONFIDENCE_LAYER
 } from 'src/config/DataLayerConfig';
-import Tree from 'src/utils/Tree';
+import Tree from 'src/utils/TreeCtrl';
+import PointCloudStore from 'src/pages/Index/store/PointCloudStore';
 
-const ProjectsTree = new Tree('disabled');
+const checkCallback = obj => {
+    const { checked, disabled, layerKey, layerName, isIndeterminate } = obj;
+    const layer = window[layerName];
+    const isShow = checked && !disabled && !isIndeterminate;
+    isShow ? layer.show(layerKey) : layer.hide(layerKey);
+};
+const ProjectsTree = new Tree();
+ProjectsTree.setCheckCallback(checkCallback);
 
 const LAYER_SORT_MAP = {
     [RESOURCE_LAYER_VECTOR]: 0,
@@ -124,23 +132,28 @@ class ResourceLayerStore {
     @action initMultiProjectLayer = () => {
         Object.values(this.multiProjectMap).forEach(project => {
             Object.values(project.children).forEach(obj => {
-                ProjectsTree.loopData(obj.checked, obj, true);
+                ProjectsTree.loopData(obj.checked, obj, true, 'mixin');
             });
         });
     };
 
     //快捷键显隐点云或轨迹图层
     @action layerToggle = layerName => {
-        //当前启用工程至少一个轨迹【二级】勾选，即为true
+        //当前启用工程至少一个【二级】勾选，即为true
         const checked = Object.values(this.multiProjectMap).some(project => {
             const { children, checked } = project;
             return checked && children[layerName].checked;
         });
-        //更新多工程对象轨迹【二级】勾选状态
+        //更新多工程【二级】勾选状态
         Object.values(this.multiProjectMap).forEach(project => {
             if (!project.checked) return;
             const obj = project.children[layerName];
-            ProjectsTree.loopData(!checked, obj, true);
+            ProjectsTree.loopData(!checked, obj, true, 'mixin');
+            //如果是快捷键操作点云，需要联动点云图层窗口
+            if (layerName === 'point_clouds') {
+                const { toggleChecked } = PointCloudStore.PointCloudTree;
+                toggleChecked(project.key, !checked, 'disabled');
+            }
         });
         this.updateKey = Math.random();
     };
@@ -162,15 +175,27 @@ class ResourceLayerStore {
     };
 
     //更新多工程映射的checked和disabled，显隐图层
-    @action toggleProjectsChecked = (key, checked) => {
-        ProjectsTree.toggleChecked(this.multiProjectMap, key, checked);
+    @action togglePointCloud = (key, checked) => {
+        ProjectsTree.toggleChecked(this.multiProjectMap, key, checked, 'mixin');
         this.updateKey = Math.random();
     };
 
-    //设置伸缩状态
-    @action toggleProjectsStretch = key => {
-        ProjectsTree.toggleStretch(this.multiProjectMap, key);
-        this.updateKey = Math.random();
+    //联动点云图层窗口
+    togglePointCloudLayer = (key, checked) => {
+        const keyArr = key.split('|');
+        const pcLayerKey = keyArr.filter(item => item !== 'point_clouds').join('|');
+        if (keyArr.length > 2) {
+            PointCloudStore.togglePointCloudLayer(pcLayerKey, checked, 'checked');
+        } else {
+            const currentKey = keyArr[0] + '|point_clouds';
+            const { checked, disabled } = ProjectsTree.getObj(this.multiProjectMap, currentKey);
+            PointCloudStore.togglePointCloudLayer(pcLayerKey, checked && !disabled, 'disabled');
+        }
+    };
+
+    @action toggleProjectsChecked = (key, checked) => {
+        this.togglePointCloud(key, checked);
+        this.togglePointCloudLayer(key, checked);
     };
 
     @action setIndeterminate = name => {

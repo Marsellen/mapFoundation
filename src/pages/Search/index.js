@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react';
-import 'src/assets/less/search.less';
 import { ConfigProvider, Form, Input, Button, Select, DatePicker, InputNumber } from 'antd';
-import moment from 'moment';
 import zh_CN from 'antd/es/locale/zh_CN';
+import 'src/assets/less/search.less';
+import moment from 'moment';
 import LogList from 'src/pages/Search/component/LogList';
 import { LogStore, logState, LogReducer } from 'src/pages/Search/store/LogStore';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
