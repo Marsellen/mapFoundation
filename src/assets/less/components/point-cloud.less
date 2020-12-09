@@ -43,8 +43,20 @@
     overflow-y: auto;
     width: 300px;
     height: calc(100vh - 60px);
-    padding: 20px;
+    padding: 10px 20px 20px;
     background: #fff;
+
+    .same-box {
+        text-align: right;
+    }
+
+    .same-button {
+        font-size: 20px;
+        color: black;
+        &.on {
+            color: red;
+        }
+    }
 
     /*滚动条样式*/
     &::-webkit-scrollbar {

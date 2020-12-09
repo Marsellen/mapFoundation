@@ -12,7 +12,7 @@
         "start-local": "webpack-dev-server --env.proxy=local",
         "start-semantic": "webpack-dev-server --env.spec=semantic --env.csys=2",
         "start-no-shp": "webpack-dev-server --env.noshp",
-        "build-sdk": "npm i addis-viz-sdk --registry=https://nexus.ecarx.com.cn/repository/npm-all/ --no-save",
+        "build-sdk": "npm i rtree && npm i addis-viz-sdk --registry=https://nexus.ecarx.com.cn/repository/npm-all/ --no-save",
         "build": "npm run build-sdk && webpack --env.mode=production",
         "build-semantic": "npm run build-sdk && webpack --env.mode=production --env.spec=semantic --env.csys=2",
         "build-no-shp": "npm run build-sdk && webpack --env.mode=production --env.noshp"
@@ -35,6 +35,7 @@
         "react-dom": "^16.8.6",
         "react-resizable": "^1.9.0",
         "react-router-dom": "^5.0.0",
+        "rtree": "^1.4.2",
         "viewerjs": "^1.0.0"
     },
     "devDependencies": {

@@ -2,6 +2,7 @@ import { addClass, removeClass } from '../utils';
 import { message } from 'antd';
 import RenderModeStore from 'src/pages/Index/store/RenderModeStore';
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
+import OcTreeIndex from 'src/utils/OcTreeIndex';
 //监听右击事件，当关联关系模式时，右击更新要素样式
 const clickright = () => {
     mapEventManager().register('clickright', e => {
@@ -107,13 +108,17 @@ const pointOutDistance = () => {
     mapEventManager().register('editor_event_points_out_distance', e => {
         message.warn('与原始点位距离过远，请重新选点', 3);
     });
-}
+};
 
 const addEditorExitListener = (eventType, className) => {
     let viz = document.querySelector('#viz');
     mapEventManager().register(eventType, e => {
         removeClass(viz, className);
     });
+};
+
+const cameraMoveListener = () => {
+    mapEventManager().register('camera_event_changing', OcTreeIndex.updateOctree);
 };
 
 const installMapListener = () => {
@@ -144,6 +149,7 @@ const installMapListener = () => {
     trimLinstener();
     modifyfeaturepointsListener();
     pointOutDistance();
+    cameraMoveListener();
 };
 
 export { installMapListener };

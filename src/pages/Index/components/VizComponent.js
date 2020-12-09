@@ -49,6 +49,8 @@ import QualityCheckStore from 'src/pages/Index/store/QualityCheckStore';
 import { showPictureShowView, showAttributesModal, showRightMenu } from 'src/utils/map/viewCtrl';
 import { TASK_MODE_MAP } from 'src/config/RenderModeConfig';
 import { fetchCallback } from 'src/utils/map/utils';
+import OcTreeIndex from 'src/utils/OcTreeIndex';
+import sysProperties from 'src/models/sysProperties';
 @inject('QCMarkerStore')
 @inject('DefineModeStore')
 @inject('TextStore')
@@ -263,6 +265,7 @@ class VizComponent extends React.Component {
             getTaskInfo,
             getTaskFile,
             getTaskFileList,
+            activeTask,
             activeTaskId,
             tasksPop,
             isEditableTask
@@ -276,7 +279,11 @@ class VizComponent extends React.Component {
         });
         try {
             //获取任务信息 taskinfos.json
-            await Promise.all([getTaskFileList(), getTaskInfo()]);
+            await Promise.all([
+                getTaskFileList(),
+                getTaskInfo(),
+                OcTreeIndex.getOctreeMap(activeTask)
+            ]);
             //获取任务资料文件路径
             const task = getTaskFile();
             //加载当前任务资料
@@ -357,6 +364,8 @@ class VizComponent extends React.Component {
             if (!urlArr) return;
             //实例化点云
             const pointCloudLayer = new DynamicPCLayer(null, {
+                pointBudget: sysProperties.getConfig('pointLimit') || 5000000, // 点云点数量
+                minLevel: sysProperties.getConfig('scaleSize') || 13, // 开始更新点云八叉树最小比例尺级别
                 intensityGamma: 0.5,
                 intensityContrast: 0.4,
                 intensityBrightness: 0.3,

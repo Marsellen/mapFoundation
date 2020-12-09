@@ -4,10 +4,6 @@ import { Checkbox, Icon } from 'antd';
 import ToolIcon from 'src/components/ToolIcon';
 
 class AdTree extends React.Component {
-    handleChange = (e, key) => {
-        this.props.onChange(e, key);
-    };
-
     //带图标的checkbox文本
     _checkboxIconNode = label => {
         return (
@@ -22,7 +18,16 @@ class AdTree extends React.Component {
     _renderList = obj => {
         return Object.values(obj).map(item => {
             const { stretch, onChange, handleStretch } = this.props;
-            const { key, label, checked, disabled, active, children, stretched } = item;
+            const {
+                key,
+                label,
+                checked,
+                disabled,
+                active,
+                children,
+                stretched,
+                indeterminate
+            } = item;
             const keyArr = key.split('|');
             const keyArrL = keyArr.length;
             return (
@@ -39,6 +44,7 @@ class AdTree extends React.Component {
                             value={key}
                             checked={checked}
                             disabled={disabled}
+                            indeterminate={indeterminate}
                             onChange={e => onChange(e, key)}
                         >
                             {active ? this._checkboxIconNode(label) : label}
