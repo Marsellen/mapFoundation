@@ -23,8 +23,9 @@ class OcTreeIndex {
     updateOctree = () => {
         try {
             if (this.inProcess) return;
+            const { viewChangeDelay = 500, scaleSize = 13 } = sysProperties.configs || {};
+            if (window.map.getLevel() < scaleSize) return;
             this.inProcess = true;
-            const delay = sysProperties.getConfig('viewChangeDelay') || 500;
             setTimeout(() => {
                 if (!map) return;
                 const { min, max } = map.getScreenBox();
@@ -46,7 +47,7 @@ class OcTreeIndex {
                 });
                 window.pointCloudLayer.updatePointClouds(octreeUrls);
                 this.inProcess = false;
-            }, delay);
+            }, viewChangeDelay);
         } catch (e) {
             console.error('空间索引异常', e);
         }
