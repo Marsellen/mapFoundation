@@ -37,7 +37,7 @@ class AdTree extends React.Component {
                             <Icon
                                 className="tree-stretch-icon"
                                 onClick={() => handleStretch(key)}
-                                type={stretched ? 'caret-down' : 'caret-up'}
+                                type={stretched ? 'caret-up' : 'caret-down'}
                             />
                         )}
                         <Checkbox

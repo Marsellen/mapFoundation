@@ -27,7 +27,7 @@ class PointCloudLayer extends React.Component {
             <div className="point-cloud-layer">
                 <div className="same-box">
                     <ToolIcon
-                        icon="renwuguanli"
+                        icon="lasliandong"
                         title="同开同关"
                         placement="left"
                         className={`same-button ${same ? 'on' : ''}`}

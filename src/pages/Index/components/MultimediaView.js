@@ -30,7 +30,7 @@ const MENU_LIST = [
     {
         id: 'point-cloud-icon',
         title: '点云图层窗口',
-        icon: 'xuanranshezhi',
+        icon: 'dianyuncengji',
         storeName: 'PointCloudStore',
         content: <PointCloudLayer />
     }
