@@ -53,7 +53,7 @@ class ViewAttribute extends React.Component {
     render() {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
-        const { visible, height } = this.state;
+        const { visible } = this.state;
         return (
             <span>
                 <ToolIcon
