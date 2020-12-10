@@ -79,7 +79,7 @@ class BatchAssignLaneNo extends React.Component {
     _renderModal = () => {
         const { layerName, defaultNumber } = this.props;
         const { startNumber } = this.state;
-        let label = DATA_LAYER_MAP[layerName]?.label ?? DATA_LAYER_MAP[layerName] ?? '--';
+        let label = DATA_LAYER_MAP?.[layerName]?.label ?? '--';
         return (
             <div>
                 <div>
