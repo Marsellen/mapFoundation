@@ -62,6 +62,7 @@ class PointCloudStore {
                     layerKey: [],
                     checked: isDefaultLidar,
                     layerName: 'pointCloudLayer',
+                    stretched: true,
                     children: {}
                 };
                 //向pointCloudMap的工程的点云中追加点云图层（八叉树）
