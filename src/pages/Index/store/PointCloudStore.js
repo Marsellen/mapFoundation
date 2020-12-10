@@ -3,6 +3,7 @@ import CONFIG from 'src/config';
 import { completeMultiProjectUrl } from 'src/utils/taskUtils';
 import Tree from 'src/utils/TreeCtrl';
 import ResourceLayerStore from 'src/pages/Index/store/ResourceLayerStore';
+import OcTreeIndex from 'src/utils/OcTreeIndex';
 
 const PointCloudTree = new Tree();
 
@@ -123,6 +124,7 @@ class PointCloudStore {
                 this.togglePointCloudLayer(key, checked, mode);
                 this.togglePointCloud();
             }
+            OcTreeIndex.updateOctree();
         } catch (e) {
             console.error('点云图层窗口异常', e);
         }

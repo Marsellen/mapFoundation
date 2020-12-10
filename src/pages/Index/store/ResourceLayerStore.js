@@ -8,6 +8,7 @@ import {
 } from 'src/config/DataLayerConfig';
 import Tree from 'src/utils/TreeCtrl';
 import PointCloudStore from 'src/pages/Index/store/PointCloudStore';
+import OcTreeIndex from 'src/utils/OcTreeIndex';
 
 const checkCallback = obj => {
     const { checked, disabled, layerKey, layerName, isIndeterminate } = obj;
@@ -186,6 +187,7 @@ class ResourceLayerStore {
         const pcLayerKey = keyArr.filter(item => item !== 'point_clouds').join('|');
         if (keyArr.length > 2) {
             PointCloudStore.togglePointCloudLayer(pcLayerKey, checked, 'checked');
+            OcTreeIndex.updateOctree();
         } else {
             const currentKey = keyArr[0] + '|point_clouds';
             const { checked, disabled } = ProjectsTree.getObj(this.multiProjectMap, currentKey);
