@@ -34,10 +34,10 @@ class OcTreeIndex {
                     w: max[0] - min[0],
                     h: max[1] - min[1]
                 };
-                const octreeList = this.adRTree.search(param);
+                const octreeList = this.adRTree.search(param) || [];
                 const octreeUrls = octreeList.flatMap(key => {
                     const octree = PointCloudStore.getCheckStatus(key);
-                    const { checked, disabled, layerKey } = octree;
+                    const { checked, disabled, layerKey } = octree || {};
                     if (checked && !disabled) {
                         return [layerKey];
                     } else {
