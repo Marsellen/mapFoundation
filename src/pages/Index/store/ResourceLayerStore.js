@@ -152,8 +152,7 @@ class ResourceLayerStore {
             ProjectsTree.loopData(!checked, obj, true, 'mixin');
             //如果是快捷键操作点云，需要联动点云图层窗口
             if (layerName === 'point_clouds') {
-                const { toggleChecked } = PointCloudStore.PointCloudTree;
-                toggleChecked(project.key, !checked, 'disabled');
+                PointCloudStore.togglePointCloudLayer(project.key, !checked, 'disabled');
             }
         });
         this.updateKey = Math.random();
