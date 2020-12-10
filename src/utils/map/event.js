@@ -48,10 +48,6 @@ const trimLinstener = () => {
             content: '快捷键G切换曲线修复或直线修复；在红色线上选取修整线起点；点击右键完成修整'
         });
     });
-    
-    mapEventManager().register('editor_event_modifyline_segment_firstpoint_infeature', e => {
-        DataLayerStore.setModifyLineType(false);
-    });
 
     mapEventManager().register('editor_event_modifyline_segment_firstpoint_infeature', e => {
         message.info({
@@ -60,6 +56,7 @@ const trimLinstener = () => {
             content:
                 '绘制修整线，然后在红色线上取修整线的终点；快捷键Space可开启/关闭吸附到矢量功能'
         });
+        DataLayerStore.setModifyLineType(false);
     });
 
     mapEventManager().register('editor_event_modifyline_segment_secondpoint_infeature', e => {

@@ -16,6 +16,7 @@ import AttributeStore from 'src/pages/Index/store/AttributeStore.js';
 import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
 import RightMenuStore from 'src/pages/Index/store/RightMenuStore';
 import { getEventPointWkt, getFeaturePointWkt } from 'src/utils/pictureCtrl';
+import sysProperties from 'src/models/sysProperties';
 
 const TRACKS = ['TraceListLayer', 'TraceLayer'];
 
@@ -367,9 +368,10 @@ class DataLayerStore {
         //绘制曲线
         this.exitEdit();
         if (!this.editor) return;
+        const drawNodeDensity = sysProperties.getConfig('drawNodeDensity') || 0.5;
         this.setEditType('new_curved_line');
         this.changeCur();
-        this.editor.newCurveLine();
+        this.editor.newCurveLine(drawNodeDensity);
     };
 
     AttributeBrush = () => {
@@ -1046,10 +1048,11 @@ class DataLayerStore {
 
     trim() {
         if (!this.editor) return;
+        const repairNodeDensity = sysProperties.getConfig('repairNodeDensity') || 0.5;
         this.clearAllEditDebuff();
         this.setEditType('trim');
         this.trimStyle();
-        this.editor.modifyLine(this.editor.modifyLineType, 0.5);
+        this.editor.modifyLine(this.editor.modifyLineType, repairNodeDensity);
     }
 
     groupMove = (data, step = 0) => {
