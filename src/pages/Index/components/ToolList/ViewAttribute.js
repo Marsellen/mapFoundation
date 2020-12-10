@@ -17,7 +17,6 @@ import 'less/components/tool-icon.less';
 import zh_CN from 'antd/es/locale/zh_CN';
 import SeniorModal from 'src/components/SeniorModal';
 import AdEmitter from 'src/models/event';
-import Resize from 'src/utils/resize';
 import Filter from 'src/utils/table/filter';
 import { ATTR_SPEC_CONFIG, REL_ATTR_LAYERS } from 'config/AttrsConfig';
 import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
@@ -32,7 +31,6 @@ import AttrRightMenu from 'src/pages/Index/components/ToolList/AttrRightMenu';
 class ViewAttribute extends React.Component {
     constructor(props) {
         super(props);
-        this.resize = new Resize();
         this.state = {
             currentTask: null,
             visible: false,
@@ -50,13 +48,12 @@ class ViewAttribute extends React.Component {
 
     componentDidMount() {
         AdEmitter.on('fetchViewAttributeData', this.getData);
-        this.resize.registerCallback(this.resizeCallback);
     }
 
     render() {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
-        const { visible } = this.state;
+        const { visible, height } = this.state;
         return (
             <span>
                 <ToolIcon
@@ -82,6 +79,7 @@ class ViewAttribute extends React.Component {
                     dragCallback={this.dragCallback}
                     className="view-attribute-modal"
                     wrapClassName="view-attribute-modal-wrap"
+                    resizeCallback={this.resizeCallback}
                 >
                     {this.renderContent()}
                 </SeniorModal>
@@ -97,6 +95,7 @@ class ViewAttribute extends React.Component {
 
     renderContent = () => {
         const { columns, dataSource, height, pageSize, page } = this.state;
+        const notEmpty = dataSource.length > 0;
         return (
             <ConfigProvider locale={zh_CN}>
                 <AdTable
@@ -127,15 +126,15 @@ class ViewAttribute extends React.Component {
                         pageSize: pageSize,
                         current: page
                     }}
-                    scroll={{ x: 'max-content', y: height }}
-                    height={height - 120}
+                    scroll={{ x: 'max-content', y: height || 'auto' }}
+                    height={notEmpty && height ? height - 120 : 'auto'}
                     title={() => {
                         return this.getTableTitle();
                     }}
                     loading={this.state.loading}
                     onChange={this.handleChange}
                 />
-                {!!dataSource.length && (
+                {notEmpty && (
                     <Button className="reset-button" onClick={this.clearFilters}>
                         筛选重置
                     </Button>
@@ -149,22 +148,12 @@ class ViewAttribute extends React.Component {
     };
 
     handlePagination = () => {
-        this.setState({}, this.resize.getStyle);
-    };
-
-    getResizeStyle = (tx, ty) => {
-        this.resize.getStyle(tx, ty);
-    };
-
-    dragCallback = (transformStr, tx, ty) => {
-        this.getResizeStyle(tx, ty);
+        this.setState({});
     };
 
     resizeCallback = result => {
-        const { height: resizeEleHeight } = result;
         this.setState({
-            //给表格限制最小高度
-            height: parseInt(resizeEleHeight) > 200 ? resizeEleHeight : 200
+            height: result.height
         });
     };
 
@@ -215,10 +204,7 @@ class ViewAttribute extends React.Component {
         let columns = this.getColumns(layerName);
         this.setState({ loading: true });
         getLayerItems(layerName).then(dataSource => {
-            this.setState({ columns, dataSource, loading: false }, () => {
-                this.resize.addResizeEvent('view-attribute-modal-wrap');
-                this.getResizeStyle();
-            });
+            this.setState({ columns, dataSource, loading: false });
         });
     };
 

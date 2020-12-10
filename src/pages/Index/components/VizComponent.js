@@ -244,8 +244,6 @@ class VizComponent extends React.Component {
             TaskStore: { activeTaskId },
             appStore: { loginUser: { roleCode } } = {}
         } = this.props;
-        //初化化检查结果配置，不同任务采用不同配置
-        QualityCheckStore.initReportConfig();
         //质检员开始任务自动获取报表
         if (roleCode === 'quality') {
             await QualityCheckStore.handleQualityGetMisreport({
@@ -278,6 +276,8 @@ class VizComponent extends React.Component {
             duration: 65
         });
         try {
+            //初化化检查结果配置，不同任务采用不同配置
+            QualityCheckStore.initReportConfig();
             //获取任务信息 taskinfos.json
             await Promise.all([
                 getTaskFileList(),

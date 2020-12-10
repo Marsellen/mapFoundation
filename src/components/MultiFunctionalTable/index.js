@@ -124,15 +124,12 @@ class MultiFunctionalTable extends React.Component {
     };
 
     updateTable = () => {
-        const { toResizeDom, dataSource } = this.props;
-        this.setState(
-            {
-                dataSource,
-                dataSourceL: dataSource.length,
-                columns: this.handleColumns()
-            },
-            toResizeDom
-        );
+        const { dataSource } = this.props;
+        this.setState({
+            dataSource,
+            dataSourceL: dataSource.length,
+            columns: this.handleColumns()
+        });
     };
 
     //展开某行
@@ -301,8 +298,6 @@ class MultiFunctionalTable extends React.Component {
         const { currentPage, pageSize, dataSource } = this.state;
         const { tableHeight, className, rowKey } = this.props;
         const dataSourceL = dataSource.length;
-        const tableH = tableHeight != 0;
-
         return (
             <div
                 onKeyUp={e => this.handleKeyUp(e)}
@@ -329,11 +324,13 @@ class MultiFunctionalTable extends React.Component {
                             onChange: this.handlePagination,
                             onShowSizeChange: this.handlePagination,
                             pageSizeOptions: ['10', '20', '30', '40', '50'],
-                            className: tableH
+                            className: tableHeight
                                 ? 'multi-function-pagination'
                                 : 'multi-function-pagination-init'
                         }}
-                        className={tableH ? 'multi-function-table' : 'multi-function-table-init'}
+                        className={
+                            tableHeight ? 'multi-function-table' : 'multi-function-table-init'
+                        }
                         onChange={this.handleTableChange}
                         rowKey={rowKey}
                         scroll={{ y: tableHeight || 175, x: '100%' }}

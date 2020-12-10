@@ -1,67 +1,54 @@
 import React from 'react';
-import DragM from 'dragm';
 import { Modal } from 'antd';
+import Drag from './drag';
+import Resize from './resize';
+import './style.less';
 
-class DragDom extends React.Component {
-    updateTransform = (transformStr, tx, ty, tdom) => {
-        const { dragCallback } = this.props;
-        this.modalDom.style.transform = transformStr;
-        dragCallback && dragCallback(transformStr, tx, ty, tdom);
+export default class SeniorModal extends React.Component {
+    constructor(props) {
+        super(props);
+        this.wrapId = Math.random().toString(36);
+        this.titleId = Math.random().toString(36);
+        this.resize = new Resize(props.resizeOptions);
+        this.drag = new Drag();
+    }
+
+    _dragDom = content => {
+        if (!content) return null;
+        return (
+            <div className={`clearfix ${this.titleId}`}>
+                <div>{content}</div>
+            </div>
+        );
     };
 
     componentDidMount() {
-        const { modalClassName } = this.props;
-        this.modalDom = document.getElementsByClassName(modalClassName)[0];
+        setTimeout(this.installPlugin);
     }
 
-    render() {
-        const { content } = this.props;
-        return (
-            <DragM updateTransform={this.updateTransform} className="clearfix">
-                <div>{content}</div>
-            </DragM>
-        );
+    componentDidUpdate() {
+        setTimeout(this.installPlugin);
     }
-}
 
-export default class SeniorModal extends React.Component {
-    _dragDom = content => {
-        if (!content) return null;
-        const { wrapClassName, dragCallback } = this.props;
-        return (
-            <DragDom
-                content={content}
-                modalClassName={wrapClassName}
-                dragCallback={dragCallback}
-            />
-        );
+    installPlugin = () => {
+        const { resizeCallback } = this.props;
+        this.resize.addResizeEvent(this.wrapId);
+        this.resize.registerCallback(resizeCallback);
+        this.drag.installListener(this.titleId, this.wrapId);
+        // this.drag.registerCallback(resizeCallback);
     };
 
     render() {
-        const {
-            title,
-            dragDom,
-            wrapClassName,
-            children,
-            afterClose
-        } = this.props;
+        const { title, children, wrapClassName, dragDom } = this.props;
         return (
             <Modal
                 {...this.props}
-                afterClose={this.afterClose(afterClose)}
-                wrapClassName={wrapClassName}
-                title={this._dragDom(title)}>
-                <div>
-                    {this._dragDom(dragDom)}
-                    {children}
-                </div>
+                wrapClassName={`resize-modal-wrap ${this.wrapId} ${wrapClassName}`}
+                title={this._dragDom(title)}
+            >
+                {dragDom && this._dragDom(dragDom)}
+                <div>{children}</div>
             </Modal>
         );
     }
-
-    afterClose = action => {
-        return () => {
-            action && action();
-        };
-    };
 }
