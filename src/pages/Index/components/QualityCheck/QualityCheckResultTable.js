@@ -196,14 +196,13 @@ class QualityCheckResultTable extends React.Component {
 
     render() {
         const {
-            QualityCheckStore: { reportList, filters, tableHeight, toResizeDom }
+            QualityCheckStore: { reportList, filters, tableHeight }
         } = this.props;
         const columns = this.getColumns();
         return (
             <MultiFunctionalTable
                 dataSource={reportList}
                 tableHeight={tableHeight}
-                toResizeDom={toResizeDom}
                 columns={columns}
                 filters={filters}
                 addJumpToFirstPage={false}

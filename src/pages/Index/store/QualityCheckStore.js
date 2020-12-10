@@ -3,7 +3,6 @@ import CheckService from 'src/services/CheckService';
 import { message } from 'antd';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { REPORT_COLUMNS } from 'src/config/CheckTableConfig';
-import Resize from 'src/utils/resize';
 import _ from 'lodash';
 import { getQualityChecked } from 'src/utils/permissionCtrl';
 import sysProperties from 'src/models/sysProperties';
@@ -12,7 +11,6 @@ import TaskStore from 'src/pages/Index/store/TaskStore';
 
 configure({ enforceActions: 'always' });
 class QualityCheckStore {
-    resize = new Resize();
     reportColumns;
     reportFilterKeys;
     pollingLimit; //轮询时间上限
@@ -169,18 +167,9 @@ class QualityCheckStore {
         );
     };
 
-    @action getResizeStyle = (tx, ty) => {
-        this.resize.getStyle(tx, ty);
-    };
-
     @action resizeCallback = result => {
-        this.tableHeight = result && result.height - 155;
-    };
-
-    @action toResizeDom = () => {
-        this.resize.addResizeEvent('quality-check-result-modal-wrap');
-        this.resize.registerCallback(this.resizeCallback);
-        this.getResizeStyle();
+        const { height } = result;
+        this.tableHeight = height ? height - 155 : 0;
     };
 
     @action getFilters = filterMap => {
@@ -197,11 +186,10 @@ class QualityCheckStore {
         if (!list) return;
         if (list.length <= 0) {
             this.reportList = [];
-            this.resize.addResizeEvent('quality-check-result-modal-wrap');
-            this.getResizeStyle();
             this.filters = this.filters || {};
             return;
         }
+        if (!this.reportFilterKeys) return;
         const { activeTaskId } = TaskStore;
         const { checkReport = {} } = AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
         const filterMap = {};

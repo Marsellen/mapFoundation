@@ -96,7 +96,7 @@ class QCMarkerListTable extends React.Component {
 
     render() {
         const {
-            QualityCheckStore: { tableHeight, toResizeDom },
+            QualityCheckStore: { tableHeight },
             QCMarkerStore: { markerList, filters }
         } = this.props;
         const markerListL = markerList.length;
@@ -105,7 +105,6 @@ class QCMarkerListTable extends React.Component {
             <MultiFunctionalTable
                 dataSource={markerList}
                 tableHeight={tableHeight}
-                toResizeDom={toResizeDom}
                 columns={columns}
                 filters={filters}
                 addJumpToFirstPage={true}

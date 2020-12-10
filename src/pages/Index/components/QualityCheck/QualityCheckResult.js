@@ -19,11 +19,6 @@ class QualityCheckResult extends React.Component {
         super(props);
     }
 
-    dragCallback = (transformStr, tx, ty) => {
-        const { QualityCheckStore } = this.props;
-        QualityCheckStore.getResizeStyle(tx, ty);
-    };
-
     handleCheckClick = () => {
         const {
             TaskStore: { activeTaskId },
@@ -151,7 +146,7 @@ class QualityCheckResult extends React.Component {
 
     render() {
         const {
-            QualityCheckStore: { checkReportVisible },
+            QualityCheckStore: { checkReportVisible, resizeCallback },
             TaskStore: { activeTaskId, isQCTask, isRefixStatus },
             QCMarkerStore: { visibleList }
         } = this.props;
@@ -197,9 +192,9 @@ class QualityCheckResult extends React.Component {
                     height={'100%'}
                     bodyStyle={{ padding: 0 }}
                     onCancel={this.handleAllClose}
-                    dragCallback={this.dragCallback}
                     className="quality-check-result-modal"
                     wrapClassName="quality-check-result-modal-wrap"
+                    resizeCallback={resizeCallback}
                 >
                     {this._renderContent()}
                 </SeniorModal>
