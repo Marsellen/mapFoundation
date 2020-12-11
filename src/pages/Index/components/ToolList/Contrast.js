@@ -3,31 +3,17 @@ import { Slider } from 'antd';
 import 'less/components/point-cloud.less';
 
 class Contrast extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: window.pointCloudLayer ? pointCloudLayer.getIntensityContrast() : 0,
-            activeTaskId: props.activeTaskId
-        };
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        if (props.activeTaskId !== state.activeTaskId) {
-            return {
-                ...state,
-                activeTaskId: props.activeTaskId,
-                value: window.pointCloudLayer ? pointCloudLayer.getIntensityContrast() : 0
-            };
-        }
-        return null;
-    }
+    state = {
+        value: window?.pointCloudLayer?.getIntensityContrast?.() ?? 0
+    };
 
     onChange = value => {
         this.setState({
             value
         });
-        pointCloudLayer.setIntensityContrast(value);
+        window?.pointCloudLayer?.setIntensityContrast?.(value);
     };
+
     render() {
         const { value } = this.state;
         return (

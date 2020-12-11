@@ -10,25 +10,16 @@ import ToolIcon from 'src/components/ToolIcon';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
-@inject('PointCloudStore')
 @observer
 class PointCloud extends React.Component {
     state = {
-        clicked: false
+        visible: false
     };
 
-    //获取点云高层
-    getPointCloudHeightRange = () => {
-        const { PointCloudStore } = this.props;
-        const range = pointCloudLayer.getElevationRange();
-        PointCloudStore.initHeightRange(range);
-    };
-
-    handleClickChange = visible => {
+    handleClickChange = checked => {
         if (this.isDisabled()) return;
-        visible && this.getPointCloudHeightRange();
         this.setState({
-            clicked: visible
+            visible: checked
         });
     };
 
@@ -41,22 +32,20 @@ class PointCloud extends React.Component {
     };
 
     _renderContent = () => {
-        const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
         return (
             <div className="point-cloud">
                 <div className="point-cloud-right">
                     <div className="point-cloud-right-content-top">
                         <span>亮度</span>
-                        <PointBright activeTaskId={activeTaskId} />
+                        <PointBright />
                         <span>对比度</span>
-                        <Contrast activeTaskId={activeTaskId} />
+                        <Contrast />
                         <span>Gamma</span>
-                        <Gamma activeTaskId={activeTaskId} />
+                        <Gamma />
                     </div>
                     <div className="point-cloud-right-content">
                         <span>点云大小</span>
-                        <AdjustPointSize activeTaskId={activeTaskId} />
+                        <AdjustPointSize />
                     </div>
                 </div>
                 <div className="point-cloud-left">
@@ -68,16 +57,18 @@ class PointCloud extends React.Component {
     };
 
     render() {
+        const { visible } = this.state;
         return (
             <ToolIcon
+                key={visible}
                 icon="dianyunshezhi"
                 title="点云设置"
-                visible={this.state.clicked}
+                visible={visible}
                 disabled={this.isDisabled()}
                 popover={{
                     title: '点云设置',
                     placement: 'bottom',
-                    visible: this.state.clicked,
+                    visible: visible,
                     onVisibleChange: this.handleClickChange,
                     content: this._renderContent(),
                     trigger: 'click'
