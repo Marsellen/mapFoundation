@@ -240,12 +240,9 @@ class VizComponent extends React.Component {
     };
 
     handleReportOpen = async () => {
-        const {
-            TaskStore: { activeTaskId },
-            appStore: { loginUser: { roleCode } } = {}
-        } = this.props;
-        //质检员开始任务自动获取报表
-        if (roleCode === 'quality') {
+        const { activeTaskId, isQCTask } = this.props.TaskStore;
+        //“开始”质检任务会自动获取报表
+        if (isQCTask) {
             await QualityCheckStore.handleQualityGetMisreport({
                 taskId: activeTaskId,
                 status: '1,2,4'
