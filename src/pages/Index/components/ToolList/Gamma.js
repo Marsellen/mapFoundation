@@ -3,30 +3,15 @@ import { Slider } from 'antd';
 import 'less/components/point-cloud.less';
 
 class Gamma extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: window.pointCloudLayer ? pointCloudLayer.getIntensityGamma() : 0,
-            activeTaskId: props.activeTaskId
-        };
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        if (props.activeTaskId !== state.activeTaskId) {
-            return {
-                ...state,
-                value: window.pointCloudLayer ? pointCloudLayer.getIntensityGamma() : 0,
-                activeTaskId: props.activeTaskId
-            };
-        }
-        return null;
-    }
+    state = {
+        value: window?.pointCloudLayer?.getIntensityGamma?.() ?? 0
+    };
 
     onChange = value => {
         this.setState({
             value
         });
-        pointCloudLayer.setIntensityGamma(value);
+        window?.pointCloudLayer?.setIntensityGamma?.(value);
     };
 
     render() {

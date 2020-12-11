@@ -2,42 +2,46 @@ import React from 'react';
 import { Slider } from 'antd';
 import { inject, observer } from 'mobx-react';
 import 'src/assets/less/components/tool-icon.less';
-
-@inject('PointCloudStore')
 @observer
 class PointStratification extends React.Component {
+    constructor(props) {
+        super(props);
+        const range = window?.pointCloudLayer?.getElevationRange?.() ?? [0, 0];
+        this.state = {
+            initRange: range,
+            range
+        };
+    }
+
+    onChange = range => {
+        this.setState({
+            range
+        });
+        window?.pointCloudLayer?.setDisplayAltitudeMin?.(range[0]);
+        window?.pointCloudLayer?.setDisplayAltitudeMax?.(range[1]);
+    };
+
     sliderFormatter = value => {
         return `${value.toFixed(2)}米`;
     };
 
-    handleSlideChange = value => {
-        const { PointCloudStore } = this.props;
-        PointCloudStore.setViewedHeightRange(value);
-
-        pointCloudLayer.setDisplayAltitudeMin(value[0]);
-        pointCloudLayer.setDisplayAltitudeMax(value[1]);
-    };
-
     render() {
-        const { PointCloudStore } = this.props;
-
-        const { maxHeightRange, viewedHeightRange } = PointCloudStore;
-
+        const { initRange, range } = this.state;
         return (
             <div className="ad-slider-box">
-                <p>{maxHeightRange[1].toFixed(2)}米</p>
+                <p>{initRange[1].toFixed(2)}米</p>
                 <Slider
                     className="ad-slider-vertical"
-                    onChange={this.handleSlideChange}
-                    min={maxHeightRange[0]}
-                    max={maxHeightRange[1]}
+                    onChange={this.onChange}
+                    min={initRange[0]}
+                    max={initRange[1]}
                     tipFormatter={this.sliderFormatter}
-                    value={viewedHeightRange}
+                    value={range}
                     step={0.01}
-                    vertical
-                    range
+                    vertical={true}
+                    range={true}
                 />
-                <p>{maxHeightRange[0].toFixed(2)}米</p>
+                <p>{initRange[0].toFixed(2)}米</p>
             </div>
         );
     }

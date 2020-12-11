@@ -3,31 +3,17 @@ import { Slider } from 'antd';
 import 'less/components/point-cloud.less';
 
 class PointBright extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: window.pointCloudLayer ? pointCloudLayer.getIntensityBrightness() : 0,
-            activeTaskId: props.activeTaskId
-        };
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        if (props.activeTaskId !== state.activeTaskId) {
-            return {
-                ...state,
-                activeTaskId: props.activeTaskId,
-                value: window.pointCloudLayer ? pointCloudLayer.getIntensityBrightness() : 0
-            };
-        }
-        return null;
-    }
+    state = {
+        value: window?.pointCloudLayer?.getIntensityBrightness?.() ?? 0
+    };
 
     onChange = value => {
         this.setState({
             value
         });
-        pointCloudLayer.setIntensityBrightness(value);
+        window?.pointCloudLayer?.setIntensityBrightness?.(value);
     };
+
     render() {
         const { value } = this.state;
         return (

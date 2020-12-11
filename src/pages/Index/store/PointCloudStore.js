@@ -9,10 +9,8 @@ const PointCloudTree = new Tree();
 
 configure({ enforceActions: 'always' });
 class PointCloudStore {
-    @observable maxHeightRange = [0, 100];
-    @observable viewedHeightRange;
-    @observable pointCloudMap = {};
     @observable updateKey;
+    @observable pointCloudMap = {};
     @observable visible = false;
     @observable same = false;
 
@@ -26,14 +24,6 @@ class PointCloudStore {
 
     @action toggleSame = () => {
         this.same = !this.same;
-    };
-
-    @action initHeightRange = range => {
-        this.viewedHeightRange = this.maxHeightRange = range.map(item => Number(item.toFixed(2)));
-    };
-
-    @action setViewedHeightRange = range => {
-        this.viewedHeightRange = range;
     };
 
     @action initPointCloudMap = (data, activeTask) => {

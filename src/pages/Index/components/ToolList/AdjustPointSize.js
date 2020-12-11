@@ -10,25 +10,16 @@ const marks = {
 
 class AdjustPointSize extends React.Component {
     state = {
-        value: window.pointCloudLayer ? pointCloudLayer.material.size : 0,
-        activeTaskId: this.props.activeTaskId
+        value: window?.pointCloudLayer?.material?.size ?? 0
     };
-    static getDerivedStateFromProps(props, state) {
-        if (props.activeTaskId !== state.activeTaskId) {
-            return {
-                ...state,
-                activeTaskId: props.activeTaskId,
-                value: window.pointCloudLayer ? pointCloudLayer.material.size : 0
-            };
-        }
-        return null;
-    }
+
     onChange = value => {
         this.setState({
             value
         });
-        pointCloudLayer.setPointSize(value);
+        window?.pointCloudLayer?.setPointSize?.(value);
     };
+
     render() {
         const { value } = this.state;
         return (
