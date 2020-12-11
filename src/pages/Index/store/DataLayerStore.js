@@ -893,9 +893,9 @@ class DataLayerStore {
                         this.setModifyLineAdsorbMode();
                     }
                     break;
-                case 71:
-                    //G
-                    if (this.editType == 'trim' && this.modifyLineType) {
+                case 74:
+                    //Alt + J
+                    if (event.altKey == true && this.editType == 'trim' && this.modifyLineType) {
                         let viz = document.querySelector('#viz');
                         switch (this.editor.modifyLineType) {
                             case 'broken': 

@@ -13,7 +13,6 @@ import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import BatchAssignStore from 'src/pages/Index/store/BatchAssignStore';
 import SearchIconGroup from 'src/components/SearchIconGroup';
 import { testDataString } from 'src/utils/timeUtils';
-import Filter from 'src/utils/table/filter';
 
 const formItemLayout = {
     labelCol: {
@@ -125,17 +124,16 @@ class BatchAssignModal extends React.Component {
     renderText = (item, index, name) => {
         const { form } = this.props;
         const { readonly } = item;
-        let value = item.filterBy ? Filter.get(item.filterBy)(item.value) : item.value;
         return (
-            <Form.Item key={index} label={item.name} {...formItemLayout}>
+            item.key != 'UPD_STAT' && (<Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
                     form.getFieldDecorator(name + '.' + item.key, {
-                        initialValue: value
+                        initialValue: item.value
                     })(<Input disabled />)
                 ) : (
                     <Input placeholder="(多项内容)" disabled />
                 )}
-            </Form.Item>
+            </Form.Item>)
         );
     };
 

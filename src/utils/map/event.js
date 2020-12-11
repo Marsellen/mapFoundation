@@ -45,7 +45,7 @@ const trimLinstener = () => {
         message.info({
             key: 'trim',
             duration: 0,
-            content: '快捷键G切换曲线修复或直线修复；在红色线上选取修整线起点；点击右键完成修整'
+            content: '快捷键Alt+J切换曲线修复或直线修复；在红色线上选取修整线起点；点击右键完成修整'
         });
     });
 
@@ -63,7 +63,7 @@ const trimLinstener = () => {
         message.info({
             key: 'trim',
             duration: 0,
-            content: '快捷键G切换曲线修复或直线修复；在红色线上选取修整线起点；点击右键完成修整'
+            content: '快捷键Alt+J切换曲线修复或直线修复；在红色线上选取修整线起点；点击右键完成修整'
         });
         DataLayerStore.setModifyLineType(true);
     });
