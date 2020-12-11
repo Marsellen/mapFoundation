@@ -62,7 +62,7 @@ class BasicAttributesForm extends React.Component {
         let value = item.filterBy ? Filter.get(item.filterBy)(item.value) : item.value;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {!readonly ? (
+                {!readonly && item.key != 'UPD_STAT' ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         initialValue: value
                     })(<Input disabled onChange={val => this.handleChange(val, item, name)} />)
