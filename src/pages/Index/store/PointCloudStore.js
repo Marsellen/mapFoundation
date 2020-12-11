@@ -102,12 +102,12 @@ class PointCloudStore {
         const keyArr = key.split('|');
         const pcLayerKey = keyArr[2];
         if (this.same && pcLayerKey) {
-            Object.entries(this.pointCloudMap).forEach(([projectName, project]) => {
-                Object.keys(project.children).forEach((pointCloudName, index) => {
-                    const newPcLayerKey = pcLayerKey.replace(/(?<=_).*(?=_)/, index + 1);
-                    const newKey = `${projectName}|${pointCloudName}|${newPcLayerKey}`;
-                    this.togglePointCloudLayer(newKey, checked, mode);
-                });
+            const projectName = keyArr[0];
+            const project = this.pointCloudMap[projectName];
+            Object.keys(project.children).forEach((pointCloudName, index) => {
+                const newPcLayerKey = pcLayerKey.replace(/(?<=_).*(?=_)/, index + 1);
+                const newKey = `${projectName}|${pointCloudName}|${newPcLayerKey}`;
+                this.togglePointCloudLayer(newKey, checked, mode);
             });
             this.togglePointCloud();
         } else {
