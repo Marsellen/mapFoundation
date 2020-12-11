@@ -42,17 +42,5 @@ module.exports = PROXY_MAP = {
         check: DOME_PATH,
         checkMarker: DOME_PATH,
         repair: DOME_PATH
-    },
-    prod: {
-        gateway: PROD_PATH,
-        task: PROD_PATH,
-        id: PROD_PATH,
-        manualBuild: PROD_PATH,
-        store: PROD_PATH,
-        querydb: PROD_PATH,
-        edit: PROD_PATH,
-        check: PROD_PATH,
-        checkMarker: PROD_PATH,
-        repair: PROD_PATH
     }
 };
