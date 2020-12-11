@@ -10,14 +10,23 @@ import ToolIcon from 'src/components/ToolIcon';
 
 @inject('TaskStore')
 @inject('ResourceLayerStore')
+@inject('PointCloudStore')
 @observer
 class PointCloud extends React.Component {
     state = {
         clicked: false
     };
 
+    //获取点云高层
+    getPointCloudHeightRange = () => {
+        const { PointCloudStore } = this.props;
+        const range = pointCloudLayer.getElevationRange();
+        PointCloudStore.initHeightRange(range);
+    };
+
     handleClickChange = visible => {
         if (this.isDisabled()) return;
+        visible && this.getPointCloudHeightRange();
         this.setState({
             clicked: visible
         });

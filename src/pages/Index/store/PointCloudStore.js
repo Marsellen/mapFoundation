@@ -88,6 +88,7 @@ class PointCloudStore {
         });
         PointCloudTree.loopAllData(pointCloudMap);
         this.pointCloudMap = pointCloudMap;
+        this.updateKey = Math.random();
     };
 
     //联动资料图层-点云
@@ -108,26 +109,22 @@ class PointCloudStore {
     };
 
     @action toggleChecked = (key, checked, mode) => {
-        try {
-            const keyArr = key.split('|');
-            const pcLayerKey = keyArr[2];
-            if (this.same && pcLayerKey) {
-                Object.entries(this.pointCloudMap).forEach(([projectName, project]) => {
-                    Object.keys(project.children).forEach((pointCloudName, index) => {
-                        const newPcLayerKey = pcLayerKey.replace(/(?<=_).*(?=_)/, index + 1);
-                        const newKey = `${projectName}|${pointCloudName}|${newPcLayerKey}`;
-                        this.togglePointCloudLayer(newKey, checked, mode);
-                    });
+        const keyArr = key.split('|');
+        const pcLayerKey = keyArr[2];
+        if (this.same && pcLayerKey) {
+            Object.entries(this.pointCloudMap).forEach(([projectName, project]) => {
+                Object.keys(project.children).forEach((pointCloudName, index) => {
+                    const newPcLayerKey = pcLayerKey.replace(/(?<=_).*(?=_)/, index + 1);
+                    const newKey = `${projectName}|${pointCloudName}|${newPcLayerKey}`;
+                    this.togglePointCloudLayer(newKey, checked, mode);
                 });
-                this.togglePointCloud();
-            } else {
-                this.togglePointCloudLayer(key, checked, mode);
-                this.togglePointCloud();
-            }
-            OcTreeIndex.updateOctree();
-        } catch (e) {
-            console.error('点云图层窗口异常', e);
+            });
+            this.togglePointCloud();
+        } else {
+            this.togglePointCloudLayer(key, checked, mode);
+            this.togglePointCloud();
         }
+        OcTreeIndex.updateOctree();
     };
 
     getCheckStatus = key => {

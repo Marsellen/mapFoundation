@@ -374,17 +374,8 @@ class VizComponent extends React.Component {
             window.pointCloudLayer = pointCloudLayer;
             //将点云实例加到map
             map.getLayerManager().addLayer('DynamicPCLayer', pointCloudLayer);
-            //点云实例调用updatePointClouds方法，传入点云url数组，批量添加点云
-            //{点云url:点云图层}
-            let pointCloudErrorStatus;
-            await pointCloudLayer.updatePointClouds(urlArr, true, ({ status }) => {
-                if (status && status.code === 200) return;
-                pointCloudErrorStatus = true;
-            });
-            if (pointCloudErrorStatus) fetchCallback();
-            //获取点云高度范围
-            const range = pointCloudLayer.getElevationRange();
-            PointCloudStore.initHeightRange(range);
+            //根据点云索引，动态加载点云
+            OcTreeIndex.updateOctree();
         } catch (e) {
             message.warning('没有点云数据');
             console.log('点云加载异常 ' + e?.message);

@@ -114,10 +114,14 @@ export default class Tree {
 
     //设置checked和disabled，显隐图层
     toggleChecked = (data, key, checked, mode) => {
-        const obj = this.getObj(data, key);
-        this.loopData(checked, obj, true, mode);
-        // 如果是checked模式，需要联动改动所有层级的checked状态
-        if (mode === 'checked') this.loopAllData(data);
+        try {
+            const obj = this.getObj(data, key);
+            this.loopData(checked, obj, true, mode);
+            // 如果是checked模式，需要联动改动所有层级的checked状态
+            if (mode === 'checked') this.loopAllData(data);
+        } catch {
+            console.log('toggleChecked 异常 ' + key);
+        }
     };
 
     //设置伸缩状态
