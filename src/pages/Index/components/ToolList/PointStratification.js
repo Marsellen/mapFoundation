@@ -2,21 +2,19 @@ import React from 'react';
 import { Slider } from 'antd';
 import { inject, observer } from 'mobx-react';
 import 'src/assets/less/components/tool-icon.less';
+@inject('PointCloudStore')
 @observer
 class PointStratification extends React.Component {
     constructor(props) {
         super(props);
         const range = window?.pointCloudLayer?.getElevationRange?.() ?? [0, 0];
         this.state = {
-            initRange: range,
-            range
+            initRange: range
         };
     }
 
     onChange = range => {
-        this.setState({
-            range
-        });
+        this.props.PointCloudStore.setPointCloudRange(range);
         window?.pointCloudLayer?.setDisplayAltitudeMin?.(range[0]);
         window?.pointCloudLayer?.setDisplayAltitudeMax?.(range[1]);
     };
@@ -26,7 +24,8 @@ class PointStratification extends React.Component {
     };
 
     render() {
-        const { initRange, range } = this.state;
+        const { PointCloudRange } = this.props.PointCloudStore;
+        const { initRange } = this.state;
         return (
             <div className="ad-slider-box">
                 <p>{initRange[1].toFixed(2)}米</p>
@@ -36,7 +35,7 @@ class PointStratification extends React.Component {
                     min={initRange[0]}
                     max={initRange[1]}
                     tipFormatter={this.sliderFormatter}
-                    value={range}
+                    value={PointCloudRange || initRange}
                     step={0.01}
                     vertical={true}
                     range={true}
