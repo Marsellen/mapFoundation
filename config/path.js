@@ -3,9 +3,7 @@ const LOCAL_PATH = 'http://10.43.75.55:30000/mock/20';
 //开发环境接口根路径
 const DEV_PATH = 'http://10.43.75.150:43303';
 //测试环境接口根路径
-const DOME_PATH = 'http://10.43.75.17:13003';
-//线上环境接口根路径
-const PROD_PATH = 'http://10.43.72.199:13250';
+const DOME_PATH = 'http://10.43.75.150:43304';
 
 //转发各服务根路径映射
 module.exports = PROXY_MAP = {
