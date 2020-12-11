@@ -128,6 +128,7 @@ class PointCloudStore {
     };
 
     @action release = () => {
+        this.same = false;
         this.visible = false;
         this.pointCloudMap = {};
     };

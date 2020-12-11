@@ -22,6 +22,7 @@ class OcTreeIndex {
 
     updateOctree = () => {
         try {
+            if (!window.pointCloudLayer) return;
             if (this.inProcess) return;
             const { viewChangeDelay = 500, scaleSize = 13 } = sysProperties.configs || {};
             if (window.map.getLevel() < scaleSize) return;
@@ -45,7 +46,7 @@ class OcTreeIndex {
                         return [];
                     }
                 });
-                window.pointCloudLayer.updatePointClouds(octreeUrls);
+                window?.pointCloudLayer?.updatePointClouds?.(octreeUrls);
                 this.inProcess = false;
             }, viewChangeDelay);
         } catch (e) {
