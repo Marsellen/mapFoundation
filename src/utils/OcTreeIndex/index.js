@@ -6,14 +6,13 @@ import sysProperties from 'src/models/sysProperties';
 import { completeSecendUrl } from 'src/utils/taskUtils';
 
 class OcTreeIndex {
-    adRTree = new RTree();
-
     getOctreeMap = async task => {
         try {
             if (!task.Input_imp_data_path) return;
             const { octreeIndex } = CONFIG.urlConfig;
             const url = completeSecendUrl(octreeIndex, task);
             const { data } = await axios.get(url);
+            this.adRTree = new RTree();
             data.forEach(v => this.adRTree.insert(v.boundary, v.octreeKeys));
         } catch (e) {
             console.log('octreeIndex.json请求失败' + e.message || e || '');
@@ -28,7 +27,6 @@ class OcTreeIndex {
             if (window.map.getLevel() < scaleSize) return;
             this.inProcess = true;
             setTimeout(() => {
-                if (!map) return;
                 const { min, max } = map.getScreenBox();
                 const param = {
                     x: min[0],
@@ -51,6 +49,7 @@ class OcTreeIndex {
             }, viewChangeDelay);
         } catch (e) {
             console.error('空间索引异常', e);
+            this.inProcess = false;
         }
     };
 }

@@ -286,7 +286,7 @@ class VizComponent extends React.Component {
             //加载当前任务资料
             await Promise.all([this.initEditResource(task), this.initExResource(task)]);
             //“开始任务”时，加载周边底图
-            if (isEditableTask) await this.initBoundary();
+            if (isEditableTask) this.initBoundary();
             //获取检查报表
             this.handleReportOpen();
             message.success({
