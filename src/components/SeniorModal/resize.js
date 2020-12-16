@@ -38,12 +38,14 @@ class Resize {
                 if (width > minWidth) {
                     this.currentEle.style.left = left + addX + 'px';
                     this.currentEle.style.width = width + 'px';
+                    this.currentEle.style.height = height + 'px';
                 }
                 break;
             case 'right':
                 width = width + addX;
                 if (width > minWidth) {
                     this.currentEle.style.width = width + 'px';
+                    this.currentEle.style.height = height + 'px';
                 }
                 break;
             case 'top':
