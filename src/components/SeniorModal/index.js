@@ -35,7 +35,7 @@ export default class SeniorModal extends React.Component {
         this.resize.addResizeEvent(this.wrapId);
         this.resize.registerCallback(resizeCallback);
         this.drag.installListener(this.titleId, this.wrapId);
-        // this.drag.registerCallback(resizeCallback);
+        this.drag.registerCallback(resizeCallback);
     };
 
     render() {
