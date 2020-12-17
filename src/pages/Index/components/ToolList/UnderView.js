@@ -23,7 +23,11 @@ class UnderView extends React.Component {
     }
 
     action = () => {
-        map.setView('U');
+        if (!window.vectorLayer) return;
+        const region = window.vectorLayer.getAllFeatures()[0];
+        const regionGeometry = region.data.geometry;
+        const regionExtent = map.getExtent(regionGeometry);
+        map.setExtent(regionExtent);
     };
 }
 
