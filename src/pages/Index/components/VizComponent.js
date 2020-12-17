@@ -229,7 +229,19 @@ class VizComponent extends React.Component {
                     event.stopPropagation();
                     ResourceLayerStore.toggleConfidenceLayer();
                 },
-                describe: '开关轨迹图层 8'
+                describe: '开关置信度分区图层 8'
+            },
+            {
+                ctrl: false,
+                alt: false,
+                shift: false,
+                keyCode: 57,
+                callback: () => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    ResourceLayerStore.toggle(RESOURCE_LAYER_MARKER, true, true);
+                },
+                describe: '开关质检标注图层 9'
             }
         ];
 

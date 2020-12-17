@@ -39,7 +39,9 @@ export const HOT_KEYS_CONFIG = {
         { value: '1', label: '开关点云图层' },
         { value: '2', label: '开关高精地图图层' },
         { value: 'Ctrl+2', label: '开关周边底图图层' },
-        { value: '3', label: '开关轨迹图层' }
+        { value: '3', label: '开关轨迹图层' },
+        { value: '8', label: '开关置信度分区图层' },
+        { value: '9', label: '开关质检标注图层' }
     ],
     EDITING_KEY: [
         //编辑功能
