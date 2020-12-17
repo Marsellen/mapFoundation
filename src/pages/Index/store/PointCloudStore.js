@@ -10,7 +10,8 @@ const PointCloudTree = new Tree();
 configure({ enforceActions: 'always' });
 class PointCloudStore {
     @observable updateKey;
-    @observable PointCloudRange = null;
+    @observable initRange;
+    @observable currentRange;
     @observable pointCloudMap = {};
     @observable visible = false;
     @observable same = false;
@@ -27,8 +28,22 @@ class PointCloudStore {
         this.same = !this.same;
     };
 
-    @action setPointCloudRange = range => {
-        this.PointCloudRange = range;
+    @action setInitRange = range => {
+        if (!range) return;
+        if (range[0] === 0 && range[1] === 0) return;
+        if (this.initRange) {
+            const newRange = [
+                Math.min(range[0], this.initRange[0]),
+                Math.max(range[1], this.initRange[1])
+            ];
+            this.initRange = newRange;
+        } else {
+            this.initRange = range;
+        }
+    };
+
+    @action setCurrentRange = range => {
+        this.currentRange = range;
     };
 
     @action initPointCloudMap = (data, activeTask) => {
