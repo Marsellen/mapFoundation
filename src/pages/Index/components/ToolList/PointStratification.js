@@ -8,13 +8,11 @@ class PointStratification extends React.Component {
     constructor(props) {
         super(props);
         const range = window?.pointCloudLayer?.getElevationRange?.() ?? [0, 0];
-        this.state = {
-            initRange: range
-        };
+        this.props.PointCloudStore.setInitRange(range);
     }
 
     onChange = range => {
-        this.props.PointCloudStore.setPointCloudRange(range);
+        this.props.PointCloudStore.setCurrentRange(range);
         window?.pointCloudLayer?.setDisplayAltitudeMin?.(range[0]);
         window?.pointCloudLayer?.setDisplayAltitudeMax?.(range[1]);
     };
@@ -24,8 +22,7 @@ class PointStratification extends React.Component {
     };
 
     render() {
-        const { PointCloudRange } = this.props.PointCloudStore;
-        const { initRange } = this.state;
+        const { initRange = [0, 0], currentRange } = this.props.PointCloudStore;
         return (
             <div className="ad-slider-box">
                 <p>{initRange[1].toFixed(2)}米</p>
@@ -35,7 +32,7 @@ class PointStratification extends React.Component {
                     min={initRange[0]}
                     max={initRange[1]}
                     tipFormatter={this.sliderFormatter}
-                    value={PointCloudRange || initRange}
+                    value={currentRange || initRange}
                     step={0.01}
                     vertical={true}
                     range={true}
