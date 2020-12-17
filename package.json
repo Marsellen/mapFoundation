@@ -10,6 +10,7 @@
         "i": "npm i && npm run build-sdk",
         "start": "webpack-dev-server",
         "start-local": "webpack-dev-server --env.proxy=local",
+        "start-demo": "webpack-dev-server --env.proxy=demo",
         "start-semantic": "webpack-dev-server --env.spec=semantic --env.csys=2",
         "start-no-shp": "webpack-dev-server --env.noshp",
         "build-sdk": "npm i addis-viz-sdk@1.0.6 --registry=https://nexus.ecarx.com.cn/repository/npm-all/ --no-save",
