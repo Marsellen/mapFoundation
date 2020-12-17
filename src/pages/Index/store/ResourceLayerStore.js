@@ -1,9 +1,10 @@
 import { action, configure, computed, observable } from 'mobx';
 import {
     RESOURCE_LAYER_VECTOR,
-    RESOURCE_LAYER_TASK_SCOPE,
     RESOURCE_LAYER_BOUNDARY,
     RESOURCE_LAYER_MULTI_PROJECT,
+    RESOURCE_LAYER_TASK_SCOPE,
+    RESOURCE_LAYER_MARKER,
     CONFIDENCE_LAYER
 } from 'src/config/DataLayerConfig';
 import Tree from 'src/utils/TreeCtrl';
@@ -23,7 +24,8 @@ const LAYER_SORT_MAP = {
     [RESOURCE_LAYER_VECTOR]: 0,
     [RESOURCE_LAYER_BOUNDARY]: 1,
     [RESOURCE_LAYER_MULTI_PROJECT]: 2,
-    [RESOURCE_LAYER_TASK_SCOPE]: 3
+    [RESOURCE_LAYER_TASK_SCOPE]: 3,
+    [RESOURCE_LAYER_MARKER]: 4
 };
 
 configure({ enforceActions: 'always' });
@@ -95,26 +97,26 @@ class ResourceLayerStore {
     @action addLayers = layers => {
         if (!layers || layers.length === 0) return;
 
-        layers = layers.map(layerItem => {
-            const { layerName, layer, layerMap } = layerItem;
-            if (layerMap) {
-                this.multiProjectMap = layerMap;
-            }
-            return {
-                layerMap,
-                layer,
-                value: layerName,
-                checked: true
-            };
-        });
+        layers = layers
+            .map(layerItem => {
+                const { layerName, layer, layerMap } = layerItem;
+                if (layerMap) this.multiProjectMap = layerMap;
+                return {
+                    layerMap,
+                    layer,
+                    value: layerName,
+                    checked: true
+                };
+            })
+            .slice()
+            .sort((a, b) => {
+                return LAYER_SORT_MAP[a.value] < LAYER_SORT_MAP[b.value] ? -1 : 1;
+            });
 
-        this.layers = layers.slice().sort((a, b) => {
-            return LAYER_SORT_MAP[a.value] < LAYER_SORT_MAP[b.value] ? -1 : 1;
-        });
+        this.layers = [...this.layers, ...layers];
     };
 
     @action updateLayerByName = (name, layer) => {
-        if (this.layers.length === 0) return;
         let result = this.layers.find(layer => layer.value === name);
         if (result) {
             result.layer = layer;

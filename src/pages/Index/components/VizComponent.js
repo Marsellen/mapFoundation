@@ -9,9 +9,10 @@ import RightMenuModal from './RightMenuModal';
 
 import {
     RESOURCE_LAYER_VECTOR,
-    RESOURCE_LAYER_TASK_SCOPE,
     RESOURCE_LAYER_BOUNDARY,
-    RESOURCE_LAYER_MULTI_PROJECT
+    RESOURCE_LAYER_MULTI_PROJECT,
+    RESOURCE_LAYER_TASK_SCOPE,
+    RESOURCE_LAYER_MARKER
 } from 'src/config/DataLayerConfig';
 import MultimediaView from './MultimediaView';
 import VectorsConfig from 'src/config/VectorsConfig';
@@ -523,6 +524,7 @@ class VizComponent extends React.Component {
                 layerId: markerLayer.layerId,
                 layer: markerLayer
             };
+            ResourceLayerStore.updateLayerByName(RESOURCE_LAYER_MARKER, window.markerLayer.layer);
             //获取质检标列表，获取筛选条件
             const res = await getMarkerList({ taskId, processName });
             if (!res) return;

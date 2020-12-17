@@ -524,11 +524,13 @@ export const DATA_LAYER_MAP = {
     }
 };
 
-export const RESOURCE_LAYER_POINT_CLOUD = '点云';
 export const RESOURCE_LAYER_VECTOR = '高精地图';
+export const RESOURCE_LAYER_BOUNDARY = '周边底图';
+export const RESOURCE_LAYER_MULTI_PROJECT = '多工程';
+export const RESOURCE_LAYER_POINT_CLOUD = '点云';
 export const RESOURCE_LAYER_TRACK = '轨迹';
 export const RESOURCE_LAYER_TASK_SCOPE = '任务范围';
-export const RESOURCE_LAYER_BOUNDARY = '周边底图';
+export const RESOURCE_LAYER_MARKER = '质检标注';
 export const CONFIDENCE_LAYER = '置信度分区';
 export const WRONG_LAYER = '错误区';
 export const SUSPECT_LAYER = '怀疑区';
@@ -542,7 +544,6 @@ export const TOP_VIEW_DISABLED_LAYERS = [
     'AD_Pole_Geo'
 ];
 export const IMP_RECOGNITION_DISABLED_LAYERS = ['AD_Road', 'AD_Lane'];
-export const RESOURCE_LAYER_MULTI_PROJECT = '多工程';
 
 //人工构建设置编辑图层配置
 export const DATA_LAYER_STRATIFICATION = {
