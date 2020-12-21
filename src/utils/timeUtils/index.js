@@ -18,8 +18,7 @@ export const timeParse = timeString => {
     let endHour;
     if (
         Number(startHour) + hourDiff === 24 ||
-        (Number(startHour) + hourDiff === 23 &&
-            Number(startMin) + minDiff === 60)
+        (Number(startHour) + hourDiff === 23 && Number(startMin) + minDiff === 60)
     ) {
         //第一个时间和第二个时间相加等于24或者第一个时间和第二个时间相加等于23且第一个分钟与第二个分钟相加等于60分时
         endHour = 24;
@@ -50,6 +49,84 @@ export const timeSubtract = (startTime, endTime) => {
 };
 
 export const testDataString = dataString => {
-    const pattern = /^(\[\((W)?D\d{1,2}\)\{D\d{1,2}\}\])?(\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}(m\d{1,2})?\}\]&)*(\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}(m\d{1,2})?\}\])?$/;
+    const pattern = /(((\[\(\Y\d{4}\M\d{1,2}\)\{\M\d{1,2}\}(\&\(\Y\d{4}\)\{\Y\d{1,2}\})?(\&\(\Y\d{4}\M\d{1,2}\)\{\M\d{1,2}\})?(\]))?(\[\((W)?\D\d{1,2}\)\{\D\d{1,2}\})\]))?(\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}(m\d{1,2})?\}\]&)*(\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}(m\d{1,2})?\}\])?$/;
+    // const pattern = /^(\[\((W)?D\d{1,2}\)\{D\d{1,2}\}\])?(\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}(m\d{1,2})?\}\]&)*(\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}(m\d{1,2})?\}\])?$/;
     return pattern.test(dataString);
+};
+
+export const weekOrMonth = (value, checked) => {
+    //日月、日周
+    const L = value.match(/\[(.+?)\]/g).length;
+    const date = value.match(/\[(.+?)\]/g)[`${L > 1 ? 1 : 0}`];
+    let dateDiff = date.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0];
+    const strOrNum = checked == 'week' ? String(getNumber(date)) : getNumber(date);
+    const matchDate = date.match(/\((.+?)\)/g)[0].match(/\d+/g)[0];
+    const endDate = dateDiff === '1' ? null : strOrNum;
+    const newEchoDateParams = {
+        startDate: checked == 'week' ? matchDate : Number(matchDate),
+        endDate: endDate,
+        switchDate: date.indexOf('WD') > -1 ? 'week' : 'month'
+    };
+    return newEchoDateParams;
+};
+
+const getNumber = item => {
+    return (
+        Number(item.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0]) +
+        Number(item.match(/\((.+?)\)/g)[0].match(/\d+/g)[0]) -
+        1
+    );
+};
+
+export const yearMonthCycleOrSection = (value, checked) => {
+    //年月、月日区间回显
+    let newEchoParams = {};
+    const C = checked == 'YEAR_MONTH_DAY_WEEK_CYCLE';
+    let field = value.match(/\[(.+?)\]/g)[0].split('&');
+    let fieldArr = field[0].match(/\d+/g);
+    if (field.length == 1 && fieldArr[2] == '1') {
+        //CD为空，AB不为空
+        newEchoParams = {
+            [C ? 'yearMonthA' : 'yearMonthJ']: fieldArr[0], //A
+            [C ? 'yearMonthB' : 'yearMonthK']: fieldArr[1], //B
+            [C ? 'yearMonthC' : 'yearMonthM']: null, //C
+            [C ? 'yearMonthD' : 'yearMonthN']: null //D
+        };
+    } else if (field.length == 1 && fieldArr[2] != '1') {
+        //A=C
+        newEchoParams = {
+            [C ? 'yearMonthA' : 'yearMonthJ']: fieldArr[0], //A
+            [C ? 'yearMonthB' : 'yearMonthK']: fieldArr[1], //B
+            [C ? 'yearMonthC' : 'yearMonthM']: fieldArr[0], //C
+            [C ? 'yearMonthD' : 'yearMonthN']: Number(fieldArr[1]) + Number(fieldArr[2]) - 1 //D
+        };
+    } else if (field.length > 1) {
+        let beforeFieldArr = field[0].match(/\d+/g);
+        let afterFieldArr = field[field.length - 1].match(/\d+/g);
+        newEchoParams = {
+            [C ? 'yearMonthA' : 'yearMonthJ']: beforeFieldArr[0], //A
+            [C ? 'yearMonthB' : 'yearMonthK']: beforeFieldArr[1], //B
+            [C ? 'yearMonthC' : 'yearMonthM']: afterFieldArr[0], //C
+            [C ? 'yearMonthD' : 'yearMonthN']: afterFieldArr[2] //D
+        };
+    }
+    return newEchoParams;
+};
+
+export const handleYearAndMonth = (checked, one, two, three, four) => {
+    const C = checked == 'YEAR_MONTH_DAY_WEEK_CYCLE';
+    const FristC = C ? 'Y' : 'M';
+    const LastC = C ? 'M' : 'D';
+    let date;
+    if (one == three) {
+        date = `[(${FristC}${one}${LastC}${two}){${LastC}${four - two + 1}}]`;
+    } else {
+        let midSymbol = three - one > 1;
+        let Front = `(${FristC}${one}${LastC}${two}){${LastC}${C ? 13 - two : 30}}`; //qufen
+        let After = `&(${FristC}${three}${LastC}1){${LastC}${four}}`;
+        date = `[${Front}${
+            midSymbol ? `&(${FristC}${one + 1}){${FristC}${three - (one + 1)}}` : ''
+        }${After}]`;
+    }
+    return date;
 };
