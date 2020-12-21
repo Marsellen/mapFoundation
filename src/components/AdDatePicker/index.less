@@ -2,72 +2,55 @@
     cursor: pointer;
 }
 
-.radio-group {
-    height: 140px;
+.date-picker-modal {
+    min-width: 750px;
+}
 
-    .ant-checkbox-wrapper {
-        width: 85px;
+.year-month-day-week-list {
+    display: flex;
+    flex-direction: column;
+    .outer-checkbox {
+        width: 120px;
     }
-
-    .ant-radio-group {
+    .year-month-day-week {
         margin-left: 30px;
     }
-
-    .month-start {
-        margin-left: 35px;
-        margin-top: -30px;
-
-        #month_start {
-            width: 90px;
-        }
-
-        .gap {
-            display: inline-block;
-            margin: 0 8px;
+    .year-month-day-week-cycle,
+    .year-month-day-section {
+        margin: 10px 0 0 60px;
+        .ant-radio-wrapper,
+        .ant-checkbox-wrapper {
+            margin-top: 10px;
+            width: 85px;
+            margin-right: 0px;
         }
     }
-
-    .month-end {
-        margin-left: 256px;
-        margin-top: -65px;
-
-        #month_end {
-            width: 90px;
-        }
-    }
-
-    .week-radio {
-        display: inline-block;
-        margin-top: -22px;
-    }
-
-    .week-start {
-        margin-left: 35px;
-        margin-top: -30px;
-
-        #week_start {
-            width: 140px;
-        }
-
-        .gap {
-            display: inline-block;
-            margin: 0 20px 0 15px;
-        }
-    }
-
-    .week-end {
-        margin-left: 256px;
-        margin-top: -65px;
-
-        #week_end {
-            width: 140px;
-        }
-    }
-
-    .ant-checkbox-wrapper {
+    .year-month-day-week-checkbox,
+    .month,
+    .week {
         display: flex;
-        align-items: center;
-        margin-bottom: 15px;
+        flex-direction: row;
+    }
+    .month {
+        .ant-select-selection {
+            width: 140px;
+        }
+    }
+    .week {
+        .ant-select-selection {
+            width: 195px;
+        }
+    }
+    .ant-form-item {
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+    .ant-select-selection {
+        width: 75px;
+        margin-right: 5px;
+    }
+    .gap {
+        margin-right: 10px;
     }
 }
 
@@ -76,8 +59,8 @@
 }
 
 .time-picker {
-    display: inline-block;
-    margin: 20px 0 0 32px;
+    display: block;
+    margin: 10px 0 0 60px;
 
     .ant-form-item {
         margin-right: 20px;

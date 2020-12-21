@@ -1,6 +1,12 @@
 import React from 'react';
 import { Input } from 'antd';
-import { timeSubtract, timeParse } from 'src/utils/timeUtils';
+import {
+    timeSubtract,
+    timeParse,
+    weekOrMonth,
+    yearMonthCycleOrSection,
+    handleYearAndMonth
+} from 'src/utils/timeUtils';
 import AdDatePicker from '../AdDatePicker';
 import '../AdDatePicker/index.less';
 import moment from 'moment';
@@ -8,7 +14,11 @@ import moment from 'moment';
 const params = {
     echoDateParams: {},
     echoTimeArr: [],
-    checked: []
+    checked: [],
+    echoYearMonthParams: {},
+    echoMonthDaySectionParams: {},
+    yearMonthCheckbox: false,
+    yearMonthDayWeekChecked: 'YEAR_MONTH_DAY_WEEK_CYCLE'
 };
 
 export default class AdDateInput extends React.Component {
@@ -25,34 +35,37 @@ export default class AdDateInput extends React.Component {
         const { value } = props;
         return this.checkParams(value);
     }
-    checkParams = value => {
-        let newChecked = [];
+    checkParams = (value, yearMonthCheckbox, yearMonthDayWeekChecked, radioChecked, isCheckbox) => {
         let newEchoTimeArr = [];
         let newEchoDateParams = {};
-        if (value && value.indexOf('WD') > -1) {
-            newChecked.push('radio');
-            const date = value.match(/\[(.+?)\]/g)[0];
-            let dateDiff = value.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0];
-            const endDate = dateDiff === '1' ? null : String(this.getNumber(date));
-            newEchoDateParams = {
-                startDate: value.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
-                endDate: endDate,
-                switchDate: value.indexOf('WD') > -1 ? 'week' : 'month'
-            };
-        } else if (value && value.indexOf('D') > -1) {
-            newChecked.push('radio');
-            const date = value.match(/\[(.+?)\]/g)[0];
-            let dateDiff = value.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0];
-            const endDate = dateDiff === '1' ? null : this.getNumber(date);
-            newEchoDateParams = {
-                startDate: date.match(/\((.+?)\)/g)[0].match(/\d+/g)[0],
-                endDate: endDate,
-                switchDate: date.indexOf('WD') > -1 ? 'week' : 'month'
-            };
+        let newEchoYearMonthParams = {};
+        let newEchoMonthDaySectionParams = {};
+        if (yearMonthCheckbox) {
+            //年月多选
+            if (value && value.indexOf('Y') > -1) {
+                //有年的情况
+                newEchoYearMonthParams = yearMonthCycleOrSection(
+                    value,
+                    'YEAR_MONTH_DAY_WEEK_CYCLE'
+                );
+            } else {
+                //只有月份的情况
+                let field = value.match(/\[(.+?)\]/g)[0].match(/\d+/g);
+                newEchoYearMonthParams = {
+                    yearMonthB: field[0], //B
+                    yearMonthD: field[1] - 1 //D
+                };
+            }
+        }
+        if (value && yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_WEEK_CYCLE') {
+            //日月、日周
+            newEchoDateParams = weekOrMonth(value, radioChecked);
         }
         if (value && (value.indexOf('h') > -1 || value.indexOf('m') > -1)) {
-            newChecked.push('checkbox');
-            let newEchoTime = value.split('&');
+            const HM = value.match(/\[(.+?)\]/g);
+            let newEchoTime = HM.filter(h => {
+                return h.indexOf('h') > -1;
+            });
             newEchoTime.map(item => {
                 newEchoTimeArr.push({
                     ...timeParse(item),
@@ -62,19 +75,18 @@ export default class AdDateInput extends React.Component {
                 });
             });
         }
+        if (yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_SECTION') {
+            newEchoMonthDaySectionParams = yearMonthCycleOrSection(value, 'YEAR_MONTH_DAY_SECTION');
+        }
         return {
             echoDateParams: newEchoDateParams,
-            checked: newChecked,
-            echoTimeArr: newEchoTimeArr
+            checked: isCheckbox,
+            echoTimeArr: newEchoTimeArr,
+            echoYearMonthParams: newEchoYearMonthParams,
+            echoMonthDaySectionParams: newEchoMonthDaySectionParams,
+            yearMonthCheckbox,
+            yearMonthDayWeekChecked
         };
-    };
-
-    getNumber = item => {
-        return (
-            Number(item.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0]) +
-            Number(item.match(/\((.+?)\)/g)[0].match(/\d+/g)[0]) -
-            1
-        );
     };
 
     handleKeyDown = e => {
@@ -85,9 +97,17 @@ export default class AdDateInput extends React.Component {
     };
 
     handleDate = (option, visible) => {
-        let data = this.onSubmit(option);
-        this.props.onChange(data);
-        let dataParams = this.checkParams(data);
+        let { date, yearMonthCheckbox, yearMonthDayWeekChecked, radioChecked } = this.onSubmit(
+            option
+        );
+        this.props.onChange(date);
+        let dataParams = this.checkParams(
+            date,
+            yearMonthCheckbox,
+            yearMonthDayWeekChecked,
+            radioChecked,
+            option.isCheckbox
+        );
 
         this.setState({
             visible,
@@ -96,17 +116,48 @@ export default class AdDateInput extends React.Component {
     };
 
     onSubmit = option => {
-        const { timeArr, dateFormat, isCheckbox } = option;
+        const {
+            timeArr,
+            dateFormat,
+            isCheckbox,
+            yearMonthCheckbox,
+            yearMonthDayWeekChecked,
+            radioChecked
+        } = option;
         let date = '',
+            yearAndMonth = '', //年月
             monthAndWeek = '',
-            timeAndMin = '';
+            timeAndMin = '',
+            monthAndDay = ''; //月日区间
+        if (yearMonthCheckbox) {
+            let yearMonthA = dateFormat.yearMonthCycle.yearMonthA || null;
+            let yearMonthB = dateFormat.yearMonthCycle.yearMonthB || null;
+            let yearMonthC = dateFormat.yearMonthCycle.yearMonthC || null;
+            let yearMonthD = dateFormat.yearMonthCycle.yearMonthD || null;
+            // 第一种情况ABCD都不为空
+            if (yearMonthA && yearMonthB && yearMonthC && yearMonthD) {
+                yearAndMonth = handleYearAndMonth(
+                    'YEAR_MONTH_DAY_WEEK_CYCLE',
+                    yearMonthA,
+                    yearMonthB,
+                    yearMonthC,
+                    yearMonthD
+                );
+            } else if (!yearMonthC && !yearMonthD) {
+                // 第二种情况CD为空，AB不为空
+                yearAndMonth = `[(Y${yearMonthA}M${yearMonthB}){M1}]`;
+            } else if (!yearMonthA && !yearMonthC) {
+                // 第三种情况AC为空，BD不为空
+                yearAndMonth = `[(M${yearMonthB}){M${yearMonthD + 1}}]`;
+            }
+        }
         if (isCheckbox.includes('radio')) {
             //TODO 日期勾选
             const format = dateFormat.startDate
                 ? `(${
-                      dateFormat.switchDate === 'week'
-                          ? `WD${dateFormat.startDate}`
-                          : `D${dateFormat.startDate}`
+                      dateFormat.switchDate === 'month'
+                          ? `D${dateFormat.startDate}`
+                          : `WD${dateFormat.startDate}`
                   })`
                 : '';
             let dataDiff = dateFormat.endDate
@@ -134,14 +185,40 @@ export default class AdDateInput extends React.Component {
             });
             timeAndMin = timeDiffs.join('&');
         }
-        date = monthAndWeek + timeAndMin;
+
+        if (yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_SECTION') {
+            //月日区间
+            let yearMonthJ = dateFormat.yearMonthDaySection.yearMonthJ || null;
+            let yearMonthK = dateFormat.yearMonthDaySection.yearMonthK || null;
+            let yearMonthM = dateFormat.yearMonthDaySection.yearMonthM || null;
+            let yearMonthN = dateFormat.yearMonthDaySection.yearMonthN || null;
+            // 第一种情况JKMN皆不为空
+            if (yearMonthJ && yearMonthK && yearMonthM && yearMonthN) {
+                monthAndDay = handleYearAndMonth(
+                    'YEAR_MONTH_DAY_SECTION',
+                    yearMonthJ,
+                    yearMonthK,
+                    yearMonthM,
+                    yearMonthN
+                );
+            } else {
+                //第二种情况MN为空，JK不为空
+                monthAndDay = `[(M${yearMonthJ}D${yearMonthK}){D1}]`;
+            }
+        }
+        date =
+            yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_SECTION'
+                ? monthAndDay + timeAndMin
+                : yearAndMonth + monthAndWeek + timeAndMin;
 
         this.setState({
             echoTimeArr: timeArr,
             echoDateParams: dateFormat,
-            checked: isCheckbox
+            checked: isCheckbox,
+            yearMonthCheckbox,
+            yearMonthDayWeekChecked
         });
-        return date;
+        return { date, yearMonthCheckbox, yearMonthDayWeekChecked, radioChecked };
     };
 
     handleAfter = () => {
