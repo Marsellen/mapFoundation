@@ -40,27 +40,34 @@ export default class AdDateInput extends React.Component {
         let newEchoDateParams = {};
         let newEchoYearMonthParams = {};
         let newEchoMonthDaySectionParams = {};
-        if (yearMonthCheckbox) {
-            //年月多选
-            if (value && value.indexOf('Y') > -1) {
-                //有年的情况
-                newEchoYearMonthParams = yearMonthCycleOrSection(
-                    value,
-                    'YEAR_MONTH_DAY_WEEK_CYCLE'
-                );
-            } else {
-                //只有月份的情况
-                let field = value.match(/\[(.+?)\]/g)[0].match(/\d+/g);
-                newEchoYearMonthParams = {
-                    yearMonthB: field[0], //B
-                    yearMonthD: field[1] - 1 //D
-                };
-            }
-        }
         if (value && yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_WEEK_CYCLE') {
-            //日月、日周
-            newEchoDateParams = weekOrMonth(value, radioChecked);
+            //年月日周循环
+            if (yearMonthCheckbox) {
+                //年月多选
+                if (value && value.indexOf('Y') > -1) {
+                    //有年的情况
+                    newEchoYearMonthParams = yearMonthCycleOrSection(
+                        value,
+                        'YEAR_MONTH_DAY_WEEK_CYCLE'
+                    );
+                } else {
+                    //只有月份的情况
+                    let field = value.match(/\[(.+?)\]/g)[0].match(/\d+/g);
+                    newEchoYearMonthParams = {
+                        yearMonthB: field[0], //B
+                        yearMonthD: field[1] - 1 //D
+                    };
+                }
+            }
+            if (radioChecked == 'month' || radioChecked == 'week') {
+                //日月、日周
+                newEchoDateParams = weekOrMonth(value, radioChecked);
+            }
+        } else if (yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_SECTION') {
+            //月日区间
+            newEchoMonthDaySectionParams = yearMonthCycleOrSection(value, 'YEAR_MONTH_DAY_SECTION');
         }
+        // 时分
         if (value && (value.indexOf('h') > -1 || value.indexOf('m') > -1)) {
             const HM = value.match(/\[(.+?)\]/g);
             let newEchoTime = HM.filter(h => {
@@ -74,9 +81,6 @@ export default class AdDateInput extends React.Component {
                     isEndMin: []
                 });
             });
-        }
-        if (yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_SECTION') {
-            newEchoMonthDaySectionParams = yearMonthCycleOrSection(value, 'YEAR_MONTH_DAY_SECTION');
         }
         return {
             echoDateParams: newEchoDateParams,
@@ -129,64 +133,47 @@ export default class AdDateInput extends React.Component {
             monthAndWeek = '',
             timeAndMin = '',
             monthAndDay = ''; //月日区间
-        if (yearMonthCheckbox) {
-            let yearMonthA = dateFormat.yearMonthCycle.yearMonthA || null;
-            let yearMonthB = dateFormat.yearMonthCycle.yearMonthB || null;
-            let yearMonthC = dateFormat.yearMonthCycle.yearMonthC || null;
-            let yearMonthD = dateFormat.yearMonthCycle.yearMonthD || null;
-            // 第一种情况ABCD都不为空
-            if (yearMonthA && yearMonthB && yearMonthC && yearMonthD) {
-                yearAndMonth = handleYearAndMonth(
-                    'YEAR_MONTH_DAY_WEEK_CYCLE',
-                    yearMonthA,
-                    yearMonthB,
-                    yearMonthC,
-                    yearMonthD
-                );
-            } else if (!yearMonthC && !yearMonthD) {
-                // 第二种情况CD为空，AB不为空
-                yearAndMonth = `[(Y${yearMonthA}M${yearMonthB}){M1}]`;
-            } else if (!yearMonthA && !yearMonthC) {
-                // 第三种情况AC为空，BD不为空
-                yearAndMonth = `[(M${yearMonthB}){M${yearMonthD + 1}}]`;
-            }
-        }
-        if (isCheckbox.includes('radio')) {
-            //TODO 日期勾选
-            const format = dateFormat.startDate
-                ? `(${
-                      dateFormat.switchDate === 'month'
-                          ? `D${dateFormat.startDate}`
-                          : `WD${dateFormat.startDate}`
-                  })`
-                : '';
-            let dataDiff = dateFormat.endDate
-                ? Number(dateFormat.endDate) - Number(dateFormat.startDate) + 1
-                : 1;
-            const endDate = `{D${dataDiff}}`;
-            monthAndWeek = format ? `[${format}${endDate}]` : '';
-        }
-
-        if (isCheckbox.includes('checkbox')) {
-            //TODO 时间勾选
-            let timeDiffs = timeArr.map(t => {
-                if (t.startHour == '00' && t.startMin == '00' && t.endHour == '24') {
-                    return '[(h0m0){h24}]';
+        if (yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_WEEK_CYCLE') {
+            //年月日周循环
+            if (yearMonthCheckbox) {
+                //年月
+                let yearMonthA = dateFormat.yearMonthCycle.yearMonthA || null;
+                let yearMonthB = dateFormat.yearMonthCycle.yearMonthB || null;
+                let yearMonthC = dateFormat.yearMonthCycle.yearMonthC || null;
+                let yearMonthD = dateFormat.yearMonthCycle.yearMonthD || null;
+                // 第一种情况ABCD都不为空
+                if (yearMonthA && yearMonthB && yearMonthC && yearMonthD) {
+                    yearAndMonth = handleYearAndMonth(
+                        'YEAR_MONTH_DAY_WEEK_CYCLE',
+                        yearMonthA,
+                        yearMonthB,
+                        yearMonthC,
+                        yearMonthD
+                    );
+                } else if (!yearMonthC && !yearMonthD) {
+                    // 第二种情况CD为空，AB不为空
+                    yearAndMonth = `[(Y${yearMonthA}M${yearMonthB}){M1}]`;
+                } else if (!yearMonthA && !yearMonthC) {
+                    // 第三种情况AC为空，BD不为空
+                    yearAndMonth = `[(M${yearMonthB}){M${yearMonthD + 1}}]`;
                 }
-                let startTime = moment(`${t.startHour}:${t.startMin}`, 'HH:mm');
-                let endTime = moment(`${t.endHour}:${t.endMin}`, 'HH:mm');
-                let duration = timeSubtract(startTime, endTime);
-                let hDiff = `h${duration.get('hours')}`;
-                let mDiff = duration.get('minutes') ? `m${duration.get('minutes')}` : '';
-                let timeDiff = hDiff + mDiff;
-                let startHour = startTime.get('hours');
-                let startMin = startTime.get('minutes');
-                return `[(h${startHour}m${startMin}){${timeDiff}}]`;
-            });
-            timeAndMin = timeDiffs.join('&');
-        }
-
-        if (yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_SECTION') {
+            }
+            if (radioChecked == 'month' || radioChecked == 'week') {
+                //TODO 日期勾选
+                const format = dateFormat.startDate
+                    ? `(${
+                          dateFormat.switchDate === 'month'
+                              ? `D${dateFormat.startDate}`
+                              : `WD${dateFormat.startDate}`
+                      })`
+                    : '';
+                let dataDiff = dateFormat.endDate
+                    ? Number(dateFormat.endDate) - Number(dateFormat.startDate) + 1
+                    : 1;
+                const endDate = `{D${dataDiff}}`;
+                monthAndWeek = format ? `[${format}${endDate}]` : '';
+            }
+        } else if (yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_SECTION') {
             //月日区间
             let yearMonthJ = dateFormat.yearMonthDaySection.yearMonthJ || null;
             let yearMonthK = dateFormat.yearMonthDaySection.yearMonthK || null;
@@ -206,6 +193,26 @@ export default class AdDateInput extends React.Component {
                 monthAndDay = `[(M${yearMonthJ}D${yearMonthK}){D1}]`;
             }
         }
+        // 时分
+        if (isCheckbox.includes('checkbox')) {
+            //TODO 时间勾选
+            let timeDiffs = timeArr.map(t => {
+                if (t.startHour == '00' && t.startMin == '00' && t.endHour == '24') {
+                    return '[(h0m0){h24}]';
+                }
+                let startTime = moment(`${t.startHour}:${t.startMin}`, 'HH:mm');
+                let endTime = moment(`${t.endHour}:${t.endMin}`, 'HH:mm');
+                let duration = timeSubtract(startTime, endTime);
+                let hDiff = `h${duration.get('hours')}`;
+                let mDiff = duration.get('minutes') ? `m${duration.get('minutes')}` : '';
+                let timeDiff = hDiff + mDiff;
+                let startHour = startTime.get('hours');
+                let startMin = startTime.get('minutes');
+                return `[(h${startHour}m${startMin}){${timeDiff}}]`;
+            });
+            timeAndMin = timeDiffs.join('&');
+        }
+
         date =
             yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_SECTION'
                 ? monthAndDay + timeAndMin

@@ -116,20 +116,20 @@ export const shortcutMap = [
         describe: '添加立面矩形 Alt+3'
     },
     {
-        id: 'add-circle-btn',
-        ctrl: false,
-        alt: true,
-        shift: false,
-        keyCode: 52,
-        describe: '添加三点画圆 Alt+4'
-    },
-    {
         id: 'add-ground-rectangle-btn',
         ctrl: false,
         alt: true,
         shift: false,
+        keyCode: 52,
+        describe: '添加地面矩形 Alt+4'
+    },
+    {
+        id: 'add-circle-btn',
+        ctrl: false,
+        alt: true,
+        shift: false,
         keyCode: 53,
-        describe: '添加地面矩形 Alt+5'
+        describe: '添加三点画圆 Alt+5'
     },
     {
         id: 'delete-btn',
@@ -269,11 +269,11 @@ export const shortcutMap = [
     },
     {
         id: 'set-edit-layer-btn',
-        ctrl: true,
-        alt: true,
+        ctrl: false,
+        alt: false,
         shift: false,
-        keyCode: 90,
-        describe: '设置可编辑图层 Ctrl+Alt+Z'
+        keyCode: 70,
+        describe: '设置可编辑图层 F'
     },
     {
         id: 'attribute-brush-btn',
@@ -296,8 +296,8 @@ export const shortcutMap = [
         ctrl: false,
         alt: false,
         shift: false,
-        keyCode: 70,
-        describe: '位姿调整 F'
+        keyCode: 85,
+        describe: '位姿调整 U'
     },
     {
         id: 'batch-assign-btn',

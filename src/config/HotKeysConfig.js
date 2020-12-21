@@ -46,7 +46,7 @@ export const HOT_KEYS_CONFIG = {
     EDITING_KEY: [
         //编辑功能
         {
-            value: '选择1个要素+ Ctrl+Alt+Z',
+            value: '选择1个要素+ F',
             label: '设置为可编辑图层'
         },
         {
@@ -67,11 +67,11 @@ export const HOT_KEYS_CONFIG = {
         },
         {
             value: 'Alt+4',
-            label: '绘制三点圆形'
+            label: '绘制地面矩形'
         },
         {
             value: 'Alt+5',
-            label: '绘制地面矩形'
+            label: '绘制三点圆形'
         },
         {
             value: '选择1个要素+Delete',
@@ -135,7 +135,7 @@ export const HOT_KEYS_CONFIG = {
             label: '修改形状点'
         },
         {
-            value: '选择1个要素+F',
+            value: '选择1个要素+U',
             label: '位姿调整'
         },
         {
