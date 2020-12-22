@@ -54,18 +54,19 @@ export const testDataString = dataString => {
     return pattern.test(dataString);
 };
 
-export const weekOrMonth = (value, checked) => {
+export const weekOrMonth = value => {
     //日月、日周
-    const L = value.match(/\[(.+?)\]/g).length;
-    const date = value.match(/\[(.+?)\]/g)[`${L > 1 ? 1 : 0}`];
+    const match = value.match(/\[(.+?)\]/g)[0].indexOf('M') > -1;
+    const date = value.match(/\[(.+?)\]/g)[match ? 1 : 0];
+    const checked = date.indexOf('WD') > -1;
     let dateDiff = date.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0];
-    const strOrNum = checked == 'week' ? String(getNumber(date)) : getNumber(date);
+    const strOrNum = checked ? String(getNumber(date)) : getNumber(date);
     const matchDate = date.match(/\((.+?)\)/g)[0].match(/\d+/g)[0];
     const endDate = dateDiff === '1' ? null : strOrNum;
     const newEchoDateParams = {
-        startDate: checked == 'week' ? matchDate : Number(matchDate),
+        startDate: checked ? matchDate : Number(matchDate),
         endDate: endDate,
-        switchDate: date.indexOf('WD') > -1 ? 'week' : 'month'
+        switchDate: checked ? 'week' : 'month'
     };
     return newEchoDateParams;
 };
@@ -122,10 +123,12 @@ export const handleYearAndMonth = (checked, one, two, three, four) => {
         date = `[(${FristC}${one}${LastC}${two}){${LastC}${four - two + 1}}]`;
     } else {
         let midSymbol = three - one > 1;
-        let Front = `(${FristC}${one}${LastC}${two}){${LastC}${C ? 13 - two : 30}}`; //qufen
+        let Front = `(${FristC}${one}${LastC}${two}){${LastC}${C ? 13 - Number(two) : 30}}`; //qufen
         let After = `&(${FristC}${three}${LastC}1){${LastC}${four}}`;
         date = `[${Front}${
-            midSymbol ? `&(${FristC}${one + 1}){${FristC}${three - (one + 1)}}` : ''
+            midSymbol
+                ? `&(${FristC}${Number(one) + 1}){${FristC}${Number(three) - (Number(one) + 1)}}`
+                : ''
         }${After}]`;
     }
     return date;

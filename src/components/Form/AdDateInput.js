@@ -35,40 +35,53 @@ export default class AdDateInput extends React.Component {
         const { value } = props;
         return this.checkParams(value);
     }
-    checkParams = (value, yearMonthCheckbox, yearMonthDayWeekChecked, radioChecked, isCheckbox) => {
-        let newEchoTimeArr = [];
-        let newEchoDateParams = {};
-        let newEchoYearMonthParams = {};
-        let newEchoMonthDaySectionParams = {};
-        if (value && yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_WEEK_CYCLE') {
-            //年月日周循环
-            if (yearMonthCheckbox) {
-                //年月多选
-                if (value && value.indexOf('Y') > -1) {
-                    //有年的情况
-                    newEchoYearMonthParams = yearMonthCycleOrSection(
-                        value,
-                        'YEAR_MONTH_DAY_WEEK_CYCLE'
-                    );
-                } else {
-                    //只有月份的情况
-                    let field = value.match(/\[(.+?)\]/g)[0].match(/\d+/g);
-                    newEchoYearMonthParams = {
-                        yearMonthB: field[0], //B
-                        yearMonthD: field[1] - 1 //D
-                    };
-                }
-            }
-            if (radioChecked == 'month' || radioChecked == 'week') {
-                //日月、日周
-                newEchoDateParams = weekOrMonth(value, radioChecked);
-            }
-        } else if (yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_SECTION') {
-            //月日区间
+    /**
+     * 回显时若勾选了年月日周，
+     * 则第一个中括号有以下几种情况：
+     * 1、勾选了年月中的年和月，
+     * 2、只勾选了年月中的月，
+     * 3、没有勾选年月勾选了日月或日周中的一种，
+     * 4、勾选了月日区间
+     * 若未勾选年月日周，则第一个中括号只有时分
+     */
+    checkParams = value => {
+        let newEchoTimeArr = [],
+            newEchoDateParams = {},
+            newEchoYearMonthParams = {},
+            newEchoMonthDaySectionParams = {},
+            isCheckbox = [],
+            yearMonthCheckbox = false,
+            yearMonthDayWeekChecked = 'YEAR_MONTH_DAY_WEEK_CYCLE';
+        const match = value && value.match(/\[(.+?)\]/g);
+        if (typeof match != 'object') return;
+        if (match[0].indexOf('Y') > -1 && match[0].indexOf('M') > -1) {
+            //勾选了年月中的年和月
+            yearMonthCheckbox = true;
+            newEchoYearMonthParams = yearMonthCycleOrSection(value, 'YEAR_MONTH_DAY_WEEK_CYCLE');
+        } else if (match[0].indexOf('M') > -1 && match[0].indexOf('D') == -1) {
+            //只勾选了年月中的月
+            //只有月份的情况
+            yearMonthCheckbox = true;
+            let field = value.match(/\[(.+?)\]/g)[0].match(/\d+/g);
+            newEchoYearMonthParams = {
+                yearMonthB: field[0], //B
+                yearMonthD: field[1] - 1 //D
+            };
+        }
+        if (value.indexOf('D') > -1 || value.indexOf('WD') > -1) {
+            //日月、日周
+            isCheckbox.push('radio');
+            yearMonthDayWeekChecked = 'YEAR_MONTH_DAY_WEEK_CYCLE';
+            newEchoDateParams = weekOrMonth(value);
+        }
+        if (match[0].indexOf('M') > -1 && match[0].indexOf('D') > -1) {
+            isCheckbox.push('radio');
+            yearMonthDayWeekChecked = 'YEAR_MONTH_DAY_SECTION';
             newEchoMonthDaySectionParams = yearMonthCycleOrSection(value, 'YEAR_MONTH_DAY_SECTION');
         }
         // 时分
         if (value && (value.indexOf('h') > -1 || value.indexOf('m') > -1)) {
+            isCheckbox.push('checkbox');
             const HM = value.match(/\[(.+?)\]/g);
             let newEchoTime = HM.filter(h => {
                 return h.indexOf('h') > -1;
@@ -101,17 +114,9 @@ export default class AdDateInput extends React.Component {
     };
 
     handleDate = (option, visible) => {
-        let { date, yearMonthCheckbox, yearMonthDayWeekChecked, radioChecked } = this.onSubmit(
-            option
-        );
+        let date = this.onSubmit(option);
         this.props.onChange(date);
-        let dataParams = this.checkParams(
-            date,
-            yearMonthCheckbox,
-            yearMonthDayWeekChecked,
-            radioChecked,
-            option.isCheckbox
-        );
+        let dataParams = this.checkParams(date);
 
         this.setState({
             visible,
@@ -225,7 +230,7 @@ export default class AdDateInput extends React.Component {
             yearMonthCheckbox,
             yearMonthDayWeekChecked
         });
-        return { date, yearMonthCheckbox, yearMonthDayWeekChecked, radioChecked };
+        return date;
     };
 
     handleAfter = () => {
