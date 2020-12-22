@@ -227,34 +227,42 @@ class AdDatePicker extends React.Component {
         return (
             <span className="year-month-day-week-cycle">
                 <div className="year-month-day-week-checkbox">
-                    <Checkbox
-                        className="year-month"
-                        disabled={disabled}
-                        onChange={this.handleYearMonth}
-                    >
-                        年/月
-                    </Checkbox>
+                    <Checkbox.Group value={yearMonthCheckbox ? ['yearOrMonth'] : []}>
+                        <Checkbox
+                            className="year-month"
+                            value="yearOrMonth"
+                            disabled={disabled}
+                            onChange={this.handleYearMonth}
+                        >
+                            年/月
+                        </Checkbox>
+                    </Checkbox.Group>
                     <Form.Item>
                         {getFieldDecorator('yearMonthA', {
                             initialValue: yearMonthA || '',
                             rules: [
                                 {
                                     required:
-                                        !disabled && yearMonthCheckbox && !yearMonthA && yearMonthB,
+                                        !disabled &&
+                                        yearMonthCheckbox &&
+                                        !yearMonthA &&
+                                        yearMonthB &&
+                                        !yearMonthD,
                                     message: '请填入'
                                 }
                             ]
                         })(
                             <Select
                                 disabled={!yearMonthCheckbox || disabled}
+                                onDropdownVisibleChange={this.onDropdownChange}
+                                dropdownClassName="drop-down"
                                 onChange={val =>
                                     this.setValueAndRange(
                                         YEAR,
                                         val,
                                         'yearMonthA',
                                         'isYearMonthC',
-                                        3,
-                                        2000
+                                        3
                                     )
                                 }
                             >
@@ -289,8 +297,7 @@ class AdDatePicker extends React.Component {
                                         val,
                                         'yearMonthB',
                                         'isYearMonthD',
-                                        4,
-                                        1
+                                        4
                                     )
                                 }
                             >
@@ -328,14 +335,15 @@ class AdDatePicker extends React.Component {
                         })(
                             <Select
                                 disabled={!yearMonthCheckbox || disabled}
+                                onDropdownVisibleChange={this.onDropdownChange}
+                                dropdownClassName="drop-down"
                                 onChange={val =>
                                     this.setValueAndRange(
                                         YEAR,
                                         val,
                                         'yearMonthC',
                                         'isYearMonthA',
-                                        1,
-                                        2000
+                                        1
                                     )
                                 }
                             >
@@ -376,8 +384,7 @@ class AdDatePicker extends React.Component {
                                         val,
                                         'yearMonthD',
                                         'isYearMonthB',
-                                        2,
-                                        1
+                                        2
                                     )
                                 }
                             >
@@ -560,14 +567,7 @@ class AdDatePicker extends React.Component {
                         <Select
                             disabled={disabled}
                             onChange={val =>
-                                this.setValueAndRange(
-                                    MONTH,
-                                    val,
-                                    'yearMonthJ',
-                                    'isYearMonthM',
-                                    3,
-                                    1
-                                )
+                                this.setValueAndRange(MONTH, val, 'yearMonthJ', 'isYearMonthM', 3)
                             }
                         >
                             {MONTH.map(item => (
@@ -596,7 +596,7 @@ class AdDatePicker extends React.Component {
                         <Select
                             disabled={disabled}
                             onChange={val =>
-                                this.setValueAndRange(DAY, val, 'yearMonthK', 'isYearMonthN', 4, 1)
+                                this.setValueAndRange(DAY, val, 'yearMonthK', 'isYearMonthN', 4)
                             }
                         >
                             {DAY.map(item => (
@@ -631,14 +631,7 @@ class AdDatePicker extends React.Component {
                         <Select
                             disabled={disabled}
                             onChange={val =>
-                                this.setValueAndRange(
-                                    MONTH,
-                                    val,
-                                    'yearMonthM',
-                                    'isYearMonthJ',
-                                    1,
-                                    1
-                                )
+                                this.setValueAndRange(MONTH, val, 'yearMonthM', 'isYearMonthJ', 1)
                             }
                         >
                             {MONTH.map(item => (
@@ -672,7 +665,7 @@ class AdDatePicker extends React.Component {
                         <Select
                             disabled={disabled}
                             onChange={val =>
-                                this.setValueAndRange(DAY, val, 'yearMonthN', 'isYearMonthK', 2, 1)
+                                this.setValueAndRange(DAY, val, 'yearMonthN', 'isYearMonthK', 2)
                             }
                         >
                             {DAY.map(item => (
@@ -690,6 +683,17 @@ class AdDatePicker extends React.Component {
                 </Form.Item>
             </span>
         );
+    };
+
+    onDropdownChange = open => {
+        if (open) {
+            setTimeout(() => {
+                let dropDown = document.querySelectorAll('.drop-down>div>ul');
+                if (dropDown && dropDown.length > 0) {
+                    dropDown[dropDown.length - 1].scrollTop = 650;
+                }
+            }, 100);
+        }
     };
 
     radioChange = e => {
@@ -737,16 +741,16 @@ class AdDatePicker extends React.Component {
         let range = [];
         switch (mode) {
             case 1:
-                range = data.slice(0, val - min);
+                range = data.slice(0, val - data[0]);
                 break;
             case 2:
-                range = data.slice(0, val - min + 1);
+                range = data.slice(0, val - data[0] + 1);
                 break;
             case 3:
-                range = data.slice(val - min);
+                range = data.slice(val - data[0]);
                 break;
             case 4:
-                range = data.slice(val - min + 1);
+                range = data.slice(val - data[0] + 1);
                 break;
             default:
                 break;
@@ -754,9 +758,9 @@ class AdDatePicker extends React.Component {
         return range;
     };
 
-    setValueAndRange = (range, val, key, rangeKey, mode, min) => {
+    setValueAndRange = (range, val, key, rangeKey, mode) => {
         if (!val) return;
-        const currentRange = this.getRange(range, mode, val, min);
+        const currentRange = this.getRange(range, mode, val);
         this.setState({
             [key]: val,
             [rangeKey]: currentRange
