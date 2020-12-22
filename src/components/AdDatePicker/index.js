@@ -255,7 +255,7 @@ class AdDatePicker extends React.Component {
                             <Select
                                 disabled={!yearMonthCheckbox || disabled}
                                 onDropdownVisibleChange={this.onDropdownChange}
-                                dropdownClassName="drop-down"
+                                dropdownClassName="drop-down-start-year"
                                 onChange={val =>
                                     this.setValueAndRange(
                                         YEAR,
@@ -336,7 +336,7 @@ class AdDatePicker extends React.Component {
                             <Select
                                 disabled={!yearMonthCheckbox || disabled}
                                 onDropdownVisibleChange={this.onDropdownChange}
-                                dropdownClassName="drop-down"
+                                dropdownClassName="drop-down-end-year"
                                 onChange={val =>
                                     this.setValueAndRange(
                                         YEAR,
@@ -687,10 +687,15 @@ class AdDatePicker extends React.Component {
 
     onDropdownChange = open => {
         if (open) {
+            const { yearMonthA, yearMonthC } = this.state;
             setTimeout(() => {
-                let dropDown = document.querySelectorAll('.drop-down>div>ul');
-                if (dropDown && dropDown.length > 0) {
-                    dropDown[dropDown.length - 1].scrollTop = 650;
+                let startDropDown = document.querySelector('.drop-down-start-year>div>ul');
+                let endDropDown = document.querySelector('.drop-down-end-year>div>ul');
+                if (startDropDown && !yearMonthA) {
+                    startDropDown.scrollTop = 650;
+                }
+                if (endDropDown && !yearMonthC) {
+                    endDropDown.scrollTop = 650;
                 }
             }, 100);
         }
