@@ -130,3 +130,11 @@ export const handleYearAndMonth = (checked, one, two, three, four) => {
     }
     return date;
 };
+
+export const getData = (min, max) => {
+    let data = [];
+    for (let i = min; i <= max; i++) {
+        data.push(i);
+    }
+    return data;
+};

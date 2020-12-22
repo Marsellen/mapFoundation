@@ -1,10 +1,13 @@
 import React from 'react';
 import { Form, Select, Modal, Checkbox, Radio, Button, Row, Col, message } from 'antd';
+import { getData } from 'src/utils/timeUtils';
 import TimePicker from './components/TimePicker';
 import './index.less';
 const { Option } = Select;
 
-const YEAR_MONTH_DAY_WEEK = ['YEAR_MONTH_DAY_WEEK_CYCLE', 'YEAR_MONTH_DAY_SECTION'];
+const YEAR = getData(2000, 2100);
+const MONTH = getData(1, 12);
+const DAY = getData(1, 31);
 
 const week = [
     {
@@ -50,33 +53,47 @@ const params = {
 class AdDatePicker extends React.Component {
     constructor(props) {
         super(props);
-        let dataParams = props.dataParams;
+        const {
+            echoTimeArr,
+            checked,
+            echoDateParams: { switchDate },
+            yearMonthDayWeekChecked,
+            yearMonthCheckbox = false,
+            echoYearMonthParams: {
+                yearMonthA = null,
+                yearMonthB = null,
+                yearMonthC = null,
+                yearMonthD = null
+            },
+            echoMonthDaySectionParams: {
+                yearMonthJ = null,
+                yearMonthK = null,
+                yearMonthM = null,
+                yearMonthN = null
+            }
+        } = props.dataParams;
         this.state = {
-            radioChecked: (dataParams && dataParams.echoDateParams.switchDate) || 'month',
-            timeArr:
-                dataParams && dataParams.echoTimeArr.length !== 0
-                    ? dataParams.echoTimeArr
-                    : [params],
-            isCheckbox: (dataParams && dataParams.checked) || [],
-            yearMonthDayWeekChecked:
-                dataParams.yearMonthDayWeekChecked || 'YEAR_MONTH_DAY_WEEK_CYCLE',
-            yearMonthCheckbox: dataParams.yearMonthCheckbox || false,
-            yearMonthA: dataParams.echoYearMonthParams.yearMonthA || null,
+            radioChecked: switchDate || 'month',
+            timeArr: echoTimeArr.length !== 0 ? echoTimeArr : [params],
+            isCheckbox: checked || [],
+            yearMonthDayWeekChecked,
+            yearMonthCheckbox,
+            yearMonthA,
             isYearMonthA: [],
-            yearMonthB: dataParams.echoYearMonthParams.yearMonthB || null,
+            yearMonthB,
             isYearMonthB: [],
-            yearMonthC: dataParams.echoYearMonthParams.yearMonthC || null,
+            yearMonthC,
             isYearMonthC: [],
-            yearMonthD: dataParams.echoYearMonthParams.yearMonthD || null,
+            yearMonthD,
             isYearMonthD: [],
             isYearMonthJ: [],
-            yearMonthJ: dataParams.echoMonthDaySectionParams.yearMonthJ || null,
+            yearMonthJ,
             isYearMonthK: [],
-            yearMonthK: dataParams.echoMonthDaySectionParams.yearMonthK || null,
+            yearMonthK,
             isYearMonthM: [],
-            yearMonthM: dataParams.echoMonthDaySectionParams.yearMonthM || null,
+            yearMonthM,
             isYearMonthN: [],
-            yearMonthN: dataParams.echoMonthDaySectionParams.yearMonthN || null
+            yearMonthN
         };
     }
 
@@ -85,12 +102,8 @@ class AdDatePicker extends React.Component {
     }
 
     handleYearMonthDayWeek = value => {
-        YEAR_MONTH_DAY_WEEK.forEach(elem => {
-            if (value == elem) {
-                this.setState({
-                    yearMonthDayWeekChecked: elem
-                });
-            }
+        this.setState({
+            yearMonthDayWeekChecked: value
         });
     };
 
@@ -138,7 +151,7 @@ class AdDatePicker extends React.Component {
                                     this.handleYearMonthDayWeek('YEAR_MONTH_DAY_SECTION')
                                 }
                             >
-                                年月日区间
+                                月日区间
                             </Radio>
                             {this.renderYearMonthDaySection(yearMonthDayWeekChecked)}
                         </Col>
@@ -206,12 +219,10 @@ class AdDatePicker extends React.Component {
         const week_end = this.isNotFirstRender
             ? getFieldValue('week_end')
             : dataParams.echoDateParams.endDate;
-        let isWeek =
-            radioChecked === 'week' && yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_WEEK_CYCLE';
-        let isMonth =
-            radioChecked === 'month' && yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_WEEK_CYCLE';
-        const disabled =
-            !isCheckbox.includes('radio') || yearMonthDayWeekChecked != 'YEAR_MONTH_DAY_WEEK_CYCLE';
+        const isChecked = yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_WEEK_CYCLE';
+        const isWeek = radioChecked === 'week' && isChecked;
+        const isMonth = radioChecked === 'month' && isChecked;
+        const disabled = !isCheckbox.includes('radio') || !isChecked;
         const diffAC = yearMonthA < yearMonthC;
         return (
             <span className="year-month-day-week-cycle">
@@ -237,18 +248,19 @@ class AdDatePicker extends React.Component {
                             <Select
                                 disabled={!yearMonthCheckbox || disabled}
                                 onChange={val =>
-                                    this.createSection(
-                                        2000,
-                                        2100,
+                                    this.setValueAndRange(
+                                        YEAR,
                                         val,
+                                        'yearMonthA',
                                         'isYearMonthC',
-                                        'yearMonthA'
+                                        3,
+                                        2000
                                     )
                                 }
                             >
-                                {this.createSection(2000, 2100).map(item => (
+                                {YEAR.map(item => (
                                     <Option
-                                        disabled={this.dropdownRender(isYearMonthA, item, true)}
+                                        disabled={this.dropdownRender(isYearMonthA, item)}
                                         key={item}
                                         value={item}
                                     >
@@ -272,20 +284,20 @@ class AdDatePicker extends React.Component {
                             <Select
                                 disabled={!yearMonthCheckbox || disabled}
                                 onChange={val =>
-                                    this.createSection(
-                                        1,
-                                        12,
+                                    this.setValueAndRange(
+                                        MONTH,
                                         val,
-                                        'isYearMonthD',
                                         'yearMonthB',
-                                        true
+                                        'isYearMonthD',
+                                        4,
+                                        1
                                     )
                                 }
                             >
-                                {this.createSection(1, 12).map(item => (
+                                {MONTH.map(item => (
                                     <Option
                                         disabled={
-                                            !diffAC && this.dropdownRender(isYearMonthB, item, true)
+                                            !diffAC && this.dropdownRender(isYearMonthB, item)
                                         }
                                         key={item}
                                         value={item}
@@ -317,18 +329,19 @@ class AdDatePicker extends React.Component {
                             <Select
                                 disabled={!yearMonthCheckbox || disabled}
                                 onChange={val =>
-                                    this.createSection(
-                                        2000,
-                                        2100,
+                                    this.setValueAndRange(
+                                        YEAR,
                                         val,
+                                        'yearMonthC',
                                         'isYearMonthA',
-                                        'yearMonthC'
+                                        1,
+                                        2000
                                     )
                                 }
                             >
-                                {this.createSection(2000, 2100).map(item => (
+                                {YEAR.map(item => (
                                     <Option
-                                        disabled={this.dropdownRender(isYearMonthC, item, false)}
+                                        disabled={this.dropdownRender(isYearMonthC, item)}
                                         key={item}
                                         value={item}
                                     >
@@ -358,14 +371,20 @@ class AdDatePicker extends React.Component {
                             <Select
                                 disabled={!yearMonthCheckbox || disabled}
                                 onChange={val =>
-                                    this.createSection(1, 12, val, 'isYearMonthB', 'yearMonthD')
+                                    this.setValueAndRange(
+                                        MONTH,
+                                        val,
+                                        'yearMonthD',
+                                        'isYearMonthB',
+                                        2,
+                                        1
+                                    )
                                 }
                             >
-                                {this.createSection(1, 12).map(item => (
+                                {MONTH.map(item => (
                                     <Option
                                         disabled={
-                                            !diffAC &&
-                                            this.dropdownRender(isYearMonthD, item, false)
+                                            !diffAC && this.dropdownRender(isYearMonthD, item)
                                         }
                                         key={item}
                                         value={item}
@@ -400,7 +419,7 @@ class AdDatePicker extends React.Component {
                                     showSearch
                                     disabled={disabled || radioChecked !== 'month'}
                                 >
-                                    {this.createSection(1, 31).map(item => (
+                                    {DAY.map(item => (
                                         <Option
                                             disabled={month_end && month_end <= item}
                                             key={item}
@@ -433,7 +452,7 @@ class AdDatePicker extends React.Component {
                                     disabled={disabled || radioChecked !== 'month'}
                                     className="month-select"
                                 >
-                                    {this.createSection(1, 31).map(item => (
+                                    {DAY.map(item => (
                                         <Option
                                             disabled={month_start >= item}
                                             key={item}
@@ -541,12 +560,19 @@ class AdDatePicker extends React.Component {
                         <Select
                             disabled={disabled}
                             onChange={val =>
-                                this.createSection(1, 12, val, 'isYearMonthM', 'yearMonthJ')
+                                this.setValueAndRange(
+                                    MONTH,
+                                    val,
+                                    'yearMonthJ',
+                                    'isYearMonthM',
+                                    3,
+                                    1
+                                )
                             }
                         >
-                            {this.createSection(1, 12).map(item => (
+                            {MONTH.map(item => (
                                 <Option
-                                    disabled={this.dropdownRender(isYearMonthJ, item, true)}
+                                    disabled={this.dropdownRender(isYearMonthJ, item)}
                                     key={item}
                                     value={item}
                                 >
@@ -570,14 +596,12 @@ class AdDatePicker extends React.Component {
                         <Select
                             disabled={disabled}
                             onChange={val =>
-                                this.createSection(1, 31, val, 'isYearMonthN', 'yearMonthK', true)
+                                this.setValueAndRange(DAY, val, 'yearMonthK', 'isYearMonthN', 4, 1)
                             }
                         >
-                            {this.createSection(1, 31).map(item => (
+                            {DAY.map(item => (
                                 <Option
-                                    disabled={
-                                        !diffJM && this.dropdownRender(isYearMonthK, item, true)
-                                    }
+                                    disabled={!diffJM && this.dropdownRender(isYearMonthK, item)}
                                     key={item}
                                     value={item}
                                 >
@@ -607,12 +631,19 @@ class AdDatePicker extends React.Component {
                         <Select
                             disabled={disabled}
                             onChange={val =>
-                                this.createSection(1, 12, val, 'isYearMonthJ', 'yearMonthM')
+                                this.setValueAndRange(
+                                    MONTH,
+                                    val,
+                                    'yearMonthM',
+                                    'isYearMonthJ',
+                                    1,
+                                    1
+                                )
                             }
                         >
-                            {this.createSection(1, 12).map(item => (
+                            {MONTH.map(item => (
                                 <Option
-                                    disabled={this.dropdownRender(isYearMonthM, item, false)}
+                                    disabled={this.dropdownRender(isYearMonthM, item)}
                                     key={item}
                                     value={item}
                                 >
@@ -641,14 +672,12 @@ class AdDatePicker extends React.Component {
                         <Select
                             disabled={disabled}
                             onChange={val =>
-                                this.createSection(1, 31, val, 'isYearMonthK', 'yearMonthN')
+                                this.setValueAndRange(DAY, val, 'yearMonthN', 'isYearMonthK', 2, 1)
                             }
                         >
-                            {this.createSection(1, 31).map(item => (
+                            {DAY.map(item => (
                                 <Option
-                                    disabled={
-                                        !diffJM && this.dropdownRender(isYearMonthN, item, false)
-                                    }
+                                    disabled={!diffJM && this.dropdownRender(isYearMonthN, item)}
                                     key={item}
                                     value={item}
                                 >
@@ -704,25 +733,39 @@ class AdDatePicker extends React.Component {
         });
     };
 
-    createSection = (min, max, checkedValues, isYearMonth, yearMonth, bool) => {
-        let data = [];
-        for (let i = min; i <= max; i++) {
-            data.push(i);
+    getRange = (data, mode, val, min) => {
+        let range = [];
+        switch (mode) {
+            case 1:
+                range = data.slice(0, val - min);
+                break;
+            case 2:
+                range = data.slice(0, val - min + 1);
+                break;
+            case 3:
+                range = data.slice(val - min);
+                break;
+            case 4:
+                range = data.slice(val - min + 1);
+                break;
+            default:
+                break;
         }
-        if (checkedValues) {
-            this.setState({
-                [`${isYearMonth}`]: data.slice(
-                    bool ? checkedValues - min + 1 : checkedValues - min
-                ),
-                [`${yearMonth}`]: checkedValues
-            });
-        }
-        return data;
+        return range;
     };
 
-    dropdownRender = (cycle = [], item, method) => {
-        if (cycle.length > 0) {
-            let c = method ? cycle.indexOf(item) > -1 : cycle.indexOf(item) == -1;
+    setValueAndRange = (range, val, key, rangeKey, mode, min) => {
+        if (!val) return;
+        const currentRange = this.getRange(range, mode, val, min);
+        this.setState({
+            [key]: val,
+            [rangeKey]: currentRange
+        });
+    };
+
+    dropdownRender = (range = [], item) => {
+        if (range.length > 0) {
+            let c = range.indexOf(item) == -1;
             return c ? true : false;
         } else {
             return false;

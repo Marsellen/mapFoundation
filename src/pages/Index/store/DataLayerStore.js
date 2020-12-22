@@ -835,7 +835,7 @@ class DataLayerStore {
                 this.modifyLineAdsorbMode = 1;
                 this.editor.setModifyLineAdsorbMode(this.modifyLineAdsorbMode);
                 this.editor.toggleMode(0);
-                this.editor.modifyLineType  = 'broken';
+                this.editor.modifyLineType = 'broken';
                 this.setModifyLineType(true);
                 break;
             default:
@@ -871,9 +871,11 @@ class DataLayerStore {
                     //esc
                     const editLayerName = this.getEditLayerName();
                     if (editLayerName === 'AD_Marker') {
-                        this.escModal(this.exitMarker);
+                        this.exitMarker();
+                        message.warning('退出功能', 3);
                     } else if (this.editType !== 'normal') {
-                        this.escModal(this.exitEdit);
+                        this.exitEdit();
+                        message.warning('退出功能', 3);
                     }
                     break;
                 case 90:
@@ -898,14 +900,14 @@ class DataLayerStore {
                     if (event.altKey == true && this.editType == 'trim' && this.modifyLineType) {
                         let viz = document.querySelector('#viz');
                         switch (this.editor.modifyLineType) {
-                            case 'broken': 
-                                this.editor.modifyLineType  = 'curve';
+                            case 'broken':
+                                this.editor.modifyLineType = 'curve';
                                 this.setModifyTypeContent('curve');
                                 this.removeCur();
                                 addClass(viz, 'curve-viz');
                                 break;
                             case 'curve':
-                                this.editor.modifyLineType  = 'broken';
+                                this.editor.modifyLineType = 'broken';
                                 this.setModifyTypeContent('broken');
                                 this.removeCur();
                                 addClass(viz, 'trim-viz');
@@ -923,7 +925,7 @@ class DataLayerStore {
 
     @action setModifyLineType = visible => {
         this.modifyLineType = visible;
-    }
+    };
 
     @action setModifyTypeContent = text => {
         message.info({
@@ -931,7 +933,7 @@ class DataLayerStore {
             duration: 2,
             content: `${text == 'broken' ? '折线' : '曲线'}修复`
         });
-    }
+    };
 
     exitEdit = () => {
         this.disableOtherCtrl();
