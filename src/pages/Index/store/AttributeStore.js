@@ -37,6 +37,7 @@ class AttributeStore {
     @observable modelId;
     @observable loading = false;
     @observable loadingMessage;
+    @observable timeVisible = true;
 
     @action show = readonly => {
         this.visible = true;
@@ -338,6 +339,10 @@ class AttributeStore {
 
     addToggleListener = toggleEvent => {
         this.toggleEvent = toggleEvent;
+    };
+
+    @action showTime = visible => {
+        this.timeVisible = visible;
     };
 }
 

@@ -199,9 +199,12 @@ class EditableCard extends React.Component {
     checkDate = (rule, value, callback) => {
         let testResult = testDataString(value);
         if (!testResult) {
+            this.props.AttributeStore.showTime(false);
             callback(new Error('与值域不符合'));
+        } else {
+            this.props.AttributeStore.showTime(true);
+            callback();
         }
-        callback();
     };
 
     renderInputNumber = (item, index, readonly) => {

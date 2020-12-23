@@ -7,12 +7,13 @@ import {
     yearMonthCycleOrSection,
     handleYearAndMonth
 } from 'src/utils/timeUtils';
+import AttributeStore from 'src/pages/Index/store/AttributeStore';
 import AdDatePicker from '../AdDatePicker';
 import '../AdDatePicker/index.less';
 import moment from 'moment';
 
 const params = {
-    echoDateParams: {},
+    echoDateParams: { switchDate: 'month' },
     echoTimeArr: [],
     checked: [],
     echoYearMonthParams: {},
@@ -96,7 +97,7 @@ export default class AdDateInput extends React.Component {
             });
         }
         return {
-            echoDateParams: newEchoDateParams,
+            echoDateParams: newEchoDateParams || { switchDate: 'month' },
             checked: isCheckbox,
             echoTimeArr: newEchoTimeArr,
             echoYearMonthParams: newEchoYearMonthParams,
@@ -225,7 +226,7 @@ export default class AdDateInput extends React.Component {
 
         this.setState({
             echoTimeArr: timeArr,
-            echoDateParams: dateFormat,
+            echoDateParams: dateFormat || { switchDate: 'month' },
             checked: isCheckbox,
             yearMonthCheckbox,
             yearMonthDayWeekChecked
@@ -234,10 +235,13 @@ export default class AdDateInput extends React.Component {
     };
 
     handleAfter = () => {
-        if (this.props.disabled) return;
+        const { disabled, value } = this.props;
+        if (disabled || !AttributeStore.timeVisible) return;
+        let dataParams = this.checkParams(value) || params;
         this.setState({
             visible: true,
-            key: Math.random()
+            key: Math.random(),
+            dataParams
         });
     };
     handleCancel = visible => {
