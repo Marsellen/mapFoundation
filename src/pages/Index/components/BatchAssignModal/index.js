@@ -125,15 +125,17 @@ class BatchAssignModal extends React.Component {
         const { form } = this.props;
         const { readonly } = item;
         return (
-            item.key != 'UPD_STAT' && (<Form.Item key={index} label={item.name} {...formItemLayout}>
-                {!readonly ? (
-                    form.getFieldDecorator(name + '.' + item.key, {
-                        initialValue: item.value
-                    })(<Input disabled />)
-                ) : (
-                    <Input placeholder="(多项内容)" disabled />
-                )}
-            </Form.Item>)
+            item.key != 'UPD_STAT' && (
+                <Form.Item key={index} label={item.name} {...formItemLayout}>
+                    {!readonly ? (
+                        form.getFieldDecorator(name + '.' + item.key, {
+                            initialValue: item.value
+                        })(<Input disabled />)
+                    ) : (
+                        <Input placeholder="(多项内容)" disabled />
+                    )}
+                </Form.Item>
+            )
         );
     };
 
@@ -340,9 +342,12 @@ class BatchAssignModal extends React.Component {
     checkDate = (rule, value, callback) => {
         let testResult = testDataString(value);
         if (!testResult) {
+            this.props.AttributeStore.showTime(false);
             callback(new Error('与值域不符合'));
+        } else {
+            this.props.AttributeStore.showTime(true);
+            callback();
         }
-        callback();
     };
 
     handleChange = (val, filed, name) => {

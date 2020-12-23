@@ -721,7 +721,6 @@ class AdDatePicker extends React.Component {
     onCheckboxChange = checkedValues => {
         let radioChecked = this.state.radioChecked;
         if (!checkedValues.includes('radio')) {
-            radioChecked = null;
             this.props.form.setFieldsValue({
                 week_start: null,
                 week_end: null,

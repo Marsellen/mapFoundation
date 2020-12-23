@@ -2,10 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Form, Modal, Select, Input } from 'antd';
 import { ATTR_TABLE_CONFIG } from 'config/AttrsConfig';
-import {
-    TYPE_SELECT_OPTION_MAP,
-    DEFAULT_PROPERTIES_MAP
-} from 'config/ADMapDataConfig';
+import { TYPE_SELECT_OPTION_MAP, DEFAULT_PROPERTIES_MAP } from 'config/ADMapDataConfig';
 import RadioIconGroup from 'src/components/RadioIconGroup';
 import SearchIconGroup from 'src/components/SearchIconGroup';
 import CheckBoxIconGroup from 'src/components/CheckBoxIconGroup';
@@ -52,12 +49,9 @@ class NewAttrModal extends React.Component {
                 title="新增"
                 okText="确定"
                 cancelText="取消"
-                wrapClassName="edit-attr-modal">
-                <Form
-                    colon={false}
-                    hideRequiredMark={true}
-                    layout="vertical"
-                    className="svg-style">
+                wrapClassName="edit-attr-modal"
+            >
+                <Form colon={false} hideRequiredMark={true} layout="vertical" className="svg-style">
                     {attrs.map((item, index) => this.renderItem(item, index))}
                 </Form>
             </Modal>
@@ -138,9 +132,12 @@ class NewAttrModal extends React.Component {
     checkDate = (rule, value, callback) => {
         let testResult = testDataString(value);
         if (!testResult) {
+            this.props.AttributeStore.showTime(false);
             callback(new Error('与值域不符合'));
+        } else {
+            this.props.AttributeStore.showTime(true);
+            callback();
         }
-        callback();
     };
 
     renderInput = (item, index) => {
@@ -204,11 +201,10 @@ class NewAttrModal extends React.Component {
                         showSearch
                         optionFilterProp="children"
                         filterOption={(input, option) =>
-                            option.props.children
-                                .toLowerCase()
-                                .indexOf(input.toLowerCase()) >= 0
+                            option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                         }
-                        onChange={this.attrOnChange(item.link)}>
+                        onChange={this.attrOnChange(item.link)}
+                    >
                         {options.map((option, index) => {
                             return (
                                 <Select.Option key={index} value={option.value}>

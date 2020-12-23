@@ -49,15 +49,17 @@ export const timeSubtract = (startTime, endTime) => {
 };
 
 export const testDataString = dataString => {
-    const pattern = /(((\[\(\Y\d{4}\M\d{1,2}\)\{\M\d{1,2}\}(\&\(\Y\d{4}\)\{\Y\d{1,2}\})?(\&\(\Y\d{4}\M\d{1,2}\)\{\M\d{1,2}\})?(\]))?(\[\((W)?\D\d{1,2}\)\{\D\d{1,2}\})\]))?(\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}(m\d{1,2})?\}\]&)*(\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}(m\d{1,2})?\}\])?$/;
+    const pattern = /^(((\[\(\Y\d{4}\M\d{1,2}\)\{\M\d{1,2}\}(\&\(\Y\d{4}\)\{\Y\d{1,2}\})?(\&\(\Y\d{4}\M\d{1,2}\)\{\M\d{1,2}\})?(\]))?(\[\((W)?\D\d{1,2}\)\{\D\d{1,2}\})\]))?(\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}(m\d{1,2})?\}\]&)*(\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}(m\d{1,2})?\}\])?$/;
     // const pattern = /^(\[\((W)?D\d{1,2}\)\{D\d{1,2}\}\])?(\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}(m\d{1,2})?\}\]&)*(\[\(h\d{1,2}m\d{1,2}\)\{h\d{1,2}(m\d{1,2})?\}\])?$/;
     return pattern.test(dataString);
 };
 
 export const weekOrMonth = value => {
     //日月、日周
+    const L = value.match(/\[(.+?)\]/g).length;
     const match = value.match(/\[(.+?)\]/g)[0].indexOf('M') > -1;
     const date = value.match(/\[(.+?)\]/g)[match ? 1 : 0];
+    if ((L == 1 && match) || date.indexOf('h') == -1) return;
     const checked = date.indexOf('WD') > -1;
     let dateDiff = date.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0];
     const strOrNum = checked ? String(getNumber(date)) : getNumber(date);
