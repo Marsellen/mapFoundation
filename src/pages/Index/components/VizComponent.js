@@ -463,6 +463,9 @@ class VizComponent extends React.Component {
             //判断任务范围是否成功加载
             const regionLayerFeatures = window.vectorLayer.getAllFeatures();
             if (regionLayerFeatures.length === 0) throw new Error('没有任务范围框');
+            //根据任务范围框做路面设置
+            const z = regionLayerFeatures[0]?.data?.geometry?.coordinates?.[0]?.[0]?.[2];
+            if (z) window.map?.setBaseElevation?.(z);
             //不同任务类型，不同落点限制
             TaskStore.activeTask.processLimit();
 
