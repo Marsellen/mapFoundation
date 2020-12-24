@@ -58,8 +58,9 @@ export const weekOrMonth = value => {
     //日月、日周
     const L = value.match(/\[(.+?)\]/g).length;
     const match = value.match(/\[(.+?)\]/g)[0].indexOf('M') > -1;
+    const judge = L == 1 && match;
     const date = value.match(/\[(.+?)\]/g)[match ? 1 : 0];
-    if ((L == 1 && match) || date.indexOf('h') == -1) return;
+    if (judge || date.indexOf('h') != -1) return;
     const checked = date.indexOf('WD') > -1;
     let dateDiff = date.match(/\{(.+?)\}/g)[0].match(/\d+/g)[0];
     const strOrNum = checked ? String(getNumber(date)) : getNumber(date);

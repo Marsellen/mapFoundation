@@ -54,7 +54,7 @@ export default class AdDateInput extends React.Component {
             yearMonthCheckbox = false,
             yearMonthDayWeekChecked = 'YEAR_MONTH_DAY_WEEK_CYCLE';
         const match = value && value.match(/\[(.+?)\]/g);
-        if (typeof match != 'object') return;
+        if (match == undefined || typeof match != 'object') return;
         if (match[0].indexOf('Y') > -1 && match[0].indexOf('M') > -1) {
             //勾选了年月中的年和月
             yearMonthCheckbox = true;

@@ -110,11 +110,12 @@ class AdDatePicker extends React.Component {
     render() {
         const { visible, dataParams } = this.props;
         const { yearMonthDayWeekChecked, isCheckbox, timeArr } = this.state;
-
+        const echoDateParams = !!dataParams && dataParams.echoDateParams;
         return (
             <Modal
                 className="date-picker-modal"
                 title="限制时间设置"
+                maskClosable={false}
                 visible={visible}
                 width={750}
                 onOk={this.handleOk}
@@ -128,7 +129,7 @@ class AdDatePicker extends React.Component {
                             <Checkbox
                                 className="outer-checkbox"
                                 value="radio"
-                                checked={String(dataParams.echoDateParams).length !== {}}
+                                checked={echoDateParams && String(echoDateParams).length !== {}}
                             >
                                 年月日周
                             </Checkbox>
@@ -142,7 +143,10 @@ class AdDatePicker extends React.Component {
                             >
                                 年月日周循环
                             </Radio>
-                            {this.renderYearMonthDayWeekCycle(yearMonthDayWeekChecked)}
+                            {this.renderYearMonthDayWeekCycle(
+                                yearMonthDayWeekChecked,
+                                echoDateParams
+                            )}
                             <Radio
                                 className="year-month-day-week"
                                 checked={yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_SECTION'}
@@ -189,7 +193,7 @@ class AdDatePicker extends React.Component {
         );
     }
 
-    renderYearMonthDayWeekCycle = yearMonthDayWeekChecked => {
+    renderYearMonthDayWeekCycle = (yearMonthDayWeekChecked, echoDateParams) => {
         const {
             radioChecked,
             isCheckbox,
@@ -204,21 +208,18 @@ class AdDatePicker extends React.Component {
             yearMonthD
         } = this.state;
         const {
-            form: { getFieldDecorator, getFieldValue },
-            dataParams
+            form: { getFieldDecorator, getFieldValue }
         } = this.props;
         const month_start = this.isNotFirstRender
             ? getFieldValue('month_start')
-            : dataParams.echoDateParams.startDate;
+            : echoDateParams.startDate;
         const month_end = this.isNotFirstRender
             ? getFieldValue('month_end')
-            : dataParams.echoDateParams.endDate;
+            : echoDateParams.endDate;
         const week_start = this.isNotFirstRender
             ? getFieldValue('week_start')
-            : dataParams.echoDateParams.startDate;
-        const week_end = this.isNotFirstRender
-            ? getFieldValue('week_end')
-            : dataParams.echoDateParams.endDate;
+            : echoDateParams.startDate;
+        const week_end = this.isNotFirstRender ? getFieldValue('week_end') : echoDateParams.endDate;
         const isChecked = yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_WEEK_CYCLE';
         const isWeek = radioChecked === 'week' && isChecked;
         const isMonth = radioChecked === 'month' && isChecked;
@@ -411,8 +412,8 @@ class AdDatePicker extends React.Component {
                             <span className="ant-form-text">每月</span>
                             {getFieldDecorator('month_start', {
                                 initialValue:
-                                    dataParams.echoDateParams.switchDate === 'month'
-                                        ? dataParams.echoDateParams.startDate
+                                    echoDateParams.switchDate === 'month'
+                                        ? echoDateParams.startDate
                                         : '',
                                 rules: [
                                     {
@@ -444,8 +445,8 @@ class AdDatePicker extends React.Component {
                             <span className="ant-form-text">每月</span>
                             {getFieldDecorator('month_end', {
                                 initialValue:
-                                    dataParams.echoDateParams.switchDate === 'month'
-                                        ? dataParams.echoDateParams.endDate
+                                    echoDateParams.switchDate === 'month'
+                                        ? echoDateParams.endDate
                                         : '',
                                 rules: [
                                     {
@@ -478,8 +479,8 @@ class AdDatePicker extends React.Component {
                         <Form.Item>
                             {getFieldDecorator('week_start', {
                                 initialValue:
-                                    dataParams.echoDateParams.switchDate === 'week'
-                                        ? dataParams.echoDateParams.startDate
+                                    echoDateParams.switchDate === 'week'
+                                        ? echoDateParams.startDate
                                         : '',
                                 rules: [
                                     {
@@ -505,8 +506,8 @@ class AdDatePicker extends React.Component {
                         <Form.Item>
                             {getFieldDecorator('week_end', {
                                 initialValue:
-                                    dataParams.echoDateParams.switchDate === 'week'
-                                        ? dataParams.echoDateParams.endDate
+                                    echoDateParams.switchDate === 'week'
+                                        ? echoDateParams.endDate
                                         : '',
                                 rules: [
                                     {
@@ -816,7 +817,7 @@ class AdDatePicker extends React.Component {
             endDate: isChecked ? month_end : week_end,
             yearMonthDaySection:
                 yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_SECTION' ? yearMonthDaySection : {}, //年月日区间
-            switchDate: radioChecked || ''
+            switchDate: radioChecked || 'month'
         };
         let option = {
             timeArr,

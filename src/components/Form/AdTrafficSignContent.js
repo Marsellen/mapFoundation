@@ -9,6 +9,7 @@ import Filter from 'src/utils/table/filter';
 import { getValidator } from 'src/utils/form/validator';
 import { testDataString } from 'src/utils/timeUtils';
 import { parseArrayString } from 'src/utils/utils';
+import AttributeStore from 'src/pages/Index/store/AttributeStore';
 
 const formItemLayout = {
     labelCol: {
@@ -43,10 +44,10 @@ function getValidatorSetting(CONT_TYPE) {
 function checkDate(rule, value, callback) {
     let testResult = testDataString(value);
     if (!testResult) {
-        this.props.AttributeStore.showTime(false);
+        AttributeStore.showTime(false);
         callback(new Error('与值域不符合'));
     } else {
-        this.props.AttributeStore.showTime(true);
+        AttributeStore.showTime(true);
         callback();
     }
 }
