@@ -27,6 +27,7 @@ class AttributesModal extends React.Component {
         const { DataLayerStore, AttributeStore } = this.props;
         DataLayerStore.UnQCAttrModal(['error_layer']);
         AttributeStore.hide();
+        AttributeStore.showTime(true);
     };
 
     render() {

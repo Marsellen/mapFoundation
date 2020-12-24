@@ -390,12 +390,13 @@ class BasicAttributesForm extends React.Component {
     };
 
     checkDate = (rule, value, callback) => {
+        const { AttributeStore } = this.props;
         let testResult = testDataString(value);
         if (!testResult) {
-            this.props.AttributeStore.showTime(false);
+            AttributeStore.showTime(false);
             callback(new Error('与值域不符合'));
         } else {
-            this.props.AttributeStore.showTime(true);
+            AttributeStore.showTime(true);
             callback();
         }
     };

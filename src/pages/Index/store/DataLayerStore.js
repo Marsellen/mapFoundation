@@ -292,6 +292,7 @@ class DataLayerStore {
         this.attributeBrushPick();
         this.showMessage();
         this.clearCheckedPoint();
+        AttributeStore.showTime(true);
     };
 
     @action setEditType = type => {

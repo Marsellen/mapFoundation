@@ -48,6 +48,7 @@ class AttributeStore {
         this.visible = false;
         this.delAttrs = [];
         this.loaded();
+        this.showTime(true);
     };
 
     @action showLoading = text => {
