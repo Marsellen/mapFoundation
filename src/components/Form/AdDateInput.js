@@ -53,58 +53,68 @@ export default class AdDateInput extends React.Component {
             isCheckbox = [],
             yearMonthCheckbox = false,
             yearMonthDayWeekChecked = 'YEAR_MONTH_DAY_WEEK_CYCLE';
-        const match = value && value.match(/\[(.+?)\]/g);
-        if (match == undefined || typeof match != 'object') return;
-        if (match[0].indexOf('Y') > -1 && match[0].indexOf('M') > -1) {
-            //勾选了年月中的年和月
-            yearMonthCheckbox = true;
-            newEchoYearMonthParams = yearMonthCycleOrSection(value, 'YEAR_MONTH_DAY_WEEK_CYCLE');
-        } else if (match[0].indexOf('M') > -1 && match[0].indexOf('D') == -1) {
-            //只勾选了年月中的月
-            //只有月份的情况
-            yearMonthCheckbox = true;
-            let field = value.match(/\[(.+?)\]/g)[0].match(/\d+/g);
-            newEchoYearMonthParams = {
-                yearMonthB: field[0], //B
-                yearMonthD: field[1] - 1 //D
+        if (!AttributeStore.timeVisible) {
+            return params;
+        } else {
+            const match = value && value.match(/\[(.+?)\]/g);
+            if (match == undefined || typeof match != 'object') return;
+            if (match[0].indexOf('Y') > -1 && match[0].indexOf('M') > -1) {
+                //勾选了年月中的年和月
+                yearMonthCheckbox = true;
+                newEchoYearMonthParams = yearMonthCycleOrSection(
+                    value,
+                    'YEAR_MONTH_DAY_WEEK_CYCLE'
+                );
+            } else if (match[0].indexOf('M') > -1 && match[0].indexOf('D') == -1) {
+                //只勾选了年月中的月
+                //只有月份的情况
+                yearMonthCheckbox = true;
+                let field = value.match(/\[(.+?)\]/g)[0].match(/\d+/g);
+                newEchoYearMonthParams = {
+                    yearMonthB: field[0], //B
+                    yearMonthD: field[1] - 1 //D
+                };
+            }
+            if (value.indexOf('D') > -1 || value.indexOf('WD') > -1) {
+                //日月、日周
+                isCheckbox.push('radio');
+                yearMonthDayWeekChecked = 'YEAR_MONTH_DAY_WEEK_CYCLE';
+                newEchoDateParams = weekOrMonth(value);
+            }
+            if (match[0].indexOf('M') > -1 && match[0].indexOf('D') > -1) {
+                isCheckbox.push('radio');
+                yearMonthDayWeekChecked = 'YEAR_MONTH_DAY_SECTION';
+                newEchoMonthDaySectionParams = yearMonthCycleOrSection(
+                    value,
+                    'YEAR_MONTH_DAY_SECTION'
+                );
+            }
+            // 时分
+            if (value && (value.indexOf('h') > -1 || value.indexOf('m') > -1)) {
+                isCheckbox.push('checkbox');
+                const HM = value.match(/\[(.+?)\]/g);
+                let newEchoTime = HM.filter(h => {
+                    return h.indexOf('h') > -1;
+                });
+                newEchoTime.map(item => {
+                    newEchoTimeArr.push({
+                        ...timeParse(item),
+                        isHour: [],
+                        isMin: [],
+                        isEndMin: []
+                    });
+                });
+            }
+            return {
+                echoDateParams: newEchoDateParams || { switchDate: 'month' },
+                checked: isCheckbox,
+                echoTimeArr: newEchoTimeArr,
+                echoYearMonthParams: newEchoYearMonthParams,
+                echoMonthDaySectionParams: newEchoMonthDaySectionParams,
+                yearMonthCheckbox,
+                yearMonthDayWeekChecked
             };
         }
-        if (value.indexOf('D') > -1 || value.indexOf('WD') > -1) {
-            //日月、日周
-            isCheckbox.push('radio');
-            yearMonthDayWeekChecked = 'YEAR_MONTH_DAY_WEEK_CYCLE';
-            newEchoDateParams = weekOrMonth(value);
-        }
-        if (match[0].indexOf('M') > -1 && match[0].indexOf('D') > -1) {
-            isCheckbox.push('radio');
-            yearMonthDayWeekChecked = 'YEAR_MONTH_DAY_SECTION';
-            newEchoMonthDaySectionParams = yearMonthCycleOrSection(value, 'YEAR_MONTH_DAY_SECTION');
-        }
-        // 时分
-        if (value && (value.indexOf('h') > -1 || value.indexOf('m') > -1)) {
-            isCheckbox.push('checkbox');
-            const HM = value.match(/\[(.+?)\]/g);
-            let newEchoTime = HM.filter(h => {
-                return h.indexOf('h') > -1;
-            });
-            newEchoTime.map(item => {
-                newEchoTimeArr.push({
-                    ...timeParse(item),
-                    isHour: [],
-                    isMin: [],
-                    isEndMin: []
-                });
-            });
-        }
-        return {
-            echoDateParams: newEchoDateParams || { switchDate: 'month' },
-            checked: isCheckbox,
-            echoTimeArr: newEchoTimeArr,
-            echoYearMonthParams: newEchoYearMonthParams,
-            echoMonthDaySectionParams: newEchoMonthDaySectionParams,
-            yearMonthCheckbox,
-            yearMonthDayWeekChecked
-        };
     };
 
     handleKeyDown = e => {
@@ -139,7 +149,10 @@ export default class AdDateInput extends React.Component {
             monthAndWeek = '',
             timeAndMin = '',
             monthAndDay = ''; //月日区间
-        if (yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_WEEK_CYCLE') {
+        if (
+            isCheckbox.includes('radio') &&
+            yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_WEEK_CYCLE'
+        ) {
             //年月日周循环
             if (yearMonthCheckbox) {
                 //年月
@@ -179,7 +192,10 @@ export default class AdDateInput extends React.Component {
                 const endDate = `{D${dataDiff}}`;
                 monthAndWeek = format ? `[${format}${endDate}]` : '';
             }
-        } else if (yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_SECTION') {
+        } else if (
+            isCheckbox.includes('radio') &&
+            yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_SECTION'
+        ) {
             //月日区间
             let yearMonthJ = dateFormat.yearMonthDaySection.yearMonthJ || null;
             let yearMonthK = dateFormat.yearMonthDaySection.yearMonthK || null;
@@ -236,7 +252,7 @@ export default class AdDateInput extends React.Component {
 
     handleAfter = () => {
         const { disabled, value } = this.props;
-        if (disabled || !AttributeStore.timeVisible) return;
+        if (disabled) return;
         let dataParams = this.checkParams(value) || params;
         this.setState({
             visible: true,

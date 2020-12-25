@@ -221,8 +221,8 @@ class AdDatePicker extends React.Component {
             : echoDateParams.startDate;
         const week_end = this.isNotFirstRender ? getFieldValue('week_end') : echoDateParams.endDate;
         const isChecked = yearMonthDayWeekChecked == 'YEAR_MONTH_DAY_WEEK_CYCLE';
-        const isWeek = radioChecked === 'week' && isChecked;
-        const isMonth = radioChecked === 'month' && isChecked;
+        const isWeek = radioChecked === 'week' && isChecked && isCheckbox.includes('radio');
+        const isMonth = radioChecked === 'month' && isChecked && isCheckbox.includes('radio');
         const disabled = !isCheckbox.includes('radio') || !isChecked;
         const diffAC = yearMonthA < yearMonthC;
         return (
@@ -726,7 +726,15 @@ class AdDatePicker extends React.Component {
                 week_start: null,
                 week_end: null,
                 month_start: null,
-                month_end: null
+                month_end: null,
+                yearMonthA: null,
+                yearMonthB: null,
+                yearMonthC: null,
+                yearMonthD: null,
+                yearMonthJ: null,
+                yearMonthK: null,
+                yearMonthM: null,
+                yearMonthN: null
             });
         }
 

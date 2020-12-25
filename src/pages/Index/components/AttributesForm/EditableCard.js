@@ -127,8 +127,8 @@ class EditableCard extends React.Component {
                 return;
             }
             this.hide();
+            AttributeStore.showTime(true);
         });
-        AttributeStore.showTime(true);
     };
 
     onDelete = () => {
