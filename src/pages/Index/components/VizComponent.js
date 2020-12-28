@@ -453,6 +453,20 @@ class VizComponent extends React.Component {
         }
     };
 
+    setBaseElevationByRegion = regionLayerFeatures => {
+        //获取任务范围所有点
+        const regionPoints = regionLayerFeatures[0]?.data?.geometry?.coordinates?.[0];
+        //找到最低点
+        let min;
+        regionPoints.forEach(point => {
+            const z = point[2];
+            min = min || z;
+            min = min > z ? z : min;
+        });
+        //以最低点进行路面设置
+        if (min) window.map?.setBaseElevation?.(min);
+    };
+
     initRegion = async regionUrl => {
         try {
             if (!regionUrl) return;
@@ -463,9 +477,8 @@ class VizComponent extends React.Component {
             //判断任务范围是否成功加载
             const regionLayerFeatures = window.vectorLayer.getAllFeatures();
             if (regionLayerFeatures.length === 0) throw new Error('没有任务范围框');
-            //根据任务范围框做路面设置
-            const z = regionLayerFeatures[0]?.data?.geometry?.coordinates?.[0]?.[0]?.[2];
-            if (z) window.map?.setBaseElevation?.(z - 40);
+            //根据任务范围框最低点做路面设置
+            this.setBaseElevationByRegion(regionLayerFeatures);
             //不同任务类型，不同落点限制
             TaskStore.activeTask.processLimit();
 
