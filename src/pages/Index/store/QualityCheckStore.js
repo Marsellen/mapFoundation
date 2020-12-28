@@ -205,7 +205,7 @@ class QualityCheckStore {
             this.reportFilterKeys.map(column => {
                 const { key, describe } = column;
                 const currentVal = item[key];
-                if (currentVal === undefined) return;
+                if (currentVal === undefined || currentVal === null) return;
                 let text = currentVal;
                 if (describe) {
                     const { data, secondKey, label, value } = describe;
