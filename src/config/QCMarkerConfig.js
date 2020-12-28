@@ -2832,8 +2832,8 @@ export const QC_MARKER_FORM_CONFIG = () => {
             { name: 'errorType', editable: false },
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
-            { name: 'editDesc', editable: false },
-            { name: 'qcDesc', editable: false }
+            { name: 'qcDesc', editable: false },
+            { name: 'editDesc', editable: false }
         ],
         //质检员首次查看的表单配置-人工构建后质检
         MB_QC_FIRST_VISITE_CONFIG: [
@@ -2855,8 +2855,8 @@ export const QC_MARKER_FORM_CONFIG = () => {
             { name: 'errorType', editable: false },
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
-            { name: 'editDesc', editable: false },
-            { name: 'qcDesc', editable: false }
+            { name: 'qcDesc', editable: false },
+            { name: 'editDesc', editable: false }
         ],
         //质检员首次修改标注的表单配置-人工识别后质检
         MS_QC_FIRST_MOD_CONFIG: [
@@ -2878,8 +2878,8 @@ export const QC_MARKER_FORM_CONFIG = () => {
             { name: 'errorType', editable: true },
             { name: 'fieldName', editable: true },
             { name: 'errLevel', editable: false },
-            { name: 'editDesc', editable: false },
-            { name: 'qcDesc', editable: true }
+            { name: 'qcDesc', editable: true },
+            { name: 'editDesc', editable: false }
         ],
         //质检员首次修改标注的表单配置-人工构建后质检
         MB_QC_FIRST_MOD_CONFIG: [
@@ -2901,8 +2901,8 @@ export const QC_MARKER_FORM_CONFIG = () => {
             { name: 'errorType', editable: true },
             { name: 'fieldName', editable: true },
             { name: 'errLevel', editable: false },
-            { name: 'editDesc', editable: false },
-            { name: 'qcDesc', editable: true }
+            { name: 'qcDesc', editable: true },
+            { name: 'editDesc', editable: false }
         ],
         //质检员非首次查看的表单配置-人工识别后质检
         MS_QC_NOT_FIRST_VISITE_CONFIG: [
@@ -2940,8 +2940,8 @@ export const QC_MARKER_FORM_CONFIG = () => {
             { name: 'errorType', editable: false },
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
-            { name: 'editDesc', editable: false },
-            { name: 'qcDesc', editable: false }
+            { name: 'qcDesc', editable: false },
+            { name: 'editDesc', editable: false }
         ],
         //质检员非首次查看的表单配置-人工构建后质检
         MB_QC_NOT_FIRST_VISITE_CONFIG: [
@@ -2979,8 +2979,8 @@ export const QC_MARKER_FORM_CONFIG = () => {
             { name: 'errorType', editable: false },
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
-            { name: 'editDesc', editable: false },
-            { name: 'qcDesc', editable: false }
+            { name: 'qcDesc', editable: false },
+            { name: 'editDesc', editable: false }
         ],
         //作业员查看标注的表单配置
         FIX_VISITE_CONFIG: [
@@ -3000,8 +3000,8 @@ export const QC_MARKER_FORM_CONFIG = () => {
             { name: 'errorType', editable: false },
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
-            { name: 'editDesc', editable: false },
-            { name: 'qcDesc', editable: false }
+            { name: 'qcDesc', editable: false },
+            { name: 'editDesc', editable: false }
         ],
         //作业员修改标注的表单配置
         FIX_MOD_CONFIG: [
@@ -3021,8 +3021,8 @@ export const QC_MARKER_FORM_CONFIG = () => {
             { name: 'errorType', editable: false },
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
-            { name: 'editDesc', editable: true },
-            { name: 'qcDesc', editable: false }
+            { name: 'qcDesc', editable: false },
+            { name: 'editDesc', editable: true }
         ],
         //默认配置，只能查看，不能修改
         QC_READ_ONLEY_CONFIG: [
@@ -3036,8 +3036,8 @@ export const QC_MARKER_FORM_CONFIG = () => {
             { name: 'errorType', editable: false },
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
-            { name: 'editDesc', editable: false },
-            { name: 'qcDesc', editable: false }
+            { name: 'qcDesc', editable: false },
+            { name: 'editDesc', editable: false }
         ]
     };
 };
