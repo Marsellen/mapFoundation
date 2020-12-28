@@ -64,8 +64,7 @@ class ConfigurableForm extends React.Component {
                 }),
             //改变其它表单控件值
             getValueFromEvent: param => {
-                const isObject = typeof param === 'object';
-                const value = isObject ? param.target.value : param;
+                const value = param?.target?.value ?? param;
                 resetField && setFieldsValue({ ...resetField, [name]: value });
                 //如果有resetFieldByField，根据配置重置表单其它字段
                 if (resetFieldByField) {
