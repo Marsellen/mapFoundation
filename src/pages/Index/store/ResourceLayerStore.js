@@ -163,6 +163,7 @@ class ResourceLayerStore {
     //isHotKey 指是否是快捷键调用的toggle方法
     @action toggle = (name, checked, isHotKey) => {
         let layerEx = this.layers.find(layer => layer.value == name);
+        if (!layerEx) return;
         layerEx.checked = isHotKey ? !layerEx.checked : checked;
         layerEx.checked ? layerEx.layer.show() : layerEx.layer.hide();
         this.updateKey = Math.random();
