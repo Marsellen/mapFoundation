@@ -2992,7 +2992,7 @@ export const QC_MARKER_FORM_CONFIG = () => {
                     fieldValue: 1
                 }
             },
-            { name: 'qcStatus', editable: false },
+            { name: 'qcStatus', editable: false, className: 'bottom-border' },
             { name: 'fileName', editable: false },
             { name: 'featId', editable: false },
             { name: 'errorDesc', editable: false },
@@ -3013,7 +3013,7 @@ export const QC_MARKER_FORM_CONFIG = () => {
                     fieldValue: 1
                 }
             },
-            { name: 'qcStatus', editable: false },
+            { name: 'qcStatus', editable: false, className: 'bottom-border' },
             { name: 'fileName', editable: false },
             { name: 'featId', editable: false },
             { name: 'errorDesc', editable: false },
