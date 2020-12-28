@@ -58,7 +58,7 @@ class QCMarkerStore {
                 filterKeys.forEach(item => {
                     const { key, describe } = item;
                     const currentVal = marker[key];
-                    if (!(currentVal || currentVal === 0)) return;
+                    if (currentVal === undefined) return;
                     let text = currentVal;
                     if (describe) {
                         const { data, secondKey, label, value } = describe;
