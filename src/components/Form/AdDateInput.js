@@ -90,7 +90,7 @@ export default class AdDateInput extends React.Component {
                 );
             }
             // 时分
-            if (value != '' && (value.indexOf('h') > -1 || value.indexOf('m') > -1)) {
+            if (value.indexOf('h') > -1 || value.indexOf('m') > -1) {
                 isCheckbox.push('checkbox');
                 const HM = value.match(/\[(.+?)\]/g);
                 let newEchoTime = HM.filter(h => {
