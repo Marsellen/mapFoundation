@@ -875,6 +875,14 @@ class AdDatePicker extends React.Component {
 
         this.props.form.validateFields((err, values) => {
             //console.log('err, values', err, values);
+            if (values.yearMonthA == values.yearMonthC && values.yearMonthB > values.yearMonthD) {
+                message.warning('年月填写错误，请重新填写！');
+                return false;
+            }
+            if (values.yearMonthJ == values.yearMonthM && values.yearMonthK > values.yearMonthN) {
+                message.warning('月日区间填写错误，请重新填写！');
+                return false;
+            }
             if ((err || isCheckTimeEqual) && isCheckbox.length !== 0) {
                 if (isCheckTimeEqual) {
                     message.warning('时分填写错误，不同行之间不允许设置相同时间！');
