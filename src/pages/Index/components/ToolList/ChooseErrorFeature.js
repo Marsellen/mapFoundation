@@ -36,9 +36,12 @@ class ChooseErrorFeature extends React.Component {
         this.props.form.setFieldsValue({
             fileName: layerName,
             featId: featureId,
-            errorType: 0,
+            errorDesc: null,
+            errContent: null,
+            errorType: null,
             fieldName: null,
-            errorDesc: null
+            errLevel: null,
+            editDesc: null
         });
     };
 

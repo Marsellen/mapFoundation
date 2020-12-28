@@ -6,7 +6,6 @@ import { getLayersByNames } from 'src/utils/vectorUtils';
 
 @inject('TaskStore')
 @inject('DataLayerStore')
-@inject('OperateHistoryStore')
 @inject('AttributeStore')
 @inject('ToolCtrlStore')
 @observer

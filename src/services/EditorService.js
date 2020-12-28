@@ -65,6 +65,21 @@ const EditorService = {
             data
         };
         return service({ config });
+    },
+    setQcMarkerConfig: data => {
+        const config = {
+            url: EditApiPath('/quality_inspection_label/save_config'),
+            method: 'post',
+            data
+        };
+        return service({ config });
+    },
+    getQcMarkerConfig: () => {
+        const config = {
+            url: EditApiPath('/quality_inspection_label/query_config'),
+            method: 'get'
+        };
+        return service({ config });
     }
 };
 

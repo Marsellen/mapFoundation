@@ -20,6 +20,7 @@ class QCMarkerModal extends React.Component {
         this.state = { isLoading: false };
         this.handleHistory = this.handleHistory.bind(this);
     }
+
     //关闭和esc回调
     handleCancel = () => {
         const {
@@ -92,16 +93,19 @@ class QCMarkerModal extends React.Component {
     };
 
     handleSubmit = (type, isExit = true) => {
+        const {
+            QCMarkerStore,
+            QCMarkerStore: {
+                updateCurrentMarker,
+                currentMarker: { data: { properties: { id } = {} } = {} },
+                updateMarkerList
+            }
+        } = this.props;
+        const isInsert = type === 'insert';
+        const isUpdate = type === 'update';
+        if (isUpdate && !id) return; //修改marker时，没有id，不可修改
         this.props.form.validateFields(async (err, values) => {
             if (err) return;
-            const {
-                QCMarkerStore,
-                QCMarkerStore: {
-                    updateCurrentMarker,
-                    currentMarker: { data: { properties: { id } = {} } = {} },
-                    updateMarkerList
-                }
-            } = this.props;
             try {
                 this.setState({ isLoading: true });
                 const param = this[`getParam_${type}`](values);
@@ -123,8 +127,8 @@ class QCMarkerModal extends React.Component {
                 this.handleHistory(marker);
                 isExit && this.release();
                 this.setState({ isLoading: false });
-                type === 'insert' && message.success('质检标注生成');
-                type === 'update' && message.success('质检标注修改成功');
+                isInsert && message.success('质检标注生成');
+                isUpdate && message.success('质检标注修改成功');
             } catch (e) {
                 this.setState({ isLoading: false });
                 this.handleCancel();
@@ -227,37 +231,44 @@ class QCMarkerModal extends React.Component {
                 editStatus,
                 currentMarker: { data: { properties: { fetchId } = {} } = {} }
             },
-            TaskStore: { activeTask: { taskFetchId } = {} }
+            TaskStore: { activeTask: { taskFetchId, processName } = {} }
         } = this.props;
         const isCreate = editStatus === 'create';
         const isVisite = editStatus === 'visite';
         const isModify = editStatus === 'modify';
         const isQuality = roleCode === 'quality';
         const isProductor = roleCode === 'producer';
+        const isMsQcTask = processName === 'imp_check_after_recognition';
+        const isMbQcTask = processName === 'imp_check_after_manbuild';
         const isFirst = fetchId == taskFetchId;
 
         let formConfigName;
-        if (isQuality && isCreate) {
-            formConfigName = 'QC_CREATE_CONFIG';
-        } else if (isQuality && isFirst && isVisite) {
-            formConfigName = 'QC_FIRST_VISITE_CONFIG';
-        } else if (isQuality && !isFirst && isVisite) {
-            formConfigName = 'QC_NOT_FIRST_VISITE_CONFIG';
-        } else if (isQuality && isFirst && isModify) {
-            formConfigName = 'QC_FIRST_MOD_CONFIG';
-        } else if (isQuality && !isFirst && isModify) {
-            formConfigName = 'QC_NOT_FIRST_MOD_CONFIG';
+        if (isQuality && isCreate && isMsQcTask) {
+            formConfigName = 'MS_QC_CREATE_CONFIG';
+        } else if (isQuality && isCreate && isMbQcTask) {
+            formConfigName = 'MB_QC_CREATE_CONFIG';
+        } else if (isQuality && isFirst && isVisite && isMsQcTask) {
+            formConfigName = 'MS_QC_FIRST_VISITE_CONFIG';
+        } else if (isQuality && isFirst && isVisite && isMbQcTask) {
+            formConfigName = 'MB_QC_FIRST_VISITE_CONFIG';
+        } else if (isQuality && !isFirst && isVisite && isMsQcTask) {
+            formConfigName = 'MS_QC_NOT_FIRST_VISITE_CONFIG';
+        } else if (isQuality && !isFirst && isVisite && isMbQcTask) {
+            formConfigName = 'MB_QC_NOT_FIRST_VISITE_CONFIG';
+        } else if (isQuality && isFirst && isModify && isMsQcTask) {
+            formConfigName = 'MS_QC_FIRST_MOD_CONFIG';
+        } else if (isQuality && isFirst && isModify && isMbQcTask) {
+            formConfigName = 'MB_QC_FIRST_MOD_CONFIG';
         } else if (isProductor && isVisite) {
             formConfigName = 'FIX_VISITE_CONFIG';
         } else if (isProductor && isModify) {
             formConfigName = 'FIX_MOD_CONFIG';
         } else {
-            formConfigName = 'QC_ONLEY_READ_CONFIG';
+            formConfigName = 'QC_READ_ONLEY_CONFIG';
         }
-
-        const formConfig = QC_MARKER_FORM_CONFIG[formConfigName];
+        const formConfig = QC_MARKER_FORM_CONFIG()[formConfigName];
         const newFormConfig = formConfig.map(item => {
-            return { ...ATTR_FORM_FIELD_MAP[item.name], ...item };
+            return { ...ATTR_FORM_FIELD_MAP()[item.name], ...item };
         });
 
         return newFormConfig;
@@ -289,9 +300,11 @@ class QCMarkerModal extends React.Component {
                         删除
                     </Button>
                 )}
-                <Button type="primary" size="small" onClick={this.handleModify}>
-                    修改
-                </Button>
+                {!(isQCTask && !isFirst) && (
+                    <Button type="primary" size="small" onClick={this.handleModify}>
+                        修改
+                    </Button>
+                )}
             </div>
         );
     };
@@ -327,19 +340,17 @@ class QCMarkerModal extends React.Component {
 
         return (
             <Modal
-                style={{ visibility: visible ? 'visible' : 'hidden' }}
-                zIndex={visible ? 1 : -1}
                 title={null}
                 closable={false}
-                visible={true}
+                visible={visible}
                 mask={false}
                 maskClosable={false}
-                destroyOnClose={true}
                 keyboard={false}
                 width={320}
                 wrapClassName="qc-marker-modal"
                 footer={null}
                 onCancel={this.handleCancel}
+                key={`${editStatus}_${properties.id}`}
             >
                 <Spin tip="Loading..." spinning={isLoading}>
                     <div className="title-wrap">
@@ -356,10 +367,10 @@ class QCMarkerModal extends React.Component {
                             form={form}
                             initData={properties}
                             formConfig={formConfig}
-                            updateKey={`${editStatus}_${properties.id}`}
                             fieldChange={{
                                 fixStatus: () => this.handleSubmit('update', false),
-                                qcStatus: () => this.handleSubmit('update', false)
+                                qcStatus: () => this.handleSubmit('update', false),
+                                qcLink: () => this.handleSubmit('update', false)
                             }}
                         />
                     </div>

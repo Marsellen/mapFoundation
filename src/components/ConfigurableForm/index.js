@@ -19,27 +19,6 @@ const formItemLayout = {
 
 @Form.create()
 class ConfigurableForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { updateKey: null };
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        if (props.updateKey !== state.updateKey) {
-            //重置表单值
-            const formData = props.form.getFieldsValue();
-            for (let i in formData) {
-                formData[i] = props.initData[i];
-            }
-            props.form.setFieldsValue(formData);
-            return {
-                ...state,
-                updateKey: props.updateKey
-            };
-        }
-        return null;
-    }
-
     //获取表单某控件值
     getFieldValue = (fieldName, initValue) => {
         if (!fieldName) return;
@@ -57,11 +36,19 @@ class ConfigurableForm extends React.Component {
         fieldChange[name]();
     };
 
+    getCompareRes = (fieldValue, currentVal) => {
+        if (!fieldValue) return false;
+        if (Array.isArray(fieldValue)) {
+            return fieldValue.includes(currentVal);
+        } else {
+            return currentVal == fieldValue;
+        }
+    };
+
     formItemConfig = item => {
         const { initData, form } = this.props;
         const { setFieldsValue } = form;
-        const { name, initialValue, rules, resetField } = item;
-
+        const { name, initialValue, rules, resetField, resetFieldByField } = item;
         return {
             initialValue: initData[name] || initialValue,
             rules:
@@ -71,7 +58,7 @@ class ConfigurableForm extends React.Component {
                     const { value, message, fieldName, fieldValue } = ruleVal;
                     const currentVal = this.getFieldValue(fieldName, initData[fieldName]);
                     return {
-                        [ruleName]: fieldName ? currentVal == fieldValue : value,
+                        [ruleName]: fieldName ? this.getCompareRes(fieldValue, currentVal) : value,
                         message: message
                     };
                 }),
@@ -80,6 +67,15 @@ class ConfigurableForm extends React.Component {
                 const isObject = typeof param === 'object';
                 const value = isObject ? param.target.value : param;
                 resetField && setFieldsValue({ ...resetField, [name]: value });
+                //如果有resetFieldByField，根据配置重置表单其它字段
+                if (resetFieldByField) {
+                    const { data, fieldName, dependValue } = resetFieldByField;
+                    const fieldValue = this.getFieldValue(fieldName, initData[fieldName]);
+                    const resetObj = dependValue
+                        ? data?.[fieldValue]?.[value] ?? {}
+                        : data?.[fieldValue] ?? {};
+                    setFieldsValue({ ...resetObj, [name]: value });
+                }
                 return value;
             }
         };
@@ -103,20 +99,30 @@ class ConfigurableForm extends React.Component {
         return data;
     };
 
-    //获取表单可用状态
-    getDisabledStatus = (disabled, initData) => {
-        if (!disabled) return true;
-        const { fieldName, fieldValue } = disabled;
-        const disabledFieldValue = this.getFieldValue(fieldName, initData[fieldName]);
-        const isDisabled = fieldValue ? disabledFieldValue == fieldValue : disabledFieldValue;
-        return isDisabled;
+    getEditStatus = (condition, initData) => {
+        const { fieldName, fieldValue } = condition;
+        const currentVal = this.getFieldValue(fieldName, initData[fieldName]);
+        const isEditable = fieldValue ? this.getCompareRes(fieldValue, currentVal) : currentVal;
+        return isEditable;
+    };
+
+    //判断是否相等
+    getAllEditStatus = (editableByField, initData) => {
+        if (!editableByField) return true;
+        if (Array.isArray(editableByField)) {
+            return editableByField
+                .map(condition => this.getEditStatus(condition, initData))
+                .every(status => status);
+        } else {
+            return this.getEditStatus(editableByField, initData);
+        }
     };
 
     _renderInput = (item, initData) => {
         const { form } = this.props;
         const { getFieldDecorator } = form;
         const { name, tool: Tool, className, editable, editableByField, layout } = item;
-        const isDisabled = this.getDisabledStatus(editableByField, initData);
+        const isEditable = this.getAllEditStatus(editableByField, initData);
 
         return (
             <Form.Item label={item.label} key={item.name} className={className} {...layout}>
@@ -125,12 +131,12 @@ class ConfigurableForm extends React.Component {
                     this.formItemConfig(item)
                 )(
                     <Input
-                        disabled={editable ? !isDisabled : true}
+                        disabled={editable ? !isEditable : true}
                         onChange={value => this.handleChange(name, value)}
                     />
                 )}
                 {Tool && (
-                    <Tool form={form} className="tool" disabled={editable ? !isDisabled : true} />
+                    <Tool form={form} className="tool" disabled={editable ? !isEditable : true} />
                 )}
             </Form.Item>
         );
@@ -140,7 +146,7 @@ class ConfigurableForm extends React.Component {
         const { form } = this.props;
         const { getFieldDecorator } = form;
         const { name, tool: Tool, className, editable, editableByField, layout } = item;
-        const isDisabled = this.getDisabledStatus(editableByField, initData);
+        const isEditable = this.getAllEditStatus(editableByField, initData);
 
         return (
             <Form.Item label={item.label} key={item.name} className={className} {...layout}>
@@ -149,12 +155,12 @@ class ConfigurableForm extends React.Component {
                     this.formItemConfig(item)
                 )(
                     <AdInputNumber
-                        disabled={editable ? !isDisabled : true}
+                        disabled={editable ? !isEditable : true}
                         onChange={value => this.handleChange(name, value)}
                     />
                 )}
                 {Tool && (
-                    <Tool form={form} className="tool" disabled={editable ? !isDisabled : true} />
+                    <Tool form={form} className="tool" disabled={editable ? !isEditable : true} />
                 )}
             </Form.Item>
         );
@@ -165,7 +171,7 @@ class ConfigurableForm extends React.Component {
         const { getFieldDecorator } = form;
         const { name, option, tool: Tool, className, editable, editableByField, layout } = item;
         const selectOptions = this.getSelectOption(option, initData);
-        const isDisabled = this.getDisabledStatus(editableByField, initData);
+        const isEditable = this.getAllEditStatus(editableByField, initData);
 
         return (
             <Form.Item label={item.label} key={item.name} className={className} {...layout}>
@@ -175,7 +181,7 @@ class ConfigurableForm extends React.Component {
                 )(
                     <Select
                         dropdownMatchSelectWidth={false}
-                        disabled={editable ? !isDisabled : true}
+                        disabled={editable ? !isEditable : true}
                         onChange={value => this.handleChange(name, value)}
                     >
                         {Array.isArray(selectOptions) &&
@@ -192,7 +198,7 @@ class ConfigurableForm extends React.Component {
                     </Select>
                 )}
                 {Tool && (
-                    <Tool form={form} className="tool" disabled={editable ? !isDisabled : true} />
+                    <Tool form={form} className="tool" disabled={editable ? !isEditable : true} />
                 )}
             </Form.Item>
         );
@@ -202,7 +208,7 @@ class ConfigurableForm extends React.Component {
         const { form } = this.props;
         const { getFieldDecorator } = form;
         const { name, tool: Tool, className, editable, editableByField, layout } = item;
-        const isDisabled = this.getDisabledStatus(editableByField, initData);
+        const isEditable = this.getAllEditStatus(editableByField, initData);
 
         return (
             <Form.Item
@@ -217,12 +223,12 @@ class ConfigurableForm extends React.Component {
                 )(
                     <TextArea
                         rows={4}
-                        disabled={editable ? !isDisabled : true}
+                        disabled={editable ? !isEditable : true}
                         onChange={value => this.handleChange(name, value)}
                     />
                 )}
                 {Tool && (
-                    <Tool form={form} className="tool" disabled={editable ? !isDisabled : true} />
+                    <Tool form={form} className="tool" disabled={editable ? !isEditable : true} />
                 )}
             </Form.Item>
         );

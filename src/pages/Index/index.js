@@ -11,6 +11,7 @@ import { shortcut } from 'src/utils/shortcuts';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
 import { deleteDatabase } from 'src/utils/IndexedDB';
 import sysProperties from 'src/models/sysProperties';
+import ManageCtrl from 'src/utils/ManageCtrl';
 
 const { Header } = Layout;
 
@@ -25,8 +26,10 @@ if (!jump) {
     deleteDatabase('adEditor');
     deleteDatabase('relationships');
 }
+//加载nacos配置
 sysProperties.loadConfigs();
-
+//加载质检标注配置
+ManageCtrl.queryConfig();
 @inject('LoadingStore')
 @inject('MenuStore')
 @observer
