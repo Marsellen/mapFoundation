@@ -9,14 +9,11 @@ class OperateHistoryStore {
     @observable finalNode = -1;
     @observable couldSave = false;
     @observable autoSavedNode = -1;
-    @observable nodes = [];
     @observable pendding = false;
 
     init = flow(function* () {
         try {
-            const nodes = yield operateHistory.store.getAll();
-            // 异步代码块会被自动包装成动作并修改状态
-            this.nodes = nodes;
+            yield operateHistory.store.getAll();
         } catch (e) {
             console.log(e);
         }
@@ -84,7 +81,6 @@ class OperateHistoryStore {
     destroy = flow(function* () {
         try {
             yield operateHistory.store.clear();
-            this.nodes = [];
             this.currentNode = -1;
             this.savedNode = -1;
             this.finalNode = -1;

@@ -63,7 +63,7 @@ class QCMarkerTool extends React.Component {
             const layers = getAllChooseLayersExByName('AD_Map_QC');
             setTargetLayers(layers);
         } catch (e) {
-            exitMarker();
+            exitMarker(false);
             message.error(e.message, 3);
         }
     };

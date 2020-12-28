@@ -3,7 +3,7 @@ import QCMarkerService from 'src/services/QCMarkerService';
 import { message } from 'antd';
 import { MARKER_TABLE_COLUMNS } from 'src/config/QCMarkerConfig';
 
-const filterKeys = MARKER_TABLE_COLUMNS.flatMap(item => {
+const filterKeys = MARKER_TABLE_COLUMNS().flatMap(item => {
     return item.isFilter ? [item] : [];
 });
 
@@ -58,23 +58,20 @@ class QCMarkerStore {
                 filterKeys.forEach(item => {
                     const { key, describe } = item;
                     const currentVal = marker[key];
+                    if (!(currentVal || currentVal === 0)) return;
+                    let text = currentVal;
                     if (describe) {
                         const { data, secondKey, label, value } = describe;
                         const secondKeyStr = marker[secondKey];
                         const descArr = secondKey ? data[secondKeyStr] : data;
                         const describeObj = descArr.find(desc => desc[value] === currentVal);
-                        filterMap[key] = filterMap[key] || {};
-                        filterMap[key][currentVal] = {
-                            value: currentVal,
-                            text: describeObj?.[label] ?? currentVal
-                        };
-                    } else {
-                        filterMap[key] = filterMap[key] || {};
-                        filterMap[key][currentVal] = {
-                            value: currentVal,
-                            text: currentVal
-                        };
+                        text = describeObj?.[label] ?? currentVal;
                     }
+                    filterMap[key] = filterMap[key] || {};
+                    filterMap[key][currentVal] = {
+                        value: currentVal,
+                        text
+                    };
                 });
                 return marker;
             });

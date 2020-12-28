@@ -12,7 +12,7 @@ import 'src/assets/less/components/qc-marker-table.less';
 @observer
 class QCMarkerListTable extends React.Component {
     getColumns = total => {
-        const columns = MARKER_TABLE_COLUMNS.map(item => {
+        const columns = MARKER_TABLE_COLUMNS().map(item => {
             const { describe, styleByValue: { fieldValue, className } = {} } = item;
             const newItem = {
                 ...item,

@@ -60,7 +60,6 @@ const processName = [
 
 @inject('TaskStore')
 @inject('appStore')
-@inject('OperateHistoryStore')
 @inject('FeedbackStore')
 @observer
 class FeedBack extends React.Component {

@@ -91,13 +91,29 @@ class MultiFunctionalTable extends React.Component {
         );
     };
 
+    sorter = col => {
+        return (a, b) => {
+            if (/[0-9]/.test(a[col.dataIndex]) && /[0-9]/.test(b[col.dataIndex])) {
+                return parseInt(a[col.dataIndex]) - parseInt(b[col.dataIndex]);
+            } else {
+                if (!a[col.dataIndex] && a[col.dataIndex] !== 0) {
+                    return 1;
+                }
+                if (!b[col.dataIndex] && b[col.dataIndex] !== 0) {
+                    return -1;
+                }
+                return a[col.dataIndex] > b[col.dataIndex] ? 1 : -1;
+            }
+        };
+    };
+
     handleColumns = () => {
         const { columns: COLUMNS_CONFIG, filters } = this.props;
         let { columns, filteredInfo } = this.state;
         filteredInfo = filteredInfo || {};
 
         const newColumns = COLUMNS_CONFIG.map((item, index) => {
-            const { isFilter, dataIndex } = item;
+            const { isFilter, isSorter, dataIndex } = item;
             item = {
                 ...item,
                 ...columns[index],
@@ -114,6 +130,14 @@ class MultiFunctionalTable extends React.Component {
                     filters: filters[dataIndex],
                     filteredValue: filteredInfo[dataIndex] || null,
                     onFilter: (value, record) => record[dataIndex] == value
+                };
+            }
+
+            if (isSorter) {
+                item = {
+                    ...item,
+                    sorter: this.sorter(item),
+                    sortDirections: ['descend', 'ascend']
                 };
             }
 

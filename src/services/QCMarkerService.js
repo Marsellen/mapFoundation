@@ -4,7 +4,7 @@ import { MarkerApiPath } from 'src/utils/Api';
 const QCMarkerService = {
     insertMarker: data => {
         const config = {
-            url: MarkerApiPath('/marker/insertMarker'),
+            url: MarkerApiPath('/dataMarker/insertMarker'),
             method: 'post',
             data
         };
@@ -12,7 +12,7 @@ const QCMarkerService = {
     },
     updateMarker: data => {
         const config = {
-            url: MarkerApiPath('/marker/updateMarker'),
+            url: MarkerApiPath('/dataMarker/updateMarker'),
             method: 'post',
             data
         };
@@ -20,7 +20,7 @@ const QCMarkerService = {
     },
     deleteMarker: params => {
         const config = {
-            url: MarkerApiPath('/marker/deleteByPrimaryKey'),
+            url: MarkerApiPath('/dataMarker/deleteByPrimaryKey'),
             method: 'get',
             params
         };
@@ -28,7 +28,7 @@ const QCMarkerService = {
     },
     getMarkerList: data => {
         const config = {
-            url: MarkerApiPath('/marker/getMarkerList'),
+            url: MarkerApiPath('/dataMarker/getMarkerList'),
             method: 'post',
             data
         };
@@ -36,7 +36,7 @@ const QCMarkerService = {
     },
     updateMarkerStatus: params => {
         const config = {
-            url: MarkerApiPath('/marker/updateMarkerStatusByTaskId'),
+            url: MarkerApiPath('/dataMarker/updateMarkerStatusByTaskId'),
             method: 'get',
             params
         };

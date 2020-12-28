@@ -205,23 +205,20 @@ class QualityCheckStore {
             this.reportFilterKeys.map(column => {
                 const { key, describe } = column;
                 const currentVal = item[key];
+                if (!(currentVal || currentVal === 0)) return;
+                let text = currentVal;
                 if (describe) {
                     const { data, secondKey, label, value } = describe;
                     const secondKeyStr = item[secondKey];
                     const descArr = secondKey ? data[secondKeyStr] : data;
                     const describeObj = descArr.find(desc => desc[value] === currentVal);
-                    filterMap[key] = filterMap[key] || {};
-                    filterMap[key][currentVal] = {
-                        value: currentVal,
-                        text: describeObj?.[label] ?? currentVal
-                    };
-                } else {
-                    filterMap[key] = filterMap[key] || {};
-                    filterMap[key][currentVal] = {
-                        value: currentVal,
-                        text: currentVal
-                    };
+                    text = describeObj?.[label] ?? currentVal;
                 }
+                filterMap[key] = filterMap[key] || {};
+                filterMap[key][currentVal] = {
+                    value: currentVal,
+                    text
+                };
             });
             return item;
         });

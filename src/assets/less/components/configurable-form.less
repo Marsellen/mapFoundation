@@ -33,4 +33,23 @@
         border-bottom: 1px dashed #c0c0c0;
         margin-bottom: 8px;
     }
+
+    .select-show-full-content {
+        .ant-form-item-children {
+            display: flex;
+            padding: 5px 0;
+        }
+        .ant-select-selection {
+            min-height: 32px;
+            height: unset;
+        }
+        .ant-select-selection-selected-value {
+            float: none;
+            white-space: unset;
+        }
+        .ant-select-selection__rendered::after {
+            display: block;
+            height: 0;
+        }
+    }
 }

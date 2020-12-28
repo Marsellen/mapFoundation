@@ -847,11 +847,11 @@ class DataLayerStore {
     };
 
     //注册“退出质检标注图层”事件
-    exitMarker = () => {
+    exitMarker = (isDelete = true) => {
         this.exitEdit();
         this.activeEditor();
         this.fetchTargetLayers(); //重置可选图层
-        QCMarkerStore.exitMarker();
+        QCMarkerStore.exitMarker(isDelete);
     };
 
     //esc提示窗
