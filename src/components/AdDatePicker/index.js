@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Select, Modal, Checkbox, Radio, Button, Row, Col, message } from 'antd';
-import { getData } from 'src/utils/timeUtils';
+import { getData, setValidatorStart, setValidatorEnd, setCallback } from 'src/utils/timeUtils';
 import TimePicker from './components/TimePicker';
 import './index.less';
 const { Option } = Select;
@@ -225,6 +225,7 @@ class AdDatePicker extends React.Component {
         const isMonth = radioChecked === 'month' && isChecked && isCheckbox.includes('radio');
         const disabled = !isCheckbox.includes('radio') || !isChecked;
         const diffAC = yearMonthA < yearMonthC;
+        const yearAndMonthDisabled = !disabled && yearMonthCheckbox;
         return (
             <span className="year-month-day-week-cycle">
                 <div className="year-month-day-week-checkbox">
@@ -289,8 +290,13 @@ class AdDatePicker extends React.Component {
                             initialValue: yearMonthB || '',
                             rules: [
                                 {
-                                    required: !disabled && yearMonthCheckbox && !yearMonthB,
+                                    required: yearAndMonthDisabled && !yearMonthB,
                                     message: '请填入'
+                                },
+                                {
+                                    validator: yearAndMonthDisabled
+                                        ? setValidatorStart(yearMonthA, yearMonthC, yearMonthD)
+                                        : setCallback()
                                 }
                             ]
                         })(
@@ -386,6 +392,11 @@ class AdDatePicker extends React.Component {
                                         yearMonthC &&
                                         !yearMonthD,
                                     message: '请填入'
+                                },
+                                {
+                                    validator: yearAndMonthDisabled
+                                        ? setValidatorEnd(yearMonthA, yearMonthB, yearMonthC)
+                                        : setCallback()
                                 }
                             ]
                         })(
@@ -611,6 +622,11 @@ class AdDatePicker extends React.Component {
                             {
                                 required: !disabled && !yearMonthK,
                                 message: '请填入'
+                            },
+                            {
+                                validator: !disabled
+                                    ? setValidatorStart(yearMonthJ, yearMonthM, yearMonthN)
+                                    : setCallback()
                             }
                         ]
                     })(
@@ -690,6 +706,11 @@ class AdDatePicker extends React.Component {
                                     yearMonthM &&
                                     !yearMonthN,
                                 message: '请填入'
+                            },
+                            {
+                                validator: !disabled
+                                    ? setValidatorEnd(yearMonthJ, yearMonthK, yearMonthM)
+                                    : setCallback()
                             }
                         ]
                     })(
@@ -875,14 +896,6 @@ class AdDatePicker extends React.Component {
 
         this.props.form.validateFields((err, values) => {
             //console.log('err, values', err, values);
-            if (values.yearMonthA == values.yearMonthC && values.yearMonthB > values.yearMonthD) {
-                message.warning('年月填写错误，请重新填写！');
-                return false;
-            }
-            if (values.yearMonthJ == values.yearMonthM && values.yearMonthK > values.yearMonthN) {
-                message.warning('月日区间填写错误，请重新填写！');
-                return false;
-            }
             if ((err || isCheckTimeEqual) && isCheckbox.length !== 0) {
                 if (isCheckTimeEqual) {
                     message.warning('时分填写错误，不同行之间不允许设置相同时间！');

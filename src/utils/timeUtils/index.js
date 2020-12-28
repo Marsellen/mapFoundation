@@ -144,3 +144,27 @@ export const getData = (min, max) => {
     }
     return data;
 };
+
+export const setValidatorStart = (startYear, endYear, endMonth) => {
+    return (_, value, callback) => {
+        if (startYear == endYear && value > endMonth) {
+            callback(new Error('填写错误！'));
+        }
+        callback();
+    };
+};
+
+export const setValidatorEnd = (startYear, startMonth, endYear) => {
+    return (_, value, callback) => {
+        if (startYear == endYear && startMonth > value) {
+            callback(new Error('填写错误！'));
+        }
+        callback();
+    };
+};
+
+export const setCallback = () => {
+    return (_, value, callback) => {
+        callback();
+    };
+};
