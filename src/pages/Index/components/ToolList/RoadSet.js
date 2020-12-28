@@ -40,7 +40,7 @@ class RoadSet extends React.Component {
             if (result && result[0] && result[0].data) {
                 const coordinates = result[0].data.geometry.coordinates;
                 // 获取落点的点元素Z轴位置
-                const pointZ = coordinates[2] - 10;
+                const pointZ = coordinates[2] - 0.05;
                 window.map && window.map.setBaseElevation(pointZ);
             }
             DataLayerStore.exitEdit();
