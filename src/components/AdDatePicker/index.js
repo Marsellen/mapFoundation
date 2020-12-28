@@ -269,7 +269,11 @@ class AdDatePicker extends React.Component {
                             >
                                 {YEAR.map(item => (
                                     <Option
-                                        disabled={this.dropdownRender(isYearMonthA, item)}
+                                        disabled={
+                                            !this.isNotFirstRender || yearMonthC
+                                                ? Number(yearMonthC) <= item
+                                                : this.dropdownRender(item, isYearMonthA)
+                                        }
                                         key={item}
                                         value={item}
                                     >
@@ -305,7 +309,11 @@ class AdDatePicker extends React.Component {
                                 {MONTH.map(item => (
                                     <Option
                                         disabled={
-                                            !diffAC && this.dropdownRender(isYearMonthB, item)
+                                            !diffAC
+                                                ? !this.isNotFirstRender || yearMonthD
+                                                    ? Number(yearMonthD) <= item
+                                                    : this.dropdownRender(item, isYearMonthB)
+                                                : null
                                         }
                                         key={item}
                                         value={item}
@@ -350,7 +358,11 @@ class AdDatePicker extends React.Component {
                             >
                                 {YEAR.map(item => (
                                     <Option
-                                        disabled={this.dropdownRender(isYearMonthC, item)}
+                                        disabled={
+                                            !this.isNotFirstRender || yearMonthA
+                                                ? Number(yearMonthA) > item
+                                                : this.dropdownRender(item, isYearMonthC)
+                                        }
                                         key={item}
                                         value={item}
                                     >
@@ -392,7 +404,11 @@ class AdDatePicker extends React.Component {
                                 {MONTH.map(item => (
                                     <Option
                                         disabled={
-                                            !diffAC && this.dropdownRender(isYearMonthD, item)
+                                            !diffAC
+                                                ? !this.isNotFirstRender || yearMonthB
+                                                    ? Number(yearMonthB) >= item
+                                                    : this.dropdownRender(item, isYearMonthD)
+                                                : null
                                         }
                                         key={item}
                                         value={item}
@@ -573,7 +589,11 @@ class AdDatePicker extends React.Component {
                         >
                             {MONTH.map(item => (
                                 <Option
-                                    disabled={this.dropdownRender(isYearMonthJ, item)}
+                                    disabled={
+                                        !this.isNotFirstRender || yearMonthM
+                                            ? Number(yearMonthM) <= item
+                                            : this.dropdownRender(item, isYearMonthJ)
+                                    }
                                     key={item}
                                     value={item}
                                 >
@@ -602,7 +622,13 @@ class AdDatePicker extends React.Component {
                         >
                             {DAY.map(item => (
                                 <Option
-                                    disabled={!diffJM && this.dropdownRender(isYearMonthK, item)}
+                                    disabled={
+                                        !diffJM
+                                            ? !this.isNotFirstRender || yearMonthN
+                                                ? Number(yearMonthN) <= item
+                                                : this.dropdownRender(item, isYearMonthK)
+                                            : null
+                                    }
                                     key={item}
                                     value={item}
                                 >
@@ -637,7 +663,11 @@ class AdDatePicker extends React.Component {
                         >
                             {MONTH.map(item => (
                                 <Option
-                                    disabled={this.dropdownRender(isYearMonthM, item)}
+                                    disabled={
+                                        !this.isNotFirstRender || yearMonthJ
+                                            ? Number(yearMonthJ) > item
+                                            : this.dropdownRender(item, isYearMonthM)
+                                    }
                                     key={item}
                                     value={item}
                                 >
@@ -671,7 +701,13 @@ class AdDatePicker extends React.Component {
                         >
                             {DAY.map(item => (
                                 <Option
-                                    disabled={!diffJM && this.dropdownRender(isYearMonthN, item)}
+                                    disabled={
+                                        !diffJM
+                                            ? !this.isNotFirstRender || yearMonthK
+                                                ? Number(yearMonthK) >= item
+                                                : this.dropdownRender(item, isYearMonthN)
+                                            : null
+                                    }
                                     key={item}
                                     value={item}
                                 >
@@ -780,7 +816,7 @@ class AdDatePicker extends React.Component {
         });
     };
 
-    dropdownRender = (range = [], item) => {
+    dropdownRender = (item, range = []) => {
         if (range.length > 0) {
             let c = range.indexOf(item) == -1;
             return c ? true : false;
