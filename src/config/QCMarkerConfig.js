@@ -2788,7 +2788,7 @@ export const QC_MARKER_FORM_CONFIG = () => {
             { name: 'errContent', editable: true },
             { name: 'errorType', editable: true },
             { name: 'fieldName', editable: true },
-            { name: 'errLevel', editable: true },
+            { name: 'errLevel', editable: false },
             { name: 'qcDesc', editable: true }
         ],
         //质检员创建标注的表单配置-人工构建后质检
@@ -2809,7 +2809,7 @@ export const QC_MARKER_FORM_CONFIG = () => {
             { name: 'errContent', editable: true },
             { name: 'errorType', editable: true },
             { name: 'fieldName', editable: true },
-            { name: 'errLevel', editable: true },
+            { name: 'errLevel', editable: false },
             { name: 'qcDesc', editable: true }
         ],
         //质检员首次查看的表单配置-人工识别后质检
@@ -2877,7 +2877,7 @@ export const QC_MARKER_FORM_CONFIG = () => {
             { name: 'errContent', editable: true },
             { name: 'errorType', editable: true },
             { name: 'fieldName', editable: true },
-            { name: 'errLevel', editable: true },
+            { name: 'errLevel', editable: false },
             { name: 'editDesc', editable: false },
             { name: 'qcDesc', editable: true }
         ],
@@ -2900,7 +2900,7 @@ export const QC_MARKER_FORM_CONFIG = () => {
             { name: 'errContent', editable: true },
             { name: 'errorType', editable: true },
             { name: 'fieldName', editable: true },
-            { name: 'errLevel', editable: true },
+            { name: 'errLevel', editable: false },
             { name: 'editDesc', editable: false },
             { name: 'qcDesc', editable: true }
         ],
