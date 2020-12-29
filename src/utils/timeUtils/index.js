@@ -147,7 +147,7 @@ export const getData = (min, max) => {
 
 export const setValidatorStart = (startYear, endYear, endMonth) => {
     return (_, value, callback) => {
-        if (startYear == endYear && value > endMonth) {
+        if (startYear == endYear && endMonth && value > endMonth) {
             callback(new Error('填写错误！'));
         }
         callback();
@@ -156,7 +156,7 @@ export const setValidatorStart = (startYear, endYear, endMonth) => {
 
 export const setValidatorEnd = (startYear, startMonth, endYear) => {
     return (_, value, callback) => {
-        if (startYear == endYear && startMonth > value) {
+        if (startYear == endYear && startMonth && startMonth > value) {
             callback(new Error('填写错误！'));
         }
         callback();

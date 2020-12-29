@@ -224,7 +224,7 @@ class AdDatePicker extends React.Component {
         const isWeek = radioChecked === 'week' && isChecked && isCheckbox.includes('radio');
         const isMonth = radioChecked === 'month' && isChecked && isCheckbox.includes('radio');
         const disabled = !isCheckbox.includes('radio') || !isChecked;
-        const diffAC = yearMonthA < yearMonthC;
+        const diffAC = yearMonthA && yearMonthC && yearMonthA < yearMonthC;
         const yearAndMonthDisabled = !disabled && yearMonthCheckbox;
         return (
             <span className="year-month-day-week-cycle">
@@ -316,7 +316,7 @@ class AdDatePicker extends React.Component {
                                     <Option
                                         disabled={
                                             !diffAC
-                                                ? !this.isNotFirstRender || yearMonthD
+                                                ? yearMonthD
                                                     ? Number(yearMonthD) <= item
                                                     : this.dropdownRender(item, isYearMonthB)
                                                 : null
@@ -416,7 +416,7 @@ class AdDatePicker extends React.Component {
                                     <Option
                                         disabled={
                                             !diffAC
-                                                ? !this.isNotFirstRender || yearMonthB
+                                                ? yearMonthB
                                                     ? Number(yearMonthB) >= item
                                                     : this.dropdownRender(item, isYearMonthD)
                                                 : null
@@ -640,7 +640,7 @@ class AdDatePicker extends React.Component {
                                 <Option
                                     disabled={
                                         !diffJM
-                                            ? !this.isNotFirstRender || yearMonthN
+                                            ? yearMonthN
                                                 ? Number(yearMonthN) <= item
                                                 : this.dropdownRender(item, isYearMonthK)
                                             : null
@@ -724,7 +724,7 @@ class AdDatePicker extends React.Component {
                                 <Option
                                     disabled={
                                         !diffJM
-                                            ? !this.isNotFirstRender || yearMonthK
+                                            ? yearMonthK
                                                 ? Number(yearMonthK) >= item
                                                 : this.dropdownRender(item, isYearMonthN)
                                             : null
