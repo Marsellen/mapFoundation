@@ -4,6 +4,8 @@ import 'src/assets/less/manage.less';
 import ManageCtrl from 'src/utils/ManageCtrl';
 import appStore from 'src/store/appStore';
 import { QC_MARKER_CONFIG } from 'src/config/QCMarkerConfig';
+import logo from 'src/assets/img/logo.png';
+import Avatar from 'src/pages/Index/components/Avatar';
 
 const { TextArea } = Input;
 
@@ -41,19 +43,27 @@ class Manage extends React.Component {
         const formatConfig = config ? JSON.stringify(config, null, 4) : null;
         return (
             <div className="manage-wrap">
-                <Form onSubmit={this.handleSubmit}>
-                    <Form.Item>
-                        {getFieldDecorator('data', {
-                            initialValue: formatConfig,
-                            rules: [{ required: true, message: '请输入配置' }]
-                        })(<TextArea />)}
-                    </Form.Item>
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit">
-                            更新
-                        </Button>
-                    </Form.Item>
-                </Form>
+                <header className="manage-header">
+                    <div className="logo-wrap">
+                        <img className="logo" src={logo} alt="logo" />
+                    </div>
+                    <Avatar />
+                </header>
+                <div className="manage-form-wrap">
+                    <Form onSubmit={this.handleSubmit}>
+                        <Form.Item>
+                            {getFieldDecorator('data', {
+                                initialValue: formatConfig,
+                                rules: [{ required: true, message: '请输入配置' }]
+                            })(<TextArea />)}
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit">
+                                更新
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </div>
             </div>
         );
     }
