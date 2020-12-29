@@ -590,15 +590,17 @@ class VizComponent extends React.Component {
         //监听浏览器即将离开当前页面事件
         window.onbeforeunload = function (e) {
             //保存当前任务比例
-            const { activeTaskId } = TaskStore;
-            const preTaskScale = map.getEyeView();
-            const { position } = preTaskScale;
-            const { x, y, z } = position;
-            if (!(x === 0 && y === 0 && z === 0)) {
-                AdLocalStorage.setTaskInfosStorage({
-                    taskId: activeTaskId,
-                    taskScale: preTaskScale
-                });
+            if (window.map) {
+                const { activeTaskId } = TaskStore;
+                const preTaskScale = window.map.getEyeView();
+                const { position } = preTaskScale;
+                const { x, y, z } = position;
+                if (!(x === 0 && y === 0 && z === 0)) {
+                    AdLocalStorage.setTaskInfosStorage({
+                        taskId: activeTaskId,
+                        taskScale: preTaskScale
+                    });
+                }
             }
             //离开页面时减少访问次数
             editVisiteHistory.removeVisitedHistory();
