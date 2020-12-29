@@ -3052,100 +3052,6 @@ export const MARKER_TABLE_COLUMNS = () => {
             width: 50
         },
         {
-            title: '错误内容',
-            dataIndex: 'errContent',
-            key: 'errContent',
-            isFilter: true,
-            isSorter: true,
-            describe: {
-                data: getConfig('ERROR_CONTENT_OPTIONS') || ERROR_CONTENT_OPTIONS,
-                label: 'label',
-                value: 'value'
-            },
-            width: 130
-        },
-        {
-            title: '错误类型',
-            dataIndex: 'errorType',
-            key: 'errorType',
-            isFilter: true,
-            isSorter: true,
-            describe: {
-                data: getConfig('ERROR_TYPE_OPTIONS') || ERROR_TYPE_OPTIONS,
-                label: 'label',
-                value: 'value'
-            },
-            width: 130
-        },
-        {
-            title: '字段名称',
-            dataIndex: 'fieldName',
-            key: 'fieldName',
-            isFilter: true,
-            isSorter: true,
-            width: 100,
-            describe: {
-                data: getConfig('FIELD_NAME_MAP') || FIELD_NAME_MAP,
-                secondKey: 'fileName',
-                label: 'label',
-                value: 'value'
-            }
-        },
-        {
-            title: '错误描述',
-            dataIndex: 'errorDesc',
-            key: 'errorDesc',
-            isFilter: true,
-            isSorter: true,
-            width: 150,
-            describe: {
-                data: getConfig('ERROR_DESC_MAP') || ERROR_DESC_MAP,
-                secondKey: 'fileName',
-                label: 'label',
-                value: 'value'
-            }
-        },
-        {
-            title: '错误等级',
-            dataIndex: 'errLevel',
-            key: 'errLevel',
-            isFilter: true,
-            isSorter: true,
-            width: 150,
-            describe: {
-                data: getConfig('ERROR_LEVEL_OPTIONS') || ERROR_LEVEL_OPTIONS,
-                label: 'label',
-                value: 'value'
-            }
-        },
-        {
-            title: '作业说明',
-            dataIndex: 'editDesc',
-            key: 'editDesc',
-            isSorter: true,
-            width: 100
-        },
-        {
-            title: '图层',
-            dataIndex: 'fileName',
-            key: 'fileName',
-            isFilter: true,
-            isSorter: true,
-            width: 120,
-            describe: {
-                data: getConfig('FILE_NAME_OPTIONS') || FILE_NAME_OPTIONS,
-                label: 'label',
-                value: 'value'
-            }
-        },
-        {
-            title: '要素ID',
-            dataIndex: 'featId',
-            key: 'featId',
-            isSorter: true,
-            width: 80
-        },
-        {
             title: '作业查看状态',
             dataIndex: 'fixStatus',
             key: 'fixStatus',
@@ -3180,12 +3086,106 @@ export const MARKER_TABLE_COLUMNS = () => {
             }
         },
         {
+            title: '图层',
+            dataIndex: 'fileName',
+            key: 'fileName',
+            isFilter: true,
+            isSorter: true,
+            width: 75,
+            describe: {
+                data: getConfig('FILE_NAME_OPTIONS') || FILE_NAME_OPTIONS,
+                label: 'label',
+                value: 'value'
+            }
+        },
+        {
+            title: '要素ID',
+            dataIndex: 'featId',
+            key: 'featId',
+            isSorter: true,
+            width: 70
+        },
+        {
+            title: '错误描述',
+            dataIndex: 'errorDesc',
+            key: 'errorDesc',
+            isFilter: true,
+            isSorter: true,
+            width: 200,
+            describe: {
+                data: getConfig('ERROR_DESC_MAP') || ERROR_DESC_MAP,
+                secondKey: 'fileName',
+                label: 'label',
+                value: 'value'
+            }
+        },
+        {
+            title: '错误内容',
+            dataIndex: 'errContent',
+            key: 'errContent',
+            isFilter: true,
+            isSorter: true,
+            describe: {
+                data: getConfig('ERROR_CONTENT_OPTIONS') || ERROR_CONTENT_OPTIONS,
+                label: 'label',
+                value: 'value'
+            },
+            width: 100
+        },
+        {
+            title: '错误类型',
+            dataIndex: 'errorType',
+            key: 'errorType',
+            isFilter: true,
+            isSorter: true,
+            describe: {
+                data: getConfig('ERROR_TYPE_OPTIONS') || ERROR_TYPE_OPTIONS,
+                label: 'label',
+                value: 'value'
+            },
+            width: 100
+        },
+        {
+            title: '字段名称',
+            dataIndex: 'fieldName',
+            key: 'fieldName',
+            isFilter: true,
+            isSorter: true,
+            width: 100,
+            describe: {
+                data: getConfig('FIELD_NAME_MAP') || FIELD_NAME_MAP,
+                secondKey: 'fileName',
+                label: 'label',
+                value: 'value'
+            }
+        },
+        {
+            title: '错误等级',
+            dataIndex: 'errLevel',
+            key: 'errLevel',
+            isFilter: true,
+            isSorter: true,
+            width: 100,
+            describe: {
+                data: getConfig('ERROR_LEVEL_OPTIONS') || ERROR_LEVEL_OPTIONS,
+                label: 'label',
+                value: 'value'
+            }
+        },
+        {
+            title: '作业说明',
+            dataIndex: 'editDesc',
+            key: 'editDesc',
+            isSorter: true,
+            width: 100
+        },
+        {
             title: '打标环节',
             dataIndex: 'qcLink',
             key: 'qcLink',
             isFilter: true,
             isSorter: true,
-            width: 120,
+            width: 100,
             describe: {
                 data: getConfig('QC_LINK_OPTIONS') || QC_LINK_OPTIONS,
                 label: 'label',
