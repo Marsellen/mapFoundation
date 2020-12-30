@@ -39,8 +39,8 @@ class Manage extends React.Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        const { config = QC_MARKER_CONFIG } = this.state;
-        const formatConfig = config ? JSON.stringify(config, null, 4) : null;
+        const config = this.state.config || QC_MARKER_CONFIG;
+        const formatConfig = JSON.stringify(config, null, 4);
         return (
             <div className="manage-wrap">
                 <header className="manage-header">
