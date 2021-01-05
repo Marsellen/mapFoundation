@@ -1,5 +1,5 @@
 import { observable, configure, action } from 'mobx';
-import { DATA_LAYER_MAP, TOP_VIEW_DISABLED_LAYERS } from 'src/config/DataLayerConfig';
+import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import DataLayerStore from './DataLayerStore';
 import { getEditLayerDisabled, getLayerEditAble } from 'src/utils/permissionCtrl';
 
@@ -82,9 +82,7 @@ class RightMenuStore {
         const featuresL = this.features.length;
         const layerName = this.features[0].layerName;
         if (featuresL == 1) {
-            if (!DataLayerStore.isTopView || !TOP_VIEW_DISABLED_LAYERS.includes(layerName)) {
-                this.menus = ['setEditLayer'];
-            }
+            this.menus = ['setEditLayer'];
         }
         // 非当前编辑图层要素不显示操作列表
         if (!this.isCurrentLayer) return;

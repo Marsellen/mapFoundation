@@ -1,7 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
-import { TOP_VIEW_DISABLED_LAYERS } from 'src/config/DataLayerConfig';
 import { getLayersByNames } from 'src/utils/vectorUtils';
 
 @inject('TaskStore')
@@ -24,7 +23,6 @@ class TopView extends React.Component {
                     placement="left"
                     className="ad-icon-topview"
                     visible={isTopView}
-                    disabled={DataLayerStore.editType == 'posture_adjust'}
                     action={this.action}
                 />
             </div>
@@ -34,14 +32,10 @@ class TopView extends React.Component {
     action = () => {
         if (!window.map) return;
         const {
-            ToolCtrlStore,
-            RightMenuStore,
             DataLayerStore: {
                 isTopView,
                 topViewMode,
                 isUnionBreak,
-                activeEditor,
-                getEditLayerName,
                 enableRegionSelect,
                 disableRegionSelect
             }
@@ -51,12 +45,6 @@ class TopView extends React.Component {
             window.map.setCurrentView('U');
             window.map.disableRotate();
             //不支持俯视图模式的图层，退出编辑图层，退出编辑状态，隐藏右键菜单
-            const layerName = getEditLayerName();
-            if (TOP_VIEW_DISABLED_LAYERS.includes(layerName)) {
-                activeEditor();
-                ToolCtrlStore.updateByEditLayer();
-                RightMenuStore.hide();
-            }
             //如果是联合打断状态，设置可框选车道线和隔离带、护栏
             //如果不是联合打断状态，设置可框选当前编辑图层
             if (isUnionBreak) {

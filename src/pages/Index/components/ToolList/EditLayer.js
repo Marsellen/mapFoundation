@@ -3,7 +3,6 @@ import { Radio, List } from 'antd';
 import { inject, observer } from 'mobx-react';
 import {
     DATA_LAYER_MAP,
-    TOP_VIEW_DISABLED_LAYERS,
     IMP_RECOGNITION_DISABLED_LAYERS,
     LAYER_STRATIFICATION_MAP
 } from 'src/config/DataLayerConfig';
@@ -142,16 +141,12 @@ class EditLayerPicker extends React.Component {
     };
 
     layerDisabled(layerName) {
-        const { TaskStore, DataLayerStore } = this.props;
+        const { TaskStore } = this.props;
         const { activeTask } = TaskStore;
-        const { isTopView } = DataLayerStore;
         if (activeTask.processName === 'imp_recognition' && !activeTask.isLocal) {
             if (IMP_RECOGNITION_DISABLED_LAYERS.includes(layerName)) {
                 return true;
             }
-        }
-        if (isTopView && TOP_VIEW_DISABLED_LAYERS.includes(layerName)) {
-            return true;
         }
         return false;
     }
