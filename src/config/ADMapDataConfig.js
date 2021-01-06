@@ -894,7 +894,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         TYPE: 1
     },
     AD_RS_Barrier: {
-        TYPE: 3,
+        TYPE: 2,
         MATERIAL: 1
     },
     AD_LaneDivider_Pln: {
@@ -950,7 +950,21 @@ export const TABLE_DATA_MAP = {
             key: 'TYPE',
             name: '车道线类型',
             type: 'AD_LANE_DIVIDER_TYPE',
-            domType: 'RadioIconGroup'
+            domType: 'RadioIconGroup',
+            link: {
+                default: {
+                    RD_EDGE: 2
+                },
+                11: {
+                    RD_EDGE: 1
+                },
+                13: {
+                    RD_EDGE: 1
+                },
+                99: {
+                    RD_EDGE: 1
+                }
+            }
         },
         {
             key: 'LANE_TYPE',
@@ -1012,6 +1026,12 @@ export const TABLE_DATA_MAP = {
                 0: {
                     DIRECTION: 0,
                     LANE_STATUS: 0
+                },
+                1: {
+                    RD_LINE: 1,
+                    DIRECTION: 1,
+                    LANE_STATUS: 1,
+                    RD_FORM: 1
                 }
             }
         },
@@ -1042,8 +1062,8 @@ export const TABLE_DATA_MAP = {
             domType: 'RadioIconGroup',
             link: {
                 0: { SPEED: 0, TIMEDOM: '', VEH_LMT: 0 },
-                1: { SPEED: 120, TIMEDOM: '' },
-                2: { SPEED: 60, TIMEDOM: '' },
+                1: { SPEED: 120, TIMEDOM: '', VEH_LMT: 1 },
+                2: { SPEED: 60, TIMEDOM: '', VEH_LMT: 1 },
                 3: { SPEED: 0 },
                 4: { SPEED: 0 },
                 5: { SPEED: 0 },
