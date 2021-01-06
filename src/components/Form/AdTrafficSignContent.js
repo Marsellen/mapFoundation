@@ -64,12 +64,29 @@ export default function AdTrafficSignContent(props) {
         form.validateFields();
     }, [contents]);
 
-    let contTypeOnChange = (keyName, index, value) => {
+    const contTypeOnChange = (keyName, index, value) => {
         if (DISABLED_TYPES.has(value)) {
             form.setFieldsValue({ [keyName]: 0 });
         }
         const values = form.getFieldValue(`${name}.${key}`);
         values[index].CONT_TYPE = value;
+        setContents(values);
+    };
+
+    const signTypeOnChange = (keyName, index, value) => {
+        switch (value) {
+            case 2219:
+                form.setFieldsValue({ [keyName]: 3 });
+                break;
+            case 2314:
+                form.setFieldsValue({ [keyName]: 4 });
+                break;
+            default:
+                form.setFieldsValue({ [keyName]: 0 });
+                break;
+        }
+        const values = form.getFieldValue(`${name}.${key}`);
+        values[index].SIGN_TYPE = value;
         setContents(values);
     };
 
@@ -86,7 +103,16 @@ export default function AdTrafficSignContent(props) {
                         {!readonly ? (
                             form.getFieldDecorator(`${name}.${key}[${index}].SIGN_TYPE`, {
                                 initialValue: content.SIGN_TYPE
-                            })(<SearchIconGroup options={SIGN_TYPE_OPTIONS} />)
+                            })(
+                                <SearchIconGroup
+                                    options={SIGN_TYPE_OPTIONS}
+                                    onChange={signTypeOnChange.bind(
+                                        null,
+                                        `${name}.${key}[${index}].CONT_TYPE`,
+                                        index
+                                    )}
+                                />
+                            )
                         ) : (
                             <span className="ant-form-text">
                                 {isPresent(content.SIGN_TYPE)
@@ -99,7 +125,7 @@ export default function AdTrafficSignContent(props) {
                     </Form.Item>
                     <Form.Item
                         key={`CONT_TYPE-${index}-${radomKey}`}
-                        label="交通标志牌语义类型"
+                        label="语义类型"
                         {...formItemLayout}
                     >
                         {!readonly ? (
@@ -134,7 +160,7 @@ export default function AdTrafficSignContent(props) {
                     </Form.Item>
                     <Form.Item
                         key={`CONT_VALUE-${index}-${radomKey}`}
-                        label="交通标志牌语义内容"
+                        label="语义内容"
                         {...formItemLayout}
                     >
                         {!readonly ? (
@@ -156,8 +182,7 @@ export default function AdTrafficSignContent(props) {
                     </Form.Item>
                     <Form.Item
                         key={`TIMEDOM-${index}-${radomKey}`}
-                        label="交通标志牌限制时间描述"
-                        className="timedom"
+                        label="限制时间描述"
                         {...formItemLayout}
                     >
                         {!readonly ? (
