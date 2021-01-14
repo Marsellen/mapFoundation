@@ -258,6 +258,8 @@ class DataLayerStore {
         this.editor.onFeatureEdited(async result => {
             if (this.editType == 'move_point_feature') {
                 this.movePointFeatureCallback(result, event);
+            } else if (this.editType == 'change_points') {
+                this.changePointsCallback(result);
             } else {
                 callback && (await callback(result));
             }
@@ -609,6 +611,10 @@ class DataLayerStore {
 
     setMovePointFeatureCallback = callback => {
         this.movePointFeatureCallback = callback;
+    };
+
+    setChangePointsCallback = callback => {
+        this.changePointsCallback = callback;
     };
 
     setBreakByLineCallback = callback => {
@@ -1004,7 +1010,9 @@ class DataLayerStore {
     };
 
     enableRegionSelect = layers => {
-        this.editor && this.editor.enableRegionSelect(layers);
+        const { ZT1 = 7, ZT2 = 5 } = sysProperties.configs || {};
+        const regionSelect = { regionSelectUp: ZT2, regionSelectDown: ZT1 };
+        this.editor && this.editor.enableRegionSelect(layers, regionSelect);
     };
 
     disableRegionSelect = () => {

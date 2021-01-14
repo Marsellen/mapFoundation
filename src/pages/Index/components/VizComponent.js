@@ -418,7 +418,8 @@ class VizComponent extends React.Component {
             if (!urlMap) return;
             const { TaskStore } = this.props;
             const { projectNameArr, updateMultiProjectMap } = TaskStore;
-            const traceListLayer = new TraceListLayer();
+            const traceOpts = { style: { arrow_color: '#FFFFFF', arrow_size: 2 } };
+            const traceListLayer = new TraceListLayer(traceOpts);
             window.trackLayer = traceListLayer;
             map.getLayerManager().addTraceListLayer(traceListLayer);
             const fetchTrackArr = Object.keys(urlMap).map(projectName => {

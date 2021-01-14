@@ -69,7 +69,8 @@ export const DATA_LAYER_MAP = {
             'reverseOrderLine',
             'breakByLine',
             'groupMove',
-            'delete'
+            'delete',
+            'changePoints'
         ],
         editName: '车道线'
     },
@@ -185,7 +186,8 @@ export const DATA_LAYER_MAP = {
             'reverseOrderLine',
             'breakByLine',
             'groupMove',
-            'delete'
+            'delete',
+            'changePoints'
         ],
         editName: '车道中心线'
     },
@@ -254,7 +256,8 @@ export const DATA_LAYER_MAP = {
             'reverseOrderLine',
             'breakByLine',
             'groupMove',
-            'delete'
+            'delete',
+            'changePoints'
         ],
         editName: '道路参考线'
     },
@@ -327,7 +330,8 @@ export const DATA_LAYER_MAP = {
             'batchMerge',
             'breakByLine',
             'groupMove',
-            'delete'
+            'delete',
+            'changePoints'
         ],
         editName: '隔离带、\n护栏'
     },
