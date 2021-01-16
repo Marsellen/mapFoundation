@@ -2,20 +2,10 @@ import React from 'react';
 import { Form, Select, Input } from 'antd';
 import 'less/components/configurable-form.less';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
+import RadioIconGroup from 'src/components/RadioIconGroup';
 
 const { Option } = Select;
 const { TextArea } = Input;
-
-const formItemLayout = {
-    labelCol: {
-        xs: { span: 8 },
-        sm: { span: 8 }
-    },
-    wrapperCol: {
-        xs: { span: 16 },
-        sm: { span: 16 }
-    }
-};
 
 @Form.create()
 class ConfigurableForm extends React.Component {
@@ -28,12 +18,12 @@ class ConfigurableForm extends React.Component {
     };
 
     handleChange = (name, value) => {
-        const { fieldChange, form } = this.props;
-        if (!fieldChange[name]) return;
+        const { form, fieldChange } = this.props;
         form.setFieldsValue({
             [name]: value
         });
-        fieldChange[name]();
+        fieldChange?.default?.({ [name]: value }, form.getFieldsValue());
+        fieldChange?.[name]?.();
     };
 
     getCompareRes = (fieldValue, currentVal) => {
@@ -50,7 +40,7 @@ class ConfigurableForm extends React.Component {
         const { setFieldsValue } = form;
         const { name, initialValue, rules, resetField, resetFieldByField } = item;
         return {
-            initialValue: initData[name] || initialValue,
+            initialValue: initData?.[name] ?? initialValue,
             rules:
                 rules &&
                 Object.keys(rules).map(ruleName => {
@@ -65,14 +55,19 @@ class ConfigurableForm extends React.Component {
             //改变其它表单控件值
             getValueFromEvent: param => {
                 const value = param?.target?.value ?? param;
-                resetField && setFieldsValue({ ...resetField, [name]: value });
+                //如果有resetField，根据配置重置表单其它字段
+                if (resetField) {
+                    const obj = resetField?.[value] ?? resetField?.default ?? {};
+                    setFieldsValue({ ...obj, [name]: value });
+                }
                 //如果有resetFieldByField，根据配置重置表单其它字段
                 if (resetFieldByField) {
-                    const { data, fieldName, dependValue } = resetFieldByField;
-                    const fieldValue = this.getFieldValue(fieldName, initData[fieldName]);
-                    const resetObj = dependValue
-                        ? data?.[fieldValue]?.[value] ?? {}
-                        : data?.[fieldValue] ?? {};
+                    const { data, dependFieldNames } = resetFieldByField;
+                    let resetObj = data || {};
+                    dependFieldNames.forEach(fieldName => {
+                        const fieldValue = this.getFieldValue(fieldName, initData[fieldName]);
+                        resetObj = resetObj?.[fieldValue] ?? {};
+                    });
                     setFieldsValue({ ...resetObj, [name]: value });
                 }
                 return value;
@@ -233,15 +228,40 @@ class ConfigurableForm extends React.Component {
         );
     };
 
+    _renderRadioIconGroup = (item, initData) => {
+        const { form } = this.props;
+        const { getFieldDecorator } = form;
+        const { name, option, tool: Tool, className, editable, editableByField, layout } = item;
+        const isEditable = this.getAllEditStatus(editableByField, initData);
+
+        return (
+            <Form.Item label={item.label} key={item.name} className={className} {...layout}>
+                {getFieldDecorator(
+                    item.name,
+                    this.formItemConfig(item)
+                )(
+                    <RadioIconGroup
+                        options={option.data}
+                        disabled={editable ? !isEditable : true}
+                        onChange={value => this.handleChange(name, value)}
+                    />
+                )}
+                {Tool && (
+                    <Tool form={form} className="tool" disabled={editable ? !isEditable : true} />
+                )}
+            </Form.Item>
+        );
+    };
+
     render() {
-        const { initData, formConfig } = this.props;
+        const { initData, formConfig, formLayout } = this.props;
         return (
             <Form
+                {...formLayout}
                 className="configurable-form"
                 hideRequiredMark={true}
                 colon={false}
                 labelAlign="left"
-                {...formItemLayout}
             >
                 {formConfig.map(item => {
                     const _renderFn = this['_render' + item.type];

@@ -52,6 +52,8 @@ import { TASK_MODE_MAP } from 'src/config/RenderModeConfig';
 import { fetchCallback } from 'src/utils/map/utils';
 import OcTreeIndex from 'src/utils/OcTreeIndex';
 import sysProperties from 'src/models/sysProperties';
+import BatchBuildModal from 'src/pages/Index/components/ToolList/BatchBuild/BatchBuildModal';
+import BatchBuildStore from '../store/BatchBuildStore';
 @inject('QCMarkerStore')
 @inject('DefineModeStore')
 @inject('TextStore')
@@ -94,6 +96,7 @@ class VizComponent extends React.Component {
         await this.cancelRequest();
         await this.clearWorkSpace();
 
+        BatchBuildStore.release();
         QCMarkerStore.release();
         ResourceLayerStore.release();
         VectorsStore.release();
@@ -775,7 +778,6 @@ class VizComponent extends React.Component {
 
     render() {
         const { TaskStore } = this.props;
-
         return (
             <React.Fragment>
                 <div
@@ -789,6 +791,7 @@ class VizComponent extends React.Component {
                 <RightMenuModal />
                 <BatchAssignModal />
                 <QCMarkerModal />
+                <BatchBuildModal />
             </React.Fragment>
         );
     }

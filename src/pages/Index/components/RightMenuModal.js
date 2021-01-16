@@ -20,10 +20,10 @@ import ToolCtrlStore from 'src/pages/Index/store/ToolCtrlStore';
 import AttributeStore from 'src/pages/Index/store/AttributeStore';
 import NewFeatureStore from 'src/pages/Index/store/NewFeatureStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
-
 import 'src/assets/less/components/right-menu-modal.less';
 
 const EDIT_TYPE = [
+    'batch_build',
     'move_point_feature',
     'copy_line',
     'change_points',
@@ -33,12 +33,11 @@ const EDIT_TYPE = [
     'group_move'
 ];
 
-const GROUP_MOVE_TYPE = {
-    point: '左键选择平移参考点，按shift进入下一步',
-    Shift: '选择平移目标点位，点击右键完成平移'
-};
-
 const CHINESE_EDIT_TYPE = [
+    {
+        type: 'batch_build',
+        value: '批量生成车道线要素'
+    },
     {
         type: 'move_point_feature',
         value: '左键选择新点位，点击右键实现平移'
@@ -69,6 +68,11 @@ const CHINESE_EDIT_TYPE = [
     }
 ];
 
+const GROUP_MOVE_TYPE = {
+    point: '左键选择平移参考点，按shift进入下一步',
+    Shift: '选择平移目标点位，点击右键完成平移'
+};
+
 @inject('RightMenuStore')
 @inject('DataLayerStore')
 @inject('TaskStore')
@@ -86,6 +90,7 @@ class RightMenuModal extends React.Component {
         this.changePoints = this.changePoints.bind(this);
         this.deleteFeature = this.deleteFeature.bind(this);
         this.forceDeleteFeature = this.forceDeleteFeature.bind(this);
+        this.batchBuildFeature = this.batchBuildFeature.bind(this);
         this.copyLine = this.copyLine.bind(this);
         this.movePointFeature = this.movePointFeature.bind(this);
         this.breakLine = this.breakLine.bind(this);
@@ -180,6 +185,14 @@ class RightMenuModal extends React.Component {
                 className="right-menu-item"
             >
                 <span>强制删除</span>
+            </Menu.Item>,
+            <Menu.Item
+                id="batch-build-btn"
+                key="batchBuild"
+                onClick={this.batchBuildFeature}
+                className="right-menu-item"
+            >
+                <span>批量生成</span>
             </Menu.Item>,
             <Menu.Item
                 id="change-points-btn"
@@ -473,12 +486,29 @@ class RightMenuModal extends React.Component {
     @logDecorator({ operate: '强制删除要素' })
     async forceDeleteFeatureHandler() {
         const { RightMenuStore, DataLayerStore } = this.props;
-        DataLayerStore.setEditType('force_delete');
+        DataLayerStore.forceDeleteFeature();
         let result = RightMenuStore.delete();
         let historyLog = await forceDelete(result, TaskStore.activeTask);
         AttributeStore.hideRelFeatures();
         AttributeStore.hide();
         return historyLog;
+    }
+
+    @editInputLimit({ editType: 'batch_build', isRightMenu: true })
+    batchBuildFeature() {
+        const { RightMenuStore, DataLayerStore } = this.props;
+        if (this.checkDisabled()) return;
+        if (DataLayerStore.changeUnAble()) {
+            return message.error({
+                content: '请先结束当前编辑操作！',
+                duration: 3,
+                key: 'edit_error'
+            });
+        }
+        DataLayerStore.batchBuildFeature();
+        AttributeStore.hideRelFeatures();
+        AttributeStore.hide();
+        RightMenuStore.hide();
     }
 
     @editInputLimit({ editType: 'copy_line', isRightMenu: true })

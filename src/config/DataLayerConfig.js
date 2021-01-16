@@ -51,6 +51,7 @@ export const DATA_LAYER_MAP = {
         rightTools: [
             'delete',
             'forceDelete',
+            'batchBuild',
             'copyLine',
             'insertPoints',
             'changePoints',
@@ -62,6 +63,7 @@ export const DATA_LAYER_MAP = {
         ],
         batchTools: ['LINE_FEATURES_SNAP_TO_STOP_LINE', 'ASSIGN_LINE_NO_IN_BATCH'],
         groupRightTools: [
+            'batchBuild',
             'breakGroup',
             'merge',
             'batchMerge',
