@@ -2606,13 +2606,15 @@ export const ATTR_FORM_FIELD_MAP = () => {
                 value: 'value'
             },
             resetField: {
-                featId: null,
-                errorDesc: null,
-                errContent: null,
-                errorType: null,
-                fieldName: null,
-                errLevel: null,
-                editDesc: null
+                default: {
+                    featId: null,
+                    errorDesc: null,
+                    errContent: null,
+                    errorType: null,
+                    fieldName: null,
+                    errLevel: null,
+                    editDesc: null
+                }
             },
             layout: {
                 labelCol: {
@@ -2660,8 +2662,7 @@ export const ATTR_FORM_FIELD_MAP = () => {
             },
             resetFieldByField: {
                 data: getConfig('ERROR_DESC_RESET_FIELD_MAP') || ERROR_DESC_RESET_FIELD_MAP,
-                fieldName: 'fileName',
-                dependValue: true
+                dependFieldNames: ['fileName', 'errorDesc']
             }
         },
         errContent: {
@@ -2680,7 +2681,9 @@ export const ATTR_FORM_FIELD_MAP = () => {
                 value: 'value'
             },
             resetField: {
-                fieldName: null
+                default:{
+                    fieldName: null
+                }
             }
         },
         errorType: {

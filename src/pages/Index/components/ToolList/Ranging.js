@@ -25,7 +25,7 @@ class Ranging extends React.Component {
         const { DataLayerStore } = this.props;
         let mode = DataLayerStore.getMeasureControlMode();
         if (mode == 71) return;
-        DataLayerStore.startMeatureDistance();
+        DataLayerStore.startMeatureDistance_1();
     };
 
     content = () => {

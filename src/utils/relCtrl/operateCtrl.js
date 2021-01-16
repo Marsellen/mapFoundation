@@ -120,6 +120,63 @@ const breakLine = async (breakPoint, features, activeTask) => {
 };
 
 /**
+ * 批量生成
+ * @method batchBuild
+ * @param {Array<Object>} features 被选中的线要素数组
+ * @param {Array<Object>} leftFeatures 需要生成的左边要素数组
+ * @param {Array<Object>} rightFeatures 需要生成的右边要素数组
+ */
+const batchBuild = async (features, leftFeatures, rightFeatures) => {
+    //将选中线处理成参数所需格式
+    const laneLines = features.map(feature => {
+        const {
+            layerName,
+            data: { properties, geometry }
+        } = feature;
+        return {
+            type: layerName,
+            attr: {
+                ...properties,
+                geom: geometryToWKT(geometry)
+            },
+            relation: {}
+        };
+    });
+    //拼装批量生成参数
+    const params = {
+        laneLines,
+        leftLaneAttribute: leftFeatures,
+        rightLaneAttribute: rightFeatures
+    };
+    const result = await EditorService.batchBuild(params);
+    //将返回结果拼装成历史记录所需格式
+    const newFeatures = result?.data?.map(item => {
+        const {
+            type,
+            attr: { geom, ...rest }
+        } = item;
+        const newItem = {
+            data: {
+                geometry: WKTToGeom(geom),
+                properties: rest,
+                type: 'Feature'
+            },
+            layerName: type
+        };
+        return newItem;
+    });
+    const historyLog = {
+        features: [[], newFeatures],
+        rels: [[], []],
+        attrs: [[], []]
+    };
+    await updateFeatures(historyLog);
+
+    message.success({ content: result.message, duration: 1, key: 'batch_build' });
+    return historyLog;
+};
+
+/**
  * 合并线要素
  * @method mergeLine
  * @param {Array<Object>} features 被合并线要素集合
@@ -1030,6 +1087,7 @@ export {
     forceDelete,
     batchMergeLine,
     breakLine,
+    batchBuild,
     mergeLine,
     lineToStop,
     batchAssignment,

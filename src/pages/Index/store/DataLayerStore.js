@@ -17,6 +17,7 @@ import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
 import RightMenuStore from 'src/pages/Index/store/RightMenuStore';
 import { getEventPointWkt, getFeaturePointWkt } from 'src/utils/pictureCtrl';
 import sysProperties from 'src/models/sysProperties';
+import BatchBuildStore from './BatchBuildStore';
 
 const TRACKS = ['TraceListLayer', 'TraceLayer'];
 
@@ -96,9 +97,6 @@ class DataLayerStore {
         //设置测距参考坐标系1、墨卡托，2、局部地心
         this.measureControl.setMeasureMode(getCSYS());
         map.getControlManager().addControl(this.measureControl);
-        this.measureControl.onMeasureFinish(() => {
-            this.measureControl.startMeatureDistance();
-        });
         map.getEventManager().register('editor_event_selectpoint_start', data =>
             this.moveSelectPoint(data)
         );
@@ -201,6 +199,8 @@ class DataLayerStore {
                     break;
                 case 'group_move':
                     this.groupMoveCallback(result, event);
+                    break;
+                case 'batch_build':
                     break;
             }
         });
@@ -703,6 +703,18 @@ class DataLayerStore {
         return result;
     };
 
+    forceDeleteFeature = () => {
+        if (!this.editor) return;
+        this.clearAllEditDebuff();
+        this.setEditType('force_delete');
+    };
+
+    batchBuildFeature = () => {
+        if (!this.editor) return;
+        this.clearAllEditDebuff();
+        this.setEditType('batch_build');
+    };
+
     changePoints = () => {
         if (!this.editor) return;
         this.clearAllEditDebuff();
@@ -740,11 +752,36 @@ class DataLayerStore {
         this.clearHighLightFeatures();
     };
 
-    startMeatureDistance = () => {
+    //顶部工具栏-测距
+    startMeatureDistance_1 = () => {
         this.exitEdit();
         this.setEditType('meature_distance');
+        //右键回调
+        this.measureControl.onMeasureFinish(() => {
+            this.measureControl.startMeatureDistance();
+        });
         this.measureControl.startMeatureDistance();
         this.ruler();
+    };
+
+    //进入-批量生成-测距
+    startMeatureDistance_2 = (featuresName, index) => {
+        this.setEditType('meature_distance_2');
+        //右键回调
+        this.measureControl.onMeasureFinish(result => {
+            BatchBuildStore.updateFeature(featuresName, index, 'DISTANCE', result.distance);
+            BatchBuildStore.clearActiveRange();
+            this.measureControl.clear();
+            this.removeCur();
+        });
+        this.measureControl.startMeatureDistance();
+        this.ruler();
+    };
+
+    //退出-批量生成-测距
+    exitMeatureDistance_2 = () => {
+        this.measureControl.clear();
+        this.removeCur();
     };
 
     startReadCoordinate = () => {
@@ -803,6 +840,7 @@ class DataLayerStore {
     disableOtherCtrl = () => {
         switch (this.editType) {
             case 'meature_distance':
+            case 'meature_distance_2':
                 this.measureControl.clear();
                 break;
             case 'read_coordinate':

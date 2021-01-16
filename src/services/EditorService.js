@@ -80,6 +80,14 @@ const EditorService = {
             method: 'get'
         };
         return service({ config });
+    },
+    batchBuild: data => {
+        const config = {
+            url: EditApiPath('/batch_create/laneLine'),
+            method: 'post',
+            data
+        };
+        return service({ config });
     }
 };
 

@@ -6,6 +6,11 @@ import 'less/components/qc-marker-modal.less';
 import ConfigurableForm from 'src/components/ConfigurableForm';
 import { ATTR_FORM_FIELD_MAP, QC_MARKER_FORM_CONFIG } from 'src/config/QCMarkerConfig';
 
+const formLayout = {
+    labelCol: { span: 8 },
+    wrapperCol: { span: 16 }
+};
+
 @Form.create()
 @inject('appStore')
 @inject('TaskStore')
@@ -365,6 +370,7 @@ class QCMarkerModal extends React.Component {
                     <div className="content-wrap">
                         <ConfigurableForm
                             form={form}
+                            formLayout={formLayout}
                             initData={properties}
                             formConfig={formConfig}
                             fieldChange={{

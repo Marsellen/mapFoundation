@@ -1,0 +1,207 @@
+.batch-build-wrap {
+    position: relative;
+}
+
+.batch-build-modal-wrap {
+    bottom: unset;
+    right: unset;
+    left: 60px;
+    top: 60px;
+}
+
+.batch-build-modal {
+    transform-origin: 50% 50% !important;
+    top: unset;
+    padding: 0;
+    margin: 0;
+    .ant-modal-header {
+        height: 40px;
+        padding: 0 15px;
+        border-bottom: 1px solid #d6d6d6;
+    }
+    .ant-modal-title {
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 40px;
+        color: #666;
+    }
+    .ant-modal-content {
+        background: rgba(255, 255, 255, 0.9);
+    }
+    .ant-modal-body {
+        overflow-y: auto;
+        max-height: calc(100vh - 101px);
+        padding: 15px 0 10px;
+        /*滚动条样式*/
+        &::-webkit-scrollbar {
+            /*滚动条整体样式*/
+            margin-right: -12px;
+            width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
+            height: 10px;
+        }
+        &::-webkit-scrollbar-thumb {
+            /*滚动条里面小方块*/
+            border-radius: 12px;
+            background: #b7b7b7;
+        }
+        &::-webkit-scrollbar-track {
+            /*滚动条里面轨道*/
+            border-radius: 12px;
+            background: #e5e5e5;
+        }
+    }
+    .line-box {
+        position: relative;
+        display: flex;
+    }
+    .line-content {
+        flex: 1;
+    }
+    .index-label {
+        width: 30px;
+    }
+    .button-box {
+        padding: 4px 0;
+        text-align: center;
+    }
+    .icon-font-button {
+        font-size: 20px;
+        color: #666;
+        &.on {
+            color: #3e7fe0;
+        }
+    }
+    .arrow-up,
+    .arrow-down {
+        position: absolute;
+        left: 8px;
+        width: 10px;
+        height: 100%;
+    }
+    .arrow-up::after,
+    .arrow-down::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        display: block;
+        width: 1px;
+        height: 100%;
+        margin: 0 auto;
+        background: #bbb;
+    }
+    .arrow-up::before,
+    .arrow-down::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        display: block;
+        height: 11px;
+        width: 11px;
+        margin: 0 0 0 -5px;
+        border: 2px solid#bbb;
+        border-top: unset;
+        border-left: unset;
+    }
+    .arrow-up::before {
+        top: 0;
+        transform: rotate(-135deg);
+    }
+    .arrow-down::after {
+        bottom: 0;
+        transform: rotate(45deg);
+    }
+    .divider {
+        height: 1px;
+        margin: 6px 0;
+        background: #aaa;
+    }
+    .form-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 10px 0 24px;
+        cursor: pointer;
+        &.on {
+            background: #accef0;
+        }
+    }
+    .form-item-field {
+        display: flex;
+        align-items: center;
+    }
+    .ant-form-inline .ant-form-item {
+        margin: 0 2px 0 3px;
+    }
+    .letter-line-height {
+        line-height: 0;
+    }
+    .footer-wrap {
+        display: flex;
+        align-items: flex-end;
+        padding: 10px 10px 0 5px;
+        img {
+            width: 160px;
+        }
+    }
+    .footer-button-box {
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+        padding: 0 0 8px;
+    }
+    .button {
+        height: 28px;
+        padding: 0 12px;
+    }
+    .blue-button {
+        background: #3e7fe0;
+        color: #fff;
+    }
+    .green-button {
+        background: #0fa564;
+        color: #fff;
+    }
+}
+
+.batch-build-attr-wrap {
+    overflow: hidden;
+    position: fixed;
+    left: 361px;
+    top: 100px;
+    width: 300px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.9);
+    .batch-build-attr-title {
+        height: 40px;
+        padding: 0 15px;
+        background: #fff;
+        border-bottom: 1px solid #d6d6d6;
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 40px;
+        color: #666;
+    }
+    .batch-build-attr-content {
+        overflow-y: auto;
+        max-height: calc(100vh - 271px);
+        padding: 10px;
+        /*滚动条样式*/
+        &::-webkit-scrollbar {
+            /*滚动条整体样式*/
+            margin-right: -12px;
+            width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
+            height: 10px;
+        }
+        &::-webkit-scrollbar-thumb {
+            /*滚动条里面小方块*/
+            border-radius: 12px;
+            background: #b7b7b7;
+        }
+        &::-webkit-scrollbar-track {
+            /*滚动条里面轨道*/
+            border-radius: 12px;
+            background: #e5e5e5;
+        }
+    }
+}
