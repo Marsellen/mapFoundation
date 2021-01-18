@@ -883,6 +883,10 @@ class DataLayerStore {
                 this.editor.modifyLineType = 'broken';
                 this.setModifyLineType(true);
                 break;
+            case 'batch_build':
+            case 'meature_distance_2':
+                BatchBuildStore.release();
+                break;
             default:
                 break;
         }
