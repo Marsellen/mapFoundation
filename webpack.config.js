@@ -165,15 +165,15 @@ module.exports = (env = {}) => {
                     changeOrigin: true,
                     logLevel: 'debug'
                 },
-                '/gateway/check': {
-                    target: PROXY_MAP[proxy].check,
-                    pathRewrite: { '^/gateway/check': '/check' },
-                    changeOrigin: true,
-                    logLevel: 'debug'
-                },
                 '/gateway/check-web': {
                     target: PROXY_MAP[proxy].checkMarker,
                     pathRewrite: { '^/gateway/check-web': '/check-web' },
+                    changeOrigin: true,
+                    logLevel: 'debug'
+                },
+                '/gateway/check': {
+                    target: PROXY_MAP[proxy].check,
+                    pathRewrite: { '^/gateway/check': '/check' },
                     changeOrigin: true,
                     logLevel: 'debug'
                 },
