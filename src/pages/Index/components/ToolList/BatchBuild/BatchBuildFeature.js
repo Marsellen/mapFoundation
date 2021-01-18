@@ -228,7 +228,9 @@ class BatchBuildFeature extends React.Component {
                     <div className="footer-wrap">
                         <img src={shiyitu}></img>
                         <div className="footer-button-box">
-                            <Button className="button">取消</Button>
+                            <Button className="button" onClick={this.exit}>
+                                取消
+                            </Button>
                             <Button className="button blue-button" onClick={this.handleSubmit}>
                                 完成
                             </Button>
