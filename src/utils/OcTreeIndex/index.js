@@ -23,7 +23,7 @@ class OcTreeIndex {
         try {
             if (!window.pointCloudLayer) return;
             if (this.inProcess) return;
-            const { viewChangeDelay = 500, scaleSize = 13 } = sysProperties.configs || {};
+            const { viewChangeDelay, scaleSize } = sysProperties.configs;
             if (window.map.getLevel() < scaleSize) return;
             this.inProcess = true;
             setTimeout(() => {

@@ -377,8 +377,8 @@ class VizComponent extends React.Component {
             if (!urlArr) return;
             //实例化点云
             const pointCloudLayer = new DynamicPCLayer(null, {
-                pointBudget: sysProperties.getConfig('pointLimit') || 5000000, // 点云点数量
-                minLevel: sysProperties.getConfig('scaleSize') || 13, // 开始更新点云八叉树最小比例尺级别
+                pointBudget: sysProperties.getConfig('pointLimit'), // 点云点数量
+                minLevel: sysProperties.getConfig('scaleSize'), // 开始更新点云八叉树最小比例尺级别
                 intensityGamma: 0.5,
                 intensityContrast: 0.4,
                 intensityBrightness: 0.3,
@@ -468,7 +468,8 @@ class VizComponent extends React.Component {
             min = min > z ? z : min;
         });
         //以最低点进行路面设置
-        if (min) window.map?.setBaseElevation?.(min);
+        const dropVal = sysProperties.getConfig('startZ');
+        if (min) window.map?.setBaseElevation?.(min - dropVal);
     };
 
     initRegion = async regionUrl => {

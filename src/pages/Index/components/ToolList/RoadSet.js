@@ -3,6 +3,7 @@ import IconFont from 'src/components/IconFont';
 import { message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/components/AdMessage';
+import sysProperties from 'src/models/sysProperties';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -40,8 +41,9 @@ class RoadSet extends React.Component {
             if (result && result[0] && result[0].data) {
                 const coordinates = result[0].data.geometry.coordinates;
                 // 获取落点的点元素Z轴位置
-                const pointZ = coordinates[2] - 0.05;
-                window.map && window.map.setBaseElevation(pointZ);
+                const dropVal = sysProperties.getConfig('pavementZ');
+                const pointZ = coordinates[2] - dropVal;
+                window?.map?.setBaseElevation?.(pointZ);
             }
             DataLayerStore.exitEdit();
         } catch (e) {

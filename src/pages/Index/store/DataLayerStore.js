@@ -371,7 +371,7 @@ class DataLayerStore {
         //绘制曲线
         this.exitEdit();
         if (!this.editor) return;
-        const drawNodeDensity = sysProperties.getConfig('drawNodeDensity') || 0.5;
+        const drawNodeDensity = sysProperties.getConfig('drawNodeDensity');
         this.setEditType('new_curved_line');
         this.changeCur();
         this.editor.newCurveLine(drawNodeDensity);
@@ -1053,7 +1053,7 @@ class DataLayerStore {
     };
 
     enableRegionSelect = layers => {
-        const { ZT1 = 7, ZT2 = 5 } = sysProperties.configs || {};
+        const { ZT1, ZT2 } = sysProperties.configs;
         const regionSelect = { regionSelectUp: ZT2, regionSelectDown: ZT1 };
         this.editor && this.editor.enableRegionSelect(layers, regionSelect);
     };
@@ -1102,7 +1102,7 @@ class DataLayerStore {
 
     trim() {
         if (!this.editor) return;
-        const repairNodeDensity = sysProperties.getConfig('repairNodeDensity') || 0.5;
+        const repairNodeDensity = sysProperties.getConfig('repairNodeDensity');
         this.clearAllEditDebuff();
         this.setEditType('trim');
         this.trimStyle();

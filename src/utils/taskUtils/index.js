@@ -140,7 +140,7 @@ export const statisticsTime = status => {
 
 export const windowObserver = () => {
     var body = document.querySelector('html');
-    var min = sysProperties.getConfig('statisticInterval') || 10;
+    var min = sysProperties.getConfig('statisticInterval');
     var time = min * 1000;
     var editTaskId = null;
     var timer;
