@@ -769,7 +769,8 @@ class DataLayerStore {
         this.setEditType('meature_distance_2');
         //右键回调
         this.measureControl.onMeasureFinish(result => {
-            BatchBuildStore.updateFeature(featuresName, index, 'DISTANCE', result.distance);
+            const distance = Number(result?.distance);
+            BatchBuildStore.updateFeature(featuresName, index, 'DISTANCE', distance);
             BatchBuildStore.clearActiveRange();
             this.measureControl.clear();
             this.removeCur();

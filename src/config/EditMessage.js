@@ -88,5 +88,10 @@ export const EDIT_MESSAGE = {
         //批量赋车道编号
         loadingMsg: '正在赋车道编号...',
         errorMsg: '赋车道分组编号失败：'
+    },
+    batch_build: {
+        //批量生成车道线
+        loadingMsg: '正在批量生成车道线...',
+        errorMsg: '批量生成车道线失败：'
     }
 };

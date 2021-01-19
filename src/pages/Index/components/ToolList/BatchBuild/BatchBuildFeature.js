@@ -57,10 +57,16 @@ class BatchBuildFeature extends React.Component {
         }
     };
 
-    //车道距离输入框onchange事件
-    handleChange = (featuresName, index, value) => {
-        const { BatchBuildStore } = this.props;
-        BatchBuildStore.updateFeature(featuresName, index, 'DISTANCE', value);
+    //车道距离输入框handleBlur事件
+    handleBlur = (featuresName, index, e) => {
+        const value = Number(e.target.value);
+        const { form, BatchBuildStore } = this.props;
+        if (BatchBuildStore.checkDistance(value)) {
+            BatchBuildStore.updateFeature(featuresName, index, 'DISTANCE', value);
+        } else {
+            const oldValue = BatchBuildStore[featuresName][index].DISTANCE;
+            form.setFieldsValue({ [`${featuresName}${index}DISTANCE`]: oldValue });
+        }
     };
 
     //行点击事件
@@ -91,25 +97,22 @@ class BatchBuildFeature extends React.Component {
     //批量生成总提交
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll(err => {
-            if (!err) this.handleBatchBuild();
+        this.props.form.validateFieldsAndScroll(async err => {
+            if (!err) {
+                await this.handleBatchBuild();
+                this.exit();
+            }
         });
     };
 
     @logDecorator({ operate: '批量生成' })
     async handleBatchBuild() {
-        try {
-            const {
-                RightMenuStore: { features },
-                BatchBuildStore: { leftFeatures, rightFeatures }
-            } = this.props;
-            const historyLog = await batchBuild(features, leftFeatures, rightFeatures);
-            return historyLog;
-        } catch (e) {
-            console.log('批量生成报错' + e?.message);
-        } finally {
-            this.exit();
-        }
+        const {
+            RightMenuStore: { features },
+            BatchBuildStore: { leftFeatures, rightFeatures }
+        } = this.props;
+        const historyLog = await batchBuild(features, leftFeatures, rightFeatures);
+        return historyLog;
     }
 
     //渲染左右侧车道线行
@@ -146,8 +149,9 @@ class BatchBuildFeature extends React.Component {
                                 initialValue: DISTANCE
                             })(
                                 <InputNumber
+                                    precision={2}
                                     onClick={e => e.stopPropagation()}
-                                    onChange={value => this.handleChange(featuresName, i, value)}
+                                    onBlur={value => this.handleBlur(featuresName, i, value)}
                                 />
                             )}
                         </Form.Item>
@@ -187,34 +191,30 @@ class BatchBuildFeature extends React.Component {
                     onCancel={this.exit}
                 >
                     <Form layout="inline" colon={false} hideRequiredMark={true} {...formLayout}>
+                        <div className="button-box">
+                            <Button
+                                className="button blue-button"
+                                onClick={() => addFeature('leftFeatures')}
+                            >
+                                左侧增加
+                            </Button>
+                            <Button
+                                className="button green-button"
+                                onClick={() => addFeature('rightFeatures')}
+                            >
+                                右侧增加
+                            </Button>
+                        </div>
                         <div className="line-box">
                             <div className="arrow-up"></div>
                             <div className="line-content">
-                                <div className="button-box">
-                                    <Button
-                                        className="button blue-button"
-                                        onClick={() => addFeature('leftFeatures')}
-                                    >
-                                        左侧增加
-                                    </Button>
-                                </div>
                                 {this.renderLine('leftFeatures', true)}
                             </div>
                         </div>
                         <div className="divider"></div>
                         <div className="line-box">
                             <div className="arrow-down"></div>
-                            <div className="line-content">
-                                {this.renderLine('rightFeatures')}
-                                <div className="button-box">
-                                    <Button
-                                        className="button green-button"
-                                        onClick={() => addFeature('rightFeatures')}
-                                    >
-                                        右侧增加
-                                    </Button>
-                                </div>
-                            </div>
+                            <div className="line-content">{this.renderLine('rightFeatures')}</div>
                         </div>
                     </Form>
                     {activeFeatureKey && (

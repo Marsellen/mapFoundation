@@ -9,9 +9,14 @@ class BatchBuildStore {
     @observable activeFeatureKey = null;
     @observable activeRangeKey = null;
 
+    checkDistance = value => {
+        return value > 0 && value <= 100;
+    };
+
     @action addFeature = featuresName => {
-        const layerName = 'AD_LaneDivider';
         const length = this[featuresName].length;
+        if (length >= 30) return;
+        const layerName = 'AD_LaneDivider';
         const preDistance = this[featuresName]?.[length - 1]?.DISTANCE ?? 0;
         this[featuresName].push({
             DISTANCE: preDistance + 3.75,
@@ -23,6 +28,8 @@ class BatchBuildStore {
                 UPD_STAT: '{"GEOMETRY":"ADD"}'
             }
         });
+        //默认选中新增行
+        this.initActiveFeature(featuresName, length);
     };
 
     @action deleteFeature = (featuresName, index) => {
@@ -30,10 +37,16 @@ class BatchBuildStore {
     };
 
     @action updateFeature = (featuresName, index, key, value) => {
-        if (key === 'attr') {
-            this[featuresName][index][key] = { ...this[featuresName][index][key], ...value };
-        } else {
-            this[featuresName][index][key] = value;
+        switch (key) {
+            case 'attr':
+                this[featuresName][index][key] = { ...this[featuresName][index][key], ...value };
+                break;
+            case 'DISTANCE':
+                if (this.checkDistance(value)) this[featuresName][index][key] = value;
+                break;
+            default:
+                this[featuresName][index][key] = value;
+                break;
         }
     };
 

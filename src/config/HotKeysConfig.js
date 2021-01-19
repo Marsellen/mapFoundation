@@ -135,6 +135,10 @@ export const HOT_KEYS_CONFIG = {
             label: '修改形状点'
         },
         {
+            value: '选择1个或多个车道线+O',
+            label: '批量生成车道线'
+        },
+        {
             value: '选择1个要素+U',
             label: '位姿调整'
         },
