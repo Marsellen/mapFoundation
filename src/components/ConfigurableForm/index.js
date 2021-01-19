@@ -3,6 +3,7 @@ import { Form, Select, Input } from 'antd';
 import 'less/components/configurable-form.less';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import RadioIconGroup from 'src/components/RadioIconGroup';
+import { getValidator } from 'src/utils/form/validator';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -22,7 +23,7 @@ class ConfigurableForm extends React.Component {
         form.setFieldsValue({
             [name]: value
         });
-        fieldChange?.default?.({ [name]: value }, form.getFieldsValue());
+        fieldChange?.default?.(name, value);
         fieldChange?.[name]?.();
     };
 
@@ -43,14 +44,19 @@ class ConfigurableForm extends React.Component {
             initialValue: initData?.[name] ?? initialValue,
             rules:
                 rules &&
-                Object.keys(rules).map(ruleName => {
-                    const ruleVal = rules[ruleName];
-                    const { value, message, fieldName, fieldValue } = ruleVal;
-                    const currentVal = this.getFieldValue(fieldName, initData[fieldName]);
-                    return {
-                        [ruleName]: fieldName ? this.getCompareRes(fieldValue, currentVal) : value,
-                        message: message
-                    };
+                Object.entries(rules).map(([ruleName, ruleVal]) => {
+                    if (ruleName === 'validator') {
+                        return { [ruleName]: getValidator(ruleVal) };
+                    } else {
+                        const { value, message, fieldName, fieldValue } = ruleVal;
+                        const currentVal = this.getFieldValue(fieldName, initData[fieldName]);
+                        return {
+                            [ruleName]: fieldName
+                                ? this.getCompareRes(fieldValue, currentVal)
+                                : value,
+                            message: message
+                        };
+                    }
                 }),
             //改变其它表单控件值
             getValueFromEvent: param => {

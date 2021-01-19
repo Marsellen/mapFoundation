@@ -114,6 +114,13 @@ export const FORM_CONFIG = [
         name: 'LANE_NO',
         type: 'InputNumber',
         editable: true,
+        rules: {
+            required: {
+                value: true,
+                message: '车道编号必填'
+            },
+            validator: 'Numeric|range|-99|99'
+        },
         option: {
             data: TYPE_SELECT_OPTION_MAP['AD_LANE_DIVIDER_LANE_NO'],
             label: 'label',
