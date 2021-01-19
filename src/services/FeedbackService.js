@@ -4,7 +4,7 @@ import { EditApiPath } from 'src/utils/Api';
 const FeedbackService = {
     feedback: data => {
         const config = {
-            url: EditApiPath('/problem/feedback'),
+            url: EditApiPath('/feedback/data_sign'),
             method: 'post',
             data
         };

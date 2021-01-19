@@ -17,16 +17,21 @@ class PointBright extends React.Component {
     render() {
         const { value } = this.state;
         return (
-            <div className="flex flex-row">
-                <Slider
-                    className="flex-1"
-                    value={value}
-                    min={0}
-                    max={1}
-                    step={0.1}
-                    onChange={this.onChange}
-                />
-                <div className="pointCloud">{value}</div>
+            <div>
+                <div className="name-and-value">
+                    <span>亮度</span>
+                    <span>{value}</span>
+                </div>
+                <div className="flex flex-row">
+                    <Slider
+                        className="flex-1"
+                        value={value}
+                        min={0}
+                        max={1}
+                        step={0.1}
+                        onChange={this.onChange}
+                    />
+                </div>
             </div>
         );
     }

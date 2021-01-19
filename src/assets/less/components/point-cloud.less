@@ -8,25 +8,29 @@
 .ant-popover-content {
     .point-cloud {
         width: 300px;
-        height: 285px;
+        height: 340px;
         display: flex;
-        .point-cloud-left {
+        .point-cloud-right {
             height: 100%;
             width: 40%;
             box-shadow: 0 0 9px #ddd;
             padding: 10px;
         }
-        .point-cloud-right {
+        .point-cloud-left {
             height: 100%;
             width: 60%;
-            .point-cloud-right-content {
-                height: 30%;
+            .name-and-value {
+                display: flex;
+                justify-content: space-between;
             }
-            .point-cloud-right-content-top {
-                height: 70%;
+            .point-cloud-left-content {
+                height: 25%;
             }
-            .point-cloud-right-content,
-            .point-cloud-right-content-top {
+            .point-cloud-left-content-top {
+                height: 75%;
+            }
+            .point-cloud-left-content,
+            .point-cloud-left-content-top {
                 box-shadow: 0 0 9px #ddd;
                 padding: 10px;
                 .flex-1 {

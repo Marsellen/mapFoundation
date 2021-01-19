@@ -552,28 +552,21 @@ class RightMenuModal extends React.Component {
 
     @logDecorator({ operate: '修改形状点' })
     async changePointsHandler(result) {
-        const { DataLayerStore, RightMenuStore } = this.props;
-        try {
-            if (result.length == 0) {
-                throw new Error('共节点编辑完成，没有修改形状点');
-            }
-            let oldFeatures = RightMenuStore.cloneFeatures;
-            let features = Array.isArray(result) ? result : [result];
-            let newFeatures = features.map(feature => {
-                feature = modUpdStatGeometry(feature);
-                return feature;
-            });
-            let history = {
-                features: [oldFeatures, newFeatures]
-            };
-            await this.drawLine(history.features[1], history);
-            message.success('共节点编辑完成，需检查数据的关联关系正确性', 3);
-            return history;
-        } catch (e) {
-            message.warning('修改形状点失败：' + e.message, 3);
-        } finally {
-            DataLayerStore.exitEdit();
+        const { RightMenuStore } = this.props;
+        if (result.length == 0) {
+            throw new Error('共节点编辑完成，没有修改形状点');
         }
+        let oldFeatures = RightMenuStore.cloneFeatures;
+        let features = Array.isArray(result) ? result : [result];
+        let newFeatures = features.map(feature => {
+            feature = modUpdStatGeometry(feature);
+            return feature;
+        });
+        let history = {
+            features: [oldFeatures, newFeatures]
+        };
+        await this.drawLine(history.features[1], history);
+        return history;
     }
 
     @editInputLimit({ editType: 'move_point_feature', isRightMenu: true })

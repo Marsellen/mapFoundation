@@ -419,8 +419,9 @@ class VizComponent extends React.Component {
     initTracks = async urlMap => {
         try {
             if (!urlMap) return;
-            const { TaskStore } = this.props;
-            const { projectNameArr, updateMultiProjectMap } = TaskStore;
+            const { TaskStore, appStore } = this.props;
+            const { projectNameArr, updateMultiProjectMap, activeTask } = TaskStore;
+            const { loginUser } = appStore;
             const traceOpts = { style: { arrow_color: '#FFFFFF', arrow_size: 2 } };
             const traceListLayer = new TraceListLayer(traceOpts);
             window.trackLayer = traceListLayer;
@@ -430,16 +431,24 @@ class VizComponent extends React.Component {
                 //获取轨迹
                 return axios.get(trackUrl).then(res => {
                     const { data } = res;
-                    const trackPartMap = {};
+                    const trackPartMap = {
+                        taskId: activeTask.taskId,
+                        userName: loginUser.username,
+                        projectId: projectName.split('_')[0],
+                        projectName: projectName
+                    };
+                    let timeList = [];
                     data.forEach(tackPart => {
-                        const { name, tracks } = tackPart;
+                        const { name, tracks, startTime, endTime } = tackPart;
                         const trackName = `${projectName}_${name}`;
                         traceListLayer.addTrace({
                             taskId: trackName,
                             data: tracks
                         });
                         trackPartMap[trackName] = tracks;
+                        timeList.push({ startTime, endTime });
                     });
+                    trackPartMap['timeList'] = timeList;
                     //更新
                     updateMultiProjectMap(`${projectName}|track`, {
                         layerKey: Object.keys(trackPartMap),
@@ -448,7 +457,6 @@ class VizComponent extends React.Component {
                     return data;
                 });
             });
-
             await Promise.all(fetchTrackArr);
             ResourceLayerStore.selectLinkTrack(projectNameArr[0]);
         } catch (e) {
