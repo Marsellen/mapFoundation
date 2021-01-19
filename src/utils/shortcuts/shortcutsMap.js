@@ -322,5 +322,13 @@ export const shortcutMap = [
         shift: false,
         keyCode: 72,
         describe: '联合打断 H'
+    },
+    {
+        id: 'batch-build-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 79,
+        describe: '批量生成车道线'
     }
 ];

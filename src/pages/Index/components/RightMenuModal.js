@@ -192,7 +192,7 @@ class RightMenuModal extends React.Component {
                 onClick={this.batchBuildFeature}
                 className="right-menu-item"
             >
-                <span>批量生成</span>
+                <span>批量生成车道线</span>
             </Menu.Item>,
             <Menu.Item
                 id="change-points-btn"
