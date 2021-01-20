@@ -73,7 +73,7 @@ class QualityCheckStore {
     }).bind(this);
 
     @action handleProducerGetReport = option => {
-        const { pollingLimit, pollingInterval } = sysProperties.config;
+        const { pollingLimit, pollingInterval } = sysProperties.configs;
         const currentTime = new Date();
         this.pollingLimit = pollingLimit * 1000;
         this.pollingInterval = pollingInterval * 1000;

@@ -144,6 +144,8 @@ class ResourceLoader extends React.Component {
                 okText: '确定',
                 cancelText: '取消',
                 okType: 'danger',
+                maskStyle: { zIndex: 99999999 },
+                zIndex: 999999999,
                 onOk: () => {
                     this.save();
                 }
