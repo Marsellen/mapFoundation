@@ -94,6 +94,8 @@ class JobStatus extends React.Component {
                 content: '当前任务未保存，是否自动保存',
                 okText: '确定',
                 cancelText: '取消',
+                maskStyle: { zIndex: 99999999 },
+                zIndex: 999999999,
                 onOk: async () => {
                     await this.action();
                     await this.fetchTask();

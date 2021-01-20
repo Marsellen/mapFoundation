@@ -91,12 +91,8 @@ class Task extends React.Component {
     };
 
     chooseTask = (e, id, isEdit) => {
-        // e.stopPropagation();
         const { current: currentTaskId } = this.state;
-        if (currentTaskId == id && !isEdit) {
-            return;
-        }
-
+        if (currentTaskId == id && !isEdit) return;
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
@@ -106,6 +102,8 @@ class Task extends React.Component {
                 okText: '保存并切换',
                 cancelText: '取消',
                 okType: 'danger',
+                maskStyle: { zIndex: 99999999 },
+                zIndex: 999999999,
                 onOk: async () => {
                     await saveTaskData();
                     this.toggleTask(id, isEdit);
