@@ -5,6 +5,7 @@ import PointBright from './PointBright';
 import Contrast from './Contrast';
 import Gamma from './Gamma';
 import AdjustPointSize from './AdjustPointSize';
+import ReflexRange from './ReflexRange';
 import 'src/assets/less/components/point-cloud.less';
 import ToolIcon from 'src/components/ToolIcon';
 
@@ -34,21 +35,18 @@ class PointCloud extends React.Component {
     _renderContent = () => {
         return (
             <div className="point-cloud">
-                <div className="point-cloud-right">
-                    <div className="point-cloud-right-content-top">
-                        <span>亮度</span>
+                <div className="point-cloud-left">
+                    <div className="point-cloud-left-content-top">
                         <PointBright />
-                        <span>对比度</span>
                         <Contrast />
-                        <span>Gamma</span>
                         <Gamma />
+                        <ReflexRange />
                     </div>
-                    <div className="point-cloud-right-content">
-                        <span>点云大小</span>
+                    <div className="point-cloud-left-content">
                         <AdjustPointSize />
                     </div>
                 </div>
-                <div className="point-cloud-left">
+                <div className="point-cloud-right">
                     <span>点云分高程显示</span>
                     <PointStratification />
                 </div>

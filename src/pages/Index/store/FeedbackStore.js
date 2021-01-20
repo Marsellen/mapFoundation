@@ -5,8 +5,12 @@ configure({ enforceActions: 'always' });
 class FeedbackStore {
     @observable feedbackData = {};
     feedback = flow(function* (option) {
-        const result = yield FeedbackService.feedback(option);
-        this.feedbackData = result.data;
+        try {
+            const result = yield FeedbackService.feedback(option);
+            return result;
+        } catch (e) {
+            console.log(e);
+        }
     });
 }
 

@@ -93,5 +93,11 @@ export const EDIT_MESSAGE = {
         //批量生成车道线
         loadingMsg: '正在批量生成车道线...',
         errorMsg: '批量生成车道线失败：'
+    },
+    change_points: {
+        //修改形状点
+        loadingMsg: '正在修改形状点...',
+        successMsg: '共节点编辑完成，需检查数据的关联关系正确性',
+        errorMsg: '修改形状点失败：'
     }
 };
