@@ -4,7 +4,7 @@ class sysProperties {
     constructor() {
         this.configs = {
             ZT1: 7,
-            ZT2: 5,
+            ZT2: 7,
             drawNodeDensity: 0.5,
             finePollingInterval: 1,
             overallPollingInterval: 5,

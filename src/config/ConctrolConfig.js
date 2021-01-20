@@ -33,6 +33,7 @@ export default {
         featurePlfcdfzbhStyle: { color: 'rgb(238,68,80)' }, //批量赋车道分组编号时要素的样式
         featureSelectPointStyle: { color: 'rgb(105,83,248)' }, // 从高亮要素中选择点的样式，即平移参考点
         featureMoveStyle: { color: 'rgb(214,4,4)' }, // 要素平移样式
-        featureSelectFixedPointsStyle: { color: 'rgb(105,83,248)' } // 选择指定个数点样式，即虚线框生成选点样式
+        featureSelectFixedPointsStyle: { color: 'rgb(105,83,248)' }, // 选择指定个数点样式，即虚线框生成选点样式
+        featureSamePointStyle: { color: 'rgb(0,220,0)' } // 共点样式
     }
 };

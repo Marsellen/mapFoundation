@@ -56,35 +56,6 @@
             margin-bottom: 4px;
         }
     }
-    .task-content {
-        .ant-descriptions-title {
-            margin-top: -10px;
-            margin-bottom: 11px;
-        }
-        .task-content-projectId {
-            height: 60px;
-            display: inline-block;
-            overflow-y: auto;
-            width: 100%;
-            /*滚动条样式*/
-            &::-webkit-scrollbar {
-                /*滚动条整体样式*/
-                margin-right: -12px;
-                width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
-                height: 10px;
-            }
-            &::-webkit-scrollbar-thumb {
-                /*滚动条里面小方块*/
-                border-radius: 12px;
-                background: #b7b7b7;
-            }
-            &::-webkit-scrollbar-track {
-                /*滚动条里面轨道*/
-                border-radius: 12px;
-                background: #e5e5e5;
-            }
-        }
-    }
     .ant-descriptions-item-label,
     .ant-descriptions-item-content {
         font-size: 14px;
@@ -93,12 +64,12 @@
         color: rgba(102, 102, 102, 1);
     }
     .feedback-title {
-        width: 88px;
         height: 15px;
         font-size: 14px;
         font-family: Microsoft YaHei;
         font-weight: 400;
         color: rgba(51, 51, 51, 1);
+        margin-bottom: 15px;
     }
     .feedback-title::before {
         content: '';
@@ -108,8 +79,33 @@
         background: rgba(62, 127, 224, 1);
         margin-right: 5px;
     }
-    .project-name {
+}
+.task-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    border-bottom: 0;
+    border: 1px solid #e8e8e8;
+}
+.task-info-bottom {
+    border-bottom: 1px solid #e8e8e8;
+}
+.task-info-label {
+    display: flex;
+    align-items: center;
+    width: 150px;
+    padding: 10px;
+    border-right: 1px solid #e8e8e8;
+    background-color: #fafafa;
+}
+.task-info-value {
+    margin: 4px 10px;
+    width: 100%;
+    .ant-select {
         width: 100%;
+    }
+    .ant-form-item {
+        margin-bottom: 0;
     }
 }
 .fail-modal,

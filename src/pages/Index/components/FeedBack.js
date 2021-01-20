@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import CONFIG from 'src/config';
-import { Modal, Descriptions, Button, Select, message } from 'antd';
+import { Modal, Descriptions, Button, Select, message, Form } from 'antd';
 import 'src/assets/less/components/hotkey.less';
 import ToolIcon from 'src/components/ToolIcon';
 
@@ -59,6 +59,7 @@ const processName = [
 
 const ROLE_CODE = ['producer_leader', 'quality_leader'];
 
+@Form.create()
 @inject('TaskStore')
 @inject('appStore')
 @inject('FeedbackStore')
@@ -69,8 +70,7 @@ class FeedBack extends React.Component {
         super();
         this.state = {
             visible: false,
-            loading: false,
-            projectNames: []
+            loading: false
         };
     }
 
@@ -105,7 +105,8 @@ class FeedBack extends React.Component {
         const {
             TaskStore,
             appStore,
-            ResourceLayerStore: { multiProjectMap }
+            ResourceLayerStore: { multiProjectMap },
+            form: { getFieldDecorator }
         } = this.props;
         const { activeTask } = TaskStore;
         const { loginUser } = appStore;
@@ -132,38 +133,55 @@ class FeedBack extends React.Component {
                         <br />
                     </Descriptions.Item>
                 </Descriptions>
-                <Descriptions
-                    bordered
-                    className="task-content"
-                    title={<span className="feedback-title">任务基本信息</span>}
-                    size="small"
-                >
-                    <Descriptions.Item label="工程名称" span={24}>
-                        <Select
-                            className="project-name"
-                            mode="multiple"
-                            allowClear
-                            onChange={val => this.onChange(val)}
-                        >
-                            {projectNameArr.map((item, index) => (
-                                <Select.Option key={index} value={item}>
-                                    {item}
-                                </Select.Option>
-                            ))}
-                        </Select>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="工作人员" span={24}>
+                <div className="feedback-title">任务基本信息</div>
+                <div className="task-info">
+                    <div className="task-info-label">工程名称</div>
+                    <div className="task-info-value">
+                        <Form>
+                            <Form.Item>
+                                {getFieldDecorator('projectNames', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '请选择工程名称'
+                                        }
+                                    ]
+                                })(
+                                    <Select
+                                        mode="multiple"
+                                        allowClear
+                                        maxTagTextLength={10}
+                                        maxTagCount={2}
+                                    >
+                                        {projectNameArr.map((item, index) => (
+                                            <Select.Option key={index} value={item}>
+                                                {item}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                )}
+                            </Form.Item>
+                        </Form>
+                    </div>
+                </div>
+                <div className="task-info">
+                    <div className="task-info-label">工作人员</div>
+                    <div className="task-info-value">
                         {loginUser.name} {loginUser.roleName}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="任务编号" span={24}>
-                        {activeTask.taskId}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="任务类型&amp;状态" span={24}>
+                    </div>
+                </div>
+                <div className="task-info">
+                    <div className="task-info-label">任务编号</div>
+                    <div className="task-info-value">{activeTask.taskId}</div>
+                </div>
+                <div className="task-info task-info-bottom">
+                    <div className="task-info-label">任务类型&amp;状态</div>
+                    <div className="task-info-value">
                         {activeTask.isLocal
                             ? processName[pjIndex].label
                             : `${activeTask.nodeDesc}-${activeTask.manualStatusDesc}`}
-                    </Descriptions.Item>
-                </Descriptions>
+                    </div>
+                </div>
             </div>
         );
     };
@@ -181,43 +199,43 @@ class FeedBack extends React.Component {
         );
     };
 
-    onChange = val => {
-        this.setState({ projectNames: val });
-    };
-
-    setFeedback = async () => {
-        const {
-            FeedbackStore,
-            ResourceLayerStore: { multiProjectMap }
-        } = this.props;
-        const { projectNames } = this.state;
-        this.setState({ loading: true });
-        try {
-            let tracks = projectNames.map(projectName => {
-                return multiProjectMap[projectName].children.track.layerMap;
-            });
-            const res = await FeedbackStore.feedback(tracks);
-            message.success(res.message, 3);
-            this.setState({
-                visible: false,
-                loading: false
-            });
-        } catch (e) {
-            if (e.message !== '取消保存') {
-                Modal.error({
-                    title: '反馈失败！',
-                    content: (
-                        <div className="fail-modal">
-                            <p>问题数据反馈失败，</p>
-                            <p>请再次提交反馈申请。</p>
-                        </div>
-                    ),
-                    okText: '确定'
-                });
-                this.setState({ visible: false });
+    setFeedback = async e => {
+        e.preventDefault();
+        this.props.form.validateFieldsAndScroll(async (error, values) => {
+            if (!error) {
+                const {
+                    FeedbackStore,
+                    ResourceLayerStore: { multiProjectMap }
+                } = this.props;
+                this.setState({ loading: true });
+                try {
+                    let tracks = values.projectNames.map(projectName => {
+                        return multiProjectMap[projectName].children.track.layerMap;
+                    });
+                    const res = await FeedbackStore.feedback(tracks);
+                    message.success(res.message, 3);
+                    this.setState({
+                        visible: false,
+                        loading: false
+                    });
+                } catch (e) {
+                    if (e.message !== '取消保存') {
+                        Modal.error({
+                            title: '反馈失败！',
+                            content: (
+                                <div className="fail-modal">
+                                    <p>问题数据反馈失败，</p>
+                                    <p>请再次提交反馈申请。</p>
+                                </div>
+                            ),
+                            okText: '确定'
+                        });
+                        this.setState({ visible: false });
+                    }
+                    this.setState({ loading: false });
+                }
             }
-            this.setState({ loading: false });
-        }
+        });
     };
 
     toggle = () => {
