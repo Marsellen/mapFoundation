@@ -41,7 +41,6 @@ class AttributesModal extends React.Component {
                 wrapClassName="ad-attributes-modal"
                 title={this.renderTitle()}
                 visible={visible}
-                zIndex={2}
                 onCancel={this.handleCancel}
             >
                 <div className="obscuration" />
