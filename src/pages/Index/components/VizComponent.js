@@ -26,7 +26,7 @@ import { shortcut } from 'src/utils/shortcuts';
 import { installMapListener } from 'src/utils/map/event';
 import _ from 'lodash';
 import editLog from 'src/models/editLog';
-import { isManbuildTask, statisticsTime, windowObserver } from 'src/utils/taskUtils';
+import { windowObserver } from 'src/utils/taskUtils';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
 import axios from 'axios';
 import { logDecorator, editOutputLimit } from 'src/utils/decorator';
@@ -617,11 +617,6 @@ class VizComponent extends React.Component {
             }
             //离开页面时减少访问次数
             editVisiteHistory.removeVisitedHistory();
-            statisticsTime(1);
-            statisticsTime(3);
-            setTimeout(function () {
-                setTimeout(statisticsTime.bind(null, 2), 1000);
-            }, 50);
             const visiteHistory = editVisiteHistory.getVisitedHistory();
             if (visiteHistory.length < 1) {
                 e = window.event || e;

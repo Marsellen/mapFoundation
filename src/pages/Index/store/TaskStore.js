@@ -23,7 +23,9 @@ import {
     completeEditUrl,
     completeBoundaryUrl,
     completeMultiProjectUrl,
-    statisticsTime
+    startTaskTimePolling,
+    endTaskTimePolling,
+    endWorkTimePolling
 } from 'src/utils/taskUtils';
 import RelStore from './RelStore';
 import AttrStore from './AttrStore';
@@ -42,6 +44,7 @@ import ModifyTask from 'src/utils/Task/ModifyTask';
 import { VECTOR_FILES, ATTR_FILES, REL_FILES } from 'src/config/TaskConfig';
 import { fetchCallback } from 'src/utils/map/utils';
 import PointCloudStore from 'src/pages/Index/store/PointCloudStore';
+import sysProperties from 'src/models/sysProperties';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -168,8 +171,8 @@ class TaskStore {
     // 任务切换
     setActiveTask = flow(function* (id) {
         if (id && this.activeTaskId !== id) {
-            yield statisticsTime(1);
-            yield statisticsTime(3);
+            endTaskTimePolling();
+            endWorkTimePolling();
         }
         if (this.validTasks && this.validTasks.length && id) {
             this.activeTask = this.validTasks.find(item => {
@@ -188,13 +191,7 @@ class TaskStore {
     startTaskEdit = flow(function* (id) {
         this.editTaskId = id;
         this.fetchTask();
-        try {
-            if (id) {
-                yield statisticsTime(0);
-            }
-        } catch (e) {
-            throw { message: '工作流请求失败', key: 'task_error' };
-        }
+        if (id) startTaskTimePolling();
     });
 
     @action getBoundaryLayer = () => {
@@ -287,8 +284,8 @@ class TaskStore {
             taskId,
             process_name
         };
-        yield statisticsTime(3);
-        yield statisticsTime(1);
+        endTaskTimePolling();
+        endWorkTimePolling();
         yield JobService.submitTask(payload);
     });
 
@@ -623,8 +620,8 @@ class TaskStore {
         if (this.taskIdList.includes(Number(task.taskId))) {
             throw new Error('资料目录重复');
         }
-        yield statisticsTime(1);
-        yield statisticsTime(3);
+        endTaskTimePolling();
+        endWorkTimePolling();
 
         this.activeTask = {
             ...task,
@@ -639,8 +636,8 @@ class TaskStore {
     });
 
     tasksPop = flow(function* (currentTaskId) {
-        yield statisticsTime(1);
-        yield statisticsTime(3);
+        endTaskTimePolling();
+        endWorkTimePolling();
         //如果当前任务加载报错，则回到无任务状态
         if (this.activeTaskId == currentTaskId) {
             this.activeTask = {};

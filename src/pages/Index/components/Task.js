@@ -144,12 +144,7 @@ class Task extends React.Component {
 
                 this.setState({ current: id });
             } catch (e) {
-                const msg = e.message || e || '';
-                console.log('切换任务报错:' + msg);
-                if (e.key === 'task_error') {
-                    this.props.TaskStore.startTaskEdit();
-                    message.error(msg);
-                }
+                console.log('切换任务报错:' + e?.message ?? '');
             }
         }, 1000);
     };
