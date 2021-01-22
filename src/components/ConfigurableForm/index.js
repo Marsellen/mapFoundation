@@ -49,7 +49,7 @@ class ConfigurableForm extends React.Component {
                         return { [ruleName]: getValidator(ruleVal) };
                     } else {
                         const { value, message, fieldName, fieldValue } = ruleVal;
-                        const currentVal = this.getFieldValue(fieldName, initData[fieldName]);
+                        const currentVal = this.getFieldValue(fieldName, initData?.[fieldName]);
                         return {
                             [ruleName]: fieldName
                                 ? this.getCompareRes(fieldValue, currentVal)
@@ -71,7 +71,7 @@ class ConfigurableForm extends React.Component {
                     const { data, dependFieldNames } = resetFieldByField;
                     let resetObj = data || {};
                     dependFieldNames.forEach(fieldName => {
-                        const fieldValue = this.getFieldValue(fieldName, initData[fieldName]);
+                        const fieldValue = this.getFieldValue(fieldName, initData?.[fieldName]);
                         resetObj = resetObj?.[fieldValue] ?? {};
                     });
                     setFieldsValue({ ...resetObj, [name]: value });
@@ -87,12 +87,12 @@ class ConfigurableForm extends React.Component {
         const { data, secondKey, fieldName } = option;
         //有secondKey，secondKey的值是下拉框选项数据的第二个键，需要结合第二个键，获取下拉框选项数组
         if (secondKey) {
-            const secondKeyValue = this.getFieldValue(secondKey, initData[secondKey]);
+            const secondKeyValue = this.getFieldValue(secondKey, initData?.[secondKey]);
             return data[secondKeyValue];
         }
         //有fieldName，根据该fieldName的值，获取对应data_[fieldValue]作为下拉框选项数组
         if (fieldName) {
-            const optionFieldValue = this.getFieldValue(fieldName, initData[fieldName]);
+            const optionFieldValue = this.getFieldValue(fieldName, initData?.[fieldName]);
             return option[`data_${optionFieldValue}`];
         }
         //除以上两种情况，直接拿静态配置的下拉框选项数组
@@ -101,7 +101,7 @@ class ConfigurableForm extends React.Component {
 
     getEditStatus = (condition, initData) => {
         const { fieldName, fieldValue } = condition;
-        const currentVal = this.getFieldValue(fieldName, initData[fieldName]);
+        const currentVal = this.getFieldValue(fieldName, initData?.[fieldName]);
         const isEditable = fieldValue ? this.getCompareRes(fieldValue, currentVal) : currentVal;
         return isEditable;
     };
