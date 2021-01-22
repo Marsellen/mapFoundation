@@ -4,58 +4,7 @@ import CONFIG from 'src/config';
 import { Modal, Descriptions, Button, Select, message, Form } from 'antd';
 import 'src/assets/less/components/hotkey.less';
 import ToolIcon from 'src/components/ToolIcon';
-
-const taskType = [
-    {
-        name: 'imp_recognition',
-        type: 'MS',
-        isLocal: false
-    },
-    {
-        name: 'imp_check_after_recognition',
-        type: 'MS_QC',
-        isLocal: false
-    },
-    {
-        name: 'imp_manbuild',
-        type: 'MB',
-        isLocal: false
-    },
-    {
-        name: 'imp_check_after_manbuild',
-        type: 'MB_QC',
-        isLocal: false
-    },
-    {
-        name: 'imp_recognition',
-        type: 'MSD',
-        isLocal: true
-    },
-    {
-        name: 'imp_manbuild',
-        type: 'MBD',
-        isLocal: true
-    }
-];
-
-const processName = [
-    {
-        name: 'imp_recognition',
-        label: '人工识别'
-    },
-    {
-        name: 'imp_check_after_recognition',
-        label: '人工识别后质检'
-    },
-    {
-        name: 'imp_manbuild',
-        label: '人工构建'
-    },
-    {
-        name: 'imp_check_after_manbuild',
-        label: '人工构建后质检'
-    }
-];
+import { TASK_PROCESS_NAME } from 'src/config/TaskConfig';
 
 const ROLE_CODE = ['producer_leader', 'quality_leader'];
 
@@ -110,15 +59,15 @@ class FeedBack extends React.Component {
         } = this.props;
         const { activeTask } = TaskStore;
         const { loginUser } = appStore;
-        const pjIndex = processName.findIndex(item => {
-            return item.name === activeTask.processName;
+        const pjIndex = TASK_PROCESS_NAME.findIndex(item => {
+            return item.value === activeTask.processName;
         });
         // const projectNameArr = [
         //     '20191210130058_XIANGKONGZHU_SHANGHAI_AFA1119',
         //     '20200601130058_XIANGKONGZHU_SHANGHAI_AFA1119',
         //     '20201203142404_XIANGKONGZHU_SHANGHAI_AFA1119'
         // ];
-        const projectNameArr = Object.keys(multiProjectMap) || [];
+        const projectNameArr = Object.keys(multiProjectMap);
         return (
             <div className="feedback-content">
                 <div className="feedback-eg">注：会将当前任务内的所有矢量数据打包反馈</div>
@@ -178,7 +127,7 @@ class FeedBack extends React.Component {
                     <div className="task-info-label">任务类型&amp;状态</div>
                     <div className="task-info-value">
                         {activeTask.isLocal
-                            ? processName[pjIndex].label
+                            ? TASK_PROCESS_NAME[pjIndex].label
                             : `${activeTask.nodeDesc}-${activeTask.manualStatusDesc}`}
                     </div>
                 </div>
