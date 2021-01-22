@@ -178,7 +178,7 @@ class PictureShowView extends React.Component {
             <Modal
                 title="点云与轨迹联动设置"
                 maskClosable={false}
-                width={415}
+                width={'max-content'}
                 okText="确定"
                 cancelText="取消"
                 visible={modalVisible}
@@ -194,9 +194,11 @@ class PictureShowView extends React.Component {
                 <Radio.Group value={currentProjectName} onChange={this.handleRadioChange}>
                     {projectNameArr.map((projectName, index) => {
                         return (
-                            <Radio value={projectName} key={`track_${index}`}>
-                                工程{index + 1}：{projectName}
-                            </Radio>
+                            <div key={`track_${index}`}>
+                                <Radio value={projectName}>
+                                    工程{index + 1}：{projectName}
+                                </Radio>
+                            </div>
                         );
                     })}
                 </Radio.Group>
