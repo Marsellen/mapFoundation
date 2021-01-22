@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
-import { Modal, Button, Form, InputNumber } from 'antd';
+import { Modal, Button, InputNumber } from 'antd';
 import 'src/assets/less/components/batch-build.less';
 import BatchBuildAttr from 'src/pages/Index/components/ToolList/BatchBuild/BatchBuildAttr';
 import IconFont from 'src/components/IconFont';
@@ -8,12 +8,6 @@ import { batchBuild } from 'src/utils/relCtrl/operateCtrl.js';
 import { logDecorator } from 'src/utils/decorator';
 import shiyitu from 'src/assets/img/shiyitu.png';
 
-const formLayout = {
-    labelCol: { span: 10 },
-    wrapperCol: { span: 4 }
-};
-
-@Form.create()
 @inject('RightMenuStore')
 @inject('DataLayerStore')
 @inject('BatchBuildStore')
@@ -21,8 +15,11 @@ const formLayout = {
 class BatchBuildFeature extends React.Component {
     constructor(props) {
         super(props);
+        this.state = { distances: {} };
         this.handleBatchBuild = this.handleBatchBuild.bind(this);
     }
+
+    stopPropagation = e => e.stopPropagation();
 
     exit = () => {
         const { DataLayerStore, BatchBuildStore } = this.props;
@@ -30,58 +27,76 @@ class BatchBuildFeature extends React.Component {
         BatchBuildStore.release(); //清除数据
     };
 
+    isCurrentFeature = (featuresName, index) => {
+        const { activeFeatureKey } = this.props.BatchBuildStore;
+        const [currentFeatureName, currentFeatureIndex] = activeFeatureKey?.split('|') || [];
+        return featuresName == currentFeatureName && index == currentFeatureIndex;
+    };
+
+    isCurrentRange = (featuresName, index) => {
+        const { activeRangeKey } = this.props.BatchBuildStore;
+        const [currentRangeName, currentRangeIndex] = activeRangeKey?.split('|') || [];
+        return featuresName == currentRangeName && index == currentRangeIndex;
+    };
+
     //行删除事件
     handleDeleteFeature = (e, featuresName, index) => {
         e.stopPropagation();
-        const { activeFeatureKey, deleteFeature, clearActiveFeature } = this.props.BatchBuildStore;
-        const [currentFeatureName, currentFeatureIndex] = activeFeatureKey?.split('|') || [];
-        const isCurrentFeature = featuresName == currentFeatureName && index == currentFeatureIndex;
+        const {
+            DataLayerStore: { exitMeatureDistance_2 },
+            BatchBuildStore: { deleteFeature, clearActiveFeature, clearActiveRange }
+        } = this.props;
+        //删除当前
         deleteFeature(featuresName, index);
-        if (isCurrentFeature) clearActiveFeature();
+        //清空当前选中要素
+        clearActiveFeature();
+        //清空当前选中量测工具
+        clearActiveRange();
+        exitMeatureDistance_2();
     };
 
     //行测距事件
     handleRanging = (e, featuresName, index) => {
         e.stopPropagation();
         const {
-            BatchBuildStore: { activeRangeKey, initActiveRange, clearActiveRange },
+            BatchBuildStore: { initActiveRange, clearActiveRange },
             DataLayerStore: { startMeatureDistance_2, exitMeatureDistance_2 }
         } = this.props;
-        const [oldFeaturesName, oldIndex] = activeRangeKey?.split('|') || [];
-        if (featuresName == oldFeaturesName && index == oldIndex) {
+        const isCurrentRange = this.isCurrentRange(featuresName, index);
+        if (isCurrentRange) {
             clearActiveRange();
             exitMeatureDistance_2();
         } else {
+            exitMeatureDistance_2();
             initActiveRange(featuresName, index);
             startMeatureDistance_2(featuresName, index);
+        }
+    };
+
+    handleChange = (featuresName, index, value) => {
+        const { BatchBuildStore } = this.props;
+        if (BatchBuildStore.checkDistance(value)) {
+            const { distances } = this.state;
+            distances[featuresName + index] = value;
+            this.setState({ distances });
         }
     };
 
     //车道距离输入框handleBlur事件
     handleBlur = (featuresName, index, e) => {
         const value = Number(e.target.value);
-        const { form, BatchBuildStore } = this.props;
+        const { BatchBuildStore } = this.props;
         if (BatchBuildStore.checkDistance(value)) {
             BatchBuildStore.updateFeature(featuresName, index, 'DISTANCE', value);
-        } else {
-            const oldValue = BatchBuildStore[featuresName][index].DISTANCE;
-            form.setFieldsValue({ [`${featuresName}${index}DISTANCE`]: oldValue });
         }
+        this.setState({ distances: {} });
     };
 
     //行点击事件
     handleClick = (featuresName, index) => {
-        const {
-            initActiveFeature,
-            activeFeatureKey,
-            clearActiveFeature
-        } = this.props.BatchBuildStore;
-        const [oldFeaturesName, oldIndex] = activeFeatureKey?.split('|') || [];
-        if (featuresName == oldFeaturesName && index == oldIndex) {
-            clearActiveFeature();
-        } else {
-            initActiveFeature(featuresName, index);
-        }
+        const { initActiveFeature, clearActiveFeature } = this.props.BatchBuildStore;
+        const isCurrentFeature = this.isCurrentFeature(featuresName, index);
+        isCurrentFeature ? clearActiveFeature() : initActiveFeature(featuresName, index);
     };
 
     //行属性修改
@@ -95,14 +110,10 @@ class BatchBuildFeature extends React.Component {
     };
 
     //批量生成总提交
-    handleSubmit = e => {
+    handleSubmit = async e => {
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll(async err => {
-            if (!err) {
-                await this.handleBatchBuild();
-                this.exit();
-            }
-        });
+        await this.handleBatchBuild();
+        this.exit();
     };
 
     @logDecorator({ operate: '批量生成' })
@@ -117,13 +128,8 @@ class BatchBuildFeature extends React.Component {
 
     //渲染左右侧车道线行
     renderLine = (featuresName, reverse) => {
-        const {
-            BatchBuildStore,
-            BatchBuildStore: { activeRangeKey, activeFeatureKey },
-            form: { getFieldDecorator }
-        } = this.props;
-        const [currentRangeName, currentRangeIndex] = activeRangeKey?.split('|') || [];
-        const [currentFeatureName, currentFeatureIndex] = activeFeatureKey?.split('|') || [];
+        const { distances } = this.state;
+        const { BatchBuildStore } = this.props;
         const text = featuresName.includes('left') ? '左' : '右';
         const features = reverse
             ? BatchBuildStore[featuresName].reverse()
@@ -132,29 +138,26 @@ class BatchBuildFeature extends React.Component {
         return features.map((item, index) => {
             const { DISTANCE } = item;
             const i = reverse ? featuresL - index - 1 : index;
-            const isCurrentRange = featuresName == currentRangeName && i == currentRangeIndex;
-            const isCurrentFeature = featuresName == currentFeatureName && i == currentFeatureIndex;
+            const isCurrentRange = this.isCurrentRange(featuresName, i);
+            const isCurrentFeature = this.isCurrentFeature(featuresName, i);
             const label = `${text}${i + 1}`;
             return (
                 <div
-                    className={`form-item ${isCurrentFeature ? 'on' : ''}`}
+                    className={`line ${isCurrentFeature ? 'on' : ''}`}
                     key={label}
                     onClick={() => this.handleClick(featuresName, i)}
                 >
                     <div className="index-label">{label}</div>
-                    <div className="form-item-field">
+                    <div className="line-input-box">
                         <span>车道距离:</span>
-                        <Form.Item>
-                            {getFieldDecorator(`${featuresName}${i}DISTANCE`, {
-                                initialValue: DISTANCE
-                            })(
-                                <InputNumber
-                                    precision={2}
-                                    onClick={e => e.stopPropagation()}
-                                    onBlur={value => this.handleBlur(featuresName, i, value)}
-                                />
-                            )}
-                        </Form.Item>
+                        <span onClick={this.stopPropagation}>
+                            <InputNumber
+                                value={distances?.[featuresName + i] ?? DISTANCE}
+                                precision={2}
+                                onChange={value => this.handleChange(featuresName, i, value)}
+                                onBlur={value => this.handleBlur(featuresName, i, value)}
+                            />
+                        </span>
                         <span className="letter-line-height">m</span>
                     </div>
                     <IconFont
@@ -175,7 +178,7 @@ class BatchBuildFeature extends React.Component {
     render() {
         const { BatchBuildStore } = this.props;
         const { addFeature, activeFeatureKey } = BatchBuildStore;
-        const [featuresName, index] = activeFeatureKey?.split('|') || [];
+        const [currentFeatureName, currentFeatureIndex] = activeFeatureKey?.split('|') || [];
         return (
             <div className="batch-build-wrap">
                 <Modal
@@ -190,39 +193,35 @@ class BatchBuildFeature extends React.Component {
                     onOk={this.handleOk}
                     onCancel={this.exit}
                 >
-                    <Form layout="inline" colon={false} hideRequiredMark={true} {...formLayout}>
-                        <div className="button-box">
-                            <Button
-                                className="button blue-button"
-                                onClick={() => addFeature('leftFeatures')}
-                            >
-                                左侧增加
-                            </Button>
-                            <Button
-                                className="button green-button"
-                                onClick={() => addFeature('rightFeatures')}
-                            >
-                                右侧增加
-                            </Button>
-                        </div>
-                        <div className="line-box">
-                            <div className="arrow-up"></div>
-                            <div className="line-content">
-                                {this.renderLine('leftFeatures', true)}
-                            </div>
-                        </div>
-                        <div className="divider"></div>
-                        <div className="line-box">
-                            <div className="arrow-down"></div>
-                            <div className="line-content">{this.renderLine('rightFeatures')}</div>
-                        </div>
-                    </Form>
+                    <div className="button-box">
+                        <Button
+                            className="button blue-button"
+                            onClick={() => addFeature('leftFeatures')}
+                        >
+                            左侧增加
+                        </Button>
+                        <Button
+                            className="button green-button"
+                            onClick={() => addFeature('rightFeatures')}
+                        >
+                            右侧增加
+                        </Button>
+                    </div>
+                    <div className="line-box">
+                        <div className="arrow-up"></div>
+                        <div className="line-content">{this.renderLine('leftFeatures', true)}</div>
+                    </div>
+                    <div className="divider"></div>
+                    <div className="line-box">
+                        <div className="arrow-down"></div>
+                        <div className="line-content">{this.renderLine('rightFeatures')}</div>
+                    </div>
                     {activeFeatureKey && (
                         <BatchBuildAttr
                             key={activeFeatureKey}
                             formItemChange={this.handleFormItemChange}
                             active={activeFeatureKey}
-                            activeFeature={BatchBuildStore[featuresName][index]}
+                            activeFeature={BatchBuildStore[currentFeatureName][currentFeatureIndex]}
                         />
                     )}
                     <div className="footer-wrap">
