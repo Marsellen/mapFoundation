@@ -10,10 +10,15 @@ import {
     breakLineByLine,
     updateFeatures
 } from 'src/utils/relCtrl/operateCtrl';
-import { getLayerByName, checkSdkError } from 'src/utils/vectorUtils';
+import {
+    getLayerByName,
+    checkSdkError,
+    getLayerIDKey,
+    modUpdStatGeometry,
+    layerUpdateFeatures
+} from 'src/utils/vectorUtils';
 import AdMessage from 'src/components/AdMessage';
 import _ from 'lodash';
-import { getLayerIDKey, modUpdStatGeometry, layerUpdateFeatures } from 'src/utils/vectorUtils';
 import { logDecorator, editInputLimit, editOutputLimit } from 'src/utils/decorator';
 import BatchAssignStore from 'src/pages/Index/store/BatchAssignStore';
 import ToolCtrlStore from 'src/pages/Index/store/ToolCtrlStore';
@@ -102,6 +107,7 @@ class RightMenuModal extends React.Component {
         this.trim = this.trim.bind(this);
         this.groupMove = this.groupMove.bind(this);
         this.copyLineHandle = this.copyLineHandle.bind(this);
+        this.changePointsCallback = this.changePointsCallback.bind(this);
         DataLayerStore.setGroupMoveCallback(this.groupMoveCallback);
     }
 
@@ -545,10 +551,10 @@ class RightMenuModal extends React.Component {
     }
 
     @logDecorator({ operate: '修改形状点', onlyRun: true })
-    changePointsCallback = result => {
+    changePointsCallback(result) {
         checkSdkError(result);
         this.changePointsHandler(result);
-    };
+    }
 
     @logDecorator({ operate: '修改形状点' })
     async changePointsHandler(result) {
