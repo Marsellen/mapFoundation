@@ -96,8 +96,8 @@ const pointsOutBoundaryListener = () => {
 };
 
 const modifyfeaturepointsListener = () => {
-    mapEventManager().register('editor_event_modifyfeaturepoints_delete_error', e => {
-        message.warn('首尾点不能删除', 3);
+    mapEventManager().register('editor_event_modifyfeaturepoints_delete_same_error', e => {
+        message.warn('首尾点或共点不能删除', 3);
     });
 };
 
