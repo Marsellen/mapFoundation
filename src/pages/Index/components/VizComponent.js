@@ -431,12 +431,7 @@ class VizComponent extends React.Component {
                 //获取轨迹
                 return axios.get(trackUrl).then(res => {
                     const { data } = res;
-                    const trackPartMap = {
-                        taskId: activeTask.taskId,
-                        userName: loginUser.username,
-                        projectId: projectName.split('_')[0],
-                        projectName: projectName
-                    };
+                    const trackPartMap = {};
                     let timeList = [];
                     data.forEach(tackPart => {
                         const { name, tracks, startTime, endTime } = tackPart;
@@ -448,11 +443,15 @@ class VizComponent extends React.Component {
                         trackPartMap[trackName] = tracks;
                         timeList.push({ startTime, endTime });
                     });
-                    trackPartMap['timeList'] = timeList;
                     //更新
                     updateMultiProjectMap(`${projectName}|track`, {
                         layerKey: Object.keys(trackPartMap),
-                        layerMap: trackPartMap
+                        layerMap: trackPartMap,
+                        taskId: activeTask.taskId,
+                        userName: loginUser.username,
+                        projectId: projectName.split('_')[0],
+                        projectName: projectName,
+                        timeList
                     });
                     return data;
                 });

@@ -158,8 +158,15 @@ class FeedBack extends React.Component {
                 } = this.props;
                 this.setState({ loading: true });
                 try {
-                    let tracks = values.projectNames.map(projectName => {
-                        return multiProjectMap[projectName].children.track.layerMap;
+                    let tracks = values.projectNames.map(pjName => {
+                        const {
+                            userName,
+                            taskId,
+                            projectId,
+                            projectName,
+                            timeList
+                        } = multiProjectMap[pjName].children.track;
+                        return { userName, taskId, projectId, projectName, timeList };
                     });
                     const res = await FeedbackStore.feedback(tracks);
                     message.success(res.message, 3);
