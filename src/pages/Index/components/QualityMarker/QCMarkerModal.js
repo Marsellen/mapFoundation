@@ -97,7 +97,11 @@ class QCMarkerModal extends React.Component {
         }
     };
 
-    handleSubmit = (type, isExit = true) => {
+    handleChange = (name, value, formData) => {
+        this.handleSubmit('update', false, formData);
+    };
+
+    handleSubmit = (type, isExit = true, formData = {}) => {
         const {
             QCMarkerStore,
             QCMarkerStore: {
@@ -113,7 +117,8 @@ class QCMarkerModal extends React.Component {
             if (err) return;
             try {
                 this.setState({ isLoading: true });
-                const param = this[`getParam_${type}`](values);
+                formData = { ...values, ...formData };
+                const param = this[`getParam_${type}`](formData);
                 //添加到数据库
                 const res = await QCMarkerStore[`${type}Marker`](param);
                 if (!res || !res.data) throw Error(`标注${type}失败`);
@@ -375,9 +380,9 @@ class QCMarkerModal extends React.Component {
                             initData={properties}
                             formConfig={formConfig}
                             fieldChange={{
-                                fixStatus: () => this.handleSubmit('update', false),
-                                qcStatus: () => this.handleSubmit('update', false),
-                                qcLink: () => this.handleSubmit('update', false)
+                                fixStatus: this.handleChange,
+                                qcStatus: this.handleChange,
+                                qcLink: this.handleChange
                             }}
                         />
                     </div>
