@@ -100,13 +100,17 @@ class BatchBuildFeature extends React.Component {
     };
 
     //行属性修改
-    handleFormItemChange = (name, value) => {
+    handleFormItemChange = (name, value, formData) => {
         const {
             BatchBuildStore,
             BatchBuildStore: { activeFeatureKey }
         } = this.props;
         const [featuresName, index] = activeFeatureKey?.split('|') || [];
-        BatchBuildStore.updateFeature(featuresName, index, 'attr', { [name]: value ?? 0 });
+        formData = {
+            ...formData,
+            [name]: value ?? 0
+        };
+        BatchBuildStore.updateFeature(featuresName, index, 'attr', formData);
     };
 
     //批量生成总提交
