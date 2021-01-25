@@ -18,6 +18,13 @@ class ConfigurableForm extends React.Component {
         return currentValue;
     };
 
+    handleChange = (name, value) => {
+        const { form } = this.props;
+        form.setFieldsValue({
+            [name]: value
+        });
+    };
+
     getCompareRes = (fieldValue, currentVal) => {
         if (!fieldValue) return false;
         if (Array.isArray(fieldValue)) {
@@ -60,9 +67,10 @@ class ConfigurableForm extends React.Component {
                 //如果有resetFieldByField，根据配置重置表单其它字段
                 if (resetFieldByField) {
                     const { data, dependFieldNames } = resetFieldByField;
+                    resetObj = data || {};
                     dependFieldNames.forEach(fieldName => {
                         const fieldValue = this.getFieldValue(fieldName, initData?.[fieldName]);
-                        resetObj = data?.[fieldValue] ?? {};
+                        resetObj = resetObj?.[fieldValue] ?? {};
                     });
                 }
                 const formData = { ...resetObj, [name]: value };
@@ -123,7 +131,12 @@ class ConfigurableForm extends React.Component {
                 {getFieldDecorator(
                     item.name,
                     this.formItemConfig(item)
-                )(<Input disabled={editable ? !isEditable : true} />)}
+                )(
+                    <Input
+                        disabled={editable ? !isEditable : true}
+                        onChange={value => this.handleChange(name, value)}
+                    />
+                )}
                 {Tool && (
                     <Tool form={form} className="tool" disabled={editable ? !isEditable : true} />
                 )}
@@ -142,7 +155,12 @@ class ConfigurableForm extends React.Component {
                 {getFieldDecorator(
                     item.name,
                     this.formItemConfig(item)
-                )(<AdInputNumber disabled={editable ? !isEditable : true} />)}
+                )(
+                    <AdInputNumber
+                        disabled={editable ? !isEditable : true}
+                        onChange={value => this.handleChange(name, value)}
+                    />
+                )}
                 {Tool && (
                     <Tool form={form} className="tool" disabled={editable ? !isEditable : true} />
                 )}
@@ -166,6 +184,7 @@ class ConfigurableForm extends React.Component {
                     <Select
                         dropdownMatchSelectWidth={false}
                         disabled={editable ? !isEditable : true}
+                        onChange={value => this.handleChange(name, value)}
                     >
                         {Array.isArray(selectOptions) &&
                             selectOptions.map(optionItem => {
@@ -203,7 +222,13 @@ class ConfigurableForm extends React.Component {
                 {getFieldDecorator(
                     item.name,
                     this.formItemConfig(item)
-                )(<TextArea rows={4} disabled={editable ? !isEditable : true} />)}
+                )(
+                    <TextArea
+                        rows={4}
+                        disabled={editable ? !isEditable : true}
+                        onChange={value => this.handleChange(name, value)}
+                    />
+                )}
                 {Tool && (
                     <Tool form={form} className="tool" disabled={editable ? !isEditable : true} />
                 )}
@@ -226,6 +251,7 @@ class ConfigurableForm extends React.Component {
                     <RadioIconGroup
                         options={option.data}
                         disabled={editable ? !isEditable : true}
+                        onChange={value => this.handleChange(name, value)}
                     />
                 )}
                 {Tool && (
