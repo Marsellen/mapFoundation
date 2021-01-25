@@ -158,6 +158,7 @@ const setRequestAnimationFrame = (fn, delay, timerName) => {
 
 //开始任务统计时间轮询
 export const startTaskTimePolling = () => {
+    if (!window.isLogin) return;
     const { overallPollingInterval } = sysProperties.configs;
     const pollingTime = overallPollingInterval * 1000;
     if (window.taskTimer) return;
@@ -191,6 +192,7 @@ export const windowObserver = () => {
     const pollingTime = finePollingInterval * 1000; //轮询间隔时间
     let startTime; //开始时间
     const eventFun = throttle(() => {
+        if (!window.isLogin) return;
         if (!TaskStore.editTaskId) return; //没有开始任务，返回
         startTime = Date.now(); //获取开始动作时间
         if (window.workTimer) return; //正在轮询中，返回

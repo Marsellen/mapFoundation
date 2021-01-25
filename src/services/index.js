@@ -2,14 +2,15 @@ import axios from 'axios';
 import { getAuthentication, logout } from 'src/utils/Session';
 import { Modal } from 'antd';
 import { SERVICE_MAP } from 'src/config/ServiceMapConfig';
+import { endTaskTimePolling, endWorkTimePolling } from 'src/utils/taskUtils';
 
 window.__cancelRequestArr = [];
 const TIME_OUT = 60000;
 
 const ERROR_MAP = {
-    '500': '服务异常，请联系系统管理员',
-    '503': '服务器尚未处于可以接受请求的状态',
-    '504': '服务超时，请稍后重试'
+    500: '服务异常，请联系系统管理员',
+    503: '服务器尚未处于可以接受请求的状态',
+    504: '服务超时，请稍后重试'
 };
 
 const logoutModal = title => {
@@ -61,6 +62,10 @@ axios.interceptors.response.use(
                 } else {
                     logoutModal('token失效，请重新获取');
                 }
+                //停止“总体作业时间的监控”和“精细作业时间监控”
+                endTaskTimePolling();
+                endWorkTimePolling();
+                window.isLogin = false;
             }
 
             const isHtml = typeof data === 'string' && data.includes('html');

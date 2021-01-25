@@ -30,6 +30,8 @@ if (!jump) {
 sysProperties.loadConfigs();
 //加载质检标注配置
 ManageCtrl.queryConfig();
+//记录登陆状态
+window.isLogin = true;
 @inject('LoadingStore')
 @inject('MenuStore')
 @observer
