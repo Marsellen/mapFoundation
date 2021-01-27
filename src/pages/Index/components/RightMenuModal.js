@@ -38,6 +38,11 @@ const EDIT_TYPE = [
     'group_move'
 ];
 
+const GROUP_MOVE_TYPE = {
+    point: '左键选择平移参考点，按shift进入下一步',
+    Shift: '选择平移目标点位，点击右键完成平移'
+};
+
 const CHINESE_EDIT_TYPE = [
     {
         type: 'batch_build',
@@ -72,11 +77,6 @@ const CHINESE_EDIT_TYPE = [
         value: GROUP_MOVE_TYPE
     }
 ];
-
-const GROUP_MOVE_TYPE = {
-    point: '左键选择平移参考点，按shift进入下一步',
-    Shift: '选择平移目标点位，点击右键完成平移'
-};
 
 @inject('RightMenuStore')
 @inject('DataLayerStore')
