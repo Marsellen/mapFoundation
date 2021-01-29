@@ -272,8 +272,8 @@ export const DATA_LAYER_MAP = {
             manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'POSTURE_ADJUST']
         },
         drawTools: {
-            recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE'],
-            manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE']
+            recognition: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE'],
+            manbuild: ['ADD_OUTSIDE_RECTANGLE', 'POLYGON', 'ADD_FACADE_RECTANGLE', 'ADD_CIRCLE']
         },
         rightTools: [
             'delete',
