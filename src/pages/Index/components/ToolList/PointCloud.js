@@ -36,7 +36,7 @@ class PointCloud extends React.Component {
         return (
             <div className="point-cloud">
                 <div className="point-cloud-left">
-                    <div className="point-cloud-left-content-top">
+                    <div className="point-cloud-left-content">
                         <PointBright />
                         <Contrast />
                         <Gamma />
@@ -47,7 +47,6 @@ class PointCloud extends React.Component {
                     </div>
                 </div>
                 <div className="point-cloud-right">
-                    <span>点云分高程显示</span>
                     <PointStratification />
                 </div>
             </div>
