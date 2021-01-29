@@ -80,14 +80,23 @@ class Task extends React.Component {
     };
 
     getTaskLabel = task => {
-        const { isLocal, processName, taskId, nodeDesc, manualStatusDesc, task_sub_type } = task;
+        const {
+            isLocal,
+            processName,
+            taskId,
+            nodeDesc,
+            manualStatusDesc,
+            task_sub_type,
+            hasPostprocessCheck
+        } = task;
         if (isLocal) {
             let processNameLabel = processNameOptions.find(option => option.value === processName)
                 .label;
             return `${taskId}-${processNameLabel}`;
         }
         const taskSubTypeLabel = TASK_TYPE[task_sub_type] || '底图新增';
-        return `${taskId}-${taskSubTypeLabel}-${nodeDesc}-${manualStatusDesc}`;
+        const hasPostprocessCheckLabel = hasPostprocessCheck == 1 ? '【制图后处理】' : '';
+        return `${taskId}-${taskSubTypeLabel}-${nodeDesc}-${manualStatusDesc}${hasPostprocessCheckLabel}`;
     };
 
     chooseTask = (e, id, isEdit) => {
