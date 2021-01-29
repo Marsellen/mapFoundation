@@ -51,7 +51,9 @@ class PointCloudStore {
         const pointCloudMap = {};
         let { defaultLidarName, treeContent } = data;
         defaultLidarName = JSON.parse(defaultLidarName);
-        Object.entries(treeContent).forEach(([projectName, project], index) => {
+        const processNames = Object.keys(treeContent).sort();
+        processNames.forEach((projectName, index) => {
+            const project = treeContent[projectName];
             //向pointCloudMap追加工程
             pointCloudMap[projectName] = {
                 key: projectName,
