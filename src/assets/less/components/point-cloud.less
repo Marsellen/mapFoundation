@@ -1,48 +1,42 @@
-.pointCloud {
-    line-height: 38px;
-    color: #9e9e9e;
-    width: 24px;
-    text-align: center;
-}
-
+//顶部菜单-点云设置气泡弹窗
 .ant-popover-content {
     .point-cloud {
-        width: 300px;
-        height: 340px;
         display: flex;
-        .point-cloud-right {
-            height: 100%;
-            width: 40%;
-            box-shadow: 0 0 9px #ddd;
-            padding: 10px;
-        }
+        width: 300px;
         .point-cloud-left {
-            height: 100%;
             width: 60%;
+            .ant-slider-with-marks {
+                margin-bottom: 5px;
+            }
             .name-and-value {
                 display: flex;
                 justify-content: space-between;
             }
             .point-cloud-left-content {
-                height: 25%;
-            }
-            .point-cloud-left-content-top {
-                height: 75%;
-            }
-            .point-cloud-left-content,
-            .point-cloud-left-content-top {
-                box-shadow: 0 0 9px #ddd;
                 padding: 10px;
-                .flex-1 {
-                    .ant-slider-handle {
-                        margin-top: -1px;
-                    }
-                }
+                box-shadow: 0 0 9px #ddd;
             }
+        }
+        .point-cloud-right {
+            width: 40%;
+            padding: 10px;
+            box-shadow: 0 0 9px #ddd;
+        }
+    }
+    .ad-slider-box {
+        height: 100%;
+        text-align: center;
+        color: #9e9e9e;
+        .ad-slider-vertical {
+            height: calc(100% - 72px);
+            margin: 0 auto 12px;
+        }
+        p {
+            margin-bottom: 0;
         }
     }
 }
-
+//点云图层窗口
 .point-cloud-layer {
     overflow-y: auto;
     width: 300px;

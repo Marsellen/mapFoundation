@@ -25,6 +25,7 @@ class PointStratification extends React.Component {
         const { initRange = [0, 0], currentRange } = this.props.PointCloudStore;
         return (
             <div className="ad-slider-box">
+                <span>点云分高程显示</span>
                 <p>{initRange[1].toFixed(2)}米</p>
                 <Slider
                     className="ad-slider-vertical"
