@@ -95,6 +95,8 @@ const forceDelete = async features => {
  * @returns {Object} 打断后的操作记录
  */
 const breakLine = async (breakPoint, features, activeTask) => {
+    if (!breakPoint) return; //没有选点，返回
+    if (breakPoint.layerName) return; //不是选点，返回
     let point = geometryToWKT(breakPoint.data.geometry);
     let { lines, oldRels, oldAttrs, oldAllFeatureOptions } = await getLinesInfo(features);
     let option = { point, lines, task_id: activeTask.taskId };
