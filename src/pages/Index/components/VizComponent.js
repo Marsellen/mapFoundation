@@ -28,6 +28,7 @@ import _ from 'lodash';
 import editLog from 'src/models/editLog';
 import { windowObserver } from 'src/utils/taskUtils';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
+import { initBoundary, getCheckReport, getMarkerList } from 'src/utils/TaskStart';
 import axios from 'axios';
 import { logDecorator, editOutputLimit } from 'src/utils/decorator';
 import RenderModeStore from 'src/pages/Index/store/RenderModeStore';
@@ -54,6 +55,7 @@ import OcTreeIndex from 'src/utils/OcTreeIndex';
 import sysProperties from 'src/models/sysProperties';
 import BatchBuildModal from 'src/pages/Index/components/ToolList/BatchBuild/BatchBuildModal';
 import BatchBuildStore from '../store/BatchBuildStore';
+@inject('QualityCheckStore')
 @inject('QCMarkerStore')
 @inject('DefineModeStore')
 @inject('TextStore')
@@ -255,20 +257,6 @@ class VizComponent extends React.Component {
         this.addShortcut(event);
     };
 
-    handleReportOpen = async () => {
-        const { activeTaskId, isQCTask } = this.props.TaskStore;
-        //“开始”质检任务会自动获取报表
-        if (isQCTask) {
-            await QualityCheckStore.handleQualityGetMisreport({
-                taskId: activeTaskId,
-                status: '1,2,4'
-            });
-            if (QualityCheckStore.reportListL === 0) return;
-            QualityCheckStore.setActiveKey('check');
-            QualityCheckStore.openCheckReport();
-        }
-    };
-
     initTask = async () => {
         console.time('taskLoad');
         const { TaskStore } = this.props;
@@ -302,9 +290,9 @@ class VizComponent extends React.Component {
             //加载当前任务资料
             await Promise.all([this.initEditResource(task), this.initExResource(task)]);
             //“开始任务”时，加载周边底图
-            if (isEditableTask) this.initBoundary();
+            if (isEditableTask) initBoundary();
             //获取检查报表
-            this.handleReportOpen();
+            getCheckReport();
             message.success({
                 content: '资料加载完毕',
                 duration: 1,
@@ -504,85 +492,23 @@ class VizComponent extends React.Component {
         }
     };
 
-    initBoundary = async () => {
-        try {
-            const { TaskStore } = this.props;
-            window.boundaryLayerGroup = await TaskStore.getBoundaryLayer();
-            if (!window.boundaryLayerGroup) return;
-            DataLayerStore.addTargetLayers(window.boundaryLayerGroup.layers);
-            ResourceLayerStore.updateLayerByName(
-                RESOURCE_LAYER_BOUNDARY,
-                window.boundaryLayerGroup
-            );
-            VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
-            this.handleBoundaryfeature();
-        } catch (e) {
-            message.warning(e?.message ?? '周边底图异常');
-            console.error('周边底图异常 ' + e?.message);
-        }
-    };
-
-    //不同模式下，处理底图数据
-    handleBoundaryfeature = () => {
-        const {
-            TextStore: { resetBoundaryTextStyle },
-            RenderModeStore: { whiteRenderMode, resetSelectOption, setRels, activeMode }
-        } = this.props;
-        //如果是关联关系渲染模式
-        if (activeMode === 'relation') {
-            //将重置专题图
-            resetSelectOption();
-            //白色渲染模式/要素都是白色
-            whiteRenderMode();
-            //将有关联关系的要素，按专题图进行分组
-            setRels();
-        }
-        //将后加载的周边底图按当前注记配置渲染
-        resetBoundaryTextStyle();
-    };
-
+    //初始化质检标注图层
     initMarkerLayer = async () => {
-        const {
-            QCMarkerStore: { getMarkerList, initMarkerList, showList },
-            TaskStore: {
-                isFixTask,
-                isFixStatus,
-                activeTask: { taskId, processName, isLocal }
-            }
-        } = this.props;
-        if (isLocal) return; //如果是本地任务，返回，不加载质检标注
-        if (isFixTask && isFixStatus) return; //如果是人工识别或人工构建任务，且状态是已领取或进行中，返回，不加载质检标注
-        try {
-            const { AD_Marker } = MarkerVectorsConfig;
-            const markerLayer = new VectorLayer();
-            markerLayer.layerName = 'AD_Marker';
-            markerLayer.resetConfig(AD_Marker);
-            await map.getLayerManager().addLayer('VectorLayer', markerLayer);
-            //赋值给全局对象
-            window.markerLayer = {
-                layerName: markerLayer.layerName,
-                layerId: markerLayer.layerId,
-                layer: markerLayer
-            };
-            ResourceLayerStore.updateLayerByName(RESOURCE_LAYER_MARKER, window.markerLayer.layer);
-            //获取质检标列表，获取筛选条件
-            const res = await getMarkerList({ taskId, processName });
-            if (!res) return;
-            const { data } = res;
-            if (!data) return;
-            if (data.length === 0) return;
-            const features = data.map(item => {
-                return { geometry: JSON.parse(item.geom), properties: item };
-            });
-            initMarkerList(data);
-            QualityCheckStore.setActiveKey('marker');
-            showList();
-            window.markerLayer.layer.addFeatures(features);
-        } catch (e) {
-            const msg = e.message || e || '';
-            message.error('质检标注获取失败');
-            console.log('获取质检列表失败：' + msg);
-        }
+        const { isMsTask, isFixStatus, activeTask: { isLocal } = {} } = this.props.TaskStore;
+        if (isLocal) return; //如果是本地任务，返回
+        if (isMsTask && isFixStatus) return; //如果是人工识别【已领取或进行中】，返回
+        const { AD_Marker } = MarkerVectorsConfig;
+        const markerLayer = new VectorLayer();
+        markerLayer.layerName = 'AD_Marker';
+        markerLayer.resetConfig(AD_Marker);
+        await map.getLayerManager().addLayer('VectorLayer', markerLayer);
+        window.markerLayer = {
+            layerName: markerLayer.layerName,
+            layerId: markerLayer.layerId,
+            layer: markerLayer
+        };
+        ResourceLayerStore.updateLayerByName(RESOURCE_LAYER_MARKER, window.markerLayer.layer);
+        getMarkerList();
     };
 
     initResouceLayer = layers => {

@@ -147,12 +147,12 @@ class QualityCheckResult extends React.Component {
     render() {
         const {
             QualityCheckStore: { checkReportVisible, resizeCallback },
-            TaskStore: { activeTaskId, isQCTask, isRefixStatus },
+            TaskStore: { isEditableTask, isMsTask, isFixStatus },
             QCMarkerStore: { visibleList }
         } = this.props;
-        const isMarkerTask = isQCTask || isRefixStatus;
         return (
             <div>
+                {/* 浏览任务，检查结果置灰 */}
                 <div className="ad-sider-item">
                     <ToolIcon
                         id="check-result-btn"
@@ -161,25 +161,23 @@ class QualityCheckResult extends React.Component {
                         placement="right"
                         className="ad-menu-icon"
                         visible={checkReportVisible}
-                        disabled={!activeTaskId}
+                        disabled={!isEditableTask}
                         action={this.handleCheckClick}
                     />
                 </div>
-                {/* 如果当前任务是返工、返修、质检任务，显示质检标主列表按钮 */}
-                {activeTaskId && isMarkerTask && (
-                    <div className="ad-sider-item">
-                        <ToolIcon
-                            id="marker-list-btn"
-                            icon="zhijianbiaozhuliebiao"
-                            title="质检标注"
-                            placement="right"
-                            className="ad-menu-icon"
-                            visible={visibleList}
-                            disabled={!activeTaskId}
-                            action={this.handleMarkerClick}
-                        />
-                    </div>
-                )}
+                {/* 浏览任务或人工识别【已领取/进行中】任务，质检标注置灰 */}
+                <div className="ad-sider-item">
+                    <ToolIcon
+                        id="marker-list-btn"
+                        icon="zhijianbiaozhuliebiao"
+                        title="质检标注"
+                        placement="right"
+                        className="ad-menu-icon"
+                        visible={visibleList}
+                        disabled={!isEditableTask || (isMsTask && isFixStatus)}
+                        action={this.handleMarkerClick}
+                    />
+                </div>
                 <SeniorModal
                     dragDom={this._dragDom()}
                     visible={checkReportVisible || visibleList}

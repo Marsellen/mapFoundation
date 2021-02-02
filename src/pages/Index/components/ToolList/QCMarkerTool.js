@@ -81,13 +81,13 @@ class QCMarkerTool extends React.Component {
 
     render() {
         const {
-            TaskStore: { activeTaskId, isQCTask },
+            TaskStore: { isEditableTask, isQCTask },
             DataLayerStore: { getEditLayer, updateKey }
         } = this.props;
         const editLayer = getEditLayer();
         const visible = editLayer && editLayer.layerName === 'AD_Marker';
         //当前任务是质检任务，才会显示质检标注工具
-        if (activeTaskId && isQCTask) {
+        if (isQCTask) {
             return (
                 <span key={updateKey}>
                     <ToolIcon
@@ -98,7 +98,7 @@ class QCMarkerTool extends React.Component {
                         focusClassName="ad-tool-icon-active"
                         visible={visible}
                         action={this.action}
-                        disabled={!activeTaskId}
+                        disabled={!isEditableTask}
                     />
                     <AdMessage visible={visible} content={this.content()} />
                 </span>

@@ -1,13 +1,13 @@
 import React from 'react';
-import { Menu, Empty, Modal, message } from 'antd';
+import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
-import { RESOURCE_LAYER_BOUNDARY } from 'src/config/DataLayerConfig';
 import { TASK_TYPE } from 'src/config/TaskConfig';
 import 'less/components/sider.less';
 import ToolIcon from 'src/components/ToolIcon';
 import CONFIG from 'src/config';
 import { saveTaskData } from 'src/utils/taskUtils';
+import { initBoundary, getCheckReport, getMarkerList } from 'src/utils/TaskStart';
 
 const processNameOptions = CONFIG.processNameOptions;
 
@@ -148,62 +148,18 @@ class Task extends React.Component {
                 await TaskStore.setActiveTask(id);
                 if (isEdit) await TaskStore.startTaskEdit(id);
 
-                //先浏览再开始任务时，获取周边底图
-                activeTaskId === id && isEdit && this.fetchLayerGroup();
+                //先浏览再开始任务
+                if (activeTaskId === id && isEdit) {
+                    getCheckReport(); //获取检查结果
+                    getMarkerList(); //获取质检标注
+                    initBoundary(true); //获取周边底图
+                }
 
                 this.setState({ current: id });
             } catch (e) {
                 console.log('切换任务报错:' + e?.message ?? '');
             }
         }, 1000);
-    };
-
-    //不同模式下，处理底图数据
-    handleBoundaryfeature = () => {
-        const { RenderModeStore, TextStore, DefineModeStore } = this.props;
-        const { whiteRenderMode, resetSelectOption, setRels, activeMode } = RenderModeStore;
-        const { resetBoundaryTextStyle } = TextStore;
-        const { updateBoundaryVectorStyle } = DefineModeStore;
-
-        switch (activeMode) {
-            case 'common':
-            case 'check':
-            case 'define':
-                //按符号设置，更新后加载的周边底图
-                updateBoundaryVectorStyle();
-                break;
-            case 'relation':
-                //将重置专题图
-                resetSelectOption();
-                //白色渲染模式/要素都是白色
-                whiteRenderMode();
-                //将有关联关系的要素，按专题图进行分组
-                setRels();
-                break;
-            default:
-                break;
-        }
-
-        //将后加载的周边底图按当前注记配置渲染
-        resetBoundaryTextStyle();
-    };
-
-    fetchLayerGroup = async () => {
-        try {
-            const { TaskStore, DataLayerStore, ResourceLayerStore, VectorsStore } = this.props;
-            window.boundaryLayerGroup = await TaskStore.getBoundaryLayer();
-            if (!window.boundaryLayerGroup) return;
-            DataLayerStore.addTargetLayers(window.boundaryLayerGroup.layers);
-            ResourceLayerStore.updateLayerByName(
-                RESOURCE_LAYER_BOUNDARY,
-                window.boundaryLayerGroup
-            );
-            VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
-            this.handleBoundaryfeature();
-        } catch (e) {
-            message.warning('当前任务没有周边底图数据');
-            console.error(`周边底图数据加载失败: ${e.message || e}`);
-        }
     };
 }
 

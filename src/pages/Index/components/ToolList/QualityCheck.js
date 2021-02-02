@@ -16,24 +16,19 @@ class QualityCheck extends React.Component {
     state = { visible: false };
     render() {
         const { visible } = this.state;
-        const { TaskStore, appStore } = this.props;
-        const { loginUser } = appStore;
-        const { activeTaskId } = TaskStore;
-        switch (loginUser.roleCode) {
-            case 'producer':
-                return (
-                    <ToolIcon
-                        icon="zhiliangjiancha1"
-                        title="质量检查"
-                        visible={visible}
-                        disabled={!activeTaskId}
-                        action={this.handleClick}
-                    />
-                );
-            case 'quality':
-                return null;
-            default:
-                return null;
+        const { isEditableTask, isFixTask } = this.props.TaskStore;
+        if (isFixTask) {
+            return (
+                <ToolIcon
+                    icon="zhiliangjiancha1"
+                    title="质量检查"
+                    visible={visible}
+                    disabled={!isEditableTask}
+                    action={this.handleClick}
+                />
+            );
+        } else {
+            return null;
         }
     }
 
