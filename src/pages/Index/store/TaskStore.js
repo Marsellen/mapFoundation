@@ -44,7 +44,6 @@ import ModifyTask from 'src/utils/Task/ModifyTask';
 import { VECTOR_FILES, ATTR_FILES, REL_FILES } from 'src/config/TaskConfig';
 import { fetchCallback } from 'src/utils/map/utils';
 import PointCloudStore from 'src/pages/Index/store/PointCloudStore';
-import sysProperties from 'src/models/sysProperties';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -92,6 +91,11 @@ class TaskStore {
 
     @computed get isEditableTask() {
         return this.activeTaskId && this.activeTaskId == this.editTaskId;
+    }
+
+    //是否是人工识别任务
+    @computed get isMsTask() {
+        return this.activeTask && this.activeTask.processName === 'imp_recognition';
     }
 
     //是否是作业任务：人工识别或人工构建
