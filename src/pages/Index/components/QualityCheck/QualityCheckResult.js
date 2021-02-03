@@ -36,11 +36,11 @@ class QualityCheckResult extends React.Component {
     };
 
     handleCheckOpen = async () => {
-        const { appStore, QualityCheckStore, TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
-        const { loginUser } = appStore;
-        const { roleCode } = loginUser;
-        const { handleQualityGetMisreport, getReport, openCheckReport } = QualityCheckStore;
+        const {
+            appStore: { roleCode },
+            TaskStore: { activeTaskId },
+            QualityCheckStore: { handleQualityGetMisreport, getReport, openCheckReport }
+        } = this.props;
         switch (roleCode) {
             case 'producer':
                 await getReport({
@@ -147,8 +147,9 @@ class QualityCheckResult extends React.Component {
     render() {
         const {
             QualityCheckStore: { checkReportVisible, resizeCallback },
-            TaskStore: { isEditableTask, isMsTask, isFixStatus },
-            QCMarkerStore: { visibleList }
+            TaskStore: { isLocalTask, isEditableTask, isMsTask, isFixStatus },
+            QCMarkerStore: { visibleList },
+            appStore: { isQuality }
         } = this.props;
         return (
             <div>
@@ -161,7 +162,7 @@ class QualityCheckResult extends React.Component {
                         placement="right"
                         className="ad-menu-icon"
                         visible={checkReportVisible}
-                        disabled={!isEditableTask}
+                        disabled={!isEditableTask || (isLocalTask && isQuality)}
                         action={this.handleCheckClick}
                     />
                 </div>
@@ -174,7 +175,7 @@ class QualityCheckResult extends React.Component {
                         placement="right"
                         className="ad-menu-icon"
                         visible={visibleList}
-                        disabled={!isEditableTask || (isMsTask && isFixStatus)}
+                        disabled={!isEditableTask || (isMsTask && isFixStatus) || isLocalTask}
                         action={this.handleMarkerClick}
                     />
                 </div>
