@@ -124,21 +124,25 @@ const checkEmptyData = async () => {
     return hasEmptyData;
 };
 
-export const statisticsTime = status => {
-    const {
-        activeTask: { taskFetchId },
-        isEditableTask
-    } = TaskStore;
-    const { username } = appStore.loginUser;
-    if (!username) return;
-    if (!isEditableTask && status === 1) return;
-    if (!taskFetchId) return;
-    const params = {
-        startOrEnd: status,
-        username,
-        taskFetchId
-    };
-    return TaskService.statisticsTime(params);
+export const statisticsTime = async status => {
+    try {
+        const {
+            activeTask: { taskFetchId },
+            isEditableTask
+        } = TaskStore;
+        const { username } = appStore.loginUser;
+        if (!username) return;
+        if (!isEditableTask && status === 1) return;
+        if (!taskFetchId) return;
+        const params = {
+            startOrEnd: status,
+            username,
+            taskFetchId
+        };
+        await TaskService.statisticsTime(params);
+    } catch (e) {
+        console.error(`统计作业时间接口异常：${e.message || e}`);
+    }
 };
 
 //requestAnimationFrame模拟setInterval

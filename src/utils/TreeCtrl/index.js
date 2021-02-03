@@ -107,7 +107,7 @@ export default class Tree {
         const keyArr = key.split('|');
         let obj = data;
         keyArr.forEach((item, index) => {
-            obj = index === 0 ? obj[item] : obj.children[item];
+            obj = index === 0 ? obj?.[item] : obj?.children?.[item];
         });
         return obj;
     };

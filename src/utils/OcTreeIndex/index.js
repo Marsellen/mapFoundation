@@ -21,13 +21,15 @@ class OcTreeIndex {
 
     updateOctree = () => {
         try {
+            if (!window.map) return;
             if (!window.pointCloudLayer) return;
             if (this.inProcess) return;
             const { viewChangeDelay, scaleSize } = sysProperties.configs;
             if (window.map.getLevel() < scaleSize) return;
             this.inProcess = true;
             setTimeout(() => {
-                const { min, max } = map.getScreenBox();
+                if (!window.map) return;
+                const { min, max } = window.map.getScreenBox();
                 const param = {
                     x: min[0],
                     y: min[1],

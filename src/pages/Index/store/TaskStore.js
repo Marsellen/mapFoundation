@@ -362,7 +362,7 @@ class TaskStore {
             this.taskFileNames = successCurrentList;
             this.taskFileMap = this.getTaskFileMap(successCurrentList, completeEditUrl);
         } catch (e) {
-            console.log('task file list 请求失败' + e?.message);
+            console.log(`task file list 请求失败：${e.message || e}`);
             throw new Error(this.activeTaskId);
         }
     }).bind(this);

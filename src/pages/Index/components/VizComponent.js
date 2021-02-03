@@ -379,7 +379,7 @@ class VizComponent extends React.Component {
             OcTreeIndex.updateOctree();
         } catch (e) {
             message.warning('没有点云数据');
-            console.log('点云加载异常 ' + e?.message);
+            console.log(`点云加载异常：${e.message || e}`);
         }
     };
 
@@ -448,7 +448,7 @@ class VizComponent extends React.Component {
             ResourceLayerStore.selectLinkTrack(projectNameArr[0]);
         } catch (e) {
             message.warning('没有轨迹数据');
-            console.error('轨迹加载异常 ' + e?.message);
+            console.error(`轨迹加载异常：${e.message || e}`);
         }
     };
 
@@ -488,7 +488,7 @@ class VizComponent extends React.Component {
             };
         } catch (e) {
             message.warning('没有任务范围框');
-            console.error('任务范围异常 ' + e?.message);
+            console.error(`任务范围异常：${e.message || e}`);
         }
     };
 
