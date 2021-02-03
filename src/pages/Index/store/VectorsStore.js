@@ -71,6 +71,7 @@ class VectorsStore {
 
         layers.forEach(layerItem => {
             const { layer } = layerItem;
+            if (!layer) return;
             const { layerName } = layer;
             const key = DATA_LAYER_MAP[layerName]?.id;
             if (!key) return;

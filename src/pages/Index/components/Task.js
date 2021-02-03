@@ -157,7 +157,7 @@ class Task extends React.Component {
 
                 this.setState({ current: id });
             } catch (e) {
-                console.log('切换任务报错:' + e?.message ?? '');
+                console.log(`切换任务报错：${e.message || e}`);
             }
         }, 1000);
     };
