@@ -216,44 +216,59 @@ class JobStatus extends React.Component {
         return false;
     };
 
-    //判断生产任务是否满足提交条件 processName='imp_recognition','imp_manbuild'
-    checkProdutionTask = async (manualStatus, option) => {
+    checkReport = async option => {
+        const { reportList } = this.props.QualityCheckStore;
+        const isAllVisited = reportList.every(item => item.visited);
+        if (!isAllVisited) {
+            message.warning(`存在未查看的检查项，当前任务不允许提交`);
+            return false;
+        }
+        return await this.qualityCheckTask(option);
+    };
+
+    checkReportAndMarker = async option => {
         const {
             QualityCheckStore: { reportList },
             QCMarkerStore: { markerList }
         } = this.props;
         const isAllVisited = reportList.every(item => item.visited);
+        const markerStatusIsValid = markerList.every(item => {
+            return item.fixStatus === 2 || item.fixStatus === 3;
+        });
+        if (!isAllVisited && markerStatusIsValid) {
+            message.warning(`存在未查看的检查项，当前任务不允许提交`);
+            return false;
+        }
+        if (isAllVisited && !markerStatusIsValid) {
+            message.warning(`存在未确认的质检标注，当前任务不允许提交`);
+            return false;
+        }
+        if (!(isAllVisited || markerStatusIsValid)) {
+            message.warning(`存在未确认的质检标注与检查项，当前任务不允许提交`);
+            return false;
+        }
+        return await this.qualityCheckTask(option);
+    };
+
+    //判断人工识别任务是否满足提交条件
+    checkMsTask = async (manualStatus, option) => {
         switch (manualStatus) {
             case 1: //已领取
             case 2: //进行中
-                if (!isAllVisited) {
-                    message.warning(`存在未查看的检查项，当前任务不允许提交`);
-                    return false;
-                }
-                return await this.qualityCheckTask(option);
+                return await this.checkReport(option);
             case 4: //返修
             case 5: //返工
-                const markerStatusIsValid = markerList.every(item => {
-                    return item.fixStatus === 2 || item.fixStatus === 3;
-                });
-                if (!isAllVisited && markerStatusIsValid) {
-                    message.warning(`存在未查看的检查项，当前任务不允许提交`);
-                    return false;
-                }
-                if (isAllVisited && !markerStatusIsValid) {
-                    message.warning(`存在未确认的质检标注，当前任务不允许提交`);
-                    return false;
-                }
-                if (!(isAllVisited || markerStatusIsValid)) {
-                    message.warning(`存在未确认的质检标注与检查项，当前任务不允许提交`);
-                    return false;
-                }
-                return await this.qualityCheckTask(option);
+                return await this.checkReportAndMarker(option);
         }
     };
 
+    //判断人工构建任务是否满足提交条件
+    checkMbTask = async option => {
+        return await this.checkReportAndMarker(option);
+    };
+
     //判断质检任务是否满足提交条件 processName='imp_check_after_recognition','imp_check_after_manbuild'
-    checkQualityCheckTask = async manualStatus => {
+    checkQcTask = async manualStatus => {
         const {
             QualityCheckStore: { reportList },
             QCMarkerStore: { markerList, updateMarkerStatus }
@@ -292,11 +307,12 @@ class JobStatus extends React.Component {
         const { TaskStore: { activeTask: { processName, manualStatus } } = {} } = this.props;
         switch (processName) {
             case 'imp_recognition': //人工识别
+                return this.checkMsTask(manualStatus, option);
             case 'imp_manbuild': //人工构建
-                return this.checkProdutionTask(manualStatus, option);
+                return this.checkMbTask(option);
             case 'imp_check_after_recognition': //人工识别后质检
             case 'imp_check_after_manbuild': //人工构建后质检
-                return this.checkQualityCheckTask(option.manualStatus);
+                return this.checkQcTask(option.manualStatus);
             default:
                 return true;
         }

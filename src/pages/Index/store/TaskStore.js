@@ -109,7 +109,7 @@ class TaskStore {
     }
 
     //是否是质检任务：人工识别后质检或人工构建后质检
-    @computed get isQCTask() {
+    @computed get isQcTask() {
         if (!this.activeTask) return;
         return TASK_QC_TYPES.includes(this.activeTask.processName);
     }

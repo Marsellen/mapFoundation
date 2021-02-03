@@ -299,18 +299,18 @@ class QCMarkerModal extends React.Component {
             QCMarkerStore: {
                 currentMarker: { data: { properties: { fetchId } = {} } = {} }
             },
-            TaskStore: { isQCTask, activeTask: { taskFetchId } = {} }
+            TaskStore: { isQcTask, activeTask: { taskFetchId } = {} }
         } = this.props;
         const isFirst = fetchId == taskFetchId;
 
         return (
             <div className="footer-wrap">
-                {isQCTask && isFirst && (
+                {isQcTask && isFirst && (
                     <Button type="danger" size="small" onClick={this.handleDelete} ghost>
                         删除
                     </Button>
                 )}
-                {!(isQCTask && !isFirst) && (
+                {!(isQcTask && !isFirst) && (
                     <Button type="primary" size="small" onClick={this.handleModify}>
                         修改
                     </Button>
