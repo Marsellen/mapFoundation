@@ -56,8 +56,9 @@ export const getCheckReport = async () => {
         openCheckReport,
         handleQualityGetMisreport
     } = QualityCheckStore;
-    const { activeTaskId, isEditableTask, isMsTask, isFixStatus } = TaskStore;
+    const { activeTaskId, isLocalTask, isEditableTask, isMsTask, isFixStatus } = TaskStore;
     if (!isEditableTask) return; //如果是浏览任务，返回
+    if (isLocalTask) return; //如果是本地任务，返回
     if (isMsTask && isFixStatus) return; //如果是人工识别【已领取或进行中】，返回
     switch (appStore?.loginUser?.roleCode) {
         case 'producer':
@@ -86,12 +87,13 @@ export const getMarkerList = async () => {
         isMsTask,
         isFixStatus,
         isEditableTask,
-        activeTask: { taskId, processName, isLocal } = {}
+        isLocalTask,
+        activeTask: { taskId, processName } = {}
     } = TaskStore;
     const { getMarkerList, initMarkerList, showList } = QCMarkerStore;
     if (!window.markerLayer) return; //如果没有质检标注图层，返回
     if (!isEditableTask) return; //如果是浏览任务，返回
-    if (isLocal) return; //如果是本地任务，返回
+    if (isLocalTask) return; //如果是本地任务，返回
     if (isMsTask && isFixStatus) return; //如果是人工识别【已领取或进行中】，返回
     try {
         const res = await getMarkerList({ taskId, processName });

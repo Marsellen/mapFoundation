@@ -10,6 +10,7 @@ import { checkSdkError, getAllChooseLayersExByName } from 'src/utils/vectorUtils
 @inject('DataLayerStore')
 @inject('QCMarkerStore')
 @inject('TaskStore')
+@inject('appStore')
 @observer
 class QCMarkerTool extends React.Component {
     componentDidMount() {
@@ -81,13 +82,14 @@ class QCMarkerTool extends React.Component {
 
     render() {
         const {
-            TaskStore: { isEditableTask, isQCTask },
+            appStore: { isQuality },
+            TaskStore: { isLocalTask, isEditableTask },
             DataLayerStore: { getEditLayer, updateKey }
         } = this.props;
         const editLayer = getEditLayer();
         const visible = editLayer && editLayer.layerName === 'AD_Marker';
         //当前任务是质检任务，才会显示质检标注工具
-        if (isQCTask) {
+        if (isQuality) {
             return (
                 <span key={updateKey}>
                     <ToolIcon
@@ -98,7 +100,7 @@ class QCMarkerTool extends React.Component {
                         focusClassName="ad-tool-icon-active"
                         visible={visible}
                         action={this.action}
-                        disabled={!isEditableTask}
+                        disabled={!isEditableTask || isLocalTask}
                     />
                     <AdMessage visible={visible} content={this.content()} />
                 </span>

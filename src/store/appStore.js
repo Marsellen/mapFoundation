@@ -8,8 +8,14 @@ class AppStore {
     @computed get roleCode() {
         return this.loginUser.roleCode;
     }
+    @computed get isProducer() {
+        return this.roleCode === 'producer';
+    }
+    @computed get isQuality() {
+        return this.roleCode === 'quality';
+    }
 
-    login = flow(function*(userInfo, option) {
+    login = flow(function* (userInfo, option) {
         let result = yield AppService.login(userInfo);
 
         authenticateSuccess(result.data, option.autoLogin);

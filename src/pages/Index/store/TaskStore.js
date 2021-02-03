@@ -89,6 +89,10 @@ class TaskStore {
         return this.activeTask && this.activeTask.manualStatus !== 3; // 3 任务挂起
     }
 
+    @computed get isLocalTask() {
+        return this.activeTask?.isLocal;
+    }
+
     @computed get isEditableTask() {
         return this.activeTaskId && this.activeTaskId == this.editTaskId;
     }

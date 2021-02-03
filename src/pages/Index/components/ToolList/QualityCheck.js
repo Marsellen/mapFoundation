@@ -16,8 +16,11 @@ class QualityCheck extends React.Component {
     state = { visible: false };
     render() {
         const { visible } = this.state;
-        const { isEditableTask, isFixTask } = this.props.TaskStore;
-        if (isFixTask) {
+        const {
+            appStore: { isProducer },
+            TaskStore: { isEditableTask }
+        } = this.props;
+        if (isProducer) {
             return (
                 <ToolIcon
                     icon="zhiliangjiancha1"
