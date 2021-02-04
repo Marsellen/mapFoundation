@@ -81,7 +81,8 @@ class RightMenuStore {
         // 俯视图模式禁用立面图层 ‘设置为可编辑图层’ 按钮
         const featuresL = this.features.length;
         const layerName = this.features[0].layerName;
-        if (featuresL == 1) {
+        // 选中一个要素，且不是质检标注，才会弹出“设置为可编辑图层”
+        if (featuresL == 1 && layerName !== 'AD_Marker') {
             this.menus = ['setEditLayer'];
         }
         // 非当前编辑图层要素不显示操作列表
