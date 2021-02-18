@@ -12,11 +12,12 @@ import {
     RESOURCE_LAYER_BOUNDARY,
     RESOURCE_LAYER_MULTI_PROJECT,
     RESOURCE_LAYER_TASK_SCOPE,
+    RESOURCE_LAYER_CHECK,
     RESOURCE_LAYER_MARKER
 } from 'src/config/DataLayerConfig';
 import MultimediaView from './MultimediaView';
 import VectorsConfig from 'src/config/VectorsConfig';
-import MarkerVectorsConfig from 'src/config/MarkerVectorsConfig';
+import OtherVectorsConfig from 'src/config/OtherVectorsConfig';
 import 'less/components/viz-component.less';
 // import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
@@ -240,6 +241,18 @@ class VizComponent extends React.Component {
                 ctrl: false,
                 alt: false,
                 shift: false,
+                keyCode: 48,
+                callback: () => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    ResourceLayerStore.toggle(RESOURCE_LAYER_CHECK, true, true);
+                },
+                describe: '开关检查结果图层 0'
+            },
+            {
+                ctrl: false,
+                alt: false,
+                shift: false,
                 keyCode: 57,
                 callback: () => {
                     event.preventDefault();
@@ -324,6 +337,7 @@ class VizComponent extends React.Component {
             //再加载其它资料
             const resources = await Promise.all([
                 this.initVectors(task.vectors),
+                this.initCheckLayer(),
                 this.initMarkerLayer(task),
                 this.initMultiProjectResource(task)
             ]);
@@ -492,12 +506,26 @@ class VizComponent extends React.Component {
         }
     };
 
+    initCheckLayer = async () => {
+        const { AD_Check } = OtherVectorsConfig;
+        const checkLayer = new VectorLayer();
+        checkLayer.layerName = 'AD_Check';
+        checkLayer.resetConfig(AD_Check);
+        await map.getLayerManager().addLayer('VectorLayer', checkLayer);
+        window.checkLayer = {
+            layerName: checkLayer.layerName,
+            layerId: checkLayer.layerId,
+            layer: checkLayer
+        };
+        ResourceLayerStore.updateLayerByName(RESOURCE_LAYER_CHECK, window.checkLayer.layer);
+    };
+
     //初始化质检标注图层
     initMarkerLayer = async () => {
         const { isMsTask, isFixStatus, activeTask: { isLocal } = {} } = this.props.TaskStore;
         if (isLocal) return; //如果是本地任务，返回
         if (isMsTask && isFixStatus) return; //如果是人工识别【已领取或进行中】，返回
-        const { AD_Marker } = MarkerVectorsConfig;
+        const { AD_Marker } = OtherVectorsConfig;
         const markerLayer = new VectorLayer();
         markerLayer.layerName = 'AD_Marker';
         markerLayer.resetConfig(AD_Marker);
