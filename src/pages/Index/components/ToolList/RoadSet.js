@@ -4,6 +4,7 @@ import { message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/components/AdMessage';
 import sysProperties from 'src/models/sysProperties';
+import { editLock } from 'src/utils/decorator';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -26,6 +27,7 @@ class RoadSet extends React.Component {
         );
     }
 
+    @editLock
     action = () => {
         if (this.props.disabled) return;
         const { DataLayerStore, AttributeStore } = this.props;

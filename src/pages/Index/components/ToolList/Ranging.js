@@ -3,6 +3,8 @@ import React from 'react';
 import IconFont from 'src/components/IconFont';
 import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/components/AdMessage';
+import { editLock } from 'src/utils/decorator';
+
 import 'less/components/tool-icon.less';
 
 @inject('DataLayerStore')
@@ -20,6 +22,7 @@ class Ranging extends React.Component {
         );
     }
 
+    @editLock
     action = () => {
         if (this.props.disabled) return;
         const { editType, startMeatureDistance_1 } = this.props.DataLayerStore;

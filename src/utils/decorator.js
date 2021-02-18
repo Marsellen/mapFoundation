@@ -8,6 +8,29 @@ import editLog from 'src/models/editLog';
 import AdEmitter from 'src/models/event';
 import { EDIT_MESSAGE } from 'src/config/EditMessage';
 import { message } from 'antd';
+import Lock from 'src/models/lock';
+
+function funcDecoratorFactory(factory, option) {
+    return (target, name, descriptor) => {
+        if (descriptor.value) {
+            return {
+                ...descriptor,
+                value: factory(descriptor.value, option)
+            };
+        } else if (descriptor.initializer) {
+            return {
+                ...descriptor,
+                initializer: function () {
+                    return factory(descriptor.initializer.apply(this), option);
+                }
+            };
+        }
+
+        return descriptor;
+    };
+}
+
+const operateLock = new Lock(); // 操作锁
 
 /**
  * 日志修饰器，提供操作结束统一处理模型
@@ -37,6 +60,8 @@ export const logDecorator = option => {
                 let layerName = DataLayerStore.getEditLayer().layerName;
                 operate = operate[layerName];
             }
+            !onlyRun && operateLock.lock(operate);
+
             try {
                 let history = await fn.apply(this, arguments);
                 if (onlyRun || !history) return;
@@ -75,6 +100,8 @@ export const logDecorator = option => {
                         content: EDIT_MESSAGE[editType].errorMsg + e.message
                     });
                 }
+            } finally {
+                !onlyRun && operateLock.unlock();
             }
             log.editType = editType;
             editLog.add(log);
@@ -157,3 +184,20 @@ export const editOutputLimit = (option = {}) => {
         return descriptor;
     };
 };
+
+/**
+ * 编辑操作加锁修饰器
+ * @method editLock
+ * @returns {function} editLock
+ */
+export const editLock = funcDecoratorFactory(editLockFactory);
+
+function editLockFactory(fn) {
+    return function () {
+        if (operateLock.isLock) {
+            return;
+        }
+
+        return fn.apply(this, arguments);
+    };
+}

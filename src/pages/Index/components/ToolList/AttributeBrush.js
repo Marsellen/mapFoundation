@@ -2,7 +2,7 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { copyAttributeLines } from 'src/utils/relCtrl/operateCtrl';
 import { inject, observer } from 'mobx-react';
-import { logDecorator, editInputLimit } from 'src/utils/decorator';
+import { logDecorator, editInputLimit, editLock } from 'src/utils/decorator';
 import AdMessage from 'src/components/AdMessage';
 import { message } from 'antd';
 
@@ -43,6 +43,7 @@ class AttributeBrush extends React.Component {
         );
     }
 
+    @editLock
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'attribute_brush') return;

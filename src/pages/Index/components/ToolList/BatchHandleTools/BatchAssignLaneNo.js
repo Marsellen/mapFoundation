@@ -5,7 +5,7 @@ import AdMessage from 'src/components/AdMessage';
 import { inject, observer } from 'mobx-react';
 import { batchAssignment } from 'src/utils/relCtrl/operateCtrl';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
-import { logDecorator, editInputLimit } from 'src/utils/decorator';
+import { logDecorator, editInputLimit, editLock } from 'src/utils/decorator';
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
 
@@ -104,6 +104,7 @@ class BatchAssignLaneNo extends React.Component {
         );
     };
 
+    @editLock
     action = () => {
         const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'assign_line_batch') return;

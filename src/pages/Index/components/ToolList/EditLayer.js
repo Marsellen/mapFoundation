@@ -8,6 +8,7 @@ import {
 } from 'src/config/DataLayerConfig';
 import ToolIcon from 'src/components/ToolIcon';
 import { getEditableLayerConfig } from 'src/utils/taskUtils';
+import { editLock } from 'src/utils/decorator';
 
 import 'src/assets/less/home.less';
 
@@ -155,6 +156,7 @@ class EditLayerPicker extends React.Component {
         return DATA_LAYER_MAP[layerName] ? DATA_LAYER_MAP[layerName].label : layerName;
     };
 
+    @editLock
     onChange = e => {
         const {
             DataLayerStore: { getEditLayerName, exitMarker, activeEditor },

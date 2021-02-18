@@ -3,7 +3,7 @@ import ToolIcon from 'src/components/ToolIcon';
 import SeniorModal from 'src/components/SeniorModal';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import IconFont from 'src/components/IconFont';
-import { logDecorator } from 'src/utils/decorator';
+import { logDecorator, editLock } from 'src/utils/decorator';
 import { modUpdStatGeometry } from 'src/utils/vectorUtils';
 import { isManbuildTask } from 'src/utils/taskUtils';
 import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
@@ -221,6 +221,7 @@ class PostureAdjust extends React.Component {
         });
     };
 
+    @editLock
     action = () => {
         const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'posture_adjust') return;

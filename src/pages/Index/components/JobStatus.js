@@ -3,15 +3,12 @@ import { Modal, Button, message } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import editLog from 'src/models/editLog';
-import 'less/components/jobstatus.less';
 import ToolIcon from 'src/components/ToolIcon';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { saveTaskData } from 'src/utils/taskUtils';
+import { editLock } from 'src/utils/decorator';
 
-const MANUALSTATUS = {
-    4: '返修',
-    5: '返工'
-};
+import 'less/components/jobstatus.less';
 
 @withRouter
 @inject('QCMarkerStore')
@@ -414,6 +411,7 @@ class JobStatus extends React.Component {
         );
     };
 
+    @editLock
     submitTask = e => {
         e || e.target || e.target.blur(); //在click事件中主动去掉button的焦点，回车就不会触发click
         const { appStore } = this.props;
