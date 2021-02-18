@@ -83,5 +83,37 @@ export default {
                 }
             ]
         }
+    },
+    AD_Check: {
+        type: 'Point',
+        iconFields: ['NOKEY'],
+        showFields: ['NOKEY'],
+        order: 17,
+        showStyles: ['vectorStyle', 'iconStyle'],
+        vectorStyle: {
+            NOKEY: [
+                {
+                    style: {
+                        color: 'rgb(255,0,0)',
+                        radius: 0.05,
+                        opacity: 0.6
+                    }
+                }
+            ]
+        },
+        iconStyle: {
+            NOKEY: [
+                {
+                    style: {
+                        color: 'rgb(255,0,0)',
+                        radius: 0.05,
+                        opacity: 0.6,
+                        showMode: 'first-point',
+                        url: markerIcon,
+                        size: 80
+                    }
+                }
+            ]
+        }
     }
 };

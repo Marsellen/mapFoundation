@@ -341,8 +341,22 @@ export const checkSdkError = (result, message) => {
     }
 };
 
+//显示检查log错误位置
+export const markCheckItem = record => {
+    try {
+        window.checkLayer.layer.clear();
+        const geom = JSON.parse(record.geom);
+        const checkFeatures = geom.map(item => {
+            return { geometry: item, properties: {}, type: 'Feature' };
+        });
+        window.checkLayer.layer.addFeatures(checkFeatures);
+    } catch (e) {
+        console.log(`显示检查log错误位置异常：${e.message || e}`);
+    }
+};
+
 // 通过质检项定位
-export const locateCheckItem = (record, event) => {
+export const locateCheckItem = (record, isDoubleClick) => {
     // 定位，判断是否为可定位图层
     let { geom, location } = record;
     try {
@@ -354,17 +368,17 @@ export const locateCheckItem = (record, event) => {
         };
         let layer = getLayerByName(location.layerName);
         let feature = layer.getFeatureByOption(option).properties;
-        if (event) {
+        if (isDoubleClick) {
             let extent = window.map.getExtent(feature.data.geometry);
             window.map.setView('U');
             window.map.setExtent(extent);
         }
         return feature;
     } catch (e) {
-        if (event) {
+        if (isDoubleClick) {
             try {
                 geom = JSON.parse(geom);
-                let extent = window.map.getExtent(geom);
+                let extent = window.map.getExtent(geom[0]);
                 window.map.setView('U');
                 window.map.setExtent(extent);
             } catch (e) {

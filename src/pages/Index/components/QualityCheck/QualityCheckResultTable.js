@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { locateCheckItem } from 'src/utils/vectorUtils';
+import { markCheckItem, locateCheckItem } from 'src/utils/vectorUtils';
 import { getQualityMisrepStatus } from 'src/utils/permissionCtrl';
 import MultiFunctionalTable from 'src/components/MultiFunctionalTable';
 
@@ -166,6 +166,7 @@ class QualityCheckResultTable extends React.Component {
     handleClick = record => {
         const { DataLayerStore } = this.props;
         DataLayerStore.exitEdit();
+        markCheckItem(record);
         let feature = locateCheckItem(record);
         feature && this.showAttributesModal(feature);
     };

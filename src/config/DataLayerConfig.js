@@ -537,6 +537,7 @@ export const RESOURCE_LAYER_MULTI_PROJECT = '多工程';
 export const RESOURCE_LAYER_POINT_CLOUD = '点云';
 export const RESOURCE_LAYER_TRACK = '轨迹';
 export const RESOURCE_LAYER_TASK_SCOPE = '任务范围';
+export const RESOURCE_LAYER_CHECK = '检查结果';
 export const RESOURCE_LAYER_MARKER = '质检标注';
 export const CONFIDENCE_LAYER = '置信度分区';
 export const WRONG_LAYER = '错误区';

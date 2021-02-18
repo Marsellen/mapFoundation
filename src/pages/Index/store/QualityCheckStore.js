@@ -38,6 +38,7 @@ class QualityCheckStore {
     };
 
     @action closeCheckReport = () => {
+        window.checkLayer?.layer?.clear?.(); //清除所有检查log错误位置
         this.checkReportVisible = false;
     };
 
