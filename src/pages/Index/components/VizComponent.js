@@ -520,12 +520,16 @@ class VizComponent extends React.Component {
     //初始化质检标注图层
     initMarkerLayer = async () => {
         const { isMsTask, isFixStatus, activeTask: { isLocal } = {} } = this.props.TaskStore;
+        const {
+            loginUser: { roleCode }
+        } = this.props.appStore;
         if (isLocal) return; //如果是本地任务，返回
         if (isMsTask && isFixStatus) return; //如果是人工识别【已领取或进行中】，返回
-        const { AD_Marker } = OtherVectorsConfig;
+        const { AD_Marker_QC, AD_Marker } = OtherVectorsConfig;
         const markerLayer = new VectorLayer();
         markerLayer.layerName = 'AD_Marker';
-        markerLayer.resetConfig(AD_Marker);
+        const markerConfig = roleCode === 'producer' ? AD_Marker : AD_Marker_QC;
+        markerLayer.resetConfig(markerConfig);
         await map.getLayerManager().addLayer('VectorLayer', markerLayer);
         window.markerLayer = {
             layerName: markerLayer.layerName,
