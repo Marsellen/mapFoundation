@@ -17,6 +17,7 @@ const handleBoundaryfeature = isLaterStart => {
         case 'common':
         case 'check':
         case 'define':
+        case 'selfCheck':
             //按符号设置，更新后加载的周边底图
             isLaterStart && DefineModeStore.updateBoundaryVectorStyle();
             break;
@@ -24,7 +25,7 @@ const handleBoundaryfeature = isLaterStart => {
             //将重置专题图
             RenderModeStore.resetSelectOption();
             //白色渲染模式/要素都是白色
-            RenderModeStore.whiteRenderMode();
+            isLaterStart && DefineModeStore.updateBoundaryVectorStyle();
             //将有关联关系的要素，按专题图进行分组
             RenderModeStore.setRels();
             break;

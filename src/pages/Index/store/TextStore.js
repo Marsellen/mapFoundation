@@ -1,5 +1,5 @@
 import { observable, configure, action, computed } from 'mobx';
-import { COMMON_TEXT_CONFIG_MAP, TASK_TEXT_CONFIG_MAP } from 'src/config/TextConfigMap';
+import { TASK_TEXT_CONFIG_MAP, TASK_CHECk_TEXT_CONFIG_MAP } from 'src/config/TextConfigMap';
 import { CONFIGURABLE_LAYERS } from 'src/config/VectorsConfigMap';
 import TextSetting from 'src/models/TextSetting';
 
@@ -30,7 +30,9 @@ class TextStore {
     @action initTextConfig = (mode, taskProcessName) => {
         //质检符号模式是根据任务类型采用对应配置，其它模式采用通用配置
         const defaultTextConfig =
-            mode === 'check' ? TASK_TEXT_CONFIG_MAP[taskProcessName] : COMMON_TEXT_CONFIG_MAP;
+            mode === 'check'
+                ? TASK_CHECk_TEXT_CONFIG_MAP[taskProcessName]
+                : TASK_TEXT_CONFIG_MAP[mode];
         this.vectorTextConfig = JSON.parse(JSON.stringify(defaultTextConfig));
         this.textSetting = new TextSetting(this.vectorTextConfig);
 
