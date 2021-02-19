@@ -6,10 +6,6 @@ import { updateFeatureColor, getFeatureOption } from 'src/utils/vectorUtils';
 import VectorsStore from './VectorsStore';
 import { calculateMiddlePoint } from 'src/utils/computeLineMidpoint';
 import relFactory from 'src/utils/relCtrl/relFactory';
-import VectorsConfig from 'src/config/VectorsConfig';
-import BoundaryVectorsConfig from 'src/config/BoundaryVectorsConfig';
-import WhiteVectorsConfig from 'src/config/WhiteVectorsConfig';
-import BoundaryWhiteVectorsConfig from 'src/config/BoundaryWhiteVectorsConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 
 configure({ enforceActions: 'always' });
@@ -77,30 +73,6 @@ class RenderModeStore {
         this.relSelectOptions = REL_SELECT_OPTIONS;
         this.indeterminate = false;
         this.allChecked = false;
-    };
-
-    //通用渲染模式/彩色渲染模式
-    @action commonRenderMode = () => {
-        //任务范围内要素，采用配置：VectorsConfig
-        if (window.vectorLayerGroup) {
-            window.vectorLayerGroup.resetStyleConfig(VectorsConfig);
-        }
-        //周边底图要素，采用配置：BoundaryVectorsConfig
-        if (window.boundaryLayerGroup) {
-            window.boundaryLayerGroup.resetStyleConfig(BoundaryVectorsConfig);
-        }
-    };
-
-    //白色渲染模式/要素都是白色
-    @action whiteRenderMode = () => {
-        //任务范围内要素，采用配置：WhiteVectorsConfig
-        if (window.vectorLayerGroup) {
-            window.vectorLayerGroup.resetStyleConfig(WhiteVectorsConfig);
-        }
-        //周边底图要素，采用配置：HalfWhiteVectorsConfig
-        if (window.boundaryLayerGroup) {
-            window.boundaryLayerGroup.resetStyleConfig(BoundaryWhiteVectorsConfig);
-        }
     };
 
     //修改要素颜色

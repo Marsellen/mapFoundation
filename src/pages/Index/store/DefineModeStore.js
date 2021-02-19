@@ -2,16 +2,14 @@ import { observable, configure, action } from 'mobx';
 import {
     POINT_ICON_MAP,
     MODE_VECTOR_CONFIG_MAP,
-    MODE_VECTOR_CONFIG,
-    MODE_BOUNDARY_VECTOR_CONFIG,
     CONFIGURABLE_LAYERS
 } from 'src/config/VectorsConfigMap.js';
 import { TYPE_SELECT_OPTION_MAP, LAYER_TYPE_MAP } from 'src/config/ADMapDataConfig';
 
 configure({ enforceActions: 'always' });
 class DefineModeStore {
-    vectorConfig = null; //当前任务符号配置
-    boundaryVectorConfig = null; //周边底图符号配置
+    vectorConfig = {}; //当前任务符号配置
+    boundaryVectorConfig = {}; //周边底图符号配置
     @observable globalUpdateKey;
     @observable updateKey;
     @observable updateColorKey;
@@ -24,8 +22,6 @@ class DefineModeStore {
         this.globalPointEnabledStatus = true;
         this.globalArrowEnabledStatus = true;
         this.vectorConfigMap = JSON.parse(JSON.stringify(MODE_VECTOR_CONFIG_MAP[mode]));
-        this.vectorConfig = JSON.parse(JSON.stringify(MODE_VECTOR_CONFIG[mode]));
-        this.boundaryVectorConfig = JSON.parse(JSON.stringify(MODE_BOUNDARY_VECTOR_CONFIG[mode]));
         this.globalUpdateKey = Math.random();
         //初始化所有图层
         CONFIGURABLE_LAYERS.forEach(key => {
@@ -69,7 +65,7 @@ class DefineModeStore {
         if (!window.vectorLayerGroup) return;
         const { layers } = window.vectorLayerGroup;
         const { layer } = layers.find(item => item.layerName === key) || {};
-        layer.resetConfig(config);
+        layer && layer.resetConfig(config);
     };
 
     //重新渲染周边底图符号样式

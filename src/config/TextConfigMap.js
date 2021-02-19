@@ -1,3 +1,4 @@
+// 通用符号模式
 export const COMMON_TEXT_CONFIG_MAP = {
     AD_Road: {
         key: 'AD_Road',
@@ -29,7 +30,7 @@ export const COMMON_TEXT_CONFIG_MAP = {
         label: '车道线',
         checked: false,
         defaultStyle: {
-            textFields: ['TYPE', 'LANE_TYPE', 'SHARE_LINE', 'DIRECTION', 'LANE_STATUS', 'LANE_NO'], //看数据规格
+            textFields: ['TYPE', 'LANE_TYPE', 'RD_EDGE', 'LANE_NO'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -77,7 +78,7 @@ export const COMMON_TEXT_CONFIG_MAP = {
     AD_LaneAttrPoint: {
         key: 'AD_LaneAttrPoint',
         label: '车道属性变化点',
-        checked: false,
+        checked: true,
         defaultStyle: {
             textFields: ['TYPE'], //看数据规格
             offset: 10,
@@ -234,7 +235,7 @@ export const COMMON_TEXT_CONFIG_MAP = {
         label: '隔离带、护栏',
         checked: false,
         defaultStyle: {
-            textFields: ['TYPE', 'MATERIAL'], //看数据规格
+            textFields: ['TYPE'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -359,6 +360,92 @@ export const COMMON_TEXT_CONFIG_MAP = {
     }
 };
 
+// 自查符号模式
+export const SELF_CHECK_TEXT_CONFIG_MAP = {
+    ...COMMON_TEXT_CONFIG_MAP,
+    AD_LaneDivider: {
+        key: 'AD_LaneDivider',
+        label: '车道线',
+        checked: true,
+        defaultStyle: {
+            textFields: ['TYPE', 'LANE_TYPE', 'RD_EDGE', 'LANE_NO'], //看数据规格
+            interval: 10,
+            showMode: 'line-center',
+            fontSize: 40,
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
+        },
+        defaultIntervalMap: {
+            'line-repeat': 10
+        },
+        textModeMap: {
+            'line-center': { key: 'line-center', label: '线中心' },
+            'line-repeat': {
+                key: 'line-repeat',
+                label: '线上循环',
+                interval: true
+            }
+        }
+    },
+    AD_RS_Barrier: {
+        key: 'AD_RS_Barrier',
+        label: '隔离带、护栏',
+        checked: true,
+        defaultStyle: {
+            textFields: ['TYPE'], //看数据规格
+            interval: 10,
+            showMode: 'line-center',
+            fontSize: 40,
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
+        },
+        defaultIntervalMap: {
+            'line-repeat': 10
+        },
+        textModeMap: {
+            'line-center': { key: 'line-center', label: '线中心' },
+            'line-repeat': {
+                key: 'line-repeat',
+                label: '线上循环',
+                interval: true
+            }
+        }
+    }
+};
+
+// 自定义符号模式
+export const DEFINE_TEXT_CONFIG_MAP = {
+    ...COMMON_TEXT_CONFIG_MAP,
+    AD_LaneAttrPoint: {
+        key: 'AD_LaneAttrPoint',
+        label: '车道属性变化点',
+        checked: false,
+        defaultStyle: {
+            textFields: ['TYPE'], //看数据规格
+            offset: 10,
+            showMode: 'top',
+            fontSize: 40,
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
+        },
+        defaultOffsetMap: {
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 20
+        },
+        textModeMap: {
+            top: { key: 'top', label: '上方', offset: true },
+            right: { key: 'right', label: '右侧', offset: true },
+            bottom: { key: 'bottom', label: '下方', offset: true },
+            left: { key: 'left', label: '左侧', offset: true }
+        }
+    }
+};
+
 const MS_TASK_TEXT_CONFIG_MAP = {
     AD_Road: {
         key: 'AD_Road',
@@ -390,7 +477,7 @@ const MS_TASK_TEXT_CONFIG_MAP = {
         label: '车道线',
         checked: true,
         defaultStyle: {
-            textFields: ['TYPE', 'LANE_TYPE', 'SHARE_LINE', 'DIRECTION', 'LANE_STATUS', 'LANE_NO'], //看数据规格
+            textFields: ['TYPE', 'LANE_TYPE', 'RD_EDGE', 'LANE_NO'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -438,7 +525,7 @@ const MS_TASK_TEXT_CONFIG_MAP = {
     AD_LaneAttrPoint: {
         key: 'AD_LaneAttrPoint',
         label: '车道属性变化点',
-        checked: false,
+        checked: true,
         defaultStyle: {
             textFields: ['TYPE'], //看数据规格
             offset: 10,
@@ -593,9 +680,9 @@ const MS_TASK_TEXT_CONFIG_MAP = {
     AD_RS_Barrier: {
         key: 'AD_RS_Barrier',
         label: '隔离带、护栏',
-        checked: false,
+        checked: true,
         defaultStyle: {
-            textFields: ['TYPE', 'MATERIAL'], //看数据规格
+            textFields: ['TYPE'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -751,7 +838,7 @@ const MB_TASK_TEXT_CONFIG_MAP = {
         label: '车道线',
         checked: false,
         defaultStyle: {
-            textFields: ['TYPE', 'LANE_TYPE', 'SHARE_LINE', 'DIRECTION', 'LANE_STATUS', 'LANE_NO'], //看数据规格
+            textFields: ['TYPE', 'LANE_TYPE', 'RD_EDGE', 'LANE_NO'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -799,7 +886,7 @@ const MB_TASK_TEXT_CONFIG_MAP = {
     AD_LaneAttrPoint: {
         key: 'AD_LaneAttrPoint',
         label: '车道属性变化点',
-        checked: false,
+        checked: true,
         defaultStyle: {
             textFields: ['TYPE'], //看数据规格
             offset: 10,
@@ -954,9 +1041,9 @@ const MB_TASK_TEXT_CONFIG_MAP = {
     AD_RS_Barrier: {
         key: 'AD_RS_Barrier',
         label: '隔离带、护栏',
-        checked: false,
+        checked: true,
         defaultStyle: {
-            textFields: ['TYPE', 'MATERIAL'], //看数据规格
+            textFields: ['TYPE'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -1112,7 +1199,7 @@ const QC_TASK_TEXT_CONFIG_MAP = {
         label: '车道线',
         checked: false,
         defaultStyle: {
-            textFields: ['TYPE'], //看数据规格
+            textFields: ['TYPE', 'LANE_TYPE', 'RD_EDGE', 'LANE_NO'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -1160,7 +1247,7 @@ const QC_TASK_TEXT_CONFIG_MAP = {
     AD_LaneAttrPoint: {
         key: 'AD_LaneAttrPoint',
         label: '车道属性变化点',
-        checked: false,
+        checked: true,
         defaultStyle: {
             textFields: ['TYPE'], //看数据规格
             offset: 10,
@@ -1315,9 +1402,9 @@ const QC_TASK_TEXT_CONFIG_MAP = {
     AD_RS_Barrier: {
         key: 'AD_RS_Barrier',
         label: '隔离带、护栏',
-        checked: false,
+        checked: true,
         defaultStyle: {
-            textFields: ['TYPE', 'MATERIAL'], //看数据规格
+            textFields: ['TYPE'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -1442,9 +1529,17 @@ const QC_TASK_TEXT_CONFIG_MAP = {
     }
 };
 
-export const TASK_TEXT_CONFIG_MAP = {
+// 质检符号模式
+export const TASK_CHECk_TEXT_CONFIG_MAP = {
     imp_recognition: MS_TASK_TEXT_CONFIG_MAP, //人工识别
     imp_check_after_recognition: QC_TASK_TEXT_CONFIG_MAP, //人工识别后质检
     imp_manbuild: MB_TASK_TEXT_CONFIG_MAP, //人工构建
     imp_check_after_manbuild: QC_TASK_TEXT_CONFIG_MAP //人工构建后质检
+};
+
+export const TASK_TEXT_CONFIG_MAP = {
+    common: COMMON_TEXT_CONFIG_MAP, //通用符号模式
+    selfCheck: SELF_CHECK_TEXT_CONFIG_MAP, //自查符号模式
+    define: DEFINE_TEXT_CONFIG_MAP, //自定义符号模式
+    relation: DEFINE_TEXT_CONFIG_MAP //关联关系模式
 };

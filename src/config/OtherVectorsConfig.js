@@ -1,4 +1,7 @@
 const markerIcon = require('src/assets/img/zhijianbiaozhu.png');
+const markerIconRed = require('src/assets/img/zhijianbiaozhu.png');
+const markerIconBlue = require('src/assets/img/dianfuhao1.png');
+const markerIconGreen = require('src/assets/img/dianfuhao6.png');
 
 export default {
     AD_Marker: {
@@ -50,7 +53,7 @@ export default {
                     label: '未定义',
                     style: {
                         showMode: 'first-point',
-                        url: markerIcon,
+                        url: markerIconRed,
                         size: 80
                     }
                 },
@@ -59,7 +62,7 @@ export default {
                     label: '待修正',
                     style: {
                         showMode: 'first-point',
-                        url: markerIcon,
+                        url: markerIconRed,
                         size: 80
                     }
                 },
@@ -68,7 +71,7 @@ export default {
                     label: '无需修正',
                     style: {
                         showMode: 'first-point',
-                        url: markerIcon,
+                        url: markerIconBlue,
                         size: 80
                     }
                 },
@@ -77,7 +80,7 @@ export default {
                     label: '已修正',
                     style: {
                         showMode: 'first-point',
-                        url: markerIcon,
+                        url: markerIconGreen,
                         size: 80
                     }
                 }

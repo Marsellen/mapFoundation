@@ -1,5 +1,6 @@
 import common from 'src/assets/img/common.png';
 import check from 'src/assets/img/check.png';
+import selfCheck from 'src/assets/img/check.png';
 import relation from 'src/assets/img/relation.png';
 // import update from 'src/assets/img/update.png';
 import define from 'src/assets/img/define.png';
@@ -9,13 +10,19 @@ export const RENDER_MODE_MAP = [
     {
         mode: 'common',
         title: '通用符号模式',
-        desc: '用于基础的生产作业',
+        desc: '用于人工识别生产',
         icon: common
+    },
+    {
+        mode: 'selfCheck',
+        title: '自查符号模式',
+        desc: '用于人工识别生产时的打断/自查环节',
+        icon: selfCheck
     },
     {
         mode: 'check',
         title: '质检符号模式',
-        desc: '用于作业自检和快速质检',
+        desc: '用于人工识别质检、人工构建生产、人工构建质检',
         icon: check
     },
     {

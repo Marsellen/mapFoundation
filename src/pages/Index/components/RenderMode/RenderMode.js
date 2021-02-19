@@ -82,17 +82,18 @@ class RenderMode extends React.Component {
 
     resetStyleConfig = mode => {
         const { RenderModeStore, DefineModeStore } = this.props;
-        const { whiteRenderMode, setRels } = RenderModeStore;
+        const { setRels } = RenderModeStore;
         const { initVectorConfig } = DefineModeStore;
 
         switch (mode) {
             case 'common':
             case 'check':
             case 'define':
+            case 'selfCheck':
                 initVectorConfig(mode);
                 break;
             case 'relation':
-                whiteRenderMode();
+                initVectorConfig(mode);
                 //将有关联关系的要素，按专题图进行分组
                 setRels();
                 break;
@@ -125,7 +126,7 @@ class RenderMode extends React.Component {
                     visible={visible}
                     footer={null}
                     onCancel={this.handleClose}
-                    width={900}
+                    width={1120}
                     maskClosable={false}
                     zIndex={9999}
                 >

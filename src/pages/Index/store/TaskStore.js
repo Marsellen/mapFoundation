@@ -14,7 +14,6 @@ import {
 import { getAuthentication } from 'src/utils/Session';
 import editLog from 'src/models/editLog';
 import moment from 'moment';
-import BoundaryVectorsConfig from 'src/config/BoundaryVectorsConfig';
 import { LayerGroup } from 'addis-viz-sdk';
 import {
     getExportShpUrl,
@@ -312,7 +311,7 @@ class TaskStore {
         yield this.getBoundaryFileList();
         try {
             const { vectors, rels, attrs } = this.boundaryFileMap;
-            const layerGroup = new LayerGroup(vectors, { styleConifg: BoundaryVectorsConfig });
+            const layerGroup = new LayerGroup(vectors);
             yield Promise.allSettled([
                 window.map.getLayerManager().addLayerGroup(layerGroup, fetchCallback),
                 AttrStore.addRecords(attrs, 'boundary'),

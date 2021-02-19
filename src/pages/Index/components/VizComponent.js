@@ -16,7 +16,6 @@ import {
     RESOURCE_LAYER_MARKER
 } from 'src/config/DataLayerConfig';
 import MultimediaView from './MultimediaView';
-import VectorsConfig from 'src/config/VectorsConfig';
 import OtherVectorsConfig from 'src/config/OtherVectorsConfig';
 import 'less/components/viz-component.less';
 // import { addClass, removeClass } from '../../../utils/utils';
@@ -406,9 +405,7 @@ class VizComponent extends React.Component {
 
     initVectors = async vectors => {
         if (!vectors) return;
-        window.vectorLayerGroup = new LayerGroup(vectors, {
-            styleConifg: VectorsConfig
-        });
+        window.vectorLayerGroup = new LayerGroup(vectors);
         await map.getLayerManager().addLayerGroup(vectorLayerGroup, fetchCallback);
         VectorsStore.addLayer(vectorLayerGroup);
 
