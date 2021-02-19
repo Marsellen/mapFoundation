@@ -13,13 +13,13 @@ import RelationModal from 'src/pages/Index/components/RenderMode/RelationModal';
 import PointCloudLayer from 'src/pages/Index/components/PointCloudLayer';
 
 const MENU_LIST = [
-    {
-        id: 'picture-icon',
-        title: '图片显示窗口',
-        icon: 'zhaopianshezhi',
-        storeName: 'PictureShowStore',
-        content: <PictureShowView />
-    },
+    // {
+    //     id: 'picture-icon',
+    //     title: '图片显示窗口',
+    //     icon: 'zhaopianshezhi',
+    //     storeName: 'PictureShowStore',
+    //     content: <PictureShowView />
+    // },
     {
         id: 'define-icon',
         title: '渲染设置窗口',

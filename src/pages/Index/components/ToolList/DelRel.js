@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { message } from 'antd';
 import { delRel, calcRelChangeLog } from 'src/utils/relCtrl/relCtrl';
 import AdMessage from 'src/components/AdMessage';
-import { logDecorator } from 'src/utils/decorator';
+import { logDecorator, editLock } from 'src/utils/decorator';
 import AttributeStore from 'src/pages/Index/store/AttributeStore';
 
 import 'less/components/tool-icon.less';
@@ -40,6 +40,7 @@ class DelRel extends React.Component {
         );
     }
 
+    @editLock
     action = () => {
         const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'del_rel') return;

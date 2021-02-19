@@ -9,7 +9,7 @@ import 'less/components/tool-icon.less';
 import 'less/components/uturn-line.less';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
-import { logDecorator, editInputLimit, editOutputLimit } from 'src/utils/decorator';
+import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/utils/decorator';
 
 const ACTION_MAP = {
     AD_Lane: '掉头中心线生成',
@@ -121,6 +121,7 @@ class NewUTurnLine extends React.Component {
         });
     }
 
+    @editLock
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_Uturn_line') return;

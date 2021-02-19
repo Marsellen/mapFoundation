@@ -8,7 +8,7 @@ import AdMessage from 'src/components/AdMessage';
 import 'less/components/tool-icon.less';
 import 'less/components/uturn-line.less';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
-import { logDecorator, editInputLimit, editOutputLimit } from 'src/utils/decorator';
+import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/utils/decorator';
 
 const ACTION_MAP = {
     AD_Lane: '路口内直行中心线生成',
@@ -88,6 +88,7 @@ class NewStraightLine extends React.Component {
         }
     }
 
+    @editLock
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_straight_line') return;

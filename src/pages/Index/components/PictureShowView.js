@@ -82,7 +82,7 @@ class PictureShowView extends React.Component {
             fullscreen: true, //全屏
             transition: false, //过渡
             backdrop: true, //控制背景
-            minWidth: 600,
+            minWidth: 450,
             zoomRatio: 0.1, //通过旋转鼠标缩放图像时定义比率
             minZoomRatio: 0.1, //最小比例
             maxZoomRatio: 3, //最大比例
@@ -151,18 +151,16 @@ class PictureShowView extends React.Component {
                     />
                 </div>
                 {this._renderModal()}
-                <div className="img-banner-box">
-                    <div className="img-banner">
-                        <RcViewer options={this.options} ref="viewer">
-                            <ul id="images" style={{ display: 'none' }}>
-                                {imgs.length ? (
-                                    imgs.map(this._renderImg)
-                                ) : (
-                                    <img src={noImg} alt="暂无图片" />
-                                )}
-                            </ul>
-                        </RcViewer>
-                    </div>
+                <div className="img-banner">
+                    <RcViewer options={this.options} ref="viewer">
+                        <ul id="images" style={{ display: 'none' }}>
+                            {imgs.length ? (
+                                imgs.map(this._renderImg)
+                            ) : (
+                                <img src={noImg} alt="暂无图片" />
+                            )}
+                        </ul>
+                    </RcViewer>
                 </div>
             </div>
         );
@@ -307,5 +305,10 @@ class PictureShowView extends React.Component {
     addTitle = item => {
         document.querySelector(`.${item.className}`).setAttribute('title', item.title);
     };
+
+    resize() {
+        let viewer = this.refs.viewer.getViewer().viewer;
+        viewer.resize();
+    }
 }
 export default PictureShowView;

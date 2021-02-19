@@ -32,6 +32,13 @@
         "hasTitle": false
     },
     {
+        "id": 8,
+        "lable": "照片窗口",
+        "type": "picture-view",
+        "isPopover": false,
+        "hasTitle": true
+    },
+    {
         "id": 4,
         "lable": "属性列表",
         "icon": "shuxingliebiao1",

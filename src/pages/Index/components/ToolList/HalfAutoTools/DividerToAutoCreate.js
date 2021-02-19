@@ -5,7 +5,7 @@ import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
 import { Icon, message } from 'antd';
 import { autoCreateLineByLaneDivider, updateFeatures } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
-import { logDecorator, editInputLimit, editOutputLimit } from 'src/utils/decorator';
+import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/utils/decorator';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import 'less/components/tool-icon.less';
 
@@ -62,6 +62,7 @@ class DividerToAutoCreate extends React.Component {
         );
     }
 
+    @editLock
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_around_line') return;

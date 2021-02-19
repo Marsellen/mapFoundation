@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import 'src/assets/less/components/right-menu-modal.less';
 import { SELECT_OPTIONS, OPTION_LAYER_MAP } from 'config/PropertiesTableConfig';
 import { getLayerIDKey, getLayerByName, modUpdStatRelation } from 'src/utils/vectorUtils';
-import { logDecorator } from 'src/utils/decorator';
+import { logDecorator, editLock } from 'src/utils/decorator';
 import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
 import Attr from 'src/models/attr';
 import Relevance from 'src/models/relevance';
@@ -41,6 +41,7 @@ class AttrRightMenu extends React.Component {
         }
     };
 
+    @editLock
     handleForceDelete = () => {
         const { AttrRightMenuStore, DataLayerStore } = this.props;
         if (this.checkLayer()) return;

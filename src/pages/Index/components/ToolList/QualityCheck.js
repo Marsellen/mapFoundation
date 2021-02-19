@@ -6,6 +6,7 @@ import { saveTaskData } from 'src/utils/taskUtils';
 import { loadQualityLayer } from 'src/utils/map/utils';
 import ResourceLayerStore from 'src/pages/Index/store/ResourceLayerStore';
 import { SUSPECT_LAYER, WRONG_LAYER } from 'src/config/DataLayerConfig';
+import { editLock } from 'src/utils/decorator';
 
 @inject('appStore')
 @inject('TaskStore')
@@ -44,6 +45,7 @@ class QualityCheck extends React.Component {
         await saveTaskData();
     };
 
+    @editLock
     handleClick = () => {
         this.setState({ visible: true });
         this.checkModal(`是否质检当前任务`, this.taskCheck);

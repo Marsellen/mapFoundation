@@ -1,10 +1,11 @@
 import React from 'react';
 import { Form, Button, Modal, Spin, Icon, message } from 'antd';
 import { inject, observer } from 'mobx-react';
-import 'less/components/qc-marker-modal.less';
-// import { logDecorator } from 'src/utils/decorator';
 import ConfigurableForm from 'src/components/ConfigurableForm';
 import { ATTR_FORM_FIELD_MAP, QC_MARKER_FORM_CONFIG } from 'src/config/QCMarkerConfig';
+import SeniorModal from 'src/components/SeniorModal';
+
+import 'less/components/qc-marker-modal.less';
 
 const formLayout = {
     labelCol: { span: 8 },
@@ -349,31 +350,20 @@ class QCMarkerModal extends React.Component {
         const renderFooter = this[`${editStatus}MarkerFooter`];
 
         return (
-            <Modal
-                title={null}
-                zIndex={999}
-                closable={false}
+            <SeniorModal
+                title="质检标注"
+                zIndex={1001}
                 visible={visible}
                 mask={false}
                 maskClosable={false}
                 keyboard={false}
-                width={320}
                 wrapClassName="qc-marker-modal"
                 footer={null}
                 onCancel={this.handleCancel}
-                key={`${editStatus}_${properties.id}`}
+                resizeOptions={{ HResizeable: false, minHeight: 500 }}
             >
                 <Spin tip="Loading..." spinning={isLoading}>
-                    <div className="title-wrap">
-                        <span>质检标注</span>
-                        <Icon
-                            type="close"
-                            className="close-icon"
-                            onClick={this.handleCancel}
-                            id="check-result-close-btn"
-                        />
-                    </div>
-                    <div className="content-wrap">
+                    <div className="content-wrap" key={`${editStatus}_${properties.id}`}>
                         <ConfigurableForm
                             form={form}
                             formLayout={formLayout}
@@ -388,7 +378,7 @@ class QCMarkerModal extends React.Component {
                     </div>
                     {renderFooter && renderFooter()}
                 </Spin>
-            </Modal>
+            </SeniorModal>
         );
     }
 }

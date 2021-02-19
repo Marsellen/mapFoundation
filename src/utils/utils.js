@@ -163,3 +163,10 @@ export function parseArrayString(arrayString) {
         return [];
     }
 }
+
+export function getWrappedInstance(ref) {
+    while (ref.wrappedInstance) {
+        ref = ref.wrappedInstance;
+    }
+    return ref;
+}

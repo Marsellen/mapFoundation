@@ -3,6 +3,7 @@ import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { message } from 'antd';
 import { getLayersByNames } from 'src/utils/vectorUtils';
+import { editLock } from 'src/utils/decorator';
 
 @inject('TaskStore')
 @inject('DataLayerStore')
@@ -30,6 +31,7 @@ class UnionBreak extends React.Component {
         );
     }
 
+    @editLock
     action = () => {
         const {
             ToolCtrlStore: { updateByEditLayer },

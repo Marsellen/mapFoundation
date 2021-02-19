@@ -14,7 +14,7 @@ import { updateFeatures } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
 import AddLRLaneDriverRel from './AddRelModal/AddLRLaneDriverRel';
 import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
-import { logDecorator, editInputLimit } from 'src/utils/decorator';
+import { logDecorator, editInputLimit, editLock } from 'src/utils/decorator';
 import AttributeStore from 'src/pages/Index/store/AttributeStore';
 
 import 'less/components/tool-icon.less';
@@ -116,6 +116,7 @@ class AddRel extends React.Component {
         );
     }
 
+    @editLock
     action = () => {
         const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'new_rel') return;

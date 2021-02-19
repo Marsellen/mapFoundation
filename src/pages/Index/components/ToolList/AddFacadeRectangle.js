@@ -2,6 +2,7 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/components/AdMessage';
+import { editLock } from 'src/utils/decorator';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -19,6 +20,7 @@ class AddFacadeRectangle extends React.Component {
         );
     }
 
+    @editLock
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_facade_rectangle') return;

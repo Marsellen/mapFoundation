@@ -6,7 +6,7 @@ import AdMessage from 'src/components/AdMessage';
 import AdInputNumber from 'src/components/Form/AdInputNumber';
 import { checkSdkError } from 'src/utils/vectorUtils';
 import { plgCreate } from 'src/utils/relCtrl/operateCtrl';
-import { logDecorator, editInputLimit } from 'src/utils/decorator';
+import { logDecorator, editInputLimit, editLock } from 'src/utils/decorator';
 
 import 'less/components/tool-icon.less';
 import 'less/components/dashed-polygon-create.less';
@@ -82,16 +82,16 @@ class DashedPolygonCreate extends React.Component {
                     {this._renderModal(PLG_WIDTH)}
                 </Modal>
             </div>
-        )
+        );
     }
 
-    _renderModal = (PLG_WIDTH) => {
+    _renderModal = PLG_WIDTH => {
         const { PLG_TYPE } = this.state;
         return (
             <div>
                 <div className="modal-flex">
                     <span>虚线面宽度</span>
-                    <AdInputNumber 
+                    <AdInputNumber
                         className="modal-content"
                         type="number"
                         value={PLG_WIDTH}
@@ -99,36 +99,41 @@ class DashedPolygonCreate extends React.Component {
                         min={0.01}
                         step={0.01}
                         precision={2}
-                        onChange={(val) => this.calcWidth(val)}
-                     />
-                     <span>m</span>
+                        onChange={val => this.calcWidth(val)}
+                    />
+                    <span>m</span>
                 </div>
                 <div className="modal-flex">
                     <span>虚线面类型</span>
-                    <Select className="modal-content" value={PLG_TYPE} onChange={(val) => { this.setState({ PLG_TYPE: val }) }}>
-                        {
-                            PLG_TYPE_GROUP.map((item, index) => (
-                                <Option key={index} value={item.value}>{item.label}</Option>
-                            ))
-                        }
+                    <Select
+                        className="modal-content"
+                        value={PLG_TYPE}
+                        onChange={val => {
+                            this.setState({ PLG_TYPE: val });
+                        }}
+                    >
+                        {PLG_TYPE_GROUP.map((item, index) => (
+                            <Option key={index} value={item.value}>
+                                {item.label}
+                            </Option>
+                        ))}
                     </Select>
                 </div>
             </div>
-        )
-    }
+        );
+    };
 
     calcWidth = val => {
         let PLG_WIDTH = Number(val);
         if (!PLG_WIDTH || PLG_WIDTH <= 0) PLG_WIDTH = 0.01;
-        if (PLG_WIDTH >= 1) PLG_WIDTH = 1.00;
+        if (PLG_WIDTH >= 1) PLG_WIDTH = 1.0;
         PLG_WIDTH = Number(PLG_WIDTH.toFixed(2));
         this.setState({ PLG_WIDTH });
     };
-    
 
     addEventListener = () => {
         document.addEventListener('keyup', this.shiftCallback);
-    }
+    };
 
     shiftCallback = event => {
         const { DataLayerStore } = this.props;
@@ -144,23 +149,23 @@ class DashedPolygonCreate extends React.Component {
             setTimeout(() => {
                 this.setState({
                     message: '选择一根车道线，按shift进入下一步'
-                })
+                });
             }, 1000);
         }
-    }
+    };
 
     removeEventListener = () => {
         document.removeEventListener('keyup', this.shiftCallback);
-    }
+    };
 
     check = () => {
         if (!this.result || this.result.length === 0) {
             throw new Error('未选择要素！');
         }
         if (this.result.length != 1) {
-            throw new Error('只能选择一条车道线！')
+            throw new Error('只能选择一条车道线！');
         }
-    }
+    };
 
     @editInputLimit({ editType: 'dashed_polygon_create' })
     useSdk = () => {
@@ -172,7 +177,7 @@ class DashedPolygonCreate extends React.Component {
             message: '在线上选择3个点，分别为虚线的实部起点、实部终点、虚部终点，点击右键完成构建',
             msgVisible: true
         });
-    }
+    };
 
     dashedPolygonCreateCallback = async (result, event) => {
         const { step } = this.state;
@@ -187,9 +192,9 @@ class DashedPolygonCreate extends React.Component {
                 message: '',
                 PLG_WIDTH: 0.15,
                 PLG_TYPE: 1002
-            })
+            });
         }
-    }
+    };
 
     @logDecorator({ operate: '虚线面构建' })
     async handerDashedPolygon(pointData, event) {
@@ -199,14 +204,18 @@ class DashedPolygonCreate extends React.Component {
             const { PLG_WIDTH, PLG_TYPE } = this.state;
             checkSdkError(pointData, '请选点！');
             if (pointData.length != 3) {
-                throw new Error('请选择三个点！')
+                throw new Error('请选择三个点！');
             }
             message.loading({
                 key,
                 duration: 65,
                 content: '正在构建要素...'
             });
-            let LOOP_SIZE = [pointData[0].data.geometry.coordinates, pointData[1].data.geometry.coordinates, pointData[2].data.geometry.coordinates];
+            let LOOP_SIZE = [
+                pointData[0].data.geometry.coordinates,
+                pointData[1].data.geometry.coordinates,
+                pointData[2].data.geometry.coordinates
+            ];
             let history = await plgCreate(this.result, LOOP_SIZE, PLG_WIDTH, PLG_TYPE);
             return history;
         } catch (err) {
@@ -217,6 +226,7 @@ class DashedPolygonCreate extends React.Component {
         }
     }
 
+    @editLock
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'dashed_polygon_create') return;
@@ -229,7 +239,7 @@ class DashedPolygonCreate extends React.Component {
             msgVisible: true,
             message: '选择一根车道线，按shift进入下一步'
         });
-    }
+    };
 }
 
 export default DashedPolygonCreate;

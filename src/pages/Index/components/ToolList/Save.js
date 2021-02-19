@@ -5,6 +5,7 @@ import { Modal } from 'antd';
 import CONFIG from 'src/config';
 import { getAuthentication, logout } from 'src/utils/Session';
 import { saveTaskData } from 'src/utils/taskUtils';
+import { editLock } from 'src/utils/decorator';
 
 @inject('TaskStore')
 @inject('OperateHistoryStore')
@@ -31,6 +32,7 @@ class Save extends React.Component {
         );
     }
 
+    @editLock
     action = async () => {
         await this.save();
     };

@@ -19,7 +19,7 @@ import {
 } from 'src/utils/vectorUtils';
 import AdMessage from 'src/components/AdMessage';
 import _ from 'lodash';
-import { logDecorator, editInputLimit, editOutputLimit } from 'src/utils/decorator';
+import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/utils/decorator';
 import BatchAssignStore from 'src/pages/Index/store/BatchAssignStore';
 import ToolCtrlStore from 'src/pages/Index/store/ToolCtrlStore';
 import AttributeStore from 'src/pages/Index/store/AttributeStore';
@@ -428,6 +428,7 @@ class RightMenuModal extends React.Component {
         }
     }
 
+    @editLock
     setEditLayerFeature = () => {
         //设置可编辑图层交互
         const { RightMenuStore, DataLayerStore } = this.props;
@@ -439,6 +440,7 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
     };
 
+    @editLock
     @editInputLimit({ editType: 'delete', isRightMenu: true })
     deleteFeature() {
         const { RightMenuStore, DataLayerStore } = this.props;
@@ -465,6 +467,7 @@ class RightMenuModal extends React.Component {
         return historyLog;
     }
 
+    @editLock
     @editInputLimit({ editType: 'force_delete', isRightMenu: true })
     forceDeleteFeature() {
         const { RightMenuStore, DataLayerStore } = this.props;
@@ -500,6 +503,7 @@ class RightMenuModal extends React.Component {
         return historyLog;
     }
 
+    @editLock
     @editInputLimit({ editType: 'batch_build', isRightMenu: true })
     batchBuildFeature() {
         const { RightMenuStore, DataLayerStore } = this.props;
@@ -517,6 +521,7 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
     }
 
+    @editLock
     @editInputLimit({ editType: 'copy_line', isRightMenu: true })
     copyLine() {
         const { RightMenuStore, DataLayerStore } = this.props;
@@ -533,6 +538,7 @@ class RightMenuModal extends React.Component {
         AttributeStore.hideRelFeatures();
     }
 
+    @editLock
     @editInputLimit({ editType: 'change_points', isRightMenu: true })
     changePoints() {
         const { DataLayerStore, RightMenuStore } = this.props;
@@ -575,6 +581,7 @@ class RightMenuModal extends React.Component {
         return history;
     }
 
+    @editLock
     @editInputLimit({ editType: 'move_point_feature', isRightMenu: true })
     movePointFeature() {
         const { DataLayerStore, RightMenuStore } = this.props;
@@ -592,6 +599,7 @@ class RightMenuModal extends React.Component {
         AttributeStore.hideRelFeatures();
     }
 
+    @editLock
     @editInputLimit({ editType: 'break_line', isRightMenu: true })
     breakLine() {
         const { DataLayerStore, RightMenuStore } = this.props;
@@ -609,6 +617,7 @@ class RightMenuModal extends React.Component {
         AttributeStore.hideRelFeatures();
     }
 
+    @editLock
     @editInputLimit({ editType: 'reverse_order_line', isRightMenu: true })
     reverseOrderLine() {
         const { RightMenuStore, DataLayerStore } = this.props;
@@ -650,6 +659,7 @@ class RightMenuModal extends React.Component {
         }
     }
 
+    @editLock
     @editInputLimit({ editType: 'merge_line', isRightMenu: true })
     mergeLine() {
         const { RightMenuStore, DataLayerStore } = this.props;
@@ -676,6 +686,7 @@ class RightMenuModal extends React.Component {
         return historyLog;
     }
 
+    @editLock
     @editInputLimit({ editType: 'batch_merge_line', isRightMenu: true })
     batchMergeLine() {
         const { RightMenuStore, DataLayerStore } = this.props;
@@ -702,6 +713,7 @@ class RightMenuModal extends React.Component {
         return historyLog;
     }
 
+    @editLock
     @editInputLimit({ editType: 'batch_assign', isRightMenu: true })
     batchAssign() {
         const { DataLayerStore, RightMenuStore } = this.props;
@@ -719,6 +731,7 @@ class RightMenuModal extends React.Component {
         AttributeStore.hide();
     }
 
+    @editLock
     @editInputLimit({ editType: 'break_line_by_line', isRightMenu: true })
     breakByLine() {
         const { DataLayerStore, RightMenuStore } = this.props;
@@ -767,6 +780,7 @@ class RightMenuModal extends React.Component {
         AttributeStore.hideRelFeatures();
     }
 
+    @editLock
     @editInputLimit({ editType: 'group_move', isRightMenu: true })
     groupMove() {
         const { DataLayerStore } = this.props;

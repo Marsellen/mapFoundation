@@ -4,7 +4,7 @@ import ToolIcon from 'src/components/ToolIcon';
 import AdMessage from 'src/components/AdMessage';
 import { inject, observer } from 'mobx-react';
 import { lineToStop, updateFeatures } from 'src/utils/relCtrl/operateCtrl';
-import { logDecorator, editInputLimit, editOutputLimit } from 'src/utils/decorator';
+import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/utils/decorator';
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
 import AttributeStore from 'src/pages/Index/store/AttributeStore';
@@ -143,6 +143,7 @@ class BatchSnapLineToStopLine extends React.Component {
         await updateFeatures(historyLog);
     }
 
+    @editLock
     action = () => {
         const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'line_snap_stop') return;

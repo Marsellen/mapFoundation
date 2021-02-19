@@ -5,7 +5,7 @@ import 'src/assets/less/components/batch-build.less';
 import BatchBuildAttr from 'src/pages/Index/components/ToolList/BatchBuild/BatchBuildAttr';
 import IconFont from 'src/components/IconFont';
 import { batchBuild } from 'src/utils/relCtrl/operateCtrl.js';
-import { logDecorator } from 'src/utils/decorator';
+import { editLock, logDecorator } from 'src/utils/decorator';
 import shiyitu from 'src/assets/img/shiyitu.png';
 
 @inject('RightMenuStore')
@@ -114,6 +114,7 @@ class BatchBuildFeature extends React.Component {
     };
 
     //批量生成总提交
+    @editLock
     handleSubmit = async e => {
         e.preventDefault();
         await this.handleBatchBuild();

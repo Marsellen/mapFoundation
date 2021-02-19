@@ -8,6 +8,7 @@ import ToolIcon from 'src/components/ToolIcon';
 import CONFIG from 'src/config';
 import { saveTaskData } from 'src/utils/taskUtils';
 import { initBoundary, getCheckReport, getMarkerList } from 'src/utils/TaskStart';
+import { editLock } from 'src/utils/decorator';
 
 const processNameOptions = CONFIG.processNameOptions;
 
@@ -99,6 +100,7 @@ class Task extends React.Component {
         return `${taskId}-${taskSubTypeLabel}-${nodeDesc}-${manualStatusDesc}${hasPostprocessCheckLabel}`;
     };
 
+    @editLock
     chooseTask = (e, id, isEdit) => {
         const { current: currentTaskId } = this.state;
         if (currentTaskId == id && !isEdit) return;

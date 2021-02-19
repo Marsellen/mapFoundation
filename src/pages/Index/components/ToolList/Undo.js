@@ -2,7 +2,7 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { message } from 'antd';
-import { logDecorator } from 'src/utils/decorator';
+import { logDecorator, editLock } from 'src/utils/decorator';
 
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
@@ -29,6 +29,7 @@ class Undo extends React.Component {
         return !shouldUndo || pendding || editType !== 'normal';
     };
 
+    @editLock
     action = () => {
         this.undo();
     };
