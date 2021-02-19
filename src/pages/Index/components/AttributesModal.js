@@ -39,6 +39,7 @@ class AttributesModal extends React.Component {
                 mask={false}
                 destroyOnClose={true}
                 wrapClassName="ad-attributes-modal"
+                zIndex={1002}
                 title={this.renderTitle()}
                 visible={visible}
                 onCancel={this.handleCancel}

@@ -10,6 +10,9 @@ const { TextArea } = Input;
 
 @Form.create()
 class ConfigurableForm extends React.Component {
+    componentWillUnmount() {
+        this.props.form.resetFields();
+    }
     //获取表单某控件值
     getFieldValue = (fieldName, initValue) => {
         if (!fieldName) return;

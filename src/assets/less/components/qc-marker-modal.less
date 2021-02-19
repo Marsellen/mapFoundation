@@ -1,13 +1,13 @@
 .qc-marker-modal {
     top: 60px;
-    left: 60px;
-    right: unset;
+    right: 40px;
+    left: unset;
     bottom: unset;
+    width: 320px;
 
     .ant-modal {
         transform-origin: 50% 50% !important;
         top: 0;
-        left: 0;
         margin: 0;
         padding: 0;
     }
@@ -34,6 +34,19 @@
 
     .ant-modal-body {
         padding: 0;
+        height: calc(100% - 40px);
+
+        & > div {
+            height: 100%;
+        }
+
+        .ant-spin-nested-loading {
+            height: 100%;
+        }
+
+        .ant-spin-container {
+            height: 100%;
+        }
     }
 
     .cancel-button {
@@ -65,6 +78,7 @@
     .content-wrap {
         overflow-y: auto;
         max-height: calc(100vh - 145px);
+        height: calc(100% - 44px);
         padding: 6px 14px;
         /*滚动条样式*/
         &::-webkit-scrollbar {
