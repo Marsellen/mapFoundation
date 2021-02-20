@@ -162,8 +162,7 @@ export const HOT_KEYS_CONFIG = {
         { value: '4', label: '开关照片窗口' },
         { value: '5', label: '开关属性列表' },
         { value: '6', label: '开关检查结果列表' },
-        { value: '7', label: '开关质检标注列表' },
-        { value: '8', label: '开关置信度分区' }
+        { value: '7', label: '开关质检标注列表' }
     ]
     // OTHER_KEY: [//其他交互
     //     { value: '窗口内对应按钮鼠标点击切换', label: '照片窗口-切换上一张/下一张照片' },
