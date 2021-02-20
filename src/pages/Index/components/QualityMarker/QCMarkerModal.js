@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Modal, Spin, Icon, message } from 'antd';
+import { Form, Button, Modal, Spin, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import ConfigurableForm from 'src/components/ConfigurableForm';
 import { ATTR_FORM_FIELD_MAP, QC_MARKER_FORM_CONFIG } from 'src/config/QCMarkerConfig';
