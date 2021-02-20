@@ -1,6 +1,5 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import PictureShowView from './PictureShowView';
 import RenderConfigWindow from './RenderMode/RenderConfigWindow';
 import 'less/components/multimedia-modal.less';
 import ZoomIn from './ToolList/ZoomIn';
