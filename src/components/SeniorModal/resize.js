@@ -133,6 +133,10 @@ class Resize {
     };
 
     handleMouseMove = e => {
+        if (this.isEventPositionOuter(e)) {
+            this.handleMouseUp(e);
+            return;
+        }
         this.getPosition(e);
         this.resetStyle(this.diffX, this.diffY);
     };
@@ -166,6 +170,13 @@ class Resize {
         }
         this.mouseX = mouseX;
         this.mouseY = mouseY;
+    }
+
+    isEventPositionOuter(e) {
+        const { clientY } = e;
+        if (clientY < 0) {
+            return true;
+        }
     }
 
     registerCallback(resizeCallBack) {
