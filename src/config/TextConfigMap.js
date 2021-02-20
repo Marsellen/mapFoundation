@@ -1530,14 +1530,14 @@ const QC_TASK_TEXT_CONFIG_MAP = {
 };
 
 // 质检符号模式
-export const TASK_CHECk_TEXT_CONFIG_MAP = {
+export const CHECK_MODE_TEXT_CONFIG_MAP = {
     imp_recognition: MS_TASK_TEXT_CONFIG_MAP, //人工识别
     imp_check_after_recognition: QC_TASK_TEXT_CONFIG_MAP, //人工识别后质检
     imp_manbuild: MB_TASK_TEXT_CONFIG_MAP, //人工构建
     imp_check_after_manbuild: QC_TASK_TEXT_CONFIG_MAP //人工构建后质检
 };
 
-export const TASK_TEXT_CONFIG_MAP = {
+export const TEXT_CONFIG_MAP = {
     common: COMMON_TEXT_CONFIG_MAP, //通用符号模式
     selfCheck: SELF_CHECK_TEXT_CONFIG_MAP, //自查符号模式
     define: DEFINE_TEXT_CONFIG_MAP, //自定义符号模式
