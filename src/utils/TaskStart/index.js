@@ -12,20 +12,20 @@ import TaskStore from 'src/pages/Index/store/TaskStore';
 import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
 
 //不同模式下，处理底图数据
-const handleBoundaryfeature = isLaterStart => {
+const handleBoundaryfeature = () => {
     switch (RenderModeStore.activeMode) {
         case 'common':
         case 'check':
         case 'define':
         case 'selfCheck':
             //按符号设置，更新后加载的周边底图
-            isLaterStart && DefineModeStore.updateBoundaryVectorStyle();
+            DefineModeStore.updateBoundaryVectorStyle();
             break;
         case 'relation':
             //将重置专题图
             RenderModeStore.resetSelectOption();
             //白色渲染模式/要素都是白色
-            isLaterStart && DefineModeStore.updateBoundaryVectorStyle();
+            DefineModeStore.updateBoundaryVectorStyle();
             //将有关联关系的要素，按专题图进行分组
             RenderModeStore.setRels();
             break;
@@ -36,14 +36,14 @@ const handleBoundaryfeature = isLaterStart => {
     TextStore.resetBoundaryTextStyle();
 };
 
-export const initBoundary = async isLaterStart => {
+export const initBoundary = async () => {
     try {
         window.boundaryLayerGroup = await TaskStore.getBoundaryLayer();
         if (!window.boundaryLayerGroup) return;
         DataLayerStore.addTargetLayers(window.boundaryLayerGroup.layers);
         ResourceLayerStore.updateLayerByName(RESOURCE_LAYER_BOUNDARY, window.boundaryLayerGroup);
         VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
-        handleBoundaryfeature(isLaterStart);
+        handleBoundaryfeature();
     } catch (e) {
         message.warning('当前任务没有周边底图数据');
         console.error(`周边底图数据加载失败: ${e.message || e}`);
