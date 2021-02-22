@@ -154,7 +154,7 @@ class Task extends React.Component {
                 if (activeTaskId === id && isEdit) {
                     getCheckReport(); //获取检查结果
                     getMarkerList(); //获取质检标注
-                    initBoundary(true); //获取周边底图
+                    initBoundary(); //获取周边底图
                 }
 
                 this.setState({ current: id });
