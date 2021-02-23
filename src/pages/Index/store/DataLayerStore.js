@@ -18,6 +18,7 @@ import RightMenuStore from 'src/pages/Index/store/RightMenuStore';
 import { getEventPointWkt, getFeaturePointWkt } from 'src/utils/pictureCtrl';
 import sysProperties from 'src/models/sysProperties';
 import BatchBuildStore from './BatchBuildStore';
+import { editLock } from 'src/utils/decorator';
 
 const TRACKS = ['TraceListLayer', 'TraceLayer'];
 
@@ -919,14 +920,7 @@ class DataLayerStore {
             switch (event.keyCode) {
                 case 27:
                     //esc
-                    const editLayerName = this.getEditLayerName();
-                    if (editLayerName === 'AD_Marker') {
-                        this.exitMarker();
-                        message.warning('退出功能', 3);
-                    } else if (this.editType !== 'normal') {
-                        this.exitEdit();
-                        message.warning('退出功能', 3);
-                    }
+                    this.escEvent();
                     break;
                 case 90:
                     //Z
@@ -971,6 +965,18 @@ class DataLayerStore {
                     break;
             }
         };
+    };
+
+    @editLock
+    escEvent = () => {
+        const editLayerName = this.getEditLayerName();
+        if (editLayerName === 'AD_Marker') {
+            this.exitMarker();
+            message.warning('退出功能', 3);
+        } else if (this.editType !== 'normal') {
+            this.exitEdit();
+            message.warning('退出功能', 3);
+        }
     };
 
     @action setModifyLineType = visible => {
