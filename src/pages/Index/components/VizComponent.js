@@ -86,12 +86,11 @@ class VizComponent extends React.Component {
         await this.release();
         const { TaskStore: { activeTaskId } = {} } = this.props;
         if (!activeTaskId) return;
-        this.setMode(); //设置渲染模式
+        this.renderMode(); //根据渲染模式，初始化注记和符号
         const div = document.getElementById('viz');
         window.map = new Map(div);
         window.map.setKeySpeedRange(1, 0.125, 16);
         await this.initTask();
-        this.renderMode(); //根据渲染模式，初始化注记和符号
     };
 
     release = async () => {
@@ -148,24 +147,18 @@ class VizComponent extends React.Component {
         window.__cancelRequestArr = [];
     };
 
-    setMode = () => {
-        const {
-            TaskStore: { taskProcessName },
-            RenderModeStore: { setMode }
-        } = this.props;
-        const mode = TASK_MODE_MAP[taskProcessName] || 'common';
-        setMode(mode);
-    };
-
     //不同任务类型采用不同渲染模式
     renderMode = () => {
         const {
             TaskStore: { taskProcessName },
             TextStore: { initTextConfig },
+            RenderModeStore: { setMode },
             DefineModeStore: { initVectorConfig }
         } = this.props;
         //获取渲染模式
         const mode = TASK_MODE_MAP[taskProcessName] || 'common';
+        //设置渲染模式
+        setMode(mode);
         //初始化文字注记配置
         initTextConfig(mode, taskProcessName);
         //初始化符号配置
@@ -405,7 +398,10 @@ class VizComponent extends React.Component {
 
     initVectors = async vectors => {
         if (!vectors) return;
-        window.vectorLayerGroup = new LayerGroup(vectors);
+        const { vectorConfig } = this.props.DefineModeStore;
+        window.vectorLayerGroup = new LayerGroup(vectors, {
+            styleConifg: vectorConfig
+        });
         await map.getLayerManager().addLayerGroup(vectorLayerGroup, fetchCallback);
         VectorsStore.addLayer(vectorLayerGroup);
 
