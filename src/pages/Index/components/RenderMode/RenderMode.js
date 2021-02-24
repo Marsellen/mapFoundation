@@ -126,7 +126,7 @@ class RenderMode extends React.Component {
                     visible={visible}
                     footer={null}
                     onCancel={this.handleClose}
-                    width={1120}
+                    width={1050}
                     maskClosable={false}
                     zIndex={9999}
                 >

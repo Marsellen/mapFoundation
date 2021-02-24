@@ -1,6 +1,6 @@
 import common from 'src/assets/img/common.png';
 import check from 'src/assets/img/check.png';
-import selfCheck from 'src/assets/img/check.png';
+import selfCheck from 'src/assets/img/selfcheck.png';
 import relation from 'src/assets/img/relation.png';
 // import update from 'src/assets/img/update.png';
 import define from 'src/assets/img/define.png';
