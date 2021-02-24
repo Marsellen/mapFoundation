@@ -20,7 +20,7 @@ class PictureView extends React.Component {
         return (
             <span>
                 <ToolIcon
-                    id="view-picture-btn"
+                    id="picture-icon"
                     icon="zhaopianshezhi"
                     title="照片窗口"
                     placement="right"
