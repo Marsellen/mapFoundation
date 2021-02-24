@@ -12,17 +12,8 @@ import { editLock } from 'src/utils/decorator';
 
 const processNameOptions = CONFIG.processNameOptions;
 
-@inject('DefineModeStore')
-@inject('TextStore')
-@inject('RenderModeStore')
-@inject('appStore')
 @inject('TaskStore')
-@inject('AttributeStore')
 @inject('OperateHistoryStore')
-@inject('DataLayerStore')
-@inject('ToolCtrlStore')
-@inject('ResourceLayerStore')
-@inject('VectorsStore')
 @observer
 class Task extends React.Component {
     constructor(props) {
