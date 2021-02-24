@@ -346,8 +346,12 @@ export const markCheckItem = record => {
     try {
         window.checkLayer.layer.clear();
         const geom = JSON.parse(record.geom);
-        const checkFeatures = geom.map(item => {
-            return { geometry: item, properties: {}, type: 'Feature' };
+        const checkFeatures = geom.flatMap(item => {
+            if (item.type === 'Point') {
+                return [{ geometry: item, properties: {}, type: 'Feature' }];
+            } else {
+                return [];
+            }
         });
         window.checkLayer.layer.addFeatures(checkFeatures);
     } catch (e) {
