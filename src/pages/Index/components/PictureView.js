@@ -16,7 +16,7 @@ class PictureView extends React.Component {
     render() {
         const { TaskStore, PictureShowStore } = this.props;
         const { activeTaskId } = TaskStore;
-        const { visible } = PictureShowStore;
+        const { visible, hide } = PictureShowStore;
         return (
             <span>
                 <ToolIcon
@@ -33,7 +33,7 @@ class PictureView extends React.Component {
                     visible={visible}
                     title="照片窗口"
                     footer={null}
-                    onCancel={this.toggle}
+                    onCancel={hide}
                     mask={false}
                     maskClosable={false}
                     className="small-modal"
