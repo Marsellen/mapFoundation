@@ -1,7 +1,7 @@
+const checkIcon = require('src/assets/img/cuowuweizhi.png');
 const markerIcon = require('src/assets/img/zhijianbiaozhu.png');
-const markerIconRed = require('src/assets/img/zhijianbiaozhu.png');
-const markerIconBlue = require('src/assets/img/dianfuhao1.png');
-const markerIconGreen = require('src/assets/img/dianfuhao6.png');
+const markerIconBlue = require('src/assets/img/wuxuxiugai.png');
+const markerIconGreen = require('src/assets/img/yixiugai.png');
 
 export default {
     AD_Marker_QC: {
@@ -53,7 +53,7 @@ export default {
                     label: '未定义',
                     style: {
                         showMode: 'first-point',
-                        url: markerIconRed,
+                        url: markerIcon,
                         size: 80
                     }
                 },
@@ -62,7 +62,7 @@ export default {
                     label: '待修正',
                     style: {
                         showMode: 'first-point',
-                        url: markerIconRed,
+                        url: markerIcon,
                         size: 80
                     }
                 },
@@ -136,7 +136,7 @@ export default {
                     label: '未定义',
                     style: {
                         showMode: 'first-point',
-                        url: markerIconRed,
+                        url: markerIcon,
                         size: 80
                     }
                 },
@@ -145,7 +145,7 @@ export default {
                     label: '待修正',
                     style: {
                         showMode: 'first-point',
-                        url: markerIconRed,
+                        url: markerIcon,
                         size: 80
                     }
                 },
@@ -195,7 +195,7 @@ export default {
                         radius: 0.05,
                         opacity: 0.6,
                         showMode: 'first-point',
-                        url: markerIcon,
+                        url: checkIcon,
                         size: 80
                     }
                 }

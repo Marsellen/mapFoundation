@@ -2815,7 +2815,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
             {
                 showFields: 'NOKEY',
                 lineStyle: 'solid',
-                color: 'rgb(32,52,240)',
+                color: 'rgb(238,209,11)',
                 opacity: 1,
                 arrow: false,
                 point: false,
