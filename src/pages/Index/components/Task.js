@@ -21,7 +21,6 @@ const processNameOptions = CONFIG.processNameOptions;
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
-@inject('PictureShowStore')
 @inject('ResourceLayerStore')
 @inject('VectorsStore')
 @observer
