@@ -78,6 +78,7 @@
     .content-wrap {
         overflow-y: auto;
         height: calc(100% - 44px);
+        max-height: calc(100vh - 144px);
         padding: 6px 14px;
         /*滚动条样式*/
         &::-webkit-scrollbar {
@@ -103,6 +104,12 @@
         text-align: right;
         button {
             margin: 0 0 0 10px;
+        }
+    }
+
+    &.resized {
+        .content-wrap {
+            max-height: unset;
         }
     }
 }

@@ -338,8 +338,13 @@ class QCMarkerModal extends React.Component {
         );
     };
 
+    resizeCallback = () => {
+        if (this.state.resized) return;
+        this.setState({ resized: true });
+    };
+
     render() {
-        const { isLoading } = this.state;
+        const { isLoading, resized } = this.state;
         const { QCMarkerStore, form } = this.props;
         const {
             visible,
@@ -357,10 +362,11 @@ class QCMarkerModal extends React.Component {
                 mask={false}
                 maskClosable={false}
                 keyboard={false}
-                wrapClassName="qc-marker-modal"
+                wrapClassName={`qc-marker-modal ${resized && 'resized'}`}
                 footer={null}
                 onCancel={this.handleCancel}
                 resizeOptions={{ HResizeable: false, minHeight: 500 }}
+                resizeCallback={this.resizeCallback}
             >
                 <Spin tip="Loading..." spinning={isLoading}>
                     <div className="content-wrap" key={`${editStatus}_${properties.id}`}>
