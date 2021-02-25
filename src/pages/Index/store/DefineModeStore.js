@@ -3,7 +3,7 @@ import {
     POINT_ICON_MAP,
     MODE_VECTOR_CONFIG_MAP,
     CONFIGURABLE_LAYERS
-} from 'src/config/VectorsConfigMap.js';
+} from 'src/config/VectorConfigMap.js';
 import { TYPE_SELECT_OPTION_MAP, LAYER_TYPE_MAP } from 'src/config/ADMapDataConfig';
 
 configure({ enforceActions: 'always' });

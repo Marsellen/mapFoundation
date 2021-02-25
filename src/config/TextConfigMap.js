@@ -1,5 +1,5 @@
 // 通用符号模式
-export const COMMON_TEXT_CONFIG_MAP = {
+const COMMON_TEXT_CONFIG_MAP = {
     AD_Road: {
         key: 'AD_Road',
         label: '道路参考线',
@@ -361,7 +361,7 @@ export const COMMON_TEXT_CONFIG_MAP = {
 };
 
 // 自查符号模式
-export const SELF_CHECK_TEXT_CONFIG_MAP = {
+const SELF_CHECK_TEXT_CONFIG_MAP = {
     ...COMMON_TEXT_CONFIG_MAP,
     AD_LaneDivider: {
         key: 'AD_LaneDivider',
@@ -416,7 +416,7 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
 };
 
 // 自定义符号模式
-export const DEFINE_TEXT_CONFIG_MAP = {
+const DEFINE_TEXT_CONFIG_MAP = {
     ...COMMON_TEXT_CONFIG_MAP,
     AD_LaneAttrPoint: {
         key: 'AD_LaneAttrPoint',
