@@ -16,7 +16,7 @@ import {
     RESOURCE_LAYER_MARKER
 } from 'src/config/DataLayerConfig';
 import MultimediaView from './MultimediaView';
-import OtherVectorsConfig from 'src/config/OtherVectorsConfig';
+import OtherVectorConfig from 'src/config/OtherVectorConfig';
 import 'less/components/viz-component.less';
 // import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
@@ -54,7 +54,8 @@ import { fetchCallback } from 'src/utils/map/utils';
 import OcTreeIndex from 'src/utils/OcTreeIndex';
 import sysProperties from 'src/models/sysProperties';
 import BatchBuildModal from 'src/pages/Index/components/ToolList/BatchBuild/BatchBuildModal';
-import BatchBuildStore from '../store/BatchBuildStore';
+import BatchBuildStore from 'src/pages/Index/store/BatchBuildStore';
+import DefaultVectorConfig from 'src/config/DefaultVectorConfig';
 @inject('QualityCheckStore')
 @inject('QCMarkerStore')
 @inject('DefineModeStore')
@@ -86,11 +87,11 @@ class VizComponent extends React.Component {
         await this.release();
         const { TaskStore: { activeTaskId } = {} } = this.props;
         if (!activeTaskId) return;
-        this.renderMode(); //根据渲染模式，初始化注记和符号
         const div = document.getElementById('viz');
         window.map = new Map(div);
         window.map.setKeySpeedRange(1, 0.125, 16);
         await this.initTask();
+        this.renderMode(); //根据渲染模式，初始化注记和符号
     };
 
     release = async () => {
@@ -398,9 +399,8 @@ class VizComponent extends React.Component {
 
     initVectors = async vectors => {
         if (!vectors) return;
-        const { vectorConfig } = this.props.DefineModeStore;
         window.vectorLayerGroup = new LayerGroup(vectors, {
-            styleConifg: vectorConfig
+            styleConifg: DefaultVectorConfig
         });
         await map.getLayerManager().addLayerGroup(vectorLayerGroup, fetchCallback);
         VectorsStore.addLayer(vectorLayerGroup);
@@ -500,7 +500,7 @@ class VizComponent extends React.Component {
     };
 
     initCheckLayer = async () => {
-        const { AD_Check } = OtherVectorsConfig;
+        const { AD_Check } = OtherVectorConfig;
         const checkLayer = new VectorLayer();
         checkLayer.layerName = 'AD_Check';
         checkLayer.resetConfig(AD_Check);
@@ -521,7 +521,7 @@ class VizComponent extends React.Component {
         } = this.props.appStore;
         if (isLocal) return; //如果是本地任务，返回
         if (isMsTask && isFixStatus) return; //如果是人工识别【已领取或进行中】，返回
-        const { AD_Marker_QC, AD_Marker } = OtherVectorsConfig;
+        const { AD_Marker_QC, AD_Marker } = OtherVectorConfig;
         const markerLayer = new VectorLayer();
         markerLayer.layerName = 'AD_Marker';
         const markerConfig = roleCode === 'producer' ? AD_Marker : AD_Marker_QC;
