@@ -2361,7 +2361,101 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                 pointSize: 0.1
             }
         ],
-        typeStyleMap: {},
+        typeStyleMap: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(70,109,255)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 1,
+                    label: '隧道墙',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(70,109,255)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 2,
+                    label: '路侧防护栏',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(11,180,169)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.3
+                },
+                {
+                    value: 3,
+                    label: '路缘石',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(39,238,4)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.3
+                },
+                {
+                    value: 4,
+                    label: '隔音墙',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(70,109,169)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 5,
+                    label: '其他墙体',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(70,109,255)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 6,
+                    label: '道路轮廓标',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(211,207,24)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                }
+            ]
+        },
         fieldStyle: {
             colorFieldSize: 28,
             colorFieldIcon: 'xianyaosu'

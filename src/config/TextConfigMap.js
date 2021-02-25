@@ -82,7 +82,7 @@ export const COMMON_TEXT_CONFIG_MAP = {
         defaultStyle: {
             textFields: ['TYPE'], //看数据规格
             offset: 10,
-            showMode: 'top',
+            showMode: 'right',
             fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
@@ -425,7 +425,7 @@ export const DEFINE_TEXT_CONFIG_MAP = {
         defaultStyle: {
             textFields: ['TYPE'], //看数据规格
             offset: 10,
-            showMode: 'top',
+            showMode: 'right',
             fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
@@ -529,7 +529,7 @@ const MS_TASK_TEXT_CONFIG_MAP = {
         defaultStyle: {
             textFields: ['TYPE'], //看数据规格
             offset: 10,
-            showMode: 'top',
+            showMode: 'right',
             fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
@@ -890,7 +890,7 @@ const MB_TASK_TEXT_CONFIG_MAP = {
         defaultStyle: {
             textFields: ['TYPE'], //看数据规格
             offset: 10,
-            showMode: 'top',
+            showMode: 'right',
             fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
@@ -1251,7 +1251,7 @@ const QC_TASK_TEXT_CONFIG_MAP = {
         defaultStyle: {
             textFields: ['TYPE'], //看数据规格
             offset: 10,
-            showMode: 'top',
+            showMode: 'right',
             fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
