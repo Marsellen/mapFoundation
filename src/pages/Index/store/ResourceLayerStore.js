@@ -110,12 +110,11 @@ class ResourceLayerStore {
                     checked: true
                 };
             })
-            .slice()
-            .sort((a, b) => {
-                return LAYER_SORT_MAP[a.value] < LAYER_SORT_MAP[b.value] ? -1 : 1;
-            });
+            .slice();
 
-        this.layers = [...this.layers, ...layers];
+        this.layers = [...this.layers, ...layers].sort((a, b) => {
+            return LAYER_SORT_MAP[a.value] < LAYER_SORT_MAP[b.value] ? -1 : 1;
+        });
     };
 
     @action updateLayerByName = (name, layer) => {
