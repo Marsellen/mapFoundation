@@ -15,22 +15,7 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             pointEnabledStatus: true,
             arrowEnabledStatus: true,
             pointSize: 0.1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'NOKEY',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            }
-        ]
+        }
     },
     AD_LaneDivider: {
         key: 'AD_LaneDivider',
@@ -48,22 +33,7 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             pointEnabledStatus: true,
             arrowEnabledStatus: true,
             pointSize: 0.1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'NOKEY',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            }
-        ]
+        }
     },
     AD_Lane: {
         key: 'AD_Lane',
@@ -81,22 +51,7 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             pointEnabledStatus: true,
             arrowEnabledStatus: true,
             pointSize: 0.1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'NOKEY',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: true,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            }
-        ]
+        }
     },
     AD_LaneAttrPoint: {
         key: 'AD_LaneAttrPoint',
@@ -111,19 +66,7 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             radius: 0.15,
             size: 80,
             pointStyle: 'dianyaosu'
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'NOKEY',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                radius: 0.15,
-                size: 80,
-                pointStyle: 'dianyaosu'
-            }
-        ]
+        }
     },
     AD_Arrow: {
         key: 'AD_Arrow',
@@ -136,17 +79,7 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
-        },
-        typeStyle: [
-            {
-                value: '0',
-                label: '未定义',
-                showFields: 'NOKEY',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            }
-        ]
+        }
     },
     AD_StopLocation: {
         key: 'AD_StopLocation',
@@ -164,22 +97,7 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             pointEnabledStatus: true,
             arrowEnabledStatus: true,
             pointSize: 0.1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'NOKEY',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: false,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            }
-        ]
+        }
     },
     AD_Text: {
         key: 'AD_Text',
@@ -192,17 +110,7 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'NOKEY',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            }
-        ]
+        }
     },
     AD_TrafficSign: {
         key: 'AD_TrafficSign',
@@ -215,17 +123,7 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'NOKEY',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            }
-        ]
+        }
     },
     AD_TrafficLight: {
         key: 'AD_TrafficLight',
@@ -238,20 +136,7 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
-        },
-        typeStyle: [
-            {
-                showFields: 'NOKEY',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: false,
-                point: false,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            }
-        ]
+        }
     },
     AD_RS_Barrier: {
         key: 'AD_RS_Barrier',
@@ -269,22 +154,7 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             pointEnabledStatus: true,
             arrowEnabledStatus: true,
             pointSize: 0.1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'NOKEY',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: false,
-                point: true,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            }
-        ]
+        }
     },
     AD_LaneDivider_Plg: {
         key: 'AD_LaneDivider_Plg',
@@ -297,17 +167,7 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'NOKEY',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            }
-        ]
+        }
     },
     AD_StopLocation_Geo: {
         key: 'AD_StopLocation_Geo',
@@ -320,17 +180,7 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'NOKEY',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            }
-        ]
+        }
     },
     AD_LaneMark_Geo: {
         key: 'AD_LaneMark_Geo',
@@ -343,17 +193,7 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1
-        },
-        typeStyle: [
-            {
-                value: 0,
-                label: '未定义',
-                showFields: 'NOKEY',
-                polygonStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1
-            }
-        ]
+        }
     },
     AD_Pole_Geo: {
         key: 'AD_Pole_Geo',
@@ -371,19 +211,6 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             pointEnabledStatus: true,
             arrowEnabledStatus: true,
             pointSize: 0.1
-        },
-        typeStyle: [
-            {
-                showFields: 'NOKEY',
-                lineStyle: 'solid',
-                color: 'rgb(255,255,255)',
-                opacity: 1,
-                arrow: false,
-                point: false,
-                pointEnabledStatus: true,
-                arrowEnabledStatus: true,
-                pointSize: 0.1
-            }
-        ]
+        }
     }
 };
