@@ -25,7 +25,8 @@ class DefineModeStore {
         this.globalUpdateKey = Math.random();
         //初始化所有图层
         CONFIGURABLE_LAYERS.forEach(key => {
-            this.batchSetVectorConfig({ key });
+            const { checked } = this.vectorConfigMap[key];
+            this.batchSetVectorConfig({ key, resetType: checked ? 'default' : 'common' });
         });
     };
 
@@ -159,15 +160,14 @@ class DefineModeStore {
     //获取当前分类所有属性值的默认style
     getDefaultTypeStyle = ({ key, commonStyle }) => {
         const { showFields } = commonStyle;
-        if (!this.vectorConfigMap[key]) return;
-        if (!this.vectorConfigMap[key].typeStyleMap) return;
-        if (!this.vectorConfigMap[key].typeStyleMap[showFields]) return;
-        return JSON.parse(JSON.stringify(this.vectorConfigMap[key].typeStyleMap[showFields]));
+        const typeStyle = this.vectorConfigMap?.[key]?.typeStyleMap?.[showFields];
+        return typeStyle && JSON.parse(JSON.stringify(typeStyle));
     };
 
     //以通用style重新设置当前分类所有属性值的style
     getCommonTypeStyle = ({ key, commonStyle }) => {
         const { showFields } = commonStyle;
+        if (showFields === 'NOKEY') return [commonStyle];
         const { type } = LAYER_TYPE_MAP[key].find(item => item.key === showFields);
         let constants = TYPE_SELECT_OPTION_MAP[type];
         if (Array.isArray(constants[0])) {
