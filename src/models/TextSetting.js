@@ -1,4 +1,4 @@
-import TextVectorConfig from 'src/config/TextVectorConfig';
+import DefaultStyleConfig from 'src/config/DefaultStyleConfig';
 import {
     TYPE_SELECT_OPTION_MAP,
     EXTRA_TEXT_CONFIG,
@@ -14,9 +14,10 @@ class TextSetting {
     }
 
     init(defaultTextConfig) {
-        let config = _.cloneDeep(TextVectorConfig);
+        let config = _.cloneDeep(DefaultStyleConfig);
         Object.keys(config).forEach(layerName => {
             let types = LAYER_TYPE_MAP[layerName];
+            config[layerName].showStyles = ['textStyle'];
             config[layerName].textStyle = types.reduce((set, type) => {
                 set[type.key] = this.getTextConfig(type.type);
                 return set;

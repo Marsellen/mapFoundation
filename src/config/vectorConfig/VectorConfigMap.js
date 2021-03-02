@@ -1,9 +1,9 @@
 //符号设置
-import { COMMON_VECTOR_CONFIG_MAP } from 'src/config/CommonVectorConfigMap';
-import { SELF_CHECK_VECTOR_CONFIG_MAP } from 'src/config/SelfCheckVectorConfigMap';
-import { CHECK_VECTOR_CONFIG_MAP } from 'src/config/CheckVectorConfigMap';
-import { RELATION_VECTOR_CONFIG_MAP } from 'src/config/RelationVectorConfigMap';
-import { DEFINE_VECTOR_CONFIG_MAP } from 'src/config/DefineVectorConfigMap';
+import { COMMON_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/CommonVectorConfigMap';
+import { SELF_CHECK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/SelfCheckVectorConfigMap';
+import { CHECK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/CheckVectorConfigMap';
+import { RELATION_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/RelationVectorConfigMap';
+import { DEFINE_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/DefineVectorConfigMap';
 import dianfuhao from 'src/assets/img/dianfuhao.png';
 import dianfuhao1 from 'src/assets/img/dianfuhao1.png';
 import dianfuhao2 from 'src/assets/img/dianfuhao2.png';

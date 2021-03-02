@@ -52,7 +52,7 @@ import OcTreeIndex from 'src/utils/OcTreeIndex';
 import sysProperties from 'src/models/sysProperties';
 import BatchBuildModal from 'src/pages/Index/components/ToolList/BatchBuild/BatchBuildModal';
 import BatchBuildStore from 'src/pages/Index/store/BatchBuildStore';
-import DefaultVectorConfig from 'src/config/DefaultVectorConfig';
+import DefaultStyleConfig from 'src/config/DefaultStyleConfig';
 @inject('QualityCheckStore')
 @inject('QCMarkerStore')
 @inject('DefineModeStore')
@@ -300,7 +300,7 @@ class VizComponent extends React.Component {
     initVectors = async vectors => {
         if (!vectors) return;
         window.vectorLayerGroup = new LayerGroup(vectors, {
-            styleConifg: DefaultVectorConfig
+            styleConifg: DefaultStyleConfig
         });
         await map.getLayerManager().addLayerGroup(vectorLayerGroup, fetchCallback);
         VectorsStore.addLayer(vectorLayerGroup);

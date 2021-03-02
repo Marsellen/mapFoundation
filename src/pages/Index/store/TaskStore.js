@@ -43,7 +43,7 @@ import ModifyTask from 'src/utils/Task/ModifyTask';
 import { VECTOR_FILES, ATTR_FILES, REL_FILES } from 'src/config/TaskConfig';
 import { fetchCallback } from 'src/utils/map/utils';
 import PointCloudStore from 'src/pages/Index/store/PointCloudStore';
-import DefaultVectorConfig from 'src/config/DefaultVectorConfig';
+import DefaultStyleConfig from 'src/config/DefaultStyleConfig';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -313,7 +313,7 @@ class TaskStore {
         try {
             const { vectors, rels, attrs } = this.boundaryFileMap;
             const layerGroup = new LayerGroup(vectors, {
-                styleConifg: DefaultVectorConfig
+                styleConifg: DefaultStyleConfig
             });
             yield Promise.allSettled([
                 window.map.getLayerManager().addLayerGroup(layerGroup, fetchCallback),
