@@ -6,10 +6,8 @@ import AttributesModal from './AttributesModal';
 import QCMarkerModal from './QualityMarker/QCMarkerModal';
 //import NewFeatureModal from './NewFeatureModal';
 import RightMenuModal from './RightMenuModal';
-
 import {
     RESOURCE_LAYER_VECTOR,
-    RESOURCE_LAYER_BOUNDARY,
     RESOURCE_LAYER_MULTI_PROJECT,
     RESOURCE_LAYER_TASK_SCOPE,
     RESOURCE_LAYER_CHECK,
@@ -22,7 +20,6 @@ import 'less/components/viz-component.less';
 import BatchAssignModal from './BatchAssignModal';
 import { modUpdStatGeometry, checkSdkError } from 'src/utils/vectorUtils';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
-import { shortcut } from 'src/utils/shortcuts';
 import { installMapListener } from 'src/utils/map/event';
 import _ from 'lodash';
 import editLog from 'src/models/editLog';
@@ -164,103 +161,6 @@ class VizComponent extends React.Component {
         initTextConfig(mode, taskProcessName);
         //初始化符号配置
         initVectorConfig(mode);
-    };
-
-    addShortcut = event => {
-        const callbackShortcutMap = [
-            {
-                ctrl: false,
-                alt: false,
-                shift: false,
-                keyCode: 49,
-                callback: () => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    ResourceLayerStore.layerToggle('point_clouds');
-                },
-                describe: '开关点云图层 1'
-            },
-            {
-                ctrl: false,
-                alt: false,
-                shift: false,
-                keyCode: 50,
-                callback: () => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    ResourceLayerStore.switchToggle(RESOURCE_LAYER_VECTOR, true, true);
-                    VectorsStore.switchToggle(true, 'vector', true);
-                },
-                describe: '开关高精地图图层 2'
-            },
-            {
-                ctrl: true,
-                alt: false,
-                shift: false,
-                keyCode: 50,
-                callback: () => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    ResourceLayerStore.switchToggle(RESOURCE_LAYER_BOUNDARY, true, true);
-                    VectorsStore.switchToggle(true, 'boundary', true);
-                },
-                describe: '开关周边底图图层 Ctrl+2'
-            },
-            {
-                ctrl: false,
-                alt: false,
-                shift: false,
-                keyCode: 51,
-                callback: () => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    ResourceLayerStore.layerToggle('track');
-                },
-                describe: '开关轨迹图层 3'
-            },
-            {
-                ctrl: false,
-                alt: false,
-                shift: false,
-                keyCode: 56,
-                callback: () => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    ResourceLayerStore.toggleConfidenceLayer();
-                },
-                describe: '开关置信度分区图层 8'
-            },
-            {
-                ctrl: false,
-                alt: false,
-                shift: false,
-                keyCode: 48,
-                callback: () => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    ResourceLayerStore.toggle(RESOURCE_LAYER_CHECK, true, true);
-                },
-                describe: '开关检查结果图层 0'
-            },
-            {
-                ctrl: false,
-                alt: false,
-                shift: false,
-                keyCode: 57,
-                callback: () => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    ResourceLayerStore.toggle(RESOURCE_LAYER_MARKER, true, true);
-                },
-                describe: '开关质检标注图层 9'
-            }
-        ];
-
-        shortcut.add(event, callbackShortcutMap);
-    };
-
-    handleKeyDown = event => {
-        this.addShortcut(event);
     };
 
     initTask = async () => {
@@ -734,12 +634,7 @@ class VizComponent extends React.Component {
         const { TaskStore } = this.props;
         return (
             <React.Fragment>
-                <div
-                    id="viz"
-                    key={TaskStore.activeTaskId}
-                    className="viz-box"
-                    onKeyDown={e => this.handleKeyDown(e)}
-                ></div>
+                <div id="viz" key={TaskStore.activeTaskId} className="viz-box"></div>
                 {TaskStore.activeTaskId ? <MultimediaView /> : <span />}
                 <AttributesModal />
                 <RightMenuModal />
