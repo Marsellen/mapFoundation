@@ -1,3 +1,12 @@
+import {
+    RESOURCE_LAYER_VECTOR,
+    RESOURCE_LAYER_BOUNDARY,
+    RESOURCE_LAYER_CHECK,
+    RESOURCE_LAYER_MARKER
+} from 'src/config/DataLayerConfig';
+import ResourceLayerStore from 'src/pages/Index/store/ResourceLayerStore';
+import VectorsStore from 'src/pages/Index/store/VectorsStore';
+
 export const shortcutMap = [
     {
         id: 'save-btn',
@@ -330,5 +339,77 @@ export const shortcutMap = [
         shift: false,
         keyCode: 79,
         describe: '批量生成车道线'
+    },
+    {
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 49,
+        callback: () => {
+            ResourceLayerStore.layerToggle('point_clouds');
+        },
+        describe: '开关点云图层 1'
+    },
+    {
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 50,
+        callback: () => {
+            ResourceLayerStore.switchToggle(RESOURCE_LAYER_VECTOR, true, true);
+            VectorsStore.switchToggle(true, 'vector', true);
+        },
+        describe: '开关高精地图图层 2'
+    },
+    {
+        ctrl: true,
+        alt: false,
+        shift: false,
+        keyCode: 50,
+        callback: () => {
+            ResourceLayerStore.switchToggle(RESOURCE_LAYER_BOUNDARY, true, true);
+            VectorsStore.switchToggle(true, 'boundary', true);
+        },
+        describe: '开关周边底图图层 Ctrl+2'
+    },
+    {
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 51,
+        callback: () => {
+            ResourceLayerStore.layerToggle('track');
+        },
+        describe: '开关轨迹图层 3'
+    },
+    {
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 56,
+        callback: () => {
+            ResourceLayerStore.toggleConfidenceLayer();
+        },
+        describe: '开关置信度分区图层 8'
+    },
+    {
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 48,
+        callback: () => {
+            ResourceLayerStore.toggle(RESOURCE_LAYER_CHECK, true, true);
+        },
+        describe: '开关检查结果图层 0'
+    },
+    {
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 57,
+        callback: () => {
+            ResourceLayerStore.toggle(RESOURCE_LAYER_MARKER, true, true);
+        },
+        describe: '开关质检标注图层 9'
     }
 ];
