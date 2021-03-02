@@ -264,7 +264,7 @@ export const COLUMNS_CONFIG = {
         },
         {
             dataIndex: 'TYPE',
-            title: '停止线类型',
+            title: '停车线类型',
             filterBy: 'typeFilter|AD_STOPLOCATION_TYPE'
         },
         {

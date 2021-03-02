@@ -2469,7 +2469,7 @@ const FIELD_NAME_MAP = {
     ],
     AD_Arrow: [{ value: 'ARR_DIRECT', label: '箭头方向' }],
     AD_StopLocation: [
-        { value: 'TYPE', label: '停止位置类型' },
+        { value: 'TYPE', label: '停车线类型' },
         { value: 'LANE_ID', label: '停止位置关联中心线' }
     ],
     AD_Text: [
@@ -2681,7 +2681,7 @@ export const ATTR_FORM_FIELD_MAP = () => {
                 value: 'value'
             },
             resetField: {
-                default:{
+                default: {
                     fieldName: null
                 }
             }
