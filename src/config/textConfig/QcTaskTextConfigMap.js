@@ -1,4 +1,4 @@
-const QC_TASK_TEXT_CONFIG_MAP = {
+export const QC_TASK_TEXT_CONFIG_MAP = {
     AD_Road: {
         key: 'AD_Road',
         label: '道路参考线',
