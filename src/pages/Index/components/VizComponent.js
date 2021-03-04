@@ -561,6 +561,7 @@ class VizComponent extends React.Component {
             //判断是否绘制成功
             checkSdkError(result);
             //更新要素
+            data = result;
             data = await DataLayerStore.updateResult(result);
             await this.handleCreatedCallBack(data);
             let history = { features: [[], [data]] };

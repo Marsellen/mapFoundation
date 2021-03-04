@@ -99,5 +99,11 @@ export const EDIT_MESSAGE = {
         loadingMsg: '正在修改形状点...',
         successMsg: '共节点编辑完成，需检查数据的关联关系正确性',
         errorMsg: '修改形状点失败：'
-    }
+    },
+    new_template_arrow: {
+        //绘制箭头
+        loadingMsg: '绘制箭头...',
+        successMsg: '绘制箭头成功',
+        errorMsg: '绘制箭头失败'
+    },
 };

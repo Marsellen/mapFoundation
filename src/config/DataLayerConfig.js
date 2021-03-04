@@ -8,8 +8,8 @@ export const DATA_LAYER_MAP = {
             manbuild: ['DRAW_TOOL_BOX']
         },
         drawTools: {
-            recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE'],
-            manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE']
+            recognition: ['POLYGON', 'ADD_GROUND_RECTANGLE', 'ADD_TEMPLATE_ARROW'],
+            manbuild: ['POLYGON', 'ADD_GROUND_RECTANGLE', 'ADD_TEMPLATE_ARROW']
         },
         rightTools: [
             'delete',
