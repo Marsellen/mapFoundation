@@ -185,7 +185,6 @@ class ConfigurableForm extends React.Component {
                     this.formItemConfig(item)
                 )(
                     <Select
-                        dropdownMatchSelectWidth={false}
                         disabled={editable ? !isEditable : true}
                         onChange={value => this.handleChange(name, value)}
                     >
@@ -193,6 +192,7 @@ class ConfigurableForm extends React.Component {
                             selectOptions.map(optionItem => {
                                 return (
                                     <Option
+                                        title={optionItem[option.label]}
                                         value={optionItem[option.value]}
                                         key={optionItem[option.value]}
                                     >
