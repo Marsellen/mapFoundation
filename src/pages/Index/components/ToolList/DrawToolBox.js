@@ -15,6 +15,7 @@ import NewTurnLine from './HalfAutoTools/NewTurnLine';
 import NewUTurnLine from './HalfAutoTools/NewUTurnLine';
 import AddCurvedLine from './AddCurvedLine';
 import DashedPolygonCreate from './DashedPolygonCreate';
+import TemplateArrow from './TemplateArrow';
 
 const EDIT_TYPES = [
     'new_point',
@@ -29,7 +30,8 @@ const EDIT_TYPES = [
     'new_straight_line',
     'new_turn_line',
     'new_Uturn_line',
-    'dashed_polygon_create'
+    'dashed_polygon_create',
+    'new_template_arrow'
 ];
 
 const OPTIONS = {
@@ -62,6 +64,11 @@ const OPTIONS = {
         key: 'dimianjuxing',
         title: '绘制地面矩形',
         actionid: 'add-ground-rectangle-btn'
+    },
+    ADD_TEMPLATE_ARROW: {
+        key: 'mubanjiantou',
+        title: '绘制模板箭头',
+        actionid: 'add-template-arrow-btn'
     }
 };
 
@@ -184,6 +191,14 @@ class DrawToolBox extends React.Component {
                 actionid="add-circle-btn"
             >
                 <AddCircle />
+            </Menu.Item>,
+            <Menu.Item
+                name="ADD_TEMPLATE_ARROW"
+                key="line-graph"
+                title="绘制模板箭头"
+                actionid="add-template-arrow-btn"
+            >
+                <TemplateArrow />
             </Menu.Item>,
             <Menu.Item
                 name="ADD_GROUND_RECTANGLE"

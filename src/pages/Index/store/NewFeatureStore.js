@@ -15,8 +15,8 @@ class NewFeatureStore {
         let id = _result.data[0].min;
         const defaultProperties = modelFactory.getDefaultProperties(layerName, id);
         feature.properties = {
-            ...feature.properties,
-            ...defaultProperties
+            ...defaultProperties,
+            ...feature.properties
         };
         return result;
     });

@@ -519,6 +519,14 @@ class DataLayerStore {
         }
     };
 
+    newTemplateArrow() {
+        this.exitEdit();
+        if (!this.editor) return;
+        this.setEditType('new_template_arrow');
+        this.changeCur();
+        this.editor.newFixedPolygon(3);
+    }
+
     @action topViewMode = opt => {
         this.isTopView = opt;
         this.updateKey = Math.random();
@@ -666,6 +674,10 @@ class DataLayerStore {
         this.groupMoveRightCallback = callback;
     };
 
+    setNewTemplateArrowCallback = callback => {
+        this.newTemplateArrowCallback = callback;
+    };
+
     chooseErrorLayer = editType => {
         this.exitEdit();
         if (!this.editor) return;
@@ -684,19 +696,27 @@ class DataLayerStore {
     };
 
     updateResult = flow(function* (result) {
-        try {
-            if (this.editType != 'new_circle') {
+        switch (this.editType) {
+            case 'new_circle':
+                return yield this.newCircleCallBack(result);
+            case 'new_template_arrow':
+                return this.newTemplateArrowCallback(result);
+            default:
                 return result;
-            }
+        }
+    });
+
+    newCircleCallBack = async result => {
+        try {
             let points = result.data.geometry.coordinates[0];
-            let _result = yield TaskService.creatCircle(points);
+            let _result = await TaskService.creatCircle(points);
             result.data.geometry.coordinates[0] = _result.data;
             return result;
         } catch (e) {
             console.log(e);
             message.warning('三点画圆服务请求失败：' + e.message, 3);
         }
-    });
+    };
 
     updateFeature = result => {
         let layer = getLayerByName(result.layerName);

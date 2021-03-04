@@ -88,6 +88,13 @@ const EditorService = {
             data
         };
         return service({ config });
+    },
+    queryArrowTemplate: () => {
+        const config = {
+            url: EditApiPath('/template/all_arrow'),
+            method: 'get'
+        };
+        return service({ config });
     }
 };
 
