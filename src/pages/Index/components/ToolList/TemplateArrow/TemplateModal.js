@@ -14,9 +14,9 @@ class TemplateModal extends React.Component {
 
     render() {
         const { visible } = this.props;
-        const { templateMap, templateType, templateSize } = this.state;
+        const { templateMap, templateType, templateSku } = this.state;
         const templateTypes = Object.keys(templateMap);
-        const templateSizes = templateMap[templateType]?.map(temp => temp.templateSize) || [];
+        const templateSkus = templateMap[templateType]?.map(temp => temp.templateSku) || [];
         return (
             <SeniorModal
                 title="选择箭头模板"
@@ -42,15 +42,15 @@ class TemplateModal extends React.Component {
                     </Select>
                 </div>
                 <div className="select-box">
-                    模板尺寸
+                    模板名称
                     <Select
-                        placeholder="选择模板尺寸"
-                        onChange={this.templateSizeOnChange}
-                        value={templateSize}
+                        placeholder="选择模板名称"
+                        onChange={this.templateSkuOnChange}
+                        value={templateSku}
                         className="select-input"
                     >
-                        {templateSizes.map(size => (
-                            <Select.Option key={size}>{size}</Select.Option>
+                        {templateSkus.map(name => (
+                            <Select.Option key={name}>{name}</Select.Option>
                         ))}
                     </Select>
                     米
@@ -68,35 +68,37 @@ class TemplateModal extends React.Component {
             if (!templateMap[templateType]) {
                 templateMap[templateType] = [];
             }
-            temp.templateSize = temp.templateSize.toFixed(2);
             templateMap[templateType].push(temp);
         });
-        let { templateType, templateSize } = data[0];
-        this.setState({ templateMap, templateType, templateSize });
-        this.onChange({ templateType, templateSize });
+        let { templateType, templateSku } = data[0];
+        this.setState({ templateMap, templateType, templateSku });
+        this.onChange({ templateType, templateSku });
     }
 
     templateTypeOnChange = value => {
-        const { templateMap, templateSize } = this.state;
-        let hasSameSize = templateMap[value].some(temp => temp.templateSize === templateSize);
-        if (hasSameSize) {
-            this.setState({ templateType: value });
-            this.onChange({ templateType: value, templateSize: templateSize });
+        const { templateMap, templateType, templateSku } = this.state;
+        let template = templateMap[templateType].find(temp => temp.templateSku == templateSku);
+        let sameSizeTemplate = templateMap[value].find(
+            temp => temp.templateSize === template.templateSize
+        );
+        if (sameSizeTemplate) {
+            this.setState({ templateType: value, templateSku: sameSizeTemplate.templateSku });
+            this.onChange({ templateType: value, templateSku: sameSizeTemplate.templateSku });
         } else {
-            let templateSize = templateMap[value][0].templateSize;
-            this.setState({ templateType: value, templateSize: templateSize });
-            this.onChange({ templateType: value, templateSize: templateSize });
+            let templateSku = templateMap[value][0].templateSku;
+            this.setState({ templateType: value, templateSku });
+            this.onChange({ templateType: value, templateSku });
         }
     };
 
-    templateSizeOnChange = value => {
-        this.setState({ templateSize: value });
-        this.onChange({ templateType: this.state.templateType, templateSize: value });
+    templateSkuOnChange = value => {
+        this.setState({ templateSku: value });
+        this.onChange({ templateType: this.state.templateType, templateSku: value });
     };
 
-    onChange = ({ templateType, templateSize }) => {
+    onChange = ({ templateType, templateSku }) => {
         const { templateMap } = this.state;
-        let template = templateMap[templateType].find(temp => temp.templateSize == templateSize);
+        let template = templateMap[templateType].find(temp => temp.templateSku == templateSku);
         this.props.onChange(template);
     };
 }
