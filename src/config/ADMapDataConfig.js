@@ -1020,10 +1020,12 @@ export const TABLE_DATA_MAP = {
             validates: 'Numeric|range|-99|99',
             link: {
                 default: {
+                    RD_LINE: 2,
                     DIRECTION: 1,
                     LANE_STATUS: 1
                 },
                 0: {
+                    RD_LINE: 2,
                     DIRECTION: 0,
                     LANE_STATUS: 0
                 },
