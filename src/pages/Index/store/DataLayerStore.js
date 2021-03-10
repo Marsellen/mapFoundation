@@ -69,12 +69,13 @@ class DataLayerStore {
     };
 
     initEditor = layers => {
+        const adsorbThreshold = sysProperties.getConfig('adsorbThreshold');
         this.editor = new EditControl();
         window.map && window.map.getControlManager().addControl(this.editor);
         this.targetLayers = (layers || []).flatMap(item => (item ? [item] : []));
         this.fetchTargetLayers();
         this.editor.setConfig && this.editor.setConfig(EditorConfig);
-        this.editor.setAdsorbThreshold && this.editor.setAdsorbThreshold(0.05);
+        this.editor.setAdsorbThreshold && this.editor.setAdsorbThreshold(adsorbThreshold);
         this.editor.setEditBoundary && this.editor.setEditBoundary(this.regionGeojson);
     };
 

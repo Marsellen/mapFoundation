@@ -16,7 +16,8 @@ class sysProperties {
             scaleSize: 13,
             startZ: 6,
             statisticInterval: 10,
-            viewChangeDelay: 500
+            viewChangeDelay: 500,
+            adsorbThreshold:0.10
         };
     }
 
