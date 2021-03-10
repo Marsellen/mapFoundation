@@ -22,6 +22,15 @@ import { editLock } from 'src/utils/decorator';
 
 const TRACKS = ['TraceListLayer', 'TraceLayer'];
 
+const LINE_LAYERS = [
+    'AD_Road',
+    'AD_LaneDivider',
+    'AD_Lane',
+    'AD_StopLocation',
+    'AD_RS_Barrier',
+    'AD_Pole_Geo'
+];
+
 configure({ enforceActions: 'always' });
 class DataLayerStore {
     constructor() {
@@ -48,6 +57,7 @@ class DataLayerStore {
     @observable isMessage = true;
     @observable checkedPoint = [];
     @observable modifyLineType = true;
+    @observable drawHorizontalMsg = false;
     //是否是联合打断模式
     @computed get isUnionBreak() {
         return this.editStatus === 'union-break';
@@ -296,6 +306,7 @@ class DataLayerStore {
         this.attributeBrushPick();
         this.showMessage();
         this.clearCheckedPoint();
+        this.closeDrawHorizontal();
         AttributeStore.showTime(true);
     };
 
@@ -418,6 +429,14 @@ class DataLayerStore {
         this.setEditType('select_road_plane');
         this.editor.selectPointFromPC();
         this.roadPlanePointStyle();
+    };
+
+    bufferRender = () => {
+        this.exitEdit();
+        if (!this.editor) return;
+        this.setEditType('buffer_render');
+        let layers = getAllLayersExByName(LINE_LAYERS);
+        this.editor.setTargetLayers(layers);
     };
 
     newQCMarker = () => {
@@ -732,9 +751,21 @@ class DataLayerStore {
     };
 
     batchBuildFeature = () => {
+        this.closeDrawHorizontal();
         if (!this.editor) return;
         this.clearAllEditDebuff();
         this.setEditType('batch_build');
+    };
+
+    @action openDrawHorizontal = () => {
+        this.drawHorizontalMsg = true;
+        this.editor.newLine();
+    };
+
+    @action closeDrawHorizontal = () => {
+        this.drawHorizontalMsg = false;
+        this.editor.clear();
+        this.removeCur();
     };
 
     changePoints = () => {
@@ -897,6 +928,7 @@ class DataLayerStore {
             case 'error_layer':
             case 'dashed_polygon_create':
             case 'choose_error_feature':
+            case 'buffer_render':
                 this.fetchTargetLayers();
                 break;
             case 'trim':

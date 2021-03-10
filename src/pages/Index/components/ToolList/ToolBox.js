@@ -5,9 +5,9 @@ import { inject, observer } from 'mobx-react';
 import Ranging from './Ranging';
 // import ReadCoordinate from './ReadCoordinate';
 import RoadSet from './RoadSet';
+import BufferRender from './BufferRender';
 
-const EDIT_TYPES = ['meature_distance', 'read_coordinate', 'select_road_plane'];
-
+const EDIT_TYPES = ['meature_distance', 'read_coordinate', 'select_road_plane', 'buffer_render'];
 @inject('DataLayerStore')
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -52,7 +52,8 @@ class ToolBox extends React.Component {
                     key="ceju1"
                     title="测距"
                     actionid="ceju-btn"
-                    disabled={this.disabled('ceju')}>
+                    disabled={this.disabled('ceju')}
+                >
                     <Ranging disabled={this.disabled('ceju')} />
                 </Menu.Item>
                 {/* <Menu.Item
@@ -63,10 +64,20 @@ class ToolBox extends React.Component {
                     <ReadCoordinate disabled={this.disabled('zuobiaoshiqu')} />
                 </Menu.Item> */}
                 <Menu.Item
+                    name="BUFFER"
+                    key="bufferxuanran"
+                    title="要素轮廓buffer渲染"
+                    actionid="buffer-btn"
+                    disabled={this.disabled('bufferxuanran')}
+                >
+                    <BufferRender disabled={this.disabled('bufferxuanran')} />
+                </Menu.Item>
+                <Menu.Item
                     key="lumianshezhi"
                     title="路面设置"
                     actionid="road-set-btn"
-                    disabled={this.disabled('lumianshezhi')}>
+                    disabled={this.disabled('lumianshezhi')}
+                >
                     <RoadSet disabled={this.disabled('lumianshezhi')} />
                 </Menu.Item>
             </Menu>
