@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
-import { Modal, Button, InputNumber } from 'antd';
+import { Modal, Button, InputNumber, message } from 'antd';
 import 'src/assets/less/components/batch-build.less';
 import BatchBuildAttr from 'src/pages/Index/components/ToolList/BatchBuild/BatchBuildAttr';
 import IconFont from 'src/components/IconFont';
@@ -15,7 +15,7 @@ import shiyitu from 'src/assets/img/shiyitu.png';
 class BatchBuildFeature extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { distances: {} };
+        this.state = { distances: {}, visible: false };
         this.handleBatchBuild = this.handleBatchBuild.bind(this);
     }
 
@@ -25,6 +25,11 @@ class BatchBuildFeature extends React.Component {
         const { DataLayerStore, BatchBuildStore } = this.props;
         DataLayerStore.exitEdit(); //退出编辑
         BatchBuildStore.release(); //清除数据
+        message.info({
+            content: '面向道路前进方向，绘制垂直于车道线的路面横截线',
+            duration: 1,
+            key: 'horizontal'
+        });
     };
 
     isCurrentFeature = (featuresName, index) => {
@@ -60,8 +65,9 @@ class BatchBuildFeature extends React.Component {
         e.stopPropagation();
         const {
             BatchBuildStore: { initActiveRange, clearActiveRange },
-            DataLayerStore: { startMeatureDistance_2, exitMeatureDistance_2 }
+            DataLayerStore: { startMeatureDistance_2, exitMeatureDistance_2, closeDrawHorizontal }
         } = this.props;
+        closeDrawHorizontal();
         const isCurrentRange = this.isCurrentRange(featuresName, index);
         if (isCurrentRange) {
             clearActiveRange();
@@ -130,6 +136,25 @@ class BatchBuildFeature extends React.Component {
         const historyLog = await batchBuild(features, leftFeatures, rightFeatures);
         return historyLog;
     }
+
+    // 路面横截线
+    toggle = () => {
+        const { visible } = this.state;
+        const { DataLayerStore } = this.props;
+        const currentVisible = !visible;
+        const messageConfig = {
+            content: '面向道路前进方向，绘制垂直于车道线的路面横截线',
+            key: 'horizontal'
+        };
+        if (messageConfig) {
+            message.info({ ...messageConfig, duration: 0 });
+            DataLayerStore.openDrawHorizontal();
+        } else {
+            message.info({ ...messageConfig, duration: 1 });
+            DataLayerStore.closeDrawHorizontal();
+        }
+        this.setState({ visible: currentVisible });
+    };
 
     //渲染左右侧车道线行
     renderLine = (featuresName, reverse) => {
@@ -211,6 +236,22 @@ class BatchBuildFeature extends React.Component {
                         >
                             右侧增加
                         </Button>
+                    </div>
+                    <div className="button-box">
+                        <div className="Horizontal-refer">
+                            <Button
+                                // className="button green-button"
+                                onClick={() => this.toggle()}
+                            >
+                                新建路面横截线
+                            </Button>
+                            <Button
+                                // className="button green-button"
+                                onClick={() => this.toggle()}
+                            >
+                                清空路面横截线
+                            </Button>
+                        </div>
                     </div>
                     <div className="line-box">
                         <div className="arrow-up"></div>
