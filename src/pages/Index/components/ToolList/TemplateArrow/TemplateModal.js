@@ -53,7 +53,6 @@ class TemplateModal extends React.Component {
                             <Select.Option key={name}>{name}</Select.Option>
                         ))}
                     </Select>
-                    米
                 </div>
             </SeniorModal>
         );

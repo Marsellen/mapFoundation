@@ -109,6 +109,14 @@ export const shortcutMap = [
         describe: '添加点要素 Alt+1'
     },
     {
+        id: 'add-template-arrow-btn',
+        ctrl: false,
+        alt: true,
+        shift: false,
+        keyCode: 50,
+        describe: '绘制模板箭头 Alt+2'
+    },
+    {
         id: 'add-facade-rectangle-btn',
         ctrl: false,
         alt: true,
