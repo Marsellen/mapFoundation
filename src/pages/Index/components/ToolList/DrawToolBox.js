@@ -66,7 +66,7 @@ const OPTIONS = {
         actionid: 'add-ground-rectangle-btn'
     },
     ADD_TEMPLATE_ARROW: {
-        key: 'mubanjiantou',
+        key: 'huizhimubanjiantou',
         title: '绘制模板箭头',
         actionid: 'add-template-arrow-btn'
     }
@@ -194,7 +194,7 @@ class DrawToolBox extends React.Component {
             </Menu.Item>,
             <Menu.Item
                 name="ADD_TEMPLATE_ARROW"
-                key="line-graph"
+                key="huizhimubanjiantou"
                 title="绘制模板箭头"
                 actionid="add-template-arrow-btn"
             >

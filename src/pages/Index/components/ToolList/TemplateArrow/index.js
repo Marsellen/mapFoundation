@@ -22,7 +22,7 @@ class TemplateArrow extends React.Component {
         let visible = DataLayerStore.editType == 'new_template_arrow';
         return (
             <div id="add-template-arrow-btn" className="flex-1" onClick={this.action}>
-                <ToolIcon icon="line-graph" />
+                <ToolIcon icon="huizhimubanjiantou" />
                 <div>绘制模板箭头</div>
                 <AdMessage visible={visible && DataLayerStore.isMessage} content={this.content()} />
                 <TemplateModal visible={visible} onChange={this.onChange} />
@@ -40,7 +40,11 @@ class TemplateArrow extends React.Component {
     };
 
     content = () => {
-        return <label>绘制模板箭头</label>;
+        return (
+            <label>
+                沿箭头轮廓按“下边线-&gt;右下角-&gt;右边线”的顺序依次选取3个点，点击右键完成绘制
+            </label>
+        );
     };
 
     created = result => {
