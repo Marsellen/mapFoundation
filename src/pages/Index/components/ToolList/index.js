@@ -19,6 +19,7 @@ import QCMarkerTool from './QCMarkerTool';
 import PostureAdjust from './PostureAdjust';
 import SetStepSize from './SetStepSize';
 import UnionBreak from './UnionBreak';
+import BatchLineInterruptAssig from './BatchLineInterruptAssig';
 
 export default [
     <Undo key="UNDO" />,
@@ -32,7 +33,7 @@ export default [
     <SearchInfo key="SEARCH_INFO" />,
     <QualityCheck key="QUALITY_TEST" />,
     <QCMarkerTool key="QC_MARKER" />,
-    <TopBreakLine key="TOP_BREAK_LINE" />,
+    <TopBreakLine key="TOP_BREAK_LINE_1" />,
     <EditLayer key="EDIT_LAYER" />,
     <DrawToolBox key="DRAW_TOOL_BOX" />,
     <AddRel key="ADD_REL" />,
@@ -40,5 +41,7 @@ export default [
     <BatchToolBox key="BATCH_TOOL_BOX" />,
     <AttributeBrush key="ATTRIBUTE_BRUSH" />,
     <PostureAdjust key="POSTURE_ADJUST" />,
-    <UnionBreak key="UNION_BREAK" />
+    <UnionBreak key="UNION_BREAK" />,
+    <TopBreakLine key="TOP_BREAK_LINE_2" />,
+    <BatchLineInterruptAssig key="BATCH_LINE_INTERRUPT_ASSIG" />
 ];

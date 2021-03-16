@@ -22,7 +22,7 @@ import AttrRightMenuStore from './AttrRightMenuStore';
 import QCMarkerStore from './QCMarkerStore';
 import LoadingStore from './LoadingStore';
 import BatchBuildStore from './BatchBuildStore';
-
+import ManualBuildStore from './ManualBuildStore';
 export default {
     MenuStore,
     TaskStore,
@@ -47,5 +47,6 @@ export default {
     AttrRightMenuStore,
     QCMarkerStore,
     LoadingStore,
-    BatchBuildStore
+    BatchBuildStore,
+    ManualBuildStore
 };

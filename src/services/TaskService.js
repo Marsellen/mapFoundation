@@ -1,5 +1,5 @@
 import service from 'src/services';
-import { EditApiPath, TaskApiPath, StoreApiPath } from 'src/utils/Api';
+import { EditApiPath, TaskApiPath, StoreApiPath, ManualBuildApiPath } from 'src/utils/Api';
 import { getAuthentication } from 'src/utils/Session';
 
 const TaskService = {
@@ -67,6 +67,15 @@ const TaskService = {
             url: TaskApiPath('/outside/task/tag'),
             method: 'post',
             params
+        };
+        return service({ config });
+    },
+    //交互式构建 批量属性打断赋值
+    batchLineInterruptAssig: data => {
+        const config = {
+            url: ManualBuildApiPath('/ml/divSplit'),
+            method: 'post',
+            data
         };
         return service({ config });
     }
