@@ -11,7 +11,7 @@ export const TOOLS_MAP = {
         POINT_STRATIFICATION: true,
         SEARCHINFO: true,
         QC_MARKER: true,
-        TOP_BREAK_LINE: true,
+        TOP_BREAK_LINE_1: true,
         EDIT_LAYER: true,
         ADD_REL: false,
         DEL_REL: false,
@@ -26,7 +26,9 @@ export const TOOLS_MAP = {
         ATTRIBUTE_BRUSH: false,
         POSTURE_ADJUST: false,
         SETSTEP_SIZE: true,
-        UNION_BREAK: true
+        UNION_BREAK: true,
+        TOP_BREAK_LINE_2: true,
+        BATCH_LINE_INTERRUPT_ASSIG: true
     },
     CHECK: {
         UNDO: true,
@@ -40,7 +42,7 @@ export const TOOLS_MAP = {
         POINT_STRATIFICATION: true,
         SEARCHINFO: true,
         QC_MARKER: true,
-        TOP_BREAK_LINE: true,
+        TOP_BREAK_LINE_1: true,
         EDIT_LAYER: false,
         ADD_REL: false,
         DEL_REL: false,
@@ -54,6 +56,8 @@ export const TOOLS_MAP = {
         BATCH_TOOL_BOX: false,
         ATTRIBUTE_BRUSH: false,
         POSTURE_ADJUST: false,
-        SETSTEP_SIZE: true
+        SETSTEP_SIZE: true,
+        TOP_BREAK_LINE_2: false,
+        BATCH_LINE_INTERRUPT_ASSIG: false
     }
 };
