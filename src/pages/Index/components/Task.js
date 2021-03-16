@@ -9,6 +9,7 @@ import CONFIG from 'src/config';
 import { saveTaskData } from 'src/utils/taskUtils';
 import { initBoundary, getCheckReport, getMarkerList } from 'src/utils/TaskStart';
 import { editLock } from 'src/utils/decorator';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 const processNameOptions = CONFIG.processNameOptions;
 
@@ -106,7 +107,7 @@ class Task extends React.Component {
                 maskStyle: { zIndex: 99999999 },
                 zIndex: 999999999,
                 onOk: async () => {
-                    await saveTaskData();
+                    await saveTaskData('toggleTask');
                     this.toggleTask(id, isEdit);
                 }
             });
@@ -120,6 +121,11 @@ class Task extends React.Component {
         this.timeout && clearTimeout(this.timeout);
         this.timeout = setTimeout(async () => {
             try {
+                BuriedPoint.modalBuriedPointEnd('attr_list', 'toggleTask');
+                BuriedPoint.dataLoadBuriedPointEnd('boundary_load', 'toggleTask');
+                BuriedPoint.statusBuriedPointEnd('normal', 'toggleTask');
+                BuriedPoint.statusBuriedPointEnd('union_break', 'toggleTask');
+
                 const { current } = this.state;
                 const { TaskStore } = this.props;
                 const { taskIdList, activeTaskId } = TaskStore;

@@ -26,7 +26,7 @@ class AddPolygon extends React.Component {
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_polygon') return;
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
         DataLayerStore.newPolygon();
     };

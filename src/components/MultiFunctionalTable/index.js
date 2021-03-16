@@ -1,7 +1,7 @@
 import React from 'react';
 import { ConfigProvider, Button } from 'antd';
 import 'src/assets/less/components/multi-functional-table.less';
-import { shortcut } from 'src/utils/shortcuts';
+import ShortcutKey from 'src/utils/ShortcutKey';
 import AdTable from 'src/components/AdTable';
 import zh_CN from 'antd/es/locale/zh_CN';
 
@@ -239,7 +239,7 @@ class MultiFunctionalTable extends React.Component {
 
     //方向快捷键
     handleKeyUp = event => {
-        shortcut.add(event, [
+        ShortcutKey.add(event, [
             {
                 ctrl: false,
                 alt: false,

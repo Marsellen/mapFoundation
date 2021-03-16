@@ -7,7 +7,7 @@ import VizComponent from './components/VizComponent';
 import HeaderBar from './components/HeaderBar';
 import 'less/home.less';
 import logo from 'src/assets/img/logo.png';
-import { shortcut } from 'src/utils/shortcuts';
+import ShortcutKey from 'src/utils/ShortcutKey';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
 import { deleteDatabase } from 'src/utils/IndexedDB';
 import sysProperties from 'src/models/sysProperties';
@@ -38,7 +38,7 @@ window.isLogin = true;
 class Index extends React.Component {
     componentDidMount() {
         this.props.MenuStore.initMenus();
-        shortcut.init();
+        ShortcutKey.init();
     }
 
     render() {

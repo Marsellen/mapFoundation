@@ -21,6 +21,7 @@ import BatchBuildStore from './BatchBuildStore';
 import { editLock } from 'src/utils/decorator';
 import { LINE_LAYERS } from 'src/config/DataLayerConfig';
 import OtherVectorConfig from 'src/config/OtherVectorConfig';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 const TRACKS = ['TraceListLayer', 'TraceLayer'];
 
@@ -53,19 +54,24 @@ class DataLayerStore {
     @observable modifyLineType = true;
     //是否是联合打断模式
     @computed get isUnionBreak() {
-        return this.editStatus === 'union-break';
+        return this.editStatus === 'union_break';
     }
     //设置编辑状态
-    @action setEditStatus = status => {
+    @action setEditStatus = (status, channel) => {
+        channel && BuriedPoint.statusBuriedPointEnd(this.editStatus, channel);
+
         this.clearEffect();
         this.editStatus = status;
+
+        channel && BuriedPoint.statusBuriedPointStart(this.editStatus, channel);
     };
+
     //清除重置编辑状态的复作用
     clearEffect = () => {
-        if (this.editStatus === 'union-break') {
+        if (this.editStatus === 'union_break') {
             message.info({
                 content: '退出联合打断状态',
-                key: 'union-break',
+                key: 'union_break',
                 duration: 1
             });
         }
@@ -116,27 +122,31 @@ class DataLayerStore {
     };
 
     //可能不传参数，可能传图层名，可能传图层
-    @action activeEditor = name => {
+    @action activeEditor = (param, channel) => {
         let layer;
-        switch (typeof name) {
+        switch (typeof param) {
             case 'object':
-                layer = name;
+                layer = param;
                 break;
             case 'string':
-                layer = getLayerExByName(name);
+                layer = getLayerExByName(param);
                 break;
             default:
                 layer = null;
                 break;
         }
+        //埋点开始
+        BuriedPoint.statusBuriedPointEnd(this.editStatus, channel);
         this.editor?.setEditLayer(layer);
         if (layer?.layerName !== 'AD_Horizontal') {
-            this.editor ? this.exitEdit() : this.initEditor();
+            this.editor ? this.exitEdit('toggle') : this.initEditor();
             this.adEditLayer = layer;
             this.setEditStatus('normal'); //设置编辑状态
             this.isTopView && this.enableRegionSelect(); //重置框选可选图层
             this.updateKey = Math.random();
         }
+        //埋点结束
+        BuriedPoint.statusBuriedPointStart(this.editStatus, channel);
         return layer;
     };
 
@@ -170,6 +180,7 @@ class DataLayerStore {
                     this.delRelCallback(result, event);
                     break;
                 case 'break_line':
+                case 'same_break_line':
                     this.breakCallback(result, event);
                     break;
                 case 'new_around_line':
@@ -328,11 +339,11 @@ class DataLayerStore {
         this.editor.clear();
     };
 
-    clearChoose = () => {
+    clearChoose = channel => {
         if (!window.map) return;
         if (!this.editor) return;
         this.clearSelfDebuff();
-        this.setEditType();
+        this.setEditType(null, channel);
         this.editor.clear();
         this.editor.cancel();
         this.unPick();
@@ -343,9 +354,14 @@ class DataLayerStore {
         AttributeStore.showTime(true);
     };
 
-    @action setEditType = type => {
+    @action setEditType = (type, channel) => {
+        BuriedPoint.toolLoadBuriedPointEnd(this.editType, channel);
+        BuriedPoint.toolBuriedPointEnd(this.editType, channel);
+
         RightMenuStore.hide();
         this.editType = type || 'normal';
+
+        BuriedPoint.toolBuriedPointStart(type, 'button');
     };
 
     changeCur = () => {
@@ -398,7 +414,7 @@ class DataLayerStore {
     };
 
     newPoint = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         this.setEditType('new_point');
         this.changeCur();
@@ -406,7 +422,7 @@ class DataLayerStore {
     };
 
     newLine = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         this.setEditType('new_line');
         this.changeCur();
@@ -415,7 +431,7 @@ class DataLayerStore {
 
     newCurvedLine = () => {
         //绘制曲线
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         const drawNodeDensity = sysProperties.getConfig('drawNodeDensity');
         this.setEditType('new_curved_line');
@@ -433,7 +449,7 @@ class DataLayerStore {
     };
 
     newPolygon = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         this.setEditType('new_polygon');
         this.changeCur();
@@ -441,7 +457,7 @@ class DataLayerStore {
     };
 
     newGroundRectangle = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         this.setEditType('new_ground_rectangle');
         this.changeCur();
@@ -449,7 +465,7 @@ class DataLayerStore {
     };
 
     newFacadeRectangle = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         this.setEditType('new_facade_rectangle');
         this.changeCur();
@@ -457,7 +473,7 @@ class DataLayerStore {
     };
 
     selectPointFromPC = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         this.setEditType('select_road_plane');
         this.editor.selectPointFromPC();
@@ -473,7 +489,7 @@ class DataLayerStore {
     };
 
     newQCMarker = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         this.setEditType('qc_marker');
         this.changeCur();
@@ -482,7 +498,7 @@ class DataLayerStore {
 
     // 左右车道线生成中心线
     newAroundLine = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         this.setEditType('new_around_line');
         this.editor.clear();
@@ -494,7 +510,7 @@ class DataLayerStore {
 
     // 路口内直行中心线生成
     newStraightLine = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         this.setEditType('new_straight_line');
         this.editor.clear();
@@ -506,7 +522,7 @@ class DataLayerStore {
 
     // 路口内转弯中心线生成
     newTurnLine = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         this.setEditType('new_turn_line');
         this.editor.clear();
@@ -518,7 +534,7 @@ class DataLayerStore {
 
     // 路口内掉头中心线生成
     newUTurnLine = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         this.setEditType('new_Uturn_line');
         this.editor.clear();
@@ -561,7 +577,7 @@ class DataLayerStore {
     // 虚线面构建
     dashedPolygonCreate = (step = 0) => {
         if (step == 0) {
-            this.exitEdit();
+            this.exitEdit('toggle');
             if (!this.editor) return;
             this.setEditType('dashed_polygon_create');
             let layers = getAllLayersExByName('AD_LaneDivider');
@@ -573,7 +589,7 @@ class DataLayerStore {
     };
 
     newTemplateArrow() {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         this.setEditType('new_template_arrow');
         this.changeCur();
@@ -594,7 +610,7 @@ class DataLayerStore {
     };
 
     newVerticalMatrix = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         this.setEditType('new_vertical_matrix');
         this.changeCur();
@@ -602,7 +618,7 @@ class DataLayerStore {
     };
 
     newRel = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (this.editType == 'new_rel') return;
         this.setEditType('new_rel');
         this.editor.clear();
@@ -618,8 +634,8 @@ class DataLayerStore {
     lineSnapStop = (step = 0) => {
         if (step === 0) {
             if (this.editType == 'line_snap_stop') return;
-            this.exitEdit();
-            AttributeStore.hide(); //隐藏属性窗口
+            this.exitEdit('toggle');
+            AttributeStore.hide('other_close'); //隐藏属性窗口
             this.setEditType('line_snap_stop');
         } else if (step === 1) {
             this.editor.selectFeature(1);
@@ -631,8 +647,8 @@ class DataLayerStore {
     batchAssinLaneNo = (step = 0) => {
         if (step === 0) {
             if (this.editType == 'assign_line_batch') return;
-            this.exitEdit();
-            AttributeStore.hide(); //隐藏属性窗口
+            this.exitEdit('toggle');
+            AttributeStore.hide('other_close'); //隐藏属性窗口
             this.setEditType('assign_line_batch');
         } else if (step === 1) {
             this.editor.newFixLine(2, 1);
@@ -666,6 +682,7 @@ class DataLayerStore {
     setBreakCallback = callback => {
         this.breakCallback = callback;
     };
+
     // 复制线要素
     setCopyLineCallback = callback => {
         this.copyLineCallback = callback;
@@ -736,7 +753,7 @@ class DataLayerStore {
     };
 
     chooseErrorLayer = editType => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         this.setEditType(editType);
         this.errorLayer();
@@ -745,7 +762,7 @@ class DataLayerStore {
     };
 
     newCircle = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         if (!this.editor) return;
         this.setEditType('new_circle');
         this.changeCur();
@@ -779,12 +796,6 @@ class DataLayerStore {
         let layer = getLayerByName(result.layerName);
         layer.updateFeatures([result]);
         return result;
-    };
-
-    forceDeleteFeature = () => {
-        if (!this.editor) return;
-        this.clearAllEditDebuff();
-        this.setEditType('force_delete');
     };
 
     batchBuildFeature = () => {
@@ -890,7 +901,7 @@ class DataLayerStore {
 
     //顶部工具栏-测距
     startMeatureDistance_1 = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         this.setEditType('meature_distance');
         //右键回调
         this.measureControl.onMeasureFinish(() => {
@@ -922,7 +933,7 @@ class DataLayerStore {
     };
 
     startReadCoordinate = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         this.setEditType('read_coordinate');
         this.addReadCoordinateLinstener();
     };
@@ -931,9 +942,9 @@ class DataLayerStore {
         return this.measureControl.mode;
     };
 
-    selectPointFromHighlight = () => {
+    selectPointFromHighlight = editType => {
         this.clearAllEditDebuff();
-        this.setEditType('break_line');
+        this.setEditType(editType);
         this.editor.selectPointFromHighlight();
         this.addShapePoint();
     };
@@ -1039,8 +1050,8 @@ class DataLayerStore {
     };
 
     //注册“退出质检标注图层”事件
-    exitMarker = (isDelete = true) => {
-        this.exitEdit();
+    exitMarker = (isDelete = true, channel) => {
+        this.exitEdit(channel);
         this.activeEditor();
         this.fetchTargetLayers(); //重置可选图层
         QCMarkerStore.exitMarker(isDelete);
@@ -1116,7 +1127,7 @@ class DataLayerStore {
             this.exitMarker();
             message.warning('退出功能', 3);
         } else if (this.editType !== 'normal') {
-            this.exitEdit();
+            this.exitEdit('esc');
             message.warning('退出功能', 3);
         }
     };
@@ -1133,9 +1144,9 @@ class DataLayerStore {
         });
     };
 
-    exitEdit = () => {
+    exitEdit = channel => {
         this.disableOtherCtrl();
-        this.clearChoose();
+        this.clearChoose(channel);
     };
 
     readCoordinate = event => {

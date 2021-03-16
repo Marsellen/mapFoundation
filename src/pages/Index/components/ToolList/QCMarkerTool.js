@@ -39,9 +39,9 @@ class QCMarkerTool extends React.Component {
     //切换到质检注记图层
     enterMarkerLayer = () => {
         const { DataLayerStore, ToolCtrlStore, AttributeStore } = this.props;
-        const layer = DataLayerStore.activeEditor(window.markerLayer);
+        const layer = DataLayerStore.activeEditor(window.markerLayer, null);
         ToolCtrlStore.updateByEditLayer(layer);
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
     };
 

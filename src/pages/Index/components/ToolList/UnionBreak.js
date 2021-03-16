@@ -47,28 +47,28 @@ class UnionBreak extends React.Component {
 
         if (isUnionBreak) {
             //退出联合打断模式，进入普通模式
-            setEditStatus('nomal');
+            setEditStatus('normal', 'button');
             //如果是俯视图模式，则设置框选可选图层为当前编辑图层
             isTopView && enableRegionSelect();
             message.info({
                 content: '退出联合打断状态',
-                key: 'union-break',
+                key: 'union_break',
                 duration: 1
             });
         } else {
             //退出当前编辑图层
-            activeEditor();
+            activeEditor(null, 'effect');
             //更新编辑图层顶部工具栏
             updateByEditLayer();
             //进入联合打断模式，退出普通模式
-            setEditStatus('union-break');
+            setEditStatus('union_break', 'button');
             //如果是俯视图模式，则设置框选可选图层为车道线和隔离带、护栏
             const layerNames = ['AD_LaneDivider', 'AD_RS_Barrier'];
             const layers = getLayersByNames(layerNames);
             isTopView && enableRegionSelect(layers);
             message.info({
                 content: '进入联合打断状态，可选“车道线”+“隔离带、护栏”进行打断；不可进行其他编辑',
-                key: 'union-break',
+                key: 'union_break',
                 duration: 0
             });
         }

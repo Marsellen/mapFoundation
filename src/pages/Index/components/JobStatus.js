@@ -7,6 +7,7 @@ import ToolIcon from 'src/components/ToolIcon';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { saveTaskData } from 'src/utils/taskUtils';
 import { editLock } from 'src/utils/decorator';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 import 'less/components/jobstatus.less';
 
@@ -337,6 +338,10 @@ class JobStatus extends React.Component {
         const { TaskStore, QCMarkerStore } = this.props;
 
         try {
+            BuriedPoint.modalBuriedPointEnd('attr_list', 'submitTask');
+            BuriedPoint.dataLoadBuriedPointEnd('boundary_load', 'submitTask');
+            BuriedPoint.statusBuriedPointEnd('normal', 'submitTask');
+            BuriedPoint.statusBuriedPointEnd('union_break', 'submitTask');
             await TaskStore.initSubmit(option);
             await TaskStore.setActiveTask();
             this.clearWorkSpace();
@@ -354,7 +359,7 @@ class JobStatus extends React.Component {
 
     // 自动保存
     action = async () => {
-        await saveTaskData();
+        await saveTaskData('submitTask');
     };
 
     clearWorkSpace = () => {
@@ -369,7 +374,7 @@ class JobStatus extends React.Component {
         editLog.store.clear();
         DataLayerStore.activeEditor();
         ToolCtrlStore.updateByEditLayer();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         PictureShowStore.hide();
         PictureShowStore.destory();
 

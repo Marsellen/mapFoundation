@@ -14,6 +14,8 @@ import {
     RECOGNITION_DATA_LAYER_STRATIFICATION
 } from 'src/config/DataLayerConfig';
 import appStore from 'src/store/appStore';
+import BuriedPoint from 'src/utils/BuriedPoint/index';
+import ShortcutKey from 'src/utils/ShortcutKey';
 
 const SECEND_PATH = '13_ED_DATA';
 const THIRD_PATH = '1301_RAW_DATA';
@@ -82,36 +84,39 @@ export const getTaskProcessType = () => {
         return 'recognition';
     }
 };
-export const saveTaskData = isAutoSave => {
-    return new Promise(async resolve => {
-        let hasEmptyData = await checkEmptyData();
-        if (hasEmptyData) {
-            let log = {
-                action: 'save-with-empty',
-                result: 'success',
-                message: 'agree'
-            };
-            editLog.add(log);
-        }
-        await saveData(isAutoSave);
-        resolve();
-    });
-};
 
-const saveData = async isAutoSave => {
-    message.loading({ key: 'save', content: '正在保存...', duration: 0 });
+export const saveTaskData = async channel => {
+    const isAutoSave = channel === 'auto';
+    const type = isAutoSave ? 'auto_save' : 'save';
     try {
-        await TaskStore.submit();
-        await TaskStore.writeEditLog();
-        isAutoSave ? OperateHistoryStore.autoSave() : OperateHistoryStore.save();
+        BuriedPoint.toolBuriedPointStart(type, channel);
+        message.loading({ key: 'save', content: '正在保存...', duration: 0 });
+        await saveData(isAutoSave);
         message.success({ key: 'save', content: '保存完成', duration: 2 });
+        BuriedPoint.toolBuriedPointEnd(type, 'success');
     } catch (e) {
+        BuriedPoint.toolBuriedPointEnd(type, 'error');
         message.error({
             key: 'save',
             content: '保存失败，数据可能出错，请再次保存',
             duration: 2
         });
     }
+};
+
+const saveData = async isAutoSave => {
+    let hasEmptyData = await checkEmptyData();
+    if (hasEmptyData) {
+        let log = {
+            action: 'save-with-empty',
+            result: 'success',
+            message: 'agree'
+        };
+        editLog.add(log);
+    }
+    await TaskStore.submit();
+    await TaskStore.writeEditLog();
+    isAutoSave ? OperateHistoryStore.autoSave() : OperateHistoryStore.save();
 };
 
 const checkEmptyData = async () => {

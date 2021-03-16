@@ -66,7 +66,7 @@ class DividerToAutoCreate extends React.Component {
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_around_line') return;
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
         DataLayerStore.newAroundLine();
         this.setState({ visible: true });

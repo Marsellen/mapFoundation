@@ -9,6 +9,8 @@ import AdEmitter from 'src/models/event';
 import { EDIT_MESSAGE } from 'src/config/EditMessage';
 import { message } from 'antd';
 import Lock from 'src/models/lock';
+import BuriedPoint from 'src/utils/BuriedPoint';
+import { EDIT_TOOL_MAP } from 'src/config/EditToolMap';
 
 function funcDecoratorFactory(factory, option) {
     return (target, name, descriptor) => {
@@ -32,6 +34,24 @@ function funcDecoratorFactory(factory, option) {
 
 const operateLock = new Lock(); // 操作锁
 
+//单一工具loading埋点处理
+const handleToolLoadBuriedPointStart = (toolType, onlyRun) => {
+    switch (toolType) {
+        case 'attr_edit_modal':
+        case 'batch_attr_edit_modal':
+            BuriedPoint.toolLoadBuriedPointStart(toolType, 'save_button');
+            break;
+        case 'new_rel':
+        case 'break_line':
+        case 'same_break_line':
+            !onlyRun && BuriedPoint.toolLoadBuriedPointStart(toolType, 'right_click');
+            break;
+        default:
+            BuriedPoint.toolLoadBuriedPointStart(toolType, 'right_click');
+            break;
+    }
+};
+
 /**
  * 日志修饰器，提供操作结束统一处理模型
  * @method logDecorator
@@ -40,15 +60,18 @@ const operateLock = new Lock(); // 操作锁
  * @property {Boolean} option.onlyRun 为true时只运行包装函数并记录可能的错误日志，默认false
  * @property {Boolean} option.skipHistory 为true时跳过历史记录，默认false
  * @property {Boolean} option.skipRenderMode 为true时跳过渲染模式重绘，默认false
+ * @property {String} option.toolType 埋点类型
  * @returns {Object} 被打断/合并线要素的lines相关信息
  */
 export const logDecorator = option => {
     return (target, name, descriptor) => {
         const fn = descriptor.value;
         descriptor.value = async function () {
-            var log;
+            let log;
+            let isError = false;
+            let { operate, onlyRun, skipHistory, skipRenderMode, toolType } = option || {};
             const editType = DataLayerStore.editType;
-            let { operate, onlyRun, skipHistory, skipRenderMode } = option;
+            toolType = toolType ?? editType;
             if (EDIT_MESSAGE[editType] && EDIT_MESSAGE[editType].loadingMsg) {
                 message.loading({
                     key: editType,
@@ -60,7 +83,10 @@ export const logDecorator = option => {
                 let layerName = DataLayerStore.getAdEditLayer().layerName;
                 operate = operate[layerName];
             }
+            if (!operate) operate = EDIT_TOOL_MAP[editType];
             !onlyRun && operateLock.lock(operate);
+
+            handleToolLoadBuriedPointStart(toolType, onlyRun);
 
             try {
                 let history = await fn.apply(this, arguments);
@@ -100,12 +126,18 @@ export const logDecorator = option => {
                         content: EDIT_MESSAGE[editType].errorMsg + e.message
                     });
                 }
+                isError = true;
             } finally {
                 !onlyRun && operateLock.unlock();
             }
             log.editType = editType;
             editLog.add(log);
-            DataLayerStore.exitEdit();
+            const editLayerName = DataLayerStore.getEditLayerName();
+            const isMarkerLayer = editLayerName === 'AD_Marker';
+            const channel = isError ? 'error' : 'success';
+            BuriedPoint.toolLoadBuriedPointEnd(toolType, channel);
+            BuriedPoint.toolBuriedPointEnd(toolType, channel);
+            isMarkerLayer ? DataLayerStore.exitMarker(true) : DataLayerStore.exitEdit();
         };
         return descriptor;
     };
@@ -134,7 +166,7 @@ export const editInputLimit = (option = {}) => {
                 //如果不满足条件就退出编辑状态，且不执行被装饰的函数
                 DataLayerStore.exitEdit();
                 RightMenuStore.hide();
-                AttributeStore.hide();
+                AttributeStore.hide('other_close');
                 AttributeStore.hideRelFeatures();
             }
         };
@@ -175,7 +207,7 @@ export const editOutputLimit = (option = {}) => {
                 //退出编辑状态
                 DataLayerStore.exitEdit();
                 RightMenuStore.hide();
-                AttributeStore.hide();
+                AttributeStore.hide('other_close');
                 AttributeStore.hideRelFeatures();
                 //抛出错误
                 throw new Error('编辑失败，请在任务范围内编辑要素');

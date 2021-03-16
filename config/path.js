@@ -17,7 +17,8 @@ module.exports = PROXY_MAP = {
         edit: LOCAL_PATH,
         check: LOCAL_PATH,
         checkMarker: LOCAL_PATH,
-        repair: LOCAL_PATH
+        repair: LOCAL_PATH,
+        buriedPoint: LOCAL_PATH
     },
     dev: {
         gateway: DEV_PATH,
@@ -29,7 +30,8 @@ module.exports = PROXY_MAP = {
         edit: DEV_PATH,
         check: DEV_PATH,
         checkMarker: DEV_PATH,
-        repair: DEV_PATH
+        repair: DEV_PATH,
+        buriedPoint: DEV_PATH
     },
     demo: {
         gateway: DOME_PATH,
@@ -41,6 +43,7 @@ module.exports = PROXY_MAP = {
         edit: DOME_PATH,
         check: DOME_PATH,
         checkMarker: DOME_PATH,
-        repair: DOME_PATH
+        repair: DOME_PATH,
+        buriedPoint: DOME_PATH
     }
 };

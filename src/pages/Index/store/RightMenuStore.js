@@ -27,10 +27,10 @@ class RightMenuStore {
         if (features.length === 0) return;
         //根据不同模式，获取不同右键菜单
         switch (DataLayerStore.editStatus) {
-            case 'nomal':
+            case 'normal':
                 this.fetchNomalMenus(event);
                 break;
-            case 'union-break':
+            case 'union_break':
                 this.fetchUnionBreakMenus();
                 break;
             default:

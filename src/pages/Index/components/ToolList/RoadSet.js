@@ -47,11 +47,11 @@ class RoadSet extends React.Component {
                 const pointZ = coordinates[2] - dropVal;
                 window?.map?.setBaseElevation?.(pointZ);
             }
-            DataLayerStore.exitEdit();
+            DataLayerStore.exitEdit('success');
         } catch (e) {
             console.log(e);
             message.warning('路面设置失败：' + e.message, 3);
-            DataLayerStore.exitEdit();
+            DataLayerStore.exitEdit('error');
         }
     };
 

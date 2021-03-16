@@ -7,7 +7,7 @@ import {
 import ResourceLayerStore from 'src/pages/Index/store/ResourceLayerStore';
 import VectorsStore from 'src/pages/Index/store/VectorsStore';
 
-export const shortcutMap = [
+export const SHORTCUT_KEYS = [
     {
         id: 'save-btn',
         ctrl: true,

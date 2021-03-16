@@ -113,7 +113,7 @@ class AttrRightMenu extends React.Component {
         layer.removeFeatureById(feature.uuid);
         //关闭弹窗
         AttributeStore.hideRelFeatures();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         //记录日志
         const historyLog = {
             features: [[feature], []],
@@ -140,7 +140,7 @@ class AttrRightMenu extends React.Component {
 
         //关闭弹窗
         AttributeStore.hideRelFeatures();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         //记录日志
         const historyLog = {
             features: [[], []],
@@ -163,7 +163,7 @@ class AttrRightMenu extends React.Component {
         attrStore.deleteById(attr.id);
         //关闭弹窗
         AttributeStore.hideRelFeatures();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         //记录日志
         const historyLog = {
             features: [[], []],

@@ -1,9 +1,10 @@
-import { shortcutMap } from 'src/utils/shortcuts/shortcutsMap';
+import { SHORTCUT_KEYS } from 'src/utils/ShortcutKey/ShortcutKeyConfig';
 
 const invalidElements = ['INPUT', 'TEXTAREA'];
 
-export default class Shortcut {
+class ShortcutKey {
     constructor() {
+        this.keyCode = null;
         this.preventDefault();
     }
 
@@ -12,13 +13,13 @@ export default class Shortcut {
             const { nodeName } = event.target;
             const targetIsInput = invalidElements.includes(nodeName);
             if (targetIsInput) return;
-            shortcutMap.forEach(this.getEventCallBack(event));
+            SHORTCUT_KEYS.forEach(this.getEventCallBack(event));
         });
     }
 
-    add(event, shortcutMapParams) {
-        if (!event || !shortcutMapParams) return false;
-        shortcutMapParams.forEach(this.getEventCallBack(event));
+    add(event, shortcutKeys) {
+        if (!event || !shortcutKeys) return false;
+        shortcutKeys.forEach(this.getEventCallBack(event));
     }
 
     getEventCallBack = event => {
@@ -34,7 +35,9 @@ export default class Shortcut {
                     const btnClassName = btn && btn.className;
                     const isDisabled = btnClassName ? btnClassName.includes('disabled') : false;
                     if (btn && !isDisabled) {
+                        this.keyCode = keyCode;
                         btn.click();
+                        this.keyCode = null;
                     }
                 }
                 callback && callback();
@@ -45,7 +48,7 @@ export default class Shortcut {
 
     preventDefault() {
         document.addEventListener('keydown', event => {
-            shortcutMap.forEach(item => {
+            SHORTCUT_KEYS.forEach(item => {
                 const { ctrl, alt, shift, keyCode, preventDefault } = item;
                 const {
                     altKey: eAltKey,
@@ -69,4 +72,4 @@ export default class Shortcut {
     }
 }
 
-export const shortcut = new Shortcut();
+export default new ShortcutKey();
