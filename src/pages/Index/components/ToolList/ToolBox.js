@@ -65,7 +65,7 @@ class ToolBox extends React.Component {
                 </Menu.Item> */}
                 <Menu.Item
                     name="BUFFER"
-                    key="bufferxuanran"
+                    key="yaosulunkuobuffer"
                     title="要素轮廓buffer渲染"
                     actionid="buffer-btn"
                     disabled={this.disabled('bufferxuanran')}

@@ -1,33 +1,46 @@
 import React from 'react';
 import IconFont from 'src/components/IconFont';
 import { inject, observer } from 'mobx-react';
-import { Modal, Slider, Row, Col } from 'antd';
+import { Modal, Slider, Row, Col, Form } from 'antd';
 import AdMessage from 'src/components/AdMessage';
 import AdInputPositiveNumber from 'src/components/Form/AdInputPositiveNumber';
 import AdColorInput from 'src/components/Form/AdColorInput';
 import { editLock } from 'src/utils/decorator';
 import 'less/components/ad-buffer-render.less';
+import { Utils } from 'addis-viz-sdk';
 
+const formLayout = {
+    labelCol: { span: 8 },
+    wrapperCol: { span: 16 }
+};
+@Form.create()
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @observer
 class BufferRender extends React.Component {
     constructor() {
         super();
-        this.state = {
-            radius: 0.2,
-            color: 'rgb(90,35,255)',
-            slider: 50
-        };
+        this.result = [];
     }
-    render() {
-        const { radius, color, slider } = this.state;
+    componentDidMount() {
         const { DataLayerStore } = this.props;
+        DataLayerStore.setBufferRenderCallback((result, event) => {
+            if (event.button == 2) {
+                this.result = result;
+                DataLayerStore.clearBufferRender();
+                this.createTube(result);
+            }
+        });
+    }
+
+    render() {
+        const { DataLayerStore, form } = this.props;
         let visible = DataLayerStore.editType == 'buffer_render';
+        const { opacity, color } = form.getFieldsValue();
         return (
             <span className="buffer">
                 <div id="buffer-btn" className="flex-1" onClick={this.action}>
-                    <IconFont type="icon-lumianshezhi" />
+                    <IconFont type="icon-yaosulunkuobuffer" />
                     <div>要素轮廓buffer渲染</div>
                     <AdMessage visible={visible} content={this.content()} />
                 </div>
@@ -38,47 +51,71 @@ class BufferRender extends React.Component {
                     visible={visible}
                     mask={false}
                     closable={false}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
-                    okText="应用"
-                    cancelText="退出"
-                    width={435}
+                    footer={null}
+                    width={294}
                 >
-                    <div className="flex-1">
-                        <span>buffer半径：</span>
-                        <AdInputPositiveNumber
-                            value={radius}
-                            step={0.01}
-                            precision={2}
-                            width={100}
-                            onChange={val => this.handleChange('radius', val)}
-                        />
-                        <span>米</span>
-                    </div>
-                    <div className="flex-1">
-                        <span>buffer颜色：</span>
-                        <AdColorInput
-                            color={color}
-                            onChange={val => this.handleChange('color', val)}
-                        />
-                    </div>
-                    <div>
-                        <Row>
-                            <Col span={6}>
-                                <span>buffer透明度：</span>
-                            </Col>
-                            <Col span={15}>
-                                <Slider
-                                    className="flex-1"
-                                    defaultValue={50}
-                                    onChange={val => this.handleChange('slider', val)}
-                                />
-                            </Col>
-                            <Col span={3}>
-                                <span>{slider}%</span>
-                            </Col>
-                        </Row>
-                    </div>
+                    <Form {...formLayout}>
+                        <Form.Item label="buffer半径" name="radius_buffer">
+                            <Row>
+                                <Col span={16}>
+                                    {form.getFieldDecorator('radius', { initialValue: 0.2 })(
+                                        <AdInputPositiveNumber
+                                            className="input-buffer"
+                                            step={0.01}
+                                            precision={2}
+                                            width={127}
+                                            size="small"
+                                            onChange={val => this.onChange('radius', val)}
+                                        />
+                                    )}
+                                </Col>
+                                <Col span={6} push={4}>
+                                    <span className="ant-form-text"> 米</span>
+                                </Col>
+                            </Row>
+                        </Form.Item>
+                        <Form.Item label="buffer颜色" name="color">
+                            <div className="color-buffer">
+                                {form.getFieldDecorator(
+                                    'color',
+                                    { initialValue: 'rgb(90,35,255)' },
+                                    {
+                                        rules: []
+                                    }
+                                )(
+                                    <AdColorInput
+                                        color={color}
+                                        onChange={val => this.onChange('color', val)}
+                                    />
+                                )}
+                            </div>
+                        </Form.Item>
+                        <Form.Item label="buffer透明度" name="opacity_buffer">
+                            <Row>
+                                <Col span={16}>
+                                    {form.getFieldDecorator(
+                                        'opacity',
+                                        { initialValue: 0.5 },
+                                        {
+                                            rules: []
+                                        }
+                                    )(
+                                        <Slider
+                                            className="flex-1"
+                                            min={0}
+                                            max={1}
+                                            step={0.1}
+                                            tipFormatter={null}
+                                            onChange={val => this.onChange('opacity', val)}
+                                        />
+                                    )}
+                                </Col>
+                                <Col span={6} push={4}>
+                                    <span className="ant-form-text">{opacity * 100 || 50}%</span>
+                                </Col>
+                            </Row>
+                        </Form.Item>
+                    </Form>
                 </Modal>
             </span>
         );
@@ -91,23 +128,28 @@ class BufferRender extends React.Component {
         if (DataLayerStore.editType == 'buffer_render') return;
         AttributeStore.hideRelFeatures();
         DataLayerStore.bufferRender();
+        !window.bufferLayer && DataLayerStore.initBufferLayer();
     };
 
-    handleChange = (key, val) => {
-        this.setState({ [key]: val });
+    createTube = result => {
+        const values = this.props.form.getFieldsValue();
+        result.forEach(res => {
+            const feature = res.data;
+            const style = { color: values.color, opacity: values.opacity };
+            const opts = { radius: values.radius };
+            const mesh = Utils.createTube(feature, style, opts);
+            window.bufferLayer.layer.addMapTextureNode(mesh);
+        });
     };
 
-    handleOk = () => {
-        console.log('应用');
-    };
-
-    handleCancel = () => {
-        const { DataLayerStore } = this.props;
-        DataLayerStore.exitEdit();
+    onChange = (key, val) => {
+        const { form } = this.props;
+        form.setFieldsValue({ [key]: val });
+        this.createTube(this.result);
     };
 
     content = () => {
-        return <label>选择需要展示buffer的线要素，点击“应用”即可渲染；按Esc退出buffer渲染</label>;
+        return <label>选择需要展示buffer的线要素，右键即可渲染；按Esc退出buffer渲染</label>;
     };
 }
 
