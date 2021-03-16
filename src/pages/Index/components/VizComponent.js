@@ -114,6 +114,7 @@ class VizComponent extends React.Component {
         window.map && window.map.release();
         window.map = null;
         window.markerLayer = null;
+        window.horizontal = null;
     };
 
     clearWorkSpace = async () => {
@@ -495,7 +496,7 @@ class VizComponent extends React.Component {
     };
 
     selectedCallBack = (result, event) => {
-        let editLayer = DataLayerStore.getEditLayer();
+        let editLayer = DataLayerStore.getAdEditLayer();
         // console.log(result, event);
         if (result && result.length > 0) {
             /**
@@ -568,11 +569,11 @@ class VizComponent extends React.Component {
             return history;
         } catch (e) {
             if (data) {
-                let layer = DataLayerStore.getEditLayer();
+                let layer = DataLayerStore.getAdEditLayer();
                 layer && layer.layer.removeFeatureById(data.uuid);
             }
             //如果是标注图层，报错应退出图层
-            const editLayerName = DataLayerStore.getEditLayerName();
+            const editLayerName = DataLayerStore.getAdEditLayerName();
             const isMarkerLayer = editLayerName === 'AD_Marker';
             isMarkerLayer && DataLayerStore.exitMarker();
             throw e;

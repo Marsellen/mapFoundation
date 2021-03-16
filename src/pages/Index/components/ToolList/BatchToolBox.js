@@ -47,7 +47,7 @@ class BatchToolBox extends React.Component {
 
         let batchTools = ToolCtrlStore.batchTools;
         let firstTool = batchTools[0];
-        let layer = DataLayerStore.getEditLayer();
+        let layer = DataLayerStore.getAdEditLayer();
         let layerName = layer ? layer.layerName : '';
 
         return firstTool
@@ -74,10 +74,7 @@ class BatchToolBox extends React.Component {
         let batchTools = ToolCtrlStore.batchTools;
         let menus = this.getMenus();
         return (
-            <Menu
-                onClick={this.action}
-                selectedKeys={[selectedKey]}
-                style={{ width: 227 }}>
+            <Menu onClick={this.action} selectedKeys={[selectedKey]} style={{ width: 227 }}>
                 {menus.filter(menu => batchTools.includes(menu.props.name))}
             </Menu>
         );
@@ -98,7 +95,7 @@ class BatchToolBox extends React.Component {
 
     getMenus = () => {
         const { DataLayerStore } = this.props;
-        const editLayer = DataLayerStore.getEditLayer();
+        const editLayer = DataLayerStore.getAdEditLayer();
         let layerName = editLayer && editLayer.layerName;
         let defaultNumber = layerName === 'AD_Lane' ? '1' : '0';
         const menus = [
@@ -106,18 +103,17 @@ class BatchToolBox extends React.Component {
                 name="LINE_FEATURES_SNAP_TO_STOP_LINE"
                 key="xianyaosuduiqidaotingzhixian"
                 title="线要素对齐到停止线"
-                actionid="line-snap-stop-btn">
+                actionid="line-snap-stop-btn"
+            >
                 <BatchSnapLineToStopLine />
             </Menu.Item>,
             <Menu.Item
                 name="ASSIGN_LINE_NO_IN_BATCH"
                 key="piliangfuchedaofenzubianhao"
                 title="批量赋车道分组编号"
-                actionid="assign-line-batch-btn">
-                <BatchAssignLaneNo
-                    layerName={layerName}
-                    defaultNumber={defaultNumber}
-                />
+                actionid="assign-line-batch-btn"
+            >
+                <BatchAssignLaneNo layerName={layerName} defaultNumber={defaultNumber} />
             </Menu.Item>
         ];
         return menus;

@@ -156,7 +156,7 @@ class AddRel extends React.Component {
         try {
             const { DataLayerStore } = this.props;
             let [mainFeature, ...relFeatures] = result;
-            let layerName = DataLayerStore.getEditLayer().layerName;
+            let layerName = DataLayerStore.getAdEditLayer().layerName;
             let warningMessage = await basicCheck(mainFeature, relFeatures, layerName);
             if (this.isAddLRLaneDriverRel(mainFeature, relFeatures)) {
                 this.addLRLaneDriverRelModal.show([mainFeature, relFeatures[0]]);

@@ -19,7 +19,7 @@ export const showPictureShowView = obj => {
 export const showAttributesModal = (obj, event) => {
     //判断没有按住ctrl左击
     if ((event && event.ctrlKey) || (event && event.button === 2)) return;
-    let editLayer = DataLayerStore.getEditLayer();
+    let editLayer = DataLayerStore.getAdEditLayer();
     let readonly = (editLayer && editLayer.layerId !== obj.layerId) || !editLayer;
     DataLayerStore.clearHighLightFeatures();
     AttributeStore.setModel(obj);
@@ -37,7 +37,7 @@ export const showAttributesModal = (obj, event) => {
  * @param {Object} event 鼠标点击事件的event对象，可用event判断本次操作是否鼠标点击事件
  */
 export const showRightMenu = (features, event) => {
-    const editLayer = DataLayerStore.getEditLayer();
+    const editLayer = DataLayerStore.getAdEditLayer();
     const layerName = editLayer && editLayer.layerName;
     const hasOtherFeature = features.find(feature => feature.layerName != layerName);
     const { x, y, button } = event || {};

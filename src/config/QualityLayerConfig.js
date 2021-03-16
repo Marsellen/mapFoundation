@@ -2,7 +2,7 @@ export const QualityLayerConfig = {
     AD_Suspect: {
         type: 'Polygon',
         showFields: ['TYPE'],
-        order: 10,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             TYPE: [
@@ -21,7 +21,7 @@ export const QualityLayerConfig = {
     AD_Wrong: {
         type: 'Polygon',
         showFields: ['TYPE'],
-        order: 11,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             TYPE: [

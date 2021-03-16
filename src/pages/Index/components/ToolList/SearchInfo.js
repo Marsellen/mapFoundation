@@ -51,7 +51,8 @@ class SearchInfo extends React.Component {
                     destroyOnClose={true}
                     onOk={() => {
                         this.SearchClick();
-                    }}>
+                    }}
+                >
                     {this.renderContent()}
                 </SeniorModal>
             </span>
@@ -60,19 +61,12 @@ class SearchInfo extends React.Component {
 
     renderContent = () => {
         return (
-            <Tabs
-                type="card"
-                defaultActiveKey="IDSearch"
-                onChange={this.tabChange}>
+            <Tabs type="card" defaultActiveKey="IDSearch" onChange={this.tabChange}>
                 <TabPane tab="ID查询" key="IDSearch">
-                    <IDSearchForm
-                        wrappedComponentRef={form => (this.IDSForm = form)}
-                    />
+                    <IDSearchForm wrappedComponentRef={form => (this.IDSForm = form)} />
                 </TabPane>
                 <TabPane tab="坐标查询" key="PositionSearch">
-                    <PositionSearchForm
-                        wrappedComponentRef={form => (this.PSForm = form)}
-                    />
+                    <PositionSearchForm wrappedComponentRef={form => (this.PSForm = form)} />
                 </TabPane>
             </Tabs>
         );
@@ -157,9 +151,8 @@ class SearchInfo extends React.Component {
 
     showAttributesModal = async obj => {
         const { AttributeStore, DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getEditLayer();
-        let readonly =
-            (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
+        let editLayer = DataLayerStore.getAdEditLayer();
+        let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.clearPick();
         await AttributeStore.setModel(obj);

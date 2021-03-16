@@ -8,7 +8,7 @@ export default {
         type: 'Line',
         iconFields: ['qcStatus'],
         showFields: ['qcStatus'],
-        order: 16,
+        order: 1,
         showStyles: ['vectorStyle', 'iconStyle'],
         vectorStyle: {
             qcStatus: [
@@ -91,7 +91,7 @@ export default {
         type: 'Line',
         iconFields: ['fixStatus'],
         showFields: ['fixStatus'],
-        order: 16,
+        order: 1,
         showStyles: ['vectorStyle', 'iconStyle'],
         vectorStyle: {
             fixStatus: [
@@ -174,7 +174,7 @@ export default {
         type: 'Point',
         iconFields: ['NOKEY'],
         showFields: ['NOKEY'],
-        order: 17,
+        order: 1,
         showStyles: ['vectorStyle', 'iconStyle'],
         vectorStyle: {
             NOKEY: [
@@ -198,6 +198,19 @@ export default {
                         url: checkIcon,
                         size: 80
                     }
+                }
+            ]
+        }
+    },
+    AD_Horizontal: {
+        type: 'Line',
+        showFields: ['NOKEY'],
+        order: 1,
+        showStyles: ['vectorStyle'],
+        vectorStyle: {
+            NOKEY: [
+                {
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 }
             ]
         }

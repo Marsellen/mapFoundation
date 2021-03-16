@@ -374,7 +374,7 @@ class RightMenuModal extends React.Component {
         } catch (e) {
             if (result) {
                 const { DataLayerStore } = this.props;
-                let layer = DataLayerStore.getEditLayer();
+                let layer = DataLayerStore.getAdEditLayer();
                 layer.layer.removeFeatureById(result.uuid);
             }
             message.warning('复制线要素失败：' + e.message, 3);

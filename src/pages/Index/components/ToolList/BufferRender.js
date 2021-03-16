@@ -128,7 +128,7 @@ class BufferRender extends React.Component {
         if (DataLayerStore.editType == 'buffer_render') return;
         AttributeStore.hideRelFeatures();
         DataLayerStore.bufferRender();
-        !window.bufferLayer && DataLayerStore.initBufferLayer();
+        DataLayerStore.initBufferLayer();
     };
 
     createTube = result => {

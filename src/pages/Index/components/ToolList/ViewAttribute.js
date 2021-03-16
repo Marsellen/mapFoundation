@@ -366,7 +366,7 @@ class ViewAttribute extends React.Component {
         const { DataLayerStore, TaskStore } = this.props;
         let { activeTaskId } = TaskStore;
         if (activeTaskId !== this.state.currentTask) {
-            let editLayer = DataLayerStore.getEditLayer();
+            let editLayer = DataLayerStore.getAdEditLayer();
             let layerName = editLayer ? editLayer.layerName : null;
             let isMarkerLayer = layerName === 'AD_Marker';
             layerName = isMarkerLayer ? this.state.layerName : layerName;
@@ -463,7 +463,7 @@ class ViewAttribute extends React.Component {
     //是否是当前图层
     isCurrentLayer = layerName => {
         const { DataLayerStore } = this.props;
-        const editLayer = DataLayerStore.getEditLayer();
+        const editLayer = DataLayerStore.getAdEditLayer();
         if (!editLayer) return false;
         const currentLayerName = editLayer.layerName;
         const enableLayerNames = OPTION_LAYER_MAP[layerName];
@@ -475,7 +475,7 @@ class ViewAttribute extends React.Component {
     showAttributesModal = async obj => {
         if (!obj) return;
         const { AttributeStore, DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getEditLayer();
+        let editLayer = DataLayerStore.getAdEditLayer();
         let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.clearPick();

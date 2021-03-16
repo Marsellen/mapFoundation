@@ -72,7 +72,7 @@ class BatchSnapLineToStopLine extends React.Component {
 
     lineCheck = () => {
         const { DataLayerStore } = this.props;
-        let layerName = DataLayerStore.getEditLayer().layerName;
+        let layerName = DataLayerStore.getAdEditLayer().layerName;
 
         if (!this.result || this.result.length === 0) {
             throw new Error('未选择要素！');
@@ -114,7 +114,7 @@ class BatchSnapLineToStopLine extends React.Component {
         if (event.button !== 2) return;
         try {
             const { activeTask } = TaskStore;
-            let layerName = DataLayerStore.getEditLayer().layerName;
+            let layerName = DataLayerStore.getAdEditLayer().layerName;
             let [features, [stopLine]] = this.result;
             if (!stopLine) {
                 throw new Error('没有做对齐处理');
