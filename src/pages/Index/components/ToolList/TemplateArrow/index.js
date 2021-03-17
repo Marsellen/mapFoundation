@@ -42,7 +42,7 @@ class TemplateArrow extends React.Component {
     content = () => {
         return (
             <label>
-                沿箭头轮廓按“下边线-&gt;右下角-&gt;右边线”的顺序依次选取3个点，点击右键完成绘制
+                沿箭头轮廓按“下边线-&gt;右下角-&gt;右边线”的顺序依次选取3个点，完成绘制
             </label>
         );
     };
