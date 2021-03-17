@@ -1,5 +1,5 @@
 import { action, configure, flow, observable, computed } from 'mobx';
-import { EditControl, MeasureControl } from 'addis-viz-sdk';
+import { EditControl, MeasureControl, VectorLayer } from 'addis-viz-sdk';
 import TaskService from 'src/services/TaskService';
 import { Modal, message } from 'antd';
 import {
@@ -19,17 +19,9 @@ import { getEventPointWkt, getFeaturePointWkt } from 'src/utils/pictureCtrl';
 import sysProperties from 'src/models/sysProperties';
 import BatchBuildStore from './BatchBuildStore';
 import { editLock } from 'src/utils/decorator';
+import { LINE_LAYERS } from 'src/config/DataLayerConfig';
 
 const TRACKS = ['TraceListLayer', 'TraceLayer'];
-
-const LINE_LAYERS = [
-    'AD_Road',
-    'AD_LaneDivider',
-    'AD_Lane',
-    'AD_StopLocation',
-    'AD_RS_Barrier',
-    'AD_Pole_Geo'
-];
 
 configure({ enforceActions: 'always' });
 class DataLayerStore {
@@ -213,6 +205,9 @@ class DataLayerStore {
                     this.groupMoveCallback(result, event);
                     break;
                 case 'batch_build':
+                    break;
+                case 'buffer_render':
+                    this.bufferRenderCallback(result, event);
                     break;
             }
         });
@@ -436,7 +431,7 @@ class DataLayerStore {
         if (!this.editor) return;
         this.setEditType('buffer_render');
         let layers = getAllLayersExByName(LINE_LAYERS);
-        this.editor.setTargetLayers(layers);
+        this.enableRegionSelect(layers);
     };
 
     newQCMarker = () => {
@@ -698,6 +693,14 @@ class DataLayerStore {
         this.newTemplateArrowCallback = callback;
     };
 
+    setHorizontalCallback = callback => {
+        this.horizontalCallback = callback;
+    };
+
+    setBufferRenderCallback = callback => {
+        this.bufferRenderCallback = callback;
+    };
+
     chooseErrorLayer = editType => {
         this.exitEdit();
         if (!this.editor) return;
@@ -766,6 +769,29 @@ class DataLayerStore {
         this.drawHorizontalMsg = false;
         this.editor.clear();
         this.removeCur();
+    };
+
+    removeDrawHorizontal = () => {
+        window.horizontal.layer.clear();
+    };
+
+    initBufferLayer = () => {
+        const bufferLayer = new VectorLayer();
+        bufferLayer.layerName = 'AD_bufferLayer';
+        window.map.getLayerManager().addLayer('VectorLayer', bufferLayer);
+        window.bufferLayer = {
+            layerName: bufferLayer.layerName,
+            layerId: bufferLayer.layerId,
+            layer: bufferLayer
+        };
+    };
+
+    clearBufferRender = () => {
+        window.bufferLayer.layer.clear();
+    };
+
+    clearDrawHorizontal = () => {
+        this.activeEditor(this.getEditLayerName());
     };
 
     changePoints = () => {
@@ -909,6 +935,9 @@ class DataLayerStore {
             case 'error_layer':
             case 'choose_error_feature':
                 this.UnQCAttrModal([this.editType]);
+                break;
+            case 'buffer_render':
+                this.clearBufferRender();
                 break;
             default:
                 break;

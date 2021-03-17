@@ -1,7 +1,8 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
-import { getLayersByNames } from 'src/utils/vectorUtils';
+import { getLayersByNames, getAllLayersExByName } from 'src/utils/vectorUtils';
+import { LINE_LAYERS } from 'src/config/DataLayerConfig';
 
 @inject('TaskStore')
 @inject('DataLayerStore')
@@ -37,7 +38,8 @@ class TopView extends React.Component {
                 topViewMode,
                 isUnionBreak,
                 enableRegionSelect,
-                disableRegionSelect
+                disableRegionSelect,
+                editType
             }
         } = this.props;
         if (!isTopView) {
@@ -50,6 +52,9 @@ class TopView extends React.Component {
             if (isUnionBreak) {
                 const layerNames = ['AD_LaneDivider', 'AD_RS_Barrier'];
                 const layers = getLayersByNames(layerNames);
+                enableRegionSelect(layers);
+            } else if (editType == 'buffer_render') {
+                let layers = getAllLayersExByName(LINE_LAYERS);
                 enableRegionSelect(layers);
             } else {
                 enableRegionSelect();
