@@ -128,7 +128,7 @@ const breakLine = async (breakPoint, features, activeTask) => {
  * @param {Array<Object>} leftFeatures 需要生成的左边要素数组
  * @param {Array<Object>} rightFeatures 需要生成的右边要素数组
  */
-const batchBuild = async (features, leftFeatures, rightFeatures) => {
+const batchBuild = async (features, leftFeatures, rightFeatures, extraLines) => {
     //将选中线处理成参数所需格式
     const laneLines = features.map(feature => {
         const {
@@ -144,11 +144,18 @@ const batchBuild = async (features, leftFeatures, rightFeatures) => {
             relation: {}
         };
     });
+    const transversalLines = extraLines.map(line => {
+        const {
+            data: { geometry }
+        } = line;
+        return geometryToWKT(geometry);
+    });
     //拼装批量生成参数
     const params = {
         laneLines,
         leftLaneAttribute: leftFeatures,
-        rightLaneAttribute: rightFeatures
+        rightLaneAttribute: rightFeatures,
+        transversalLines
     };
     const result = await EditorService.batchBuild(params);
     //将返回结果拼装成历史记录所需格式

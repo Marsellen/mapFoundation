@@ -20,6 +20,7 @@ import sysProperties from 'src/models/sysProperties';
 import BatchBuildStore from './BatchBuildStore';
 import { editLock } from 'src/utils/decorator';
 import { LINE_LAYERS } from 'src/config/DataLayerConfig';
+import OtherVectorConfig from 'src/config/OtherVectorConfig';
 
 const TRACKS = ['TraceListLayer', 'TraceLayer'];
 
@@ -38,6 +39,7 @@ class DataLayerStore {
         this.bindKeyEvent();
         this.readCoordinateEvent = throttle(this.readCoordinate, 10);
     }
+    @observable adEditLayer;
     @observable editType = 'normal';
     @observable editStatus = 'normal'; //当前有两种编辑状态：normal（普通模式）、union-break（联合打断模式）
     @observable beenPick;
@@ -49,7 +51,6 @@ class DataLayerStore {
     @observable isMessage = true;
     @observable checkedPoint = [];
     @observable modifyLineType = true;
-    @observable drawHorizontalMsg = false;
     //是否是联合打断模式
     @computed get isUnionBreak() {
         return this.editStatus === 'union-break';
@@ -128,11 +129,14 @@ class DataLayerStore {
                 layer = null;
                 break;
         }
-        this.editor ? this.exitEdit() : this.initEditor();
         this.editor.setEditLayer(layer);
-        this.setEditStatus('normal'); //设置编辑状态
-        this.isTopView && this.enableRegionSelect(); //重置框选可选图层
-        this.updateKey = Math.random();
+        if (layer?.layerName !== 'AD_Horizontal') {
+            this.editor ? this.exitEdit() : this.initEditor();
+            this.adEditLayer = layer;
+            this.setEditStatus('normal'); //设置编辑状态
+            this.isTopView && this.enableRegionSelect(); //重置框选可选图层
+            this.updateKey = Math.random();
+        }
         return layer;
     };
 
@@ -235,7 +239,7 @@ class DataLayerStore {
     };
 
     setCreatedCallBack = callback => {
-        this.editor.onFeatureCreated(async result => {
+        this.editor.onFeatureCreated(async (result, event) => {
             if (result.layerName === 'AD_Marker') {
                 this.QCMarkerCallback(result, event);
             } else {
@@ -251,6 +255,9 @@ class DataLayerStore {
                         break;
                     case 'assign_line_batch':
                         this.newFixLineCallback(result, event);
+                        break;
+                    case 'batch_build':
+                        this.horizontalCallback(result, event);
                         break;
                     default:
                         callback && (await callback(result));
@@ -273,14 +280,47 @@ class DataLayerStore {
         });
     };
 
+    horizontalCallback = (result, event) => {
+        try {
+            if (result.errorCode == 301) {
+                BatchBuildStore.setHorizontalToolStatus(true);
+                this.openDrawHorizontal();
+                return;
+            }
+            result.layerName = window.horizontal.layerName;
+            result.layerId = window.horizontal.layerId;
+            result.data = {
+                geometry: result.data.geometry,
+                properties: { HORIZONTAL_ID: 1 },
+                type: 'Feature'
+            };
+            if (event.button == 2) {
+                this.openDrawHorizontal();
+            }
+        } catch (e) {
+            if (result) {
+                let layer = this.getAdEditLayer();
+                layer && layer.layer.removeFeatureById(result.uuid);
+            }
+        }
+    };
+
     getEditLayer = () => {
         return this.editor && this.editor.editLayer;
+    };
+
+    getAdEditLayer = () => {
+        return this.adEditLayer;
     };
 
     //获取编辑图层名
     getEditLayerName = () => {
         if (!this.editor || !this.editor.editLayer) return;
         return this.editor.editLayer.layerName;
+    };
+
+    getAdEditLayerName = () => {
+        return this.adEditLayer.layerName;
     };
 
     //只消除选择
@@ -301,7 +341,6 @@ class DataLayerStore {
         this.attributeBrushPick();
         this.showMessage();
         this.clearCheckedPoint();
-        this.closeDrawHorizontal();
         AttributeStore.showTime(true);
     };
 
@@ -693,10 +732,6 @@ class DataLayerStore {
         this.newTemplateArrowCallback = callback;
     };
 
-    setHorizontalCallback = callback => {
-        this.horizontalCallback = callback;
-    };
-
     setBufferRenderCallback = callback => {
         this.bufferRenderCallback = callback;
     };
@@ -754,28 +789,37 @@ class DataLayerStore {
     };
 
     batchBuildFeature = () => {
-        this.closeDrawHorizontal();
         if (!this.editor) return;
         this.clearAllEditDebuff();
         this.setEditType('batch_build');
     };
 
-    @action openDrawHorizontal = () => {
-        this.drawHorizontalMsg = true;
+    openDrawHorizontal = () => {
+        if (!this.editor) return;
+        this.setEditType('batch_build');
+        this.initBuildLayer();
+        this.activeEditor(window.horizontal);
+        message.info({
+            content: '面向道路前进方向，绘制垂直于车道线的路面横截线（2点线）',
+            key: 'horizontal',
+            duration: 0
+        });
+        this.changeCur();
         this.editor.newLine();
     };
 
-    @action closeDrawHorizontal = () => {
-        this.drawHorizontalMsg = false;
-        this.editor.clear();
+    closeDrawHorizontal = () => {
+        message.info({
+            content: '面向道路前进方向，绘制垂直于车道线的路面横截线（2点线）',
+            key: 'horizontal',
+            duration: 1
+        });
+        this.editor.cancel();
         this.removeCur();
     };
 
-    removeDrawHorizontal = () => {
-        window.horizontal.layer.clear();
-    };
-
     initBufferLayer = () => {
+        if (window.bufferLayer) return;
         const bufferLayer = new VectorLayer();
         bufferLayer.layerName = 'AD_bufferLayer';
         window.map.getLayerManager().addLayer('VectorLayer', bufferLayer);
@@ -787,11 +831,29 @@ class DataLayerStore {
     };
 
     clearBufferRender = () => {
-        window.bufferLayer.layer.clear();
+        window.bufferLayer?.layer?.clear?.();
     };
 
     clearDrawHorizontal = () => {
-        this.activeEditor(this.getEditLayerName());
+        window.horizontal?.layer?.clear?.();
+        window.horizontal = null;
+    };
+
+    resetEditLayer = () => {
+        this.activeEditor(this.getAdEditLayer());
+    };
+
+    initBuildLayer = () => {
+        if (window.horizontal) return;
+        const { AD_Horizontal } = OtherVectorConfig;
+        const horizontal = new VectorLayer(null, { layerConfig: AD_Horizontal });
+        horizontal.layerName = 'AD_Horizontal';
+        window.map.getLayerManager().addLayer('VectorLayer', horizontal);
+        window.horizontal = {
+            layerName: horizontal.layerName,
+            layerId: horizontal.layerId,
+            layer: horizontal
+        };
     };
 
     changePoints = () => {
@@ -930,6 +992,7 @@ class DataLayerStore {
                 this.newUturnExitEvent();
                 break;
             case 'trim':
+            case 'batch_build':
                 message.destroy();
                 break;
             case 'error_layer':
@@ -1051,7 +1114,7 @@ class DataLayerStore {
 
     @editLock
     escEvent = () => {
-        const editLayerName = this.getEditLayerName();
+        const editLayerName = this.getAdEditLayerName();
         if (editLayerName === 'AD_Marker') {
             this.exitMarker();
             message.warning('退出功能', 3);

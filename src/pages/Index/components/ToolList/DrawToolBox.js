@@ -97,7 +97,7 @@ class DrawToolBox extends React.Component {
         const { DataLayerStore } = this.props;
         let drawTools = this.getDrawTools();
         let firstTool = drawTools[0];
-        let layer = DataLayerStore.getEditLayer();
+        let layer = DataLayerStore.getAdEditLayer();
         let layerName = layer ? layer.layerName : '';
         return firstTool
             ? {
@@ -143,7 +143,7 @@ class DrawToolBox extends React.Component {
 
     getMenus = () => {
         const { DataLayerStore } = this.props;
-        let layer = DataLayerStore.getEditLayer();
+        let layer = DataLayerStore.getAdEditLayer();
         let layerName = layer ? layer.layerName : '';
         const menus = [
             <Menu.Item name="POINT" key="yuandianzhong" title="绘制点要素" actionid="add-point-btn">

@@ -40,9 +40,9 @@ class EditLayer extends React.Component {
     render() {
         const { clicked } = this.state;
         const { DataLayerStore } = this.props;
-        const { getEditLayer, updateKey } = DataLayerStore;
+        const { updateKey } = DataLayerStore;
         //获取当前编辑图层，若无编辑图层则返回false
-        const editLayer = getEditLayer();
+        const editLayer = DataLayerStore.adEditLayer;
         const layerName = editLayer && editLayer.layerName;
         const isActive = !!layerName;
         return (
@@ -103,7 +103,7 @@ class EditLayerPicker extends React.Component {
     render() {
         let { DataLayerStore } = this.props;
         const { updateKey } = DataLayerStore;
-        let editLayer = DataLayerStore.getEditLayer();
+        let editLayer = DataLayerStore.adEditLayer;
         return (
             <Radio.Group
                 key={updateKey}

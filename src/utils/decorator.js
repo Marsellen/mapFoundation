@@ -57,7 +57,7 @@ export const logDecorator = option => {
                 });
             }
             if (typeof operate === 'object') {
-                let layerName = DataLayerStore.getEditLayer().layerName;
+                let layerName = DataLayerStore.getAdEditLayer().layerName;
                 operate = operate[layerName];
             }
             !onlyRun && operateLock.lock(operate);
@@ -165,11 +165,11 @@ export const editOutputLimit = (option = {}) => {
                 //如果不满足条件则不执行被装饰的函数
                 //删除要素
                 if (feature) {
-                    let layer = DataLayerStore.getEditLayer();
+                    let layer = DataLayerStore.getAdEditLayer();
                     layer.layer.removeFeatureById(feature.uuid);
                 }
                 //如果是标注图层，报错应退出图层
-                const editLayerName = DataLayerStore.getEditLayerName();
+                const editLayerName = DataLayerStore.getAdEditLayerName();
                 const isMarkerLayer = editLayerName === 'AD_Marker';
                 isMarkerLayer && DataLayerStore.exitMarker();
                 //退出编辑状态

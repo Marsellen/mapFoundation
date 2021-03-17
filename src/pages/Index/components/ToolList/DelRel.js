@@ -53,7 +53,7 @@ class DelRel extends React.Component {
         let mainFeature = AttributeStore.getModel();
         if (!mainFeature) return message.error('未选中要素');
         let layerId = mainFeature.layerId;
-        let editLayer = DataLayerStore.getEditLayer();
+        let editLayer = DataLayerStore.getAdEditLayer();
         let editLayerId = editLayer && editLayer.layerId;
         if (layerId !== editLayerId) return;
         let { relFeatures } = AttributeStore;

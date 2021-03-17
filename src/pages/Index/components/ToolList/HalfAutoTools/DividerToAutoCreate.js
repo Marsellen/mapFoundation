@@ -46,7 +46,7 @@ class DividerToAutoCreate extends React.Component {
         const { DataLayerStore } = this.props;
         const { updateKey } = DataLayerStore;
         let visible = DataLayerStore.editType == 'new_around_line' && this.state.visible;
-        let editLayer = DataLayerStore.getEditLayer();
+        let editLayer = DataLayerStore.getAdEditLayer();
 
         return (
             <div
@@ -76,7 +76,7 @@ class DividerToAutoCreate extends React.Component {
     @logDecorator({ operate: ACTION_MAP })
     async createLineByDivider(result) {
         const { DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getEditLayer();
+        let editLayer = DataLayerStore.getAdEditLayer();
         let layerName = editLayer && editLayer.layerName;
         if (
             !(result.length === 2 && layerName == 'AD_Lane') &&
@@ -116,7 +116,7 @@ class DividerToAutoCreate extends React.Component {
 
     async addLines(params) {
         const { DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getEditLayer();
+        let editLayer = DataLayerStore.getAdEditLayer();
         let layerName = editLayer && editLayer.layerName;
         let historyLog = await autoCreateLineByLaneDivider(layerName, params);
         await this.drawLine(historyLog.features[1], historyLog);
@@ -159,7 +159,7 @@ class DividerToAutoCreate extends React.Component {
 
     showAttributesModal = async obj => {
         const { AttributeStore, DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getEditLayer();
+        let editLayer = DataLayerStore.getAdEditLayer();
         let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
         DataLayerStore.clearHighLightFeatures();
         DataLayerStore.clearPick();

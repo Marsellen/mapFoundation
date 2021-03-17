@@ -159,7 +159,7 @@ class BatchAssignLaneNo extends React.Component {
 
     lineCheck = () => {
         const { DataLayerStore } = this.props;
-        let layerName = DataLayerStore.getEditLayer().layerName;
+        let layerName = DataLayerStore.getAdEditLayer().layerName;
         if (!this.result || this.result.length === 0) {
             throw new Error('未选择要素!');
         }
@@ -195,7 +195,7 @@ class BatchAssignLaneNo extends React.Component {
         if (event.button !== 2) return;
         try {
             const { activeTask } = TaskStore;
-            let layerName = DataLayerStore.getEditLayer().layerName;
+            let layerName = DataLayerStore.getAdEditLayer().layerName;
             const { startNumber } = this.state;
             checkSdkError(this.result, '没有做赋值处理');
 

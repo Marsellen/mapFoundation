@@ -27,7 +27,7 @@ class AttrRightMenu extends React.Component {
     checkLayer = () => {
         const { DataLayerStore, AttrRightMenuStore } = this.props;
         const { layerName } = AttrRightMenuStore;
-        const editLayer = DataLayerStore.getEditLayer();
+        const editLayer = DataLayerStore.getAdEditLayer();
         if (!editLayer) {
             message.warning('只能选取当前编辑图层要素！', 3);
             return true;

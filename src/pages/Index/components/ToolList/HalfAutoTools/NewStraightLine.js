@@ -39,7 +39,7 @@ class NewStraightLine extends React.Component {
         const { DataLayerStore } = this.props;
         const { updateKey } = DataLayerStore;
         let visible = DataLayerStore.editType == 'new_straight_line' && this.state.visible; //直行
-        let editLayer = DataLayerStore.getEditLayer();
+        let editLayer = DataLayerStore.getAdEditLayer();
         let layerName = editLayer && editLayer.layerName;
 
         return (
@@ -56,7 +56,7 @@ class NewStraightLine extends React.Component {
     async handleData(result) {
         try {
             const { DataLayerStore } = this.props;
-            let editLayer = DataLayerStore.getEditLayer();
+            let editLayer = DataLayerStore.getAdEditLayer();
             let layerName = editLayer && editLayer.layerName;
             let layerNameCN = DATA_LAYER_MAP[layerName].label;
             if (result.length !== 2) {
@@ -101,7 +101,7 @@ class NewStraightLine extends React.Component {
     // 新建
     addLines = async params => {
         const { DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getEditLayer();
+        let editLayer = DataLayerStore.getAdEditLayer();
         let layerName = editLayer && editLayer.layerName;
         let layerNameCN = DATA_LAYER_MAP[layerName].label;
         try {
@@ -149,7 +149,7 @@ class NewStraightLine extends React.Component {
 
     showAttributesModal = async obj => {
         const { AttributeStore, DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getEditLayer();
+        let editLayer = DataLayerStore.getAdEditLayer();
         let layerName = editLayer && editLayer.layerName;
         let readonly = layerName !== obj.layerName || !editLayer;
         DataLayerStore.clearHighLightFeatures();
@@ -161,7 +161,7 @@ class NewStraightLine extends React.Component {
 
     content = () => {
         const { DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getEditLayer();
+        let editLayer = DataLayerStore.getAdEditLayer();
         let layerName = editLayer && editLayer.layerName;
         const text = TIPS_MAP[layerName];
         return (

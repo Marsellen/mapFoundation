@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
-import { Modal, Button, InputNumber, message } from 'antd';
+import { Modal, Button, InputNumber } from 'antd';
 import 'src/assets/less/components/batch-build.less';
 import BatchBuildAttr from 'src/pages/Index/components/ToolList/BatchBuild/BatchBuildAttr';
 import IconFont from 'src/components/IconFont';
@@ -15,7 +15,7 @@ import shiyitu from 'src/assets/img/shiyitu.png';
 class BatchBuildFeature extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { distances: {}, visible: false };
+        this.state = { distances: {} };
         this.handleBatchBuild = this.handleBatchBuild.bind(this);
     }
 
@@ -25,11 +25,8 @@ class BatchBuildFeature extends React.Component {
         const { DataLayerStore, BatchBuildStore } = this.props;
         DataLayerStore.exitEdit(); //退出编辑
         BatchBuildStore.release(); //清除数据
-        message.info({
-            content: '面向道路前进方向，绘制垂直于车道线的路面横截线',
-            duration: 1,
-            key: 'horizontal'
-        });
+        DataLayerStore.resetEditLayer();
+        DataLayerStore.clearDrawHorizontal();
     };
 
     isCurrentFeature = (featuresName, index) => {
@@ -64,10 +61,11 @@ class BatchBuildFeature extends React.Component {
     handleRanging = (e, featuresName, index) => {
         e.stopPropagation();
         const {
-            BatchBuildStore: { initActiveRange, clearActiveRange },
+            BatchBuildStore: { initActiveRange, clearActiveRange, setHorizontalToolStatus },
             DataLayerStore: { startMeatureDistance_2, exitMeatureDistance_2, closeDrawHorizontal }
         } = this.props;
         closeDrawHorizontal();
+        setHorizontalToolStatus(false);
         const isCurrentRange = this.isCurrentRange(featuresName, index);
         if (isCurrentRange) {
             clearActiveRange();
@@ -133,27 +131,39 @@ class BatchBuildFeature extends React.Component {
             RightMenuStore: { features },
             BatchBuildStore: { leftFeatures, rightFeatures }
         } = this.props;
-        const historyLog = await batchBuild(features, leftFeatures, rightFeatures);
+        const allFeatures = window.horizontal?.layer?.getAllFeatures?.() || [];
+        const historyLog = await batchBuild(features, leftFeatures, rightFeatures, allFeatures);
         return historyLog;
     }
 
     // 路面横截线
     toggle = () => {
-        const { visible } = this.state;
-        const { DataLayerStore } = this.props;
-        const currentVisible = !visible;
-        const messageConfig = {
-            content: '面向道路前进方向，绘制垂直于车道线的路面横截线',
-            key: 'horizontal'
-        };
-        if (messageConfig) {
-            message.info({ ...messageConfig, duration: 0 });
-            DataLayerStore.openDrawHorizontal();
+        const {
+            DataLayerStore: { openDrawHorizontal, closeDrawHorizontal, exitMeatureDistance_2 },
+            BatchBuildStore
+        } = this.props;
+        const { setHorizontalToolStatus, clearActiveRange } = BatchBuildStore;
+        setHorizontalToolStatus(!BatchBuildStore.horizontalToolStatus);
+        if (BatchBuildStore.horizontalToolStatus) {
+            exitMeatureDistance_2();
+            clearActiveRange();
+            openDrawHorizontal();
         } else {
-            message.info({ ...messageConfig, duration: 1 });
-            DataLayerStore.closeDrawHorizontal();
+            closeDrawHorizontal();
         }
-        this.setState({ visible: currentVisible });
+    };
+
+    // 清空路面横截线
+    clearHorizontalLayer = () => {
+        const {
+            DataLayerStore: { clearDrawHorizontal, closeDrawHorizontal, exitMeatureDistance_2 },
+            BatchBuildStore: { clearActiveRange, setHorizontalToolStatus }
+        } = this.props;
+        closeDrawHorizontal();
+        setHorizontalToolStatus(false);
+        clearDrawHorizontal();
+        exitMeatureDistance_2();
+        clearActiveRange();
     };
 
     //渲染左右侧车道线行
@@ -207,7 +217,7 @@ class BatchBuildFeature extends React.Component {
 
     render() {
         const { BatchBuildStore } = this.props;
-        const { addFeature, activeFeatureKey } = BatchBuildStore;
+        const { addFeature, activeFeatureKey, horizontalToolStatus } = BatchBuildStore;
         const [currentFeatureName, currentFeatureIndex] = activeFeatureKey?.split('|') || [];
         return (
             <div className="batch-build-wrap">
@@ -237,21 +247,26 @@ class BatchBuildFeature extends React.Component {
                             右侧增加
                         </Button>
                     </div>
-                    <div className="button-box">
-                        <div className="Horizontal-refer">
-                            <Button
-                                // className="button green-button"
-                                onClick={() => this.toggle()}
-                            >
-                                新建路面横截线
-                            </Button>
-                            <Button
-                                // className="button green-button"
-                                onClick={() => this.toggle()}
-                            >
-                                清空路面横截线
-                            </Button>
-                        </div>
+                    <div className="horizontal-refer">
+                        <span>路面横截线：</span>
+                        <span className="line-button addLines">
+                            <IconFont
+                                className={`line-icon icon-font-button ${
+                                    horizontalToolStatus ? 'on' : ''
+                                }`}
+                                type="icon-xinzeng"
+                                onClick={this.toggle}
+                            />
+                            <span>新增</span>
+                        </span>
+                        <span className="line-button">
+                            <IconFont
+                                className="line-icon icon-font-button clear"
+                                type="icon-qingkong"
+                                onClick={this.clearHorizontalLayer}
+                            />
+                            <span>清空</span>
+                        </span>
                     </div>
                     <div className="line-box">
                         <div className="arrow-up"></div>

@@ -74,7 +74,7 @@ class AttributeBrush extends React.Component {
             const { DataLayerStore } = this.props;
             const { TaskStore } = this.props;
             const { activeTask } = TaskStore;
-            let editLayer = DataLayerStore.getEditLayer();
+            let editLayer = DataLayerStore.getAdEditLayer();
             let [[feature], [copyFeature]] = result;
             if (!feature || !copyFeature) {
                 throw new Error('未执行数据拷贝赋值！');

@@ -8,6 +8,7 @@ class BatchBuildStore {
     @observable rightFeatures = [];
     @observable activeFeatureKey = null;
     @observable activeRangeKey = null;
+    @observable horizontalToolStatus = false;
 
     checkDistance = value => {
         return value > 0 && value <= 100;
@@ -71,6 +72,11 @@ class BatchBuildStore {
         this.rightFeatures = [];
         this.activeFeatureKey = null;
         this.activeRangeKey = null;
+        this.horizontalToolStatus = false;
+    };
+
+    @action setHorizontalToolStatus = horizontalToolStatus => {
+        this.horizontalToolStatus = horizontalToolStatus;
     };
 }
 

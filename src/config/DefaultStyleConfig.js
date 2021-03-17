@@ -3,7 +3,7 @@ export default {
         type: 'Line',
         //符号配置按什么类别展示，当前支持一个
         showFields: ['NOKEY'],
-        order: 15,
+        order: 1,
         //要展示的样式，['vectorStyle','textStyle','pointFLStyle','arrowStyle']
         showStyles: ['vectorStyle'],
         //符号样式配置
@@ -18,7 +18,7 @@ export default {
     AD_LaneDivider: {
         type: 'Line',
         showFields: ['NOKEY'],
-        order: 14,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [
@@ -31,7 +31,7 @@ export default {
     AD_Lane: {
         type: 'Line',
         showFields: ['NOKEY'],
-        order: 13,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [
@@ -44,7 +44,7 @@ export default {
     AD_LaneAttrPoint: {
         type: 'Point',
         showFields: ['NOKEY'],
-        order: 11,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [
@@ -57,7 +57,7 @@ export default {
     AD_Arrow: {
         type: 'Polygon',
         showFields: ['NOKEY'],
-        order: 10,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [
@@ -70,7 +70,7 @@ export default {
     AD_StopLocation: {
         type: 'Line',
         showFields: ['NOKEY'],
-        order: 9,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [
@@ -83,7 +83,7 @@ export default {
     AD_Text: {
         type: 'Polygon',
         showFields: ['NOKEY'],
-        order: 7,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [
@@ -96,7 +96,7 @@ export default {
     AD_TrafficSign: {
         type: 'Polygon',
         showFields: ['NOKEY'],
-        order: 6,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [
@@ -109,7 +109,7 @@ export default {
     AD_TrafficLight: {
         type: 'Polygon',
         showFields: ['NOKEY'],
-        order: 5,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [
@@ -122,7 +122,7 @@ export default {
     AD_RS_Barrier: {
         type: 'Line',
         showFields: ['NOKEY'],
-        order: 3,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [
@@ -135,7 +135,7 @@ export default {
     AD_LaneDivider_Plg: {
         type: 'Polygon',
         showFields: ['NOKEY'],
-        order: 17,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [
@@ -148,7 +148,7 @@ export default {
     AD_StopLocation_Geo: {
         type: 'Polygon',
         showFields: ['NOKEY'],
-        order: 18,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [
@@ -161,7 +161,7 @@ export default {
     AD_LaneMark_Geo: {
         type: 'Polygon',
         showFields: ['NOKEY'],
-        order: 20,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [
@@ -174,7 +174,7 @@ export default {
     AD_Pole_Geo: {
         type: 'Line',
         showFields: ['NOKEY'],
-        order: 23,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [

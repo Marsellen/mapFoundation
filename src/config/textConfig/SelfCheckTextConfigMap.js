@@ -2,7 +2,6 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
     AD_Road: {
         type: 'Line',
         textFields: ['TYPE', 'RD_STATUS', 'CROSSING', 'DIRECTION'],
-        order: 15,
         showStyles: ['textStyle'],
         key: 'AD_Road',
         label: '道路参考线',

@@ -21,10 +21,10 @@ class QCMarkerTool extends React.Component {
 
     action = () => {
         const {
-            DataLayerStore: { newQCMarker, getEditLayerName },
+            DataLayerStore: { newQCMarker, getAdEditLayerName },
             QCMarkerStore: { setEditStatus, hide }
         } = this.props;
-        const editLayerName = getEditLayerName();
+        const editLayerName = getAdEditLayerName();
         if (editLayerName === 'AD_Marker') return;
         //关闭当前标注属性窗口
         hide();
@@ -84,9 +84,9 @@ class QCMarkerTool extends React.Component {
         const {
             appStore: { isQuality },
             TaskStore: { isLocalTask, isEditableTask },
-            DataLayerStore: { getEditLayer, updateKey }
+            DataLayerStore: { getAdEditLayer, updateKey }
         } = this.props;
-        const editLayer = getEditLayer();
+        const editLayer = getAdEditLayer();
         const visible = editLayer && editLayer.layerName === 'AD_Marker';
         //当前任务是质检任务，才会显示质检标注工具
         if (isQuality) {
