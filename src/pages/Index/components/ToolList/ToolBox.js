@@ -8,6 +8,8 @@ import RoadSet from './RoadSet';
 import BufferRender from './BufferRender';
 
 const EDIT_TYPES = ['meature_distance', 'read_coordinate', 'select_road_plane', 'buffer_render'];
+
+const TOOLS_NO_NEED_POINTCLOUD = ['ceju', 'bufferxuanran'];
 @inject('DataLayerStore')
 @inject('TaskStore')
 @inject('ResourceLayerStore')
@@ -38,7 +40,7 @@ class ToolBox extends React.Component {
         const { TaskStore, ResourceLayerStore } = this.props;
         const { activeTaskId } = TaskStore;
         const { pointCloudChecked } = ResourceLayerStore;
-        if (!key || key == 'ceju') {
+        if (!key || TOOLS_NO_NEED_POINTCLOUD.includes(key)) {
             return !activeTaskId;
         } else {
             return !activeTaskId || !pointCloudChecked;

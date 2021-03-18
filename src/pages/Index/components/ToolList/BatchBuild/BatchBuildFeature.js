@@ -22,11 +22,15 @@ class BatchBuildFeature extends React.Component {
     stopPropagation = e => e.stopPropagation();
 
     exit = () => {
-        const { DataLayerStore, BatchBuildStore } = this.props;
-        DataLayerStore.exitEdit(); //退出编辑
-        BatchBuildStore.release(); //清除数据
-        DataLayerStore.resetEditLayer();
-        DataLayerStore.clearDrawHorizontal();
+        const {
+            DataLayerStore: { closeDrawHorizontal, exitEdit, resetEditLayer, clearDrawHorizontal },
+            BatchBuildStore: { release }
+        } = this.props;
+        closeDrawHorizontal();
+        exitEdit(); //退出编辑
+        release(); //清除数据
+        resetEditLayer();
+        clearDrawHorizontal();
     };
 
     isCurrentFeature = (featuresName, index) => {
@@ -157,9 +161,8 @@ class BatchBuildFeature extends React.Component {
     clearHorizontalLayer = () => {
         const {
             DataLayerStore: { clearDrawHorizontal, closeDrawHorizontal, exitMeatureDistance_2 },
-            BatchBuildStore: { clearActiveRange, setHorizontalToolStatus, horizontalToolStatus }
+            BatchBuildStore: { clearActiveRange, setHorizontalToolStatus }
         } = this.props;
-        if (!horizontalToolStatus) return;
         closeDrawHorizontal();
         setHorizontalToolStatus(false);
         clearDrawHorizontal();

@@ -204,10 +204,18 @@ export default {
     },
     AD_Horizontal: {
         type: 'Line',
+        showStyles: ['vectorStyle', 'arrowStyle'],
         showFields: ['NOKEY'],
+        arrowFields: ['NOKEY'],
         order: 1,
-        showStyles: ['vectorStyle'],
         vectorStyle: {
+            NOKEY: [
+                {
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                }
+            ]
+        },
+        arrowStyle: {
             NOKEY: [
                 {
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }

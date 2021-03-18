@@ -10,7 +10,8 @@ export const HOT_KEYS_CONFIG = {
         },
         // { value: 'Ctrl+F', label: '查询' },
         // { value: 'Ctrl+P', label: '坐标拾取' },
-        { value: 'L', label: '测距' }
+        { value: 'L', label: '测距' },
+        { value: 'P', label: 'buffer渲染' }
     ],
     VIEW_ADJUST_KEY: [
         //视角调整

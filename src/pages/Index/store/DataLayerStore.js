@@ -306,7 +306,7 @@ class DataLayerStore {
     };
 
     getEditLayer = () => {
-        return this.editor && this.editor.editLayer;
+        return this.editor?.editLayer;
     };
 
     getAdEditLayer = () => {
@@ -315,12 +315,11 @@ class DataLayerStore {
 
     //获取编辑图层名
     getEditLayerName = () => {
-        if (!this.editor || !this.editor.editLayer) return;
-        return this.editor.editLayer.layerName;
+        return this.editor?.editLayer?.layerName;
     };
 
     getAdEditLayerName = () => {
-        return this.adEditLayer.layerName;
+        return this.adEditLayer?.layerName;
     };
 
     //只消除选择
@@ -799,7 +798,7 @@ class DataLayerStore {
         this.setEditType('batch_build');
         this.initBuildLayer();
         this.activeEditor(window.horizontal);
-        message.info({
+        this.horizontalTip = message.info({
             content: '面向道路前进方向，绘制垂直于车道线的路面横截线（2点线）',
             key: 'horizontal',
             duration: 0
@@ -809,11 +808,7 @@ class DataLayerStore {
     };
 
     closeDrawHorizontal = () => {
-        message.info({
-            content: '面向道路前进方向，绘制垂直于车道线的路面横截线（2点线）',
-            key: 'horizontal',
-            duration: 1
-        });
+        this.horizontalTip?.();
         this.editor.cancel();
         this.removeCur();
     };
@@ -992,7 +987,6 @@ class DataLayerStore {
                 this.newUturnExitEvent();
                 break;
             case 'trim':
-            case 'batch_build':
                 message.destroy();
                 break;
             case 'error_layer':
@@ -1031,6 +1025,9 @@ class DataLayerStore {
                 this.setModifyLineType(true);
                 break;
             case 'batch_build':
+                this.closeDrawHorizontal();
+                this.clearDrawHorizontal();
+                BatchBuildStore.release();
             case 'meature_distance_2':
                 BatchBuildStore.release();
                 break;

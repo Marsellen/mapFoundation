@@ -27,7 +27,6 @@ class BufferRender extends React.Component {
         DataLayerStore.setBufferRenderCallback((result, event) => {
             if (event.button == 2) {
                 this.result = result;
-                DataLayerStore.clearBufferRender();
                 this.createTube(result);
             }
         });
@@ -126,12 +125,14 @@ class BufferRender extends React.Component {
         if (this.props.disabled) return;
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'buffer_render') return;
+        AttributeStore.hide();
         AttributeStore.hideRelFeatures();
         DataLayerStore.bufferRender();
         DataLayerStore.initBufferLayer();
     };
 
     createTube = result => {
+        this.props.DataLayerStore.clearBufferRender();
         const values = this.props.form.getFieldsValue();
         result.forEach(res => {
             const feature = res.data;
@@ -149,7 +150,11 @@ class BufferRender extends React.Component {
     };
 
     content = () => {
-        return <label>选择需要展示buffer的线要素，右键即可渲染；按Esc退出buffer渲染</label>;
+        return (
+            <label>
+                选择需要展示buffer的线要素，右键/多选按Ctrl+右键即可渲染；按Esc退出buffer渲染
+            </label>
+        );
     };
 }
 
