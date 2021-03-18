@@ -157,8 +157,9 @@ class BatchBuildFeature extends React.Component {
     clearHorizontalLayer = () => {
         const {
             DataLayerStore: { clearDrawHorizontal, closeDrawHorizontal, exitMeatureDistance_2 },
-            BatchBuildStore: { clearActiveRange, setHorizontalToolStatus }
+            BatchBuildStore: { clearActiveRange, setHorizontalToolStatus, horizontalToolStatus }
         } = this.props;
+        if (!horizontalToolStatus) return;
         closeDrawHorizontal();
         setHorizontalToolStatus(false);
         clearDrawHorizontal();
