@@ -129,7 +129,7 @@ class DataLayerStore {
                 layer = null;
                 break;
         }
-        this.editor.setEditLayer(layer);
+        this.editor?.setEditLayer(layer);
         if (layer?.layerName !== 'AD_Horizontal') {
             this.editor ? this.exitEdit() : this.initEditor();
             this.adEditLayer = layer;
