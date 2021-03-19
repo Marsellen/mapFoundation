@@ -349,6 +349,14 @@ export const shortcutMap = [
         describe: '批量生成车道线'
     },
     {
+        id: 'buffer-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 80,
+        describe: 'buffer渲染 P'
+    },
+    {
         ctrl: false,
         alt: false,
         shift: false,
