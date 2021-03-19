@@ -42,7 +42,7 @@ class QualityCheck extends React.Component {
         const shouldSave = currentNode > savedNode;
 
         if (!shouldSave) return;
-        await saveTaskData();
+        await saveTaskData('checkServer');
     };
 
     @editLock

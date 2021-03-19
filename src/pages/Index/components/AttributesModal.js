@@ -24,9 +24,10 @@ class AttributesModal extends React.Component {
     }
 
     handleCancel = e => {
+        const channel = e?.keyCode ? 'esc' : 'close';
         const { DataLayerStore, AttributeStore } = this.props;
         DataLayerStore.UnQCAttrModal(['error_layer']);
-        AttributeStore.hide();
+        AttributeStore.hide(channel);
         AttributeStore.showTime(true);
     };
 
@@ -88,7 +89,7 @@ class AttributesModal extends React.Component {
         });
     };
 
-    @logDecorator({ operate: '修改要素属性' })
+    @logDecorator({ operate: '修改要素属性', toolType: 'attr_edit_modal' })
     async submit(values) {
         try {
             AttributeStore.showLoading('保存数据...');

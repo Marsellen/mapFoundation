@@ -60,7 +60,7 @@ class DelRel extends React.Component {
         if (!relFeatures || relFeatures.length === 0) return message.error('暂无关联要素显示');
         DataLayerStore.selectFormFeatrues(relFeatures);
         DataLayerStore.delRel();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
     };
 
     content = () => {

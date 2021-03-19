@@ -24,7 +24,7 @@ class AddCurvedLine extends React.Component {
     action = () => {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_curved_line') return;
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
         DataLayerStore.newCurvedLine();
     };

@@ -48,7 +48,7 @@ class QCMarkerListTable extends React.Component {
             exitMarker();
         }
         //重置编辑图层，重置编辑工具，退出编辑状态
-        activeEditor();
+        activeEditor(null, 'effect');
         updateByEditLayer();
         hide();
         hideRelFeatures();

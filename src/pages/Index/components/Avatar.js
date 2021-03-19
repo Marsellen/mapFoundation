@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { logout } from 'src/utils/Session';
 import ToolIcon from 'src/components/ToolIcon';
 import { editVisiteHistory } from 'src/utils/visiteHistory';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 @inject('appStore')
 @inject('TaskStore')
@@ -65,6 +66,10 @@ class Avatar extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk() {
+                BuriedPoint.modalBuriedPointEnd('attr_list', 'logout');
+                BuriedPoint.dataLoadBuriedPointEnd('boundary_load', 'logout');
+                BuriedPoint.statusBuriedPointEnd('normal', 'logout');
+                BuriedPoint.statusBuriedPointEnd('union_break', 'logout');
                 logout();
                 location.reload();
                 editVisiteHistory.removeVisitedHistory();

@@ -6,6 +6,7 @@ import {
     modUpdStatPropertiesFields
 } from 'src/utils/vectorUtils';
 import _ from 'lodash';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 configure({ enforceActions: 'always' });
 class BatchAssignStore {
@@ -18,9 +19,12 @@ class BatchAssignStore {
         this.layerName = features[0].layerName;
         let properties = features.map(feature => feature.data.properties);
         this.attributes = modelFactory.getBatchAssignTableData(this.layerName, properties);
+        BuriedPoint.toolBuriedPointStart('batch_attr_edit_modal', 'button');
     };
 
-    @action hide = () => {
+    @action hide = channel => {
+        channel = channel ?? 'other_close';
+        this.visible && BuriedPoint.toolBuriedPointEnd('batch_attr_edit_modal', channel);
         this.visible = false;
     };
 

@@ -22,11 +22,7 @@ class RelationModal extends React.Component {
                         <IconFont type="icon-guanlianguanxi" className="icon" />
                         {isShow && <span>关联关系专题图</span>}
                     </p>
-                    <Icon
-                        type="double-left"
-                        style={{ fontSize: '12px' }}
-                        className="arrow"
-                    />
+                    <Icon type="double-left" style={{ fontSize: '12px' }} className="arrow" />
                 </div>
 
                 {isShow && (
@@ -35,7 +31,8 @@ class RelationModal extends React.Component {
                             <Checkbox
                                 onChange={this.handleCheckAllChange}
                                 indeterminate={indeterminate}
-                                checked={allChecked}>
+                                checked={allChecked}
+                            >
                                 全选
                             </Checkbox>
                         </dt>
@@ -46,9 +43,8 @@ class RelationModal extends React.Component {
                                     <div key={`relSelectOption_${index}`}>
                                         <Checkbox
                                             checked={checked}
-                                            onChange={e =>
-                                                this.handleChange(e, key)
-                                            }>
+                                            onChange={e => this.handleChange(e, key)}
+                                        >
                                             {title}
                                         </Checkbox>
                                     </div>
@@ -74,7 +70,7 @@ class RelationModal extends React.Component {
         //清除要素选中效果
         DataLayerStore.clearPick();
         //隐藏属性窗口
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         //获取专题图已选图层，判断是否全选
         selectRel(checked, key);
         //取消选择
@@ -88,7 +84,7 @@ class RelationModal extends React.Component {
         //清除要素选中效果
         DataLayerStore.clearPick();
         //隐藏属性窗口
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         //获取专题图已选图层，判断是否全选
         selectAllRel(checked);
         //取消选择

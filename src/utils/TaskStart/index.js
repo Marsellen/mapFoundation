@@ -10,6 +10,7 @@ import ResourceLayerStore from 'src/pages/Index/store/ResourceLayerStore';
 import VectorsStore from 'src/pages/Index/store/VectorsStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
 import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 //不同模式下，处理底图数据
 const handleBoundaryfeature = () => {
@@ -38,15 +39,18 @@ const handleBoundaryfeature = () => {
 
 export const initBoundary = async () => {
     try {
+        BuriedPoint.dataLoadBuriedPointStart('boundary_load', 'task_start');
         window.boundaryLayerGroup = await TaskStore.getBoundaryLayer();
         if (!window.boundaryLayerGroup) return;
         DataLayerStore.addTargetLayers(window.boundaryLayerGroup.layers);
         ResourceLayerStore.updateLayerByName(RESOURCE_LAYER_BOUNDARY, window.boundaryLayerGroup);
         VectorsStore.addBoundaryLayer(window.boundaryLayerGroup);
         handleBoundaryfeature();
+        BuriedPoint.dataLoadBuriedPointEnd('boundary_load', 'success');
     } catch (e) {
         message.warning('当前任务没有周边底图数据');
         console.error(`周边底图数据加载失败: ${e.message || e}`);
+        BuriedPoint.dataLoadBuriedPointEnd('boundary_load', 'error');
     }
 };
 

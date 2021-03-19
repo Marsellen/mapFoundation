@@ -182,6 +182,12 @@ module.exports = (env = {}) => {
                     pathRewrite: { '^/gateway/correct': '/correct' },
                     changeOrigin: true,
                     logLevel: 'debug'
+                },
+                '/gateway/collect': {
+                    target: PROXY_MAP[proxy].buriedPoint,
+                    pathRewrite: { '^/gateway/collect': '/collect' },
+                    changeOrigin: true,
+                    logLevel: 'debug'
                 }
             }
         }

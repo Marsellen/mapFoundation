@@ -20,6 +20,7 @@ import _ from 'lodash';
 import { message } from 'antd';
 import RenderModeStore from './RenderModeStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 const LOAD_DATA_MESSAGE = '加载数据中...';
 
@@ -42,9 +43,12 @@ class AttributeStore {
     @action show = readonly => {
         this.visible = true;
         this.readonly = readonly;
+        !readonly && BuriedPoint.toolBuriedPointStart('attr_edit_modal', 'open');
     };
 
-    @action hide = () => {
+    @action hide = channel => {
+        channel = channel ?? 'other_close';
+        this.visible && BuriedPoint.toolBuriedPointEnd('attr_edit_modal', channel);
         this.visible = false;
         this.delAttrs = [];
         this.loaded();

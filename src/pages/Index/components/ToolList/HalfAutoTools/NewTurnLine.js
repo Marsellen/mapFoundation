@@ -92,7 +92,7 @@ class NewTurnLine extends React.Component {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_turn_line') return;
         DataLayerStore.newTurnLine();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
         this.setState({ visible: true });
     };

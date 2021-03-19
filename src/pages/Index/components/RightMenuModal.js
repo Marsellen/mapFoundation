@@ -26,6 +26,8 @@ import AttributeStore from 'src/pages/Index/store/AttributeStore';
 import NewFeatureStore from 'src/pages/Index/store/NewFeatureStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
 import 'src/assets/less/components/right-menu-modal.less';
+import DataLayerStore from '../store/DataLayerStore';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 const EDIT_TYPE = [
     'batch_build',
@@ -211,7 +213,7 @@ class RightMenuModal extends React.Component {
             <Menu.Item
                 id="break-line-btn"
                 key="break"
-                onClick={this.breakLine}
+                onClick={() => this.breakLine('break_line')}
                 className="right-menu-item"
             >
                 <span>打断</span>
@@ -230,7 +232,7 @@ class RightMenuModal extends React.Component {
             <Menu.Item
                 id="break-group-btn"
                 key="breakGroup"
-                onClick={this.breakLine}
+                onClick={() => this.breakLine('same_break_line')}
                 className="right-menu-item"
             >
                 <span>齐打断</span>
@@ -346,13 +348,13 @@ class RightMenuModal extends React.Component {
         });
     };
 
-    @logDecorator({ operate: '线打断', onlyRun: true })
+    @logDecorator({ onlyRun: true })
     breakCallBack(result) {
         checkSdkError(result, '未选择打断点');
         this.breakLineHandler(result);
     }
 
-    @logDecorator({ operate: '线打断' })
+    @logDecorator()
     async breakLineHandler(result) {
         const { RightMenuStore } = this.props;
         let features = RightMenuStore.getFeatures();
@@ -433,9 +435,9 @@ class RightMenuModal extends React.Component {
         //设置可编辑图层交互
         const { RightMenuStore, DataLayerStore } = this.props;
         const { features } = RightMenuStore;
-        let layer = DataLayerStore.activeEditor(features[0].layerName);
+        let layer = DataLayerStore.activeEditor(features[0].layerName, 'right_menu');
         ToolCtrlStore.updateByEditLayer(layer);
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
         RightMenuStore.hide();
     };
@@ -463,7 +465,7 @@ class RightMenuModal extends React.Component {
         let result = RightMenuStore.delete();
         let historyLog = await deleteLine(result, TaskStore.activeTask);
         AttributeStore.hideRelFeatures();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         return historyLog;
     }
 
@@ -492,14 +494,13 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
     }
 
-    @logDecorator({ operate: '强制删除要素' })
+    @logDecorator({ operate: '强制删除要素', toolType: 'force_delete' })
     async forceDeleteFeatureHandler() {
-        const { RightMenuStore, DataLayerStore } = this.props;
-        DataLayerStore.forceDeleteFeature();
-        let result = RightMenuStore.delete();
+        BuriedPoint.toolBuriedPointStart('force_delete', 'button');
+        let result = this.props.RightMenuStore.delete();
         let historyLog = await forceDelete(result, TaskStore.activeTask);
         AttributeStore.hideRelFeatures();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         return historyLog;
     }
 
@@ -517,7 +518,7 @@ class RightMenuModal extends React.Component {
         }
         DataLayerStore.batchBuildFeature();
         AttributeStore.hideRelFeatures();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         RightMenuStore.hide();
     }
 
@@ -552,7 +553,7 @@ class RightMenuModal extends React.Component {
         }
         DataLayerStore.changePoints();
         RightMenuStore.hide();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
     }
 
@@ -595,13 +596,13 @@ class RightMenuModal extends React.Component {
         }
         DataLayerStore.movePointFeature();
         RightMenuStore.hide();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
     }
 
     @editLock
     @editInputLimit({ editType: 'break_line', isRightMenu: true })
-    breakLine() {
+    breakLine(editType) {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble()) {
@@ -611,9 +612,9 @@ class RightMenuModal extends React.Component {
                 key: 'edit_error'
             });
         }
-        DataLayerStore.selectPointFromHighlight();
+        DataLayerStore.selectPointFromHighlight(editType);
         RightMenuStore.hide();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
     }
 
@@ -631,7 +632,7 @@ class RightMenuModal extends React.Component {
         }
         this.reverseOrderLineHandler();
         RightMenuStore.hide();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
     }
 
     @logDecorator({ operate: '线要素逆序' })
@@ -674,7 +675,7 @@ class RightMenuModal extends React.Component {
         DataLayerStore.setEditType('merge_line');
         this.mergeLineHandler();
         RightMenuStore.hide();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
     }
 
@@ -701,7 +702,7 @@ class RightMenuModal extends React.Component {
         DataLayerStore.setEditType('batch_merge_line');
         this.batchMergeLineHandler();
         RightMenuStore.hide();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
     }
 
@@ -728,7 +729,7 @@ class RightMenuModal extends React.Component {
         let features = RightMenuStore.getFeatures();
         BatchAssignStore.show(features);
         RightMenuStore.hide();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
     }
 
     @editLock
@@ -745,7 +746,7 @@ class RightMenuModal extends React.Component {
         }
         DataLayerStore.createBreakLine();
         RightMenuStore.hide();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
     }
 
@@ -776,7 +777,7 @@ class RightMenuModal extends React.Component {
         }
         DataLayerStore.trim();
         RightMenuStore.hide();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
     }
 

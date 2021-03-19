@@ -34,7 +34,7 @@ class TemplateArrow extends React.Component {
     action = () => {
         const { DataLayerStore } = this.props;
         if (DataLayerStore.editType == 'new_template_arrow') return;
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
         DataLayerStore.newTemplateArrow();
     };

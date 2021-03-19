@@ -126,7 +126,7 @@ class NewUTurnLine extends React.Component {
         const { DataLayerStore, AttributeStore } = this.props;
         if (DataLayerStore.editType == 'new_Uturn_line') return;
         DataLayerStore.newUTurnLine();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
         this.setState({ visible: true });
     };

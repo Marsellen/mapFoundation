@@ -21,6 +21,7 @@ import Filter from 'src/utils/table/filter';
 import { ATTR_SPEC_CONFIG, REL_ATTR_LAYERS } from 'config/AttrsConfig';
 import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
 import AttrRightMenu from 'src/pages/Index/components/ToolList/AttrRightMenu';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 @inject('RightMenuStore')
 @inject('AttrRightMenuStore')
@@ -360,6 +361,7 @@ class ViewAttribute extends React.Component {
             this.setState({
                 visible: false
             });
+            BuriedPoint.modalBuriedPointEnd('attr_list', 'button');
             return false;
         }
 
@@ -385,12 +387,15 @@ class ViewAttribute extends React.Component {
         } else {
             this.setState({ visible: true }, this.getData);
         }
+        BuriedPoint.modalBuriedPointStart('attr_list', 'button');
     };
 
-    handleCancel = () => {
+    handleCancel = e => {
         this.setState({
             visible: false
         });
+        const channel = e?.keyCode ? 'esc' : 'close';
+        BuriedPoint.modalBuriedPointEnd('attr_list', channel);
     };
 
     getLabel = item => {

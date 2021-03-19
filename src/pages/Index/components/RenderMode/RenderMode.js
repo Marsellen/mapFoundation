@@ -70,7 +70,7 @@ class RenderMode extends React.Component {
                 //清除要素选中效果
                 DataLayerStore.clearPick();
                 //隐藏属性窗口
-                AttributeStore.hide();
+                AttributeStore.hide('other_close');
 
                 //初始化文字注记配置
                 TextStore.initTextConfig(mode, taskProcessName);

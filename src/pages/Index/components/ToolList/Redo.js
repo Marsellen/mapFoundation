@@ -3,6 +3,7 @@ import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
 import { message } from 'antd';
 import { logDecorator, editLock } from 'src/utils/decorator';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
@@ -34,17 +35,18 @@ class Redo extends React.Component {
         this.redo();
     };
 
-    @logDecorator({ operate: '回退', skipHistory: true })
+    @logDecorator({ operate: '回退', skipHistory: true, toolType: 'redo' })
     async redo() {
         const { OperateHistoryStore, AttributeStore } = this.props;
         try {
+            BuriedPoint.toolBuriedPointStart('redo', 'button');
             message.loading({
                 content: '正在回退...',
                 key: 'redo',
                 duration: 0
             });
             OperateHistoryStore.doning();
-            AttributeStore.hide();
+            AttributeStore.hide('other_close');
             AttributeStore.hideRelFeatures();
             let history = await OperateHistoryStore.redo();
             OperateHistoryStore.done();

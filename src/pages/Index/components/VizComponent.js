@@ -127,7 +127,7 @@ class VizComponent extends React.Component {
             DataLayerStore.topViewMode(false);
         }
         ToolCtrlStore.updateByEditLayer();
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         PictureShowStore.hide();
         PictureShowStore.destory();
         TextStore.hide();
@@ -402,9 +402,8 @@ class VizComponent extends React.Component {
 
     initCheckLayer = async () => {
         const { AD_Check } = OtherVectorConfig;
-        const checkLayer = new VectorLayer();
+        const checkLayer = new VectorLayer(null, { layerConfig: AD_Check });
         checkLayer.layerName = 'AD_Check';
-        checkLayer.resetConfig(AD_Check);
         await map.getLayerManager().addLayer('VectorLayer', checkLayer);
         window.checkLayer = {
             layerName: checkLayer.layerName,
@@ -423,10 +422,9 @@ class VizComponent extends React.Component {
         if (isLocal) return; //如果是本地任务，返回
         if (isMsTask && isFixStatus) return; //如果是人工识别【已领取或进行中】，返回
         const { AD_Marker_QC, AD_Marker } = OtherVectorConfig;
-        const markerLayer = new VectorLayer();
-        markerLayer.layerName = 'AD_Marker';
         const markerConfig = roleCode === 'producer' ? AD_Marker : AD_Marker_QC;
-        markerLayer.resetConfig(markerConfig);
+        const markerLayer = new VectorLayer(null, { layerConfig: markerConfig });
+        markerLayer.layerName = 'AD_Marker';
         await map.getLayerManager().addLayer('VectorLayer', markerLayer);
         window.markerLayer = {
             layerName: markerLayer.layerName,
@@ -522,13 +520,13 @@ class VizComponent extends React.Component {
         } else {
             DataLayerStore.unPick();
             DataLayerStore.attributeBrushPick();
-            AttributeStore.hide();
+            AttributeStore.hide('other_close');
             RightMenuStore.hide();
             AttrRightMenuStore.hide();
             window.trackLayer.unSelect();
             this.handleCancelSelect();
         }
-        BatchAssignStore.hide();
+        BatchAssignStore.hide('other_close');
     };
 
     //不同模式下取消关联要素高亮
@@ -572,10 +570,6 @@ class VizComponent extends React.Component {
                 let layer = DataLayerStore.getAdEditLayer();
                 layer && layer.layer.removeFeatureById(data.uuid);
             }
-            //如果是标注图层，报错应退出图层
-            const editLayerName = DataLayerStore.getAdEditLayerName();
-            const isMarkerLayer = editLayerName === 'AD_Marker';
-            isMarkerLayer && DataLayerStore.exitMarker();
             throw e;
         }
     }

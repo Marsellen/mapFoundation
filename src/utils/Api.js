@@ -77,3 +77,11 @@ export function RepairApiPath(url) {
         return `/gateway/correct/${url}`;
     }
 }
+
+export function BuriedPointApiPath(url) {
+    if (/^\//.test(url)) {
+        return `/gateway/collect${url}`;
+    } else {
+        return `/gateway/collect/${url}`;
+    }
+}

@@ -6,6 +6,7 @@ import { ATTR_FORM_FIELD_MAP, QC_MARKER_FORM_CONFIG } from 'src/config/QCMarkerC
 import SeniorModal from 'src/components/SeniorModal';
 
 import 'less/components/qc-marker-modal.less';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 const formLayout = {
     labelCol: { span: 8 },
@@ -27,7 +28,7 @@ class QCMarkerModal extends React.Component {
         this.handleHistory = this.handleHistory.bind(this);
     }
 
-    //关闭和esc回调
+    //关闭
     handleCancel = () => {
         const {
             ToolCtrlStore: { updateByEditLayer },
@@ -38,6 +39,7 @@ class QCMarkerModal extends React.Component {
         hide();
         hideRelFeatures();
         updateByEditLayer();
+        BuriedPoint.toolBuriedPointEnd('qc_marker', 'close');
     };
 
     handleCancelModify = () => {
@@ -117,6 +119,7 @@ class QCMarkerModal extends React.Component {
         this.props.form.validateFields(async (err, values) => {
             if (err) return;
             try {
+                BuriedPoint.toolLoadBuriedPointStart('qc_marker', 'save_button');
                 this.setState({ isLoading: true });
                 formData = { ...values, ...formData };
                 const param = this[`getParam_${type}`](formData);
@@ -136,11 +139,15 @@ class QCMarkerModal extends React.Component {
                 });
                 //记录history
                 this.handleHistory(marker);
+                BuriedPoint.toolLoadBuriedPointEnd('qc_marker', 'success');
+                BuriedPoint.toolBuriedPointEnd('qc_marker', 'success');
                 isExit && this.release();
                 this.setState({ isLoading: false });
                 isInsert && message.success('质检标注生成');
                 isUpdate && message.success('质检标注修改成功');
             } catch (e) {
+                BuriedPoint.toolLoadBuriedPointEnd('qc_marker', 'error');
+                BuriedPoint.toolBuriedPointEnd('qc_marker', 'error');
                 this.setState({ isLoading: false });
                 this.handleCancel();
                 console.error(e.message, 3);

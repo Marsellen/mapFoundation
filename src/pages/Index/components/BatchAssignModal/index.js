@@ -13,6 +13,7 @@ import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import BatchAssignStore from 'src/pages/Index/store/BatchAssignStore';
 import SearchIconGroup from 'src/components/SearchIconGroup';
 import { testDataString } from 'src/utils/timeUtils';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 const formItemLayout = {
     labelCol: {
@@ -95,7 +96,11 @@ class BatchAssignModal extends React.Component {
         form.validateFields(this.submit);
     };
 
-    @logDecorator({ operate: '批量赋值', skipRenderMode: true })
+    @logDecorator({
+        operate: '批量赋值',
+        skipRenderMode: true,
+        toolType: 'batch_attr_edit_modal'
+    })
     async submit(err, values) {
         if (err) {
             return;
@@ -111,11 +116,13 @@ class BatchAssignModal extends React.Component {
         }
     }
 
-    handleCancel = () => {
+    handleCancel = e => {
+        const channel = e?.keyCode ? 'esc' : 'close';
         const { BatchAssignStore, AttributeStore } = this.props;
         DataLayerStore.UnQCAttrModal(['error_layer']);
         BatchAssignStore.hide();
         AttributeStore.showTime(true);
+        BuriedPoint.toolBuriedPointEnd('batch_attr_edit_modal', channel);
     };
 
     renderItem = (item, index, name, disabledList) => {

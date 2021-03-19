@@ -53,7 +53,7 @@ class AttributeBrush extends React.Component {
                 duration: 3,
                 key: 'edit_error'
             });
-        AttributeStore.hide();
+        AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
         DataLayerStore.AttributeBrush();
 
