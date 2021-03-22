@@ -482,10 +482,12 @@ class DataLayerStore {
 
     bufferRender = () => {
         this.exitEdit();
+        window.bufferLayer = null;
         if (!this.editor) return;
         this.setEditType('buffer_render');
         let layers = getAllLayersExByName(LINE_LAYERS);
         this.enableRegionSelect(layers);
+        this.initBufferLayer();
     };
 
     newQCMarker = () => {
@@ -810,7 +812,7 @@ class DataLayerStore {
         this.initBuildLayer();
         this.activeEditor(window.horizontal);
         this.horizontalTip = message.info({
-            content: '面向道路前进方向，绘制垂直于车道线的路面横截线（2点线）',
+            content: '面向道路前进方向，绘制垂直于车道线且与所选车道线相交的路面横截线（2点线）',
             key: 'horizontal',
             duration: 0
         });
