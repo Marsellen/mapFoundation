@@ -7,7 +7,8 @@ export default {
         //下面三个参数涉及点大小的实时计算，不建议修改
         INIT_SIZE_NODE: 0.3, //节点初始化大小
         INIT_SIZE_FACTOR: 1, //默认点大小比例
-        SCALE_SIZE_VALUE: 15 //实时计算点大小比例的一个参数
+        SCALE_SIZE_VALUE: 15, //实时计算点大小比例的一个参数
+        INIT_FIRSTEND_SIZE_NODE: 0.6 // 首尾点大小
     },
     style: {
         selectPCPointStyle: { color: 'rgb(205,92,92)' }, //路面设置
