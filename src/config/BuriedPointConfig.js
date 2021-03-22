@@ -2,8 +2,6 @@ export const EDIT_STATUS_MAP = {
     union_break: '联合打断'
 };
 
-export const UN_BURIED_POINT_EDIT_TYPES = ['choose_error_feature'];
-
 export const BUSINESS_TYPE_MAP = {
     new_point: {
         label: '绘制点要素',
@@ -80,7 +78,7 @@ export const BUSINESS_TYPE_MAP = {
         isLoad: true,
         code: 18
     },
-    same_break_line: {
+    break_line_by_point: {
         label: '齐打断线要素',
         isLoad: true,
         code: 19
@@ -115,7 +113,7 @@ export const BUSINESS_TYPE_MAP = {
         isLoad: true,
         code: 25
     },
-    batch_attr_edit_modal: {
+    batch_assign: {
         label: '批量属性赋值',
         isLoad: true,
         code: 26
@@ -179,5 +177,20 @@ export const BUSINESS_TYPE_MAP = {
         label: '强制删除',
         isLoad: false,
         code: 37
+    },
+    buffer_render: {
+        label: '要素轮廓buffer',
+        isLoad: false,
+        code: 38
+    },
+    new_template_arrow: {
+        label: '绘制模板箭头',
+        isLoad: true,
+        code: 39
+    },
+    batch_break: {
+        label: '批量线要素打断赋值',
+        isLoad: true,
+        code: 40
     }
 };

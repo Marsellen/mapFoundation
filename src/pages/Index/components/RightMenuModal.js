@@ -188,7 +188,7 @@ class RightMenuModal extends React.Component {
             </Menu.Item>,
             <Menu.Item
                 id="force-delete-btn"
-                key="forceDelete"
+                key="force_delete"
                 onClick={this.forceDeleteFeature}
                 className="right-menu-item"
             >
@@ -196,7 +196,7 @@ class RightMenuModal extends React.Component {
             </Menu.Item>,
             <Menu.Item
                 id="batch-build-btn"
-                key="batchBuild"
+                key="batch_build"
                 onClick={this.batchBuildFeature}
                 className="right-menu-item"
             >
@@ -204,7 +204,7 @@ class RightMenuModal extends React.Component {
             </Menu.Item>,
             <Menu.Item
                 id="change-points-btn"
-                key="changePoints"
+                key="change_points"
                 onClick={this.changePoints}
                 className="right-menu-item"
             >
@@ -220,7 +220,7 @@ class RightMenuModal extends React.Component {
             </Menu.Item>,
             <Menu.Item
                 id="reverse-order-line-btn"
-                key="reverseOrderLine"
+                key="reverse_order_line"
                 onClick={this.reverseOrderLine}
                 className="right-menu-item"
             >
@@ -231,8 +231,8 @@ class RightMenuModal extends React.Component {
             </Menu.Item>,
             <Menu.Item
                 id="break-group-btn"
-                key="breakGroup"
-                onClick={() => this.breakLine('same_break_line')}
+                key="break_line_by_point"
+                onClick={() => this.breakLine('break_line_by_point')}
                 className="right-menu-item"
             >
                 <span>齐打断</span>
@@ -247,7 +247,7 @@ class RightMenuModal extends React.Component {
             </Menu.Item>,
             <Menu.Item
                 id="batch-merge-btn"
-                key="batchMerge"
+                key="batch_merge_line"
                 onClick={this.batchMergeLine}
                 className="right-menu-item"
             >
@@ -255,7 +255,7 @@ class RightMenuModal extends React.Component {
             </Menu.Item>,
             <Menu.Item
                 id="batch-assign-btn"
-                key="batchAssign"
+                key="batch_assign"
                 onClick={this.batchAssign}
                 className="right-menu-item"
             >
@@ -263,7 +263,7 @@ class RightMenuModal extends React.Component {
             </Menu.Item>,
             <Menu.Item
                 id="break-by-line-btn"
-                key="breakByLine"
+                key="break_line_by_line"
                 onClick={this.breakByLine}
                 className="right-menu-item"
             >
@@ -271,7 +271,7 @@ class RightMenuModal extends React.Component {
             </Menu.Item>,
             <Menu.Item
                 id="group-move-btn"
-                key="groupMove"
+                key="group_move"
                 onClick={this.groupMove}
                 className="right-menu-item"
             >
@@ -279,7 +279,7 @@ class RightMenuModal extends React.Component {
             </Menu.Item>,
             <Menu.Item
                 id="copy-btn"
-                key="copyLine"
+                key="copy_line"
                 onClick={this.copyLine}
                 className="right-menu-item"
             >
@@ -287,7 +287,7 @@ class RightMenuModal extends React.Component {
             </Menu.Item>,
             <Menu.Item
                 id="translation-point-btn"
-                key="movePointFeature"
+                key="move_point_feature"
                 onClick={this.movePointFeature}
                 className="right-menu-item"
             >
@@ -454,7 +454,7 @@ class RightMenuModal extends React.Component {
                 key: 'edit_error'
             });
         }
-        DataLayerStore.setEditType('delete');
+        DataLayerStore.setEditType('delete', 'button');
         this.deleteFeatureHandler();
         RightMenuStore.hide();
     }
@@ -639,7 +639,7 @@ class RightMenuModal extends React.Component {
     reverseOrderLineHandler() {
         try {
             const { RightMenuStore, DataLayerStore } = this.props;
-            DataLayerStore.setEditType('reverse_order_line');
+            DataLayerStore.setEditType('reverse_order_line', 'button');
             let features = RightMenuStore.getFeatures();
             let oldFeatures = _.cloneDeep(features);
             let newFeatures = features.map(item => {
@@ -672,7 +672,7 @@ class RightMenuModal extends React.Component {
                 key: 'edit_error'
             });
         }
-        DataLayerStore.setEditType('merge_line');
+        DataLayerStore.setEditType('merge_line', 'button');
         this.mergeLineHandler();
         RightMenuStore.hide();
         AttributeStore.hide('other_close');
@@ -699,7 +699,7 @@ class RightMenuModal extends React.Component {
                 key: 'edit_error'
             });
         }
-        DataLayerStore.setEditType('batch_merge_line');
+        DataLayerStore.setEditType('batch_merge_line', 'button');
         this.batchMergeLineHandler();
         RightMenuStore.hide();
         AttributeStore.hide('other_close');

@@ -19,12 +19,11 @@ class BatchAssignStore {
         this.layerName = features[0].layerName;
         let properties = features.map(feature => feature.data.properties);
         this.attributes = modelFactory.getBatchAssignTableData(this.layerName, properties);
-        BuriedPoint.toolBuriedPointStart('batch_attr_edit_modal', 'button');
+        BuriedPoint.toolBuriedPointStart('batch_assign', 'button');
     };
 
     @action hide = channel => {
-        channel = channel ?? 'other_close';
-        this.visible && BuriedPoint.toolBuriedPointEnd('batch_attr_edit_modal', channel);
+        this.visible && BuriedPoint.toolBuriedPointEnd('batch_assign', channel);
         this.visible = false;
     };
 

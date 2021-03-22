@@ -47,7 +47,6 @@ class AttributeStore {
     };
 
     @action hide = channel => {
-        channel = channel ?? 'other_close';
         this.visible && BuriedPoint.toolBuriedPointEnd('attr_edit_modal', channel);
         this.visible = false;
         this.delAttrs = [];

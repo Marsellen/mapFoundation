@@ -104,6 +104,12 @@ export const EDIT_MESSAGE = {
         //绘制箭头
         loadingMsg: '绘制箭头...',
         successMsg: '绘制箭头成功',
-        errorMsg: '绘制箭头失败'
+        errorMsg: '绘制箭头失败：'
     },
+    batch_break: {
+        //批量线要素打断赋值
+        loadingMsg: '正在批量线要素打断赋值要素...',
+        successMsg: '批量线要素打断赋值完成',
+        errorMsg: '批量线要素打断赋值失败：'
+    }
 };

@@ -45,6 +45,15 @@ const AdLineService = {
             data
         };
         return service({ config });
+    },
+    batchBreak: data => {
+        //交互式构建 批量属性打断赋值
+        const config = {
+            url: ManualBuildApiPath('/ml/divSplit'),
+            method: 'post',
+            data
+        };
+        return service({ config });
     }
 };
 

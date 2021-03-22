@@ -1,15 +1,15 @@
 import { flow, configure } from 'mobx';
-import TaskService from 'src/services/TaskService';
+import AdLineService from 'src/services/AdLineService';
 
 configure({ enforceActions: 'always' });
 class ManualBuildStore {
-    batchLineInterruptAssig = flow(function* (task) {
+    batchBreak = flow(function* (data) {
         try {
-            const result = yield TaskService.batchLineInterruptAssig(task);
-
+            const result = yield AdLineService.batchBreak(data);
             return result;
         } catch (e) {
-            console.log(e);
+            console.log('批量线要素打断赋值失败' + e.message || e || '');
+            throw e;
         }
     });
 }

@@ -28,7 +28,7 @@ export const TOOLS_MAP = {
         SETSTEP_SIZE: true,
         UNION_BREAK: true,
         TOP_BREAK_LINE_2: true,
-        BATCH_LINE_INTERRUPT_ASSIG: true
+        BATCH_BREAK: true
     },
     CHECK: {
         UNDO: true,
@@ -58,6 +58,6 @@ export const TOOLS_MAP = {
         POSTURE_ADJUST: false,
         SETSTEP_SIZE: true,
         TOP_BREAK_LINE_2: false,
-        BATCH_LINE_INTERRUPT_ASSIG: false
+        BATCH_BREAK: false
     }
 };

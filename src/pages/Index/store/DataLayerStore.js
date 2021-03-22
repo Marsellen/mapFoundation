@@ -137,14 +137,14 @@ class DataLayerStore {
         }
         //埋点开始
         BuriedPoint.statusBuriedPointEnd(this.editStatus, channel);
+
         this.editor?.setEditLayer(layer);
-        if (layer?.layerName !== 'AD_Horizontal') {
-            this.editor ? this.exitEdit('toggle') : this.initEditor();
-            this.adEditLayer = layer;
-            this.setEditStatus('normal'); //设置编辑状态
-            this.isTopView && this.enableRegionSelect(); //重置框选可选图层
-            this.updateKey = Math.random();
-        }
+        this.editor ? this.exitEdit('toggle') : this.initEditor();
+        this.adEditLayer = layer;
+        this.setEditStatus('normal'); //设置编辑状态
+        this.isTopView && this.enableRegionSelect(); //重置框选可选图层
+        this.updateKey = Math.random();
+
         //埋点结束
         BuriedPoint.statusBuriedPointStart(this.editStatus, channel);
         return layer;
@@ -180,7 +180,7 @@ class DataLayerStore {
                     this.delRelCallback(result, event);
                     break;
                 case 'break_line':
-                case 'same_break_line':
+                case 'break_line_by_point':
                     this.breakCallback(result, event);
                     break;
                 case 'new_around_line':
@@ -361,7 +361,7 @@ class DataLayerStore {
         RightMenuStore.hide();
         this.editType = type || 'normal';
 
-        BuriedPoint.toolBuriedPointStart(type, 'button');
+        BuriedPoint.toolBuriedPointStart(type, channel);
     };
 
     changeCur = () => {
@@ -416,7 +416,7 @@ class DataLayerStore {
     newPoint = () => {
         this.exitEdit('toggle');
         if (!this.editor) return;
-        this.setEditType('new_point');
+        this.setEditType('new_point', 'button');
         this.changeCur();
         this.editor.newPoint();
     };
@@ -424,7 +424,7 @@ class DataLayerStore {
     newLine = () => {
         this.exitEdit('toggle');
         if (!this.editor) return;
-        this.setEditType('new_line');
+        this.setEditType('new_line', 'button');
         this.changeCur();
         this.editor.newLine();
     };
@@ -434,7 +434,7 @@ class DataLayerStore {
         this.exitEdit('toggle');
         if (!this.editor) return;
         const drawNodeDensity = sysProperties.getConfig('drawNodeDensity');
-        this.setEditType('new_curved_line');
+        this.setEditType('new_curved_line', 'button');
         this.changeCur();
         this.editor.newCurveLine(drawNodeDensity);
     };
@@ -443,7 +443,7 @@ class DataLayerStore {
         //属性刷
         if (this.editType == 'attribute_brush') return;
         this.clearAllEditDebuff();
-        this.setEditType('attribute_brush');
+        this.setEditType('attribute_brush', 'button');
         this.changeCur();
         this.editor.selectFeature(1);
     };
@@ -451,7 +451,7 @@ class DataLayerStore {
     newPolygon = () => {
         this.exitEdit('toggle');
         if (!this.editor) return;
-        this.setEditType('new_polygon');
+        this.setEditType('new_polygon', 'button');
         this.changeCur();
         this.editor.newPolygon();
     };
@@ -459,7 +459,7 @@ class DataLayerStore {
     newGroundRectangle = () => {
         this.exitEdit('toggle');
         if (!this.editor) return;
-        this.setEditType('new_ground_rectangle');
+        this.setEditType('new_ground_rectangle', 'button');
         this.changeCur();
         this.editor.newPlaneTextMatrix();
     };
@@ -467,7 +467,7 @@ class DataLayerStore {
     newFacadeRectangle = () => {
         this.exitEdit('toggle');
         if (!this.editor) return;
-        this.setEditType('new_facade_rectangle');
+        this.setEditType('new_facade_rectangle', 'button');
         this.changeCur();
         this.editor.newMatrix();
     };
@@ -475,7 +475,7 @@ class DataLayerStore {
     selectPointFromPC = () => {
         this.exitEdit('toggle');
         if (!this.editor) return;
-        this.setEditType('select_road_plane');
+        this.setEditType('select_road_plane', 'button');
         this.editor.selectPointFromPC();
         this.roadPlanePointStyle();
     };
@@ -484,7 +484,7 @@ class DataLayerStore {
         this.exitEdit();
         window.bufferLayer = null;
         if (!this.editor) return;
-        this.setEditType('buffer_render');
+        this.setEditType('buffer_render', 'button');
         let layers = getAllLayersExByName(LINE_LAYERS);
         this.enableRegionSelect(layers);
         this.initBufferLayer();
@@ -493,7 +493,7 @@ class DataLayerStore {
     newQCMarker = () => {
         this.exitEdit('toggle');
         if (!this.editor) return;
-        this.setEditType('qc_marker');
+        this.setEditType('qc_marker', 'button');
         this.changeCur();
         this.editor.newLine();
     };
@@ -502,7 +502,7 @@ class DataLayerStore {
     newAroundLine = () => {
         this.exitEdit('toggle');
         if (!this.editor) return;
-        this.setEditType('new_around_line');
+        this.setEditType('new_around_line', 'button');
         this.editor.clear();
         this.editor.toggleMode(61); //多选模式
         this.removeCur();
@@ -514,7 +514,7 @@ class DataLayerStore {
     newStraightLine = () => {
         this.exitEdit('toggle');
         if (!this.editor) return;
-        this.setEditType('new_straight_line');
+        this.setEditType('new_straight_line', 'button');
         this.editor.clear();
         this.editor.toggleMode(61);
         this.removeCur();
@@ -526,7 +526,7 @@ class DataLayerStore {
     newTurnLine = () => {
         this.exitEdit('toggle');
         if (!this.editor) return;
-        this.setEditType('new_turn_line');
+        this.setEditType('new_turn_line', 'button');
         this.editor.clear();
         this.editor.toggleMode(61);
         this.removeCur();
@@ -538,7 +538,7 @@ class DataLayerStore {
     newUTurnLine = () => {
         this.exitEdit('toggle');
         if (!this.editor) return;
-        this.setEditType('new_Uturn_line');
+        this.setEditType('new_Uturn_line', 'button');
         this.editor.clear();
         this.editor.toggleMode(61);
         this.removeCur();
@@ -550,7 +550,7 @@ class DataLayerStore {
     postureAdjust = () => {
         if (this.editType == 'posture_adjust') return;
         this.clearAllEditDebuff();
-        this.setEditType('posture_adjust');
+        this.setEditType('posture_adjust', 'button');
         this.editor.changeFeaturePos();
     };
 
@@ -581,7 +581,7 @@ class DataLayerStore {
         if (step == 0) {
             this.exitEdit('toggle');
             if (!this.editor) return;
-            this.setEditType('dashed_polygon_create');
+            this.setEditType('dashed_polygon_create', 'button');
             let layers = getAllLayersExByName('AD_LaneDivider');
             this.editor.setTargetLayers(layers);
         } else if (step == 1) {
@@ -593,7 +593,7 @@ class DataLayerStore {
     newTemplateArrow() {
         this.exitEdit('toggle');
         if (!this.editor) return;
-        this.setEditType('new_template_arrow');
+        this.setEditType('new_template_arrow', 'button');
         this.changeCur();
         this.editor.newFixedPolygon(3);
     }
@@ -614,7 +614,7 @@ class DataLayerStore {
     newVerticalMatrix = () => {
         this.exitEdit('toggle');
         if (!this.editor) return;
-        this.setEditType('new_vertical_matrix');
+        this.setEditType('new_vertical_matrix', 'button');
         this.changeCur();
         this.editor.newVerticalMatrix();
     };
@@ -622,7 +622,7 @@ class DataLayerStore {
     newRel = () => {
         this.exitEdit('toggle');
         if (this.editType == 'new_rel') return;
-        this.setEditType('new_rel');
+        this.setEditType('new_rel', 'button');
         this.editor.clear();
         this.editor.toggleMode(61);
     };
@@ -630,7 +630,7 @@ class DataLayerStore {
     delRel = () => {
         if (this.editType == 'del_rel') return;
         this.clearAllEditDebuff();
-        this.setEditType('del_rel');
+        this.setEditType('del_rel', 'button');
     };
 
     lineSnapStop = (step = 0) => {
@@ -638,7 +638,7 @@ class DataLayerStore {
             if (this.editType == 'line_snap_stop') return;
             this.exitEdit('toggle');
             AttributeStore.hide('other_close'); //隐藏属性窗口
-            this.setEditType('line_snap_stop');
+            this.setEditType('line_snap_stop', 'button');
         } else if (step === 1) {
             this.editor.selectFeature(1);
             let layers = getAllLayersExByName('AD_StopLocation');
@@ -651,7 +651,7 @@ class DataLayerStore {
             if (this.editType == 'assign_line_batch') return;
             this.exitEdit('toggle');
             AttributeStore.hide('other_close'); //隐藏属性窗口
-            this.setEditType('assign_line_batch');
+            this.setEditType('assign_line_batch', 'button');
         } else if (step === 1) {
             this.editor.newFixLine(2, 1);
         }
@@ -766,7 +766,7 @@ class DataLayerStore {
     newCircle = () => {
         this.exitEdit('toggle');
         if (!this.editor) return;
-        this.setEditType('new_circle');
+        this.setEditType('new_circle', 'button');
         this.changeCur();
         this.editor.newFixedPolygon(3);
     };
@@ -803,14 +803,13 @@ class DataLayerStore {
     batchBuildFeature = () => {
         if (!this.editor) return;
         this.clearAllEditDebuff();
-        this.setEditType('batch_build');
+        this.setEditType('batch_build', 'button');
     };
 
     openDrawHorizontal = () => {
         if (!this.editor) return;
-        this.setEditType('batch_build');
         this.initBuildLayer();
-        this.activeEditor(window.horizontal);
+        this.editor?.setEditLayer(window.horizontal);
         this.horizontalTip = message.info({
             content: '面向道路前进方向，绘制垂直于车道线且与所选车道线相交的路面横截线（2点线）',
             key: 'horizontal',
@@ -867,7 +866,7 @@ class DataLayerStore {
     changePoints = () => {
         if (!this.editor) return;
         this.clearAllEditDebuff();
-        this.setEditType('change_points');
+        this.setEditType('change_points', 'button');
         this.addShapePoint();
         this.editor.modifyFeaturePoints();
     };
@@ -875,14 +874,14 @@ class DataLayerStore {
     movePointFeature = () => {
         if (!this.editor) return;
         this.clearAllEditDebuff();
-        this.setEditType('move_point_feature');
+        this.setEditType('move_point_feature', 'button');
         this.editor.movePointFeature();
     };
 
     dragCopyedFeature = () => {
         if (!this.editor) return;
         this.clearAllEditDebuff();
-        this.setEditType('copy_line');
+        this.setEditType('copy_line', 'button');
         this.changeCur();
         this.editor.dragCopyedFeature();
     };
@@ -904,7 +903,7 @@ class DataLayerStore {
     //顶部工具栏-测距
     startMeatureDistance_1 = () => {
         this.exitEdit('toggle');
-        this.setEditType('meature_distance');
+        this.setEditType('meature_distance', 'button');
         //右键回调
         this.measureControl.onMeasureFinish(() => {
             this.measureControl.startMeatureDistance();
@@ -921,8 +920,7 @@ class DataLayerStore {
             const distance = Number(result?.distance);
             BatchBuildStore.updateFeature(featuresName, index, 'DISTANCE', distance);
             BatchBuildStore.clearActiveRange();
-            this.measureControl.clear();
-            this.removeCur();
+            this.exitMeatureDistance_2();
         });
         this.measureControl.startMeatureDistance();
         this.ruler();
@@ -932,11 +930,12 @@ class DataLayerStore {
     exitMeatureDistance_2 = () => {
         this.measureControl.clear();
         this.removeCur();
+        this.setEditType('batch_build');
     };
 
     startReadCoordinate = () => {
         this.exitEdit('toggle');
-        this.setEditType('read_coordinate');
+        this.setEditType('read_coordinate', 'button');
         this.addReadCoordinateLinstener();
     };
 
@@ -946,7 +945,7 @@ class DataLayerStore {
 
     selectPointFromHighlight = editType => {
         this.clearAllEditDebuff();
-        this.setEditType(editType);
+        this.setEditType(editType, 'button');
         this.editor.selectPointFromHighlight();
         this.addShapePoint();
     };
@@ -1238,7 +1237,7 @@ class DataLayerStore {
 
     createBreakLine = () => {
         if (!this.editor) return;
-        this.setEditType('break_line_by_line');
+        this.setEditType('break_line_by_line', 'button');
         this.changeCur();
         this.editor.newFixLine(2);
     };
@@ -1265,7 +1264,7 @@ class DataLayerStore {
         if (!this.editor) return;
         const repairNodeDensity = sysProperties.getConfig('repairNodeDensity');
         this.clearAllEditDebuff();
-        this.setEditType('trim');
+        this.setEditType('trim', 'button');
         this.trimStyle();
         this.editor.modifyLine(this.editor.modifyLineType, repairNodeDensity);
     }
@@ -1273,7 +1272,7 @@ class DataLayerStore {
     groupMove = (data, step = 0) => {
         if (step == 0) {
             if (!this.editor) return;
-            this.setEditType('group_move');
+            this.setEditType('group_move', 'button');
             this.addShapePoint();
             this.editor.selectPointFromHighlight();
         } else if (step == 1) {
