@@ -69,32 +69,31 @@ class BufferRender extends React.Component {
                                     )}
                                 </Col>
                                 <Col span={6} push={4}>
-                                    <span className="ant-form-text"> 米</span>
+                                    <span className="ant-form-text">米</span>
                                 </Col>
                             </Row>
                         </Form.Item>
                         <Form.Item label="buffer颜色" name="color">
-                            <div className="color-buffer">
-                                {form.getFieldDecorator(
-                                    'color',
-                                    { initialValue: 'rgb(90,35,255)' },
-                                    {
-                                        rules: []
-                                    }
-                                )(
-                                    <AdColorInput
-                                        color={color}
-                                        onChange={val => this.onChange('color', val)}
-                                    />
-                                )}
-                            </div>
+                            {form.getFieldDecorator(
+                                'color',
+                                { initialValue: 'rgb(255,800,80)' },
+                                {
+                                    rules: []
+                                }
+                            )(
+                                <AdColorInput
+                                    color={color}
+                                    disableAlpha={true}
+                                    onChange={val => this.onChange('color', val)}
+                                />
+                            )}
                         </Form.Item>
                         <Form.Item label="buffer透明度" name="opacity_buffer">
                             <Row>
                                 <Col span={16}>
                                     {form.getFieldDecorator(
                                         'opacity',
-                                        { initialValue: 0.5 },
+                                        { initialValue: 0.2 },
                                         {
                                             rules: []
                                         }
@@ -110,7 +109,7 @@ class BufferRender extends React.Component {
                                     )}
                                 </Col>
                                 <Col span={6} push={4}>
-                                    <span className="ant-form-text">{opacity * 100 || 50}%</span>
+                                    <span className="ant-form-text">{opacity * 100 || 20}%</span>
                                 </Col>
                             </Row>
                         </Form.Item>
@@ -128,7 +127,6 @@ class BufferRender extends React.Component {
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
         DataLayerStore.bufferRender();
-        DataLayerStore.initBufferLayer();
     };
 
     createTube = result => {

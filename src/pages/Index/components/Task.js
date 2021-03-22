@@ -15,6 +15,7 @@ const processNameOptions = CONFIG.processNameOptions;
 
 @inject('TaskStore')
 @inject('OperateHistoryStore')
+@inject('DataLayerStore')
 @observer
 class Task extends React.Component {
     constructor(props) {
@@ -127,7 +128,7 @@ class Task extends React.Component {
                 BuriedPoint.statusBuriedPointEnd('union_break', 'toggleTask');
 
                 const { current } = this.state;
-                const { TaskStore } = this.props;
+                const { TaskStore, DataLayerStore } = this.props;
                 const { taskIdList, activeTaskId } = TaskStore;
 
                 // 切换任务时，保存上一个任务的缩放比例，该方法需最先执行
@@ -142,7 +143,7 @@ class Task extends React.Component {
                         });
                     }
                 }
-
+                DataLayerStore.exitEdit();
                 await TaskStore.setActiveTask(id);
                 if (isEdit) await TaskStore.startTaskEdit(id);
 
