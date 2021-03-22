@@ -51,12 +51,12 @@ class RightMenuStore {
         if (featuresL === 1) {
             rightTools = DATA_LAYER_MAP[layerName].rightTools;
             if (!event) {
-                rightTools = rightTools.flatMap(item => (item === 'forceDelete' ? [] : [item]));
+                rightTools = rightTools.flatMap(item => (item === 'force_delete' ? [] : [item]));
             }
         } else if (featuresL === 2) {
             //所选要素数量等于2时，隐藏批量线合并
             rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
-            rightTools = rightTools.flatMap(item => (item === 'batchMerge' ? [] : [item]));
+            rightTools = rightTools.flatMap(item => (item === 'batch_merge_line' ? [] : [item]));
         } else if (featuresL > 2 && featuresL <= 12) {
             //所选要素数量大于2时，隐藏合并
             rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
@@ -107,7 +107,7 @@ class RightMenuStore {
         if (this.features.length === 1) {
             this.menus = ['break'];
         } else {
-            this.menus = ['breakGroup', 'breakByLine'];
+            this.menus = ['break_line_by_point', 'break_line_by_line'];
         }
     };
 

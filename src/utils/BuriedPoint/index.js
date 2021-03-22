@@ -56,7 +56,6 @@ class BuriedPoint {
         let buriedPointDesc = null;
         switch (channel) {
             case 'button':
-                if (UN_BURIED_POINT_EDIT_TYPES.includes(type)) return;
                 const isShortcutKey = ShortcutKey.keyCode;
                 const isRightMenu = RightMenuStore?.menus?.includes?.(type);
                 eventType = isShortcutKey ? 'keyup' : 'click';
@@ -136,16 +135,20 @@ class BuriedPoint {
     toolLoadBuriedPointStart = (type, channel) => {
         if (!type || type === 'normal') return;
         if (!BUSINESS_TYPE_MAP[type]?.isLoad) return;
-        let eventType = null;
+        let eventType = 'click';
         let buriedPointDesc = null;
         switch (channel) {
             case 'right_click':
-                eventType = 'click';
                 buriedPointDesc = '右键结束';
                 break;
             case 'save_button':
-                eventType = 'click';
                 buriedPointDesc = '保存按钮';
+                break;
+            case 'complete_button':
+                buriedPointDesc = '完成按钮';
+                break;
+            case 'draw_end':
+                buriedPointDesc = '绘制结束';
                 break;
             default:
                 return;

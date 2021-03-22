@@ -125,6 +125,7 @@ class BatchBuildFeature extends React.Component {
     @editLock
     handleSubmit = async e => {
         e.preventDefault();
+        this.props.DataLayerStore.setEditType('batch_build');
         await this.handleBatchBuild();
         this.exit();
     };
@@ -140,7 +141,7 @@ class BatchBuildFeature extends React.Component {
         return historyLog;
     }
 
-    // 路面横截线
+    //路面横截线
     toggle = () => {
         const {
             DataLayerStore: { openDrawHorizontal, closeDrawHorizontal, exitMeatureDistance_2 },
@@ -157,7 +158,7 @@ class BatchBuildFeature extends React.Component {
         }
     };
 
-    // 清空路面横截线
+    //清空路面横截线
     clearHorizontalLayer = () => {
         const {
             DataLayerStore: { clearDrawHorizontal, closeDrawHorizontal, exitMeatureDistance_2 },

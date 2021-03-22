@@ -96,11 +96,7 @@ class BatchAssignModal extends React.Component {
         form.validateFields(this.submit);
     };
 
-    @logDecorator({
-        operate: '批量赋值',
-        skipRenderMode: true,
-        toolType: 'batch_attr_edit_modal'
-    })
+    @logDecorator({ operate: '批量赋值', skipRenderMode: true, toolType: 'batch_assign' })
     async submit(err, values) {
         if (err) {
             return;
@@ -122,7 +118,7 @@ class BatchAssignModal extends React.Component {
         DataLayerStore.UnQCAttrModal(['error_layer']);
         BatchAssignStore.hide();
         AttributeStore.showTime(true);
-        BuriedPoint.toolBuriedPointEnd('batch_attr_edit_modal', channel);
+        BuriedPoint.toolBuriedPointEnd('batch_assign', channel);
     };
 
     renderItem = (item, index, name, disabledList) => {

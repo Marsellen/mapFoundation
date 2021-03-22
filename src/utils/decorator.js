@@ -38,12 +38,18 @@ const operateLock = new Lock(); // 操作锁
 const handleToolLoadBuriedPointStart = (toolType, onlyRun) => {
     switch (toolType) {
         case 'attr_edit_modal':
-        case 'batch_attr_edit_modal':
+        case 'batch_assign':
             BuriedPoint.toolLoadBuriedPointStart(toolType, 'save_button');
+            break;
+        case 'batch_build':
+            BuriedPoint.toolLoadBuriedPointStart(toolType, 'complete_button');
+            break;
+        case 'new_template_arrow':
+            BuriedPoint.toolLoadBuriedPointStart(toolType, 'draw_end');
             break;
         case 'new_rel':
         case 'break_line':
-        case 'same_break_line':
+        case 'break_line_by_point':
             !onlyRun && BuriedPoint.toolLoadBuriedPointStart(toolType, 'right_click');
             break;
         default:

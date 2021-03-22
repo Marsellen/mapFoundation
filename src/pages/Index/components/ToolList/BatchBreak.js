@@ -1,41 +1,40 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
-import { Modal, message } from 'antd';
+import { Modal } from 'antd';
 import { logDecorator, editLock } from 'src/utils/decorator';
 import sysProperties from 'src/models/sysProperties';
+
 @inject('TaskStore')
 @inject('ManualBuildStore')
+@inject('DataLayerStore')
 @observer
-class BatchLineInterruptAssig extends React.Component {
-    state = {
-        clicked: false
-    };
+class BatchBreak extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleOk = this.handleOk.bind(this);
+    }
 
     isDisabled = () => {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         return !activeTaskId;
     };
+
     @editLock
     handleClick = () => {
-        this.setState({ clicked: true });
+        this.props.DataLayerStore.setEditType('batch_break', 'button');
     };
 
     @logDecorator({ operate: '批量线要素打断赋值', skipRenderMode: true })
-    handleOk = async () => {
-        const { TaskStore, ManualBuildStore } = this.props;
+    async handleOk() {
         const {
-            activeTask: { taskId }
-        } = TaskStore;
-        this.setState({
-            clicked: false
-        });
-        message.loading({
-            key: 'batch_assignment',
-            content: '正在批量线要素打断赋值要素...',
-            duration: 0
-        });
+            ManualBuildStore,
+            TaskStore: {
+                activeTask: { taskId }
+            }
+        } = this.props;
+        //获取参数
         const inputLayers = sysProperties.getConfig('inputEditLayer');
         const layers = vectorLayerGroup.layers;
         const layerMap = {};
@@ -43,52 +42,48 @@ class BatchLineInterruptAssig extends React.Component {
         layers.forEach(layerItem => {
             const { layerName, layer } = layerItem;
             if (inputLayers.includes(layerName)) {
-                inputLayerMap[layerName] = layer.getAllFeatures();
+                inputLayerMap[layerName] = layer.getVectorData();
             }
             layerMap[layerName] = layer;
         });
+        //发送请求
+        const result = await ManualBuildStore.batchBreak({
+            Function_Name: 'BreakLine',
+            TaskId: taskId,
+            data: inputLayerMap
+        });
+        //渲染返回要素
+        const outputLayers = sysProperties.getConfig('outputEditLayer');
+        outputLayers.forEach(layerName => {
+            if (!result.data[layerName]) return;
+            const layer = layerMap[layerName];
+            if (!layer) return;
+            layer.clear();
+            layer.addFeatures(result.data.layerName);
+        });
+        //日志数据
+        const history = {};
+        return history;
+    }
 
-        try {
-            const result = await ManualBuildStore.batchLineInterruptAssig({
-                Function_Name: 'BreakLine',
-                TaskId: taskId,
-                data: inputLayerMap
-            });
-            const outputLayers = sysProperties.getConfig('outputEditLayer');
-            outputLayers.forEach(layerName => {
-                if (!result.data[layerName]) return;
-                const layer = layerMap[layerName];
-                if (!layer) return;
-                layer.clear();
-                layer.addFeatures(result.data.layerName);
-            });
-
-            message.success({
-                key: 'batch_assignment',
-                content: '批量线要素打断赋值完成',
-                duration: 1
-            });
-        } catch (e) {
-            message.error({
-                key: 'batch_assignment',
-                content: `批量线要素打断赋值失败,${e.message}`,
-                duration: 1
-            });
-        }
+    handleCancel = () => {
+        this.props.DataLayerStore.setEditType();
     };
 
     render() {
         const {
-            TaskStore: { isMsTask }
+            TaskStore: { isMsTask },
+            DataLayerStore: { editType }
         } = this.props;
-        const { clicked } = this.state;
+        const visible = editType === 'batch_break';
+
         if (isMsTask) {
             return (
                 <>
                     <ToolIcon
                         icon="piliangxianyaosudaduanfuzhi"
                         title="批量线要素打断赋值"
-                        visible={clicked}
+                        visible={visible}
                         disabled={this.isDisabled()}
                         action={this.handleClick}
                     />
@@ -96,12 +91,10 @@ class BatchLineInterruptAssig extends React.Component {
                         title="批量线要素打断赋值"
                         okText="确定"
                         cancelText="取消"
-                        visible={clicked}
+                        visible={visible}
                         autoFocusButton={null}
                         onOk={this.handleOk}
-                        onCancel={() => {
-                            this.setState({ clicked: false });
-                        }}
+                        onCancel={this.handleCancel}
                     >
                         <div>
                             <p>
@@ -119,4 +112,4 @@ class BatchLineInterruptAssig extends React.Component {
     }
 }
 
-export default BatchLineInterruptAssig;
+export default BatchBreak;

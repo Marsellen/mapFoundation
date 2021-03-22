@@ -19,7 +19,7 @@ import QCMarkerTool from './QCMarkerTool';
 import PostureAdjust from './PostureAdjust';
 import SetStepSize from './SetStepSize';
 import UnionBreak from './UnionBreak';
-import BatchLineInterruptAssig from './BatchLineInterruptAssig';
+import BatchBreak from './BatchBreak';
 
 export default [
     <Undo key="UNDO" />,
@@ -43,5 +43,5 @@ export default [
     <PostureAdjust key="POSTURE_ADJUST" />,
     <UnionBreak key="UNION_BREAK" />,
     <TopBreakLine key="TOP_BREAK_LINE_2" />,
-    <BatchLineInterruptAssig key="BATCH_LINE_INTERRUPT_ASSIG" />
+    <BatchBreak key="BATCH_BREAK" />
 ];
