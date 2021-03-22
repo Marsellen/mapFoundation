@@ -195,6 +195,7 @@ class ConfigurableForm extends React.Component {
                                         title={optionItem[option.label]}
                                         value={optionItem[option.value]}
                                         key={optionItem[option.value]}
+                                        style={{ fontSize: '12px' }}
                                     >
                                         {optionItem[option.label]}
                                     </Option>
