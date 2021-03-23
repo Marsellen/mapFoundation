@@ -35,14 +35,26 @@ class BatchBreak extends React.Component {
             }
         } = this.props;
         //获取参数
-        const inputLayers = sysProperties.getConfig('inputEditLayer');
+        const inputLayers = JSON.parse(sysProperties.getConfig('inputEditLayer'));
+        const outputLayers = JSON.parse(sysProperties.getConfig('outputEditLayer'));
         const layers = vectorLayerGroup.layers;
         const layerMap = {};
         const inputLayerMap = {};
+        const oldAllFeatures = [];
         layers.forEach(layerItem => {
             const { layerName, layer } = layerItem;
             if (inputLayers.includes(layerName)) {
-                inputLayerMap[layerName] = layer.getVectorData();
+                const oldLayerFeatures = layer.getVectorData();
+                inputLayerMap[layerName] = oldLayerFeatures;
+                if (outputLayers.includes(layerName)) {
+                    oldLayerFeatures.features.forEach(feature => {
+                        oldAllFeatures.push({
+                            layerName,
+                            type: 'VectorLayer',
+                            data: feature
+                        });
+                    });
+                }
             }
             layerMap[layerName] = layer;
         });
@@ -53,16 +65,26 @@ class BatchBreak extends React.Component {
             data: inputLayerMap
         });
         //渲染返回要素
-        const outputLayers = sysProperties.getConfig('outputEditLayer');
+        const newAllFeatures = [];
         outputLayers.forEach(layerName => {
             if (!result.data[layerName]) return;
             const layer = layerMap[layerName];
             if (!layer) return;
             layer.clear();
-            layer.addFeatures(result.data.layerName);
+            const newLayerFeatures = result.data[layerName].features;
+            layer.addFeatures(newLayerFeatures);
+            newLayerFeatures.forEach(feature => {
+                newAllFeatures.push({
+                    layerName,
+                    data: feature,
+                    type: 'VectorLayer'
+                });
+            });
         });
         //日志数据
-        const history = {};
+        const history = {
+            features: [oldAllFeatures, newAllFeatures]
+        };
         return history;
     }
 
@@ -98,10 +120,10 @@ class BatchBreak extends React.Component {
                     >
                         <div>
                             <p>
-                                输入：几何正确,类型属性正确的车道线（含道路边界）,隔离带&护栏,停止位置
+                                输入：几何正确、类型属性正确的车道线（含道路边界）、隔离带&护栏、停止位置
                             </p>
-                            <p>输出：经过自动齐打断,属性调整后的车道线,隔离带&护栏</p>
-                            <p style={{ color: 'red' }}>注：此功能只在人工识别, 底图新增阶段使用</p>
+                            <p>输出：经过自动齐打断、属性调整后的车道线、隔离带&护栏</p>
+                            <p style={{ color: 'red' }}>注：此功能只在人工识别、底图新增阶段使用</p>
                         </div>
                     </Modal>
                 </>
