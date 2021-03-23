@@ -169,7 +169,7 @@ class AddRel extends React.Component {
         }
     }
 
-    @logDecorator({ operate: '新建关联关系' })
+    @logDecorator({ operate: '新建关联关系', doubleLog: true })
     async newRelHandler(mainFeature, relFeatures, warningMessage) {
         try {
             message.loading({
