@@ -822,6 +822,9 @@ class RightMenuModal extends React.Component {
             RightMenuStore.hide();
             AttributeStore.hideRelFeatures();
         } catch (e) {
+            BuriedPoint.toolLoadBuriedPointStart('group_move', 'right_click');
+            BuriedPoint.toolLoadBuriedPointEnd('group_move', 'error');
+            BuriedPoint.toolBuriedPointEnd('group_move', 'error');
             message.warning(e.message, 3);
         }
     };
@@ -837,6 +840,9 @@ class RightMenuModal extends React.Component {
                 throw new Error('批量平移失败！');
             }
         } catch (e) {
+            BuriedPoint.toolLoadBuriedPointStart('group_move', 'right_click');
+            BuriedPoint.toolLoadBuriedPointEnd('group_move', 'error');
+            BuriedPoint.toolBuriedPointEnd('group_move', 'error');
             message.warning(e.message, 3);
             DataLayerStore.clearCheckedPoint();
         }
@@ -864,6 +870,7 @@ class RightMenuModal extends React.Component {
             return history;
         } catch (e) {
             message.warning('批量平移失败：' + e.message, 3);
+            throw e;
         } finally {
             this.removeEventListener();
             DataLayerStore.clearCheckedPoint();
