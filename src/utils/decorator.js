@@ -48,6 +48,7 @@ const handleToolLoadBuriedPointStart = (toolType, onlyRun) => {
         case 'new_template_arrow':
         case 'new_facade_rectangle':
         case 'new_circle':
+        case 'new_ground_rectangle':
             BuriedPoint.toolLoadBuriedPointStart(toolType, 'draw_end');
             break;
         default:
