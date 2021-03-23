@@ -61,8 +61,6 @@ class RenderMode extends React.Component {
                 const { mode } = this.state;
                 //设置渲染模式
                 RenderModeStore.setMode(mode);
-                //重设画布渲染样式
-                this.resetStyleConfig(mode);
                 //关闭渲染模式弹窗
                 this.setState({
                     visible: false
@@ -71,11 +69,12 @@ class RenderMode extends React.Component {
                 DataLayerStore.clearPick();
                 //隐藏属性窗口
                 AttributeStore.hide('other_close');
-
                 //初始化文字注记配置
                 TextStore.initTextConfig(mode, taskProcessName);
                 //关闭文字注记弹窗
                 TextStore.hide();
+                //重设画布渲染样式
+                this.resetStyleConfig(mode);
             }
         });
     };
