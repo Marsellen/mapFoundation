@@ -211,14 +211,14 @@ export default {
         vectorStyle: {
             NOKEY: [
                 {
-                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                    style: { color: 'rgb(255,0,0)', linewidth: 1 }
                 }
             ]
         },
         arrowStyle: {
             NOKEY: [
                 {
-                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                    style: { color: 'rgb(255,0,0)', linewidth: 1 }
                 }
             ]
         }
