@@ -99,9 +99,16 @@ export const BUSINESS_TYPE_MAP = {
         code: 22
     },
     new_Uturn_line: {
-        label: '掉头中心线生成',
-        isLoad: true,
-        code: 23
+        AD_Lane: {
+            label: '掉头中心线生成',
+            isLoad: true,
+            code: 23
+        },
+        AD_Road: {
+            label: '掉头参考线生成',
+            isLoad: true,
+            code: 46
+        }
     },
     batch_build: {
         label: '批量生成车道线',
@@ -153,7 +160,7 @@ export const BUSINESS_TYPE_MAP = {
         isLoad: true,
         code: 33
     },
-    qc_marker: {
+    new_qc_marker: {
         label: '新建质检标注',
         isLoad: true,
         code: 34
@@ -192,5 +199,96 @@ export const BUSINESS_TYPE_MAP = {
         label: '批量线要素打断赋值',
         isLoad: true,
         code: 40
+    },
+    new_facade_rectangle: {
+        label: '绘制两点立面矩形',
+        isLoad: true,
+        code: 41
+    },
+    new_circle: {
+        label: '绘制三点圆',
+        isLoad: true,
+        code: 42
+    },
+    move_point_feature: {
+        label: '平移点要素',
+        isLoad: true,
+        code: 43
+    },
+    reverse_order_line: {
+        label: '线要素逆序',
+        isLoad: true,
+        code: 44
+    },
+    posture_adjust: {
+        label: '面要素位姿调整',
+        isLoad: true,
+        code: 45
+    },
+    new_around_line: {
+        AD_Lane: {
+            label: '左右车道线生成中心线',
+            isLoad: true,
+            code: 47
+        },
+        AD_Road: {
+            label: '路段中参考线生成',
+            isLoad: true,
+            code: 48
+        }
+    },
+    new_straight_line: {
+        AD_Lane: {
+            label: '路口内直行中心线生成',
+            isLoad: true,
+            code: 49
+        },
+        AD_Road: {
+            label: '路口内直行参考线生成',
+            isLoad: true,
+            code: 50
+        }
+    },
+    new_turn_line: {
+        AD_Lane: {
+            label: '路口内转弯中心线生成',
+            isLoad: true,
+            code: 51
+        },
+        AD_Road: {
+            label: '路口内转弯参考线生成',
+            isLoad: true,
+            code: 52
+        }
+    },
+    dashed_polygon_create: {
+        label: '虚线面构建',
+        isLoad: true,
+        code: 53
+    },
+    assign_line_batch: {
+        label: '批量赋车道分组编号',
+        isLoad: true,
+        code: 54
+    },
+    line_snap_stop: {
+        label: '线要素对齐到停止线',
+        isLoad: true,
+        code: 55
+    },
+    attribute_brush: {
+        label: '属性刷',
+        isLoad: true,
+        code: 56
+    },
+    del_rel: {
+        label: '删除关联关系',
+        isLoad: true,
+        code: 57
+    },
+    modify_qc_marker: {
+        label: '修改质检标注',
+        isLoad: true,
+        code: 58
     }
 };
