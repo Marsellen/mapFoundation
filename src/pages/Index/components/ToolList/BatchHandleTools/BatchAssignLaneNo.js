@@ -8,6 +8,7 @@ import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import { logDecorator, editInputLimit, editLock } from 'src/utils/decorator';
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 import 'less/components/tool-icon.less';
 import 'less/components/batch-tools.less';
@@ -142,6 +143,9 @@ class BatchAssignLaneNo extends React.Component {
                 visible: true
             });
         } catch (e) {
+            BuriedPoint.toolLoadBuriedPointStart('assign_line_batch', 'right_click');
+            BuriedPoint.toolLoadBuriedPointEnd('assign_line_batch', 'error');
+            BuriedPoint.toolBuriedPointEnd('assign_line_batch', 'error');
             this.setState({
                 message: e.message
             });
@@ -172,6 +176,9 @@ class BatchAssignLaneNo extends React.Component {
 
     newFixLineCallback = async (result, event) => {
         if (result && result.desc) {
+            BuriedPoint.toolLoadBuriedPointStart('assign_line_batch', 'right_click');
+            BuriedPoint.toolLoadBuriedPointEnd('assign_line_batch', 'error');
+            BuriedPoint.toolBuriedPointEnd('assign_line_batch', 'error');
             let arr = result.desc.split(':');
             message.warning(arr[arr.length - 1], 3);
             DataLayerStore.exitEdit();

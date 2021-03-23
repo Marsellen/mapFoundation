@@ -219,6 +219,9 @@ class DashedPolygonCreate extends React.Component {
             let history = await plgCreate(this.result, LOOP_SIZE, PLG_WIDTH, PLG_TYPE);
             return history;
         } catch (err) {
+            BuriedPoint.toolLoadBuriedPointStart('dashed_polygon_create', 'right_click');
+            BuriedPoint.toolLoadBuriedPointEnd('dashed_polygon_create', 'error');
+            BuriedPoint.toolBuriedPointEnd('dashed_polygon_create', 'error');
             console.log(err);
             message.warning({ content: '虚线面构建失败：' + err.message, duration: 3, key });
             DataLayerStore.exitEdit();
