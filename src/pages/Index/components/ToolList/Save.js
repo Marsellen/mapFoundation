@@ -6,7 +6,6 @@ import CONFIG from 'src/config';
 import { getAuthentication, logout } from 'src/utils/Session';
 import { saveTaskData } from 'src/utils/taskUtils';
 import { editLock } from 'src/utils/decorator';
-import ShortcutKey from 'src/utils/ShortcutKey';
 
 @inject('TaskStore')
 @inject('OperateHistoryStore')
