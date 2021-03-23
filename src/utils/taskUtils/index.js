@@ -15,7 +15,6 @@ import {
 } from 'src/config/DataLayerConfig';
 import appStore from 'src/store/appStore';
 import BuriedPoint from 'src/utils/BuriedPoint/index';
-import ShortcutKey from 'src/utils/ShortcutKey';
 
 const SECEND_PATH = '13_ED_DATA';
 const THIRD_PATH = '1301_RAW_DATA';
