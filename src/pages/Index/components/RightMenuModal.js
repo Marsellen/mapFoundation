@@ -357,7 +357,7 @@ class RightMenuModal extends React.Component {
         this.breakLineHandler(result);
     }
 
-    @logDecorator()
+    @logDecorator({ doubleLog: true })
     async breakLineHandler(result) {
         const { RightMenuStore } = this.props;
         let features = RightMenuStore.getFeatures();
@@ -416,7 +416,7 @@ class RightMenuModal extends React.Component {
         this.movePointFeatureHandler(result, oldFeature);
     }
 
-    @logDecorator({ operate: '平移点要素', skipRenderMode: true })
+    @logDecorator({ operate: '平移点要素', skipRenderMode: true, doubleLog: true })
     async movePointFeatureHandler(result, oldFeature) {
         try {
             // 更新标识
@@ -566,7 +566,7 @@ class RightMenuModal extends React.Component {
         this.changePointsHandler(result);
     }
 
-    @logDecorator({ operate: '修改形状点' })
+    @logDecorator({ operate: '修改形状点', doubleLog: true })
     async changePointsHandler(result) {
         const { RightMenuStore } = this.props;
         if (result.length == 0) {
@@ -759,7 +759,7 @@ class RightMenuModal extends React.Component {
         this.breakByLineHandler(result);
     }
 
-    @logDecorator({ operate: '拉线齐打断' })
+    @logDecorator({ operate: '拉线齐打断', doubleLog: true })
     async breakByLineHandler(result) {
         const { RightMenuStore } = this.props;
         let features = RightMenuStore.getFeatures();

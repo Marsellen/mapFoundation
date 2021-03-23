@@ -35,7 +35,7 @@ function funcDecoratorFactory(factory, option) {
 const operateLock = new Lock(); // 操作锁
 
 //单一工具loading埋点处理
-const handleToolLoadBuriedPointStart = (toolType, onlyRun) => {
+const handleToolLoadBuriedPointStart = (toolType, doubleLog) => {
     switch (toolType) {
         case 'attr_edit_modal':
         case 'batch_assign':
@@ -52,7 +52,8 @@ const handleToolLoadBuriedPointStart = (toolType, onlyRun) => {
             BuriedPoint.toolLoadBuriedPointStart(toolType, 'draw_end');
             break;
         default:
-            !onlyRun && BuriedPoint.toolLoadBuriedPointStart(toolType, 'right_click');
+            if (doubleLog) return;
+            BuriedPoint.toolLoadBuriedPointStart(toolType, 'right_click');
             break;
     }
 };
@@ -66,6 +67,7 @@ const handleToolLoadBuriedPointStart = (toolType, onlyRun) => {
  * @property {Boolean} option.skipHistory 为true时跳过历史记录，默认false
  * @property {Boolean} option.skipRenderMode 为true时跳过渲染模式重绘，默认false
  * @property {String} option.toolType 埋点类型
+ * @property {Boolean} option.doubleLog 是否为二次调用日志装饰器
  * @returns {Object} 被打断/合并线要素的lines相关信息
  */
 export const logDecorator = option => {
@@ -74,7 +76,8 @@ export const logDecorator = option => {
         descriptor.value = async function () {
             let log;
             let isError = false;
-            let { operate, onlyRun, skipHistory, skipRenderMode, toolType } = option || {};
+            let { operate, onlyRun, skipHistory, skipRenderMode, toolType, doubleLog } =
+                option || {};
             const editType = DataLayerStore.editType;
             toolType = toolType ?? editType;
             if (EDIT_MESSAGE[editType] && EDIT_MESSAGE[editType].loadingMsg) {
@@ -91,7 +94,7 @@ export const logDecorator = option => {
             if (!operate) operate = EDIT_TOOL_MAP[editType];
             !onlyRun && operateLock.lock(operate);
 
-            handleToolLoadBuriedPointStart(toolType, onlyRun);
+            handleToolLoadBuriedPointStart(toolType, doubleLog);
 
             try {
                 let history = await fn.apply(this, arguments);
