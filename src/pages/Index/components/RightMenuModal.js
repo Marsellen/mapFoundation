@@ -37,7 +37,8 @@ const EDIT_TYPE = [
     'break_line',
     'reverse_order_line',
     'break_line_by_line',
-    'group_move'
+    'group_move',
+    'meature_distance_2'
 ];
 
 const GROUP_MOVE_TYPE = {
@@ -47,7 +48,7 @@ const GROUP_MOVE_TYPE = {
 
 const CHINESE_EDIT_TYPE = [
     {
-        type: 'batch_build',
+        type: ['batch_build', 'meature_distance_2'],
         value: '批量生成车道线要素'
     },
     {
@@ -300,7 +301,9 @@ class RightMenuModal extends React.Component {
     content = () => {
         const { editType } = this.props.DataLayerStore;
         const { msgVisible } = this.state;
-        let config = CHINESE_EDIT_TYPE.find(item => item.type == editType);
+        let config = CHINESE_EDIT_TYPE.find(
+            item => item.type == editType || item.type.includes(editType)
+        );
         let text = config?.value?.[msgVisible] ?? config?.value ?? '';
         return <div>{text}</div>;
     };
