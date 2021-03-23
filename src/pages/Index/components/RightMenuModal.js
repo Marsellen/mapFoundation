@@ -633,6 +633,7 @@ class RightMenuModal extends React.Component {
                 key: 'edit_error'
             });
         }
+        DataLayerStore.setEditType('reverse_order_line', 'button');
         this.reverseOrderLineHandler();
         RightMenuStore.hide();
         AttributeStore.hide('other_close');
@@ -641,8 +642,7 @@ class RightMenuModal extends React.Component {
     @logDecorator({ operate: '线要素逆序' })
     reverseOrderLineHandler() {
         try {
-            const { RightMenuStore, DataLayerStore } = this.props;
-            DataLayerStore.setEditType('reverse_order_line', 'button');
+            const { RightMenuStore } = this.props;
             let features = RightMenuStore.getFeatures();
             let oldFeatures = _.cloneDeep(features);
             let newFeatures = features.map(item => {

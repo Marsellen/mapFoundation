@@ -1,16 +1,13 @@
 import config from 'src/config';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
-import {
-    BUSINESS_TYPE_MAP,
-    EDIT_STATUS_MAP,
-    UN_BURIED_POINT_EDIT_TYPES
-} from 'src/config/BuriedPointConfig';
+import { BUSINESS_TYPE_MAP, EDIT_STATUS_MAP } from 'src/config/BuriedPointConfig';
 import BuriedPointService from 'src/services/BuriedPointService';
 import ShortcutKey from 'src/utils/ShortcutKey';
 import AppStore from 'src/store/appStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import RightMenuStore from 'src/pages/Index/store/RightMenuStore';
+import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
 
 class BuriedPoint {
     constructor() {
@@ -20,13 +17,19 @@ class BuriedPoint {
     sendRequest = obj => {
         try {
             //接口文档：https://confluence.ecarx.com.cn/pages/viewpage.action?pageId=64785919
-            const layerName = obj?.layerName ?? DataLayerStore?.getEditLayerName?.(); //获取当前操作图层名
+            const isQcMarker = obj?.type?.includes('qc_marker');
+            const layerName = isQcMarker
+                ? QCMarkerStore?.currentMarker?.data?.properties?.fileName
+                : obj?.layerName ?? DataLayerStore?.getAdEditLayerName?.();
             const layerNameDesc = DATA_LAYER_MAP?.[layerName]?.label; //图层名翻译成中文
             const editStatus = obj?.editStatus ?? DataLayerStore?.editStatus;
             const editStatusDesc = EDIT_STATUS_MAP?.[editStatus];
             const params = {
                 system: 2, //所处平台，1：工作流；2：编辑平台
-                businessType: BUSINESS_TYPE_MAP[obj?.type]?.code ?? null, //业务类型，参数说明：http://ad-task-dev.ecarx.com.cn/collectMng/metaMng
+                businessType:
+                    BUSINESS_TYPE_MAP[obj?.type]?.code ??
+                    BUSINESS_TYPE_MAP[obj?.type]?.[layerName]?.code ??
+                    null, //业务类型，参数说明：http://ad-task-dev.ecarx.com.cn/collectMng/metaMng
                 systemVersion: config?.version ?? null, //业务系统版本
                 businessData: {
                     functionType: obj?.functionType ?? null, //功能类型：单一工具、窗口交互、数据加载
@@ -60,6 +63,18 @@ class BuriedPoint {
                 const isRightMenu = RightMenuStore?.menus?.includes?.(type);
                 eventType = isShortcutKey ? 'keyup' : 'click';
                 buriedPointDesc = isShortcutKey ? '快捷键' : isRightMenu ? '右键菜单' : '按钮';
+                break;
+            case 'delete_button':
+                eventType = 'click';
+                buriedPointDesc = '删除按钮';
+                break;
+            case 'modify_button':
+                eventType = 'click';
+                buriedPointDesc = '修改按扭';
+                break;
+            case 'fast_modify':
+                eventType = 'click';
+                buriedPointDesc = '快捷修改';
                 break;
             case 'open':
                 buriedPointDesc = '开启窗口';
@@ -115,6 +130,10 @@ class BuriedPoint {
                 eventType = 'click';
                 buriedPointDesc = '右上角关闭窗口';
                 break;
+            case 'cancel':
+                eventType = 'click';
+                buriedPointDesc = '取消按钮';
+                break;
             case 'other_close':
                 buriedPointDesc = '其它退出';
                 break;
@@ -134,7 +153,10 @@ class BuriedPoint {
     //埋点：单一工具loading开始
     toolLoadBuriedPointStart = (type, channel) => {
         if (!type || type === 'normal') return;
-        if (!BUSINESS_TYPE_MAP[type]?.isLoad) return;
+        const layerName = DataLayerStore?.getAdEditLayerName?.();
+        const isLoad_1 = BUSINESS_TYPE_MAP[type]?.isLoad;
+        const isLoad_2 = BUSINESS_TYPE_MAP[type]?.[layerName]?.isLoad;
+        if (!isLoad_1 && !isLoad_2) return;
         let eventType = 'click';
         let buriedPointDesc = null;
         switch (channel) {
@@ -149,6 +171,12 @@ class BuriedPoint {
                 break;
             case 'draw_end':
                 buriedPointDesc = '绘制结束';
+                break;
+            case 'conform_delete':
+                buriedPointDesc = '确认删除';
+                break;
+            case 'fast_modify':
+                buriedPointDesc = '快捷修改';
                 break;
             default:
                 return;
@@ -166,7 +194,10 @@ class BuriedPoint {
     //埋点：单一工具loading结束
     toolLoadBuriedPointEnd = (type, channel) => {
         if (!type || type === 'normal') return;
-        if (!BUSINESS_TYPE_MAP[type]?.isLoad) return;
+        const layerName = DataLayerStore?.getAdEditLayerName?.();
+        const isLoad_1 = BUSINESS_TYPE_MAP[type]?.isLoad;
+        const isLoad_2 = BUSINESS_TYPE_MAP[type]?.[layerName]?.isLoad;
+        if (!isLoad_1 && !isLoad_2) return;
         let eventType = null;
         let buriedPointDesc = null;
         switch (channel) {
@@ -303,8 +334,7 @@ class BuriedPoint {
 
     //埋点：状态切换-开始
     statusBuriedPointStart = (type, channel) => {
-        const { getEditLayerName } = DataLayerStore;
-        const editLayerName = getEditLayerName();
+        const editLayerName = DataLayerStore?.getAdEditLayerName?.();
         if (type === 'normal' && !editLayerName) return;
         const isShortcutKey = ShortcutKey.keyCode;
         let eventType = isShortcutKey ? 'keyup' : 'click';
@@ -331,8 +361,7 @@ class BuriedPoint {
 
     //埋点：状态切换-结束
     statusBuriedPointEnd = (type, channel) => {
-        const { getEditLayerName } = DataLayerStore;
-        const editLayerName = getEditLayerName();
+        const editLayerName = DataLayerStore?.getAdEditLayerName?.();
         if (type === 'normal' && !editLayerName) return;
         const isShortcutKey = ShortcutKey.keyCode;
         let eventType = isShortcutKey ? 'keyup' : 'click';

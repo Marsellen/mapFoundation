@@ -28,18 +28,51 @@ class QCMarkerModal extends React.Component {
         this.handleHistory = this.handleHistory.bind(this);
     }
 
+    //右上角关闭窗口埋点
+    buriedPointCancel = e => {
+        if (!e) return;
+        switch (this.props.QCMarkerStore.editStatus) {
+            case 'create':
+                BuriedPoint.toolBuriedPointEnd('new_qc_marker', 'close');
+                break;
+            case 'modify':
+                BuriedPoint.toolBuriedPointEnd('modify_qc_marker', 'close');
+                break;
+            default:
+                break;
+        }
+    };
+
+    //loading开始埋点
+    buriedPointLoadStart = type => {
+        switch (type) {
+            case 'insert':
+                BuriedPoint.toolLoadBuriedPointStart('new_qc_marker', 'save_button');
+                break;
+            case 'modify':
+                BuriedPoint.toolLoadBuriedPointStart('modify_qc_marker', 'save_button');
+                break;
+            case 'fast_modify':
+                BuriedPoint.toolBuriedPointStart('modify_qc_marker', 'fast_modify');
+                BuriedPoint.toolLoadBuriedPointStart('modify_qc_marker', 'fast_modify');
+                break;
+            default:
+                break;
+        }
+    };
+
     //关闭
-    handleCancel = () => {
+    handleCancel = e => {
         const {
             ToolCtrlStore: { updateByEditLayer },
             AttributeStore: { hide, hideRelFeatures },
             DataLayerStore: { exitMarker }
         } = this.props;
+        this.buriedPointCancel(e);
         exitMarker();
         hide();
         hideRelFeatures();
         updateByEditLayer();
-        BuriedPoint.toolBuriedPointEnd('qc_marker', 'close');
     };
 
     handleCancelModify = () => {
@@ -52,16 +85,18 @@ class QCMarkerModal extends React.Component {
         exitEdit();
         activeEditor();
         fetchTargetLayers();
+        //取消修改埋点
+        BuriedPoint.toolBuriedPointEnd('modify_qc_marker', 'cancel_button');
     };
 
     handleModify = () => {
-        const {
-            QCMarkerStore: { setEditStatus }
-        } = this.props;
+        const { setEditStatus } = this.props.QCMarkerStore;
+        BuriedPoint.toolBuriedPointStart('modify_qc_marker', 'modify_button');
         setEditStatus('modify');
     };
 
     handleDelete = () => {
+        BuriedPoint.toolBuriedPointStart('modify_qc_marker', 'delete_button');
         Modal.confirm({
             title: '您确认执行该操作？',
             okText: '确定',
@@ -81,6 +116,7 @@ class QCMarkerModal extends React.Component {
         } = this.props;
         try {
             this.setState({ isLoading: true });
+            BuriedPoint.toolLoadBuriedPointStart('modify_qc_marker', 'conform_delete');
             //添加到数据库
             const res = await deleteMarker({ id });
             if (!res) throw Error('标注delete失败');
@@ -90,10 +126,14 @@ class QCMarkerModal extends React.Component {
             updateMarkerList({ type: 'delete', id, marker: properties });
             //记录history
             this.handleHistory(currentMarker);
+            BuriedPoint.toolLoadBuriedPointEnd('modify_qc_marker', 'success');
+            BuriedPoint.toolBuriedPointEnd('modify_qc_marker', 'success');
             this.release();
             this.setState({ isLoading: false });
             message.success('已删除质检标注');
         } catch (e) {
+            BuriedPoint.toolLoadBuriedPointEnd('modify_qc_marker', 'error');
+            BuriedPoint.toolBuriedPointEnd('modify_qc_marker', 'error');
             this.setState({ isLoading: false });
             this.handleCancel();
             console.error(e.message, 3);
@@ -101,7 +141,7 @@ class QCMarkerModal extends React.Component {
     };
 
     handleChange = (name, value, formData) => {
-        this.handleSubmit('update', false, formData);
+        this.handleSubmit('fast_modify', false, formData);
     };
 
     handleSubmit = (type, isExit = true, formData = {}) => {
@@ -114,18 +154,19 @@ class QCMarkerModal extends React.Component {
             }
         } = this.props;
         const isInsert = type === 'insert';
-        const isUpdate = type === 'update';
-        if (isUpdate && !id) return; //修改marker时，没有id，不可修改
+        if (!isInsert && !id) return; //修改marker时，没有id，不可修改
+        const markerType = isInsert ? 'insert' : 'update';
+        const toolType = isInsert ? 'new_qc_marker' : 'modify_qc_marker';
         this.props.form.validateFields(async (err, values) => {
             if (err) return;
             try {
-                BuriedPoint.toolLoadBuriedPointStart('qc_marker', 'save_button');
+                this.buriedPointLoadStart(type);
                 this.setState({ isLoading: true });
                 formData = { ...values, ...formData };
-                const param = this[`getParam_${type}`](formData);
+                const param = this[`getParam_${markerType}`](formData);
                 //添加到数据库
-                const res = await QCMarkerStore[`${type}Marker`](param);
-                if (!res || !res.data) throw Error(`标注${type}失败`);
+                const res = await QCMarkerStore[`${markerType}Marker`](param);
+                if (!res || !res.data) throw Error(`标注${markerType}失败`);
                 const newProperties = { ...param, ...res.data };
                 //更新currentMarker
                 const marker = updateCurrentMarker(newProperties);
@@ -133,21 +174,20 @@ class QCMarkerModal extends React.Component {
                 window.markerLayer.layer.updateFeatures([marker]);
                 //更新质检标注列表
                 updateMarkerList({
-                    type,
+                    markerType,
                     id,
                     marker: marker.data.properties
                 });
                 //记录history
                 this.handleHistory(marker);
-                BuriedPoint.toolLoadBuriedPointEnd('qc_marker', 'success');
-                BuriedPoint.toolBuriedPointEnd('qc_marker', 'success');
+                BuriedPoint.toolLoadBuriedPointEnd(toolType, 'success');
+                BuriedPoint.toolBuriedPointEnd(toolType, 'success');
                 isExit && this.release();
                 this.setState({ isLoading: false });
-                isInsert && message.success('质检标注生成');
-                isUpdate && message.success('质检标注修改成功');
+                message.success(isInsert ? '质检标注生成' : '质检标注修改成功');
             } catch (e) {
-                BuriedPoint.toolLoadBuriedPointEnd('qc_marker', 'error');
-                BuriedPoint.toolBuriedPointEnd('qc_marker', 'error');
+                BuriedPoint.toolLoadBuriedPointEnd(toolType, 'error');
+                BuriedPoint.toolBuriedPointEnd(toolType, 'error');
                 this.setState({ isLoading: false });
                 this.handleCancel();
                 console.error(e.message, 3);
@@ -338,7 +378,7 @@ class QCMarkerModal extends React.Component {
                 >
                     取消
                 </Button>
-                <Button type="primary" size="small" onClick={() => this.handleSubmit('update')}>
+                <Button type="primary" size="small" onClick={() => this.handleSubmit('modify')}>
                     保存
                 </Button>
             </div>

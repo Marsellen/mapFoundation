@@ -493,7 +493,7 @@ class DataLayerStore {
     newQCMarker = () => {
         this.exitEdit('toggle');
         if (!this.editor) return;
-        this.setEditType('qc_marker', 'button');
+        this.setEditType('new_qc_marker', 'button');
         this.changeCur();
         this.editor.newLine();
     };
@@ -1125,6 +1125,7 @@ class DataLayerStore {
     escEvent = () => {
         const editLayerName = this.getAdEditLayerName();
         if (editLayerName === 'AD_Marker') {
+            BuriedPoint.toolBuriedPointEnd('new_qc_marker', 'esc');
             this.exitMarker();
             message.warning('退出功能', 3);
         } else if (this.editType !== 'normal') {

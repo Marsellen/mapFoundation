@@ -42,18 +42,16 @@ const handleToolLoadBuriedPointStart = (toolType, onlyRun) => {
             BuriedPoint.toolLoadBuriedPointStart(toolType, 'save_button');
             break;
         case 'batch_build':
+        case 'posture_adjust':
             BuriedPoint.toolLoadBuriedPointStart(toolType, 'complete_button');
             break;
         case 'new_template_arrow':
+        case 'new_facade_rectangle':
+        case 'new_circle':
             BuriedPoint.toolLoadBuriedPointStart(toolType, 'draw_end');
             break;
-        case 'new_rel':
-        case 'break_line':
-        case 'break_line_by_point':
-            !onlyRun && BuriedPoint.toolLoadBuriedPointStart(toolType, 'right_click');
-            break;
         default:
-            BuriedPoint.toolLoadBuriedPointStart(toolType, 'right_click');
+            !onlyRun && BuriedPoint.toolLoadBuriedPointStart(toolType, 'right_click');
             break;
     }
 };
