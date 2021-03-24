@@ -15,12 +15,6 @@ class BatchBreak extends React.Component {
         this.handleOk = this.handleOk.bind(this);
     }
 
-    isDisabled = () => {
-        const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
-        return !activeTaskId;
-    };
-
     @editLock
     handleClick = () => {
         this.props.DataLayerStore.setEditType('batch_break', 'button');
@@ -94,7 +88,7 @@ class BatchBreak extends React.Component {
 
     render() {
         const {
-            TaskStore: { isMsTask },
+            TaskStore: { isMsTask, isEditableTask },
             DataLayerStore: { editType }
         } = this.props;
         const visible = editType === 'batch_break';
@@ -106,7 +100,7 @@ class BatchBreak extends React.Component {
                         icon="piliangxianyaosudaduanfuzhi"
                         title="批量线要素打断赋值"
                         visible={visible}
-                        disabled={this.isDisabled()}
+                        disabled={!isEditableTask}
                         action={this.handleClick}
                     />
                     <Modal
