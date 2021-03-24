@@ -18,8 +18,8 @@ class sysProperties {
             statisticInterval: 10,
             viewChangeDelay: 500,
             adsorptionSensitivity: 0.1,
-            inputEditLayer: ['AD_LaneDivider', 'AD_RS_Barrier', 'AD_StopLocation'],
-            outputEditLayer: ['AD_LaneDivider', 'AD_RS_Barrier']
+            inputEditLayer: '["AD_LaneDivider","AD_RS_Barrier","AD_StopLocation"]',
+            outputEditLayer: '["AD_LaneDivider","AD_RS_Barrier"]'
         };
     }
 
