@@ -174,7 +174,7 @@ class QCMarkerModal extends React.Component {
                 window.markerLayer.layer.updateFeatures([marker]);
                 //更新质检标注列表
                 updateMarkerList({
-                    markerType,
+                    type: markerType,
                     id,
                     marker: marker.data.properties
                 });
