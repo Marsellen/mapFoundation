@@ -18,6 +18,7 @@ import {
 } from '../vectorUtils';
 import { message } from 'antd';
 import _ from 'lodash';
+import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 
 /**
  * 删除要素
@@ -117,7 +118,7 @@ const breakLine = async (breakPoint, features, activeTask) => {
     };
     await updateFeatures(historyLog);
 
-    message.success({ content: result.message, duration: 1, key: 'break_line' });
+    message.success({ content: result.message, duration: 1, key: DataLayerStore.editType });
     return historyLog;
 };
 

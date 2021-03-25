@@ -48,7 +48,12 @@ export const EDIT_MESSAGE = {
         errorMsg: '点要素绘制失败'
     },
     break_line: {
-        //打断线要素 齐打断线要素
+        //打断线要素
+        loadingMsg: '正在打断...',
+        errorMsg: '打断失败：'
+    },
+    break_line_by_point: {
+        //齐打断线要素
         loadingMsg: '正在打断...',
         errorMsg: '打断失败：'
     },

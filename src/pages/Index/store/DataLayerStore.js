@@ -1303,6 +1303,7 @@ const UNABLE_CHANGE_TYPES = [
     'trim',
     'attribute_brush',
     'break_line',
+    'break_line_by_point',
     'copy_line',
     'move_point_feature',
     'change_points',
