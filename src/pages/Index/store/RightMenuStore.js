@@ -60,12 +60,12 @@ class RightMenuStore {
         } else if (featuresL > 2 && featuresL <= 12) {
             //所选要素数量大于2时，隐藏合并
             rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
-            rightTools = rightTools.flatMap(item => (item === 'merge' ? [] : [item]));
+            rightTools = rightTools.flatMap(item => (item === 'merge_line' ? [] : [item]));
         } else if (featuresL > 12) {
             //所选要素数量大于12时，隐藏批量删除
             rightTools = DATA_LAYER_MAP[layerName].groupRightTools;
             rightTools = rightTools.flatMap(item =>
-                item === 'delete' || item === 'merge' ? [] : [item]
+                item === 'delete' || item === 'merge_line' ? [] : [item]
             );
         }
         return rightTools;
@@ -105,7 +105,7 @@ class RightMenuStore {
         );
         if (isErrorSelect) return;
         if (this.features.length === 1) {
-            this.menus = ['break'];
+            this.menus = ['break_line'];
         } else {
             this.menus = ['break_line_by_point', 'break_line_by_line'];
         }

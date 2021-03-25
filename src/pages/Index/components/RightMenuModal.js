@@ -35,6 +35,7 @@ const EDIT_TYPE = [
     'copy_line',
     'change_points',
     'break_line',
+    'break_line_by_point',
     'reverse_order_line',
     'break_line_by_line',
     'group_move',
@@ -65,6 +66,10 @@ const CHINESE_EDIT_TYPE = [
     },
     {
         type: 'break_line',
+        value: '在线上选择一个打断点，右键执行打断'
+    },
+    {
+        type: 'break_line_by_point',
         value: '在线上选择一个打断点，右键执行打断'
     },
     {
@@ -102,6 +107,9 @@ class RightMenuModal extends React.Component {
         this.copyLine = this.copyLine.bind(this);
         this.movePointFeature = this.movePointFeature.bind(this);
         this.breakLine = this.breakLine.bind(this);
+        this.breakLineByPoint = this.breakLineByPoint.bind(this);
+        this.breakCallBack = this.breakCallBack.bind(this);
+        this.breakCallBackHandler = this.breakCallBackHandler.bind(this);
         this.reverseOrderLine = this.reverseOrderLine.bind(this);
         this.mergeLine = this.mergeLine.bind(this);
         this.batchMergeLine = this.batchMergeLine.bind(this);
@@ -213,8 +221,8 @@ class RightMenuModal extends React.Component {
             </Menu.Item>,
             <Menu.Item
                 id="break-line-btn"
-                key="break"
-                onClick={() => this.breakLine('break_line')}
+                key="break_line"
+                onClick={this.breakLine}
                 className="right-menu-item"
             >
                 <span>打断</span>
@@ -233,14 +241,14 @@ class RightMenuModal extends React.Component {
             <Menu.Item
                 id="break-group-btn"
                 key="break_line_by_point"
-                onClick={() => this.breakLine('break_line_by_point')}
+                onClick={this.breakLineByPoint}
                 className="right-menu-item"
             >
                 <span>齐打断</span>
             </Menu.Item>,
             <Menu.Item
                 id="merge-line-btn"
-                key="merge"
+                key="merge_line"
                 onClick={this.mergeLine}
                 className="right-menu-item"
             >
@@ -354,11 +362,11 @@ class RightMenuModal extends React.Component {
     @logDecorator({ onlyRun: true })
     breakCallBack(result) {
         checkSdkError(result, '未选择打断点');
-        this.breakLineHandler(result);
+        this.breakCallBackHandler(result);
     }
 
     @logDecorator({ doubleLog: true })
-    async breakLineHandler(result) {
+    async breakCallBackHandler(result) {
         const { RightMenuStore } = this.props;
         let features = RightMenuStore.getFeatures();
         let historyLog = await breakLine(result[0], features, TaskStore.activeTask);
@@ -603,9 +611,7 @@ class RightMenuModal extends React.Component {
         AttributeStore.hideRelFeatures();
     }
 
-    @editLock
-    @editInputLimit({ editType: 'break_line', isRightMenu: true })
-    breakLine(editType) {
+    breakLineHandler = editType => {
         const { DataLayerStore, RightMenuStore } = this.props;
         if (this.checkDisabled()) return;
         if (DataLayerStore.changeUnAble()) {
@@ -619,6 +625,18 @@ class RightMenuModal extends React.Component {
         RightMenuStore.hide();
         AttributeStore.hide('other_close');
         AttributeStore.hideRelFeatures();
+    };
+
+    @editLock
+    @editInputLimit({ editType: 'break_line', isRightMenu: true })
+    breakLine() {
+        this.breakLineHandler('break_line');
+    }
+
+    @editLock
+    @editInputLimit({ editType: 'break_line_by_point', isRightMenu: true })
+    breakLineByPoint() {
+        this.breakLineHandler('break_line_by_point');
     }
 
     @editLock

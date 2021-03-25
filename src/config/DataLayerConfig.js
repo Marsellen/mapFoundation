@@ -47,7 +47,7 @@ export const DATA_LAYER_MAP = {
             'copy_line',
             'change_points',
             'reverse_order_line',
-            'break',
+            'break_line',
             'trim',
             'group_move'
         ],
@@ -55,7 +55,7 @@ export const DATA_LAYER_MAP = {
         groupRightTools: [
             'batch_build',
             'break_line_by_point',
-            'merge',
+            'merge_line',
             'batch_merge_line',
             'batch_assign',
             'reverse_order_line',
@@ -141,13 +141,13 @@ export const DATA_LAYER_MAP = {
             'copy_line',
             'change_points',
             'reverse_order_line',
-            'break',
+            'break_line',
             'trim',
             'group_move'
         ],
         groupRightTools: [
             'break_line_by_point',
-            'merge',
+            'merge_line',
             'batch_merge_line',
             'batch_assign',
             'reverse_order_line',
@@ -201,13 +201,13 @@ export const DATA_LAYER_MAP = {
             'copy_line',
             'change_points',
             'reverse_order_line',
-            'break',
+            'break_line',
             'trim',
             'group_move'
         ],
         groupRightTools: [
             'break_line_by_point',
-            'merge',
+            'merge_line',
             'batch_merge_line',
             'batch_assign',
             'reverse_order_line',
@@ -262,10 +262,10 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE', 'CURVED_LINE'],
             manbuild: ['LINE', 'CURVED_LINE']
         },
-        rightTools: ['delete', 'force_delete', 'change_points', 'break', 'trim', 'group_move'],
+        rightTools: ['delete', 'force_delete', 'change_points', 'break_line', 'trim', 'group_move'],
         groupRightTools: [
             'break_line_by_point',
-            'merge',
+            'merge_line',
             'batch_assign',
             'batch_merge_line',
             'break_line_by_line',
@@ -341,13 +341,13 @@ export const DATA_LAYER_MAP = {
             'copy_line',
             'reverse_order_line',
             'change_points',
-            'break',
+            'break_line',
             'trim',
             'force_delete'
         ],
         groupRightTools: [
             'break_line_by_point',
-            'merge',
+            'merge_line',
             'batch_merge_line',
             'break_line_by_line',
             'batch_assign',
