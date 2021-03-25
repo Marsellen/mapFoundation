@@ -150,10 +150,11 @@ class PointCloudStore {
     };
 
     @action release = () => {
-        this.same = false;
-        this.visible = false;
+        this.initRange = null;
+        this.currentRange = null;
         this.pointCloudMap = {};
-        this.PointCloudRange = null;
+        this.visible = false;
+        this.same = false;
     };
 }
 

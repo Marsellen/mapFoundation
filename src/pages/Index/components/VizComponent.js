@@ -379,6 +379,7 @@ class VizComponent extends React.Component {
         try {
             if (!regionUrl) return;
             const { TaskStore } = this.props;
+            //初始化任务范围时，传入参数isExtend:true，表示以任务范围定位
             window.vectorLayer = new VectorLayer(regionUrl, { isExtent: true });
             vectorLayer.setDefaultStyle({ color: 'rgb(16,201,133)' });
             await map.getLayerManager().addLayer('VectorLayer', vectorLayer);
