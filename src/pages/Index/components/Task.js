@@ -123,7 +123,6 @@ class Task extends React.Component {
         this.timeout = setTimeout(async () => {
             try {
                 BuriedPoint.modalBuriedPointEnd('attr_list', 'toggleTask');
-                BuriedPoint.dataLoadBuriedPointEnd('boundary_load', 'toggleTask');
                 BuriedPoint.statusBuriedPointEnd('normal', 'toggleTask');
                 BuriedPoint.statusBuriedPointEnd('union_break', 'toggleTask');
 

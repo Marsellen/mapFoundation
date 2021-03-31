@@ -307,18 +307,6 @@ class BuriedPoint {
             case 'error':
                 buriedPointDesc = '报错退出';
                 break;
-            case 'toggleTask':
-                eventType = 'click';
-                buriedPointDesc = '切换任务';
-                break;
-            case 'submitTask':
-                eventType = 'click';
-                buriedPointDesc = '提交任务';
-                break;
-            case 'logout':
-                eventType = 'click';
-                buriedPointDesc = '退出登录';
-                break;
             default:
                 return;
         }
