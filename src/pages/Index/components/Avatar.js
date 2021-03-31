@@ -67,7 +67,6 @@ class Avatar extends React.Component {
             cancelText: '取消',
             onOk() {
                 BuriedPoint.modalBuriedPointEnd('attr_list', 'logout');
-                BuriedPoint.dataLoadBuriedPointEnd('boundary_load', 'logout');
                 BuriedPoint.statusBuriedPointEnd('normal', 'logout');
                 BuriedPoint.statusBuriedPointEnd('union_break', 'logout');
                 logout();

@@ -339,7 +339,6 @@ class JobStatus extends React.Component {
 
         try {
             BuriedPoint.modalBuriedPointEnd('attr_list', 'submitTask');
-            BuriedPoint.dataLoadBuriedPointEnd('boundary_load', 'submitTask');
             BuriedPoint.statusBuriedPointEnd('normal', 'submitTask');
             BuriedPoint.statusBuriedPointEnd('union_break', 'submitTask');
             await TaskStore.initSubmit(option);
