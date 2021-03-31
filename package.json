@@ -19,7 +19,6 @@
         "build-no-shp": "npm run build-sdk && webpack --env.mode=production --env.noshp"
     },
     "dependencies": {
-        "@interactjs/utils": "^1.9.17",
         "antd": "^3.26.13",
         "axios": "^0.18.0",
         "dragm": "0.0.5",
