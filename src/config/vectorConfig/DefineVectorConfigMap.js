@@ -215,7 +215,7 @@ export const DEFINE_VECTOR_CONFIG_MAP = {
         commonStyle: {
             showFields: 'TYPE',
             color: 'rgb(255,255,255)',
-            opacity: 1,
+            opacity: 0.6,
             radius: 0.15,
             size: 80,
             pointStyle: 'dianyaosu'

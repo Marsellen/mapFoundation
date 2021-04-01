@@ -106,7 +106,6 @@ class LayerVectorConfigForm extends React.Component {
                         color={color}
                         size={colorFieldSize}
                         icon={colorFieldIcon}
-                        disableAlpha={this.isPoint}
                         onChange={value =>
                             this.setStyle({
                                 key: layerName,
