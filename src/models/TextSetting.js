@@ -17,7 +17,6 @@ class TextSetting {
         let config = _.cloneDeep(DefaultStyleConfig);
         Object.keys(config).forEach(layerName => {
             let types = LAYER_TYPE_MAP[layerName];
-            config[layerName].showStyles = ['textStyle'];
             config[layerName].textStyle = types.reduce((set, type) => {
                 set[type.key] = this.getTextConfig(type.type);
                 return set;
@@ -31,9 +30,12 @@ class TextSetting {
     getVectorConfig = layerName => {
         let vectorConfig = this.vectorConfig[layerName];
         let { textFields, ...style } = this.layerConfig[layerName].defaultStyle;
-        vectorConfig.textFields = textFields;
         vectorConfig.textStyle.defaultStyle = style;
-        return vectorConfig;
+        return {
+            showStyles: ['textStyle'],
+            textFields,
+            textStyle: vectorConfig.textStyle
+        };
     };
 
     getTextConfig = type => {
