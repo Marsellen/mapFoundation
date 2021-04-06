@@ -376,11 +376,6 @@ class JobStatus extends React.Component {
         AttributeStore.hide('other_close');
         PictureShowStore.hide();
         PictureShowStore.destory();
-
-        //切换任务 关闭所有弹框
-        document.querySelectorAll('.ant-modal-close').forEach(element => {
-            element.click();
-        });
     };
 
     renderFooter = () => {
