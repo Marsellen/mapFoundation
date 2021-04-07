@@ -24,7 +24,7 @@ class AttributesModal extends React.Component {
     }
 
     handleCancel = e => {
-        const channel = e?.keyCode ? 'esc' : 'close';
+        const channel = e.keyCode ? 'esc' : e.detail ? 'close' : 'other_close';
         const { DataLayerStore, AttributeStore } = this.props;
         DataLayerStore.UnQCAttrModal(['error_layer']);
         AttributeStore.hide(channel);

@@ -30,6 +30,7 @@ class AttributeStore {
     relFeatures = [];
     delAttrs = [];
     @observable visible;
+    @observable attrListVisible = false;
     @observable type;
     @observable attributes = [];
     @observable rels = [];
@@ -52,6 +53,16 @@ class AttributeStore {
         this.delAttrs = [];
         this.loaded();
         this.showTime(true);
+    };
+
+    @action attrListShow = channel => {
+        this.attrListVisible = true;
+        BuriedPoint.modalBuriedPointStart('attr_list', channel);
+    };
+
+    @action attrListHide = channel => {
+        this.attrListVisible = false;
+        BuriedPoint.modalBuriedPointEnd('attr_list', channel);
     };
 
     @action showLoading = text => {

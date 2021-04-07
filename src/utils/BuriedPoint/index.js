@@ -8,6 +8,7 @@ import TaskStore from 'src/pages/Index/store/TaskStore';
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import RightMenuStore from 'src/pages/Index/store/RightMenuStore';
 import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
+import AttributeStore from 'src/pages/Index/store/AttributeStore';
 
 class BuriedPoint {
     constructor() {
@@ -435,6 +436,15 @@ class BuriedPoint {
                 });
             }
         });
+    };
+
+    //退出登录、提交任务、切换任务统一调用功能结束埋点
+    buriedPointEnd = channel => {
+        const { adEditLayer, editStatus } = DataLayerStore;
+        const isUnionBreak = editStatus === 'union_break';
+        this.modalBuriedPointEnd('attr_list', channel);
+        adEditLayer && this.statusBuriedPointEnd('normal', channel);
+        isUnionBreak && this.statusBuriedPointEnd('union_break', channel);
     };
 }
 
