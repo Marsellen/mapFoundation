@@ -176,8 +176,13 @@ class TaskStore {
         return new AddTask(this.activeTask);
     };
 
-    // 任务切换
+    //任务切换
     setActiveTask = flow(function* (id) {
+        //关闭所有弹框
+        document.querySelectorAll('.ant-modal-close').forEach(element => {
+            element.click();
+        });
+        //结束统计作业时间、结束统计精细化作业时间
         if (id && this.activeTaskId !== id) {
             endTaskTimePolling();
             endWorkTimePolling();

@@ -186,7 +186,7 @@ class PostureAdjust extends React.Component {
 
     // 点击取消，完成以及按ESC都会退出当前工具编辑状态，若点击完成时保存失败，则不退出编辑状态
     handleCancel = e => {
-        const channel = e?.keyCode ? 'esc' : 'cancel';
+        const channel = e.keyCode ? 'esc' : e.detail ? 'cancel' : null;
         const { DataLayerStore } = this.props;
         DataLayerStore.exitEdit(channel);
     };

@@ -21,7 +21,6 @@ import Filter from 'src/utils/table/filter';
 import { ATTR_SPEC_CONFIG, REL_ATTR_LAYERS } from 'config/AttrsConfig';
 import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
 import AttrRightMenu from 'src/pages/Index/components/ToolList/AttrRightMenu';
-import BuriedPoint from 'src/utils/BuriedPoint';
 
 @inject('RightMenuStore')
 @inject('AttrRightMenuStore')
@@ -34,7 +33,6 @@ class ViewAttribute extends React.Component {
         super(props);
         this.state = {
             currentTask: null,
-            visible: false,
             columns: [],
             dataSource: [],
             layerName: null,
@@ -52,9 +50,10 @@ class ViewAttribute extends React.Component {
     }
 
     render() {
-        const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
-        const { visible } = this.state;
+        const {
+            TaskStore: { activeTaskId },
+            AttributeStore: { attrListVisible }
+        } = this.props;
         return (
             <span>
                 <ToolIcon
@@ -64,11 +63,11 @@ class ViewAttribute extends React.Component {
                     placement="right"
                     className="ad-menu-icon"
                     disabled={!activeTaskId}
-                    visible={visible}
+                    visible={attrListVisible}
                     action={this.toggle}
                 />
                 <SeniorModal
-                    visible={visible}
+                    visible={attrListVisible}
                     title={this.getTitle()}
                     footer={null}
                     onCancel={this.handleCancel}
@@ -198,7 +197,7 @@ class ViewAttribute extends React.Component {
 
     getData = () => {
         // 属性列表框隐藏时不更新属性列表数据
-        if (!this.state.visible) return;
+        if (!this.props.AttributeStore.attrListVisible) return;
 
         let { layerName } = this.state;
 
@@ -357,45 +356,41 @@ class ViewAttribute extends React.Component {
     };
 
     toggle = () => {
-        if (this.state.visible) {
-            this.setState({
-                visible: false
-            });
-            BuriedPoint.modalBuriedPointEnd('attr_list', 'button');
-            return false;
-        }
+        const {
+            TaskStore: { activeTaskId },
+            DataLayerStore: { getAdEditLayer },
+            AttributeStore: { attrListVisible, attrListShow, attrListHide }
+        } = this.props;
 
-        const { DataLayerStore, TaskStore } = this.props;
-        let { activeTaskId } = TaskStore;
-        if (activeTaskId !== this.state.currentTask) {
-            let editLayer = DataLayerStore.getAdEditLayer();
-            let layerName = editLayer ? editLayer.layerName : null;
-            let isMarkerLayer = layerName === 'AD_Marker';
-            layerName = isMarkerLayer ? this.state.layerName : layerName;
-            this.setState(
-                {
-                    visible: true,
-                    currentTask: activeTaskId,
-                    layerName,
-                    filteredInfo: null,
-                    sorter: null,
-                    pageSize: 10,
-                    page: 1
-                },
-                this.getData
-            );
+        if (attrListVisible) {
+            attrListHide('button');
         } else {
-            this.setState({ visible: true }, this.getData);
+            attrListShow('button');
+            if (activeTaskId !== this.state.currentTask) {
+                let editLayer = getAdEditLayer();
+                let layerName = editLayer ? editLayer.layerName : null;
+                let isMarkerLayer = layerName === 'AD_Marker';
+                layerName = isMarkerLayer ? this.state.layerName : layerName;
+                this.setState(
+                    {
+                        currentTask: activeTaskId,
+                        layerName,
+                        filteredInfo: null,
+                        sorter: null,
+                        pageSize: 10,
+                        page: 1
+                    },
+                    this.getData
+                );
+            } else {
+                this.getData();
+            }
         }
-        BuriedPoint.modalBuriedPointStart('attr_list', 'button');
     };
 
     handleCancel = e => {
-        this.setState({
-            visible: false
-        });
-        const channel = e?.keyCode ? 'esc' : 'close';
-        BuriedPoint.modalBuriedPointEnd('attr_list', channel);
+        const channel = e.keyCode ? 'esc' : e.detail ? 'close' : null;
+        this.props.AttributeStore.attrListHide(channel);
     };
 
     getLabel = item => {

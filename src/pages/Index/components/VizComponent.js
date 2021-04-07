@@ -131,11 +131,6 @@ class VizComponent extends React.Component {
         PictureShowStore.hide();
         PictureShowStore.destory();
         TextStore.hide();
-
-        //切换任务 关闭所有弹框
-        document.querySelectorAll('.ant-modal-close').forEach(element => {
-            element.click();
-        });
     };
 
     //取消请求

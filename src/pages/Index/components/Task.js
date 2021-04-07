@@ -122,9 +122,7 @@ class Task extends React.Component {
         this.timeout && clearTimeout(this.timeout);
         this.timeout = setTimeout(async () => {
             try {
-                BuriedPoint.modalBuriedPointEnd('attr_list', 'toggleTask');
-                BuriedPoint.statusBuriedPointEnd('normal', 'toggleTask');
-                BuriedPoint.statusBuriedPointEnd('union_break', 'toggleTask');
+                await BuriedPoint.buriedPointEnd('toggleTask');
 
                 const { current } = this.state;
                 const { TaskStore, DataLayerStore } = this.props;

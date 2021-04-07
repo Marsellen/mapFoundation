@@ -338,9 +338,7 @@ class JobStatus extends React.Component {
         const { TaskStore, QCMarkerStore } = this.props;
 
         try {
-            BuriedPoint.modalBuriedPointEnd('attr_list', 'submitTask');
-            BuriedPoint.statusBuriedPointEnd('normal', 'submitTask');
-            BuriedPoint.statusBuriedPointEnd('union_break', 'submitTask');
+            await BuriedPoint.buriedPointEnd('submitTask');
             await TaskStore.initSubmit(option);
             await TaskStore.setActiveTask();
             this.clearWorkSpace();
@@ -376,11 +374,6 @@ class JobStatus extends React.Component {
         AttributeStore.hide('other_close');
         PictureShowStore.hide();
         PictureShowStore.destory();
-
-        //切换任务 关闭所有弹框
-        document.querySelectorAll('.ant-modal-close').forEach(element => {
-            element.click();
-        });
     };
 
     renderFooter = () => {
