@@ -112,10 +112,14 @@ class AttributesModal extends React.Component {
     }
 
     renderForm() {
+        const {
+            form,
+            AttributeStore: { attributes, readonly }
+        } = this.props;
         return (
             <div key="basicAttribute">
-                <BasicAttributesForm form={this.props.form} />
-                <AttrsForm form={this.props.form} />
+                <BasicAttributesForm form={form} formConfig={attributes} formStatus={!readonly} />
+                <AttrsForm form={form} />
             </div>
         );
     }

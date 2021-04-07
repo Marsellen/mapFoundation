@@ -22,9 +22,7 @@ const formItemLayout = {
         sm: { span: 14 }
     }
 };
-
 @inject('AttributeStore')
-@inject('DataLayerStore')
 @observer
 class BasicAttributesForm extends React.Component {
     constructor(props) {
@@ -33,9 +31,8 @@ class BasicAttributesForm extends React.Component {
     }
 
     setDisabledList = currentValues => {
-        const { AttributeStore } = this.props;
-        const { attributes } = AttributeStore;
-        const disabledList = attributes.reduce((total, item) => {
+        const { formConfig } = this.props;
+        const disabledList = formConfig.reduce((total, item) => {
             const { key, linkDisabled } = item;
             const value = currentValues ? currentValues[key] : item.value;
             const fieldDisabledList = linkDisabled?.[value] ?? [];
@@ -45,24 +42,23 @@ class BasicAttributesForm extends React.Component {
     };
 
     render() {
-        const { AttributeStore } = this.props;
-        const { attributes } = AttributeStore;
+        const { formConfig } = this.props;
         return (
-            <div>{attributes.map((item, index) => this.renderItem(item, index, 'attributes'))}</div>
+            <div className="configurable-form">
+                {formConfig.map((item, index) => {
+                    const _renderFn = this['render' + item.domType];
+                    return _renderFn ? _renderFn(item, index, 'attributes') : null;
+                })}
+            </div>
         );
     }
 
-    renderItem = (item, index, name) => {
-        return this['render' + item.domType](item, index, name);
-    };
-
     renderText = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form, formStatus } = this.props;
         let value = item.filterBy ? Filter.get(item.filterBy)(item.value) : item.value;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {!readonly && item.key != 'UPD_STAT' ? (
+                {formStatus && item.key != 'UPD_STAT' ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         initialValue: value
                     })(<Input disabled onChange={val => this.handleChange(val, item, name)} />)
@@ -75,11 +71,10 @@ class BasicAttributesForm extends React.Component {
 
     renderInputNumber = (item, index, name) => {
         const { disabledList } = this.state;
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form, formStatus, initData } = this.props;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {!readonly ? (
+                {formStatus ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         rules: [
                             {
@@ -88,7 +83,7 @@ class BasicAttributesForm extends React.Component {
                             },
                             ...this.getValidatorSetting(item.validates)
                         ],
-                        initialValue: item.value
+                        initialValue: initData?.[item.key] ?? item.value
                     })(
                         <AdInputNumber
                             type="number"
@@ -107,11 +102,10 @@ class BasicAttributesForm extends React.Component {
 
     renderInput = (item, index, name) => {
         const { disabledList } = this.state;
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form, formStatus, initData } = this.props;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {!readonly ? (
+                {formStatus ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         rules: [
                             {
@@ -120,7 +114,7 @@ class BasicAttributesForm extends React.Component {
                             },
                             ...this.getValidatorSetting(item.validates)
                         ],
-                        initialValue: item.value
+                        initialValue: initData?.[item.key] ?? item.value
                     })(
                         <Input
                             disabled={disabledList?.includes(item.key)}
@@ -138,12 +132,11 @@ class BasicAttributesForm extends React.Component {
 
     renderSelect = (item, index, name) => {
         const { disabledList } = this.state;
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form, formStatus, initData } = this.props;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {!readonly ? (
+                {formStatus ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         rules: [
                             {
@@ -151,7 +144,7 @@ class BasicAttributesForm extends React.Component {
                                 message: `${item.name}必填`
                             }
                         ],
-                        initialValue: item.value
+                        initialValue: initData?.[item.key] ?? item.value
                     })(
                         <Select
                             showSearch
@@ -182,6 +175,7 @@ class BasicAttributesForm extends React.Component {
     };
 
     handleChange = (val, filed, name) => {
+        const { fieldChange } = this.props;
         const { key, link } = filed;
         //表单内容联动
         if (link) {
@@ -191,6 +185,9 @@ class BasicAttributesForm extends React.Component {
         //表单disabled状态联动
         const fieldsValue = this.props.form.getFieldsValue().attributes;
         fieldsValue[key] = val;
+        //调用onChange事件
+        fieldChange?.default?.(key, val, fieldsValue);
+        fieldChange?.[key]?.(key, val, fieldsValue);
         this.setState({ disabledList: this.setDisabledList(fieldsValue) });
     };
 
@@ -211,13 +208,12 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderRadioIconGroup = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form, formStatus, initData } = this.props;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
-        let layout = readonly ? formItemLayout : {};
+        let layout = !formStatus ? formItemLayout : {};
         return (
             <Form.Item key={index} label={item.name} {...layout}>
-                {!readonly ? (
+                {formStatus ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         rules: [
                             {
@@ -225,11 +221,11 @@ class BasicAttributesForm extends React.Component {
                                 message: `${item.name}必填`
                             }
                         ],
-                        initialValue: item.value
+                        initialValue: initData?.[item.key] ?? item.value
                     })(
                         <RadioIconGroup
                             options={options}
-                            disabled={readonly}
+                            disabled={!formStatus}
                             onChange={val => this.handleChange(val, item, name)}
                         />
                     )
@@ -243,13 +239,12 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderCheckBoxIconGroup = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form, formStatus } = this.props;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
-        let layout = readonly ? formItemLayout : {};
+        let layout = !formStatus ? formItemLayout : {};
         return (
             <Form.Item key={index} label={item.name} {...layout}>
-                {!readonly ? (
+                {formStatus ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         rules: [
                             {
@@ -262,7 +257,7 @@ class BasicAttributesForm extends React.Component {
                         <CheckBoxIconGroup
                             options={options}
                             max={3}
-                            disabled={readonly}
+                            disabled={!formStatus}
                             onChange={val => this.handleChange(val, item, name)}
                         />
                     )
@@ -276,8 +271,7 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderSearchIconGroup = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form, formStatus } = this.props;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         return (
             <Form.Item
@@ -286,7 +280,7 @@ class BasicAttributesForm extends React.Component {
                 className="inline-search-icon-group"
                 {...formItemLayout}
             >
-                {!readonly ? (
+                {formStatus ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         rules: [
                             {
@@ -312,12 +306,11 @@ class BasicAttributesForm extends React.Component {
     };
 
     renderAdTrafficSignContent = (item, index, name) => {
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form, formStatus } = this.props;
         return (
             <AdTrafficSignContent
                 key={index}
-                readonly={readonly}
+                readonly={!formStatus}
                 form={form}
                 item={item}
                 name={name}
@@ -327,11 +320,10 @@ class BasicAttributesForm extends React.Component {
 
     renderPercentInput = (item, index, name) => {
         const { disabledList } = this.state;
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form, formStatus } = this.props;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {!readonly ? (
+                {formStatus ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         rules: [
                             {
@@ -360,11 +352,10 @@ class BasicAttributesForm extends React.Component {
 
     renderAdDateInput = (item, index, name) => {
         const { disabledList } = this.state;
-        const { form, AttributeStore } = this.props;
-        const { readonly } = AttributeStore;
+        const { form, formStatus } = this.props;
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {!readonly ? (
+                {formStatus ? (
                     form.getFieldDecorator(name + '.' + item.key, {
                         rules: [
                             {
