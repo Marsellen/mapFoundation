@@ -86,7 +86,7 @@ class QCMarkerModal extends React.Component {
         activeEditor();
         fetchTargetLayers();
         //取消修改埋点
-        BuriedPoint.toolBuriedPointEnd('modify_qc_marker', 'cancel_button');
+        BuriedPoint.toolBuriedPointEnd('modify_qc_marker', 'cancel');
     };
 
     handleModify = () => {
