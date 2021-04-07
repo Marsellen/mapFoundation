@@ -65,8 +65,8 @@ class Avatar extends React.Component {
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
-            onOk() {
-                BuriedPoint.buriedPointEnd('logout');
+            onOk: async () => {
+                await BuriedPoint.buriedPointEnd('logout');
                 logout();
                 location.reload();
                 editVisiteHistory.removeVisitedHistory();

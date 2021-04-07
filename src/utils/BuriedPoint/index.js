@@ -15,7 +15,7 @@ class BuriedPoint {
         this.windowBuriedPoint();
     }
 
-    sendRequest = obj => {
+    sendRequest = async obj => {
         try {
             //接口文档：https://confluence.ecarx.com.cn/pages/viewpage.action?pageId=64785919
             const isQcMarker = obj?.type?.includes('qc_marker');
@@ -47,14 +47,14 @@ class BuriedPoint {
                 url: window?.location?.href ?? null, //页面URL
                 eventType: obj?.eventType ?? null //事件类型：click、keydown
             };
-            BuriedPointService.buriedPoint(params);
+            await BuriedPointService.buriedPoint(params);
         } catch (e) {
             console.log('埋点接口异常' + e.message || e || '');
         }
     };
 
     //埋点:单一工具-开始
-    toolBuriedPointStart = (type, channel) => {
+    toolBuriedPointStart = async (type, channel) => {
         if (!type) return;
         let eventType = null;
         let buriedPointDesc = null;
@@ -95,7 +95,7 @@ class BuriedPoint {
             default:
                 return;
         }
-        this.sendRequest({
+        await this.sendRequest({
             type,
             functionType: '单一工具',
             buriedPointType: '编辑工具开始',
@@ -106,7 +106,7 @@ class BuriedPoint {
     };
 
     //埋点:单一工具-结束
-    toolBuriedPointEnd = (type, channel) => {
+    toolBuriedPointEnd = async (type, channel) => {
         if (!type) return;
         let eventType = null;
         let buriedPointDesc = null;
@@ -141,7 +141,7 @@ class BuriedPoint {
             default:
                 return;
         }
-        this.sendRequest({
+        await this.sendRequest({
             type,
             functionType: '单一工具',
             buriedPointType: '编辑工具结束',
@@ -152,7 +152,7 @@ class BuriedPoint {
     };
 
     //埋点：单一工具loading开始
-    toolLoadBuriedPointStart = (type, channel) => {
+    toolLoadBuriedPointStart = async (type, channel) => {
         if (!type || type === 'normal') return;
         const layerName = DataLayerStore?.getAdEditLayerName?.();
         const isLoad_1 = BUSINESS_TYPE_MAP[type]?.isLoad;
@@ -182,7 +182,7 @@ class BuriedPoint {
             default:
                 return;
         }
-        this.sendRequest({
+        await this.sendRequest({
             type,
             functionType: '单一工具',
             buriedPointType: 'Loading开始',
@@ -193,7 +193,7 @@ class BuriedPoint {
     };
 
     //埋点：单一工具loading结束
-    toolLoadBuriedPointEnd = (type, channel) => {
+    toolLoadBuriedPointEnd = async (type, channel) => {
         if (!type || type === 'normal') return;
         const layerName = DataLayerStore?.getAdEditLayerName?.();
         const isLoad_1 = BUSINESS_TYPE_MAP[type]?.isLoad;
@@ -211,7 +211,7 @@ class BuriedPoint {
             default:
                 return;
         }
-        this.sendRequest({
+        await this.sendRequest({
             type,
             functionType: '单一工具',
             buriedPointType: 'Loading结束',
@@ -222,12 +222,12 @@ class BuriedPoint {
     };
 
     //埋点：窗口交互1-开启
-    modalBuriedPointStart = (type, channel) => {
+    modalBuriedPointStart = async (type, channel) => {
         if (channel === 'button') {
             const isShortcutKey = ShortcutKey.keyCode;
             const eventType = isShortcutKey ? 'keyup' : 'click';
             const buriedPointDesc = isShortcutKey ? '快捷键' : '按钮';
-            this.sendRequest({
+            await this.sendRequest({
                 type,
                 functionType: '窗口交互1',
                 buriedPointType: '开启窗口',
@@ -239,7 +239,7 @@ class BuriedPoint {
     };
 
     //埋点：窗口交互1-关闭
-    modalBuriedPointEnd = (type, channel) => {
+    modalBuriedPointEnd = async (type, channel) => {
         let eventType = null;
         let buriedPointDesc = null;
         switch (channel) {
@@ -271,7 +271,7 @@ class BuriedPoint {
             default:
                 return;
         }
-        this.sendRequest({
+        await this.sendRequest({
             type,
             functionType: '窗口交互1',
             buriedPointType: '关闭窗口',
@@ -282,11 +282,11 @@ class BuriedPoint {
     };
 
     //埋点：数据加载-开始加载
-    dataLoadBuriedPointStart = (type, channel) => {
+    dataLoadBuriedPointStart = async (type, channel) => {
         if (channel === 'task_start') {
             const eventType = null;
             const buriedPointDesc = '开始任务';
-            this.sendRequest({
+            await this.sendRequest({
                 type,
                 functionType: '数据加载',
                 buriedPointType: '开始加载',
@@ -298,7 +298,7 @@ class BuriedPoint {
     };
 
     //埋点：数据加载-结束加载
-    dataLoadBuriedPointEnd = (type, channel) => {
+    dataLoadBuriedPointEnd = async (type, channel) => {
         let eventType = null;
         let buriedPointDesc = null;
         switch (channel) {
@@ -311,7 +311,7 @@ class BuriedPoint {
             default:
                 return;
         }
-        this.sendRequest({
+        await this.sendRequest({
             type,
             functionType: '数据加载',
             buriedPointType: '结束加载',
@@ -322,7 +322,7 @@ class BuriedPoint {
     };
 
     //埋点：状态切换-开始
-    statusBuriedPointStart = (type, channel) => {
+    statusBuriedPointStart = async (type, channel) => {
         const editLayerName = DataLayerStore?.getAdEditLayerName?.();
         if (type === 'normal' && !editLayerName) return;
         const isShortcutKey = ShortcutKey.keyCode;
@@ -338,7 +338,7 @@ class BuriedPoint {
             default:
                 return;
         }
-        this.sendRequest({
+        await this.sendRequest({
             type,
             functionType: '状态切换',
             buriedPointType: '进入状态',
@@ -349,7 +349,7 @@ class BuriedPoint {
     };
 
     //埋点：状态切换-结束
-    statusBuriedPointEnd = (type, channel) => {
+    statusBuriedPointEnd = async (type, channel) => {
         const editLayerName = DataLayerStore?.getAdEditLayerName?.();
         if (type === 'normal' && !editLayerName) return;
         const isShortcutKey = ShortcutKey.keyCode;
@@ -380,7 +380,7 @@ class BuriedPoint {
             default:
                 return;
         }
-        this.sendRequest({
+        await this.sendRequest({
             type,
             functionType: '状态切换',
             buriedPointType: '退出状态',
@@ -439,12 +439,15 @@ class BuriedPoint {
     };
 
     //退出登录、提交任务、切换任务统一调用功能结束埋点
-    buriedPointEnd = channel => {
+    buriedPointEnd = async channel => {
+        const { attrListVisible } = AttributeStore;
         const { adEditLayer, editStatus } = DataLayerStore;
         const isUnionBreak = editStatus === 'union_break';
-        this.modalBuriedPointEnd('attr_list', channel);
-        adEditLayer && this.statusBuriedPointEnd('normal', channel);
-        isUnionBreak && this.statusBuriedPointEnd('union_break', channel);
+        await Promise.allSettled([
+            attrListVisible && this.modalBuriedPointEnd('attr_list', channel),
+            adEditLayer && this.statusBuriedPointEnd('normal', channel),
+            isUnionBreak && this.statusBuriedPointEnd('union_break', channel)
+        ]);
     };
 }
 

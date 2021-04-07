@@ -338,7 +338,7 @@ class JobStatus extends React.Component {
         const { TaskStore, QCMarkerStore } = this.props;
 
         try {
-            BuriedPoint.buriedPointEnd('submitTask');
+            await BuriedPoint.buriedPointEnd('submitTask');
             await TaskStore.initSubmit(option);
             await TaskStore.setActiveTask();
             this.clearWorkSpace();

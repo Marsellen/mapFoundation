@@ -122,7 +122,7 @@ class Task extends React.Component {
         this.timeout && clearTimeout(this.timeout);
         this.timeout = setTimeout(async () => {
             try {
-                BuriedPoint.buriedPointEnd('toggleTask');
+                await BuriedPoint.buriedPointEnd('toggleTask');
 
                 const { current } = this.state;
                 const { TaskStore, DataLayerStore } = this.props;
