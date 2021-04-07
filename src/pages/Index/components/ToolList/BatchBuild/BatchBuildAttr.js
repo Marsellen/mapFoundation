@@ -1,32 +1,26 @@
 import React from 'react';
-import { observer, inject } from 'mobx-react';
 import { Form } from 'antd';
-import { FORM_CONFIG } from 'src/config/BatchBuildConfig';
-import ConfigurableForm from 'src/components/ConfigurableForm';
+import { TABLE_DATA_MAP } from 'config/ADMapDataConfig';
+import BasicAttributesForm from 'src/pages/Index/components/AttributesForm/BasicAttributesForm';
 
-const formLayout = {
-    labelCol: { span: 10 },
-    wrapperCol: { span: 14 }
-};
-
+const formConfig = TABLE_DATA_MAP.AD_LaneDivider.filter(item => item.domType != 'Text');
 @Form.create()
-@inject('DataLayerStore')
-@inject('BatchBuildStore')
-@observer
 class BatchBuildAttr extends React.Component {
     render() {
-        const { form, activeFeature } = this.props;
+        const { form, activeFeature, formItemChange } = this.props;
         return (
             <div className="batch-build-attr-wrap">
                 <div className="batch-build-attr-title">属性设置</div>
                 <div className="batch-build-attr-content">
-                    <ConfigurableForm
-                        formLayout={formLayout}
-                        form={form}
-                        initData={activeFeature?.attr}
-                        formConfig={FORM_CONFIG}
-                        fieldChange={{ default: this.props.formItemChange }}
-                    />
+                    <Form hideRequiredMark={true} colon={false} labelAlign="left">
+                        <BasicAttributesForm
+                            form={form}
+                            initData={activeFeature?.attr}
+                            formConfig={formConfig}
+                            fieldChange={{ default: formItemChange }}
+                            formStatus={true}
+                        />
+                    </Form>
                 </div>
             </div>
         );
