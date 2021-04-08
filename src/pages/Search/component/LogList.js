@@ -14,11 +14,13 @@ function LogList() {
         const { current, pageSize } = pagination;
         form.validateFields(async (err, value) => {
             if (err) return;
+            const startTime = moment(value.startTime).format('YYYY-MM-DD HH-mm-ss.SSS') || null;
+            const endTime = moment(value.endTime).format('YYYY-MM-DD HH-mm-ss.SSS') || null;
             const logListData = await getLogList({
                 userName: value.userName,
                 taskId: value.taskId,
-                startTime: value.startTime,
-                endTime: value.endTime,
+                startTime: startTime,
+                endTime: endTime,
                 pageSize: pageSize,
                 pageNumber: current,
                 layerName: value.layerName || '',
@@ -77,12 +79,12 @@ function LogList() {
         <div className="log-list">
             <ConfigProvider locale={zh_CN}>
                 <Table
-                    dataSource={state.logListData.list}
+                    dataSource={state?.logListData?.list || []}
                     columns={columns}
                     rowKey={item => item.saveTime}
                     onChange={handleTableChange}
                     pagination={{
-                        total: state.logListData.totalNumber,
+                        total: state?.logListData?.totalNumber || 0,
                         pageSizeOptions: ['10', '30', '50'],
                         showQuickJumper: true,
                         showSizeChanger: true

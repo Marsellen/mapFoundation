@@ -43,12 +43,12 @@ function Search(props) {
             const startTime = moment(values.startTime).format('YYYY-MM-DD HH-mm-ss.SSS') || null;
             const endTime = moment(values.endTime).format('YYYY-MM-DD HH-mm-ss.SSS') || null;
             const logListData = await getLogList({
-                userName: values.userName,
+                userName: values?.userName || '',
                 taskId: values.taskId,
                 startTime: startTime,
                 endTime: endTime,
                 pageSize: 10,
-                pageNumber: 1,
+                pageNumber: state?.logListData?.pageNumber || 1,
                 layerName: values.layerName || '',
                 layerField: values.layerField || '',
                 layerId: values.layerId || ''
