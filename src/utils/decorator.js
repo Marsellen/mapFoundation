@@ -32,7 +32,7 @@ function funcDecoratorFactory(factory, option) {
     };
 }
 
-const operateLock = new Lock(); // 操作锁
+export const operateLock = new Lock(); // 操作锁
 
 //单一工具loading埋点处理
 const handleToolLoadBuriedPointStart = (toolType, doubleLog) => {

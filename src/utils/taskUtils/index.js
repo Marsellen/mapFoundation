@@ -15,6 +15,7 @@ import {
 } from 'src/config/DataLayerConfig';
 import appStore from 'src/store/appStore';
 import BuriedPoint from 'src/utils/BuriedPoint/index';
+import { operateLock } from 'src/utils/decorator';
 
 const SECEND_PATH = '13_ED_DATA';
 const THIRD_PATH = '1301_RAW_DATA';
@@ -88,6 +89,7 @@ export const saveTaskData = async channel => {
     const isAutoSave = channel === 'auto';
     const type = isAutoSave ? 'auto_save' : 'save';
     try {
+        operateLock.lock('保存');
         BuriedPoint.toolBuriedPointStart(type, channel);
         message.loading({ key: 'save', content: '正在保存...', duration: 0 });
         await saveData(isAutoSave);
@@ -100,6 +102,8 @@ export const saveTaskData = async channel => {
             content: '保存失败，数据可能出错，请再次保存',
             duration: 2
         });
+    } finally {
+        operateLock.unlock();
     }
 };
 
