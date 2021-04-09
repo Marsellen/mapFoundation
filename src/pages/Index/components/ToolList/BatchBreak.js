@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import ToolIcon from 'src/components/ToolIcon';
 import { Modal } from 'antd';
+import ToolIcon from 'src/components/ToolIcon';
 import { logDecorator, editLock } from 'src/utils/decorator';
 import sysProperties from 'src/models/sysProperties';
 
@@ -15,9 +15,27 @@ class BatchBreak extends React.Component {
         this.handleOk = this.handleOk.bind(this);
     }
 
+    batchBreakModal = () => {
+        Modal.confirm({
+            title: '批量线要素打断赋值',
+            okText: '确定',
+            cancelText: '取消',
+            content: (
+                <div>
+                    <p>输入：几何正确、类型属性正确的车道线（含道路边界）、隔离带&护栏、停止位置</p>
+                    <p>输出：经过自动齐打断、属性调整后的车道线、隔离带&护栏</p>
+                    <p style={{ color: 'red' }}>注：此功能只在人工识别、底图新增阶段使用</p>
+                </div>
+            ),
+            onOk: this.handleOk,
+            onCancel: this.handleCancel
+        });
+    };
+
     @editLock
     handleClick = () => {
         this.props.DataLayerStore.setEditType('batch_break', 'button');
+        this.batchBreakModal();
     };
 
     @logDecorator({ operate: '批量线要素打断赋值', skipRenderMode: true })
@@ -95,32 +113,13 @@ class BatchBreak extends React.Component {
 
         if (isMsTask) {
             return (
-                <>
-                    <ToolIcon
-                        icon="piliangxianyaosudaduanfuzhi"
-                        title="批量线要素打断赋值"
-                        visible={visible}
-                        disabled={!isEditableTask}
-                        action={this.handleClick}
-                    />
-                    <Modal
-                        title="批量线要素打断赋值"
-                        okText="确定"
-                        cancelText="取消"
-                        visible={visible}
-                        autoFocusButton={null}
-                        onOk={this.handleOk}
-                        onCancel={this.handleCancel}
-                    >
-                        <div>
-                            <p>
-                                输入：几何正确、类型属性正确的车道线（含道路边界）、隔离带&护栏、停止位置
-                            </p>
-                            <p>输出：经过自动齐打断、属性调整后的车道线、隔离带&护栏</p>
-                            <p style={{ color: 'red' }}>注：此功能只在人工识别、底图新增阶段使用</p>
-                        </div>
-                    </Modal>
-                </>
+                <ToolIcon
+                    icon="piliangxianyaosudaduanfuzhi"
+                    title="批量线要素打断赋值"
+                    visible={visible}
+                    disabled={!isEditableTask}
+                    action={this.handleClick}
+                />
             );
         } else {
             return null;
