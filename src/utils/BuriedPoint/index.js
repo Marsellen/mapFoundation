@@ -45,7 +45,8 @@ class BuriedPoint {
                 createUserName: AppStore?.loginUser?.name ?? null, //创建者名称
                 createUserRole: AppStore?.loginUser?.roleName ?? null, //创建者角色
                 url: window?.location?.href ?? null, //页面URL
-                eventType: obj?.eventType ?? null //事件类型：click、keydown
+                eventType: obj?.eventType ?? null, //事件类型：click、keydown
+                clientTime: Date.now() //客户端埋点时间
             };
             await BuriedPointService.buriedPoint(params);
         } catch (e) {
