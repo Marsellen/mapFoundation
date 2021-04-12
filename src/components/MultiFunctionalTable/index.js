@@ -157,7 +157,7 @@ class MultiFunctionalTable extends React.Component {
     };
 
     //展开某行
-    openRowStyle = index => {
+    openRow = index => {
         const { className } = this.props;
         const selectorStr1 = `.${className} .table-row-${index}`;
         const selectorStr2 = `.${className} .un-ellipsis`;
@@ -195,7 +195,7 @@ class MultiFunctionalTable extends React.Component {
             //变色
             this.activeRowStyle(index);
             //展开
-            this.openRowStyle(index);
+            this.openRow(index);
             this.scrollTop = this.table.scrollTop;
             //执行传入的单击事件
             const { onClick } = this.props;
@@ -206,7 +206,7 @@ class MultiFunctionalTable extends React.Component {
     //双击
     tableOnDoubleClick = (record, index) => {
         return e => {
-            this.openRowStyle(index);
+            this.openRow(index);
             //执行传入的双击事件
             const { onDoubleClick } = this.props;
             onDoubleClick && onDoubleClick(record, index);

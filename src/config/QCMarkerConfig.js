@@ -3197,3 +3197,5 @@ export const MARKER_TABLE_COLUMNS = () => {
         }
     ];
 };
+
+export const MARKER_EDIT_TYPES = ['new_qc_marker', 'choose_error_feature'];

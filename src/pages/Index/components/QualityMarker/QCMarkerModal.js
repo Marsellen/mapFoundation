@@ -18,8 +18,6 @@ const formLayout = {
 @inject('TaskStore')
 @inject('QCMarkerStore')
 @inject('DataLayerStore')
-@inject('ToolCtrlStore')
-@inject('AttributeStore')
 @observer
 class QCMarkerModal extends React.Component {
     constructor(props) {
@@ -63,28 +61,14 @@ class QCMarkerModal extends React.Component {
 
     //关闭
     handleCancel = e => {
-        const {
-            ToolCtrlStore: { updateByEditLayer },
-            AttributeStore: { hide, hideRelFeatures },
-            DataLayerStore: { exitMarker }
-        } = this.props;
+        const { QCMarkerStore } = this.props;
         this.buriedPointCancel(e);
-        exitMarker();
-        hide();
-        hideRelFeatures();
-        updateByEditLayer();
+        QCMarkerStore.exitMarker();
     };
 
     handleCancelModify = () => {
-        const {
-            QCMarkerStore: { setEditStatus },
-            DataLayerStore: { exitEdit, activeEditor, fetchTargetLayers }
-        } = this.props;
+        const { setEditStatus } = this.props.QCMarkerStore;
         setEditStatus('visite');
-        //退出编辑状态，退出编辑工具，重置可编辑图层
-        exitEdit();
-        activeEditor();
-        fetchTargetLayers();
         //取消修改埋点
         BuriedPoint.toolBuriedPointEnd('modify_qc_marker', 'cancel');
     };
@@ -203,18 +187,8 @@ class QCMarkerModal extends React.Component {
     }
 
     release = () => {
-        const {
-            DataLayerStore: { exitEdit, activeEditor, fetchTargetLayers },
-            QCMarkerStore: { exitMarker },
-            ToolCtrlStore: { updateByEditLayer },
-            AttributeStore: { hideRelFeatures }
-        } = this.props;
-        exitEdit();
-        activeEditor();
-        fetchTargetLayers();
-        exitMarker(false);
-        hideRelFeatures();
-        updateByEditLayer();
+        const { QCMarkerStore } = this.props;
+        QCMarkerStore.exitMarker(false);
     };
 
     //获取新增质检标注参数
@@ -403,6 +377,7 @@ class QCMarkerModal extends React.Component {
 
         return (
             <SeniorModal
+                key={`${editStatus}_${properties.id}`}
                 title="质检标注"
                 zIndex={1001}
                 visible={visible}
@@ -416,7 +391,7 @@ class QCMarkerModal extends React.Component {
                 resizeCallback={this.resizeCallback}
             >
                 <Spin tip="Loading..." spinning={isLoading}>
-                    <div className="content-wrap" key={`${editStatus}_${properties.id}`}>
+                    <div className="content-wrap">
                         <ConfigurableForm
                             form={form}
                             formLayout={formLayout}

@@ -48,6 +48,15 @@ class BuriedPoint {
                 eventType: obj?.eventType ?? null, //事件类型：click、keydown
                 clientTime: Date.now() //客户端埋点时间
             };
+            console.log(
+                params.businessType,
+                params.action,
+                params.businessData.buriedPointType,
+                params.businessData.buriedPointDesc,
+                params.businessData.functionType,
+                params.businessData.layerName,
+                params.businessData.taskId
+            );
             await BuriedPointService.buriedPoint(params);
         } catch (e) {
             console.log('埋点接口异常' + e.message || e || '');
@@ -84,13 +93,13 @@ class BuriedPoint {
             case 'auto':
                 buriedPointDesc = '前端定时触发';
                 break;
-            case 'checkServer':
+            case 'check_server':
                 buriedPointDesc = '质检服务自动调用';
                 break;
-            case 'toggleTask':
+            case 'toggle_task':
                 buriedPointDesc = '切换任务自动调用';
                 break;
-            case 'submitTask':
+            case 'submit_task':
                 buriedPointDesc = '提交任务自动调用';
                 break;
             default:
@@ -257,11 +266,11 @@ class BuriedPoint {
                 eventType = 'click';
                 buriedPointDesc = '右上角关闭窗口';
                 break;
-            case 'toggleTask':
+            case 'toggle_task':
                 eventType = 'click';
                 buriedPointDesc = '切换任务';
                 break;
-            case 'submitTask':
+            case 'submit_task':
                 eventType = 'click';
                 buriedPointDesc = '提交任务';
                 break;
@@ -326,15 +335,14 @@ class BuriedPoint {
     statusBuriedPointStart = async (type, channel) => {
         const editLayerName = DataLayerStore?.getAdEditLayerName?.();
         if (type === 'normal' && !editLayerName) return;
-        const isShortcutKey = ShortcutKey.keyCode;
-        let eventType = isShortcutKey ? 'keyup' : 'click';
+        let eventType = 'click';
         let buriedPointDesc = null;
         switch (channel) {
             case 'button':
-                buriedPointDesc = isShortcutKey ? '快捷键' : '按钮';
+                buriedPointDesc = '按钮';
                 break;
-            case 'right_menu':
-                buriedPointDesc = isShortcutKey ? '快捷键' : '右键菜单';
+            case 'select_data':
+                buriedPointDesc = '点击数据';
                 break;
             default:
                 return;
@@ -353,29 +361,25 @@ class BuriedPoint {
     statusBuriedPointEnd = async (type, channel) => {
         const editLayerName = DataLayerStore?.getAdEditLayerName?.();
         if (type === 'normal' && !editLayerName) return;
-        const isShortcutKey = ShortcutKey.keyCode;
-        let eventType = isShortcutKey ? 'keyup' : 'click';
+        let eventType = 'click';
         let buriedPointDesc = null;
         switch (channel) {
             case 'button':
-                buriedPointDesc = isShortcutKey ? '快捷键' : '按钮';
-                break;
-            case 'right_menu':
-                buriedPointDesc = isShortcutKey ? '快捷键' : '右键菜单';
+                buriedPointDesc = '按钮';
                 break;
             case 'effect':
                 buriedPointDesc = '被动触发';
                 break;
-            case 'toggleTask':
-                eventType = 'click';
+            case 'select_data':
+                buriedPointDesc = '点击数据';
+                break;
+            case 'toggle_task':
                 buriedPointDesc = '切换任务';
                 break;
-            case 'submitTask':
-                eventType = 'click';
+            case 'submit_task':
                 buriedPointDesc = '提交任务';
                 break;
             case 'logout':
-                eventType = 'click';
                 buriedPointDesc = '退出登录';
                 break;
             default:

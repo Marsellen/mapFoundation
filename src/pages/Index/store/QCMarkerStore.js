@@ -1,7 +1,8 @@
 import { observable, configure, action, flow, toJS } from 'mobx';
 import QCMarkerService from 'src/services/QCMarkerService';
 import { message } from 'antd';
-import { MARKER_TABLE_COLUMNS } from 'src/config/QCMarkerConfig';
+import { MARKER_EDIT_TYPES, MARKER_TABLE_COLUMNS } from 'src/config/QCMarkerConfig';
+import DataLayerStore from './DataLayerStore';
 
 const filterKeys = MARKER_TABLE_COLUMNS().flatMap(item => {
     return item.isFilter ? [item] : [];
@@ -123,14 +124,26 @@ class QCMarkerStore {
 
     removeMarkerVector = () => {
         window.markerLayer.layer.removeFeatureById(this.currentMarker.uuid);
-        this.clearCurrentMarker();
     };
 
-    exitMarker = (isDelete = true) => {
+    clearDebuff = (isDelete = true) => {
         isDelete && this.editStatus === 'create' && this.removeMarkerVector();
         this.hide();
         this.setEditStatus();
         this.clearCurrentMarker();
+    };
+
+    exitMarker = (isDelete = true) => {
+        this.clearDebuff(isDelete);
+        if (MARKER_EDIT_TYPES.includes(DataLayerStore.editType)) {
+            DataLayerStore.fetchTargetLayers();
+            DataLayerStore.activeEditor();
+            DataLayerStore.exitEdit();
+        } else {
+            DataLayerStore.removeCur();
+            DataLayerStore.editor.clear();
+            DataLayerStore.editor.cancel();
+        }
     };
 
     insertMarker = flow(function* (data) {

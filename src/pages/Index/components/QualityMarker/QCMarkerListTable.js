@@ -4,8 +4,6 @@ import { inject, observer } from 'mobx-react';
 import MultiFunctionalTable from 'src/components/MultiFunctionalTable';
 import 'src/assets/less/components/qc-marker-table.less';
 
-@inject('AttributeStore')
-@inject('ToolCtrlStore')
 @inject('DataLayerStore')
 @inject('QualityCheckStore')
 @inject('QCMarkerStore')
@@ -36,22 +34,12 @@ class QCMarkerListTable extends React.Component {
 
     //清扫工作区域
     clearWorkSpace = () => {
-        const {
-            ToolCtrlStore: { updateByEditLayer },
-            AttributeStore: { hide, hideRelFeatures },
-            DataLayerStore: { activeEditor, getAdEditLayerName, exitMarker },
-            QCMarkerStore: { editStatus }
-        } = this.props;
+        const { DataLayerStore, QCMarkerStore } = this.props;
         //如果当前编辑图层是标注图层，则退出标注图层
-        const editLayerName = getAdEditLayerName();
-        if (editStatus || editLayerName === 'AD_Marker') {
-            exitMarker();
+        const editLayerName = DataLayerStore.getAdEditLayerName();
+        if (QCMarkerStore.editStatus || editLayerName === 'AD_Marker') {
+            QCMarkerStore.exitMarker();
         }
-        //重置编辑图层，重置编辑工具，退出编辑状态
-        activeEditor(null, 'effect');
-        updateByEditLayer();
-        hide();
-        hideRelFeatures();
     };
 
     //单击：选中此质检标注，弹出“质检标注窗口”

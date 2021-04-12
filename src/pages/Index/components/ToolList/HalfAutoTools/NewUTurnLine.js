@@ -1,8 +1,8 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
-import { Modal, Icon, message } from 'antd';
+import { getLayerByName, getFeatureOption, selectFeature } from 'src/utils/vectorUtils';
+import { Modal, Icon } from 'antd';
 import { autoCreateLine, updateFeatures } from 'src/utils/relCtrl/operateCtrl';
 import AdMessage from 'src/components/AdMessage';
 import 'less/components/tool-icon.less';
@@ -24,21 +24,23 @@ const TIPS_MAP = {
 @inject('AttributeStore')
 @observer
 class NewUTurnLine extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        this.handleData = this.handleData.bind(this);
+        this.addLines = this.addLines.bind(this);
+        this.drawLine = this.drawLine.bind(this);
+        this.historyLog = null;
         this.state = {
             visibleModal: false,
             num: 8.0,
-            visible: false
+            visible: false,
+            result: null
         };
     }
 
     componentDidMount() {
         const { DataLayerStore } = this.props;
-        DataLayerStore.setUTurnCallback((result, event) => {
-            if (event.button !== 2) return false;
-            this.handleData(result);
-        });
+        DataLayerStore.setUTurnCallback(this.uTurnCallback);
         DataLayerStore.setNewUturnExitEvent(() => {
             this.setState({
                 visibleModal: false,
@@ -46,14 +48,126 @@ class NewUTurnLine extends React.Component {
             });
         });
     }
-    render() {
+
+    @editLock
+    action = () => {
+        const { DataLayerStore, AttributeStore } = this.props;
+        if (DataLayerStore.editType == 'new_Uturn_line') return;
+        DataLayerStore.newUTurnLine();
+        AttributeStore.hide('other_close');
+        AttributeStore.hideRelFeatures();
+        this.setState({ visible: true });
+    };
+
+    inputChange = val => {
         const reg = new RegExp('^[1-9]\\d{0,9}(\\.\\d{1,2})?$|^0(\\.\\d{1,2})?$');
+        const checkNumber = document.getElementById('checkNumber');
+        if (val < 0.01 || !reg.test(val)) {
+            checkNumber.style.display = 'block';
+        } else {
+            checkNumber.style.display = 'none';
+        }
+        this.setState({
+            num: val
+        });
+    };
+
+    handleOk = async () => {
+        const reg = new RegExp('^[0-9]+.?[0-9]*$');
+        const { num } = this.state;
+        if (num < 0.01 || !reg.test(num)) return false;
+        this.setState({
+            visibleModal: false,
+            visible: false
+        });
+        await this.addLines();
+        this.activeLine(this.historyLog);
+    };
+
+    handleCancel = () => {
+        const { DataLayerStore } = this.props;
+        this.setState({
+            visibleModal: false,
+            num: 8.0
+        });
+        DataLayerStore.exitEdit();
+    };
+
+    uTurnCallback = (result, event) => {
+        if (event.button !== 2) return false;
+        this.handleData(result);
+    };
+
+    @editInputLimit({ editType: 'new_Uturn_line' })
+    @logDecorator({ operate: ACTION_MAP, onlyRun: true })
+    handleData(result) {
+        const { DataLayerStore } = this.props;
+        const layerName = DataLayerStore.getAdEditLayerName();
+        const layerNameCN = DATA_LAYER_MAP[layerName].label;
+        if (result.length !== 2) {
+            throw new Error(`操作错误：应选择 2 条${layerNameCN}`);
+        }
+        this.setState({
+            visibleModal: true,
+            result
+        });
+    }
+
+    // 新建
+    @logDecorator({ operate: ACTION_MAP, doubleLog: true })
+    async addLines() {
+        const { num, result } = this.state;
+        const { DataLayerStore } = this.props;
+        const layerName = DataLayerStore.getAdEditLayerName();
+        let params = {};
+        params[layerName] = {};
+        params[layerName].type = 'FeatureCollection';
+        params[layerName].features = [];
+        result.forEach(item => {
+            params[layerName].features.push(item.data);
+        });
+        let type = layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType';
+        params[type] = 3;
+        params.extDistance = num;
+        let historyLog = await autoCreateLine(layerName, params);
+        this.historyLog = historyLog;
+        await this.drawLine(historyLog.features[1], historyLog);
+        return historyLog;
+    }
+
+    @editOutputLimit()
+    async drawLine(outputData, historyLog) {
+        await updateFeatures(historyLog);
+    }
+
+    // 显示新构建出的道路线并为选中状态
+    activeLine = historyLog => {
+        if (!historyLog) return;
+        const _feature = historyLog.features[1][0];
+        const layer = getLayerByName(_feature.layerName);
+        const option = getFeatureOption(_feature);
+        const feature = layer.getFeatureByOption(option);
+        feature && selectFeature(feature.properties);
+    };
+
+    content = () => {
+        const { DataLayerStore } = this.props;
+        const layerName = DataLayerStore.getAdEditLayerName();
+        const text = TIPS_MAP[layerName];
+        return (
+            <label>
+                <Icon type="info-circle" /> {text}
+            </label>
+        );
+    };
+
+    render() {
         let { visibleModal, num, visible } = this.state;
+        const reg = new RegExp('^[1-9]\\d{0,9}(\\.\\d{1,2})?$|^0(\\.\\d{1,2})?$');
         const { DataLayerStore } = this.props;
         const { updateKey } = DataLayerStore;
+        const layerName = DataLayerStore.getAdEditLayerName();
         visible = DataLayerStore.editType == 'new_Uturn_line' && visible; //掉头
-        let editLayer = DataLayerStore.getAdEditLayer();
-        let layerName = editLayer && editLayer.layerName;
 
         return (
             <div id="new-uturn-line" key={updateKey} onClick={this.action} className="flex-1">
@@ -93,160 +207,6 @@ class NewUTurnLine extends React.Component {
             </div>
         );
     }
-
-    @editInputLimit({ editType: 'new_Uturn_line' })
-    @logDecorator({ operate: ACTION_MAP, onlyRun: true })
-    handleData(result) {
-        const { DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getAdEditLayer();
-        let layerName = editLayer && editLayer.layerName;
-        let layerNameCN = DATA_LAYER_MAP[layerName].label;
-        if (result.length !== 2) {
-            message.error(`操作错误：应选择 2 条${layerNameCN}`);
-            throw new Error(`操作错误：应选择 2 条${layerNameCN}`);
-        }
-        let params = {};
-        params[layerName] = {};
-        params[layerName].type = 'FeatureCollection';
-        params[layerName].features = [];
-        result.forEach(item => {
-            params[layerName].features.push(item.data);
-        });
-        //转弯
-        let type = layerName == 'AD_Lane' ? 'crsLaneType' : 'crsRoadType';
-        params[type] = 3;
-        this.setState({
-            visibleModal: true,
-            params: params
-        });
-    }
-
-    @editLock
-    action = () => {
-        const { DataLayerStore, AttributeStore } = this.props;
-        if (DataLayerStore.editType == 'new_Uturn_line') return;
-        DataLayerStore.newUTurnLine();
-        AttributeStore.hide('other_close');
-        AttributeStore.hideRelFeatures();
-        this.setState({ visible: true });
-    };
-
-    handleOk = () => {
-        const reg = new RegExp('^[0-9]+.?[0-9]*$');
-        const { num, params } = this.state;
-        if (num < 0.01 || !reg.test(num)) return false;
-        params.extDistance = num;
-        this.setState({
-            visibleModal: false,
-            visible: false
-        });
-        this.addLines(params);
-    };
-
-    handleCancel = () => {
-        const { DataLayerStore } = this.props;
-        this.setState({
-            visibleModal: false,
-            num: 8.0
-        });
-        DataLayerStore.exitEdit();
-    };
-
-    inputChange = val => {
-        const reg = new RegExp('^[1-9]\\d{0,9}(\\.\\d{1,2})?$|^0(\\.\\d{1,2})?$');
-        const checkNumber = document.getElementById('checkNumber');
-        if (val < 0.01 || !reg.test(val)) {
-            checkNumber.style.display = 'block';
-        } else {
-            checkNumber.style.display = 'none';
-        }
-        this.setState({
-            num: val
-        });
-    };
-
-    // 新建
-    @logDecorator({ operate: ACTION_MAP, doubleLog: true })
-    async addLines(params) {
-        const { DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getAdEditLayer();
-        let layerName = editLayer && editLayer.layerName;
-        let layerNameCN = DATA_LAYER_MAP[layerName].label;
-        try {
-            message.loading({
-                content: '正在构建要素...',
-                key: 'new_Uturn_line',
-                duration: 0
-            });
-            let historyLog = await autoCreateLine(layerName, params);
-            await this.drawLine(historyLog.features[1], historyLog);
-            this.activeLine(layerName, historyLog);
-
-            message.success({
-                content: `${layerNameCN}生成成功`,
-                key: 'new_Uturn_line',
-                duration: 3
-            });
-            return historyLog;
-        } catch (e) {
-            message.error({
-                content: `${layerNameCN}生成失败：${e.message}`,
-                key: 'new_Uturn_line',
-                duration: 3
-            });
-            throw new Error(`${layerNameCN}生成失败：${e.message}`);
-        }
-    }
-
-    @editOutputLimit()
-    async drawLine(outputData, historyLog) {
-        await updateFeatures(historyLog);
-    }
-
-    // 显示新构建出的道路线并为选中状态
-    activeLine = (layerLine, historyLog) => {
-        let layerName = historyLog.features[1][0].layerName;
-        let value =
-            historyLog.features[1][0].data.properties[
-                layerLine === 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
-            ];
-        let IDKey = getLayerIDKey(layerName);
-        let option = {
-            key: IDKey,
-            value: value
-        };
-        let layer = getLayerByName(layerName);
-        let result = layer.getFeatureByOption(option);
-        if (result) {
-            let feature = result.properties;
-            this.showAttributesModal(feature);
-        } else {
-            message.warning('所在图层与用户编号不匹配！', 3);
-        }
-    };
-
-    showAttributesModal = async obj => {
-        const { AttributeStore, DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getAdEditLayer();
-        let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
-        DataLayerStore.clearHighLightFeatures();
-        DataLayerStore.clearPick();
-        await AttributeStore.setModel(obj);
-        DataLayerStore.setFeatureColor(obj, 'rgb(255,134,237)');
-        AttributeStore.show(readonly);
-    };
-
-    content = () => {
-        const { DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getAdEditLayer();
-        let layerName = editLayer && editLayer.layerName;
-        const text = TIPS_MAP[layerName];
-        return (
-            <label>
-                <Icon type="info-circle" /> {text}
-            </label>
-        );
-    };
 }
 
 export default NewUTurnLine;

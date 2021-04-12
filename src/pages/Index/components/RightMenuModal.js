@@ -180,14 +180,6 @@ class RightMenuModal extends React.Component {
     getMenus = () => {
         const menuArr = [
             <Menu.Item
-                id="set-edit-layer-btn"
-                key="setEditLayer"
-                onClick={this.setEditLayerFeature}
-                className="right-menu-item"
-            >
-                <span>设置为可编辑图层</span>
-            </Menu.Item>,
-            <Menu.Item
                 id="delete-btn"
                 key="delete"
                 onClick={this.deleteFeature}
@@ -440,18 +432,6 @@ class RightMenuModal extends React.Component {
             throw e;
         }
     }
-
-    @editLock
-    setEditLayerFeature = () => {
-        //设置可编辑图层交互
-        const { RightMenuStore, DataLayerStore } = this.props;
-        const { features } = RightMenuStore;
-        let layer = DataLayerStore.activeEditor(features[0].layerName, 'right_menu');
-        ToolCtrlStore.updateByEditLayer(layer);
-        AttributeStore.hide('other_close');
-        AttributeStore.hideRelFeatures();
-        RightMenuStore.hide();
-    };
 
     @editLock
     @editInputLimit({ editType: 'delete', isRightMenu: true })

@@ -115,7 +115,6 @@ class BatchAssignModal extends React.Component {
     handleCancel = e => {
         const channel = e.keyCode ? 'esc' : e.detail ? 'close' : null;
         const { BatchAssignStore, AttributeStore } = this.props;
-        DataLayerStore.UnQCAttrModal(['error_layer']);
         BatchAssignStore.hide();
         AttributeStore.showTime(true);
         BuriedPoint.toolBuriedPointEnd('batch_assign', channel);

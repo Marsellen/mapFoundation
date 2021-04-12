@@ -108,7 +108,7 @@ class Task extends React.Component {
                 maskStyle: { zIndex: 99999999 },
                 zIndex: 999999999,
                 onOk: async () => {
-                    await saveTaskData('toggleTask');
+                    await saveTaskData('toggle_task');
                     this.toggleTask(id, isEdit);
                 }
             });
@@ -122,7 +122,7 @@ class Task extends React.Component {
         this.timeout && clearTimeout(this.timeout);
         this.timeout = setTimeout(async () => {
             try {
-                await BuriedPoint.buriedPointEnd('toggleTask');
+                await BuriedPoint.buriedPointEnd('toggle_task');
 
                 const { current } = this.state;
                 const { TaskStore, DataLayerStore } = this.props;

@@ -116,5 +116,29 @@ export const EDIT_MESSAGE = {
         loadingMsg: '正在批量线要素打断赋值要素...',
         successMsg: '批量线要素打断赋值完成',
         errorMsg: '批量线要素打断赋值失败：'
+    },
+    new_around_line: {
+        //左右车道线生成中心线、路段中参考线生成
+        loadingMsg: '正在构建要素...',
+        successMsg: '构建成功',
+        errorMsg: '构建失败：'
+    },
+    new_straight_line: {
+        //路口内直行中心线生成、路口内直行参考线生成
+        loadingMsg: '正在构建要素...',
+        successMsg: '构建成功',
+        errorMsg: '构建失败：'
+    },
+    new_turn_line: {
+        //路口内转弯中心线生成、路口内转弯参考线生成
+        loadingMsg: '正在构建要素...',
+        successMsg: '构建成功',
+        errorMsg: '构建失败：'
+    },
+    new_Uturn_line: {
+        //掉头中心线生成、掉头参考线生成
+        loadingMsg: '正在构建要素...',
+        successMsg: '构建成功',
+        errorMsg: '构建失败：'
     }
 };

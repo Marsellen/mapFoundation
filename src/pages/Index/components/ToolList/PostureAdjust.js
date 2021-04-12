@@ -40,7 +40,7 @@ class PostureAdjust extends React.Component {
                     focusClassName="ad-tool-icon-active"
                     visible={visible}
                     action={this.action}
-                    disabled={DataLayerStore.brushDisadled}
+                    disabled={!DataLayerStore.beenPick}
                 />
                 <SeniorModal
                     className="posture-modal"
