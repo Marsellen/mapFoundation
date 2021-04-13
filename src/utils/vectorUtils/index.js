@@ -7,7 +7,17 @@ import relFactory from 'src/utils/relCtrl/relFactory';
 import _ from 'lodash';
 import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
 import { message } from 'antd';
+import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
+
 const jsts = require('jsts');
+
+export const selectFeature = feature => {
+    if (!feature) return;
+    DataLayerStore.exitEdit();
+    DataLayerStore.clearHighLightFeatures();
+    DataLayerStore.clearPick();
+    DataLayerStore.setSelectFeature(feature.layerId, feature.uuid);
+};
 
 export const getLayerIDKey = layerName => {
     return DATA_LAYER_MAP[layerName] ? DATA_LAYER_MAP[layerName].id : 'id';
@@ -36,6 +46,14 @@ export const getFeatureOption = feature => {
     };
 };
 
+export const getAllLayers = () => {
+    let layers = window.vectorLayerGroup.layers;
+    if (window.boundaryLayerGroup) {
+        layers = layers.concat(window.boundaryLayerGroup.layers);
+    }
+    return layers;
+};
+
 export const getAllLayersExByName = layerName => {
     let layers = window.vectorLayerGroup.layers;
     if (window.boundaryLayerGroup) {
@@ -46,14 +64,6 @@ export const getAllLayersExByName = layerName => {
     } else {
         return layers.filter(layer => layer.layerName == layerName);
     }
-};
-
-export const getAllChooseLayersExByName = layerName => {
-    let layers = window.vectorLayerGroup.layers;
-    if (window.boundaryLayerGroup) {
-        layers = layers.concat(window.boundaryLayerGroup.layers);
-    }
-    return layers.filter(layer => layer.layerName != layerName);
 };
 
 export const getLayerExByName = layerName => {

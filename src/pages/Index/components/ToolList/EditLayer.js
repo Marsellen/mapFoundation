@@ -158,25 +158,20 @@ class EditLayerPicker extends React.Component {
 
     @editLock
     onChange = e => {
-        const {
-            DataLayerStore: { getEditLayerName, exitMarker, activeEditor },
-            ToolCtrlStore: { updateByEditLayer },
-            AttributeStore: { hide, hideRelFeatures },
-            QCMarkerStore: { editStatus }
-        } = this.props;
+        const { DataLayerStore, ToolCtrlStore, AttributeStore, QCMarkerStore } = this.props;
         //如果上一个编辑图层是标注图层，则退出标注图层
-        const editLayerName = getEditLayerName();
-        if (editStatus || editLayerName === 'AD_Marker') {
-            exitMarker();
+        const editLayerName = DataLayerStore.getEditLayerName();
+        if (QCMarkerStore.editStatus || editLayerName === 'AD_Marker') {
+            QCMarkerStore.exitMarker();
         }
         //切换编辑图层
         const value = e.target.value;
         const layerPicker = DATA_LAYER_MAP[value] ? DATA_LAYER_MAP[value].editName : '';
         this.props._renderValue(layerPicker);
-        const layer = activeEditor(value, 'button');
-        updateByEditLayer(layer);
-        hide();
-        hideRelFeatures();
+        const layer = DataLayerStore.activeEditor(value, 'button');
+        ToolCtrlStore.updateByEditLayer(layer);
+        AttributeStore.hide();
+        AttributeStore.hideRelFeatures();
     };
 }
 

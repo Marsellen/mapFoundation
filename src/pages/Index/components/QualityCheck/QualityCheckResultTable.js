@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { markCheckItem, locateCheckItem } from 'src/utils/vectorUtils';
+import { markCheckItem, locateCheckItem, selectFeature } from 'src/utils/vectorUtils';
 import { getQualityMisrepStatus } from 'src/utils/permissionCtrl';
 import MultiFunctionalTable from 'src/components/MultiFunctionalTable';
 
@@ -168,7 +168,7 @@ class QualityCheckResultTable extends React.Component {
         DataLayerStore.exitEdit();
         markCheckItem(record);
         let feature = locateCheckItem(record);
-        feature && this.showAttributesModal(feature);
+        selectFeature(feature);
     };
 
     //双击
@@ -179,20 +179,6 @@ class QualityCheckResultTable extends React.Component {
         } = this.props;
         visitedReport(record, activeTaskId);
         locateCheckItem(record, true);
-    };
-
-    //显示属性框
-    showAttributesModal = async obj => {
-        if (!obj) return;
-        const { AttributeStore, DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getAdEditLayer();
-        let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
-        DataLayerStore.clearHighLightFeatures();
-        DataLayerStore.clearPick();
-        DataLayerStore.setFeatureColor(obj, 'rgb(255,134,237)');
-        DataLayerStore.setSelectFeature(obj.layerId, obj.uuid);
-        await AttributeStore.setModel(obj);
-        AttributeStore.show(readonly);
     };
 
     render() {

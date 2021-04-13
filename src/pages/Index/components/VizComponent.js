@@ -13,12 +13,13 @@ import {
     RESOURCE_LAYER_CHECK,
     RESOURCE_LAYER_MARKER
 } from 'src/config/DataLayerConfig';
+import { CONFIGURABLE_LAYERS } from 'src/config/vectorConfig/VectorConfigMap.js';
 import MultimediaView from './MultimediaView';
 import OtherVectorConfig from 'src/config/OtherVectorConfig';
 import 'less/components/viz-component.less';
 // import { addClass, removeClass } from '../../../utils/utils';
 import BatchAssignModal from './BatchAssignModal';
-import { modUpdStatGeometry, checkSdkError } from 'src/utils/vectorUtils';
+import { modUpdStatGeometry, checkSdkError, getLayerExByName } from 'src/utils/vectorUtils';
 import AdLocalStorage from 'src/utils/AdLocalStorage';
 import { installMapListener } from 'src/utils/map/event';
 import _ from 'lodash';
@@ -490,32 +491,44 @@ class VizComponent extends React.Component {
     };
 
     selectedCallBack = (result, event) => {
-        let editLayer = DataLayerStore.getAdEditLayer();
-        // console.log(result, event);
         if (result && result.length > 0) {
-            /**
-             * 判断是轨迹或轨迹点
-             * VectorLayer 轨迹
-             * TraceLayer 轨迹点
-             */
-            if (result[0].type === 'VectorLayer') {
-                result.length === 1 ? DataLayerStore.pick() : DataLayerStore.unPick();
-                this.showAttributesModal(result, event);
-                showRightMenu(result, event);
-            } else if (result[0].type === 'TraceListLayer') {
-                showPictureShowView(result[0]);
-                PictureShowStore.show('TraceListLayer');
-            }
-            // 属性刷置灰
-            if (result.length === 1 && editLayer && editLayer.layerName === result[0].layerName) {
-                DataLayerStore.unAttributeBrushPick();
-            } else {
-                DataLayerStore.attributeBrushPick();
+            const firstFeature = result[0];
+            const { type: featureType, layerName: featureLayerName } = firstFeature;
+            switch (featureType) {
+                case 'VectorLayer': //矢量要素
+                    if (result.length === 1) {
+                        const { appStore } = this.props;
+                        const editStatus = DataLayerStore.editStatus;
+                        const layerName = DataLayerStore.getAdEditLayerName();
+                        const isEditableLayer = CONFIGURABLE_LAYERS.includes(featureLayerName);
+                        if (
+                            appStore.isProducer &&
+                            isEditableLayer && //选中要素所属图层是可编辑的图层
+                            editStatus === 'normal' && //当前是普通模式，不是联合打断模式
+                            layerName !== featureLayerName //选中要素所属图层不是当前编辑图层
+                        ) {
+                            //设置选中要素所属图层为编辑图层，并重置顶部工具栏
+                            const layer = getLayerExByName(featureLayerName);
+                            DataLayerStore.activeEditor(layer, 'select_data', true);
+                            ToolCtrlStore.updateByEditLayer(layer);
+                        }
+                        DataLayerStore.pick();
+                    } else {
+                        DataLayerStore.unPick();
+                    }
+                    this.showAttributesModal(result, event);
+                    showRightMenu(result, event);
+                    break;
+                case 'TraceListLayer': //轨迹点
+                    showPictureShowView(firstFeature);
+                    PictureShowStore.show('TraceListLayer');
+                    break;
+                default:
+                    break;
             }
             window.currentSelectFeatures = result;
         } else {
             DataLayerStore.unPick();
-            DataLayerStore.attributeBrushPick();
             AttributeStore.hide('other_close');
             RightMenuStore.hide();
             AttrRightMenuStore.hide();

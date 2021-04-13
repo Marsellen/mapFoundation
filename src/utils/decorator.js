@@ -11,6 +11,7 @@ import { message } from 'antd';
 import Lock from 'src/models/lock';
 import BuriedPoint from 'src/utils/BuriedPoint';
 import { EDIT_TOOL_MAP } from 'src/config/EditToolMap';
+import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
 
 function funcDecoratorFactory(factory, option) {
     return (target, name, descriptor) => {
@@ -145,7 +146,7 @@ export const logDecorator = option => {
             const channel = isError ? 'error' : 'success';
             BuriedPoint.toolLoadBuriedPointEnd(toolType, channel);
             BuriedPoint.toolBuriedPointEnd(toolType, channel);
-            isMarkerLayer ? DataLayerStore.exitMarker(true) : DataLayerStore.exitEdit();
+            isMarkerLayer ? QCMarkerStore.exitMarker() : DataLayerStore.exitEdit();
         };
         return descriptor;
     };
@@ -211,7 +212,7 @@ export const editOutputLimit = (option = {}) => {
                 //如果是标注图层，报错应退出图层
                 const editLayerName = DataLayerStore.getAdEditLayerName();
                 const isMarkerLayer = editLayerName === 'AD_Marker';
-                isMarkerLayer && DataLayerStore.exitMarker();
+                isMarkerLayer && QCMarkerStore.exitMarker();
                 //退出编辑状态
                 DataLayerStore.exitEdit();
                 RightMenuStore.hide();

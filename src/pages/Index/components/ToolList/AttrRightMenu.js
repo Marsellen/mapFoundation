@@ -9,6 +9,7 @@ import { ATTR_SPEC_CONFIG } from 'src/config/AttrsConfig';
 import Attr from 'src/models/attr';
 import Relevance from 'src/models/relevance';
 import { findRelDataById } from 'src/utils/vectorCtrl/propertyTableCtrl';
+import BuriedPoint from 'src/utils/BuriedPoint/index.js';
 
 @inject('AttributeStore')
 @inject('TaskStore')
@@ -58,7 +59,9 @@ class AttrRightMenu extends React.Component {
             okType: 'danger',
             cancelText: '取消',
             onOk: this.forceDeleteHandlerOk,
-            onCancel: DataLayerStore.exitEdit
+            onCancel: () => {
+                DataLayerStore.exitEdit();
+            }
         });
         AttrRightMenuStore.hide();
     };
@@ -67,6 +70,7 @@ class AttrRightMenu extends React.Component {
         const { AttrRightMenuStore } = this.props;
         const { layerName, hide } = AttrRightMenuStore;
         const selectOption = SELECT_OPTIONS.find(item => item.items.includes(layerName));
+        BuriedPoint.toolBuriedPointStart('force_delete', 'button');
         switch (selectOption.type) {
             case 'vector':
                 this.forceDeleteFeature();
@@ -98,7 +102,7 @@ class AttrRightMenu extends React.Component {
         layer.updateFeatures([feature]);
     };
 
-    @logDecorator({ operate: '属性列表-强制删除要素' })
+    @logDecorator({ operate: '属性列表-强制删除要素', toolType: 'force_delete' })
     async forceDeleteFeature() {
         const { AttrRightMenuStore, AttributeStore } = this.props;
         const { layerName, currentData } = AttrRightMenuStore;
@@ -123,7 +127,7 @@ class AttrRightMenu extends React.Component {
         return historyLog;
     }
 
-    @logDecorator({ operate: '属性列表-强制删除关联关系' })
+    @logDecorator({ operate: '属性列表-强制删除关联关系', toolType: 'force_delete' })
     async forceDeleteRel() {
         const { AttrRightMenuStore, AttributeStore } = this.props;
         const { currentData } = AttrRightMenuStore;
@@ -150,7 +154,7 @@ class AttrRightMenu extends React.Component {
         return historyLog;
     }
 
-    @logDecorator({ operate: '属性列表-强制删除关联属性' })
+    @logDecorator({ operate: '属性列表-强制删除关联属性', toolType: 'force_delete' })
     async forceDeleteAttr() {
         const { AttrRightMenuStore, AttributeStore } = this.props;
         const { layerName, currentData } = AttrRightMenuStore;

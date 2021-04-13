@@ -1,13 +1,13 @@
+import 'less/components/tool-icon.less';
 import React from 'react';
-import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
-import { Icon, message } from 'antd';
-import { autoCreateLineByLaneDivider, updateFeatures } from 'src/utils/relCtrl/operateCtrl';
+import { Icon } from 'antd';
+import ToolIcon from 'src/components/ToolIcon';
 import AdMessage from 'src/components/AdMessage';
+import { getLayerByName, getFeatureOption, selectFeature } from 'src/utils/vectorUtils';
+import { autoCreateLineByLaneDivider, updateFeatures } from 'src/utils/relCtrl/operateCtrl';
 import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/utils/decorator';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
-import 'less/components/tool-icon.less';
 
 const ACTION_MAP = {
     AD_Lane: '左右车道线生成中心线',
@@ -28,7 +28,9 @@ const TIPS_MAP = {
 class DividerToAutoCreate extends React.Component {
     constructor(props) {
         super(props);
-        this.addLines = this.addLines.bind(this);
+        this.createLineByDivider = this.createLineByDivider.bind(this);
+        this.drawLine = this.drawLine.bind(this);
+        this.historyLog = null;
         this.state = {
             visible: false
         };
@@ -36,30 +38,7 @@ class DividerToAutoCreate extends React.Component {
 
     componentDidMount() {
         const { DataLayerStore } = this.props;
-        DataLayerStore.setAroundCallback((result, event) => {
-            if (event.button !== 2) return false;
-            this.createLineByDivider(result);
-            this.setState({ visible: false });
-        });
-    }
-    render() {
-        const { DataLayerStore } = this.props;
-        const { updateKey } = DataLayerStore;
-        let visible = DataLayerStore.editType == 'new_around_line' && this.state.visible;
-        let editLayer = DataLayerStore.getAdEditLayer();
-
-        return (
-            <div
-                id="divider-to-auto-create"
-                className="flex-1"
-                onClick={this.action}
-                key={updateKey}
-            >
-                <ToolIcon icon={editLayer && ICON_MAP[editLayer.layerName]} />
-                <div>{editLayer && ACTION_MAP[editLayer.layerName]}</div>
-                <AdMessage visible={visible} content={this.content(editLayer)} />
-            </div>
-        );
+        DataLayerStore.setAroundCallback(this.aroundCallback);
     }
 
     @editLock
@@ -72,61 +51,35 @@ class DividerToAutoCreate extends React.Component {
         this.setState({ visible: true });
     };
 
+    aroundCallback = async (result, event) => {
+        if (event.button !== 2) return false;
+        await this.createLineByDivider(result);
+        this.activeLine(this.historyLog);
+        this.setState({ visible: false });
+    };
+
     @editInputLimit({ editType: 'new_around_line' })
     @logDecorator({ operate: ACTION_MAP })
     async createLineByDivider(result) {
         const { DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getAdEditLayer();
-        let layerName = editLayer && editLayer.layerName;
+        const layerName = DataLayerStore.getAdEditLayerName();
+        const layerNameCN = DATA_LAYER_MAP[layerName].label;
         if (
             !(result.length === 2 && layerName == 'AD_Lane') &&
             !(result.length === 1 && layerName == 'AD_Road')
         ) {
-            let layerNameCN = DATA_LAYER_MAP[layerName].label;
-            let errorMessage = `${layerNameCN}生成失败`;
-            message.error({
-                content: errorMessage,
-                key: 'new_around_line',
-                duration: 3
-            });
-            throw new Error(errorMessage);
+            throw new Error(`${layerNameCN}生成失败`);
         }
-        try {
-            message.loading({
-                content: '正在构建要素...',
-                key: 'new_around_line',
-                duration: 0
-            });
-            let AD_LaneDivider = {};
-            AD_LaneDivider.type = 'FeatureCollection';
-            AD_LaneDivider.features = [];
-            result.forEach(item => {
-                AD_LaneDivider.features.push(item.data);
-            });
-            return await this.addLines({ AD_LaneDivider });
-        } catch (e) {
-            message.error({
-                content: e.message,
-                key: 'new_around_line',
-                duration: 3
-            });
-            throw e;
-        }
-    }
-
-    async addLines(params) {
-        const { DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getAdEditLayer();
-        let layerName = editLayer && editLayer.layerName;
-        let historyLog = await autoCreateLineByLaneDivider(layerName, params);
-        await this.drawLine(historyLog.features[1], historyLog);
-        this.activeLine(layerName, historyLog);
-        let layerNameCN = DATA_LAYER_MAP[layerName].label;
-        message.success({
-            content: `${layerNameCN}生成成功`,
-            key: 'new_around_line',
-            duration: 3
+        let AD_LaneDivider = {
+            type: 'FeatureCollection',
+            features: []
+        };
+        result.forEach(item => {
+            AD_LaneDivider.features.push(item.data);
         });
+        let historyLog = await autoCreateLineByLaneDivider(layerName, { AD_LaneDivider });
+        this.historyLog = historyLog;
+        await this.drawLine(historyLog.features[1], historyLog);
         return historyLog;
     }
 
@@ -136,36 +89,13 @@ class DividerToAutoCreate extends React.Component {
     }
 
     // 显示新构建出的道路线并为选中状态
-    activeLine = (layerLine, historyLog) => {
-        let layerName = historyLog.features[1][0].layerName;
-        let value =
-            historyLog.features[1][0].data.properties[
-                layerLine === 'AD_Lane' ? 'LANE_ID' : 'ROAD_ID'
-            ];
-        let IDKey = getLayerIDKey(layerName);
-        let option = {
-            key: IDKey,
-            value: value
-        };
-        let layer = getLayerByName(layerName);
-        let result = layer.getFeatureByOption(option);
-        if (result) {
-            let feature = result.properties;
-            this.showAttributesModal(feature);
-        } else {
-            message.warning('所在图层与用户编号不匹配！', 3);
-        }
-    };
-
-    showAttributesModal = async obj => {
-        const { AttributeStore, DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getAdEditLayer();
-        let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
-        DataLayerStore.clearHighLightFeatures();
-        DataLayerStore.clearPick();
-        await AttributeStore.setModel(obj);
-        DataLayerStore.setFeatureColor(obj, 'rgb(255,134,237)');
-        AttributeStore.show(readonly);
+    activeLine = historyLog => {
+        if (!historyLog) return;
+        const _feature = historyLog.features[1][0];
+        const layer = getLayerByName(_feature.layerName);
+        const option = getFeatureOption(_feature);
+        const feature = layer.getFeatureByOption(option);
+        feature && selectFeature(feature.properties);
     };
 
     content = editLayer => {
@@ -176,6 +106,25 @@ class DividerToAutoCreate extends React.Component {
             </label>
         );
     };
+
+    render() {
+        const { updateKey, editType, getAdEditLayerName } = this.props.DataLayerStore;
+        const visible = editType == 'new_around_line' && this.state.visible;
+        const layerName = getAdEditLayerName();
+
+        return (
+            <div
+                id="divider-to-auto-create"
+                className="flex-1"
+                onClick={this.action}
+                key={updateKey}
+            >
+                <ToolIcon icon={ICON_MAP[layerName]} />
+                <div>{ACTION_MAP[layerName]}</div>
+                <AdMessage visible={visible} content={this.content(layerName)} />
+            </div>
+        );
+    }
 }
 
 export default DividerToAutoCreate;

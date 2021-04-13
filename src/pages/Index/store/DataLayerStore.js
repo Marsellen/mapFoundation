@@ -6,8 +6,8 @@ import {
     getLayerExByName,
     getFeatureOption,
     getLayerByName,
-    getAllLayersExByName,
-    getAllChooseLayersExByName
+    getAllLayers,
+    getAllLayersExByName
 } from 'src/utils/vectorUtils';
 import { addClass, removeClass, throttle, getCSYS } from 'src/utils/utils';
 import AdEmitter from 'src/models/event';
@@ -22,6 +22,8 @@ import { editLock } from 'src/utils/decorator';
 import { LINE_LAYERS } from 'src/config/DataLayerConfig';
 import OtherVectorConfig from 'src/config/OtherVectorConfig';
 import BuriedPoint from 'src/utils/BuriedPoint';
+import { timeSubtract } from 'src/utils/timeUtils';
+import { relativeTimeThreshold } from 'moment';
 
 const TRACKS = ['TraceListLayer', 'TraceLayer'];
 
@@ -47,8 +49,6 @@ class DataLayerStore {
     @observable isTopView = false;
     @observable readCoordinateResult;
     @observable updateKey;
-    @observable brushDisadled = true;
-    @observable isQcOpen = false;
     @observable isMessage = true;
     @observable checkedPoint = [];
     @observable modifyLineType = true;
@@ -95,7 +95,7 @@ class DataLayerStore {
 
     fetchTargetLayers = () => {
         if (!this.editor) return;
-        this.editor.setTargetLayers(this.targetLayers);
+        this.setTargetLayers(this.targetLayers);
     };
 
     setTargetLayers = layers => {
@@ -121,8 +121,12 @@ class DataLayerStore {
         this.checkedPoint = [];
     };
 
+    @action setEditLayer = layer => {
+        this.editor?.setEditLayer(layer);
+    };
+
     //可能不传参数，可能传图层名，可能传图层
-    @action activeEditor = (param, channel) => {
+    @action activeEditor = (param, channel, noClear) => {
         let layer;
         switch (typeof param) {
             case 'object':
@@ -138,8 +142,8 @@ class DataLayerStore {
         //埋点开始
         BuriedPoint.statusBuriedPointEnd(this.editStatus, channel);
 
+        this.editor ? this.exitEdit('toggle', noClear) : this.initEditor();
         this.editor?.setEditLayer(layer);
-        this.editor ? this.exitEdit('toggle') : this.initEditor();
         this.adEditLayer = layer;
         this.setEditStatus('normal'); //设置编辑状态
         this.isTopView && this.enableRegionSelect(); //重置框选可选图层
@@ -148,21 +152,6 @@ class DataLayerStore {
         //埋点结束
         BuriedPoint.statusBuriedPointStart(this.editStatus, channel);
         return layer;
-    };
-
-    // 质检员选取错误数据
-    @action QCAttrModal = () => {
-        this.isQcOpen = true;
-    };
-
-    // 质检员选取错误数据
-    @action UnQCAttrModal = editTypeArr => {
-        if (!editTypeArr.includes(this.editType)) return;
-        this.isQcOpen = false;
-        this.setEditType();
-        let viz = document.querySelector('#viz');
-        removeClass(viz, 'error-viz');
-        this.fetchTargetLayers();
     };
 
     setSelectedCallBack = callback => {
@@ -207,9 +196,6 @@ class DataLayerStore {
                 case 'attribute_brush':
                     this.attributeBrushCallback(result, event);
                     break;
-                case 'error_layer':
-                    this.errorLayerCallback(result, event);
-                    break;
                 case 'choose_error_feature':
                     this.chooseErrorFeatureCallback(result, event);
                     break;
@@ -226,15 +212,6 @@ class DataLayerStore {
                     break;
             }
         });
-    };
-
-    @action attributeBrushPick = () => {
-        //属性刷置灰
-        this.brushDisadled = true;
-    };
-    @action unAttributeBrushPick = () => {
-        //属性刷置灰
-        this.brushDisadled = false;
     };
 
     normalLocatePicture = (result, event) => {
@@ -339,16 +316,16 @@ class DataLayerStore {
         this.editor.clear();
     };
 
-    clearChoose = channel => {
+    clearChoose = (channel, noClear) => {
         if (!window.map) return;
         if (!this.editor) return;
         this.clearSelfDebuff();
         this.setEditType(null, channel);
-        this.editor.clear();
-        this.editor.cancel();
+        if (!noClear) {
+            this.editor.clear();
+            this.editor.cancel();
+        }
         this.unPick();
-        this.UnQCAttrModal(['error_layer', 'choose_error_feature']);
-        this.attributeBrushPick();
         this.showMessage();
         this.clearCheckedPoint();
         AttributeStore.showTime(true);
@@ -507,7 +484,7 @@ class DataLayerStore {
         this.editor.toggleMode(61); //多选模式
         this.removeCur();
         let layers = getAllLayersExByName('AD_LaneDivider');
-        this.editor.setTargetLayers(layers);
+        this.setTargetLayers(layers);
     };
 
     // 路口内直行中心线生成
@@ -519,7 +496,7 @@ class DataLayerStore {
         this.editor.toggleMode(61);
         this.removeCur();
         let layers = getAllLayersExByName(this.editor.editLayer.layerName);
-        this.editor.setTargetLayers(layers);
+        this.setTargetLayers(layers);
     };
 
     // 路口内转弯中心线生成
@@ -531,7 +508,7 @@ class DataLayerStore {
         this.editor.toggleMode(61);
         this.removeCur();
         let layers = getAllLayersExByName(this.editor.editLayer.layerName);
-        this.editor.setTargetLayers(layers);
+        this.setTargetLayers(layers);
     };
 
     // 路口内掉头中心线生成
@@ -543,7 +520,7 @@ class DataLayerStore {
         this.editor.toggleMode(61);
         this.removeCur();
         let layers = getAllLayersExByName(this.editor.editLayer.layerName);
-        this.editor.setTargetLayers(layers);
+        this.setTargetLayers(layers);
     };
 
     // 位姿调整
@@ -583,7 +560,7 @@ class DataLayerStore {
             if (!this.editor) return;
             this.setEditType('dashed_polygon_create', 'button');
             let layers = getAllLayersExByName('AD_LaneDivider');
-            this.editor.setTargetLayers(layers);
+            this.setTargetLayers(layers);
         } else if (step == 1) {
             this.addShapePoint();
             this.editor.selectFixedPointFromHighlight(3);
@@ -642,7 +619,7 @@ class DataLayerStore {
         } else if (step === 1) {
             this.editor.selectFeature(1);
             let layers = getAllLayersExByName('AD_StopLocation');
-            this.editor.setTargetLayers(layers);
+            this.setTargetLayers(layers);
         }
     };
 
@@ -722,10 +699,6 @@ class DataLayerStore {
         this.uturnCallback = callback;
     };
 
-    setErrorLayerCallback = callback => {
-        this.errorLayerCallback = callback;
-    };
-
     setChooseErrorFeatureCallback = callback => {
         this.chooseErrorFeatureCallback = callback;
     };
@@ -752,15 +725,6 @@ class DataLayerStore {
 
     setBufferRenderCallback = callback => {
         this.bufferRenderCallback = callback;
-    };
-
-    chooseErrorLayer = editType => {
-        this.exitEdit('toggle');
-        if (!this.editor) return;
-        this.setEditType(editType);
-        this.errorLayer();
-        let layers = getAllChooseLayersExByName('AD_Map_QC');
-        this.editor.setTargetLayers(layers);
     };
 
     newCircle = () => {
@@ -986,7 +950,7 @@ class DataLayerStore {
     };
 
     //未执行完此次编辑操作切换控件时触发
-    disableOtherCtrl = () => {
+    @action disableOtherCtrl = () => {
         switch (this.editType) {
             case 'meature_distance':
             case 'meature_distance_2':
@@ -1001,12 +965,13 @@ class DataLayerStore {
             case 'trim':
                 message.destroy();
                 break;
-            case 'error_layer':
-            case 'choose_error_feature':
-                this.UnQCAttrModal([this.editType]);
-                break;
             case 'buffer_render':
                 this.clearBufferRender();
+                break;
+            case 'new_qc_marker':
+            case 'choose_error_feature':
+                QCMarkerStore.clearDebuff();
+                this.fetchTargetLayers();
                 break;
             default:
                 break;
@@ -1023,7 +988,6 @@ class DataLayerStore {
             case 'new_straight_line':
             case 'new_turn_line':
             case 'posture_adjust':
-            case 'error_layer':
             case 'dashed_polygon_create':
             case 'choose_error_feature':
             case 'buffer_render':
@@ -1043,19 +1007,16 @@ class DataLayerStore {
             case 'meature_distance_2':
                 BatchBuildStore.release();
                 break;
+            case 'new_qc_marker':
+            case 'choose_error_feature':
+                QCMarkerStore.clearDebuff();
+                this.fetchTargetLayers();
+                break;
             default:
                 break;
         }
 
         this.removeCur();
-    };
-
-    //注册“退出质检标注图层”事件
-    exitMarker = (isDelete = true, channel) => {
-        this.exitEdit(channel);
-        this.activeEditor();
-        this.fetchTargetLayers(); //重置可选图层
-        QCMarkerStore.exitMarker(isDelete);
     };
 
     //esc提示窗
@@ -1123,10 +1084,11 @@ class DataLayerStore {
 
     @editLock
     escEvent = () => {
-        const editLayerName = this.getAdEditLayerName();
+        const editLayerName = this.getEditLayerName();
         if (editLayerName === 'AD_Marker') {
             BuriedPoint.toolBuriedPointEnd('new_qc_marker', 'esc');
-            this.exitMarker();
+            QCMarkerStore.exitMarker();
+            this.exitEdit();
             message.warning('退出功能', 3);
         } else if (this.editType !== 'normal') {
             this.exitEdit('esc');
@@ -1146,9 +1108,9 @@ class DataLayerStore {
         });
     };
 
-    exitEdit = channel => {
+    exitEdit = (channel, noClear) => {
         this.disableOtherCtrl();
-        this.clearChoose(channel);
+        this.clearChoose(channel, noClear);
     };
 
     readCoordinate = event => {

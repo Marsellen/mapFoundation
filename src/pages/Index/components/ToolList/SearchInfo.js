@@ -2,7 +2,7 @@ import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { Tabs, message } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { getLayerIDKey } from 'src/utils/vectorUtils';
+import { getLayerIDKey, selectFeature } from 'src/utils/vectorUtils';
 import IDSearchForm from './IDSearchForm';
 import PositionSearchForm from './PositionSearchForm';
 import { isRegionContainsElement } from 'src/utils/vectorUtils';
@@ -113,7 +113,7 @@ class SearchInfo extends React.Component {
                     let extent = map.getExtent(feature.data.geometry);
                     map.setView('U');
                     map.setExtent(extent);
-                    this.showAttributesModal(feature);
+                    selectFeature(feature);
                 } else {
                     message.warning('所在图层与用户编号不匹配！', 3);
                 }
@@ -147,17 +147,6 @@ class SearchInfo extends React.Component {
                 }
             }
         });
-    };
-
-    showAttributesModal = async obj => {
-        const { AttributeStore, DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getAdEditLayer();
-        let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
-        DataLayerStore.clearHighLightFeatures();
-        DataLayerStore.clearPick();
-        await AttributeStore.setModel(obj);
-        DataLayerStore.setFeatureColor(obj, 'rgb(255,134,237)');
-        AttributeStore.show(readonly);
     };
 
     toggle = () => {

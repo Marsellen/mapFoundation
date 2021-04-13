@@ -11,7 +11,7 @@ import {
     isRelLayer,
     findRelDataById
 } from 'src/utils/vectorCtrl/propertyTableCtrl';
-import { getLayerIDKey, getLayerByName } from 'src/utils/vectorUtils';
+import { getLayerIDKey, getLayerByName, selectFeature } from 'src/utils/vectorUtils';
 import 'less/components/view-attribute.less';
 import 'less/components/tool-icon.less';
 import zh_CN from 'antd/es/locale/zh_CN';
@@ -22,7 +22,6 @@ import { ATTR_SPEC_CONFIG, REL_ATTR_LAYERS } from 'config/AttrsConfig';
 import { REL_SPEC_CONFIG } from 'src/config/RelsConfig';
 import AttrRightMenu from 'src/pages/Index/components/ToolList/AttrRightMenu';
 
-@inject('RightMenuStore')
 @inject('AttrRightMenuStore')
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -398,7 +397,7 @@ class ViewAttribute extends React.Component {
     };
 
     //展开哪一行
-    openRowStyle = index => {
+    openRow = index => {
         const currentRow = document.querySelector(`.table-row-${index}`);
         const activeRow = document.querySelector('.un-ellipsis');
 
@@ -412,18 +411,13 @@ class ViewAttribute extends React.Component {
     };
 
     tableOnClick = record => {
-        const { DataLayerStore, RightMenuStore } = this.props;
+        const { DataLayerStore } = this.props;
         return async e => {
             if (DataLayerStore.editType != 'normal') return;
-            //消除上次选中的要素
-            RightMenuStore.clearFeatures();
-            //初始化属性列表的右键菜单
             this.initRightMenu(e, record);
             let feature = await this.searchFeature(record);
-            DataLayerStore.exitEdit();
-            this.showAttributesModal(feature);
-            //展开行
-            this.openRowStyle(record.index);
+            selectFeature(feature);
+            this.openRow(record.index);
         };
     };
 
@@ -436,8 +430,7 @@ class ViewAttribute extends React.Component {
             let extent = map.getExtent(feature.data.geometry);
             map.setView('U');
             map.setExtent(extent);
-            //展开行
-            this.openRowStyle(record.index);
+            this.openRow(record.index);
         };
     };
 
@@ -445,43 +438,20 @@ class ViewAttribute extends React.Component {
         return e => this.initRightMenu(e, record, true);
     };
 
-    initRightMenu = (e, record, visible) => {
+    initRightMenu = async (e, record, visible) => {
         try {
+            const { DataLayerStore, AttrRightMenuStore } = this.props;
+            if (DataLayerStore.editType != 'normal') return;
             const { layerName } = this.state;
-            const { AttrRightMenuStore } = this.props;
-            const { show, getMenuStyle, getData, getLayerName } = AttrRightMenuStore;
-            getLayerName(layerName);
-            if (!this.isCurrentLayer(layerName)) return;
-            getMenuStyle(e, visible);
-            getData(record);
-            show();
+            AttrRightMenuStore.getLayerName(layerName);
+            AttrRightMenuStore.getMenuStyle(e, visible);
+            AttrRightMenuStore.getData(record);
+            AttrRightMenuStore.show();
+            const feature = await this.searchFeature(record);
+            selectFeature(feature);
         } catch (e) {
-            //console.log(存在异常数据)
+            console.log('属性列表右键菜单异常' + e.message || e || '');
         }
-    };
-
-    //是否是当前图层
-    isCurrentLayer = layerName => {
-        const { DataLayerStore } = this.props;
-        const editLayer = DataLayerStore.getAdEditLayer();
-        if (!editLayer) return false;
-        const currentLayerName = editLayer.layerName;
-        const enableLayerNames = OPTION_LAYER_MAP[layerName];
-        const isEnableLayer = enableLayerNames.includes(currentLayerName);
-        if (!isEnableLayer) return false;
-        return true;
-    };
-
-    showAttributesModal = async obj => {
-        if (!obj) return;
-        const { AttributeStore, DataLayerStore } = this.props;
-        let editLayer = DataLayerStore.getAdEditLayer();
-        let readonly = (editLayer && editLayer.layerName !== obj.layerName) || !editLayer;
-        DataLayerStore.clearHighLightFeatures();
-        DataLayerStore.clearPick();
-        DataLayerStore.setSelectFeature(obj.layerId, obj.uuid);
-        await AttributeStore.setModel(obj);
-        AttributeStore.show(readonly);
     };
 
     searchFeature = async (record, noMessage) => {

@@ -3,7 +3,8 @@ import { Icon, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
 import AdMessage from 'src/components/AdMessage';
-import { checkSdkError, getAllChooseLayersExByName } from 'src/utils/vectorUtils';
+import { checkSdkError } from 'src/utils/vectorUtils';
+import { MARKER_EDIT_TYPES } from 'src/config/QCMarkerConfig';
 
 @inject('AttributeStore')
 @inject('ToolCtrlStore')
@@ -20,51 +21,39 @@ class QCMarkerTool extends React.Component {
     }
 
     action = () => {
-        const {
-            DataLayerStore: { newQCMarker, getAdEditLayerName },
-            QCMarkerStore: { setEditStatus, hide }
-        } = this.props;
-        const editLayerName = getAdEditLayerName();
-        if (editLayerName === 'AD_Marker') return;
+        const { DataLayerStore, QCMarkerStore } = this.props;
+        if (MARKER_EDIT_TYPES.includes(DataLayerStore.editType)) return;
         //关闭当前标注属性窗口
-        hide();
+        QCMarkerStore.hide();
         //切换到质检注记图层
-        this.enterMarkerLayer();
+        DataLayerStore.setEditLayer(window.markerLayer);
         //进入质检标注绘制模式
-        newQCMarker();
+        DataLayerStore.newQCMarker();
         //标识当前是新增标注
-        setEditStatus('create');
-    };
-
-    //切换到质检注记图层
-    enterMarkerLayer = () => {
-        const { DataLayerStore, ToolCtrlStore, AttributeStore } = this.props;
-        const layer = DataLayerStore.activeEditor(window.markerLayer, null);
-        ToolCtrlStore.updateByEditLayer(layer);
-        AttributeStore.hide('other_close');
-        AttributeStore.hideRelFeatures();
+        QCMarkerStore.setEditStatus('create');
     };
 
     //质检标注线绘制完成回调
     QCMarkerCallback = result => {
-        const {
-            QCMarkerStore: { show, initCurrentMarker },
-            DataLayerStore: { exitEdit, exitMarker, setTargetLayers }
-        } = this.props;
+        const { DataLayerStore, QCMarkerStore } = this.props;
         try {
             //判断是否绘制成功
             checkSdkError(result);
             //退出编辑工具
-            exitEdit();
+            DataLayerStore.removeCur();
+            DataLayerStore.editor.clear();
+            DataLayerStore.editor.cancel();
             //打开质检标注属性窗口
-            show();
+            QCMarkerStore.show();
             //初始化选中的标注
-            initCurrentMarker(result);
-            //只能选除标记图层、质检标注以外的图层
-            const layers = getAllChooseLayersExByName('AD_Map_QC');
-            setTargetLayers(layers);
+            QCMarkerStore.initCurrentMarker(result);
+            //设置可选择图层，只能选除质检标注以外的图层
+            const targetLayers = DataLayerStore.targetLayers.filter(
+                layer => layer.layerName !== 'AD_Marker'
+            );
+            DataLayerStore.setTargetLayers(targetLayers);
         } catch (e) {
-            exitMarker(false);
+            QCMarkerStore.exitMarker(false);
             message.error(e.message, 3);
         }
     };
@@ -84,10 +73,9 @@ class QCMarkerTool extends React.Component {
         const {
             appStore: { isQuality },
             TaskStore: { isLocalTask, isEditableTask },
-            DataLayerStore: { getAdEditLayer, updateKey }
+            DataLayerStore: { editType, updateKey }
         } = this.props;
-        const editLayer = getAdEditLayer();
-        const visible = editLayer && editLayer.layerName === 'AD_Marker';
+        const visible = MARKER_EDIT_TYPES.includes(editType);
         //当前任务是质检任务，才会显示质检标注工具
         if (isQuality) {
             return (

@@ -338,7 +338,7 @@ class JobStatus extends React.Component {
         const { TaskStore, QCMarkerStore } = this.props;
 
         try {
-            await BuriedPoint.buriedPointEnd('submitTask');
+            await BuriedPoint.buriedPointEnd('submit_task');
             await TaskStore.initSubmit(option);
             await TaskStore.setActiveTask();
             this.clearWorkSpace();
@@ -356,7 +356,7 @@ class JobStatus extends React.Component {
 
     // 自动保存
     action = async () => {
-        await saveTaskData('submitTask');
+        await saveTaskData('submit_task');
     };
 
     clearWorkSpace = () => {

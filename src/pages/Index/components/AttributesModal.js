@@ -25,8 +25,7 @@ class AttributesModal extends React.Component {
 
     handleCancel = e => {
         const channel = e.keyCode ? 'esc' : e.detail ? 'close' : 'other_close';
-        const { DataLayerStore, AttributeStore } = this.props;
-        DataLayerStore.UnQCAttrModal(['error_layer']);
+        const { AttributeStore } = this.props;
         AttributeStore.hide(channel);
         AttributeStore.showTime(true);
     };
@@ -102,7 +101,6 @@ class AttributesModal extends React.Component {
             await updateFeatures(log);
             AttributeStore.hideRelFeatures();
             AttributeStore.hide();
-            DataLayerStore.UnQCAttrModal(['error_layer']);
             return log;
         } catch (e) {
             message.error(e.message || '更新失败: 数据重复');

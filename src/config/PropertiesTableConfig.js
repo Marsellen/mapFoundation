@@ -614,7 +614,6 @@ export const OPTION_LAYER_MAP = {
     AD_TrafficSign: ['AD_TrafficSign'],
     AD_TrafficLight: ['AD_TrafficLight'],
     AD_RS_Barrier: ['AD_RS_Barrier'],
-    AD_Map_QC: ['AD_Map_QC'],
     AD_LaneDivider_Pln: ['AD_LaneDivider_Pln'],
     AD_LaneDivider_Plg: ['AD_LaneDivider_Plg'],
     AD_StopLocation_Geo: ['AD_StopLocation_Geo'],

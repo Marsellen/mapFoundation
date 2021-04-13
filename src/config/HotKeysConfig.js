@@ -48,10 +48,6 @@ export const HOT_KEYS_CONFIG = {
     EDITING_KEY: [
         //编辑功能
         {
-            value: '选择1个要素+ F',
-            label: '设置为可编辑图层'
-        },
-        {
             value: 'H',
             label: '联合打断'
         },

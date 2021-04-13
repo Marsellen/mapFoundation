@@ -285,14 +285,6 @@ export const SHORTCUT_KEYS = [
         describe: '拉线齐打断线要素 N'
     },
     {
-        id: 'set-edit-layer-btn',
-        ctrl: false,
-        alt: false,
-        shift: false,
-        keyCode: 70,
-        describe: '设置可编辑图层 F'
-    },
-    {
         id: 'attribute-brush-btn',
         ctrl: false,
         alt: false,
