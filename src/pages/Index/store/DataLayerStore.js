@@ -954,6 +954,7 @@ class DataLayerStore {
         switch (this.editType) {
             case 'meature_distance':
             case 'meature_distance_2':
+            case 'batch_build':
                 this.measureControl.clear();
                 break;
             case 'read_coordinate':
