@@ -123,6 +123,7 @@ class BufferRender extends React.Component {
     action = () => {
         if (this.props.disabled) return;
         const { DataLayerStore, AttributeStore } = this.props;
+        this.result = [];
         if (DataLayerStore.editType == 'buffer_render') return;
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
