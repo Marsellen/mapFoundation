@@ -98,8 +98,8 @@ class DividerToAutoCreate extends React.Component {
         feature && selectFeature(feature.properties);
     };
 
-    content = editLayer => {
-        const text = editLayer && TIPS_MAP[editLayer.layerName];
+    content = layerName => {
+        const text = TIPS_MAP[layerName];
         return (
             <label>
                 <Icon type="info-circle" /> {text}

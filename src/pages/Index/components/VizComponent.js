@@ -512,7 +512,7 @@ class VizComponent extends React.Component {
                             DataLayerStore.activeEditor(layer, 'select_data', true);
                             ToolCtrlStore.updateByEditLayer(layer);
                         }
-                        DataLayerStore.pick();
+                        isEditableLayer && DataLayerStore.pick();
                     } else {
                         DataLayerStore.unPick();
                     }
