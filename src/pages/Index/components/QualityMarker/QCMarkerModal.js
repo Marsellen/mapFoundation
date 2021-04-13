@@ -66,10 +66,14 @@ class QCMarkerModal extends React.Component {
     };
 
     handleCancelModify = () => {
-        const { QCMarkerStore } = this.props;
-        QCMarkerStore.setEditStatus('visite');
-        //取消修改埋点
         BuriedPoint.toolBuriedPointEnd('modify_qc_marker', 'cancel');
+        const { QCMarkerStore, DataLayerStore } = this.props;
+        QCMarkerStore.setEditStatus('visite');
+        if (DataLayerStore.editType === 'choose_error_feature') {
+            DataLayerStore.setEditType();
+            DataLayerStore.removeCur();
+            DataLayerStore.fetchTargetLayers();
+        }
     };
 
     handleModify = () => {

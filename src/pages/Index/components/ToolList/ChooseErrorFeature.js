@@ -22,10 +22,16 @@ class ChooseErrorFeature extends React.Component {
         if (DataLayerStore.editType === 'choose_error_feature') {
             DataLayerStore.setEditType(this.editType);
             DataLayerStore.removeCur();
+            DataLayerStore.fetchTargetLayers();
         } else {
             this.editType = DataLayerStore.editType;
             DataLayerStore.setEditType('choose_error_feature');
             DataLayerStore.errorLayer();
+            //设置可选择图层，只能选除质检标注以外的图层
+            const targetLayers = DataLayerStore.targetLayers.filter(
+                layer => layer.layerName !== 'AD_Marker'
+            );
+            DataLayerStore.setTargetLayers(targetLayers);
         }
     };
 
