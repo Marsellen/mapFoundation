@@ -8,6 +8,7 @@ import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/uti
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
 import AttributeStore from 'src/pages/Index/store/AttributeStore';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 import 'less/components/tool-icon.less';
 
