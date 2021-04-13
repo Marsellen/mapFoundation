@@ -53,7 +53,7 @@ class QCMarkerTool extends React.Component {
             );
             DataLayerStore.setTargetLayers(targetLayers);
         } catch (e) {
-            QCMarkerStore.exitMarker(false);
+            QCMarkerStore.exitMarker();
             message.error(e.message, 3);
         }
     };
@@ -72,10 +72,11 @@ class QCMarkerTool extends React.Component {
     render() {
         const {
             appStore: { isQuality },
+            QCMarkerStore: { editStatus },
             TaskStore: { isLocalTask, isEditableTask },
             DataLayerStore: { editType, updateKey }
         } = this.props;
-        const visible = MARKER_EDIT_TYPES.includes(editType);
+        const visible = editStatus === 'create' && MARKER_EDIT_TYPES.includes(editType);
         //当前任务是质检任务，才会显示质检标注工具
         if (isQuality) {
             return (

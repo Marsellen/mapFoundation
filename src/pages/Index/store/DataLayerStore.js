@@ -6,7 +6,6 @@ import {
     getLayerExByName,
     getFeatureOption,
     getLayerByName,
-    getAllLayers,
     getAllLayersExByName
 } from 'src/utils/vectorUtils';
 import { addClass, removeClass, throttle, getCSYS } from 'src/utils/utils';
@@ -22,8 +21,7 @@ import { editLock } from 'src/utils/decorator';
 import { LINE_LAYERS } from 'src/config/DataLayerConfig';
 import OtherVectorConfig from 'src/config/OtherVectorConfig';
 import BuriedPoint from 'src/utils/BuriedPoint';
-import { timeSubtract } from 'src/utils/timeUtils';
-import { relativeTimeThreshold } from 'moment';
+import { MARKER_EDIT_TYPES } from 'src/config/QCMarkerConfig';
 
 const TRACKS = ['TraceListLayer', 'TraceLayer'];
 
@@ -950,7 +948,7 @@ class DataLayerStore {
     };
 
     //未执行完此次编辑操作切换控件时触发
-    @action disableOtherCtrl = () => {
+    disableOtherCtrl = () => {
         switch (this.editType) {
             case 'meature_distance':
             case 'meature_distance_2':
@@ -1085,11 +1083,9 @@ class DataLayerStore {
 
     @editLock
     escEvent = () => {
-        const editLayerName = this.getEditLayerName();
-        if (editLayerName === 'AD_Marker') {
+        if (MARKER_EDIT_TYPES.includes(this.editType)) {
             BuriedPoint.toolBuriedPointEnd('new_qc_marker', 'esc');
             QCMarkerStore.exitMarker();
-            this.exitEdit();
             message.warning('退出功能', 3);
         } else if (this.editType !== 'normal') {
             this.exitEdit('esc');
