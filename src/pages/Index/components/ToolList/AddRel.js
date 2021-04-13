@@ -151,7 +151,7 @@ class AddRel extends React.Component {
     };
 
     @editInputLimit({ editType: 'new_rel' })
-    @logDecorator({ operate: '新建关联关系', onlyRun: true })
+    @logDecorator({ operate: '新建关联关系', onlyRun: true, doubleLog: true })
     async newRel(result) {
         try {
             const { DataLayerStore } = this.props;
@@ -169,7 +169,7 @@ class AddRel extends React.Component {
         }
     }
 
-    @logDecorator({ operate: '新建关联关系', doubleLog: true })
+    @logDecorator({ operate: '新建关联关系' })
     async newRelHandler(mainFeature, relFeatures, warningMessage) {
         try {
             message.loading({
