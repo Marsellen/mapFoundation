@@ -7,6 +7,7 @@ import appStore from 'src/store/appStore';
 configure({ enforceActions: 'always' });
 class ToolCtrlStore {
     @observable tools;
+    @observable updateKey;
     @observable drawTools = [];
     @observable batchTools = [];
 
@@ -36,6 +37,7 @@ class ToolCtrlStore {
 
         this.drawTools = DATA_LAYER_MAP[layerName].drawTools[toolType];
         this.batchTools = DATA_LAYER_MAP[layerName].batchTools;
+        this.updateKey = Math.random();
     };
 
     getEditTools = () => {

@@ -494,16 +494,15 @@ class VizComponent extends React.Component {
         if (result && result.length > 0) {
             const firstFeature = result[0];
             const { type: featureType, layerName: featureLayerName } = firstFeature;
+            const isEditableLayer = CONFIGURABLE_LAYERS.includes(featureLayerName);
             switch (featureType) {
                 case 'VectorLayer': //矢量要素
-                    if (result.length === 1) {
+                    if (isEditableLayer && result.length === 1) {
                         const { appStore } = this.props;
                         const editStatus = DataLayerStore.editStatus;
                         const layerName = DataLayerStore.getAdEditLayerName();
-                        const isEditableLayer = CONFIGURABLE_LAYERS.includes(featureLayerName);
                         if (
                             appStore.isProducer &&
-                            isEditableLayer && //选中要素所属图层是可编辑的图层
                             editStatus === 'normal' && //当前是普通模式，不是联合打断模式
                             layerName !== featureLayerName //选中要素所属图层不是当前编辑图层
                         ) {
@@ -512,7 +511,7 @@ class VizComponent extends React.Component {
                             DataLayerStore.activeEditor(layer, 'select_data', true);
                             ToolCtrlStore.updateByEditLayer(layer);
                         }
-                        isEditableLayer && DataLayerStore.pick();
+                        DataLayerStore.pick();
                     } else {
                         DataLayerStore.unPick();
                     }

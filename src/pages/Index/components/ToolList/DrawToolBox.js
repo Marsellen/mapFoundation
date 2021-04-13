@@ -79,9 +79,11 @@ const OPTIONS = {
 @observer
 class DrawToolBox extends React.Component {
     render() {
-        let drawTools = this.getDrawTools();
+        const { ToolCtrlStore } = this.props;
+        const drawTools = this.getDrawTools();
         return (
             <CheckButton
+                key={ToolCtrlStore.updateKey}
                 defaultOption={this.getDefaultOption()}
                 disabled={this.disabled()}
                 contentTitle="绘制工具"
