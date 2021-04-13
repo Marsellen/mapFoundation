@@ -421,6 +421,9 @@ class DataLayerStore {
         this.setEditType('attribute_brush', 'button');
         this.changeCur();
         this.editor.selectFeature(1);
+        const layerName = this.getAdEditLayerName();
+        const layers = getAllLayersExByName(layerName);
+        this.setTargetLayers(layers);
     };
 
     newPolygon = () => {

@@ -8,7 +8,6 @@ import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/uti
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
 import AttributeStore from 'src/pages/Index/store/AttributeStore';
-import BuriedPoint from 'src/utils/BuriedPoint';
 
 import 'less/components/tool-icon.less';
 
@@ -56,9 +55,6 @@ class BatchSnapLineToStopLine extends React.Component {
             this.lineCheck(); //条件判断
             this.gotoCheckStop();
         } catch (e) {
-            BuriedPoint.toolLoadBuriedPointStart('line_snap_stop', 'right_click');
-            BuriedPoint.toolLoadBuriedPointEnd('line_snap_stop', 'error');
-            BuriedPoint.toolBuriedPointEnd('line_snap_stop', 'error');
             this.setState({
                 message: e.message
             });
