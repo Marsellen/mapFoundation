@@ -4,7 +4,6 @@ import { inject, observer } from 'mobx-react';
 import ConfigurableForm from 'src/components/ConfigurableForm';
 import { ATTR_FORM_FIELD_MAP, QC_MARKER_FORM_CONFIG } from 'src/config/QCMarkerConfig';
 import SeniorModal from 'src/components/SeniorModal';
-
 import 'less/components/qc-marker-modal.less';
 import BuriedPoint from 'src/utils/BuriedPoint';
 
@@ -67,8 +66,8 @@ class QCMarkerModal extends React.Component {
     };
 
     handleCancelModify = () => {
-        const { setEditStatus } = this.props.QCMarkerStore;
-        setEditStatus('visite');
+        const { QCMarkerStore } = this.props;
+        QCMarkerStore.setEditStatus('visite');
         //取消修改埋点
         BuriedPoint.toolBuriedPointEnd('modify_qc_marker', 'cancel');
     };
@@ -91,6 +90,7 @@ class QCMarkerModal extends React.Component {
 
     handleDeleteMarker = async () => {
         const {
+            DataLayerStore,
             QCMarkerStore: {
                 currentMarker,
                 currentMarker: { uuid, data: { properties, properties: { id } } = {} },
@@ -113,6 +113,7 @@ class QCMarkerModal extends React.Component {
             BuriedPoint.toolLoadBuriedPointEnd('modify_qc_marker', 'success');
             BuriedPoint.toolBuriedPointEnd('modify_qc_marker', 'success');
             this.release();
+            DataLayerStore.editor.clear();
             this.setState({ isLoading: false });
             message.success('已删除质检标注');
         } catch (e) {
@@ -188,7 +189,7 @@ class QCMarkerModal extends React.Component {
 
     release = () => {
         const { QCMarkerStore } = this.props;
-        QCMarkerStore.exitMarker(false);
+        QCMarkerStore.exitMarker();
     };
 
     //获取新增质检标注参数

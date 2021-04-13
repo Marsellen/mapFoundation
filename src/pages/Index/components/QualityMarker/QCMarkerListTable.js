@@ -32,25 +32,12 @@ class QCMarkerListTable extends React.Component {
         return columns;
     };
 
-    //清扫工作区域
-    clearWorkSpace = () => {
-        const { DataLayerStore, QCMarkerStore } = this.props;
-        //如果当前编辑图层是标注图层，则退出标注图层
-        const editLayerName = DataLayerStore.getAdEditLayerName();
-        if (QCMarkerStore.editStatus || editLayerName === 'AD_Marker') {
-            QCMarkerStore.exitMarker();
-        }
-    };
-
     //单击：选中此质检标注，弹出“质检标注窗口”
     handleClick = record => {
         try {
-            const {
-                QCMarkerStore: { show, setEditStatus, initCurrentMarker },
-                DataLayerStore: { setSelectFeature }
-            } = this.props;
+            const { QCMarkerStore, DataLayerStore } = this.props;
             //清扫工作区域
-            this.clearWorkSpace();
+            QCMarkerStore.exitMarker();
             //显示marker属性编辑窗口
             const option = {
                 key: 'id',
@@ -59,12 +46,12 @@ class QCMarkerListTable extends React.Component {
             const feature = window.markerLayer.layer.getFeatureByOption(option);
             if (!feature) return;
             const marker = feature.properties;
-            initCurrentMarker(marker);
-            setEditStatus('visite');
-            show();
+            QCMarkerStore.initCurrentMarker(marker);
+            QCMarkerStore.setEditStatus('visite');
+            QCMarkerStore.show();
             //选中要素
             const { layerId, uuid } = marker;
-            setSelectFeature(layerId, uuid);
+            DataLayerStore.setSelectFeature(layerId, uuid);
         } catch (e) {
             console.log(e);
         }

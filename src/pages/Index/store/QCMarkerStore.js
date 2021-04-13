@@ -2,7 +2,7 @@ import { observable, configure, action, flow, toJS } from 'mobx';
 import QCMarkerService from 'src/services/QCMarkerService';
 import { message } from 'antd';
 import { MARKER_EDIT_TYPES, MARKER_TABLE_COLUMNS } from 'src/config/QCMarkerConfig';
-import DataLayerStore from './DataLayerStore';
+import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 
 const filterKeys = MARKER_TABLE_COLUMNS().flatMap(item => {
     return item.isFilter ? [item] : [];
@@ -123,26 +123,23 @@ class QCMarkerStore {
     };
 
     removeMarkerVector = () => {
+        if (!this.currentMarker.uuid) return;
         window.markerLayer.layer.removeFeatureById(this.currentMarker.uuid);
     };
 
-    clearDebuff = (isDelete = true) => {
-        isDelete && this.editStatus === 'create' && this.removeMarkerVector();
+    clearDebuff = () => {
+        this.currentMarker && !this.currentMarker.data?.properties?.id && this.removeMarkerVector();
         this.hide();
         this.setEditStatus();
         this.clearCurrentMarker();
     };
 
-    exitMarker = (isDelete = true) => {
-        this.clearDebuff(isDelete);
+    exitMarker = () => {
+        this.clearDebuff();
         if (MARKER_EDIT_TYPES.includes(DataLayerStore.editType)) {
             DataLayerStore.fetchTargetLayers();
             DataLayerStore.activeEditor();
             DataLayerStore.exitEdit();
-        } else {
-            DataLayerStore.removeCur();
-            DataLayerStore.editor.clear();
-            DataLayerStore.editor.cancel();
         }
     };
 
