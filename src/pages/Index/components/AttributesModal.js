@@ -9,7 +9,6 @@ import AdTabs from 'src/components/AdTabs/index';
 import { updateFeatures } from 'src/utils/relCtrl/operateCtrl';
 import { logDecorator, editLock } from 'src/utils/decorator';
 import AttributeStore from 'src/pages/Index/store/AttributeStore';
-import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
 import TaskStore from 'src/pages/Index/store/TaskStore';
 import 'less/components/attributes-modal.less';
 
