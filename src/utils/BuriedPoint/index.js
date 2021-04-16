@@ -165,10 +165,6 @@ class BuriedPoint {
     //埋点：单一工具loading开始
     toolLoadBuriedPointStart = async (type, channel) => {
         if (!type || type === 'normal') return;
-        const layerName = DataLayerStore?.getAdEditLayerName?.();
-        const isLoad_1 = BUSINESS_TYPE_MAP[type]?.isLoad;
-        const isLoad_2 = BUSINESS_TYPE_MAP[type]?.[layerName]?.isLoad;
-        if (!isLoad_1 && !isLoad_2) return;
         let eventType = 'click';
         let buriedPointDesc = null;
         switch (channel) {
@@ -190,6 +186,9 @@ class BuriedPoint {
             case 'fast_modify':
                 buriedPointDesc = '快捷修改';
                 break;
+            case 'auto':
+                buriedPointDesc = '执行开始';
+                break;
             default:
                 return;
         }
@@ -206,10 +205,6 @@ class BuriedPoint {
     //埋点：单一工具loading结束
     toolLoadBuriedPointEnd = async (type, channel) => {
         if (!type || type === 'normal') return;
-        const layerName = DataLayerStore?.getAdEditLayerName?.();
-        const isLoad_1 = BUSINESS_TYPE_MAP[type]?.isLoad;
-        const isLoad_2 = BUSINESS_TYPE_MAP[type]?.[layerName]?.isLoad;
-        if (!isLoad_1 && !isLoad_2) return;
         let eventType = null;
         let buriedPointDesc = null;
         switch (channel) {

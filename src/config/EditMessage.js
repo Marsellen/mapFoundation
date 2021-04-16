@@ -140,5 +140,17 @@ export const EDIT_MESSAGE = {
         loadingMsg: '正在构建要素...',
         successMsg: '构建成功',
         errorMsg: '构建失败：'
+    },
+    undo: {
+        //撤销
+        loadingMsg: '正在撤销...',
+        successMsg: '撤销成功',
+        errorMsg: '撤销失败：'
+    },
+    redo: {
+        //回退
+        loadingMsg: '正在回退...',
+        successMsg: '回退成功',
+        errorMsg: '回退失败：'
     }
 };

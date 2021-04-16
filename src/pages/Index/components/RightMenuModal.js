@@ -103,6 +103,7 @@ class RightMenuModal extends React.Component {
         this.changePoints = this.changePoints.bind(this);
         this.deleteFeature = this.deleteFeature.bind(this);
         this.forceDeleteFeature = this.forceDeleteFeature.bind(this);
+        this.forceDeleteFeatureHandler = this.forceDeleteFeatureHandler.bind(this);
         this.batchBuildFeature = this.batchBuildFeature.bind(this);
         this.copyLine = this.copyLine.bind(this);
         this.movePointFeature = this.movePointFeature.bind(this);
@@ -477,8 +478,11 @@ class RightMenuModal extends React.Component {
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
-            onOk: this.forceDeleteFeatureHandler.bind(this),
-            onCancel() {
+            onOk: () => {
+                DataLayerStore.forceDelete();
+                this.forceDeleteFeatureHandler();
+            },
+            onCancel: () => {
                 DataLayerStore.exitEdit();
             }
         });
@@ -487,7 +491,6 @@ class RightMenuModal extends React.Component {
 
     @logDecorator({ operate: '强制删除要素', toolType: 'force_delete' })
     async forceDeleteFeatureHandler() {
-        BuriedPoint.toolBuriedPointStart('force_delete', 'button');
         let result = this.props.RightMenuStore.delete();
         let historyLog = await forceDelete(result, TaskStore.activeTask);
         AttributeStore.hideRelFeatures();

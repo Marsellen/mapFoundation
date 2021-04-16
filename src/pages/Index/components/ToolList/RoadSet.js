@@ -5,6 +5,7 @@ import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/components/AdMessage';
 import sysProperties from 'src/models/sysProperties';
 import { editLock } from 'src/utils/decorator';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')
@@ -40,6 +41,7 @@ class RoadSet extends React.Component {
         if (event.button !== 2) return false;
         const { DataLayerStore } = this.props;
         try {
+            BuriedPoint.toolLoadBuriedPointStart('select_road_plane', 'right_click');
             if (result && result[0] && result[0].data) {
                 const coordinates = result[0].data.geometry.coordinates;
                 // 获取落点的点元素Z轴位置

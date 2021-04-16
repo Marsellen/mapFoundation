@@ -1,10 +1,7 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import { message } from 'antd';
 import { logDecorator, editLock } from 'src/utils/decorator';
-import BuriedPoint from 'src/utils/BuriedPoint';
-
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
 @inject('AttributeStore')
@@ -32,38 +29,20 @@ class Redo extends React.Component {
 
     @editLock
     action = () => {
-        this.redo();
+        const { DataLayerStore } = this.props;
+        DataLayerStore.redo();
+        this.redoHandler();
     };
 
     @logDecorator({ operate: '回退', skipHistory: true, toolType: 'redo' })
-    async redo() {
+    async redoHandler() {
         const { OperateHistoryStore, AttributeStore } = this.props;
-        try {
-            BuriedPoint.toolBuriedPointStart('redo', 'button');
-            message.loading({
-                content: '正在回退...',
-                key: 'redo',
-                duration: 0
-            });
-            OperateHistoryStore.doning();
-            AttributeStore.hide('other_close');
-            AttributeStore.hideRelFeatures();
-            let history = await OperateHistoryStore.redo();
-            OperateHistoryStore.done();
-            message.success({
-                content: '回退成功',
-                key: 'redo',
-                duration: 1
-            });
-            return history;
-        } catch (e) {
-            message.error({
-                content: `回退失败`,
-                key: 'redo',
-                duration: 1
-            });
-            throw e;
-        }
+        OperateHistoryStore.doning();
+        AttributeStore.hide('other_close');
+        AttributeStore.hideRelFeatures();
+        let history = await OperateHistoryStore.redo();
+        OperateHistoryStore.done();
+        return history;
     }
 }
 
