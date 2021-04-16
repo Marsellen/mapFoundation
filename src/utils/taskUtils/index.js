@@ -221,7 +221,7 @@ export const windowObserver = () => {
             pollingTime,
             'workTimer'
         );
-    }, 1000); //防抖时间
+    }, 200); //防抖时间
     body.addEventListener('click', eventFun);
     body.addEventListener('keydown', eventFun);
     body.addEventListener('mousemove', eventFun);
