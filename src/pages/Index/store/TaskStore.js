@@ -137,12 +137,19 @@ class TaskStore {
         return getTaskProcessType();
     }
 
+    updateActiveTask = () => {
+        if (!this.activeTask) return;
+        const currentTask = this.onlineTasks.find(task => task.taskId === this.activeTask.taskId);
+        this.activeTask = Object.assign(this.activeTask, currentTask);
+    };
+
     // 任务列表
     initTask = flow(function* (option) {
         try {
             const result = yield JobService.listTask(option);
 
             this.onlineTasks = result.data.taskList;
+            this.updateActiveTask();
             return result.data;
         } catch (e) {
             const { type } = option;

@@ -55,7 +55,8 @@ class BuriedPoint {
                 params.businessData.buriedPointDesc,
                 params.businessData.functionType,
                 params.businessData.layerName,
-                params.businessData.taskId
+                params.businessData.taskId,
+                params.businessData.taskStatus
             );
             await BuriedPointService.buriedPoint(params);
         } catch (e) {
