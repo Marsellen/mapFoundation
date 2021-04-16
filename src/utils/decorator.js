@@ -52,6 +52,12 @@ const handleToolLoadBuriedPointStart = (toolType, doubleLog) => {
         case 'new_ground_rectangle':
             BuriedPoint.toolLoadBuriedPointStart(toolType, 'draw_end');
             break;
+        case 'undo':
+        case 'redo':
+        case 'delete':
+        case 'force_delete':
+            BuriedPoint.toolLoadBuriedPointStart(toolType, 'auto');
+            break;
         default:
             if (doubleLog) return;
             BuriedPoint.toolLoadBuriedPointStart(toolType, 'right_click');

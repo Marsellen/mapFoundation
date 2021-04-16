@@ -1,9 +1,7 @@
 import React from 'react';
 import ToolIcon from 'src/components/ToolIcon';
 import { inject, observer } from 'mobx-react';
-import { message } from 'antd';
 import { logDecorator, editLock } from 'src/utils/decorator';
-import BuriedPoint from 'src/utils/BuriedPoint';
 
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')
@@ -32,39 +30,20 @@ class Undo extends React.Component {
 
     @editLock
     action = () => {
-        this.undo();
+        const { DataLayerStore } = this.props;
+        DataLayerStore.undo();
+        this.undoHandler();
     };
 
     @logDecorator({ operate: '撤销', skipHistory: true, toolType: 'undo' })
-    async undo() {
+    async undoHandler() {
         const { OperateHistoryStore, AttributeStore } = this.props;
-        try {
-            BuriedPoint.toolBuriedPointStart('undo', 'button');
-            message.loading({
-                content: '正在撤销...',
-                key: 'undo',
-                duration: 0
-            });
-            OperateHistoryStore.doning();
-            AttributeStore.hide('other_close');
-            AttributeStore.hideRelFeatures();
-            let history = await OperateHistoryStore.undo();
-
-            OperateHistoryStore.done();
-            message.success({
-                content: '撤销成功',
-                key: 'undo',
-                duration: 1
-            });
-            return history;
-        } catch (e) {
-            message.error({
-                content: `撤销失败`,
-                key: 'undo',
-                duration: 1
-            });
-            throw e;
-        }
+        OperateHistoryStore.doning();
+        AttributeStore.hide('other_close');
+        AttributeStore.hideRelFeatures();
+        let history = await OperateHistoryStore.undo();
+        OperateHistoryStore.done();
+        return history;
     }
 }
 

@@ -532,6 +532,24 @@ class DataLayerStore {
         this.editor.changeFeaturePos();
     };
 
+    // 撤销
+    undo = () => {
+        if (this.editType === 'undo') return;
+        this.setEditType('undo', 'button');
+    };
+
+    // 回退
+    redo = () => {
+        if (this.editType === 'redo') return;
+        this.setEditType('redo', 'button');
+    };
+
+    // 强制删除
+    forceDelete = () => {
+        if (this.editType === 'force_delete') return;
+        this.setEditType('force_delete', 'button');
+    };
+
     // 中心点平移
     ChangeFeaturePosMode = mode => {
         if (!this.editor) return;
