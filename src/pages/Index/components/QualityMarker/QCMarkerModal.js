@@ -49,9 +49,9 @@ class QCMarkerModal extends React.Component {
             case 'modify':
                 BuriedPoint.toolLoadBuriedPointStart('modify_qc_marker', 'save_button');
                 break;
-            case 'fast_modify':
-                BuriedPoint.toolBuriedPointStart('modify_qc_marker', 'fast_modify');
-                BuriedPoint.toolLoadBuriedPointStart('modify_qc_marker', 'fast_modify');
+            case 'shortcut_modity':
+                BuriedPoint.toolBuriedPointStart('modify_qc_marker', 'shortcut_modity');
+                BuriedPoint.toolLoadBuriedPointStart('modify_qc_marker', 'shortcut_modity');
                 break;
             default:
                 break;
@@ -130,7 +130,7 @@ class QCMarkerModal extends React.Component {
     };
 
     handleChange = (name, value, formData) => {
-        this.handleSubmit('fast_modify', false, formData);
+        this.handleSubmit('shortcut_modity', false, formData);
     };
 
     handleSubmit = (type, isExit = true, formData = {}) => {

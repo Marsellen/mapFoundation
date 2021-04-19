@@ -28,6 +28,7 @@ import TaskStore from 'src/pages/Index/store/TaskStore';
 import 'src/assets/less/components/right-menu-modal.less';
 import DataLayerStore from '../store/DataLayerStore';
 import BuriedPoint from 'src/utils/BuriedPoint';
+import ShortcutKey from 'src/utils/ShortcutKey';
 
 const EDIT_TYPE = [
     'batch_build',
@@ -473,13 +474,15 @@ class RightMenuModal extends React.Component {
                 key: 'edit_error'
             });
         }
+        const isShortcutKey = ShortcutKey.keyCode;
+        const channel = isShortcutKey ? 'shortcut_key' : 'right_menu';
         Modal.confirm({
             title: '您确认强制删除此要素？删除时关联属性和关联关系不会连带删除',
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
             onOk: () => {
-                DataLayerStore.forceDelete();
+                DataLayerStore.forceDelete(channel);
                 this.forceDeleteFeatureHandler();
             },
             onCancel: () => {

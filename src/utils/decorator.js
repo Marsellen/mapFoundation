@@ -56,7 +56,7 @@ const handleToolLoadBuriedPointStart = (toolType, doubleLog) => {
         case 'redo':
         case 'delete':
         case 'force_delete':
-            BuriedPoint.toolLoadBuriedPointStart(toolType, 'auto');
+            BuriedPoint.toolLoadBuriedPointStart(toolType, 'tool_start');
             break;
         default:
             if (doubleLog) return;
