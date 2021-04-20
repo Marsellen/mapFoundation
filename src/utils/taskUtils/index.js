@@ -9,10 +9,7 @@ import editLog from 'src/models/editLog';
 import TaskService from 'src/services/TaskService';
 import { throttle } from '../utils';
 import sysProperties from 'src/models/sysProperties';
-import {
-    DATA_LAYER_STRATIFICATION,
-    RECOGNITION_DATA_LAYER_STRATIFICATION
-} from 'src/config/DataLayerConfig';
+import { MB_EDIT_LAYER_MAP, MS_EDIT_LAYER_MAP } from 'src/config/DataLayerConfig';
 import appStore from 'src/store/appStore';
 import BuriedPoint from 'src/utils/BuriedPoint/index';
 import { operateLock } from 'src/utils/decorator';
@@ -233,8 +230,8 @@ export const windowObserver = () => {
 
 export const getEditableLayerConfig = () => {
     if (isManbuildTask()) {
-        return DATA_LAYER_STRATIFICATION;
+        return MB_EDIT_LAYER_MAP;
     } else {
-        return RECOGNITION_DATA_LAYER_STRATIFICATION;
+        return MS_EDIT_LAYER_MAP;
     }
 };

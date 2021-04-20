@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import {
     DATA_LAYER_MAP,
     IMP_RECOGNITION_DISABLED_LAYERS,
-    LAYER_STRATIFICATION_MAP
+    EDIT_LAYER_TYPE_MAP
 } from 'src/config/DataLayerConfig';
 import ToolIcon from 'src/components/ToolIcon';
 import { getEditableLayerConfig } from 'src/utils/taskUtils';
@@ -123,7 +123,7 @@ class EditLayerPicker extends React.Component {
             return (
                 <div key={key} className="flex flex-column">
                     <label style={{ fontWeight: 'bold', lineHeight: '30px' }}>
-                        {LAYER_STRATIFICATION_MAP[key]}
+                        {EDIT_LAYER_TYPE_MAP[key]}
                     </label>
                     <List dataSource={layerConfig[key]} renderItem={this.renderLayerList} />
                 </div>
