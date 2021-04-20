@@ -91,7 +91,7 @@ export const saveTaskData = async channel => {
     try {
         operateLock.lock('保存');
         BuriedPoint.toolBuriedPointStart(type, channel);
-        BuriedPoint.toolLoadBuriedPointStart(type, 'auto');
+        BuriedPoint.toolLoadBuriedPointStart(type, 'tool_start');
         message.loading({ key: 'save', content: '正在保存...', duration: 0 });
         await saveData(isAutoSave);
         message.success({ key: 'save', content: '保存完成', duration: 2 });

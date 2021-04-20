@@ -10,6 +10,7 @@ import Attr from 'src/models/attr';
 import Relevance from 'src/models/relevance';
 import { findRelDataById } from 'src/utils/vectorCtrl/propertyTableCtrl';
 import BuriedPoint from 'src/utils/BuriedPoint/index.js';
+import ShortcutKey from 'src/utils/ShortcutKey';
 
 @inject('AttributeStore')
 @inject('TaskStore')
@@ -53,12 +54,16 @@ class AttrRightMenu extends React.Component {
                 key: 'edit_error'
             });
         }
+        const isShortcutKey = ShortcutKey.keyCode;
+        const channel = isShortcutKey ? 'attr_list_shortcut_key' : 'attr_list_right_menu';
         Modal.confirm({
             title: '您确认强制删除此要素？删除时关联属性和关联关系不会连带删除',
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
-            onOk: this.forceDeleteHandlerOk,
+            onOk: () => {
+                this.forceDeleteHandlerOk(channel);
+            },
             onCancel: () => {
                 DataLayerStore.exitEdit();
             }
@@ -66,11 +71,11 @@ class AttrRightMenu extends React.Component {
         AttrRightMenuStore.hide();
     };
 
-    forceDeleteHandlerOk = () => {
+    forceDeleteHandlerOk = channel => {
         const { AttrRightMenuStore } = this.props;
         const { layerName, hide } = AttrRightMenuStore;
         const selectOption = SELECT_OPTIONS.find(item => item.items.includes(layerName));
-        BuriedPoint.toolBuriedPointStart('force_delete', 'button');
+        BuriedPoint.toolBuriedPointStart('force_delete', channel);
         switch (selectOption.type) {
             case 'vector':
                 this.forceDeleteFeature();

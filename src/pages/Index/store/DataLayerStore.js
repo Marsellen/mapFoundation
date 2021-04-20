@@ -545,9 +545,9 @@ class DataLayerStore {
     };
 
     // 强制删除
-    forceDelete = () => {
+    forceDelete = channel => {
         if (this.editType === 'force_delete') return;
-        this.setEditType('force_delete', 'button');
+        this.setEditType('force_delete', channel);
     };
 
     // 中心点平移

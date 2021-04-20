@@ -76,6 +76,22 @@ class BuriedPoint {
                 eventType = isShortcutKey ? 'keyup' : 'click';
                 buriedPointDesc = isShortcutKey ? '快捷键' : isRightMenu ? '右键菜单' : '按钮';
                 break;
+            case 'right_menu':
+                eventType = 'click';
+                buriedPointDesc = '右键菜单';
+                break;
+            case 'shortcut_key':
+                eventType = 'keyup';
+                buriedPointDesc = '快捷键';
+                break;
+            case 'attr_list_right_menu':
+                eventType = 'click';
+                buriedPointDesc = '属性列表右键菜单';
+                break;
+            case 'attr_list_shortcut_key':
+                eventType = 'keyup';
+                buriedPointDesc = '属性列表快捷键';
+                break;
             case 'delete_button':
                 eventType = 'click';
                 buriedPointDesc = '删除按钮';
@@ -84,7 +100,7 @@ class BuriedPoint {
                 eventType = 'click';
                 buriedPointDesc = '修改按扭';
                 break;
-            case 'fast_modify':
+            case 'shortcut_modity':
                 eventType = 'click';
                 buriedPointDesc = '快捷修改';
                 break;
@@ -183,10 +199,10 @@ class BuriedPoint {
             case 'conform_delete':
                 buriedPointDesc = '确认删除';
                 break;
-            case 'fast_modify':
+            case 'shortcut_modity':
                 buriedPointDesc = '快捷修改';
                 break;
-            case 'auto':
+            case 'tool_start':
                 buriedPointDesc = '执行开始';
                 break;
             default:
