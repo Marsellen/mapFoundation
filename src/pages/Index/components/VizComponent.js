@@ -11,9 +11,9 @@ import {
     RESOURCE_LAYER_MULTI_PROJECT,
     RESOURCE_LAYER_TASK_SCOPE,
     RESOURCE_LAYER_CHECK,
-    RESOURCE_LAYER_MARKER
+    RESOURCE_LAYER_MARKER,
+    TASK_EDIT_LAYER_MAP
 } from 'src/config/DataLayerConfig';
-import { CONFIGURABLE_LAYERS } from 'src/config/vectorConfig/VectorConfigMap.js';
 import MultimediaView from './MultimediaView';
 import OtherVectorConfig from 'src/config/OtherVectorConfig';
 import 'less/components/viz-component.less';
@@ -494,7 +494,9 @@ class VizComponent extends React.Component {
         if (result && result.length > 0) {
             const firstFeature = result[0];
             const { type: featureType, layerName: featureLayerName } = firstFeature;
-            const isEditableLayer = CONFIGURABLE_LAYERS.includes(featureLayerName);
+            const { TaskStore } = this.props;
+            const editLayers = TASK_EDIT_LAYER_MAP[TaskStore.taskProcessName];
+            const isEditableLayer = editLayers.includes(featureLayerName);
             switch (featureType) {
                 case 'VectorLayer': //矢量要素
                     if (isEditableLayer && result.length === 1) {

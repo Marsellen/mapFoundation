@@ -482,8 +482,23 @@ export const WRONG_LAYER = '错误区';
 export const SUSPECT_LAYER = '怀疑区';
 export const IMP_RECOGNITION_DISABLED_LAYERS = ['AD_Road', 'AD_Lane'];
 
+//人工识别设置编辑图层配置
+export const MS_EDIT_LAYER_MAP = {
+    LOGIC: [
+        'AD_LaneDivider',
+        'AD_LaneAttrPoint',
+        'AD_Arrow',
+        'AD_StopLocation',
+        'AD_Text',
+        'AD_TrafficLight',
+        'AD_TrafficSign',
+        'AD_RS_Barrier'
+    ],
+    GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']
+};
+
 //人工构建设置编辑图层配置
-export const DATA_LAYER_STRATIFICATION = {
+export const MB_EDIT_LAYER_MAP = {
     LOGIC: [
         'AD_Road',
         'AD_LaneDivider',
@@ -491,50 +506,20 @@ export const DATA_LAYER_STRATIFICATION = {
         'AD_LaneAttrPoint',
         'AD_Arrow',
         'AD_StopLocation',
-        // 'AD_LaneMark_Plg',
         'AD_Text',
         'AD_TrafficLight',
         'AD_TrafficSign',
         'AD_RS_Barrier'
     ],
-    GEOMETRY: [
-        // 'AD_LaneDivider_Pln',
-        'AD_LaneDivider_Plg',
-        'AD_StopLocation_Geo',
-        // 'AD_Arrow_Geo',
-        'AD_LaneMark_Geo',
-        'AD_Pole_Geo'
-        // 'AD_TrafficSign_Geo',
-        // 'AD_TrafficLight_Geo'
-    ]
+    GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']
 };
 
-//人工识别设置编辑图层配置
-export const RECOGNITION_DATA_LAYER_STRATIFICATION = {
-    LOGIC: [
-        'AD_LaneDivider',
-        'AD_LaneAttrPoint',
-        'AD_Arrow',
-        'AD_StopLocation',
-        // 'AD_LaneMark_Plg',
-        'AD_Text',
-        'AD_TrafficLight',
-        'AD_TrafficSign',
-        'AD_RS_Barrier'
-    ],
-    GEOMETRY: [
-        // 'AD_LaneDivider_Pln',
-        'AD_LaneDivider_Plg',
-        'AD_StopLocation_Geo',
-        // 'AD_Arrow_Geo',
-        'AD_LaneMark_Geo',
-        'AD_Pole_Geo'
-        // 'AD_TrafficSign_Geo',
-        // 'AD_TrafficLight_Geo'
-    ]
+export const TASK_EDIT_LAYER_MAP = {
+    imp_recognition: Object.values(MS_EDIT_LAYER_MAP).flat(),
+    imp_manbuild: Object.values(MB_EDIT_LAYER_MAP).flat()
 };
 
-export const LAYER_STRATIFICATION_MAP = { LOGIC: '逻辑层', GEOMETRY: '几何层' };
+export const EDIT_LAYER_TYPE_MAP = { LOGIC: '逻辑层', GEOMETRY: '几何层' };
 
 export const LINE_LAYERS = [
     'AD_Road',

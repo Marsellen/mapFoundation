@@ -1,16 +1,13 @@
 import { observable, configure, action, computed } from 'mobx';
-import { DATA_LAYER_MAP, DATA_LAYER_STRATIFICATION } from 'src/config/DataLayerConfig';
+import { DATA_LAYER_MAP, MB_EDIT_LAYER_MAP } from 'src/config/DataLayerConfig';
 import _ from 'lodash';
 
-const DATA_LAYER_CHECK_MAP = Object.values(DATA_LAYER_STRATIFICATION).reduce(
-    (checkMap, layerNames) => {
-        return layerNames.reduce(
-            (_checkMap, layerName) => ({ ..._checkMap, [layerName]: true }),
-            checkMap
-        );
-    },
-    {}
-);
+const DATA_LAYER_CHECK_MAP = Object.values(MB_EDIT_LAYER_MAP).reduce((checkMap, layerNames) => {
+    return layerNames.reduce(
+        (_checkMap, layerName) => ({ ..._checkMap, [layerName]: true }),
+        checkMap
+    );
+}, {});
 
 configure({ enforceActions: 'always' });
 class VectorsStore {
@@ -104,7 +101,7 @@ class VectorsStore {
     @action toggleStratification = (stratification, checked) => {
         const type = this.layerType;
         if (!this.vectors[type]) return false;
-        DATA_LAYER_STRATIFICATION[stratification].forEach(layerName => {
+        MB_EDIT_LAYER_MAP[stratification].forEach(layerName => {
             this.vectors[type].checkMap[layerName] = checked;
             const layer = this.layerMap?.[type]?.[layerName];
             checked ? layer?.show() : layer?.hide();

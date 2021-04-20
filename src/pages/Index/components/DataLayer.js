@@ -1,11 +1,7 @@
 import React from 'react';
 import { Checkbox, List, Switch, Empty } from 'antd';
 import { inject, observer } from 'mobx-react';
-import {
-    DATA_LAYER_MAP,
-    DATA_LAYER_STRATIFICATION,
-    LAYER_STRATIFICATION_MAP
-} from 'src/config/DataLayerConfig';
+import { DATA_LAYER_MAP, MB_EDIT_LAYER_MAP, EDIT_LAYER_TYPE_MAP } from 'src/config/DataLayerConfig';
 import { RESOURCE_LAYER_VECTOR, RESOURCE_LAYER_BOUNDARY } from 'src/config/DataLayerConfig';
 import 'less/components/sider.less';
 
@@ -90,7 +86,7 @@ class DataLayer extends React.Component {
                     />
                 </div>
                 <div className="flex flex-row">
-                    {Object.entries(DATA_LAYER_STRATIFICATION).map(([key, layerNames]) => {
+                    {Object.entries(MB_EDIT_LAYER_MAP).map(([key, layerNames]) => {
                         return this.renderLayerList(key, layerNames, vectorsLayers, type);
                     })}
                 </div>
@@ -109,7 +105,7 @@ class DataLayer extends React.Component {
                     disabled={vectorsLayers.disabled}
                     onChange={this.secondCheckChangeEvent.bind(this, key)}
                 >
-                    {LAYER_STRATIFICATION_MAP[key]}
+                    {EDIT_LAYER_TYPE_MAP[key]}
                 </Checkbox>
                 <List
                     className="check-group"
@@ -186,8 +182,8 @@ class DataLayer extends React.Component {
         let { VectorsStore } = this.props;
         let { vectors, layerType: type } = VectorsStore;
         this.checkedStatusMap[type] = { ALL: {}, LOGIC: {}, GEOMETRY: {} };
-        let logicLayers = DATA_LAYER_STRATIFICATION.LOGIC;
-        let geometryLayers = DATA_LAYER_STRATIFICATION.GEOMETRY;
+        let logicLayers = MB_EDIT_LAYER_MAP.LOGIC;
+        let geometryLayers = MB_EDIT_LAYER_MAP.GEOMETRY;
         this.checkedStatusMap[type].LOGIC.checkedAll = logicLayers.every(
             layerName => vectors[type].checkMap[layerName]
         );
