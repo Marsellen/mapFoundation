@@ -644,17 +644,14 @@ class TaskStore {
         }
         endTaskTimePolling();
         endWorkTimePolling();
-
-        this.activeTask = {
+        const currentTask = {
             ...task,
             projectId: 1,
             isLocal: true,
             firstTime: true,
             task_sub_type: 'local'
         };
-        this.activeTask = this.getActiveTask();
-        this.localTasks.push(this.activeTask);
-        this.LocalTaskCallback && this.LocalTaskCallback(this.activeTask);
+        this.localTasks.push(currentTask);
     });
 
     tasksPop = flow(function* (currentTaskId) {

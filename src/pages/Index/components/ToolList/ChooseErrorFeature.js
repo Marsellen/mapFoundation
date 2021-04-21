@@ -58,6 +58,7 @@ class ChooseErrorFeature extends React.Component {
         const visible = editType === 'choose_error_feature';
         return (
             <ToolIcon
+                id="pick-element"
                 {...this.props}
                 visible={visible}
                 icon="cuowutuceng"
