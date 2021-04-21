@@ -82,7 +82,7 @@ class QCMarkerTool extends React.Component {
             return (
                 <span key={updateKey}>
                     <ToolIcon
-                        id="attribute-brush-btn"
+                        id="add-quality-mark"
                         icon="zhijianbiaozhugongju"
                         title="质检标注工具"
                         className="ad-tool-icon"

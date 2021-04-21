@@ -419,5 +419,21 @@ export const SHORTCUT_KEYS = [
             ResourceLayerStore.toggle(RESOURCE_LAYER_MARKER, true, true);
         },
         describe: '开关质检标注图层 9'
+    },
+    {
+        id: 'add-quality-mark',
+        ctrl: false,
+        alt: true,
+        shift: false,
+        keyCode: 49,
+        describe: '新建质检标注 Alt+1'
+    },
+    {
+        id: 'pick-element',
+        ctrl: false,
+        alt: true,
+        shift: false,
+        keyCode: 50,
+        describe: '拾取要素ID Alt+2'
     }
 ];

@@ -53,11 +53,11 @@ export const HOT_KEYS_CONFIG = {
         },
         {
             value: 'Alt+1',
-            label: '绘制点、折线、面要素'
+            label: '绘制点、折线、面要素、新建质检标注'
         },
         {
             value: 'Alt+2',
-            label: '绘制两点立面矩形、曲线'
+            label: '绘制两点立面矩形、曲线、质检标注拾取要素ID'
         },
         {
             value: 'Alt+3',
