@@ -37,14 +37,12 @@ class Task extends React.Component {
                     {validTasks.map((item, index) => (
                         <Menu.Item key={index}>
                             <p className="menu-item-box">
-                                <span onClick={e => this.chooseTask(e, item.taskId, false)}>
-                                    {this.getTaskLabel(item)}
-                                </span>
+                                <span>{this.getTaskLabel(item)}</span>
                                 <ToolIcon
                                     icon="kaishi"
                                     className="task-start-button"
                                     disabled={isEditableTask && taskIndex && index == taskIndex}
-                                    action={e => this.chooseTask(e, item.taskId, true)}
+                                    action={e => this.chooseTask(e, item.taskId)}
                                 />
                             </p>
                         </Menu.Item>
@@ -93,9 +91,9 @@ class Task extends React.Component {
     };
 
     @editLock
-    chooseTask = (e, id, isEdit) => {
+    chooseTask = (e, id) => {
         const { current: currentTaskId } = this.state;
-        if (currentTaskId == id && !isEdit) return;
+        if (currentTaskId == id) return;
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
@@ -109,15 +107,15 @@ class Task extends React.Component {
                 zIndex: 999999999,
                 onOk: async () => {
                     await saveTaskData('toggle_task');
-                    this.toggleTask(id, isEdit);
+                    this.toggleTask(id);
                 }
             });
         } else {
-            this.toggleTask(id, isEdit);
+            this.toggleTask(id);
         }
     };
 
-    toggleTask = (id, isEdit) => {
+    toggleTask = id => {
         //防抖，减少重置画布次数
         this.timeout && clearTimeout(this.timeout);
         this.timeout = setTimeout(async () => {
@@ -142,10 +140,10 @@ class Task extends React.Component {
                 }
                 DataLayerStore.exitEdit();
                 await TaskStore.setActiveTask(id);
-                if (isEdit) await TaskStore.startTaskEdit(id);
+                await TaskStore.startTaskEdit(id);
 
                 //先浏览再开始任务
-                if (activeTaskId === id && isEdit) {
+                if (activeTaskId === id) {
                     getCheckReport(); //获取检查结果
                     getMarkerList(); //获取质检标注
                     initBoundary(); //获取周边底图
