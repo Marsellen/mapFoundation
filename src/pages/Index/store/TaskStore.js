@@ -405,8 +405,8 @@ class TaskStore {
             const { taskInfo } = CONFIG.urlConfig;
             const url = completeSecendUrl(taskInfo, this.activeTask);
             const { data } = yield axios.get(url);
-            const { projectNames, lidarNames, defaultLidarName, treeContent } = data;
-            this.projectNameArr = projectNames.split(';').sort();
+            const { projectTaskIds, lidarNames, defaultLidarName, treeContent } = data;
+            this.projectNameArr = projectTaskIds.split(';').sort();
             this.multiProjectMap = this.initMultiProjectMap();
             this.lidarNameArr = JSON.parse(lidarNames);
             this.defaultLidarName = JSON.parse(defaultLidarName);
