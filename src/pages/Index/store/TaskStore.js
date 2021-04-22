@@ -669,10 +669,6 @@ class TaskStore {
             isLocal && firstTime && this.localTasks.splice(currentTaskIndex, 1);
         }
     }).bind(this);
-
-    @action bindLocalTaskCallback = LocalTaskCallback => {
-        this.LocalTaskCallback = LocalTaskCallback;
-    };
 }
 
 export default new TaskStore();

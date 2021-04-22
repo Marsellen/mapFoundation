@@ -54,18 +54,6 @@ class Task extends React.Component {
         }
     }
 
-    componentDidMount() {
-        const { TaskStore } = this.props;
-        const { bindLocalTaskCallback } = TaskStore;
-        bindLocalTaskCallback(this.LocalTaskCallback);
-    }
-
-    LocalTaskCallback = taskId => {
-        this.setState({
-            current: taskId
-        });
-    };
-
     renderNoData = () => {
         return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
     };
@@ -92,8 +80,6 @@ class Task extends React.Component {
 
     @editLock
     chooseTask = (e, id) => {
-        const { current: currentTaskId } = this.state;
-        if (currentTaskId == id) return;
         const { OperateHistoryStore } = this.props;
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
@@ -124,7 +110,7 @@ class Task extends React.Component {
 
                 const { current } = this.state;
                 const { TaskStore, DataLayerStore } = this.props;
-                const { taskIdList, activeTaskId } = TaskStore;
+                const { taskIdList } = TaskStore;
 
                 // 切换任务时，保存上一个任务的缩放比例，该方法需最先执行
                 if (window.map && current && taskIdList.includes(current)) {
@@ -141,14 +127,6 @@ class Task extends React.Component {
                 DataLayerStore.exitEdit();
                 await TaskStore.setActiveTask(id);
                 await TaskStore.startTaskEdit(id);
-
-                //先浏览再开始任务
-                if (activeTaskId === id) {
-                    getCheckReport(); //获取检查结果
-                    getMarkerList(); //获取质检标注
-                    initBoundary(); //获取周边底图
-                }
-
                 this.setState({ current: id });
             } catch (e) {
                 console.log(`切换任务报错：${e.message || e}`);
