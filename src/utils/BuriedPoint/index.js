@@ -11,10 +11,6 @@ import QCMarkerStore from 'src/pages/Index/store/QCMarkerStore';
 import AttributeStore from 'src/pages/Index/store/AttributeStore';
 
 class BuriedPoint {
-    constructor() {
-        this.windowBuriedPoint();
-    }
-
     sendRequest = async obj => {
         try {
             //接口文档：https://confluence.ecarx.com.cn/pages/viewpage.action?pageId=64785919
@@ -164,6 +160,18 @@ class BuriedPoint {
                 break;
             case 'other_close':
                 buriedPointDesc = '其它退出';
+                break;
+            case 'toggle_task':
+                eventType = 'click';
+                buriedPointDesc = '切换任务';
+                break;
+            case 'submit_task':
+                eventType = 'click';
+                buriedPointDesc = '提交任务';
+                break;
+            case 'logout':
+                eventType = 'click';
+                buriedPointDesc = '退出登录';
                 break;
             default:
                 return;
@@ -407,60 +415,14 @@ class BuriedPoint {
         });
     };
 
-    //埋点：网页状态
-    windowBuriedPoint = () => {
-        //页面加载
-        window.addEventListener('load', () => {
-            if (window.location.pathname !== '/') return;
-            this.sendRequest({
-                type: 'window_status',
-                functionType: '网页状态',
-                buriedPointType: '页面进入激活',
-                buriedPointDesc: '页面加载',
-                action: 1
-            });
-        });
-        //页面退出
-        window.addEventListener('beforeunload', () => {
-            if (window.location.pathname !== '/') return;
-            this.sendRequest({
-                type: 'window_status',
-                functionType: '网页状态',
-                buriedPointType: '页面退出激活',
-                buriedPointDesc: '页面退出',
-                action: 2
-            });
-        });
-        //浏览器切换tab页
-        document.addEventListener('visibilitychange', () => {
-            if (window.location.pathname !== '/') return;
-            if (document.visibilityState === 'visible') {
-                this.sendRequest({
-                    type: 'window_status',
-                    functionType: '网页状态',
-                    buriedPointType: '页面进入激活',
-                    buriedPointDesc: '浏览器切换tab页',
-                    action: 1
-                });
-            }
-            if (document.visibilityState === 'hidden') {
-                this.sendRequest({
-                    type: 'window_status',
-                    functionType: '网页状态',
-                    buriedPointType: '页面退出激活',
-                    buriedPointDesc: '浏览器切换tab页',
-                    action: 2
-                });
-            }
-        });
-    };
-
     //退出登录、提交任务、切换任务统一调用功能结束埋点
     buriedPointEnd = async channel => {
         const { attrListVisible } = AttributeStore;
-        const { adEditLayer, editStatus } = DataLayerStore;
+        const { adEditLayer, editStatus, editType } = DataLayerStore;
         const isUnionBreak = editStatus === 'union_break';
+        const isEditing = editType && editType !== 'normal';
         await Promise.allSettled([
+            isEditing && this.toolBuriedPointEnd(editType, channel),
             attrListVisible && this.modalBuriedPointEnd('attr_list', channel),
             adEditLayer && this.statusBuriedPointEnd('normal', channel),
             isUnionBreak && this.statusBuriedPointEnd('union_break', channel)

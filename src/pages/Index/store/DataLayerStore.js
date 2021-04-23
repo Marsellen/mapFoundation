@@ -124,32 +124,32 @@ class DataLayerStore {
     };
 
     //可能不传参数，可能传图层名，可能传图层
-    @action activeEditor = (param, channel, noClear) => {
-        let layer;
-        switch (typeof param) {
+    @action activeEditor = ({ layer, channel, toolChannel, noClear }) => {
+        let currentLayer;
+        switch (typeof layer) {
             case 'object':
-                layer = param;
+                currentLayer = layer;
                 break;
             case 'string':
-                layer = getLayerExByName(param);
+                currentLayer = getLayerExByName(layer);
                 break;
             default:
-                layer = null;
+                currentLayer = null;
                 break;
         }
         //埋点开始
         BuriedPoint.statusBuriedPointEnd(this.editStatus, channel);
 
-        this.editor ? this.exitEdit('toggle', noClear) : this.initEditor();
-        this.editor?.setEditLayer(layer);
-        this.adEditLayer = layer;
+        this.editor ? this.exitEdit(toolChannel, noClear) : this.initEditor();
+        this.editor?.setEditLayer(currentLayer);
+        this.adEditLayer = currentLayer;
         this.setEditStatus('normal'); //设置编辑状态
         this.isTopView && this.enableRegionSelect(); //重置框选可选图层
         this.updateKey = Math.random();
 
         //埋点结束
         BuriedPoint.statusBuriedPointStart(this.editStatus, channel);
-        return layer;
+        return currentLayer;
     };
 
     setSelectedCallBack = callback => {
@@ -830,7 +830,8 @@ class DataLayerStore {
     };
 
     resetEditLayer = () => {
-        this.activeEditor(this.getAdEditLayer());
+        const layer = this.getAdEditLayer();
+        this.activeEditor({ layer, toolChannel: 'toggle' });
     };
 
     initBuildLayer = () => {

@@ -123,7 +123,7 @@ class Save extends React.Component {
         let change = activeTaskChange && activeTaskChange.change;
         let isStop = /-3/.test(change) && !/3-3/.test(change);
         if (isStop) {
-            DataLayerStore.activeEditor();
+            DataLayerStore.activeEditor({ toolChannel: 'toggle' });
             ToolCtrlStore.updateByEditLayer();
 
             return Modal.warning({

@@ -57,7 +57,7 @@ class UnionBreak extends React.Component {
             });
         } else {
             //退出当前编辑图层
-            activeEditor(null, 'effect');
+            activeEditor({ channel: 'effect', toolChannel: 'toggle' });
             //更新编辑图层顶部工具栏
             updateByEditLayer();
             //进入联合打断模式，退出普通模式

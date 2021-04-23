@@ -162,7 +162,11 @@ class EditLayerPicker extends React.Component {
         const value = e.target.value;
         const layerPicker = DATA_LAYER_MAP[value] ? DATA_LAYER_MAP[value].editName : '';
         this.props._renderValue(layerPicker);
-        const layer = DataLayerStore.activeEditor(value, 'button');
+        const layer = DataLayerStore.activeEditor({
+            layer: value,
+            channel: 'button',
+            toolChannel: 'toggle'
+        });
         ToolCtrlStore.updateByEditLayer(layer);
         AttributeStore.hide();
         AttributeStore.hideRelFeatures();
