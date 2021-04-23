@@ -828,7 +828,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         TYPE: 1
     },
     AD_Text: {
-        CONT_TYPE: 0,
+        CONT_TYPE: 99,
         SPEED: 0,
         TIMEDOM: '',
         VEH_LMT: 0,
@@ -959,6 +959,15 @@ export const TABLE_DATA_MAP = {
                     RD_EDGE: 1
                 },
                 13: {
+                    RD_EDGE: 1
+                },
+                14: {
+                    RD_EDGE: 1
+                },
+                15: {
+                    RD_EDGE: 1
+                },
+                16: {
                     RD_EDGE: 1
                 },
                 99: {
