@@ -74,12 +74,15 @@ export default function AdTrafficSignContent(props) {
     };
 
     const signTypeOnChange = (keyName, index, value) => {
-        switch (value) {
-            case 2219:
+        switch (true) {
+            case value == 2219:
                 form.setFieldsValue({ [keyName]: 3 });
                 break;
-            case 2314:
+            case value == 2314:
                 form.setFieldsValue({ [keyName]: 4 });
+                break;
+            case value >= 2207 && value <= 2213:
+                form.setFieldsValue({ [keyName]: 1 });
                 break;
             default:
                 form.setFieldsValue({ [keyName]: 0 });
