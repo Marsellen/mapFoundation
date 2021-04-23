@@ -124,7 +124,7 @@ class VizComponent extends React.Component {
         await editLog.store.clear();
         if (window.map) {
             DataLayerStore.exitEdit();
-            DataLayerStore.activeEditor();
+            DataLayerStore.activeEditor({ toolChannel: 'toggle' });
             DataLayerStore.topViewMode(false);
         }
         ToolCtrlStore.updateByEditLayer();
@@ -510,7 +510,12 @@ class VizComponent extends React.Component {
                         ) {
                             //设置选中要素所属图层为编辑图层，并重置顶部工具栏
                             const layer = getLayerExByName(featureLayerName);
-                            DataLayerStore.activeEditor(layer, 'select_data', true);
+                            DataLayerStore.activeEditor({
+                                layer,
+                                channel: 'select_data',
+                                toolChannel: 'toggle',
+                                noClear: true
+                            });
                             ToolCtrlStore.updateByEditLayer(layer);
                         }
                         DataLayerStore.pick();

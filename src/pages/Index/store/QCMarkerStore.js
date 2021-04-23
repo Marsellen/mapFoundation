@@ -138,7 +138,7 @@ class QCMarkerStore {
         this.clearDebuff();
         if (MARKER_EDIT_TYPES.includes(DataLayerStore.editType)) {
             DataLayerStore.fetchTargetLayers();
-            DataLayerStore.activeEditor();
+            DataLayerStore.activeEditor({ toolChannel: 'toggle' });
             DataLayerStore.exitEdit();
         }
     };
