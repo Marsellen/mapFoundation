@@ -353,6 +353,7 @@ class RightMenuModal extends React.Component {
         });
     };
 
+    @editLock
     @logDecorator({ onlyRun: true })
     breakCallBack(result) {
         checkSdkError(result, '未选择打断点');
@@ -826,9 +827,6 @@ class RightMenuModal extends React.Component {
             RightMenuStore.hide();
             AttributeStore.hideRelFeatures();
         } catch (e) {
-            BuriedPoint.toolLoadBuriedPointStart('group_move', 'right_click');
-            BuriedPoint.toolLoadBuriedPointEnd('group_move', 'error');
-            BuriedPoint.toolBuriedPointEnd('group_move', 'error');
             message.warning(e.message, 3);
         }
     };

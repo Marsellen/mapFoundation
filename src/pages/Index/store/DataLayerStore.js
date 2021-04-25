@@ -459,7 +459,7 @@ class DataLayerStore {
     };
 
     bufferRender = () => {
-        this.exitEdit();
+        this.exitEdit('toggle');
         window.bufferLayer = null;
         if (!this.editor) return;
         this.setEditType('buffer_render', 'button');
