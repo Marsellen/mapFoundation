@@ -7,7 +7,6 @@ import 'less/components/sider.less';
 import ToolIcon from 'src/components/ToolIcon';
 import CONFIG from 'src/config';
 import { saveTaskData } from 'src/utils/taskUtils';
-import { initBoundary, getCheckReport, getMarkerList } from 'src/utils/TaskStart';
 import { editLock } from 'src/utils/decorator';
 import BuriedPoint from 'src/utils/BuriedPoint';
 
