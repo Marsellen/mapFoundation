@@ -110,7 +110,7 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE'],
             manbuild: ['LINE']
         },
-        rightTools: ['delete', 'force_delete', 'change_points', 'trim', 'group_move'],
+        rightTools: ['delete', 'force_delete', 'change_points', 'trim', 'group_move', 'copy_line'],
         groupRightTools: ['batch_assign', 'group_move', 'delete'],
         editName: '停止位置'
     },
@@ -262,7 +262,15 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE', 'CURVED_LINE'],
             manbuild: ['LINE', 'CURVED_LINE']
         },
-        rightTools: ['delete', 'force_delete', 'change_points', 'break_line', 'trim', 'group_move'],
+        rightTools: [
+            'delete',
+            'force_delete',
+            'change_points',
+            'break_line',
+            'trim',
+            'group_move',
+            'copy_line'
+        ],
         groupRightTools: [
             'break_line_by_point',
             'merge_line',
@@ -431,7 +439,7 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE', 'CURVED_LINE'],
             manbuild: ['LINE', 'CURVED_LINE']
         },
-        rightTools: ['delete', 'change_points', 'force_delete', 'group_move'],
+        rightTools: ['delete', 'change_points', 'force_delete', 'group_move', 'copy_line'],
         groupRightTools: ['batch_assign', 'group_move', 'delete'],
         editName: '几何层：\n杆状物'
     },
