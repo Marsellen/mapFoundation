@@ -3,7 +3,7 @@ import ToolIcon from 'src/components/ToolIcon';
 import { Select, ConfigProvider, Input, Button, Icon, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdTable from 'src/components/AdTable';
-import { COLUMNS_CONFIG, SELECT_OPTIONS, OPTION_LAYER_MAP } from 'config/PropertiesTableConfig';
+import { COLUMNS_CONFIG, SELECT_OPTIONS } from 'config/PropertiesTableConfig';
 import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
 import {
     getLayerItems,
