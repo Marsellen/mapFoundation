@@ -69,7 +69,7 @@ class BuriedPoint {
             case 'button':
                 const isShortcutKey = ShortcutKey.keyCode;
                 const isRightMenu = RightMenuStore?.menus?.includes?.(type);
-                eventType = isShortcutKey ? 'keyup' : 'click';
+                eventType = isShortcutKey ? 'keydown' : 'click';
                 buriedPointDesc = isShortcutKey ? '快捷键' : isRightMenu ? '右键菜单' : '按钮';
                 break;
             case 'right_menu':
@@ -77,7 +77,7 @@ class BuriedPoint {
                 buriedPointDesc = '右键菜单';
                 break;
             case 'shortcut_key':
-                eventType = 'keyup';
+                eventType = 'keydown';
                 buriedPointDesc = '快捷键';
                 break;
             case 'attr_list_right_menu':
@@ -85,7 +85,7 @@ class BuriedPoint {
                 buriedPointDesc = '属性列表右键菜单';
                 break;
             case 'attr_list_shortcut_key':
-                eventType = 'keyup';
+                eventType = 'keydown';
                 buriedPointDesc = '属性列表快捷键';
                 break;
             case 'delete_button':
@@ -137,7 +137,7 @@ class BuriedPoint {
             case 'toggle':
                 if (type === 'normal') return;
                 const isShortcutKey = ShortcutKey.keyCode;
-                eventType = isShortcutKey ? 'keyup' : 'click';
+                eventType = isShortcutKey ? 'keydown' : 'click';
                 buriedPointDesc = '切换工具退出';
                 break;
             case 'esc':
@@ -255,7 +255,7 @@ class BuriedPoint {
     modalBuriedPointStart = async (type, channel) => {
         if (channel === 'button') {
             const isShortcutKey = ShortcutKey.keyCode;
-            const eventType = isShortcutKey ? 'keyup' : 'click';
+            const eventType = isShortcutKey ? 'keydown' : 'click';
             const buriedPointDesc = isShortcutKey ? '快捷键' : '按钮';
             await this.sendRequest({
                 type,
@@ -275,7 +275,7 @@ class BuriedPoint {
         switch (channel) {
             case 'button':
                 const isShortcutKey = ShortcutKey.keyCode;
-                eventType = isShortcutKey ? 'keyup' : 'click';
+                eventType = isShortcutKey ? 'keydown' : 'click';
                 buriedPointDesc = isShortcutKey ? '快捷键' : '按钮';
                 break;
             case 'esc':
