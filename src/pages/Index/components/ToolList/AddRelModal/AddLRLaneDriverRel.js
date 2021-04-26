@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Radio } from 'antd';
 import { inject, observer } from 'mobx-react';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 var relType = 'L_LDIV';
 
@@ -54,16 +55,21 @@ class AddLRLaneDriverRel extends React.Component {
         });
     };
 
-    handleCancel = () => {
+    handleCancel = e => {
         const { DataLayerStore } = this.props;
         this.options = null;
         this.setState({
             visible: false
         });
-        DataLayerStore.exitEdit();
+        let channel = 'close';
+        if (e.keyCode) channel = 'esc';
+        if (e.currentTarget.className === 'ant-btn') channel = 'cancel';
+        if (e.currentTarget.className === 'ant-modal-close') channel = 'close';
+        DataLayerStore.exitEdit(channel);
     };
 
     onOk = () => {
+        BuriedPoint.toolLoadBuriedPointStart('new_rel', 'right_click');
         this.props.onOk(this.state.value, this.options);
         this.options = null;
         this.setState({
