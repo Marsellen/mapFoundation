@@ -21,9 +21,9 @@ import { editLock } from 'src/utils/decorator';
 import { LINE_LAYERS } from 'src/config/DataLayerConfig';
 import OtherVectorConfig from 'src/config/OtherVectorConfig';
 import BuriedPoint from 'src/utils/BuriedPoint';
-import { MARKER_EDIT_TYPES } from 'src/config/QCMarkerConfig';
 
 const TRACKS = ['TraceListLayer', 'TraceLayer'];
+const UN_ESC_EDIT_TYPE = ['normal', 'choose_error_feature'];
 
 configure({ enforceActions: 'always' });
 class DataLayerStore {
@@ -124,7 +124,7 @@ class DataLayerStore {
     };
 
     //可能不传参数，可能传图层名，可能传图层
-    @action activeEditor = ({ layer, channel, toolChannel, noClear }) => {
+    @action activeEditor = ({ layer, channel, toolChannel, noClear } = {}) => {
         let currentLayer;
         switch (typeof layer) {
             case 'object':
@@ -349,11 +349,6 @@ class DataLayerStore {
         addClass(viz, 'ruler-viz');
     };
 
-    errorLayer = () => {
-        let viz = document.querySelector('#viz');
-        addClass(viz, 'error-viz');
-    };
-
     // 新增，打断形状点鼠标样式
     addShapePoint = () => {
         let viz = document.querySelector('#viz');
@@ -375,6 +370,11 @@ class DataLayerStore {
         addClass(viz, 'curve-viz');
     };
 
+    pipetStyle = () => {
+        let viz = document.querySelector('#viz');
+        addClass(viz, 'pipet-viz');
+    };
+
     removeCur = () => {
         let viz = document.querySelector('#viz');
         removeClass(viz, 'edit-viz');
@@ -385,7 +385,7 @@ class DataLayerStore {
         removeClass(viz, 'shuxingshua-viz');
         removeClass(viz, 'trim-viz');
         removeClass(viz, 'curve-viz');
-        removeClass(viz, 'error-viz');
+        removeClass(viz, 'pipet-viz');
     };
 
     newPoint = () => {
@@ -522,6 +522,23 @@ class DataLayerStore {
         this.removeCur();
         let layers = getAllLayersExByName(this.editor.editLayer.layerName);
         this.setTargetLayers(layers);
+    };
+
+    //质检标注拾取要素ID
+    enterChooseErrorFeature = () => {
+        if (this.editType !== 'new_qc_marker') this.exitEdit('toggle');
+        this.setEditType('choose_error_feature');
+        this.pipetStyle();
+        //设置可选择图层，只能选除质检标注以外的图层
+        const targetLayers = this.targetLayers.filter(layer => layer.layerName !== 'AD_Marker');
+        this.setTargetLayers(targetLayers);
+    };
+
+    //退出质检标注拾取要素ID
+    exitChooseErrorFeature = () => {
+        this.setEditType();
+        this.removeCur();
+        this.fetchTargetLayers();
     };
 
     // 位姿调整
@@ -989,13 +1006,12 @@ class DataLayerStore {
             case 'buffer_render':
                 this.clearBufferRender();
                 break;
-            case 'new_qc_marker':
-            case 'choose_error_feature':
-                QCMarkerStore.clearDebuff();
-                this.fetchTargetLayers();
-                break;
             default:
                 break;
+        }
+        if (QCMarkerStore.isCreateMarker()) {
+            QCMarkerStore.clearDebuff();
+            this.fetchTargetLayers();
         }
     };
 
@@ -1010,7 +1026,6 @@ class DataLayerStore {
             case 'new_turn_line':
             case 'posture_adjust':
             case 'dashed_polygon_create':
-            case 'choose_error_feature':
             case 'buffer_render':
                 this.fetchTargetLayers();
                 break;
@@ -1028,15 +1043,13 @@ class DataLayerStore {
             case 'meature_distance_2':
                 BatchBuildStore.release();
                 break;
-            case 'new_qc_marker':
-            case 'choose_error_feature':
-                QCMarkerStore.clearDebuff();
-                this.fetchTargetLayers();
-                break;
             default:
                 break;
         }
-
+        if (QCMarkerStore.isCreateMarker()) {
+            QCMarkerStore.clearDebuff();
+            this.fetchTargetLayers();
+        }
         this.removeCur();
     };
 
@@ -1105,11 +1118,11 @@ class DataLayerStore {
 
     @editLock
     escEvent = () => {
-        if (MARKER_EDIT_TYPES.includes(this.editType)) {
+        if (QCMarkerStore.isCreateMarker()) {
             BuriedPoint.toolBuriedPointEnd('new_qc_marker', 'esc');
             QCMarkerStore.exitMarker();
             message.warning('退出功能', 3);
-        } else if (this.editType !== 'normal') {
+        } else if (!UN_ESC_EDIT_TYPE.includes(this.editType)) {
             this.exitEdit('esc');
             message.warning('退出功能', 3);
         }

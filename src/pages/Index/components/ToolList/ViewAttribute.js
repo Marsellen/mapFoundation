@@ -26,6 +26,7 @@ import AttrRightMenu from 'src/pages/Index/components/ToolList/AttrRightMenu';
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('TaskStore')
+@inject('QCMarkerStore')
 @observer
 class ViewAttribute extends React.Component {
     constructor(props) {
@@ -411,9 +412,10 @@ class ViewAttribute extends React.Component {
     };
 
     tableOnClick = record => {
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, QCMarkerStore } = this.props;
         return async e => {
             if (DataLayerStore.editType != 'normal') return;
+            if (QCMarkerStore.isCreateMarker()) return;
             this.initRightMenu(e, record);
             let feature = await this.searchFeature(record);
             selectFeature(feature);

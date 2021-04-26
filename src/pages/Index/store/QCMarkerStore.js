@@ -1,8 +1,9 @@
 import { observable, configure, action, flow, toJS } from 'mobx';
 import QCMarkerService from 'src/services/QCMarkerService';
 import { message } from 'antd';
-import { MARKER_EDIT_TYPES, MARKER_TABLE_COLUMNS } from 'src/config/QCMarkerConfig';
+import { MARKER_TABLE_COLUMNS } from 'src/config/QCMarkerConfig';
 import DataLayerStore from 'src/pages/Index/store/DataLayerStore';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 const filterKeys = MARKER_TABLE_COLUMNS().flatMap(item => {
     return item.isFilter ? [item] : [];
@@ -38,8 +39,25 @@ class QCMarkerStore {
         this.modalStatus = status;
     };
 
-    @action setEditStatus = status => {
+    getBuriedPointType = () => {
+        switch (this.editStatus) {
+            case 'create':
+                return 'new_qc_marker';
+            case 'modify':
+                return 'modify_qc_marker';
+            default:
+                break;
+        }
+    };
+
+    @action setEditStatus = (status, channel) => {
+        BuriedPoint.toolBuriedPointEnd(this.getBuriedPointType(), channel);
         this.editStatus = status;
+        BuriedPoint.toolBuriedPointStart(this.getBuriedPointType(), channel);
+    };
+
+    isCreateMarker = () => {
+        return DataLayerStore.editType === 'new_qc_marker' || this.editStatus === 'create';
     };
 
     @action getFilters = filterMap => {
@@ -127,20 +145,23 @@ class QCMarkerStore {
         window.markerLayer.layer.removeFeatureById(this.currentMarker.uuid);
     };
 
-    clearDebuff = () => {
+    clearDebuff = channel => {
         this.currentMarker && !this.currentMarker.data?.properties?.id && this.removeMarkerVector();
         this.hide();
-        this.setEditStatus();
+        this.setEditStatus(null, channel);
         this.clearCurrentMarker();
     };
 
-    exitMarker = () => {
-        this.clearDebuff();
-        if (MARKER_EDIT_TYPES.includes(DataLayerStore.editType)) {
+    exitMarker = channel => {
+        if (this.isCreateMarker()) {
             DataLayerStore.fetchTargetLayers();
-            DataLayerStore.activeEditor({ toolChannel: 'toggle' });
+            DataLayerStore.activeEditor();
             DataLayerStore.exitEdit();
         }
+        if (DataLayerStore.editType === 'choose_error_feature' && this.editStatus === 'modify') {
+            DataLayerStore.exitChooseErrorFeature();
+        }
+        this.clearDebuff(channel);
     };
 
     insertMarker = flow(function* (data) {
