@@ -41,16 +41,28 @@ class AttributeStore {
     @observable loadingMessage;
     @observable timeVisible = true;
 
-    @action show = readonly => {
+    @action show = (readonly, obj) => {
+        const modelId = obj.data.properties[getLayerIDKey(this.type)];
+        if (this.modelId !== modelId) {
+            if (!this.readonly && this.visible) {
+                BuriedPoint.toolBuriedPointEnd('attr_edit_modal', 'select_feature');
+            }
+            if (!readonly) {
+                BuriedPoint.toolBuriedPointStart('attr_edit_modal', 'open');
+            }
+        }
         this.visible = true;
         this.readonly = readonly;
-        !readonly && BuriedPoint.toolBuriedPointStart('attr_edit_modal', 'open');
+        this.modelId = modelId;
     };
 
     @action hide = channel => {
-        this.visible && BuriedPoint.toolBuriedPointEnd('attr_edit_modal', channel);
+        if (!this.readonly && this.visible) {
+            BuriedPoint.toolBuriedPointEnd('attr_edit_modal', channel);
+        }
         this.visible = false;
         this.delAttrs = [];
+        this.modelId = null;
         this.loaded();
         this.showTime(true);
     };
@@ -78,7 +90,6 @@ class AttributeStore {
         this.showLoading(LOAD_DATA_MESSAGE);
         this.model = obj;
         this.type = obj.layerName;
-        this.modelId = obj.data.properties[getLayerIDKey(this.type)];
         this.fetchAttributes();
         yield this.fetchRels();
         yield this.fetchAttrs();

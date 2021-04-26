@@ -23,7 +23,7 @@ export const showAttributesModal = (obj, event) => {
     let readonly = (editLayer && editLayer.layerId !== obj.layerId) || !editLayer;
     DataLayerStore.clearHighLightFeatures();
     AttributeStore.setModel(obj);
-    AttributeStore.show(readonly);
+    AttributeStore.show(readonly, obj);
 };
 
 /**
