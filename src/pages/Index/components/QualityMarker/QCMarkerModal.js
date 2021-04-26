@@ -28,7 +28,8 @@ class QCMarkerModal extends React.Component {
     //右上角关闭窗口埋点
     buriedPointCancel = e => {
         if (!e) return;
-        switch (this.props.QCMarkerStore.editStatus) {
+        const { QCMarkerStore } = this.props;
+        switch (QCMarkerStore.editStatus) {
             case 'create':
                 BuriedPoint.toolBuriedPointEnd('new_qc_marker', 'close');
                 break;
@@ -66,24 +67,19 @@ class QCMarkerModal extends React.Component {
     };
 
     handleCancelModify = () => {
-        BuriedPoint.toolBuriedPointEnd('modify_qc_marker', 'cancel');
         const { QCMarkerStore, DataLayerStore } = this.props;
-        QCMarkerStore.setEditStatus('visite');
+        QCMarkerStore.setEditStatus('visite', 'cancel');
         if (DataLayerStore.editType === 'choose_error_feature') {
-            DataLayerStore.setEditType();
-            DataLayerStore.removeCur();
-            DataLayerStore.fetchTargetLayers();
+            DataLayerStore.exitChooseErrorFeature();
         }
     };
 
     handleModify = () => {
-        const { setEditStatus } = this.props.QCMarkerStore;
-        BuriedPoint.toolBuriedPointStart('modify_qc_marker', 'modify_button');
-        setEditStatus('modify');
+        const { QCMarkerStore } = this.props;
+        QCMarkerStore.setEditStatus('modify', 'modify_button');
     };
 
     handleDelete = () => {
-        BuriedPoint.toolBuriedPointStart('modify_qc_marker', 'delete_button');
         Modal.confirm({
             title: '您确认执行该操作？',
             okText: '确定',
@@ -104,6 +100,7 @@ class QCMarkerModal extends React.Component {
         } = this.props;
         try {
             this.setState({ isLoading: true });
+            BuriedPoint.toolBuriedPointStart('modify_qc_marker', 'delete_button');
             BuriedPoint.toolLoadBuriedPointStart('modify_qc_marker', 'conform_delete');
             //添加到数据库
             const res = await deleteMarker({ id });

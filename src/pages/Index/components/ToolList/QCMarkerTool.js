@@ -72,11 +72,11 @@ class QCMarkerTool extends React.Component {
     render() {
         const {
             appStore: { isQuality },
-            QCMarkerStore: { editStatus },
+            QCMarkerStore: { isCreateMarker },
             TaskStore: { isLocalTask, isEditableTask },
-            DataLayerStore: { editType, updateKey }
+            DataLayerStore: { updateKey }
         } = this.props;
-        const visible = editStatus === 'create' && MARKER_EDIT_TYPES.includes(editType);
+        const visible = isCreateMarker();
         //当前任务是质检任务，才会显示质检标注工具
         if (isQuality) {
             return (

@@ -130,6 +130,9 @@ class BuriedPoint {
 
     //埋点:单一工具-结束
     toolBuriedPointEnd = async (type, channel) => {
+        if (type === 'choose_error_feature') {
+            type = QCMarkerStore.editStatus === 'modify' ? null : type;
+        }
         if (!type) return;
         let eventType = null;
         let buriedPointDesc = null;
@@ -157,6 +160,10 @@ class BuriedPoint {
             case 'cancel':
                 eventType = 'click';
                 buriedPointDesc = '取消按钮';
+                break;
+            case 'select_feature':
+                eventType = 'click';
+                buriedPointDesc = '选择';
                 break;
             case 'other_close':
                 buriedPointDesc = '其它退出';

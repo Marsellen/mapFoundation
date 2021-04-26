@@ -557,9 +557,9 @@ class VizComponent extends React.Component {
     //显示属性窗口
     showAttributesModal = (result, event) => {
         const isMarkerLayer = result[0].layerName === 'AD_Marker';
-        if (isMarkerLayer) {
+        if (isMarkerLayer && !QCMarkerStore.isCreateMarker()) {
             QCMarkerStore.show();
-            QCMarkerStore.setEditStatus('visite');
+            QCMarkerStore.setEditStatus('visite', 'select_feature');
             QCMarkerStore.initCurrentMarker(result[0]);
         } else {
             showAttributesModal(result[0], event);

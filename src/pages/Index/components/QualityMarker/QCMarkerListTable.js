@@ -32,12 +32,13 @@ class QCMarkerListTable extends React.Component {
         return columns;
     };
 
-    //单击：选中此质检标注，弹出“质检标注窗口”
+    //单击：选中此质检标注条目，弹出“质检标注窗口”
     handleClick = record => {
         try {
             const { QCMarkerStore, DataLayerStore } = this.props;
+            if (QCMarkerStore.isCreateMarker()) return;
             //清扫工作区域
-            QCMarkerStore.exitMarker();
+            QCMarkerStore.exitMarker('select_feature');
             //显示marker属性编辑窗口
             const option = {
                 key: 'id',

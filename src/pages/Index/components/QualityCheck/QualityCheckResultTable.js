@@ -11,6 +11,7 @@ import MultiFunctionalTable from 'src/components/MultiFunctionalTable';
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('QualityCheckStore')
+@inject('QCMarkerStore')
 @observer
 class QualityCheckResultTable extends React.Component {
     state = {
@@ -164,7 +165,8 @@ class QualityCheckResultTable extends React.Component {
 
     //单击
     handleClick = record => {
-        const { DataLayerStore } = this.props;
+        const { DataLayerStore, QCMarkerStore } = this.props;
+        if (QCMarkerStore.isCreateMarker()) return;
         DataLayerStore.exitEdit();
         markCheckItem(record);
         let feature = locateCheckItem(record);
