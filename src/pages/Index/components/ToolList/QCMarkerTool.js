@@ -4,7 +4,6 @@ import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/components/ToolIcon';
 import AdMessage from 'src/components/AdMessage';
 import { checkSdkError } from 'src/utils/vectorUtils';
-import { MARKER_EDIT_TYPES } from 'src/config/QCMarkerConfig';
 
 @inject('AttributeStore')
 @inject('ToolCtrlStore')
@@ -22,7 +21,8 @@ class QCMarkerTool extends React.Component {
 
     action = () => {
         const { DataLayerStore, QCMarkerStore } = this.props;
-        if (MARKER_EDIT_TYPES.includes(DataLayerStore.editType)) return;
+        if (QCMarkerStore.isCreateMarker()) return;
+        QCMarkerStore.setEditStatus(null, 'toggle');
         //关闭当前标注属性窗口
         QCMarkerStore.hide();
         //切换到质检注记图层

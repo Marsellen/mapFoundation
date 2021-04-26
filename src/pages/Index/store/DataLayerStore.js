@@ -469,7 +469,8 @@ class DataLayerStore {
     };
 
     newQCMarker = () => {
-        this.exitEdit('toggle');
+        const channel = this.editType === 'choose_error_feature' ? null : 'toggle';
+        this.exitEdit(channel);
         if (!this.editor) return;
         this.setEditType('new_qc_marker', 'button');
         this.changeCur();
@@ -536,7 +537,9 @@ class DataLayerStore {
 
     //退出质检标注拾取要素ID
     exitChooseErrorFeature = () => {
-        this.setEditType();
+        const isCreateMarker = QCMarkerStore.isCreateMarker();
+        const editType = isCreateMarker && 'new_qc_marker';
+        this.setEditType(editType);
         this.removeCur();
         this.fetchTargetLayers();
     };
