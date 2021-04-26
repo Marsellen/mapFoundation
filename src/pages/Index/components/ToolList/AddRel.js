@@ -19,6 +19,7 @@ import AttributeStore from 'src/pages/Index/store/AttributeStore';
 
 import 'less/components/tool-icon.less';
 import './AddRel.less';
+import BuriedPoint from 'src/utils/BuriedPoint';
 
 const key = 'new_rel';
 
@@ -147,7 +148,13 @@ class AddRel extends React.Component {
 
     newRelCallBack = async (result, event) => {
         if (event.button !== 2) return false;
-        this.newRel(result);
+        let [mainFeature, ...relFeatures] = result;
+        if (this.isAddLRLaneDriverRel(mainFeature, relFeatures)) {
+            this.newLRLaneDriverRel(result);
+        } else {
+            BuriedPoint.toolLoadBuriedPointStart('new_rel', 'right_click');
+            this.newRel(result);
+        }
     };
 
     @editInputLimit({ editType: 'new_rel' })
@@ -158,11 +165,19 @@ class AddRel extends React.Component {
             let [mainFeature, ...relFeatures] = result;
             let layerName = DataLayerStore.getAdEditLayer().layerName;
             let warningMessage = await basicCheck(mainFeature, relFeatures, layerName);
-            if (this.isAddLRLaneDriverRel(mainFeature, relFeatures)) {
-                this.addLRLaneDriverRelModal.show([mainFeature, relFeatures[0]]);
-            } else {
-                this.newRelHandler(mainFeature, relFeatures, warningMessage);
-            }
+            this.newRelHandler(mainFeature, relFeatures, warningMessage);
+        } catch (e) {
+            message.warning({ content: '新建关联关系失败：' + e.message, duration: 3, key });
+            throw e;
+        }
+    }
+
+    @editInputLimit({ editType: 'new_rel' })
+    @logDecorator({ operate: '新建关联关系', onlyRun: true, doubleLog: true })
+    async newLRLaneDriverRel(result) {
+        try {
+            let [mainFeature, ...relFeatures] = result;
+            this.addLRLaneDriverRelModal.show([mainFeature, relFeatures[0]]);
         } catch (e) {
             message.warning({ content: '新建关联关系失败：' + e.message, duration: 3, key });
             throw e;

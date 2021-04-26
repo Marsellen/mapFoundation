@@ -38,6 +38,8 @@ export const operateLock = new Lock(); // 操作锁
 //单一工具loading埋点处理
 const handleToolLoadBuriedPointStart = (toolType, doubleLog) => {
     switch (toolType) {
+        case 'new_rel':
+            break;
         case 'attr_edit_modal':
         case 'batch_assign':
             BuriedPoint.toolLoadBuriedPointStart(toolType, 'save_button');
@@ -178,6 +180,8 @@ export const editInputLimit = (option = {}) => {
                 //如果满足条件就正常执行被装饰的函数
                 await fn.apply(this, arguments);
             } else {
+                BuriedPoint.toolLoadBuriedPointEnd(editType, 'error');
+                BuriedPoint.toolBuriedPointEnd(editType, 'error');
                 //如果不满足条件就退出编辑状态，且不执行被装饰的函数
                 DataLayerStore.exitEdit();
                 RightMenuStore.hide();
