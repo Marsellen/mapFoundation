@@ -38,7 +38,7 @@ class QCMarkerListTable extends React.Component {
             const { QCMarkerStore, DataLayerStore } = this.props;
             if (QCMarkerStore.isCreateMarker()) return;
             //清扫工作区域
-            QCMarkerStore.exitMarker('select_feature');
+            QCMarkerStore.exitMarker('toggle_select');
             //显示marker属性编辑窗口
             const option = {
                 key: 'id',

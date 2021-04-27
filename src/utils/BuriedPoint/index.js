@@ -161,9 +161,9 @@ class BuriedPoint {
                 eventType = 'click';
                 buriedPointDesc = '取消按钮';
                 break;
-            case 'select_feature':
+            case 'toggle_select':
                 eventType = 'click';
-                buriedPointDesc = '选择';
+                buriedPointDesc = '切换选择';
                 break;
             case 'other_close':
                 buriedPointDesc = '其它退出';
@@ -366,7 +366,9 @@ class BuriedPoint {
         let buriedPointDesc = null;
         switch (channel) {
             case 'button':
-                buriedPointDesc = '按钮';
+                const isShortcutKey = ShortcutKey.keyCode;
+                eventType = isShortcutKey ? 'keydown' : 'click';
+                buriedPointDesc = isShortcutKey ? '快捷键' : '按钮';
                 break;
             case 'select_data':
                 buriedPointDesc = '点击数据';
@@ -392,7 +394,9 @@ class BuriedPoint {
         let buriedPointDesc = null;
         switch (channel) {
             case 'button':
-                buriedPointDesc = '按钮';
+                const isShortcutKey = ShortcutKey.keyCode;
+                eventType = isShortcutKey ? 'keydown' : 'click';
+                buriedPointDesc = isShortcutKey ? '快捷键' : '按钮';
                 break;
             case 'effect':
                 buriedPointDesc = '被动触发';

@@ -157,7 +157,7 @@ class AddRel extends React.Component {
         }
     };
 
-    @editInputLimit({ editType: 'new_rel' })
+    @editInputLimit({ editType: 'new_rel', subtype: 'common_rel' })
     @logDecorator({ operate: '新建关联关系', onlyRun: true, doubleLog: true })
     async newRel(result) {
         try {
@@ -172,7 +172,7 @@ class AddRel extends React.Component {
         }
     }
 
-    @editInputLimit({ editType: 'new_rel' })
+    @editInputLimit({ editType: 'new_rel', subtype: 'Left_right_lane_rel' })
     @logDecorator({ operate: '新建关联关系', onlyRun: true, doubleLog: true })
     async newLRLaneDriverRel(result) {
         try {

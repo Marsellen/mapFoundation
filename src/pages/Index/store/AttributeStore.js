@@ -45,7 +45,7 @@ class AttributeStore {
         const modelId = obj.data.properties[getLayerIDKey(this.type)];
         if (this.modelId !== modelId) {
             if (!this.readonly && this.visible) {
-                BuriedPoint.toolBuriedPointEnd('attr_edit_modal', 'select_feature');
+                BuriedPoint.toolBuriedPointEnd('attr_edit_modal', 'toggle_select');
             }
             if (!readonly) {
                 BuriedPoint.toolBuriedPointStart('attr_edit_modal', 'open');
