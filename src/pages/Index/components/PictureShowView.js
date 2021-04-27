@@ -132,7 +132,7 @@ class PictureShowView extends React.Component {
 
     render() {
         const { PictureShowStore, TaskStore } = this.props;
-        const { picData } = PictureShowStore;
+        const { picData, visible } = PictureShowStore;
         const { projectNameArr } = TaskStore;
 
         let imgs = picData.filter(img => !!img);
@@ -153,7 +153,7 @@ class PictureShowView extends React.Component {
                 <div className="img-banner">
                     <RcViewer options={this.options} ref="viewer">
                         <ul id="images" style={{ display: 'none' }}>
-                            {imgs.length ? (
+                            {visible && imgs.length ? (
                                 imgs.map(this._renderImg)
                             ) : (
                                 <img src={noImg} alt="暂无图片" />
