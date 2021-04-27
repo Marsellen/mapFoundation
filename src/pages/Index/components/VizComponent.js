@@ -560,7 +560,7 @@ class VizComponent extends React.Component {
         if (isMarkerLayer) {
             if (QCMarkerStore.isCreateMarker()) return;
             QCMarkerStore.show();
-            QCMarkerStore.setEditStatus('visite', 'select_feature');
+            QCMarkerStore.setEditStatus('visite', 'toggle_select');
             QCMarkerStore.initCurrentMarker(result[0]);
         } else {
             showAttributesModal(result[0], event);

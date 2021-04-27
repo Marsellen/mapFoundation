@@ -36,7 +36,7 @@ function funcDecoratorFactory(factory, option) {
 export const operateLock = new Lock(); // 操作锁
 
 //单一工具loading埋点处理
-const handleToolLoadBuriedPointStart = (toolType, doubleLog) => {
+const logDecoratorBuriedPoint = (toolType, doubleLog) => {
     switch (toolType) {
         case 'new_rel':
             break;
@@ -103,7 +103,7 @@ export const logDecorator = option => {
             if (!operate) operate = EDIT_TOOL_MAP[editType];
             !onlyRun && operateLock.lock(operate);
 
-            handleToolLoadBuriedPointStart(toolType, doubleLog);
+            logDecoratorBuriedPoint(toolType, doubleLog);
 
             try {
                 let history = await fn.apply(this, arguments);
@@ -160,6 +160,16 @@ export const logDecorator = option => {
     };
 };
 
+const editInputLimitBuriedPoint = (editType, subtype) => {
+    if (editType === 'new_rel') {
+        if (subtype === 'Left_right_lane_rel') {
+            BuriedPoint.toolLoadBuriedPointStart(editType, 'right_click');
+        }
+        BuriedPoint.toolLoadBuriedPointEnd(editType, 'error');
+        BuriedPoint.toolBuriedPointEnd(editType, 'error');
+    }
+};
+
 /**
  * 编辑操作输入限制修饰器，对编辑操作输入数据进行验证
  * 需要被装饰的函数的第一个参数是要素组成的数组，装修器将校验这些要素
@@ -167,12 +177,13 @@ export const logDecorator = option => {
  * @param {Object} option 修饰器参数
  * @property {Object | String} option.editType 编辑类型
  * @property {Object | String} option.isRightMenu 是否是右键菜单操作
+ * @property {Object | String} option.subtype 子类型
  */
 export const editInputLimit = (option = {}) => {
     return (target, name, descriptor) => {
         const fn = descriptor.value;
         descriptor.value = async function () {
-            const { editType, isRightMenu } = option;
+            const { editType, subtype, isRightMenu } = option;
             const { activeTask: { inputLimit } = {} } = TaskStore;
             const features = isRightMenu ? RightMenuStore.features : arguments[0];
             const inputLimitStatus = inputLimit(editType, features);
@@ -180,8 +191,8 @@ export const editInputLimit = (option = {}) => {
                 //如果满足条件就正常执行被装饰的函数
                 await fn.apply(this, arguments);
             } else {
-                BuriedPoint.toolLoadBuriedPointEnd(editType, 'error');
-                BuriedPoint.toolBuriedPointEnd(editType, 'error');
+                //按编辑工具类型执行报错埋点
+                editInputLimitBuriedPoint(editType, subtype);
                 //如果不满足条件就退出编辑状态，且不执行被装饰的函数
                 DataLayerStore.exitEdit();
                 RightMenuStore.hide();
