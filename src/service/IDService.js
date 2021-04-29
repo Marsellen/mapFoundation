@@ -1,0 +1,15 @@
+import service from 'src/service';
+import { IdApiPath } from 'src/tool/api';
+
+const IDService = {
+    initID: data => {
+        const config = {
+            url: IdApiPath('/api/idgenerate'),
+            method: 'post',
+            data
+        };
+        return service({ config });
+    }
+};
+
+export default IDService;

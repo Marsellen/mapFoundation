@@ -1,9 +1,9 @@
-import common from 'src/assets/img/common.png';
-import check from 'src/assets/img/check.png';
-import selfCheck from 'src/assets/img/selfcheck.png';
-import relation from 'src/assets/img/relation.png';
-// import update from 'src/assets/img/update.png';
-import define from 'src/assets/img/define.png';
+import common from 'src/asset/img/common.png';
+import check from 'src/asset/img/check.png';
+import selfCheck from 'src/asset/img/selfcheck.png';
+import relation from 'src/asset/img/relation.png';
+// import update from 'src/asset/img/update.png';
+import define from 'src/asset/img/define.png';
 
 //渲染模式配置
 export const RENDER_MODE_MAP = [

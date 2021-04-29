@@ -1,9 +1,9 @@
-import { COMMON_TEXT_CONFIG_MAP } from 'src/config/textConfig/CommonTextConfigMap';
-import { SELF_CHECK_TEXT_CONFIG_MAP } from 'src/config/textConfig/SelfCheckTextConfigMap';
-import { DEFINE_TEXT_CONFIG_MAP } from 'src/config/textConfig/DefineTextConfigMap';
-import { MS_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/MsTaskTextConfigMap';
-import { MB_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/MbTaskTextConfigMap';
-import { QC_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/QcTaskTextConfigMap';
+import { COMMON_TEXT_CONFIG_MAP } from 'src/config/textConfig/commonTextConfigMap';
+import { SELF_CHECK_TEXT_CONFIG_MAP } from 'src/config/textConfig/selfCheckTextConfigMap';
+import { DEFINE_TEXT_CONFIG_MAP } from 'src/config/textConfig/defineTextConfigMap';
+import { MS_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/msTaskTextConfigMap';
+import { MB_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/mbTaskTextConfigMap';
+import { QC_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/qcTaskTextConfigMap';
 
 //渲染模式文字注记映射
 export const TEXT_CONFIG_MAP = {

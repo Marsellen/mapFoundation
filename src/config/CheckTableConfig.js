@@ -1,4 +1,4 @@
-import { DATA_LAYER_MAP } from 'src/config/DataLayerConfig';
+import { DATA_LAYER_MAP } from 'src/config/dataLayerConfig';
 
 const LAYER_NAME_DESC = Object.values(DATA_LAYER_MAP);
 
