@@ -59,7 +59,7 @@ module.exports = (env = {}) => {
                 src: path.resolve(__dirname, 'src/'),
                 demo: path.resolve(__dirname, 'demo/'),
                 mock: path.resolve(__dirname, './mock/'),
-                less: path.resolve(__dirname, 'src/assets/less/'),
+                less: path.resolve(__dirname, 'src/asset/less/'),
                 config: path.resolve(__dirname, configPath)
             },
             extensions: ['.js', '.jsx', '.json']

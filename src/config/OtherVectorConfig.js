@@ -1,7 +1,7 @@
-const checkIcon = require('src/assets/img/cuowuweizhi.png');
-const markerIcon = require('src/assets/img/zhijianbiaozhu.png');
-const markerIconBlue = require('src/assets/img/wuxuxiugai.png');
-const markerIconGreen = require('src/assets/img/yixiugai.png');
+const checkIcon = require('src/asset/img/cuowuweizhi.png');
+const markerIcon = require('src/asset/img/zhijianbiaozhu.png');
+const markerIconBlue = require('src/asset/img/wuxuxiugai.png');
+const markerIconGreen = require('src/asset/img/yixiugai.png');
 
 export default {
     AD_Marker_QC: {

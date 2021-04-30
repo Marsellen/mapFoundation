@@ -1,18 +1,18 @@
 //符号设置
-import { COMMON_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/CommonVectorConfigMap';
-import { SELF_CHECK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/SelfCheckVectorConfigMap';
-import { CHECK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/CheckVectorConfigMap';
-import { RELATION_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/RelationVectorConfigMap';
-import { DEFINE_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/DefineVectorConfigMap';
-import dianfuhao from 'src/assets/img/dianfuhao.png';
-import dianfuhao1 from 'src/assets/img/dianfuhao1.png';
-import dianfuhao2 from 'src/assets/img/dianfuhao2.png';
-import dianfuhao3 from 'src/assets/img/dianfuhao3.png';
-import dianfuhao4 from 'src/assets/img/dianfuhao4.png';
-import dianfuhao5 from 'src/assets/img/dianfuhao5.png';
-import dianfuhao6 from 'src/assets/img/dianfuhao6.png';
-import dianfuhao7 from 'src/assets/img/dianfuhao7.png';
-import dianfuhao8 from 'src/assets/img/dianfuhao8.png';
+import { COMMON_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/commonVectorConfigMap';
+import { SELF_CHECK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/selfCheckVectorConfigMap';
+import { CHECK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/checkVectorConfigMap';
+import { RELATION_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/relationVectorConfigMap';
+import { DEFINE_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/defineVectorConfigMap';
+import dianfuhao from 'src/asset/img/dianfuhao.png';
+import dianfuhao1 from 'src/asset/img/dianfuhao1.png';
+import dianfuhao2 from 'src/asset/img/dianfuhao2.png';
+import dianfuhao3 from 'src/asset/img/dianfuhao3.png';
+import dianfuhao4 from 'src/asset/img/dianfuhao4.png';
+import dianfuhao5 from 'src/asset/img/dianfuhao5.png';
+import dianfuhao6 from 'src/asset/img/dianfuhao6.png';
+import dianfuhao7 from 'src/asset/img/dianfuhao7.png';
+import dianfuhao8 from 'src/asset/img/dianfuhao8.png';
 
 //当前任务不同渲染模式对应不同配置
 export const MODE_VECTOR_CONFIG_MAP = {

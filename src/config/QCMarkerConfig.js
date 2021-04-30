@@ -1,5 +1,5 @@
-import ChooseErrorFeature from 'src/pages/Index/components/ToolList/ChooseErrorFeature';
-import ManageCtrl from 'src/utils/ManageCtrl';
+import ChooseErrorFeature from 'src/component/home/ToolList/ChooseErrorFeature';
+import ManageCtrl from 'src/tool/manageCtrl';
 
 const { getConfig } = ManageCtrl;
 
