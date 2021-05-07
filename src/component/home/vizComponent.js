@@ -47,7 +47,6 @@ import ToolCtrlStore from 'src/store/home/toolCtrlStore';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
 import QualityCheckStore from 'src/store/home/qualityCheckStore';
 import { showPictureShowView, showAttributesModal, showRightMenu } from 'src/tool/map/viewCtrl';
-import { TASK_MODE_MAP } from 'src/config/renderModeConfig';
 import { fetchCallback } from 'src/tool/map/utils';
 import OcTreeIndex from 'src/tool/octreeIndex';
 import sysProperties from 'src/tool/sysProperties';
@@ -151,13 +150,13 @@ class VizComponent extends React.Component {
             DefineModeStore: { initVectorConfig }
         } = this.props;
         //获取渲染模式
-        const mode = TASK_MODE_MAP[taskProcessName] || 'common';
+        const mode = 'common';
         //设置渲染模式
         setMode(mode);
         //初始化文字注记配置
         initTextConfig(mode, taskProcessName);
         //初始化符号配置
-        initVectorConfig(mode);
+        initVectorConfig(mode, taskProcessName);
     };
 
     initTask = async () => {

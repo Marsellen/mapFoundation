@@ -1,5 +1,5 @@
 import common from 'src/asset/img/common.png';
-import check from 'src/asset/img/check.png';
+// import check from 'src/asset/img/check.png';
 import selfCheck from 'src/asset/img/selfcheck.png';
 import relation from 'src/asset/img/relation.png';
 // import update from 'src/asset/img/update.png';
@@ -10,7 +10,7 @@ export const RENDER_MODE_MAP = [
     {
         mode: 'common',
         title: '通用符号模式',
-        desc: '用于人工识别生产',
+        desc: '用于人工作业、人工质检，各作业阶段配色不同',
         icon: common
     },
     {
@@ -19,16 +19,16 @@ export const RENDER_MODE_MAP = [
         desc: '用于人工识别生产时的打断/自查环节',
         icon: selfCheck
     },
-    {
-        mode: 'check',
-        title: '质检符号模式',
-        desc: '用于人工识别质检、人工构建生产、人工构建质检',
-        icon: check
-    },
+    // {
+    //     mode: 'check',
+    //     title: '质检符号模式',
+    //     desc: '用于人工识别质检、人工构建生产、人工构建质检',
+    //     icon: check
+    // },
     {
         mode: 'relation',
         title: '关联关系查看模式',
-        desc: '提供系统的关联关系符号策略\n及关联关系查看工具',
+        desc: '用于关联关系查看',
         icon: relation
     },
     // {
@@ -40,18 +40,10 @@ export const RENDER_MODE_MAP = [
     {
         mode: 'define',
         title: '自定义符号模式',
-        desc: '想看啥，自己选',
+        desc: '基于空白模板，可按需自定义渲染样式',
         icon: define
     }
 ];
-
-//不同任务类型采用不同渲染模式
-export const TASK_MODE_MAP = {
-    imp_recognition: 'common', //人工识别
-    imp_check_after_recognition: 'check', //人工识别后质检
-    imp_manbuild: 'check', //人工构建
-    imp_check_after_manbuild: 'check' //人工构建后质检
-};
 
 //专题图下拉框配置
 export const REL_SELECT_OPTIONS = [

@@ -1,10 +1,12 @@
-export const SELF_CHECK_VECTOR_CONFIG_MAP = {
+//人工构建后质检
+export const QC_MB_TASK_VECTOR_CONFIG_MAP = {
     AD_Road: {
         key: 'AD_Road',
         label: '道路参考线',
-        checked: false,
-        isClassify: true,
+        checked: true, //是否勾选分类设色
+        isClassify: true, //是否有分类设色
         type: 'Line',
+        //通用样式
         commonStyle: {
             showFields: 'TYPE',
             lineStyle: 'solid',
@@ -16,6 +18,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
             arrowEnabledStatus: true,
             pointSize: 0.1
         },
+        //分类样式映射表，可以设置多个分类样式
         typeStyleMap: {
             TYPE: [
                 {
@@ -157,9 +160,9 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
         isClassify: true,
         type: 'Line',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'RD_LINE',
             lineStyle: 'solid',
-            color: 'rgb(125,219,30)',
+            color: 'rgb(255,255,255)',
             opacity: 1,
             arrow: true,
             point: true,
@@ -173,7 +176,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     value: 0,
                     label: '未定义',
                     showFields: 'RD_LINE',
-                    color: 'rgb(125,219,30)',
+                    color: 'rgb(255,255,255)',
                     lineStyle: 'solid',
                     opacity: 1,
                     arrow: true,
@@ -199,7 +202,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     value: 2,
                     label: '非道路参考线',
                     showFields: 'RD_LINE',
-                    color: 'rgb(125,219,30)',
+                    color: 'rgb(255,255,255)',
                     lineStyle: 'solid',
                     opacity: 1,
                     arrow: true,
@@ -214,7 +217,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     value: 0,
                     label: '未定义',
                     showFields: 'SHARE_LINE',
-                    color: 'rgb(125,219,30)',
+                    color: 'rgb(255,255,255)',
                     lineStyle: 'solid',
                     opacity: 1,
                     arrow: true,
@@ -227,7 +230,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     value: 1,
                     label: '非共用车道线',
                     showFields: 'SHARE_LINE',
-                    color: 'rgb(125,219,30)',
+                    color: 'rgb(255,255,255)',
                     lineStyle: 'solid',
                     opacity: 1,
                     arrow: true,
@@ -268,7 +271,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     value: 0,
                     label: '未定义',
                     showFields: 'RD_EDGE',
-                    color: 'rgb(125,219,30)',
+                    color: 'rgb(255,255,255)',
                     lineStyle: 'solid',
                     opacity: 1,
                     arrow: true,
@@ -294,7 +297,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     value: 2,
                     label: '非道路边界',
                     showFields: 'RD_EDGE',
-                    color: 'rgb(125,219,30)',
+                    color: 'rgb(255,255,255)',
                     lineStyle: 'solid',
                     opacity: 1,
                     arrow: true,
@@ -426,7 +429,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                 },
                 {
                     value: 9,
-                    label: '虚拟线车道线',
+                    label: '车道虚拟车道线',
                     showFields: 'TYPE',
                     color: 'rgb(255,255,255)',
                     lineStyle: 'solid',
@@ -660,7 +663,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
     AD_Lane: {
         key: 'AD_Lane',
         label: '车道中心线',
-        checked: false,
+        checked: true,
         isClassify: true,
         type: 'Line',
         commonStyle: {
@@ -1224,7 +1227,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
     AD_RS_Barrier: {
         key: 'AD_RS_Barrier',
         label: '隔离带、护栏',
-        checked: true,
+        checked: false,
         isClassify: true,
         type: 'Line',
         commonStyle: {
@@ -1236,7 +1239,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
             point: true,
             pointEnabledStatus: true,
             arrowEnabledStatus: true,
-            pointSize: 0.1
+            pointSize: 0.3
         },
         typeStyleMap: {
             TYPE: [
@@ -1251,7 +1254,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     point: true,
                     pointEnabledStatus: true,
                     arrowEnabledStatus: true,
-                    pointSize: 0.1
+                    pointSize: 0.3
                 },
                 {
                     value: 1,
@@ -1264,7 +1267,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     point: true,
                     pointEnabledStatus: true,
                     arrowEnabledStatus: true,
-                    pointSize: 0.1
+                    pointSize: 0.3
                 },
                 {
                     value: 2,
@@ -1277,7 +1280,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     point: true,
                     pointEnabledStatus: true,
                     arrowEnabledStatus: true,
-                    pointSize: 0.1
+                    pointSize: 0.3
                 },
                 {
                     value: 3,
@@ -1290,7 +1293,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     point: true,
                     pointEnabledStatus: true,
                     arrowEnabledStatus: true,
-                    pointSize: 0.1
+                    pointSize: 0.3
                 },
                 {
                     value: 4,
@@ -1303,7 +1306,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     point: true,
                     pointEnabledStatus: true,
                     arrowEnabledStatus: true,
-                    pointSize: 0.1
+                    pointSize: 0.3
                 },
                 {
                     value: 5,
@@ -1316,7 +1319,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     point: true,
                     pointEnabledStatus: true,
                     arrowEnabledStatus: true,
-                    pointSize: 0.1
+                    pointSize: 0.3
                 },
                 {
                     value: 6,
@@ -1329,7 +1332,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     point: true,
                     pointEnabledStatus: true,
                     arrowEnabledStatus: true,
-                    pointSize: 0.1
+                    pointSize: 0.3
                 }
             ]
         },
@@ -1531,7 +1534,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
         type: 'Line',
         commonStyle: {
             showFields: 'NOKEY',
-            polygonStyle: 'solid',
+            lineStyle: 'solid',
             color: 'rgb(238,209,11)',
             opacity: 1,
             arrow: false,
