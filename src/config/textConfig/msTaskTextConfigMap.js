@@ -27,9 +27,9 @@ export const MS_TASK_TEXT_CONFIG_MAP = {
     AD_LaneDivider: {
         key: 'AD_LaneDivider',
         label: '车道线',
-        checked: true,
+        checked: false,
         defaultStyle: {
-            textFields: ['TYPE', 'LANE_TYPE', 'RD_EDGE', 'LANE_NO'], //看数据规格
+            textFields: ['TYPE', 'LANE_TYPE', 'LANE_NO'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -103,7 +103,7 @@ export const MS_TASK_TEXT_CONFIG_MAP = {
     AD_Arrow: {
         key: 'AD_Arrow',
         label: '地面导向箭头',
-        checked: true,
+        checked: false,
         defaultStyle: {
             textFields: ['ARR_DIRECT'], //看数据规格
             interval: 10,
@@ -232,7 +232,7 @@ export const MS_TASK_TEXT_CONFIG_MAP = {
     AD_RS_Barrier: {
         key: 'AD_RS_Barrier',
         label: '隔离带、护栏',
-        checked: true,
+        checked: false,
         defaultStyle: {
             textFields: ['TYPE'], //看数据规格
             interval: 10,

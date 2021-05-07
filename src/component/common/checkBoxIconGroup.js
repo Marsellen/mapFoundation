@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tooltip, message } from 'antd';
-import IconFont from 'src/tool/iconfont';
+import IconFont from 'src/component/common/iconFont';
 
 class CheckBoxIconGroup extends React.Component {
     render() {

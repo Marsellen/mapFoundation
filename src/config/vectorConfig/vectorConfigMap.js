@@ -1,7 +1,10 @@
 //符号设置
-import { COMMON_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/commonVectorConfigMap';
+import { MS_TASK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/msTaskVectorConfigMap';
+import { QC_MS_TASK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/qcMsTaskVectorConfigMap';
+import { MB_TASK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/mbTaskVectorConfigMap';
+import { QC_MB_TASK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/qcMbTaskVectorConfigMap';
 import { SELF_CHECK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/selfCheckVectorConfigMap';
-import { CHECK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/checkVectorConfigMap';
+// import { CHECK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/checkVectorConfigMap';
 import { RELATION_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/relationVectorConfigMap';
 import { DEFINE_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/defineVectorConfigMap';
 import dianfuhao from 'src/asset/img/dianfuhao.png';
@@ -16,11 +19,19 @@ import dianfuhao8 from 'src/asset/img/dianfuhao8.png';
 
 //当前任务不同渲染模式对应不同配置
 export const MODE_VECTOR_CONFIG_MAP = {
-    common: COMMON_VECTOR_CONFIG_MAP,
+    // common: COMMON_VECTOR_CONFIG_MAP,
     selfCheck: SELF_CHECK_VECTOR_CONFIG_MAP,
-    check: CHECK_VECTOR_CONFIG_MAP,
+    // check: CHECK_VECTOR_CONFIG_MAP,
     define: DEFINE_VECTOR_CONFIG_MAP,
     relation: RELATION_VECTOR_CONFIG_MAP
+};
+
+// 【通用符号模式】符号样式
+export const COMMON_MODE_VECTOR_CONFIG_MAP = {
+    imp_recognition: MS_TASK_VECTOR_CONFIG_MAP, //人工识别
+    imp_check_after_recognition: QC_MS_TASK_VECTOR_CONFIG_MAP, //人工识别后质检
+    imp_manbuild: MB_TASK_VECTOR_CONFIG_MAP, //人工构建
+    imp_check_after_manbuild: QC_MB_TASK_VECTOR_CONFIG_MAP //人工构建后质检
 };
 
 //点符号图标名与base64映射

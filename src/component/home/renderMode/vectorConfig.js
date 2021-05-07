@@ -6,14 +6,16 @@ import LayerVectorConfig from 'src/component/home/renderMode/layerVectorConfig';
 
 @inject('RenderModeStore')
 @inject('DefineModeStore')
+@inject('TaskStore')
 @observer
 class VectorConfig extends React.Component {
     reset = () => {
         const {
+            TaskStore: { taskProcessName },
             RenderModeStore: { activeMode },
             DefineModeStore: { initVectorConfig }
         } = this.props;
-        initVectorConfig(activeMode);
+        initVectorConfig(activeMode, taskProcessName);
     };
 
     handleChangePoint = e => {

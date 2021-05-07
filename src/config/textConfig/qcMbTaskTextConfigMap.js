@@ -1,13 +1,10 @@
-export const SELF_CHECK_TEXT_CONFIG_MAP = {
+export const QC_MB_TASK_TEXT_CONFIG_MAP = {
     AD_Road: {
-        type: 'Line',
-        textFields: ['TYPE', 'RD_STATUS', 'CROSSING', 'DIRECTION'],
-        showStyles: ['textStyle'],
         key: 'AD_Road',
         label: '道路参考线',
         checked: false,
         defaultStyle: {
-            textFields: ['TYPE', 'RD_STATUS', 'CROSSING', 'DIRECTION'],
+            textFields: ['TYPE'],
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -57,7 +54,7 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
         label: '车道中心线',
         checked: false,
         defaultStyle: {
-            textFields: ['TYPE', 'LANE_NO', 'DIRECTION', 'STATUS'], //看数据规格
+            textFields: ['TYPE', 'LANE_NO'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -237,7 +234,7 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
         label: '隔离带、护栏',
         checked: false,
         defaultStyle: {
-            textFields: ['TYPE'], //看数据规格
+            textFields: ['BARR_ID'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,

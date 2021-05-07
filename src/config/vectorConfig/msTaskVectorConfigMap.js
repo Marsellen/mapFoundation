@@ -1,10 +1,12 @@
-export const SELF_CHECK_VECTOR_CONFIG_MAP = {
+//人工识别
+export const MS_TASK_VECTOR_CONFIG_MAP = {
     AD_Road: {
         key: 'AD_Road',
         label: '道路参考线',
-        checked: false,
-        isClassify: true,
+        checked: false, //是否勾选分类设色
+        isClassify: true, //是否有分类设色
         type: 'Line',
+        //通用样式
         commonStyle: {
             showFields: 'TYPE',
             lineStyle: 'solid',
@@ -16,6 +18,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
             arrowEnabledStatus: true,
             pointSize: 0.1
         },
+        //分类样式映射表，可以设置多个分类样式
         typeStyleMap: {
             TYPE: [
                 {
@@ -157,7 +160,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
         isClassify: true,
         type: 'Line',
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'RD_LINE',
             lineStyle: 'solid',
             color: 'rgb(125,219,30)',
             opacity: 1,
@@ -403,7 +406,9 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     label: '短粗虚线',
                     showFields: 'TYPE',
                     color: 'rgb(74,144,226)',
-                    lineStyle: 'solid',
+                    lineStyle: 'dashed2',
+                    dashSize: 1,
+                    gapSize: 0.25,
                     opacity: 1,
                     arrow: true,
                     point: true,
@@ -426,7 +431,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                 },
                 {
                     value: 9,
-                    label: '虚拟线车道线',
+                    label: '车道虚拟车道线',
                     showFields: 'TYPE',
                     color: 'rgb(255,255,255)',
                     lineStyle: 'solid',
@@ -1224,13 +1229,13 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
     AD_RS_Barrier: {
         key: 'AD_RS_Barrier',
         label: '隔离带、护栏',
-        checked: true,
+        checked: false,
         isClassify: true,
         type: 'Line',
         commonStyle: {
             showFields: 'TYPE',
             lineStyle: 'solid',
-            color: 'rgb(70,109,255)',
+            color: 'rgb(255,255,255)',
             opacity: 1,
             arrow: false,
             point: true,
@@ -1531,7 +1536,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
         type: 'Line',
         commonStyle: {
             showFields: 'NOKEY',
-            polygonStyle: 'solid',
+            lineStyle: 'solid',
             color: 'rgb(238,209,11)',
             opacity: 1,
             arrow: false,

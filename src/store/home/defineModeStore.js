@@ -2,6 +2,7 @@ import { observable, configure, action } from 'mobx';
 import {
     POINT_ICON_MAP,
     MODE_VECTOR_CONFIG_MAP,
+    COMMON_MODE_VECTOR_CONFIG_MAP,
     CONFIGURABLE_LAYERS
 } from 'src/config/vectorConfig/vectorConfigMap';
 import { TYPE_SELECT_OPTION_MAP, LAYER_TYPE_MAP } from 'src/config/adMapDataConfig';
@@ -18,10 +19,17 @@ class DefineModeStore {
     @observable vectorConfigMap = {};
 
     //初始化符号配置
-    @action initVectorConfig = mode => {
+    @action initVectorConfig = (mode, taskProcessName) => {
+        if (!taskProcessName) return;
         this.globalPointEnabledStatus = true;
         this.globalArrowEnabledStatus = true;
-        this.vectorConfigMap = JSON.parse(JSON.stringify(MODE_VECTOR_CONFIG_MAP[mode]));
+        this.vectorConfigMap = JSON.parse(
+            JSON.stringify(
+                mode == 'common'
+                    ? COMMON_MODE_VECTOR_CONFIG_MAP[taskProcessName]
+                    : MODE_VECTOR_CONFIG_MAP[mode]
+            )
+        );
         this.globalUpdateKey = Math.random();
         //初始化所有图层
         CONFIGURABLE_LAYERS.forEach(key => {
