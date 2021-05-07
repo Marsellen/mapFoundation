@@ -15,12 +15,8 @@ export const locatePicture = async (pointWkt, taskId, projectName) => {
 };
 
 const pointObjToWkt = pointObj => {
-    try {
-        let position = pointObj.point.position;
-        return `POINT(${position.x} ${position.y} ${position.z})`;
-    } catch (e) {
-        throw new Error('获取点云坐标失败！');
-    }
+    let position = pointObj?.point?.position;
+    return position && `POINT(${position.x} ${position.y} ${position.z})`;
 };
 
 export const getEventPointWkt = event => {

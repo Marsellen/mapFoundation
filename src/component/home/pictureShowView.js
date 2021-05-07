@@ -285,6 +285,7 @@ class PictureShowView extends React.Component {
 
     locatePictureEvent = async pointWkt => {
         try {
+            if (!pointWkt) return;
             const { PictureShowStore, TaskStore, ResourceLayerStore } = this.props;
             const { visible } = PictureShowStore;
             if (!visible) return;
