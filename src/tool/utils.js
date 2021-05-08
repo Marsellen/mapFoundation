@@ -125,7 +125,7 @@ function mercatorDistance(vec1, vec2) {
 /**
  * 墨卡托转wgs84坐标
  */
-function mercatorToWgs84(x, y, z) {
+export function mercatorToWgs84(x, y, z) {
     const lon = (x / 2.0037508342789e7) * 180.0;
     let lat = (y / 2.0037508342789e7) * 180.0;
     lat = (180 / Math.PI) * (2.0 * Math.atan(Math.exp((lat * Math.PI) / 180.0)) - Math.PI / 2);
@@ -135,7 +135,7 @@ function mercatorToWgs84(x, y, z) {
 /**
  * wgs84转地心坐标系
  */
-function wgs84ToGeocent(longitude, latitude, height) {
+export function wgs84ToGeocent(longitude, latitude, height) {
     const N =
         6378137 /
         Math.sqrt(

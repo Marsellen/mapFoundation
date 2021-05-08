@@ -5,7 +5,7 @@ import { editLock } from 'src/tool/decorator';
 import AttributeStore from 'src/store/home/attributeStore';
 import TemplateModal from './templateModal';
 import AdMessage from 'src/component/common/adMessage';
-import { clacTempArrow } from 'src/tool/map/utils';
+import { clacTempArrow, calcMercatorScale, calcCurrentScaleTemplate } from 'src/tool/map/utils';
 
 @inject('DataLayerStore')
 @observer
@@ -50,10 +50,17 @@ class TemplateArrow extends React.Component {
         if (!template) {
             throw new Error('未选中模板');
         }
-        let coordinates = clacTempArrow(
-            result.data.geometry.coordinates[0],
-            template.geometry.coordinates[0]
+        const resultCoordinates = result?.data?.geometry?.coordinates?.[0];
+        const templateCoordinates = template?.geometry?.coordinates?.[0];
+        const scale = calcMercatorScale(resultCoordinates[0], resultCoordinates[1]);
+        const scaleTemplate = calcCurrentScaleTemplate(
+            templateCoordinates,
+            template.templateScale,
+            scale
         );
+
+        let coordinates = clacTempArrow(resultCoordinates, scaleTemplate);
+
         result.data.geometry.coordinates[0] = coordinates;
         if (template.templateProperties) {
             result.data.properties.ARR_DIRECT = template.templateProperties;
