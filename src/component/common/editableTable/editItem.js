@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Select, Input } from 'antd';
-import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
+import { TYPE_SELECT_OPTION_MAP } from 'src/config/adMapDataConfig';
 import AdInputNumber from 'src/component/common/form/adInputNumber';
 
 @Form.create()

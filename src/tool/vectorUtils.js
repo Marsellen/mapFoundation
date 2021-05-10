@@ -5,7 +5,7 @@ import Attr from 'src/tool/attr';
 import attrFactory from 'src/tool/attrFactory';
 import relFactory from 'src/tool/relCtrl/relFactory';
 import _ from 'lodash';
-import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
+import { DEFAULT_CONFIDENCE_MAP } from 'src/config/adMapDataConfig';
 import { message } from 'antd';
 import DataLayerStore from 'src/store/home/dataLayerStore';
 

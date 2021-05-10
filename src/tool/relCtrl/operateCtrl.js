@@ -1,7 +1,7 @@
 import Relevance from 'src/tool/relevance';
 import { REL_DATA_SET, ATTR_REL_DATA_SET, REL_SPEC_CONFIG } from 'src/config/relsConfig';
-import { ATTR_SPEC_CONFIG } from 'config/AttrsConfig';
-import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
+import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';
+import { DEFAULT_CONFIDENCE_MAP } from 'src/config/adMapDataConfig';
 import { DATA_LAYER_MAP } from 'src/config/dataLayerConfig';
 import { updateFeaturesByRels } from './relCtrl';
 import EditorService from 'src/service/editorService';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Form, Modal, Select, Input } from 'antd';
-import { ATTR_TABLE_CONFIG } from 'config/AttrsConfig';
-import { TYPE_SELECT_OPTION_MAP, DEFAULT_PROPERTIES_MAP } from 'config/ADMapDataConfig';
+import { ATTR_TABLE_CONFIG } from 'src/config/attrsConfig';
+import { TYPE_SELECT_OPTION_MAP, DEFAULT_PROPERTIES_MAP } from 'src/config/adMapDataConfig';
 import RadioIconGroup from 'src/component/common/radioIconGroup';
 import SearchIconGroup from 'src/component/common/searchIconGroup';
 import CheckBoxIconGroup from 'src/component/common/checkBoxIconGroup';

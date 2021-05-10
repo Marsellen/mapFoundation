@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Select, Input, Button } from 'antd';
-import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
+import { TYPE_SELECT_OPTION_MAP } from 'src/config/adMapDataConfig';
 import SearchIconGroup from 'src/component/common/searchIconGroup';
 import AdDateInput from 'src/component/common/form/adDateInput';
 import 'less/ad-traffic-sign-content.less';

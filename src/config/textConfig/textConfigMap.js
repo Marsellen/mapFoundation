@@ -1,5 +1,5 @@
-import { SELF_CHECK_TEXT_CONFIG_MAP } from 'src/config/textConfig/SelfCheckTextConfigMap';
-import { DEFINE_TEXT_CONFIG_MAP } from 'src/config/textConfig/DefineTextConfigMap';
+import { SELF_CHECK_TEXT_CONFIG_MAP } from 'src/config/textConfig/selfCheckTextConfigMap';
+import { DEFINE_TEXT_CONFIG_MAP } from 'src/config/textConfig/defineTextConfigMap';
 import { MS_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/msTaskTextConfigMap';
 import { MB_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/mbTaskTextConfigMap';
 import { QC_MS_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/qcMsTaskTextConfigMap';

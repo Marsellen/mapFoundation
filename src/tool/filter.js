@@ -1,4 +1,4 @@
-import { TYPE_SELECT_OPTION_MAP } from 'config/ADMapDataConfig';
+import { TYPE_SELECT_OPTION_MAP } from 'src/config/adMapDataConfig';
 import _ from 'lodash';
 import { parseArrayString } from './utils';
 

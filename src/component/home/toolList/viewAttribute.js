@@ -3,7 +3,7 @@ import ToolIcon from 'src/component/common/toolIcon';
 import { Select, ConfigProvider, Input, Button, Icon, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdTable from 'src/component/common/adTable';
-import { COLUMNS_CONFIG, SELECT_OPTIONS } from 'config/PropertiesTableConfig';
+import { COLUMNS_CONFIG, SELECT_OPTIONS } from 'src/config/propertiesTableConfig';
 import { DATA_LAYER_MAP } from 'src/config/dataLayerConfig';
 import {
     getLayerItems,
@@ -18,7 +18,7 @@ import zh_CN from 'antd/es/locale/zh_CN';
 import SeniorModal from 'src/component/common/seniorModal';
 import AdEmitter from 'src/tool/event';
 import Filter from 'src/tool/filter';
-import { ATTR_SPEC_CONFIG, REL_ATTR_LAYERS } from 'config/AttrsConfig';
+import { ATTR_SPEC_CONFIG, REL_ATTR_LAYERS } from 'src/config/attrsConfig';
 import { REL_SPEC_CONFIG } from 'src/config/relsConfig';
 import AttrRightMenu from 'src/component/home/toolList/attrRightMenu';
 
