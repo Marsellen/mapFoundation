@@ -7,7 +7,7 @@ import {
     CONFIDENCE_LAYER
 } from 'src/config/dataLayerConfig';
 import 'src/asset/less/resource-layer.less';
-import AdTree from 'src/component/common/adTress';
+import AdTree from 'src/component/common/adTree';
 
 @inject('AttributeStore')
 @inject('ResourceLayerStore')

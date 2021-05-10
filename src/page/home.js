@@ -35,7 +35,7 @@ ManageCtrl.queryConfig();
 window.isLogin = true;
 @inject('LoadingStore')
 @observer
-class Index extends React.Component {
+class Home extends React.Component {
     componentDidMount() {
         ShortcutKey.init();
     }
@@ -63,4 +63,4 @@ class Index extends React.Component {
     }
 }
 
-export default Index;
+export default Home;
