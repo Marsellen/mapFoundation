@@ -1,7 +1,7 @@
 import React from 'react';
 import { MARKER_TABLE_COLUMNS } from 'src/config/qcMarkerConfig';
 import { inject, observer } from 'mobx-react';
-import MultiFunctionalTable from 'src/component/common/multFunctionTable';
+import MultiFunctionalTable from 'src/component/common/multiFunctionTable';
 import 'src/asset/less/qc-marker-table.less';
 
 @inject('DataLayerStore')

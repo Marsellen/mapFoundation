@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { markCheckItem, locateCheckItem, selectFeature } from 'src/tool/vectorUtils';
 import { getQualityMisrepStatus } from 'src/tool/permissionCtrl';
-import MultiFunctionalTable from 'src/component/common/multFunctionTable';
+import MultiFunctionalTable from 'src/component/common/multiFunctionTable';
 
 @inject('LoadingStore')
 @inject('TaskStore')

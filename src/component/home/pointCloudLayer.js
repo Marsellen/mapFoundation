@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import 'src/asset/less/point-cloud.less';
-import AdTree from 'src/component/common/adTress';
+import AdTree from 'src/component/common/adTree';
 import ToolIcon from 'src/component/common/toolIcon';
 
 @inject('DataLayerStore')

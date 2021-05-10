@@ -6,7 +6,7 @@ import AdTable from 'src/component/common/adTable';
 import zh_CN from 'antd/es/locale/zh_CN';
 
 const showTotal = total => `共${total}条`;
-class MultiFunctionalTable extends React.Component {
+class MultiFunctionTable extends React.Component {
     constructor(props) {
         super(props);
 
@@ -375,4 +375,4 @@ class MultiFunctionalTable extends React.Component {
     }
 }
 
-export default MultiFunctionalTable;
+export default MultiFunctionTable;
