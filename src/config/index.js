@@ -20,7 +20,9 @@ export default {
     loopTaskTime: 60000,
 
     processNameOptions: [
-        { label: '人工识别数据', value: 'imp_recognition' },
-        { label: '人工构建数据', value: 'imp_manbuild' }
+        { label: '人工识别数据', value: 'imp_recognition', roleCode: 'producer' },
+        { label: '人工构建数据', value: 'imp_manbuild', roleCode: 'producer' },
+        { label: '人工识别质检数据', value: 'imp_check_after_recognition', roleCode: 'quality' },
+        { label: '人工构建质检数据', value: 'imp_check_after_manbuild', roleCode: 'quality' }
     ]
 };

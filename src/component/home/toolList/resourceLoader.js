@@ -17,6 +17,7 @@ const formLayout = {
 @inject('TaskStore')
 @inject('OperateHistoryStore')
 @inject('ToolCtrlStore')
+@inject('appStore')
 @observer
 class ResourceLoader extends React.Component {
     state = {
@@ -32,8 +33,10 @@ class ResourceLoader extends React.Component {
     }
 
     renderModal = () => {
-        const { form } = this.props;
-
+        const {
+            form,
+            appStore: { loginUser }
+        } = this.props;
         return (
             <Modal
                 visible={this.state.visible}
@@ -80,13 +83,15 @@ class ResourceLoader extends React.Component {
                             //initialValue: ''
                         })(
                             <Select>
-                                {processNameOptions.map((option, index) => {
-                                    return (
-                                        <Select.Option key={index} value={option.value}>
-                                            {option.label}
-                                        </Select.Option>
-                                    );
-                                })}
+                                {processNameOptions
+                                    .filter(item => loginUser.roleCode.includes(item.roleCode))
+                                    .map((option, index) => {
+                                        return (
+                                            <Select.Option key={index} value={option.value}>
+                                                {option.label}
+                                            </Select.Option>
+                                        );
+                                    })}
                             </Select>
                         )}
                     </Form.Item>
