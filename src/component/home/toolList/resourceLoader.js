@@ -6,6 +6,7 @@ import CONFIG from 'src/config';
 import AdLocalStorage from 'src/tool/adLocalStorage';
 
 const processNameOptions = CONFIG.processNameOptions;
+const roleCodes = ['producer', 'producer_leader', 'quality', 'quality_leader'];
 const formLayout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 20 }
@@ -33,10 +34,7 @@ class ResourceLoader extends React.Component {
     }
 
     renderModal = () => {
-        const {
-            form,
-            appStore: { loginUser }
-        } = this.props;
+        const { form } = this.props;
         return (
             <Modal
                 visible={this.state.visible}
@@ -83,15 +81,15 @@ class ResourceLoader extends React.Component {
                             //initialValue: ''
                         })(
                             <Select>
-                                {processNameOptions
-                                    .filter(item => loginUser.roleCode.includes(item.roleCode))
-                                    .map((option, index) => {
+                                {this.getProcessNameOptions(processNameOptions).map(
+                                    (option, index) => {
                                         return (
                                             <Select.Option key={index} value={option.value}>
                                                 {option.label}
                                             </Select.Option>
                                         );
-                                    })}
+                                    }
+                                )}
                             </Select>
                         )}
                     </Form.Item>
@@ -102,6 +100,14 @@ class ResourceLoader extends React.Component {
 
     renderFooter = () => {
         return <Button onClick={this.submit}>加载</Button>;
+    };
+
+    getProcessNameOptions = options => {
+        const {
+            appStore: { loginUser }
+        } = this.props;
+        const roleCode = roleCodes.includes(loginUser.roleCode) ? loginUser.roleCode : 'producer';
+        return options.filter(item => item.roleCode.includes(roleCode));
     };
 
     urlOnChange = event => {
