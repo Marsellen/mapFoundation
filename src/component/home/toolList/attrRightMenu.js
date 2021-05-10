@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Menu, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import 'src/asset/less/right-menu-modal.less';
-import { SELECT_OPTIONS, OPTION_LAYER_MAP } from 'config/PropertiesTableConfig';
+import { SELECT_OPTIONS, OPTION_LAYER_MAP } from 'src/config/propertiesTableConfig';
 import { getLayerIDKey, getLayerByName, modUpdStatRelation } from 'src/tool/vectorUtils';
 import { logDecorator, editLock } from 'src/tool/decorator';
 import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';

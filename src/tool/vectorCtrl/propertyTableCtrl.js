@@ -1,5 +1,5 @@
 import { getLayerByName, getLayerIDKey } from '../vectorUtils';
-import { ATTR_TABLE_CONFIG } from 'config/AttrsConfig';
+import { ATTR_TABLE_CONFIG } from 'src/config/attrsConfig';
 import { REL_DATA_SET } from 'src/config/relsConfig';
 import Attr from 'src/tool/attr';
 import Rel from 'src/tool/relevance';

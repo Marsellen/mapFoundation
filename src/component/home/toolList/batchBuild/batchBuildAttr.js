@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from 'antd';
-import { TABLE_DATA_MAP } from 'config/ADMapDataConfig';
+import { TABLE_DATA_MAP } from 'src/config/adMapDataConfig';
 import BasicAttributesForm from 'src/component/home/attributesForm/basicAttributesForm';
 
 const formConfig = TABLE_DATA_MAP.AD_LaneDivider.filter(item => item.domType != 'Text');

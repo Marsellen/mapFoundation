@@ -5,7 +5,7 @@ import {
     REL_DATA_SET,
     CONNECTION_RELS
 } from 'src/config/relsConfig';
-import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
+import { DEFAULT_CONFIDENCE_MAP } from 'src/config/adMapDataConfig';
 import {
     getLayerIDKey,
     getFeatureByOptionFormAll,

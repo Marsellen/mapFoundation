@@ -6,7 +6,7 @@ import IconFont from 'src/component/common/iconFont';
 import { logDecorator, editLock } from 'src/tool/decorator';
 import { modUpdStatGeometry } from 'src/tool/vectorUtils';
 import { isManbuildTask } from 'src/tool/taskUtils';
-import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
+import { DEFAULT_CONFIDENCE_MAP } from 'src/config/adMapDataConfig';
 import { inject, observer } from 'mobx-react';
 import 'src/asset/less/ad-posture-adjust.less';
 import { message } from 'antd';

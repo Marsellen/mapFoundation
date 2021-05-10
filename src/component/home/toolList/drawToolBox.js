@@ -1,21 +1,21 @@
 import React from 'react';
 import { Menu } from 'antd';
-import CheckButton from 'src/component/common/checkButton';
 import { inject, observer } from 'mobx-react';
-import AddLine from './addLine';
-import AddCircle from './addCircle';
-import AddPoint from './addPoint';
-import AddPolygon from './addPolygon';
-import AddFacadeRectangle from './addFacadeRectangle';
-import AddGroundRectangle from './addGroundRectangle';
-import AddOutsideRectangle from './addOutsideRectangle';
-import DividerToAutoCreate from './halfAutoTools/dividerToAutoCreate';
-import NewStraightLine from './halfAutoTools/newStraightLine';
-import NewTurnLine from './halfAutoTools/newTurnLine';
-import NewUTurnLine from './halfAutoTools/newUTurnLine';
-import AddCurvedLine from './addCurvedLine';
-import DashedPolygonCreate from './dashedPolygonCreate';
-import TemplateArrow from './templateArrow';
+import CheckButton from 'src/component/common/checkButton';
+import AddLine from 'src/component/home/toolList/addLine';
+import AddCircle from 'src/component/home/toolList/addCircle';
+import AddPoint from 'src/component/home/toolList/addPoint';
+import AddPolygon from 'src/component/home/toolList/addPolygon';
+import AddFacadeRectangle from 'src/component/home/toolList/addFacadeRectangle';
+import AddGroundRectangle from 'src/component/home/toolList/addGroundRectangle';
+import AddOutsideRectangle from 'src/component/home/toolList/addOutsideRectangle';
+import DividerToAutoCreate from 'src/component/home/toolList/halfAutoTools/dividerToAutoCreate';
+import NewStraightLine from 'src/component/home/toolList/halfAutoTools/newStraightLine';
+import NewTurnLine from 'src/component/home/toolList/halfAutoTools/newTurnLine';
+import NewUTurnLine from 'src/component/home/toolList/halfAutoTools/newUTurnLine';
+import AddCurvedLine from 'src/component/home/toolList/addCurvedLine';
+import DashedPolygonCreate from 'src/component/home/toolList/dashedPolygonCreate';
+import TemplateArrow from 'src/component/home/toolList/templateArrow';
 
 const EDIT_TYPES = [
     'new_point',

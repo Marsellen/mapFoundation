@@ -1,9 +1,9 @@
 import React from 'react';
-import Avatar from './avatar';
-import ToolCtrl from './toolCtrl';
-import ToolList from './ToolList';
-import JobStatus from './jobStatus';
 import { inject, observer } from 'mobx-react';
+import Avatar from 'src/component/home/avatar';
+import ToolCtrl from 'src/component/home/toolCtrl';
+import ToolList from 'src/component/home/toolList';
+import JobStatus from 'src/component/home/jobStatus';
 
 @inject('appStore')
 @observer

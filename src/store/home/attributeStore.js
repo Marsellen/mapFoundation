@@ -12,8 +12,8 @@ import {
     getDiffFields,
     modUpdStatPropertiesFields
 } from 'src/tool/vectorUtils';
-import { ATTR_SPEC_CONFIG } from 'config/AttrsConfig';
-import { DEFAULT_CONFIDENCE_MAP } from 'config/ADMapDataConfig';
+import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';
+import { DEFAULT_CONFIDENCE_MAP } from 'src/config/adMapDataConfig';
 import { getAllRelFeatureOptions, uniqOptions } from 'src/tool/relCtrl/operateCtrl';
 import { isManbuildTask } from 'src/tool/taskUtils';
 import _ from 'lodash';
