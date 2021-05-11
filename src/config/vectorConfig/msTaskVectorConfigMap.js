@@ -1229,7 +1229,7 @@ export const MS_TASK_VECTOR_CONFIG_MAP = {
     AD_RS_Barrier: {
         key: 'AD_RS_Barrier',
         label: '隔离带、护栏',
-        checked: false,
+        checked: true,
         isClassify: true,
         type: 'Line',
         commonStyle: {
