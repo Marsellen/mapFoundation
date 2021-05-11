@@ -107,7 +107,7 @@ class ResourceLoader extends React.Component {
             appStore: { loginUser }
         } = this.props;
         const roleCode = roleCodes.includes(loginUser.roleCode) ? loginUser.roleCode : 'producer';
-        return options.filter(item => item.roleCode.includes(roleCode));
+        return options.filter(item => item.roleCodes.includes(roleCode));
     };
 
     urlOnChange = event => {
