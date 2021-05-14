@@ -1,7 +1,9 @@
 import { observable, configure, action, computed } from 'mobx';
-import { TEXT_CONFIG_MAP, COMMON_MODE_TEXT_CONFIG_MAP } from 'src/config/textConfig/textConfigMap';
+import { TEXT_CONFIG_MAP } from 'src/config/textConfig/textConfigMap';
 import { CONFIGURABLE_LAYERS } from 'src/config/vectorConfig/vectorConfigMap';
 import TextSetting from 'src/tool/textSetting';
+import SettingStore from 'src/store/setting/settingStore';
+
 configure({ enforceActions: 'always' });
 class TextStore {
     textSetting = null;
@@ -25,15 +27,18 @@ class TextStore {
         this.visible = false;
     };
 
+    getDefaultConfig = (mode, taskProcessName) => {
+        const configType = mode === 'common' ? taskProcessName : mode;
+        const configName = TEXT_CONFIG_MAP[configType];
+        const configMap = SettingStore.getConfig(configName);
+        return JSON.parse(JSON.stringify(configMap));
+    };
+
     //初始化文字注记配置
     @action initTextConfig = (mode, taskProcessName) => {
         if (!taskProcessName) return;
         //质检符号模式是根据任务类型采用对应配置，其它模式采用通用配置
-        const defaultTextConfig =
-            mode === 'common'
-                ? COMMON_MODE_TEXT_CONFIG_MAP[taskProcessName]
-                : TEXT_CONFIG_MAP[mode];
-        this.vectorTextConfig = JSON.parse(JSON.stringify(defaultTextConfig));
+        this.vectorTextConfig = this.getDefaultConfig(mode, taskProcessName);
         this.textSetting = new TextSetting(this.vectorTextConfig);
 
         //根据配置中checked显隐图层的文字注记

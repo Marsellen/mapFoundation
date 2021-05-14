@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { Modal } from 'antd';
 import ToolIcon from 'src/component/common/toolIcon';
 import { logDecorator, editLock } from 'src/tool/decorator';
-import sysProperties from 'src/tool/sysProperties';
+import SettingStore from 'src/store/setting/settingStore';
 
 @inject('TaskStore')
 @inject('ManualBuildStore')
@@ -47,8 +47,8 @@ class BatchBreak extends React.Component {
             }
         } = this.props;
         //获取参数
-        const inputLayers = JSON.parse(sysProperties.getConfig('inputEditLayer'));
-        const outputLayers = JSON.parse(sysProperties.getConfig('outputEditLayer'));
+        const inputLayers = JSON.parse(SettingStore.getConfig('OTHER_CONFIG').inputEditLayer);
+        const outputLayers = JSON.parse(SettingStore.getConfig('OTHER_CONFIG').outputEditLayer);
         const layers = vectorLayerGroup.layers;
         const layerMap = {};
         const inputLayerMap = {};

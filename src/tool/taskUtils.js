@@ -8,7 +8,7 @@ import Attr from 'src/tool/attr';
 import editLog from 'src/tool/editLog';
 import TaskService from 'src/service/taskService';
 import { throttle } from './utils';
-import sysProperties from 'src/tool/sysProperties';
+import SettingStore from 'src/store/setting/settingStore';
 import { MB_EDIT_LAYER_MAP, MS_EDIT_LAYER_MAP } from 'src/config/dataLayerConfig';
 import appStore from 'src/store/common/appStore';
 import BuriedPoint from 'src/tool/buriedPoint';
@@ -171,7 +171,7 @@ const setRequestAnimationFrame = (fn, delay, timerName) => {
 //开始任务统计时间轮询
 export const startTaskTimePolling = () => {
     if (!window.isLogin) return;
-    const { overallPollingInterval } = sysProperties.configs;
+    const { overallPollingInterval } = SettingStore.getConfig('OTHER_CONFIG');
     const pollingTime = overallPollingInterval * 1000;
     if (window.taskTimer) return;
     setRequestAnimationFrame(
@@ -199,7 +199,7 @@ export const endWorkTimePolling = () => {
 
 export const windowObserver = () => {
     const body = document.querySelector('html');
-    const { statisticInterval, finePollingInterval } = sysProperties.configs;
+    const { statisticInterval, finePollingInterval } = SettingStore.getConfig('OTHER_CONFIG');
     const overtime = statisticInterval * 1000; //停止动作间隔时间
     const pollingTime = finePollingInterval * 1000; //轮询间隔时间
     let startTime; //开始时间

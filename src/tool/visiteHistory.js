@@ -1,8 +1,7 @@
 class VisitedHistory {
     constructor(key) {
-        const time = new Date();
         this.key = key;
-        this.pageName = 'page' + time.getTime();
+        this.pageName = 'page' + Date.now();
     }
 
     //获取访问历史
@@ -23,9 +22,7 @@ class VisitedHistory {
     removeVisitedHistory = () => {
         if (!this.pageName) return;
         const visiteHistory = this.getVisitedHistory();
-        const newVisiteHistory = visiteHistory.filter(
-            item => item !== this.pageName
-        );
+        const newVisiteHistory = visiteHistory.filter(item => item !== this.pageName);
         window.localStorage.setItem(this.key, JSON.stringify(newVisiteHistory));
     };
 

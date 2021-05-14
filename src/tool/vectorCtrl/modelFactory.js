@@ -1,14 +1,12 @@
-import {
-    DEFAULT_PROPERTIES_MAP,
-    TABLE_DATA_MAP,
-    DEFAULT_CONFIDENCE_MAP
-} from 'src/config/adMapDataConfig';
+import { DEFAULT_PROPERTIES_MAP, DEFAULT_CONFIDENCE_MAP } from 'src/config/adMapDataConfig';
 import { getLayerIDKey } from 'src/tool/vectorUtils';
 import _ from 'lodash';
+import SettingStore from 'src/store/setting/settingStore';
 
 class modelFactory {
     getTabelData = (layerName, properties) => {
-        let tableData = _.cloneDeep(TABLE_DATA_MAP[layerName]);
+        const tableDataMap = SettingStore.getConfig('TABLE_DATA_MAP');
+        const tableData = _.cloneDeep(tableDataMap[layerName]);
         return tableData.map(record => {
             record.value = properties[record.key];
             return record;
@@ -38,7 +36,8 @@ class modelFactory {
     };
 
     getBatchAssignTableData = (layerName, properties) => {
-        let tableData = _.cloneDeep(TABLE_DATA_MAP[layerName]);
+        const tableDataMap = SettingStore.getConfig('TABLE_DATA_MAP');
+        const tableData = _.cloneDeep(tableDataMap[layerName]);
         return tableData.map(record => {
             let uniProperties = properties.reduce((total, property) => {
                 let propertyValue = property[record.key];

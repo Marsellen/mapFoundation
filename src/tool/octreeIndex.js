@@ -2,7 +2,7 @@ import RTree from 'rtree';
 import CONFIG from 'src/config';
 import axios from 'axios';
 import PointCloudStore from 'src/store/home/pointCloudStore';
-import sysProperties from 'src/tool/sysProperties';
+import SettingStore from 'src/store/setting/settingStore';
 import { completeSecendUrl } from 'src/tool/taskUtils';
 
 class OcTreeIndex {
@@ -24,7 +24,7 @@ class OcTreeIndex {
             if (!window.map) return;
             if (!window.pointCloudLayer) return;
             if (this.inProcess) return;
-            const { viewChangeDelay, scaleSize } = sysProperties.configs;
+            const { viewChangeDelay, scaleSize } = SettingStore.getConfig('OTHER_CONFIG');
             if (window.map.getLevel() < scaleSize) return;
             this.inProcess = true;
             setTimeout(() => {

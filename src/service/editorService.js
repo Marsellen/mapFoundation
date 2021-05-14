@@ -50,14 +50,6 @@ const EditorService = {
         };
         return service({ config });
     },
-    sysProperties: data => {
-        const config = {
-            url: EditApiPath('/sys_opt/sys_properties'),
-            method: 'get',
-            data
-        };
-        return service({ config });
-    },
     getFileList: data => {
         const config = {
             url: EditApiPath('/file_query/file_list'),
@@ -86,13 +78,6 @@ const EditorService = {
             url: EditApiPath('/batch_create/laneLine'),
             method: 'post',
             data
-        };
-        return service({ config });
-    },
-    queryArrowTemplate: () => {
-        const config = {
-            url: EditApiPath('/template/all_arrow'),
-            method: 'get'
         };
         return service({ config });
     }

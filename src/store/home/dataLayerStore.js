@@ -15,7 +15,7 @@ import AttributeStore from 'src/store/home/attributeStore';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
 import RightMenuStore from 'src/store/home/rightMenuStore';
 import { getEventPointWkt, getFeaturePointWkt } from 'src/tool/pictureCtrl';
-import sysProperties from 'src/tool/sysProperties';
+import SettingStore from 'src/store/setting/settingStore';
 import BatchBuildStore from './batchBuildStore';
 import { editLock } from 'src/tool/decorator';
 import { LINE_LAYERS } from 'src/config/dataLayerConfig';
@@ -76,7 +76,7 @@ class DataLayerStore {
     };
 
     initEditor = layers => {
-        const adsorptionSensitivity = sysProperties.getConfig('adsorptionSensitivity');
+        const adsorptionSensitivity = SettingStore.getConfig('OTHER_CONFIG').adsorptionSensitivity;
         this.editor = new EditControl();
         window.map && window.map.getControlManager().addControl(this.editor);
         this.targetLayers = (layers || []).flatMap(item => (item ? [item] : []));
@@ -408,7 +408,7 @@ class DataLayerStore {
         //绘制曲线
         this.exitEdit('toggle');
         if (!this.editor) return;
-        const drawNodeDensity = sysProperties.getConfig('drawNodeDensity');
+        const drawNodeDensity = SettingStore.getConfig('OTHER_CONFIG').drawNodeDensity;
         this.setEditType('new_curved_line', 'button');
         this.changeCur();
         this.editor.newCurveLine(drawNodeDensity);
@@ -1211,7 +1211,7 @@ class DataLayerStore {
     };
 
     enableRegionSelect = layers => {
-        const { ZT1, ZT2 } = sysProperties.configs;
+        const { ZT1, ZT2 } = SettingStore.getConfig('OTHER_CONFIG');
         const regionSelect = { regionSelectUp: ZT2, regionSelectDown: ZT1 };
         this.editor && this.editor.enableRegionSelect(layers, regionSelect);
     };
@@ -1260,7 +1260,7 @@ class DataLayerStore {
 
     trim() {
         if (!this.editor) return;
-        const repairNodeDensity = sysProperties.getConfig('repairNodeDensity');
+        const repairNodeDensity = SettingStore.getConfig('OTHER_CONFIG').repairNodeDensity;
         this.clearAllEditDebuff();
         this.setEditType('trim', 'button');
         this.trimStyle();

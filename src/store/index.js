@@ -1,4 +1,5 @@
 import appStore from 'src/store/common/appStore';
+import SettingStore from 'src/store/setting/settingStore';
 import TaskStore from 'src/store/home/taskStore';
 import DataLayerStore from 'src/store/home/dataLayerStore';
 import ResourceLayerStore from 'src/store/home/resourceLayerStore';
@@ -26,6 +27,7 @@ import ManualBuildStore from 'src/store/home/manualBuildStore';
 
 export default {
     appStore,
+    SettingStore,
     TaskStore,
     DataLayerStore,
     ResourceLayerStore,

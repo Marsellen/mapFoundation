@@ -1,7 +1,7 @@
 import { observable, configure, action, flow, toJS } from 'mobx';
 import QCMarkerService from 'src/service/qcMarkerService';
 import { message } from 'antd';
-import { MARKER_TABLE_COLUMNS } from 'src/config/qcMarkerConfig';
+import { MARKER_TABLE_COLUMNS } from 'src/config/markerConfig/markerTableConfig';
 import DataLayerStore from 'src/store/home/dataLayerStore';
 import BuriedPoint from 'src/tool/buriedPoint';
 
