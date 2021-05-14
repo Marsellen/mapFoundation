@@ -5,7 +5,7 @@ import AdLocalStorage from 'src/tool/adLocalStorage';
 import { REPORT_COLUMNS } from 'src/config/checkTableConfig';
 import _ from 'lodash';
 import { getQualityChecked } from 'src/tool/permissionCtrl';
-import sysProperties from 'src/tool/sysProperties';
+import SettingStore from 'src/store/setting/settingStore';
 import { updateData } from 'src/tool/map/viewCtrl';
 import TaskStore from 'src/store/home/taskStore';
 
@@ -74,7 +74,7 @@ class QualityCheckStore {
     }).bind(this);
 
     @action handleProducerGetReport = option => {
-        const { pollingLimit, pollingInterval } = sysProperties.configs;
+        const { pollingLimit, pollingInterval } = SettingStore.getConfig('OTHER_CONFIG');
         const currentTime = new Date();
         this.pollingLimit = pollingLimit * 1000;
         this.pollingInterval = pollingInterval * 1000;

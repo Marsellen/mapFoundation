@@ -1,11 +1,11 @@
 import { observable, configure, action } from 'mobx';
 import {
     POINT_ICON_MAP,
-    MODE_VECTOR_CONFIG_MAP,
-    COMMON_MODE_VECTOR_CONFIG_MAP,
-    CONFIGURABLE_LAYERS
+    CONFIGURABLE_LAYERS,
+    VECTOR_CONFIG_MAP
 } from 'src/config/vectorConfig/vectorConfigMap';
 import { TYPE_SELECT_OPTION_MAP, LAYER_TYPE_MAP } from 'src/config/adMapDataConfig';
+import SettingStore from 'src/store/setting/settingStore';
 
 configure({ enforceActions: 'always' });
 class DefineModeStore {
@@ -18,18 +18,19 @@ class DefineModeStore {
     @observable globalArrowEnabledStatus = true; //全局箭头可用状态
     @observable vectorConfigMap = {};
 
+    getDefaultConfig = (mode, taskProcessName) => {
+        const configType = mode === 'common' ? taskProcessName : mode;
+        const configName = VECTOR_CONFIG_MAP[configType];
+        const configMap = SettingStore.getConfig(configName);
+        return JSON.parse(JSON.stringify(configMap));
+    };
+
     //初始化符号配置
     @action initVectorConfig = (mode, taskProcessName) => {
         if (!taskProcessName) return;
         this.globalPointEnabledStatus = true;
         this.globalArrowEnabledStatus = true;
-        this.vectorConfigMap = JSON.parse(
-            JSON.stringify(
-                mode == 'common'
-                    ? COMMON_MODE_VECTOR_CONFIG_MAP[taskProcessName]
-                    : MODE_VECTOR_CONFIG_MAP[mode]
-            )
-        );
+        this.vectorConfigMap = this.getDefaultConfig(mode, taskProcessName);
         this.globalUpdateKey = Math.random();
         //初始化所有图层
         CONFIGURABLE_LAYERS.forEach(key => {

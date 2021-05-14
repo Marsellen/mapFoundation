@@ -31,31 +31,31 @@ class LoginForm extends React.Component {
         });
         const { appStore, TaskStore } = this.props;
 
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                values.password = btoa(values.password); //base64编码
-                appStore
-                    .login(values, this.state)
-                    .then(() => {
-                        localStorage.setItem('rememberMe', this.state.rememberMe);
-                        localStorage.setItem('autoLogin', this.state.autoLogin);
-                        let userName = this.state.rememberMe ? values.username : '';
-                        localStorage.setItem('userName', userName);
-                        const { from } = this.props.location.state || {
-                            from: { pathname: '/' }
-                        };
-                        loginVisitedHistory.removeVisitedHistory();
-                        this.props.history.push(from);
-                    })
-                    .then(() => {
-                        TaskStore.initTask({ type: 1 });
-                    })
-                    .catch(e => {
-                        message.error(e.message, 3);
-                    });
+        this.props.form.validateFields(async (err, values) => {
+            try {
+                if (err) return;
+                //将密码进行base64编码
+                values.password = btoa(values.password);
+                //登陆
+                await appStore.login(values, this.state);
+                //跳转页面
+                localStorage.setItem('rememberMe', this.state.rememberMe);
+                localStorage.setItem('autoLogin', this.state.autoLogin);
+                let userName = this.state.rememberMe ? values.username : '';
+                localStorage.setItem('userName', userName);
+                const { from } = this.props.location.state || {
+                    from: { pathname: '/' }
+                };
+                loginVisitedHistory.removeVisitedHistory();
+                this.props.history.push(from);
+                //如果是跳转到home页，则获取任务列表
+                if (from.pathname === '/') await TaskStore.initTask({ type: 1 });
+            } catch (e) {
+                message.error(e.message, 3);
             }
         });
     };
+
     changeAutoLogin = e => {
         let rememberMe = !e.target.checked && !this.state.rememberMe ? false : true;
         this.setState({

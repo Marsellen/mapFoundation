@@ -18,7 +18,8 @@ module.exports = (env = {}) => {
         output: {
             filename: '[name].bundle.js',
             path: path.resolve(__dirname, 'dist'),
-            globalObject: 'this'
+            globalObject: 'this',
+            publicPath: '/'
         },
         module: {
             noParse: [/moment.js/],
@@ -58,7 +59,6 @@ module.exports = (env = {}) => {
             alias: {
                 src: path.resolve(__dirname, 'src/'),
                 demo: path.resolve(__dirname, 'demo/'),
-                mock: path.resolve(__dirname, './mock/'),
                 less: path.resolve(__dirname, 'src/asset/less/'),
                 config: path.resolve(__dirname, configPath)
             },

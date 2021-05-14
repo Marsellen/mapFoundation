@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Button, Modal, Spin, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import ConfigurableForm from 'src/component/common/configurableForm';
-import { ATTR_FORM_FIELD_MAP, QC_MARKER_FORM_CONFIG } from 'src/config/qcMarkerConfig';
+import { MARKER_FIELD_CONFIG, MARKER_FORM_CONFIG } from 'src/config/markerConfig/markerFormConfig';
 import SeniorModal from 'src/component/common/seniorModal';
 import 'less/qc-marker-modal.less';
 import BuriedPoint from 'src/tool/buriedPoint';
@@ -300,9 +300,9 @@ class QCMarkerModal extends React.Component {
         } else {
             formConfigName = 'QC_READ_ONLEY_CONFIG';
         }
-        const formConfig = QC_MARKER_FORM_CONFIG()[formConfigName];
+        const formConfig = MARKER_FORM_CONFIG()[formConfigName];
         const newFormConfig = formConfig.map(item => {
-            return { ...ATTR_FORM_FIELD_MAP()[item.name], ...item };
+            return { ...MARKER_FIELD_CONFIG()[item.name], ...item };
         });
 
         return newFormConfig;

@@ -10,8 +10,8 @@ import logo from 'src/asset/img/logo.png';
 import ShortcutKey from 'src/tool/shortcutKey';
 import { editVisiteHistory } from 'src/tool/visiteHistory';
 import { deleteDatabase } from 'src/tool/indexedDB';
-import sysProperties from 'src/tool/sysProperties';
-import ManageCtrl from 'src/tool/manageCtrl';
+
+import SettingStore from 'src/store/setting/settingStore';
 import { MENUS } from 'src/config/menuConfig';
 
 const { Header } = Layout;
@@ -27,10 +27,8 @@ if (!jump) {
     deleteDatabase('adEditor');
     deleteDatabase('relationships');
 }
-//加载nacos配置
-sysProperties.loadConfigs();
 //加载质检标注配置
-ManageCtrl.queryConfig();
+SettingStore.queryConfig();
 //记录登陆状态
 window.isLogin = true;
 @inject('LoadingStore')

@@ -3,7 +3,7 @@ import IconFont from 'src/component/common/iconFont';
 import { message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/component/common/adMessage';
-import sysProperties from 'src/tool/sysProperties';
+import SettingStore from 'src/store/setting/settingStore';
 import { editLock } from 'src/tool/decorator';
 import BuriedPoint from 'src/tool/buriedPoint';
 
@@ -45,7 +45,7 @@ class RoadSet extends React.Component {
             if (result && result[0] && result[0].data) {
                 const coordinates = result[0].data.geometry.coordinates;
                 // 获取落点的点元素Z轴位置
-                const dropVal = sysProperties.getConfig('pavementZ');
+                const dropVal = SettingStore.getConfig('OTHER_CONFIG').pavementZ;
                 const pointZ = coordinates[2] - dropVal;
                 window?.map?.setBaseElevation?.(pointZ);
             }

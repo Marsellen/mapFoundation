@@ -7,9 +7,8 @@ import AdInputNumber from 'src/component/common/form/adInputNumber';
 import { checkSdkError } from 'src/tool/vectorUtils';
 import { plgCreate } from 'src/tool/relCtrl/operateCtrl';
 import { logDecorator, editInputLimit, editLock } from 'src/tool/decorator';
-import sysProperties from 'src/tool/sysProperties';
+import SettingStore from 'src/store/setting/settingStore';
 import BuriedPoint from 'src/tool/buriedPoint';
-
 import 'less/tool-icon.less';
 import 'less/dashed-polygon-create.less';
 
@@ -45,7 +44,7 @@ class DashedPolygonCreate extends React.Component {
             step: 0,
             message: '',
             msgVisible: false,
-            PLG_WIDTH: sysProperties.getConfig('dashedRectangleConstruct'),
+            PLG_WIDTH: SettingStore.getConfig('OTHER_CONFIG').dashedRectangleConstruct,
             PLG_TYPE: 1002
         };
         this.result = [];

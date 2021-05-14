@@ -1,7 +1,7 @@
 import { Select } from 'antd';
 import React from 'react';
 import SeniorModal from 'src/component/common/seniorModal';
-import EditorService from 'src/service/editorService';
+import SettingStore from 'src/store/setting/settingStore';
 
 import 'less/arrow-template-modal.less';
 
@@ -59,19 +59,20 @@ class TemplateModal extends React.Component {
     }
 
     async fetchTemplate() {
-        let { data } = await EditorService.queryArrowTemplate();
-        if (!data || data.length == 0) return;
+        let templates = SettingStore.getConfig('ARROW_TEMPLATE_CONFIG');
+        if (!templates || templates.length == 0) return;
         let templateMap = {};
-        data.forEach(temp => {
+        templates.forEach(temp => {
             let templateType = temp.templateType;
             if (!templateMap[templateType]) {
                 templateMap[templateType] = [];
             }
             templateMap[templateType].push(temp);
         });
-        let { templateType, templateSku } = data[0];
-        this.setState({ templateMap, templateType, templateSku });
-        this.onChange({ templateType, templateSku });
+        let { templateType, templateSku } = templates[0];
+        this.setState({ templateMap, templateType, templateSku }, () => {
+            this.onChange({ templateType, templateSku });
+        });
     }
 
     templateTypeOnChange = value => {

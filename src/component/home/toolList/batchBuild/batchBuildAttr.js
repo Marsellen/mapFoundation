@@ -1,11 +1,15 @@
 import React from 'react';
 import { Form } from 'antd';
-import { TABLE_DATA_MAP } from 'src/config/adMapDataConfig';
 import BasicAttributesForm from 'src/component/home/attributesForm/basicAttributesForm';
-
-const formConfig = TABLE_DATA_MAP.AD_LaneDivider.filter(item => item.domType != 'Text');
+import SettingStore from 'src/store/setting/settingStore';
 @Form.create()
 class BatchBuildAttr extends React.Component {
+    constructor(props) {
+        super(props);
+        const tableDataMap = SettingStore.getConfig('TABLE_DATA_MAP');
+        this.formConfig = tableDataMap.AD_LaneDivider.filter(item => item.domType != 'Text');
+    }
+
     render() {
         const { form, activeFeature, formItemChange } = this.props;
         return (
@@ -16,7 +20,7 @@ class BatchBuildAttr extends React.Component {
                         <BasicAttributesForm
                             form={form}
                             initData={activeFeature?.attr}
-                            formConfig={formConfig}
+                            formConfig={this.formConfig}
                             fieldChange={{ default: formItemChange }}
                             formStatus={true}
                         />

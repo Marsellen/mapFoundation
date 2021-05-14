@@ -23,12 +23,7 @@ function _getCookie(name) {
     var value = '; ' + document.cookie;
     var parts = value.split('; ' + name + '=');
     if (parts.length === 2) {
-        return unescape(
-            parts
-                .pop()
-                .split(';')
-                .shift()
-        );
+        return unescape(parts.pop().split(';').shift());
     }
     return '';
 }
@@ -38,9 +33,8 @@ function _setCookie(name, value, expire) {
     if (expire > 0) {
         let date = new Date();
         date.setDate(date.getDate() + expire);
-        document.cookie =
-            str + '; path=/' + ';expires=' + date.toGMTString() + expire;
+        document.cookie = str + '; path=/' + ';expires=' + date.toGMTString() + expire;
     } else {
-        document.cookie = str;
+        document.cookie = str + '; path=/';
     }
 }

@@ -49,10 +49,11 @@ import QualityCheckStore from 'src/store/home/qualityCheckStore';
 import { showPictureShowView, showAttributesModal, showRightMenu } from 'src/tool/map/viewCtrl';
 import { fetchCallback } from 'src/tool/map/utils';
 import OcTreeIndex from 'src/tool/octreeIndex';
-import sysProperties from 'src/tool/sysProperties';
 import BatchBuildModal from 'src/component/home/toolList/batchBuild/batchBuildModal';
 import BatchBuildStore from 'src/store/home/batchBuildStore';
 import DefaultStyleConfig from 'src/config/defaultStyleConfig';
+import SettingStore from 'src/store/setting/settingStore';
+
 @inject('QualityCheckStore')
 @inject('QCMarkerStore')
 @inject('DefineModeStore')
@@ -268,8 +269,8 @@ class VizComponent extends React.Component {
             if (!urlArr) return;
             //实例化点云
             const pointCloudLayer = new DynamicPCLayer(null, {
-                pointBudget: sysProperties.getConfig('pointLimit'), // 点云点数量
-                minLevel: sysProperties.getConfig('scaleSize'), // 开始更新点云八叉树最小比例尺级别
+                pointBudget: SettingStore.getConfig('OTHER_CONFIG').pointLimit, // 点云点数量
+                minLevel: SettingStore.getConfig('OTHER_CONFIG').scaleSize, // 开始更新点云八叉树最小比例尺级别
                 intensityGamma: 0.5,
                 intensityContrast: 0.4,
                 intensityBrightness: 0.3,
@@ -366,7 +367,7 @@ class VizComponent extends React.Component {
             min = min > z ? z : min;
         });
         //以最低点进行路面设置
-        const dropVal = sysProperties.getConfig('startZ');
+        const dropVal = SettingStore.getConfig('OTHER_CONFIG').startZ;
         if (min) window.map?.setBaseElevation?.(min - dropVal);
     };
 
