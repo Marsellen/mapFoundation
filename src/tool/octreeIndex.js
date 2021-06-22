@@ -6,9 +6,18 @@ import SettingStore from 'src/store/setting/settingStore';
 import { completeSecendUrl } from 'src/tool/taskUtils';
 
 class OcTreeIndex {
+    initConfig = () => {
+        const { viewChangeDelay, scaleSize } = SettingStore.getConfig('OTHER_CONFIG');
+        this.lock = false; //函数节流锁
+        this.viewChangeDelay = viewChangeDelay; //函数节流时间
+        this.scaleSize = scaleSize; //任务缩放比例
+        this.adRTree = null; //实例化RTree
+    };
+
     getOctreeMap = async task => {
         try {
             if (!task.Input_imp_data_path) return;
+            this.initConfig();
             const { octreeIndex } = CONFIG.urlConfig;
             const url = completeSecendUrl(octreeIndex, task);
             const { data } = await axios.get(url);
@@ -19,40 +28,37 @@ class OcTreeIndex {
         }
     };
 
+    handleUpdateOctree = () => {
+        if (!window.map) return;
+        if (!window.pointCloudLayer) return;
+        if (window.map.getLevel() < this.scaleSize) return;
+        const { min, max } = window.map.getScreenBox();
+        const param = {
+            x: min[0],
+            y: min[1],
+            w: max[0] - min[0],
+            h: max[1] - min[1]
+        };
+        const octreeList = this.adRTree?.search(param) ?? [];
+        const octreeUrls = octreeList.flatMap(key => {
+            const octree = PointCloudStore.getCheckStatus(key);
+            const { checked, disabled, layerKey } = octree || {};
+            if (checked && !disabled) {
+                return [layerKey];
+            } else {
+                return [];
+            }
+        });
+        window?.pointCloudLayer?.updatePointClouds?.(octreeUrls);
+    };
+
     updateOctree = () => {
-        try {
-            if (!window.map) return;
-            if (!window.pointCloudLayer) return;
-            if (this.inProcess) return;
-            const { viewChangeDelay, scaleSize } = SettingStore.getConfig('OTHER_CONFIG');
-            if (window.map.getLevel() < scaleSize) return;
-            this.inProcess = true;
-            setTimeout(() => {
-                if (!window.map) return;
-                const { min, max } = window.map.getScreenBox();
-                const param = {
-                    x: min[0],
-                    y: min[1],
-                    w: max[0] - min[0],
-                    h: max[1] - min[1]
-                };
-                const octreeList = this.adRTree?.search(param) ?? [];
-                const octreeUrls = octreeList.flatMap(key => {
-                    const octree = PointCloudStore.getCheckStatus(key);
-                    const { checked, disabled, layerKey } = octree || {};
-                    if (checked && !disabled) {
-                        return [layerKey];
-                    } else {
-                        return [];
-                    }
-                });
-                window?.pointCloudLayer?.updatePointClouds?.(octreeUrls);
-                this.inProcess = false;
-            }, viewChangeDelay);
-        } catch (e) {
-            console.error('空间索引异常', e);
-            this.inProcess = false;
-        }
+        if (this.lock) return;
+        this.lock = true;
+        setTimeout(() => {
+            this.handleUpdateOctree();
+            this.lock = false;
+        }, this.viewChangeDelay);
     };
 }
 
