@@ -1,6 +1,31 @@
-//修改配置白名单：超级管理员 admin、生产管理员 producer_manager、质检管理员 quality_manager
-export const ROLE_WHITE_LIST = ['admin', 'producer_manager', 'quality_manager'];
+/*
+ * 各项配置的角色白名单
+ * admin 超级管理员
+ * producer_manager 生产管理员
+ * quality_manager 质检管理员
+ */
+export const ROLE_WHITE_MAP = {
+    MARKER_OPTION_CONFIG: ['admin'],
+    MS_TASK_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    MB_TASK_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    QC_MS_TASK_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    QC_MB_TASK_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    SELF_CHECK_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    RELATION_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    DEFINE_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    MS_TASK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    MB_TASK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    QC_MS_TASK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    QC_MB_TASK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    SELF_CHECK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    RELATION_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    DEFINE_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    ARROW_TEMPLATE_CONFIG: ['admin', 'producer_manager', 'quality_manager'],
+    TABLE_DATA_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    OTHER_CONFIG: ['admin', 'producer_manager', 'quality_manager']
+};
 
+//配置中心菜单
 export const SETTING_MENUS = [
     {
         key: 'MARKER_OPTION_CONFIG',
