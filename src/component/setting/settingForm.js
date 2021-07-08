@@ -1,6 +1,8 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Form, Input, Button } from 'antd';
+import appStore from 'src/store/common/appStore';
+import { ROLE_WHITE_MAP } from 'src/config/settingConfig';
 
 const { TextArea } = Input;
 
@@ -8,6 +10,12 @@ const { TextArea } = Input;
 @inject('SettingStore')
 @observer
 class SettingForm extends React.Component {
+    getDisabledStatus = () => {
+        const { SettingStore } = this.props;
+        const roleWhiteList = ROLE_WHITE_MAP[SettingStore.activeKey];
+        return !roleWhiteList.includes(appStore.roleCode);
+    };
+
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -34,7 +42,11 @@ class SettingForm extends React.Component {
                         })(<TextArea />)}
                     </Form.Item>
                     <Form.Item className="submit-wrap">
-                        <Button type="primary" htmlType="submit">
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            disabled={this.getDisabledStatus()}
+                        >
                             更新
                         </Button>
                     </Form.Item>
