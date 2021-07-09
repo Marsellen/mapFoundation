@@ -12,7 +12,8 @@ export const showPictureShowView = obj => {
     const { data } = obj;
     const { properties: activeTrackPoint } = data;
     window.trackLayer.unSelect();
-    PictureShowStore.setPicData(obj.data);
+    PictureShowStore.setPicData(data);
+    ResourceLayerStore.selectLinkTrackByTrackPoint(activeTrackPoint);
     ResourceLayerStore.getTrackPart(activeTrackPoint);
 };
 
