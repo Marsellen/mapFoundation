@@ -32,7 +32,8 @@ const LAYER_SORT_MAP = {
 
 configure({ enforceActions: 'always' });
 class ResourceLayerStore {
-    activeTrackName = '';
+    @observable activeTrackName = '';
+    @observable activeProjectName = '';
     @observable multiProjectMap = {};
     @observable layers = [];
     @observable updateKey;
@@ -64,8 +65,32 @@ class ResourceLayerStore {
     //选择当前与点云联动的轨迹
     @action selectLinkTrack = projectName => {
         this.activeProjectName = projectName;
+        this.activeTrackName = '';
         this.setActiveTrack(projectName);
         this.updateKey = Math.random();
+    };
+
+    //通过轨迹点设置联动工程
+    @action selectLinkTrackByTrackPoint = activeTrackPoint => {
+        const activeTrackPointX = activeTrackPoint.x || activeTrackPoint.X;
+        const activeTrackPointY = activeTrackPoint.y || activeTrackPoint.Y;
+        const activeTrackPointZ = activeTrackPoint.z || activeTrackPoint.Z;
+
+        const activeProject = Object.values(this.multiProjectMap).find(project => {
+            const { layerMap } = project.children.track;
+            return Object.values(layerMap).find(trackPints => {
+                return trackPints.find(item => {
+                    const { X, Y, Z } = item;
+                    return (
+                        activeTrackPointX === X &&
+                        activeTrackPointY === Y &&
+                        activeTrackPointZ === Z
+                    );
+                });
+            });
+        });
+
+        this.selectLinkTrack(activeProject.key);
     };
 
     //获取当前选中轨迹点的轨迹名

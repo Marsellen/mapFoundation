@@ -4,9 +4,9 @@ import RcViewer from 'src/component/common/rcViewer';
 import noImg from 'src/asset/img/no-img.png';
 import { completeSecendUrl } from 'src/tool/taskUtils';
 import { locatePicture } from 'src/tool/pictureCtrl';
-import { message, Modal, Radio } from 'antd';
-import ToolIcon from 'src/component/common/toolIcon';
+import { message } from 'antd';
 import 'src/asset/less/picture-show-view.less';
+import SetLinkTrackModal from 'src/component/home/setLinkTrackModal';
 
 const titleMap = [
     {
@@ -98,12 +98,6 @@ class PictureShowView extends React.Component {
                 titleMap.forEach(this.addTitle);
             }
         };
-
-        const { ResourceLayerStore } = this.props;
-        this.state = {
-            modalVisible: false,
-            currentProjectName: ResourceLayerStore.activeProjectName || ''
-        };
     }
 
     componentDidMount() {
@@ -131,25 +125,14 @@ class PictureShowView extends React.Component {
     };
 
     render() {
-        const { PictureShowStore, TaskStore } = this.props;
+        const { PictureShowStore, ResourceLayerStore } = this.props;
         const { picData, visible } = PictureShowStore;
-        const { projectNameArr } = TaskStore;
-
+        const { activeProjectName } = ResourceLayerStore;
         let imgs = picData.filter(img => !!img);
 
         return (
             <div className="multimedia-view-container">
-                <div className="img-window-top">
-                    <ToolIcon
-                        icon="guanlian"
-                        title="设置"
-                        placement="left"
-                        className="img-window-top-icon"
-                        disabled={projectNameArr.length <= 1}
-                        action={this.selectTrack}
-                    />
-                </div>
-                {this._renderModal()}
+                <SetLinkTrackModal key={activeProjectName} />
                 <div className="img-banner">
                     <RcViewer options={this.options} ref="viewer">
                         <ul id="images" style={{ display: 'none' }}>
@@ -165,44 +148,6 @@ class PictureShowView extends React.Component {
         );
     }
 
-    _renderModal = () => {
-        const { modalVisible, currentProjectName } = this.state;
-        const { ResourceLayerStore, TaskStore } = this.props;
-        const { activeProjectName } = ResourceLayerStore;
-        const { projectNameArr } = TaskStore;
-
-        return (
-            <Modal
-                title="点云与轨迹联动设置"
-                maskClosable={false}
-                width={'max-content'}
-                okText="确定"
-                cancelText="取消"
-                visible={modalVisible}
-                onOk={this.selectTrackOk}
-                onCancel={this.selectTrackCancel}
-                okButtonProps={{
-                    disabled: currentProjectName === activeProjectName
-                }}
-                className="select-track-modal"
-                maskStyle={{ background: 'rgba(0, 0, 0, 0)' }}
-            >
-                <p className="select-track-modal-title">联动轨迹选择：</p>
-                <Radio.Group value={currentProjectName} onChange={this.handleRadioChange}>
-                    {projectNameArr.map((projectName, index) => {
-                        return (
-                            <div key={`track_${index}`}>
-                                <Radio value={projectName}>
-                                    工程{index + 1}：{projectName}
-                                </Radio>
-                            </div>
-                        );
-                    })}
-                </Radio.Group>
-            </Modal>
-        );
-    };
-
     _renderImg = (url, index) => {
         const { TaskStore } = this.props;
         const { activeTask } = TaskStore;
@@ -212,34 +157,6 @@ class PictureShowView extends React.Component {
                 <img src={`${completeSecendUrl(url, activeTask)}`} />
             </li>
         );
-    };
-    //打开“点云与轨迹联动设置”弹窗
-    selectTrack = () => {
-        this.setState({ modalVisible: true });
-    };
-    //切换轨迹radio onchange 事件
-    handleRadioChange = e => {
-        this.setState({
-            currentProjectName: e.target.value
-        });
-    };
-    //“点云与轨迹联动设置”弹窗 确认事件
-    selectTrackOk = () => {
-        const { currentProjectName } = this.state;
-        const { ResourceLayerStore } = this.props;
-        const { selectLinkTrack } = ResourceLayerStore;
-        selectLinkTrack(currentProjectName);
-        this.selectTrackCancel();
-        message.success('联动轨迹设置成功!');
-    };
-    //“点云与轨迹联动设置”弹窗 取消事件
-    selectTrackCancel = () => {
-        const { ResourceLayerStore } = this.props;
-        const { activeProjectName } = ResourceLayerStore;
-        this.setState({
-            modalVisible: false,
-            currentProjectName: activeProjectName
-        });
     };
 
     next = () => {
