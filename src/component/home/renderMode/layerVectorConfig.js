@@ -117,7 +117,7 @@ class LayerVectorConfig extends React.Component {
             DefineModeStore: { vectorConfigMap, updateKey, batchSetVectorConfig }
         } = this.props;
         const layerVectorConfigMap = vectorConfigMap[layerName] || {};
-        const { label, isClassify, checked, commonStyle } = layerVectorConfigMap;
+        const { label, isClassify, typeArr, checked, commonStyle } = layerVectorConfigMap;
         const { visible } = this.state;
 
         return (
@@ -150,7 +150,7 @@ class LayerVectorConfig extends React.Component {
                         setStyle={batchSetVectorConfig}
                     />
                 )}
-                {checked && this._detailConfigRender()}
+                {checked && typeArr && typeArr.length > 0 && this._detailConfigRender()}
             </div>
         );
     }

@@ -69,11 +69,11 @@ export const SETTING_MENUS = [
                 title: '自查符号模式',
                 type: 'Item'
             },
-            {
-                key: 'RELATION_VECTOR_CONFIG_MAP',
-                title: '关联关系查看模式',
-                type: 'Item'
-            },
+            // {
+            //     key: 'RELATION_VECTOR_CONFIG_MAP',
+            //     title: '关联关系查看模式',
+            //     type: 'Item'
+            // },
             {
                 key: 'DEFINE_VECTOR_CONFIG_MAP',
                 title: '自定义符号模式',

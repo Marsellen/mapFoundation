@@ -15,9 +15,6 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
         },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
         textModeMap: {
             'line-center': { key: 'line-center', label: '线中心' },
             'line-repeat': {
@@ -39,9 +36,6 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
         },
         textModeMap: {
             'line-center': { key: 'line-center', label: '线中心' },
@@ -65,9 +59,6 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
         },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
         textModeMap: {
             'line-center': { key: 'line-center', label: '线中心' },
             'line-repeat': {
@@ -83,18 +74,12 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
         checked: true,
         defaultStyle: {
             textFields: ['TYPE'], //看数据规格
-            offset: 10,
+            offset: 20,
             showMode: 'right',
             fontSize: 40,
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
-        },
-        defaultOffsetMap: {
-            top: 20,
-            right: 20,
-            bottom: 20,
-            left: 20
         },
         textModeMap: {
             top: { key: 'top', label: '上方', offset: true },
@@ -115,9 +100,6 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
         },
         textModeMap: {
             'polygon-center': { key: 'polygon-center', label: '面中心' },
@@ -142,9 +124,6 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
         },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
         textModeMap: {
             'line-center': { key: 'line-center', label: '线中心' },
             'line-repeat': {
@@ -166,9 +145,6 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
         },
         textModeMap: {
             'polygon-center': { key: 'polygon-center', label: '面中心' },
@@ -193,9 +169,6 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
         },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
         textModeMap: {
             'polygon-center': { key: 'polygon-center', label: '面中心' },
             'longest-center': { key: 'longest-center', label: '最长边中心' },
@@ -218,9 +191,6 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
         },
         textModeMap: {
             'polygon-center': { key: 'polygon-center', label: '面中心' },
@@ -245,9 +215,6 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
         },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
         textModeMap: {
             'line-center': { key: 'line-center', label: '线中心' },
             'line-repeat': {
@@ -269,9 +236,6 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
         },
         textModeMap: {
             'polygon-center': { key: 'polygon-center', label: '面中心' },
@@ -296,9 +260,6 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
         },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
         textModeMap: {
             'polygon-center': { key: 'polygon-center', label: '面中心' },
             'longest-center': { key: 'longest-center', label: '最长边中心' },
@@ -322,9 +283,6 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
         },
-        defaultIntervalMap: {
-            'line-repeat': 10
-        },
         textModeMap: {
             'polygon-center': { key: 'polygon-center', label: '面中心' },
             'longest-center': { key: 'longest-center', label: '最长边中心' },
@@ -347,9 +305,6 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
             strokeColor: 'rgba(0,0,0,1)',
             backgroundColor: 'rgba(0,0,0,0.7)',
             textColor: 'rgba(255,255,255,1)'
-        },
-        defaultIntervalMap: {
-            'line-repeat': 10
         },
         textModeMap: {
             'line-center': { key: 'line-center', label: '线中心' },
