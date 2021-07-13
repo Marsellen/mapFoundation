@@ -64,8 +64,7 @@ class LayerTextConfig extends React.Component {
         const { vectorTextConfig } = TextStore;
         const { key } = config;
         let { currentFontSize, currentInterval, currentOffset } = this.state;
-        let { defaultIntervalMap, defaultOffsetMap, textModeMap, defaultStyle } =
-            vectorTextConfig[key] || {};
+        let { textModeMap, defaultStyle } = vectorTextConfig[key] || {};
         let {
             textFields,
             offset,
@@ -76,12 +75,10 @@ class LayerTextConfig extends React.Component {
             backgroundColor,
             textColor
         } = defaultStyle;
-        const defaultInterval = defaultIntervalMap && defaultIntervalMap[showMode];
-        const defaultOffset = defaultOffsetMap && defaultOffsetMap[showMode];
         const isOffset = textModeMap[showMode].offset;
         const isInterval = textModeMap[showMode].interval;
-        currentInterval = currentInterval || interval || defaultInterval;
-        currentOffset = currentOffset || offset || defaultOffset;
+        currentInterval = currentInterval || interval;
+        currentOffset = currentOffset || offset;
 
         return (
             <div className="config-content config-content-2">
@@ -193,14 +190,13 @@ class LayerTextConfig extends React.Component {
                             })}
                         </Select>
                     </div>
-                    {defaultIntervalMap && (
+                    {isInterval && (
                         <div className="flex-between">
                             <label>循环间距：</label>
                             <AdInputPositiveNumber
                                 width={76}
                                 precision={2}
-                                disabled={!isInterval}
-                                value={isInterval && currentInterval}
+                                value={currentInterval}
                                 onChange={val =>
                                     this.handleChange({
                                         styleKey: 'currentInterval',
@@ -220,14 +216,13 @@ class LayerTextConfig extends React.Component {
                             />
                         </div>
                     )}
-                    {defaultOffsetMap && (
+                    {isOffset && (
                         <div className="flex-between">
                             <label>偏移距离：</label>
                             <AdInputPositiveNumber
                                 width={76}
                                 precision={2}
-                                disabled={!isOffset}
-                                value={isOffset && currentOffset}
+                                value={currentOffset}
                                 onChange={val =>
                                     this.handleChange({
                                         styleKey: 'currentOffset',
