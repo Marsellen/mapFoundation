@@ -68,6 +68,12 @@ class LayerVectorConfigForm extends React.Component {
         });
     };
 
+    rgbToRgba = (rgb, a = 1) => {
+        if (!rgb) return;
+        const [, r, g, b] = rgb.match(/rgb\((.*),(.*),(.*)\)/) || [];
+        return `rgba(${r},${g},${b},${a})`;
+    };
+
     render() {
         const { currentRadius, currentPointSize } = this.state;
         const {
@@ -79,6 +85,7 @@ class LayerVectorConfigForm extends React.Component {
             value: typeValKey,
             label,
             color,
+            opacity,
             radius,
             pointStyle,
             lineStyle,
@@ -103,7 +110,7 @@ class LayerVectorConfigForm extends React.Component {
                     <label className="field-label">颜色:</label>
                     <AdColorInput
                         className="field"
-                        color={color}
+                        color={this.rgbToRgba(color, opacity) || color}
                         size={colorFieldSize}
                         icon={colorFieldIcon}
                         onChange={value =>
