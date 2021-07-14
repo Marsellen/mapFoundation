@@ -359,8 +359,8 @@ const ERROR_DESC_MAP = {
             label: '遗漏制作'
         },
         {
-            value: '与点云横向相对精度>20cm ',
-            label: '与点云横向相对精度>20cm '
+            value: '与点云横向相对精度>20cm',
+            label: '与点云横向相对精度>20cm'
         },
         {
             value: '与点云横向相对精度<=20cm，但不平滑',
@@ -451,40 +451,32 @@ const ERROR_DESC_MAP = {
             label: '遗漏制作'
         },
         {
-            value:
-                '面状标识物与点云纵向相对精度>30cm，或纵向相对精度<=30cm，但与其他不应相交的要素存在几何',
-            label:
-                '面状标识物与点云纵向相对精度>30cm，或纵向相对精度<=30cm，但与其他不应相交的要素存在几何'
+            value: '面状标识物与点云纵向相对精度>30cm，或纵向相对精度<=30cm，但与其他不应相交的要素存在几何',
+            label: '面状标识物与点云纵向相对精度>30cm，或纵向相对精度<=30cm，但与其他不应相交的要素存在几何'
         },
         {
             value: '面状标识物与点云纵向相对精度<=30cm，但不规则',
             label: '面状标识物与点云纵向相对精度<=30cm，但不规则'
         },
         {
-            value:
-                '人行横道与点云纵向相对精度>20cm，或纵向相对精度<=20cm，但与其他不应相交的要素存在几何交叉',
-            label:
-                '人行横道与点云纵向相对精度>20cm，或纵向相对精度<=20cm，但与其他不应相交的要素存在几何交叉'
+            value: '人行横道与点云纵向相对精度>20cm，或纵向相对精度<=20cm，但与其他不应相交的要素存在几何交叉',
+            label: '人行横道与点云纵向相对精度>20cm，或纵向相对精度<=20cm，但与其他不应相交的要素存在几何交叉'
         },
         {
             value: '人行横道与点云纵向相对精度<=20cm，但不规则',
             label: '人行横道与点云纵向相对精度<=20cm，但不规则'
         },
         {
-            value:
-                '与点云横向相对精度>20cm，或横向相对精度<=20cm，但与其他不应相交的要素存在几何交叉',
-            label:
-                '与点云横向相对精度>20cm，或横向相对精度<=20cm，但与其他不应相交的要素存在几何交叉'
+            value: '与点云横向相对精度>20cm，或横向相对精度<=20cm，但与其他不应相交的要素存在几何交叉',
+            label: '与点云横向相对精度>20cm，或横向相对精度<=20cm，但与其他不应相交的要素存在几何交叉'
         },
         {
             value: '与点云横向相对精度<=20cm，但不规则',
             label: '与点云横向相对精度<=20cm，但不规则'
         },
         {
-            value:
-                '与点云高程相对精度>30cm，或横向相对精度<=30cm，但与其他不应相交的要素存在几何交叉',
-            label:
-                '与点云高程相对精度>30cm，或横向相对精度<=30cm，但与其他不应相交的要素存在几何交叉'
+            value: '与点云高程相对精度>30cm，或横向相对精度<=30cm，但与其他不应相交的要素存在几何交叉',
+            label: '与点云高程相对精度>30cm，或横向相对精度<=30cm，但与其他不应相交的要素存在几何交叉'
         },
         {
             value: '与点云高程相对精度<=30cm，但不规则',
@@ -1494,7 +1486,7 @@ const ERROR_DESC_RESET_FIELD_MAP = {
             fieldName: null,
             errLevel: 1
         },
-        ['与点云横向相对精度>20cm ']: {
+        ['与点云横向相对精度>20cm']: {
             qcDesc: null,
             errContent: 1,
             errorType: 3,
@@ -1652,13 +1644,14 @@ const ERROR_DESC_RESET_FIELD_MAP = {
             fieldName: null,
             errLevel: 2
         },
-        ['面状标识物与点云纵向相对精度>30cm，或纵向相对精度<=30cm，但与其他不应相交的要素存在几何']: {
-            qcDesc: null,
-            errContent: 1,
-            errorType: 3,
-            fieldName: null,
-            errLevel: 2
-        },
+        ['面状标识物与点云纵向相对精度>30cm，或纵向相对精度<=30cm，但与其他不应相交的要素存在几何']:
+            {
+                qcDesc: null,
+                errContent: 1,
+                errorType: 3,
+                fieldName: null,
+                errLevel: 2
+            },
         ['面状标识物与点云纵向相对精度<=30cm，但不规则']: {
             qcDesc: null,
             errContent: 1,
@@ -1666,13 +1659,14 @@ const ERROR_DESC_RESET_FIELD_MAP = {
             fieldName: null,
             errLevel: 3
         },
-        ['人行横道与点云纵向相对精度>20cm，或纵向相对精度<=20cm，但与其他不应相交的要素存在几何交叉']: {
-            qcDesc: null,
-            errContent: 1,
-            errorType: 3,
-            fieldName: null,
-            errLevel: 2
-        },
+        ['人行横道与点云纵向相对精度>20cm，或纵向相对精度<=20cm，但与其他不应相交的要素存在几何交叉']:
+            {
+                qcDesc: null,
+                errContent: 1,
+                errorType: 3,
+                fieldName: null,
+                errLevel: 2
+            },
         ['人行横道与点云纵向相对精度<=20cm，但不规则']: {
             qcDesc: null,
             errContent: 1,
