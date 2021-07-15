@@ -65,7 +65,6 @@ class ResourceLayerStore {
     //选择当前与点云联动的轨迹
     @action selectLinkTrack = projectName => {
         this.activeProjectName = projectName;
-        this.activeTrackName = '';
         this.setActiveTrack(projectName);
         this.updateKey = Math.random();
     };

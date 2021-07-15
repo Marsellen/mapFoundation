@@ -6,7 +6,6 @@ import { completeSecendUrl } from 'src/tool/taskUtils';
 import { locatePicture } from 'src/tool/pictureCtrl';
 import { message } from 'antd';
 import 'src/asset/less/picture-show-view.less';
-import SetLinkTrackModal from 'src/component/home/setLinkTrackModal';
 
 const titleMap = [
     {
@@ -125,14 +124,12 @@ class PictureShowView extends React.Component {
     };
 
     render() {
-        const { PictureShowStore, ResourceLayerStore } = this.props;
+        const { PictureShowStore } = this.props;
         const { picData, visible } = PictureShowStore;
-        const { activeProjectName } = ResourceLayerStore;
         let imgs = picData.filter(img => !!img);
 
         return (
             <div className="multimedia-view-container">
-                <SetLinkTrackModal key={activeProjectName} />
                 <div className="img-banner">
                     <RcViewer options={this.options} ref="viewer">
                         <ul id="images" style={{ display: 'none' }}>
