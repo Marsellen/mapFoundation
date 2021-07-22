@@ -91,9 +91,8 @@ class PictureShowView extends React.Component {
                 let viewer = this.refs.viewer.getViewer().viewer;
                 viewer.renderViewer();
                 const { DataLayerStore } = this.props;
-                if (DataLayerStore.locatePictureStatus) {
-                    document.querySelector('.viewer-locate-picture').classList.add('active');
-                }
+                const bth = document.querySelector('.viewer-locate-picture').classList;
+                DataLayerStore.locatePictureStatus ? bth.add('active') : bth.remove('active');
                 titleMap.forEach(this.addTitle);
             }
         };

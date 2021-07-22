@@ -36,6 +36,7 @@ class PictureView extends React.Component {
                     onCancel={hide}
                     mask={false}
                     maskClosable={false}
+                    destroyOnClose={true}
                     className="small-modal"
                     wrapClassName="view-picture-modal-wrap"
                     resizeCallback={this.resizeCallback}
