@@ -20,6 +20,7 @@ import PostureAdjust from 'src/component/home/toolList/postureAdjust';
 import SetStepSize from 'src/component/home/toolList/setStepSize';
 import UnionBreak from 'src/component/home/toolList/unionBreak';
 import BatchBreak from 'src/component/home/toolList/batchBreak';
+import ViewNeighbor from './viewNeighbor';
 
 export default [
     <Undo key="UNDO" />,
@@ -33,6 +34,7 @@ export default [
     <SearchInfo key="SEARCH_INFO" />,
     <QualityCheck key="QUALITY_TEST" />,
     <QCMarkerTool key="QC_MARKER" />,
+    <ViewNeighbor key="VIEW_NEIGHBOR" />,
     <TopBreakLine key="TOP_BREAK_LINE_1" />,
     <EditLayer key="EDIT_LAYER" />,
     <DrawToolBox key="DRAW_TOOL_BOX" />,
