@@ -1293,6 +1293,10 @@ class DataLayerStore {
     changeUnAble = () => {
         return UNABLE_CHANGE_TYPES.includes(this.editType);
     };
+
+    release = () => {
+        this.locatePictureStatus = false;
+    };
 }
 
 const UNABLE_CHANGE_TYPES = [

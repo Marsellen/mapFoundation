@@ -101,6 +101,7 @@ class VizComponent extends React.Component {
         ResourceLayerStore.release();
         VectorsStore.release();
         PointCloudStore.release();
+        DataLayerStore.release();
         DataLayerStore.setRegionGeojson();
         QualityCheckStore.closeCheckReport();
         QualityCheckStore.clearCheckReport();
