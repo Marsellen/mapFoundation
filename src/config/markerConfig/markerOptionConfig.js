@@ -101,6 +101,10 @@ const ERROR_DESC_MAP = {
             label: '非道路左边线及纯道路边界车道通行状态错误'
         },
         {
+            value: '应提取为道路参考线的车道线的道路形态错误',
+            label: '应提取为道路参考线的车道线的道路形态错误'
+        },
+        {
             value: '其它',
             label: '其它'
         }
@@ -1040,6 +1044,13 @@ const ERROR_DESC_RESET_FIELD_MAP = {
             errContent: 2,
             errorType: 3,
             fieldName: 'LANE_STATUS',
+            errLevel: 3
+        },
+        ['应提取为道路参考线的车道线的道路形态错误']: {
+            qcDesc: null,
+            errContent: 2,
+            errorType: 3,
+            fieldName: 'RD_FORM',
             errLevel: 3
         },
         ['其它']: {
