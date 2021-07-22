@@ -3,12 +3,20 @@ import { inject, observer } from 'mobx-react';
 import { message } from 'antd';
 import ToolIcon from 'src/component/common/toolIcon';
 import { VectorLayer } from 'addis-viz-sdk';
+import AdEmitter from 'src/tool/event';
 
 @inject('TaskStore')
 @observer
 class ViewNeighbor extends React.Component {
     regions = [];
     state = { active: false };
+
+    componentDidMount() {
+        AdEmitter.on('taskChanged', () => {
+            this.regions = [];
+            this.setState({ active: false });
+        });
+    }
 
     render() {
         const { TaskStore } = this.props;

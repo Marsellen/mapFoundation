@@ -9,6 +9,7 @@ import CONFIG from 'src/config';
 import { saveTaskData } from 'src/tool/taskUtils';
 import { editLock } from 'src/tool/decorator';
 import BuriedPoint from 'src/tool/buriedPoint';
+import AdEmitter from 'src/tool/event';
 
 const processNameOptions = CONFIG.processNameOptions;
 
@@ -127,6 +128,7 @@ class Task extends React.Component {
                 await TaskStore.setActiveTask(id);
                 await TaskStore.startTaskEdit(id);
                 this.setState({ current: id });
+                AdEmitter.emit('taskChanged');
             } catch (e) {
                 console.log(`切换任务报错：${e.message || e}`);
             }
