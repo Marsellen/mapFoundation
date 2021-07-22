@@ -669,6 +669,10 @@ class TaskStore {
             isLocal && firstTime && this.localTasks.splice(currentTaskIndex, 1);
         }
     }).bind(this);
+
+    getNeighbor = () => {
+        return TaskService.queryTaskNeighbor({ taskId: this.activeTaskId });
+    };
 }
 
 export default new TaskStore();

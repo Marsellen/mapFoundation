@@ -69,6 +69,14 @@ const TaskService = {
             params
         };
         return service({ config });
+    },
+    queryTaskNeighbor: params => {
+        const config = {
+            url: TaskApiPath('/outside/task/neighbor'),
+            method: 'get',
+            params
+        };
+        return service({ config });
     }
 };
 
