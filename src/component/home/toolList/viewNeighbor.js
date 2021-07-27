@@ -39,8 +39,6 @@ class ViewNeighbor extends React.Component {
         if (active) {
             for (let layer of this.regions) {
                 layer.offsetMap(window.map);
-                let layers = window.map.getLayerManager().vectorLayers;
-                layers = layers.filter(l => l.layerId !== layer.uuid);
             }
             this.regions = [];
             this.setState({ active: false });
