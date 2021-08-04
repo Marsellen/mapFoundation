@@ -116,6 +116,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 29, label: '左侧加速车道', icon: 'zuocejiasuchedao', abbreviation: '左加' },
         { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao', abbreviation: '左减' },
         { value: 31, label: '加减速复合车道', icon: 'jiajiansufuhechedao', abbreviation: '加减' },
+        { value: 32, label: '公交港湾', icon: 'gongjiaogangwan', abbreviation: '公港' },
         { value: 99, label: '其他', icon: 'qita', abbreviation: '99' }
     ],
     AD_LANE_DIVIDER_RD_FORM: [
@@ -199,6 +200,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 29, label: '左侧加速车道', icon: 'zuocejiasuchedao', abbreviation: '左加' },
         { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao', abbreviation: '左减' },
         { value: 31, label: '加减速复合车道', icon: 'jiajiansufuhechedao', abbreviation: '加减' },
+        { value: 32, label: '公交港湾', icon: 'gongjiaogangwan', abbreviation: '公港' },
         { value: 99, label: '其他', icon: 'qita', abbreviation: '99' }
     ],
     AD_LANE_DIRECTION: [
