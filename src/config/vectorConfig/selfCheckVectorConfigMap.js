@@ -1030,6 +1030,19 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     pointSize: 0.1
                 },
                 {
+                    value: 32,
+                    label: '公交港湾',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,237,37)',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
                     value: 99,
                     label: '其他',
                     showFields: 'TYPE',

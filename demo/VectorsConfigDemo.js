@@ -301,6 +301,11 @@ export default {
                     style: { color: 'rgb(255,237,37)', linewidth: 1 }
                 },
                 {
+                    value: 32,
+                    label: '公交港湾',
+                    style: { color: 'rgb(255,237,37)', linewidth: 1 }
+                },
+                {
                     value: 99,
                     label: '其他',
                     style: { color: 'rgb(255,237,37)', linewidth: 1 }
@@ -465,6 +470,11 @@ export default {
                     style: { color: 'rgb(255,237,37)' }
                 },
                 {
+                    value: 32,
+                    label: '公交港湾',
+                    style: { color: 'rgb(255,237,37)' }
+                },
+                {
                     value: 99,
                     label: '其他',
                     style: { color: 'rgb(255,237,37)' }
@@ -626,6 +636,11 @@ export default {
                 {
                     value: 31,
                     label: '加减速复合车道',
+                    style: { color: 'rgb(255,237,37)', linewidth: 1 }
+                },
+                {
+                    value: 32,
+                    label: '公交港湾',
                     style: { color: 'rgb(255,237,37)', linewidth: 1 }
                 },
                 {
