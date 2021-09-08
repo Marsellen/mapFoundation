@@ -42,8 +42,8 @@ class BatchAssignModal extends React.Component {
     getAttrType = () => {
         const { BatchAssignStore } = this.props;
         const { layerName } = BatchAssignStore;
-        const { source: attrType } = ATTR_SPEC_CONFIG.find(item => item.relSpec === layerName);
-        return attrType;
+        const attrConfig = ATTR_SPEC_CONFIG.find(item => item.relSpec === layerName);
+        return attrConfig?.source ?? '';
     };
 
     render() {
