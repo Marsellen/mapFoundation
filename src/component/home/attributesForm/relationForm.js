@@ -127,11 +127,16 @@ class RelationForm extends React.Component {
                         <Icon type="plus" />
                     </Button>
                 )}
-                <NewAttrModal onRef={modal => (this.modal = modal)} />
+                <NewAttrModal onRef={modal => (this.modal = modal)} handleSave={this.handleSave} />
             </div>
         );
     };
-
+    handleSave = (key, values, properties, onCancel) => {
+        const { AttributeStore } = this.props;
+        AttributeStore.newAttr(key, values, properties).then(() => {
+            onCancel();
+        });
+    };
     renderADRoadConRs = (extraInfo, index) => {
         const { form, AttributeStore } = this.props;
         const { attrs } = AttributeStore;
@@ -165,7 +170,7 @@ class RelationForm extends React.Component {
                         <Icon type="plus" />
                     </Button>
                 )}
-                <NewAttrModal onRef={modal => (this.modal = modal)} />
+                <NewAttrModal onRef={modal => (this.modal = modal)} handleSave={this.handleSave} />
             </div>
         );
     };

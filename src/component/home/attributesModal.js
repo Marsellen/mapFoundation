@@ -11,12 +11,25 @@ import { logDecorator, editLock } from 'src/tool/decorator';
 import AttributeStore from 'src/store/home/attributeStore';
 import TaskStore from 'src/store/home/taskStore';
 import 'less/attributes-modal.less';
+import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';
 
 @Form.create()
 @inject('AttributeStore')
 @inject('DataLayerStore')
 @observer
 class AttributesModal extends React.Component {
+    constructor(props) {
+        super(props);
+        this.submit = this.submit.bind(this);
+    }
+
+    getAttrType = () => {
+        const { AttributeStore } = this.props;
+        const { layerName } = AttributeStore;
+        const { source: attrType } = ATTR_SPEC_CONFIG.find(item => item.relSpec === layerName);
+        return attrType;
+    };
+
     componentDidMount() {
         const { AttributeStore } = this.props;
         AttributeStore.addToggleListener(this.props.form.resetFields);
@@ -64,8 +77,8 @@ class AttributesModal extends React.Component {
 
     renderTitle = () => {
         const { AttributeStore } = this.props;
-        const { type } = AttributeStore;
-        return DATA_LAYER_MAP[type] ? DATA_LAYER_MAP[type].label : type;
+        const { layerName } = AttributeStore;
+        return DATA_LAYER_MAP[layerName] ? DATA_LAYER_MAP[layerName].label : layerName;
     };
 
     renderFooter = () => {
@@ -111,15 +124,33 @@ class AttributesModal extends React.Component {
     renderForm() {
         const {
             form,
-            AttributeStore: { attributes, readonly }
+            AttributeStore: { attributes, readonly, layerName, attrs, spliceAttrs, updateKey }
         } = this.props;
         return (
             <div key="basicAttribute">
                 <BasicAttributesForm form={form} formConfig={attributes} formStatus={!readonly} />
-                <AttrsForm form={form} />
+                {layerName === 'AD_Lane' ? (
+                    <AttrsForm
+                        updateKey={updateKey}
+                        form={form}
+                        attrType={this.getAttrType()}
+                        layerName={layerName}
+                        attrs={attrs}
+                        readonly={readonly}
+                        onOk={this.handleSave}
+                        onDelete={spliceAttrs}
+                    />
+                ) : null}
             </div>
         );
     }
+
+    handleSave = (key, values, properties, onCancel) => {
+        const { AttributeStore } = this.props;
+        AttributeStore.newAttr(key, values, properties).then(() => {
+            onCancel();
+        });
+    };
 
     renderRels() {
         return <RelationForm key="relation" form={this.props.form} />;
