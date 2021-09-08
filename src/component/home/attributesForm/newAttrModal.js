@@ -72,7 +72,7 @@ class NewAttrModal extends React.Component {
     };
 
     onOk = () => {
-        const { AttributeStore, form } = this.props;
+        const { form, handleSave } = this.props;
         const { key, properties } = this.state;
         this.setState({
             confirmLoading: true
@@ -84,10 +84,7 @@ class NewAttrModal extends React.Component {
                 });
                 return;
             }
-            //console.log(values);
-            AttributeStore.newAttr(key, values, properties).then(() => {
-                this.onCancel();
-            });
+            handleSave(key, values, properties, this.onCancel);
         });
     };
 

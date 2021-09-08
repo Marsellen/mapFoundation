@@ -31,7 +31,7 @@ class AttributeStore {
     delAttrs = [];
     @observable visible;
     @observable attrListVisible = false;
-    @observable type;
+    @observable layerName;
     @observable attributes = [];
     @observable rels = [];
     @observable attrs = {};
@@ -40,9 +40,10 @@ class AttributeStore {
     @observable loading = false;
     @observable loadingMessage;
     @observable timeVisible = true;
+    @observable updateKey;
 
     @action show = (readonly, obj) => {
-        const modelId = obj.data.properties[getLayerIDKey(this.type)];
+        const modelId = obj.data.properties[getLayerIDKey(this.layerName)];
         if (this.modelId !== modelId) {
             if (!this.readonly && this.visible) {
                 BuriedPoint.toolBuriedPointEnd('attr_edit_modal', 'toggle_select');
@@ -54,6 +55,7 @@ class AttributeStore {
         this.visible = true;
         this.readonly = readonly;
         this.modelId = modelId;
+        this.updateKey = Math.random();
     };
 
     @action hide = channel => {
@@ -89,7 +91,7 @@ class AttributeStore {
     setModel = flow(function* (obj) {
         this.showLoading(LOAD_DATA_MESSAGE);
         this.model = obj;
-        this.type = obj.layerName;
+        this.layerName = obj.layerName;
         this.fetchAttributes();
         yield this.fetchRels();
         yield this.fetchAttrs();
@@ -133,7 +135,6 @@ class AttributeStore {
                 this.model.data.properties
             );
             this.attrs = attrFactory.getTabelData(this.attrRecords);
-            // console.log(this.attrs);
         } catch (error) {
             console.log(error);
         }
@@ -219,7 +220,6 @@ class AttributeStore {
         let attrLog = this.calcAttrLog(data.attrs);
         let oldFeature = _.cloneDeep(this.model);
         let newFeature = _.cloneDeep(this.model);
-
         //维护属性的更新标识
         let diffFields = getDiffFields(newFeature, data.attributes);
         newFeature.data.properties = {
@@ -227,7 +227,6 @@ class AttributeStore {
             ...data.attributes
         };
         newFeature = modUpdStatPropertiesFields(newFeature, diffFields);
-
         let historyLog = {
             features: [[oldFeature], [newFeature]],
             rels: relLog,
@@ -357,6 +356,7 @@ class AttributeStore {
             let record = attrFactory.dataToTable(value, key);
             this.attrs[key] = this.attrs[key] || [];
             this.attrs[key].push(record);
+            this.updateKey = Math.random();
         } catch (e) {
             console.log(e);
             message.warning('请求ID失败：' + e.message, 3);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Modal, Select, Button, Input, message } from 'antd';
+import { Form, Modal, Select, Button, Input, message, Spin } from 'antd';
 import { observer, inject } from 'mobx-react';
 import RadioIconGroup from 'src/component/common/radioIconGroup';
 import CheckBoxIconGroup from 'src/component/common/checkBoxIconGroup';
@@ -14,6 +14,9 @@ import BatchAssignStore from 'src/store/home/batchAssignStore';
 import SearchIconGroup from 'src/component/common/searchIconGroup';
 import { testDataString } from 'src/tool/timeUtils';
 import BuriedPoint from 'src/tool/buriedPoint';
+import AttrsForm from './attributesForm/attrsForm';
+import { updateFeatures } from 'src/tool/relCtrl/operateCtrl';
+import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';
 
 const formItemLayout = {
     labelCol: {
@@ -31,9 +34,21 @@ const formItemLayout = {
 @inject('AttributeStore')
 @observer
 class BatchAssignModal extends React.Component {
+    constructor(props) {
+        super(props);
+        this.submit = this.submit.bind(this);
+    }
+
+    getAttrType = () => {
+        const { BatchAssignStore } = this.props;
+        const { layerName } = BatchAssignStore;
+        const { source: attrType } = ATTR_SPEC_CONFIG.find(item => item.relSpec === layerName);
+        return attrType;
+    };
+
     render() {
         const { BatchAssignStore } = this.props;
-        const { visible } = BatchAssignStore;
+        const { visible, loading } = BatchAssignStore;
         const disabledList = this.getDisabledList();
         return (
             <Modal
@@ -46,9 +61,12 @@ class BatchAssignModal extends React.Component {
                 onCancel={this.handleCancel}
             >
                 <div className="obscuration" />
-                <Form colon={false} hideRequiredMark={true}>
-                    {this._renderForm(disabledList)}
-                </Form>
+                <Spin spinning={loading}>
+                    <Form colon={false} hideRequiredMark={true}>
+                        {this._renderForm(disabledList)}
+                        {this._renderAttrForm()}
+                    </Form>
+                </Spin>
             </Modal>
         );
     }
@@ -67,6 +85,31 @@ class BatchAssignModal extends React.Component {
                 )}
             </div>
         );
+    };
+
+    _renderAttrForm = () => {
+        const {
+            form,
+            BatchAssignStore: { layerName, attrs, spliceAttrs, updateKey }
+        } = this.props;
+        return layerName === 'AD_Lane' ? (
+            <AttrsForm
+                updateKey={updateKey}
+                form={form}
+                attrType={this.getAttrType()}
+                layerName={layerName}
+                attrs={attrs}
+                readonly={false}
+                onOk={this.handleSave}
+                onDelete={spliceAttrs}
+            />
+        ) : null;
+    };
+
+    handleSave = (key, values, properties, onCancel) => {
+        const { BatchAssignStore } = this.props;
+        BatchAssignStore.newAttr(key, values, properties);
+        onCancel();
     };
 
     _renderFooter = () => {
@@ -102,10 +145,12 @@ class BatchAssignModal extends React.Component {
             return;
         }
         try {
-            let result = BatchAssignStore.submit(values);
+            const attrtype = this.getAttrType();
+            const log = await BatchAssignStore.submit(values, attrtype);
+            await updateFeatures(log);
             AdEmitter.emit('fetchViewAttributeData');
             DataLayerStore.clearPick();
-            return result;
+            return log;
         } catch (e) {
             message.error(e.message);
             throw e;
