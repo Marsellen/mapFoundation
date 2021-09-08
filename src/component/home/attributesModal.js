@@ -26,8 +26,8 @@ class AttributesModal extends React.Component {
     getAttrType = () => {
         const { AttributeStore } = this.props;
         const { layerName } = AttributeStore;
-        const { source: attrType } = ATTR_SPEC_CONFIG.find(item => item.relSpec === layerName);
-        return attrType;
+        const attrConfig = ATTR_SPEC_CONFIG.find(item => item.relSpec === layerName);
+        return attrConfig?.source ?? '';
     };
 
     componentDidMount() {

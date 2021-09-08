@@ -1,6 +1,6 @@
 import { action, configure, observable, flow, toJS } from 'mobx';
 import modelFactory from 'src/tool/vectorCtrl/modelFactory';
-import { getLayerIDKey, getDiffFields, modUpdStatPropertiesFields } from 'src/tool/vectorUtils';
+import { getLayerIDKey, getDiffFields, modUpdStatPropertiesFields, getFeatureInfo } from 'src/tool/vectorUtils';
 import _ from 'lodash';
 import BuriedPoint from 'src/tool/buriedPoint';
 import attrFactory from 'src/tool/attrFactory';
@@ -32,9 +32,10 @@ class BatchAssignStore {
     //存批量赋值的要素信息
     @action initAttrMap = flow(function* (features) {
         for (let feature of features) {
-            const keyId = feature.data.properties.LANE_ID;
+            const featureInfo = getFeatureInfo(feature)
+            const featureId = featureInfo.value;
             const attrRecords = yield this.fetchAttrs(feature);
-            this.attrMap[keyId] = { feature, attrRecords };
+            this.attrMap[featureId] = { feature, attrRecords };
         }
     });
 
@@ -89,13 +90,14 @@ class BatchAssignStore {
         const MainKey = ATTR_SPEC_CONFIG.find(config => config.source == attrType);
         const MainFId = MainKey.key;
         const properties = feature.data.properties;
+        const featureId = properties[MainFId];
         const attrs = {
             ...attrFormData,
-            key: properties[MainFId],
+            key: featureId,
             sourceId: id,
             properties: {
                 ...attrFormData.properties,
-                [MainFId]: properties[MainFId],
+                [MainFId]: featureId,
                 [IDKey]: id,
                 CONFIDENCE: DEFAULT_CONFIDENCE_MAP[attrType],
                 COLL_TIME: '',
@@ -119,24 +121,25 @@ class BatchAssignStore {
 
     @action submit = flow(function* (data, attrType) {
         this.loading = true;
+        const { attrs, attributes } = data;
         let batchOldFeature = [];
         let batchNewFeature = [];
         let batchOldAttr = [];
         let batchNewAttr = [];
-        for (let key in this.attrMap) {
-            const feature = this.attrMap[key].feature;
-            const [oldAttrs, newAttrs] = yield this.getAttrLog(feature, data, key, attrType);
+        for (let featureId in this.attrMap) {
+            const feature = this.attrMap[featureId].feature;
+            const [oldAttrs, newAttrs] = yield this.getAttrLog(feature, data, featureId, attrType);
             let oldFeature = _.cloneDeep(feature);
             let newFeature = _.cloneDeep(feature);
 
-            //维护属性的更新标识
-            let diffFields = getDiffFields(newFeature, data.attributes);
-            newFeature.data.properties = {
-                ...newFeature.data.properties,
-                ...data.attributes
-            };
-            newFeature = modUpdStatPropertiesFields(newFeature, diffFields);
-
+            for (let key in attributes) {
+                if (!(attributes[key] || attributes[key] == 0)) continue;
+                if (newFeature.data.properties[key] !== attributes[key]) {
+                    newFeature.data.properties[key] = attributes[key];
+                    newFeature = modUpdStatPropertiesFields(newFeature, [key]); //维护更新标识
+                }
+            }
+            
             batchOldFeature = [...batchOldFeature, oldFeature];
             batchNewFeature = [...batchNewFeature, newFeature];
             batchOldAttr = [...batchOldAttr, ...oldAttrs];
@@ -146,7 +149,7 @@ class BatchAssignStore {
         const batchHistoryLog = {
             features: [batchOldFeature, batchNewFeature]
         };
-        if (data.attrs) batchHistoryLog.attrs = [batchOldAttr, batchNewAttr];
+        if (attrs) batchHistoryLog.attrs = [batchOldAttr, batchNewAttr];
         this.loading = false;
         return batchHistoryLog;
     });
