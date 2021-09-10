@@ -2,17 +2,25 @@
 
 ### 依赖项安装
 
-npm 依赖安装
+yarn 依赖安装
 
-> npm run i
+> yarn install
 
 依赖包更新
 
-> 修改 package.json 中依赖包版本号，重新执行 npm run i
+> 修改 package.json 中依赖包版本号，重新执行 yarn install
+
+addis-viz-sdk 主版本和次版本更新
+
+> 需要手动修改 package.json 中 yarn update-sdk 命令中的版本号，再执行 yarn update-sdk
+
+addis-viz-sdk 小版本更新，直接执行下方命令更新
+
+> yarn update-sdk
 
 ### 服务启动
 
-> npm start
+> yarn start
 
 ## 编写指南
 
