@@ -126,6 +126,8 @@ export const MARKER_FIELD_CONFIG = () => {
             initialValue: null,
             editable: false,
             className: 'select-show-full-content',
+            showSearch: true,
+            optionClass: 'configurable-form-select-option-scroll',
             option: {
                 data: ERROR_DESC_MAP,
                 secondKey: 'fileName',
@@ -250,9 +252,8 @@ export const MARKER_FIELD_CONFIG = () => {
 };
 
 export const MARKER_FORM_CONFIG = () => {
-    const { MS_QC_LINK_OPTIONS, MB_QC_LINK_OPTIONS } = SettingStore.getConfig(
-        'MARKER_OPTION_CONFIG'
-    );
+    const { MS_QC_LINK_OPTIONS, MB_QC_LINK_OPTIONS } =
+        SettingStore.getConfig('MARKER_OPTION_CONFIG');
 
     return {
         //质检员创建标注的表单配置-人工识别后质检

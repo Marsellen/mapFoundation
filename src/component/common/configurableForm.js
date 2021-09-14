@@ -174,7 +174,16 @@ class ConfigurableForm extends React.Component {
     _renderSelect = (item, initData) => {
         const { form } = this.props;
         const { getFieldDecorator } = form;
-        const { name, option, tool: Tool, className, editable, editableByField, layout } = item;
+        const {
+            name,
+            option,
+            tool: Tool,
+            className,
+            editable,
+            editableByField,
+            layout,
+            optionClass
+        } = item;
         const selectOptions = this.getSelectOption(option, initData);
         const isEditable = this.getAllEditStatus(editableByField, initData);
 
@@ -185,6 +194,7 @@ class ConfigurableForm extends React.Component {
                     this.formItemConfig(item)
                 )(
                     <Select
+                        showSearch={item.showSearch}
                         disabled={editable ? !isEditable : true}
                         onChange={value => this.handleChange(name, value)}
                     >
@@ -195,7 +205,7 @@ class ConfigurableForm extends React.Component {
                                         title={optionItem[option.label]}
                                         value={optionItem[option.value]}
                                         key={optionItem[option.value]}
-                                        style={{ fontSize: '12px' }}
+                                        className={`configurable-form-select-option ${optionClass}`}
                                     >
                                         {optionItem[option.label]}
                                     </Option>
