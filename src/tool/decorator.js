@@ -4,6 +4,7 @@ import DataLayerStore from 'src/store/home/dataLayerStore';
 import TaskStore from 'src/store/home/taskStore';
 import RightMenuStore from 'src/store/home/rightMenuStore';
 import AttributeStore from 'src/store/home/attributeStore';
+import BufferStore from 'src/store/home/bufferStore';
 import editLog from 'src/tool/editLog';
 import AdEmitter from 'src/tool/event';
 import { EDIT_MESSAGE } from 'src/config/editMessage';
@@ -129,6 +130,8 @@ export const logDecorator = option => {
                         content: EDIT_MESSAGE[editType].successMsg
                     });
                 }
+                BufferStore.updateBufferRender(history);
+
             } catch (e) {
                 console.log(e);
                 log = {

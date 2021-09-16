@@ -89,7 +89,7 @@ class AdColorInput extends React.Component {
         let node = e.target;
         let isScrollEle = false;
         while (i < 20 && !isScrollEle) {
-            isScrollEle = node.style.overflow;
+            isScrollEle = window.getComputedStyle(node).overflow === 'auto';
             if (!isScrollEle) {
                 node = node.parentNode;
             }

@@ -24,6 +24,7 @@ import QCMarkerStore from 'src/store/home/qcMarkerStore';
 import LoadingStore from 'src/store/home/loadingStore';
 import BatchBuildStore from 'src/store/home/batchBuildStore';
 import ManualBuildStore from 'src/store/home/manualBuildStore';
+import BufferStore from 'src/store/home/bufferStore';
 
 export default {
     appStore,
@@ -51,5 +52,6 @@ export default {
     QCMarkerStore,
     LoadingStore,
     BatchBuildStore,
-    ManualBuildStore
+    ManualBuildStore,
+    BufferStore
 };

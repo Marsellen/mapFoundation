@@ -41,6 +41,7 @@ export const DATA_LAYER_MAP = {
             manbuild: ['LINE', 'CURVED_LINE']
         },
         rightTools: [
+            'buffer_render', 
             'delete',
             'force_delete',
             'batch_build',
@@ -53,6 +54,7 @@ export const DATA_LAYER_MAP = {
         ],
         batchTools: ['LINE_FEATURES_SNAP_TO_STOP_LINE', 'ASSIGN_LINE_NO_IN_BATCH'],
         groupRightTools: [
+            'buffer_render', 
             'batch_build',
             'break_line_by_point',
             'merge_line',
@@ -110,8 +112,8 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE'],
             manbuild: ['LINE']
         },
-        rightTools: ['delete', 'force_delete', 'change_points', 'trim', 'group_move', 'copy_line'],
-        groupRightTools: ['batch_assign', 'group_move', 'delete'],
+        rightTools: ['buffer_render', 'delete', 'force_delete', 'change_points', 'trim', 'group_move', 'copy_line'],
+        groupRightTools: ['buffer_render', 'batch_assign', 'group_move', 'delete'],
         editName: '停止位置'
     },
     AD_Lane: {
@@ -136,6 +138,7 @@ export const DATA_LAYER_MAP = {
         },
         batchTools: ['LINE_FEATURES_SNAP_TO_STOP_LINE', 'ASSIGN_LINE_NO_IN_BATCH'],
         rightTools: [
+            'buffer_render', 
             'delete',
             'force_delete',
             'copy_line',
@@ -146,6 +149,7 @@ export const DATA_LAYER_MAP = {
             'group_move'
         ],
         groupRightTools: [
+            'buffer_render', 
             'break_line_by_point',
             'merge_line',
             'batch_merge_line',
@@ -196,6 +200,7 @@ export const DATA_LAYER_MAP = {
         },
         batchTools: ['LINE_FEATURES_SNAP_TO_STOP_LINE'],
         rightTools: [
+            'buffer_render', 
             'delete',
             'force_delete',
             'copy_line',
@@ -206,6 +211,7 @@ export const DATA_LAYER_MAP = {
             'group_move'
         ],
         groupRightTools: [
+            'buffer_render', 
             'break_line_by_point',
             'merge_line',
             'batch_merge_line',
@@ -263,6 +269,7 @@ export const DATA_LAYER_MAP = {
             manbuild: ['LINE', 'CURVED_LINE']
         },
         rightTools: [
+            'buffer_render', 
             'delete',
             'force_delete',
             'change_points',
@@ -272,6 +279,7 @@ export const DATA_LAYER_MAP = {
             'copy_line'
         ],
         groupRightTools: [
+            'buffer_render', 
             'break_line_by_point',
             'merge_line',
             'batch_assign',
@@ -439,8 +447,8 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE', 'CURVED_LINE'],
             manbuild: ['LINE', 'CURVED_LINE']
         },
-        rightTools: ['delete', 'change_points', 'force_delete', 'group_move', 'copy_line'],
-        groupRightTools: ['batch_assign', 'group_move', 'delete'],
+        rightTools: ['buffer_render', 'delete', 'change_points', 'force_delete', 'group_move', 'copy_line'],
+        groupRightTools: ['buffer_render', 'batch_assign', 'group_move', 'delete'],
         editName: '几何层：\n杆状物'
     },
     AD_TrafficSign_Geo: {

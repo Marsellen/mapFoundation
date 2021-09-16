@@ -45,6 +45,7 @@ import PointCloudStore from 'src/store/home/pointCloudStore';
 import VectorsStore from 'src/store/home/vectorsStore';
 import ToolCtrlStore from 'src/store/home/toolCtrlStore';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
+import BufferStore from 'src/store/home/bufferStore';
 import QualityCheckStore from 'src/store/home/qualityCheckStore';
 import { showPictureShowView, showAttributesModal, showRightMenu } from 'src/tool/map/viewCtrl';
 import { fetchCallback } from 'src/tool/map/utils';
@@ -105,6 +106,7 @@ class VizComponent extends React.Component {
         DataLayerStore.setRegionGeojson();
         QualityCheckStore.closeCheckReport();
         QualityCheckStore.clearCheckReport();
+        BufferStore.release();
         window.boundaryLayerGroup = null;
         window.pointCloudLayer = null;
         window.vectorLayerGroup = null;

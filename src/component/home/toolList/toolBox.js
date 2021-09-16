@@ -5,7 +5,6 @@ import { inject, observer } from 'mobx-react';
 import Ranging from './ranging';
 // import ReadCoordinate from './ReadCoordinate';
 import RoadSet from './roadSet';
-import BufferRender from './bufferRender';
 
 const EDIT_TYPES = ['meature_distance', 'read_coordinate', 'select_road_plane', 'buffer_render'];
 
@@ -65,15 +64,6 @@ class ToolBox extends React.Component {
                     disabled={this.disabled('zuobiaoshiqu')}>
                     <ReadCoordinate disabled={this.disabled('zuobiaoshiqu')} />
                 </Menu.Item> */}
-                <Menu.Item
-                    name="BUFFER"
-                    key="yaosulunkuobuffer"
-                    title="要素轮廓buffer渲染"
-                    actionid="buffer-btn"
-                    disabled={this.disabled('bufferxuanran')}
-                >
-                    <BufferRender disabled={this.disabled('bufferxuanran')} />
-                </Menu.Item>
                 <Menu.Item
                     key="lumianshezhi"
                     title="路面设置"
