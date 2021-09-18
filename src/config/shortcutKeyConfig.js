@@ -341,12 +341,20 @@ export const SHORTCUT_KEYS = [
         describe: '批量生成车道线'
     },
     {
-        id: 'buffer-btn',
+        id: 'buffer-render-btn',
         ctrl: false,
         alt: false,
         shift: false,
         keyCode: 80,
         describe: 'buffer渲染 P'
+    },
+    {
+        id: 'buffer-enable-btn',
+        ctrl: false,
+        alt: false,
+        shift: false,
+        keyCode: 71,
+        describe: '要素轮廓buffer渲染 G'
     },
     {
         ctrl: false,

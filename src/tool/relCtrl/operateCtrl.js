@@ -55,9 +55,10 @@ const deleteLine = async features => {
     let historyLog = {
         features: featuresLog,
         rels: [rels, []],
-        attrs: [attrs, []]
+        attrs: [attrs, []],
+        pureFeatures:[features,[]]
     };
-    await updateFeatures(historyLog);
+    historyLog = await updateFeatures(historyLog);
 
     return historyLog;
 };
@@ -72,8 +73,10 @@ const forceDelete = async features => {
     let historyLog = {
         features: [features, []],
         rels: [[], []],
-        attrs: [[], []]
+        attrs: [[], []],
+        pureFeatures:[features,[]]
     };
+    historyLog = await updateFeatures(historyLog);
 
     //获取图层映射{layerName:layer}
     let featuresMap = getFeaturesMap(features);
@@ -114,9 +117,10 @@ const breakLine = async (breakPoint, features, activeTask) => {
     let historyLog = {
         features: featuresLog,
         rels: [uniqRels(oldRels), uniqRels(rels)],
-        attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)]
+        attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)],
+        pureFeatures:[features,[]]
     };
-    await updateFeatures(historyLog);
+    historyLog = await updateFeatures(historyLog);
 
     message.success({ content: result.message, duration: 1, key: DataLayerStore.editType });
     return historyLog;
@@ -207,9 +211,10 @@ const mergeLine = async (features, activeTask) => {
     let historyLog = {
         features: featuresLog,
         rels: [uniqRels(oldRels), uniqRels(rels)],
-        attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)]
+        attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)],
+        pureFeatures:[features,[]]
     };
-    await updateFeatures(historyLog);
+    historyLog = await updateFeatures(historyLog);
 
     message.success({ content: result.message, duration: 1, key: 'merge_line' });
     return historyLog;
@@ -239,9 +244,10 @@ const batchMergeLine = async (features, activeTask) => {
     let historyLog = {
         features: featuresLog,
         rels: [uniqRels(oldRels), uniqRels(rels)],
-        attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)]
+        attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)],
+        pureFeatures:[features,[]]
     };
-    await updateFeatures(historyLog);
+    historyLog = await updateFeatures(historyLog);
 
     message.success({ content: result.message, duration: 1, key: 'batch_merge_line' });
     return historyLog;
@@ -272,9 +278,10 @@ const breakLineByLine = async (line, features, activeTask) => {
     let historyLog = {
         features: featuresLog,
         rels: [uniqRels(oldRels), uniqRels(rels)],
-        attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)]
+        attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)],
+        pureFeatures:[features,[]]
     };
-    await updateFeatures(historyLog);
+    historyLog = await updateFeatures(historyLog);
 
     message.success({ content: result.message, duration: 1, key: 'break_line_by_line' });
     return historyLog;
@@ -881,7 +888,7 @@ const attrsDataFormat = (data, source) => {
  * @param {Array} log.attrs 关联属性变更记录
  * @returns {Null}
  */
-const updateFeatures = async ({ features, rels, attrs } = {}) => {
+const updateFeatures = async ({ features, rels, attrs, pureFeatures } = {}) => {
     let [oldFeatures, newFeatures] = features;
     let updateFeatures = [];
     //获取图层映射{layerName:layer}
@@ -901,7 +908,12 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
             layer.updateFeatures([feature]);
         } else {
             //如果不是已有要素，则新增该要素
-            layer.addFeatures([feature.data]);
+            const data = layer.addFeatures([feature.data]);
+            if (pureFeatures) {
+                feature.uuid = data[0].uuid;
+                const isHave = pureFeatures[1].find(item=> item.uuid === data[0].uuid);
+                !isHave && pureFeatures[1].push(feature);
+            }
         }
     });
     if (rels) {
@@ -917,6 +929,7 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
         if (updateFeatures.includes(option.key + option.value)) return;
         layer.removeFeatureByOption(option);
     });
+    return { features, rels, attrs, pureFeatures };
 };
 
 const updateRels = async ([oldRels, newRels] = []) => {

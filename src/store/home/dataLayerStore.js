@@ -18,7 +18,6 @@ import { getEventPointWkt, getFeaturePointWkt } from 'src/tool/pictureCtrl';
 import SettingStore from 'src/store/setting/settingStore';
 import BatchBuildStore from './batchBuildStore';
 import { editLock } from 'src/tool/decorator';
-import { LINE_LAYERS } from 'src/config/dataLayerConfig';
 import OtherVectorConfig from 'src/config/otherVectorConfig';
 import BuriedPoint from 'src/tool/buriedPoint';
 
@@ -139,7 +138,7 @@ class DataLayerStore {
         }
         //埋点开始
         BuriedPoint.statusBuriedPointEnd(this.editStatus, channel);
-
+        
         this.editor ? this.exitEdit(toolChannel, noClear) : this.initEditor();
         this.editor?.setEditLayer(currentLayer);
         this.adEditLayer = currentLayer;
@@ -204,9 +203,6 @@ class DataLayerStore {
                     this.groupMoveCallback(result, event);
                     break;
                 case 'batch_build':
-                    break;
-                case 'buffer_render':
-                    this.bufferRenderCallback(result, event);
                     break;
             }
         });
@@ -456,16 +452,6 @@ class DataLayerStore {
         this.setEditType('select_road_plane', 'button');
         this.editor.selectPointFromPC();
         this.roadPlanePointStyle();
-    };
-
-    bufferRender = () => {
-        this.exitEdit('toggle');
-        window.bufferLayer = null;
-        if (!this.editor) return;
-        this.setEditType('buffer_render', 'button');
-        let layers = getAllLayersExByName(LINE_LAYERS);
-        this.enableRegionSelect(layers);
-        this.initBufferLayer();
     };
 
     newQCMarker = () => {
@@ -762,10 +748,6 @@ class DataLayerStore {
         this.newTemplateArrowCallback = callback;
     };
 
-    setBufferRenderCallback = callback => {
-        this.bufferRenderCallback = callback;
-    };
-
     newCircle = () => {
         this.exitEdit('toggle');
         if (!this.editor) return;
@@ -826,22 +808,6 @@ class DataLayerStore {
         this.horizontalTip?.();
         this.editor.cancel();
         this.removeCur();
-    };
-
-    initBufferLayer = () => {
-        if (window.bufferLayer) return;
-        const bufferLayer = new VectorLayer();
-        bufferLayer.layerName = 'AD_bufferLayer';
-        window.map.getLayerManager().addLayer('VectorLayer', bufferLayer);
-        window.bufferLayer = {
-            layerName: bufferLayer.layerName,
-            layerId: bufferLayer.layerId,
-            layer: bufferLayer
-        };
-    };
-
-    clearBufferRender = () => {
-        window.bufferLayer?.layer?.clear?.();
     };
 
     clearDrawHorizontal = () => {
@@ -1006,12 +972,10 @@ class DataLayerStore {
             case 'trim':
                 message.destroy();
                 break;
-            case 'buffer_render':
-                this.clearBufferRender();
-                break;
             default:
                 break;
         }
+
         if (QCMarkerStore.isCreateMarker()) {
             QCMarkerStore.clearDebuff();
             this.fetchTargetLayers();
@@ -1029,7 +993,6 @@ class DataLayerStore {
             case 'new_turn_line':
             case 'posture_adjust':
             case 'dashed_polygon_create':
-            case 'buffer_render':
                 this.fetchTargetLayers();
                 break;
             case 'trim':

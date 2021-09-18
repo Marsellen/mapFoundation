@@ -1,6 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import RenderConfigWindow from './renderMode/renderConfigWindow';
+import BufferConfigWindow from './bufferConfig/bufferConfigWindow';
 import 'less/multimedia-modal.less';
 import ZoomIn from './toolList/zoomIn';
 import ZoomOut from './toolList/zoomOut';
@@ -32,6 +33,13 @@ const MENU_LIST = [
         icon: 'dianyuncengji',
         storeName: 'PointCloudStore',
         content: <PointCloudLayer />
+    },
+    {
+        id: 'buffer-render-icon',
+        title: 'buffer渲染窗口',
+        icon: 'yaosulunkuobuffer',
+        storeName: 'BufferStore',
+        content: <BufferConfigWindow />
     }
 ];
 @inject('DefineModeStore')
@@ -39,6 +47,7 @@ const MENU_LIST = [
 @inject('TextStore')
 @inject('PictureShowStore')
 @inject('PointCloudStore')
+@inject('BufferStore')
 @observer
 class MultimediaView extends React.Component {
     handleClick = storeName => {

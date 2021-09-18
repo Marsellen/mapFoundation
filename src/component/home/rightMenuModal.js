@@ -90,6 +90,7 @@ const CHINESE_EDIT_TYPE = [
 @inject('RightMenuStore')
 @inject('DataLayerStore')
 @inject('TaskStore')
+@inject('BufferStore')
 @observer
 class RightMenuModal extends React.Component {
     constructor() {
@@ -121,6 +122,7 @@ class RightMenuModal extends React.Component {
         this.groupMove = this.groupMove.bind(this);
         this.copyLineHandle = this.copyLineHandle.bind(this);
         this.changePointsCallback = this.changePointsCallback.bind(this);
+        this.bufferFeature = this.bufferFeature.bind(this);
         DataLayerStore.setGroupMoveCallback(this.groupMoveCallback);
     }
 
@@ -180,7 +182,8 @@ class RightMenuModal extends React.Component {
     };
 
     getMenus = () => {
-        const menuArr = [
+        const { BufferStore: { bufferMode, bufferEnableStatus } } = this.props;
+        let menuArr = [
             <Menu.Item
                 id="delete-btn"
                 key="delete"
@@ -297,6 +300,19 @@ class RightMenuModal extends React.Component {
                 <span>平移</span>
             </Menu.Item>
         ];
+        if (bufferMode == 2 && bufferEnableStatus) {
+            menuArr = [
+                <Menu.Item
+                    id="buffer-render-btn"
+                    key="buffer_render"
+                    onClick={this.bufferFeature}
+                    className="right-menu-item"
+                >
+                    <span>buffer</span>
+                </Menu.Item>,
+                ...menuArr
+            ]
+        }
         return menuArr;
     };
 
@@ -455,7 +471,6 @@ class RightMenuModal extends React.Component {
 
     @logDecorator({ operate: '删除要素' })
     async deleteFeatureHandler() {
-        const { RightMenuStore } = this.props;
         let result = RightMenuStore.delete();
         let historyLog = await deleteLine(result, TaskStore.activeTask);
         AttributeStore.hideRelFeatures();
@@ -495,8 +510,10 @@ class RightMenuModal extends React.Component {
 
     @logDecorator({ operate: '强制删除要素', toolType: 'force_delete' })
     async forceDeleteFeatureHandler() {
+        const { BufferStore: { removeBufferLayer } } = this.props;
         let result = this.props.RightMenuStore.delete();
         let historyLog = await forceDelete(result, TaskStore.activeTask);
+        removeBufferLayer(result);
         AttributeStore.hideRelFeatures();
         AttributeStore.hide('other_close');
         return historyLog;
@@ -519,6 +536,17 @@ class RightMenuModal extends React.Component {
         AttributeStore.hide('other_close');
         RightMenuStore.hide();
     }
+  
+    @editLock
+    bufferFeature() {
+        const { BufferStore, RightMenuStore } = this.props;
+        BufferStore.setEditStatus('buffer_render', 'button');
+        let features = RightMenuStore.getFeatures();
+        BufferStore.updateFeatures(features);
+        AttributeStore.hideRelFeatures();
+        RightMenuStore.hide();
+    }
+    
 
     @editLock
     @editInputLimit({ editType: 'copy_line', isRightMenu: true })

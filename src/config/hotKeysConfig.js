@@ -10,8 +10,7 @@ export const HOT_KEYS_CONFIG = {
         },
         // { value: 'Ctrl+F', label: '查询' },
         // { value: 'Ctrl+P', label: '坐标拾取' },
-        { value: 'L', label: '测距' },
-        { value: 'P', label: 'buffer渲染' }
+        { value: 'L', label: '测距' }
     ],
     VIEW_ADJUST_KEY: [
         //视角调整
@@ -151,6 +150,14 @@ export const HOT_KEYS_CONFIG = {
         {
             value: '选择多个要素+K',
             label: '批量赋值'
+        },
+        {
+            value: '选择1个/多个要素+P',
+            label: '选择要素渲染'
+        },
+        {
+            value: 'G',
+            label: '要素buffer渲染启用/禁用'
         },
         { value: 'Esc', label: '退出编辑状态' }
     ],
