@@ -7,18 +7,18 @@ import 'src/asset/less/define-mode.less';
 
 @inject('BufferStore')
 @observer
-class SingleSelectBufferConfig extends React.Component {
+class SelectBufferConfig extends React.Component {
     onChange = (key, val) => {
         const { BufferStore } = this.props;
-        BufferStore.singleSelectBufferConfig({ styleKey: key, styleValue: val });
+        BufferStore.selectBufferConfig({ styleKey: key, styleValue: val });
     };
 
     render() {
-        const { BufferStore: { bufferEnableStatus, bufferStyle } } = this.props;
+        const { BufferStore: { disabled, bufferStyle } } = this.props;
         const { radius, color, opacity } = bufferStyle;
         return (
             <div className="feature-config-buffer">
-                { bufferEnableStatus && 
+                { disabled && 
                     <div className="buffer-config-content">
                     <div className="buffer-config-filed">
                         <label className="buffer-config-filed-label">半径</label>
@@ -62,4 +62,4 @@ class SingleSelectBufferConfig extends React.Component {
     }
 }
 
-export default SingleSelectBufferConfig;
+export default SelectBufferConfig;
