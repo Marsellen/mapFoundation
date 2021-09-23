@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { Menu } from 'antd';
 import 'src/asset/less/setting.less';
 import SettingForm from 'src/component/setting/settingForm';
-import logo from 'src/asset/img/logo.png';
+import logo from 'src/asset/img/logo.svg';
 import Avatar from 'src/component/home/avatar';
 import { SETTING_MENUS } from 'src/config/settingConfig';
 
