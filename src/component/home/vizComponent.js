@@ -119,6 +119,7 @@ class VizComponent extends React.Component {
         window.map = null;
         window.markerLayer = null;
         window.horizontal = null;
+        window.bufferLayer = null;
     };
 
     clearWorkSpace = async () => {

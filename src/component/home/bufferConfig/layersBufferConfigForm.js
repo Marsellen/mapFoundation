@@ -20,24 +20,21 @@ class LayersBufferConfigForm extends React.Component {
         })
     }
 
-    handleCurrentStyle = (bufferStyle, bufferFields) => {
-        const style = bufferFields.map(field => {
-            const itemStyle = Array.from(bufferStyle[field], item => item.style);
-            return itemStyle?.[0]
-        });
-        return style?.[0];
+    handleCurrentStyle = bufferStyle => {
+        const layerBufferStyle = Object.values(bufferStyle)[0][0].style;
+        return layerBufferStyle;
     }
 
-    showBuffer = (e) => {
+    toggleLayerBuffer = (e) => {
         const { checked } = e.target;
-        const { config: { key }, BufferStore: { showBuffer } } = this.props;
-        showBuffer(key, checked);
+        const { config: { key }, BufferStore: { toggleLayerBuffer } } = this.props;
+        toggleLayerBuffer(key, checked);
     }
 
     _bufferConfigNode = () => {
-        const { config: { key }, BufferStore: { bufferConfig } } = this.props;
-        const { bufferStyle, bufferFields } = bufferConfig[key];
-        const { radius, color, opacity } = this.handleCurrentStyle(bufferStyle, bufferFields);
+        const { config: { key }, BufferStore: { allLayerBufferConfigMap } } = this.props;
+        const { bufferStyle, bufferFields } = allLayerBufferConfigMap[key];
+        const { radius, color, opacity } = this.handleCurrentStyle(bufferStyle);
         return (
             <div className="buffer-config-content">
                 <div className="buffer-config-filed">
@@ -103,9 +100,9 @@ class LayersBufferConfigForm extends React.Component {
     }
 
     render() {
-        const { config: { key, label }, BufferStore: { bufferEnableStatus, bufferConfigMap } } = this.props;
+        const { config: { key, label }, BufferStore: { disabled, allLayerBufferConfigMap } } = this.props;
         const tips = PART_OF_BUFFER_ENABLE_LAYERS.includes(key) ? '部分' : '全图层';
-        const checked = bufferConfigMap[key].checked;
+        const checked = allLayerBufferConfigMap[key].checked;
         return (
             <div className="buffer-config-wrap">
                 <div className="buffer-config-title">
@@ -115,11 +112,11 @@ class LayersBufferConfigForm extends React.Component {
                         />
                         <span>{`${label}（${tips}）`}</span>
                     </div>
-                    <Checkbox disabled={!bufferEnableStatus} checked={checked} onChange={this.showBuffer}>
+                    <Checkbox disabled={!disabled} checked={checked} onChange={this.toggleLayerBuffer}>
                         显示buffer
                     </Checkbox>
                 </div>
-                {checked && bufferEnableStatus && this._bufferConfigNode()}
+                {checked && disabled && this._bufferConfigNode()}
             </div>
         );
     }

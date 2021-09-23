@@ -15,7 +15,9 @@ class OperateFactory {
         if (features) {
             let log = {};
             log.features = features.reverse();
-            log.pureFeatures = pureFeatures?.reverse?.();
+            if (pureFeatures) {
+                log.pureFeatures = pureFeatures.reverse();
+            }
             if (rels) {
                 log.rels = rels.reverse();
             }
