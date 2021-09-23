@@ -149,10 +149,6 @@ export const BUSINESS_TYPE_MAP = {
         label: '强制删除',
         code: 37
     },
-    buffer_render: {
-        label: '要素轮廓buffer',
-        code: 38
-    },
     new_template_arrow: {
         label: '绘制模板箭头',
         code: 39
