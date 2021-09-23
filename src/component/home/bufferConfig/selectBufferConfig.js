@@ -10,7 +10,7 @@ import 'src/asset/less/define-mode.less';
 class SelectBufferConfig extends React.Component {
     onChange = (key, val) => {
         const { BufferStore } = this.props;
-        BufferStore.selectBufferConfig({ styleKey: key, styleValue: val });
+        BufferStore.resetSelectBuffer({ styleKey: key, styleValue: val });
     };
 
     render() {

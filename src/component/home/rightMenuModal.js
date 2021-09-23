@@ -184,13 +184,13 @@ class RightMenuModal extends React.Component {
     getMenus = () => {
         const { BufferStore: { isSelectBufferMode } } = this.props;
         const menuArr = [
-            isSelectBufferMode() && 
+            isSelectBufferMode() &&
             <Menu.Item
-                    id="buffer-render-btn"
-                    key="buffer_render"
-                    onClick={this.bufferFeature}
-                    className="right-menu-item"
-                >
+                id="buffer-render-btn"
+                key="buffer_render"
+                onClick={this.bufferFeature}
+                className="right-menu-item"
+            >
                 <span>buffer</span>
             </Menu.Item>,
             <Menu.Item
@@ -531,16 +531,16 @@ class RightMenuModal extends React.Component {
         AttributeStore.hide('other_close');
         RightMenuStore.hide();
     }
-  
+
     @editLock
     bufferFeature() {
         const { BufferStore, RightMenuStore } = this.props;
-        let features = RightMenuStore.getFeatures();
-        BufferStore.updateFeatures(features);
+        let features = RightMenuStore.cloneFeatures;
+        BufferStore.addBuffer(features);
         AttributeStore.hideRelFeatures();
         RightMenuStore.hide();
     }
-    
+
 
     @editLock
     @editInputLimit({ editType: 'copy_line', isRightMenu: true })

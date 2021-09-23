@@ -10,10 +10,10 @@ import 'less/ad-buffer-render.less';
 @observer
 class BufferConfigWindow extends React.Component {
 
-    toggleBuffer = e => {
+    setBufferMode = e => {
         const value = e.target.value;
-        const { BufferStore: { toggleBuffer } } = this.props;
-        toggleBuffer(value);
+        const { BufferStore: { setBufferMode } } = this.props;
+        setBufferMode(value);
     }
 
     switchBuffer = checked => {
@@ -27,7 +27,7 @@ class BufferConfigWindow extends React.Component {
                 <div className="buffer-layer-title">buffer渲染窗口</div>
                 <Divider />
                 <div className="buffer-config-btn">
-                    <Radio.Group className="buffer-config-radio" disabled={!disabled} onChange={this.toggleBuffer} value={mode}>
+                    <Radio.Group className="buffer-config-radio" disabled={!disabled} onChange={this.setBufferMode} value={mode}>
                         <Radio value={1}>全图层渲染</Radio>
                         <Radio value={2}>选择要素渲染</Radio>
                     </Radio.Group>

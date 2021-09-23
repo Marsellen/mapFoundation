@@ -14,7 +14,8 @@ import {
     getLayerIDKey,
     getLayerByName,
     completeProperties,
-    getFeatureByOptionFormAll
+    getFeatureByOptionFormAll,
+    getFeatureInfo
 } from '../vectorUtils';
 import { message } from 'antd';
 import _ from 'lodash';
@@ -444,8 +445,8 @@ const copyAttributeLines = async (feature, copyFeature, layerName, processName) 
         layerName === 'AD_LaneDivider'
             ? adLaneDividerKey
             : layerName === 'AD_Lane'
-            ? adLaneKey
-            : [];
+                ? adLaneKey
+                : [];
     let oldFeature = _.cloneDeep(copyFeature);
     let properties = copyFeature.data.properties;
     let UPD_STAT = copyFeature.data.properties.UPD_STAT
@@ -541,24 +542,24 @@ const autoCreateLineByLaneDivider = async (layerName, params) => {
  * @param {Array<Object>} oldFeatures 选中的要素
  * @returns {Array}  所有被buffer渲染的要素
  */
-const getPureFeatures = oldFeatures => {
-    const currentBuffer = getLayerId(BufferStore?.currentBuffer);
-    const pureOldFeatures = oldFeatures.flatMap(feature => {
-        const { layerName, data: { properties } } = feature;
-        const IDKey = getLayerIDKey(layerName);
-        const layerID = properties[IDKey];
-        return currentBuffer.includes(layerID) ? [feature] : [];
+const getPureFeatures = (oldFeatures, newFeatures) => {
+    const currentBuffers = BufferStore?.currentBuffer.map(feature => {
+        return getFeatureInfo(feature)?.value;
     });
-    return [pureOldFeatures, []];
-}
-
-const getLayerId = features => {
-    return features.map(feature => {
-        const { layerName, data: { properties } } = feature;
-        const IDKey = getLayerIDKey(layerName);
-        const layerID = properties[IDKey];
-        return layerID;
-    })
+    const allFeatures = [...oldFeatures, ...newFeatures];
+    const pureOldFeatures = [], pureNewFeatures = [];
+    oldFeatures.forEach(feature => {
+        const featureId = getFeatureInfo(feature)?.value;
+        const isNewFeature = newFeatures.find(newFeature => {
+            const newFeatureId = getFeatureInfo(newFeature)?.value
+            return newFeatureId == featureId
+        });
+        const isOldFeature = currentBuffers.includes(featureId);
+        if (isOldFeature) { feature.isBufferFeature = true }
+        (isOldFeature || feature.isBufferFeature || isNewFeature?.isBufferFeature) && pureOldFeatures.push(feature);
+        isNewFeature && (isOldFeature || feature.isBufferFeature || isNewFeature?.isBufferFeature) && pureNewFeatures.push(isNewFeature);
+    });
+    return [pureOldFeatures, pureNewFeatures];
 }
 
 /**

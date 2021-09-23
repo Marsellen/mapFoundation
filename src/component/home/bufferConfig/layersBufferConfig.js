@@ -7,11 +7,11 @@ import 'src/asset/less/define-mode.less';
 @observer
 class LayersBufferConfig extends React.Component {
     render() {
-        const { BufferStore: { allLayerBufferConfigMap, batchSetBufferConfig } } = this.props;
+        const { BufferStore: { allLayerBufferConfigMap, resetLayerBuffer } } = this.props;
         return (
             <div className="all-layer-buffer-config">
                 {Object.values(allLayerBufferConfigMap).map(item => {
-                    return (<LayersBufferConfigForm key={item.key} config={item}  setStyle={batchSetBufferConfig}/>)
+                    return (<LayersBufferConfigForm key={item.key} config={item} setStyle={resetLayerBuffer} />)
                 })}
             </div>
         );
