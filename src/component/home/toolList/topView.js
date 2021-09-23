@@ -53,9 +53,6 @@ class TopView extends React.Component {
                 const layerNames = ['AD_LaneDivider', 'AD_RS_Barrier'];
                 const layers = getLayersByNames(layerNames);
                 enableRegionSelect(layers);
-            } else if (editType == 'buffer_render') {
-                let layers = getAllLayersExByName(LINE_LAYERS);
-                enableRegionSelect(layers);
             } else {
                 enableRegionSelect();
             }

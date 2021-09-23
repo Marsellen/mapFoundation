@@ -16,6 +16,7 @@ class RightMenuStore {
     //清除上一次选中要素
     @action clearFeatures = () => {
         this.features = null;
+        this.cloneFeatures = null;
     };
 
     @action show = (features, option, zIndex, isCurrentLayer, event) => {

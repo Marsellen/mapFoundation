@@ -6,7 +6,7 @@ import Ranging from './ranging';
 // import ReadCoordinate from './ReadCoordinate';
 import RoadSet from './roadSet';
 
-const EDIT_TYPES = ['meature_distance', 'read_coordinate', 'select_road_plane', 'buffer_render'];
+const EDIT_TYPES = ['meature_distance', 'read_coordinate', 'select_road_plane'];
 
 const TOOLS_NO_NEED_POINTCLOUD = ['ceju', 'bufferxuanran'];
 @inject('DataLayerStore')

@@ -58,8 +58,6 @@ const deleteLine = async features => {
         rels: [rels, []],
         attrs: [attrs, []]
     };
-    const pureFeatures = getPureFeatures(features);
-    if (pureFeatures[0].length > 0) historyLog.pureFeatures = pureFeatures;
     await updateFeatures(historyLog);
 
     return historyLog;
@@ -77,8 +75,6 @@ const forceDelete = async features => {
         rels: [[], []],
         attrs: [[], []]
     };
-    const pureFeatures = getPureFeatures(features);
-    if (pureFeatures[0].length > 0) historyLog.pureFeatures = pureFeatures;
     //获取图层映射{layerName:layer}
     let featuresMap = getFeaturesMap(features);
 
@@ -120,8 +116,6 @@ const breakLine = async (breakPoint, features, activeTask) => {
         rels: [uniqRels(oldRels), uniqRels(rels)],
         attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)]
     };
-    const pureFeatures = getPureFeatures(features);
-    if (pureFeatures[0].length > 0) historyLog.pureFeatures = pureFeatures;
 
     await updateFeatures(historyLog);
 
@@ -216,8 +210,6 @@ const mergeLine = async (features, activeTask) => {
         rels: [uniqRels(oldRels), uniqRels(rels)],
         attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)]
     };
-    const pureFeatures = getPureFeatures(features);
-    if (pureFeatures[0].length > 0) historyLog.pureFeatures = pureFeatures;
     await updateFeatures(historyLog);
 
     message.success({ content: result.message, duration: 1, key: 'merge_line' });
@@ -250,8 +242,6 @@ const batchMergeLine = async (features, activeTask) => {
         rels: [uniqRels(oldRels), uniqRels(rels)],
         attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)]
     };
-    const pureFeatures = getPureFeatures(features);
-    if (pureFeatures[0].length > 0) historyLog.pureFeatures = pureFeatures;
     await updateFeatures(historyLog);
 
     message.success({ content: result.message, duration: 1, key: 'batch_merge_line' });
@@ -285,8 +275,6 @@ const breakLineByLine = async (line, features, activeTask) => {
         rels: [uniqRels(oldRels), uniqRels(rels)],
         attrs: [uniqAttrs(oldAttrs), uniqAttrs(attrs)]
     };
-    const pureFeatures = getPureFeatures(features);
-    if (pureFeatures[0].length > 0) historyLog.pureFeatures = pureFeatures;
     await updateFeatures(historyLog);
 
     message.success({ content: result.message, duration: 1, key: 'break_line_by_line' });
@@ -319,8 +307,6 @@ const lineToStop = async (features, stopLine, layerName, activeTask) => {
     let historyLog = {
         features: [features, newFeatures]
     };
-    const pureFeatures = getPureFeatures(features);
-    if (pureFeatures[0].length > 0) historyLog.pureFeatures = pureFeatures;
 
     return { historyLog, result };
 };
@@ -556,12 +542,23 @@ const autoCreateLineByLaneDivider = async (layerName, params) => {
  * @returns {Array}  所有被buffer渲染的要素
  */
 const getPureFeatures = oldFeatures => {
-    const currentBuffer = BufferStore?.currentBuffer.map(feature => { return feature.uuid });
+    const currentBuffer = getLayerId(BufferStore?.currentBuffer);
     const pureOldFeatures = oldFeatures.flatMap(feature => {
-        const { uuid } = feature;
-        return currentBuffer.includes(uuid) ? [feature] : [];
+        const { layerName, data: { properties } } = feature;
+        const IDKey = getLayerIDKey(layerName);
+        const layerID = properties[IDKey];
+        return currentBuffer.includes(layerID) ? [feature] : [];
     });
     return [pureOldFeatures, []];
+}
+
+const getLayerId = features => {
+    return features.map(feature => {
+        const { layerName, data: { properties } } = feature;
+        const IDKey = getLayerIDKey(layerName);
+        const layerID = properties[IDKey];
+        return layerID;
+    })
 }
 
 /**
@@ -1139,5 +1136,6 @@ export {
     getAllRelFeatureOptions,
     uniqOptions,
     copyAttributeLines,
-    plgCreate
+    plgCreate,
+    getPureFeatures
 };

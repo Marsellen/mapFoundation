@@ -1,8 +1,8 @@
 import {  observable, configure, action } from 'mobx';
-import { BUFFER_CONFIG_MAP, BUFFER_LAYER_STYLE_CONFIG, BUFFER_STYLE, EDIT_TYPE_OF_BUFFER_LAYERS } from 'src/config/bufferConfig/bufferConfigMap';
+import { BUFFER_CONFIG_MAP, BUFFER_LAYER_STYLE_CONFIG, BUFFER_STYLE } from 'src/config/bufferConfig/bufferConfigMap';
 import { VectorLayer } from 'addis-viz-sdk';
 import RightMenuStore from 'src/store/home/rightMenuStore';
-import DataLayerStore from 'src/store/home/dataLayerStore';
+import AttributeStore from 'src/store/home/attributeStore';
 
 configure({ enforceActions: 'always' });
 class BufferStore {
@@ -32,9 +32,8 @@ class BufferStore {
         this.visible = false;
         this.allLayerBufferConfigMap = BUFFER_CONFIG_MAP;
         this.defaultBufferLayerConfig = BUFFER_LAYER_STYLE_CONFIG;
-        this.bufferStyle = { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 };
+        this.bufferStyle = BUFFER_STYLE;
         this.currentBuffer = [];
-        RightMenuStore.clearFeatures();
     };
 
     /**
@@ -46,34 +45,29 @@ class BufferStore {
         this.allLayerBufferConfigMap = BUFFER_CONFIG_MAP;
         Object.values(this.allLayerBufferConfigMap).map(item => {
             const { key, bufferFields, bufferStyle } = item;
-            const vectorLayer = this.getVectorLayer(key);
-            const boundaryLayer = this.getBoundaryLayer(key);
-            const config = this.getBufferConfig({ bufferFields, bufferStyle });
-            vectorLayer && vectorLayer.resetConfig(config);
-            boundaryLayer && boundaryLayer.resetConfig(config);
+            this.resetConfig(key, bufferFields, bufferStyle)
         })
     }
 
     // 切换buffer渲染重置单要素渲染
     @action initfeatureBufferConfig = () => {
         this.defaultBufferLayerConfig = BUFFER_LAYER_STYLE_CONFIG;
-        this.bufferStyle = { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 };
+        this.bufferStyle = BUFFER_STYLE;
         this.clearBufferRender();
         window.bufferLayer = null;
-        this.currentBuffer = [];
         RightMenuStore.clearFeatures();
     }
 
     // 切换buffer渲染
     @action toggleBuffer = value => {
         this.mode = value;
+        AttributeStore.hideRelFeatures();
         if (value == 2) {
-            this.initfeatureBufferConfig();
-            this.initBufferConfig(false)
+            this.initBufferConfig(false);
+            this.initAllLayersBufferConfig();
             this.initBufferLayer();
         } else {
-            this.hideBufferRender();
-            this.initAllLayersBufferConfig();
+            this.initfeatureBufferConfig();
             this.initBufferConfigMap();
         }
     }
@@ -110,18 +104,18 @@ class BufferStore {
         }
     }
 
-    renderLayerBuffer = (bufferConfigMap, type) => {
+    resetLayerBufferStyle = (bufferConfigMap) => {
         Object.values(bufferConfigMap).forEach(item => {
             const { key, checked, bufferFields, bufferStyle } = item;
             const vectorLayer = this.getVectorLayer(key);
             const boundaryLayer = this.getBoundaryLayer(key);
             const config = this.getBufferConfig({ bufferFields, bufferStyle });
-            if (!vectorLayer.layerConfig.bufferStyle) {
+            if (vectorLayer.layerConfig.bufferStyle) {
+                this.resetBufferStyle(key, checked);
+            } else {
                 if (!checked) return;
                 vectorLayer && vectorLayer.resetConfig(config);
                 boundaryLayer && boundaryLayer.resetConfig(config);
-            } else {
-                this.resetBufferStyle(key, checked);
             }
         })
     }
@@ -132,7 +126,7 @@ class BufferStore {
 
     // 重置buffer
     @action initBufferConfigMap = () => {
-        this.renderLayerBuffer(this.allLayerBufferConfigMap);
+        this.resetLayerBufferStyle(this.allLayerBufferConfigMap);
     }
 
     @action resetConfig = (key, bufferFields, bufferStyle) => {
@@ -168,7 +162,7 @@ class BufferStore {
     // 显示buffer
     @action toggleLayerBuffer = (key, checked) => {
         this.allLayerBufferConfigMap[key].checked = checked;
-        this.renderLayerBuffer(this.allLayerBufferConfigMap);
+        this.resetLayerBufferStyle(this.allLayerBufferConfigMap);
     }
 
     // 修改样式渲染全图层buffer
@@ -212,7 +206,7 @@ class BufferStore {
     // 修改选择要素buffer渲染样式
     @action selectBufferConfig = ({ styleKey, styleValue }) => {
         this.bufferStyle[styleKey] = styleValue;
-        let features = RightMenuStore.getFeatures();
+        let features = RightMenuStore.cloneFeatures;
         let { NOKEY } = this.defaultBufferLayerConfig.bufferStyle;
         NOKEY[0].style[styleKey] = styleValue;
         if (!features) return;
@@ -245,15 +239,11 @@ class BufferStore {
     }
 
     updateBufferRender = historyLog => {
-        if (!this.isSelectBufferMode && !EDIT_TYPE_OF_BUFFER_LAYERS.includes(DataLayerStore.editType)) return;
-        const { pureFeatures, features } = historyLog;
-        if (pureFeatures) {
-            this.removeBufferLayer(pureFeatures[0]);
-            this.updateFeatures(pureFeatures[1]);
-        } else {
-            this.removeBufferLayer(features[0]);
-            this.updateFeatures(features[1]);
-        }
+        if (!this.isSelectBufferMode) return;
+        if (!pureFeatures) return;
+        const { pureFeatures } = historyLog;
+        this.removeBufferLayer(pureFeatures[0]);
+        this.updateFeatures(pureFeatures[1]);
     }
 }
 

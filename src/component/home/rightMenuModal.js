@@ -534,8 +534,7 @@ class RightMenuModal extends React.Component {
   
     @editLock
     bufferFeature() {
-        const { DataLayerStore, BufferStore, RightMenuStore } = this.props;
-        DataLayerStore.setEditStatus('buffer_render', 'button');
+        const { BufferStore, RightMenuStore } = this.props;
         let features = RightMenuStore.getFeatures();
         BufferStore.updateFeatures(features);
         AttributeStore.hideRelFeatures();
