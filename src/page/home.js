@@ -6,7 +6,7 @@ import SiderView from 'src/component/home/siderView';
 import VizComponent from 'src/component/home/vizComponent';
 import HeaderBar from 'src/component/home/headerBar';
 import 'less/home.less';
-import logo from 'src/asset/img/logo.png';
+import logo from 'src/asset/img/logo.svg';
 import ShortcutKey from 'src/tool/shortcutKey';
 import { editVisiteHistory } from 'src/tool/visiteHistory';
 import { deleteDatabase } from 'src/tool/indexedDB';
