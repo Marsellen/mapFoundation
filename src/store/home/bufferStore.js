@@ -90,7 +90,7 @@ class BufferStore {
     // 初始化全图层buffer样式
     @action initLayersBufferRender = () => {
         Object.values(this.allLayerBufferConfigMap).map(item => {
-            this.resetLayerBufferRender(item);
+            this.toggleLayerBufferRender(item.key, false);
         });
     };
 
@@ -125,13 +125,7 @@ class BufferStore {
     layersBufferRender = (bufferConfigMap) => {
         Object.values(bufferConfigMap).forEach(item => {
             const { key, checked } = item;
-            const vectorLayer = this.getVectorLayer(key);
-            if (vectorLayer.layerConfig.bufferStyle) {
-                this.toggleLayerBufferRender(key, checked);
-            } else {
-                if (!checked) return;
-                this.resetLayerBufferRender(item);
-            }
+            this.toggleLayerBufferRender(key, checked);
         });
     };
 
@@ -147,12 +141,25 @@ class BufferStore {
     @action toggleLayerBufferRender = (key, checked) => {
         const vectorLayer = this.getVectorLayer(key);
         const boundaryLayer = this.getBoundaryLayer(key);
+        const { bufferFields, bufferStyle } = this.allLayerBufferConfigMap[key];
         if (checked) {
-            vectorLayer?.showBuffer();
-            boundaryLayer?.showBuffer();
+            const config = {
+                showStyles: ['bufferStyle'],
+                bufferFields,
+                bufferStyle
+            };
+            vectorLayer && vectorLayer.resetConfig(config);
+            boundaryLayer && boundaryLayer.resetConfig(config);
         } else {
-            vectorLayer?.hideBuffer();
-            boundaryLayer?.hideBuffer();
+            const config = {
+                showStyles: ['bufferStyle'],
+                bufferFields,
+                bufferStyle: {
+                    NOKEY: []
+                }
+            };
+            vectorLayer && vectorLayer.resetConfig(config);
+            boundaryLayer && boundaryLayer.resetConfig(config);
         }
     };
 
@@ -187,7 +194,10 @@ class BufferStore {
 
     // 初始化选择要素渲染
     @action initBufferLayer = () => {
-        if (window.bufferLayer) return;
+        if (window.bufferLayer) {
+            window.bufferLayer?.layer.resetConfig(this.defaultBufferLayerConfig);
+            return;
+        }
         const bufferLayer = new VectorLayer(null, { layerConfig: this.defaultBufferLayerConfig });
         bufferLayer.layerName = 'AD_bufferLayer';
         window.map.getLayerManager().addLayer('VectorLayer', bufferLayer);
