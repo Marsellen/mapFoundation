@@ -143,10 +143,8 @@ export const BUFFER_LAYER_STYLE_CONFIG = {
             }
         ]
     }
-}
+};
 
 export const BUFFER_STYLE = { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 };
 
 export const PART_OF_BUFFER_ENABLE_LAYERS = ['AD_LaneDivider', 'AD_RS_Barrier'];
-
-export const EDIT_TYPE_OF_BUFFER_LAYERS = ['delete', 'force_delete', 'line_snap_stop', 'group_move', 'change_points', 'reverse_order_line', 'trim', 'break_line', 'break_line_by_point', 'break_line_by_line', 'merge_line', 'batch_merge_line', 'redo', 'undo'];

@@ -536,7 +536,7 @@ class RightMenuModal extends React.Component {
     bufferFeature() {
         const { BufferStore, RightMenuStore } = this.props;
         let features = RightMenuStore.cloneFeatures;
-        BufferStore.addBuffer(features);
+        BufferStore.resetBuffer(features);
         AttributeStore.hideRelFeatures();
         RightMenuStore.hide();
     }

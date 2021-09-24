@@ -7,13 +7,15 @@ import { getFeatureOption } from 'src/tool/vectorUtils';
 
 configure({ enforceActions: 'always' });
 class BufferStore {
+    currentBufferLogIndex = 0;
+    bufferLog = [];
     @observable mode = 1;
     @observable disabled = true;
     @observable visible = false;
     @observable allLayerBufferConfigMap = BUFFER_CONFIG_MAP; //所有buffer图层要素
     @observable defaultBufferLayerConfig = BUFFER_LAYER_STYLE_CONFIG; //默认buffer样式
     @observable bufferStyle = BUFFER_STYLE;
-    @observable currentBuffer = [];
+    @observable currentBuffers = [];
 
     /**
      * buffer渲染窗口开启关闭
@@ -32,20 +34,22 @@ class BufferStore {
      */
 
     @action release = () => {
+        this.currentBufferLogIndex = 0;
+        this.bufferLog = [];
         this.mode = 1;
         this.disabled = true;
         this.visible = false;
         this.allLayerBufferConfigMap = BUFFER_CONFIG_MAP;
         this.defaultBufferLayerConfig = BUFFER_LAYER_STYLE_CONFIG;
         this.bufferStyle = BUFFER_STYLE;
-        this.currentBuffer = [];
+        this.currentBuffers = [];
     };
 
     // 清除选中要素
     @action clearSelectBufferEffect = () => {
         RightMenuStore.clearFeatures();
         AttributeStore.hideRelFeatures();
-    }
+    };
 
     // 切换buffer渲染
     @action setBufferMode = value => {
@@ -62,7 +66,7 @@ class BufferStore {
             this.initSelectBufferConfig();
             this.initBufferLayer();
         }
-    }
+    };
 
     // 启用/禁用buffer渲染
     @action switchBuffer = checked => {
@@ -72,7 +76,7 @@ class BufferStore {
         } else {
             checked ? this.showBufferLayer() : this.hideBufferLayer();
         }
-    }
+    };
 
     /**
      * 全图层渲染
@@ -81,14 +85,14 @@ class BufferStore {
     // 初始化全图层config
     @action initLayersBufferConfig = () => {
         this.allLayerBufferConfigMap = BUFFER_CONFIG_MAP;
-    }
+    };
 
     // 初始化全图层buffer样式
     @action initLayersBufferRender = () => {
         Object.values(this.allLayerBufferConfigMap).map(item => {
-            this.resetLayerBufferRender(item)
-        })
-    }
+            this.resetLayerBufferRender(item);
+        });
+    };
 
     // 获得layer
     @action getVectorLayer = key => {
@@ -96,7 +100,7 @@ class BufferStore {
         const { layers } = window.vectorLayerGroup;
         const { layer } = layers.find(item => item.layerName === key) || {};
         return layer;
-    }
+    };
 
     // 获得周边底图layer
     @action getBoundaryLayer = key => {
@@ -104,18 +108,18 @@ class BufferStore {
         const { layers } = window.boundaryLayerGroup;
         const { layer } = layers.find(item => item.layerName === key) || {};
         return layer;
-    }
+    };
 
     // 全图层渲染单个图层显示buffer/隐藏buffer
     @action toggleLayerBuffer = (key, checked) => {
         this.toggleLayerBufferChecked(key, checked);
         this.layersBufferRender(this.allLayerBufferConfigMap);
-    }
+    };
 
     // 全图层buffer渲染中单个图层显示buffer/隐藏buffer
     @action toggleLayerBufferChecked = (key, checked) => {
         this.allLayerBufferConfigMap[key].checked = checked;
-    }
+    };
 
     // 全图层渲染有buffer样式则显隐，没有则添加
     layersBufferRender = (bufferConfigMap) => {
@@ -128,28 +132,28 @@ class BufferStore {
                 if (!checked) return;
                 this.resetLayerBufferRender(item);
             }
-        })
-    }
+        });
+    };
 
     // 全图层buffer渲染启用/禁用
     @action toggleLayersBufferRender = (checked) => {
         Object.values(this.allLayerBufferConfigMap).map(item => {
             this.toggleLayerBufferRender(item.key, checked);
-        })
-    }
+        });
+    };
 
     // 全图层buffer样式显隐
     @action toggleLayerBufferRender = (key, checked) => {
         const vectorLayer = this.getVectorLayer(key);
         const boundaryLayer = this.getBoundaryLayer(key);
         if (checked) {
-            vectorLayer?.showBuffer()
-            boundaryLayer?.showBuffer()
+            vectorLayer?.showBuffer();
+            boundaryLayer?.showBuffer();
         } else {
             vectorLayer?.hideBuffer();
             boundaryLayer?.hideBuffer();
         }
-    }
+    };
 
     // 重置全图层buffer渲染
     resetLayerBufferRender = (configMap) => {
@@ -163,7 +167,7 @@ class BufferStore {
         };
         vectorLayer && vectorLayer.resetConfig(config);
         boundaryLayer && boundaryLayer.resetConfig(config);
-    }
+    };
 
     // 修改全图层渲染buffer样式
     @action resetLayerBuffer = ({ key, bufferStyleMap, styleKey, styleValue }) => {
@@ -174,7 +178,7 @@ class BufferStore {
         let { bufferFields, bufferStyle } = this.allLayerBufferConfigMap[key];
         bufferFields.map(field => bufferStyle[field] = bufferStyleMap);
         this.resetLayerBufferRender(this.allLayerBufferConfigMap[key]);
-    }
+    };
 
     /**
      * 选择要素渲染
@@ -197,15 +201,24 @@ class BufferStore {
     @action initSelectBufferConfig = () => {
         this.defaultBufferLayerConfig = BUFFER_LAYER_STYLE_CONFIG;
         this.bufferStyle = BUFFER_STYLE;
-        this.currentBuffer = [];
-    }
+        this.currentBuffers = [];
+        this.currentBufferLogIndex = 0;
+        this.bufferLog = [];
+    };
 
     // 选择要素渲染添加buffer样式
-    @action addBuffer = features => {
+    @action resetBuffer = (features) => {
         this.clearBufferLayer();
         window.bufferLayer?.layer?.updateFeatures?.(features);
-        this.currentBuffer = [...this.currentBuffer, ...features];
-    }
+        this.currentBuffers = features;
+        this.updateBufferLatestLog();
+    };
+
+    @action addBuffer = (features) => {
+        window.bufferLayer?.layer?.updateFeatures?.(features);
+        this.currentBuffers = [...this.currentBuffers, ...features];
+        this.updateBufferLatestLog();
+    };
 
     // 修改选择要素渲染buffer样式
     @action resetSelectBuffer = ({ styleKey, styleValue }) => {
@@ -216,27 +229,30 @@ class BufferStore {
         if (!features) return;
         window.bufferLayer.layer.resetConfig(this.defaultBufferLayerConfig);
         window.bufferLayer.layer.updateFeatures(features);
-        this.currentBuffer = [...this.currentBuffer, ...features];
-    }
+        this.currentBuffers = [...this.currentBuffers, ...features];
+        this.updateBufferLatestLog();
+    };
 
     // 删除选中要素buffer渲染
     @action removeBuffer = features => {
         features.forEach(feature => {
             const option = getFeatureOption(feature);
             window.bufferLayer.layer.removeFeatureByOption(option);
-            const index = this.currentBuffer.findIndex(buffer => {
+            const index = this.currentBuffers.findIndex(buffer => {
                 const option = getFeatureOption(buffer);
                 const { key, value } = option;
                 return value == feature.data.properties[key];
-            })
-            this.currentBuffer.splice(index, 1);
+            });
+            this.currentBuffers.splice(index, 1);
         });
-        // this.currentBuffer = [];
-    }
+        this.updateBufferLatestLog();
+    };
 
     // 清空选择要素渲染layer
     clearBufferLayer = () => {
         window.bufferLayer?.layer?.clear?.();
+        this.currentBuffers = [];
+        this.updateBufferLatestLog();
     };
 
     // 显示选择要素渲染
@@ -252,16 +268,49 @@ class BufferStore {
     // 选择要素渲染且启用状态时
     isSelectBufferMode = () => {
         return this.mode === 2 && this.disabled === true;
-    }
+    };
+
+    updateBufferLatestLog = () => {
+        this.bufferLog[this.currentBufferLogIndex] = JSON.parse(JSON.stringify(this.currentBuffers));
+    };
 
     // 编辑操作时更新选择要素渲染buffer
-    updateSelectBufferRender = historyLog => {
+    @action updateSelectBufferRender = (editType, history) => {
         if (!this.isSelectBufferMode) return;
-        const { pureFeatures } = historyLog;
-        if (!pureFeatures) return;
-        this.removeBuffer(pureFeatures[0]);
-        this.addBuffer(pureFeatures[1]);
-    }
+        switch (editType) {
+            case 'redo':
+                this.currentBufferLogIndex = this.currentBufferLogIndex + 1;
+                this.resetBuffer(this.bufferLog[this.currentBufferLogIndex] || []);
+                break;
+            case 'undo':
+                this.currentBufferLogIndex = this.currentBufferLogIndex - 1;
+                this.resetBuffer(this.bufferLog[this.currentBufferLogIndex] || []);
+                break;
+            default:
+                this.updateBufferLatestLog();
+                this.currentBufferLogIndex = this.currentBufferLogIndex + 1;
+                const [oldFeatures, newFeatures] = history?.features ?? [[], []];
+                const oldBufferFeatures = [];
+                const newBufferFeatures = [];
+                this.currentBuffers.forEach(bufferFeature => {
+                    const bufferFeatureId = getFeatureOption(bufferFeature).value;
+                    const oldBufferFeature = oldFeatures.find(oldFeature => {
+                        const oldFeatureId = getFeatureOption(oldFeature).value;
+                        return oldFeatureId === bufferFeatureId;
+                    });
+                    const newBufferFeature = newFeatures.find(newFeature => {
+                        const newFeatureId = getFeatureOption(newFeature).value;
+                        return newFeatureId === bufferFeatureId;
+                    });
+                    oldBufferFeature && oldBufferFeatures.push(oldBufferFeature);
+                    newBufferFeature && newBufferFeatures.push(newBufferFeature);
+                });
+                this.removeBuffer(oldBufferFeatures);
+                this.addBuffer(newBufferFeatures);
+                this.updateBufferLatestLog();
+                break;
+        }
+    };
 }
 
 export default new BufferStore();
