@@ -142,25 +142,13 @@ class BufferStore {
         const vectorLayer = this.getVectorLayer(key);
         const boundaryLayer = this.getBoundaryLayer(key);
         const { bufferFields, bufferStyle } = this.allLayerBufferConfigMap[key];
-        if (checked) {
-            const config = {
-                showStyles: ['bufferStyle'],
-                bufferFields,
-                bufferStyle
-            };
-            vectorLayer && vectorLayer.resetConfig(config);
-            boundaryLayer && boundaryLayer.resetConfig(config);
-        } else {
-            const config = {
-                showStyles: ['bufferStyle'],
-                bufferFields,
-                bufferStyle: {
-                    NOKEY: []
-                }
-            };
-            vectorLayer && vectorLayer.resetConfig(config);
-            boundaryLayer && boundaryLayer.resetConfig(config);
-        }
+        const config = {
+            showStyles: ['bufferStyle'],
+            bufferFields,
+            bufferStyle: checked ? bufferStyle : { NOKEY: [] }
+        };
+        vectorLayer && vectorLayer.resetConfig(config);
+        boundaryLayer && boundaryLayer.resetConfig(config);
     };
 
     // 重置全图层buffer渲染
