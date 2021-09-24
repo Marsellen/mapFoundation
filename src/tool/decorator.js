@@ -121,10 +121,10 @@ export const logDecorator = option => {
                 // 刷新属性列表
                 AdEmitter.emit('fetchViewAttributeData');
                 if (EDIT_TYPE_OF_BUFFER_LAYERS.includes(editType)) {
-                    let oldFeatures = RightMenuStore.cloneFeatures;
-                    const pureFeatures = getPureFeatures(oldFeatures);
+                    // let oldFeatures = RightMenuStore.cloneFeatures;
+                    const pureFeatures = getPureFeatures(history.features[0], history.features[1]);
                     if (pureFeatures[0].length > 0) history.pureFeatures = pureFeatures;
-                    BufferStore.updateBufferRender(history);
+                    BufferStore.updateSelectBufferRender(history);
                 }
                 log = {
                     operateHistory: history,
