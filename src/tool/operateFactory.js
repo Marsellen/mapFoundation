@@ -11,13 +11,10 @@ class OperateFactory {
     }
 
     async undo(history) {
-        let { features, rels, attrs, pureFeatures } = history;
+        let { features, rels, attrs } = history;
         if (features) {
             let log = {};
             log.features = features.reverse();
-            if (pureFeatures) {
-                log.pureFeatures = pureFeatures.reverse();
-            }
             if (rels) {
                 log.rels = rels.reverse();
             }

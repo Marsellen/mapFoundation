@@ -537,32 +537,6 @@ const autoCreateLineByLaneDivider = async (layerName, params) => {
 };
 
 /**
- * 获取buffer要素
- * @method getPureFeatures
- * @param {Array<Object>} oldFeatures 选中的要素
- * @returns {Array}  所有被buffer渲染的要素
- */
-const getPureFeatures = (oldFeatures, newFeatures) => {
-    const currentBuffers = BufferStore?.currentBuffer.map(feature => {
-        return getFeatureInfo(feature)?.value;
-    });
-    const allFeatures = [...oldFeatures, ...newFeatures];
-    const pureOldFeatures = [], pureNewFeatures = [];
-    oldFeatures.forEach(feature => {
-        const featureId = getFeatureInfo(feature)?.value;
-        const isNewFeature = newFeatures.find(newFeature => {
-            const newFeatureId = getFeatureInfo(newFeature)?.value
-            return newFeatureId == featureId
-        });
-        const isOldFeature = currentBuffers.includes(featureId);
-        if (isOldFeature) { feature.isBufferFeature = true }
-        (isOldFeature || feature.isBufferFeature || isNewFeature?.isBufferFeature) && pureOldFeatures.push(feature);
-        isNewFeature && (isOldFeature || feature.isBufferFeature || isNewFeature?.isBufferFeature) && pureNewFeatures.push(isNewFeature);
-    });
-    return [pureOldFeatures, pureNewFeatures];
-}
-
-/**
  * 获取被打断/合并线要素的lines相关信息
  * @method getLinesInfo
  * @param {Array<Object>} features 被打断/合并要素集合
@@ -1137,6 +1111,5 @@ export {
     getAllRelFeatureOptions,
     uniqOptions,
     copyAttributeLines,
-    plgCreate,
-    getPureFeatures
+    plgCreate
 };

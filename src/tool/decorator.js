@@ -13,8 +13,6 @@ import Lock from 'src/tool/lock';
 import BuriedPoint from 'src/tool/buriedPoint';
 import { EDIT_TOOL_MAP } from 'src/config/editToolMap';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
-import { EDIT_TYPE_OF_BUFFER_LAYERS } from 'src/config/bufferConfig/bufferConfigMap';
-import { getPureFeatures } from 'src/tool/relCtrl/operateCtrl';
 
 function funcDecoratorFactory(factory, option) {
     return (target, name, descriptor) => {
@@ -120,17 +118,12 @@ export const logDecorator = option => {
                 }
                 // 刷新属性列表
                 AdEmitter.emit('fetchViewAttributeData');
-                if (EDIT_TYPE_OF_BUFFER_LAYERS.includes(editType)) {
-                    // let oldFeatures = RightMenuStore.cloneFeatures;
-                    const pureFeatures = getPureFeatures(history.features[0], history.features[1]);
-                    if (pureFeatures[0].length > 0) history.pureFeatures = pureFeatures;
-                    BufferStore.updateSelectBufferRender(history);
-                }
                 log = {
                     operateHistory: history,
                     action: operate,
                     result: 'success'
                 };
+                BufferStore.updateSelectBufferRender(editType, history);
                 if (EDIT_MESSAGE[editType] && EDIT_MESSAGE[editType].successMsg) {
                     message.success({
                         key: editType,
@@ -138,7 +131,6 @@ export const logDecorator = option => {
                         content: EDIT_MESSAGE[editType].successMsg
                     });
                 }
-
             } catch (e) {
                 console.log(e);
                 log = {
