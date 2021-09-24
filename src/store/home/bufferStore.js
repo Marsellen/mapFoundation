@@ -224,14 +224,11 @@ class BufferStore {
     // 修改选择要素渲染buffer样式
     @action resetSelectBuffer = ({ styleKey, styleValue }) => {
         this.bufferStyle[styleKey] = styleValue;
-        let features = RightMenuStore.cloneFeatures;
         let { NOKEY } = this.defaultBufferLayerConfig.bufferStyle;
         NOKEY[0].style[styleKey] = styleValue;
-        if (!features) return;
-        window.bufferLayer.layer.resetConfig(this.defaultBufferLayerConfig);
-        window.bufferLayer.layer.updateFeatures(features);
-        this.currentBuffers = [...this.currentBuffers, ...features];
-        this.updateBufferLatestLog();
+        window.bufferLayer?.layer.resetConfig(this.defaultBufferLayerConfig);
+        if (this.currentBuffers.length === 0) return;
+        window.bufferLayer?.layer.updateFeatures(this.currentBuffers);
     };
 
     // 删除选中要素buffer渲染
