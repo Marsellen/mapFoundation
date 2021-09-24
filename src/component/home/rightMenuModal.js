@@ -167,7 +167,7 @@ class RightMenuModal extends React.Component {
             TaskStore.activeTask.processName === 'imp_recognition' &&
             !TaskStore.activeTask.isLocal
         ) {
-            if (features[0].layerName === 'AD_Lane' || features[0].layerName === 'AD_Road') {
+            if (features?.[0]?.layerName === 'AD_Lane' || features?.[0]?.layerName === 'AD_Road') {
                 return;
             }
         }
