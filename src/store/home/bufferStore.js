@@ -138,7 +138,8 @@ class BufferStore {
     // 全图层buffer渲染启用/禁用
     @action toggleLayersBufferRender = (checked) => {
         Object.values(this.allLayerBufferConfigMap).map(item => {
-            this.toggleLayerBufferRender(item.key, checked);
+            const check = item.checked ? checked : false;
+            this.toggleLayerBufferRender(item.key, check);
         });
     };
 

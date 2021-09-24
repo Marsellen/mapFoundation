@@ -14,12 +14,12 @@ class BufferConfigWindow extends React.Component {
         const value = e.target.value;
         const { BufferStore: { setBufferMode } } = this.props;
         setBufferMode(value);
-    }
+    };
 
     switchBuffer = checked => {
         const { BufferStore: { switchBuffer } } = this.props;
         switchBuffer(checked);
-    }
+    };
     render() {
         const { BufferStore: { mode, disabled } } = this.props;
         return (
@@ -31,7 +31,7 @@ class BufferConfigWindow extends React.Component {
                         <Radio value={1}>全图层渲染</Radio>
                         <Radio value={2}>选择要素渲染</Radio>
                     </Radio.Group>
-                    <Switch id="buffer-enable-btn" defaultChecked onChange={this.switchBuffer} />
+                    <Switch id="buffer-enable-btn" checked={disabled} onChange={this.switchBuffer} />
                 </div>
                 {mode == 1 && <LayersBufferConfig />}
                 {mode == 2 && <SelectBufferConfig />}
