@@ -17,8 +17,8 @@ class BufferConfigWindow extends React.Component {
     };
 
     switchBuffer = checked => {
-        const { BufferStore: { switchBuffer } } = this.props;
-        switchBuffer(checked);
+        const { BufferStore: { showBuffer, hideBuffer } } = this.props;
+        checked ? showBuffer() : hideBuffer();
     };
     render() {
         const { BufferStore: { mode, disabled } } = this.props;

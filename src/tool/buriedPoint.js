@@ -73,8 +73,9 @@ class BuriedPoint {
                 buriedPointDesc = isShortcutKey ? '快捷键' : isRightMenu ? '右键菜单' : '按钮';
                 break;
             case 'right_menu':
-                eventType = 'click';
-                buriedPointDesc = '右键菜单';
+                const isShortcutKey2 = ShortcutKey.keyCode;
+                eventType = isShortcutKey2 ? 'keydown' : 'click';
+                buriedPointDesc = isShortcutKey2 ? '快捷键' : '右键菜单';
                 break;
             case 'shortcut_key':
                 eventType = 'keydown';
@@ -114,6 +115,10 @@ class BuriedPoint {
                 break;
             case 'submit_task':
                 buriedPointDesc = '提交任务自动调用';
+                break;
+            case 'switch':
+                eventType = 'click';
+                buriedPointDesc = '显隐开关';
                 break;
             default:
                 return;
@@ -179,6 +184,14 @@ class BuriedPoint {
             case 'logout':
                 eventType = 'click';
                 buriedPointDesc = '退出登录';
+                break;
+            case 'toggle_buffer_render':
+                eventType = 'click';
+                buriedPointDesc = '切换全图层渲染';
+                break;
+            case 'switch':
+                eventType = 'click';
+                buriedPointDesc = '显隐开关';
                 break;
             default:
                 return;
@@ -260,19 +273,29 @@ class BuriedPoint {
 
     //埋点：窗口交互1-开启
     modalBuriedPointStart = async (type, channel) => {
-        if (channel === 'button') {
-            const isShortcutKey = ShortcutKey.keyCode;
-            const eventType = isShortcutKey ? 'keydown' : 'click';
-            const buriedPointDesc = isShortcutKey ? '快捷键' : '按钮';
-            await this.sendRequest({
-                type,
-                functionType: '窗口交互1',
-                buriedPointType: '开启窗口',
-                buriedPointDesc,
-                action: 1,
-                eventType
-            });
+        let eventType = null;
+        let buriedPointDesc = null;
+        switch (channel) {
+            case 'button':
+                const isShortcutKey = ShortcutKey.keyCode;
+                eventType = isShortcutKey ? 'keydown' : 'click';
+                buriedPointDesc = isShortcutKey ? '快捷键' : '按钮';
+                break;
+            case 'switch':
+                eventType = 'click';
+                buriedPointDesc = '显隐开关';
+                break;
+            default:
+                return;
         }
+        await this.sendRequest({
+            type,
+            functionType: '窗口交互',
+            buriedPointType: '开启窗口',
+            buriedPointDesc,
+            action: 1,
+            eventType
+        });
     };
 
     //埋点：窗口交互1-关闭
@@ -305,12 +328,20 @@ class BuriedPoint {
                 eventType = 'click';
                 buriedPointDesc = '退出登录';
                 break;
+            case 'switch':
+                eventType = 'click';
+                buriedPointDesc = '显隐开关';
+                break;
+            case 'toggle_buffer_render':
+                eventType = 'click';
+                buriedPointDesc = '切换选择要素渲染';
+                break;
             default:
                 return;
         }
         await this.sendRequest({
             type,
-            functionType: '窗口交互1',
+            functionType: '窗口交互',
             buriedPointType: '关闭窗口',
             buriedPointDesc,
             action: 2,
