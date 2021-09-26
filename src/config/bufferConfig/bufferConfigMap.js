@@ -120,8 +120,6 @@ export const BUFFER_CONFIG_MAP = {
             NOKEY: [
                 {
                     key: 'NOKEY',
-                    value: 0,
-                    label: '未定义',
                     style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
                 },
             ]
