@@ -4,6 +4,7 @@ import { VectorLayer } from 'addis-viz-sdk';
 import RightMenuStore from 'src/store/home/rightMenuStore';
 import AttributeStore from 'src/store/home/attributeStore';
 import { getFeatureOption } from 'src/tool/vectorUtils';
+import BuriedPoint from 'src/tool/buriedPoint';
 
 configure({ enforceActions: 'always' });
 class BufferStore {
@@ -23,10 +24,12 @@ class BufferStore {
 
     @action show = () => {
         this.visible = true;
+        BuriedPoint.modalBuriedPointStart('buffer_render_window', 'button');
     };
 
     @action hide = () => {
         this.visible = false;
+        BuriedPoint.modalBuriedPointEnd('buffer_render_window', 'button');
     };
 
     /**
@@ -57,25 +60,46 @@ class BufferStore {
         this.clearSelectBufferEffect();
         if (value == 1) {
             // 清除单要素配置及buffer，初始化全图层配置和buffer
+            BuriedPoint.toolBuriedPointEnd('buffer', 'toggle_buffer_render');
             this.clearBufferLayer();
             this.initLayersBufferConfig();
             this.initLayersBufferRender();
         } else {
             // 清除全图层配置和buffer，初始化单要素配置及buffer
+            BuriedPoint.modalBuriedPointEnd('buffer_layers_toggle', 'toggle_buffer_render');
             this.toggleLayersBufferRender(false);
             this.initSelectBufferConfig();
             this.initBufferLayer();
         }
     };
 
-    // 启用/禁用buffer渲染
-    @action switchBuffer = checked => {
-        this.disabled = checked;
+    @action showBuffer = () => {
+        this.disabled = true;
         if (this.mode == 1) {
-            this.toggleLayersBufferRender(checked);
+            this.toggleLayersBufferRender(true);
+            // 图层开关埋点：显隐按钮开启
+            BuriedPoint.modalBuriedPointStart('buffer_layers_toggle', 'switch');
         } else {
-            checked ? this.showBufferLayer() : this.hideBufferLayer();
+            // 单一工具buffer渲染开启
+            BuriedPoint.toolBuriedPointStart('buffer', 'switch');
+            this.showBufferLayer();
         }
+        // 显隐按钮埋点：开启
+        BuriedPoint.modalBuriedPointStart('buffer_switch', 'button');
+    };
+
+    @action hideBuffer = () => {
+        this.disabled = false;
+        if (this.mode == 1) {
+            this.toggleLayersBufferRender(false);
+            // 图层开关埋点：显隐按钮关闭
+            BuriedPoint.modalBuriedPointEnd('buffer_layers_toggle', 'switch');
+        } else {
+            BuriedPoint.toolBuriedPointEnd('buffer', 'switch');
+            this.hideBufferLayer();
+        }
+        // 显隐按钮埋点：关闭
+        BuriedPoint.modalBuriedPointEnd('buffer_switch', 'button');
     };
 
     /**
@@ -114,6 +138,7 @@ class BufferStore {
     @action toggleLayerBuffer = (key, checked) => {
         this.toggleLayerBufferChecked(key, checked);
         this.layersBufferRender(this.allLayerBufferConfigMap);
+        checked ? BuriedPoint.modalBuriedPointStart('buffer_layers_toggle', 'button') : BuriedPoint.modalBuriedPointEnd('buffer_layers_toggle', 'button');
     };
 
     // 全图层buffer渲染中单个图层显示buffer/隐藏buffer

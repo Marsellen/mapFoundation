@@ -230,5 +230,21 @@ export const BUSINESS_TYPE_MAP = {
     modify_qc_marker: {
         label: '修改质检标注',
         code: 58
+    },
+    buffer: {
+        label: 'buffer渲染',
+        code: 61
+    },
+    buffer_render_window: {
+        label: 'buffer渲染窗口：窗口开关',
+        code: 62
+    },
+    buffer_layers_toggle: {
+        label: 'buffer渲染窗口：图层开关',
+        code: 63
+    },
+    buffer_switch: {
+        label: 'buffer渲染窗口：显隐开关',
+        code: 64
     }
 };

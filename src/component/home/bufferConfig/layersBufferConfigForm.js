@@ -17,19 +17,19 @@ class LayersBufferConfigForm extends React.Component {
                 styleKey,
                 styleValue
             });
-        })
-    }
+        });
+    };
 
     handleCurrentStyle = bufferStyle => {
         const layerBufferStyle = Object.values(bufferStyle)[0][0].style;
         return layerBufferStyle;
-    }
+    };
 
     toggleLayerBuffer = (e) => {
         const { checked } = e.target;
         const { config: { key }, BufferStore: { toggleLayerBuffer } } = this.props;
         toggleLayerBuffer(key, checked);
-    }
+    };
 
     _bufferConfigNode = () => {
         const { config: { key }, BufferStore: { allLayerBufferConfigMap } } = this.props;
@@ -46,10 +46,12 @@ class LayersBufferConfigForm extends React.Component {
                         width={50}
                         size="small"
                         value={radius}
+                        min={0.01}
+                        max={10}
                         onChange={value =>
                             this.setStyle({
                                 key,
-                                bufferStyle, 
+                                bufferStyle,
                                 bufferFields,
                                 styleKey: 'radius',
                                 styleValue: value
@@ -66,7 +68,7 @@ class LayersBufferConfigForm extends React.Component {
                         onChange={value =>
                             this.setStyle({
                                 key,
-                                bufferStyle, 
+                                bufferStyle,
                                 bufferFields,
                                 styleKey: 'color',
                                 styleValue: value
@@ -86,7 +88,7 @@ class LayersBufferConfigForm extends React.Component {
                         onChange={value =>
                             this.setStyle({
                                 key,
-                                bufferStyle, 
+                                bufferStyle,
                                 bufferFields,
                                 styleKey: 'opacity',
                                 styleValue: value
@@ -96,8 +98,8 @@ class LayersBufferConfigForm extends React.Component {
                     <span className="ant-form-text">{opacity * 100 || 20}%</span>
                 </div>
             </div>
-        )
-    }
+        );
+    };
 
     render() {
         const { config: { key, label }, BufferStore: { disabled, allLayerBufferConfigMap } } = this.props;

@@ -534,11 +534,18 @@ class RightMenuModal extends React.Component {
 
     @editLock
     bufferFeature() {
-        const { BufferStore, RightMenuStore } = this.props;
-        let features = RightMenuStore.cloneFeatures;
-        BufferStore.resetBuffer(features);
-        AttributeStore.hideRelFeatures();
-        RightMenuStore.hide();
+        try {
+            const { BufferStore, RightMenuStore } = this.props;
+            BuriedPoint.toolBuriedPointStart('buffer', 'right_menu');
+            let features = RightMenuStore.cloneFeatures;
+            BufferStore.resetBuffer(features);
+            BuriedPoint.toolBuriedPointEnd('buffer', 'success');
+            AttributeStore.hideRelFeatures();
+            RightMenuStore.hide();
+        } catch (err) {
+            console.log(err);
+            BuriedPoint.toolBuriedPointEnd('buffer', 'error');
+        }
     }
 
 
