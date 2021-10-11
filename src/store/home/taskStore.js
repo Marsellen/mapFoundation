@@ -404,13 +404,15 @@ class TaskStore {
             if (!this.activeTaskUrl) return;
             const { taskInfo } = CONFIG.urlConfig;
             const url = completeSecendUrl(taskInfo, this.activeTask);
+            const processName = this.activeTask.processName;
             const { data } = yield axios.get(url);
-            const { projectNames, lidarNames, defaultLidarName, treeContent } = data;
+            const { projectNames, lidarNames, defaultLidarName, treeContent, check_pkg } = data;
             this.projectNameArr = projectNames.split(';').sort();
             this.multiProjectMap = this.initMultiProjectMap();
             this.lidarNameArr = JSON.parse(lidarNames);
             this.defaultLidarName = JSON.parse(defaultLidarName);
             this.multiProjectTree = treeContent;
+            this.activeTask.process_name_check = check_pkg[processName];
             PointCloudStore.initPointCloudMap(data, this.activeTask);
         } catch (e) {
             console.log('taskInfos.json请求失败' + e.message || e || '');

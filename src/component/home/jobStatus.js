@@ -145,30 +145,14 @@ class JobStatus extends React.Component {
 
     //质量检查
     check = async () => {
-        const { QualityCheckStore, TaskStore, appStore } = this.props;
-        const {
-            handleProducerCheck,
-            handleProducerGetReport,
-            closeCheckReport
-        } = QualityCheckStore;
-        const { activeTask } = TaskStore;
-        const { taskId, processName, projectId } = activeTask;
-        const { loginUser } = appStore;
-        const { roleCode, username } = loginUser;
-
+        const { QualityCheckStore } = this.props;
+        const { closeCheckReport, handleProducerCheck, handleProducerGetReport } =
+            QualityCheckStore;
         closeCheckReport(); //关闭质检弹窗
-
         //质量检查
-        const checkRes = await handleProducerCheck({
-            task_id: taskId,
-            process_name: processName,
-            project_id: projectId,
-            data_path: taskId,
-            user_name: username,
-            user_type: roleCode
-        });
+        const checkRes = await handleProducerCheck();
         if (!checkRes) return false;
-        return await handleProducerGetReport({ task_id: taskId, isEdit: 1 });
+        return await handleProducerGetReport();
     };
 
     //质检有报表提示

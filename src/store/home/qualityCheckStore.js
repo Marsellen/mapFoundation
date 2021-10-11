@@ -8,7 +8,7 @@ import { getQualityChecked } from 'src/tool/permissionCtrl';
 import SettingStore from 'src/store/setting/settingStore';
 import { updateData } from 'src/tool/map/viewCtrl';
 import TaskStore from 'src/store/home/taskStore';
-
+import appStore from 'src/store/common/appStore.js';
 configure({ enforceActions: 'always' });
 class QualityCheckStore {
     reportColumns;
@@ -67,13 +67,27 @@ class QualityCheckStore {
         }
     }).bind(this);
 
-    @action handleProducerCheck = flow(function* (option) {
+    //质量检查
+    @action handleProducerCheck = flow(function* () {
+        const {
+            loginUser: { roleCode, username }
+        } = appStore;
+        const option = {
+            task_id: TaskStore.activeTask.taskId,
+            process_name: TaskStore.activeTask.processName,
+            project_id: TaskStore.activeTask.projectId,
+            data_path: TaskStore.activeTask.taskId,
+            user_name: username,
+            user_type: roleCode,
+            process_name_check: TaskStore.activeTask.process_name_check
+        };
         const data = yield this.producerCheck(option);
         this.clearCheckReportStorage(option.task_id);
         return data;
     }).bind(this);
 
-    @action handleProducerGetReport = option => {
+    @action handleProducerGetReport = () => {
+        const option = { task_id: taskId, isEdit: 1 };
         const { pollingLimit, pollingInterval } = SettingStore.getConfig('OTHER_CONFIG');
         const currentTime = new Date();
         this.pollingLimit = pollingLimit * 1000;

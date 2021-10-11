@@ -73,34 +73,21 @@ class QualityCheck extends React.Component {
 
             const {
                 QualityCheckStore: {
-                    handleProducerCheck,
                     handleProducerGetReport,
                     openCheckReport,
                     closeCheckReport,
-                    setActiveKey
-                },
-                TaskStore: { activeTask: { taskId, processName, projectId } } = {},
-                appStore: { loginUser: { roleCode, username } } = {}
+                    setActiveKey,
+                    handleProducerCheck
+                }
             } = this.props;
 
             closeCheckReport(); //关闭质检弹窗
 
             //质量检查
-            const checkRes = await handleProducerCheck({
-                task_id: taskId,
-                process_name: processName,
-                project_id: projectId,
-                data_path: taskId,
-                user_name: username,
-                user_type: roleCode
-            });
+            const checkRes = await handleProducerCheck();
             if (!checkRes) throw new Error('质检失败');
-
             //轮询质检结果
-            const reportList = await handleProducerGetReport({
-                task_id: taskId,
-                isEdit: 1
-            });
+            const reportList = await handleProducerGetReport();
             if (!reportList) throw new Error('获取检查列表失败');
             const reportListL = reportList.length;
             reportListL > 0
