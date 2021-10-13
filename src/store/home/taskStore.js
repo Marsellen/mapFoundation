@@ -412,7 +412,7 @@ class TaskStore {
             this.lidarNameArr = JSON.parse(lidarNames);
             this.defaultLidarName = JSON.parse(defaultLidarName);
             this.multiProjectTree = treeContent;
-            this.activeTask.process_name_check = check_pkg[processName];
+            this.activeTask.process_name_check = check_pkg?.[processName];
             PointCloudStore.initPointCloudMap(data, this.activeTask);
         } catch (e) {
             console.log('taskInfos.json请求失败' + e.message || e || '');
