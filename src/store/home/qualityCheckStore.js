@@ -87,7 +87,7 @@ class QualityCheckStore {
     }).bind(this);
 
     @action handleProducerGetReport = () => {
-        const option = { task_id: taskId, isEdit: 1 };
+        const option = { task_id: TaskStore.activeTask.taskId, isEdit: 1 };
         const { pollingLimit, pollingInterval } = SettingStore.getConfig('OTHER_CONFIG');
         const currentTime = new Date();
         this.pollingLimit = pollingLimit * 1000;
