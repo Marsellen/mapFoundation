@@ -32,7 +32,7 @@ class LayersBufferConfigForm extends React.Component {
     };
 
     _bufferConfigNode = () => {
-        const { config: { key }, BufferStore: { allLayerBufferConfigMap } } = this.props;
+        const { config: { key }, BufferStore: { allLayerBufferConfigMap, handleValue } } = this.props;
         const { bufferStyle, bufferFields } = allLayerBufferConfigMap[key];
         const { radius, color, opacity } = this.handleCurrentStyle(bufferStyle);
         return (
@@ -45,7 +45,7 @@ class LayersBufferConfigForm extends React.Component {
                         precision={2}
                         width={50}
                         size="small"
-                        value={radius}
+                        value={handleValue(radius)}
                         min={0.01}
                         max={10}
                         onChange={value =>
@@ -54,7 +54,7 @@ class LayersBufferConfigForm extends React.Component {
                                 bufferStyle,
                                 bufferFields,
                                 styleKey: 'radius',
-                                styleValue: value
+                                styleValue: handleValue(value)
                             })
                         }
                     />

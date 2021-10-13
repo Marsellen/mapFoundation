@@ -14,7 +14,7 @@ class SelectBufferConfig extends React.Component {
     };
 
     render() {
-        const { BufferStore: { disabled, bufferStyle } } = this.props;
+        const { BufferStore: { disabled, bufferStyle, handleValue } } = this.props;
         const { radius, color, opacity } = bufferStyle;
         return (
             <div className="feature-config-buffer">
@@ -28,10 +28,10 @@ class SelectBufferConfig extends React.Component {
                                 precision={2}
                                 width={70}
                                 size="small"
-                                value={radius}
+                                value={handleValue(radius)}
                                 min={0.01}
                                 max={10}
-                                onChange={val => this.onChange('radius', val)}
+                                onChange={val => this.onChange('radius', handleValue(val))}
                             />
                             <span className="ant-form-text">米</span>
                         </div>
