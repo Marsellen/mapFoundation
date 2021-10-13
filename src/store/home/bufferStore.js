@@ -295,6 +295,21 @@ class BufferStore {
         this.bufferLog[this.currentBufferLogIndex] = JSON.parse(JSON.stringify(this.currentBuffers));
     };
 
+    @action handleValue = radius => {
+        let currentRadius = radius;
+        switch (true) {
+            case radius < 0.01:
+                currentRadius = 0.01;
+                break;
+            case radius > 10:
+                currentRadius = 10;
+                break;
+            default:
+                break;
+        }
+        return currentRadius;
+    };
+
     // 编辑操作时更新选择要素渲染buffer
     @action updateSelectBufferRender = (editType, history) => {
         if (!this.isSelectBufferMode) return;
