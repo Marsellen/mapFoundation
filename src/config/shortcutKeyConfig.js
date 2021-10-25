@@ -371,6 +371,7 @@ export const SHORTCUT_KEYS = [
         alt: false,
         shift: false,
         keyCode: 50,
+        isBufferLink: true,
         callback: () => {
             ResourceLayerStore.switchToggle(RESOURCE_LAYER_VECTOR, true, true);
             VectorsStore.switchToggle(true, 'vector', true);
@@ -382,6 +383,7 @@ export const SHORTCUT_KEYS = [
         alt: false,
         shift: false,
         keyCode: 50,
+        isBufferLink: true,
         callback: () => {
             ResourceLayerStore.switchToggle(RESOURCE_LAYER_BOUNDARY, true, true);
             VectorsStore.switchToggle(true, 'boundary', true);

@@ -3,6 +3,7 @@ import { Checkbox, List, Switch, Empty } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { DATA_LAYER_MAP, MB_EDIT_LAYER_MAP, EDIT_LAYER_TYPE_MAP } from 'src/config/dataLayerConfig';
 import { RESOURCE_LAYER_VECTOR, RESOURCE_LAYER_BOUNDARY } from 'src/config/dataLayerConfig';
+import { bufferDecorator } from 'src/tool/decorator';
 import 'less/sider.less';
 
 const vectorsTabsConfig = [
@@ -24,6 +25,11 @@ const vectorsTabsConfig = [
 @inject('AttributeStore')
 @observer
 class DataLayer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.checkAllChangeEvent = this.checkAllChangeEvent.bind(this);
+        this.handleSwitchChange = this.handleSwitchChange.bind(this);
+    }
     checkedStatusMap = {};
 
     render() {
@@ -133,25 +139,27 @@ class DataLayer extends React.Component {
         this.props.VectorsStore.setLayerType(type);
     };
 
-    checkAllChangeEvent = e => {
+    @bufferDecorator()
+    checkAllChangeEvent(e) {
         const value = e.target.checked;
         const { ResourceLayerStore, VectorsStore } = this.props;
         const { layerType, toggleAll } = VectorsStore;
         let resourceKey = vectorsTabsConfig.find(config => config.key === layerType).value;
         ResourceLayerStore.toggle(resourceKey, value);
-
         // 控制数据图层全部按钮的是否选中状态
         toggleAll(value);
     };
 
-    secondCheckChangeEvent = (key, e) => {
+    @bufferDecorator()
+    secondCheckChangeEvent(key, e) {
         const value = e.target.checked;
         const { VectorsStore } = this.props;
         VectorsStore.toggleStratification(key, value);
         this.updateResourceLayer();
     };
 
-    changeEvent = (item, value) => {
+    @bufferDecorator()
+    changeEvent(item, value) {
         const { VectorsStore } = this.props;
         VectorsStore.toggle(item, value);
         this.updateResourceLayer();
@@ -170,7 +178,8 @@ class DataLayer extends React.Component {
         this.checkedStatusMap[layerType].ALL.indeterminate && setIndeterminate(resourceKey);
     }
 
-    handleSwitchChange = checked => {
+    @bufferDecorator()
+    handleSwitchChange(checked) {
         const { ResourceLayerStore, VectorsStore } = this.props;
         const { layerType } = VectorsStore;
         let resourceKey = vectorsTabsConfig.find(config => config.key === layerType).value;

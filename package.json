@@ -16,10 +16,10 @@
         "build": "webpack --env.mode=production",
         "build-semantic": "webpack --env.mode=production --env.spec=semantic --env.csys=2",
         "build-no-shp": "webpack --env.mode=production --env.noshp",
-        "update-sdk": "yarn upgrade addis-viz-sdk@~1.1.0"
+        "update-sdk": "yarn upgrade addis-viz-sdk@~1.2.0"
     },
     "dependencies": {
-        "addis-viz-sdk": "~1.1.0",
+        "addis-viz-sdk": "~1.2.0",
         "antd": "^3.26.13",
         "axios": "^0.18.0",
         "dragm": "0.0.5",
