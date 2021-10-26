@@ -1,4 +1,5 @@
 import { SHORTCUT_KEYS } from 'src/config/shortcutKeyConfig';
+import { bufferLink } from 'src/tool/utils';
 
 const invalidElements = ['INPUT', 'TEXTAREA'];
 
@@ -25,7 +26,7 @@ class ShortcutKey {
     getEventCallBack = event => {
         const { altKey: eAltKey, ctrlKey: eCtrlKey, keyCode: eKeyCode } = event;
         return item => {
-            const { id, ctrl, alt, keyCode, callback } = item;
+            const { id, ctrl, alt, keyCode, callback, isBufferLink } = item;
             if (alt === eAltKey && ctrl === eCtrlKey && keyCode === eKeyCode) {
                 event.preventDefault();
                 event.stopPropagation();
@@ -41,6 +42,7 @@ class ShortcutKey {
                     }
                 }
                 callback && callback();
+                isBufferLink && bufferLink();
                 return false;
             }
         };

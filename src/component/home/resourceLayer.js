@@ -8,6 +8,8 @@ import {
 } from 'src/config/dataLayerConfig';
 import 'src/asset/less/resource-layer.less';
 import AdTree from 'src/component/common/adTree';
+import { bufferDecorator } from 'src/tool/decorator';
+
 
 @inject('AttributeStore')
 @inject('ResourceLayerStore')
@@ -116,7 +118,8 @@ class ResourceLayer extends React.Component {
         ResourceLayerStore.toggleProjectsChecked(key, checked);
     };
 
-    handleChange = (e, layerItem) => {
+    @bufferDecorator()
+    handleChange(e, layerItem) {
         const { ResourceLayerStore, VectorsStore } = this.props;
         const { toggle } = ResourceLayerStore;
         const { toggleAll } = VectorsStore;
@@ -138,7 +141,8 @@ class ResourceLayer extends React.Component {
         }
     };
 
-    handleSwitchChange = (item, checked) => {
+    @bufferDecorator()
+    handleSwitchChange(item, checked) {
         const { ResourceLayerStore, VectorsStore } = this.props;
         ResourceLayerStore.switchToggle(item.value, !checked);
         if (item.value === RESOURCE_LAYER_VECTOR) {

@@ -5,6 +5,10 @@
  * @returns {number}
  */
 import DataLayerStore from 'src/store/home/dataLayerStore';
+import VectorsStore from 'src/store/home/vectorsStore';
+import BufferStore from 'src/store/home/bufferStore';
+import { getFeatureOption } from 'src/tool/vectorUtils';
+
 export function randomNum(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
@@ -170,3 +174,16 @@ export function getWrappedInstance(ref) {
     }
     return ref;
 }
+
+export const bufferLink = () => {
+    const currentBuffers = BufferStore.currentBuffers;
+    currentBuffers.forEach(buffer => {
+        const boundaryLayerIds = VectorsStore.getBoundaryLayerIds();
+        const bufferId = boundaryLayerIds.includes(buffer?.layerId);
+        const layerGroup = bufferId ? window.boundaryLayerGroup : window.vectorLayerGroup;
+        const layer = layerGroup.layers.find(layer => layer.layerName == buffer.layerName);
+        const option = getFeatureOption(buffer);
+        const visible = layer.layer.visible;
+        window.bufferLayer?.layer.showOrHideBufferByOption(option, visible);
+    });
+};

@@ -13,6 +13,7 @@ import Lock from 'src/tool/lock';
 import BuriedPoint from 'src/tool/buriedPoint';
 import { EDIT_TOOL_MAP } from 'src/config/editToolMap';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
+import { bufferLink } from 'src/tool/utils';
 
 function funcDecoratorFactory(factory, option) {
     return (target, name, descriptor) => {
@@ -247,6 +248,20 @@ export const editOutputLimit = (option = {}) => {
         };
         return descriptor;
     };
+};
+
+/**
+ * buffer修饰器，对渲染buffer的要素进行buffer显隐联动
+ */
+export const bufferDecorator = () => {
+    return (target, name, descriptor) => {
+        const fn = descriptor.value;
+        descriptor.value = function () {
+            fn.apply(this, arguments);
+            bufferLink();
+        }
+        return descriptor;
+    }
 };
 
 /**
