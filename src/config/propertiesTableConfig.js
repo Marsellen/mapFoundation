@@ -248,6 +248,10 @@ export const COLUMNS_CONFIG = {
             filterBy: 'typeFilter|AD_ARROW_ARR_DIRECT'
         },
         {
+            dataIndex: 'LANE_ID',
+            title: '关联车道中心线用户编号'
+        },
+        {
             dataIndex: 'UPD_STAT',
             title: '更新标识',
             filterBy: 'updStatFilter'

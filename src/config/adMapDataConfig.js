@@ -824,7 +824,8 @@ export const TYPE_SELECT_OPTION_MAP = {
 
 export const DEFAULT_PROPERTIES_MAP = {
     AD_Arrow: {
-        ARR_DIRECT: 'A'
+        ARR_DIRECT: 'A',
+        LANE_ID: 0
     },
     AD_LaneMark_Plg: {
         TYPE: 1
@@ -1873,6 +1874,11 @@ export const LAYER_TYPE_MAP = {
             key: 'ARR_DIRECT',
             name: '箭头方向',
             type: 'AD_ARROW_ARR_DIRECT'
+        },
+        {
+            key: 'LANE_ID',
+            name: '关联车道中心线ID',
+            type: 'AD_ARROW_LANE_ID'
         }
     ],
     AD_LaneAttrPoint: [

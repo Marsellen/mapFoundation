@@ -9,7 +9,7 @@ export const REL_DATA_SET = [
 ];
 
 // 属性关联关系图层
-export const ATTR_REL_DATA_SET = ['AD_Lane', 'AD_LaneAttrPoint'];
+export const ATTR_REL_DATA_SET = ['AD_Lane', 'AD_Arrow', 'AD_LaneAttrPoint'];
 
 // IndexDB对象类型描述映射
 export const REL_TYPE_KEY_MAP = {
@@ -198,6 +198,15 @@ export const REL_SPEC_CONFIG = [
         relObjSpec: 'AD_Road',
         objType: 'LANEP',
         relObjType: 'ROAD'
+    },
+    {
+        source: 'AD_Arrow',
+        objKeyName: 'LANE_ID',
+        relObjKeyName: 'ARR_ID',
+        objSpec: 'AD_Lane',
+        relObjSpec: 'AD_Arrow',
+        objType: 'LANE',
+        relObjType: 'ARROW'
     }
 ];
 
