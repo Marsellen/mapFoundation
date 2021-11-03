@@ -65,26 +65,6 @@ export const MB_TASK_TEXT_CONFIG_MAP = {
             }
         }
     },
-    AD_LaneAttrPoint: {
-        key: 'AD_LaneAttrPoint',
-        label: '车道属性变化点',
-        checked: true,
-        defaultStyle: {
-            textFields: ['TYPE'], //看数据规格
-            offset: 20,
-            showMode: 'right',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        textModeMap: {
-            top: { key: 'top', label: '上方', offset: true },
-            right: { key: 'right', label: '右侧', offset: true },
-            bottom: { key: 'bottom', label: '下方', offset: true },
-            left: { key: 'left', label: '左侧', offset: true }
-        }
-    },
     AD_Arrow: {
         key: 'AD_Arrow',
         label: '地面导向箭头',
@@ -195,28 +175,6 @@ export const MB_TASK_TEXT_CONFIG_MAP = {
             'line-repeat': {
                 key: 'line-repeat',
                 label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_RS_Barrier: {
-        key: 'AD_RS_Barrier',
-        label: '隔离带、护栏',
-        checked: false,
-        defaultStyle: {
-            textFields: ['TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'line-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        textModeMap: {
-            'line-center': { key: 'line-center', label: '线中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '线上循环',
                 interval: true
             }
         }

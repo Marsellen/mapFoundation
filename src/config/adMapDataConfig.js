@@ -879,16 +879,8 @@ export const DEFAULT_PROPERTIES_MAP = {
         RS_TYPE: 1,
         TIMEDOM: ''
     },
-    AD_LaneAttrPoint: {
-        TYPE: 0,
-        ROAD_ID: 0
-    },
     AD_StopLocation: {
         TYPE: 1
-    },
-    AD_RS_Barrier: {
-        TYPE: 2,
-        MATERIAL: 1
     },
     AD_LaneDivider_Pln: {
         FEAT_TYPE: 1001,
@@ -1261,26 +1253,6 @@ export const TABLE_DATA_MAP = {
             domType: 'Text'
         }
     ],
-    AD_LaneAttrPoint: [
-        {
-            key: 'LAP_ID',
-            name: '用户编号',
-            type: 'AD_LANE_ATTRPOINT_ID',
-            domType: 'Text'
-        },
-        {
-            key: 'TYPE',
-            name: '属性变化点类型',
-            type: 'AD_LANE_ATTRPOINT_TYPE',
-            domType: 'RadioIconGroup'
-        },
-        {
-            key: 'UPD_STAT',
-            name: '更新标识',
-            filterBy: 'updStatFilter',
-            domType: 'Text'
-        }
-    ],
     AD_TrafficLight: [
         {
             key: 'LIGHT_ID',
@@ -1337,32 +1309,6 @@ export const TABLE_DATA_MAP = {
             key: 'OBJ_FUNC',
             name: '存储标牌对象',
             domType: 'AdTrafficSignContent'
-        }
-    ],
-    AD_RS_Barrier: [
-        {
-            key: 'BARR_ID',
-            name: '用户编号',
-            type: 'AD_RS_BARRIER_BARR_ID',
-            domType: 'Text'
-        },
-        {
-            key: 'TYPE',
-            name: '护栏类型',
-            type: 'AD_RS_BARRIER_TYPE',
-            domType: 'RadioIconGroup'
-        },
-        {
-            key: 'MATERIAL',
-            name: '护栏材质',
-            type: 'AD_RS_BARRIER_MATERIAL',
-            domType: 'Select'
-        },
-        {
-            key: 'UPD_STAT',
-            name: '更新标识',
-            filterBy: 'updStatFilter',
-            domType: 'Text'
         }
     ],
     AD_LaneDivider_Pln: [
@@ -1581,7 +1527,6 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_LaneShape: '{"LANE_ID":{}}',
     AD_Lane_RS: '{"LANE_ID":{},"RS_TYPE":{},"RS_VALUE":{},"TIMEDOM":{}}',
     AD_Lane_Con_RS: '{"REL_ID":{},"RS_TYPE":{},"TIMEDOM":{}}',
-    AD_LaneAttrPoint: '{"TYPE":{},"ROAD_ID":{},"GEOMETRY":{}}',
     AD_Arrow: '{"ARR_DIRECT":{},"LANE_ID":{},"GEOMETRY":{}}',
     AD_StopLocation: '{"TYPE":{},"GEOMETRY":{}}',
     AD_StopL_Lane_Rel: '{"STOPL_ID":{},"LANE_ID":{}}',
@@ -1592,8 +1537,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_TrafficSign: '{"SIGN_STYLE":{},"GEOMETRY":{}}',
     AD_Sign_Lane_Rel: '{"SIGN_ID":{},"LANE_ID":{}}',
     AD_TrafficLight: '{"TYPE":{},"LAYOUT":{},"LAMP_COUNT":{},"GEOMETRY":{}}',
-    AD_Light_Lane_Rel: '{"LIGHT_ID":{},"LANE_ID":{}}',
-    AD_RS_Barrier: '{"TYPE":{},"MATERIAL":{},"GEOMETRY":{}}'
+    AD_Light_Lane_Rel: '{"LIGHT_ID":{},"LANE_ID":{}}'
 };
 
 export const LAYER_TYPE_MAP = {
@@ -1798,23 +1742,6 @@ export const LAYER_TYPE_MAP = {
             type: 'AD_ARROW_LANE_ID'
         }
     ],
-    AD_LaneAttrPoint: [
-        {
-            key: 'LAP_ID',
-            name: '用户编号',
-            type: 'AD_LANE_ATTRPOINT_ID'
-        },
-        {
-            key: 'TYPE',
-            name: '属性变化点类型',
-            type: 'AD_LANE_ATTRPOINT_TYPE'
-        },
-        {
-            key: 'ROAD_ID',
-            name: '关联道路参考线ID',
-            type: 'AD_LANE_ATTRPOINT_ROAD_ID'
-        }
-    ],
     AD_TrafficSign: [
         {
             key: 'SIGN_ID',
@@ -1831,23 +1758,6 @@ export const LAYER_TYPE_MAP = {
             key: 'LIGHT_ID',
             name: '用户编号',
             type: 'AD_TRAFFIC_LIGHT_ID'
-        }
-    ],
-    AD_RS_Barrier: [
-        {
-            key: 'BARR_ID',
-            name: '用户编号',
-            type: 'AD_RS_BARRIER_BARR_ID'
-        },
-        {
-            key: 'TYPE',
-            name: '护栏类型',
-            type: 'AD_RS_BARRIER_TYPE'
-        },
-        {
-            key: 'MATERIAL',
-            name: '护栏材质',
-            type: 'AD_RS_BARRIER_MATERIAL'
         }
     ],
     AD_LaneDivider_Pln: [

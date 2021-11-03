@@ -182,30 +182,6 @@ export const COLUMNS_CONFIG = {
             filterBy: 'updStatFilter'
         }
     ],
-    AD_LaneAttrPoint: [
-        {
-            dataIndex: 'index',
-            title: '序号'
-        },
-        {
-            dataIndex: 'LAP_ID',
-            title: '用户编号'
-        },
-        {
-            dataIndex: 'TYPE',
-            title: '属性变化点类型',
-            filterBy: 'typeFilter|AD_LANE_ATTRPOINT_TYPE'
-        },
-        {
-            dataIndex: 'ROAD_ID',
-            title: '关联道路参考线ID'
-        },
-        {
-            dataIndex: 'UPD_STAT',
-            title: '更新标识',
-            filterBy: 'updStatFilter'
-        }
-    ],
     AD_Arrow: [
         {
             dataIndex: 'index',
@@ -340,31 +316,6 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'LIGHT_ID',
             title: '用户编号'
-        },
-        {
-            dataIndex: 'UPD_STAT',
-            title: '更新标识',
-            filterBy: 'updStatFilter'
-        }
-    ],
-    AD_RS_Barrier: [
-        {
-            dataIndex: 'index',
-            title: '序号'
-        },
-        {
-            dataIndex: 'BARR_ID',
-            title: '用户编号'
-        },
-        {
-            dataIndex: 'TYPE',
-            title: '类型',
-            filterBy: 'typeFilter|AD_RS_BARRIER_TYPE'
-        },
-        {
-            dataIndex: 'MATERIAL',
-            title: '材质',
-            filterBy: 'typeFilter|AD_RS_BARRIER_MATERIAL'
         },
         {
             dataIndex: 'UPD_STAT',
@@ -532,14 +483,12 @@ export const SELECT_OPTIONS = [
             'AD_Road',
             'AD_LaneDivider',
             'AD_Lane',
-            'AD_LaneAttrPoint',
             'AD_Arrow',
             'AD_StopLocation',
             // 'AD_LaneMark_Plg',
             'AD_Text',
             'AD_TrafficSign',
-            'AD_TrafficLight',
-            'AD_RS_Barrier'
+            'AD_TrafficLight'
         ]
     },
     {
@@ -583,14 +532,12 @@ export const OPTION_LAYER_MAP = {
     AD_Road: ['AD_Road'],
     AD_LaneDivider: ['AD_LaneDivider'],
     AD_Lane: ['AD_Lane'],
-    AD_LaneAttrPoint: ['AD_LaneAttrPoint'],
     AD_Arrow: ['AD_Arrow'],
     AD_StopLocation: ['AD_StopLocation'],
     AD_LaneMark_Plg: ['AD_LaneMark_Plg'],
     AD_Text: ['AD_Text'],
     AD_TrafficSign: ['AD_TrafficSign'],
     AD_TrafficLight: ['AD_TrafficLight'],
-    AD_RS_Barrier: ['AD_RS_Barrier'],
     AD_LaneDivider_Pln: ['AD_LaneDivider_Pln'],
     AD_LaneDivider_Plg: ['AD_LaneDivider_Plg'],
     AD_StopLocation_Geo: ['AD_StopLocation_Geo'],

@@ -95,7 +95,7 @@ class RightMenuStore {
     // 获取联合打断模式右键菜单
     @action fetchUnionBreakMenus = () => {
         this.menus = [];
-        const layerNames = ['AD_LaneDivider', 'AD_RS_Barrier'];
+        const layerNames = ['AD_LaneDivider'];
         const isErrorSelect = this.features.some(
             feature => !layerNames.includes(feature.layerName)
         );

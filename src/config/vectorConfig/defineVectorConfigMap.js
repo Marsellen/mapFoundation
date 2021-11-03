@@ -188,46 +188,6 @@ export const DEFINE_VECTOR_CONFIG_MAP = {
             }
         ]
     },
-    AD_LaneAttrPoint: {
-        key: 'AD_LaneAttrPoint',
-        label: '车道属性变化点',
-        checked: false,
-        isClassify: true,
-        type: 'Point',
-        commonStyle: {
-            showFields: 'TYPE',
-            color: 'rgb(255,255,255)',
-            opacity: 0.6,
-            radius: 0.15,
-            size: 80,
-            pointStyle: 'dianyaosu'
-        },
-        fieldStyle: {
-            colorFieldSize: 28,
-            colorFieldIcon: 'dianyaosu',
-            styleFieldSize: 18
-        },
-        pointIconOptionArr: [
-            { key: 'dianyaosu', icon: 'dianyaosu' },
-            { key: 'dianfuhao', icon: 'dianfuhao' },
-            { key: 'dianfuhao1', icon: 'dianfuhao1' },
-            { key: 'dianfuhao2', icon: 'dianfuhao2' },
-            { key: 'dianfuhao3', icon: 'dianfuhao3' },
-            { key: 'dianfuhao4', icon: 'dianfuhao4' },
-            { key: 'dianfuhao5', icon: 'dianfuhao5' },
-            { key: 'dianfuhao6', icon: 'dianfuhao6' },
-            { key: 'dianfuhao7', icon: 'dianfuhao7' },
-            { key: 'dianfuhao8', icon: 'dianfuhao8' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '属性变化点类型',
-                type: 'AD_LANE_ATTRPOINT_TYPE',
-                domType: 'RadioIconGroup'
-            }
-        ]
-    },
     AD_Arrow: {
         key: 'AD_Arrow',
         label: '地面导向箭头',
@@ -387,49 +347,6 @@ export const DEFINE_VECTOR_CONFIG_MAP = {
             { key: 'dashed1', icon: 'xuxiankuang1' },
             { key: 'dashed2', icon: 'xuxiankuang2' },
             { key: 'dashed3', icon: 'xuxiankuang3' }
-        ]
-    },
-    AD_RS_Barrier: {
-        key: 'AD_RS_Barrier',
-        label: '隔离带、护栏',
-        checked: false,
-        isClassify: true,
-        type: 'Line',
-        commonStyle: {
-            showFields: 'TYPE',
-            lineStyle: 'solid',
-            color: 'rgb(255,255,255)',
-            opacity: 1,
-            arrow: false,
-            point: true,
-            pointEnabledStatus: true,
-            arrowEnabledStatus: true,
-            pointSize: 0.1
-        },
-        fieldStyle: {
-            colorFieldSize: 28,
-            colorFieldIcon: 'xianyaosu'
-        },
-        styleOptionArr: [
-            { key: 'solid', icon: 'zhixian' },
-            { key: 'dashed', icon: 'xuxian' },
-            { key: 'dashed1', icon: 'xuxian1' },
-            { key: 'dashed2', icon: 'xuxian2' },
-            { key: 'dashed3', icon: 'xuxian3' }
-        ],
-        typeArr: [
-            {
-                key: 'TYPE',
-                name: '护栏类型',
-                type: 'AD_RS_BARRIER_TYPE',
-                domType: 'RadioIconGroup'
-            },
-            {
-                key: 'MATERIAL',
-                name: '护栏材质',
-                type: 'AD_RS_BARRIER_MATERIAL',
-                domType: 'Select'
-            }
         ]
     },
     AD_LaneDivider_Plg: {
