@@ -19,11 +19,6 @@ export const COLUMNS_CONFIG = {
             filterBy: 'typeFilter|AD_ROAD_RD_STATUS'
         },
         {
-            dataIndex: 'RD_CLASS',
-            title: '道路等级',
-            filterBy: 'typeFilter|AD_ROAD_RD_CLASS'
-        },
-        {
             dataIndex: 'CROSSING',
             title: '交叉路口标识',
             filterBy: 'typeFilter|AD_ROAD_CROSSING'
@@ -41,10 +36,6 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'LENGTH',
             title: '道路长度'
-        },
-        {
-            dataIndex: 'MAX_SPEED',
-            title: '最高行驶速度'
         },
         {
             dataIndex: 'UPD_STAT',

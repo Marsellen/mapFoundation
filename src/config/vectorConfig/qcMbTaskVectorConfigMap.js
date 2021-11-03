@@ -122,12 +122,6 @@ export const QC_MB_TASK_VECTOR_CONFIG_MAP = {
                 domType: 'RadioIconGroup'
             },
             {
-                key: 'RD_CLASS',
-                name: '道路等级',
-                type: 'AD_ROAD_RD_CLASS',
-                domType: 'Select'
-            },
-            {
                 key: 'CROSSING',
                 name: '交叉路口标识',
                 type: 'AD_ROAD_CROSSING',

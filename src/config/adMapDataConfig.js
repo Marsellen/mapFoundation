@@ -137,18 +137,14 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '禁止通行', abbreviation: '禁止' },
         { value: 99, label: '其他', abbreviation: '99' }
     ],
-    AD_ROAD_RD_CLASS: [
-        { value: 0, label: '未定义', abbreviation: '0' },
-        { value: 1, label: '高速公路', abbreviation: '高速' },
-        { value: 2, label: '城市快速路', abbreviation: '城快' },
-        { value: 3, label: '城市道路', abbreviation: '城普' },
-        { value: 99, label: '其他', abbreviation: '99' }
-    ],
     AD_ROAD_RD_FORM: [
         { value: 0, label: '未定义', abbreviation: '0' },
         { value: 1, label: '普通道路', abbreviation: '普' },
         { value: 2, label: '隧道道路', abbreviation: '隧' },
-        { value: 3, label: '收费站道路', abbreviation: '收费' }
+        { value: 3, label: '收费站道路', abbreviation: '收费' },
+        { value: 4, label: '匝道', abbreviation: '匝道' },
+        { value: 5, label: '辅路', abbreviation: '辅路' },
+        { value: 6, label: '环岛', abbreviation: '环岛' }
     ],
     AD_ROAD_DIRECTION: [
         { value: 0, label: '未定义', abbreviation: '0' },
@@ -855,13 +851,11 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_Road: {
         TYPE: 1,
-        RD_CLASS: 0,
         CROSSING: 2,
         RD_STATUS: 1,
         RD_FORM: 1,
         DIRECTION: 1,
-        LENGTH: 0,
-        MAX_SPEED: 0
+        LENGTH: 0
     },
     AD_Lane: {
         TYPE: 1,
@@ -1145,12 +1139,6 @@ export const TABLE_DATA_MAP = {
             domType: 'Select'
         },
         {
-            key: 'RD_CLASS',
-            name: '道路等级',
-            type: 'AD_ROAD_RD_CLASS',
-            domType: 'Select'
-        },
-        {
             key: 'CROSSING',
             name: '交叉路口标识',
             type: 'AD_ROAD_CROSSING',
@@ -1175,14 +1163,6 @@ export const TABLE_DATA_MAP = {
             required: true,
             validates: 'Decimal|10|2',
             domType: 'InputNumber'
-        },
-        {
-            key: 'MAX_SPEED',
-            name: '道路最高行驶速度',
-            type: 'AD_ROAD_MAX_SPEED',
-            domType: 'InputNumber',
-            required: true,
-            validates: 'Numeric|range|0|120'
         },
         {
             key: 'UPD_STAT',
@@ -1622,8 +1602,7 @@ export const TABLE_DATA_MAP = {
 };
 
 export const DEFAULT_CONFIDENCE_MAP = {
-    AD_Road:
-        '{"TYPE":{},"RD_CLASS":{},"CROSSING":{},"RD_STATUS":{},"RD_FORM":{},"DIRECTION":{},"MAX_SPEED":{},"GEOMETRY":{}}',
+    AD_Road: '{"TYPE":{},"CROSSING":{},"RD_STATUS":{},"RD_FORM":{},"DIRECTION":{},"GEOMETRY":{}}',
     AD_Road_Con: '{"FROM_ROAD":{},"TO_ROAD":{}}',
     AD_Road_Con_RS: '{"REL_ID":{},"RS_TYPE":{},"TIMEDOM":{}}',
     AD_LaneDivider:
@@ -1748,11 +1727,6 @@ export const LAYER_TYPE_MAP = {
             type: 'AD_ROAD_RD_STATUS'
         },
         {
-            key: 'RD_CLASS',
-            name: '道路等级',
-            type: 'AD_ROAD_RD_CLASS'
-        },
-        {
             key: 'CROSSING',
             name: '交叉路口标识',
             type: 'AD_ROAD_CROSSING'
@@ -1771,11 +1745,6 @@ export const LAYER_TYPE_MAP = {
             key: 'LENGTH',
             name: '道路长度',
             type: 'AD_ROAD_LENGTH'
-        },
-        {
-            key: 'MAX_SPEED',
-            name: '道路最高行驶速度',
-            type: 'AD_ROAD_MAX_SPEED'
         }
     ],
     AD_Lane: [
