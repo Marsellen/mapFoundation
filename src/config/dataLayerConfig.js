@@ -5,7 +5,7 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_Arrow',
         tools: {
             recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX']
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
         },
         drawTools: {
             recognition: ['ADD_TEMPLATE_ARROW', 'POLYGON', 'ADD_GROUND_RECTANGLE'],
