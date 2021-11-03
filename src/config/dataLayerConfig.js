@@ -300,6 +300,11 @@ export const DATA_LAYER_MAP = {
         id: 'REL_ID',
         spec: 'AD_Light_Lane_Rel'
     },
+    AD_Lane_Arrow_Rel: {
+        label: '车道中心线 & 地面导向箭头关联关系',
+        id: 'REL_ID',
+        spec: 'AD_Lane_Arrow_Rel'
+    },
     AD_LaneDivider_Pln: {
         label: '几何层：车道线线要素',
         id: 'OBJ_ID',

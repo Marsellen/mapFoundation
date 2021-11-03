@@ -553,6 +553,7 @@ export const OPTION_LAYER_MAP = {
     AD_Plg_Lane_Rel: ['AD_Lane', 'AD_LaneMark_Geo'],
     AD_Sign_Lane_Rel: ['AD_Lane', 'AD_TrafficSign'],
     AD_Light_Lane_Rel: ['AD_Lane', 'AD_TrafficLight'],
+    AD_Lane_Arrow_Rel: ['AD_Lane', 'AD_Arrow'],
     //关联属性
     AD_TS_Content: ['AD_TrafficSign'],
     AD_Lane_RS: ['AD_Lane'],
