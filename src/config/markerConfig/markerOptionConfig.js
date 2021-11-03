@@ -1941,13 +1941,6 @@ const ERROR_DESC_RESET_FIELD_MAP = {
             fieldName: 'TYPE',
             errLevel: 2
         },
-        ['道路等级错误']: {
-            qcDesc: null,
-            errContent: 2,
-            errorType: 3,
-            fieldName: 'RD_CLASS',
-            errLevel: 2
-        },
         ['交叉路口标识错误']: {
             qcDesc: null,
             errContent: 2,
@@ -2426,7 +2419,6 @@ const QC_LINK_OPTIONS = [
 const FIELD_NAME_MAP = {
     AD_Road: [
         { value: 'TYPE', label: '道路参考线类型' },
-        { value: 'RD_CLASS', label: '道路等级' },
         { value: 'CROSSING', label: '交叉口标识' },
         { value: 'RD_STATUS', label: '道路通行状态' },
         { value: 'RD_FORM', label: '道路形态' },
