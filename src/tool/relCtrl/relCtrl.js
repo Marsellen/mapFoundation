@@ -392,11 +392,20 @@ const querySameTypeRel = async rel => {
     // 根据关联类型构造查询器
     // 地面箭头和地面文字为被关联对象（relObj）
     // 车道中心线和属性变化点为主对象（obj）
-    condition = [rel.objType, rel.objId];
-    indexName = 'OBJ_TYPE_KEYS';
-    relkey = 'relObjType';
-    relId = 'relObjId';
-    relSpec = 'relObjSpec';
+    if (rel.spec === 'AD_Arrow') {
+        condition = [rel.relObjType, rel.relObjId];
+        indexName = 'REL_OBJ_TYPE_KEYS';
+        relkey = 'objType';
+        relId = 'objId';
+        relSpec = 'objSpec';
+    } else {
+        // 车道中心线和属性变化点为主对象（obj）
+        condition = [rel.objType, rel.objId];
+        indexName = 'OBJ_TYPE_KEYS';
+        relkey = 'relObjType';
+        relId = 'relObjId';
+        relSpec = 'relObjSpec';
+    }
     let rels = await relStore.getAll(condition, indexName);
     // 判断是否存在同类型的关联关系
     let sameTypeRel = rels.find(r => r[relkey] === rel[relkey]);

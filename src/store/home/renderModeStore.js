@@ -219,6 +219,9 @@ class RenderModeStore {
                         }
                     });
                     break;
+                case 'AD_Arrow': //车道中心线 & 地面导向箭头
+                    relName = 'AD_Lane_Arrow_Rel';
+                    break;
                 case 'AD_LaneAttrPoint': //道路参数线 & 车道属性交化点
                     relName = 'AD_Road_Point_Rel';
                     break;
