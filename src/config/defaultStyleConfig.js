@@ -41,19 +41,6 @@ export default {
             ]
         }
     },
-    AD_LaneAttrPoint: {
-        type: 'Point',
-        showFields: ['NOKEY'],
-        order: 1,
-        showStyles: ['vectorStyle'],
-        vectorStyle: {
-            NOKEY: [
-                {
-                    style: { color: 'rgb(102,255,102)', radius: 0.15, opacity: 0.6, size: 80 }
-                }
-            ]
-        }
-    },
     AD_Arrow: {
         type: 'Polygon',
         showFields: ['NOKEY'],
@@ -115,19 +102,6 @@ export default {
             NOKEY: [
                 {
                     style: { color: 'rgb(231,120,0)', linewidth: 1, colorFill: 'rgb(243,5,5)' }
-                }
-            ]
-        }
-    },
-    AD_RS_Barrier: {
-        type: 'Line',
-        showFields: ['NOKEY'],
-        order: 1,
-        showStyles: ['vectorStyle'],
-        vectorStyle: {
-            NOKEY: [
-                {
-                    style: { color: 'rgb(70,109,255)', linewidth: 1 }
                 }
             ]
         }

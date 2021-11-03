@@ -15,19 +15,6 @@ export const DATA_LAYER_MAP = {
         groupRightTools: ['batch_assign', 'group_move', 'delete'],
         editName: '地面导向\n箭头'
     },
-    AD_LaneAttrPoint: {
-        label: '车道属性变化点',
-        id: 'LAP_ID',
-        spec: 'AD_LaneAttrPoint',
-        tools: {
-            recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
-        },
-        drawTools: { recognition: ['POINT'], manbuild: ['POINT'] },
-        rightTools: ['delete', 'force_delete', 'move_point_feature'],
-        groupRightTools: ['batch_assign', 'delete'],
-        editName: '车道属性\n变化点'
-    },
     AD_LaneDivider: {
         label: '车道线',
         id: 'LDIV_ID',
@@ -41,7 +28,7 @@ export const DATA_LAYER_MAP = {
             manbuild: ['LINE', 'CURVED_LINE']
         },
         rightTools: [
-            'buffer_render', 
+            'buffer_render',
             'delete',
             'force_delete',
             'batch_build',
@@ -54,7 +41,7 @@ export const DATA_LAYER_MAP = {
         ],
         batchTools: ['LINE_FEATURES_SNAP_TO_STOP_LINE', 'ASSIGN_LINE_NO_IN_BATCH'],
         groupRightTools: [
-            'buffer_render', 
+            'buffer_render',
             'batch_build',
             'break_line_by_point',
             'merge_line',
@@ -112,7 +99,15 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE'],
             manbuild: ['LINE']
         },
-        rightTools: ['buffer_render', 'delete', 'force_delete', 'change_points', 'trim', 'group_move', 'copy_line'],
+        rightTools: [
+            'buffer_render',
+            'delete',
+            'force_delete',
+            'change_points',
+            'trim',
+            'group_move',
+            'copy_line'
+        ],
         groupRightTools: ['buffer_render', 'batch_assign', 'group_move', 'delete'],
         editName: '停止位置'
     },
@@ -138,7 +133,7 @@ export const DATA_LAYER_MAP = {
         },
         batchTools: ['LINE_FEATURES_SNAP_TO_STOP_LINE', 'ASSIGN_LINE_NO_IN_BATCH'],
         rightTools: [
-            'buffer_render', 
+            'buffer_render',
             'delete',
             'force_delete',
             'copy_line',
@@ -149,7 +144,7 @@ export const DATA_LAYER_MAP = {
             'group_move'
         ],
         groupRightTools: [
-            'buffer_render', 
+            'buffer_render',
             'break_line_by_point',
             'merge_line',
             'batch_merge_line',
@@ -200,7 +195,7 @@ export const DATA_LAYER_MAP = {
         },
         batchTools: ['LINE_FEATURES_SNAP_TO_STOP_LINE'],
         rightTools: [
-            'buffer_render', 
+            'buffer_render',
             'delete',
             'force_delete',
             'copy_line',
@@ -211,7 +206,7 @@ export const DATA_LAYER_MAP = {
             'group_move'
         ],
         groupRightTools: [
-            'buffer_render', 
+            'buffer_render',
             'break_line_by_point',
             'merge_line',
             'batch_merge_line',
@@ -255,41 +250,6 @@ export const DATA_LAYER_MAP = {
         rightTools: [],
         groupRightTools: [],
         editName: '质检标注图层'
-    },
-    AD_RS_Barrier: {
-        label: '隔离带、护栏',
-        id: 'BARR_ID',
-        spec: 'AD_RS_Barrier',
-        tools: {
-            recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX']
-        },
-        drawTools: {
-            recognition: ['LINE', 'CURVED_LINE'],
-            manbuild: ['LINE', 'CURVED_LINE']
-        },
-        rightTools: [
-            'buffer_render', 
-            'delete',
-            'force_delete',
-            'change_points',
-            'break_line',
-            'trim',
-            'group_move',
-            'copy_line'
-        ],
-        groupRightTools: [
-            'buffer_render', 
-            'break_line_by_point',
-            'merge_line',
-            'batch_assign',
-            'batch_merge_line',
-            'break_line_by_line',
-            'group_move',
-            'delete',
-            'change_points'
-        ],
-        editName: '隔离带、\n护栏'
     },
     AD_Lane_RS: {
         label: '车道中心线交通限制信息',
@@ -447,7 +407,14 @@ export const DATA_LAYER_MAP = {
             recognition: ['LINE', 'CURVED_LINE'],
             manbuild: ['LINE', 'CURVED_LINE']
         },
-        rightTools: ['buffer_render', 'delete', 'change_points', 'force_delete', 'group_move', 'copy_line'],
+        rightTools: [
+            'buffer_render',
+            'delete',
+            'change_points',
+            'force_delete',
+            'group_move',
+            'copy_line'
+        ],
         groupRightTools: ['buffer_render', 'batch_assign', 'group_move', 'delete'],
         editName: '几何层：\n杆状物'
     },
@@ -502,13 +469,11 @@ export const IMP_RECOGNITION_DISABLED_LAYERS = ['AD_Road', 'AD_Lane'];
 export const MS_EDIT_LAYER_MAP = {
     LOGIC: [
         'AD_LaneDivider',
-        'AD_LaneAttrPoint',
         'AD_Arrow',
         'AD_StopLocation',
         'AD_Text',
         'AD_TrafficLight',
-        'AD_TrafficSign',
-        'AD_RS_Barrier'
+        'AD_TrafficSign'
     ],
     GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']
 };
@@ -519,13 +484,11 @@ export const MB_EDIT_LAYER_MAP = {
         'AD_Road',
         'AD_LaneDivider',
         'AD_Lane',
-        'AD_LaneAttrPoint',
         'AD_Arrow',
         'AD_StopLocation',
         'AD_Text',
         'AD_TrafficLight',
-        'AD_TrafficSign',
-        'AD_RS_Barrier'
+        'AD_TrafficSign'
     ],
     GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']
 };
@@ -542,6 +505,5 @@ export const LINE_LAYERS = [
     'AD_LaneDivider',
     'AD_Lane',
     'AD_StopLocation',
-    'AD_RS_Barrier',
     'AD_Pole_Geo'
 ];

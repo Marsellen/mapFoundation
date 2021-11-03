@@ -116,10 +116,7 @@ export const LAYER_NAME_MAP = {
     ARROW_ID: { layerName: 'AD_Arrow', key: 'ARR_ID' },
     TEXT_ID: { layerName: 'AD_Text', key: 'TEXT_ID' },
     SIGN_ID: { layerName: 'AD_TrafficSign', key: 'SIGN_ID' },
-    LIGHT_ID: { layerName: 'AD_TrafficLight', key: 'LIGHT_ID' },
-    LAP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' },
-    LANEP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' },
-    BARR_ID: { layerName: 'AD_RS_Barrier', key: 'BARR_ID' }
+    LIGHT_ID: { layerName: 'AD_TrafficLight', key: 'LIGHT_ID' }
 };
 
 //关联关系与id映射
