@@ -127,24 +127,6 @@ export const COLUMNS_CONFIG = {
             filterBy: 'typeFilter|AD_LANE_DIRECTION'
         },
         {
-            dataIndex: 'MAX_SPEED',
-            title: '车道最高行驶速度'
-        },
-        {
-            dataIndex: 'MAX_SP_TYP',
-            title: '车道最高行驶速度数据来源',
-            filterBy: 'typeFilter|AD_LANE_MAX_SP_TYP'
-        },
-        {
-            dataIndex: 'MIN_SPEED',
-            title: '车道最低行驶速度'
-        },
-        {
-            dataIndex: 'MIN_SP_TYP',
-            title: '车道最低行驶速度数据来源',
-            filterBy: 'typeFilter|AD_LANE_MIN_SP_TYP'
-        },
-        {
             dataIndex: 'STATUS',
             title: '车道通行状态',
             filterBy: 'typeFilter|AD_LANE_STATUS'
