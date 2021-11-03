@@ -435,18 +435,14 @@ const copyAttributeLines = async (feature, copyFeature, layerName, processName) 
         //复制属性--车道中心线
         'TYPE',
         'DIRECTION',
-        'STATUS',
-        'MAX_SPEED',
-        'MAX_SP_TYP',
-        'MIN_SPEED',
-        'MIN_SP_TYP'
+        'STATUS'
     ];
     let adKey =
         layerName === 'AD_LaneDivider'
             ? adLaneDividerKey
             : layerName === 'AD_Lane'
-                ? adLaneKey
-                : [];
+            ? adLaneKey
+            : [];
     let oldFeature = _.cloneDeep(copyFeature);
     let properties = copyFeature.data.properties;
     let UPD_STAT = copyFeature.data.properties.UPD_STAT

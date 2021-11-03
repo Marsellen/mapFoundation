@@ -1085,18 +1085,6 @@ export const MS_TASK_VECTOR_CONFIG_MAP = {
                 name: '车道通行状态',
                 type: 'AD_LANE_STATUS',
                 domType: 'Select'
-            },
-            {
-                key: 'MAX_SP_TYP',
-                name: '最高速度来源',
-                type: 'AD_LANE_MAX_SP_TYP',
-                domType: 'Select'
-            },
-            {
-                key: 'MIN_SP_TYP',
-                name: '最低速度来源',
-                type: 'AD_LANE_MIN_SP_TYP',
-                domType: 'Select'
             }
         ]
     },

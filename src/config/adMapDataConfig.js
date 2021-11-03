@@ -142,9 +142,9 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 1, label: '普通道路', abbreviation: '普' },
         { value: 2, label: '隧道道路', abbreviation: '隧' },
         { value: 3, label: '收费站道路', abbreviation: '收费' },
-        { value: 4, label: '匝道', abbreviation: '匝道' },
-        { value: 5, label: '辅路', abbreviation: '辅路' },
-        { value: 6, label: '环岛', abbreviation: '环岛' }
+        { value: 4, label: '匝道', abbreviation: '匝' },
+        { value: 5, label: '辅路', abbreviation: '辅' },
+        { value: 6, label: '环岛', abbreviation: '环' }
     ],
     AD_ROAD_DIRECTION: [
         { value: 0, label: '未定义', abbreviation: '0' },
@@ -862,10 +862,6 @@ export const DEFAULT_PROPERTIES_MAP = {
         DIRECTION: 1,
         LANE_NO: 0,
         STATUS: 1,
-        MAX_SPEED: 0,
-        MIN_SPEED: 0,
-        MAX_SP_TYP: 0,
-        MIN_SP_TYP: 0,
         L_LDIV_ID: 0,
         R_LDIV_ID: 0,
         ROAD_ID: 0
@@ -1196,34 +1192,6 @@ export const TABLE_DATA_MAP = {
             key: 'DIRECTION',
             name: '车道通行方向',
             type: 'AD_LANE_DIRECTION',
-            domType: 'Select'
-        },
-        {
-            key: 'MAX_SPEED',
-            name: '最高行驶速度',
-            type: 'AD_LANE_MAX_SPEED',
-            domType: 'InputNumber',
-            required: true,
-            validates: 'Numeric|range|0|120'
-        },
-        {
-            key: 'MAX_SP_TYP',
-            name: '最高速度来源',
-            type: 'AD_LANE_MAX_SP_TYP',
-            domType: 'Select'
-        },
-        {
-            key: 'MIN_SPEED',
-            name: '最低行驶速度',
-            type: 'AD_LANE_MIN_SPEED',
-            domType: 'InputNumber',
-            required: true,
-            validates: 'Numeric|range|0|110'
-        },
-        {
-            key: 'MIN_SP_TYP',
-            name: '最低速度来源',
-            type: 'AD_LANE_MIN_SP_TYP',
             domType: 'Select'
         },
         {
@@ -1608,7 +1576,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_LaneDivider:
         '{"TYPE":{},"RD_LINE":{},"SHARE_LINE":{},"RD_EDGE":{},"DIRECTION":{},"LANE_STATUS":{},"LANE_TYPE":{},"LANE_NO":{},"RD_FORM":{},"GEOMETRY":{}}',
     AD_Lane:
-        '{"ROAD_ID":{},"L_LDIV_ID":{},"R_LDIV_ID":{},"TYPE":{},"LANE_NO":{},"DIRECTION":{},"STATUS":{},"MAX_SPEED":{},"MAX_SP_TYP":{},"MIN_SPEED":{},"MIN_SP_TYP":{},"GEOMETRY":{}}',
+        '{"ROAD_ID":{},"L_LDIV_ID":{},"R_LDIV_ID":{},"TYPE":{},"LANE_NO":{},"DIRECTION":{},"STATUS":{},"GEOMETRY":{}}',
     AD_Lane_Con: '{"FROM_LANE":{},"TO_LANE":{}}',
     AD_LaneShape: '{"LANE_ID":{}}',
     AD_Lane_RS: '{"LANE_ID":{},"RS_TYPE":{},"RS_VALUE":{},"TIMEDOM":{}}',
@@ -1767,26 +1735,6 @@ export const LAYER_TYPE_MAP = {
             key: 'DIRECTION',
             name: '车道通行方向',
             type: 'AD_LANE_DIRECTION'
-        },
-        {
-            key: 'MAX_SPEED',
-            name: '最高行驶速度',
-            type: 'AD_LANE_MAX_SPEED'
-        },
-        {
-            key: 'MAX_SP_TYP',
-            name: '最高速度来源',
-            type: 'AD_LANE_MAX_SP_TYP'
-        },
-        {
-            key: 'MIN_SPEED',
-            name: '最低行驶速度',
-            type: 'AD_LANE_MIN_SPEED'
-        },
-        {
-            key: 'MIN_SP_TYP',
-            name: '最低速度来源',
-            type: 'AD_LANE_MIN_SP_TYP'
         },
         {
             key: 'STATUS',
