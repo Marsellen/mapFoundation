@@ -63,7 +63,7 @@ class UnionBreak extends React.Component {
             //进入联合打断模式，退出普通模式
             setEditStatus('union_break', 'button');
             //如果是俯视图模式，则设置框选可选图层为车道线和隔离带、护栏
-            const layerNames = ['AD_LaneDivider'];
+            const layerNames = ['AD_LaneDivider', 'AD_RS_Barrier'];
             const layers = getLayersByNames(layerNames);
             isTopView && enableRegionSelect(layers);
             message.info({

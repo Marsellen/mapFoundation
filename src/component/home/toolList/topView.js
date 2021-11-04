@@ -50,7 +50,7 @@ class TopView extends React.Component {
             //如果是联合打断状态，设置可框选车道线和隔离带、护栏
             //如果不是联合打断状态，设置可框选当前编辑图层
             if (isUnionBreak) {
-                const layerNames = ['AD_LaneDivider'];
+                const layerNames = ['AD_LaneDivider', 'AD_RS_Barrier'];
                 const layers = getLayersByNames(layerNames);
                 enableRegionSelect(layers);
             } else {
