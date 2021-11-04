@@ -8,7 +8,7 @@ import {
 } from 'src/config/dataLayerConfig';
 import 'src/asset/less/resource-layer.less';
 import AdTree from 'src/component/common/adTree';
-import { bufferDecorator } from 'src/tool/decorator';
+import { bufferDecorator } from 'src/util/decorator';
 
 
 @inject('AttributeStore')

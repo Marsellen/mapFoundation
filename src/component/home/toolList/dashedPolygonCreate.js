@@ -4,11 +4,11 @@ import ToolIcon from 'src/component/common/toolIcon';
 import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/component/common/adMessage';
 import AdInputNumber from 'src/component/common/form/adInputNumber';
-import { checkSdkError } from 'src/tool/vectorUtils';
-import { plgCreate } from 'src/tool/relCtrl/operateCtrl';
-import { logDecorator, editInputLimit, editLock } from 'src/tool/decorator';
+import { checkSdkError } from 'src/util/vectorUtils';
+import { plgCreate } from 'src/util/relCtrl/operateCtrl';
+import { logDecorator, editInputLimit, editLock } from 'src/util/decorator';
 import SettingStore from 'src/store/setting/settingStore';
-import BuriedPoint from 'src/tool/buriedPoint';
+import BuriedPoint from 'src/util/buriedPoint';
 import 'less/tool-icon.less';
 import 'less/dashed-polygon-create.less';
 

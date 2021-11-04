@@ -1,5 +1,5 @@
 import { observable, flow, configure, computed } from 'mobx';
-import { getAuthentication, authenticateSuccess } from 'src/tool/session';
+import { getAuthentication, authenticateSuccess } from 'src/util/session';
 import AppService from 'src/service/appService';
 
 configure({ enforceActions: 'always' });

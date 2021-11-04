@@ -3,7 +3,7 @@ import { Icon, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/component/common/toolIcon';
 import AdMessage from 'src/component/common/adMessage';
-import { checkSdkError } from 'src/tool/vectorUtils';
+import { checkSdkError } from 'src/util/vectorUtils';
 
 @inject('AttributeStore')
 @inject('ToolCtrlStore')

@@ -1,5 +1,5 @@
 import service from 'src/service';
-import { CheckApiPath, RepairApiPath } from 'src/tool/api';
+import { CheckApiPath, RepairApiPath } from 'src/util/api';
 
 const CheckService = {
     // 作业员质检接口

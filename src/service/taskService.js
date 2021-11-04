@@ -1,6 +1,6 @@
 import service from 'src/service';
-import { EditApiPath, TaskApiPath, StoreApiPath } from 'src/tool/api';
-import { getAuthentication } from 'src/tool/session';
+import { EditApiPath, TaskApiPath, StoreApiPath } from 'src/util/api';
+import { getAuthentication } from 'src/util/session';
 
 const TaskService = {
     saveFile: data => {

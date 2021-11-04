@@ -3,7 +3,7 @@ import QCMarkerService from 'src/service/qcMarkerService';
 import { message } from 'antd';
 import { MARKER_TABLE_COLUMNS } from 'src/config/markerConfig/markerTableConfig';
 import DataLayerStore from 'src/store/home/dataLayerStore';
-import BuriedPoint from 'src/tool/buriedPoint';
+import BuriedPoint from 'src/util/buriedPoint';
 
 const filterKeys = MARKER_TABLE_COLUMNS().flatMap(item => {
     return item.isFilter ? [item] : [];

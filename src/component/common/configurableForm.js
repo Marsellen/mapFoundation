@@ -3,7 +3,7 @@ import { Form, Select, Input } from 'antd';
 import 'less/configurable-form.less';
 import AdInputNumber from 'src/component/common/form/adInputNumber';
 import RadioIconGroup from 'src/component/common/radioIconGroup';
-import { getValidator } from 'src/tool/validator';
+import { getValidator } from 'src/util/validator';
 
 const { Option } = Select;
 const { TextArea } = Input;

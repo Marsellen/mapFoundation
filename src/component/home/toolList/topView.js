@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/component/common/toolIcon';
-import { getLayersByNames, getAllLayersExByName } from 'src/tool/vectorUtils';
+import { getLayersByNames, getAllLayersExByName } from 'src/util/vectorUtils';
 import { LINE_LAYERS } from 'src/config/dataLayerConfig';
 
 @inject('TaskStore')

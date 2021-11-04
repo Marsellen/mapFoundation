@@ -1,5 +1,5 @@
 import service from 'src/service';
-import { MarkerApiPath } from 'src/tool/api';
+import { MarkerApiPath } from 'src/util/api';
 
 const QCMarkerService = {
     insertMarker: data => {

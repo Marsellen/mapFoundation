@@ -1,14 +1,14 @@
 import React from 'react';
 import ToolIcon from 'src/component/common/toolIcon';
 import { inject, observer } from 'mobx-react';
-import { getLayerByName, getFeatureOption, selectFeature } from 'src/tool/vectorUtils';
+import { getLayerByName, getFeatureOption, selectFeature } from 'src/util/vectorUtils';
 import { Icon } from 'antd';
-import { autoCreateLine, updateFeatures } from 'src/tool/relCtrl/operateCtrl';
+import { autoCreateLine, updateFeatures } from 'src/util/relCtrl/operateCtrl';
 import AdMessage from 'src/component/common/adMessage';
 import 'less/tool-icon.less';
 import 'less/uturn-line.less';
 import { DATA_LAYER_MAP } from 'src/config/dataLayerConfig';
-import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/tool/decorator';
+import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/util/decorator';
 
 const ACTION_MAP = {
     AD_Lane: '路口内转弯中心线生成',

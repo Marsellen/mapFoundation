@@ -1,15 +1,15 @@
 import React from 'react';
 import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
-import AdLocalStorage from 'src/tool/adLocalStorage';
+import AdLocalStorage from 'src/util/adLocalStorage';
 import { TASK_TYPE } from 'src/config/taskConfig';
 import 'less/sider.less';
 import ToolIcon from 'src/component/common/toolIcon';
 import CONFIG from 'src/config';
-import { saveTaskData } from 'src/tool/taskUtils';
-import { editLock } from 'src/tool/decorator';
-import BuriedPoint from 'src/tool/buriedPoint';
-import AdEmitter from 'src/tool/event';
+import { saveTaskData } from 'src/util/taskUtils';
+import { editLock } from 'src/util/decorator';
+import BuriedPoint from 'src/util/buriedPoint';
+import AdEmitter from 'src/util/event';
 
 const processNameOptions = CONFIG.processNameOptions;
 

@@ -1,5 +1,5 @@
 import service from 'src/service';
-import { IdApiPath } from 'src/tool/api';
+import { IdApiPath } from 'src/util/api';
 
 const IDService = {
     initID: data => {

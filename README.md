@@ -32,7 +32,7 @@ addis-viz-sdk 小版本更新，直接执行下方命令更新
 ```javascript
 import React from 'react';
 import { withRouter, Switch, Redirect } from 'react-router-dom';
-import LoadableComponent from '../../utils/LoadableComponent';
+import LoadableComponent from '../../util/LoadableComponent';
 import PrivateRoute from '../PrivateRoute';
 
 // 模块引入
@@ -172,7 +172,7 @@ export default SiderNav;
 // src/service/common.services.js
 
 // 引入resource
-import resource from 'src/utils/resource';
+import resource from 'src/util/resource';
 
 export default (function() {
     // 调用resouce函数
@@ -271,7 +271,7 @@ export default new MenuStore();
 
 ```javascript
 // service配置，文件名： MenuService.js
-import resource from 'src/utils/resource'
+import resource from 'src/util/resource'
 
 export default (function () {
     let service = resource(locationPath('/mock/menu/:id.json'), {}, {

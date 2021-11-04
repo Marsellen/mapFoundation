@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { getAuthentication, logout } from 'src/tool/session';
+import { getAuthentication, logout } from 'src/util/session';
 import { Modal } from 'antd';
 import { SERVICE_MAP } from 'src/config/serviceMapConfig';
-import { endTaskTimePolling, endWorkTimePolling } from 'src/tool/taskUtils';
+import { endTaskTimePolling, endWorkTimePolling } from 'src/util/taskUtils';
+import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
 
 window.__cancelRequestArr = [];
 const TIME_OUT = 60000;
@@ -20,7 +21,8 @@ const logoutModal = title => {
         cancelText: '取消',
         onOk: () => {
             logout();
-            window.location.reload();
+            location.pathname === '/' && HomeVisiteHistory.removeVisitedHistory();
+            location.href = '/login';
         }
     });
 };

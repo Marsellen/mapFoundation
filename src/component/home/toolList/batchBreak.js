@@ -2,7 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Modal } from 'antd';
 import ToolIcon from 'src/component/common/toolIcon';
-import { logDecorator, editLock } from 'src/tool/decorator';
+import { logDecorator, editLock } from 'src/util/decorator';
 import SettingStore from 'src/store/setting/settingStore';
 
 @inject('TaskStore')

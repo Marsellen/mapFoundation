@@ -1,9 +1,9 @@
 import React from 'react';
-// import { randomNum } from '../../utils/utils';
+// import { randomNum } from '../../util/utils';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { Form, Icon, Checkbox, message, Input } from 'antd';
-import { loginVisitedHistory } from 'src/tool/visiteHistory';
+import LoginVisitedHistory from 'src/util/visiteHistory/loginVisiteHistory';
 
 @withRouter
 @inject('appStore')
@@ -46,7 +46,7 @@ class LoginForm extends React.Component {
                 const { from } = this.props.location.state || {
                     from: { pathname: '/' }
                 };
-                loginVisitedHistory.removeVisitedHistory();
+                LoginVisitedHistory.removeVisitedHistory();
                 this.props.history.push(from);
                 //如果是跳转到home页，则获取任务列表
                 if (from.pathname === '/') await TaskStore.initTask({ type: 1 });

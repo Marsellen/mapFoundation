@@ -5,10 +5,10 @@ import SearchIconGroup from 'src/component/common/searchIconGroup';
 import AdDateInput from 'src/component/common/form/adDateInput';
 import 'less/ad-traffic-sign-content.less';
 import ToolIcon from 'src/component/common/toolIcon';
-import Filter from 'src/tool/filter';
-import { getValidator } from 'src/tool/validator';
-import { testDataString } from 'src/tool/timeUtils';
-import { parseArrayString } from 'src/tool/utils';
+import Filter from 'src/util/filter';
+import { getValidator } from 'src/util/validator';
+import { testDataString } from 'src/util/timeUtils';
+import { parseArrayString } from 'src/util/utils';
 import AttributeStore from 'src/store/home/attributeStore';
 
 const formItemLayout = {
@@ -120,8 +120,8 @@ export default function AdTrafficSignContent(props) {
                             <span className="ant-form-text">
                                 {isPresent(content.SIGN_TYPE)
                                     ? Filter.get('typeFilter|AD_TS_CONTENT_SIGN_TYPE')(
-                                          content.SIGN_TYPE
-                                      )
+                                        content.SIGN_TYPE
+                                    )
                                     : '--'}
                             </span>
                         )}
@@ -155,8 +155,8 @@ export default function AdTrafficSignContent(props) {
                             <span className="ant-form-text">
                                 {isPresent(content.CONT_TYPE)
                                     ? Filter.get('typeFilter|AD_TS_CONTENT_CONT_TYPE')(
-                                          content.CONT_TYPE
-                                      )
+                                        content.CONT_TYPE
+                                    )
                                     : '--'}
                             </span>
                         )}

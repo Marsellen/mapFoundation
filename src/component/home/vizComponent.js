@@ -17,18 +17,18 @@ import {
 import MultimediaView from './multimediaView';
 import OtherVectorConfig from 'src/config/otherVectorConfig';
 import 'less/viz-component.less';
-// import { addClass, removeClass } from '../../../utils/utils';
+// import { addClass, removeClass } from '../../../util/utils';
 import BatchAssignModal from './batchAssignModal';
-import { modUpdStatGeometry, checkSdkError, getLayerExByName } from 'src/tool/vectorUtils';
-import AdLocalStorage from 'src/tool/adLocalStorage';
-import { installMapListener } from 'src/tool/map/event';
+import { modUpdStatGeometry, checkSdkError, getLayerExByName } from 'src/util/vectorUtils';
+import AdLocalStorage from 'src/util/adLocalStorage';
+import { installMapListener } from 'src/util/map/event';
 import _ from 'lodash';
-import editLog from 'src/tool/editLog';
-import { windowObserver } from 'src/tool/taskUtils';
-import { editVisiteHistory } from 'src/tool/visiteHistory';
-import { initBoundary, getCheckReport, getMarkerList } from 'src/tool/taskStart';
+import editLog from 'src/util/editLog';
+import { windowObserver } from 'src/util/taskUtils';
+import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
+import { initBoundary, getCheckReport, getMarkerList } from 'src/util/taskStart';
 import axios from 'axios';
-import { logDecorator, editOutputLimit } from 'src/tool/decorator';
+import { logDecorator, editOutputLimit } from 'src/util/decorator';
 import RenderModeStore from 'src/store/home/renderModeStore';
 import ResourceLayerStore from 'src/store/home/resourceLayerStore';
 import DataLayerStore from 'src/store/home/dataLayerStore';
@@ -47,9 +47,9 @@ import ToolCtrlStore from 'src/store/home/toolCtrlStore';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
 import BufferStore from 'src/store/home/bufferStore';
 import QualityCheckStore from 'src/store/home/qualityCheckStore';
-import { showPictureShowView, showAttributesModal, showRightMenu } from 'src/tool/map/viewCtrl';
-import { fetchCallback } from 'src/tool/map/utils';
-import OcTreeIndex from 'src/tool/octreeIndex';
+import { showPictureShowView, showAttributesModal, showRightMenu } from 'src/util/map/viewCtrl';
+import { fetchCallback } from 'src/util/map/utils';
+import OcTreeIndex from 'src/util/octreeIndex';
 import BatchBuildModal from 'src/component/home/toolList/batchBuild/batchBuildModal';
 import BatchBuildStore from 'src/store/home/batchBuildStore';
 import DefaultStyleConfig from 'src/config/defaultStyleConfig';
@@ -466,9 +466,10 @@ class VizComponent extends React.Component {
                 }
             }
             //离开页面时减少访问次数
-            editVisiteHistory.removeVisitedHistory();
-            const visiteHistory = editVisiteHistory.getVisitedHistory();
-            if (visiteHistory.length < 1) {
+            HomeVisiteHistory.removeVisitedHistory();
+            const visiteHistory = HomeVisiteHistory.getVisitedHistory();
+            const isDevelopment = process.env.NODE_ENV === 'development';
+            if (visiteHistory.length < 1 && !isDevelopment) {
                 e = window.event || e;
                 e.returnValue = `确定离开当前页面吗？`;
                 return e.returnValue;
@@ -650,7 +651,6 @@ class VizComponent extends React.Component {
         const { TaskStore } = this.props;
         return (
             <React.Fragment>
-                <div id="viz" key={TaskStore.activeTaskId} className="viz-box"></div>
                 {TaskStore.activeTaskId ? <MultimediaView /> : <span />}
                 <AttributesModal />
                 <RightMenuModal />

@@ -3,10 +3,13 @@ import ToolIcon from 'src/component/common/toolIcon';
 import { inject, observer } from 'mobx-react';
 import { Modal } from 'antd';
 import CONFIG from 'src/config';
-import { getAuthentication, logout } from 'src/tool/session';
-import { saveTaskData } from 'src/tool/taskUtils';
-import { editLock } from 'src/tool/decorator';
+import { getAuthentication, logout } from 'src/util/session';
+import { saveTaskData } from 'src/util/taskUtils';
+import { editLock } from 'src/util/decorator';
+import { withRouter } from 'react-router';
+import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
 
+@withRouter
 @inject('TaskStore')
 @inject('OperateHistoryStore')
 @inject('DataLayerStore')
@@ -76,7 +79,8 @@ class Save extends React.Component {
     quitWithSave = async () => {
         await this.save();
         logout();
-        location.reload();
+        location.pathname === '/' && HomeVisiteHistory.removeVisitedHistory();
+        location.href = '/login';
     };
 
     loadTask = async () => {

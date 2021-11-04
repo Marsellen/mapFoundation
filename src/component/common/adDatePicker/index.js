@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Select, Modal, Checkbox, Radio, Button, Row, Col, message } from 'antd';
-import { getData, setValidatorStart, setValidatorEnd, setCallback } from 'src/tool/timeUtils';
+import { getData, setValidatorStart, setValidatorEnd, setCallback } from 'src/util/timeUtils';
 import TimePicker from './timePicker';
 import 'src/asset/less/ad-date-picker.less';
 const { Option } = Select;

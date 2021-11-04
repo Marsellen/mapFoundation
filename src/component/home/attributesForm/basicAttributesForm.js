@@ -6,11 +6,11 @@ import CheckBoxIconGroup from 'src/component/common/checkBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/adMapDataConfig';
 import AdInputNumber from 'src/component/common/form/adInputNumber';
 import AdDateInput from 'src/component/common/form/adDateInput';
-import { getValidator } from 'src/tool/validator';
-import Filter from 'src/tool/filter';
+import { getValidator } from 'src/util/validator';
+import Filter from 'src/util/filter';
 import SearchIconGroup from 'src/component/common/searchIconGroup';
 import AdTrafficSignContent from 'src/component/common/form/adTrafficSignContent';
-import { testDataString } from 'src/tool/timeUtils';
+import { testDataString } from 'src/util/timeUtils';
 
 const formItemLayout = {
     labelCol: {
@@ -399,10 +399,10 @@ class BasicAttributesForm extends React.Component {
     getValidatorSetting = validates => {
         return validates
             ? [
-                  {
-                      validator: getValidator(validates)
-                  }
-              ]
+                {
+                    validator: getValidator(validates)
+                }
+            ]
             : [];
     };
 }

@@ -1,6 +1,6 @@
 import { observable, flow, configure, action } from 'mobx';
-import operateHistory from 'src/tool/operateHistory';
-import OperateFactory from 'src/tool/operateFactory';
+import operateHistory from 'src/util/operateHistory';
+import OperateFactory from 'src/util/operateFactory';
 
 configure({ enforceActions: 'always' });
 class OperateHistoryStore {

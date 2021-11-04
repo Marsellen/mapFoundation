@@ -2,9 +2,9 @@ import React from 'react';
 import ToolIcon from 'src/component/common/toolIcon';
 import { inject, observer } from 'mobx-react';
 import { message } from 'antd';
-import { delRel, calcRelChangeLog } from 'src/tool/relCtrl/relCtrl';
+import { delRel, calcRelChangeLog } from 'src/util/relCtrl/relCtrl';
 import AdMessage from 'src/component/common/adMessage';
-import { logDecorator, editLock } from 'src/tool/decorator';
+import { logDecorator, editLock } from 'src/util/decorator';
 import AttributeStore from 'src/store/home/attributeStore';
 
 import 'less/tool-icon.less';

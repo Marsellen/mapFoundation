@@ -3,7 +3,7 @@ import ToolIcon from 'src/component/common/toolIcon';
 import { inject, observer } from 'mobx-react';
 import { Modal, Button, Form, message, Select, Input } from 'antd';
 import CONFIG from 'src/config';
-import AdLocalStorage from 'src/tool/adLocalStorage';
+import AdLocalStorage from 'src/util/adLocalStorage';
 
 const processNameOptions = CONFIG.processNameOptions;
 const roleCodes = ['producer', 'producer_leader', 'quality', 'quality_leader'];

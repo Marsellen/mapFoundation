@@ -2,8 +2,8 @@ import React from 'react';
 import ToolIcon from 'src/component/common/toolIcon';
 import { inject, observer } from 'mobx-react';
 import { message } from 'antd';
-import { getLayersByNames } from 'src/tool/vectorUtils';
-import { editLock } from 'src/tool/decorator';
+import { getLayersByNames } from 'src/util/vectorUtils';
+import { editLock } from 'src/util/decorator';
 
 @inject('TaskStore')
 @inject('DataLayerStore')

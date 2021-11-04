@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table } from 'antd';
 import { Resizable } from 'react-resizable';
-import Filter from 'src/tool/filter';
+import Filter from 'src/util/filter';
 
 function AdTableCell(props) {
     const { filterBy, record, dataIndex, ...restProps } = props;

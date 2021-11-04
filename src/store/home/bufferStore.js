@@ -3,8 +3,8 @@ import { BUFFER_CONFIG_MAP, BUFFER_LAYER_STYLE_CONFIG, BUFFER_STYLE } from 'src/
 import { VectorLayer } from 'addis-viz-sdk';
 import RightMenuStore from 'src/store/home/rightMenuStore';
 import AttributeStore from 'src/store/home/attributeStore';
-import { getFeatureOption } from 'src/tool/vectorUtils';
-import BuriedPoint from 'src/tool/buriedPoint';
+import { getFeatureOption } from 'src/util/vectorUtils';
+import BuriedPoint from 'src/util/buriedPoint';
 
 configure({ enforceActions: 'always' });
 class BufferStore {

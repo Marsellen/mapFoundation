@@ -6,7 +6,7 @@ import {
     weekOrMonth,
     yearMonthCycleOrSection,
     handleYearAndMonth
-} from 'src/tool/timeUtils';
+} from 'src/util/timeUtils';
 import AttributeStore from 'src/store/home/attributeStore';
 import AdDatePicker from '../adDatePicker';
 import 'src/asset/less/ad-date-picker.less';
@@ -180,11 +180,10 @@ export default class AdDateInput extends React.Component {
             if (radioChecked == 'month' || radioChecked == 'week') {
                 //TODO 日期勾选
                 const format = dateFormat.startDate
-                    ? `(${
-                          dateFormat.switchDate === 'month'
-                              ? `D${dateFormat.startDate}`
-                              : `WD${dateFormat.startDate}`
-                      })`
+                    ? `(${dateFormat.switchDate === 'month'
+                        ? `D${dateFormat.startDate}`
+                        : `WD${dateFormat.startDate}`
+                    })`
                     : '';
                 let dataDiff = dateFormat.endDate
                     ? Number(dateFormat.endDate) - Number(dateFormat.startDate) + 1

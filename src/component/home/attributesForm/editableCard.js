@@ -5,14 +5,14 @@ import SearchIconGroup from 'src/component/common/searchIconGroup';
 import _ from 'lodash';
 import { ATTR_TABLE_CONFIG } from 'src/config/attrsConfig';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/adMapDataConfig';
-import { getLayerIDKey } from 'src/tool/vectorUtils';
+import { getLayerIDKey } from 'src/util/vectorUtils';
 import 'src/asset/less/login.less';
-import { getValidator } from 'src/tool/validator';
+import { getValidator } from 'src/util/validator';
 import AdDateInput from 'src/component/common/form/adDateInput';
 import AdInputNumber from 'src/component/common/form/adInputNumber';
 import CheckBoxIconGroup from 'src/component/common/checkBoxIconGroup';
-import { testDataString } from 'src/tool/timeUtils';
-import Filter from 'src/tool/filter';
+import { testDataString } from 'src/util/timeUtils';
+import Filter from 'src/util/filter';
 import AttributeStore from 'src/store/home/attributeStore';
 
 const formItemLayout = {
@@ -414,7 +414,7 @@ class EditableCard extends React.Component {
             case 'CONT_VALUE':
                 return this.linkContValueChangeEvent;
             default:
-                return () => {};
+                return () => { };
         }
     };
 
@@ -474,10 +474,10 @@ class EditableCard extends React.Component {
     getValidatorSetting = validates => {
         return validates
             ? [
-                  {
-                      validator: getValidator(validates)
-                  }
-              ]
+                {
+                    validator: getValidator(validates)
+                }
+            ]
             : [];
     };
 }

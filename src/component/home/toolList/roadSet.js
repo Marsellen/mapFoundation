@@ -4,8 +4,8 @@ import { message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/component/common/adMessage';
 import SettingStore from 'src/store/setting/settingStore';
-import { editLock } from 'src/tool/decorator';
-import BuriedPoint from 'src/tool/buriedPoint';
+import { editLock } from 'src/util/decorator';
+import BuriedPoint from 'src/util/buriedPoint';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')

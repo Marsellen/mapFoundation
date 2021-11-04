@@ -1,7 +1,7 @@
 import React from 'react';
 import ToolIcon from 'src/component/common/toolIcon';
 import { inject, observer } from 'mobx-react';
-import { getFeatureInfo } from 'src/tool/vectorUtils';
+import { getFeatureInfo } from 'src/util/vectorUtils';
 
 @inject('DataLayerStore')
 @inject('QCMarkerStore')

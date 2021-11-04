@@ -1,5 +1,5 @@
 import service from 'src/service';
-import { TaskApiPath } from 'src/tool/api';
+import { TaskApiPath } from 'src/util/api';
 
 const JobService = {
     submitTask: params => {

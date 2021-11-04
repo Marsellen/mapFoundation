@@ -1,8 +1,8 @@
 import React from 'react';
 import ToolIcon from 'src/component/common/toolIcon';
-import { copyAttributeLines } from 'src/tool/relCtrl/operateCtrl';
+import { copyAttributeLines } from 'src/util/relCtrl/operateCtrl';
 import { inject, observer } from 'mobx-react';
-import { logDecorator, editInputLimit, editLock } from 'src/tool/decorator';
+import { logDecorator, editInputLimit, editLock } from 'src/util/decorator';
 import AdMessage from 'src/component/common/adMessage';
 import { message } from 'antd';
 

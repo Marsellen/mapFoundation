@@ -7,19 +7,19 @@ import {
     getFeatureOption,
     getLayerByName,
     getAllLayersExByName
-} from 'src/tool/vectorUtils';
-import { addClass, removeClass, throttle, getCSYS } from 'src/tool/utils';
-import AdEmitter from 'src/tool/event';
+} from 'src/util/vectorUtils';
+import { addClass, removeClass, throttle, getCSYS } from 'src/util/utils';
+import AdEmitter from 'src/util/event';
 import EditorConfig from 'src/config/conctrolConfig';
 import AttributeStore from 'src/store/home/attributeStore';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
 import RightMenuStore from 'src/store/home/rightMenuStore';
-import { getEventPointWkt, getFeaturePointWkt } from 'src/tool/pictureCtrl';
+import { getEventPointWkt, getFeaturePointWkt } from 'src/util/pictureCtrl';
 import SettingStore from 'src/store/setting/settingStore';
 import BatchBuildStore from './batchBuildStore';
-import { editLock } from 'src/tool/decorator';
+import { editLock } from 'src/util/decorator';
 import OtherVectorConfig from 'src/config/otherVectorConfig';
-import BuriedPoint from 'src/tool/buriedPoint';
+import BuriedPoint from 'src/util/buriedPoint';
 
 const TRACKS = ['TraceListLayer', 'TraceLayer'];
 const UN_ESC_EDIT_TYPE = ['normal', 'choose_error_feature'];
@@ -138,7 +138,7 @@ class DataLayerStore {
         }
         //埋点开始
         BuriedPoint.statusBuriedPointEnd(this.editStatus, channel);
-        
+
         this.editor ? this.exitEdit(toolChannel, noClear) : this.initEditor();
         this.editor?.setEditLayer(currentLayer);
         this.adEditLayer = currentLayer;

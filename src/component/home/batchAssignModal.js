@@ -6,16 +6,16 @@ import CheckBoxIconGroup from 'src/component/common/checkBoxIconGroup';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/adMapDataConfig';
 import AdInputNumber from 'src/component/common/form/adInputNumber';
 import AdDateInput from 'src/component/common/form/adDateInput';
-import { getValidator } from 'src/tool/validator';
-import AdEmitter from 'src/tool/event';
-import { logDecorator } from 'src/tool/decorator';
+import { getValidator } from 'src/util/validator';
+import AdEmitter from 'src/util/event';
+import { logDecorator } from 'src/util/decorator';
 import DataLayerStore from 'src/store/home/dataLayerStore';
 import BatchAssignStore from 'src/store/home/batchAssignStore';
 import SearchIconGroup from 'src/component/common/searchIconGroup';
-import { testDataString } from 'src/tool/timeUtils';
-import BuriedPoint from 'src/tool/buriedPoint';
+import { testDataString } from 'src/util/timeUtils';
+import BuriedPoint from 'src/util/buriedPoint';
 import AttrsForm from './attributesForm/attrsForm';
-import { updateFeatures } from 'src/tool/relCtrl/operateCtrl';
+import { updateFeatures } from 'src/util/relCtrl/operateCtrl';
 import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';
 
 const formItemLayout = {
@@ -426,10 +426,10 @@ class BatchAssignModal extends React.Component {
     getValidatorSetting = validates => {
         return validates
             ? [
-                  {
-                      validator: getValidator(validates)
-                  }
-              ]
+                {
+                    validator: getValidator(validates)
+                }
+            ]
             : [];
     };
 }

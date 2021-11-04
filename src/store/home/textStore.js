@@ -1,7 +1,7 @@
 import { observable, configure, action, computed } from 'mobx';
 import { TEXT_CONFIG_MAP } from 'src/config/textConfig/textConfigMap';
 import { CONFIGURABLE_LAYERS } from 'src/config/vectorConfig/vectorConfigMap';
-import TextSetting from 'src/tool/textSetting';
+import TextSetting from 'src/util/textSetting';
 import SettingStore from 'src/store/setting/settingStore';
 
 configure({ enforceActions: 'always' });

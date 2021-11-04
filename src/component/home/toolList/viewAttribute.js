@@ -10,14 +10,14 @@ import {
     isAttrLayer,
     isRelLayer,
     findRelDataById
-} from 'src/tool/vectorCtrl/propertyTableCtrl';
-import { getLayerIDKey, getLayerByName, selectFeature } from 'src/tool/vectorUtils';
+} from 'src/util/vectorCtrl/propertyTableCtrl';
+import { getLayerIDKey, getLayerByName, selectFeature } from 'src/util/vectorUtils';
 import 'less/view-attribute.less';
 import 'less/tool-icon.less';
 import zh_CN from 'antd/es/locale/zh_CN';
 import SeniorModal from 'src/component/common/seniorModal';
-import AdEmitter from 'src/tool/event';
-import Filter from 'src/tool/filter';
+import AdEmitter from 'src/util/event';
+import Filter from 'src/util/filter';
 import { ATTR_SPEC_CONFIG, REL_ATTR_LAYERS } from 'src/config/attrsConfig';
 import { REL_SPEC_CONFIG } from 'src/config/relsConfig';
 import AttrRightMenu from 'src/component/home/toolList/attrRightMenu';

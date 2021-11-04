@@ -1,5 +1,5 @@
 import service from 'src/service';
-import { ManualBuildApiPath } from 'src/tool/api';
+import { ManualBuildApiPath } from 'src/util/api';
 
 const AdLineService = {
     aroundLines: data => {

@@ -8,9 +8,9 @@ import {
     RESOURCE_LAYER_MARKER,
     CONFIDENCE_LAYER
 } from 'src/config/dataLayerConfig';
-import Tree from 'src/tool/treeCtrl';
+import Tree from 'src/util/treeCtrl';
 import PointCloudStore from 'src/store/home/pointCloudStore';
-import OcTreeIndex from 'src/tool/octreeIndex';
+import OcTreeIndex from 'src/util/octreeIndex';
 
 const checkCallback = obj => {
     const { checked, disabled, layerKey, layerName, isIndeterminate } = obj;

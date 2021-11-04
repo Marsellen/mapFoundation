@@ -10,9 +10,9 @@ import {
     getAllRelData,
     getAllAttrData,
     getAllDataSnapshot
-} from 'src/tool/vectorUtils';
-import { getAuthentication } from 'src/tool/session';
-import editLog from 'src/tool/editLog';
+} from 'src/util/vectorUtils';
+import { getAuthentication } from 'src/util/session';
+import editLog from 'src/util/editLog';
 import moment from 'moment';
 import { LayerGroup } from 'addis-viz-sdk';
 import {
@@ -25,10 +25,10 @@ import {
     startTaskTimePolling,
     endTaskTimePolling,
     endWorkTimePolling
-} from 'src/tool/taskUtils';
+} from 'src/util/taskUtils';
 import RelStore from './relStore';
 import AttrStore from './attrStore';
-import { getTaskProcessType } from 'src/tool/taskUtils';
+import { getTaskProcessType } from 'src/util/taskUtils';
 import {
     TASK_FIX_TYPES,
     TASK_QC_TYPES,
@@ -36,12 +36,12 @@ import {
     TASK_REFIX_STATUS,
     UPDATE_BOUNDARY_PARAM_MAP
 } from 'src/config/taskConfig';
-import LocalTask from 'src/tool/task/localTask';
-import AddTask from 'src/tool/task/addTask';
-import UpdateTask from 'src/tool/task/updateTask';
-import ModifyTask from 'src/tool/task/modifyTask';
+import LocalTask from 'src/util/task/localTask';
+import AddTask from 'src/util/task/addTask';
+import UpdateTask from 'src/util/task/updateTask';
+import ModifyTask from 'src/util/task/modifyTask';
 import { VECTOR_FILES, ATTR_FILES, REL_FILES } from 'src/config/taskConfig';
-import { fetchCallback } from 'src/tool/map/utils';
+import { fetchCallback } from 'src/util/map/utils';
 import PointCloudStore from 'src/store/home/pointCloudStore';
 import DefaultStyleConfig from 'src/config/defaultStyleConfig';
 

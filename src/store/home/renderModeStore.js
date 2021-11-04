@@ -1,11 +1,11 @@
 import { observable, configure, action, flow, computed } from 'mobx';
-import { getAllRelData } from 'src/tool/vectorUtils';
+import { getAllRelData } from 'src/util/vectorUtils';
 import { LAYER_NAME_MAP, RELS_ID_MAP, RELS_ID_MAP_REVERSE } from 'src/config/renderModeConfig';
 import { REL_SELECT_OPTIONS, REL_FEATURE_COLOR_MAP } from 'src/config/renderModeConfig';
-import { updateFeatureColor, getFeatureOption } from 'src/tool/vectorUtils';
+import { updateFeatureColor, getFeatureOption } from 'src/util/vectorUtils';
 import VectorsStore from './vectorsStore';
-import { calculateMiddlePoint } from 'src/tool/computeLineMidpoint';
-import relFactory from 'src/tool/relCtrl/relFactory';
+import { calculateMiddlePoint } from 'src/util/computeLineMidpoint';
+import relFactory from 'src/util/relCtrl/relFactory';
 import { DATA_LAYER_MAP } from 'src/config/dataLayerConfig';
 
 configure({ enforceActions: 'always' });

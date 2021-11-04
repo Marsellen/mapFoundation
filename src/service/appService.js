@@ -1,5 +1,5 @@
 import service from 'src/service';
-import { ApiPath } from 'src/tool/api';
+import { ApiPath } from 'src/util/api';
 
 const AppService = {
     login: data => {

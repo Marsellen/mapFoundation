@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { markCheckItem, locateCheckItem, selectFeature } from 'src/tool/vectorUtils';
-import { getQualityMisrepStatus } from 'src/tool/permissionCtrl';
+import { markCheckItem, locateCheckItem, selectFeature } from 'src/util/vectorUtils';
+import { getQualityMisrepStatus } from 'src/util/permissionCtrl';
 import MultiFunctionalTable from 'src/component/common/multiFunctionTable';
 
 @inject('LoadingStore')

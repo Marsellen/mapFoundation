@@ -6,6 +6,8 @@ export const SERVICE_MAP = {
     store: '过程库查询服务',
     querydb_new: '母库查询服务',
     edit: '编辑后台服务',
+    'check-web': '标注服务',
     check: '检查服务',
-    'check-web': '标注服务'
+    correct: '修正服务',
+    collect: '埋点服务'
 };

@@ -3,16 +3,16 @@ import { message, Modal, Select } from 'antd';
 import ToolIcon from 'src/component/common/toolIcon';
 import AdMessage from 'src/component/common/adMessage';
 import { inject, observer } from 'mobx-react';
-import { batchAssignment } from 'src/tool/relCtrl/operateCtrl';
+import { batchAssignment } from 'src/util/relCtrl/operateCtrl';
 import { DATA_LAYER_MAP } from 'src/config/dataLayerConfig';
-import { logDecorator, editInputLimit, editLock } from 'src/tool/decorator';
+import { logDecorator, editInputLimit, editLock } from 'src/util/decorator';
 import DataLayerStore from 'src/store/home/dataLayerStore';
 import TaskStore from 'src/store/home/taskStore';
-import BuriedPoint from 'src/tool/buriedPoint';
+import BuriedPoint from 'src/util/buriedPoint';
 
 import 'less/tool-icon.less';
 import 'less/batch-tools.less';
-import { checkSdkError } from 'src/tool/vectorUtils';
+import { checkSdkError } from 'src/util/vectorUtils';
 
 const { Option } = Select;
 

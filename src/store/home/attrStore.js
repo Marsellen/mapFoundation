@@ -1,7 +1,7 @@
 import { flow, configure } from 'mobx';
-import attrFactory from 'src/tool/attrFactory';
+import attrFactory from 'src/util/attrFactory';
 import axios from 'axios';
-import Attr from 'src/tool/attr';
+import Attr from 'src/util/attr';
 
 configure({ enforceActions: 'always' });
 class AttrStore {
