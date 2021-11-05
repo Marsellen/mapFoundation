@@ -69,6 +69,7 @@ const delRel = async (mainFeature, features) => {
 };
 
 const basicCheck = async (mainFeature, relFeatures, layerName) => {
+    const { properties } = mainFeature.data;
     var warningMessage;
     if (!mainFeature) {
         throw new Error('请选择要素');
@@ -98,6 +99,17 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
     });
     if (relSpecs.length == 0) {
         throw new Error(`无法构建${layerName}和${relFeatureTypes[0]}的关联关系`);
+    }
+
+    if ((layerName === 'AD_LaneDivider' && properties.RD_EDGE != 1) && relFeatureTypes[0] == 'AD_Road') {
+        throw new Error('该车道线非道路边界，不可建关系');
+    }
+
+    if(layerName === 'AD_Road'  && relFeatureTypes[0] == 'AD_LaneDivider') {
+        relFeatures.forEach(feature => {
+            const { properties } = feature.data;
+            if (properties.RD_EDGE != 1) throw new Error('车道线存在非道路边界，不可建关系');
+        });
     }
 
     let isAttrRel =
