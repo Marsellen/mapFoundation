@@ -1216,10 +1216,10 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
         key: 'AD_TrafficSign',
         label: '交通标志牌',
         checked: false,
-        isClassify: true,
+        isClassify: false,
         type: 'Polygon',
         commonStyle: {
-            showFields: 'SIGN_STYLE',
+            showFields: 'NOKEY',
             polygonStyle: 'solid',
             color: 'rgb(70,109,255)',
             opacity: 1
@@ -1234,14 +1234,6 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
             { key: 'dashed1', icon: 'xuxiankuang1' },
             { key: 'dashed2', icon: 'xuxiankuang2' },
             { key: 'dashed3', icon: 'xuxiankuang3' }
-        ],
-        typeArr: [
-            {
-                key: 'SIGN_STYLE',
-                name: '交通标志牌样式',
-                type: 'AD_TRAFFIC_SIGN_STYLE',
-                domType: 'Select'
-            }
         ]
     },
     AD_LaneDivider_Plg: {
