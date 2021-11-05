@@ -91,6 +91,11 @@ export const REL_SELECT_OPTIONS = [
         title: '车道中心线 & 地面导向箭头',
         key: 'AD_Lane_Arrow_Rel',
         checked: false
+    },
+    {
+        title: '道路边界 & 道路参考线',
+        key: 'AD_Road_Boundary_Rel',
+        checked: false
     }
 ];
 
@@ -129,7 +134,8 @@ export const RELS_ID_MAP = {
     AD_Plg_Lane_Rel: ['LANE_ID', 'PLG_ID'],
     AD_Sign_Lane_Rel: ['LANE_ID', 'SIGN_ID'],
     AD_Light_Lane_Rel: ['LANE_ID', 'LIGHT_ID'],
-    AD_Lane_Arrow_Rel: ['ARR_ID', 'LANE_ID']
+    AD_Lane_Arrow_Rel: ['ARR_ID', 'LANE_ID'],
+    AD_Road_Boundary_Rel: ['LDIV_ID', 'ROAD_ID']
 };
 
 export const RELS_ID_MAP_REVERSE = {
@@ -143,7 +149,8 @@ export const RELS_ID_MAP_REVERSE = {
     [['LANE', 'PLG']]: 'AD_Plg_Lane_Rel',
     [['LANE', 'SIGN']]: 'AD_Sign_Lane_Rel',
     [['LANE', 'LIGHT']]: 'AD_Light_Lane_Rel',
-    [['LANE', 'ARROW']]: 'AD_Lane_Arrow_Rel'
+    [['LANE', 'ARROW']]: 'AD_Lane_Arrow_Rel',
+    [['LDIV', 'ROAD']]: 'AD_Road_Boundary_Rel'
 };
 
 //id与文字标注配置映射

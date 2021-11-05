@@ -88,5 +88,6 @@ export const REL_FILES = [
     'AD_Plg_Lane_Rel.geojson',
     'AD_Light_Lane_Rel.geojson',
     'AD_Sign_Lane_Rel.geojson',
-    'AD_Arrow.geojson'
+    'AD_Arrow.geojson',
+    'AD_Road_Boundary_Rel.geojson'
 ];
