@@ -853,37 +853,15 @@ export default {
     },
     AD_TrafficSign: {
         type: 'Polygon',
-        showFields: ['SIGN_STYLE'],
+        showFields: ['NOKEY'],
         order: 6,
         showStyles: ['vectorStyle'],
         vectorStyle: {
-            SIGN_STYLE: [
+            NOKEY: [
                 {
-                    value: 0,
-                    label: '未定义',
-                    style: {
-                        color: 'rgb(70,109,255)',
-                        linewidth: 1,
-                        colorFill: 'rgb(250,250,250)'
-                    }
-                },
-                {
-                    value: 1,
-                    label: '单个标志牌',
-                    style: {
-                        color: 'rgb(70,109,255)',
-                        linewidth: 1,
-                        colorFill: 'rgb(250,250,250)'
-                    }
-                },
-                {
-                    value: 2,
-                    label: '组合标志牌',
-                    style: {
-                        color: 'rgb(70,109,255)',
-                        linewidth: 1,
-                        colorFill: 'rgb(250,250,250)'
-                    }
+                    color: 'rgb(70,109,255)',
+                    linewidth: 1,
+                    colorFill: 'rgb(250,250,250)'
                 }
             ]
         }

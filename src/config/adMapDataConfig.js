@@ -765,6 +765,32 @@ export const TYPE_SELECT_OPTION_MAP = {
             { value: 2227, label: '区域禁止-速度限制', icon: 'quyusuduxianzhi' },
             { value: 2228, label: '区域禁止解除-解除速度限制', icon: 'quyujiechusuduxianzhi' },
             { value: 2300, label: '其他指示类标志', icon: 'zhishilei' },
+
+            { value: 2301, label: '直行', icon: 'zhixing' },
+            { value: 2302, label: '向左转弯', icon: 'xiangzuozhuanwan' },
+            { value: 2303, label: '向右转弯', icon: 'xiangyouzhuanwan' },
+            { value: 2304, label: '直行和向左转弯', icon: 'zhixinghexiangzuozhuanwan' },
+            { value: 2305, label: '直行和向右转弯', icon: 'zhixinghexiangyouzhuanwan' },
+            { value: 2306, label: '向左和向右转弯', icon: 'xiangzuohexiangyouzhuanwan' },
+            { value: 2307, label: '靠左侧道路行驶', icon: 'kaozuocedaoluxingshi' },
+            { value: 2308, label: '靠右侧道路行驶', icon: 'kaoyoucedaoluxingshi' },
+            { value: 2309, label: '立体交叉行驶路线', icon: 'litijiaochaxingshiluxian' },
+            { value: 2310, label: '环岛行驶', icon: 'huandaoxingshi' },
+            { value: 2311, label: '单行路', icon: 'danxinglu' },
+            { value: 2312, label: '步行', icon: 'buxing' },
+            { value: 2313, label: '鸣喇叭', icon: 'minglaba' },
+            { value: 2315, label: '路口优先通行', icon: 'lukouyouxiantongxing' },
+            { value: 2316, label: '会车先行', icon: 'huichexianxing' },
+            { value: 2317, label: '人行横道', icon: 'renxinghengdao' },
+            {
+                value: 2319,
+                label: '公交车专用道路和车道',
+                icon: 'gongjiaochezhuanyongdaoluhechedao'
+            },
+            { value: 2320, label: '小汽车专用道路和车道', icon: 'xiaoqichezhuanyongdaoluhechedao' },
+            { value: 2329, label: '其他专用车道和车道', icon: 'qitazhuanyongdaoluhechedao' },
+            { value: 2330, label: '停车位', icon: 'tingchewei' },
+
             { value: 2314, label: '最低限速', icon: 'zuidixiansu' },
             { value: 2318, label: '车道行驶方向-直行', icon: 'chedaoxingshizhixing' },
             { value: 2321, label: '允许掉头', icon: 'yunxudiaotou' },
@@ -835,7 +861,6 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_TrafficLight: {},
     AD_TrafficSign: {
-        SIGN_STYLE: 1,
         OBJ_FUNC: '[{ "SIGN_TYPE": 0, "CONT_TYPE": 0, "CONT_VALUE": 0, "TIMEDOM": "" }]'
     },
     AD_LaneDivider: {
@@ -1294,12 +1319,6 @@ export const TABLE_DATA_MAP = {
             domType: 'Text'
         },
         {
-            key: 'SIGN_STYLE',
-            name: '交通标志牌样式',
-            type: 'AD_TRAFFIC_SIGN_STYLE',
-            domType: 'Select'
-        },
-        {
             key: 'UPD_STAT',
             name: '更新标识',
             filterBy: 'updStatFilter',
@@ -1534,7 +1553,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_Plg_Lane_Rel: '{"PLG_ID":{},"LANE_ID":{}}',
     AD_Text:
         '{"CONT_TYPE":{},"SPEED":{},"TIMEDOM":{},"VEH_LMT":{},"TEXT":{},"LANE_ID":{},"GEOMETRY":{}}',
-    AD_TrafficSign: '{"SIGN_STYLE":{},"GEOMETRY":{}}',
+    AD_TrafficSign: '{"GEOMETRY":{}}',
     AD_Sign_Lane_Rel: '{"SIGN_ID":{},"LANE_ID":{}}',
     AD_TrafficLight: '{"TYPE":{},"LAYOUT":{},"LAMP_COUNT":{},"GEOMETRY":{}}',
     AD_Light_Lane_Rel: '{"LIGHT_ID":{},"LANE_ID":{}}'
@@ -1746,11 +1765,6 @@ export const LAYER_TYPE_MAP = {
         {
             key: 'SIGN_ID',
             name: '用户编号'
-        },
-        {
-            key: 'SIGN_STYLE',
-            name: '交通标志牌样式',
-            type: 'AD_TRAFFIC_SIGN_STYLE'
         }
     ],
     AD_TrafficLight: [

@@ -293,11 +293,6 @@ export const COLUMNS_CONFIG = {
             title: '用户编号'
         },
         {
-            dataIndex: 'SIGN_STYLE',
-            title: '标志牌类型',
-            filterBy: 'typeFilter|AD_TRAFFIC_SIGN_STYLE'
-        },
-        {
             dataIndex: 'OBJ_FUNC',
             title: '存储标牌对象',
             filterBy: 'signContentFilter'

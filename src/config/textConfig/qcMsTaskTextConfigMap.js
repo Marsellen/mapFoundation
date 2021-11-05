@@ -138,7 +138,7 @@ export const QC_MS_TASK_TEXT_CONFIG_MAP = {
         label: '交通标志牌',
         checked: false,
         defaultStyle: {
-            textFields: ['SIGN_STYLE'], //看数据规格
+            textFields: ['SIGN_ID'], //看数据规格
             interval: 10,
             showMode: 'polygon-center',
             fontSize: 40,

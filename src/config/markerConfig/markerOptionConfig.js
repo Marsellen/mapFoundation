@@ -1952,13 +1952,6 @@ const ERROR_DESC_RESET_FIELD_MAP = {
             fieldName: 'TIMEDOM',
             errLevel: 2
         },
-        ['样式错误']: {
-            qcDesc: null,
-            errContent: 2,
-            errorType: 3,
-            fieldName: 'SIGN_STYLE',
-            errLevel: 2
-        },
         ['类型错误']: {
             qcDesc: null,
             errContent: 2,
@@ -2252,7 +2245,6 @@ const FIELD_NAME_MAP = {
         { value: 'TEXT ', label: '其他文本描述' }
     ],
     AD_TrafficSign: [
-        { value: 'SIGN_STYLE', label: '交通牌样式' },
         { value: 'SIGN_TYPE', label: '交通牌类型' },
         { value: 'CONT_TYPE', label: '交通牌语义类型' },
         { value: 'CONT_VALUE', label: '交通牌语义内容' },
