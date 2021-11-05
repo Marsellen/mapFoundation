@@ -86,6 +86,8 @@ class AddRel extends React.Component {
                             (4). 一个车道中心线 + 左侧车道线 + 右侧车道线
                             <br />
                             (5). 一个驶入车道中心线 + 一个驶出车道中心线
+                            <br />
+                            (6). 一个车道中心线 + 一个地面导向箭头
                         </p>
                         <p className="text-body-title">2、当前可编辑图层：“道路参考线” </p>
                         <p className="text-body-content">
@@ -98,6 +100,8 @@ class AddRel extends React.Component {
                             <br />
                             (3). 一个驶入道路参考线 + 一个驶出道路参考线
                             <br />
+                            (4). 一个道路参考线 + 一个或多个道路边界标识为“道路边界”的车道线
+                            <br />
                         </p>
                         <p className="text-body-title">
                             3、当前可编辑图层：“停止位置”、“面状标识物”、“交通信号灯”、“交通标志牌”
@@ -107,9 +111,13 @@ class AddRel extends React.Component {
                             例如：一个“停止位置”
                             + 多个“车道中心线”——可建立多对【车道中心线&停止位置关联关系】
                         </p>
-                        <p className="text-body-title">4、当前可编辑图层：“车道属性变化点”</p>
+                        <p className="text-body-title">4、当前可编辑图层：“车道线”</p>
                         <p className="text-body-content">
-                            (1). 一个车道属性变化点 + 一个道路参考线
+                            (1). 一个道路边界标识为“道路边界”的车道线 + 一个道路参考线
+                        </p>
+                        <p className="text-body-title">5、当前可编辑图层：“地面导向箭头”</p>
+                        <p className="text-body-content">
+                            (1). 一个地面导向箭头 + 一个车道中心线
                         </p>
                     </div>
                 </Modal>
