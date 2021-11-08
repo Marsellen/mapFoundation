@@ -882,20 +882,6 @@ const ERROR_DESC_RESET_FIELD_MAP = {
             fieldName: 'TYPE',
             errLevel: 1
         },
-        ['多做参考线标识']: {
-            qcDesc: null,
-            errContent: 2,
-            errorType: 1,
-            fieldName: 'RD_LINE',
-            errLevel: 1
-        },
-        ['漏做参考线标识']: {
-            qcDesc: null,
-            errContent: 2,
-            errorType: 2,
-            fieldName: 'RD_LINE',
-            errLevel: 1
-        },
         ['多做共用车道线标识']: {
             qcDesc: null,
             errContent: 2,
@@ -924,20 +910,6 @@ const ERROR_DESC_RESET_FIELD_MAP = {
             fieldName: 'RD_EDGE',
             errLevel: 2
         },
-        ['车道编号错误']: {
-            qcDesc: null,
-            errContent: 2,
-            errorType: 3,
-            fieldName: 'LANE_NO',
-            errLevel: 3
-        },
-        ['车道类型错误']: {
-            qcDesc: null,
-            errContent: 2,
-            errorType: 3,
-            fieldName: 'LANE_TYPE',
-            errLevel: 3
-        },
         ['车道颜色错误']: {
             qcDesc: null,
             errContent: 2,
@@ -950,27 +922,6 @@ const ERROR_DESC_RESET_FIELD_MAP = {
             errContent: 2,
             errorType: 3,
             fieldName: 'WIDTH',
-            errLevel: 3
-        },
-        ['非道路左边线及纯道路边界通行方向错误']: {
-            qcDesc: null,
-            errContent: 2,
-            errorType: 3,
-            fieldName: 'DIRECTION',
-            errLevel: 3
-        },
-        ['非道路左边线及纯道路边界车道通行状态错误']: {
-            qcDesc: null,
-            errContent: 2,
-            errorType: 3,
-            fieldName: 'LANE_STATUS',
-            errLevel: 3
-        },
-        ['应提取为道路参考线的车道线的道路形态错误']: {
-            qcDesc: null,
-            errContent: 2,
-            errorType: 3,
-            fieldName: 'RD_FORM',
             errLevel: 3
         },
         ['其它']: {
@@ -2203,16 +2154,10 @@ const FIELD_NAME_MAP = {
     ],
     AD_LaneDivider: [
         { value: 'TYPE', label: '车道线类型' },
-        { value: 'RD_LINE', label: '道路参考线标识' },
         { value: 'SHARE_LINE', label: '共用车道线标识' },
         { value: 'RD_EDGE', label: '道路边界标识' },
-        { value: 'DIRECTION', label: '车道通行方向' },
-        { value: 'LANE_STATUS', label: '车道通行状态' },
-        { value: 'LANE_TYPE', label: '车道类型' },
-        { value: 'LANE_NO', label: '车道编号' },
         { value: 'WIDTH', label: '车道线宽度' },
-        { value: 'COLOR', label: '车道线颜色' },
-        { value: 'RD_FORM', label: '道路形态' }
+        { value: 'COLOR', label: '车道线颜色' }
     ],
     AD_Lane: [
         { value: 'ROAD_ID', label: '关联道路参考线' },

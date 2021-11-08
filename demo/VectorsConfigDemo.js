@@ -73,13 +73,13 @@ export default {
     },
     AD_LaneDivider: {
         type: 'Line',
-        showFields: ['RD_LINE'],
-        pointFLFields: ['RD_LINE'],
-        arrowFields: ['RD_LINE'],
+        showFields: ['TYPE'],
+        pointFLFields: ['TYPE'],
+        arrowFields: ['TYPE'],
         order: 14,
         showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
         vectorStyle: {
-            RD_LINE: [
+            TYPE: [
                 {
                     value: 0,
                     label: '未定义',
@@ -87,37 +87,113 @@ export default {
                 },
                 {
                     value: 1,
-                    label: '道路参考线',
-                    style: { color: 'rgb(186,38,255)', linewidth: 1 }
+                    label: '单实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
                     value: 2,
-                    label: '非道路参考线',
+                    label: '单虚线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 3,
+                    label: '双实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 4,
+                    label: '双虚线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 5,
+                    label: '左实右虚',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 6,
+                    label: '左虚右实',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 7,
+                    label: '短粗虚线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 8,
+                    label: '导流线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 9,
+                    label: '车道虚拟车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 10,
+                    label: '路边缘虚拟车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 11,
+                    label: '防护栏',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 12,
+                    label: '隧道墙',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 13,
+                    label: '路缘石',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 14,
+                    label: '自然边界',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 15,
+                    label: '施工边界',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 16,
+                    label: '路中隔离带',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 17,
+                    label: '待转待行区车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 18,
+                    label: '可变导向车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 19,
+                    label: '路口内虚拟车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 20,
+                    label: '其他虚拟车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 99,
+                    label: '其他',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 }
             ]
         },
         pointFLStyle: {
-            RD_LINE: [
-                {
-                    value: 0,
-                    label: '未定义',
-                    style: { color: 'rgb(255,255,255)' }
-                },
-                {
-                    value: 1,
-                    label: '道路参考线',
-                    style: { color: 'rgb(186,38,255)' }
-                },
-                {
-                    value: 2,
-                    label: '非道路参考线',
-                    style: { color: 'rgb(255,255,255)' }
-                }
-            ]
-        },
-        arrowStyle: {
-            RD_LINE: [
+            TYPE: [
                 {
                     value: 0,
                     label: '未定义',
@@ -125,12 +201,221 @@ export default {
                 },
                 {
                     value: 1,
-                    label: '道路参考线',
-                    style: { color: 'rgb(186,38,255)', linewidth: 1 }
+                    label: '单实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
                     value: 2,
-                    label: '非道路参考线',
+                    label: '单虚线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 3,
+                    label: '双实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 4,
+                    label: '双虚线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 5,
+                    label: '左实右虚',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 6,
+                    label: '左虚右实',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 7,
+                    label: '短粗虚线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 8,
+                    label: '导流线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 9,
+                    label: '车道虚拟车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 10,
+                    label: '路边缘虚拟车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 11,
+                    label: '防护栏',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 12,
+                    label: '隧道墙',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 13,
+                    label: '路缘石',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 14,
+                    label: '自然边界',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 15,
+                    label: '施工边界',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 16,
+                    label: '路中隔离带',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 17,
+                    label: '待转待行区车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 18,
+                    label: '可变导向车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 19,
+                    label: '路口内虚拟车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 20,
+                    label: '其他虚拟车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 99,
+                    label: '其他',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                }
+            ]
+        },
+        arrowStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 1,
+                    label: '单实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 2,
+                    label: '单虚线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 3,
+                    label: '双实线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 4,
+                    label: '双虚线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 5,
+                    label: '左实右虚',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 6,
+                    label: '左虚右实',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 7,
+                    label: '短粗虚线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 8,
+                    label: '导流线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 9,
+                    label: '车道虚拟车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 10,
+                    label: '路边缘虚拟车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 11,
+                    label: '防护栏',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 12,
+                    label: '隧道墙',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 13,
+                    label: '路缘石',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 14,
+                    label: '自然边界',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 15,
+                    label: '施工边界',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 16,
+                    label: '路中隔离带',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 17,
+                    label: '待转待行区车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 18,
+                    label: '可变导向车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 19,
+                    label: '路口内虚拟车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 20,
+                    label: '其他虚拟车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 99,
+                    label: '其他',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 }
             ]

@@ -59,16 +59,6 @@ export const COLUMNS_CONFIG = {
             filterBy: 'typeFilter|AD_LANE_DIVIDER_TYPE'
         },
         {
-            dataIndex: 'LANE_TYPE',
-            title: '车道类型',
-            filterBy: 'typeFilter|AD_LANE_DIVIDER_LANE_TYPE'
-        },
-        {
-            dataIndex: 'RD_LINE',
-            title: '道路参考线标识',
-            filterBy: 'typeFilter|AD_LANE_DIVIDER_RD_LINE'
-        },
-        {
             dataIndex: 'SHARE_LINE',
             title: '共用车道线标识',
             filterBy: 'typeFilter|AD_LANE_DIVIDER_SHARE_LINE'
@@ -77,25 +67,6 @@ export const COLUMNS_CONFIG = {
             dataIndex: 'RD_EDGE',
             title: '道路边界标识',
             filterBy: 'typeFilter|AD_LANE_DIVIDER_RD_EDGE'
-        },
-        {
-            dataIndex: 'DIRECTION',
-            title: '车道通行方向',
-            filterBy: 'typeFilter|AD_LANE_DIVIDER_DIRECTION'
-        },
-        {
-            dataIndex: 'LANE_STATUS',
-            title: '车道通行状态',
-            filterBy: 'typeFilter|AD_LANE_DIVIDER_LANE_STATUS'
-        },
-        {
-            dataIndex: 'LANE_NO',
-            title: '车道编号'
-        },
-        {
-            dataIndex: 'RD_FORM',
-            title: '道路形态',
-            filterBy: 'typeFilter|AD_LANE_DIVIDER_RD_FORM'
         },
         {
             dataIndex: 'UPD_STAT',

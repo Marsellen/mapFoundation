@@ -29,7 +29,7 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
         label: '车道线',
         checked: true,
         defaultStyle: {
-            textFields: ['TYPE', 'LANE_TYPE', 'LANE_NO'], //看数据规格
+            textFields: ['TYPE'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,

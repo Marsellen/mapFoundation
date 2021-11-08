@@ -96,12 +96,6 @@ export const DEFINE_VECTOR_CONFIG_MAP = {
                 domType: 'RadioIconGroup'
             },
             {
-                key: 'RD_LINE',
-                name: '道路参考线标识',
-                type: 'AD_LANE_DIVIDER_RD_LINE',
-                domType: 'Select'
-            },
-            {
                 key: 'SHARE_LINE',
                 name: '共用车道线标识',
                 type: 'AD_LANE_DIVIDER_SHARE_LINE',
@@ -111,30 +105,6 @@ export const DEFINE_VECTOR_CONFIG_MAP = {
                 key: 'RD_EDGE',
                 name: '道路边界标识',
                 type: 'AD_LANE_DIVIDER_RD_EDGE',
-                domType: 'Select'
-            },
-            {
-                key: 'DIRECTION',
-                name: '车道通行方向',
-                type: 'AD_LANE_DIVIDER_DIRECTION',
-                domType: 'Select'
-            },
-            {
-                key: 'LANE_STATUS',
-                name: '车道通行状态',
-                type: 'AD_LANE_DIVIDER_LANE_STATUS',
-                domType: 'Select'
-            },
-            {
-                key: 'LANE_TYPE',
-                name: '车道类型',
-                type: 'AD_LANE_DIVIDER_LANE_TYPE',
-                domType: 'RadioIconGroup'
-            },
-            {
-                key: 'RD_FORM',
-                name: '道路形态',
-                type: 'AD_LANE_DIVIDER_RD_FORM',
                 domType: 'Select'
             }
         ]
