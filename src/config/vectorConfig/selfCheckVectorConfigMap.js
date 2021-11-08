@@ -162,47 +162,6 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
             pointSize: 0.1
         },
         typeStyleMap: {
-            RD_LINE: [
-                {
-                    value: 0,
-                    label: '未定义',
-                    showFields: 'RD_LINE',
-                    color: 'rgb(125,219,30)',
-                    lineStyle: 'solid',
-                    opacity: 1,
-                    arrow: true,
-                    point: true,
-                    pointEnabledStatus: true,
-                    arrowEnabledStatus: true,
-                    pointSize: 0.1
-                },
-                {
-                    value: 1,
-                    label: '道路参考线',
-                    showFields: 'RD_LINE',
-                    color: 'rgb(186,38,255)',
-                    lineStyle: 'solid',
-                    opacity: 1,
-                    arrow: true,
-                    point: true,
-                    pointEnabledStatus: true,
-                    arrowEnabledStatus: true,
-                    pointSize: 0.1
-                },
-                {
-                    value: 2,
-                    label: '非道路参考线',
-                    showFields: 'RD_LINE',
-                    color: 'rgb(125,219,30)',
-                    lineStyle: 'solid',
-                    opacity: 1,
-                    arrow: true,
-                    point: true,
-                    pointEnabledStatus: true,
-                    arrowEnabledStatus: true,
-                    pointSize: 0.1
-                }
-            ],
             SHARE_LINE: [
                 {
                     value: 0,
@@ -608,12 +567,6 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                 domType: 'RadioIconGroup'
             },
             {
-                key: 'RD_LINE',
-                name: '道路参考线标识',
-                type: 'AD_LANE_DIVIDER_RD_LINE',
-                domType: 'Select'
-            },
-            {
                 key: 'SHARE_LINE',
                 name: '共用车道线标识',
                 type: 'AD_LANE_DIVIDER_SHARE_LINE',
@@ -623,30 +576,6 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                 key: 'RD_EDGE',
                 name: '道路边界标识',
                 type: 'AD_LANE_DIVIDER_RD_EDGE',
-                domType: 'Select'
-            },
-            {
-                key: 'DIRECTION',
-                name: '车道通行方向',
-                type: 'AD_LANE_DIVIDER_DIRECTION',
-                domType: 'Select'
-            },
-            {
-                key: 'LANE_STATUS',
-                name: '车道通行状态',
-                type: 'AD_LANE_DIVIDER_LANE_STATUS',
-                domType: 'Select'
-            },
-            {
-                key: 'LANE_TYPE',
-                name: '车道类型',
-                type: 'AD_LANE_DIVIDER_LANE_TYPE',
-                domType: 'RadioIconGroup'
-            },
-            {
-                key: 'RD_FORM',
-                name: '道路形态',
-                type: 'AD_LANE_DIVIDER_RD_FORM',
                 domType: 'Select'
             }
         ]

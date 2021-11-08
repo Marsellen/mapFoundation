@@ -423,13 +423,8 @@ const copyAttributeLines = async (feature, copyFeature, layerName, processName) 
     const adLaneDividerKey = [
         //复制属性--车道线
         'TYPE',
-        'RD_LINE',
         'SHARE_LINE',
-        'RD_EDGE',
-        'DIRECTION',
-        'LANE_STATUS',
-        'LANE_TYPE',
-        'RD_FORM'
+        'RD_EDGE'
     ];
     const adLaneKey = [
         //复制属性--车道中心线

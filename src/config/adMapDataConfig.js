@@ -865,14 +865,8 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_LaneDivider: {
         TYPE: 1,
-        DIRECTION: 0,
-        RD_LINE: 2,
         SHARE_LINE: 1,
-        RD_EDGE: 2,
-        LANE_STATUS: 0,
-        LANE_TYPE: 1,
-        LANE_NO: 0,
-        RD_FORM: 0
+        RD_EDGE: 2
     },
     AD_Road: {
         TYPE: 1,
@@ -986,18 +980,6 @@ export const TABLE_DATA_MAP = {
             }
         },
         {
-            key: 'LANE_TYPE',
-            name: '车道类型',
-            type: 'AD_LANE_DIVIDER_LANE_TYPE',
-            domType: 'RadioIconGroup'
-        },
-        {
-            key: 'RD_LINE',
-            name: '道路参考线标识',
-            type: 'AD_LANE_DIVIDER_RD_LINE',
-            domType: 'Select'
-        },
-        {
             key: 'SHARE_LINE',
             name: '共用车道线标识',
             type: 'AD_LANE_DIVIDER_SHARE_LINE',
@@ -1007,59 +989,6 @@ export const TABLE_DATA_MAP = {
             key: 'RD_EDGE',
             name: '道路边界标识',
             type: 'AD_LANE_DIVIDER_RD_EDGE',
-            domType: 'Select',
-            link: {
-                1: {
-                    DIRECTION: 0,
-                    LANE_STATUS: 0,
-                    LANE_TYPE: 0,
-                    LANE_NO: 0,
-                    RD_FORM: 0
-                }
-            }
-        },
-        {
-            key: 'DIRECTION',
-            name: '车道通行方向',
-            type: 'AD_LANE_DIVIDER_DIRECTION',
-            domType: 'Select'
-        },
-        {
-            key: 'LANE_STATUS',
-            name: '车道通行状态',
-            type: 'AD_LANE_DIVIDER_LANE_STATUS',
-            domType: 'Select'
-        },
-        {
-            key: 'LANE_NO',
-            name: '车道编号',
-            type: 'AD_LANE_DIVIDER_LANE_NO',
-            domType: 'InputNumber',
-            required: true,
-            validates: 'Numeric|range|-99|99',
-            link: {
-                default: {
-                    RD_LINE: 2,
-                    DIRECTION: 1,
-                    LANE_STATUS: 1
-                },
-                0: {
-                    RD_LINE: 2,
-                    DIRECTION: 0,
-                    LANE_STATUS: 0
-                },
-                1: {
-                    RD_LINE: 1,
-                    DIRECTION: 1,
-                    LANE_STATUS: 1,
-                    RD_FORM: 1
-                }
-            }
-        },
-        {
-            key: 'RD_FORM',
-            name: '道路形态',
-            type: 'AD_LANE_DIVIDER_RD_FORM',
             domType: 'Select'
         },
         {
@@ -1538,8 +1467,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_Road: '{"TYPE":{},"CROSSING":{},"RD_STATUS":{},"RD_FORM":{},"DIRECTION":{},"GEOMETRY":{}}',
     AD_Road_Con: '{"FROM_ROAD":{},"TO_ROAD":{}}',
     AD_Road_Con_RS: '{"REL_ID":{},"RS_TYPE":{},"TIMEDOM":{}}',
-    AD_LaneDivider:
-        '{"TYPE":{},"RD_LINE":{},"SHARE_LINE":{},"RD_EDGE":{},"DIRECTION":{},"LANE_STATUS":{},"LANE_TYPE":{},"LANE_NO":{},"RD_FORM":{},"GEOMETRY":{}}',
+    AD_LaneDivider: '{"TYPE":{},"SHARE_LINE":{},"RD_EDGE":{},"GEOMETRY":{}}',
     AD_Lane:
         '{"ROAD_ID":{},"L_LDIV_ID":{},"R_LDIV_ID":{},"TYPE":{},"LANE_NO":{},"DIRECTION":{},"STATUS":{},"GEOMETRY":{}}',
     AD_Lane_Con: '{"FROM_LANE":{},"TO_LANE":{}}',
@@ -1573,16 +1501,6 @@ export const LAYER_TYPE_MAP = {
             type: 'AD_LANE_DIVIDER_TYPE'
         },
         {
-            key: 'LANE_TYPE',
-            name: '车道类型',
-            type: 'AD_LANE_DIVIDER_LANE_TYPE'
-        },
-        {
-            key: 'RD_LINE',
-            name: '道路参考线标识',
-            type: 'AD_LANE_DIVIDER_RD_LINE'
-        },
-        {
             key: 'SHARE_LINE',
             name: '共用车道线标识',
             type: 'AD_LANE_DIVIDER_SHARE_LINE'
@@ -1591,26 +1509,6 @@ export const LAYER_TYPE_MAP = {
             key: 'RD_EDGE',
             name: '道路边界标识',
             type: 'AD_LANE_DIVIDER_RD_EDGE'
-        },
-        {
-            key: 'DIRECTION',
-            name: '车道通行方向',
-            type: 'AD_LANE_DIVIDER_DIRECTION'
-        },
-        {
-            key: 'LANE_STATUS',
-            name: '车道通行状态',
-            type: 'AD_LANE_DIVIDER_LANE_STATUS'
-        },
-        {
-            key: 'LANE_NO',
-            name: '车道编号',
-            type: 'AD_LANE_DIVIDER_LANE_NO'
-        },
-        {
-            key: 'RD_FORM',
-            name: '道路形态',
-            type: 'AD_LANE_DIVIDER_RD_FORM'
         }
     ],
     AD_Text: [
