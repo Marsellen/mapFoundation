@@ -1,12 +1,19 @@
 import React from 'react';
 import { notification } from 'antd';
 import 'src/asset/less/login.less';
-import { inject, observer } from 'mobx-react';
 import LoginForm from 'src/component/login/loginForm';
+import LoginVisitedHistory from 'src/util/visiteHistory/loginVisiteHistory';
+import { getAuthentication } from 'src/util/session';
 
-@inject('appStore')
-@observer
 class Login extends React.Component {
+    componentDidMount() {
+        const { token } = getAuthentication() || {};
+        if (token) {
+            LoginVisitedHistory.removeVisitedHistory();
+            window.location.href = '/';
+        }
+    }
+
     componentWillUnmount() {
         this.particle && this.particle.destory();
         notification.destroy();

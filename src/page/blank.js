@@ -4,7 +4,7 @@ import 'less/blank.less';
 import IconFont from 'src/component/common/iconFont';
 import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
 import LoginVisiteHistory from 'src/util/visiteHistory/loginVisiteHistory';
-import { getAuthentication, logout } from 'src/util/session';
+import { getAuthentication } from 'src/util/session';
 
 @withRouter
 class Blank extends React.Component {
@@ -35,7 +35,7 @@ class Blank extends React.Component {
     handleClick = () => {
         HomeVisiteHistory.clearVisitedHistory();
         LoginVisiteHistory.clearVisitedHistory();
-
+        //有token就跳转到主页，没有token就跳转到登陆页
         const { token } = getAuthentication() || {};
         window.location.href = token ? '/' : '/login';
     };
