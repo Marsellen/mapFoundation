@@ -1,5 +1,5 @@
 import service from 'src/service';
-import { EditApiPath } from 'src/tool/api';
+import { EditApiPath } from 'src/util/api';
 
 const LogService = {
     logList: params => {

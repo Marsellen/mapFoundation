@@ -2,7 +2,7 @@ import React from 'react';
 import ToolIcon from 'src/component/common/toolIcon';
 import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/component/common/adMessage';
-import { editLock } from 'src/tool/decorator';
+import { editLock } from 'src/util/decorator';
 
 @inject('DataLayerStore')
 @inject('AttributeStore')

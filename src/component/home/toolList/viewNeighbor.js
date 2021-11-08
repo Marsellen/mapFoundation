@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { message } from 'antd';
 import ToolIcon from 'src/component/common/toolIcon';
 import { VectorLayer } from 'addis-viz-sdk';
-import AdEmitter from 'src/tool/event';
+import AdEmitter from 'src/util/event';
 
 @inject('TaskStore')
 @observer

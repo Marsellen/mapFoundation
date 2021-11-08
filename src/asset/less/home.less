@@ -1,4 +1,6 @@
 #home {
+    background: #000;
+
     .header {
         padding: 0 22px 0 60px;
         height: 60px;
@@ -29,22 +31,16 @@
             display: flex;
             align-items: center;
         }
+
         .bianjituceng.active {
             color: #69a5ff;
         }
     }
 
     .viz-content {
-        background-color: #000;
         position: relative;
+        z-index: 1;
         display: flex;
-    }
-
-    .viz-box {
-        background-color: #000;
-        position: relative;
-        height: 100%;
-        flex: auto;
     }
 
     .task-manage {
@@ -80,6 +76,7 @@
 
 .ad-message.ant-message {
     z-index: 996;
+
     .ant-message-notice-content {
         z-index: 996;
     }
@@ -90,22 +87,28 @@
         color: red;
         font-size: 60px;
     }
+
     .error-title {
         font-weight: bold;
     }
+
     .error-title-first {
         font-size: 24px;
         margin-right: 30px;
     }
+
     .error-title-second {
         font-size: 18px;
     }
+
     .error-title-third {
         margin-top: 4px;
     }
+
     .error-content {
         margin-top: 4px;
     }
+
     .ant-modal-confirm-content {
         margin-left: 0 !important;
     }
@@ -120,7 +123,7 @@
         height: calc(100% - 39px);
     }
 
-    .ant-modal-body > div {
+    .ant-modal-body>div {
         height: 100%;
     }
 

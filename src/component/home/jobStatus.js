@@ -2,12 +2,12 @@ import React from 'react';
 import { Modal, Button, message } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import editLog from 'src/tool/editLog';
+import editLog from 'src/util/editLog';
 import ToolIcon from 'src/component/common/toolIcon';
-import AdLocalStorage from 'src/tool/adLocalStorage';
-import { saveTaskData } from 'src/tool/taskUtils';
-import { editLock } from 'src/tool/decorator';
-import BuriedPoint from 'src/tool/buriedPoint';
+import AdLocalStorage from 'src/util/adLocalStorage';
+import { saveTaskData } from 'src/util/taskUtils';
+import { editLock } from 'src/util/decorator';
+import BuriedPoint from 'src/util/buriedPoint';
 
 import 'less/jobstatus.less';
 

@@ -1,5 +1,5 @@
 import { configure, flow } from 'mobx';
-import modelFactory from 'src/tool/vectorCtrl/modelFactory';
+import modelFactory from 'src/util/vectorCtrl/modelFactory';
 import IDService from 'src/service/idService';
 import { DATA_LAYER_MAP } from 'src/config/dataLayerConfig';
 

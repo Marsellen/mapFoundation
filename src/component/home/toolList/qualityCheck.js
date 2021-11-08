@@ -2,11 +2,11 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/component/common/toolIcon';
 import { Modal } from 'antd';
-import { saveTaskData } from 'src/tool/taskUtils';
-import { loadQualityLayer } from 'src/tool/map/utils';
+import { saveTaskData } from 'src/util/taskUtils';
+import { loadQualityLayer } from 'src/util/map/utils';
 import ResourceLayerStore from 'src/store/home/resourceLayerStore';
 import { SUSPECT_LAYER, WRONG_LAYER } from 'src/config/dataLayerConfig';
-import { editLock } from 'src/tool/decorator';
+import { editLock } from 'src/util/decorator';
 
 @inject('appStore')
 @inject('TaskStore')
@@ -92,9 +92,9 @@ class QualityCheck extends React.Component {
             const reportListL = reportList.length;
             reportListL > 0
                 ? this.checkModal(`质量检查结束，发现${reportListL}个错误，是否查看？`, () => {
-                      setActiveKey('check');
-                      openCheckReport();
-                  })
+                    setActiveKey('check');
+                    openCheckReport();
+                })
                 : this.checkModal(`质量检查结束，未发现数据问题`);
 
             this.setState({ visible: false });

@@ -1,5 +1,5 @@
 import service from 'src/service';
-import { BuriedPointApiPath } from 'src/tool/api';
+import { BuriedPointApiPath } from 'src/util/api';
 
 const BuriedPointService = {
     buriedPoint: data => {

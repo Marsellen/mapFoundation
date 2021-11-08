@@ -2,10 +2,10 @@ import React from 'react';
 import ToolIcon from 'src/component/common/toolIcon';
 import { Tabs, message } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { getLayerIDKey, selectFeature } from 'src/tool/vectorUtils';
+import { getLayerIDKey, selectFeature } from 'src/util/vectorUtils';
 import IDSearchForm from './idSearchForm';
 import PositionSearchForm from './positionSearchForm';
-import { isRegionContainsElement } from 'src/tool/vectorUtils';
+import { isRegionContainsElement } from 'src/util/vectorUtils';
 import SeniorModal from 'src/component/common/seniorModal';
 import 'less/search-info.less';
 

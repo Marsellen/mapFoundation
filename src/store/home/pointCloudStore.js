@@ -1,9 +1,9 @@
 import { observable, configure, action } from 'mobx';
 import CONFIG from 'src/config';
-import { completeMultiProjectUrl } from 'src/tool/taskUtils';
-import Tree from 'src/tool/treeCtrl';
+import { completeMultiProjectUrl } from 'src/util/taskUtils';
+import Tree from 'src/util/treeCtrl';
 import ResourceLayerStore from 'src/store/home/resourceLayerStore';
-import OcTreeIndex from 'src/tool/octreeIndex';
+import OcTreeIndex from 'src/util/octreeIndex';
 
 const PointCloudTree = new Tree();
 

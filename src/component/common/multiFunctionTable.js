@@ -1,7 +1,7 @@
 import React from 'react';
 import { ConfigProvider, Button } from 'antd';
 import 'src/asset/less/multi-functional-table.less';
-import ShortcutKey from 'src/tool/shortcutKey';
+import ShortcutKey from 'src/util/shortcutKey';
 import AdTable from 'src/component/common/adTable';
 import zh_CN from 'antd/es/locale/zh_CN';
 

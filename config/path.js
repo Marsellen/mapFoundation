@@ -8,42 +8,42 @@ const DOME_PATH = 'http://10.43.75.150:43304';
 //转发各服务根路径映射
 module.exports = PROXY_MAP = {
     local: {
-        gateway: LOCAL_PATH,
+        auth: LOCAL_PATH,
         task: LOCAL_PATH,
-        id: LOCAL_PATH,
+        imppublic: LOCAL_PATH,
         manualBuild: LOCAL_PATH,
         store: LOCAL_PATH,
-        querydb: LOCAL_PATH,
+        querydb_new: LOCAL_PATH,
         edit: LOCAL_PATH,
+        'check-web': LOCAL_PATH,
         check: LOCAL_PATH,
-        checkMarker: LOCAL_PATH,
-        repair: LOCAL_PATH,
-        buriedPoint: LOCAL_PATH
+        correct: LOCAL_PATH,
+        collect: LOCAL_PATH
     },
     dev: {
-        gateway: DEV_PATH,
+        auth: DEV_PATH,
         task: DEV_PATH,
-        id: DEV_PATH,
+        imppublic: DEV_PATH,
         manualBuild: DEV_PATH,
         store: DEV_PATH,
-        querydb: DEV_PATH,
+        querydb_new: DEV_PATH,
         edit: DEV_PATH,
+        'check-web': DEV_PATH,
         check: DEV_PATH,
-        checkMarker: DEV_PATH,
-        repair: DEV_PATH,
-        buriedPoint: DEV_PATH
+        correct: DEV_PATH,
+        collect: DEV_PATH
     },
     demo: {
-        gateway: DOME_PATH,
+        auth: DOME_PATH,
         task: DOME_PATH,
-        id: DOME_PATH,
+        imppublic: DOME_PATH,
         manualBuild: DOME_PATH,
         store: DOME_PATH,
-        querydb: DOME_PATH,
+        querydb_new: DOME_PATH,
         edit: DOME_PATH,
+        'check-web': DOME_PATH,
         check: DOME_PATH,
-        checkMarker: DOME_PATH,
-        repair: DOME_PATH,
-        buriedPoint: DOME_PATH
+        correct: DOME_PATH,
+        collect: DOME_PATH
     }
 };

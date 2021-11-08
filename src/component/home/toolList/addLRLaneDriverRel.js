@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Radio } from 'antd';
 import { inject, observer } from 'mobx-react';
-import BuriedPoint from 'src/tool/buriedPoint';
+import BuriedPoint from 'src/util/buriedPoint';
 
 var relType = 'L_LDIV';
 

@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/component/common/toolIcon';
 import PictureShowView from './pictureShowView';
 import SeniorModal from 'src/component/common/seniorModal';
-import { getWrappedInstance } from 'src/tool/utils';
+import { getWrappedInstance } from 'src/util/utils';
 
 import 'less/picture-view.less';
 

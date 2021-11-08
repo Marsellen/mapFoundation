@@ -1,11 +1,11 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/component/common/toolIcon';
-import { editLock } from 'src/tool/decorator';
+import { editLock } from 'src/util/decorator';
 import AttributeStore from 'src/store/home/attributeStore';
 import TemplateModal from './templateModal';
 import AdMessage from 'src/component/common/adMessage';
-import { clacTempArrow, calcMercatorScale, calcCurrentScaleTemplate } from 'src/tool/map/utils';
+import { clacTempArrow, calcMercatorScale, calcCurrentScaleTemplate } from 'src/util/map/utils';
 
 @inject('DataLayerStore')
 @observer

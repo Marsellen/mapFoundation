@@ -1,7 +1,7 @@
 import { observable, configure, action } from 'mobx';
 import { DATA_LAYER_MAP } from 'src/config/dataLayerConfig';
 import DataLayerStore from './dataLayerStore';
-import { getEditLayerDisabled, getLayerEditAble } from 'src/tool/permissionCtrl';
+import { getEditLayerDisabled, getLayerEditAble } from 'src/util/permissionCtrl';
 
 configure({ enforceActions: 'always' });
 class RightMenuStore {

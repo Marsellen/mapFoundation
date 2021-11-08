@@ -9,17 +9,17 @@ import {
     querySameTypeRel,
     calcRelChangeLog,
     relUniqCheck
-} from 'src/tool/relCtrl/relCtrl';
-import { updateFeatures } from 'src/tool/relCtrl/operateCtrl';
+} from 'src/util/relCtrl/relCtrl';
+import { updateFeatures } from 'src/util/relCtrl/operateCtrl';
 import AdMessage from 'src/component/common/adMessage';
 import AddLRLaneDriverRel from './addLRLaneDriverRel';
 import { REL_SPEC_CONFIG } from 'src/config/relsConfig';
-import { logDecorator, editInputLimit, editLock } from 'src/tool/decorator';
+import { logDecorator, editInputLimit, editLock } from 'src/util/decorator';
 import AttributeStore from 'src/store/home/attributeStore';
 
 import 'less/tool-icon.less';
 import 'src/asset/less/add-rel.less';
-import BuriedPoint from 'src/tool/buriedPoint';
+import BuriedPoint from 'src/util/buriedPoint';
 
 const key = 'new_rel';
 

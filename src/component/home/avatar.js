@@ -1,11 +1,13 @@
 import React from 'react';
 import { Dropdown, Menu, Modal } from 'antd';
+import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import { logout } from 'src/tool/session';
+import { logout } from 'src/util/session';
 import ToolIcon from 'src/component/common/toolIcon';
-import { editVisiteHistory } from 'src/tool/visiteHistory';
-import BuriedPoint from 'src/tool/buriedPoint';
+import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
+import BuriedPoint from 'src/util/buriedPoint';
 
+@withRouter
 @inject('appStore')
 @inject('TaskStore')
 @observer
@@ -68,8 +70,8 @@ class Avatar extends React.Component {
             onOk: async () => {
                 await BuriedPoint.buriedPointEnd('logout');
                 logout();
-                location.reload();
-                editVisiteHistory.removeVisitedHistory();
+                location.pathname === '/' && HomeVisiteHistory.removeVisitedHistory();
+                location.href = '/login';
             }
         });
     };

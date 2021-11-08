@@ -1,7 +1,7 @@
 import React from 'react';
 import ToolIcon from 'src/component/common/toolIcon';
 import { inject, observer } from 'mobx-react';
-import { logDecorator, editLock } from 'src/tool/decorator';
+import { logDecorator, editLock } from 'src/util/decorator';
 
 @inject('DataLayerStore')
 @inject('OperateHistoryStore')

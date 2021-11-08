@@ -4,8 +4,8 @@ import { Modal, Button, InputNumber } from 'antd';
 import 'src/asset/less/batch-build.less';
 import BatchBuildAttr from 'src/component/home/toolList/batchBuild/batchBuildAttr';
 import IconFont from 'src/component/common/iconFont';
-import { batchBuild } from 'src/tool/relCtrl/operateCtrl';
-import { editLock, logDecorator } from 'src/tool/decorator';
+import { batchBuild } from 'src/util/relCtrl/operateCtrl';
+import { editLock, logDecorator } from 'src/util/decorator';
 import shiyitu from 'src/asset/img/shiyitu.png';
 
 @inject('RightMenuStore')
@@ -256,9 +256,8 @@ class BatchBuildFeature extends React.Component {
                         <span>路面横截线：</span>
                         <span className="line-button addLines">
                             <IconFont
-                                className={`line-icon icon-font-button ${
-                                    horizontalToolStatus ? 'on' : ''
-                                }`}
+                                className={`line-icon icon-font-button ${horizontalToolStatus ? 'on' : ''
+                                    }`}
                                 type="icon-xinzeng"
                                 onClick={this.toggle}
                             />

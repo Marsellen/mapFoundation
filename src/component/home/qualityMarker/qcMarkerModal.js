@@ -5,7 +5,7 @@ import ConfigurableForm from 'src/component/common/configurableForm';
 import { MARKER_FIELD_CONFIG, MARKER_FORM_CONFIG } from 'src/config/markerConfig/markerFormConfig';
 import SeniorModal from 'src/component/common/seniorModal';
 import 'less/qc-marker-modal.less';
-import BuriedPoint from 'src/tool/buriedPoint';
+import BuriedPoint from 'src/util/buriedPoint';
 
 const formLayout = {
     labelCol: { span: 8 },

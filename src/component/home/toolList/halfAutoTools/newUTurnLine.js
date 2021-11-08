@@ -1,15 +1,15 @@
 import React from 'react';
 import ToolIcon from 'src/component/common/toolIcon';
 import { inject, observer } from 'mobx-react';
-import { getLayerByName, getFeatureOption, selectFeature } from 'src/tool/vectorUtils';
+import { getLayerByName, getFeatureOption, selectFeature } from 'src/util/vectorUtils';
 import { Modal, Icon } from 'antd';
-import { autoCreateLine, updateFeatures } from 'src/tool/relCtrl/operateCtrl';
+import { autoCreateLine, updateFeatures } from 'src/util/relCtrl/operateCtrl';
 import AdMessage from 'src/component/common/adMessage';
 import 'less/tool-icon.less';
 import 'less/uturn-line.less';
 import AdInputNumber from 'src/component/common/form/adInputNumber';
 import { DATA_LAYER_MAP } from 'src/config/dataLayerConfig';
-import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/tool/decorator';
+import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/util/decorator';
 
 const ACTION_MAP = {
     AD_Lane: '掉头中心线生成',
@@ -200,8 +200,8 @@ class NewUTurnLine extends React.Component {
                         {num < 0.01
                             ? '延伸长度必须大于0'
                             : !reg.test(num)
-                            ? ' 请输入数字，如有小数请精确到小数点后两位'
-                            : ''}
+                                ? ' 请输入数字，如有小数请精确到小数点后两位'
+                                : ''}
                     </p>
                 </Modal>
             </div>

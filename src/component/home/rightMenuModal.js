@@ -9,17 +9,17 @@ import {
     mergeLine,
     breakLineByLine,
     updateFeatures
-} from 'src/tool/relCtrl/operateCtrl';
+} from 'src/util/relCtrl/operateCtrl';
 import {
     getLayerByName,
     checkSdkError,
     getLayerIDKey,
     modUpdStatGeometry,
     layerUpdateFeatures
-} from 'src/tool/vectorUtils';
+} from 'src/util/vectorUtils';
 import AdMessage from 'src/component/common/adMessage';
 import _ from 'lodash';
-import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/tool/decorator';
+import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/util/decorator';
 import BatchAssignStore from 'src/store/home/batchAssignStore';
 import ToolCtrlStore from 'src/store/home/toolCtrlStore';
 import AttributeStore from 'src/store/home/attributeStore';
@@ -27,8 +27,8 @@ import NewFeatureStore from 'src/store/home/newFeatureStore';
 import TaskStore from 'src/store/home/taskStore';
 import 'src/asset/less/right-menu-modal.less';
 import DataLayerStore from 'src/store/home/dataLayerStore';
-import BuriedPoint from 'src/tool/buriedPoint';
-import ShortcutKey from 'src/tool/shortcutKey';
+import BuriedPoint from 'src/util/buriedPoint';
+import ShortcutKey from 'src/util/shortcutKey';
 
 const EDIT_TYPE = [
     'batch_build',

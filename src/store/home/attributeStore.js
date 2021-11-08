@@ -1,7 +1,7 @@
 import { observable, configure, action, flow } from 'mobx';
-import modelFactory from 'src/tool/vectorCtrl/modelFactory';
-import relFactory from 'src/tool/relCtrl/relFactory';
-import attrFactory from 'src/tool/attrFactory';
+import modelFactory from 'src/util/vectorCtrl/modelFactory';
+import relFactory from 'src/util/relCtrl/relFactory';
+import attrFactory from 'src/util/attrFactory';
 import IDService from 'src/service/idService';
 import {
     getLayerIDKey,
@@ -11,16 +11,16 @@ import {
     modUpdStatRelation,
     getDiffFields,
     modUpdStatPropertiesFields
-} from 'src/tool/vectorUtils';
+} from 'src/util/vectorUtils';
 import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';
 import { DEFAULT_CONFIDENCE_MAP } from 'src/config/adMapDataConfig';
-import { getAllRelFeatureOptions, uniqOptions } from 'src/tool/relCtrl/operateCtrl';
-import { isManbuildTask } from 'src/tool/taskUtils';
+import { getAllRelFeatureOptions, uniqOptions } from 'src/util/relCtrl/operateCtrl';
+import { isManbuildTask } from 'src/util/taskUtils';
 import _ from 'lodash';
 import { message } from 'antd';
 import RenderModeStore from './renderModeStore';
 import TaskStore from 'src/store/home/taskStore';
-import BuriedPoint from 'src/tool/buriedPoint';
+import BuriedPoint from 'src/util/buriedPoint';
 
 const LOAD_DATA_MESSAGE = '加载数据中...';
 

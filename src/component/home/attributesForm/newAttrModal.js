@@ -8,9 +8,9 @@ import SearchIconGroup from 'src/component/common/searchIconGroup';
 import CheckBoxIconGroup from 'src/component/common/checkBoxIconGroup';
 import _ from 'lodash';
 import AdDateInput from 'src/component/common/form/adDateInput';
-import { getValidator } from 'src/tool/validator';
+import { getValidator } from 'src/util/validator';
 import AdInputNumber from 'src/component/common/form/adInputNumber';
-import { testDataString } from 'src/tool/timeUtils';
+import { testDataString } from 'src/util/timeUtils';
 
 const formItemLayout = {
     labelCol: {
@@ -297,7 +297,7 @@ class NewAttrModal extends React.Component {
             case 'CONT_VALUE':
                 return this.linkContValueChangeEvent;
             default:
-                return () => {};
+                return () => { };
         }
     };
 
@@ -346,10 +346,10 @@ class NewAttrModal extends React.Component {
     getValidatorSetting = validates => {
         return validates
             ? [
-                  {
-                      validator: getValidator(validates)
-                  }
-              ]
+                {
+                    validator: getValidator(validates)
+                }
+            ]
             : [];
     };
 }

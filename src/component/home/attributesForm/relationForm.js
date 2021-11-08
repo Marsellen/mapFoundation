@@ -3,9 +3,9 @@ import { inject, observer } from 'mobx-react';
 import { Empty, Form, Button, Icon } from 'antd';
 import EditableCard from './editableCard';
 import NewAttrModal from './newAttrModal';
-import { getValidator } from 'src/tool/validator';
+import { getValidator } from 'src/util/validator';
 import AdInputNumber from 'src/component/common/form/adInputNumber';
-import { isManbuildTask } from 'src/tool/taskUtils';
+import { isManbuildTask } from 'src/util/taskUtils';
 
 const formItemLayout = {
     labelCol: {
@@ -200,10 +200,10 @@ class RelationForm extends React.Component {
     getValidatorSetting = validates => {
         return validates
             ? [
-                  {
-                      validator: getValidator(validates)
-                  }
-              ]
+                {
+                    validator: getValidator(validates)
+                }
+            ]
             : [];
     };
 }

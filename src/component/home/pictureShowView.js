@@ -2,8 +2,8 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import RcViewer from 'src/component/common/rcViewer';
 import noImg from 'src/asset/img/no-img.png';
-import { completeSecendUrl } from 'src/tool/taskUtils';
-import { locatePicture } from 'src/tool/pictureCtrl';
+import { completeSecendUrl } from 'src/util/taskUtils';
+import { locatePicture } from 'src/util/pictureCtrl';
 import { message } from 'antd';
 import 'src/asset/less/picture-show-view.less';
 

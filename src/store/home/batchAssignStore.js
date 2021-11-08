@@ -1,9 +1,9 @@
 import { action, configure, observable, flow, toJS } from 'mobx';
-import modelFactory from 'src/tool/vectorCtrl/modelFactory';
-import { getLayerIDKey, getDiffFields, modUpdStatPropertiesFields, getFeatureInfo } from 'src/tool/vectorUtils';
+import modelFactory from 'src/util/vectorCtrl/modelFactory';
+import { getLayerIDKey, getDiffFields, modUpdStatPropertiesFields, getFeatureInfo } from 'src/util/vectorUtils';
 import _ from 'lodash';
-import BuriedPoint from 'src/tool/buriedPoint';
-import attrFactory from 'src/tool/attrFactory';
+import BuriedPoint from 'src/util/buriedPoint';
+import attrFactory from 'src/util/attrFactory';
 import IDService from 'src/service/idService';
 import { DEFAULT_CONFIDENCE_MAP } from 'src/config/adMapDataConfig';
 import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';
@@ -32,7 +32,7 @@ class BatchAssignStore {
     //存批量赋值的要素信息
     @action initAttrMap = flow(function* (features) {
         for (let feature of features) {
-            const featureInfo = getFeatureInfo(feature)
+            const featureInfo = getFeatureInfo(feature);
             const featureId = featureInfo.value;
             const attrRecords = yield this.fetchAttrs(feature);
             this.attrMap[featureId] = { feature, attrRecords };
@@ -139,7 +139,7 @@ class BatchAssignStore {
                     newFeature = modUpdStatPropertiesFields(newFeature, [key]); //维护更新标识
                 }
             }
-            
+
             batchOldFeature = [...batchOldFeature, oldFeature];
             batchNewFeature = [...batchNewFeature, newFeature];
             batchOldAttr = [...batchOldAttr, ...oldAttrs];

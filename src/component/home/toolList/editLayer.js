@@ -7,8 +7,8 @@ import {
     EDIT_LAYER_TYPE_MAP
 } from 'src/config/dataLayerConfig';
 import ToolIcon from 'src/component/common/toolIcon';
-import { getEditableLayerConfig } from 'src/tool/taskUtils';
-import { editLock } from 'src/tool/decorator';
+import { getEditableLayerConfig } from 'src/util/taskUtils';
+import { editLock } from 'src/util/decorator';
 
 import 'src/asset/less/home.less';
 

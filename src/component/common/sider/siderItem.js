@@ -44,13 +44,6 @@ class SiderItem extends React.Component {
             [`visible${id}`]: visible
         });
     };
-
-    // 解决popover action为hover时，多次点击浮动层触发onMouseLeave导致浮动层隐藏问题
-    onMouseLeave = e => {
-        if (e.relatedTarget === window) {
-            e.stopPropagation();
-        }
-    };
 }
 
 export default SiderItem;

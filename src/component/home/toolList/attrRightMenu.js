@@ -3,14 +3,14 @@ import { Modal, Menu, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import 'src/asset/less/right-menu-modal.less';
 import { SELECT_OPTIONS, OPTION_LAYER_MAP } from 'src/config/propertiesTableConfig';
-import { getLayerIDKey, getLayerByName, modUpdStatRelation } from 'src/tool/vectorUtils';
-import { logDecorator, editLock } from 'src/tool/decorator';
+import { getLayerIDKey, getLayerByName, modUpdStatRelation } from 'src/util/vectorUtils';
+import { logDecorator, editLock } from 'src/util/decorator';
 import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';
-import Attr from 'src/tool/attr';
-import Relevance from 'src/tool/relevance';
-import { findRelDataById } from 'src/tool/vectorCtrl/propertyTableCtrl';
-import BuriedPoint from 'src/tool/buriedPoint';
-import ShortcutKey from 'src/tool/shortcutKey';
+import Attr from 'src/util/attr';
+import Relevance from 'src/util/relevance';
+import { findRelDataById } from 'src/util/vectorCtrl/propertyTableCtrl';
+import BuriedPoint from 'src/util/buriedPoint';
+import ShortcutKey from 'src/util/shortcutKey';
 
 @inject('AttributeStore')
 @inject('TaskStore')

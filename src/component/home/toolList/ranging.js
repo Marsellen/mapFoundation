@@ -3,7 +3,7 @@ import React from 'react';
 import IconFont from 'src/component/common/iconFont';
 import { inject, observer } from 'mobx-react';
 import AdMessage from 'src/component/common/adMessage';
-import { editLock } from 'src/tool/decorator';
+import { editLock } from 'src/util/decorator';
 
 import 'less/tool-icon.less';
 

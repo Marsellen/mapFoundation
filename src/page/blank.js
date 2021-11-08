@@ -1,8 +1,12 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import 'less/blank.less';
 import IconFont from 'src/component/common/iconFont';
-import { editVisiteHistory, loginVisitedHistory } from 'src/tool/visiteHistory';
+import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
+import LoginVisiteHistory from 'src/util/visiteHistory/loginVisiteHistory';
+import { getAuthentication, logout } from 'src/util/session';
 
+@withRouter
 class Blank extends React.Component {
     render() {
         return (
@@ -29,9 +33,11 @@ class Blank extends React.Component {
     }
 
     handleClick = () => {
-        editVisiteHistory.clearVisitedHistory();
-        loginVisitedHistory.clearVisitedHistory();
-        window.location.href = '/';
+        HomeVisiteHistory.clearVisitedHistory();
+        LoginVisiteHistory.clearVisitedHistory();
+
+        const { token } = getAuthentication() || {};
+        window.location.href = token ? '/' : '/login';
     };
 }
 

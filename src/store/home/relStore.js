@@ -1,6 +1,6 @@
 import { flow, configure } from 'mobx';
-import Relevance from 'src/tool/relevance';
-import relFactory from 'src/tool/relCtrl/relFactory';
+import Relevance from 'src/util/relevance';
+import relFactory from 'src/util/relCtrl/relFactory';
 import axios from 'axios';
 
 configure({ enforceActions: 'always' });

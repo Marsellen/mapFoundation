@@ -1,12 +1,12 @@
 import { observable, configure, action, flow, computed } from 'mobx';
 import CheckService from 'src/service/checkService';
 import { message } from 'antd';
-import AdLocalStorage from 'src/tool/adLocalStorage';
+import AdLocalStorage from 'src/util/adLocalStorage';
 import { REPORT_COLUMNS } from 'src/config/checkTableConfig';
 import _ from 'lodash';
-import { getQualityChecked } from 'src/tool/permissionCtrl';
+import { getQualityChecked } from 'src/util/permissionCtrl';
 import SettingStore from 'src/store/setting/settingStore';
-import { updateData } from 'src/tool/map/viewCtrl';
+import { updateData } from 'src/util/map/viewCtrl';
 import TaskStore from 'src/store/home/taskStore';
 import appStore from 'src/store/common/appStore.js';
 configure({ enforceActions: 'always' });

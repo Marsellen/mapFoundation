@@ -4,9 +4,9 @@ import { inject, observer } from 'mobx-react';
 import { Icon } from 'antd';
 import ToolIcon from 'src/component/common/toolIcon';
 import AdMessage from 'src/component/common/adMessage';
-import { getLayerByName, getFeatureOption, selectFeature } from 'src/tool/vectorUtils';
-import { autoCreateLineByLaneDivider, updateFeatures } from 'src/tool/relCtrl/operateCtrl';
-import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/tool/decorator';
+import { getLayerByName, getFeatureOption, selectFeature } from 'src/util/vectorUtils';
+import { autoCreateLineByLaneDivider, updateFeatures } from 'src/util/relCtrl/operateCtrl';
+import { logDecorator, editInputLimit, editOutputLimit, editLock } from 'src/util/decorator';
 import { DATA_LAYER_MAP } from 'src/config/dataLayerConfig';
 
 const ACTION_MAP = {

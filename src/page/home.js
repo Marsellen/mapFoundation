@@ -7,30 +7,16 @@ import VizComponent from 'src/component/home/vizComponent';
 import HeaderBar from 'src/component/home/headerBar';
 import 'less/home.less';
 import logo from 'src/asset/img/logo.svg';
-import ShortcutKey from 'src/tool/shortcutKey';
-import { editVisiteHistory } from 'src/tool/visiteHistory';
-import { deleteDatabase } from 'src/tool/indexedDB';
-
+import ShortcutKey from 'src/util/shortcutKey';
 import SettingStore from 'src/store/setting/settingStore';
 import { MENUS } from 'src/config/menuConfig';
 
 const { Header } = Layout;
-
-//处理编辑页面访问历史
-window.onbeforeunload = e => editVisiteHistory.removeVisitedHistory();
-editVisiteHistory.addVisitedHistory();
-editVisiteHistory.pollingVisiteHistory();
-let jump = editVisiteHistory.LinkToBlank();
-if (!jump) {
-    deleteDatabase('attributes');
-    deleteDatabase('editLogs');
-    deleteDatabase('adEditor');
-    deleteDatabase('relationships');
-}
 //加载质检标注配置
 SettingStore.queryConfig();
 //记录登陆状态
 window.isLogin = true;
+
 @inject('LoadingStore')
 @observer
 class Home extends React.Component {
@@ -49,16 +35,14 @@ class Home extends React.Component {
                         </div>
                         <HeaderBar />
                     </Header>
-                    <div className="flex flex-row">
-                        <Sider menus={MENUS}>{SiderView}</Sider>
-                        <div className="flex-1 viz-content" id="viz-content">
-                            <VizComponent />
-                        </div>
+                    <Sider menus={MENUS}>{SiderView}</Sider>
+                    <div className="flex-1 viz-content" id="viz-content">
+                        <VizComponent />
                     </div>
                 </Layout>
             </Spin>
         );
-    }
-}
+    };
+};
 
 export default Home;
