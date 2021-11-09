@@ -1,6 +1,11 @@
 import { action, configure, observable, flow, toJS } from 'mobx';
 import modelFactory from 'src/util/vectorCtrl/modelFactory';
-import { getLayerIDKey, getDiffFields, modUpdStatPropertiesFields, getFeatureInfo } from 'src/util/vectorUtils';
+import {
+    getLayerIDKey,
+    getDiffFields,
+    modUpdStatPropertiesFields,
+    getFeatureInfo
+} from 'src/util/vectorUtils';
 import _ from 'lodash';
 import BuriedPoint from 'src/util/buriedPoint';
 import attrFactory from 'src/util/attrFactory';
@@ -102,7 +107,8 @@ class BatchAssignStore {
                 CONFIDENCE: DEFAULT_CONFIDENCE_MAP[attrType],
                 COLL_TIME: '',
                 MAKE_TIME: '',
-                UPD_STAT: '{}'
+                UPD_STAT: '{}',
+                TILE_ID: ''
             }
         };
         return attrs;

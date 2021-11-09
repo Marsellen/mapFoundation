@@ -436,8 +436,8 @@ const copyAttributeLines = async (feature, copyFeature, layerName, processName) 
         layerName === 'AD_LaneDivider'
             ? adLaneDividerKey
             : layerName === 'AD_Lane'
-                ? adLaneKey
-                : [];
+            ? adLaneKey
+            : [];
     let oldFeature = _.cloneDeep(copyFeature);
     let properties = copyFeature.data.properties;
     let UPD_STAT = copyFeature.data.properties.UPD_STAT
@@ -780,7 +780,8 @@ const relDataFormat = (spec, properties) => {
                 CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec],
                 COLL_TIME: '',
                 MAKE_TIME: '',
-                UPD_STAT: '{}'
+                UPD_STAT: '{}',
+                TILE_ID: ''
             }
         };
     });
@@ -841,7 +842,8 @@ const attrRelDataFormat = (layerName, spec, properties, feature) => {
                         CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec],
                         COLL_TIME: '',
                         MAKE_TIME: '',
-                        UPD_STAT: '{}'
+                        UPD_STAT: '{}',
+                        TILE_ID: ''
                     }
                 });
             }

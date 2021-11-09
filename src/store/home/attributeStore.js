@@ -351,7 +351,8 @@ class AttributeStore {
                 CONFIDENCE: DEFAULT_CONFIDENCE_MAP[key],
                 COLL_TIME: '',
                 MAKE_TIME: '',
-                UPD_STAT: '{}'
+                UPD_STAT: '{}',
+                TILE_ID: ''
             });
             let record = attrFactory.dataToTable(value, key);
             this.attrs[key] = this.attrs[key] || [];

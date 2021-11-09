@@ -26,7 +26,8 @@ class BatchBuildStore {
                 CONFIDENCE: DEFAULT_CONFIDENCE_MAP[layerName],
                 COLL_TIME: '',
                 MAKE_TIME: '',
-                UPD_STAT: '{"GEOMETRY":"ADD"}'
+                UPD_STAT: '{"GEOMETRY":"ADD"}',
+                TILE_ID: ''
             }
         });
         //默认选中新增行

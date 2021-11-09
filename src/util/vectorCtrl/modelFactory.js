@@ -21,7 +21,8 @@ class modelFactory {
         let extrInfo = {
             UPD_STAT,
             COLL_TIME: '',
-            MAKE_TIME: ''
+            MAKE_TIME: '',
+            TILE_ID: ''
         };
         if (defaultConfidence) {
             extrInfo.CONFIDENCE = defaultConfidence;
