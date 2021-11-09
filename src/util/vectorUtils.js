@@ -96,8 +96,9 @@ export const updateFeatureColor = (layerName, option, color) => {
 
 export const getFeatureByOptionFormAll = (layerName, option) => {
     if (window.vectorLayerGroup) {
-        let vectorLayer = window.vectorLayerGroup.layers.find(layer => layer.layerName == layerName)
-            .layer;
+        let vectorLayer = window.vectorLayerGroup.layers.find(
+            layer => layer.layerName == layerName
+        ).layer;
         let vectorFeature = vectorLayer && vectorLayer.getFeatureByOption(option);
         if (vectorFeature) {
             return [vectorLayer, vectorFeature.properties];
@@ -236,7 +237,8 @@ export const completeProperties = (feature, config) => {
     }
     Object.assign(_feature.data.properties, {
         COLL_TIME: '',
-        MAKE_TIME: ''
+        MAKE_TIME: '',
+        TILE_ID: ''
     });
     return _feature;
 };

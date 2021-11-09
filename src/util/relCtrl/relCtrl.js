@@ -101,11 +101,15 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
         throw new Error(`无法构建${layerName}和${relFeatureTypes[0]}的关联关系`);
     }
 
-    if ((layerName === 'AD_LaneDivider' && properties.RD_EDGE != 1) && relFeatureTypes[0] == 'AD_Road') {
+    if (
+        layerName === 'AD_LaneDivider' &&
+        properties.RD_EDGE != 1 &&
+        relFeatureTypes[0] == 'AD_Road'
+    ) {
         throw new Error('该车道线非道路边界，不可建关系');
     }
 
-    if(layerName === 'AD_Road'  && relFeatureTypes[0] == 'AD_LaneDivider') {
+    if (layerName === 'AD_Road' && relFeatureTypes[0] == 'AD_LaneDivider') {
         relFeatures.forEach(feature => {
             const { properties } = feature.data;
             if (properties.RD_EDGE != 1) throw new Error('车道线存在非道路边界，不可建关系');
@@ -239,11 +243,12 @@ const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
     }
     let extraInfo = REL_DATA_SET.includes(spec)
         ? {
-            CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec],
-            COLL_TIME: '',
-            MAKE_TIME: '',
-            UPD_STAT: '{}'
-        }
+              CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec],
+              COLL_TIME: '',
+              MAKE_TIME: '',
+              UPD_STAT: '{}',
+              TILE_ID: ''
+          }
         : {};
     return {
         spec,

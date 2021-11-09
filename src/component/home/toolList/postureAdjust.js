@@ -169,7 +169,7 @@ class PostureAdjust extends React.Component {
             data = modUpdStatGeometry(data);
             // 置信度维护
             if (!data.data.properties.CONFIDENCE) {
-                let extraInfo = { COLL_TIME: '', MAKE_TIME: '' };
+                let extraInfo = { COLL_TIME: '', MAKE_TIME: '', TILE_ID: '' };
                 if (DEFAULT_CONFIDENCE_MAP[data.layerName]) {
                     extraInfo.CONFIDENCE = DEFAULT_CONFIDENCE_MAP[data.layerName];
                 }
