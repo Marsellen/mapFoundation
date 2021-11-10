@@ -82,7 +82,7 @@ export const REL_TYPE_KEY_MAP = {
         name: '关联属性变化点',
         validates: 'Numeric|maxLength|15'
     },
-    EDGE_LDIV: {
+    LDIV: {
         name: '关联道路边界',
         validates: 'Numeric|maxLength|15'
     }
@@ -104,7 +104,7 @@ export const SPEC_REL_KEY_SET = [
     { spec: 'AD_TrafficLight', relKey: 'LIGHT', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'L_LDIV', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'R_LDIV', relType: 'REL_OBJ_TYPE_KEYS' },
-    { spec: 'AD_LaneDivider', relKey: 'EDGE_LDIV', relType: 'OBJ_TYPE_KEYS' }
+    { spec: 'AD_LaneDivider', relKey: 'LDIV', relType: 'OBJ_TYPE_KEYS' }
 ];
 
 // 索引与被关联对象的存储位置映射关系
@@ -210,7 +210,7 @@ export const REL_SPEC_CONFIG = [
         relObjKeyName: 'ROAD_ID',
         objSpec: 'AD_LaneDivider',
         relObjSpec: 'AD_Road',
-        objType: 'EDGE_LDIV',
+        objType: 'LDIV',
         relObjType: 'ROAD'
     }
 ];
