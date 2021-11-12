@@ -14,7 +14,7 @@ module.exports = {
         }
     },
     module: {
-        noParse: /jquery|chartjs/, //忽略没采用模块化的文件
+        noParse: /jquery|chartjs/ //忽略没采用模块化的文件
     },
     plugins: [
         //处理htm文件
@@ -22,7 +22,7 @@ module.exports = {
             template: path.resolve(__dirname, './public/index.html'),
             favicon: path.resolve(__dirname, './public/favicon.ico'),
             filename: 'index.html',
-            inject: true,
+            inject: true
         }),
         //定义全局变量
         new webpack.DefinePlugin({

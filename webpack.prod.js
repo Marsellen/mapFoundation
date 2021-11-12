@@ -23,9 +23,9 @@ module.exports = merge(base, {
             //webpack4需要安装terser-webpack-plugin@4.2.3
             new TerserPlugin({
                 parallel: 2,
-                cache: true,
-            }),
-        ],
+                cache: true
+            })
+        ]
     },
     performance: {
         hints: false //关闭性能提示
@@ -34,7 +34,7 @@ module.exports = merge(base, {
         rules: [
             {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader',]
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
             },
             {
                 test: /\.less$/,
@@ -46,23 +46,25 @@ module.exports = merge(base, {
                     {
                         loader: require.resolve('babel-loader'),
                         options: {
-                            cacheDirectory: true, //babel开启缓存
-                        },
-                    },
+                            cacheDirectory: true //babel开启缓存
+                        }
+                    }
                 ],
-                include: path.resolve(__dirname, 'src'), //exclude和include，建议用include
+                include: path.resolve(__dirname, 'src') //exclude和include，建议用include
             },
             {
                 test: /\.(png|jpg|svg|gif|ico|cur)$/,
-                use: [{
-                    loader: "url-loader",
-                    options: {
-                        name: "[name].[hash].[ext]", //图片用hash
-                        limit: 8192, //8kb以下的图片使用base64编码，8kb以上的图片交给file-loader处理
-                        outputPath: "img",
-                        esModule: false
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            name: '[name].[hash].[ext]', //图片用hash
+                            limit: 8192, //8kb以下的图片使用base64编码，8kb以上的图片交给file-loader处理
+                            outputPath: 'img',
+                            esModule: false
+                        }
                     }
-                }]
+                ]
             }
         ]
     },
@@ -79,6 +81,6 @@ module.exports = merge(base, {
         //压缩css
         new OptimizeCSSAssetsPlugin(),
         //为模块提供了中间缓存
-        new HardSourceWebpackPlugin(),
+        new HardSourceWebpackPlugin()
     ]
 });

@@ -3,6 +3,7 @@ const { merge } = require('webpack-merge');
 const path = require('path');
 const base = require('./webpack.base.js');
 const PROXY_ENV_MAP = require('./config/path');
+const WebpackBar = require('webpackbar');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 //请求转发映射
@@ -13,8 +14,7 @@ Object.entries(PROXY_MAP).forEach(([key, val]) => {
     proxyConfig[`/gateway/${key}`] = {
         target: val,
         pathRewrite: { [`^/gateway/${key}`]: `/${key}` },
-        changeOrigin: true,
-        logLevel: 'debug'
+        changeOrigin: true
     };
 });
 
@@ -34,7 +34,8 @@ module.exports = merge(base, {
         historyApiFallback: true,
         host: '0.0.0.0',
         publicPath: '/',
-        proxy: proxyConfig
+        proxy: proxyConfig,
+        stats: 'errors-only'
     },
     module: {
         rules: [
@@ -53,11 +54,11 @@ module.exports = merge(base, {
                         loader: require.resolve('babel-loader'),
                         options: {
                             plugins: [require.resolve('react-refresh/babel')], //添加react-refresh/babel插件
-                            cacheDirectory: true, //babel开启缓存
-                        },
-                    },
+                            cacheDirectory: true //babel开启缓存
+                        }
+                    }
                 ],
-                include: path.resolve(__dirname, 'src'), //exclude和include，建议用include
+                include: path.resolve(__dirname, 'src') //exclude和include，建议用include
             },
             {
                 test: /\.(png|jpg|svg|gif|ico|cur)$/,
@@ -69,8 +70,8 @@ module.exports = merge(base, {
         //使用react快速刷新插件
         new ReactRefreshWebpackPlugin(),
         //使用热更新插件
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        //进度条
+        new WebpackBar()
     ]
 });
-
-

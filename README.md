@@ -52,9 +52,7 @@ class ContentMain extends React.Component {
                     <PrivateRoute
                         exact
                         path="home"
-                        component={LoadableComponent(() =>
-                            import('src/pages/Home/index')
-                        )}
+                        component={LoadableComponent(() => import('src/pages/Home/index'))}
                     />
 
                     {/* 默认路由 */}
@@ -116,7 +114,7 @@ class MenuStore {
 
     // 获取menu配置
     // flow函数介绍见 [https://cn.mobx.js.org/best/actions.html]
-    initMenus = flow(function*() {
+    initMenus = flow(function* () {
         // <- 注意*号，这是生成器函数！
         this.state = 'pending';
         this.menus = [];
@@ -174,7 +172,7 @@ export default SiderNav;
 // 引入resource
 import resource from 'src/util/resource';
 
-export default (function() {
+export default (function () {
     // 调用resouce函数
     /**
      * resource注册服务
@@ -204,7 +202,7 @@ export default (function() {
                 // 只能用在 'PUT', 'POST' 和 'PATCH' 这几个请求方法
                 // 后面数组中的函数必须返回一个字符串，或 ArrayBuffer，或 Stream
                 transformRequest: [
-                    function(data) {
+                    function (data) {
                         // 对 data 进行任意转换处理
 
                         return data;
@@ -215,13 +213,10 @@ export default (function() {
     );
 
     // 可扩展导出文件、打开新的游览器页面等方法
-    service.export = function() {
+    service.export = function () {
         var url = 'http://somehost/somefile.zip';
         var filename = 'what-you-want.txt';
-        element.setAttribute(
-            'href',
-            'data:text/plain;charset=utf-8,' + encodeURIComponent(url)
-        );
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(url));
         element.setAttribute('download', filename);
 
         element.style.display = 'none';
@@ -247,7 +242,7 @@ class MenuStore {
     @observable state = 'pending'; // 'pending' / 'done' / 'error'
 
     // 获取menu配置
-    initMenus = flow(function*() {
+    initMenus = flow(function* () {
         // <- 注意*号，这是生成器函数！
         this.state = 'pending';
         this.menus = [];
