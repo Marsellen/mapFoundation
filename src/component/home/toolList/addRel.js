@@ -91,16 +91,14 @@ class AddRel extends React.Component {
                         </p>
                         <p className="text-body-title">2、当前可编辑图层：“道路参考线” </p>
                         <p className="text-body-content">
-                            (1). 一个道路参考线 + 一个或多个车道属性变化点
-                            <br />
-                            (2). 一个道路参考线 + 一个或多个车道中心线
+                            (1). 一个道路参考线 + 一个或多个车道中心线
                             <br />
                             例如：一个“道路参考线”
                             + 多个“车道中心线”——可建立多对【车道中心线&道路参考线属性关系】
                             <br />
-                            (3). 一个驶入道路参考线 + 一个驶出道路参考线
+                            (2). 一个驶入道路参考线 + 一个驶出道路参考线
                             <br />
-                            (4). 一个道路参考线 + 一个或多个道路边界标识为“道路边界”的车道线
+                            (3). 一个道路参考线 + 一个或多个道路边界标识为“道路边界”的车道线
                             <br />
                         </p>
                         <p className="text-body-title">
@@ -116,9 +114,7 @@ class AddRel extends React.Component {
                             (1). 一个道路边界标识为“道路边界”的车道线 + 一个道路参考线
                         </p>
                         <p className="text-body-title">5、当前可编辑图层：“地面导向箭头”</p>
-                        <p className="text-body-content">
-                            (1). 一个地面导向箭头 + 一个车道中心线
-                        </p>
+                        <p className="text-body-content">(1). 一个地面导向箭头 + 一个车道中心线</p>
                     </div>
                 </Modal>
             </span>
