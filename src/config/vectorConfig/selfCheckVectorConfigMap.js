@@ -275,7 +275,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                     value: 1,
                     label: '单实线',
                     showFields: 'TYPE',
-                    color: 'rgb(125,219,30)',
+                    color: 'rgb(255,255,255)',
                     lineStyle: 'solid',
                     opacity: 1,
                     arrow: true,
