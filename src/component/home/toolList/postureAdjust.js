@@ -164,9 +164,9 @@ class PostureAdjust extends React.Component {
     @logDecorator({ operate: '位姿调整' })
     async finishChangeFeaturePos(data) {
         const oldFeature = RightMenuStore.getFeatures()[0];
+        // 更新标识
+        data = modUpdStatGeometry(data);
         if (!isManbuildTask()) {
-            // 更新标识
-            data = modUpdStatGeometry(data);
             // 置信度维护
             if (!data.data.properties.CONFIDENCE) {
                 let extraInfo = { COLL_TIME: '', MAKE_TIME: '', TILE_ID: '' };
