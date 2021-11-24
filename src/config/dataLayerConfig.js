@@ -39,7 +39,7 @@ export const DATA_LAYER_MAP = {
             'trim',
             'group_move'
         ],
-        batchTools: ['LINE_FEATURES_SNAP_TO_STOP_LINE', 'ASSIGN_LINE_NO_IN_BATCH'],
+        batchTools: ['LINE_FEATURES_SNAP_TO_STOP_LINE'],
         groupRightTools: [
             'buffer_render',
             'batch_build',
