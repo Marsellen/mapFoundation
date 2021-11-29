@@ -10,6 +10,7 @@ import logo from 'src/asset/img/logo.svg';
 import ShortcutKey from 'src/util/shortcutKey';
 import SettingStore from 'src/store/setting/settingStore';
 import { MENUS } from 'src/config/menuConfig';
+import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
 
 const { Header } = Layout;
 //加载质检标注配置
@@ -20,6 +21,10 @@ window.isLogin = true;
 @inject('LoadingStore')
 @observer
 class Home extends React.Component {
+    componentWillMount() {
+        HomeVisiteHistory.enterPage();
+    }
+
     componentDidMount() {
         ShortcutKey.init();
     }
@@ -42,7 +47,7 @@ class Home extends React.Component {
                 </Layout>
             </Spin>
         );
-    };
-};
+    }
+}
 
 export default Home;

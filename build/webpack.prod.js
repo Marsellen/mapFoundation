@@ -12,7 +12,7 @@ module.exports = merge(base, {
     mode: 'production',
     devtool: 'cheap-module-source-map',
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, '../dist'),
         filename: '[name].[chunkhash].js', //js用chunkhash
         globalObject: 'this',
         publicPath: '/'
@@ -50,7 +50,7 @@ module.exports = merge(base, {
                         }
                     }
                 ],
-                include: path.resolve(__dirname, 'src') //exclude和include，建议用include
+                include: path.resolve(__dirname, '../src') //exclude和include，建议用include
             },
             {
                 test: /\.(png|jpg|svg|gif|ico|cur)$/,
@@ -71,7 +71,7 @@ module.exports = merge(base, {
     plugins: [
         //清空dist文件夹
         new CleanWebpackPlugin({
-            path: './dist'
+            path: path.resolve(__dirname, '../dist')
         }),
         //提取css
         new MiniCssExtractPlugin({
