@@ -16,5 +16,6 @@ export const OTHER_CONFIG = {
     overallPollingInterval: 5,
     ZT2: 1000,
     scaleSize: 1,
-    finePollingInterval: 1
+    finePollingInterval: 1,
+    updStatAllChecked: true
 };

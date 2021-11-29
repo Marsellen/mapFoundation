@@ -9,7 +9,8 @@ import UnderView from './toolList/underView';
 import TopView from './toolList/topView';
 import SaveTimeView from './saveTimeView';
 import ToolIcon from 'src/component/common/toolIcon';
-import RelationModal from 'src/component/home/renderMode/relationModal';
+import RelModeTheme from 'src/component/home/renderMode/relModeTheme';
+import UpdStatModeTheme from 'src/component/home/renderMode/updStatModeTheme';
 import PointCloudLayer from 'src/component/home/pointCloudLayer';
 
 const MENU_LIST = [
@@ -90,7 +91,8 @@ class MultimediaView extends React.Component {
                 })}
 
                 {/* 关联关系专题图 */}
-                {activeMode === 'relation' && <RelationModal />}
+                {activeMode === 'relation' && <RelModeTheme />}
+                {activeMode === 'update' && <UpdStatModeTheme />}
 
                 <div className="right-footer">
                     {/* 俯视图、放大、缩小、还原 */}

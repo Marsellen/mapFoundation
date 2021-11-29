@@ -4,6 +4,7 @@ import { LAYER_NAME_MAP, RELS_ID_MAP, RELS_ID_MAP_REVERSE } from 'src/config/ren
 import { REL_SELECT_OPTIONS, REL_FEATURE_COLOR_MAP } from 'src/config/renderModeConfig';
 import { updateFeatureColor, getFeatureOption } from 'src/util/vectorUtils';
 import VectorsStore from './vectorsStore';
+import UpdStatModeStore from './updStatModeStore';
 import { calculateMiddlePoint } from 'src/util/computeLineMidpoint';
 import relFactory from 'src/util/relCtrl/relFactory';
 import { DATA_LAYER_MAP } from 'src/config/dataLayerConfig';
@@ -64,6 +65,8 @@ class RenderModeStore {
         this.resetSelectOption();
         //清除文字标注
         this.clearFeatureText();
+        // 重置更新标识专题图
+        UpdStatModeStore.clearUpdStatMode();
     };
 
     //重置专题图

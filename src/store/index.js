@@ -25,6 +25,7 @@ import LoadingStore from 'src/store/home/loadingStore';
 import BatchBuildStore from 'src/store/home/batchBuildStore';
 import ManualBuildStore from 'src/store/home/manualBuildStore';
 import BufferStore from 'src/store/home/bufferStore';
+import UpdStatModeStore from 'src/store/home/updStatModeStore';
 
 export default {
     appStore,
@@ -53,5 +54,6 @@ export default {
     LoadingStore,
     BatchBuildStore,
     ManualBuildStore,
-    BufferStore
+    BufferStore,
+    UpdStatModeStore
 };

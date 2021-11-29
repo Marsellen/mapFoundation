@@ -2,8 +2,11 @@ import common from 'src/asset/img/common.png';
 // import check from 'src/asset/img/check.png';
 import selfCheck from 'src/asset/img/selfcheck.png';
 import relation from 'src/asset/img/relation.png';
-// import update from 'src/asset/img/update.png';
+import update from 'src/asset/img/update.png';
 import define from 'src/asset/img/define.png';
+import SettingStore from 'src/store/setting/settingStore';
+
+const updStatAllChecked = SettingStore.getConfig('OTHER_CONFIG').updStatAllChecked;
 
 //渲染模式配置
 export const RENDER_MODE_MAP = [
@@ -31,12 +34,12 @@ export const RENDER_MODE_MAP = [
         desc: '用于关联关系查看',
         icon: relation
     },
-    // {
-    //     mode: 'update',
-    //     title: '更新查看模式',
-    //     desc: '提供系统的更新状态符号策略\n及更新数据查看工具',
-    //     icon: update
-    // }
+    {
+        mode: 'update',
+        title: '更新查看模式',
+        desc: '提供系统的更新状态符号策略\n及更新数据查看工具',
+        icon: update
+    },
     {
         mode: 'define',
         title: '自定义符号模式',
@@ -96,6 +99,81 @@ export const REL_SELECT_OPTIONS = [
         title: '道路边界 & 道路参考线',
         key: 'AD_Road_Boundary_Rel',
         checked: false
+    }
+];
+
+// 更新标识几何新增
+export const GEOMETRY_ADD = '"GEOMETRY":"ADD"';
+// 更新标识几何修改
+export const GEOMETRY_MOD = '"GEOMETRY":"MOD"';
+// 更新标识关系变化
+export const RELATION_MOD = '"RELATION":"MOD"';
+
+// 每个图层的更新标识属性修改
+export const AD_ROAD_ATTRIBUTE_MOD =
+    '"TYPE":"MOD"|"RD_STATUS":"MOD"|"CROSSING":"MOD"|"RD_FORM":"MOD"|"DIRECTION":"MOD"|"LENGTH":"MOD"';
+export const AD_LANEDIVIDER_ATTRIBUTE_MOD = '"TYPE":"MOD"|"SHARE_LINE":"MOD"|"RD_EDGE":"MOD"';
+export const AD_LANE_ATTRIBUTE_MOD =
+    '"TYPE":"MOD"|"LANE_NO":"MOD"|"DIRECTION":"MOD"|"STATUS":"MOD"|"ROAD_ID":"MOD"|"L_LDIV_ID":"MOD"|"R_LDIV_ID":"MOD"';
+export const AD_ARROW_ATTRIBUTE_MOD = '"ARR_DIRECT":"MOD"|"LANE_ID":"MOD"';
+export const AD_STOPLOCATION_ATTRIBUTE_MOD = '"TYPE":"MOD"';
+export const AD_TEXT_ATTRIBUTE_MOD =
+    '"CONT_TYPE":"MOD"|"SPEED":"MOD"|"TIMEDOM":"MOD"|"VEH_LMT":"MOD"|"TEXT":"MOD"';
+export const AD_TRAFFICSIGN_ATTRIBUTE_MOD = '"OBJ_FUNC":"MOD"';
+export const AD_TRAFFICLIGHT_ATTRIBUTE_MOD = '"NOKEY":"MOD"';
+export const AD_LANEDIVIDER_PLG_ATTRIBUTE_MOD =
+    '"FEAT_TYPE":"MOD"|"CFD_GEO":"MOD"|"CFD_FEAT":"MOD"';
+export const AD_STOPLOCATION_GEO_ATTRIBUTE_MOD =
+    '"FEAT_TYPE":"MOD"|"CFD_GEO":"MOD"|"CFD_FEAT":"MOD"';
+export const AD_LANEMARK_GEO_ATTRIBUTE_MOD = '"FEAT_TYPE":"MOD"|"CFD_GEO":"MOD"|"CFD_FEAT":"MOD"';
+export const AD_POLE_GEO_ATTRIBUTE_MOD = '"CFD_GEO":"MOD"|"CFD_FEAT":"MOD"';
+
+// 所有图层的更新标识属性修改
+const ALL_LAYER_ATTRIBUTE_MOD =
+    AD_ROAD_ATTRIBUTE_MOD +
+    '|' +
+    AD_LANEDIVIDER_ATTRIBUTE_MOD +
+    '|' +
+    AD_LANE_ATTRIBUTE_MOD +
+    '|' +
+    AD_ARROW_ATTRIBUTE_MOD +
+    '|' +
+    AD_STOPLOCATION_ATTRIBUTE_MOD +
+    '|' +
+    AD_TEXT_ATTRIBUTE_MOD +
+    '|' +
+    AD_TRAFFICSIGN_ATTRIBUTE_MOD +
+    '|' +
+    AD_TRAFFICLIGHT_ATTRIBUTE_MOD +
+    '|' +
+    AD_LANEDIVIDER_PLG_ATTRIBUTE_MOD +
+    '|' +
+    AD_STOPLOCATION_GEO_ATTRIBUTE_MOD +
+    '|' +
+    AD_LANEMARK_GEO_ATTRIBUTE_MOD +
+    '|' +
+    AD_POLE_GEO_ATTRIBUTE_MOD;
+// 更新查看模式专题图下拉框配置
+export const UPD_STAT_CHECK_GROUP = [
+    {
+        title: '几何新增',
+        key: '"GEOMETRY":"ADD"',
+        checked: updStatAllChecked
+    },
+    {
+        title: '几何修改',
+        key: '"GEOMETRY":"MOD"',
+        checked: updStatAllChecked
+    },
+    {
+        title: '属性修改',
+        key: ALL_LAYER_ATTRIBUTE_MOD,
+        checked: updStatAllChecked
+    },
+    {
+        title: '关系修改',
+        key: '"RELATION":"MOD"',
+        checked: updStatAllChecked
     }
 ];
 

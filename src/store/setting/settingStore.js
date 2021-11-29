@@ -8,10 +8,12 @@ import { MB_TASK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/mbTaskVectorC
 import { QC_MB_TASK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/qcMbTaskVectorConfigMap';
 import { SELF_CHECK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/selfCheckVectorConfigMap';
 import { RELATION_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/relationVectorConfigMap';
+import { UPDATE_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/updateVectorConfigMap';
 import { DEFINE_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/defineVectorConfigMap';
 import { SELF_CHECK_TEXT_CONFIG_MAP } from 'src/config/textConfig/selfCheckTextConfigMap';
 import { RELATION_TEXT_CONFIG_MAP } from 'src/config/textConfig/relationTextConfigMap';
 import { DEFINE_TEXT_CONFIG_MAP } from 'src/config/textConfig/defineTextConfigMap';
+import { UPDATE_TEXT_CONFIG_MAP } from 'src/config/textConfig/updateTextConfigMap';
 import { MS_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/msTaskTextConfigMap';
 import { MB_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/mbTaskTextConfigMap';
 import { QC_MS_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/qcMsTaskTextConfigMap';
@@ -30,6 +32,7 @@ class SettingStore {
         QC_MB_TASK_VECTOR_CONFIG_MAP, //符号配置-通用符号模式-人工构建质检任务样式
         SELF_CHECK_VECTOR_CONFIG_MAP, //符号配置-自查符号模式
         RELATION_VECTOR_CONFIG_MAP, //符号配置-关联关系查看模式
+        UPDATE_VECTOR_CONFIG_MAP, //符号配置-更新标识查看模式
         DEFINE_VECTOR_CONFIG_MAP, //符号配置-自定义符号模式
         MS_TASK_TEXT_CONFIG_MAP, //注记配置-通用符号模式-人工识别任务样式
         MB_TASK_TEXT_CONFIG_MAP, //注记配置-通用符号模式-人工构建任务样式
@@ -38,6 +41,7 @@ class SettingStore {
         SELF_CHECK_TEXT_CONFIG_MAP, //注记配置-自查符号模式
         RELATION_TEXT_CONFIG_MAP, //注记配置-关联关系查看模式
         DEFINE_TEXT_CONFIG_MAP, //注记配置-自定义符号模式
+        UPDATE_TEXT_CONFIG_MAP, //注记配置-更新标识查看模式
         ARROW_TEMPLATE_CONFIG, //箭头模板配置
         TABLE_DATA_MAP, //属性自维护配置
         OTHER_CONFIG //其它配置
