@@ -6,11 +6,13 @@ import LoginVisitedHistory from 'src/util/visiteHistory/loginVisiteHistory';
 import { getAuthentication } from 'src/util/session';
 
 class Login extends React.Component {
-    componentDidMount() {
+    componentWillMount() {
         const { token } = getAuthentication() || {};
         if (token) {
             LoginVisitedHistory.removeVisitedHistory();
             window.location.href = '/';
+        } else {
+            LoginVisitedHistory.enterPage();
         }
     }
 

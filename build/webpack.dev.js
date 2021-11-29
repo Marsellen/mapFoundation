@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const path = require('path');
 const base = require('./webpack.base.js');
-const PROXY_ENV_MAP = require('./config/path');
+const PROXY_ENV_MAP = require('../config/path');
 const WebpackBar = require('webpackbar');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
@@ -58,7 +58,7 @@ module.exports = merge(base, {
                         }
                     }
                 ],
-                include: path.resolve(__dirname, 'src') //exclude和include，建议用include
+                include: path.resolve(__dirname, '../src') //exclude和include，建议用include
             },
             {
                 test: /\.(png|jpg|svg|gif|ico|cur)$/,
