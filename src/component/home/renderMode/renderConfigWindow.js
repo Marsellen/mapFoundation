@@ -6,7 +6,7 @@ import TextConfig from 'src/component/home/renderMode/textConfig';
 import VectorConfig from 'src/component/home/renderMode/vectorConfig';
 
 const { TabPane } = Tabs;
-const SUPPORT_VECTOR_CONFIG_MODE = ['common', 'selfCheck', 'check', 'define'];
+const SUPPORT_VECTOR_CONFIG_MODE = ['common', 'selfCheck', 'check', 'define', 'update'];
 
 @inject('RenderModeStore')
 @observer

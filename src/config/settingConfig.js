@@ -12,6 +12,7 @@ export const ROLE_WHITE_MAP = {
     QC_MB_TASK_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     SELF_CHECK_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     RELATION_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    UPDATE_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     DEFINE_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     MS_TASK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     MB_TASK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
@@ -20,6 +21,7 @@ export const ROLE_WHITE_MAP = {
     SELF_CHECK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     RELATION_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     DEFINE_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    UPDATE_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     ARROW_TEMPLATE_CONFIG: ['admin', 'producer_manager', 'quality_manager'],
     TABLE_DATA_MAP: ['admin', 'producer_manager', 'quality_manager'],
     OTHER_CONFIG: ['admin', 'producer_manager', 'quality_manager']
@@ -75,6 +77,11 @@ export const SETTING_MENUS = [
             //     type: 'Item'
             // },
             {
+                key: 'UPDATE_VECTOR_CONFIG_MAP',
+                title: '更新标识查看模式',
+                type: 'Item'
+            },
+            {
                 key: 'DEFINE_VECTOR_CONFIG_MAP',
                 title: '自定义符号模式',
                 type: 'Item'
@@ -121,6 +128,11 @@ export const SETTING_MENUS = [
             {
                 key: 'RELATION_TEXT_CONFIG_MAP',
                 title: '关联关系查看模式',
+                type: 'Item'
+            },
+            {
+                key: 'UPDATE_TEXT_CONFIG_MAP',
+                title: '更新标识查看模式',
                 type: 'Item'
             },
             {

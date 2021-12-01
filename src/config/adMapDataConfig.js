@@ -787,7 +787,11 @@ export const TYPE_SELECT_OPTION_MAP = {
                 label: '公交车专用道路和车道',
                 icon: 'gongjiaochezhuanyongdaoluhechedao'
             },
-            { value: 2320, label: '小汽车专用道路和车道', icon: 'xiaoqichezhuanyongdaoluhechedao2' },
+            {
+                value: 2320,
+                label: '小汽车专用道路和车道',
+                icon: 'xiaoqichezhuanyongdaoluhechedao2'
+            },
             { value: 2329, label: '其他专用车道和车道', icon: 'zhuanyongchedao' },
             { value: 2330, label: '停车位', icon: 'tingchewei' },
 
@@ -861,7 +865,7 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_TrafficLight: {},
     AD_TrafficSign: {
-        OBJ_FUNC: '[{ "SIGN_TYPE": 0, "CONT_TYPE": 0, "CONT_VALUE": 0, "TIMEDOM": "" }]'
+        OBJ_FUNC: '[{"SIGN_TYPE":0,"CONT_TYPE":0,"CONT_VALUE":0,"TIMEDOM":""}]'
     },
     AD_LaneDivider: {
         TYPE: 1,

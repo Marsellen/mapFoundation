@@ -13,6 +13,7 @@ export const VECTOR_CONFIG_MAP = {
     selfCheck: 'SELF_CHECK_VECTOR_CONFIG_MAP',
     define: 'DEFINE_VECTOR_CONFIG_MAP',
     relation: 'RELATION_VECTOR_CONFIG_MAP',
+    update: 'UPDATE_VECTOR_CONFIG_MAP',
     //任务类型与符号配置映射
     imp_recognition: 'MS_TASK_VECTOR_CONFIG_MAP',
     imp_check_after_recognition: 'QC_MS_TASK_VECTOR_CONFIG_MAP',

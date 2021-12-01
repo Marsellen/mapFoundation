@@ -11,6 +11,7 @@ import { RENDER_MODE_MAP } from 'src/config/renderModeConfig';
 @inject('DataLayerStore')
 @inject('TaskStore')
 @inject('RenderModeStore')
+@inject('UpdStatModeStore')
 @observer
 class RenderMode extends React.Component {
     state = {
@@ -83,7 +84,8 @@ class RenderMode extends React.Component {
         const {
             TaskStore: { taskProcessName },
             RenderModeStore,
-            DefineModeStore
+            DefineModeStore,
+            UpdStatModeStore
         } = this.props;
         const { setRels } = RenderModeStore;
         const { initVectorConfig } = DefineModeStore;
@@ -99,6 +101,10 @@ class RenderMode extends React.Component {
                 initVectorConfig(mode, taskProcessName);
                 //将有关联关系的要素，按专题图进行分组
                 setRels();
+                break;
+            case 'update':
+                initVectorConfig(mode, taskProcessName);
+                UpdStatModeStore.initUpdStatConfig(mode);
                 break;
             default:
                 break;
@@ -129,7 +135,7 @@ class RenderMode extends React.Component {
                     visible={visible}
                     footer={null}
                     onCancel={this.handleClose}
-                    width={840}
+                    width={1050}
                     maskClosable={false}
                     zIndex={9999}
                 >

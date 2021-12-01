@@ -37,8 +37,10 @@ class ViewNeighbor extends React.Component {
     action = async () => {
         const { active } = this.state;
         if (active) {
+            const layerManager = window.map.getLayerManager();
             for (let layer of this.regions) {
-                layer.offsetMap(window.map);
+                layerManager.removeVectorLayer(layer);
+                layer = null;
             }
             this.regions = [];
             this.setState({ active: false });
@@ -54,7 +56,6 @@ class ViewNeighbor extends React.Component {
             for (let regionItem of data.taskList) {
                 const { region, ...info } = regionItem;
                 const regionUrl = Input_imp_data_path.replace(taskId, region);
-                console.log(regionUrl);
                 let vectorLayer = new VectorLayer(regionUrl, {
                     layerConfig: {
                         textStyle: {
