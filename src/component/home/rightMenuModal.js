@@ -182,17 +182,20 @@ class RightMenuModal extends React.Component {
     };
 
     getMenus = () => {
-        const { BufferStore: { isSelectBufferMode } } = this.props;
+        const {
+            BufferStore: { isSelectBufferMode }
+        } = this.props;
         const menuArr = [
-            isSelectBufferMode() &&
-            <Menu.Item
-                id="buffer-render-btn"
-                key="buffer_render"
-                onClick={this.bufferFeature}
-                className="right-menu-item"
-            >
-                <span>buffer</span>
-            </Menu.Item>,
+            isSelectBufferMode() && (
+                <Menu.Item
+                    id="buffer-render-btn"
+                    key="buffer_render"
+                    onClick={this.bufferFeature}
+                    className="right-menu-item"
+                >
+                    <span>buffer</span>
+                </Menu.Item>
+            ),
             <Menu.Item
                 id="delete-btn"
                 key="delete"
@@ -548,7 +551,6 @@ class RightMenuModal extends React.Component {
         }
     }
 
-
     @editLock
     @editInputLimit({ editType: 'copy_line', isRightMenu: true })
     copyLine() {
@@ -590,7 +592,7 @@ class RightMenuModal extends React.Component {
         this.changePointsHandler(result);
     }
 
-    @logDecorator({ operate: '修改形状点', doubleLog: true })
+    @logDecorator({ operate: '修改形状点', doubleLog: true, autoRel: true })
     async changePointsHandler(result) {
         const { RightMenuStore } = this.props;
         if (result.length == 0) {

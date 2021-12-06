@@ -13,7 +13,8 @@ import Lock from 'src/util/lock';
 import BuriedPoint from 'src/util/buriedPoint';
 import { EDIT_TOOL_MAP } from 'src/config/editToolMap';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
-import { bufferLink } from 'src/util/utils';
+import { bufferLink, keepConnectRels } from 'src/util/utils';
+import SettingStore from 'src/store/setting/settingStore';
 
 function funcDecoratorFactory(factory, option) {
     return (target, name, descriptor) => {
@@ -84,10 +85,11 @@ const logDecoratorBuriedPoint = (toolType, doubleLog) => {
 export const logDecorator = option => {
     return (target, name, descriptor) => {
         const fn = descriptor.value;
+        const autoConnectRel = SettingStore.getConfig('OTHER_CONFIG').autoConnectRel;
         descriptor.value = async function () {
             let log;
             let isError = false;
-            let { operate, onlyRun, skipHistory, skipRenderMode, toolType, doubleLog } =
+            let { operate, onlyRun, skipHistory, skipRenderMode, toolType, doubleLog, autoRel } =
                 option || {};
             const editType = DataLayerStore.editType;
             toolType = toolType ?? editType;
@@ -109,6 +111,10 @@ export const logDecorator = option => {
 
             try {
                 let history = await fn.apply(this, arguments);
+                if (autoConnectRel && autoRel) {
+                    const rels = await keepConnectRels(history?.features?.[1]);
+                    history.rels = history.rels ? history.rels.concat(rels) : rels;
+                }
                 if (onlyRun || !history) return;
                 if (!skipHistory) {
                     OperateHistoryStore.add(history);

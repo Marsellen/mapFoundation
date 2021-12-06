@@ -7,7 +7,10 @@
 import DataLayerStore from 'src/store/home/dataLayerStore';
 import VectorsStore from 'src/store/home/vectorsStore';
 import BufferStore from 'src/store/home/bufferStore';
-import { getFeatureOption } from 'src/util/vectorUtils';
+import { getFeatureOption, getLayerByName, getLayerIDKey } from 'src/util/vectorUtils';
+import relFactory from 'src/util/relCtrl/relFactory';
+import { newRel, delRel } from 'src/util/relCtrl/relCtrl';
+import { CONNECTION_RELS } from 'src/config/relsConfig';
 
 export function randomNum(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
@@ -29,8 +32,8 @@ function specClass(className) {
         editType === 'line_snap_stop'
             ? 'move-point-viz'
             : editType === 'attribute_brush'
-                ? 'shuxingshua-viz'
-                : className;
+            ? 'shuxingshua-viz'
+            : className;
     return specClassName;
 }
 
@@ -99,8 +102,8 @@ function commonDistance(vec1, vec2) {
     return (
         Math.sqrt(
             Math.pow(vec2[0] - vec1[0], 2) +
-            Math.pow(vec2[1] - vec1[1], 2) +
-            Math.pow(vec2[2] - vec1[2], 2)
+                Math.pow(vec2[1] - vec1[1], 2) +
+                Math.pow(vec2[2] - vec1[2], 2)
         ).toFixed(2) * 1
     );
 }
@@ -120,8 +123,8 @@ function mercatorDistance(vec1, vec2) {
     const dis =
         Math.sqrt(
             Math.pow(car_2[0] - car_1[0], 2) +
-            Math.pow(car_2[1] - car_1[1], 2) +
-            Math.pow(car_2[2] - car_1[2], 2)
+                Math.pow(car_2[1] - car_1[1], 2) +
+                Math.pow(car_2[2] - car_1[2], 2)
         ).toFixed(2) * 1;
     return dis;
 }
@@ -144,9 +147,9 @@ export function wgs84ToGeocent(longitude, latitude, height) {
         6378137 /
         Math.sqrt(
             1.0 -
-            0.0066943799901413165 *
-            Math.sin(latitude * 0.017453292519943295) *
-            Math.sin(latitude * 0.017453292519943295)
+                0.0066943799901413165 *
+                    Math.sin(latitude * 0.017453292519943295) *
+                    Math.sin(latitude * 0.017453292519943295)
         );
     const x =
         (N + height) *
@@ -186,4 +189,96 @@ export const bufferLink = () => {
         const visible = layer.layer.visible;
         window.bufferLayer?.layer.showOrHideBufferByOption(option, visible);
     });
+};
+
+/**
+ * 连接关系维护
+ * @method keepConnectRels
+ * @param {Array} featrues 当前选中要素
+ * @returns {Array} 处理后的连接关系
+ */
+export const keepConnectRels = async featrues => {
+    if (!featrues) return;
+    let oldRels = [],
+        newRels = [];
+    for (let i = 0; i < featrues.length; i++) {
+        const { layerName, data } = featrues[i];
+        const { driveInPoint, driveOutPoint } = getFeaturesPoints(featrues[i]);
+        const relRecords = await relFactory.getFeatureRels(layerName, data.properties);
+        const relOptions = await relFactory.getRelOptions(layerName, relRecords, data.properties);
+        const connectRels = relRecords.filter(rel => CONNECTION_RELS.includes(rel.spec)); //获取选中要素所有的连接关系
+        if (connectRels.length > 0) {
+            oldRels = await delConnectRels(relOptions, featrues[i], driveInPoint, driveOutPoint);
+            newRels = await addConnectRels(featrues[i], driveInPoint, driveOutPoint, connectRels);
+        } else {
+            newRels = await addConnectRels(featrues[i], driveInPoint, driveOutPoint);
+        }
+    }
+    return [oldRels, newRels];
+};
+
+// 删除原有连接关系但移动首尾点后不再是连接关系的
+const delConnectRels = async (relOptions, mainFeature, mainDriveInPoint, mainDriveOutPoint) => {
+    const layer = getLayerByName(mainFeature.layerName);
+    const delRels = [];
+    for (let i = 0; i < relOptions.length; i++) {
+        if (relOptions[i].layerName == mainFeature.layerName) {
+            const relFeature = layer.getFeatureByOption(relOptions[i].option);
+            const feature = relFeature.properties;
+            const { driveInPoint, driveOutPoint } = getFeaturesPoints(feature);
+            if (!(mainDriveInPoint === driveOutPoint || mainDriveOutPoint === driveInPoint)) {
+                const relFeatures = await delRel(mainFeature, [feature]);
+                delRels.push(relFeatures);
+            }
+        }
+    }
+    return uniqRels(delRels);
+};
+
+// 找出与选择要素有公用首尾点的要素并建立关联关系
+const addConnectRels = async (mainFeature, mainDriveInPoint, mainDriveOutPoint, connectRels) => {
+    const mainFeatureId = getFeatureId(mainFeature);
+    const allLayers = window.vectorLayerGroup.layers;
+    const layers = allLayers.filter(layer => layer.layerName == mainFeature.layerName);
+    const allFeatures = layers[0].layer.getAllFeatures();
+    const newRels = [];
+    for (let i = 0; i < allFeatures.length; i++) {
+        const featureId = getFeatureId(allFeatures[i]);
+        const { driveInPoint, driveOutPoint } = getFeaturesPoints(allFeatures[i]);
+        if (
+            featureId !== mainFeatureId &&
+            !(connectRels && connectRels.find(item => item?.relObjId === featureId)) &&
+            (mainDriveInPoint === driveOutPoint || mainDriveOutPoint === driveInPoint)
+        ) {
+            const { log } = await newRel(mainFeature, [allFeatures[i]]);
+            const relsLog = log?.rels?.[1]?.[0];
+            newRels.push(relsLog);
+        }
+    }
+    return uniqRels(newRels);
+};
+
+// 连接关系去重
+const uniqRels = arr => {
+    if (arr.length === 0) return [];
+    const obj = {};
+    arr.forEach(item => {
+        const { objId, relObjId } = item;
+        obj[objId + relObjId] = item;
+    });
+    return Object.values(obj);
+};
+
+// 获取首尾点坐标轴
+const getFeaturesPoints = feature => {
+    const coordinates = feature?.data?.geometry?.coordinates;
+    const driveInPoint = JSON.stringify(coordinates[0]);
+    const driveOutPoint = JSON.stringify(coordinates[coordinates.length - 1]);
+    return { driveInPoint, driveOutPoint };
+};
+
+// 获取ID
+const getFeatureId = feature => {
+    const IDKey = getLayerIDKey(feature.layerName);
+    return feature.data.properties[IDKey];
 };
