@@ -10,7 +10,7 @@ const HardSourceWebpackPlugin = require('hard-source-webpack-plugin'); //为模�
 
 module.exports = merge(base, {
     mode: 'production',
-    devtool: 'cheap-module-source-map',
+    devtool: 'cheap-module-eval-source-map',
     output: {
         path: path.resolve(__dirname, '../dist'),
         filename: '[name].[chunkhash].js', //js用chunkhash
@@ -23,7 +23,8 @@ module.exports = merge(base, {
             //webpack4需要安装terser-webpack-plugin@4.2.3
             new TerserPlugin({
                 parallel: 2,
-                cache: true
+                cache: true,
+                extractComments: false //不生成LICENSE.txt 文件
             })
         ]
     },
