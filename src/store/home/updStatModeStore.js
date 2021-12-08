@@ -32,7 +32,24 @@ class UpdStatModeStore {
     // 初始化更新标识样式
     initUpdStatConfig = () => {
         this.toggleAllUpdStatRender(updStatAllChecked);
-        window.vectorLayerGroup.resetStyleConfig(this.allLayerUpdConfig);
+        Object.values(this.allLayerUpdConfig).map(item => {
+            const vectorLayer = this.getVectorLayer(item.key);
+            const { iconFields, iconStyle, showStyles } = item;
+            const config = {
+                showStyles,
+                iconFields,
+                iconStyle
+            };
+            vectorLayer && vectorLayer.resetConfig(config);
+        });
+    };
+
+    // 获得layer
+    @action getVectorLayer = key => {
+        if (!window.vectorLayerGroup) return;
+        const { layers } = window.vectorLayerGroup;
+        const { layer } = layers.find(item => item.layerName === key) || {};
+        return layer;
     };
 
     // 更新标识显隐
