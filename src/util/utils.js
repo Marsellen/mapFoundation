@@ -247,7 +247,10 @@ const addConnectRels = async (mainFeature, mainDriveInPoint, mainDriveOutPoint, 
         const { driveInPoint, driveOutPoint } = getFeaturesPoints(allFeatures[i]);
         if (
             featureId !== mainFeatureId &&
-            !(connectRels && connectRels.find(item => item?.relObjId === featureId)) &&
+            !(
+                connectRels &&
+                connectRels.find(item => item?.objId === featureId || item?.relObjId === featureId)
+            ) &&
             (mainDriveInPoint === driveOutPoint || mainDriveOutPoint === driveInPoint)
         ) {
             const { log } = await newRel(mainFeature, [allFeatures[i]]);
