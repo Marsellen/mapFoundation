@@ -31,7 +31,6 @@ class UpdStatModeStore {
 
     // 初始化更新标识样式
     initUpdStatConfig = () => {
-        this.toggleAllUpdStatRender(updStatAllChecked);
         Object.values(this.allLayerUpdConfig).map(item => {
             const vectorLayer = this.getVectorLayer(item.key);
             const { iconFields, iconStyle, showStyles } = item;
@@ -42,6 +41,7 @@ class UpdStatModeStore {
             };
             vectorLayer && vectorLayer.resetConfig(config);
         });
+        this.toggleAllUpdStatRender(updStatAllChecked);
     };
 
     // 获得layer
