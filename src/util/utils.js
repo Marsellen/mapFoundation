@@ -199,22 +199,27 @@ export const bufferLink = () => {
  */
 export const keepConnectRels = async featrues => {
     if (!featrues) return;
-    let oldRels = [],
-        newRels = [];
+    let allOldRels = [];
+    let allNewRels = [];
     for (let i = 0; i < featrues.length; i++) {
         const { layerName, data } = featrues[i];
         const { driveInPoint, driveOutPoint } = getFeaturesPoints(featrues[i]);
         const relRecords = await relFactory.getFeatureRels(layerName, data.properties);
         const relOptions = await relFactory.getRelOptions(layerName, relRecords, data.properties);
-        const connectRels = relRecords.filter(rel => CONNECTION_RELS.includes(rel.spec)); //获取选中要素所有的连接关系
+        const connectRels = relRecords.filter(rel => CONNECTION_RELS.includes(rel.spec)) || []; //获取选中要素所有的连接关系
         if (connectRels.length > 0) {
-            oldRels = await delConnectRels(relOptions, featrues[i], driveInPoint, driveOutPoint);
-            newRels = await addConnectRels(featrues[i], driveInPoint, driveOutPoint, connectRels);
-        } else {
-            newRels = await addConnectRels(featrues[i], driveInPoint, driveOutPoint);
+            const oldRels = await delConnectRels(
+                relOptions,
+                featrues[i],
+                driveInPoint,
+                driveOutPoint
+            );
+            allOldRels = [...allOldRels, ...oldRels];
         }
+        const newRels = await addConnectRels(featrues[i], driveInPoint, driveOutPoint, connectRels);
+        allNewRels = [...allNewRels, ...newRels];
     }
-    return [oldRels, newRels];
+    return [allOldRels, allNewRels];
 };
 
 // 删除原有连接关系但移动首尾点后不再是连接关系的
