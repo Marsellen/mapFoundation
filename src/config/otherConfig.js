@@ -17,5 +17,6 @@ export const OTHER_CONFIG = {
     ZT2: 1000,
     scaleSize: 1,
     finePollingInterval: 1,
-    updStatAllChecked: true
+    updStatAllChecked: true,
+    autoConnectRel: true
 };
