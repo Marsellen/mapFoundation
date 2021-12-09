@@ -216,3 +216,5 @@ export const REL_SPEC_CONFIG = [
 ];
 
 export const CONNECTION_RELS = ['AD_Lane_Con', 'AD_Road_Con'];
+
+export const CONNECT_REL_LAYERS = ['AD_Lane', 'AD_Road'];
