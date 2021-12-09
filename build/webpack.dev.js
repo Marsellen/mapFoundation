@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const path = require('path');
 const base = require('./webpack.base.js');
-const PROXY_ENV_MAP = require('../config/path');
+const PROXY_ENV_MAP = require('./proxy');
 const WebpackBar = require('webpackbar');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
@@ -20,7 +20,7 @@ Object.entries(PROXY_MAP).forEach(([key, val]) => {
 
 module.exports = merge(base, {
     mode: 'development', //设置开发环境模式
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'eval-cheap-module-source-map',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].bundle.js',

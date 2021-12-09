@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const path = require('path');
 const base = require('./webpack.base.js');
@@ -6,11 +5,10 @@ const CleanWebpackPlugin = require('clean-webpack-plugin'); //清除build/dist�
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); //提取css
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin'); //压缩css
 const TerserPlugin = require('terser-webpack-plugin'); //压缩js
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin'); //为模块提供了中间缓存
 
 module.exports = merge(base, {
     mode: 'production',
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'source-map',
     output: {
         path: path.resolve(__dirname, '../dist'),
         filename: '[name].[chunkhash].js', //js用chunkhash
@@ -23,8 +21,7 @@ module.exports = merge(base, {
             //webpack4需要安装terser-webpack-plugin@4.2.3
             new TerserPlugin({
                 parallel: 2,
-                cache: true,
-                extractComments: false //不生成LICENSE.txt 文件
+                cache: true
             })
         ]
     },
@@ -80,8 +77,6 @@ module.exports = merge(base, {
             ignoreOrder: true
         }),
         //压缩css
-        new OptimizeCSSAssetsPlugin(),
-        //为模块提供了中间缓存
-        new HardSourceWebpackPlugin()
+        new OptimizeCSSAssetsPlugin()
     ]
 });
