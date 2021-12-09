@@ -104,7 +104,7 @@ class RenderMode extends React.Component {
                 break;
             case 'update':
                 initVectorConfig(mode, taskProcessName);
-                UpdStatModeStore.initUpdStatConfig(mode);
+                UpdStatModeStore.initUpdStateMode(mode);
                 break;
             default:
                 break;
