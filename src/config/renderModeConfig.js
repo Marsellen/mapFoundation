@@ -4,9 +4,10 @@ import selfCheck from 'src/asset/img/selfcheck.png';
 import relation from 'src/asset/img/relation.png';
 import update from 'src/asset/img/update.png';
 import define from 'src/asset/img/define.png';
-import SettingStore from 'src/store/setting/settingStore';
-
-const updStatAllChecked = SettingStore.getConfig('OTHER_CONFIG').updStatAllChecked;
+const jihexinzeng = require('src/asset/img/jihexinzeng.png');
+const jihexiugai = require('src/asset/img/jihexiugai.png');
+const shuxingxiugai = require('src/asset/img/shuxingxiugai.png');
+const guanxixiugai = require('src/asset/img/guanxixiugai.png');
 
 //渲染模式配置
 export const RENDER_MODE_MAP = [
@@ -157,23 +158,23 @@ const ALL_LAYER_ATTRIBUTE_MOD =
 export const UPD_STAT_CHECK_GROUP = [
     {
         title: '几何新增',
-        key: '"GEOMETRY":"ADD"',
-        checked: updStatAllChecked
+        key: GEOMETRY_ADD,
+        icon: jihexinzeng
     },
     {
         title: '几何修改',
-        key: '"GEOMETRY":"MOD"',
-        checked: updStatAllChecked
+        key: GEOMETRY_MOD,
+        icon: jihexiugai
     },
     {
         title: '属性修改',
         key: ALL_LAYER_ATTRIBUTE_MOD,
-        checked: updStatAllChecked
+        icon: shuxingxiugai
     },
     {
         title: '关系修改',
-        key: '"RELATION":"MOD"',
-        checked: updStatAllChecked
+        key: RELATION_MOD,
+        icon: guanxixiugai
     }
 ];
 

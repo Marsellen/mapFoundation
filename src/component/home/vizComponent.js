@@ -54,6 +54,7 @@ import BatchBuildModal from 'src/component/home/toolList/batchBuild/batchBuildMo
 import BatchBuildStore from 'src/store/home/batchBuildStore';
 import DefaultStyleConfig from 'src/config/defaultStyleConfig';
 import SettingStore from 'src/store/setting/settingStore';
+import UpdStatModeStore from 'src/store/home/updStatModeStore';
 
 @inject('QualityCheckStore')
 @inject('QCMarkerStore')
@@ -107,6 +108,7 @@ class VizComponent extends React.Component {
         QualityCheckStore.closeCheckReport();
         QualityCheckStore.clearCheckReport();
         BufferStore.release();
+        UpdStatModeStore.release();
         window.boundaryLayerGroup = null;
         window.pointCloudLayer = null;
         window.vectorLayerGroup = null;

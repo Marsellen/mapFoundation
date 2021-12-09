@@ -1,4 +1,4 @@
-import { observable, configure, action } from 'mobx';
+import { observable, configure, action, computed } from 'mobx';
 import { UPD_STAT_VECTOR_CONFIG } from 'src/config/updStatVectorConfig';
 import { UPD_STAT_CHECK_GROUP } from 'src/config/renderModeConfig';
 import SettingStore from 'src/store/setting/settingStore';
@@ -7,41 +7,58 @@ const updStatAllChecked = SettingStore.getConfig('OTHER_CONFIG').updStatAllCheck
 
 configure({ enforceActions: 'always' });
 class UpdStatModeStore {
-    checkedList = []; //当前已选专题图
-    updStatCheckgroupL = UPD_STAT_CHECK_GROUP.length; //获取专题图数量
     @observable updStatCheckgroup = UPD_STAT_CHECK_GROUP; //专题图下拉框配置
-    @observable indeterminate = false; //checkbox是否indeterminate
-    @observable allChecked = updStatAllChecked; //checkbox是否全选
     @observable allLayerUpdConfig = UPD_STAT_VECTOR_CONFIG;
+    @computed get allChecked() {
+        const checkedArr = this.updStatCheckgroup.filter(item => item.checked);
+        return this.updStatCheckgroup.length === checkedArr.length;
+    }
+    @computed get indeterminate() {
+        const checkedArr = this.updStatCheckgroup.filter(item => item.checked);
+        return checkedArr.length !== 0 && this.updStatCheckgroup.length !== checkedArr.length;
+    }
 
     @action release = () => {
-        this.checkedList = [];
-        this.updStatCheckgroupL = UPD_STAT_CHECK_GROUP.length;
         this.updStatCheckgroup = UPD_STAT_CHECK_GROUP;
-        this.indeterminate = false;
-        this.allChecked = updStatAllChecked;
         this.allLayerUpdConfig = UPD_STAT_VECTOR_CONFIG;
+    };
+
+    //初始化更新标识模式渲染
+    @action initUpdStateMode = () => {
+        this.updStatCheckgroup.forEach(item => {
+            item.checked = updStatAllChecked;
+        });
+        this.renderUpdStat();
     };
 
     // 切换其他模式清空更新标识渲染
     @action clearUpdStatMode = () => {
         this.release();
-        this.toggleAllUpdStatRender(false);
+        this.updStatCheckgroup.forEach(item => {
+            item.checked = false;
+        });
+        this.renderUpdStat();
     };
 
-    // 初始化更新标识样式
-    initUpdStatConfig = () => {
+    // 更新标识渲染
+    @action renderUpdStat = () => {
         Object.values(this.allLayerUpdConfig).map(item => {
             const vectorLayer = this.getVectorLayer(item.key);
             const { iconFields, iconStyle, showStyles } = item;
-            const config = {
-                showStyles,
-                iconFields,
-                iconStyle
-            };
+            iconStyle.UPD_STAT = this.updStatCheckgroup.flatMap(item => {
+                const config = {
+                    value: item.key,
+                    style: {
+                        showMode: 'center-point',
+                        url: item.icon,
+                        size: 30
+                    }
+                };
+                return item.checked ? [config] : [];
+            });
+            const config = { showStyles, iconFields, iconStyle };
             vectorLayer && vectorLayer.resetConfig(config);
         });
-        this.toggleAllUpdStatRender(updStatAllChecked);
     };
 
     // 获得layer
@@ -52,54 +69,22 @@ class UpdStatModeStore {
         return layer;
     };
 
-    // 更新标识显隐
-    toggleLayersUpdStat = (option, checked) => {
-        if (!window.vectorLayerGroup) return;
-        const { layers } = window.vectorLayerGroup;
-        layers.forEach(item => {
-            const { layer } = item;
-            layer.showOrHideIconByOption(option, checked);
-        });
-    };
-
-    toggleUpdStatRender = (type, checked) => {
-        const option = { Key: 'UPD_STAT', value: type };
-        this.toggleLayersUpdStat(option, checked);
-    };
-
-    toggleAllUpdStatRender = checked => {
-        this.updStatCheckgroup.forEach(item => {
-            const { key } = item;
-            const option = { Key: 'UPD_STAT', value: key };
-            this.toggleLayersUpdStat(option, checked);
-        });
-    };
-
-    //单选：获取专题图已选图层，判断是否全选
+    //单选
     @action handleChecked = (checked, key) => {
         //改变指定专题图的checked
         this.updStatCheckgroup.find(item => item.key === key).checked = checked;
-        //改变checkbox组相关状态
-        this.checkedList = this.updStatCheckgroup.filter(item => item.checked);
-        const checkedListL = this.checkedList.length;
-        this.indeterminate = checkedListL && checkedListL < this.updStatCheckgroupL;
-        this.allChecked = checkedListL === this.updStatCheckgroupL;
         //更新标识渲染
-        this.toggleUpdStatRender(key, checked);
+        this.renderUpdStat();
     };
 
-    //全选：获取专题图已选图层，判断是否全选
+    //全选
     @action handleAllChecked = checked => {
         //改变所有专题图的checked
         this.updStatCheckgroup.forEach(item => {
             item.checked = checked;
         });
-        //改变checkbox组相关状态
-        this.indeterminate = false;
-        this.allChecked = checked;
-        this.checkedList = checked ? this.updStatCheckgroup : [];
         //更新标识渲染
-        this.toggleAllUpdStatRender(checked);
+        this.renderUpdStat();
     };
 }
 
