@@ -78,6 +78,10 @@ export const getLayerByName = layerName => {
     return getLayerExByName(layerName).layer;
 };
 
+export const getBoundaryLayerByName = layerName => {
+    return window.boundaryLayerGroup.layers.find(layer => layer.layerName == layerName)?.layer;
+};
+
 //根据传入的图层名数据返回图层数组
 export const getLayersByNames = layerNames => {
     const layers = window.vectorLayerGroup.layers.filter(layer =>
