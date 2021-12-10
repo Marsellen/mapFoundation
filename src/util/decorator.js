@@ -15,6 +15,7 @@ import { EDIT_TOOL_MAP } from 'src/config/editToolMap';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
 import { bufferLink, keepConnectRels } from 'src/util/utils';
 import SettingStore from 'src/store/setting/settingStore';
+import { CONNECT_REL_LAYERS } from 'src/config/relsConfig';
 
 function funcDecoratorFactory(factory, option) {
     return (target, name, descriptor) => {
@@ -92,6 +93,7 @@ export const logDecorator = option => {
             let { operate, onlyRun, skipHistory, skipRenderMode, toolType, doubleLog, autoRel } =
                 option || {};
             const editType = DataLayerStore.editType;
+            let layerName = DataLayerStore.getAdEditLayer().layerName;
             toolType = toolType ?? editType;
             if (EDIT_MESSAGE[editType] && EDIT_MESSAGE[editType].loadingMsg) {
                 message.loading({
@@ -101,7 +103,6 @@ export const logDecorator = option => {
                 });
             }
             if (typeof operate === 'object') {
-                let layerName = DataLayerStore.getAdEditLayer().layerName;
                 operate = operate[layerName];
             }
             if (!operate) operate = EDIT_TOOL_MAP[editType];
@@ -111,7 +112,7 @@ export const logDecorator = option => {
 
             try {
                 let history = await fn.apply(this, arguments);
-                if (autoConnectRel && autoRel) {
+                if (autoConnectRel && autoRel && CONNECT_REL_LAYERS.includes(layerName)) {
                     const rels = await keepConnectRels(history?.features?.[1]);
                     history.rels = history.rels ? history.rels.concat(rels) : rels;
                 }

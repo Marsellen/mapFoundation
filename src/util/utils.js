@@ -225,7 +225,7 @@ export const keepConnectRels = async featrues => {
 // 删除原有连接关系但移动首尾点后不再是连接关系的
 const delConnectRels = async (relOptions, mainFeature, mainDriveInPoint, mainDriveOutPoint) => {
     const layer = getLayerByName(mainFeature.layerName);
-    const delRels = [];
+    let delRels = [];
     for (let i = 0; i < relOptions.length; i++) {
         if (relOptions[i].layerName == mainFeature.layerName) {
             const relFeature = layer.getFeatureByOption(relOptions[i].option);
@@ -233,7 +233,7 @@ const delConnectRels = async (relOptions, mainFeature, mainDriveInPoint, mainDri
             const { driveInPoint, driveOutPoint } = getFeaturesPoints(feature);
             if (!(mainDriveInPoint === driveOutPoint || mainDriveOutPoint === driveInPoint)) {
                 const relFeatures = await delRel(mainFeature, [feature]);
-                delRels.push(relFeatures);
+                delRels = [...delRels, ...relFeatures];
             }
         }
     }
