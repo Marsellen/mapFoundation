@@ -7,7 +7,12 @@
 import DataLayerStore from 'src/store/home/dataLayerStore';
 import VectorsStore from 'src/store/home/vectorsStore';
 import BufferStore from 'src/store/home/bufferStore';
-import { getFeatureOption, getLayerByName, getLayerIDKey } from 'src/util/vectorUtils';
+import {
+    getFeatureOption,
+    getLayerByName,
+    getLayerIDKey,
+    getBoundaryLayerByName
+} from 'src/util/vectorUtils';
 import relFactory from 'src/util/relCtrl/relFactory';
 import { newRel, delRel } from 'src/util/relCtrl/relCtrl';
 import { CONNECTION_RELS } from 'src/config/relsConfig';
@@ -224,11 +229,15 @@ export const keepConnectRels = async featrues => {
 
 // 删除原有连接关系但移动首尾点后不再是连接关系的
 const delConnectRels = async (relOptions, mainFeature, mainDriveInPoint, mainDriveOutPoint) => {
-    const layer = getLayerByName(mainFeature.layerName);
+    const vectorLayer = getLayerByName(mainFeature.layerName);
+    const boundaryLayer = getBoundaryLayerByName(mainFeature.layerName);
     let delRels = [];
     for (let i = 0; i < relOptions.length; i++) {
         if (relOptions[i].layerName == mainFeature.layerName) {
-            const relFeature = layer.getFeatureByOption(relOptions[i].option);
+            const relFeature =
+                vectorLayer.getFeatureByOption(relOptions[i].option) ||
+                boundaryLayer.getFeatureByOption(relOptions[i].option);
+            if (!relFeature) continue;
             const feature = relFeature.properties;
             const { driveInPoint, driveOutPoint } = getFeaturesPoints(feature);
             if (!(mainDriveInPoint === driveOutPoint || mainDriveOutPoint === driveInPoint)) {
@@ -243,9 +252,11 @@ const delConnectRels = async (relOptions, mainFeature, mainDriveInPoint, mainDri
 // 找出与选择要素有公用首尾点的要素并建立关联关系
 const addConnectRels = async (mainFeature, mainDriveInPoint, mainDriveOutPoint, connectRels) => {
     const mainFeatureId = getFeatureId(mainFeature);
-    const allLayers = window.vectorLayerGroup.layers;
-    const layers = allLayers.filter(layer => layer.layerName == mainFeature.layerName);
-    const allFeatures = layers[0].layer.getAllFeatures();
+    const vectorLayer = getLayerByName(mainFeature.layerName);
+    const boundaryLayer = getBoundaryLayerByName(mainFeature.layerName);
+    const vectorFeatures = vectorLayer.getAllFeatures();
+    const boundaryFeatures = boundaryLayer.getAllFeatures();
+    const allFeatures = [...vectorFeatures, ...boundaryFeatures];
     const newRels = [];
     for (let i = 0; i < allFeatures.length; i++) {
         const featureId = getFeatureId(allFeatures[i]);
