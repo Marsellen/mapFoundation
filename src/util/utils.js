@@ -16,6 +16,7 @@ import {
 import relFactory from 'src/util/relCtrl/relFactory';
 import { newRel, delRel } from 'src/util/relCtrl/relCtrl';
 import { CONNECTION_RELS } from 'src/config/relsConfig';
+import SettingStore from 'src/store/setting/settingStore';
 
 export function randomNum(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
@@ -240,7 +241,12 @@ const delConnectRels = async (relOptions, mainFeature, mainDriveInPoint, mainDri
             if (!relFeature) continue;
             const feature = relFeature.properties;
             const { driveInPoint, driveOutPoint } = getFeaturesPoints(feature);
-            if (!(mainDriveInPoint === driveOutPoint || mainDriveOutPoint === driveInPoint)) {
+            if (
+                !(
+                    calcPointsDistance(mainDriveInPoint, driveOutPoint) ||
+                    calcPointsDistance(mainDriveOutPoint, driveInPoint)
+                )
+            ) {
                 const relFeatures = await delRel(mainFeature, [feature]);
                 delRels = [...delRels, ...relFeatures];
             }
@@ -267,7 +273,8 @@ const addConnectRels = async (mainFeature, mainDriveInPoint, mainDriveOutPoint, 
                 connectRels &&
                 connectRels.find(item => item?.objId === featureId || item?.relObjId === featureId)
             ) &&
-            (mainDriveInPoint === driveOutPoint || mainDriveOutPoint === driveInPoint)
+            (calcPointsDistance(mainDriveInPoint, driveOutPoint) ||
+                calcPointsDistance(mainDriveOutPoint, driveInPoint))
         ) {
             const { log } = await newRel(mainFeature, [allFeatures[i]]);
             const relsLog = log?.rels?.[1]?.[0];
@@ -291,8 +298,8 @@ const uniqRels = arr => {
 // 获取首尾点坐标轴
 const getFeaturesPoints = feature => {
     const coordinates = feature?.data?.geometry?.coordinates;
-    const driveInPoint = JSON.stringify(coordinates[0]);
-    const driveOutPoint = JSON.stringify(coordinates[coordinates.length - 1]);
+    const driveInPoint = coordinates[0];
+    const driveOutPoint = coordinates[coordinates.length - 1];
     return { driveInPoint, driveOutPoint };
 };
 
@@ -300,4 +307,20 @@ const getFeaturesPoints = feature => {
 const getFeatureId = feature => {
     const IDKey = getLayerIDKey(feature.layerName);
     return feature.data.properties[IDKey];
+};
+
+// 计算两点之间的距离
+const calcPointsDistance = (p1, p2) => {
+    const bufferDiff = SettingStore.getConfig('OTHER_CONFIG').bufferDiff;
+    const x = decNum(p1[0], p2[0]);
+    const y = decNum(p1[1], p2[1]);
+    const z = decNum(p1[2], p2[2]);
+    if (x < bufferDiff && y < bufferDiff && z < bufferDiff) return true;
+};
+
+const decNum = (point1, point2) => {
+    const p1 = point1?.toString()?.split('.')?.[1]?.length ?? 0;
+    const p2 = point2?.toString()?.split('.')?.[1]?.length ?? 0;
+    const p = Math.pow(10, Math.max(p1, p2));
+    return (point1 * p - point2 * p) / p;
 };
