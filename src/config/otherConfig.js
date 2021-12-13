@@ -18,5 +18,6 @@ export const OTHER_CONFIG = {
     scaleSize: 1,
     finePollingInterval: 1,
     updStatAllChecked: true,
-    autoConnectRel: true
+    autoConnectRel: true,
+    bufferDiff: 0.01
 };
