@@ -70,16 +70,16 @@ export const getLayerExByName = layerName => {
     if (layerName === 'AD_Marker') {
         return window.markerLayer;
     } else {
-        return window.vectorLayerGroup.layers.find(layer => layer.layerName == layerName);
+        return window.vectorLayerGroup?.layers.find(layer => layer?.layerName == layerName);
     }
 };
 
 export const getLayerByName = layerName => {
-    return getLayerExByName(layerName).layer;
+    return getLayerExByName(layerName)?.layer;
 };
 
 export const getBoundaryLayerByName = layerName => {
-    return window.boundaryLayerGroup.layers.find(layer => layer.layerName == layerName)?.layer;
+    return window.boundaryLayerGroup?.layers?.find(layer => layer?.layerName == layerName)?.layer;
 };
 
 //根据传入的图层名数据返回图层数组
