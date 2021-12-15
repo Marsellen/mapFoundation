@@ -315,7 +315,8 @@ const calcPointsDistance = (p1, p2) => {
     const x = decNum(p1[0], p2[0]);
     const y = decNum(p1[1], p2[1]);
     const z = decNum(p1[2], p2[2]);
-    if (x < bufferDiff && y < bufferDiff && z < bufferDiff) return true;
+    if (Math.abs(x) < bufferDiff && Math.abs(y) < bufferDiff && Math.abs(z) < bufferDiff)
+        return true;
 };
 
 const decNum = (point1, point2) => {
