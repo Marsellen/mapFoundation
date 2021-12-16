@@ -254,14 +254,12 @@ const delConnectRels = async (relOptions, mainFeature, mainDriveInPoint, mainDri
             if (!relFeature) continue;
             const feature = relFeature.properties;
             const { driveInPoint, driveOutPoint } = getFeaturesPoints(feature);
-            if (
-                !(
-                    calcPointsDistance(mainDriveInPoint, driveOutPoint) ||
-                    calcPointsDistance(mainDriveOutPoint, driveInPoint)
-                )
-            ) {
-                const relFeatures = await delRel(mainFeature, [feature]);
-                delRels = [...delRels, ...relFeatures];
+            const driveInRel = calcPointsDistance(mainDriveInPoint, driveOutPoint);
+            const driveOutRel = calcPointsDistance(mainDriveOutPoint, driveInPoint);
+            if (!(driveInRel || driveOutRel)) {
+                let relFeatures = await delRel(feature, [mainFeature]);
+                if (!relFeatures) relFeatures = await delRel(mainFeature, [feature]);
+                if (relFeatures) delRels = [...delRels, ...relFeatures];
             }
         }
     }
@@ -285,13 +283,17 @@ const addConnectRels = async (mainFeature, mainDriveInPoint, mainDriveOutPoint, 
             !(
                 connectRels &&
                 connectRels.find(item => item?.objId === featureId || item?.relObjId === featureId)
-            ) &&
-            (calcPointsDistance(mainDriveInPoint, driveOutPoint) ||
-                calcPointsDistance(mainDriveOutPoint, driveInPoint))
+            )
         ) {
-            const { log } = await newRel(mainFeature, [allFeatures[i]]);
-            const relsLog = log?.rels?.[1]?.[0];
-            newRels.push(relsLog);
+            if (calcPointsDistance(mainDriveInPoint, driveOutPoint)) {
+                const relInfo = await newRel(allFeatures[i], [mainFeature]);
+                const relsLog = relInfo?.log?.rels?.[1]?.[0];
+                relsLog && newRels.push(relsLog);
+            } else if (calcPointsDistance(mainDriveOutPoint, driveInPoint)) {
+                const relInfo = await newRel(mainFeature, [allFeatures[i]]);
+                const relsLog = relInfo?.log?.rels?.[1]?.[0];
+                relsLog && newRels.push(relsLog);
+            }
         }
     }
     return uniqRels(newRels);
