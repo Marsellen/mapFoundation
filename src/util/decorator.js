@@ -115,6 +115,8 @@ export const logDecorator = option => {
                 if (autoConnectRel && autoRel && CONNECT_REL_LAYERS.includes(layerName)) {
                     const rels = await keepConnectRels(history?.features?.[1]);
                     history.rels = history.rels ? history.rels.concat(rels) : rels;
+                    // 更新关联关系渲染
+                    RenderModeStore.updateRels(history);
                 }
                 if (onlyRun || !history) return;
                 if (!skipHistory) {
