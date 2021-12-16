@@ -116,7 +116,9 @@ export const logDecorator = option => {
                     const rels = await keepConnectRels(history?.features?.[1]);
                     history.rels = history.rels ? history.rels.concat(rels) : rels;
                     // 更新关联关系渲染
-                    RenderModeStore.updateRels(history);
+                    if (rels[0].length > 0 || rels[1].length > 0) {
+                        RenderModeStore.updateRels(history);
+                    }
                 }
                 if (onlyRun || !history) return;
                 if (!skipHistory) {
