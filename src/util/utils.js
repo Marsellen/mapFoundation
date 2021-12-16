@@ -208,7 +208,6 @@ export const keepConnectRels = async featrues => {
         if (!featrues) return;
         let allOldRels = [];
         let allNewRels = [];
-        let allRels;
         for (let i = 0; i < featrues.length; i++) {
             const { layerName, data } = featrues[i];
             const { driveInPoint, driveOutPoint } = getFeaturesPoints(featrues[i]);
@@ -236,8 +235,11 @@ export const keepConnectRels = async featrues => {
             );
             allNewRels = [...allNewRels, ...newRels];
         }
-        if (allOldRels.length > 0 || allNewRels.length > 0) allRels = [allOldRels, allNewRels];
-        return allRels;
+        if (allOldRels.length > 0 || allNewRels.length > 0) {
+            return [allOldRels, allNewRels];
+        } else {
+            return null;
+        }
     } catch (e) {
         console.log(e);
     }
