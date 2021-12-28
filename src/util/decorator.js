@@ -93,7 +93,7 @@ export const logDecorator = option => {
             let { operate, onlyRun, skipHistory, skipRenderMode, toolType, doubleLog, autoRel } =
                 option || {};
             const editType = DataLayerStore.editType;
-            let layerName = DataLayerStore.getAdEditLayer().layerName;
+            let layerName = DataLayerStore.getAdEditLayer()?.layerName;
             toolType = toolType ?? editType;
             if (EDIT_MESSAGE[editType] && EDIT_MESSAGE[editType].loadingMsg) {
                 message.loading({
