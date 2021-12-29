@@ -3,8 +3,6 @@ import { UPD_STAT_VECTOR_CONFIG } from 'src/config/updStatVectorConfig';
 import { UPD_STAT_CHECK_GROUP } from 'src/config/renderModeConfig';
 import SettingStore from 'src/store/setting/settingStore';
 
-const updStatAllChecked = SettingStore.getConfig('OTHER_CONFIG').updStatAllChecked;
-
 configure({ enforceActions: 'always' });
 class UpdStatModeStore {
     @observable updStatCheckgroup = UPD_STAT_CHECK_GROUP; //专题图下拉框配置
@@ -25,6 +23,7 @@ class UpdStatModeStore {
 
     //初始化更新标识模式渲染
     @action initUpdStateMode = () => {
+        const updStatAllChecked = SettingStore.getConfig('OTHER_CONFIG').updStatAllChecked;
         this.updStatCheckgroup.forEach(item => {
             item.checked = updStatAllChecked;
         });

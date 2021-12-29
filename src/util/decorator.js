@@ -86,7 +86,6 @@ const logDecoratorBuriedPoint = (toolType, doubleLog) => {
 export const logDecorator = option => {
     return (target, name, descriptor) => {
         const fn = descriptor.value;
-        const autoConnectRel = SettingStore.getConfig('OTHER_CONFIG').autoConnectRel;
         descriptor.value = async function () {
             let log;
             let isError = false;
@@ -112,6 +111,7 @@ export const logDecorator = option => {
 
             try {
                 let history = await fn.apply(this, arguments);
+                const autoConnectRel = SettingStore.getConfig('OTHER_CONFIG').autoConnectRel;
                 if (autoConnectRel && autoRel && CONNECT_REL_LAYERS.includes(layerName)) {
                     const rels = await keepConnectRels(history?.features?.[1]);
                     if (rels) {
