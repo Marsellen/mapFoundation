@@ -25,8 +25,7 @@ class AttrsForm extends React.Component {
 
     render = () => {
         const { form, onOk, attrs, attrType, readonly, updateKey } = this.props;
-        const newEnable = (!attrs[attrType] || attrs[attrType].length == 0) && !readonly;
-
+        const newEnable = !readonly;
         return (
             <div>
                 {(attrs[attrType] || []).map((rs, index) =>

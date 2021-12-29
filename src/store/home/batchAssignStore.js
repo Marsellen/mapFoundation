@@ -116,9 +116,12 @@ class BatchAssignStore {
 
     getAttrLog = flow(function* (feature, data, key, attrType) {
         if (!data.attrs) return [[], []];
-        const attrFormData = data.attrs[attrType][0];
-        const attrs = yield this.addProperties(feature, attrFormData, attrType);
-        let [oldAttrs, newAttrs] = this.calcAttrLog({ [attrType]: [attrs] }, key);
+        let attrFormData = [];
+        for (let i = 0; i < data.attrs[attrType].length; i++) {
+            const attrs = yield this.addProperties(feature, data.attrs[attrType][i], attrType);
+            attrFormData.push(attrs);
+        }
+        let [oldAttrs, newAttrs] = this.calcAttrLog({ [attrType]: attrFormData }, key);
         oldAttrs = oldAttrs.map(item => {
             return toJS(item);
         });
