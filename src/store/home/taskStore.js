@@ -672,9 +672,15 @@ class TaskStore {
         }
     }).bind(this);
 
-    getNeighbor = () => {
-        return TaskService.queryTaskNeighbor({ taskId: this.activeTaskId });
-    };
+    getNeighbor = flow(function* () {
+        try {
+            const res = yield TaskService.queryTaskNeighbor({ taskId: this.activeTaskId });
+            return res;
+        } catch (e) {
+            message.error(e?.message ?? e);
+            console.log(e?.message ?? e);
+        }
+    });
 }
 
 export default new TaskStore();
