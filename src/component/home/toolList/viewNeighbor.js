@@ -48,11 +48,9 @@ class ViewNeighbor extends React.Component {
             const { TaskStore } = this.props;
             const { activeTask } = TaskStore;
             const { Input_imp_data_path, taskId } = activeTask;
-            let { data, message: errMessage } = await TaskStore.getNeighbor();
-            if (!data || !data.taskList) {
-                message.error(errMessage);
-                return;
-            }
+            const res = await TaskStore.getNeighbor();
+            const { data } = res || {};
+            if (!data || !data.taskList) return;
             for (let regionItem of data.taskList) {
                 const { region, ...info } = regionItem;
                 const regionUrl = Input_imp_data_path.replace(taskId, region);
