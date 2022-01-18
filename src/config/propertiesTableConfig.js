@@ -249,6 +249,10 @@ export const COLUMNS_CONFIG = {
             title: '其他文本描述'
         },
         {
+            dataIndex: 'LANE_ID',
+            title: '关联对应车道中心线ID'
+        },
+        {
             dataIndex: 'UPD_STAT',
             title: '更新标识',
             filterBy: 'updStatFilter'
@@ -376,6 +380,7 @@ export const COLUMNS_CONFIG = {
         },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
+        { dataIndex: 'LDIV_ID', title: '关联对应的车道线ID' },
         { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_StopLocation_Geo: [
@@ -388,6 +393,7 @@ export const COLUMNS_CONFIG = {
         },
         { dataIndex: 'CFD_GEO', title: '几何形状置信度' },
         { dataIndex: 'CFD_FEAT', title: '要素类型置信度' },
+        { dataIndex: 'STOPL_ID', title: '关联的逻辑层停止位置' },
         { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_Arrow_Geo: [
