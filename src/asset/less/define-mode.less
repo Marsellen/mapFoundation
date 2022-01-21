@@ -1,0 +1,190 @@
+.define-mode-wrap {
+    height: calc(100vh - 60px);
+    background: rgb(229, 229, 229);
+
+    &.icon-width {
+        width: 400px;
+    }
+
+    &.text-width {
+        width: 370px;
+    }
+
+    // 修改antd tabs默认样式
+    .ant-tabs {
+        overflow: unset;
+    }
+
+    .ant-tabs-nav > div:first-child {
+        display: flex;
+        justify-content: space-around;
+        width: 370px;
+    }
+
+    .ant-tabs .ant-tabs-bar {
+        margin: 0;
+        border-color: #d7d7d7;
+    }
+
+    .ant-tabs .ant-tabs-bar .ant-tabs-tab {
+        flex: 1;
+        margin: 0;
+        text-align: center;
+        line-height: 18px;
+        font-size: 16px;
+
+        &.ant-tabs-tab-active {
+            border-bottom: 2px solid #1890ff;
+        }
+    }
+
+    .ant-tabs .ant-tabs-top-content,
+    .ant-tabs .ant-tabs-bottom-content {
+        position: relative;
+    }
+
+    .ant-tabs-ink-bar {
+        height: 0 !important;
+    }
+
+    // 修改antd select默认样式
+    .ant-select-selection--single {
+        height: 26px;
+        line-height: 26px;
+        cursor: pointer;
+    }
+
+    .ant-select-selection__rendered {
+        line-height: 24px;
+    }
+
+    .ant-select-arrow {
+        right: 5px;
+    }
+
+    //修改antd input number默认样式
+    .rels-input-number {
+        padding-top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .rels-input-number,
+    .ant-input-number {
+        height: 26px;
+        width: unset;
+    }
+
+    .ant-input-number-input {
+        height: 26px;
+        line-height: 26px !important;
+    }
+
+    .config-wrap {
+        height: calc(100vh - 100px);
+        padding: 10px 0 300px 10px;
+        /*滚动条样式*/
+        &::-webkit-scrollbar {
+            /*滚动条整体样式*/
+            margin-right: -12px;
+            width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
+            height: 10px;
+        }
+        &::-webkit-scrollbar-thumb {
+            /*滚动条里面小方块*/
+            border-radius: 12px;
+            background: #b7b7b7;
+        }
+        &::-webkit-scrollbar-track {
+            /*滚动条里面轨道*/
+            border-radius: 12px;
+            background: #e5e5e5;
+        }
+    }
+
+    .config-title {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 0 10px;
+    }
+
+    .config-content {
+        background: rgb(234, 241, 246);
+        border-bottom: 1px solid rgb(202, 202, 202);
+    }
+
+    .config-content-1 {
+        display: flex;
+        align-items: center;
+        height: 36px;
+        margin: 0 0 10px;
+
+        label {
+            width: 37px;
+            padding: 0 5px 0 0;
+        }
+
+        .field {
+            flex: 1;
+        }
+    }
+
+    .config-content-2 {
+        margin: 0 0 10px;
+        padding: 5px 10px;
+
+        .field {
+            width: 76px;
+        }
+
+        .point-field {
+            width: 154px;
+        }
+
+        label {
+            overflow: hidden;
+            max-width: 130px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .flex-center {
+        display: flex;
+        align-items: center;
+    }
+
+    .flex-between {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .field-box {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        box-sizing: border-box;
+        width: 130px;
+        padding: 0 10px;
+        &:first-of-type {
+            width: 85px;
+        }
+    }
+
+    .input-wrap {
+        padding: 5px 0;
+    }
+
+    .input-box {
+        width: 190px;
+        .fleld {
+            max-width: 80%;
+        }
+    }
+
+    .blue {
+        color: #3e7fe0;
+    }
+}

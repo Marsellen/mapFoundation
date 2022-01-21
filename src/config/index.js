@@ -1,18 +1,44 @@
 export default {
     title: 'Ecarx React App',
-    version: 'v1.0.12.2-sprint12-rc2',
-
+    version: 'SVC013_v4.1.1.1',
     urlConfig: {
-        point_clouds: 'point_clouds/cloud.js',
+        point_clouds: 'cloud.js',
         track: 'track.json',
         region: 'region.geojson',
-        boundary: 'around/ads_all.geojson',
+        boundaryAdsAll: 'around/ads_all.geojson',
+        boundaryRels: 'around/rels.geojson',
+        boundaryAttrs: 'around/attrs.geojson',
         vectors: 'ads_all.geojson',
         rels: 'rels.geojson',
-        attrs: 'attrs.geojson'
+        attrs: 'attrs.geojson',
+        taskInfo: 'taskinfos.json',
+        octreeIndex: 'octreeIndex.json'
     },
 
     expireTime: 86400,
     autoSaveTime: 600000,
-    loopTaskTime: 60000
+    loopTaskTime: 60000,
+
+    processNameOptions: [
+        {
+            label: '人工识别数据',
+            value: 'imp_recognition',
+            roleCodes: ['producer', 'producer_leader']
+        },
+        {
+            label: '人工构建数据',
+            value: 'imp_manbuild',
+            roleCodes: ['producer', 'producer_leader']
+        },
+        {
+            label: '人工识别质检数据',
+            value: 'imp_check_after_recognition',
+            roleCodes: ['quality', 'quality_leader']
+        },
+        {
+            label: '人工构建质检数据',
+            value: 'imp_check_after_manbuild',
+            roleCodes: ['quality', 'quality_leader']
+        }
+    ]
 };

@@ -1,0 +1,29 @@
+.color-box {
+    display: inline-block;
+
+    &.set-z-index {
+        z-index: 2;
+    }
+
+    .color-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 24px;
+        width: 24px;
+        border-radius: 4px;
+        font-size: 30px;
+    }
+
+    .color-content {
+        height: 100%;
+        width: 100%;
+        border-radius: 4px;
+    }
+
+    .color-palette {
+        position: absolute;
+        margin: 0 0 0 -110px;
+        user-select: none;
+    }
+}

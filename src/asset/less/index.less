@@ -1,0 +1,89 @@
+.flex {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.flex-start-center {
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.flex-end-center {
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.flex-center {
+    justify-content: center;
+    align-items: center;
+
+    button {
+        margin-right: 10px;
+        color: #fff;
+        background-color: #18a2ff;
+        border-color: #18a2ff;
+    }
+}
+
+.flex-1 {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.header-tool {
+    height: 60px;
+    font-size: 20px;
+    color: #fff;
+
+    & > span {
+        display: flex;
+        justify-content: center;
+        min-width: 40px;
+    }
+}
+
+.anticon {
+    cursor: pointer;
+}
+
+.top-break-line {
+    width: 2px;
+    height: 40px;
+    margin: 0 5px;
+    background: #434343;
+}
+
+.bianjituceng > span {
+    display: flex;
+    align-items: center;
+}
+
+.bianjituceng > span > i > svg {
+    font-size: 29px;
+}
+
+.value-color {
+    padding: 0 10px 0 0;
+    line-height: 16px;
+    font-size: 12px;
+    white-space: pre;
+    cursor: pointer;
+    color: #ddd;
+}
+
+// 清除浮动
+.clearfix:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}

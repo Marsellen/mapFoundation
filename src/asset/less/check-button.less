@@ -1,0 +1,85 @@
+.check-button {
+    flex-grow: unset;
+    font-size: 20px;
+    margin: 0 10px 0 0;
+
+    .jiao-biao {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 60px;
+        font-size: 10px;
+
+        & .ad-icon {
+            margin: 0;
+            padding: 5px 0;
+        }
+    }
+
+    .jiao-biao-active,
+    .jiao-biao:hover {
+        background: rgb(73, 76, 83);
+    }
+
+    .jiao-biao.ad-icon-disabled:hover {
+        background: none;
+    }
+
+    .hide-popover {
+        position: absolute;
+        left: -9999px !important;
+    }
+
+    .check-button-popover {
+        top: 50px !important;
+
+        .ant-popover-inner-content {
+            padding: 2px 0 4px 0;
+        }
+
+        .ant-menu-item {
+            margin: 0;
+        }
+
+        .ant-menu-item {
+            height: 30px;
+            line-height: 30px;
+            color: #333;
+
+            i.ad-icon {
+                color: #666;
+                font-size: 20px;
+                margin-right: 17px;
+            }
+        }
+
+        .ant-menu-item:hover {
+            background-color: #b2ccf3;
+        }
+
+        .ant-menu-item-selected {
+            background-color: #fff;
+            color: #3e7fe0;
+
+            i.ad-icon {
+                color: #3e7fe0;
+            }
+        }
+
+        .ant-menu-item-selected:after {
+            content: ' ';
+            width: 8px;
+            height: 8px;
+            background: rgb(255, 255, 255);
+            border: 2px solid rgb(62, 127, 224);
+            border-radius: 50%;
+            position: absolute;
+            top: 11px;
+            right: 10px;
+            transform: none;
+            -webkit-transform: none;
+            -ms-transform: none;
+            opacity: 1;
+        }
+    }
+}

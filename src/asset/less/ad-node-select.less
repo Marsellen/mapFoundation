@@ -1,0 +1,42 @@
+.ad-node-select {
+    display: inline-block;
+    // 修改antd select默认样式
+    .ant-select-selection--single {
+        height: 26px;
+        line-height: 26px;
+        cursor: pointer;
+    }
+
+    .ant-select-selection__rendered {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1px 15px 0 0;
+        line-height: 22px;
+    }
+
+    .ant-select-arrow {
+        right: 5px;
+    }
+}
+//下拉框样式
+.ad-node-select-dropdown {
+    .ant-select-dropdown-menu-item {
+        padding: 3px 0;
+    }
+    //当前选中样式
+    .select-icon-box {
+        margin: 0 0 0 -16px;
+    }
+}
+//当前选中样式
+.select-icon-box {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 16px;
+    padding: 0;
+    margin: 0;
+    font-size: 60px;
+}

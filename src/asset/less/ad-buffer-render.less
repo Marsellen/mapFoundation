@@ -1,0 +1,64 @@
+// buffer渲染窗口
+.all-layer-buffer-config, .feature-config-buffer {
+    overflow: auto;
+}
+
+.buffer-layer {
+    width: 400px;
+    height: calc(100vh - 60px);
+    background: #fff;
+    .buffer-layer-title {
+        padding: 10px;
+    }
+    // 修改原本样式
+    .ant-divider-horizontal, .ant-divider, .ant-divider-vertical {
+        margin: 0;
+    }
+    .buffer-config-btn {
+        display: flex;
+        justify-content: space-around;
+        margin: 10px 0;
+        .buffer-config-radio {
+            display: flex;
+        }
+    }
+}
+
+.buffer-config-wrap {
+    margin: 0 0 10px;
+    .buffer-config-title {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px;
+    }
+}
+
+.buffer-config-content {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    background: #eaf1f6;
+    .buffer-config-filed {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        box-sizing: border-box;
+        padding: 0 0 0 10px;
+        .buffer-config-filed-label {
+            margin-right: 5px;
+        }
+        .input-buffer {
+            height: auto;
+            .ant-input-number-handler-wrap {
+                width: 0;
+                height: auto;
+            }
+        }
+        .ant-form-text {
+            padding: 0 5px;
+        }
+    }
+    .buffer-opacity {
+        width: 45%;
+    }
+}

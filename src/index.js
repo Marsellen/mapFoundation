@@ -2,12 +2,9 @@ import '@babel/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
-import store from './store';
-import Routers from './routers';
+import store from 'src/store';
+import Routers from 'src/router';
 import 'less/index.less';
-
-//offline
-//import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
@@ -18,6 +15,3 @@ ReactDOM.render(
     </BrowserRouter>,
     document.getElementById('root')
 );
-
-//offline
-//serviceWorker.unregister();

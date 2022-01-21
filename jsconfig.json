@@ -1,12 +1,12 @@
 {
     "compilerOptions": {
-      "experimentalDecorators": true,
-      "baseUrl": "./",
-      "paths": {
-        "src/*": ["src/*"],
-        "mock/*": ["mock/*"],
-        "less/*": ["src/assets/less/*"]
-      }
+        "experimentalDecorators": true,
+        "baseUrl": "./",
+        "paths": {
+            "src/*": ["src/*"],
+            "mock/*": ["mock/*"],
+            "less/*": ["src/assets/less/*"]
+        }
     },
     "exclude": ["node_modules", "dist"],
     "include": ["src/**/*"]

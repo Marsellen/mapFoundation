@@ -1,0 +1,168 @@
+.multi-function-table-wrap {
+    height: 100%;
+    .multi-function-table,
+    .multi-function-table-init {
+        padding: 0 10px;
+
+        .ant-table {
+            color: #000;
+            height: 100%;
+
+            .ant-table-placeholder {
+                position: absolute;
+                top: 30px;
+                left: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                border-bottom: none;
+            }
+
+            table {
+                overflow: hidden;
+                table-layout: fixed;
+                min-width: max-content;
+                width: max-content;
+                height: min-content;
+                border-collapse: collapse;
+            }
+
+            th,
+            td {
+                background: #fff;
+                padding: 6px;
+                border: 1px solid #e8e8e8;
+                font-size: 12px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                color: #333;
+            }
+            td:hover {
+                background: #def3ff !important;
+            }
+
+            td > div {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .table-row.un-ellipsis {
+                th,
+                td,
+                td > div {
+                    white-space: unset;
+                }
+            }
+
+            .table-row-0 td {
+                border-top: none;
+            }
+
+            th.ant-table-column-has-actions.ant-table-column-has-filters {
+                padding-right: 12px !important;
+            }
+
+            .active {
+                border: 2px solid #3e7fe0;
+                td {
+                    background-color: #def3ff;
+                    color: #3e7fe0;
+                }
+            }
+
+            .ant-dropdown-menu-without-submenu {
+                max-height: 130px;
+                overflow-y: auto;
+            }
+
+            // 可伸缩列表格样式
+            .react-resizable {
+                position: relative;
+                background-clip: padding-box;
+            }
+
+            .react-resizable-handle {
+                position: absolute;
+                width: 10px;
+                height: 100%;
+                bottom: 0;
+                right: -5px;
+                cursor: col-resize;
+                z-index: 1;
+            }
+
+            .ant-select-dropdown {
+                z-index: 99999;
+            }
+        }
+    }
+
+    .multi-function-table {
+        .ant-table-placeholder {
+            height: calc(100% - 145px);
+        }
+    }
+
+    .multi-function-table-init {
+        padding-bottom: 55px;
+        .ant-table-placeholder {
+            height: calc(100% - 30px);
+        }
+    }
+
+    .multi-function-pagination-init {
+        position: absolute;
+        right: 0;
+        bottom: -56px;
+    }
+
+    .multi-function-pagination {
+        position: absolute;
+        right: 0;
+        bottom: 63px;
+    }
+
+    .ant-dropdown {
+        z-index: 999999;
+    }
+
+    .table-footer {
+        position: absolute;
+        left: 10px;
+        bottom: 13px;
+    }
+
+    .reset-button {
+        height: 28px;
+        font-size: 12px;
+    }
+
+    .ant-table-body {
+        height: 100%;
+        .ant-table-fixed {
+            height: min-content;
+        }
+    }
+
+    .ant-spin-nested-loading,
+    .ant-spin-container,
+    .ant-table-content,
+    .ant-table-scroll {
+        height: 100%;
+    }
+
+    .ant-table-content {
+        min-height: 120px;
+    }
+
+    .ant-table-scroll {
+        overflow: unset;
+    }
+
+    .ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner-full {
+        margin-top: -0.5em;
+    }
+}

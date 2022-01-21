@@ -1,0 +1,139 @@
+#home {
+    background: #000;
+
+    .header {
+        padding: 0 22px 0 60px;
+        height: 60px;
+        background: #1c2028;
+        line-height: unset;
+    }
+
+    .logo-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 150px;
+        height: 60px;
+        color: #fff;
+
+        .logo {
+            width: 110px;
+        }
+    }
+
+    .tool-container {
+        padding-left: 100px;
+
+        .bianjituceng {
+            display: flex;
+            align-items: center;
+        }
+
+        .bianjituceng.active {
+            color: #69a5ff;
+        }
+    }
+
+    .viz-content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+    }
+
+    .task-manage {
+        .ant-popover-inner {
+            overflow: hidden;
+        }
+
+        .ant-popover-inner-content {
+            padding: 0;
+        }
+    }
+
+    .avatar-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        -khtml-user-select: none;
+        user-select: none;
+    }
+}
+
+.logout-item {
+    padding-left: 0px !important;
+    color: #333;
+}
+
+.ant-message {
+    top: 60px !important;
+}
+
+.ad-message.ant-message {
+    z-index: 996;
+
+    .ant-message-notice-content {
+        z-index: 996;
+    }
+}
+
+.save-error-modal {
+    .error-icon.anticon {
+        color: red;
+        font-size: 60px;
+    }
+
+    .error-title {
+        font-weight: bold;
+    }
+
+    .error-title-first {
+        font-size: 24px;
+        margin-right: 30px;
+    }
+
+    .error-title-second {
+        font-size: 18px;
+    }
+
+    .error-title-third {
+        margin-top: 4px;
+    }
+
+    .error-content {
+        margin-top: 4px;
+    }
+
+    .ant-modal-confirm-content {
+        margin-left: 0 !important;
+    }
+}
+
+.small-modal {
+    top: 0;
+    padding-bottom: 0;
+
+    .ant-modal-body {
+        padding: 2px;
+        height: calc(100% - 39px);
+    }
+
+    .ant-modal-body>div {
+        height: 100%;
+    }
+
+    .ant-modal-header {
+        padding: 8px;
+    }
+
+    .ant-modal-close-x {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+    }
+}

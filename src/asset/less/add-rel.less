@@ -1,0 +1,59 @@
+.text-modal {
+    height: 474px;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 2px 14px 0px rgba(23, 35, 49, 0.42);
+    border-radius: 4px;
+    font-family: Microsoft YaHei;
+    .ant-modal-header {
+        height: 43px;
+        padding: 12px 24px;
+    }
+    .text-modal-title {
+        width: 133px;
+        height: 16px;
+        font-size: 16px;
+        font-weight: bold;
+        color: rgba(102, 102, 102, 1);
+    }
+    .ant-modal-close-x {
+        margin-top: -7px;
+    }
+    .ant-modal-body {
+        padding: 14px 24px;
+        height: 430px;
+        overflow: auto;
+        p {
+            width: 407px;
+            font-size: 14px;
+        }
+    }
+    .tips {
+        height: 15px;
+        color: #222222;
+        font-weight: bold;
+    }
+    .text-body-title {
+        color: #222222;
+        margin-bottom: 6px;
+    }
+    .text-body-content {
+        color: #666666;
+        margin-bottom: 6px;
+    }
+    /*滚动条样式*/
+    .ant-modal-body::-webkit-scrollbar {
+        /*滚动条整体样式*/
+        margin-right: -10px;
+        width: 6px; /*高宽分别对应横竖滚动条的尺寸*/
+        height: 10px;
+    }
+    .ant-modal-body::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        border-radius: 3px;
+        background: #999999;
+    }
+    .ant-modal-body::-webkit-scrollbar-track {
+        /*滚动条里面轨道*/
+        background: #fff;
+    }
+}

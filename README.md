@@ -2,17 +2,25 @@
 
 ### 依赖项安装
 
-npm 依赖安装
+yarn 依赖安装
 
-> npm run i
+> yarn install
 
 依赖包更新
 
-> 修改 package.json 中依赖包版本号，重新执行 npm run i
+> 修改 package.json 中依赖包版本号，重新执行 yarn install
+
+addis-viz-sdk 主版本和次版本更新
+
+> 需要手动修改 package.json 中 yarn update-sdk 命令中的版本号，再执行 yarn update-sdk
+
+addis-viz-sdk 小版本更新，直接执行下方命令更新
+
+> yarn update-sdk
 
 ### 服务启动
 
-> npm start
+> yarn start
 
 ## 编写指南
 
@@ -24,7 +32,7 @@ npm 依赖安装
 ```javascript
 import React from 'react';
 import { withRouter, Switch, Redirect } from 'react-router-dom';
-import LoadableComponent from '../../utils/LoadableComponent';
+import LoadableComponent from '../../util/LoadableComponent';
 import PrivateRoute from '../PrivateRoute';
 
 // 模块引入
@@ -44,9 +52,7 @@ class ContentMain extends React.Component {
                     <PrivateRoute
                         exact
                         path="home"
-                        component={LoadableComponent(() =>
-                            import('src/pages/Home/index')
-                        )}
+                        component={LoadableComponent(() => import('src/pages/Home/index'))}
                     />
 
                     {/* 默认路由 */}
@@ -108,7 +114,7 @@ class MenuStore {
 
     // 获取menu配置
     // flow函数介绍见 [https://cn.mobx.js.org/best/actions.html]
-    initMenus = flow(function*() {
+    initMenus = flow(function* () {
         // <- 注意*号，这是生成器函数！
         this.state = 'pending';
         this.menus = [];
@@ -164,9 +170,9 @@ export default SiderNav;
 // src/service/common.services.js
 
 // 引入resource
-import resource from 'src/utils/resource';
+import resource from 'src/util/resource';
 
-export default (function() {
+export default (function () {
     // 调用resouce函数
     /**
      * resource注册服务
@@ -196,7 +202,7 @@ export default (function() {
                 // 只能用在 'PUT', 'POST' 和 'PATCH' 这几个请求方法
                 // 后面数组中的函数必须返回一个字符串，或 ArrayBuffer，或 Stream
                 transformRequest: [
-                    function(data) {
+                    function (data) {
                         // 对 data 进行任意转换处理
 
                         return data;
@@ -207,13 +213,10 @@ export default (function() {
     );
 
     // 可扩展导出文件、打开新的游览器页面等方法
-    service.export = function() {
+    service.export = function () {
         var url = 'http://somehost/somefile.zip';
         var filename = 'what-you-want.txt';
-        element.setAttribute(
-            'href',
-            'data:text/plain;charset=utf-8,' + encodeURIComponent(url)
-        );
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(url));
         element.setAttribute('download', filename);
 
         element.style.display = 'none';
@@ -239,7 +242,7 @@ class MenuStore {
     @observable state = 'pending'; // 'pending' / 'done' / 'error'
 
     // 获取menu配置
-    initMenus = flow(function*() {
+    initMenus = flow(function* () {
         // <- 注意*号，这是生成器函数！
         this.state = 'pending';
         this.menus = [];
@@ -263,7 +266,7 @@ export default new MenuStore();
 
 ```javascript
 // service配置，文件名： MenuService.js
-import resource from 'src/utils/resource'
+import resource from 'src/util/resource'
 
 export default (function () {
     let service = resource(locationPath('/mock/menu/:id.json'), {}, {
