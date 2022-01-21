@@ -2131,14 +2131,15 @@ const MS_QC_LINK_OPTIONS = [
 ];
 
 const MB_QC_LINK_OPTIONS = [
-    { value: 2, label: '人工构建质检' }, //默认
-    { value: 3, label: '验收' }
+    { value: 2, label: '人工构建质检' } //默认
 ];
+
+const SECOND_QC_LINK_OPTIONS = [{ value: 3, label: '二次质检' }];
 
 const QC_LINK_OPTIONS = [
     { value: 1, label: '人工识别质检' },
     { value: 2, label: '人工构建质检' },
-    { value: 3, label: '验收' }
+    { value: 3, label: '二次质检' }
 ];
 
 const FIELD_NAME_MAP = {
@@ -2232,6 +2233,7 @@ export const MARKER_OPTION_CONFIG = {
     QC_STATUS_OPTIONS,
     MS_QC_LINK_OPTIONS,
     MB_QC_LINK_OPTIONS,
+    SECOND_QC_LINK_OPTIONS,
     QC_LINK_OPTIONS,
     FIELD_NAME_MAP,
     ERROR_CONTENT_OPTIONS,
