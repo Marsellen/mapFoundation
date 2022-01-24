@@ -66,16 +66,18 @@ class Task extends React.Component {
             nodeDesc,
             manualStatusDesc,
             task_sub_type,
-            hasPostprocessCheck
+            postProcesss
         } = task;
         if (isLocal) {
-            let processNameLabel = processNameOptions.find(option => option.value === processName)
-                .label;
+            let processNameLabel = processNameOptions.find(
+                option => option.value === processName
+            ).label;
             return `${taskId}-${processNameLabel}`;
         }
         const taskSubTypeLabel = TASK_TYPE[task_sub_type] || '底图新增';
-        const hasPostprocessCheckLabel = hasPostprocessCheck == 1 ? '【制图后处理】' : '';
-        return `${taskId}-${taskSubTypeLabel}-${nodeDesc}-${manualStatusDesc}${hasPostprocessCheckLabel}`;
+        const postProcesssLabel =
+            postProcesss == 1 ? '【制图后处理】' : postProcesss == 2 ? '【二次质检】' : '';
+        return `${taskId}-${taskSubTypeLabel}-${nodeDesc}-${manualStatusDesc}${postProcesssLabel}`;
     };
 
     @editLock
