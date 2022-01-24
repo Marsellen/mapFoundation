@@ -66,7 +66,7 @@ class Task extends React.Component {
             nodeDesc,
             manualStatusDesc,
             task_sub_type,
-            postProcesss
+            postProcess
         } = task;
         if (isLocal) {
             let processNameLabel = processNameOptions.find(
@@ -75,9 +75,9 @@ class Task extends React.Component {
             return `${taskId}-${processNameLabel}`;
         }
         const taskSubTypeLabel = TASK_TYPE[task_sub_type] || '底图新增';
-        const postProcesssLabel =
-            postProcesss == 1 ? '【制图后处理】' : postProcesss == 2 ? '【二次质检】' : '';
-        return `${taskId}-${taskSubTypeLabel}-${nodeDesc}-${manualStatusDesc}${postProcesssLabel}`;
+        const postProcessLabel =
+            postProcess == 1 ? '【制图后处理】' : postProcess == 2 ? '【二次质检】' : '';
+        return `${taskId}-${taskSubTypeLabel}-${nodeDesc}-${manualStatusDesc}${postProcessLabel}`;
     };
 
     @editLock

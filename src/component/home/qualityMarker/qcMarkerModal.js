@@ -265,9 +265,9 @@ class QCMarkerModal extends React.Component {
                 editStatus,
                 currentMarker: { data: { properties: { fetchId } = {} } = {} }
             },
-            TaskStore: { activeTask: { taskFetchId, processName } = {} }
+            TaskStore: { activeTask: { taskFetchId, processName, postProcess } = {} }
         } = this.props;
-        const isSecondQuality = postProcesss == 2;
+        const isSecondQuality = postProcess == 2;
         const isCreate = editStatus === 'create';
         const isVisite = editStatus === 'visite';
         const isModify = editStatus === 'modify';

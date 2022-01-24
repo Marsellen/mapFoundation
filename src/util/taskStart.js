@@ -89,7 +89,7 @@ export const getMarkerList = async () => {
         isFixStatus,
         isEditableTask,
         isLocalTask,
-        activeTask: { taskId, processName, postProcesss } = {}
+        activeTask: { taskId, processName, postProcess } = {}
     } = TaskStore;
     const { getMarkerList, initMarkerList, showList } = QCMarkerStore;
     if (!window.markerLayer) return; //如果没有质检标注图层，返回
@@ -101,7 +101,7 @@ export const getMarkerList = async () => {
             taskId,
             processName
         };
-        if (postProcesss == 2) {
+        if (postProcess == 2) {
             params = { ...params, QC_LINK: 3 };
         }
         const res = await getMarkerList(params);
