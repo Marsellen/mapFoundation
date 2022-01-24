@@ -267,7 +267,7 @@ class QCMarkerModal extends React.Component {
             },
             TaskStore: { activeTask: { taskFetchId, processName } = {} }
         } = this.props;
-        const isSecondQuality = processName == 'imp_map_second_check';
+        const isSecondQuality = postProcesss == 2;
         const isCreate = editStatus === 'create';
         const isVisite = editStatus === 'visite';
         const isModify = editStatus === 'modify';
