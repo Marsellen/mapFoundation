@@ -102,7 +102,7 @@ export const getMarkerList = async () => {
             processName
         };
         if (postProcess == 2) {
-            params = { ...params, QC_LINK: 3 };
+            params = { ...params, qcLink: 3 };
         }
         const res = await getMarkerList(params);
         if (!res) return;
