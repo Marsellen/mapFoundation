@@ -2127,14 +2127,22 @@ const QC_STATUS_OPTIONS = [
 ];
 
 const MS_QC_LINK_OPTIONS = [
-    { value: 1, label: '人工识别质检' } //默认
+    { value: 1, label: '人工识别质检' }, //默认
+    { value: 2, label: '人工构建质检' },
+    { value: 3, label: '二次质检' }
 ];
 
 const MB_QC_LINK_OPTIONS = [
-    { value: 2, label: '人工构建质检' } //默认
+    { value: 1, label: '人工识别质检' },
+    { value: 2, label: '人工构建质检' }, //默认
+    { value: 3, label: '二次质检' }
 ];
 
-const SECOND_QC_LINK_OPTIONS = [{ value: 3, label: '二次质检' }];
+const SECOND_QC_LINK_OPTIONS = [
+    { value: 1, label: '人工识别质检' },
+    { value: 2, label: '人工构建质检' },
+    { value: 3, label: '二次质检' } //默认
+];
 
 const QC_LINK_OPTIONS = [
     { value: 1, label: '人工识别质检' },
