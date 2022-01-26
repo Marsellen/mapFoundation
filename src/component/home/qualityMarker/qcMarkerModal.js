@@ -280,6 +280,14 @@ class QCMarkerModal extends React.Component {
         let formConfigName;
         if (isQuality && isCreate && isMsQcTask) {
             formConfigName = 'MS_QC_CREATE_CONFIG';
+        } else if (isQuality && isCreate && isSecondQuality) {
+            formConfigName = 'SECOND_QC_CREATE_CONFIG';
+        } else if (isQuality && isFirst && isVisite && isSecondQuality) {
+            formConfigName = 'SECOND_QC_FIRST_VISITE_CONFIG';
+        } else if (isQuality && !isFirst && isVisite && isSecondQuality) {
+            formConfigName = 'SECOND_QC_NOT_FIRST_VISITE_CONFIG';
+        } else if (isQuality && isFirst && isModify && isSecondQuality) {
+            formConfigName = 'SECOND_QC_FIRST_MOD_CONFIG';
         } else if (isQuality && isCreate && isMbQcTask) {
             formConfigName = 'MB_QC_CREATE_CONFIG';
         } else if (isQuality && isFirst && isVisite && isMsQcTask) {
@@ -294,14 +302,6 @@ class QCMarkerModal extends React.Component {
             formConfigName = 'MS_QC_FIRST_MOD_CONFIG';
         } else if (isQuality && isFirst && isModify && isMbQcTask) {
             formConfigName = 'MB_QC_FIRST_MOD_CONFIG';
-        } else if (isQuality && isCreate && isSecondQuality) {
-            formConfigName = 'SECOND_QC_CREATE_CONFIG';
-        } else if (isQuality && isFirst && isVisite && isSecondQuality) {
-            formConfigName = 'SECOND_QC_FIRST_VISITE_CONFIG';
-        } else if (isQuality && !isFirst && isVisite && isSecondQuality) {
-            formConfigName = 'SECOND_QC_NOT_FIRST_VISITE_CONFIG';
-        } else if (isQuality && isFirst && isModify && isSecondQuality) {
-            formConfigName = 'SECOND_QC_FIRST_MOD_CONFIG';
         } else if (isProductor && isVisite) {
             formConfigName = 'FIX_VISITE_CONFIG';
         } else if (isProductor && isModify) {
