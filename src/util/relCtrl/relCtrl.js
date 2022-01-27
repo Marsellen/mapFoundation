@@ -14,7 +14,6 @@ import {
 } from 'src/util/vectorUtils';
 import IDService from 'src/service/idService';
 import { distance } from 'src/util/utils';
-import { isManbuildTask } from 'src/util/taskUtils';
 import { updateFeatures } from './operateCtrl';
 
 const newRel = async (mainFeature, relFeatures) => {

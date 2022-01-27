@@ -20,17 +20,19 @@ const THIRD_PATH_MAP = {
     imp_recognition: '1312_MS_VEC_DES',
     imp_check_after_recognition: '1312_MS_VEC_DES',
     imp_manbuild: '1339_MB_VEC_DES',
-    imp_check_after_manbuild: '1339_MB_VEC_DES'
+    imp_check_after_manbuild: '1339_MB_VEC_DES',
+    imp_map_second_check: '1339_MB_VEC_DES'
 };
 const BOUNDARY_PATH_MAP = {
     imp_recognition: '1302_MS_AROUND_DATA',
     imp_check_after_recognition: '1303_MS_QC_AROUND_DATA',
     imp_manbuild: '1304_MB_AROUND_DATA',
-    imp_check_after_manbuild: '1305_MB_QC_AROUND_DATA'
+    imp_check_after_manbuild: '1305_MB_QC_AROUND_DATA',
+    imp_map_second_check: '1305_MB_QC_AROUND_DATA'
 };
 
 //人工构建任务类型枚举: [人工构建, 人工构建后质检]
-const manbuildTaskProcess = ['imp_manbuild', 'imp_check_after_manbuild'];
+const manbuildTaskProcess = ['imp_manbuild', 'imp_check_after_manbuild', 'imp_map_second_check'];
 
 export const getExportShpUrl = task => {
     return `${getEditPath(task)}/${CONFIG.urlConfig.vectors}`;
