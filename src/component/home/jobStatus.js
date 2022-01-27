@@ -294,6 +294,7 @@ class JobStatus extends React.Component {
                 return this.checkMbTask(option);
             case 'imp_check_after_recognition': //人工识别后质检
             case 'imp_check_after_manbuild': //人工构建后质检
+            case 'imp_map_second_check': //二次质检
                 return this.checkQcTask(option.manualStatus);
             default:
                 return true;

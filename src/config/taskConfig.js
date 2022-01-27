@@ -1,9 +1,10 @@
 //任务环节映射
 export const TASK_PROCESS_NAME = [
     { value: 'imp_recognition', label: '人工识别' },
-    { value: 'imp_manbuild', label: '人工构建' },
     { value: 'imp_check_after_recognition', label: '人工识别后质检' },
-    { value: 'imp_check_after_manbuild', label: '人工构建后质检' }
+    { value: 'imp_manbuild', label: '人工构建' },
+    { value: 'imp_check_after_manbuild', label: '人工构建后质检' },
+    { value: 'imp_map_second_check', label: '二次质检' }
 ];
 //任务状态映射
 export const TASK_MANNUAL_STATUS = [
@@ -18,7 +19,11 @@ export const TASK_MANNUAL_STATUS = [
 //作业任务环节
 export const TASK_FIX_TYPES = ['imp_recognition', 'imp_manbuild'];
 //质检任务环节
-export const TASK_QC_TYPES = ['imp_check_after_recognition', 'imp_check_after_manbuild'];
+export const TASK_QC_TYPES = [
+    'imp_check_after_recognition',
+    'imp_check_after_manbuild',
+    'imp_map_second_check'
+];
 //任务已领取、进行中状态
 export const TASK_FIX_STATUS = [1, 2];
 //任务返工、返修状态
@@ -41,6 +46,10 @@ export const UPDATE_BOUNDARY_PARAM_MAP = {
     imp_check_after_manbuild: {
         referData: 'MB_EDITOR_QUERYDB_PATHS',
         outDir: '1305_MB_QC_AROUND_DATA'
+    },
+    imp_map_second_check: {
+        referData: 'MB_EDITOR_QUERYDB_PATHS',
+        outDir: '1305_MB_QC_AROUND_DATA'
     }
 };
 
@@ -49,6 +58,13 @@ export const TASK_TYPE = {
     100: '底图新增',
     101: '底图更新',
     102: '单点问题修正'
+};
+
+//从哪个环节打回的返工返修
+export const POST_PROCESS = {
+    // 0: '其它'
+    1: '制图后处理',
+    2: '二次质检'
 };
 
 //任务文件-矢量文件
