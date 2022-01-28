@@ -252,7 +252,7 @@ export const MARKER_FIELD_CONFIG = () => {
 };
 
 export const MARKER_FORM_CONFIG = () => {
-    const { MS_QC_LINK_OPTIONS, MB_QC_LINK_OPTIONS } =
+    const { MS_QC_LINK_OPTIONS, MB_QC_LINK_OPTIONS, SECOND_QC_LINK_OPTIONS } =
         SettingStore.getConfig('MARKER_OPTION_CONFIG');
 
     return {
@@ -282,9 +282,30 @@ export const MARKER_FORM_CONFIG = () => {
             {
                 name: 'qcLink',
                 initialValue: 2,
-                editable: true,
+                editable: false,
                 option: {
                     data: MB_QC_LINK_OPTIONS,
+                    label: 'label',
+                    value: 'value'
+                }
+            },
+            { name: 'fileName', editable: true },
+            { name: 'featId', editable: true },
+            { name: 'errorDesc', editable: true },
+            { name: 'errContent', editable: true },
+            { name: 'errorType', editable: true },
+            { name: 'fieldName', editable: true },
+            { name: 'errLevel', editable: false },
+            { name: 'qcDesc', editable: true }
+        ],
+        //质检员创建标注的表单配置-人工构建后二次质检
+        SECOND_QC_CREATE_CONFIG: [
+            {
+                name: 'qcLink',
+                initialValue: 3,
+                editable: false,
+                option: {
+                    data: SECOND_QC_LINK_OPTIONS,
                     label: 'label',
                     value: 'value'
                 }
@@ -327,9 +348,32 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'qcStatus', editable: false },
             {
                 name: 'qcLink',
-                editable: true,
+                editable: false,
                 option: {
                     data: MB_QC_LINK_OPTIONS,
+                    label: 'label',
+                    value: 'value'
+                }
+            },
+            { name: 'fileName', editable: false },
+            { name: 'featId', editable: false },
+            { name: 'errorDesc', editable: false },
+            { name: 'errContent', editable: false },
+            { name: 'errorType', editable: false },
+            { name: 'fieldName', editable: false },
+            { name: 'errLevel', editable: false },
+            { name: 'qcDesc', editable: false },
+            { name: 'editDesc', editable: false }
+        ],
+        //质检员首次查看的表单配置-人工构建后二次质检
+        SECOND_QC_FIRST_VISITE_CONFIG: [
+            { name: 'fixStatus', editable: false },
+            { name: 'qcStatus', editable: false },
+            {
+                name: 'qcLink',
+                editable: false,
+                option: {
+                    data: SECOND_QC_LINK_OPTIONS,
                     label: 'label',
                     value: 'value'
                 }
@@ -373,9 +417,32 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'qcStatus', editable: false },
             {
                 name: 'qcLink',
-                editable: true,
+                editable: false,
                 option: {
                     data: MB_QC_LINK_OPTIONS,
+                    label: 'label',
+                    value: 'value'
+                }
+            },
+            { name: 'fileName', editable: true },
+            { name: 'featId', editable: true },
+            { name: 'errorDesc', editable: true },
+            { name: 'errContent', editable: true },
+            { name: 'errorType', editable: true },
+            { name: 'fieldName', editable: true },
+            { name: 'errLevel', editable: false },
+            { name: 'qcDesc', editable: true },
+            { name: 'editDesc', editable: false }
+        ],
+        //质检员首次修改标注的表单配置-人工构建后二次质检
+        SECOND_QC_FIRST_MOD_CONFIG: [
+            { name: 'fixStatus', editable: false },
+            { name: 'qcStatus', editable: false },
+            {
+                name: 'qcLink',
+                editable: false,
+                option: {
+                    data: SECOND_QC_LINK_OPTIONS,
                     label: 'label',
                     value: 'value'
                 }
@@ -451,9 +518,48 @@ export const MARKER_FORM_CONFIG = () => {
             },
             {
                 name: 'qcLink',
-                editable: true,
+                editable: false,
                 option: {
                     data: MB_QC_LINK_OPTIONS,
+                    label: 'label',
+                    value: 'value'
+                }
+            },
+            { name: 'fileName', editable: false },
+            { name: 'featId', editable: false },
+            { name: 'errorDesc', editable: false },
+            { name: 'errContent', editable: false },
+            { name: 'errorType', editable: false },
+            { name: 'fieldName', editable: false },
+            { name: 'errLevel', editable: false },
+            { name: 'qcDesc', editable: false },
+            { name: 'editDesc', editable: false }
+        ],
+        //质检员非首次查看的表单配置-人工构建后二次质检
+        SECOND_QC_NOT_FIRST_VISITE_CONFIG: [
+            { name: 'fixStatus', editable: false },
+            {
+                name: 'qcStatus',
+                editable: true,
+                option: {
+                    data_2: [
+                        { value: 1, label: '待修正' },
+                        { value: 2, label: '无需修正' }
+                    ], //data_[fixStatus value]
+                    data_3: [
+                        { value: 1, label: '待修正' },
+                        { value: 3, label: '已修正' }
+                    ], //data_[fixStatus value]
+                    fieldName: 'fixStatus',
+                    label: 'label',
+                    value: 'value'
+                }
+            },
+            {
+                name: 'qcLink',
+                editable: false,
+                option: {
+                    data: SECOND_QC_LINK_OPTIONS,
                     label: 'label',
                     value: 'value'
                 }

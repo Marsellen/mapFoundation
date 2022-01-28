@@ -8,5 +8,6 @@ export const TEXT_CONFIG_MAP = {
     imp_recognition: 'MS_TASK_TEXT_CONFIG_MAP',
     imp_check_after_recognition: 'QC_MS_TASK_TEXT_CONFIG_MAP',
     imp_manbuild: 'MB_TASK_TEXT_CONFIG_MAP',
-    imp_check_after_manbuild: 'QC_MB_TASK_TEXT_CONFIG_MAP'
+    imp_check_after_manbuild: 'QC_MB_TASK_TEXT_CONFIG_MAP',
+    imp_map_second_check: 'QC_MB_TASK_TEXT_CONFIG_MAP'
 };

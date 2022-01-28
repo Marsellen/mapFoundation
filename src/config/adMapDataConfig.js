@@ -861,7 +861,8 @@ export const DEFAULT_PROPERTIES_MAP = {
         SPEED: 0,
         TIMEDOM: '',
         VEH_LMT: 0,
-        TEXT: ''
+        TEXT: '',
+        LANE_ID: 0
     },
     AD_TrafficLight: {},
     AD_TrafficSign: {
@@ -913,12 +914,14 @@ export const DEFAULT_PROPERTIES_MAP = {
     AD_LaneDivider_Plg: {
         FEAT_TYPE: 1002,
         CFD_GEO: 1,
-        CFD_FEAT: 1
+        CFD_FEAT: 1,
+        LDIV_ID: 0
     },
     AD_StopLocation_Geo: {
         FEAT_TYPE: 2001,
         CFD_GEO: 1,
-        CFD_FEAT: 1
+        CFD_FEAT: 1,
+        STOPL_ID: 0
     },
     AD_Arrow_Geo: {
         FEAT_TYPE: 'A',
@@ -1056,6 +1059,11 @@ export const TABLE_DATA_MAP = {
         {
             key: 'TEXT',
             name: '其他文本描述',
+            domType: 'Input'
+        },
+        {
+            key: 'LANE_ID',
+            name: '关联对应车道中心线ID',
             domType: 'Input'
         },
         {
@@ -1309,6 +1317,11 @@ export const TABLE_DATA_MAP = {
             domType: 'Text'
         },
         {
+            key: 'LDIV_ID',
+            name: '关联对应的车道线ID',
+            domType: 'Text'
+        },
+        {
             key: 'UPD_STAT',
             name: '更新标识',
             filterBy: 'updStatFilter',
@@ -1335,6 +1348,11 @@ export const TABLE_DATA_MAP = {
         {
             key: 'CFD_FEAT',
             name: '要素类型置信度',
+            domType: 'Text'
+        },
+        {
+            key: 'STOPL_ID',
+            name: '关联的逻辑层停止位置',
             domType: 'Text'
         },
         {
@@ -1484,7 +1502,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_LaneMark_Plg: '{"TYPE":{},"GEOMETRY":{}}',
     AD_Plg_Lane_Rel: '{"PLG_ID":{},"LANE_ID":{}}',
     AD_Text:
-        '{"CONT_TYPE":{},"SPEED":{},"TIMEDOM":{},"VEH_LMT":{},"TEXT":{},"LANE_ID":{},"GEOMETRY":{}}',
+        '{"CONT_TYPE":{},"SPEED":{},"TIMEDOM":{},"VEH_LMT":{},"TEXT":{},"LANE_ID":{},"GEOMETRY":{},"LANE_ID":{}}',
     AD_TrafficSign: '{"GEOMETRY":{}}',
     AD_Sign_Lane_Rel: '{"SIGN_ID":{},"LANE_ID":{}}',
     AD_TrafficLight: '{"TYPE":{},"LAYOUT":{},"LAMP_COUNT":{},"GEOMETRY":{}}',

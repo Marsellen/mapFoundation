@@ -417,9 +417,8 @@ const calcNewLanes = (featurs, newFeatures, layerName) => {
  * @param {Object} feature  被复制的线要素
  * @param {Object} copyFeature  复制的线要素
  * @param {string} layerName  操作图层
- * @param {string} processName  任务类型
  */
-const copyAttributeLines = async (feature, copyFeature, layerName, processName) => {
+const copyAttributeLines = async (feature, copyFeature, layerName) => {
     const adLaneDividerKey = [
         //复制属性--车道线
         'TYPE',

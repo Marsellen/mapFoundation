@@ -55,12 +55,8 @@ export const initBoundary = async () => {
 };
 
 export const getCheckReport = async () => {
-    const {
-        getReport,
-        setActiveKey,
-        openCheckReport,
-        handleQualityGetMisreport
-    } = QualityCheckStore;
+    const { getReport, setActiveKey, openCheckReport, handleQualityGetMisreport } =
+        QualityCheckStore;
     const { activeTaskId, isLocalTask, isEditableTask, isMsTask, isFixStatus } = TaskStore;
     if (!isEditableTask) return; //如果是浏览任务，返回
     if (isLocalTask) return; //如果是本地任务，返回
@@ -93,7 +89,7 @@ export const getMarkerList = async () => {
         isFixStatus,
         isEditableTask,
         isLocalTask,
-        activeTask: { taskId, processName } = {}
+        activeTask: { taskId, processName, postProcess } = {}
     } = TaskStore;
     const { getMarkerList, initMarkerList, showList } = QCMarkerStore;
     if (!window.markerLayer) return; //如果没有质检标注图层，返回
@@ -101,7 +97,15 @@ export const getMarkerList = async () => {
     if (isLocalTask) return; //如果是本地任务，返回
     if (isMsTask && isFixStatus) return; //如果是人工识别【已领取或进行中】，返回
     try {
-        const res = await getMarkerList({ taskId, processName });
+        let params = {
+            taskId,
+            processName
+        };
+        //判断是二次质检任务，或者是二次质检任务打回来的返工返修任务
+        if (processName === 'imp_map_second_check' || postProcess === 2) {
+            params = { ...params, qcLink: 3 };
+        }
+        const res = await getMarkerList(params);
         if (!res) return;
         const { data } = res;
         if (!data) return;

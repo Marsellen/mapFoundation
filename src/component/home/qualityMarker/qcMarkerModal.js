@@ -274,6 +274,7 @@ class QCMarkerModal extends React.Component {
         const isProductor = roleCode === 'producer';
         const isMsQcTask = processName === 'imp_check_after_recognition';
         const isMbQcTask = processName === 'imp_check_after_manbuild';
+        const isSecondQcTask = processName === 'imp_map_second_check';
         const isFirst = fetchId == taskFetchId;
 
         let formConfigName;
@@ -281,18 +282,26 @@ class QCMarkerModal extends React.Component {
             formConfigName = 'MS_QC_CREATE_CONFIG';
         } else if (isQuality && isCreate && isMbQcTask) {
             formConfigName = 'MB_QC_CREATE_CONFIG';
+        } else if (isQuality && isCreate && isSecondQcTask) {
+            formConfigName = 'SECOND_QC_CREATE_CONFIG';
         } else if (isQuality && isFirst && isVisite && isMsQcTask) {
             formConfigName = 'MS_QC_FIRST_VISITE_CONFIG';
         } else if (isQuality && isFirst && isVisite && isMbQcTask) {
             formConfigName = 'MB_QC_FIRST_VISITE_CONFIG';
+        } else if (isQuality && isFirst && isVisite && isSecondQcTask) {
+            formConfigName = 'SECOND_QC_FIRST_VISITE_CONFIG';
         } else if (isQuality && !isFirst && isVisite && isMsQcTask) {
             formConfigName = 'MS_QC_NOT_FIRST_VISITE_CONFIG';
         } else if (isQuality && !isFirst && isVisite && isMbQcTask) {
             formConfigName = 'MB_QC_NOT_FIRST_VISITE_CONFIG';
+        } else if (isQuality && !isFirst && isVisite && isSecondQcTask) {
+            formConfigName = 'SECOND_QC_NOT_FIRST_VISITE_CONFIG';
         } else if (isQuality && isFirst && isModify && isMsQcTask) {
             formConfigName = 'MS_QC_FIRST_MOD_CONFIG';
         } else if (isQuality && isFirst && isModify && isMbQcTask) {
             formConfigName = 'MB_QC_FIRST_MOD_CONFIG';
+        } else if (isQuality && isFirst && isModify && isSecondQcTask) {
+            formConfigName = 'SECOND_QC_FIRST_MOD_CONFIG';
         } else if (isProductor && isVisite) {
             formConfigName = 'FIX_VISITE_CONFIG';
         } else if (isProductor && isModify) {

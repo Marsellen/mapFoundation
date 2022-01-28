@@ -18,7 +18,8 @@ export const VECTOR_CONFIG_MAP = {
     imp_recognition: 'MS_TASK_VECTOR_CONFIG_MAP',
     imp_check_after_recognition: 'QC_MS_TASK_VECTOR_CONFIG_MAP',
     imp_manbuild: 'MB_TASK_VECTOR_CONFIG_MAP',
-    imp_check_after_manbuild: 'QC_MB_TASK_VECTOR_CONFIG_MAP'
+    imp_check_after_manbuild: 'QC_MB_TASK_VECTOR_CONFIG_MAP',
+    imp_map_second_check: 'QC_MB_TASK_VECTOR_CONFIG_MAP'
 };
 
 //点符号图标名与base64映射

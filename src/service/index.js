@@ -6,7 +6,6 @@ import { endTaskTimePolling, endWorkTimePolling } from 'src/util/taskUtils';
 import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
 
 window.__cancelRequestArr = [];
-const TIME_OUT = 60000;
 
 const ERROR_MAP = {
     500: '服务异常，请联系系统管理员',
@@ -88,7 +87,6 @@ const resource = ({ config, successCallback, errorCallback }) => {
     const { token = '', username = '' } = getAuthentication() || {};
     const newConfig = {
         ...config,
-        timeout: TIME_OUT,
         headers: {
             'Content-Type': 'application/json',
             Authentication: token,
@@ -117,15 +115,12 @@ const resource = ({ config, successCallback, errorCallback }) => {
             }
         })
         .catch(error => {
-            const { config } = error || {};
-            const { timeout, url } = config || {};
+            const { code, message, config } = error || {};
+            const { url, _retry } = config || {};
 
-            if (timeout === TIME_OUT) {
-                const serviceKey = Object.keys(SERVICE_MAP).find(item => {
-                    return url.includes(item);
-                });
+            if (code === 'ECONNABORTED' && message.includes('timeout') && !_retry) {
+                const serviceKey = Object.keys(SERVICE_MAP).find(item => url.includes(item));
                 const serviceName = SERVICE_MAP[serviceKey];
-
                 throw new Error(`${serviceName}请求超时 ${url}`);
             } else {
                 errorCallback && errorCallback(error);

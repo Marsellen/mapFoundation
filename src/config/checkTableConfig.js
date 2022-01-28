@@ -198,5 +198,6 @@ export const REPORT_COLUMNS = {
     imp_recognition: FIX_REPORT_COLUMNS,
     imp_check_after_recognition: QC_REPORT_COLUMNS,
     imp_manbuild: FIX_REPORT_COLUMNS,
-    imp_check_after_manbuild: QC_REPORT_COLUMNS
+    imp_check_after_manbuild: QC_REPORT_COLUMNS,
+    imp_map_second_check: QC_REPORT_COLUMNS
 };

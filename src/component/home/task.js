@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdLocalStorage from 'src/util/adLocalStorage';
-import { TASK_TYPE } from 'src/config/taskConfig';
+import { TASK_TYPE, POST_PROCESS } from 'src/config/taskConfig';
 import 'less/sider.less';
 import ToolIcon from 'src/component/common/toolIcon';
 import CONFIG from 'src/config';
@@ -66,16 +66,18 @@ class Task extends React.Component {
             nodeDesc,
             manualStatusDesc,
             task_sub_type,
-            hasPostprocessCheck
+            postProcess
         } = task;
         if (isLocal) {
-            let processNameLabel = processNameOptions.find(option => option.value === processName)
-                .label;
+            let processNameLabel = processNameOptions.find(
+                option => option.value === processName
+            ).label;
             return `${taskId}-${processNameLabel}`;
         }
         const taskSubTypeLabel = TASK_TYPE[task_sub_type] || '底图新增';
-        const hasPostprocessCheckLabel = hasPostprocessCheck == 1 ? '【制图后处理】' : '';
-        return `${taskId}-${taskSubTypeLabel}-${nodeDesc}-${manualStatusDesc}${hasPostprocessCheckLabel}`;
+        const postProcessDesc = POST_PROCESS[postProcess];
+        const postProcessLabel = postProcessDesc ? `【${postProcessDesc}】` : '';
+        return `${taskId}-${taskSubTypeLabel}-${nodeDesc}-${manualStatusDesc}${postProcessLabel}`;
     };
 
     @editLock
