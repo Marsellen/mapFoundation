@@ -545,7 +545,7 @@ class VizComponent extends React.Component {
             AttributeStore.hide('other_close');
             RightMenuStore.hide();
             AttrRightMenuStore.hide();
-            window.trackLayer.unSelect();
+            window?.trackLayer?.unSelect?.();
             this.handleCancelSelect();
         }
         BatchAssignStore.hide('other_close');
