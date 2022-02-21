@@ -14,27 +14,14 @@ class SelectBufferConfig extends React.Component {
     };
 
     render() {
-        const { BufferStore: { disabled, bufferStyle, handleValue } } = this.props;
-        const { radius, color, opacity } = bufferStyle;
+        const {
+            BufferStore: { disabled, bufferStyle, handleValue }
+        } = this.props;
+        const { color, opacity, radius, longRadius, shortRadius } = bufferStyle;
         return (
             <div className="feature-config-buffer">
-                {disabled &&
+                {disabled && (
                     <div className="buffer-config-content">
-                        <div className="buffer-config-filed">
-                            <label className="buffer-config-filed-label">半径</label>
-                            <AdInputPositiveNumber
-                                className="input-buffer"
-                                step={0.01}
-                                precision={2}
-                                width={70}
-                                size="small"
-                                value={handleValue(radius)}
-                                min={0.01}
-                                max={10}
-                                onChange={val => this.onChange('radius', handleValue(val))}
-                            />
-                            <span className="ant-form-text">米</span>
-                        </div>
                         <div className="buffer-config-filed">
                             <label className="buffer-config-filed-label">颜色</label>
                             <AdColorInput
@@ -56,10 +43,58 @@ class SelectBufferConfig extends React.Component {
                             />
                             <span className="ant-form-text">{opacity * 100 || 20}%</span>
                         </div>
+                        <div className="buffer-config-filed">
+                            <label className="buffer-config-filed-label">线要素buffer半径</label>
+                            <AdInputPositiveNumber
+                                className="input-buffer"
+                                step={0.01}
+                                precision={2}
+                                width={70}
+                                size="small"
+                                value={handleValue(radius)}
+                                min={0}
+                                max={10}
+                                onChange={val => this.onChange('radius', handleValue(val))}
+                            />
+                            <span className="ant-form-text">米</span>
+                        </div>
+                        <div className="buffer-config-filed">
+                            <label className="buffer-config-filed-label">
+                                面要素长边buffer半径
+                            </label>
+                            <AdInputPositiveNumber
+                                className="input-buffer"
+                                step={0.01}
+                                precision={2}
+                                width={70}
+                                size="small"
+                                value={handleValue(longRadius)}
+                                min={0}
+                                max={10}
+                                onChange={val => this.onChange('longRadius', handleValue(val))}
+                            />
+                            <span className="ant-form-text">米</span>
+                        </div>
+                        <div className="buffer-config-filed">
+                            <label className="buffer-config-filed-label">
+                                面要素短边buffer半径
+                            </label>
+                            <AdInputPositiveNumber
+                                className="input-buffer"
+                                step={0.01}
+                                precision={2}
+                                width={70}
+                                size="small"
+                                value={handleValue(shortRadius)}
+                                min={0}
+                                max={10}
+                                onChange={val => this.onChange('shortRadius', handleValue(val))}
+                            />
+                            <span className="ant-form-text">米</span>
+                        </div>
                     </div>
-                }
+                )}
             </div>
-
         );
     }
 }
