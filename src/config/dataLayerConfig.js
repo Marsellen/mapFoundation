@@ -83,8 +83,15 @@ export const DATA_LAYER_MAP = {
             recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],
             manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON']
         },
-        rightTools: ['delete', 'force_delete', 'change_points', 'copy_line', 'group_move'],
-        groupRightTools: ['batch_assign', 'group_move', 'delete'],
+        rightTools: [
+            'buffer_render',
+            'delete',
+            'force_delete',
+            'change_points',
+            'copy_line',
+            'group_move'
+        ],
+        groupRightTools: ['buffer_render', 'batch_assign', 'group_move', 'delete'],
         editName: '地面文字\n符号'
     },
     AD_StopLocation: {
@@ -353,8 +360,15 @@ export const DATA_LAYER_MAP = {
             recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON', 'DASHED_POLYGON_CREATE'],
             manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON', 'DASHED_POLYGON_CREATE']
         },
-        rightTools: ['delete', 'copy_line', 'change_points', 'force_delete', 'group_move'],
-        groupRightTools: ['batch_assign', 'group_move', 'delete'],
+        rightTools: [
+            'buffer_render',
+            'delete',
+            'copy_line',
+            'change_points',
+            'force_delete',
+            'group_move'
+        ],
+        groupRightTools: ['buffer_render', 'batch_assign', 'group_move', 'delete'],
         editName: '几何层：\n车道线面要素'
     },
     AD_StopLocation_Geo: {
@@ -369,8 +383,15 @@ export const DATA_LAYER_MAP = {
             recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],
             manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON']
         },
-        rightTools: ['delete', 'copy_line', 'change_points', 'force_delete', 'group_move'],
-        groupRightTools: ['batch_assign', 'group_move', 'delete'],
+        rightTools: [
+            'buffer_render',
+            'delete',
+            'copy_line',
+            'change_points',
+            'force_delete',
+            'group_move'
+        ],
+        groupRightTools: ['buffer_render', 'batch_assign', 'group_move', 'delete'],
         editName: '几何层：\n停止位置'
     },
     AD_Arrow_Geo: {
