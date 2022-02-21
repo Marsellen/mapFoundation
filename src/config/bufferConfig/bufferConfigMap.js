@@ -13,7 +13,7 @@ export const BUFFER_CONFIG_MAP = {
                     key: 'RD_EDGE',
                     value: 1,
                     label: '道路边界',
-                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                    style: { color: 'rgb(255,255,80)', opacity: 0.2, radius: 0.2 }
                 }
             ]
         }
@@ -30,7 +30,7 @@ export const BUFFER_CONFIG_MAP = {
             NOKEY: [
                 {
                     key: 'NOKEY',
-                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                    style: { color: 'rgb(255,255,80)', opacity: 0.2, radius: 0.2 }
                 }
             ]
         }
@@ -47,7 +47,7 @@ export const BUFFER_CONFIG_MAP = {
                 {
                     key: 'NOKEY',
                     style: {
-                        color: 'rgb(255,800,80)',
+                        color: 'rgb(255,255,80)',
                         opacity: 0.1,
                         radius: 0.2,
                         longRadius: 0,
@@ -70,7 +70,7 @@ export const BUFFER_CONFIG_MAP = {
                 {
                     key: 'NOKEY',
                     style: {
-                        color: 'rgb(255,800,80)',
+                        color: 'rgb(255,255,80)',
                         opacity: 0.1,
                         radius: 0.2,
                         longRadius: 0.3,
@@ -93,7 +93,7 @@ export const BUFFER_CONFIG_MAP = {
             NOKEY: [
                 {
                     key: 'NOKEY',
-                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                    style: { color: 'rgb(255,255,80)', opacity: 0.2, radius: 0.2 }
                 }
             ]
         }
@@ -110,7 +110,7 @@ export const BUFFER_CONFIG_MAP = {
             NOKEY: [
                 {
                     key: 'NOKEY',
-                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                    style: { color: 'rgb(255,255,80)', opacity: 0.2, radius: 0.2 }
                 }
             ]
         }
@@ -127,7 +127,7 @@ export const BUFFER_CONFIG_MAP = {
             NOKEY: [
                 {
                     key: 'NOKEY',
-                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                    style: { color: 'rgb(255,255,80)', opacity: 0.2, radius: 0.2 }
                 }
             ]
         }
@@ -144,7 +144,7 @@ export const BUFFER_CONFIG_MAP = {
                 {
                     key: 'NOKEY',
                     style: {
-                        color: 'rgb(255,800,80)',
+                        color: 'rgb(255,255,80)',
                         opacity: 0.1,
                         radius: 0.2,
                         longRadius: 0.3,
@@ -169,7 +169,7 @@ export const BUFFER_LAYER_STYLE_CONFIG = {
             {
                 key: 'NOKEY',
                 style: {
-                    color: 'rgb(255,800,80)',
+                    color: 'rgb(255,255,80)',
                     opacity: 0.2,
                     radius: 0.2,
                     longRadius: 0,
@@ -182,7 +182,7 @@ export const BUFFER_LAYER_STYLE_CONFIG = {
 };
 
 export const BUFFER_STYLE = {
-    color: 'rgb(255,800,80)',
+    color: 'rgb(255,255,80)',
     opacity: 0.2,
     radius: 0.2,
     longRadius: 0,
