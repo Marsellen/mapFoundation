@@ -147,8 +147,8 @@ export const BUFFER_CONFIG_MAP = {
                         color: 'rgb(255,255,80)',
                         opacity: 0.1,
                         radius: 0.2,
-                        longRadius: 0.3,
-                        shortRadius: 0.5,
+                        longRadius: 0.5,
+                        shortRadius: 0.3,
                         corner: false
                     }
                 }
