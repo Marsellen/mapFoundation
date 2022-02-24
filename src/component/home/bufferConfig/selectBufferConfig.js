@@ -41,7 +41,7 @@ class SelectBufferConfig extends React.Component {
                                 value={opacity}
                                 onChange={val => this.onChange('opacity', val)}
                             />
-                            <span className="ant-form-text">{opacity * 100 || 20}%</span>
+                            <span className="ant-form-text">{opacity * 100 ?? 20}%</span>
                         </div>
                         <div className="buffer-config-filed">
                             <label className="buffer-config-filed-label">线要素buffer半径</label>

@@ -79,7 +79,7 @@ class LayersBufferConfigForm extends React.Component {
                             })
                         }
                     />
-                    <span className="ant-form-text">{opacity * 100 || 20}%</span>
+                    <span className="ant-form-text">{opacity * 100 ?? 20}%</span>
                 </div>
                 {type === 'Line' && (
                     <div className="buffer-config-filed">
