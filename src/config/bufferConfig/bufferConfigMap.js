@@ -13,7 +13,7 @@ export const BUFFER_CONFIG_MAP = {
                     key: 'RD_EDGE',
                     value: 1,
                     label: '道路边界',
-                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                    style: { color: 'rgb(255,255,80)', opacity: 0.2, radius: 0.2 }
                 }
             ]
         }
@@ -30,7 +30,53 @@ export const BUFFER_CONFIG_MAP = {
             NOKEY: [
                 {
                     key: 'NOKEY',
-                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                    style: { color: 'rgb(255,255,80)', opacity: 0.2, radius: 0.2 }
+                }
+            ]
+        }
+    },
+    AD_LaneDivider_Plg: {
+        type: 'Polygon',
+        bufferFields: ['NOKEY'],
+        order: 17,
+        showStyles: ['bufferStyle'],
+        key: 'AD_LaneDivider_Plg',
+        label: '几何层：车道线面要素',
+        bufferStyle: {
+            NOKEY: [
+                {
+                    key: 'NOKEY',
+                    style: {
+                        color: 'rgb(255,255,80)',
+                        opacity: 0.1,
+                        radius: 0.2,
+                        longRadius: 0,
+                        shortRadius: 0.5,
+                        corner: false
+                    }
+                }
+            ]
+        }
+    },
+    AD_Text: {
+        type: 'Polygon',
+        bufferFields: ['NOKEY'],
+        order: 7,
+        showStyles: ['bufferStyle'],
+        key: 'AD_Text',
+        label: '地面文字符号',
+        bufferStyle: {
+            NOKEY: [
+                {
+                    key: 'NOKEY',
+                    style: {
+                        color: 'rgb(255,255,80)',
+                        opacity: 0.1,
+                        radius: 0.2,
+                        longRadius: 0.3,
+                        shortRadius: 0.5,
+                        corner: false
+                    }
                 }
             ]
         }
@@ -47,7 +93,7 @@ export const BUFFER_CONFIG_MAP = {
             NOKEY: [
                 {
                     key: 'NOKEY',
-                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                    style: { color: 'rgb(255,255,80)', opacity: 0.2, radius: 0.2 }
                 }
             ]
         }
@@ -64,7 +110,7 @@ export const BUFFER_CONFIG_MAP = {
             NOKEY: [
                 {
                     key: 'NOKEY',
-                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                    style: { color: 'rgb(255,255,80)', opacity: 0.2, radius: 0.2 }
                 }
             ]
         }
@@ -81,7 +127,30 @@ export const BUFFER_CONFIG_MAP = {
             NOKEY: [
                 {
                     key: 'NOKEY',
-                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                    style: { color: 'rgb(255,255,80)', opacity: 0.2, radius: 0.2 }
+                }
+            ]
+        }
+    },
+    AD_StopLocation_Geo: {
+        type: 'Polygon',
+        bufferFields: ['NOKEY'],
+        order: 18,
+        showStyles: ['bufferStyle'],
+        key: 'AD_StopLocation_Geo',
+        label: '几何层：停止位置',
+        bufferStyle: {
+            NOKEY: [
+                {
+                    key: 'NOKEY',
+                    style: {
+                        color: 'rgb(255,255,80)',
+                        opacity: 0.1,
+                        radius: 0.2,
+                        longRadius: 0.5,
+                        shortRadius: 0.3,
+                        corner: false
+                    }
                 }
             ]
         }
@@ -98,12 +167,26 @@ export const BUFFER_LAYER_STYLE_CONFIG = {
     bufferStyle: {
         NOKEY: [
             {
-                style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                key: 'NOKEY',
+                style: {
+                    color: 'rgb(255,255,80)',
+                    opacity: 0.2,
+                    radius: 0.2,
+                    longRadius: 0,
+                    shortRadius: 0.5,
+                    corner: false
+                }
             }
         ]
     }
 };
 
-export const BUFFER_STYLE = { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 };
+export const BUFFER_STYLE = {
+    color: 'rgb(255,255,80)',
+    opacity: 0.2,
+    radius: 0.2,
+    longRadius: 0,
+    shortRadius: 0.5
+};
 
 export const PART_OF_BUFFER_ENABLE_LAYERS = ['AD_LaneDivider'];

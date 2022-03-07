@@ -265,7 +265,7 @@ class QCMarkerModal extends React.Component {
                 editStatus,
                 currentMarker: { data: { properties: { fetchId } = {} } = {} }
             },
-            TaskStore: { activeTask: { taskFetchId, processName } = {} }
+            TaskStore: { activeTask: { taskFetchId, processName, postProcess } = {} }
         } = this.props;
         const isCreate = editStatus === 'create';
         const isVisite = editStatus === 'visite';
@@ -275,31 +275,40 @@ class QCMarkerModal extends React.Component {
         const isMsQcTask = processName === 'imp_check_after_recognition';
         const isMbQcTask = processName === 'imp_check_after_manbuild';
         const isSecondQcTask = processName === 'imp_map_second_check';
+        const isSecondQcBack = postProcess === 2; // 是否是二次质检环节打回的任务
         const isFirst = fetchId == taskFetchId;
 
         let formConfigName;
         if (isQuality && isCreate && isMsQcTask) {
             formConfigName = 'MS_QC_CREATE_CONFIG';
-        } else if (isQuality && isCreate && isMbQcTask) {
+        } else if (isQuality && isCreate && isMbQcTask && !isSecondQcBack) {
             formConfigName = 'MB_QC_CREATE_CONFIG';
+        } else if (isQuality && isCreate && isMbQcTask && isSecondQcBack) {
+            formConfigName = 'SECOND_QC_CREATE_CONFIG';
         } else if (isQuality && isCreate && isSecondQcTask) {
             formConfigName = 'SECOND_QC_CREATE_CONFIG';
         } else if (isQuality && isFirst && isVisite && isMsQcTask) {
             formConfigName = 'MS_QC_FIRST_VISITE_CONFIG';
-        } else if (isQuality && isFirst && isVisite && isMbQcTask) {
+        } else if (isQuality && isFirst && isVisite && isMbQcTask && !isSecondQcBack) {
             formConfigName = 'MB_QC_FIRST_VISITE_CONFIG';
+        } else if (isQuality && isFirst && isVisite && isMbQcTask && isSecondQcBack) {
+            formConfigName = 'SECOND_QC_FIRST_VISITE_CONFIG';
         } else if (isQuality && isFirst && isVisite && isSecondQcTask) {
             formConfigName = 'SECOND_QC_FIRST_VISITE_CONFIG';
         } else if (isQuality && !isFirst && isVisite && isMsQcTask) {
             formConfigName = 'MS_QC_NOT_FIRST_VISITE_CONFIG';
-        } else if (isQuality && !isFirst && isVisite && isMbQcTask) {
+        } else if (isQuality && !isFirst && isVisite && isMbQcTask && !isSecondQcBack) {
             formConfigName = 'MB_QC_NOT_FIRST_VISITE_CONFIG';
+        } else if (isQuality && !isFirst && isVisite && isMbQcTask && isSecondQcBack) {
+            formConfigName = 'SECOND_QC_NOT_FIRST_VISITE_CONFIG';
         } else if (isQuality && !isFirst && isVisite && isSecondQcTask) {
             formConfigName = 'SECOND_QC_NOT_FIRST_VISITE_CONFIG';
         } else if (isQuality && isFirst && isModify && isMsQcTask) {
             formConfigName = 'MS_QC_FIRST_MOD_CONFIG';
-        } else if (isQuality && isFirst && isModify && isMbQcTask) {
+        } else if (isQuality && isFirst && isModify && isMbQcTask && !isSecondQcBack) {
             formConfigName = 'MB_QC_FIRST_MOD_CONFIG';
+        } else if (isQuality && isFirst && isModify && isMbQcTask && isSecondQcBack) {
+            formConfigName = 'SECOND_QC_FIRST_MOD_CONFIG';
         } else if (isQuality && isFirst && isModify && isSecondQcTask) {
             formConfigName = 'SECOND_QC_FIRST_MOD_CONFIG';
         } else if (isProductor && isVisite) {

@@ -1,5 +1,9 @@
 import { observable, configure, action } from 'mobx';
-import { BUFFER_CONFIG_MAP, BUFFER_LAYER_STYLE_CONFIG, BUFFER_STYLE } from 'src/config/bufferConfig/bufferConfigMap';
+import {
+    BUFFER_CONFIG_MAP,
+    BUFFER_LAYER_STYLE_CONFIG,
+    BUFFER_STYLE
+} from 'src/config/bufferConfig/bufferConfigMap';
 import { VectorLayer } from 'addis-viz-sdk';
 import RightMenuStore from 'src/store/home/rightMenuStore';
 import AttributeStore from 'src/store/home/attributeStore';
@@ -138,7 +142,9 @@ class BufferStore {
     @action toggleLayerBuffer = (key, checked) => {
         this.toggleLayerBufferChecked(key, checked);
         this.layersBufferRender(this.allLayerBufferConfigMap);
-        checked ? BuriedPoint.modalBuriedPointStart('buffer_layers_toggle', 'button') : BuriedPoint.modalBuriedPointEnd('buffer_layers_toggle', 'button');
+        checked
+            ? BuriedPoint.modalBuriedPointStart('buffer_layers_toggle', 'button')
+            : BuriedPoint.modalBuriedPointEnd('buffer_layers_toggle', 'button');
     };
 
     // 全图层buffer渲染中单个图层显示buffer/隐藏buffer
@@ -147,7 +153,7 @@ class BufferStore {
     };
 
     // 全图层渲染有buffer样式则显隐，没有则添加
-    layersBufferRender = (bufferConfigMap) => {
+    layersBufferRender = bufferConfigMap => {
         Object.values(bufferConfigMap).forEach(item => {
             const { key, checked } = item;
             this.toggleLayerBufferRender(key, checked);
@@ -155,7 +161,7 @@ class BufferStore {
     };
 
     // 全图层buffer渲染启用/禁用
-    @action toggleLayersBufferRender = (checked) => {
+    @action toggleLayersBufferRender = checked => {
         Object.values(this.allLayerBufferConfigMap).map(item => {
             const check = item.checked ? checked : false;
             this.toggleLayerBufferRender(item.key, check);
@@ -177,7 +183,7 @@ class BufferStore {
     };
 
     // 重置全图层buffer渲染
-    resetLayerBufferRender = (configMap) => {
+    resetLayerBufferRender = configMap => {
         const { key, bufferFields, bufferStyle } = configMap;
         const vectorLayer = this.getVectorLayer(key);
         const boundaryLayer = this.getBoundaryLayer(key);
@@ -197,7 +203,7 @@ class BufferStore {
             item.style[styleKey] = styleValue;
         });
         let { bufferFields, bufferStyle } = this.allLayerBufferConfigMap[key];
-        bufferFields.map(field => bufferStyle[field] = bufferStyleMap);
+        bufferFields.map(field => (bufferStyle[field] = bufferStyleMap));
         this.resetLayerBufferRender(this.allLayerBufferConfigMap[key]);
     };
 
@@ -231,14 +237,14 @@ class BufferStore {
     };
 
     // 选择要素渲染添加buffer样式
-    @action resetBuffer = (features) => {
+    @action resetBuffer = features => {
         this.clearBufferLayer();
         window.bufferLayer?.layer?.updateFeatures?.(features);
         this.currentBuffers = features;
         this.updateBufferLatestLog();
     };
 
-    @action addBuffer = (features) => {
+    @action addBuffer = features => {
         window.bufferLayer?.layer?.updateFeatures?.(features);
         this.currentBuffers = [...this.currentBuffers, ...features];
         this.updateBufferLatestLog();
@@ -292,14 +298,16 @@ class BufferStore {
     };
 
     updateBufferLatestLog = () => {
-        this.bufferLog[this.currentBufferLogIndex] = JSON.parse(JSON.stringify(this.currentBuffers));
+        this.bufferLog[this.currentBufferLogIndex] = JSON.parse(
+            JSON.stringify(this.currentBuffers)
+        );
     };
 
     @action handleValue = radius => {
         let currentRadius = radius;
         switch (true) {
-            case radius < 0.01:
-                currentRadius = 0.01;
+            case radius < 0:
+                currentRadius = 0;
                 break;
             case radius > 10:
                 currentRadius = 10;
