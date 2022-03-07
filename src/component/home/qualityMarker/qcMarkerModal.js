@@ -6,6 +6,7 @@ import { MARKER_FIELD_CONFIG, MARKER_FORM_CONFIG } from 'src/config/markerConfig
 import SeniorModal from 'src/component/common/seniorModal';
 import 'less/qc-marker-modal.less';
 import BuriedPoint from 'src/util/buriedPoint';
+import { getImgPath } from 'src/util/taskUtils';
 
 const formLayout = {
     labelCol: { span: 8 },
@@ -132,6 +133,7 @@ class QCMarkerModal extends React.Component {
 
     handleSubmit = (type, isExit = true, formData = {}) => {
         const {
+            TaskStore,
             QCMarkerStore,
             QCMarkerStore: {
                 updateCurrentMarker,
@@ -139,6 +141,7 @@ class QCMarkerModal extends React.Component {
                 updateMarkerList
             }
         } = this.props;
+        const { activeTask } = TaskStore;
         const isInsert = type === 'insert';
         if (!isInsert && !id) return; //修改marker时，没有id，不可修改
         const markerType = isInsert ? 'insert' : 'update';
@@ -153,7 +156,8 @@ class QCMarkerModal extends React.Component {
                 //添加到数据库
                 const res = await QCMarkerStore[`${markerType}Marker`](param);
                 if (!res || !res.data) throw Error(`标注${markerType}失败`);
-                const newProperties = { ...param, ...res.data };
+                const qcPath = getImgPath(activeTask, res.data?.qcPath);
+                const newProperties = { ...param, ...res.data, qcPath };
                 //更新currentMarker
                 const marker = updateCurrentMarker(newProperties);
                 //将添加的属性更新到sdk
@@ -193,8 +197,16 @@ class QCMarkerModal extends React.Component {
         QCMarkerStore.exitMarker();
     };
 
+    transforString = () => {
+        const reg = /^[\'\"]+|[\'\"]+$/g;
+        let str = window.map.viewer.renderer.domElement.toDataURL('image/png');
+        str = str.replace(reg, '');
+        return str;
+    };
+
     //获取新增质检标注参数
     getParam_insert = values => {
+        const qcPath = this.transforString();
         const {
             QCMarkerStore: { currentMarker: { data: { geometry } = {} } } = {},
             TaskStore: { activeTask: { taskId, taskFetchId, processName } } = {},
@@ -215,6 +227,7 @@ class QCMarkerModal extends React.Component {
             editDesc: null,
             fixPerson,
             qcPerson,
+            qcPath,
             ...values
         };
         return param;

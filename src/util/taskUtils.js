@@ -71,6 +71,14 @@ const getThirdPath = task => {
     return THIRD_PATH_MAP[task.processName];
 };
 
+export const getImgPath = (task, imgUrl) => {
+    if (!imgUrl) return;
+    const { Input_imp_data_path, taskId } = task;
+    const imgPath = imgUrl.replace('/ADMAP', '');
+    const url = Input_imp_data_path.replace(`/task/${taskId}`, '');
+    return `${url}/${imgPath}`;
+};
+
 export const isManbuildTask = () => {
     let task = TaskStore.activeTask;
     return manbuildTaskProcess.includes(task.processName);

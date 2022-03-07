@@ -4,6 +4,7 @@ import 'less/configurable-form.less';
 import AdInputNumber from 'src/component/common/form/adInputNumber';
 import RadioIconGroup from 'src/component/common/radioIconGroup';
 import { getValidator } from 'src/util/validator';
+import RcViewer from 'src/component/common/rcViewer';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -271,6 +272,17 @@ class ConfigurableForm extends React.Component {
                 {Tool && (
                     <Tool form={form} className="tool" disabled={editable ? !isEditable : true} />
                 )}
+            </Form.Item>
+        );
+    };
+
+    _renderImage = (item, initData) => {
+        const { layout, className } = item;
+        return (
+            <Form.Item label={item.label} key={item.name} className={className} {...layout}>
+                <RcViewer options={{}} ref="viewer">
+                    <img src={initData?.qcPath} width={100} height={100} alt="图片" />
+                </RcViewer>
             </Form.Item>
         );
     };

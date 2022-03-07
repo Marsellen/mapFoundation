@@ -247,6 +247,13 @@ export const MARKER_FIELD_CONFIG = () => {
             type: 'TextArea',
             initialValue: null,
             editable: false
+        },
+        cutPic: {
+            label: '截图',
+            name: 'cutPic',
+            type: 'Image',
+            initialValue: null,
+            editable: false
         }
     };
 };
@@ -340,7 +347,8 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
             { name: 'qcDesc', editable: false },
-            { name: 'editDesc', editable: false }
+            { name: 'editDesc', editable: false },
+            { name: 'cutPic', editable: false }
         ],
         //质检员首次查看的表单配置-人工构建后质检
         MB_QC_FIRST_VISITE_CONFIG: [
@@ -363,7 +371,8 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
             { name: 'qcDesc', editable: false },
-            { name: 'editDesc', editable: false }
+            { name: 'editDesc', editable: false },
+            { name: 'cutPic', editable: false }
         ],
         //质检员首次查看的表单配置-人工构建后二次质检
         SECOND_QC_FIRST_VISITE_CONFIG: [
@@ -386,7 +395,8 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
             { name: 'qcDesc', editable: false },
-            { name: 'editDesc', editable: false }
+            { name: 'editDesc', editable: false },
+            { name: 'cutPic', editable: false }
         ],
         //质检员首次修改标注的表单配置-人工识别后质检
         MS_QC_FIRST_MOD_CONFIG: [
@@ -409,7 +419,8 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'fieldName', editable: true },
             { name: 'errLevel', editable: false },
             { name: 'qcDesc', editable: true },
-            { name: 'editDesc', editable: false }
+            { name: 'editDesc', editable: false },
+            { name: 'cutPic', editable: false }
         ],
         //质检员首次修改标注的表单配置-人工构建后质检
         MB_QC_FIRST_MOD_CONFIG: [
@@ -432,7 +443,8 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'fieldName', editable: true },
             { name: 'errLevel', editable: false },
             { name: 'qcDesc', editable: true },
-            { name: 'editDesc', editable: false }
+            { name: 'editDesc', editable: false },
+            { name: 'cutPic', editable: false }
         ],
         //质检员首次修改标注的表单配置-人工构建后二次质检
         SECOND_QC_FIRST_MOD_CONFIG: [
@@ -455,7 +467,8 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'fieldName', editable: true },
             { name: 'errLevel', editable: false },
             { name: 'qcDesc', editable: true },
-            { name: 'editDesc', editable: false }
+            { name: 'editDesc', editable: false },
+            { name: 'cutPic', editable: false }
         ],
         //质检员非首次查看的表单配置-人工识别后质检
         MS_QC_NOT_FIRST_VISITE_CONFIG: [
@@ -494,7 +507,8 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
             { name: 'qcDesc', editable: false },
-            { name: 'editDesc', editable: false }
+            { name: 'editDesc', editable: false },
+            { name: 'cutPic', editable: false }
         ],
         //质检员非首次查看的表单配置-人工构建后质检
         MB_QC_NOT_FIRST_VISITE_CONFIG: [
@@ -533,7 +547,8 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
             { name: 'qcDesc', editable: false },
-            { name: 'editDesc', editable: false }
+            { name: 'editDesc', editable: false },
+            { name: 'cutPic', editable: false }
         ],
         //质检员非首次查看的表单配置-人工构建后二次质检
         SECOND_QC_NOT_FIRST_VISITE_CONFIG: [
@@ -572,7 +587,8 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
             { name: 'qcDesc', editable: false },
-            { name: 'editDesc', editable: false }
+            { name: 'editDesc', editable: false },
+            { name: 'cutPic', editable: false }
         ],
         //作业员查看标注的表单配置
         FIX_VISITE_CONFIG: [
@@ -593,7 +609,8 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
             { name: 'qcDesc', editable: false },
-            { name: 'editDesc', editable: false }
+            { name: 'editDesc', editable: false },
+            { name: 'cutPic', editable: false }
         ],
         //作业员修改标注的表单配置
         FIX_MOD_CONFIG: [
@@ -614,7 +631,8 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
             { name: 'qcDesc', editable: false },
-            { name: 'editDesc', editable: true }
+            { name: 'editDesc', editable: true },
+            { name: 'cutPic', editable: false }
         ],
         //默认配置，只能查看，不能修改
         QC_READ_ONLEY_CONFIG: [
@@ -629,7 +647,8 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'fieldName', editable: false },
             { name: 'errLevel', editable: false },
             { name: 'qcDesc', editable: false },
-            { name: 'editDesc', editable: false }
+            { name: 'editDesc', editable: false },
+            { name: 'cutPic', editable: false }
         ]
     };
 };

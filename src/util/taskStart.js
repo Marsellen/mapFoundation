@@ -11,6 +11,7 @@ import VectorsStore from 'src/store/home/vectorsStore';
 import TaskStore from 'src/store/home/taskStore';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
 import BuriedPoint from 'src/util/buriedPoint';
+import { getImgPath } from 'src/util/taskUtils';
 
 //不同模式下，处理底图数据
 const handleBoundaryfeature = () => {
@@ -89,6 +90,7 @@ export const getMarkerList = async () => {
         isFixStatus,
         isEditableTask,
         isLocalTask,
+        activeTask,
         activeTask: { taskId, processName, postProcess } = {}
     } = TaskStore;
     const { getMarkerList, initMarkerList, showList } = QCMarkerStore;
@@ -111,6 +113,8 @@ export const getMarkerList = async () => {
         if (!data) return;
         if (data.length === 0) return;
         const features = data.map(item => {
+            const qcPath = getImgPath(activeTask, item?.qcPath);
+            item.qcPath = qcPath;
             return { geometry: JSON.parse(item.geom), properties: item };
         });
         initMarkerList(data);
