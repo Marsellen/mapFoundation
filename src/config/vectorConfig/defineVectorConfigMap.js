@@ -336,6 +336,18 @@ export const DEFINE_VECTOR_CONFIG_MAP = {
         ],
         typeArr: [
             {
+                key: 'CFD_GEO',
+                name: '几何形状置信度',
+                type: 'AD_LANE_DIVIDER_PLG_CFD_GEO',
+                domType: 'RadioIconGroup'
+            },
+            {
+                key: 'CFD_FEAT',
+                name: '要素类型置信度',
+                type: 'AD_LANE_DIVIDER_PLG_CFD_FEAT',
+                domType: 'RadioIconGroup'
+            },
+            {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
                 type: 'AD_LANE_DIVIDER_PLG_FEAT_TYPE',
@@ -368,9 +380,21 @@ export const DEFINE_VECTOR_CONFIG_MAP = {
         ],
         typeArr: [
             {
+                key: 'CFD_GEO',
+                name: '几何形状置信度',
+                type: 'AD_STOPLOCATION_GEO_CFD_GEO',
+                domType: 'RadioIconGroup'
+            },
+            {
+                key: 'CFD_FEAT',
+                name: '要素类型置信度',
+                type: 'AD_STOPLOCATION_GEO_CFD_FEAT',
+                domType: 'RadioIconGroup'
+            },
+            {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_STOPLOCTION_GEO_FEAT_TYPE',
+                type: 'AD_STOPLOCATION_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -400,9 +424,21 @@ export const DEFINE_VECTOR_CONFIG_MAP = {
         ],
         typeArr: [
             {
+                key: 'CFD_GEO',
+                name: '几何形状置信度',
+                type: 'AD_LANEMARK_GEO_CFD_GEO',
+                domType: 'RadioIconGroup'
+            },
+            {
+                key: 'CFD_FEAT',
+                name: '要素类型置信度',
+                type: 'AD_LANEMARK_GEO_CFD_FEAT',
+                domType: 'RadioIconGroup'
+            },
+            {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
-                type: 'AD_LANE_MARK_GEO_FEAT_TYPE',
+                type: 'AD_LANEMARK_GEO_FEAT_TYPE',
                 domType: 'RadioIconGroup'
             }
         ]
@@ -414,7 +450,7 @@ export const DEFINE_VECTOR_CONFIG_MAP = {
         isClassify: false,
         type: 'Line',
         commonStyle: {
-            showFields: 'NOKEY',
+            showFields: 'CFD_GEO',
             polygonStyle: 'solid',
             color: 'rgb(255,255,255)',
             opacity: 1,
@@ -434,6 +470,20 @@ export const DEFINE_VECTOR_CONFIG_MAP = {
             { key: 'dashed1', icon: 'xuxian1' },
             { key: 'dashed2', icon: 'xuxian2' },
             { key: 'dashed3', icon: 'xuxian3' }
+        ],
+        typeArr: [
+            {
+                key: 'CFD_GEO',
+                name: '几何形状置信度',
+                type: 'AD_Pole_GEO_CFD_GEO',
+                domType: 'RadioIconGroup'
+            },
+            {
+                key: 'CFD_FEAT',
+                name: '要素类型置信度',
+                type: 'AD_Pole_GEO_CFD_FEAT',
+                domType: 'RadioIconGroup'
+            }
         ]
     }
 };

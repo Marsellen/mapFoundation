@@ -1177,6 +1177,64 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
             color: 'rgb(0,255,160)',
             opacity: 1
         },
+        typeStyleMap: {
+            CFD_GEO: [
+                {
+                    value: [0, 0.49],
+                    label: '低置信度',
+                    showFields: 'CFD_GEO',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,0,0)',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: [0.5, 1],
+                    label: '高置信度',
+                    showFields: 'CFD_GEO',
+                    lineStyle: 'solid',
+                    color: 'rgb(0,0,255)',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                }
+            ],
+            CFD_FEAT: [
+                {
+                    value: [0, 0.49],
+                    label: '低置信度',
+                    showFields: 'CFD_FEAT',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,0,0)',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: [0.5, 1],
+                    label: '高置信度',
+                    showFields: 'CFD_FEAT',
+                    lineStyle: 'solid',
+                    color: 'rgb(0,0,255)',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                }
+            ]
+        },
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -1189,6 +1247,18 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
             { key: 'dashed3', icon: 'xuxiankuang3' }
         ],
         typeArr: [
+            {
+                key: 'CFD_GEO',
+                name: '几何形状置信度',
+                type: 'AD_LANE_DIVIDER_PLG_CFD_GEO',
+                domType: 'RadioIconGroup'
+            },
+            {
+                key: 'CFD_FEAT',
+                name: '要素类型置信度',
+                type: 'AD_LANE_DIVIDER_PLG_CFD_FEAT',
+                domType: 'RadioIconGroup'
+            },
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
@@ -1209,6 +1279,64 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
             color: 'rgb(137,195,255)',
             opacity: 1
         },
+        typeStyleMap: {
+            CFD_GEO: [
+                {
+                    value: [0, 0.49],
+                    label: '低置信度',
+                    showFields: 'CFD_GEO',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,0,0)',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: [0.5, 1],
+                    label: '高置信度',
+                    showFields: 'CFD_GEO',
+                    lineStyle: 'solid',
+                    color: 'rgb(0,0,255)',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                }
+            ],
+            CFD_FEAT: [
+                {
+                    value: [0, 0.49],
+                    label: '低置信度',
+                    showFields: 'CFD_FEAT',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,0,0)',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: [0.5, 1],
+                    label: '高置信度',
+                    showFields: 'CFD_FEAT',
+                    lineStyle: 'solid',
+                    color: 'rgb(0,0,255)',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                }
+            ]
+        },
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -1221,6 +1349,18 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
             { key: 'dashed3', icon: 'xuxiankuang3' }
         ],
         typeArr: [
+            {
+                key: 'CFD_GEO',
+                name: '几何形状置信度',
+                type: 'AD_STOPLOCATION_GEO_CFD_GEO',
+                domType: 'RadioIconGroup'
+            },
+            {
+                key: 'CFD_FEAT',
+                name: '要素类型置信度',
+                type: 'AD_STOPLOCATION_GEO_CFD_FEAT',
+                domType: 'RadioIconGroup'
+            },
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
@@ -1241,6 +1381,64 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
             color: 'rgb(147,112,219)',
             opacity: 1
         },
+        typeStyleMap: {
+            CFD_GEO: [
+                {
+                    value: [0, 0.49],
+                    label: '低置信度',
+                    showFields: 'CFD_GEO',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,0,0)',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: [0.5, 1],
+                    label: '高置信度',
+                    showFields: 'CFD_GEO',
+                    lineStyle: 'solid',
+                    color: 'rgb(0,0,255)',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                }
+            ],
+            CFD_FEAT: [
+                {
+                    value: [0, 0.49],
+                    label: '低置信度',
+                    showFields: 'CFD_FEAT',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,0,0)',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: [0.5, 1],
+                    label: '高置信度',
+                    showFields: 'CFD_FEAT',
+                    lineStyle: 'solid',
+                    color: 'rgb(0,0,255)',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                }
+            ]
+        },
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -1253,6 +1451,18 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
             { key: 'dashed3', icon: 'xuxiankuang3' }
         ],
         typeArr: [
+            {
+                key: 'CFD_GEO',
+                name: '几何形状置信度',
+                type: 'AD_LANEMARK_GEO_CFD_GEO',
+                domType: 'RadioIconGroup'
+            },
+            {
+                key: 'CFD_FEAT',
+                name: '要素类型置信度',
+                type: 'AD_LANEMARK_GEO_CFD_FEAT',
+                domType: 'RadioIconGroup'
+            },
             {
                 key: 'FEAT_TYPE',
                 name: '要素子类型',
@@ -1268,7 +1478,7 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
         isClassify: false,
         type: 'Line',
         commonStyle: {
-            showFields: 'NOKEY',
+            showFields: 'CFD_GEO',
             polygonStyle: 'solid',
             color: 'rgb(238,209,11)',
             opacity: 1,
@@ -1277,6 +1487,64 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
             pointEnabledStatus: true,
             arrowEnabledStatus: true,
             pointSize: 0.1
+        },
+        typeStyleMap: {
+            CFD_GEO: [
+                {
+                    value: [0, 0.49],
+                    label: '低置信度',
+                    showFields: 'CFD_GEO',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,0,0)',
+                    opacity: 1,
+                    arrow: false,
+                    point: false,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: [0.5, 1],
+                    label: '高置信度',
+                    showFields: 'CFD_GEO',
+                    lineStyle: 'solid',
+                    color: 'rgb(0,0,255)',
+                    opacity: 1,
+                    arrow: false,
+                    point: false,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                }
+            ],
+            CFD_FEAT: [
+                {
+                    value: [0, 0.49],
+                    label: '低置信度',
+                    showFields: 'CFD_FEAT',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,0,0)',
+                    opacity: 1,
+                    arrow: false,
+                    point: false,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: [0.5, 1],
+                    label: '高置信度',
+                    showFields: 'CFD_FEAT',
+                    lineStyle: 'solid',
+                    color: 'rgb(0,0,255)',
+                    opacity: 1,
+                    arrow: false,
+                    point: false,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                }
+            ]
         },
         fieldStyle: {
             colorFieldSize: 28,
@@ -1288,6 +1556,20 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
             { key: 'dashed1', icon: 'xuxian1' },
             { key: 'dashed2', icon: 'xuxian2' },
             { key: 'dashed3', icon: 'xuxian3' }
+        ],
+        typeArr: [
+            {
+                key: 'CFD_GEO',
+                name: '几何形状置信度',
+                type: 'AD_Pole_GEO_CFD_GEO',
+                domType: 'RadioIconGroup'
+            },
+            {
+                key: 'CFD_FEAT',
+                name: '要素类型置信度',
+                type: 'AD_Pole_GEO_CFD_FEAT',
+                domType: 'RadioIconGroup'
+            }
         ]
     }
 };
