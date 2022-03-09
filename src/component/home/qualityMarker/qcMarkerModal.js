@@ -430,6 +430,7 @@ class QCMarkerModal extends React.Component {
                             formLayout={formLayout}
                             initData={properties}
                             formConfig={formConfig}
+                            editStatus={editStatus}
                             fieldChange={{
                                 fixStatus: this.handleChange,
                                 qcStatus: this.handleChange,
