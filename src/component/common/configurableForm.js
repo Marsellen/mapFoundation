@@ -279,11 +279,15 @@ class ConfigurableForm extends React.Component {
     _renderImage = (item, initData) => {
         const { layout, className } = item;
         return (
-            <Form.Item label={item.label} key={item.name} className={className} {...layout}>
-                <RcViewer options={{}} ref="viewer">
-                    <img src={initData?.qcPath} width={100} height={100} alt="图片" />
-                </RcViewer>
-            </Form.Item>
+            <>
+                {!!initData?.qcPath ? (
+                    <Form.Item label={item.label} key={item.name} className={className} {...layout}>
+                        <RcViewer options={{}} ref="viewer">
+                            <img src={initData?.qcPath} width={100} height={100} alt="图片" />
+                        </RcViewer>
+                    </Form.Item>
+                ) : null}
+            </>
         );
     };
 
