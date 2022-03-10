@@ -1480,7 +1480,7 @@ export const MS_TASK_VECTOR_CONFIG_MAP = {
         key: 'AD_Pole_Geo',
         label: '几何层：杆状物',
         checked: false,
-        isClassify: false,
+        isClassify: true,
         type: 'Line',
         commonStyle: {
             showFields: 'CFD_GEO',
