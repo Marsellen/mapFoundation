@@ -4,7 +4,7 @@ export const UPD_STAT_VECTOR_CONFIG = {
         iconFields: ['UPD_STAT'],
         showStyles: ['iconStyle'],
         key: 'AD_Road',
-        order: 1,
+        order: 2,
         iconStyle: {}
     },
     AD_LaneDivider: {

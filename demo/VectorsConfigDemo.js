@@ -9,7 +9,7 @@ export default {
         showFields: ['TYPE'],
         pointFLFields: ['TYPE'],
         arrowFields: ['TYPE'],
-        order: 15,
+        order: 2,
         //要展示的样式，['vectorStyle','textStyle','pointFLStyle','arrowStyle']
         showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
         //符号样式配置
@@ -76,7 +76,7 @@ export default {
         showFields: ['TYPE'],
         pointFLFields: ['TYPE'],
         arrowFields: ['TYPE'],
-        order: 14,
+        order: 1,
         showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
         vectorStyle: {
             TYPE: [
@@ -426,7 +426,7 @@ export default {
         showFields: ['TYPE'],
         pointFLFields: ['TYPE'],
         arrowFields: ['TYPE'],
-        order: 13,
+        order: 1,
         showStyles: ['vectorStyle', 'pointFLStyle', 'arrowStyle'],
         vectorStyle: {
             TYPE: [
@@ -939,7 +939,7 @@ export default {
     AD_Arrow: {
         type: 'Polygon',
         showFields: ['ARR_DIRECT'],
-        order: 10,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             ARR_DIRECT: [
@@ -1011,7 +1011,7 @@ export default {
         showFields: ['TYPE'],
         pointFLFields: ['TYPE'],
         arrowFields: ['TYPE'],
-        order: 9,
+        order: 1,
         showStyles: ['vectorStyle', 'pointFLStyle'],
         vectorStyle: {
             TYPE: [
@@ -1089,7 +1089,7 @@ export default {
     AD_Text: {
         type: 'Polygon',
         showFields: ['CONT_TYPE'],
-        order: 7,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             CONT_TYPE: [
@@ -1139,7 +1139,7 @@ export default {
     AD_TrafficSign: {
         type: 'Polygon',
         showFields: ['NOKEY'],
-        order: 6,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [
@@ -1154,7 +1154,7 @@ export default {
     AD_TrafficLight: {
         type: 'Polygon',
         showFields: ['TYPE'],
-        order: 5,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             TYPE: [
@@ -1218,7 +1218,7 @@ export default {
     AD_LaneDivider_Plg: {
         type: 'Polygon',
         showFields: ['FEAT_TYPE'],
-        order: 17,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             FEAT_TYPE: [
@@ -1253,7 +1253,7 @@ export default {
     AD_StopLocation_Geo: {
         type: 'Polygon',
         showFields: ['FEAT_TYPE'],
-        order: 18,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             FEAT_TYPE: [
@@ -1283,7 +1283,7 @@ export default {
     AD_LaneMark_Geo: {
         type: 'Polygon',
         showFields: ['FEAT_TYPE'],
-        order: 20,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             FEAT_TYPE: [
@@ -1335,7 +1335,7 @@ export default {
         showFields: ['NOKEY'],
         pointFLFields: ['NOKEY'],
         arrowFields: ['NOKEY'],
-        order: 23,
+        order: 1,
         showStyles: ['vectorStyle'],
         vectorStyle: {
             NOKEY: [

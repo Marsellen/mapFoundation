@@ -2,7 +2,7 @@ export const BUFFER_CONFIG_MAP = {
     AD_LaneDivider: {
         type: 'Line',
         bufferFields: ['RD_EDGE'],
-        order: 14,
+        order: 1,
         showStyles: ['bufferStyle'],
         key: 'AD_LaneDivider',
         label: '车道线',
@@ -21,7 +21,7 @@ export const BUFFER_CONFIG_MAP = {
     AD_Pole_Geo: {
         type: 'Line',
         bufferFields: ['NOKEY'],
-        order: 16,
+        order: 1,
         showStyles: ['bufferStyle'],
         key: 'AD_Pole_Geo',
         label: '几何层：杆状物',
@@ -38,7 +38,7 @@ export const BUFFER_CONFIG_MAP = {
     AD_LaneDivider_Plg: {
         type: 'Polygon',
         bufferFields: ['NOKEY'],
-        order: 17,
+        order: 1,
         showStyles: ['bufferStyle'],
         key: 'AD_LaneDivider_Plg',
         label: '几何层：车道线面要素',
@@ -61,7 +61,7 @@ export const BUFFER_CONFIG_MAP = {
     AD_Text: {
         type: 'Polygon',
         bufferFields: ['NOKEY'],
-        order: 7,
+        order: 1,
         showStyles: ['bufferStyle'],
         key: 'AD_Text',
         label: '地面文字符号',
@@ -84,7 +84,7 @@ export const BUFFER_CONFIG_MAP = {
     AD_Lane: {
         type: 'Line',
         bufferFields: ['NOKEY'],
-        order: 17,
+        order: 1,
         showStyles: ['bufferStyle'],
         key: 'AD_Lane',
         label: '车道中心线',
@@ -101,7 +101,7 @@ export const BUFFER_CONFIG_MAP = {
     AD_Road: {
         type: 'Line',
         bufferFields: ['NOKEY'],
-        order: 18,
+        order: 2,
         showStyles: ['bufferStyle'],
         key: 'AD_Road',
         label: '道路参考线',
@@ -118,7 +118,7 @@ export const BUFFER_CONFIG_MAP = {
     AD_StopLocation: {
         type: 'Line',
         bufferFields: ['NOKEY'],
-        order: 19,
+        order: 1,
         showStyles: ['bufferStyle'],
         key: 'AD_StopLocation',
         label: '停止位置',
@@ -135,7 +135,7 @@ export const BUFFER_CONFIG_MAP = {
     AD_StopLocation_Geo: {
         type: 'Polygon',
         bufferFields: ['NOKEY'],
-        order: 18,
+        order: 1,
         showStyles: ['bufferStyle'],
         key: 'AD_StopLocation_Geo',
         label: '几何层：停止位置',
@@ -160,7 +160,7 @@ export const BUFFER_CONFIG_MAP = {
 export const BUFFER_LAYER_STYLE_CONFIG = {
     type: 'Line',
     bufferFields: ['NOKEY'],
-    order: 20,
+    order: 1,
     showStyles: ['bufferStyle'],
     key: 'AD_buffer',
     label: 'buffer',

@@ -3,7 +3,7 @@ export default {
         type: 'Line',
         //符号配置按什么类别展示，当前支持一个
         showFields: ['NOKEY'],
-        order: 1,
+        order: 2,
         //要展示的样式，['vectorStyle','textStyle','pointFLStyle','arrowStyle']
         showStyles: ['vectorStyle'],
         //符号样式配置
