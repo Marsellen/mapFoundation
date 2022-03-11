@@ -1215,6 +1215,19 @@ export default {
             ]
         }
     },
+    AD_Junction: {
+        type: 'Polygon',
+        showFields: ['NOKEY'],
+        order: 1,
+        showStyles: ['vectorStyle'],
+        vectorStyle: {
+            NOKEY: [
+                {
+                    style: { color: 'rgb(0,255,127)', linewidth: 1 }
+                }
+            ]
+        }
+    },
     AD_LaneDivider_Plg: {
         type: 'Polygon',
         showFields: ['FEAT_TYPE'],

@@ -43,6 +43,7 @@ class TextStore {
 
         //根据配置中checked显隐图层的文字注记
         CONFIGURABLE_LAYERS.forEach(key => {
+            if (!this.vectorTextConfig[key]) return;
             const { checked } = this.vectorTextConfig[key];
             this.toggleLayerTextConfig(key, checked);
         });

@@ -63,6 +63,14 @@ export const UPD_STAT_VECTOR_CONFIG = {
         order: 1,
         iconStyle: {}
     },
+    AD_Junction: {
+        type: 'Line',
+        iconFields: ['UPD_STAT'],
+        showStyles: ['iconStyle'],
+        key: 'AD_Junction',
+        order: 1,
+        iconStyle: {}
+    },
     AD_LaneDivider_Plg: {
         type: 'Line',
         iconFields: ['UPD_STAT'],

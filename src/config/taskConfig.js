@@ -85,7 +85,8 @@ export const VECTOR_FILES = [
     // 'AD_LaneMark_Plg.geojson',
     'AD_TrafficLight.geojson',
     'AD_Text.geojson',
-    'AD_TrafficSign.geojson'
+    'AD_TrafficSign.geojson',
+    'AD_Junction.geojson'
 ];
 
 //任务文件-关联属性文件

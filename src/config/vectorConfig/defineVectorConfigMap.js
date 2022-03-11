@@ -311,6 +311,30 @@ export const DEFINE_VECTOR_CONFIG_MAP = {
             { key: 'dashed3', icon: 'xuxiankuang3' }
         ]
     },
+    AD_Junction: {
+        key: 'AD_Junction',
+        label: '路口面',
+        checked: false,
+        isClassify: false,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'NOKEY',
+            polygonStyle: 'solid',
+            color: 'rgb(255,255,255)',
+            opacity: 1
+        },
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ]
+    },
     AD_LaneDivider_Plg: {
         key: 'AD_LaneDivider_Plg',
         label: '几何层：车道线面要素',
@@ -459,6 +483,64 @@ export const DEFINE_VECTOR_CONFIG_MAP = {
             pointEnabledStatus: true,
             arrowEnabledStatus: true,
             pointSize: 0.1
+        },
+        typeStyleMap: {
+            CFD_GEO: [
+                {
+                    value: [0, 0.49],
+                    label: '低置信度',
+                    showFields: 'CFD_GEO',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,255,255)',
+                    opacity: 1,
+                    arrow: false,
+                    point: false,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: [0.5, 1],
+                    label: '高置信度',
+                    showFields: 'CFD_GEO',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,255,255)',
+                    opacity: 1,
+                    arrow: false,
+                    point: false,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                }
+            ],
+            CFD_FEAT: [
+                {
+                    value: [0, 0.49],
+                    label: '低置信度',
+                    showFields: 'CFD_FEAT',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,255,255)',
+                    opacity: 1,
+                    arrow: false,
+                    point: false,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: [0.5, 1],
+                    label: '高置信度',
+                    showFields: 'CFD_FEAT',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,255,255)',
+                    opacity: 1,
+                    arrow: false,
+                    point: false,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                }
+            ]
         },
         fieldStyle: {
             colorFieldSize: 28,

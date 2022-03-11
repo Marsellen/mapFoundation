@@ -15,6 +15,22 @@ export const DATA_LAYER_MAP = {
         groupRightTools: ['batch_assign', 'group_move', 'delete'],
         editName: '地面导向\n箭头'
     },
+    AD_Junction: {
+        label: '路口面',
+        id: 'JUNC_ID',
+        spec: 'AD_Junction',
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
+        },
+        drawTools: {
+            recognition: ['POLYGON'],
+            manbuild: ['POLYGON']
+        },
+        rightTools: ['delete', 'force_delete', 'change_points'],
+        groupRightTools: ['delete'],
+        editName: '路口面'
+    },
     AD_LaneDivider: {
         label: '车道线',
         id: 'LDIV_ID',
@@ -504,7 +520,8 @@ export const MS_EDIT_LAYER_MAP = {
         'AD_StopLocation',
         'AD_Text',
         'AD_TrafficLight',
-        'AD_TrafficSign'
+        'AD_TrafficSign',
+        'AD_Junction'
     ],
     GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']
 };
@@ -519,7 +536,8 @@ export const MB_EDIT_LAYER_MAP = {
         'AD_StopLocation',
         'AD_Text',
         'AD_TrafficLight',
-        'AD_TrafficSign'
+        'AD_TrafficSign',
+        'AD_Junction'
     ],
     GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']
 };

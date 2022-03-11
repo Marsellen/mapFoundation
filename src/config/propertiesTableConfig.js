@@ -177,6 +177,20 @@ export const COLUMNS_CONFIG = {
             filterBy: 'updStatFilter'
         }
     ],
+    AD_Junction: [
+        {
+            dataIndex: 'index',
+            title: '序号'
+        },
+        {
+            dataIndex: 'JUNC_ID',
+            title: '用户编号'
+        },
+        {
+            dataIndex: 'TILE_ID',
+            title: 'TILE图幅编号'
+        }
+    ],
     AD_StopLocation: [
         {
             dataIndex: 'index',
@@ -467,7 +481,8 @@ export const SELECT_OPTIONS = [
             // 'AD_LaneMark_Plg',
             'AD_Text',
             'AD_TrafficSign',
-            'AD_TrafficLight'
+            'AD_TrafficLight',
+            'AD_Junction'
         ]
     },
     {
@@ -518,6 +533,7 @@ export const OPTION_LAYER_MAP = {
     AD_Text: ['AD_Text'],
     AD_TrafficSign: ['AD_TrafficSign'],
     AD_TrafficLight: ['AD_TrafficLight'],
+    AD_Junction: ['AD_Junction'],
     AD_LaneDivider_Pln: ['AD_LaneDivider_Pln'],
     AD_LaneDivider_Plg: ['AD_LaneDivider_Plg'],
     AD_StopLocation_Geo: ['AD_StopLocation_Geo'],

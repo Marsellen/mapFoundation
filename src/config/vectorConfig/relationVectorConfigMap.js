@@ -123,6 +123,19 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             opacity: 1
         }
     },
+    AD_Junction: {
+        key: 'AD_Junction',
+        label: '路口面',
+        checked: false,
+        isClassify: false,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'NOKEY',
+            polygonStyle: 'solid',
+            color: 'rgb(255,255,255)',
+            opacity: 1
+        }
+    },
     AD_LaneDivider_Plg: {
         key: 'AD_LaneDivider_Plg',
         label: '几何层：车道线面要素',

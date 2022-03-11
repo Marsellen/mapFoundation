@@ -853,6 +853,10 @@ export const DEFAULT_PROPERTIES_MAP = {
         ARR_DIRECT: 'A',
         LANE_ID: 0
     },
+    AD_Junction: {
+        JUNC_ID: 0,
+        TILE_ID: ''
+    },
     AD_LaneMark_Plg: {
         TYPE: 1
     },
@@ -1219,6 +1223,26 @@ export const TABLE_DATA_MAP = {
             domType: 'Text'
         }
     ],
+    AD_Junction: [
+        {
+            key: 'JUNC_ID',
+            name: '用户编号',
+            type: 'AD_JUNCTION_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'TILE_ID',
+            name: 'TILE图幅编号',
+            type: 'AD_JUNCTION_TILE_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
+        }
+    ],
     AD_TrafficLight: [
         {
             key: 'LIGHT_ID',
@@ -1497,6 +1521,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_Lane_RS: '{"LANE_ID":{},"RS_TYPE":{},"RS_VALUE":{},"TIMEDOM":{}}',
     AD_Lane_Con_RS: '{"REL_ID":{},"RS_TYPE":{},"TIMEDOM":{}}',
     AD_Arrow: '{"ARR_DIRECT":{},"LANE_ID":{},"GEOMETRY":{}}',
+    AD_Junction: '{"TILE_ID":{},"GEOMETRY":{}}',
     AD_StopLocation: '{"TYPE":{},"GEOMETRY":{}}',
     AD_StopL_Lane_Rel: '{"STOPL_ID":{},"LANE_ID":{}}',
     AD_LaneMark_Plg: '{"TYPE":{},"GEOMETRY":{}}',
@@ -1680,6 +1705,18 @@ export const LAYER_TYPE_MAP = {
             key: 'LANE_ID',
             name: '关联车道中心线ID',
             type: 'AD_ARROW_LANE_ID'
+        }
+    ],
+    AD_Junction: [
+        {
+            key: 'JUNC_ID',
+            name: '用户编号',
+            type: 'AD_JUNCTION_ID'
+        },
+        {
+            key: 'TILE_ID',
+            name: 'TILE图幅编号',
+            type: 'AD_JUNCTION_TILE_ID'
         }
     ],
     AD_TrafficSign: [
