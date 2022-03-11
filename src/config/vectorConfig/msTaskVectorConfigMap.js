@@ -1212,7 +1212,7 @@ export const MS_TASK_VECTOR_CONFIG_MAP = {
     },
     AD_Junction: {
         key: 'AD_Junction',
-        label: '路口面',
+        label: '交叉口',
         checked: false,
         isClassify: false,
         type: 'Polygon',

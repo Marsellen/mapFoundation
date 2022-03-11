@@ -23,7 +23,7 @@ export const relTableToData = records => {
     let featureMap = records.reduce((total, record) => {
         let spec = record.spec;
         total[spec] = total[spec] || [];
-        let features = dbDataToGeojson(record, spec);
+        let features = dbDataToGeojson(record);
         total[spec] = total[spec].concat(features);
         return total;
     }, {});

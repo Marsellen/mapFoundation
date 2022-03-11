@@ -91,6 +91,7 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
     if (relFeatureTypes.length !== 1) {
         throw new Error('只允许建立两类要素之间的关联关系');
     }
+
     let relSpecs = REL_SPEC_CONFIG.filter(rs => {
         return (
             (rs.objSpec == layerName && rs.relObjSpec == relFeatureTypes[0]) ||
@@ -125,6 +126,20 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
         throw new Error(`${layerName}和${relFeatureTypes[0]}的关联类型超出规格定义`);
     }
 
+    if (relSpecs[0].relObjFeatTypes) {
+        const featTypeObj = relSpecs[0].relObjFeatTypes.find(item => {
+            const { name, value } = item;
+            const mainIsCorrectType = mainFeature.data.properties[name] === value;
+            const relIsCorrectType = relFeatures.every(relFeature => {
+                return relFeature.data.properties[name] === value;
+            });
+            return mainIsCorrectType || relIsCorrectType;
+        });
+        if (!featTypeObj) {
+            throw new Error('几何层：路面车道标记的类型应该为人行横道、禁止停车区、减速带、导流区');
+        }
+    }
+
     if (CONNECTION_RELS.includes(relSpecs[0].source)) {
         for (let i = 0; i < relFeatures.length; i++) {
             let warning = checkConnection(mainFeature, relFeatures[i]);
@@ -133,6 +148,7 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
             }
         }
     }
+
     return warningMessage;
 };
 
@@ -223,7 +239,15 @@ const batchCreateAllRel = (mainFeature, relFeatures) => {
  * @returns {Object} IndexedDB rels表记录（不包含REL_ID）
  */
 const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
-    let { objType, relObjType, source: spec, objSpec, relObjSpec } = specConfig;
+    let {
+        objType,
+        relObjType,
+        source: spec,
+        objSpec,
+        relObjSpec,
+        relObjFeatType,
+        relObjFeatTypes
+    } = specConfig;
     let mainLayer = mainFeature.layerName;
     let relLayer = feature.layerName;
     let mainObjId = mainFeature.data.properties[getLayerIDKey(mainLayer)];
@@ -249,6 +273,18 @@ const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
               TILE_ID: ''
           }
         : {};
+    //交叉口关系添加FEAT_TYPE
+    if (relObjFeatTypes) {
+        let featTypeObj = relObjFeatTypes.find(item => {
+            const { name, value } = item;
+            const currentVal = mainFeature.data.properties[name] ?? feature.data.properties[name];
+            return currentVal === value;
+        });
+        extraInfo.FEAT_TYPE = featTypeObj?.featType;
+    }
+    if (relObjFeatType) {
+        extraInfo.FEAT_TYPE = relObjFeatType;
+    }
     return {
         spec,
         ...rel,

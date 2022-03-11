@@ -7,7 +7,8 @@ export const REL_DATA_SET = [
     'AD_Sign_Lane_Rel',
     'AD_Light_Lane_Rel',
     'AD_Road_Boundary_Rel',
-    'AD_Boundary_Rel'
+    'AD_Boundary_Rel',
+    'AD_Feat_Junc_Rel'
 ];
 
 // 属性关联关系图层
@@ -90,6 +91,18 @@ export const REL_TYPE_KEY_MAP = {
     S_LDIV_ID: {
         name: '关联道路边界',
         validates: 'Numeric|maxLength|15'
+    },
+    LDIV: {
+        name: '关联车道线',
+        validates: 'Numeric|maxLength|15'
+    },
+    POLE: {
+        name: '关联杆状物',
+        validates: 'Numeric|maxLength|15'
+    },
+    JUNC: {
+        name: '关联交叉口',
+        validates: 'Numeric|maxLength|15'
     }
 };
 
@@ -113,7 +126,9 @@ export const SPEC_REL_KEY_SET = [
     { spec: 'AD_LaneAttrPoint', relKey: 'LANEP', relType: 'OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'L_LDIV', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'R_LDIV', relType: 'REL_OBJ_TYPE_KEYS' },
-    { spec: 'AD_LaneDivider', relKey: 'LDIV', relType: 'OBJ_TYPE_KEYS' }
+    { spec: 'AD_LaneDivider', relKey: 'LDIV', relType: 'REL_OBJ_TYPE_KEYS' },
+    { spec: 'AD_Pole_Geo', relKey: 'POLE', relType: 'REL_OBJ_TYPE_KEYS' },
+    { spec: 'AD_Junction', relKey: 'JUNC', relType: 'OBJ_TYPE_KEYS' }
 ];
 
 // 索引与被关联对象的存储位置映射关系
@@ -176,6 +191,111 @@ export const REL_SPEC_CONFIG = [
         relObjSpec: 'AD_StopLocation',
         objType: 'LANE',
         relObjType: 'STOPL'
+    },
+    {
+        source: 'AD_Feat_Junc_Rel',
+        objKeyName: 'JUNC_ID',
+        relObjKeyName: 'FEAT_ID',
+        objSpec: 'AD_Junction',
+        relObjSpec: 'AD_LaneMark_Geo',
+        objType: 'JUNC',
+        relObjType: 'PLG',
+        relObjFeatTypes: [
+            { name: 'FEAT_TYPE', value: 9901, label: '人行横道', featType: 1 },
+            { name: 'FEAT_TYPE', value: 9902, label: '禁止停车区', featType: 2 },
+            { name: 'FEAT_TYPE', value: 4002, label: '减速带', featType: 3 },
+            { name: 'FEAT_TYPE', value: 9903, label: '导流区', featType: 6 }
+        ]
+    },
+    {
+        source: 'AD_Feat_Junc_Rel',
+        objKeyName: 'JUNC_ID',
+        relObjKeyName: 'FEAT_ID',
+        objSpec: 'AD_Junction',
+        relObjSpec: 'AD_StopLocation',
+        objType: 'JUNC',
+        relObjType: 'STOPL',
+        relObjFeatType: 4
+    },
+    {
+        source: 'AD_Feat_Junc_Rel',
+        objKeyName: 'JUNC_ID',
+        relObjKeyName: 'FEAT_ID',
+        objSpec: 'AD_Junction',
+        relObjSpec: 'AD_Text',
+        objType: 'JUNC',
+        relObjType: 'TEXT',
+        relObjFeatType: 5
+    },
+    {
+        source: 'AD_Feat_Junc_Rel',
+        objKeyName: 'JUNC_ID',
+        relObjKeyName: 'FEAT_ID',
+        objSpec: 'AD_Junction',
+        relObjSpec: 'AD_Arrow',
+        objType: 'JUNC',
+        relObjType: 'ARROW',
+        relObjFeatType: 7
+    },
+    {
+        source: 'AD_Feat_Junc_Rel',
+        objKeyName: 'JUNC_ID',
+        relObjKeyName: 'FEAT_ID',
+        objSpec: 'AD_Junction',
+        relObjSpec: 'AD_LaneDivider',
+        objType: 'JUNC',
+        relObjType: 'LDIV',
+        relObjFeatType: 8
+    },
+    {
+        source: 'AD_Feat_Junc_Rel',
+        objKeyName: 'JUNC_ID',
+        relObjKeyName: 'FEAT_ID',
+        objSpec: 'AD_Junction',
+        relObjSpec: 'AD_Pole_Geo',
+        objType: 'JUNC',
+        relObjType: 'POLE',
+        relObjFeatType: 9
+    },
+    {
+        source: 'AD_Feat_Junc_Rel',
+        objKeyName: 'JUNC_ID',
+        relObjKeyName: 'FEAT_ID',
+        objSpec: 'AD_Junction',
+        relObjSpec: 'AD_TrafficSign',
+        objType: 'JUNC',
+        relObjType: 'SIGN',
+        relObjFeatType: 12
+    },
+    {
+        source: 'AD_Feat_Junc_Rel',
+        objKeyName: 'JUNC_ID',
+        relObjKeyName: 'FEAT_ID',
+        objSpec: 'AD_Junction',
+        relObjSpec: 'AD_TrafficLight',
+        objType: 'JUNC',
+        relObjType: 'LIGHT',
+        relObjFeatType: 14
+    },
+    {
+        source: 'AD_Feat_Junc_Rel',
+        objKeyName: 'JUNC_ID',
+        relObjKeyName: 'FEAT_ID',
+        objSpec: 'AD_Junction',
+        relObjSpec: 'AD_Road',
+        objType: 'JUNC',
+        relObjType: 'ROAD',
+        relObjFeatType: 15
+    },
+    {
+        source: 'AD_Feat_Junc_Rel',
+        objKeyName: 'JUNC_ID',
+        relObjKeyName: 'FEAT_ID',
+        objSpec: 'AD_Junction',
+        relObjSpec: 'AD_Lane',
+        objType: 'JUNC',
+        relObjType: 'LANE',
+        relObjFeatType: 16
     },
     {
         source: 'AD_Plg_Lane_Rel',
@@ -250,6 +370,10 @@ export const REL_SPEC_CONFIG = [
         relObjType: 'S_LDIV_ID'
     }
 ];
+
+export const JUNC_REL_SPEC_CONFIG = REL_SPEC_CONFIG.filter(
+    item => item.source === 'AD_Feat_Junc_Rel'
+);
 
 export const CONNECTION_RELS = ['AD_Lane_Con', 'AD_Road_Con', 'AD_Boundary_Rel'];
 

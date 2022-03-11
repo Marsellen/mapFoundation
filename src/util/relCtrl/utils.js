@@ -11,7 +11,20 @@ import Relevance from 'src/util/relevance';
  * @returns {Array<Object>} IndexedDB rels表记录集合
  */
 export const geojsonToDbData = (properties, spec, dataType) => {
-    let relSpecs = REL_SPEC_CONFIG.filter(relSpec => relSpec.source == spec);
+    let relSpecs = REL_SPEC_CONFIG.filter(relSpec => {
+        const { FEAT_TYPE } = properties;
+        const { relObjFeatType, relObjFeatTypes } = relSpec;
+        if (relObjFeatType) {
+            return relSpec.source == spec && relObjFeatType == FEAT_TYPE;
+        }
+        if (relObjFeatTypes) {
+            const featType = relObjFeatTypes.find(item => {
+                return item.featType == FEAT_TYPE;
+            });
+            return relSpec.source == spec && featType;
+        }
+        return relSpec.source == spec;
+    });
     return relSpecs.reduce((total, relSpec) => {
         const { objKeyName, objType, relObjKeyName, relObjType, objSpec, relObjSpec } = relSpec;
         let { [objKeyName]: objId, [relObjKeyName]: relObjId, ...extraInfo } = properties;
@@ -39,10 +52,12 @@ export const geojsonToDbData = (properties, spec, dataType) => {
  * @param {String} spec 关联关系表名
  * @returns {Array<Object>} geojson features
  */
-export const dbDataToGeojson = (record, spec) => {
-    let relSpecs = REL_SPEC_CONFIG.filter(relSpec => relSpec.source == spec);
+export const dbDataToGeojson = record => {
+    const { spec, relObjSpec, objId, relObjId, extraInfo } = record;
+    const relSpecs = REL_SPEC_CONFIG.filter(relSpec => {
+        return relSpec.source == spec && relSpec.relObjSpec == relObjSpec;
+    });
     return relSpecs.map(relSpec => {
-        let { objId, relObjId, extraInfo } = record;
         return {
             type: 'Feature',
             properties: {

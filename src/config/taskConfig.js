@@ -110,5 +110,6 @@ export const REL_FILES = [
     'AD_LaneAttrPoint.geojson',
     'AD_Arrow.geojson',
     'AD_Road_Boundary_Rel.geojson',
-    'AD_Boundary_Rel.geojson'
+    'AD_Boundary_Rel.geojson',
+    'AD_Feat_Junc_Rel.geojson'
 ];

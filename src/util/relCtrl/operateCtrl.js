@@ -762,7 +762,20 @@ const calcAttrs = relation => {
 };
 
 const relDataFormat = (spec, properties) => {
-    let relSpec = REL_SPEC_CONFIG.find(relSpec => relSpec.source == spec);
+    let relSpec = REL_SPEC_CONFIG.find(relSpec => {
+        const { FEAT_TYPE } = properties;
+        const { relObjFeatType, relObjFeatTypes } = relSpec;
+        if (relObjFeatType) {
+            return relSpec.source == spec && relObjFeatType == FEAT_TYPE;
+        }
+        if (relObjFeatTypes) {
+            const featType = relObjFeatTypes.find(item => {
+                return item.featType == FEAT_TYPE;
+            });
+            return relSpec.source == spec && featType;
+        }
+        return relSpec.source == spec;
+    });
     const { objKeyName, objType, relObjKeyName, relObjType, objSpec, relObjSpec } = relSpec;
     return properties.map(property => {
         let { [objKeyName]: objId, [relObjKeyName]: relObjId, REL_ID } = property;

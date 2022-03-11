@@ -258,8 +258,9 @@ export const COLUMNS_CONFIG = {
             title: '用户编号'
         },
         {
-            dataIndex: 'TILE_ID',
-            title: 'TILE图幅编号'
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
         }
     ],
     AD_StopLocation: [
@@ -397,6 +398,14 @@ export const COLUMNS_CONFIG = {
         { dataIndex: 'REL_ID', title: '用户编号' },
         { dataIndex: 'STOPL_ID', title: '关联停止位置用户编号' },
         { dataIndex: 'LANE_ID', title: '关联车道中心线用户编号' },
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
+    ],
+    AD_Feat_Junc_Rel: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'REL_ID', title: '用户编号' },
+        { dataIndex: 'JUNC_ID', title: '交叉口用户编号' },
+        { dataIndex: 'FEAT_ID', title: '关联路口的要素用户编号' },
+        { dataIndex: 'FEAT_TYPE', title: '关联路口的要素类型' },
         { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_Plg_Lane_Rel: [
@@ -576,7 +585,8 @@ export const SELECT_OPTIONS = [
             'AD_Sign_Lane_Rel',
             'AD_Light_Lane_Rel',
             'AD_Road_Boundary_Rel',
-            'AD_Boundary_Rel'
+            'AD_Boundary_Rel',
+            'AD_Feat_Junc_Rel'
         ]
     },
     {

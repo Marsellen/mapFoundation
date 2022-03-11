@@ -16,7 +16,7 @@ export const DATA_LAYER_MAP = {
         editName: '地面导向\n箭头'
     },
     AD_Junction: {
-        label: '路口面',
+        label: '交叉口',
         id: 'JUNC_ID',
         spec: 'AD_Junction',
         tools: {
@@ -29,7 +29,7 @@ export const DATA_LAYER_MAP = {
         },
         rightTools: ['delete', 'force_delete', 'change_points'],
         groupRightTools: ['delete'],
-        editName: '路口面'
+        editName: '交叉口'
     },
     AD_LaneAttrPoint: {
         label: '车道属性变化点',
@@ -106,7 +106,7 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_Text',
         tools: {
             recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX']
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
         },
         drawTools: {
             recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],
@@ -326,6 +326,11 @@ export const DATA_LAYER_MAP = {
         id: 'REL_ID',
         spec: 'AD_StopL_Lane_Rel'
     },
+    AD_Feat_Junc_Rel: {
+        label: '交叉口关系',
+        id: 'REL_ID',
+        spec: 'AD_Feat_Junc_Rel'
+    },
     AD_Plg_Lane_Rel: {
         label: '车道中心线 & 面状标识物关联关系',
         id: 'REL_ID',
@@ -481,7 +486,7 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_Pole_Geo',
         tools: {
             recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX']
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
         },
         drawTools: {
             recognition: ['LINE', 'CURVED_LINE'],

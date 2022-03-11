@@ -115,6 +115,11 @@ export const REL_SELECT_OPTIONS = [
         title: '车道中心线 & 车道属性交化点',
         key: 'AD_Lane_Point_Rel',
         checked: false
+    },
+    {
+        title: '交叉口关系',
+        key: 'AD_Feat_Junc_Rel',
+        checked: false
     }
 ];
 
@@ -211,15 +216,21 @@ export const LAYER_NAME_MAP = {
     TO_ROAD: { layerName: 'AD_Road', key: 'ROAD_ID' },
     TO_ROAD_ID: { layerName: 'AD_Road', key: 'ROAD_ID' },
     STOPL_ID: { layerName: 'AD_StopLocation', key: 'STOPL_ID' },
+    PLG: { layerName: 'AD_LaneMark_Geo', key: 'OBJ_ID' },
     PLG_ID: { layerName: 'AD_LaneMark_Geo', key: 'OBJ_ID' },
-    OBJ_ID: { layerName: 'AD_LaneMark_Geo', key: 'OBJ_ID' },
+    ARR: { layerName: 'AD_Arrow', key: 'ARR_ID' },
     ARR_ID: { layerName: 'AD_Arrow', key: 'ARR_ID' },
+    ARROW: { layerName: 'AD_Arrow', key: 'ARR_ID' },
     ARROW_ID: { layerName: 'AD_Arrow', key: 'ARR_ID' },
     TEXT_ID: { layerName: 'AD_Text', key: 'TEXT_ID' },
     SIGN_ID: { layerName: 'AD_TrafficSign', key: 'SIGN_ID' },
     LAP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' },
     LANEP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' },
-    LIGHT_ID: { layerName: 'AD_TrafficLight', key: 'LIGHT_ID' }
+    LIGHT_ID: { layerName: 'AD_TrafficLight', key: 'LIGHT_ID' },
+    POLE: { layerName: 'AD_Pole_Geo', key: 'OBJ_ID' },
+    POLE_ID: { layerName: 'AD_Pole_Geo', key: 'OBJ_ID' },
+    JUNC: { layerName: 'AD_Junction', key: 'JUNC_ID' },
+    JUNC_ID: { layerName: 'AD_Junction', key: 'JUNC_ID' }
 };
 
 //关联关系与id映射
@@ -236,7 +247,8 @@ export const RELS_ID_MAP = {
     AD_Road_Boundary_Rel: ['LDIV_ID', 'ROAD_ID'],
     AD_Boundary_Rel: ['F_LDIV_ID', 'S_LDIV_ID'],
     AD_Road_Point_Rel: ['LAP_ID', 'ROAD_ID'],
-    AD_Lane_Point_Rel: ['LAP_ID', 'LANE_ID']
+    AD_Lane_Point_Rel: ['LAP_ID', 'LANE_ID'],
+    AD_Feat_Junc_Rel: ['JUNC_ID', 'FEAT_ID']
 };
 
 export const RELS_ID_MAP_REVERSE = {
@@ -254,11 +266,22 @@ export const RELS_ID_MAP_REVERSE = {
     [['LDIV', 'ROAD']]: 'AD_Road_Boundary_Rel',
     [['F_LDIV_ID', 'S_LDIV_ID']]: 'AD_Boundary_Rel',
     [['LAP', 'ROAD']]: 'AD_Road_Point_Rel',
-    [['LAP', 'ROAD']]: 'AD_Road_Point_Rel',
     [['LANEP', 'ROAD']]: 'AD_Road_Point_Rel',
     [['LAP', 'LANE']]: 'AD_Lane_Point_Rel',
-    [['LAP', 'LANE']]: 'AD_Lane_Point_Rel',
-    [['LANEP', 'LANE']]: 'AD_Lane_Point_Rel'
+    [['LANEP', 'LANE']]: 'AD_Lane_Point_Rel',
+    [['JUNC', 'FEAT']]: 'AD_Feat_Junc_Rel',
+    [['JUNC', 'PLG']]: 'AD_Feat_Junc_Rel',
+    [['JUNC', 'POLE']]: 'AD_Feat_Junc_Rel',
+    [['JUNC', 'OBJ']]: 'AD_Feat_Junc_Rel',
+    [['JUNC', 'STOPL']]: 'AD_Feat_Junc_Rel',
+    [['JUNC', 'TEXT']]: 'AD_Feat_Junc_Rel',
+    [['JUNC', 'ARR']]: 'AD_Feat_Junc_Rel',
+    [['JUNC', 'ARROW']]: 'AD_Feat_Junc_Rel',
+    [['JUNC', 'LDIV']]: 'AD_Feat_Junc_Rel',
+    [['JUNC', 'SIGN']]: 'AD_Feat_Junc_Rel',
+    [['JUNC', 'LIGHT']]: 'AD_Feat_Junc_Rel',
+    [['JUNC', 'ROAD']]: 'AD_Feat_Junc_Rel',
+    [['JUNC', 'LANE']]: 'AD_Feat_Junc_Rel'
 };
 
 //id与文字标注配置映射

@@ -1,5 +1,5 @@
 import { observable, configure, action, flow, computed } from 'mobx';
-import { getAllRelData } from 'src/util/vectorUtils';
+import { getAllRelData, getLayerIDKey } from 'src/util/vectorUtils';
 import { LAYER_NAME_MAP, RELS_ID_MAP, RELS_ID_MAP_REVERSE } from 'src/config/renderModeConfig';
 import { REL_SELECT_OPTIONS, REL_FEATURE_COLOR_MAP } from 'src/config/renderModeConfig';
 import { updateFeatureColor, getFeatureOption } from 'src/util/vectorUtils';
@@ -8,6 +8,7 @@ import UpdStatModeStore from './updStatModeStore';
 import { calculateMiddlePoint } from 'src/util/computeLineMidpoint';
 import relFactory from 'src/util/relCtrl/relFactory';
 import { DATA_LAYER_MAP } from 'src/config/dataLayerConfig';
+import { JUNC_REL_SPEC_CONFIG } from 'src/config/relsConfig';
 
 configure({ enforceActions: 'always' });
 class RenderModeStore {
@@ -87,7 +88,6 @@ class RenderModeStore {
         const whiteColor = isBoundary ? 'rgb(127, 127, 127)' : 'rgb(255, 255, 255)';
         const yellowColor = isBoundary ? 'rgb(127,118,18)' : 'rgb(255, 237, 37)';
         const color = checked ? yellowColor : whiteColor;
-
         //改变要素的颜色
         updateFeatureColor(layerName, option, color);
     };
@@ -144,7 +144,7 @@ class RenderModeStore {
         this.setFeatureArrColor(layerFeatures, checked);
 
         //改变所有专题图的checked
-        this.relSelectOptions.map(item => {
+        this.relSelectOptions.forEach(item => {
             item.checked = checked;
             return item;
         });
@@ -170,6 +170,25 @@ class RenderModeStore {
         this.textMap = null;
     };
 
+    getLayerNameByIdKey = (idKey, properties) => {
+        if (idKey === 'FEAT_ID') {
+            const juncRelSpecConfig = JUNC_REL_SPEC_CONFIG.find(config => {
+                const { relObjFeatType, relObjFeatTypes } = config;
+                if (relObjFeatType && relObjFeatType === properties.FEAT_TYPE) {
+                    return true;
+                }
+                if (relObjFeatTypes) {
+                    return relObjFeatTypes.find(item => {
+                        return item.featType === properties.FEAT_TYPE;
+                    });
+                }
+            });
+            return juncRelSpecConfig.relObjSpec;
+        } else {
+            return LAYER_NAME_MAP[idKey]?.layerName;
+        }
+    };
+
     //将有关联关系的要素，按专题图进行分组
     @action setRels = flow(function* () {
         //获取关联关系图层所有要素
@@ -178,8 +197,7 @@ class RenderModeStore {
         if (!allRelDataArr || allRelDataArr.length === 0) return;
 
         const rels_2D = {};
-
-        allRelDataArr.map(item => {
+        allRelDataArr.forEach(item => {
             const { features, name } = item;
             if (!features || features.length === 0) return;
             let relName = ''; //专题图分组名
@@ -190,14 +208,26 @@ class RenderModeStore {
                      *一组是车道中心线 & 左右侧车道线
                      *一组是车道中心线 & 道路参考线
                      */
-                    features.map(relItem => {
+                    features.forEach(relItem => {
                         const { properties } = relItem;
                         const { LANE_ID, L_LDIV_ID, R_LDIV_ID, ROAD_ID } = properties;
 
-                        const LANE_Feature = this.setOptions('LANE_ID', LANE_ID);
-                        const L_LDIV_feature = this.setOptions('L_LDIV_ID', L_LDIV_ID);
-                        const R_LDIV_feature = this.setOptions('R_LDIV_ID', R_LDIV_ID);
-                        const ROAD_Feature = this.setOptions('ROAD_ID', ROAD_ID);
+                        const LANE_Feature = this.setOptions({
+                            idKey: 'LANE_ID',
+                            idValue: LANE_ID
+                        });
+                        const L_LDIV_feature = this.setOptions({
+                            idKey: 'L_LDIV_ID',
+                            idValue: L_LDIV_ID
+                        });
+                        const R_LDIV_feature = this.setOptions({
+                            idKey: 'R_LDIV_ID',
+                            idValue: R_LDIV_ID
+                        });
+                        const ROAD_Feature = this.setOptions({
+                            idKey: 'ROAD_ID',
+                            idValue: ROAD_ID
+                        });
 
                         if (L_LDIV_ID && LANE_ID) {
                             const relName = 'AD_Lane_Divider_Rel';
@@ -232,22 +262,23 @@ class RenderModeStore {
             if (relName) {
                 let options_2D;
                 //获取所有带关联关系要素的option
-                features.map(item => {
+                features.forEach(item => {
                     if (!RELS_ID_MAP[relName]) return;
                     if (RELS_ID_MAP[relName].length === 0) return;
                     const { properties } = item;
                     let options_2D_key = [];
                     let options_2D_val = [];
 
-                    RELS_ID_MAP[relName].map(id => {
+                    RELS_ID_MAP[relName].forEach(id => {
                         const optionId = properties[id];
-                        const feature = this.setOptions(id, optionId);
-
                         if (!optionId) return;
+                        const feature = this.setOptions({
+                            idValue: optionId,
+                            layerName: this.getLayerNameByIdKey(id, properties)
+                        });
                         options_2D_key.push(optionId);
                         options_2D_val.push(feature);
                     });
-
                     if (options_2D_val.length < 2) return;
                     options_2D = options_2D || {};
                     options_2D[options_2D_key.sort()] = options_2D_val;
@@ -258,19 +289,17 @@ class RenderModeStore {
                 }
             }
         });
-
-        this.rels_2D = rels_2D;
+        this.rels_2D = JSON.parse(JSON.stringify(rels_2D));
     }).bind(this);
+
     //将history.rels里的数据，转成this.rels_2D格式
     getRelMap = updateRels => {
         if (!updateRels || updateRels.length === 0) return false;
         let updateRelMap_2D = {};
-        updateRels.map(item => {
-            const { objId, objType, relObjId, relObjType } = item;
-            const objRelation = `${objType}_ID`;
-            const relObjRelation = `${relObjType}_ID`;
-            const obj = this.setOptions(objRelation, objId);
-            const relObj = this.setOptions(relObjRelation, relObjId);
+        updateRels.forEach(item => {
+            const { objId, objType, relObjId, relObjType, objSpec, relObjSpec } = item;
+            const obj = this.setOptions({ layerName: objSpec, idValue: objId });
+            const relObj = this.setOptions({ layerName: relObjSpec, idValue: relObjId });
             const names = [objType, relObjType];
             const relName = RELS_ID_MAP_REVERSE[names];
             updateRelMap_2D[relName] = updateRelMap_2D[relName] || {};
@@ -326,12 +355,15 @@ class RenderModeStore {
         if (!currentFeatures || currentFeatures.length === 0) return;
         //取消选择
         this.cancelSelect();
-        currentFeatures.map(item => {
+        currentFeatures.forEach(item => {
             const { data, layerName } = item;
             const { properties } = data;
-            const featureIdKey = DATA_LAYER_MAP[layerName].id;
+            const featureIdKey = getLayerIDKey(layerName);
             const featureIdVal = properties[featureIdKey];
-            const currentFeature = this.setOptions(featureIdKey, featureIdVal);
+            const currentFeature = this.setOptions({
+                idValue: featureIdVal,
+                layerName
+            });
             if (this.allRelArr.includes(featureIdVal)) {
                 this.setFeatureColor(currentFeature, true);
             } else {
@@ -359,17 +391,16 @@ class RenderModeStore {
     };
 
     //获取要素option
-    setOptions = (name, id) => {
-        if (!name) return;
-        if (!id) return;
-        const { layerName, key } = LAYER_NAME_MAP[name] || {};
+    setOptions = ({ idKey, idValue, layerName }) => {
+        idKey = idKey ?? getLayerIDKey(layerName);
+        layerName = layerName ?? LAYER_NAME_MAP[idKey]?.layerName;
         return {
             layerName,
-            relation: name,
-            id: id,
+            relation: idKey,
+            id: idValue,
             option: {
-                key,
-                value: id
+                key: idKey,
+                value: idValue
             }
         };
     };

@@ -886,8 +886,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         LANE_ID: 0
     },
     AD_Junction: {
-        JUNC_ID: 0,
-        TILE_ID: ''
+        JUNC_ID: 0
     },
     AD_LaneMark_Plg: {
         TYPE: 1
@@ -1276,12 +1275,6 @@ export const TABLE_DATA_MAP = {
             domType: 'Text'
         },
         {
-            key: 'TILE_ID',
-            name: 'TILE图幅编号',
-            type: 'AD_JUNCTION_TILE_ID',
-            domType: 'Text'
-        },
-        {
             key: 'UPD_STAT',
             name: '更新标识',
             filterBy: 'updStatFilter',
@@ -1616,7 +1609,6 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_Lane_Speed: '{"LANE_ID":{},"SPD_TYPE":{},"SPEED":{}},"SPD_SOURCE":{}},"OFFSET":{}}',
     AD_LaneAttrPoint: '{"TYPE":{},"ROAD_ID":{},"NUMBER":{},"LANE_ID":{},"GEOMETRY":{}}',
     AD_Arrow: '{"ARR_DIRECT":{},"LANE_ID":{},"GEOMETRY":{}}',
-    AD_Junction: '{"TILE_ID":{},"GEOMETRY":{}}',
     AD_StopLocation: '{"TYPE":{},"GEOMETRY":{}}',
     AD_StopL_Lane_Rel: '{"STOPL_ID":{},"LANE_ID":{}}',
     AD_LaneMark_Plg: '{"TYPE":{},"GEOMETRY":{}}',
@@ -1808,11 +1800,6 @@ export const LAYER_TYPE_MAP = {
             key: 'JUNC_ID',
             name: '用户编号',
             type: 'AD_JUNCTION_ID'
-        },
-        {
-            key: 'TILE_ID',
-            name: 'TILE图幅编号',
-            type: 'AD_JUNCTION_TILE_ID'
         }
     ],
     AD_LaneAttrPoint: [
