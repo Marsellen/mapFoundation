@@ -1177,7 +1177,7 @@ export const MB_TASK_VECTOR_CONFIG_MAP = {
         commonStyle: {
             showFields: 'NOKEY',
             polygonStyle: 'solid',
-            color: 'rgb(0,255,127)',
+            color: 'rgb(248,15,243)',
             opacity: 1
         },
         fieldStyle: {

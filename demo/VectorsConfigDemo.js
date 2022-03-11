@@ -1223,7 +1223,7 @@ export default {
         vectorStyle: {
             NOKEY: [
                 {
-                    style: { color: 'rgb(0,255,127)', linewidth: 1 }
+                    style: { color: 'rgb(248,15,243)', linewidth: 1 }
                 }
             ]
         }
