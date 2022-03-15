@@ -71,6 +71,18 @@ const REL_RS = [
         relKey: 'TO_ROAD',
         relType: 'REL_OBJ_TYPE_KEYS',
         source: 'AD_Road_Con'
+    },
+    {
+        spec: 'AD_LaneDivider',
+        relKey: 'F_LDIV_ID',
+        relType: 'OBJ_TYPE_KEYS',
+        source: 'AD_Boundary_Rel'
+    },
+    {
+        spec: 'AD_LaneDivider',
+        relKey: 'S_LDIV_ID',
+        relType: 'REL_OBJ_TYPE_KEYS',
+        source: 'AD_Boundary_Rel'
     }
 ];
 

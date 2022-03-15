@@ -100,6 +100,11 @@ export const REL_SELECT_OPTIONS = [
         title: '道路边界 & 道路参考线',
         key: 'AD_Road_Boundary_Rel',
         checked: false
+    },
+    {
+        title: '道路边界 & 道路边界',
+        key: 'AD_Boundary_Rel',
+        checked: false
     }
 ];
 
@@ -183,6 +188,8 @@ export const LAYER_NAME_MAP = {
     LDIV_ID: { layerName: 'AD_LaneDivider', key: 'LDIV_ID' },
     L_LDIV_ID: { layerName: 'AD_LaneDivider', key: 'LDIV_ID' },
     R_LDIV_ID: { layerName: 'AD_LaneDivider', key: 'LDIV_ID' },
+    F_LDIV_ID: { layerName: 'AD_LaneDivider', key: 'LDIV_ID' },
+    S_LDIV_ID: { layerName: 'AD_LaneDivider', key: 'LDIV_ID' },
     ROAD_ID: { layerName: 'AD_Road', key: 'ROAD_ID' },
     LANE_ID: { layerName: 'AD_Lane', key: 'LANE_ID' },
     FROM_LANE: { layerName: 'AD_Lane', key: 'LANE_ID' },
@@ -214,7 +221,8 @@ export const RELS_ID_MAP = {
     AD_Sign_Lane_Rel: ['LANE_ID', 'SIGN_ID'],
     AD_Light_Lane_Rel: ['LANE_ID', 'LIGHT_ID'],
     AD_Lane_Arrow_Rel: ['ARR_ID', 'LANE_ID'],
-    AD_Road_Boundary_Rel: ['LDIV_ID', 'ROAD_ID']
+    AD_Road_Boundary_Rel: ['LDIV_ID', 'ROAD_ID'],
+    AD_Boundary_Rel: ['F_LDIV_ID', 'S_LDIV_ID']
 };
 
 export const RELS_ID_MAP_REVERSE = {
@@ -229,7 +237,8 @@ export const RELS_ID_MAP_REVERSE = {
     [['LANE', 'SIGN']]: 'AD_Sign_Lane_Rel',
     [['LANE', 'LIGHT']]: 'AD_Light_Lane_Rel',
     [['LANE', 'ARROW']]: 'AD_Lane_Arrow_Rel',
-    [['LDIV', 'ROAD']]: 'AD_Road_Boundary_Rel'
+    [['LDIV', 'ROAD']]: 'AD_Road_Boundary_Rel',
+    [['F_LDIV_ID', 'S_LDIV_ID']]: 'AD_Boundary_Rel'
 };
 
 //id与文字标注配置映射

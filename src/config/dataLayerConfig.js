@@ -333,6 +333,11 @@ export const DATA_LAYER_MAP = {
         id: 'REL_ID',
         spec: 'AD_Road_Boundary_Rel'
     },
+    AD_Boundary_Rel: {
+        label: '道路边界 & 道路边界关联关系',
+        id: 'REL_ID',
+        spec: 'AD_Boundary_Rel'
+    },
     AD_LaneDivider_Pln: {
         label: '几何层：车道线线要素',
         id: 'OBJ_ID',

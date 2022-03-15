@@ -66,7 +66,9 @@ class Task extends React.Component {
             nodeDesc,
             manualStatusDesc,
             task_sub_type,
-            postProcess
+            postProcess,
+            orderNum,
+            item
         } = task;
         if (isLocal) {
             let processNameLabel = processNameOptions.find(
@@ -77,7 +79,9 @@ class Task extends React.Component {
         const taskSubTypeLabel = TASK_TYPE[task_sub_type] || '底图新增';
         const postProcessDesc = POST_PROCESS[postProcess];
         const postProcessLabel = postProcessDesc ? `【${postProcessDesc}】` : '';
-        return `${taskId}-${taskSubTypeLabel}-${nodeDesc}-${manualStatusDesc}${postProcessLabel}`;
+        const orderNumLabel = !!orderNum ? `-${orderNum}` : ''; //优先级
+        const itemLabel = !!item ? `-${item}` : ''; //项目
+        return `${taskId}-${taskSubTypeLabel}-${nodeDesc}-${manualStatusDesc}${postProcessLabel}${orderNumLabel}${itemLabel}`;
     };
 
     @editLock

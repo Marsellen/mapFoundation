@@ -183,10 +183,19 @@ const ALLOW_REPEAT_KEYS_MAP = {
     FROM_LANE: 'TO_LANE',
     TO_LANE: 'FROM_LANE',
     FROM_ROAD: 'TO_ROAD',
-    TO_ROAD: 'FROM_ROAD'
+    TO_ROAD: 'FROM_ROAD',
+    F_LDIV_ID: 'S_LDIV_ID',
+    S_LDIV_ID: 'F_LDIV_ID'
 };
 //允许值重复的关联关系key
-const ALLOW_REPEAT_KEYS = ['FROM_LANE', 'TO_LANE', 'FROM_ROAD', 'TO_ROAD'];
+const ALLOW_REPEAT_KEYS = [
+    'FROM_LANE',
+    'TO_LANE',
+    'FROM_ROAD',
+    'TO_ROAD',
+    'F_LDIV_ID',
+    'S_LDIV_ID'
+];
 //判断修改关联关系是否正确
 const isAllowKey = (key, value, other, data) => {
     if (!value) return true;

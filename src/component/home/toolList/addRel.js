@@ -112,6 +112,9 @@ class AddRel extends React.Component {
                         <p className="text-body-title">4、当前可编辑图层：“车道线”</p>
                         <p className="text-body-content">
                             (1). 一个道路边界标识为“道路边界”的车道线 + 一个道路参考线
+                            <br />
+                            (2).
+                            一个道路边界标识为“道路边界”的车道线 + 一个道路边界标识为“道路边界”的车道线
                         </p>
                         <p className="text-body-title">5、当前可编辑图层：“地面导向箭头”</p>
                         <p className="text-body-content">(1). 一个地面导向箭头 + 一个车道中心线</p>

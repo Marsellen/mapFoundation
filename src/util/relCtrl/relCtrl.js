@@ -69,6 +69,7 @@ const delRel = async (mainFeature, features) => {
 
 const basicCheck = async (mainFeature, relFeatures, layerName) => {
     const { properties } = mainFeature.data;
+    const RelLayers = ['AD_Road', 'AD_LaneDivider'];
     var warningMessage;
     if (!mainFeature) {
         throw new Error('请选择要素');
@@ -103,12 +104,11 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
     if (
         layerName === 'AD_LaneDivider' &&
         properties.RD_EDGE != 1 &&
-        relFeatureTypes[0] == 'AD_Road'
+        RelLayers.includes(relFeatureTypes[0])
     ) {
         throw new Error('该车道线非道路边界，不可建关系');
     }
-
-    if (layerName === 'AD_Road' && relFeatureTypes[0] == 'AD_LaneDivider') {
+    if (RelLayers.includes(layerName) && relFeatureTypes[0] == 'AD_LaneDivider') {
         relFeatures.forEach(feature => {
             const { properties } = feature.data;
             if (properties.RD_EDGE != 1) throw new Error('车道线存在非道路边界，不可建关系');

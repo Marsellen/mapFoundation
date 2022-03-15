@@ -328,16 +328,18 @@ class ViewAttribute extends React.Component {
         );
     };
 
-    handleResize = index => (e, { size }) => {
-        this.setState(({ columns }) => {
-            const nextColumns = [...columns];
-            nextColumns[index] = {
-                ...nextColumns[index],
-                width: size.width
-            };
-            return { columns: nextColumns };
-        });
-    };
+    handleResize =
+        index =>
+        (e, { size }) => {
+            this.setState(({ columns }) => {
+                const nextColumns = [...columns];
+                nextColumns[index] = {
+                    ...nextColumns[index],
+                    width: size.width
+                };
+                return { columns: nextColumns };
+            });
+        };
 
     sorter = col => {
         return (a, b) => {
@@ -508,7 +510,11 @@ class ViewAttribute extends React.Component {
 
     getRelPositionFeature = (record, config) => {
         let option, layer;
-        if (config.source == 'AD_Road_Con' || config.source == 'AD_Lane_Con') {
+        if (
+            config.source == 'AD_Road_Con' ||
+            config.source == 'AD_Lane_Con' ||
+            config.source == 'AD_Boundary_Rel'
+        ) {
             option = {
                 key: getLayerIDKey(config.objSpec),
                 value: record[config.objKeyName]

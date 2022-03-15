@@ -6,7 +6,8 @@ export const REL_DATA_SET = [
     'AD_Plg_Lane_Rel',
     'AD_Sign_Lane_Rel',
     'AD_Light_Lane_Rel',
-    'AD_Road_Boundary_Rel'
+    'AD_Road_Boundary_Rel',
+    'AD_Boundary_Rel'
 ];
 
 // 属性关联关系图层
@@ -82,7 +83,11 @@ export const REL_TYPE_KEY_MAP = {
         name: '关联属性变化点',
         validates: 'Numeric|maxLength|15'
     },
-    LDIV: {
+    F_LDIV_ID: {
+        name: '关联道路边界',
+        validates: 'Numeric|maxLength|15'
+    },
+    S_LDIV_ID: {
         name: '关联道路边界',
         validates: 'Numeric|maxLength|15'
     }
@@ -102,6 +107,8 @@ export const SPEC_REL_KEY_SET = [
     { spec: 'AD_StopLocation', relKey: 'STOPL', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_TrafficSign', relKey: 'SIGN', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_TrafficLight', relKey: 'LIGHT', relType: 'REL_OBJ_TYPE_KEYS' },
+    { spec: 'AD_LaneDivider', relKey: 'S_LDIV_ID', relType: 'REL_OBJ_TYPE_KEYS' },
+    { spec: 'AD_LaneDivider', relKey: 'F_LDIV_ID', relType: 'OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'L_LDIV', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'R_LDIV', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'LDIV', relType: 'OBJ_TYPE_KEYS' }
@@ -212,9 +219,18 @@ export const REL_SPEC_CONFIG = [
         relObjSpec: 'AD_Road',
         objType: 'LDIV',
         relObjType: 'ROAD'
+    },
+    {
+        source: 'AD_Boundary_Rel',
+        objKeyName: 'F_LDIV_ID',
+        relObjKeyName: 'S_LDIV_ID',
+        objSpec: 'AD_LaneDivider',
+        relObjSpec: 'AD_LaneDivider',
+        objType: 'F_LDIV_ID',
+        relObjType: 'S_LDIV_ID'
     }
 ];
 
-export const CONNECTION_RELS = ['AD_Lane_Con', 'AD_Road_Con'];
+export const CONNECTION_RELS = ['AD_Lane_Con', 'AD_Road_Con', 'AD_Boundary_Rel'];
 
 export const CONNECT_REL_LAYERS = ['AD_Lane', 'AD_Road'];
