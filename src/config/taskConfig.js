@@ -93,7 +93,8 @@ export const VECTOR_FILES = [
 export const ATTR_FILES = [
     'AD_Road_Con_RS.geojson',
     'AD_Lane_RS.geojson',
-    'AD_Lane_Con_RS.geojson'
+    'AD_Lane_Con_RS.geojson',
+    'AD_Lane_Speed.geojson'
 ];
 
 //任务文件-关联关系文件

@@ -42,8 +42,8 @@ class BatchAssignModal extends React.Component {
     getAttrType = () => {
         const { BatchAssignStore } = this.props;
         const { layerName } = BatchAssignStore;
-        const attrConfig = ATTR_SPEC_CONFIG.find(item => item.relSpec === layerName);
-        return attrConfig?.source ?? '';
+        const attrConfig = ATTR_SPEC_CONFIG.filter(item => item.relSpec === layerName);
+        return attrConfig ?? [];
     };
 
     render() {
@@ -93,16 +93,23 @@ class BatchAssignModal extends React.Component {
             BatchAssignStore: { layerName, attrs, spliceAttrs, updateKey }
         } = this.props;
         return layerName === 'AD_Lane' ? (
-            <AttrsForm
-                updateKey={updateKey}
-                form={form}
-                attrType={this.getAttrType()}
-                layerName={layerName}
-                attrs={attrs}
-                readonly={false}
-                onOk={this.handleSave}
-                onDelete={spliceAttrs}
-            />
+            <>
+                {this.getAttrType().map((item, index) => {
+                    return (
+                        <AttrsForm
+                            key={index}
+                            updateKey={updateKey}
+                            form={form}
+                            attrType={item.source}
+                            layerName={layerName}
+                            attrs={attrs}
+                            readonly={false}
+                            onOk={this.handleSave}
+                            onDelete={spliceAttrs}
+                        />
+                    );
+                })}
+            </>
         ) : null;
     };
 
@@ -426,10 +433,10 @@ class BatchAssignModal extends React.Component {
     getValidatorSetting = validates => {
         return validates
             ? [
-                {
-                    validator: getValidator(validates)
-                }
-            ]
+                  {
+                      validator: getValidator(validates)
+                  }
+              ]
             : [];
     };
 }

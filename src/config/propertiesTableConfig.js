@@ -153,6 +153,45 @@ export const COLUMNS_CONFIG = {
             filterBy: 'updStatFilter'
         }
     ],
+    AD_Lane_Speed: [
+        {
+            dataIndex: 'index',
+            title: '序号'
+        },
+        {
+            dataIndex: 'SPEED_ID',
+            title: '用户编号'
+        },
+        {
+            dataIndex: 'LANE_ID',
+            title: '关联车道中心线用户编号'
+        },
+        {
+            dataIndex: 'SPD_TYPE',
+            title: '车道限速类型',
+            filterBy: 'typeFilter|AD_LANE_SPD_TYPE'
+        },
+        {
+            dataIndex: 'SPEED',
+            title: '车道限速值',
+            filterBy: 'adLaneRsValueFilter'
+        },
+        {
+            dataIndex: 'SPD_SOURCE',
+            title: '车道限速来源',
+            filterBy: 'typeFilter|AD_LANE_SPD_TYPE'
+        },
+        {
+            dataIndex: 'OFFSET',
+            title: '车道限速有效区间',
+            filterBy: 'adLaneRsValueFilter'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
+        }
+    ],
     AD_Arrow: [
         {
             dataIndex: 'index',
@@ -511,7 +550,7 @@ export const SELECT_OPTIONS = [
         group: '逻辑层：属性图层',
         type: 'attr',
         class: 'three-layer-out',
-        items: ['AD_Lane_RS', 'AD_Road_Con_RS', 'AD_Lane_Con_RS']
+        items: ['AD_Lane_RS', 'AD_Road_Con_RS', 'AD_Lane_Con_RS', 'AD_Lane_Speed']
     },
     {
         group: '几何层',
@@ -563,6 +602,7 @@ export const OPTION_LAYER_MAP = {
     //关联属性
     AD_TS_Content: ['AD_TrafficSign'],
     AD_Lane_RS: ['AD_Lane'],
+    AD_Lane_Speed: ['AD_Lane'],
     AD_Road_Con_RS: ['AD_Road'],
     AD_Lane_Con_RS: ['AD_Lane']
 };

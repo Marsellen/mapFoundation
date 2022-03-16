@@ -3,6 +3,7 @@ import { Button, Icon } from 'antd';
 import EditableCard from './editableCard';
 import _ from 'lodash';
 import NewAttrModal from './newAttrModal';
+import 'less/attributes-modal.less';
 
 class AttrsForm extends React.Component {
     newAttrs = attrType => {
@@ -26,6 +27,7 @@ class AttrsForm extends React.Component {
     render = () => {
         const { form, onOk, attrs, attrType, readonly, updateKey } = this.props;
         const newEnable = !readonly;
+        const text = attrType == 'AD_Lane_RS' ? '限制' : '限速';
         return (
             <div>
                 {(attrs[attrType] || []).map((rs, index) =>
@@ -46,9 +48,12 @@ class AttrsForm extends React.Component {
                     )
                 )}
                 {newEnable && (
-                    <Button onClick={this.newAttrs(attrType)} title="添加交通限制">
-                        <Icon type="plus" />
-                    </Button>
+                    <div className="attr-form-btn">
+                        <span>{text}</span>
+                        <Button onClick={this.newAttrs(attrType)} title={`添加交通${text}`}>
+                            <Icon type="plus" />
+                        </Button>
+                    </div>
                 )}
                 <NewAttrModal onRef={modal => (this.modal = modal)} handleSave={onOk} />
             </div>

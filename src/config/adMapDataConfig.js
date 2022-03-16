@@ -394,6 +394,11 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 2, label: '潮汐车道限制' },
         { value: 3, label: '禁止停车限制' }
     ],
+    AD_LANE_SPD_TYPE: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '最高限速' },
+        { value: 2, label: '最低限速' }
+    ],
     AD_LANE_RS_VALUE: [{ value: 0, label: '未定义' }],
     AD_LANE_RS_VALUE0: [{ value: 0, label: '未定义' }],
     AD_LANE_RS_VALUE1: [
@@ -414,6 +419,12 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 1, label: '禁止停车' },
         { value: 2, label: '禁止长时间停车' },
         { value: 3, label: '禁止停车时间' }
+    ],
+    AD_LANE_SPD_SOURCE: [
+        { value: 0, label: '未定义' },
+        { value: 1, label: '实地采集' },
+        { value: 2, label: '逻辑推断' },
+        { value: 3, label: '法定限速' }
     ],
     AD_LANE_CON_RS_TYPE: [
         { value: 0, label: '未定义' },
@@ -906,6 +917,13 @@ export const DEFAULT_PROPERTIES_MAP = {
     AD_Road_Con_RS: {
         RS_TYPE: 1,
         TIMEDOM: ''
+    },
+    AD_Lane_Speed: {
+        SPD_TYPE: 0,
+        SPEED: 0,
+        SPD_SOURCE: 0,
+        OFFSETMin: 0,
+        OFFSETMax: 0
     },
     AD_StopLocation: {
         TYPE: 1
@@ -1520,6 +1538,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_LaneShape: '{"LANE_ID":{}}',
     AD_Lane_RS: '{"LANE_ID":{},"RS_TYPE":{},"RS_VALUE":{},"TIMEDOM":{}}',
     AD_Lane_Con_RS: '{"REL_ID":{},"RS_TYPE":{},"TIMEDOM":{}}',
+    AD_Lane_Speed: '{"LANE_ID":{},"SPD_TYPE":{},"SPEED":{}},"SPD_SOURCE":{}},"OFFSET":{}}',
     AD_Arrow: '{"ARR_DIRECT":{},"LANE_ID":{},"GEOMETRY":{}}',
     AD_Junction: '{"TILE_ID":{},"GEOMETRY":{}}',
     AD_StopLocation: '{"TYPE":{},"GEOMETRY":{}}',

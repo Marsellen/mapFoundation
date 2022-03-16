@@ -115,7 +115,7 @@ class BatchAssignStore {
     });
 
     getAttrLog = flow(function* (feature, data, key, attrType) {
-        if (!data.attrs) return [[], []];
+        if (!data.attrs || !data.attrs[attrType]) return [[], []];
         let attrFormData = [];
         for (let i = 0; i < data.attrs[attrType].length; i++) {
             const attrs = yield this.addProperties(feature, data.attrs[attrType][i], attrType);
@@ -135,9 +135,20 @@ class BatchAssignStore {
         let batchNewFeature = [];
         let batchOldAttr = [];
         let batchNewAttr = [];
+        let oldAttrs = [];
+        let newAttrs = [];
         for (let featureId in this.attrMap) {
             const feature = this.attrMap[featureId].feature;
-            const [oldAttrs, newAttrs] = yield this.getAttrLog(feature, data, featureId, attrType);
+            for (let i = 0; i < attrType.length; i++) {
+                const [oldAttr, newAttr] = yield this.getAttrLog(
+                    feature,
+                    data,
+                    featureId,
+                    attrType[i].source
+                );
+                oldAttrs = [...oldAttrs, ...oldAttr];
+                newAttrs = [...newAttrs, ...newAttr];
+            }
             let oldFeature = _.cloneDeep(feature);
             let newFeature = _.cloneDeep(feature);
 
@@ -151,9 +162,9 @@ class BatchAssignStore {
 
             batchOldFeature = [...batchOldFeature, oldFeature];
             batchNewFeature = [...batchNewFeature, newFeature];
-            batchOldAttr = [...batchOldAttr, ...oldAttrs];
-            batchNewAttr = [...batchNewAttr, ...newAttrs];
         }
+        batchOldAttr = [...batchOldAttr, ...oldAttrs];
+        batchNewAttr = [...batchNewAttr, ...newAttrs];
         this.hide();
         const batchHistoryLog = {
             features: [batchOldFeature, batchNewFeature]

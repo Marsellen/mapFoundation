@@ -26,8 +26,8 @@ class AttributesModal extends React.Component {
     getAttrType = () => {
         const { AttributeStore } = this.props;
         const { layerName } = AttributeStore;
-        const attrConfig = ATTR_SPEC_CONFIG.find(item => item.relSpec === layerName);
-        return attrConfig?.source ?? '';
+        const attrConfig = ATTR_SPEC_CONFIG.filter(item => item.relSpec === layerName);
+        return attrConfig ?? [];
     };
 
     componentDidMount() {
@@ -130,16 +130,23 @@ class AttributesModal extends React.Component {
             <div key="basicAttribute">
                 <BasicAttributesForm form={form} formConfig={attributes} formStatus={!readonly} />
                 {layerName === 'AD_Lane' ? (
-                    <AttrsForm
-                        updateKey={updateKey}
-                        form={form}
-                        attrType={this.getAttrType()}
-                        layerName={layerName}
-                        attrs={attrs}
-                        readonly={readonly}
-                        onOk={this.handleSave}
-                        onDelete={spliceAttrs}
-                    />
+                    <>
+                        {this.getAttrType().map((item, index) => {
+                            return (
+                                <AttrsForm
+                                    key={index}
+                                    updateKey={updateKey}
+                                    form={form}
+                                    attrType={item.source}
+                                    layerName={layerName}
+                                    attrs={attrs}
+                                    readonly={readonly}
+                                    onOk={this.handleSave}
+                                    onDelete={spliceAttrs}
+                                />
+                            );
+                        })}
+                    </>
                 ) : null}
             </div>
         );

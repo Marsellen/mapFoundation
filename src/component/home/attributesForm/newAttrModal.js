@@ -11,6 +11,7 @@ import AdDateInput from 'src/component/common/form/adDateInput';
 import { getValidator } from 'src/util/validator';
 import AdInputNumber from 'src/component/common/form/adInputNumber';
 import { testDataString } from 'src/util/timeUtils';
+import 'less/attributes-modal.less';
 
 const formItemLayout = {
     labelCol: {
@@ -177,6 +178,81 @@ class NewAttrModal extends React.Component {
         );
     };
 
+    getRangeValue = item => {
+        const { key } = item;
+        const fieldsValue = this.props.form.getFieldsValue();
+        const min = fieldsValue[`${key}Min`];
+        const max = fieldsValue[`${key}Max`];
+        const isValue = min != undefined && max != undefined;
+        return isValue ? `${min}至${max}米` : false;
+    };
+
+    checkMinRange = (value, callback, item) => {
+        const fieldsValue = this.props.form.getFieldsValue();
+        const { key, validates } = item;
+        const min = validates.min;
+        const max = fieldsValue[`${key}Max`];
+        if (value < min) {
+            callback(new Error(`最小值不小于${min}`));
+        }
+        if (value > max) {
+            callback(new Error('区间取值错误'));
+        }
+        callback();
+    };
+
+    checkMaxRange = (value, callback, item) => {
+        const fieldsValue = this.props.form.getFieldsValue();
+        const { key, validates } = item;
+        const max = validates.max;
+        const min = fieldsValue[`${key}Min`];
+        if (value > max) {
+            callback(new Error(`最大值不超过${max}`));
+        }
+        if (value <= min) {
+            callback(new Error('区间取值错误'));
+        }
+        callback();
+    };
+    renderRangeInputNumber = (item, index) => {
+        const { form } = this.props;
+        const rangeValue = this.getRangeValue(item);
+        return (
+            <Form.Item key={index} label={item.name} {...formItemLayout}>
+                {form.getFieldDecorator(item.key, {
+                    initialValue: !!rangeValue ? rangeValue : item.value
+                })(
+                    <div className="range-input-number">
+                        <Form.Item key={`${index}Min`}>
+                            {form.getFieldDecorator(`${item.key}Min`, {
+                                rules: [
+                                    {
+                                        validator: (rule, value, callback) =>
+                                            this.checkMinRange(value, callback, item)
+                                    }
+                                ],
+                                initialValue: item[`${item.key}Min`]
+                            })(<AdInputNumber type="number" disabled={item.disabled} />)}
+                        </Form.Item>
+                        <span className="range-space">至</span>
+                        <Form.Item key={`${index}Max`}>
+                            {form.getFieldDecorator(`${item.key}Max`, {
+                                rules: [
+                                    {
+                                        validator: (rule, value, callback) =>
+                                            this.checkMaxRange(value, callback, item)
+                                    }
+                                ],
+                                initialValue: item[`${item.key}Max`]
+                            })(<AdInputNumber type="number" disabled={item.disabled} />)}
+                        </Form.Item>
+                        <span className="range-bottom">米</span>
+                    </div>
+                )}
+            </Form.Item>
+        );
+    };
+
     renderSelect = (item, index) => {
         const { form } = this.props;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
@@ -297,7 +373,7 @@ class NewAttrModal extends React.Component {
             case 'CONT_VALUE':
                 return this.linkContValueChangeEvent;
             default:
-                return () => { };
+                return () => {};
         }
     };
 
@@ -346,10 +422,10 @@ class NewAttrModal extends React.Component {
     getValidatorSetting = validates => {
         return validates
             ? [
-                {
-                    validator: getValidator(validates)
-                }
-            ]
+                  {
+                      validator: getValidator(validates)
+                  }
+              ]
             : [];
     };
 }
