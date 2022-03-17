@@ -11,7 +11,7 @@ export const REL_DATA_SET = [
 ];
 
 // 属性关联关系图层
-export const ATTR_REL_DATA_SET = ['AD_Lane', 'AD_Arrow'];
+export const ATTR_REL_DATA_SET = ['AD_Lane', 'AD_Arrow', 'AD_LaneAttrPoint'];
 
 // IndexDB对象类型描述映射
 export const REL_TYPE_KEY_MAP = {
@@ -96,6 +96,7 @@ export const REL_TYPE_KEY_MAP = {
 // 各个矢量图层包含关联查询的索引与对象类型的映射
 export const SPEC_REL_KEY_SET = [
     { spec: 'AD_Lane', relKey: 'LANE', relType: 'OBJ_TYPE_KEYS' },
+    { spec: 'AD_Lane', relKey: 'LANE', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_Lane', relKey: 'TO_LANE', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_Lane', relKey: 'FROM_LANE', relType: 'OBJ_TYPE_KEYS' },
     { spec: 'AD_Road', relKey: 'TO_ROAD', relType: 'REL_OBJ_TYPE_KEYS' },
@@ -109,6 +110,7 @@ export const SPEC_REL_KEY_SET = [
     { spec: 'AD_TrafficLight', relKey: 'LIGHT', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'S_LDIV_ID', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'F_LDIV_ID', relType: 'OBJ_TYPE_KEYS' },
+    { spec: 'AD_LaneAttrPoint', relKey: 'LANEP', relType: 'OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'L_LDIV', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'R_LDIV', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'LDIV', relType: 'OBJ_TYPE_KEYS' }
@@ -201,6 +203,24 @@ export const REL_SPEC_CONFIG = [
         relObjSpec: 'AD_TrafficLight',
         objType: 'LANE',
         relObjType: 'LIGHT'
+    },
+    {
+        source: 'AD_LaneAttrPoint',
+        objKeyName: 'LAP_ID',
+        relObjKeyName: 'ROAD_ID',
+        objSpec: 'AD_LaneAttrPoint',
+        relObjSpec: 'AD_Road',
+        objType: 'LANEP',
+        relObjType: 'ROAD'
+    },
+    {
+        source: 'AD_LaneAttrPoint',
+        objKeyName: 'LAP_ID',
+        relObjKeyName: 'LANE_ID',
+        objSpec: 'AD_LaneAttrPoint',
+        relObjSpec: 'AD_Lane',
+        objType: 'LANEP',
+        relObjType: 'LANE'
     },
     {
         source: 'AD_Arrow',

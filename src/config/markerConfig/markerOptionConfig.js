@@ -277,6 +277,40 @@ const ERROR_DESC_MAP = {
             label: '其它'
         }
     ],
+    AD_LaneAttrPoint: [
+        {
+            value: '多余制作',
+            label: '多余制作'
+        },
+        {
+            value: '遗漏制作物理变化属性点',
+            label: '遗漏制作物理变化属性点'
+        },
+        {
+            value: '遗漏制作过程问题变化属性点',
+            label: '遗漏制作过程问题变化属性点'
+        },
+        {
+            value: '与实际位置偏差>1m',
+            label: '与实际位置偏差>1m'
+        },
+        {
+            value: '记录道路的物理形态变化的属性点类型错误',
+            label: '记录道路的物理形态变化的属性点类型错误'
+        },
+        {
+            value: '记录数据制作过程问题的属性点类型错误',
+            label: '记录数据制作过程问题的属性点类型错误'
+        },
+        {
+            value: '与道路参考线关联错误',
+            label: '与道路参考线关联错误'
+        },
+        {
+            value: '其它',
+            label: '其它'
+        }
+    ],
     AD_Arrow: [
         {
             value: '多余制作',
@@ -1223,6 +1257,64 @@ const ERROR_DESC_RESET_FIELD_MAP = {
             errLevel: 4
         }
     },
+    AD_LaneAttrPoint: {
+        ['多余制作']: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 1,
+            fieldName: null,
+            errLevel: 2
+        },
+        ['遗漏制作物理变化属性点']: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 2,
+            fieldName: null,
+            errLevel: 2
+        },
+        ['遗漏制作过程问题变化属性点']: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 2,
+            fieldName: null,
+            errLevel: 3
+        },
+        ['与实际位置偏差>1m']: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 2
+        },
+        ['记录道路的物理形态变化的属性点类型错误']: {
+            qcDesc: null,
+            errContent: 2,
+            errorType: 3,
+            fieldName: 'TYPE',
+            errLevel: 2
+        },
+        ['记录数据制作过程问题的属性点类型错误']: {
+            qcDesc: null,
+            errContent: 2,
+            errorType: 3,
+            fieldName: 'TYPE',
+            errLevel: 3
+        },
+        ['与道路参考线关联错误']: {
+            qcDesc: null,
+            errContent: 2,
+            errorType: 3,
+            fieldName: 'ROAD_ID',
+            errLevel: 2
+        },
+        ['其它']: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 4
+        }
+    },
     AD_Arrow: {
         ['多余制作']: {
             qcDesc: null,
@@ -2096,6 +2188,7 @@ const FILE_NAME_OPTIONS = [
     { value: 'AD_Road', label: '道路参考线' },
     { value: 'AD_LaneDivider', label: '车道线' },
     { value: 'AD_Lane', label: '车道中心线' },
+    { value: 'AD_LaneAttrPoint', label: '车道属性变化点' },
     { value: 'AD_Arrow', label: '地面导向箭头' },
     { value: 'AD_StopLocation', label: '停止位置' },
     { value: 'AD_Text', label: '地面文字符号' },
@@ -2182,6 +2275,12 @@ const FIELD_NAME_MAP = {
         { value: 'TIMEDOM', label: '车道中心线限制时间描述' },
         { value: 'RS_TYPE', label: '车道中心线连接关系限制类型' },
         { value: 'TIMEDOM', label: '车道中心线连接关系限制时间描述' }
+    ],
+    AD_LaneAttrPoint: [
+        { value: 'TYPE', label: '属性变化点类型' },
+        { value: 'ROAD_ID', label: '属性变化点关联参考线' },
+        { value: 'LANE_ID', label: '属性变化点关联车道中心线' },
+        { value: 'NUMBER', label: '收费站通道数' }
     ],
     AD_Arrow: [
         { value: 'ARR_DIRECT', label: '箭头方向' },

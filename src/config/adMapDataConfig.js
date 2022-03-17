@@ -227,41 +227,62 @@ export const TYPE_SELECT_OPTION_MAP = {
     ],
     AD_LANE_ATTRPOINT_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi', abbreviation: '0' },
-        { value: 1, label: '道路左侧出口', icon: 'daoluzuocechukou', abbreviation: '左出' },
-        { value: 2, label: '道路右侧出口', icon: 'daoluyoucechukou', abbreviation: '右出' },
-        { value: 3, label: '道路分离点', icon: 'daolufenlidian', abbreviation: '路分' },
-        { value: 4, label: '道路合并点', icon: 'daoluhebingdian', abbreviation: '路合' },
-        { value: 5, label: '车道合并点', icon: 'chedaohebingdian', abbreviation: '道合' },
+        { value: 1801, label: '道路左侧出口', icon: 'daoluzuocechukou', abbreviation: '左出' },
+        { value: 1802, label: '道路右侧出口', icon: 'daoluyoucechukou', abbreviation: '右出' },
+        { value: 1803, label: '道路分离点', icon: 'daolufenlidian', abbreviation: '路分' },
+        { value: 1804, label: '道路合并点', icon: 'daoluhebingdian', abbreviation: '路合' },
+        { value: 1805, label: '车道合并点', icon: 'chedaohebingdian', abbreviation: '道合' },
+        { value: 1806, label: '收费杆位置', icon: 'shoufeiganweizhi', abbreviation: '收费杆' },
         {
-            value: 21,
+            value: 1807,
+            label: '收费站入口最近点',
+            icon: 'shoufeizhanrukouzuijindian',
+            abbreviation: '入口'
+        },
+        { value: 1808, label: '上方道路起点', icon: 'shangfangdaoluqidian', abbreviation: '上起' },
+        {
+            value: 1809,
+            label: '上方道路终点',
+            icon: 'shangfangdaoluzhongdian',
+            abbreviation: '上终'
+        },
+        { value: 1810, label: '下方道路起点', icon: 'xiafangdaoluqidian', abbreviation: '下起' },
+        { value: 1811, label: '下方道路终点', icon: 'xiafangdaoluzhongdian', abbreviation: '下终' },
+        {
+            value: 1821,
             label: '服务区道路开始位置',
             icon: 'fuwuqudaolukaishiweizhi',
             abbreviation: '服开'
         },
         {
-            value: 22,
+            value: 1822,
             label: '服务区道路结束位置',
             icon: 'fuwuqudaolujieshuweizhi',
             abbreviation: '服结'
         },
         {
-            value: 41,
+            value: 1841,
             label: '点云不清晰起点',
             icon: 'dianyunbuqingxiqishi',
             abbreviation: '不清起'
         },
         {
-            value: 42,
+            value: 1842,
             label: '点云不清晰结束点',
             icon: 'dianyunbuqingxijieshu',
             abbreviation: '不清结'
         },
-        { value: 43, label: '点云遮挡起点', icon: 'dianyunzhedangqishi', abbreviation: '遮起' },
-        { value: 44, label: '点云遮挡结束点', icon: 'dianyunzhedangjieshu', abbreviation: '遮结' },
-        { value: 45, label: '精度误差起点', icon: 'jingduwuchaqishi', abbreviation: '差起' },
-        { value: 46, label: '精度误差结束点', icon: 'jingduwuchajieshu', abbreviation: '差结' },
-        { value: 47, label: '道路施工起点', icon: 'daolushigongqishi', abbreviation: '施工起' },
-        { value: 48, label: '道路施工结束点', icon: 'daolushigongjieshu', abbreviation: '施工结' }
+        { value: 1843, label: '点云遮挡起点', icon: 'dianyunzhedangqishi', abbreviation: '遮起' },
+        {
+            value: 1844,
+            label: '点云遮挡结束点',
+            icon: 'dianyunzhedangjieshu',
+            abbreviation: '遮结'
+        },
+        { value: 1845, label: '精度误差起点', icon: 'jingduwuchaqishi', abbreviation: '差起' },
+        { value: 1846, label: '精度误差结束点', icon: 'jingduwuchajieshu', abbreviation: '差结' },
+        { value: 1847, label: '道路施工起点', icon: 'daolushigongqishi', abbreviation: '施工起' },
+        { value: 1848, label: '道路施工结束点', icon: 'daolushigongjieshu', abbreviation: '施工结' }
     ],
     AD_STOPLOCATION_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi', abbreviation: '0' },
@@ -925,6 +946,12 @@ export const DEFAULT_PROPERTIES_MAP = {
         OFFSETMin: 0,
         OFFSETMax: 0
     },
+    AD_LaneAttrPoint: {
+        TYPE: 0,
+        ROAD_ID: 0,
+        NUMBER: 0,
+        LANE_ID: 0
+    },
     AD_StopLocation: {
         TYPE: 1
     },
@@ -1261,6 +1288,54 @@ export const TABLE_DATA_MAP = {
             domType: 'Text'
         }
     ],
+    AD_LaneAttrPoint: [
+        {
+            key: 'LAP_ID',
+            name: '用户编号',
+            type: 'AD_LANE_ATTRPOINT_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'TYPE',
+            name: '属性变化点类型',
+            type: 'AD_LANE_ATTRPOINT_TYPE',
+            domType: 'RadioIconGroup',
+            linkDisabled: {
+                0: ['NUMBER'],
+                1801: ['NUMBER'],
+                1802: ['NUMBER'],
+                1803: ['NUMBER'],
+                1804: ['NUMBER'],
+                1805: ['NUMBER'],
+                1806: ['NUMBER'],
+                1808: ['NUMBER'],
+                1809: ['NUMBER'],
+                1810: ['NUMBER'],
+                1811: ['NUMBER'],
+                1821: ['NUMBER'],
+                1841: ['NUMBER'],
+                1842: ['NUMBER'],
+                1843: ['NUMBER'],
+                1844: ['NUMBER'],
+                1845: ['NUMBER'],
+                1846: ['NUMBER'],
+                1847: ['NUMBER'],
+                1848: ['NUMBER']
+            }
+        },
+        {
+            key: 'NUMBER',
+            name: '收费站通道数',
+            type: 'AD_LANE_ATTRPOINT_NUMBER',
+            domType: 'InputNumber'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
+        }
+    ],
     AD_TrafficLight: [
         {
             key: 'LIGHT_ID',
@@ -1539,6 +1614,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_Lane_RS: '{"LANE_ID":{},"RS_TYPE":{},"RS_VALUE":{},"TIMEDOM":{}}',
     AD_Lane_Con_RS: '{"REL_ID":{},"RS_TYPE":{},"TIMEDOM":{}}',
     AD_Lane_Speed: '{"LANE_ID":{},"SPD_TYPE":{},"SPEED":{}},"SPD_SOURCE":{}},"OFFSET":{}}',
+    AD_LaneAttrPoint: '{"TYPE":{},"ROAD_ID":{},"NUMBER":{},"LANE_ID":{},"GEOMETRY":{}}',
     AD_Arrow: '{"ARR_DIRECT":{},"LANE_ID":{},"GEOMETRY":{}}',
     AD_Junction: '{"TILE_ID":{},"GEOMETRY":{}}',
     AD_StopLocation: '{"TYPE":{},"GEOMETRY":{}}',
@@ -1737,6 +1813,33 @@ export const LAYER_TYPE_MAP = {
             key: 'TILE_ID',
             name: 'TILE图幅编号',
             type: 'AD_JUNCTION_TILE_ID'
+        }
+    ],
+    AD_LaneAttrPoint: [
+        {
+            key: 'LAP_ID',
+            name: '用户编号',
+            type: 'AD_LANE_ATTRPOINT_ID'
+        },
+        {
+            key: 'TYPE',
+            name: '属性变化点类型',
+            type: 'AD_LANE_ATTRPOINT_TYPE'
+        },
+        {
+            key: 'ROAD_ID',
+            name: '关联道路参考线ID',
+            type: 'AD_LANE_ATTRPOINT_ROAD_ID'
+        },
+        {
+            key: 'LANE_ID',
+            name: '关联车道中心线ID',
+            type: 'AD_LANE_ATTRPOINT_LANE_ID'
+        },
+        {
+            key: 'NUMBER',
+            name: '收费站通道数',
+            type: 'AD_LANE_ATTRPOINT_NUMBER'
         }
     ],
     AD_TrafficSign: [

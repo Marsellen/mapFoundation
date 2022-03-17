@@ -936,6 +936,215 @@ export default {
             ]
         }
     },
+    AD_LaneAttrPoint: {
+        type: 'Point',
+        showFields: ['TYPE'],
+        order: 2,
+        showStyles: ['vectorStyle'],
+        vectorStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1801,
+                    label: '道路左侧出口',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1802,
+                    label: '道路右侧出口',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1803,
+                    label: '道路分离点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1804,
+                    label: '道路合并点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1805,
+                    label: '车道合并点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1806,
+                    label: '收费杆位置',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1807,
+                    label: '收费站入口最近点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1808,
+                    label: '上方道路起点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1809,
+                    label: '上方道路终点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1810,
+                    label: '下方道路起点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1811,
+                    label: '下方道路终点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1821,
+                    label: '服务区道路开始位置',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1822,
+                    label: '服务区道路结束位置',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+
+                {
+                    value: 1841,
+                    label: '点云不清晰起点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1842,
+                    label: '点云不清晰结束点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1843,
+                    label: '点云遮挡起点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1844,
+                    label: '点云遮挡结束点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1845,
+                    label: '精度误差起点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1846,
+                    label: '精度误差结束点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1847,
+                    label: '道路施工起点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                },
+                {
+                    value: 1848,
+                    label: '道路施工结束点',
+                    style: {
+                        color: 'rgb(102,255,102)',
+                        radius: 0.15,
+                        size: 80
+                    }
+                }
+            ]
+        }
+    },
     AD_Arrow: {
         type: 'Polygon',
         showFields: ['ARR_DIRECT'],

@@ -23,6 +23,14 @@ export const UPD_STAT_VECTOR_CONFIG = {
         order: 1,
         iconStyle: {}
     },
+    AD_LaneAttrPoint: {
+        type: 'Point',
+        iconFields: ['UPD_STAT'],
+        showStyles: ['iconStyle'],
+        key: 'AD_LaneAttrPoint',
+        order: 2,
+        iconStyle: {}
+    },
     AD_Arrow: {
         type: 'Line',
         iconFields: ['UPD_STAT'],

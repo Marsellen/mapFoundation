@@ -53,6 +53,21 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             pointSize: 0.1
         }
     },
+    AD_LaneAttrPoint: {
+        key: 'AD_LaneAttrPoint',
+        label: '车道属性变化点',
+        checked: false,
+        isClassify: true,
+        type: 'Point',
+        commonStyle: {
+            showFields: 'NOKEY',
+            color: 'rgb(255,255,255)',
+            opacity: 1,
+            radius: 0.15,
+            size: 80,
+            pointStyle: 'dianyaosu'
+        }
+    },
     AD_Arrow: {
         key: 'AD_Arrow',
         label: '地面导向箭头',

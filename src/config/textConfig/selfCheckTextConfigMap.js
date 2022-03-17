@@ -68,6 +68,26 @@ export const SELF_CHECK_TEXT_CONFIG_MAP = {
             }
         }
     },
+    AD_LaneAttrPoint: {
+        key: 'AD_LaneAttrPoint',
+        label: '车道属性变化点',
+        checked: true,
+        defaultStyle: {
+            textFields: ['TYPE'], //看数据规格
+            offset: 20,
+            showMode: 'right',
+            fontSize: 40,
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
+        },
+        textModeMap: {
+            top: { key: 'top', label: '上方', offset: true },
+            right: { key: 'right', label: '右侧', offset: true },
+            bottom: { key: 'bottom', label: '下方', offset: true },
+            left: { key: 'left', label: '左侧', offset: true }
+        }
+    },
     AD_Arrow: {
         key: 'AD_Arrow',
         label: '地面导向箭头',

@@ -39,6 +39,7 @@ export const CONFIGURABLE_LAYERS = [
     'AD_Road',
     'AD_LaneDivider',
     'AD_Lane',
+    'AD_LaneAttrPoint',
     'AD_Arrow',
     'AD_StopLocation',
     'AD_Text',

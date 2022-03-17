@@ -105,6 +105,16 @@ export const REL_SELECT_OPTIONS = [
         title: '道路边界 & 道路边界',
         key: 'AD_Boundary_Rel',
         checked: false
+    },
+    {
+        title: '道路参考线 & 车道属性交化点',
+        key: 'AD_Road_Point_Rel',
+        checked: false
+    },
+    {
+        title: '车道中心线 & 车道属性交化点',
+        key: 'AD_Lane_Point_Rel',
+        checked: false
     }
 ];
 
@@ -207,6 +217,8 @@ export const LAYER_NAME_MAP = {
     ARROW_ID: { layerName: 'AD_Arrow', key: 'ARR_ID' },
     TEXT_ID: { layerName: 'AD_Text', key: 'TEXT_ID' },
     SIGN_ID: { layerName: 'AD_TrafficSign', key: 'SIGN_ID' },
+    LAP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' },
+    LANEP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' },
     LIGHT_ID: { layerName: 'AD_TrafficLight', key: 'LIGHT_ID' }
 };
 
@@ -222,7 +234,9 @@ export const RELS_ID_MAP = {
     AD_Light_Lane_Rel: ['LANE_ID', 'LIGHT_ID'],
     AD_Lane_Arrow_Rel: ['ARR_ID', 'LANE_ID'],
     AD_Road_Boundary_Rel: ['LDIV_ID', 'ROAD_ID'],
-    AD_Boundary_Rel: ['F_LDIV_ID', 'S_LDIV_ID']
+    AD_Boundary_Rel: ['F_LDIV_ID', 'S_LDIV_ID'],
+    AD_Road_Point_Rel: ['LAP_ID', 'ROAD_ID'],
+    AD_Lane_Point_Rel: ['LAP_ID', 'LANE_ID']
 };
 
 export const RELS_ID_MAP_REVERSE = {
@@ -238,7 +252,13 @@ export const RELS_ID_MAP_REVERSE = {
     [['LANE', 'LIGHT']]: 'AD_Light_Lane_Rel',
     [['LANE', 'ARROW']]: 'AD_Lane_Arrow_Rel',
     [['LDIV', 'ROAD']]: 'AD_Road_Boundary_Rel',
-    [['F_LDIV_ID', 'S_LDIV_ID']]: 'AD_Boundary_Rel'
+    [['F_LDIV_ID', 'S_LDIV_ID']]: 'AD_Boundary_Rel',
+    [['LAP', 'ROAD']]: 'AD_Road_Point_Rel',
+    [['LAP', 'ROAD']]: 'AD_Road_Point_Rel',
+    [['LANEP', 'ROAD']]: 'AD_Road_Point_Rel',
+    [['LAP', 'LANE']]: 'AD_Lane_Point_Rel',
+    [['LAP', 'LANE']]: 'AD_Lane_Point_Rel',
+    [['LANEP', 'LANE']]: 'AD_Lane_Point_Rel'
 };
 
 //id与文字标注配置映射

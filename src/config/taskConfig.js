@@ -80,6 +80,7 @@ export const VECTOR_FILES = [
     'AD_Road.geojson',
     'AD_LaneDivider.geojson',
     'AD_Lane.geojson',
+    'AD_LaneAttrPoint.geojson',
     'AD_Arrow.geojson',
     'AD_StopLocation.geojson',
     // 'AD_LaneMark_Plg.geojson',
@@ -106,6 +107,7 @@ export const REL_FILES = [
     'AD_Plg_Lane_Rel.geojson',
     'AD_Light_Lane_Rel.geojson',
     'AD_Sign_Lane_Rel.geojson',
+    'AD_LaneAttrPoint.geojson',
     'AD_Arrow.geojson',
     'AD_Road_Boundary_Rel.geojson',
     'AD_Boundary_Rel.geojson'

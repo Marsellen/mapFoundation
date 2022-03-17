@@ -192,6 +192,38 @@ export const COLUMNS_CONFIG = {
             filterBy: 'updStatFilter'
         }
     ],
+    AD_LaneAttrPoint: [
+        {
+            dataIndex: 'index',
+            title: '序号'
+        },
+        {
+            dataIndex: 'LAP_ID',
+            title: '用户编号'
+        },
+        {
+            dataIndex: 'TYPE',
+            title: '属性变化点类型',
+            filterBy: 'typeFilter|AD_LANE_ATTRPOINT_TYPE'
+        },
+        {
+            dataIndex: 'ROAD_ID',
+            title: '关联道路参考线ID'
+        },
+        {
+            dataIndex: 'LANE_ID',
+            title: '关联车道中心线ID'
+        },
+        {
+            dataIndex: 'NUMBER',
+            title: '收费站通道数'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
+        }
+    ],
     AD_Arrow: [
         {
             dataIndex: 'index',
@@ -522,6 +554,7 @@ export const SELECT_OPTIONS = [
             'AD_Road',
             'AD_LaneDivider',
             'AD_Lane',
+            'AD_LaneAttrPoint',
             'AD_Arrow',
             'AD_StopLocation',
             // 'AD_LaneMark_Plg',
@@ -574,6 +607,7 @@ export const OPTION_LAYER_MAP = {
     AD_Road: ['AD_Road'],
     AD_LaneDivider: ['AD_LaneDivider'],
     AD_Lane: ['AD_Lane'],
+    AD_LaneAttrPoint: ['AD_LaneAttrPoint'],
     AD_Arrow: ['AD_Arrow'],
     AD_StopLocation: ['AD_StopLocation'],
     AD_LaneMark_Plg: ['AD_LaneMark_Plg'],
@@ -597,6 +631,8 @@ export const OPTION_LAYER_MAP = {
     AD_Sign_Lane_Rel: ['AD_Lane', 'AD_TrafficSign'],
     AD_Light_Lane_Rel: ['AD_Lane', 'AD_TrafficLight'],
     AD_Lane_Arrow_Rel: ['AD_Lane', 'AD_Arrow'],
+    AD_Lane_Point_Rel: ['AD_Lane', 'AD_LaneAttrPoint'],
+    AD_Road_Point_Rel: ['AD_LaneAttrPoint', 'AD_Road'],
     AD_Road_Boundary_Rel: ['AD_LaneDivider', 'AD_Road'],
     AD_Boundary_Rel: ['AD_LaneDivider'],
     //关联属性

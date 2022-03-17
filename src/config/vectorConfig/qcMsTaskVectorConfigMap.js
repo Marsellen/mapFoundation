@@ -1015,6 +1015,46 @@ export const QC_MS_TASK_VECTOR_CONFIG_MAP = {
             }
         ]
     },
+    AD_LaneAttrPoint: {
+        key: 'AD_LaneAttrPoint',
+        label: '车道属性变化点',
+        checked: false,
+        isClassify: true,
+        type: 'Point',
+        commonStyle: {
+            showFields: 'TYPE',
+            color: 'rgb(102,255,102)',
+            opacity: 1,
+            radius: 0.15,
+            size: 80,
+            pointStyle: 'dianyaosu'
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'dianyaosu',
+            styleFieldSize: 18
+        },
+        pointIconOptionArr: [
+            { key: 'dianyaosu', icon: 'dianyaosu' },
+            { key: 'dianfuhao', icon: 'dianfuhao' },
+            { key: 'dianfuhao1', icon: 'dianfuhao1' },
+            { key: 'dianfuhao2', icon: 'dianfuhao2' },
+            { key: 'dianfuhao3', icon: 'dianfuhao3' },
+            { key: 'dianfuhao4', icon: 'dianfuhao4' },
+            { key: 'dianfuhao5', icon: 'dianfuhao5' },
+            { key: 'dianfuhao6', icon: 'dianfuhao6' },
+            { key: 'dianfuhao7', icon: 'dianfuhao7' },
+            { key: 'dianfuhao8', icon: 'dianfuhao8' }
+        ],
+        typeArr: [
+            {
+                key: 'TYPE',
+                name: '属性变化点类型',
+                type: 'AD_LANE_ATTRPOINT_TYPE',
+                domType: 'RadioIconGroup'
+            }
+        ]
+    },
     AD_Arrow: {
         key: 'AD_Arrow',
         label: '地面导向箭头',

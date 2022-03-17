@@ -41,6 +41,19 @@ export default {
             ]
         }
     },
+    AD_LaneAttrPoint: {
+        type: 'Point',
+        showFields: ['NOKEY'],
+        order: 2,
+        showStyles: ['vectorStyle'],
+        vectorStyle: {
+            NOKEY: [
+                {
+                    style: { color: 'rgb(102,255,102)', radius: 0.15, size: 80 }
+                }
+            ]
+        }
+    },
     AD_Arrow: {
         type: 'Polygon',
         showFields: ['NOKEY'],

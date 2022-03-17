@@ -31,6 +31,19 @@ export const DATA_LAYER_MAP = {
         groupRightTools: ['delete'],
         editName: '路口面'
     },
+    AD_LaneAttrPoint: {
+        label: '车道属性变化点',
+        id: 'LAP_ID',
+        spec: 'AD_LaneAttrPoint',
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
+        },
+        drawTools: { recognition: ['POINT'], manbuild: ['POINT'] },
+        rightTools: ['delete', 'force_delete', 'move_point_feature'],
+        groupRightTools: ['batch_assign', 'delete'],
+        editName: '车道属性\n变化点'
+    },
     AD_LaneDivider: {
         label: '车道线',
         id: 'LDIV_ID',
@@ -333,6 +346,16 @@ export const DATA_LAYER_MAP = {
         id: 'REL_ID',
         spec: 'AD_Lane_Arrow_Rel'
     },
+    AD_Lane_Point_Rel: {
+        label: '车道中心线 & 车道属性变化点关联关系',
+        id: 'REL_ID',
+        spec: 'AD_Lane_Point_Rel'
+    },
+    AD_Road_Point_Rel: {
+        label: '道路参考线 & 车道属性变化点关联关系',
+        id: 'REL_ID',
+        spec: 'AD_Road_Point_Rel'
+    },
     AD_Road_Boundary_Rel: {
         label: '道路边界 & 参考线关联关系',
         id: 'REL_ID',
@@ -526,6 +549,7 @@ export const IMP_RECOGNITION_DISABLED_LAYERS = ['AD_Road', 'AD_Lane'];
 export const MS_EDIT_LAYER_MAP = {
     LOGIC: [
         'AD_LaneDivider',
+        'AD_LaneAttrPoint',
         'AD_Arrow',
         'AD_StopLocation',
         'AD_Text',
@@ -542,6 +566,7 @@ export const MB_EDIT_LAYER_MAP = {
         'AD_Road',
         'AD_LaneDivider',
         'AD_Lane',
+        'AD_LaneAttrPoint',
         'AD_Arrow',
         'AD_StopLocation',
         'AD_Text',
