@@ -289,7 +289,7 @@ export const MARKER_FORM_CONFIG = () => {
             {
                 name: 'qcLink',
                 initialValue: 2,
-                editable: false,
+                editable: true,
                 option: {
                     data: MB_QC_LINK_OPTIONS,
                     label: 'label',
@@ -310,7 +310,7 @@ export const MARKER_FORM_CONFIG = () => {
             {
                 name: 'qcLink',
                 initialValue: 3,
-                editable: false,
+                editable: true,
                 option: {
                     data: SECOND_QC_LINK_OPTIONS,
                     label: 'label',
@@ -356,7 +356,7 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'qcStatus', editable: false },
             {
                 name: 'qcLink',
-                editable: false,
+                editable: true,
                 option: {
                     data: MB_QC_LINK_OPTIONS,
                     label: 'label',
@@ -380,7 +380,7 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'qcStatus', editable: false },
             {
                 name: 'qcLink',
-                editable: false,
+                editable: true,
                 option: {
                     data: SECOND_QC_LINK_OPTIONS,
                     label: 'label',
@@ -428,7 +428,7 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'qcStatus', editable: false },
             {
                 name: 'qcLink',
-                editable: false,
+                editable: true,
                 option: {
                     data: MB_QC_LINK_OPTIONS,
                     label: 'label',
@@ -452,7 +452,7 @@ export const MARKER_FORM_CONFIG = () => {
             { name: 'qcStatus', editable: false },
             {
                 name: 'qcLink',
-                editable: false,
+                editable: true,
                 option: {
                     data: SECOND_QC_LINK_OPTIONS,
                     label: 'label',
@@ -532,7 +532,7 @@ export const MARKER_FORM_CONFIG = () => {
             },
             {
                 name: 'qcLink',
-                editable: false,
+                editable: true,
                 option: {
                     data: MB_QC_LINK_OPTIONS,
                     label: 'label',
@@ -572,7 +572,7 @@ export const MARKER_FORM_CONFIG = () => {
             },
             {
                 name: 'qcLink',
-                editable: false,
+                editable: true,
                 option: {
                     data: SECOND_QC_LINK_OPTIONS,
                     label: 'label',
