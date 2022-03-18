@@ -3,7 +3,8 @@ import {
     REL_SPEC_CONFIG,
     ATTR_REL_DATA_SET,
     REL_DATA_SET,
-    CONNECTION_RELS
+    CONNECTION_RELS,
+    REL_LIMIT_LAYER
 } from 'src/config/relsConfig';
 import { DEFAULT_CONFIDENCE_MAP } from 'src/config/adMapDataConfig';
 import {
@@ -119,9 +120,10 @@ const basicCheck = async (mainFeature, relFeatures, layerName) => {
     let isAttrRel =
         ATTR_REL_DATA_SET.includes(relSpecs[0].source) && layerName === relSpecs[0].source;
     let REL_LIMIT_COUNT = 1;
+    const isLimitLayer = REL_LIMIT_LAYER.includes(relFeatures[0].layerName);
     if (
         (isAttrRel && relFeatures.length > relSpecs.length) ||
-        (layerName === 'AD_LaneDivider' && relFeatures.length > REL_LIMIT_COUNT)
+        (layerName === 'AD_LaneDivider' && isLimitLayer && relFeatures.length > REL_LIMIT_COUNT)
     ) {
         throw new Error(`${layerName}和${relFeatureTypes[0]}的关联类型超出规格定义`);
     }

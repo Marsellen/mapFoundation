@@ -14,6 +14,9 @@ export const REL_DATA_SET = [
 // 属性关联关系图层
 export const ATTR_REL_DATA_SET = ['AD_Lane', 'AD_Arrow', 'AD_LaneAttrPoint'];
 
+// 车道线不能同时建立多条线要素的图层
+export const REL_LIMIT_LAYER = ['AD_Lane'];
+
 // IndexDB对象类型描述映射
 export const REL_TYPE_KEY_MAP = {
     DEFAULT: {
