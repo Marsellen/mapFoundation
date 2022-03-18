@@ -255,6 +255,40 @@ class RenderModeStore {
                 case 'AD_Arrow': //车道中心线 & 地面导向箭头
                     relName = 'AD_Lane_Arrow_Rel';
                     break;
+                case 'AD_LaneAttrPoint':
+                    features.forEach(relItem => {
+                        const { properties } = relItem;
+                        const { LAP_ID, LANE_ID, ROAD_ID } = properties;
+
+                        const LAP_ID_Feature = this.setOptions({
+                            idKey: 'LAP_ID',
+                            idValue: LAP_ID
+                        });
+                        const LANE_Feature = this.setOptions({
+                            idKey: 'LANE_ID',
+                            idValue: LANE_ID
+                        });
+                        const ROAD_Feature = this.setOptions({
+                            idKey: 'ROAD_ID',
+                            idValue: ROAD_ID
+                        });
+
+                        if (LAP_ID && LANE_ID) {
+                            const relName = 'AD_Lane_Point_Rel';
+                            const key = [LAP_ID, LANE_ID].sort(); //id组成的数据作为key
+                            const value = [LAP_ID_Feature, LANE_Feature];
+                            rels_2D[relName] = rels_2D[relName] || {};
+                            rels_2D[relName][key] = value;
+                        }
+                        if (LAP_ID && ROAD_ID) {
+                            const relName = 'AD_Road_Point_Rel';
+                            const key = [LAP_ID, ROAD_ID].sort(); //id组成的数据作为key
+                            const value = [LAP_ID_Feature, ROAD_Feature];
+                            rels_2D[relName] = rels_2D[relName] || {};
+                            rels_2D[relName][key] = value;
+                        }
+                    });
+                    break;
                 default:
                     relName = name;
                     break;
