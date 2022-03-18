@@ -243,7 +243,7 @@ class EditableCard extends React.Component {
         const min = fieldsValue[`${key}Min`];
         const max = fieldsValue[`${key}Max`];
         const isValue = min != undefined && max != undefined;
-        return isValue ? `${min}至${max}米` : false;
+        return isValue ? `[${min},${max})` : false;
     };
 
     checkMinRange = (value, callback, item) => {
@@ -276,35 +276,36 @@ class EditableCard extends React.Component {
 
     renderRangeInputNumber = (item, index, readonly) => {
         const { form } = this.props;
+        const { key } = item;
         const rangeValue = this.getRangeValue(item);
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
-                    form.getFieldDecorator(item.key, {
+                    form.getFieldDecorator(key, {
                         initialValue: !!rangeValue ? rangeValue : item.value
                     })(
                         <div className="range-input-number">
                             <Form.Item key={`${index}Min`}>
-                                {form.getFieldDecorator(`${item.key}Min`, {
+                                {form.getFieldDecorator(`${key}Min`, {
                                     rules: [
                                         {
                                             validator: (rule, value, callback) =>
                                                 this.checkMinRange(value, callback, item)
                                         }
                                     ],
-                                    initialValue: item[`${item.key}Min`]
+                                    initialValue: item[`${key}Min`]
                                 })(<AdInputNumber type="number" disabled={item.disabled} />)}
                             </Form.Item>
                             <span className="range-space">至</span>
                             <Form.Item key={`${index}Max`}>
-                                {form.getFieldDecorator(`${item.key}Max`, {
+                                {form.getFieldDecorator(`${key}Max`, {
                                     rules: [
                                         {
                                             validator: (rule, value, callback) =>
                                                 this.checkMaxRange(value, callback, item)
                                         }
                                     ],
-                                    initialValue: item[`${item.key}Max`]
+                                    initialValue: item[`${key}Max`]
                                 })(<AdInputNumber type="number" disabled={item.disabled} />)}
                             </Form.Item>
                             <span className="range-bottom">米</span>
@@ -312,7 +313,7 @@ class EditableCard extends React.Component {
                     )
                 ) : (
                     <span className="ant-form-text">
-                        {this.isPresent(item.value) ? item.value : '--'}
+                        {`[${item[`${key}Min`]},${item[`${key}Max`]})` || '--'}
                     </span>
                 )}
             </Form.Item>

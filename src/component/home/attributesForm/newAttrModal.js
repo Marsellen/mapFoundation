@@ -184,7 +184,7 @@ class NewAttrModal extends React.Component {
         const min = fieldsValue[`${key}Min`];
         const max = fieldsValue[`${key}Max`];
         const isValue = min != undefined && max != undefined;
-        return isValue ? `${min}至${max}米` : false;
+        return isValue ? `[${min},${max})` : false;
     };
 
     checkMinRange = (value, callback, item) => {
