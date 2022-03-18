@@ -49,7 +49,12 @@ const BOUNDARY_PATH_MAP = {
 };
 
 //人工构建任务类型枚举: [人工构建, 人工构建后质检]
-const manbuildTaskProcess = ['imp_manbuild', 'imp_check_after_manbuild', 'imp_map_second_check'];
+const manbuildTaskProcess = [
+    'imp_manbuild',
+    'imp_check_after_manbuild',
+    'imp_map_second_check',
+    'imp_std_precompile_man_repair'
+];
 
 export const getExportShpUrl = task => {
     return `${getEditPath(task)}/${CONFIG.urlConfig.vectors}`;
