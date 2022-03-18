@@ -357,6 +357,24 @@ const updateFeaturesByRels = (rels, isDel) => {
     });
 };
 
+const getRelConfig = (layerName, properties) => {
+    const relConfig = REL_SPEC_CONFIG.find(relSpec => {
+        const { FEAT_TYPE } = properties;
+        const { relObjFeatType, relObjFeatTypes } = relSpec;
+        if (relObjFeatType) {
+            return relSpec.source == layerName && relObjFeatType == FEAT_TYPE;
+        }
+        if (relObjFeatTypes) {
+            const featType = relObjFeatTypes.find(item => {
+                return item.featType == FEAT_TYPE;
+            });
+            return relSpec.source == layerName && featType;
+        }
+        return relSpec.source === layerName;
+    });
+    return relConfig;
+};
+
 /**
  * 通过‘要素属性关联关系记录’更新‘要素属性’
  * @method updateFeatureRelAttr
@@ -536,6 +554,7 @@ export {
     newRel,
     delRel,
     updateFeaturesByRels,
+    getRelConfig,
     basicCheck,
     createRelBySpecConfig,
     querySameTypeRel,

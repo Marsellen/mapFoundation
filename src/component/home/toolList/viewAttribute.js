@@ -19,8 +19,8 @@ import SeniorModal from 'src/component/common/seniorModal';
 import AdEmitter from 'src/util/event';
 import Filter from 'src/util/filter';
 import { ATTR_SPEC_CONFIG, REL_ATTR_LAYERS } from 'src/config/attrsConfig';
-import { REL_SPEC_CONFIG } from 'src/config/relsConfig';
 import AttrRightMenu from 'src/component/home/toolList/attrRightMenu';
+import { getRelConfig } from 'src/util/relCtrl/relCtrl';
 
 @inject('AttrRightMenuStore')
 @inject('DataLayerStore')
@@ -462,7 +462,7 @@ class ViewAttribute extends React.Component {
         let { layerName } = this.state;
         let option, layer, feature;
         if (isRelLayer(layerName)) {
-            let config = REL_SPEC_CONFIG.find(c => c.source === layerName);
+            let config = getRelConfig(layerName, record);
             feature = this.getRelPositionFeature(record, config);
 
             if (!feature) {

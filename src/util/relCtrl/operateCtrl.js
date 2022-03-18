@@ -3,7 +3,7 @@ import { REL_DATA_SET, ATTR_REL_DATA_SET, REL_SPEC_CONFIG } from 'src/config/rel
 import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';
 import { DEFAULT_CONFIDENCE_MAP } from 'src/config/adMapDataConfig';
 import { DATA_LAYER_MAP } from 'src/config/dataLayerConfig';
-import { updateFeaturesByRels } from './relCtrl';
+import { getRelConfig, updateFeaturesByRels } from './relCtrl';
 import EditorService from 'src/service/editorService';
 import AdLineService from 'src/service/adLineService';
 import BatchToolsService from 'src/service/batchToolsService';
@@ -762,20 +762,7 @@ const calcAttrs = relation => {
 };
 
 const relDataFormat = (spec, properties) => {
-    let relSpec = REL_SPEC_CONFIG.find(relSpec => {
-        const { FEAT_TYPE } = properties;
-        const { relObjFeatType, relObjFeatTypes } = relSpec;
-        if (relObjFeatType) {
-            return relSpec.source == spec && relObjFeatType == FEAT_TYPE;
-        }
-        if (relObjFeatTypes) {
-            const featType = relObjFeatTypes.find(item => {
-                return item.featType == FEAT_TYPE;
-            });
-            return relSpec.source == spec && featType;
-        }
-        return relSpec.source == spec;
-    });
+    let relSpec = getRelConfig(spec, properties);
     const { objKeyName, objType, relObjKeyName, relObjType, objSpec, relObjSpec } = relSpec;
     return properties.map(property => {
         let { [objKeyName]: objId, [relObjKeyName]: relObjId, REL_ID } = property;
