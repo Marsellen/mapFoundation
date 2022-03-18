@@ -16,7 +16,8 @@ class OcTreeIndex {
 
     getOctreeMap = async task => {
         try {
-            if (!task.Input_imp_data_path) return;
+            const { Input_imp_data_path, processName } = task;
+            if (!Input_imp_data_path || processName == 'imp_std_precompile_man_repair') return;
             this.initConfig();
             const { octreeIndex } = CONFIG.urlConfig;
             const url = completeSecendUrl(octreeIndex, task);

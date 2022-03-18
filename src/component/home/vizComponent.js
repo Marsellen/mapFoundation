@@ -226,7 +226,7 @@ class VizComponent extends React.Component {
 
     initEditResource = async task => {
         const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
+        const { activeTaskId, isMrTask } = TaskStore;
         try {
             //先加载任务范围，以任务范围为标准做居中定位
             const region = await this.initRegion(task.region);
@@ -242,7 +242,9 @@ class VizComponent extends React.Component {
             //设置画面缩放比例
             this.setMapScale();
             //初始化显隐点云和轨迹，只显示默认点云
-            ResourceLayerStore.initMultiProjectLayer();
+            if (!isMrTask) {
+                ResourceLayerStore.initMultiProjectLayer();
+            }
         } catch (e) {
             console.log('任务资料加载异常' + e.message || e || '');
             throw new Error(activeTaskId);
@@ -272,7 +274,6 @@ class VizComponent extends React.Component {
 
     initPointCloud = async urlArr => {
         try {
-            if (!urlArr) return;
             //实例化点云
             const pointCloudLayer = new DynamicPCLayer(null, {
                 pointBudget: SettingStore.getConfig('OTHER_CONFIG').pointLimit, // 点云点数量
@@ -285,6 +286,7 @@ class VizComponent extends React.Component {
             window.pointCloudLayer = pointCloudLayer;
             //将点云实例加到map
             map.getLayerManager().addLayer('DynamicPCLayer', pointCloudLayer);
+            if (!urlArr) return;
             //根据点云索引，动态加载点云
             OcTreeIndex.updateOctree();
         } catch (e) {
@@ -316,7 +318,6 @@ class VizComponent extends React.Component {
 
     initTracks = async urlMap => {
         try {
-            if (!urlMap) return;
             const { TaskStore, appStore } = this.props;
             const { projectNameArr, updateMultiProjectMap, activeTask } = TaskStore;
             const { loginUser } = appStore;
@@ -324,6 +325,7 @@ class VizComponent extends React.Component {
             const traceListLayer = new TraceListLayer(traceOpts);
             window.trackLayer = traceListLayer;
             map.getLayerManager().addTraceListLayer(traceListLayer);
+            if (!urlMap) return;
             const fetchTrackArr = Object.keys(urlMap).map(projectName => {
                 const trackUrl = urlMap[projectName];
                 //获取轨迹

@@ -114,6 +114,11 @@ class TaskStore {
         return TASK_QC_TYPES.includes(this.activeTask.processName);
     }
 
+    //是否是人工检修任务
+    @computed get isMrTask() {
+        return this.activeTask && this.activeTask.processName === 'imp_std_precompile_man_repair';
+    }
+
     //任务状态是已领取或进行中
     @computed get isFixStatus() {
         if (!this.activeTask) return;
@@ -216,6 +221,7 @@ class TaskStore {
 
     @action getBoundaryLayer = () => {
         const taskType = this.taskProcessName;
+        if (taskType == 'imp_std_precompile_man_repair') return;
         const updateBoundaryParams = this.initUpdateBoundaryParams(taskType);
         // 如果是本地加载任务，则直接获取底图；如果是工作流下发任务，则先更新再获取底图
         if (this.activeTask.isLocal) {
@@ -228,7 +234,7 @@ class TaskStore {
     //过程库查询参数
     initUpdateBoundaryParams = taskType => {
         const region = window.vectorLayer.getAllFeatures()[0];
-        if (!region) return;
+        if (!region || this.isMrTask) return;
         const { bufferRegionWkt } = region.data.properties;
         const { referData, outDir } = UPDATE_BOUNDARY_PARAM_MAP[taskType];
         const params = {
@@ -407,6 +413,10 @@ class TaskStore {
             const processName = this.activeTask.processName;
             const { data } = yield axios.get(url);
             const { projectNames, lidarNames, defaultLidarName, treeContent, check_pkg } = data;
+            if (this.isMrTask) {
+                this.activeTask.process_name_check = check_pkg?.[processName];
+                return;
+            }
             this.projectNameArr = projectNames.split(';').sort();
             this.multiProjectMap = this.initMultiProjectMap();
             this.lidarNameArr = JSON.parse(lidarNames);
@@ -464,6 +474,7 @@ class TaskStore {
 
     //根据taskInfo.json，将点云数据加入到多工程对象中
     handleMultiPointCloud = lastPath => {
+        if (this.isMrTask) return;
         let lidarUrlArr = [];
         Object.entries(this.multiProjectTree).forEach(([projectName, project]) => {
             const projectLidarMap = {};
@@ -505,6 +516,7 @@ class TaskStore {
 
     //根据taskInfo.json，将轨迹数据加入到多工程对象中
     handleMultiTrack = lastPath => {
+        if (this.isMrTask) return;
         const trackUrlMap = {};
         this.projectNameArr.forEach((projectName, i) => {
             const url = completeMultiProjectUrl(lastPath, this.activeTask, projectName);

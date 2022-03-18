@@ -39,6 +39,11 @@ export default {
             label: '人工构建质检数据',
             value: 'imp_check_after_manbuild',
             roleCodes: ['quality', 'quality_leader']
+        },
+        {
+            label: '人工检修数据',
+            value: 'imp_std_precompile_man_repair',
+            roleCodes: ['producer', 'producer_leader']
         }
     ]
 };

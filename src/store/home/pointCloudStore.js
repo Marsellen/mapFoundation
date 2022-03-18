@@ -47,6 +47,8 @@ class PointCloudStore {
     };
 
     @action initPointCloudMap = (data, activeTask) => {
+        const isMrTask = activeTask.processName == 'imp_std_precompile_man_repair';
+        if (isMrTask) return;
         const { point_clouds } = CONFIG.urlConfig;
         const pointCloudMap = {};
         let { defaultLidarName, treeContent } = data;

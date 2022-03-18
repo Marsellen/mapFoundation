@@ -4,7 +4,8 @@ export const TASK_PROCESS_NAME = [
     { value: 'imp_check_after_recognition', label: '人工识别后质检' },
     { value: 'imp_manbuild', label: '人工构建' },
     { value: 'imp_check_after_manbuild', label: '人工构建后质检' },
-    { value: 'imp_map_second_check', label: '二次质检' }
+    { value: 'imp_map_second_check', label: '二次质检' },
+    { value: 'imp_std_precompile_man_repair', label: '人工检修' }
 ];
 //任务状态映射
 export const TASK_MANNUAL_STATUS = [
@@ -17,7 +18,7 @@ export const TASK_MANNUAL_STATUS = [
     { value: 6, label: '已完成' }
 ];
 //作业任务环节
-export const TASK_FIX_TYPES = ['imp_recognition', 'imp_manbuild'];
+export const TASK_FIX_TYPES = ['imp_recognition', 'imp_manbuild', 'imp_std_precompile_man_repair'];
 //质检任务环节
 export const TASK_QC_TYPES = [
     'imp_check_after_recognition',

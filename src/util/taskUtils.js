@@ -14,14 +14,31 @@ import appStore from 'src/store/common/appStore';
 import BuriedPoint from 'src/util/buriedPoint';
 import { operateLock } from 'src/util/decorator';
 
-const SECEND_PATH = '13_ED_DATA';
-const THIRD_PATH = '1301_RAW_DATA';
+// const SECEND_PATH = '13_ED_DATA';
+// const THIRD_PATH = '1301_RAW_DATA';
+const SECEND_PATH = {
+    imp_recognition: '13_ED_DATA',
+    imp_check_after_recognition: '13_ED_DATA',
+    imp_manbuild: '13_ED_DATA',
+    imp_check_after_manbuild: '13_ED_DATA',
+    imp_map_second_check: '13_ED_DATA',
+    imp_std_precompile_man_repair: '03_STD_ED_DATA'
+};
+const THIRD_PATH = {
+    imp_recognition: '1301_RAW_DATA',
+    imp_check_after_recognition: '1301_RAW_DATA',
+    imp_manbuild: '1301_RAW_DATA',
+    imp_check_after_manbuild: '1301_RAW_DATA',
+    imp_map_second_check: '1301_RAW_DATA',
+    imp_std_precompile_man_repair: '0301_RAW_DATA'
+};
 const THIRD_PATH_MAP = {
     imp_recognition: '1312_MS_VEC_DES',
     imp_check_after_recognition: '1312_MS_VEC_DES',
     imp_manbuild: '1339_MB_VEC_DES',
     imp_check_after_manbuild: '1339_MB_VEC_DES',
-    imp_map_second_check: '1339_MB_VEC_DES'
+    imp_map_second_check: '1339_MB_VEC_DES',
+    imp_std_precompile_man_repair: '0303_STD_ED_DES'
 };
 const BOUNDARY_PATH_MAP = {
     imp_recognition: '1302_MS_AROUND_DATA',
@@ -39,23 +56,29 @@ export const getExportShpUrl = task => {
 };
 
 export const getEditPath = task => {
-    return `/${task.taskId}/${SECEND_PATH}/${getThirdPath(task)}`;
+    return `/${task.taskId}/${SECEND_PATH[task.processName]}/${getThirdPath(task)}`;
 };
 
 // 补齐轨迹、照片数据路径
 export const completeSecendUrl = (path, task) => {
-    return `${task.Input_imp_data_path}/${SECEND_PATH}/${THIRD_PATH}/${path}`;
+    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]}/${
+        THIRD_PATH[task.processName]
+    }/${path}`;
 };
 
 // 补齐多工程数据路径，如：点云、轨迹
 export const completeMultiProjectUrl = (path, task, projectName) => {
-    return `${task.Input_imp_data_path}/${SECEND_PATH}/${THIRD_PATH}/${projectName}/${path}`;
+    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]}/${
+        THIRD_PATH[task.processName]
+    }/${projectName}/${path}`;
 };
 
 // 补齐周边底图数据路径
 export const completeBoundaryUrl = (path, task) => {
     const getBoundaryUrl = BOUNDARY_PATH_MAP[task.processName];
-    return `${task.Input_imp_data_path}/${SECEND_PATH}/${getBoundaryUrl}/around/${path}`;
+    return `${task.Input_imp_data_path}/${
+        SECEND_PATH[task.processName]
+    }/${getBoundaryUrl}/around/${path}`;
 };
 
 // 补齐矢量（可编辑）数据路径
@@ -64,7 +87,7 @@ export const completeEditUrl = (path, task) => {
 };
 
 const getEditUrl = task => {
-    return `${task.Input_imp_data_path}/${SECEND_PATH}/${getThirdPath(task)}`;
+    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]}/${getThirdPath(task)}`;
 };
 
 const getThirdPath = task => {

@@ -289,6 +289,7 @@ class JobStatus extends React.Component {
         const { TaskStore: { activeTask: { processName, manualStatus } } = {} } = this.props;
         switch (processName) {
             case 'imp_recognition': //人工识别
+            case 'imp_std_precompile_man_repair': //编译预处理人工检修
                 return this.checkMsTask(manualStatus, option);
             case 'imp_manbuild': //人工构建
                 return this.checkMbTask(option);
