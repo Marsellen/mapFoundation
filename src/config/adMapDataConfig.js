@@ -1293,6 +1293,11 @@ export const TABLE_DATA_MAP = {
             name: '属性变化点类型',
             type: 'AD_LANE_ATTRPOINT_TYPE',
             domType: 'RadioIconGroup',
+            link: {
+                default: {
+                    NUMBER: 0
+                }
+            },
             linkDisabled: {
                 0: ['NUMBER'],
                 1801: ['NUMBER'],
