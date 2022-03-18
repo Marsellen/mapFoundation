@@ -946,7 +946,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         OFFSETMax: 0
     },
     AD_LaneAttrPoint: {
-        TYPE: 0,
+        TYPE: 1806,
         ROAD_ID: 0,
         NUMBER: 0,
         LANE_ID: 0
