@@ -237,15 +237,6 @@ class EditableCard extends React.Component {
         );
     };
 
-    getRangeValue = item => {
-        const { key } = item;
-        const fieldsValue = this.props.form.getFieldsValue();
-        const min = fieldsValue[`${key}Min`];
-        const max = fieldsValue[`${key}Max`];
-        const isValue = min != undefined && max != undefined;
-        return isValue ? `[${min},${max})` : false;
-    };
-
     checkMinRange = (value, callback, item) => {
         const fieldsValue = this.props.form.getFieldsValue();
         const { key, validates } = item;
@@ -274,15 +265,28 @@ class EditableCard extends React.Component {
         callback();
     };
 
+    rangeConfig = key => {
+        const { form } = this.props;
+        return {
+            getValueFromEvent: () => {
+                const minKey = `${key}Min`;
+                const maxKey = `${key}Max`;
+                const minVal = form.getFieldValue(minKey);
+                const maxVal = form.getFieldValue(maxKey);
+                return `(${minVal},${maxVal}]`;
+            }
+        };
+    };
+
     renderRangeInputNumber = (item, index, readonly) => {
         const { form } = this.props;
         const { key } = item;
-        const rangeValue = this.getRangeValue(item);
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
                     form.getFieldDecorator(key, {
-                        initialValue: !!rangeValue ? rangeValue : item.value
+                        initialValue: item.value,
+                        ...this.rangeConfig(key)
                     })(
                         <div className="range-input-number">
                             <Form.Item key={`${index}Min`}>

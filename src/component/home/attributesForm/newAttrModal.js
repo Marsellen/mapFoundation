@@ -178,15 +178,6 @@ class NewAttrModal extends React.Component {
         );
     };
 
-    getRangeValue = item => {
-        const { key } = item;
-        const fieldsValue = this.props.form.getFieldsValue();
-        const min = fieldsValue[`${key}Min`];
-        const max = fieldsValue[`${key}Max`];
-        const isValue = min != undefined && max != undefined;
-        return isValue ? `[${min},${max})` : false;
-    };
-
     checkMinRange = (value, callback, item) => {
         const fieldsValue = this.props.form.getFieldsValue();
         const { key, validates } = item;
@@ -214,42 +205,59 @@ class NewAttrModal extends React.Component {
         }
         callback();
     };
+
+    rangeConfig = key => {
+        const { form } = this.props;
+        return {
+            getValueFromEvent: () => {
+                const minKey = `${key}Min`;
+                const maxKey = `${key}Max`;
+                const minVal = form.getFieldValue(minKey);
+                const maxVal = form.getFieldValue(maxKey);
+                return `(${minVal},${maxVal}]`;
+            }
+        };
+    };
+
     renderRangeInputNumber = (item, index) => {
         const { form } = this.props;
-        const rangeValue = this.getRangeValue(item);
         return (
-            <Form.Item key={index} label={item.name} {...formItemLayout}>
-                {form.getFieldDecorator(item.key, {
-                    initialValue: !!rangeValue ? rangeValue : item.value
-                })(
-                    <div className="range-input-number">
-                        <Form.Item key={`${index}Min`}>
-                            {form.getFieldDecorator(`${item.key}Min`, {
-                                rules: [
-                                    {
-                                        validator: (rule, value, callback) =>
-                                            this.checkMinRange(value, callback, item)
-                                    }
-                                ],
-                                initialValue: item[`${item.key}Min`]
-                            })(<AdInputNumber type="number" disabled={item.disabled} />)}
-                        </Form.Item>
-                        <span className="range-space">至</span>
-                        <Form.Item key={`${index}Max`}>
-                            {form.getFieldDecorator(`${item.key}Max`, {
-                                rules: [
-                                    {
-                                        validator: (rule, value, callback) =>
-                                            this.checkMaxRange(value, callback, item)
-                                    }
-                                ],
-                                initialValue: item[`${item.key}Max`]
-                            })(<AdInputNumber type="number" disabled={item.disabled} />)}
-                        </Form.Item>
-                        <span className="range-bottom">米</span>
-                    </div>
-                )}
-            </Form.Item>
+            <div>
+                <Form.Item key={index} label={item.name} {...formItemLayout}>
+                    {form.getFieldDecorator(item.key, {
+                        initialValue: item.value,
+                        ...this.rangeConfig(item.key)
+                    })(
+                        <div className="range-input-number">
+                            <Form.Item key={`${index}Min`}>
+                                {form.getFieldDecorator(`${item.key}Min`, {
+                                    rules: [
+                                        {
+                                            validator: (rule, value, callback) => {
+                                                this.checkMinRange(value, callback, item);
+                                            }
+                                        }
+                                    ],
+                                    initialValue: item[`${item.key}Min`]
+                                })(<AdInputNumber type="number" disabled={item.disabled} />)}
+                            </Form.Item>
+                            <span className="range-space">至</span>
+                            <Form.Item key={`${index}Max`}>
+                                {form.getFieldDecorator(`${item.key}Max`, {
+                                    rules: [
+                                        {
+                                            validator: (rule, value, callback) =>
+                                                this.checkMaxRange(value, callback, item)
+                                        }
+                                    ],
+                                    initialValue: item[`${item.key}Max`]
+                                })(<AdInputNumber type="number" disabled={item.disabled} />)}
+                            </Form.Item>
+                            <span className="range-bottom">米</span>
+                        </div>
+                    )}
+                </Form.Item>
+            </div>
         );
     };
 

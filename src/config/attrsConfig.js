@@ -41,14 +41,14 @@ export const ATTR_TABLE_CONFIG = {
             link: 'RS_VALUE'
         },
         {
-            name: '限制取值',
             key: 'RS_VALUE',
+            name: '限制取值',
             type: 'AD_LANE_RS_VALUE',
             domType: 'Select'
         },
         {
-            name: '限制时间描述',
             key: 'TIMEDOM',
+            name: '限制时间描述',
             domType: 'AdDateInput',
             validates: 'Char|250'
         }
@@ -67,8 +67,8 @@ export const ATTR_TABLE_CONFIG = {
             domType: 'Select'
         },
         {
-            name: '限制时间描述',
             key: 'TIMEDOM',
+            name: '限制时间描述',
             domType: 'AdDateInput',
             validates: 'Char|250'
         }
@@ -87,8 +87,8 @@ export const ATTR_TABLE_CONFIG = {
             domType: 'Select'
         },
         {
-            name: '限制时间描述',
             key: 'TIMEDOM',
+            name: '限制时间描述',
             domType: 'AdDateInput',
             validates: 'Char|250'
         }
@@ -107,8 +107,8 @@ export const ATTR_TABLE_CONFIG = {
             domType: 'Select'
         },
         {
-            name: '限速值',
             key: 'SPEED',
+            name: '限速值',
             type: 'AD_LANE_SPEED',
             domType: 'InputNumber',
             validates: 'Numeric|range|0|150'
@@ -120,8 +120,8 @@ export const ATTR_TABLE_CONFIG = {
             domType: 'Select'
         },
         {
-            name: '限速区间',
             key: 'OFFSET',
+            name: '限速区间',
             domType: 'RangeInputNumber',
             OFFSETMin: 0,
             OFFSETMax: 0,

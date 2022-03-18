@@ -943,7 +943,8 @@ export const DEFAULT_PROPERTIES_MAP = {
         SPEED: 0,
         SPD_SOURCE: 0,
         OFFSETMin: 0,
-        OFFSETMax: 0
+        OFFSETMax: 0,
+        OFFSET: ''
     },
     AD_LaneAttrPoint: {
         TYPE: 1806,
