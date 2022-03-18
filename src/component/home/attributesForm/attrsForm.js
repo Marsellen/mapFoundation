@@ -27,9 +27,10 @@ class AttrsForm extends React.Component {
     render = () => {
         const { form, onOk, attrs, attrType, readonly, updateKey } = this.props;
         const newEnable = !readonly;
-        const text = attrType == 'AD_Lane_RS' ? '限制' : '限速';
+        const text = attrType == 'AD_Lane_RS' ? '交通限制信息' : '交通限速信息';
         return (
-            <div>
+            <div className="attr_box">
+                <p>{text}</p>
                 {(attrs[attrType] || []).map((rs, index) =>
                     form.getFieldDecorator(`attrs.${attrType}[${index}]`, {
                         initialValue: {
@@ -49,7 +50,6 @@ class AttrsForm extends React.Component {
                 )}
                 {newEnable && (
                     <div className="attr-form-btn">
-                        <span>{text}</span>
                         <Button onClick={this.newAttrs(attrType)} title={`添加交通${text}`}>
                             <Icon type="plus" />
                         </Button>
