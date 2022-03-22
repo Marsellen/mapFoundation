@@ -13,7 +13,7 @@ import AttributeStore from 'src/store/home/attributeStore';
 class BuriedPoint {
     sendRequest = async obj => {
         try {
-            //接口文档：https://confluence.ecarxgroup.com/pages/viewpage.action?pageId=64785919
+            //接口文档：https://confluence.ecarxmap.com/pages/viewpage.action?pageId=64785919
             const isQcMarker = obj?.type?.includes('qc_marker');
             const layerName = isQcMarker
                 ? QCMarkerStore?.currentMarker?.data?.properties?.fileName
@@ -26,7 +26,7 @@ class BuriedPoint {
                 businessType:
                     BUSINESS_TYPE_MAP[obj?.type]?.code ??
                     BUSINESS_TYPE_MAP[obj?.type]?.[layerName]?.code ??
-                    null, //业务类型，参数说明：http://ad-task-dev.ecarxgroup.com/collectMng/metaMng
+                    null, //业务类型，参数说明：http://ad-task-dev.ecarxmap.com/collectMng/metaMng
                 systemVersion: config?.version ?? null, //业务系统版本
                 businessData: {
                     functionType: obj?.functionType ?? null, //功能类型：单一工具、窗口交互、数据加载
