@@ -11,6 +11,12 @@ const { TextArea } = Input;
 
 @Form.create()
 class ConfigurableForm extends React.Component {
+    constructor() {
+        super();
+        this.options = {
+            inline: true //内联模式
+        };
+    }
     componentWillUnmount() {
         this.props.form.resetFields();
     }
@@ -278,21 +284,16 @@ class ConfigurableForm extends React.Component {
 
     _renderImage = (item, initData) => {
         const { layout, className } = item;
-        const { editStatus } = this.props;
         return (
-            <span key={item.name}>
-                {initData?.qcPath && (
-                    <Form.Item label={item.label} className={className} {...layout}>
-                        {editStatus == 'modify' ? (
-                            <img src={initData?.qcPath} width={100} height={100} alt="图片" />
-                        ) : (
-                            <RcViewer options={{}} ref="viewer">
-                                <img src={initData?.qcPath} width={100} height={100} alt="图片" />
-                            </RcViewer>
-                        )}
-                    </Form.Item>
-                )}
-            </span>
+            <Form.Item key={item.name} label={item.label} className={className} {...layout}>
+                <div className="qc-marker-view-container" key={item.name}>
+                    <div className="img-banner">
+                        <RcViewer options={this.options}>
+                            <img src={initData?.qcPath} alt="图片" />
+                        </RcViewer>
+                    </div>
+                </div>
+            </Form.Item>
         );
     };
 
