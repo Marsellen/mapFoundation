@@ -358,7 +358,7 @@ const updateFeaturesByRels = (rels, isDel) => {
 };
 
 const getRelConfig = (layerName, properties) => {
-    const relConfig = REL_SPEC_CONFIG.find(relSpec => {
+    return REL_SPEC_CONFIG.find(relSpec => {
         const { FEAT_TYPE } = properties;
         const { relObjFeatType, relObjFeatTypes } = relSpec;
         if (relObjFeatType) {
@@ -372,7 +372,6 @@ const getRelConfig = (layerName, properties) => {
         }
         return relSpec.source === layerName;
     });
-    return relConfig;
 };
 
 /**

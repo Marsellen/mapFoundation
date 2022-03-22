@@ -281,6 +281,10 @@ class EditableCard extends React.Component {
     renderRangeInputNumber = (item, index, readonly) => {
         const { form } = this.props;
         const { key } = item;
+        const minKey = `${key}Min`;
+        const maxKey = `${key}Max`;
+        const minVal = item[minKey];
+        const maxVal = item[maxKey];
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
                 {!readonly ? (
@@ -290,35 +294,33 @@ class EditableCard extends React.Component {
                     })(
                         <div className="range-input-number">
                             <Form.Item key={`${index}Min`}>
-                                {form.getFieldDecorator(`${key}Min`, {
+                                {form.getFieldDecorator(minKey, {
                                     rules: [
                                         {
                                             validator: (rule, value, callback) =>
                                                 this.checkMinRange(value, callback, item)
                                         }
                                     ],
-                                    initialValue: item[`${key}Min`]
+                                    initialValue: minVal
                                 })(<AdInputNumber type="number" disabled={item.disabled} />)}
                             </Form.Item>
                             <span className="range-space">至</span>
                             <Form.Item key={`${index}Max`}>
-                                {form.getFieldDecorator(`${key}Max`, {
+                                {form.getFieldDecorator(maxKey, {
                                     rules: [
                                         {
                                             validator: (rule, value, callback) =>
                                                 this.checkMaxRange(value, callback, item)
                                         }
                                     ],
-                                    initialValue: item[`${key}Max`]
+                                    initialValue: maxVal
                                 })(<AdInputNumber type="number" disabled={item.disabled} />)}
                             </Form.Item>
                             <span className="range-bottom">米</span>
                         </div>
                     )
                 ) : (
-                    <span className="ant-form-text">
-                        {`[${item[`${key}Min`]},${item[`${key}Max`]})` || '--'}
-                    </span>
+                    <span className="ant-form-text">{`[${minVal},${maxVal})` || '--'}</span>
                 )}
             </Form.Item>
         );

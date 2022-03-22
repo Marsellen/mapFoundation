@@ -7,7 +7,6 @@ import VectorsStore from './vectorsStore';
 import UpdStatModeStore from './updStatModeStore';
 import { calculateMiddlePoint } from 'src/util/computeLineMidpoint';
 import relFactory from 'src/util/relCtrl/relFactory';
-import { DATA_LAYER_MAP } from 'src/config/dataLayerConfig';
 import { JUNC_REL_SPEC_CONFIG } from 'src/config/relsConfig';
 
 configure({ enforceActions: 'always' });
@@ -230,25 +229,25 @@ class RenderModeStore {
                         });
 
                         if (L_LDIV_ID && LANE_ID) {
-                            const relName = 'AD_Lane_Divider_Rel';
+                            const specRelName = 'AD_Lane_Divider_Rel';
                             const key = [L_LDIV_ID, LANE_ID].sort(); //id组成的数据作为key
                             const value = [LANE_Feature, L_LDIV_feature];
-                            rels_2D[relName] = rels_2D[relName] || {};
-                            rels_2D[relName][key] = value;
+                            rels_2D[specRelName] = rels_2D[specRelName] || {};
+                            rels_2D[specRelName][key] = value;
                         }
                         if (R_LDIV_ID && LANE_ID) {
-                            const relName = 'AD_Lane_Divider_Rel';
+                            const specRelName = 'AD_Lane_Divider_Rel';
                             const key = [R_LDIV_ID, LANE_ID].sort(); //id组成的数据作为key
                             const value = [LANE_Feature, R_LDIV_feature];
-                            rels_2D[relName] = rels_2D[relName] || {};
-                            rels_2D[relName][key] = value;
+                            rels_2D[specRelName] = rels_2D[specRelName] || {};
+                            rels_2D[specRelName][key] = value;
                         }
                         if (ROAD_ID && LANE_ID) {
-                            const relName = 'AD_Lane_Road_Rel';
+                            const specRelName = 'AD_Lane_Road_Rel';
                             const key = [ROAD_ID, LANE_ID].sort(); //id组成的数据作为key
                             const value = [LANE_Feature, ROAD_Feature];
-                            rels_2D[relName] = rels_2D[relName] || {};
-                            rels_2D[relName][key] = value;
+                            rels_2D[specRelName] = rels_2D[specRelName] || {};
+                            rels_2D[specRelName][key] = value;
                         }
                     });
                     break;
@@ -274,18 +273,18 @@ class RenderModeStore {
                         });
 
                         if (LAP_ID && LANE_ID) {
-                            const relName = 'AD_Lane_Point_Rel';
+                            const specRelName = 'AD_Lane_Point_Rel';
                             const key = [LAP_ID, LANE_ID].sort(); //id组成的数据作为key
                             const value = [LAP_ID_Feature, LANE_Feature];
-                            rels_2D[relName] = rels_2D[relName] || {};
-                            rels_2D[relName][key] = value;
+                            rels_2D[specRelName] = rels_2D[specRelName] || {};
+                            rels_2D[specRelName][key] = value;
                         }
                         if (LAP_ID && ROAD_ID) {
-                            const relName = 'AD_Road_Point_Rel';
+                            const specRelName = 'AD_Road_Point_Rel';
                             const key = [LAP_ID, ROAD_ID].sort(); //id组成的数据作为key
                             const value = [LAP_ID_Feature, ROAD_Feature];
-                            rels_2D[relName] = rels_2D[relName] || {};
-                            rels_2D[relName][key] = value;
+                            rels_2D[specRelName] = rels_2D[specRelName] || {};
+                            rels_2D[specRelName][key] = value;
                         }
                     });
                     break;
@@ -296,22 +295,22 @@ class RenderModeStore {
             if (relName) {
                 let options_2D;
                 //获取所有带关联关系要素的option
-                features.forEach(item => {
+                features.forEach(feature => {
                     if (!RELS_ID_MAP[relName]) return;
                     if (RELS_ID_MAP[relName].length === 0) return;
-                    const { properties } = item;
+                    const { properties } = feature;
                     let options_2D_key = [];
                     let options_2D_val = [];
 
                     RELS_ID_MAP[relName].forEach(id => {
-                        const optionId = properties[id];
-                        if (!optionId) return;
-                        const feature = this.setOptions({
-                            idValue: optionId,
+                        const idValue = properties[id];
+                        if (!idValue) return;
+                        const option = this.setOptions({
+                            idValue,
                             layerName: this.getLayerNameByIdKey(id, properties)
                         });
-                        options_2D_key.push(optionId);
-                        options_2D_val.push(feature);
+                        options_2D_key.push(idValue);
+                        options_2D_val.push(option);
                     });
                     if (options_2D_val.length < 2) return;
                     options_2D = options_2D || {};

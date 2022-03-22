@@ -281,7 +281,7 @@ class ConfigurableForm extends React.Component {
         const { editStatus } = this.props;
         return (
             <span key={item.name}>
-                {!!initData?.qcPath ? (
+                {initData?.qcPath && (
                     <Form.Item label={item.label} className={className} {...layout}>
                         {editStatus == 'modify' ? (
                             <img src={initData?.qcPath} width={100} height={100} alt="图片" />
@@ -291,7 +291,7 @@ class ConfigurableForm extends React.Component {
                             </RcViewer>
                         )}
                     </Form.Item>
-                ) : null}
+                )}
             </span>
         );
     };

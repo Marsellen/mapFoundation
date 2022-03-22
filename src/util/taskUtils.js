@@ -14,8 +14,6 @@ import appStore from 'src/store/common/appStore';
 import BuriedPoint from 'src/util/buriedPoint';
 import { operateLock } from 'src/util/decorator';
 
-// const SECEND_PATH = '13_ED_DATA';
-// const THIRD_PATH = '1301_RAW_DATA';
 const SECEND_PATH = {
     imp_recognition: '13_ED_DATA',
     imp_check_after_recognition: '13_ED_DATA',

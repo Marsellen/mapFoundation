@@ -139,12 +139,12 @@ class BatchAssignStore {
         let newAttrs = [];
         for (let featureId in this.attrMap) {
             const feature = this.attrMap[featureId].feature;
-            for (let i = 0; i < attrType.length; i++) {
+            for (let item of attrType) {
                 const [oldAttr, newAttr] = yield this.getAttrLog(
                     feature,
                     data,
                     featureId,
-                    attrType[i].source
+                    item.source
                 );
                 oldAttrs = [...oldAttrs, ...oldAttr];
                 newAttrs = [...newAttrs, ...newAttr];
