@@ -27,6 +27,29 @@ export const ROLE_WHITE_MAP = {
     OTHER_CONFIG: ['admin', 'producer_manager', 'quality_manager']
 };
 
+//配置
+export const SAVE_MENUS = [
+    'MARKER_OPTION_CONFIG', //质检标注配置
+    'MS_TASK_VECTOR_CONFIG_MAP', //符号配置-通用符号模式-人工识别任务样式
+    'MB_TASK_VECTOR_CONFIG_MAP', //符号配置-通用符号模式-人工构建任务样式
+    'QC_MS_TASK_VECTOR_CONFIG_MAP', //符号配置-通用符号模式-人工识别质检任务样式
+    'QC_MB_TASK_VECTOR_CONFIG_MAP', //符号配置-通用符号模式-人工构建质检任务样式
+    'SELF_CHECK_VECTOR_CONFIG_MAP', //符号配置-自查符号模式
+    'UPDATE_VECTOR_CONFIG_MAP', //符号配置-更新标识查看模式
+    'DEFINE_VECTOR_CONFIG_MAP', //符号配置-自定义符号模式
+    'MS_TASK_TEXT_CONFIG_MAP', //注记配置-通用符号模式-人工识别任务样式
+    'MB_TASK_TEXT_CONFIG_MAP', //注记配置-通用符号模式-人工构建任务样式
+    'QC_MS_TASK_TEXT_CONFIG_MAP', //注记配置-通用符号模式-人工识别质检任务样式
+    'QC_MB_TASK_TEXT_CONFIG_MAP', //注记配置-通用符号模式-人工构建质检任务样式
+    'SELF_CHECK_TEXT_CONFIG_MAP', //注记配置-自查符号模式
+    'RELATION_TEXT_CONFIG_MAP', //注记配置-关联关系查看模式
+    'DEFINE_TEXT_CONFIG_MAP', //注记配置-自定义符号模式
+    'UPDATE_TEXT_CONFIG_MAP', //注记配置-更新标识查看模式
+    'ARROW_TEMPLATE_CONFIG', //箭头模板配置
+    'TABLE_DATA_MAP', //属性自维护配置
+    'OTHER_CONFIG' //其它配置
+];
+
 //配置中心菜单
 export const SETTING_MENUS = [
     {

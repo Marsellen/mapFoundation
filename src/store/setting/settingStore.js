@@ -21,6 +21,7 @@ import { QC_MB_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/qcMbTaskTextCo
 import { TABLE_DATA_MAP } from 'src/config/adMapDataConfig';
 import { ARROW_TEMPLATE_CONFIG } from 'src/config/arrowTemplateConfig';
 import { OTHER_CONFIG } from 'src/config/otherConfig';
+import { SAVE_MENUS } from 'src/config/settingConfig';
 
 configure({ enforceActions: 'always' });
 class SettingStore {
@@ -56,7 +57,12 @@ class SettingStore {
     @action queryConfig = flow(function* () {
         try {
             const result = yield EditorService.getQcMarkerConfig();
-            this.config = Object.assign(this.config, result?.data ?? {});
+            const data = result?.data ?? {};
+            const config = {};
+            SAVE_MENUS.forEach(key => {
+                config[key] = data[key];
+            });
+            this.config = Object.assign(this.config, config);
         } catch (error) {
             console.log('质检标注配置获取失败' + error?.message);
         } finally {
