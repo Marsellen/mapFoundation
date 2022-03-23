@@ -45,8 +45,12 @@ class EditableCard extends React.Component {
         attrs.forEach(attr => {
             attr.value = value.properties[attr.key];
             if (attr.key == 'OFFSET') {
-                attr[`${attr.key}Min`] = value.properties[`${attr.key}Min`];
-                attr[`${attr.key}Max`] = value.properties[`${attr.key}Max`];
+                const OFFSETMin = value.properties[`${attr.key}Min`];
+                const OFFSETMax = value.properties[`${attr.key}Max`];
+                const OFFSET = value.properties[attr.key]?.replace('[', '')?.replace(')', '');
+                const OFFSETValue = OFFSET?.split(',');
+                attr[`${attr.key}Min`] = !OFFSETMin ? OFFSETValue[0] : OFFSETMin;
+                attr[`${attr.key}Max`] = !OFFSETMax ? OFFSETValue[1] : OFFSETMax;
             }
             if (attr.link == 'RS_VALUE') {
                 let index = attrs.findIndex(item => item.key == attr.link);

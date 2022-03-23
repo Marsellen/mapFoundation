@@ -220,6 +220,14 @@ export const getAllAttrData = async isCurrent => {
     let records = await Attr.store.getAll();
     if (isCurrent) {
         records = records.filter(record => record.dataType !== 'boundary');
+        records = records.map(record => {
+            let { properties } = record;
+            properties = deleteAttrFields(properties);
+            return {
+                ...record,
+                properties
+            };
+        });
     }
     let data = attrFactory.attrTableToData(records);
 
@@ -342,8 +350,8 @@ const deleteAttrFields = properties => {
     return TO_REMOVE_FIELDS.reduce((total, field) => {
         if (field in newProperties) {
             delete newProperties[field];
-            total = newProperties;
         }
+        total = newProperties;
         return total;
     }, {});
 };
