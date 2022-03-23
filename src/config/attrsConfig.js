@@ -134,3 +134,5 @@ export const ATTR_TABLE_CONFIG = {
 };
 
 export const REL_ATTR_LAYERS = ['AD_Lane_Con_RS', 'AD_Road_Con_RS'];
+
+export const TO_REMOVE_FIELDS = ['OFFSETMax', 'OFFSETMin'];

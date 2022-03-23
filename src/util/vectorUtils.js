@@ -8,6 +8,7 @@ import _ from 'lodash';
 import { DEFAULT_CONFIDENCE_MAP } from 'src/config/adMapDataConfig';
 import { message } from 'antd';
 import DataLayerStore from 'src/store/home/dataLayerStore';
+import { TO_REMOVE_FIELDS } from 'src/config/attrsConfig';
 
 const jsts = require('jsts');
 
@@ -311,6 +312,14 @@ export const getAllDataSnapshot = async isCurrent => {
     let attrRecords = await Attr.store.getAll();
     if (isCurrent) {
         attrRecords = attrRecords.filter(record => record.dataType !== 'boundary');
+        attrRecords = attrRecords.map(record => {
+            let { properties } = record;
+            properties = deleteAttrFields(properties);
+            return {
+                ...record,
+                properties
+            };
+        });
     }
     let attrFeatures = attrFactory.attrTableToData(attrRecords);
 
@@ -326,6 +335,17 @@ export const getAllDataSnapshot = async isCurrent => {
             [f.name]: f.features.map(feature => feature.properties)
         };
     });
+};
+
+const deleteAttrFields = properties => {
+    const newProperties = _.cloneDeep(properties);
+    return TO_REMOVE_FIELDS.reduce((total, field) => {
+        if (field in newProperties) {
+            delete newProperties[field];
+            total = newProperties;
+        }
+        return total;
+    }, {});
 };
 
 export const layerUpdateFeatures = (layer, features) => {
