@@ -265,17 +265,13 @@ class EditableCard extends React.Component {
         callback();
     };
 
-    rangeConfig = key => {
+    getRangeFromEvent = ({ key, minVal, maxVal }) => {
         const { form } = this.props;
-        return {
-            getValueFromEvent: () => {
-                const minKey = `${key}Min`;
-                const maxKey = `${key}Max`;
-                const minVal = form.getFieldValue(minKey);
-                const maxVal = form.getFieldValue(maxKey);
-                return `(${minVal},${maxVal}]`;
-            }
-        };
+        const minKey = `${key}Min`;
+        const maxKey = `${key}Max`;
+        minVal = minVal ?? form.getFieldValue(minKey);
+        maxVal = maxVal ?? form.getFieldValue(maxKey);
+        return `(${minVal},${maxVal}]`;
     };
 
     renderRangeInputNumber = (item, index, readonly) => {
@@ -290,7 +286,9 @@ class EditableCard extends React.Component {
                 {!readonly ? (
                     form.getFieldDecorator(key, {
                         initialValue: item.value,
-                        ...this.rangeConfig(key)
+                        getValueFromEvent: () => {
+                            return this.getRangeFromEvent({ key: item.key });
+                        }
                     })(
                         <div className="range-input-number">
                             <Form.Item key={`${index}Min`}>
@@ -301,7 +299,16 @@ class EditableCard extends React.Component {
                                                 this.checkMinRange(value, callback, item)
                                         }
                                     ],
-                                    initialValue: minVal
+                                    initialValue: minVal,
+                                    getValueFromEvent: param => {
+                                        const value = param?.target?.value ?? param;
+                                        const range = this.getRangeFromEvent({
+                                            key: item.key,
+                                            minVal: value
+                                        });
+                                        form.setFieldsValue({ [item.key]: range });
+                                        return value;
+                                    }
                                 })(<AdInputNumber type="number" disabled={item.disabled} />)}
                             </Form.Item>
                             <span className="range-space">至</span>
@@ -313,7 +320,16 @@ class EditableCard extends React.Component {
                                                 this.checkMaxRange(value, callback, item)
                                         }
                                     ],
-                                    initialValue: maxVal
+                                    initialValue: maxVal,
+                                    getValueFromEvent: param => {
+                                        const value = param?.target?.value ?? param;
+                                        const range = this.getRangeFromEvent({
+                                            key: item.key,
+                                            maxVal: value
+                                        });
+                                        form.setFieldsValue({ [item.key]: range });
+                                        return value;
+                                    }
                                 })(<AdInputNumber type="number" disabled={item.disabled} />)}
                             </Form.Item>
                             <span className="range-bottom">米</span>
