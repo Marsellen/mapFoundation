@@ -220,14 +220,7 @@ export const getAllAttrData = async isCurrent => {
     let records = await Attr.store.getAll();
     if (isCurrent) {
         records = records.filter(record => record.dataType !== 'boundary');
-        records = records.map(record => {
-            let { properties } = record;
-            properties = deleteAttrFields(properties);
-            return {
-                ...record,
-                properties
-            };
-        });
+        records = filterAttrFields(records);
     }
     let data = attrFactory.attrTableToData(records);
 
@@ -320,14 +313,7 @@ export const getAllDataSnapshot = async isCurrent => {
     let attrRecords = await Attr.store.getAll();
     if (isCurrent) {
         attrRecords = attrRecords.filter(record => record.dataType !== 'boundary');
-        attrRecords = attrRecords.map(record => {
-            let { properties } = record;
-            properties = deleteAttrFields(properties);
-            return {
-                ...record,
-                properties
-            };
-        });
+        attrRecords = filterAttrFields(attrRecords);
     }
     let attrFeatures = attrFactory.attrTableToData(attrRecords);
 
@@ -345,15 +331,19 @@ export const getAllDataSnapshot = async isCurrent => {
     });
 };
 
-const deleteAttrFields = properties => {
-    const newProperties = _.cloneDeep(properties);
-    return TO_REMOVE_FIELDS.reduce((total, field) => {
-        if (field in newProperties) {
-            delete newProperties[field];
+const filterAttrFields = attrs => {
+    return attrs.map(attr => {
+        const { properties, source } = attr;
+        if (source === 'AD_Lane_Speed') {
+            const newProperties = _.cloneDeep(properties);
+            TO_REMOVE_FIELDS.forEach(field => {
+                delete newProperties[field];
+            });
+            return { ...attr, properties: newProperties };
+        } else {
+            return attr;
         }
-        total = newProperties;
-        return total;
-    }, {});
+    });
 };
 
 export const layerUpdateFeatures = (layer, features) => {
