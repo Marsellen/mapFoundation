@@ -107,12 +107,12 @@ export const REL_SELECT_OPTIONS = [
         checked: false
     },
     {
-        title: '道路参考线 & 车道属性交化点',
+        title: '道路参考线 & 车道属性变化点',
         key: 'AD_Road_Point_Rel',
         checked: false
     },
     {
-        title: '车道中心线 & 车道属性交化点',
+        title: '车道中心线 & 车道属性变化点',
         key: 'AD_Lane_Point_Rel',
         checked: false
     },
