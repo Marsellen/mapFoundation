@@ -18,6 +18,7 @@ export const ROLE_WHITE_MAP = {
     MB_TASK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     QC_MS_TASK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     QC_MB_TASK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    QR_TASK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     SELF_CHECK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     RELATION_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     DEFINE_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
@@ -41,6 +42,7 @@ export const SAVE_MENUS = [
     'MB_TASK_TEXT_CONFIG_MAP', //注记配置-通用符号模式-人工构建任务样式
     'QC_MS_TASK_TEXT_CONFIG_MAP', //注记配置-通用符号模式-人工识别质检任务样式
     'QC_MB_TASK_TEXT_CONFIG_MAP', //注记配置-通用符号模式-人工构建质检任务样式
+    'QR_TASK_TEXT_CONFIG_MAP', //注记配置-通用符号模式-人工检修任务样式
     'SELF_CHECK_TEXT_CONFIG_MAP', //注记配置-自查符号模式
     'RELATION_TEXT_CONFIG_MAP', //注记配置-关联关系查看模式
     'DEFINE_TEXT_CONFIG_MAP', //注记配置-自定义符号模式
@@ -139,6 +141,11 @@ export const SETTING_MENUS = [
                     {
                         key: 'QC_MB_TASK_TEXT_CONFIG_MAP',
                         title: '人工构建质检任务样式',
+                        type: 'Item'
+                    },
+                    {
+                        key: 'QR_TASK_TEXT_CONFIG_MAP',
+                        title: '人工检修任务样式',
                         type: 'Item'
                     }
                 ]

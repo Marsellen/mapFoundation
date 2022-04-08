@@ -18,6 +18,7 @@ import { MS_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/msTaskTextConfigM
 import { MB_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/mbTaskTextConfigMap';
 import { QC_MS_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/qcMsTaskTextConfigMap';
 import { QC_MB_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/qcMbTaskTextConfigMap';
+import { QR_TASK_TEXT_CONFIG_MAP } from 'src/config/textConfig/qrTaskTextConfigMap';
 import { TABLE_DATA_MAP } from 'src/config/adMapDataConfig';
 import { ARROW_TEMPLATE_CONFIG } from 'src/config/arrowTemplateConfig';
 import { OTHER_CONFIG } from 'src/config/otherConfig';
@@ -39,6 +40,7 @@ class SettingStore {
         MB_TASK_TEXT_CONFIG_MAP, //注记配置-通用符号模式-人工构建任务样式
         QC_MS_TASK_TEXT_CONFIG_MAP, //注记配置-通用符号模式-人工识别质检任务样式
         QC_MB_TASK_TEXT_CONFIG_MAP, //注记配置-通用符号模式-人工构建质检任务样式
+        QR_TASK_TEXT_CONFIG_MAP, //注记配置-通用符号模式-人工检修任务样式
         SELF_CHECK_TEXT_CONFIG_MAP, //注记配置-自查符号模式
         RELATION_TEXT_CONFIG_MAP, //注记配置-关联关系查看模式
         DEFINE_TEXT_CONFIG_MAP, //注记配置-自定义符号模式
@@ -62,7 +64,7 @@ class SettingStore {
             SAVE_MENUS.forEach(key => {
                 config[key] = data[key];
             });
-            this.config = Object.assign(this.config, config);
+            // this.config = Object.assign(this.config, config);
         } catch (error) {
             console.log('质检标注配置获取失败' + error?.message);
         } finally {
