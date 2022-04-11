@@ -10,6 +10,7 @@ import ResourceLayerStore from 'src/store/home/resourceLayerStore';
 import VectorsStore from 'src/store/home/vectorsStore';
 import TaskStore from 'src/store/home/taskStore';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
+import SettingStore from 'src/store/setting/settingStore';
 import BuriedPoint from 'src/util/buriedPoint';
 import { getImgPath } from 'src/util/taskUtils';
 
@@ -127,3 +128,20 @@ export const getMarkerList = async () => {
         console.log('获取质检列表失败：' + msg);
     }
 };
+
+// 设置初始化任务范围
+export const setTaskLevel = async () => {
+    try {
+        // 设置中心点
+        const { firstPoint } = VectorsStore;
+        if (firstPoint) window.map.setCenter(firstPoint);
+        // 设置level
+        const level = SettingStore.getConfig('OTHER_CONFIG').needSetDefaultLevel || 13;  // 范围：[0,28]
+        window.map.setLevel(level);
+    } catch (e) {
+        const msg = e.message || e || '';
+        message.error('初始化任务范围');
+        console.log('初始化任务范围：' + msg);
+    }
+};
+

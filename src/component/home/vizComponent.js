@@ -26,7 +26,7 @@ import _ from 'lodash';
 import editLog from 'src/util/editLog';
 import { windowObserver } from 'src/util/taskUtils';
 import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
-import { initBoundary, getCheckReport, getMarkerList } from 'src/util/taskStart';
+import { initBoundary, getCheckReport, getMarkerList, setTaskLevel } from 'src/util/taskStart';
 import axios from 'axios';
 import { logDecorator, editOutputLimit } from 'src/util/decorator';
 import RenderModeStore from 'src/store/home/renderModeStore';
@@ -200,6 +200,10 @@ class VizComponent extends React.Component {
             await Promise.all([this.initEditResource(task), this.initExResource(task)]);
             //“开始任务”时，加载周边底图
             if (isEditableTask) initBoundary();
+            // 设置初始化的任务范围
+            const needSetLevel =
+                SettingStore.getConfig('OTHER_CONFIG').needSetLevelLists.find(i => i == activeTask.processName);
+            if (needSetLevel) setTaskLevel();
             //获取检查报表
             getCheckReport();
             message.success({
@@ -232,7 +236,7 @@ class VizComponent extends React.Component {
             const region = await this.initRegion(task.region);
             //再加载其它资料
             const resources = await Promise.all([
-                this.initVectors(task.vectors),
+                this.initVectors(),
                 this.initCheckLayer(),
                 this.initMarkerLayer(task),
                 this.initMultiProjectResource(task)
@@ -255,7 +259,7 @@ class VizComponent extends React.Component {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         try {
-            await Promise.all([this.installRel(task.rels), this.installAttr(task.attrs)]);
+            await Promise.all([this.installRel(task.rels), this.installAttr(task.attrs), this.installVector(task.vectors)]);
         } catch (e) {
             console.log('rels.geojson或attrs.geojson加载异常' + e.message || e || '');
             throw new Error(activeTaskId);
@@ -302,9 +306,8 @@ class VizComponent extends React.Component {
         taskScale && window.map.setEyeView(taskScale);
     };
 
-    initVectors = async vectors => {
-        if (!vectors) return;
-        window.vectorLayerGroup = new LayerGroup(vectors, {
+    initVectors = async () => {
+        window.vectorLayerGroup = new LayerGroup([], {
             styleConifg: DefaultStyleConfig
         });
         await map.getLayerManager().addLayerGroup(vectorLayerGroup, fetchCallback);
@@ -649,6 +652,10 @@ class VizComponent extends React.Component {
 
     installAttr = urls => {
         return AttrStore.addRecords(urls, 'current');
+    };
+
+    installVector = urls => {
+        return VectorsStore.addRecords(urls, 'current');
     };
 
     render() {
