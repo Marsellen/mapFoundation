@@ -1657,7 +1657,8 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_Light_Lane_Rel: '{"LIGHT_ID":{},"LANE_ID":{}}',
     AD_Road_Boundary_Rel: '{"ROAD_ID":{},"LDIV_ID":{}}',
     AD_Boundary_Rel: '{"F_LDIV_ID":{},"S_LDIV_ID":{}}',
-    AD_RS_Barrier: '{“TYPE”:{},"TILT":{},"HEIGHT":{},"GEOMETRY":{}}'
+    AD_RS_Barrier: '{"TYPE":{},"TILT":{},"HEIGHT":{},"GEOMETRY":{}}',
+    AD_RS_Barrier_Rel: '{"REL_ID":{},"BARR_ID":{},"LDIV_ID":{}}'
 };
 
 export const LAYER_TYPE_MAP = {

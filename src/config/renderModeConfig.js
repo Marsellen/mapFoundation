@@ -120,6 +120,11 @@ export const REL_SELECT_OPTIONS = [
         title: '交叉口关系',
         key: 'AD_Feat_Junc_Rel',
         checked: false
+    },
+    {
+        title: '隔离带护栏 & 车道线',
+        key: 'AD_RS_Barrier_Rel',
+        checked: false
     }
 ];
 
@@ -249,7 +254,8 @@ export const RELS_ID_MAP = {
     AD_Boundary_Rel: ['F_LDIV_ID', 'S_LDIV_ID'],
     AD_Road_Point_Rel: ['LAP_ID', 'ROAD_ID'],
     AD_Lane_Point_Rel: ['LAP_ID', 'LANE_ID'],
-    AD_Feat_Junc_Rel: ['JUNC_ID', 'FEAT_ID']
+    AD_Feat_Junc_Rel: ['JUNC_ID', 'FEAT_ID'],
+    AD_RS_Barrier_Rel: ['BARR_ID', 'LDIV_ID']
 };
 
 export const RELS_ID_MAP_REVERSE = {
@@ -282,7 +288,8 @@ export const RELS_ID_MAP_REVERSE = {
     [['JUNC', 'SIGN']]: 'AD_Feat_Junc_Rel',
     [['JUNC', 'LIGHT']]: 'AD_Feat_Junc_Rel',
     [['JUNC', 'ROAD']]: 'AD_Feat_Junc_Rel',
-    [['JUNC', 'LANE']]: 'AD_Feat_Junc_Rel'
+    [['JUNC', 'LANE']]: 'AD_Feat_Junc_Rel',
+    [['BARR', 'LDIV']]: 'AD_RS_Barrier_Rel'
 };
 
 //id与文字标注配置映射

@@ -406,6 +406,11 @@ export const DATA_LAYER_MAP = {
         id: 'REL_ID',
         spec: 'AD_Boundary_Rel'
     },
+    AD_RS_Barrier_Rel: {
+        label: '隔离带护栏 & 车道线',
+        id: 'REL_ID',
+        spec: 'AD_RS_Barrier_Rel'
+    },
     AD_LaneDivider_Pln: {
         label: '几何层：车道线线要素',
         id: 'OBJ_ID',
