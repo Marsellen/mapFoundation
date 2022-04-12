@@ -151,6 +151,24 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             opacity: 1
         }
     },
+    AD_RS_Barrier: {
+        key: 'AD_RS_Barrier',
+        label: '隔离带、护栏',
+        checked: false,
+        isClassify: true,
+        type: 'Line',
+        commonStyle: {
+            showFields: 'NOKEY',
+            lineStyle: 'solid',
+            color: 'rgb(255,255,255)',
+            opacity: 1,
+            arrow: false,
+            point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
+            pointSize: 0.1
+        }
+    },
     AD_LaneDivider_Plg: {
         key: 'AD_LaneDivider_Plg',
         label: '几何层：车道线面要素',

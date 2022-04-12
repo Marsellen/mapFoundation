@@ -1437,6 +1437,233 @@ export default {
             ]
         }
     },
+    AD_RS_Barrier: {
+        type: 'Line',
+        showFields: ['TYPE'],
+        pointFLFields: ['TYPE'],
+        arrowFields: ['TYPE'],
+        order: 3,
+        showStyles: ['vectorStyle', 'pointFLStyle'],
+        vectorStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3101,
+                    label: '隧道墙',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3102,
+                    label: '路侧防护栏',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3103,
+                    label: '路缘石',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3104,
+                    label: '隔音墙',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3105,
+                    label: '其他墙体',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3106,
+                    label: '道路轮廓标',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3121,
+                    label: '新泽西护栏',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3199,
+                    label: '其他',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                }
+            ]
+        },
+        pointFLStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: {
+                        color: 'rgb(70,109,255)'
+                    }
+                },
+                {
+                    value: 3101,
+                    label: '隧道墙',
+                    style: {
+                        color: 'rgb(70,109,255)'
+                    }
+                },
+                {
+                    value: 3102,
+                    label: '路侧防护栏',
+                    style: {
+                        color: 'rgb(70,109,255)'
+                    }
+                },
+                {
+                    value: 3103,
+                    label: '路缘石',
+                    style: {
+                        color: 'rgb(70,109,255)'
+                    }
+                },
+                {
+                    value: 3104,
+                    label: '隔音墙',
+                    style: {
+                        color: 'rgb(70,109,255)'
+                    }
+                },
+                {
+                    value: 3105,
+                    label: '其他墙体',
+                    style: {
+                        color: 'rgb(70,109,255)'
+                    }
+                },
+                {
+                    value: 3106,
+                    label: '道路轮廓标',
+                    style: {
+                        color: 'rgb(70,109,255)'
+                    }
+                },
+                {
+                    value: 3121,
+                    label: '新泽西护栏',
+                    style: {
+                        color: 'rgb(70,109,255)'
+                    }
+                },
+                {
+                    value: 3199,
+                    label: '其他',
+                    style: {
+                        color: 'rgb(70,109,255)'
+                    }
+                }
+            ]
+        },
+        arrowStyle: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3101,
+                    label: '隧道墙',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3102,
+                    label: '路侧防护栏',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3103,
+                    label: '路缘石',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3104,
+                    label: '隔音墙',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3105,
+                    label: '其他墙体',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3106,
+                    label: '道路轮廓标',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3121,
+                    label: '新泽西护栏',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3199,
+                    label: '其他',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                }
+            ]
+        }
+    },
     AD_LaneDivider_Plg: {
         type: 'Polygon',
         showFields: ['FEAT_TYPE'],

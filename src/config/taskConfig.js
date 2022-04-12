@@ -88,6 +88,7 @@ export const VECTOR_FILES = [
     'AD_TrafficLight.geojson',
     'AD_Text.geojson',
     'AD_TrafficSign.geojson',
+    'AD_RS_Barrier.geojson',
     'AD_Junction.geojson'
 ];
 

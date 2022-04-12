@@ -230,7 +230,8 @@ export const LAYER_NAME_MAP = {
     POLE: { layerName: 'AD_Pole_Geo', key: 'OBJ_ID' },
     POLE_ID: { layerName: 'AD_Pole_Geo', key: 'OBJ_ID' },
     JUNC: { layerName: 'AD_Junction', key: 'JUNC_ID' },
-    JUNC_ID: { layerName: 'AD_Junction', key: 'JUNC_ID' }
+    JUNC_ID: { layerName: 'AD_Junction', key: 'JUNC_ID' },
+    BARR_ID: { layerName: 'AD_RS_Barrier', key: 'BARR_ID' }
 };
 
 //关联关系与id映射

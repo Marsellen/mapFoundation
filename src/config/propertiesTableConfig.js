@@ -379,6 +379,31 @@ export const COLUMNS_CONFIG = {
             filterBy: 'updStatFilter'
         }
     ],
+    AD_RS_Barrier: [
+        {
+            dataIndex: 'index',
+            title: '序号'
+        },
+        {
+            dataIndex: 'BARR_ID',
+            title: '用户编号'
+        },
+        {
+            dataIndex: 'TYPE',
+            title: '类型',
+            filterBy: 'typeFilter|AD_RS_BARRIER_TYPE'
+        },
+        {
+            dataIndex: 'TILT',
+            title: '是否倾斜',
+            filterBy: 'typeFilter|AD_RS_BARRIER_TILT'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
+        }
+    ],
     AD_Road_Con: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'REL_ID', title: '用户编号' },
@@ -570,7 +595,8 @@ export const SELECT_OPTIONS = [
             'AD_Text',
             'AD_TrafficSign',
             'AD_TrafficLight',
-            'AD_Junction'
+            'AD_Junction',
+            'AD_RS_Barrier'
         ]
     },
     {
@@ -624,6 +650,7 @@ export const OPTION_LAYER_MAP = {
     AD_Text: ['AD_Text'],
     AD_TrafficSign: ['AD_TrafficSign'],
     AD_TrafficLight: ['AD_TrafficLight'],
+    AD_RS_Barrier: ['AD_RS_Barrier'],
     AD_Junction: ['AD_Junction'],
     AD_LaneDivider_Pln: ['AD_LaneDivider_Pln'],
     AD_LaneDivider_Plg: ['AD_LaneDivider_Plg'],

@@ -199,6 +199,28 @@ export const MB_TASK_TEXT_CONFIG_MAP = {
             }
         }
     },
+    AD_RS_Barrier: {
+        key: 'AD_RS_Barrier',
+        label: '隔离带、护栏',
+        checked: false,
+        defaultStyle: {
+            textFields: ['TYPE'], //看数据规格
+            interval: 10,
+            showMode: 'line-center',
+            fontSize: 40,
+            strokeColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textColor: 'rgba(255,255,255,1)'
+        },
+        textModeMap: {
+            'line-center': { key: 'line-center', label: '线中心' },
+            'line-repeat': {
+                key: 'line-repeat',
+                label: '线上循环',
+                interval: true
+            }
+        }
+    },
     AD_LaneDivider_Plg: {
         key: 'AD_LaneDivider_Plg',
         label: '几何层：车道线面要素',

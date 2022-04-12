@@ -783,6 +783,52 @@ const ERROR_DESC_MAP = {
             label: '其它'
         }
     ],
+    AD_RS_Barrier: [
+        {
+            value: '多余制作',
+            label: '多余制作'
+        },
+        {
+            value: '遗漏制作',
+            label: '遗漏制作'
+        },
+        {
+            value: '与点云横向相对精度>20cm',
+            label: '与点云横向相对精度>20cm'
+        },
+        {
+            value: '与点云横向相对精度<=20cm，但不规则',
+            label: '与点云横向相对精度<=20cm，但不规则'
+        },
+        {
+            value: '与点云纵向相对精度>30cm',
+            label: '与点云纵向相对精度>30cm'
+        },
+        {
+            value: '与点云纵向相对精度<=30cm，但不规则',
+            label: '与点云纵向相对精度<=30cm，但不规则'
+        },
+        {
+            value: '与点云高程相对精度>30cm',
+            label: '与点云高程相对精度>30cm'
+        },
+        {
+            value: '与点云高程相对精度<=30cm，但不规则',
+            label: '与点云高程相对精度<=30cm，但不规则'
+        },
+        {
+            value: '类型错误',
+            label: '类型错误'
+        },
+        {
+            value: '是否倾斜错误',
+            label: '是否倾斜错误'
+        },
+        {
+            value: '其它',
+            label: '其它'
+        }
+    ],
     AD_Pole_Geo: [
         {
             value: '多余制作',
@@ -1561,13 +1607,13 @@ const ERROR_DESC_RESET_FIELD_MAP = {
             errLevel: 2
         },
         ['面状标识物与点云纵向相对精度>30cm，或纵向相对精度<=30cm，但与其他不应相交的要素存在几何']:
-            {
-                qcDesc: null,
-                errContent: 1,
-                errorType: 3,
-                fieldName: null,
-                errLevel: 2
-            },
+        {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 2
+        },
         ['面状标识物与点云纵向相对精度<=30cm，但不规则']: {
             qcDesc: null,
             errContent: 1,
@@ -1576,13 +1622,13 @@ const ERROR_DESC_RESET_FIELD_MAP = {
             errLevel: 3
         },
         ['人行横道与点云纵向相对精度>20cm，或纵向相对精度<=20cm，但与其他不应相交的要素存在几何交叉']:
-            {
-                qcDesc: null,
-                errContent: 1,
-                errorType: 3,
-                fieldName: null,
-                errLevel: 2
-            },
+        {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 2
+        },
         ['人行横道与点云纵向相对精度<=20cm，但不规则']: {
             qcDesc: null,
             errContent: 1,
@@ -2117,6 +2163,85 @@ const ERROR_DESC_RESET_FIELD_MAP = {
             errLevel: 4
         }
     },
+    AD_RS_Barrier: {
+        ['多余制作']: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 1,
+            fieldName: null,
+            errLevel: 1
+        },
+        ['遗漏制作']: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 2,
+            fieldName: null,
+            errLevel: 2
+        },
+        ['与点云横向相对精度>20cm']: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 2
+        },
+        ['与点云横向相对精度<=20cm，但不规则']: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 3
+        },
+        ['与点云纵向相对精度>30cm']: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 2
+        },
+        ['与点云纵向相对精度<=30cm，但不规则']: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 3
+        },
+        ['与点云高程相对精度>30cm']: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 2
+        },
+        ['与点云高程相对精度<=30cm，但不规则']: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 3
+        },
+        ['类型错误']: {
+            qcDesc: null,
+            errContent: 2,
+            errorType: 3,
+            fieldName: 'TYPE',
+            errLevel: 2
+        },
+        ['是否倾斜错误']: {
+            qcDesc: null,
+            errContent: 2,
+            errorType: 3,
+            fieldName: 'TILT',
+            errLevel: 2
+        },
+        ['其它']: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 4
+        }
+    },
     AD_Pole_Geo: {
         ['多余制作']: {
             qcDesc: null,
@@ -2194,6 +2319,7 @@ const FILE_NAME_OPTIONS = [
     { value: 'AD_Text', label: '地面文字符号' },
     { value: 'AD_TrafficSign', label: '交通标志牌' },
     { value: 'AD_TrafficLight', label: '交通信号灯' },
+    { value: 'AD_RS_Barrier', label: '隔离带、护栏' },
     { value: 'AD_LaneDivider_Plg', label: '几何层：车道线面要素' },
     { value: 'AD_StopLocation_Geo', label: '几何层：停止位置' },
     { value: 'AD_LaneMark_Geo', label: '几何层：路面车道标记' },
@@ -2302,6 +2428,10 @@ const FIELD_NAME_MAP = {
     AD_TrafficLight: [
         { value: 'LIGHT_ID', label: '交通灯用户编号' },
         { value: 'LANE_ID', label: '交通灯关联中心线' }
+    ],
+    AD_RS_Barrier: [
+        { value: 'TYPE', label: '隔离带护栏类型' },
+        { value: 'TILT', label: '隔离带护栏立面是否倾斜' }
     ],
     AD_LaneDivider_Plg: [{ value: 'FEAT_TYPE', label: '虚线框类型' }],
     AD_StopLocation_Geo: [{ value: 'FEAT_TYPE', label: '停止位置类型' }],
