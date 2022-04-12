@@ -332,7 +332,9 @@ class JobStatus extends React.Component {
             // 清除质检标注相关数据
             QCMarkerStore.release();
             // 获取新任务，更新任务列表
-            await TaskStore.initTask({ type: 3 });
+            if (SettingStore.getConfig('OTHER_CONFIG').autoGetTask) {
+                await TaskStore.initTask({ type: 3 });
+            }
             // 更新任务列表后，清除浏览器缓存中多余任务信息
             AdLocalStorage.filterTaskInfosStorage(TaskStore.taskIdList);
         } catch (e) {

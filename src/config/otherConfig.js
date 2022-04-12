@@ -1,4 +1,5 @@
 export const OTHER_CONFIG = {
+    autoGetTask: false,
     pointLimit: 5000000,
     viewChangeDelay: 500,
     pollingInterval: 2,
