@@ -46,6 +46,18 @@ export const TYPE_SELECT_OPTION_MAP = {
             icon: 'qitaxunichedaoxian',
             abbreviation: '其虚'
         },
+        {
+            value: 21,
+            label: '纵向菱形减速车道线',
+            icon: 'qitaxunichedaoxian',
+            abbreviation: '菱'
+        },
+        {
+            value: 22,
+            label: '隔音墙',
+            icon: 'qitaxunichedaoxian',
+            abbreviation: '隔'
+        },
         { value: 99, label: '其他', icon: 'qita', abbreviation: '99' }
     ],
     AD_LANE_DIVIDER_DIRECTION: [
@@ -117,6 +129,8 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao', abbreviation: '左减' },
         { value: 31, label: '加减速复合车道', icon: 'jiajiansufuhechedao', abbreviation: '加减' },
         { value: 32, label: '公交港湾', icon: 'gongjiaogangwan', abbreviation: '公港' },
+        { value: 33, label: '右转待转车道', icon: 'gongjiaogangwan', abbreviation: '右待' },
+        { value: 34, label: '掉头待转车道', icon: 'gongjiaogangwan', abbreviation: '掉待' },
         { value: 99, label: '其他', icon: 'qita', abbreviation: '99' }
     ],
     AD_LANE_DIVIDER_RD_FORM: [
@@ -197,6 +211,8 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao', abbreviation: '左减' },
         { value: 31, label: '加减速复合车道', icon: 'jiajiansufuhechedao', abbreviation: '加减' },
         { value: 32, label: '公交港湾', icon: 'gongjiaogangwan', abbreviation: '公港' },
+        { value: 33, label: '右转待转车道', icon: 'gongjiaogangwan', abbreviation: '右待' },
+        { value: 34, label: '掉头待转车道', icon: 'gongjiaogangwan', abbreviation: '掉待' },
         { value: 99, label: '其他', icon: 'qita', abbreviation: '99' }
     ],
     AD_LANE_DIRECTION: [
@@ -906,6 +922,7 @@ export const DEFAULT_PROPERTIES_MAP = {
     AD_LaneDivider: {
         TYPE: 1,
         SHARE_LINE: 1,
+        TYPE_PLUS: '',
         RD_EDGE: 2
     },
     AD_Road: {
@@ -1038,6 +1055,12 @@ export const TABLE_DATA_MAP = {
                     RD_EDGE: 1
                 }
             }
+        },
+        {
+            key: 'TYPE_PLUS',
+            name: '车道线类型(附加)',
+            type: 'AD_LANE_DIVIDER_TYPE',
+            domType: 'CheckBoxIconGroup'
         },
         {
             key: 'SHARE_LINE',
@@ -1635,7 +1658,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_Road: '{"TYPE":{},"CROSSING":{},"RD_STATUS":{},"RD_FORM":{},"DIRECTION":{},"GEOMETRY":{}}',
     AD_Road_Con: '{"FROM_ROAD":{},"TO_ROAD":{}}',
     AD_Road_Con_RS: '{"REL_ID":{},"RS_TYPE":{},"TIMEDOM":{}}',
-    AD_LaneDivider: '{"TYPE":{},"SHARE_LINE":{},"RD_EDGE":{},"GEOMETRY":{}}',
+    AD_LaneDivider: '{"TYPE":{},"TYPE_PLUS":{},"SHARE_LINE":{},"RD_EDGE":{},"GEOMETRY":{}}',
     AD_Lane:
         '{"ROAD_ID":{},"L_LDIV_ID":{},"R_LDIV_ID":{},"TYPE":{},"LANE_NO":{},"DIRECTION":{},"STATUS":{},"GEOMETRY":{}}',
     AD_Lane_Con: '{"FROM_LANE":{},"TO_LANE":{}}',
@@ -1671,6 +1694,11 @@ export const LAYER_TYPE_MAP = {
         {
             key: 'TYPE',
             name: '车道线类型',
+            type: 'AD_LANE_DIVIDER_TYPE'
+        },
+        {
+            key: 'TYPE_PLUS',
+            name: '车道线类型(附加)',
             type: 'AD_LANE_DIVIDER_TYPE'
         },
         {

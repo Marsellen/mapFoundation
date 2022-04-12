@@ -59,6 +59,11 @@ export const COLUMNS_CONFIG = {
             filterBy: 'typeFilter|AD_LANE_DIVIDER_TYPE'
         },
         {
+            dataIndex: 'TYPE_PLUS',
+            title: '车道线类型(附加)',
+            filterBy: 'typeFilter|AD_LANE_DIVIDER_TYPE'
+        },
+        {
             dataIndex: 'SHARE_LINE',
             title: '共用车道线标识',
             filterBy: 'typeFilter|AD_LANE_DIVIDER_SHARE_LINE'

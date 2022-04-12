@@ -2377,6 +2377,7 @@ const FIELD_NAME_MAP = {
     ],
     AD_LaneDivider: [
         { value: 'TYPE', label: '车道线类型' },
+        { value: 'TYPE_PLUS', label: '车道线类型(附加)' },
         { value: 'SHARE_LINE', label: '共用车道线标识' },
         { value: 'RD_EDGE', label: '道路边界标识' },
         { value: 'WIDTH', label: '车道线宽度' },

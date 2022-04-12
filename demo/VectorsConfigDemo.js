@@ -186,6 +186,16 @@ export default {
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
+                    value: 21,
+                    label: '纵向菱形减速车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 22,
+                    label: '隔音墙',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
                     value: 99,
                     label: '其他',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
@@ -300,6 +310,16 @@ export default {
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
+                    value: 21,
+                    label: '纵向菱形减速车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 22,
+                    label: '隔音墙',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
                     value: 99,
                     label: '其他',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
@@ -411,6 +431,16 @@ export default {
                 {
                     value: 20,
                     label: '其他虚拟车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 21,
+                    label: '纵向菱形减速车道线',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 22,
+                    label: '隔音墙',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
@@ -591,6 +621,16 @@ export default {
                     style: { color: 'rgb(255,237,37)', linewidth: 1 }
                 },
                 {
+                    value: 33,
+                    label: '右转待转车道',
+                    style: { color: 'rgb(255,237,37)', linewidth: 1 }
+                },
+                {
+                    value: 34,
+                    label: '掉头待转车道',
+                    style: { color: 'rgb(255,237,37)', linewidth: 1 }
+                },
+                {
                     value: 99,
                     label: '其他',
                     style: { color: 'rgb(255,237,37)', linewidth: 1 }
@@ -760,6 +800,16 @@ export default {
                     style: { color: 'rgb(255,237,37)' }
                 },
                 {
+                    value: 33,
+                    label: '右转待转车道',
+                    style: { color: 'rgb(255,237,37)' }
+                },
+                {
+                    value: 34,
+                    label: '掉头待转车道',
+                    style: { color: 'rgb(255,237,37)' }
+                },
+                {
                     value: 99,
                     label: '其他',
                     style: { color: 'rgb(255,237,37)' }
@@ -926,6 +976,16 @@ export default {
                 {
                     value: 32,
                     label: '公交港湾',
+                    style: { color: 'rgb(255,237,37)', linewidth: 1 }
+                },
+                {
+                    value: 33,
+                    label: '右转待转车道',
+                    style: { color: 'rgb(255,237,37)', linewidth: 1 }
+                },
+                {
+                    value: 34,
+                    label: '掉头待转车道',
                     style: { color: 'rgb(255,237,37)', linewidth: 1 }
                 },
                 {
