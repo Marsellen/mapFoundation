@@ -956,7 +956,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         TYPE: 1
     },
     AD_RS_Barrier: {
-        TYPE: 4,
+        TYPE: 3102,
         TILT: 1
     },
     AD_LaneDivider_Pln: {
