@@ -49,13 +49,13 @@ export const TYPE_SELECT_OPTION_MAP = {
         {
             value: 21,
             label: '纵向菱形减速车道线',
-            icon: 'qitaxunichedaoxian',
+            icon: 'zongxianglingxingjiansuchedaoxian',
             abbreviation: '菱'
         },
         {
             value: 22,
             label: '隔音墙',
-            icon: 'qitaxunichedaoxian',
+            icon: 'geyinqiang',
             abbreviation: '隔'
         },
         { value: 99, label: '其他', icon: 'qita', abbreviation: '99' }
@@ -211,8 +211,8 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao', abbreviation: '左减' },
         { value: 31, label: '加减速复合车道', icon: 'jiajiansufuhechedao', abbreviation: '加减' },
         { value: 32, label: '公交港湾', icon: 'gongjiaogangwan', abbreviation: '公港' },
-        { value: 33, label: '右转待转车道', icon: 'gongjiaogangwan', abbreviation: '右待' },
-        { value: 34, label: '掉头待转车道', icon: 'gongjiaogangwan', abbreviation: '掉待' },
+        { value: 33, label: '右转待转车道', icon: 'youzhuandaizhuanchedao', abbreviation: '右待' },
+        { value: 34, label: '掉头待转车道', icon: 'diaotoudaizhuanchedao', abbreviation: '掉待' },
         { value: 99, label: '其他', icon: 'qita', abbreviation: '99' }
     ],
     AD_LANE_DIRECTION: [
@@ -391,8 +391,8 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3104, label: '隔音墙', icon: 'geyinqiang', abbreviation: '音' },
         { value: 3105, label: '其他墙体', icon: 'qitaqiangti', abbreviation: '他' },
         { value: 3106, label: '道路轮廓标', icon: 'daolulunkuobiao', abbreviation: '廓' },
-        { value: 3121, label: '新泽西护栏', icon: 'daolulunkuobiao', abbreviation: '泽' },
-        { value: 3199, label: '其他', icon: 'daolulunkuobiao', abbreviation: '其他' }
+        { value: 3121, label: '新泽西护栏', icon: 'xinzexihulan', abbreviation: '泽' },
+        { value: 3199, label: '其他', icon: 'qita', abbreviation: '其他' }
     ],
     AD_RS_BARRIER_TILT: [
         { value: 0, label: '未定义', abbreviation: '0' },
