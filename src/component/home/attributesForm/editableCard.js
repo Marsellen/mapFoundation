@@ -485,6 +485,7 @@ class EditableCard extends React.Component {
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         // 对TYPE_PLUS使用“｜”分割字符串
         const spaceMark = item?.key == 'TYPE_PLUS' ? '|' : '';
+        const minLimit = item?.key == 'TYPE_PLUS' ? false : true;
         let layout = readonly ? formItemLayout : {};
         return (
             <Form.Item key={index} label={item.name} {...layout}>
@@ -508,6 +509,7 @@ class EditableCard extends React.Component {
                             options={options}
                             spaceMark={spaceMark}
                             max={3}
+                            minLimit={minLimit}
                             disabled={readonly}
                         />
                     )

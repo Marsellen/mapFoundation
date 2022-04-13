@@ -243,8 +243,9 @@ class BasicAttributesForm extends React.Component {
     renderCheckBoxIconGroup = (item, index, name) => {
         const { form, formStatus } = this.props;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
-        // 对TYPE_PLUS使用“｜”分割字符串
+        // 对TYPE_PLUS使用“｜”分割字符串 且不限制最小选择
         const spaceMark = item?.key == 'TYPE_PLUS' ? '|' : '';
+        const minLimit = item?.key == 'TYPE_PLUS' ? false : true;
         let layout = !formStatus ? formItemLayout : {};
         return (
             <Form.Item key={index} label={item.name} {...layout}>
@@ -261,6 +262,7 @@ class BasicAttributesForm extends React.Component {
                         <CheckBoxIconGroup
                             options={options}
                             max={3}
+                            minLimit={minLimit}
                             spaceMark={spaceMark}
                             disabled={!formStatus}
                             onChange={val => this.handleChange(val, item, name)}

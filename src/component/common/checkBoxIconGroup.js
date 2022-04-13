@@ -29,7 +29,7 @@ class CheckBoxIconGroup extends React.Component {
     }
 
     onChange = record => {
-        const { onChange, value, max, spaceMark } = this.props;
+        const { onChange, value, max, minLimit, spaceMark } = this.props;
         if (typeof onChange === 'function') {
             let _value = value ? value : '';
             if (value) {
@@ -52,7 +52,11 @@ class CheckBoxIconGroup extends React.Component {
             } else {
                 _value = record + '';
             }
-            _value.length > 0 ? onChange(_value) : message.warning('最少选择1个！');
+            if (minLimit) {
+                _value.length > 0 ? onChange(_value) : message.warning('最少选择1个！');
+            } else {
+                onChange(_value);
+            }
         }
     };
 }
