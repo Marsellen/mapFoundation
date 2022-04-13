@@ -1423,7 +1423,7 @@ export const TABLE_DATA_MAP = {
         },
         {
             key: 'TYPE',
-            name: '护栏类型',
+            name: '隔离带护栏类型',
             type: 'AD_RS_BARRIER_TYPE',
             domType: 'RadioIconGroup'
         },
@@ -1916,7 +1916,7 @@ export const LAYER_TYPE_MAP = {
         },
         {
             key: 'TYPE',
-            name: '护栏类型',
+            name: '隔离带护栏类型',
             type: 'AD_RS_BARRIER_TYPE'
         },
         {

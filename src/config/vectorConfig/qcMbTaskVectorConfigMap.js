@@ -1674,7 +1674,7 @@ export const QC_MB_TASK_VECTOR_CONFIG_MAP = {
         typeArr: [
             {
                 key: 'TYPE',
-                name: '护栏类型',
+                name: '隔离带护栏类型',
                 type: 'AD_RS_BARRIER_TYPE',
                 domType: 'RadioIconGroup'
             },
