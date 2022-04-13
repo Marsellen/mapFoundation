@@ -47,6 +47,7 @@ class SettingStore {
         TABLE_DATA_MAP, //属性自维护配置
         OTHER_CONFIG //其它配置
     };
+    @observable localConfig = {};
     @observable activeKey = null;
     @observable updateKey;
 
@@ -62,6 +63,7 @@ class SettingStore {
             SAVE_MENUS.forEach(key => {
                 config[key] = data[key];
             });
+            this.localConfig = this.config;
             this.config = Object.assign(this.config, config);
         } catch (error) {
             console.log('质检标注配置获取失败' + error?.message);
@@ -85,6 +87,18 @@ class SettingStore {
             message.error('保存失败 ' + error?.message);
         } finally {
             this.updateKey = Math.random();
+        }
+    });
+
+    @action saveLocalConfig = flow(function* () {
+        try {
+            //检查数据能不能成功转化成json对象
+            const localConfig = Object.assign(this.localConfig);
+            //保存质检标注配置
+            yield EditorService.setQcMarkerConfig(localConfig);
+            message.success('更新成功');
+        } catch (error) {
+            message.error('保存失败 ' + error?.message);
         }
     });
 
