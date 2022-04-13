@@ -62,7 +62,7 @@ class SettingStore {
             SAVE_MENUS.forEach(key => {
                 config[key] = data[key];
             });
-            // this.config = Object.assign(this.config, config);
+            this.config = Object.assign(this.config, config);
         } catch (error) {
             console.log('质检标注配置获取失败' + error?.message);
         } finally {
