@@ -5,11 +5,12 @@ import IconFont from 'src/component/common/iconFont';
 class CheckBoxIconGroup extends React.Component {
     render() {
         const { value } = this.props;
-        const { options, disabled } = this.props;
+        const { options, disabled, spaceMark } = this.props;
         return (
             <div className="attr-icon-box">
                 {options.map((option, index) => {
-                    let active = value && value.includes(option.value);
+                    let active = value && value.split(spaceMark).find(i => i == option.value);
+                    // let active = value && value.includes(option.value);
                     return (
                         <RadioIcon
                             key={index}
@@ -28,18 +29,28 @@ class CheckBoxIconGroup extends React.Component {
     }
 
     onChange = record => {
-        const { onChange, value, max } = this.props;
+        const { onChange, value, max, spaceMark } = this.props;
         if (typeof onChange === 'function') {
-            let _value = value ? value + '' : '';
-            if (_value.includes(record)) {
-                _value = _value.replace(record, '');
-            } else {
-                if (_value.length < max) {
-                    _value = (_value + record).split('').sort().join('');
+            let _value = value ? value : '';
+            if (value) {
+                let valArr = value.split(spaceMark) || [];
+                // 判断原来是否包含新增的record，如果有就删除，否则新增
+                if (valArr.find(i => i == record)) {
+                    valArr.forEach((val, i) => {
+                        if (val == record) valArr.splice(i, 1)
+                    })
+                    _value = valArr.sort().join(spaceMark);
                 } else {
-                    message.warning(`最多允许选${max}个！`);
-                    return false;
+                    if (valArr.length < max) {
+                        valArr.push(record);
+                        _value = valArr.sort().join(spaceMark);
+                    } else {
+                        message.warning(`最多允许选${max}个！`);
+                        return false;
+                    }
                 }
+            } else {
+                _value = record + '';
             }
             _value.length > 0 ? onChange(_value) : message.warning('最少选择1个！');
         }
@@ -57,7 +68,7 @@ class RadioIcon extends React.Component {
                 <IconFont
                     type={`icon-${icon}`}
                     className={iconClass}
-                    onClick={disabled ? () => {} : action}
+                    onClick={disabled ? () => { } : action}
                 />
             </Tooltip>
         );

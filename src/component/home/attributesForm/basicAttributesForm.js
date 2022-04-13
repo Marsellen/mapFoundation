@@ -198,13 +198,15 @@ class BasicAttributesForm extends React.Component {
         return text;
     };
 
-    getCheckBoxArrayOption = (value, arr) => {
-        const text =
-            arr
-                .filter(val => value.includes(val.value))
-                .map(val => val.label)
-                .join('+') || '--';
-        return text;
+    getCheckBoxArrayOption = (value, arr, spaceMark) => {
+        try {
+            if (!value) return '--';
+            const list = value.split(spaceMark).map(item => arr.find(val => val.value == item));
+            return list && list.map(val => val.label).join('+') || '--';
+        } catch (e) {
+            console.log(e)
+            return '--';
+        }
     };
 
     renderRadioIconGroup = (item, index, name) => {
@@ -241,6 +243,8 @@ class BasicAttributesForm extends React.Component {
     renderCheckBoxIconGroup = (item, index, name) => {
         const { form, formStatus } = this.props;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+        // 对TYPE_PLUS使用“｜”分割字符串
+        const spaceMark = item?.key == 'TYPE_PLUS' ? '|' : '';
         let layout = !formStatus ? formItemLayout : {};
         return (
             <Form.Item key={index} label={item.name} {...layout}>
@@ -257,13 +261,14 @@ class BasicAttributesForm extends React.Component {
                         <CheckBoxIconGroup
                             options={options}
                             max={3}
+                            spaceMark={spaceMark}
                             disabled={!formStatus}
                             onChange={val => this.handleChange(val, item, name)}
                         />
                     )
                 ) : (
                     <span className="ant-form-text">
-                        {this.getCheckBoxArrayOption(item.value, options)}
+                        {this.getCheckBoxArrayOption(item.value, options, spaceMark)}
                     </span>
                 )}
             </Form.Item>
