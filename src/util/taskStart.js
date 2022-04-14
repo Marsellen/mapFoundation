@@ -63,6 +63,7 @@ export const getCheckReport = async () => {
     if (!isEditableTask) return; //如果是浏览任务，返回
     if (isLocalTask) return; //如果是本地任务，返回
     if (isMsTask && isFixStatus) return; //如果是人工识别【已领取或进行中】，返回
+    console.log('0获取检查报表开始：', new Date);
     switch (appStore?.loginUser?.roleCode) {
         case 'producer':
             await getReport({
@@ -79,6 +80,7 @@ export const getCheckReport = async () => {
         default:
             break;
     }
+    console.log('0获取检查报表结束：', new Date);
     if (QualityCheckStore.reportListL === 0) return;
     setActiveKey('check');
     openCheckReport();
