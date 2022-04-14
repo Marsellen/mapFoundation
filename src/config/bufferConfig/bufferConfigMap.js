@@ -18,6 +18,55 @@ export const BUFFER_CONFIG_MAP = {
             ]
         }
     },
+    AD_RS_Barrier: {
+        type: 'Line',
+        bufferFields: ['TYPE'],
+        order: 15,
+        showStyles: ['bufferStyle'],
+        key: 'AD_RS_Barrier',
+        label: '隔离带、护栏',
+        checked: false,
+        bufferStyle: {
+            TYPE: [
+                {
+                    key: 'TYPE',
+                    value: 3102,
+                    label: '路侧防护栏',
+                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                }, {
+                    key: 'TYPE',
+                    value: 3103,
+                    label: '路缘石',
+                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                }, {
+                    key: 'TYPE',
+                    value: 3104,
+                    label: '隔音墙',
+                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                }, {
+                    key: 'TYPE',
+                    value: 3105,
+                    label: '其他墙体',
+                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                }, {
+                    key: 'TYPE',
+                    value: 3106,
+                    label: '道路轮廓标',
+                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                }, {
+                    key: 'TYPE',
+                    value: 3121,
+                    label: '新泽西护栏',
+                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                }, {
+                    key: 'TYPE',
+                    value: 3199,
+                    label: '其他',
+                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                }
+            ]
+        }
+    },
     AD_Pole_Geo: {
         type: 'Line',
         bufferFields: ['NOKEY'],
@@ -189,4 +238,4 @@ export const BUFFER_STYLE = {
     shortRadius: 0.5
 };
 
-export const PART_OF_BUFFER_ENABLE_LAYERS = ['AD_LaneDivider'];
+export const PART_OF_BUFFER_ENABLE_LAYERS = ['AD_LaneDivider', 'AD_RS_Barrier'];

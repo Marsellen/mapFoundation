@@ -96,6 +96,12 @@ export const DEFINE_VECTOR_CONFIG_MAP = {
                 domType: 'RadioIconGroup'
             },
             {
+                key: 'TYPE_PLUS',
+                name: '车道线类型(附加)',
+                type: 'AD_LANE_DIVIDER_TYPE',
+                domType: 'CheckBoxIconGroup'
+            },
+            {
                 key: 'SHARE_LINE',
                 name: '共用车道线标识',
                 type: 'AD_LANE_DIVIDER_SHARE_LINE',
@@ -373,6 +379,49 @@ export const DEFINE_VECTOR_CONFIG_MAP = {
             { key: 'dashed1', icon: 'xuxiankuang1' },
             { key: 'dashed2', icon: 'xuxiankuang2' },
             { key: 'dashed3', icon: 'xuxiankuang3' }
+        ]
+    },
+    AD_RS_Barrier: {
+        key: 'AD_RS_Barrier',
+        label: '隔离带、护栏',
+        checked: false,
+        isClassify: true,
+        type: 'Line',
+        commonStyle: {
+            showFields: 'TYPE',
+            lineStyle: 'solid',
+            color: 'rgb(255,255,255)',
+            opacity: 1,
+            arrow: false,
+            point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
+            pointSize: 0.1
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'xianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixian' },
+            { key: 'dashed', icon: 'xuxian' },
+            { key: 'dashed1', icon: 'xuxian1' },
+            { key: 'dashed2', icon: 'xuxian2' },
+            { key: 'dashed3', icon: 'xuxian3' }
+        ],
+        typeArr: [
+            {
+                key: 'TYPE',
+                name: '隔离带护栏类型',
+                type: 'AD_RS_BARRIER_TYPE',
+                domType: 'RadioIconGroup'
+            },
+            {
+                key: 'TILT',
+                name: '是否倾斜',
+                type: 'AD_RS_BARRIER_TILT',
+                domType: 'Select'
+            }
         ]
     },
     AD_LaneDivider_Plg: {

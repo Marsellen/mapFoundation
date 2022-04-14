@@ -46,6 +46,7 @@ export const CONFIGURABLE_LAYERS = [
     'AD_Text',
     'AD_TrafficSign',
     'AD_TrafficLight',
+    'AD_RS_Barrier',
     'AD_Junction',
     'AD_LaneDivider_Plg',
     'AD_StopLocation_Geo',

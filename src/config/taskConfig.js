@@ -17,6 +17,14 @@ export const TASK_MANNUAL_STATUS = [
     { value: 5, label: '返工' },
     { value: 6, label: '已完成' }
 ];
+//任务优先级映射
+export const TASK_ORDER_NUM = {
+    400: '紧急',
+    300: '高',
+    200: '中',
+    100: '低',
+    90: '极低'
+};
 //作业任务环节
 export const TASK_FIX_TYPES = ['imp_recognition', 'imp_manbuild', 'imp_std_precompile_man_repair'];
 //质检任务环节
@@ -88,6 +96,7 @@ export const VECTOR_FILES = [
     'AD_TrafficLight.geojson',
     'AD_Text.geojson',
     'AD_TrafficSign.geojson',
+    'AD_RS_Barrier.geojson',
     'AD_Junction.geojson'
 ];
 
@@ -112,5 +121,6 @@ export const REL_FILES = [
     'AD_Arrow.geojson',
     'AD_Road_Boundary_Rel.geojson',
     'AD_Boundary_Rel.geojson',
-    'AD_Feat_Junc_Rel.geojson'
+    'AD_Feat_Junc_Rel.geojson',
+    'AD_RS_Barrier_Rel.geojson'
 ];

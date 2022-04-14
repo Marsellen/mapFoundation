@@ -422,6 +422,7 @@ const copyAttributeLines = async (feature, copyFeature, layerName) => {
     const adLaneDividerKey = [
         //复制属性--车道线
         'TYPE',
+        'TYPE_PLUS',
         'SHARE_LINE',
         'RD_EDGE'
     ];

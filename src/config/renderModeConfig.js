@@ -107,18 +107,23 @@ export const REL_SELECT_OPTIONS = [
         checked: false
     },
     {
-        title: '道路参考线 & 车道属性交化点',
+        title: '道路参考线 & 车道属性变化点',
         key: 'AD_Road_Point_Rel',
         checked: false
     },
     {
-        title: '车道中心线 & 车道属性交化点',
+        title: '车道中心线 & 车道属性变化点',
         key: 'AD_Lane_Point_Rel',
         checked: false
     },
     {
         title: '交叉口关系',
         key: 'AD_Feat_Junc_Rel',
+        checked: false
+    },
+    {
+        title: '隔离带护栏 & 车道线',
+        key: 'AD_RS_Barrier_Rel',
         checked: false
     }
 ];
@@ -133,7 +138,7 @@ export const RELATION_MOD = '"RELATION":"MOD"';
 // 每个图层的更新标识属性修改
 export const AD_ROAD_ATTRIBUTE_MOD =
     '"TYPE":"MOD"|"RD_STATUS":"MOD"|"CROSSING":"MOD"|"RD_FORM":"MOD"|"DIRECTION":"MOD"|"LENGTH":"MOD"';
-export const AD_LANEDIVIDER_ATTRIBUTE_MOD = '"TYPE":"MOD"|"SHARE_LINE":"MOD"|"RD_EDGE":"MOD"';
+export const AD_LANEDIVIDER_ATTRIBUTE_MOD = '"TYPE":"MOD"|"TYPE_PLUS":"MOD"|"SHARE_LINE":"MOD"|"RD_EDGE":"MOD"';
 export const AD_LANE_ATTRIBUTE_MOD =
     '"TYPE":"MOD"|"LANE_NO":"MOD"|"DIRECTION":"MOD"|"STATUS":"MOD"|"ROAD_ID":"MOD"|"L_LDIV_ID":"MOD"|"R_LDIV_ID":"MOD"';
 export const AD_ARROW_ATTRIBUTE_MOD = '"ARR_DIRECT":"MOD"|"LANE_ID":"MOD"';
@@ -230,7 +235,8 @@ export const LAYER_NAME_MAP = {
     POLE: { layerName: 'AD_Pole_Geo', key: 'OBJ_ID' },
     POLE_ID: { layerName: 'AD_Pole_Geo', key: 'OBJ_ID' },
     JUNC: { layerName: 'AD_Junction', key: 'JUNC_ID' },
-    JUNC_ID: { layerName: 'AD_Junction', key: 'JUNC_ID' }
+    JUNC_ID: { layerName: 'AD_Junction', key: 'JUNC_ID' },
+    BARR_ID: { layerName: 'AD_RS_Barrier', key: 'BARR_ID' }
 };
 
 //关联关系与id映射
@@ -248,7 +254,8 @@ export const RELS_ID_MAP = {
     AD_Boundary_Rel: ['F_LDIV_ID', 'S_LDIV_ID'],
     AD_Road_Point_Rel: ['LAP_ID', 'ROAD_ID'],
     AD_Lane_Point_Rel: ['LAP_ID', 'LANE_ID'],
-    AD_Feat_Junc_Rel: ['JUNC_ID', 'FEAT_ID']
+    AD_Feat_Junc_Rel: ['JUNC_ID', 'FEAT_ID'],
+    AD_RS_Barrier_Rel: ['BARR_ID', 'LDIV_ID']
 };
 
 export const RELS_ID_MAP_REVERSE = {
@@ -281,7 +288,8 @@ export const RELS_ID_MAP_REVERSE = {
     [['JUNC', 'SIGN']]: 'AD_Feat_Junc_Rel',
     [['JUNC', 'LIGHT']]: 'AD_Feat_Junc_Rel',
     [['JUNC', 'ROAD']]: 'AD_Feat_Junc_Rel',
-    [['JUNC', 'LANE']]: 'AD_Feat_Junc_Rel'
+    [['JUNC', 'LANE']]: 'AD_Feat_Junc_Rel',
+    [['BARR', 'LDIV']]: 'AD_RS_Barrier_Rel'
 };
 
 //id与文字标注配置映射

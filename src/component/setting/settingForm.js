@@ -25,6 +25,12 @@ class SettingForm extends React.Component {
         });
     };
 
+    handleLocalSubmit = e => {
+        e.preventDefault();
+        const { SettingStore } = this.props;
+        SettingStore.saveLocalConfig();
+    };
+
     render() {
         const {
             SettingStore,
@@ -48,6 +54,14 @@ class SettingForm extends React.Component {
                             disabled={this.getDisabledStatus()}
                         >
                             更新
+                        </Button>
+                        <Button
+                            className="submit-local-all-update"
+                            type="primary"
+                            title="配置全量更新"
+                            onClick={this.handleLocalSubmit}
+                            disabled={this.getDisabledStatus()}
+                        >
                         </Button>
                     </Form.Item>
                 </Form>
