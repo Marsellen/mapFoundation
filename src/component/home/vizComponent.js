@@ -183,7 +183,7 @@ class VizComponent extends React.Component {
         message.loading({
             content: '正在加载任务数据...',
             key,
-            duration: 65
+            duration: 95
         });
         try {
             //初化化检查结果配置，不同任务采用不同配置
@@ -264,9 +264,17 @@ class VizComponent extends React.Component {
 
     initExResource = async task => {
         const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
+        const { activeTaskId, activeTask } = TaskStore;
         try {
-            await Promise.all([this.installRel(task.rels), this.installAttr(task.attrs), this.installVector(task.vectors)]);
+            const needSetLevel =
+                SettingStore.getConfig('OTHER_CONFIG').needSetLevelLists.find(i => i == activeTask.processName);
+            if (needSetLevel) {
+                this.installRel(task.rels);
+                this.installAttr(task.attrs);
+                await this.installVector(task.vectors);
+            } else {
+                await Promise.all([this.installRel(task.rels), this.installAttr(task.attrs), this.installVector(task.vectors)]);
+            }
         } catch (e) {
             console.log('rels.geojson或attrs.geojson加载异常' + e.message || e || '');
             throw new Error(activeTaskId);
