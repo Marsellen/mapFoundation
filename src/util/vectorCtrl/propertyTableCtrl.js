@@ -86,3 +86,18 @@ export const findRelDataById = async rel_id => {
         return rel.extraInfo && rel.extraInfo.REL_ID == rel_id;
     });
 };
+
+export const vectorDataToTable = data => {
+    let map = {};
+    data.forEach(response => {
+        const { data: feature } = response;
+        const spec = feature.name;
+        const features = feature.features;
+        map[spec] = { features };
+    });
+    return map
+};
+
+export default {
+    vectorDataToTable
+};
