@@ -8,6 +8,7 @@ import AdLocalStorage from 'src/util/adLocalStorage';
 import { saveTaskData } from 'src/util/taskUtils';
 import { editLock } from 'src/util/decorator';
 import BuriedPoint from 'src/util/buriedPoint';
+import SettingStore from 'src/store/setting/settingStore';
 
 import 'less/jobstatus.less';
 
