@@ -974,7 +974,8 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_RS_Barrier: {
         TYPE: 3102,
-        TILT: 1
+        TILT: 1,
+        HEIGHT: 0
     },
     AD_LaneDivider_Pln: {
         FEAT_TYPE: 1001,
