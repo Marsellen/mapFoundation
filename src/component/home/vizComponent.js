@@ -247,6 +247,9 @@ class VizComponent extends React.Component {
                 this.initMarkerLayer(task),
                 this.initMultiProjectResource(task)
             ]);
+            // 加载矢量图层
+            await this.installVector(task.vectors);
+
             this.initResouceLayer([...resources, region]);
             this.installListener();
             //设置画面缩放比例
@@ -273,7 +276,7 @@ class VizComponent extends React.Component {
                 this.installAttr(task.attrs);
                 await this.installVector(task.vectors);
             } else {
-                await Promise.all([this.installRel(task.rels), this.installAttr(task.attrs), this.installVector(task.vectors)]);
+                await Promise.all([this.installRel(task.rels), this.installAttr(task.attrs)]);
             }
         } catch (e) {
             console.log('rels.geojson或attrs.geojson加载异常' + e.message || e || '');

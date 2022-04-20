@@ -152,7 +152,7 @@ class VectorsStore {
         console.log('9渲染矢量数据开始：', new Date);
         const addFeatureJson = vectorFactory.vectorDataToTable(response);
         yield window.vectorLayerGroup.addLayersFeature(addFeatureJson);
-        this.firstPoint = addFeatureJson?.AD_Lane?.features[0].geometry.coordinates[0] || undefined;
+        this.firstPoint = addFeatureJson?.AD_Lane?.features[0]?.geometry?.coordinates[0] || undefined;
         console.log('9渲染矢量数据结束：', new Date);
         // yield Relevance.store.batchAdd(records);
     });
