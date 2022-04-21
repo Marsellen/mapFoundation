@@ -274,7 +274,6 @@ class VizComponent extends React.Component {
             if (needSetLevel) {
                 this.installRel(task.rels);
                 this.installAttr(task.attrs);
-                await this.installVector(task.vectors);
             } else {
                 await Promise.all([this.installRel(task.rels), this.installAttr(task.attrs)]);
             }
