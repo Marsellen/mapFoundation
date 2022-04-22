@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu, Empty, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AdLocalStorage from 'src/util/adLocalStorage';
-import { TASK_TYPE, POST_PROCESS } from 'src/config/taskConfig';
+import { TASK_TYPE, POST_PROCESS, TASK_ORDER_NUM } from 'src/config/taskConfig';
 import 'less/sider.less';
 import ToolIcon from 'src/component/common/toolIcon';
 import CONFIG from 'src/config';
@@ -79,7 +79,7 @@ class Task extends React.Component {
         const taskSubTypeLabel = TASK_TYPE[task_sub_type] || '底图新增';
         const postProcessDesc = POST_PROCESS[postProcess];
         const postProcessLabel = postProcessDesc ? `【${postProcessDesc}】` : '';
-        const orderNumLabel = !!orderNum ? `-${orderNum}` : ''; //优先级
+        const orderNumLabel = !!orderNum ? `-${TASK_ORDER_NUM[orderNum]}` : ''; //优先级
         const itemLabel = !!item ? `-${item}` : ''; //项目
         return `${taskId}-${taskSubTypeLabel}-${nodeDesc}-${manualStatusDesc}${postProcessLabel}${orderNumLabel}${itemLabel}`;
     };

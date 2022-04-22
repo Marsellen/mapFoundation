@@ -8,6 +8,7 @@ import AdLocalStorage from 'src/util/adLocalStorage';
 import { saveTaskData } from 'src/util/taskUtils';
 import { editLock } from 'src/util/decorator';
 import BuriedPoint from 'src/util/buriedPoint';
+import SettingStore from 'src/store/setting/settingStore';
 
 import 'less/jobstatus.less';
 
@@ -332,7 +333,9 @@ class JobStatus extends React.Component {
             // 清除质检标注相关数据
             QCMarkerStore.release();
             // 获取新任务，更新任务列表
-            await TaskStore.initTask({ type: 3 });
+            if (SettingStore.getConfig('OTHER_CONFIG').autoGetTask) {
+                await TaskStore.initTask({ type: 3 });
+            }
             // 更新任务列表后，清除浏览器缓存中多余任务信息
             AdLocalStorage.filterTaskInfosStorage(TaskStore.taskIdList);
         } catch (e) {
