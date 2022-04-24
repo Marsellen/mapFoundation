@@ -189,20 +189,20 @@ class VizComponent extends React.Component {
             //初化化检查结果配置，不同任务采用不同配置
             QualityCheckStore.initReportConfig();
             //获取任务信息 taskinfos.json
-            console.log('1获取任务开始：', new Date);
+            // console.log('1获取任务开始：', new Date);
             await Promise.all([
                 getTaskFileList(),
                 getTaskInfo(),
                 OcTreeIndex.getOctreeMap(activeTask)
             ]);
-            console.log('1获取任务结束：', new Date);
+            // console.log('1获取任务结束：', new Date);
             //获取任务资料文件路径
             const task = getTaskFile();
 
-            console.log('2加载数据&渲染数据开始：', new Date);
+            // console.log('2加载数据&渲染数据开始：', new Date);
             //加载当前任务资料
             await Promise.all([this.initEditResource(task), this.initExResource(task)]);
-            console.log('2加载数据&渲染数据结束：', new Date);
+            // console.log('2加载数据&渲染数据结束：', new Date);
             //“开始任务”时，加载周边底图
             if (isEditableTask) initBoundary();
             // 设置初始化的任务范围
@@ -238,7 +238,7 @@ class VizComponent extends React.Component {
         const { activeTaskId, isMrTask } = TaskStore;
         try {
             //先加载任务范围，以任务范围为标准做居中定位
-            console.log('3渲染任务范围&质检标注图层&点云&轨迹开始：', new Date);
+            // console.log('3渲染任务范围&质检标注图层&点云&轨迹开始：', new Date);
             const region = await this.initRegion(task.region);
             //再加载其它资料
             const resources = await Promise.all([
@@ -258,7 +258,7 @@ class VizComponent extends React.Component {
             if (!isMrTask) {
                 ResourceLayerStore.initMultiProjectLayer();
             }
-            console.log('3渲染任务范围&质检标注图层&点云&轨迹结束：', new Date);
+            // console.log('3渲染任务范围&质检标注图层&点云&轨迹结束：', new Date);
         } catch (e) {
             console.log('任务资料加载异常' + e.message || e || '');
             throw new Error(activeTaskId);
