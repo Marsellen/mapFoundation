@@ -145,15 +145,15 @@ class VectorsStore {
     };
 
     addRecords = flow(function* (urls, dataType) {
-        console.log('8加载矢量数据开始：', new Date);
+        // console.log('8加载矢量数据开始：', new Date);
         const response = yield Promise.all(urls.map(axios.get));
-        console.log('8加载矢量数据结束：', new Date);
+        // console.log('8加载矢量数据结束：', new Date);
         // 处理数据
-        console.log('9渲染矢量数据开始：', new Date);
+        // console.log('9渲染矢量数据开始：', new Date);
         const addFeatureJson = vectorFactory.vectorDataToTable(response);
         yield window.vectorLayerGroup.addLayersFeature(addFeatureJson);
-        this.firstPoint = addFeatureJson?.AD_Lane?.features[0].geometry.coordinates[0] || undefined;
-        console.log('9渲染矢量数据结束：', new Date);
+        this.firstPoint = addFeatureJson?.AD_Lane?.features[0]?.geometry?.coordinates[0] || undefined;
+        // console.log('9渲染矢量数据结束：', new Date);
         // yield Relevance.store.batchAdd(records);
     });
 }
