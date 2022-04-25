@@ -26,7 +26,7 @@ import _ from 'lodash';
 import editLog from 'src/util/editLog';
 import { windowObserver } from 'src/util/taskUtils';
 import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
-import { initBoundary, getCheckReport, getMarkerList } from 'src/util/taskStart';
+import { initBoundary, getCheckReport, getMarkerList, setTaskLevel } from 'src/util/taskStart';
 import axios from 'axios';
 import { logDecorator, editOutputLimit } from 'src/util/decorator';
 import RenderModeStore from 'src/store/home/renderModeStore';
@@ -167,7 +167,7 @@ class VizComponent extends React.Component {
     };
 
     initTask = async () => {
-        console.time('taskLoad');
+        // console.time('taskLoad');
         const { TaskStore } = this.props;
         const {
             getTaskInfo,
@@ -183,23 +183,32 @@ class VizComponent extends React.Component {
         message.loading({
             content: '正在加载任务数据...',
             key,
-            duration: 65
+            duration: 95
         });
         try {
             //初化化检查结果配置，不同任务采用不同配置
             QualityCheckStore.initReportConfig();
             //获取任务信息 taskinfos.json
+            // console.log('1获取任务开始：', new Date);
             await Promise.all([
                 getTaskFileList(),
                 getTaskInfo(),
                 OcTreeIndex.getOctreeMap(activeTask)
             ]);
+            // console.log('1获取任务结束：', new Date);
             //获取任务资料文件路径
             const task = getTaskFile();
+
+            // console.log('2加载数据&渲染数据开始：', new Date);
             //加载当前任务资料
             await Promise.all([this.initEditResource(task), this.initExResource(task)]);
+            // console.log('2加载数据&渲染数据结束：', new Date);
             //“开始任务”时，加载周边底图
             if (isEditableTask) initBoundary();
+            // 设置初始化的任务范围
+            const needSetLevel =
+                SettingStore.getConfig('OTHER_CONFIG').needSetLevelLists.find(i => i == activeTask.processName);
+            if (needSetLevel) setTaskLevel();
             //获取检查报表
             getCheckReport();
             message.success({
@@ -221,7 +230,7 @@ class VizComponent extends React.Component {
             console.log('任务数据加载失败' + currentTaskId || e || '');
             window.map = null;
         }
-        console.timeEnd('taskLoad');
+        // console.timeEnd('taskLoad');
     };
 
     initEditResource = async task => {
@@ -229,14 +238,18 @@ class VizComponent extends React.Component {
         const { activeTaskId, isMrTask } = TaskStore;
         try {
             //先加载任务范围，以任务范围为标准做居中定位
+            // console.log('3渲染任务范围&质检标注图层&点云&轨迹开始：', new Date);
             const region = await this.initRegion(task.region);
             //再加载其它资料
             const resources = await Promise.all([
-                this.initVectors(task.vectors),
+                this.initVectors(),
                 this.initCheckLayer(),
                 this.initMarkerLayer(task),
                 this.initMultiProjectResource(task)
             ]);
+            // 加载矢量图层
+            await this.installVector(task.vectors);
+
             this.initResouceLayer([...resources, region]);
             this.installListener();
             //设置画面缩放比例
@@ -245,6 +258,7 @@ class VizComponent extends React.Component {
             if (!isMrTask) {
                 ResourceLayerStore.initMultiProjectLayer();
             }
+            // console.log('3渲染任务范围&质检标注图层&点云&轨迹结束：', new Date);
         } catch (e) {
             console.log('任务资料加载异常' + e.message || e || '');
             throw new Error(activeTaskId);
@@ -253,9 +267,16 @@ class VizComponent extends React.Component {
 
     initExResource = async task => {
         const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
+        const { activeTaskId, activeTask } = TaskStore;
         try {
-            await Promise.all([this.installRel(task.rels), this.installAttr(task.attrs)]);
+            const needSetLevel =
+                SettingStore.getConfig('OTHER_CONFIG').needSetLevelLists.find(i => i == activeTask.processName);
+            if (needSetLevel) {
+                this.installRel(task.rels);
+                this.installAttr(task.attrs);
+            } else {
+                await Promise.all([this.installRel(task.rels), this.installAttr(task.attrs)]);
+            }
         } catch (e) {
             console.log('rels.geojson或attrs.geojson加载异常' + e.message || e || '');
             throw new Error(activeTaskId);
@@ -302,9 +323,8 @@ class VizComponent extends React.Component {
         taskScale && window.map.setEyeView(taskScale);
     };
 
-    initVectors = async vectors => {
-        if (!vectors) return;
-        window.vectorLayerGroup = new LayerGroup(vectors, {
+    initVectors = async () => {
+        window.vectorLayerGroup = new LayerGroup([], {
             styleConifg: DefaultStyleConfig
         });
         await map.getLayerManager().addLayerGroup(vectorLayerGroup, fetchCallback);
@@ -649,6 +669,10 @@ class VizComponent extends React.Component {
 
     installAttr = urls => {
         return AttrStore.addRecords(urls, 'current');
+    };
+
+    installVector = urls => {
+        return VectorsStore.addRecords(urls, 'current');
     };
 
     render() {
