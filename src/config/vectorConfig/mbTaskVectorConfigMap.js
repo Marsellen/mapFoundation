@@ -912,6 +912,12 @@ export const MB_TASK_VECTOR_CONFIG_MAP = {
                 domType: 'RadioIconGroup'
             },
             {
+                key: 'TYPE_PLUS',
+                name: '车道线类型(附加)',
+                type: 'AD_LANE_DIVIDER_TYPE',
+                domType: 'CheckBoxIconGroup'
+            },
+            {
                 key: 'SHARE_LINE',
                 name: '共用车道线标识',
                 type: 'AD_LANE_DIVIDER_SHARE_LINE',
