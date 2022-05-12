@@ -1,8 +1,5 @@
-export const COMMON_TEXT_CONFIG_MAP = {
+export const QR_TASK_TEXT_CONFIG_MAP = {
     AD_Road: {
-        type: 'Line',
-        textFields: ['TYPE', 'RD_STATUS', 'CROSSING', 'DIRECTION'],
-        showStyles: ['textStyle'],
         key: 'AD_Road',
         label: '道路参考线',
         checked: false,
@@ -29,7 +26,7 @@ export const COMMON_TEXT_CONFIG_MAP = {
         label: '车道线',
         checked: false,
         defaultStyle: {
-            textFields: ['TYPE', 'RD_EDGE'], //看数据规格
+            textFields: ['TYPE'], //看数据规格
             interval: 10,
             showMode: 'line-center',
             fontSize: 40,
@@ -71,7 +68,7 @@ export const COMMON_TEXT_CONFIG_MAP = {
     AD_LaneAttrPoint: {
         key: 'AD_LaneAttrPoint',
         label: '车道属性变化点',
-        checked: true,
+        checked: false,
         defaultStyle: {
             textFields: ['TYPE'], //看数据规格
             offset: 20,
@@ -198,28 +195,6 @@ export const COMMON_TEXT_CONFIG_MAP = {
             'line-repeat': {
                 key: 'line-repeat',
                 label: '边线循环',
-                interval: true
-            }
-        }
-    },
-    AD_RS_Barrier: {
-        key: 'AD_RS_Barrier',
-        label: '隔离带、护栏',
-        checked: false,
-        defaultStyle: {
-            textFields: ['TYPE'], //看数据规格
-            interval: 10,
-            showMode: 'line-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        textModeMap: {
-            'line-center': { key: 'line-center', label: '线中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '线上循环',
                 interval: true
             }
         }

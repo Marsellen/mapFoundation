@@ -483,6 +483,9 @@ class EditableCard extends React.Component {
     renderCheckBoxIconGroup = (item, index, readonly) => {
         const { form } = this.props;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+        // 对TYPE_PLUS使用“｜”分割字符串
+        const spaceMark = item?.key == 'TYPE_PLUS' ? '|' : '';
+        const minLimit = item?.key == 'TYPE_PLUS' ? false : true;
         let layout = readonly ? formItemLayout : {};
         return (
             <Form.Item key={index} label={item.name} {...layout}>
@@ -501,23 +504,33 @@ class EditableCard extends React.Component {
                             })
                         ],
                         initialValue: item.value
-                    })(<CheckBoxIconGroup options={options} max={3} disabled={readonly} />)
+                    })(
+                        <CheckBoxIconGroup
+                            options={options}
+                            spaceMark={spaceMark}
+                            max={3}
+                            minLimit={minLimit}
+                            disabled={readonly}
+                        />
+                    )
                 ) : (
                     <span className="ant-form-text">
-                        {this.getCheckBoxArrayOption(item.value, options)}
+                        {this.getCheckBoxArrayOption(item.value, options, spaceMark)}
                     </span>
                 )}
             </Form.Item>
         );
     };
 
-    getCheckBoxArrayOption = (value, arr) => {
-        const text =
-            arr
-                .filter(val => value.includes(val.value))
-                .map(val => val.label)
-                .join('，') || '--';
-        return text;
+    getCheckBoxArrayOption = (value, arr, spaceMark) => {
+        try {
+            if (!value) return '--';
+            const list = value.split(spaceMark).map(item => arr.find(val => val.value == item));
+            return list && list.map(val => val.label).join('+') || '--';
+        } catch (e) {
+            console.log(e)
+            return '--';
+        }
     };
 
     attrOnChange = key => {
@@ -527,7 +540,7 @@ class EditableCard extends React.Component {
             case 'CONT_VALUE':
                 return this.linkContValueChangeEvent;
             default:
-                return () => {};
+                return () => { };
         }
     };
 
@@ -587,10 +600,10 @@ class EditableCard extends React.Component {
     getValidatorSetting = validates => {
         return validates
             ? [
-                  {
-                      validator: getValidator(validates)
-                  }
-              ]
+                {
+                    validator: getValidator(validates)
+                }
+            ]
             : [];
     };
 }

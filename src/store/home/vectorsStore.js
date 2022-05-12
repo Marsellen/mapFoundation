@@ -1,6 +1,8 @@
-import { observable, configure, action, computed } from 'mobx';
+import { observable, configure, flow, action, computed } from 'mobx';
 import { DATA_LAYER_MAP, MB_EDIT_LAYER_MAP } from 'src/config/dataLayerConfig';
+import vectorFactory from 'src/util/vectorCtrl/propertyTableCtrl';
 import _ from 'lodash';
+import axios from 'axios';
 
 const DATA_LAYER_CHECK_MAP = Object.values(MB_EDIT_LAYER_MAP).reduce((checkMap, layerNames) => {
     return layerNames.reduce(
@@ -16,6 +18,7 @@ class VectorsStore {
     @observable vectors = {};
     @observable layerType = 'vector';
     @observable updateKey;
+    @observable firstPoint = [];
     @computed get isCheckedNone() {
         const type = this.layerType;
         if (!this.vectors[type]) return false;
@@ -140,6 +143,19 @@ class VectorsStore {
         let boundaries = Object.values(this.layerMap.boundary);
         return boundaries.map(item => item.layerId);
     };
+
+    addRecords = flow(function* (urls, dataType) {
+        // console.log('8加载矢量数据开始：', new Date);
+        const response = yield Promise.all(urls.map(axios.get));
+        // console.log('8加载矢量数据结束：', new Date);
+        // 处理数据
+        // console.log('9渲染矢量数据开始：', new Date);
+        const addFeatureJson = vectorFactory.vectorDataToTable(response);
+        yield window.vectorLayerGroup.addLayersFeature(addFeatureJson);
+        this.firstPoint = addFeatureJson?.AD_Lane?.features[0]?.geometry?.coordinates[0] || undefined;
+        // console.log('9渲染矢量数据结束：', new Date);
+        // yield Relevance.store.batchAdd(records);
+    });
 }
 
 export default new VectorsStore();

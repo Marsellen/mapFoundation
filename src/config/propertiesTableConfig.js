@@ -59,6 +59,11 @@ export const COLUMNS_CONFIG = {
             filterBy: 'typeFilter|AD_LANE_DIVIDER_TYPE'
         },
         {
+            dataIndex: 'TYPE_PLUS',
+            title: '车道线类型(附加)',
+            filterBy: 'typeFilter|AD_LANE_DIVIDER_TYPE'
+        },
+        {
             dataIndex: 'SHARE_LINE',
             title: '共用车道线标识',
             filterBy: 'typeFilter|AD_LANE_DIVIDER_SHARE_LINE'
@@ -379,6 +384,31 @@ export const COLUMNS_CONFIG = {
             filterBy: 'updStatFilter'
         }
     ],
+    AD_RS_Barrier: [
+        {
+            dataIndex: 'index',
+            title: '序号'
+        },
+        {
+            dataIndex: 'BARR_ID',
+            title: '用户编号'
+        },
+        {
+            dataIndex: 'TYPE',
+            title: '类型',
+            filterBy: 'typeFilter|AD_RS_BARRIER_TYPE'
+        },
+        {
+            dataIndex: 'TILT',
+            title: '是否倾斜',
+            filterBy: 'typeFilter|AD_RS_BARRIER_TILT'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
+        }
+    ],
     AD_Road_Con: [
         { dataIndex: 'index', title: '序号' },
         { dataIndex: 'REL_ID', title: '用户编号' },
@@ -427,6 +457,13 @@ export const COLUMNS_CONFIG = {
         { dataIndex: 'REL_ID', title: '用户编号' },
         { dataIndex: 'LIGHT_ID', title: '关联交通信号灯用户编号' },
         { dataIndex: 'LANE_ID', title: '关联车道中心线用户编号' },
+        { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
+    ],
+    AD_RS_Barrier_Rel: [
+        { dataIndex: 'index', title: '序号' },
+        { dataIndex: 'REL_ID', title: '用户编号' },
+        { dataIndex: 'BARR_ID', title: '关联隔离带护栏用户编号' },
+        { dataIndex: 'LDIV_ID', title: '关联车道线用户编号' },
         { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ],
     AD_Road_Con_RS: [
@@ -570,7 +607,8 @@ export const SELECT_OPTIONS = [
             'AD_Text',
             'AD_TrafficSign',
             'AD_TrafficLight',
-            'AD_Junction'
+            'AD_Junction',
+            'AD_RS_Barrier'
         ]
     },
     {
@@ -586,7 +624,8 @@ export const SELECT_OPTIONS = [
             'AD_Light_Lane_Rel',
             'AD_Road_Boundary_Rel',
             'AD_Boundary_Rel',
-            'AD_Feat_Junc_Rel'
+            'AD_Feat_Junc_Rel',
+            'AD_RS_Barrier_Rel'
         ]
     },
     {
@@ -624,6 +663,7 @@ export const OPTION_LAYER_MAP = {
     AD_Text: ['AD_Text'],
     AD_TrafficSign: ['AD_TrafficSign'],
     AD_TrafficLight: ['AD_TrafficLight'],
+    AD_RS_Barrier: ['AD_RS_Barrier'],
     AD_Junction: ['AD_Junction'],
     AD_LaneDivider_Pln: ['AD_LaneDivider_Pln'],
     AD_LaneDivider_Plg: ['AD_LaneDivider_Plg'],
@@ -645,6 +685,7 @@ export const OPTION_LAYER_MAP = {
     AD_Road_Point_Rel: ['AD_LaneAttrPoint', 'AD_Road'],
     AD_Road_Boundary_Rel: ['AD_LaneDivider', 'AD_Road'],
     AD_Boundary_Rel: ['AD_LaneDivider'],
+    AD_RS_Barrier_Rel: ['AD_RS_Barrier', 'AD_LaneDivider'],
     //关联属性
     AD_TS_Content: ['AD_TrafficSign'],
     AD_Lane_RS: ['AD_Lane'],

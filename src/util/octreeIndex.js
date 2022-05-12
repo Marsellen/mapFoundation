@@ -17,6 +17,7 @@ class OcTreeIndex {
     getOctreeMap = async task => {
         try {
             const { Input_imp_data_path, processName } = task;
+            // 如果是人工检修任务不获取点云
             if (!Input_imp_data_path || processName == 'imp_std_precompile_man_repair') return;
             this.initConfig();
             const { octreeIndex } = CONFIG.urlConfig;

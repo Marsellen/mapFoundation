@@ -287,6 +287,41 @@ export const DATA_LAYER_MAP = {
         groupRightTools: [],
         editName: '质检标注图层'
     },
+    AD_RS_Barrier: {
+        label: '隔离带、护栏',
+        id: 'BARR_ID',
+        spec: 'AD_RS_Barrier',
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
+        },
+        drawTools: {
+            recognition: ['LINE', 'CURVED_LINE'],
+            manbuild: ['LINE', 'CURVED_LINE']
+        },
+        rightTools: [
+            'buffer_render',
+            'delete',
+            'force_delete',
+            'change_points',
+            'break_line',
+            'trim',
+            'group_move',
+            'copy_line'
+        ],
+        groupRightTools: [
+            'buffer_render',
+            'break_line_by_point',
+            'merge_line',
+            'batch_assign',
+            'batch_merge_line',
+            'break_line_by_line',
+            'group_move',
+            'delete',
+            'change_points'
+        ],
+        editName: '隔离带、\n护栏'
+    },
     AD_Lane_RS: {
         label: '车道中心线交通限制信息',
         id: 'RS_ID',
@@ -370,6 +405,11 @@ export const DATA_LAYER_MAP = {
         label: '道路边界 & 道路边界关联关系',
         id: 'REL_ID',
         spec: 'AD_Boundary_Rel'
+    },
+    AD_RS_Barrier_Rel: {
+        label: '隔离带护栏 & 车道线',
+        id: 'REL_ID',
+        spec: 'AD_RS_Barrier_Rel'
     },
     AD_LaneDivider_Pln: {
         label: '几何层：车道线线要素',
@@ -560,7 +600,8 @@ export const MS_EDIT_LAYER_MAP = {
         'AD_Text',
         'AD_TrafficLight',
         'AD_TrafficSign',
-        'AD_Junction'
+        'AD_Junction',
+        'AD_RS_Barrier'
     ],
     GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']
 };
@@ -577,7 +618,8 @@ export const MB_EDIT_LAYER_MAP = {
         'AD_Text',
         'AD_TrafficLight',
         'AD_TrafficSign',
-        'AD_Junction'
+        'AD_Junction',
+        'AD_RS_Barrier'
     ],
     GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']
 };
@@ -595,5 +637,6 @@ export const LINE_LAYERS = [
     'AD_LaneDivider',
     'AD_Lane',
     'AD_StopLocation',
+    'AD_RS_Barrier',
     'AD_Pole_Geo'
 ];

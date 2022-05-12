@@ -330,6 +330,9 @@ class BatchAssignModal extends React.Component {
         const { form } = this.props;
         const { readonly } = item;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
+        // 对TYPE_PLUS使用“｜”分割字符串 且不限制最小选择
+        const spaceMark = item?.key == 'TYPE_PLUS' ? '|' : '';
+        const minLimit = item?.key == 'TYPE_PLUS' ? false : true;
         return (
             <Form.Item key={index} label={this.getLabel(readonly, item)}>
                 {form.getFieldDecorator(name + '.' + item.key, {
@@ -337,6 +340,8 @@ class BatchAssignModal extends React.Component {
                 })(
                     <CheckBoxIconGroup
                         options={options}
+                        minLimit={minLimit}
+                        spaceMark={spaceMark}
                         max={3}
                         disabled={disabledList?.includes(item.key)}
                         onChange={val => this.handleChange(val, item, name)}

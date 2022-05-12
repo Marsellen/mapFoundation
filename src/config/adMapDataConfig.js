@@ -46,6 +46,18 @@ export const TYPE_SELECT_OPTION_MAP = {
             icon: 'qitaxunichedaoxian',
             abbreviation: '其虚'
         },
+        {
+            value: 21,
+            label: '纵向菱形减速车道线',
+            icon: 'zongxianglingxingjiansuchedaoxian',
+            abbreviation: '菱'
+        },
+        {
+            value: 22,
+            label: '隔音墙',
+            icon: 'geyinqiang',
+            abbreviation: '隔'
+        },
         { value: 99, label: '其他', icon: 'qita', abbreviation: '99' }
     ],
     AD_LANE_DIVIDER_DIRECTION: [
@@ -117,6 +129,8 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao', abbreviation: '左减' },
         { value: 31, label: '加减速复合车道', icon: 'jiajiansufuhechedao', abbreviation: '加减' },
         { value: 32, label: '公交港湾', icon: 'gongjiaogangwan', abbreviation: '公港' },
+        { value: 33, label: '右转待转车道', icon: 'gongjiaogangwan', abbreviation: '右待' },
+        { value: 34, label: '掉头待转车道', icon: 'gongjiaogangwan', abbreviation: '掉待' },
         { value: 99, label: '其他', icon: 'qita', abbreviation: '99' }
     ],
     AD_LANE_DIVIDER_RD_FORM: [
@@ -197,6 +211,8 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 30, label: '左侧减速车道', icon: 'zuocejiansuchedao', abbreviation: '左减' },
         { value: 31, label: '加减速复合车道', icon: 'jiajiansufuhechedao', abbreviation: '加减' },
         { value: 32, label: '公交港湾', icon: 'gongjiaogangwan', abbreviation: '公港' },
+        { value: 33, label: '右转待转车道', icon: 'youzhuandaizhuanchedao', abbreviation: '右待' },
+        { value: 34, label: '掉头待转车道', icon: 'diaotoudaizhuanchedao', abbreviation: '掉待' },
         { value: 99, label: '其他', icon: 'qita', abbreviation: '99' }
     ],
     AD_LANE_DIRECTION: [
@@ -369,19 +385,19 @@ export const TYPE_SELECT_OPTION_MAP = {
     ],
     AD_RS_BARRIER_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi', abbreviation: '0' },
-        { value: 1, label: '隧道墙', icon: 'suidaoqiang', abbreviation: '隧' },
-        { value: 2, label: '路侧防护栏', icon: 'lucefanghulan', abbreviation: '路侧' },
-        { value: 3, label: '路缘石', icon: 'luyuanshi', abbreviation: '石' },
-        { value: 4, label: '隔音墙', icon: 'geyinqiang', abbreviation: '音' },
-        { value: 5, label: '其他墙体', icon: 'qitaqiangti', abbreviation: '他' },
-        { value: 6, label: '道路轮廓标', icon: 'daolulunkuobiao', abbreviation: '廓' }
+        { value: 3101, label: '隧道墙', icon: 'suidaoqiang', abbreviation: '隧' },
+        { value: 3102, label: '路侧防护栏', icon: 'lucefanghulan', abbreviation: '路侧' },
+        { value: 3103, label: '路缘石', icon: 'luyuanshi', abbreviation: '石' },
+        { value: 3104, label: '隔音墙', icon: 'geyinqiang', abbreviation: '音' },
+        { value: 3105, label: '其他墙体', icon: 'qitaqiangti', abbreviation: '他' },
+        { value: 3106, label: '道路轮廓标', icon: 'daolulunkuobiao', abbreviation: '廓' },
+        { value: 3121, label: '新泽西护栏', icon: 'xinzexihulan', abbreviation: '泽' },
+        { value: 3199, label: '其他', icon: 'qita', abbreviation: '其他' }
     ],
-    AD_RS_BARRIER_MATERIAL: [
+    AD_RS_BARRIER_TILT: [
         { value: 0, label: '未定义', abbreviation: '0' },
-        { value: 1, label: '混凝土', abbreviation: '混' },
-        { value: 2, label: '金属', abbreviation: '金' },
-        { value: 3, label: '塑料', abbreviation: '塑' },
-        { value: 4, label: '其他', abbreviation: '他' }
+        { value: 1, label: '不倾斜', abbreviation: '不' },
+        { value: 2, label: '倾斜', abbreviation: '斜' }
     ],
     AD_TEXT_CONT_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi', abbreviation: '0' },
@@ -906,6 +922,7 @@ export const DEFAULT_PROPERTIES_MAP = {
     AD_LaneDivider: {
         TYPE: 1,
         SHARE_LINE: 1,
+        TYPE_PLUS: '',
         RD_EDGE: 2
     },
     AD_Road: {
@@ -954,6 +971,11 @@ export const DEFAULT_PROPERTIES_MAP = {
     },
     AD_StopLocation: {
         TYPE: 1
+    },
+    AD_RS_Barrier: {
+        TYPE: 3102,
+        TILT: 1,
+        HEIGHT: 0
     },
     AD_LaneDivider_Pln: {
         FEAT_TYPE: 1001,
@@ -1034,6 +1056,12 @@ export const TABLE_DATA_MAP = {
                     RD_EDGE: 1
                 }
             }
+        },
+        {
+            key: 'TYPE_PLUS',
+            name: '车道线类型(附加)',
+            type: 'AD_LANE_DIVIDER_TYPE',
+            domType: 'CheckBoxIconGroup'
         },
         {
             key: 'SHARE_LINE',
@@ -1387,6 +1415,32 @@ export const TABLE_DATA_MAP = {
             domType: 'AdTrafficSignContent'
         }
     ],
+    AD_RS_Barrier: [
+        {
+            key: 'BARR_ID',
+            name: '用户编号',
+            type: 'AD_RS_BARRIER_BARR_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'TYPE',
+            name: '隔离带护栏类型',
+            type: 'AD_RS_BARRIER_TYPE',
+            domType: 'RadioIconGroup'
+        },
+        {
+            key: 'TILT',
+            name: '是否倾斜',
+            type: 'AD_RS_BARRIER_TILT',
+            domType: 'Select'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
+        }
+    ],
     AD_LaneDivider_Pln: [
         {
             key: 'OBJ_ID',
@@ -1605,7 +1659,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_Road: '{"TYPE":{},"CROSSING":{},"RD_STATUS":{},"RD_FORM":{},"DIRECTION":{},"GEOMETRY":{}}',
     AD_Road_Con: '{"FROM_ROAD":{},"TO_ROAD":{}}',
     AD_Road_Con_RS: '{"REL_ID":{},"RS_TYPE":{},"TIMEDOM":{}}',
-    AD_LaneDivider: '{"TYPE":{},"SHARE_LINE":{},"RD_EDGE":{},"GEOMETRY":{}}',
+    AD_LaneDivider: '{"TYPE":{},"TYPE_PLUS":{},"SHARE_LINE":{},"RD_EDGE":{},"GEOMETRY":{}}',
     AD_Lane:
         '{"ROAD_ID":{},"L_LDIV_ID":{},"R_LDIV_ID":{},"TYPE":{},"LANE_NO":{},"DIRECTION":{},"STATUS":{},"GEOMETRY":{}}',
     AD_Lane_Con: '{"FROM_LANE":{},"TO_LANE":{}}',
@@ -1626,7 +1680,9 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_TrafficLight: '{"TYPE":{},"LAYOUT":{},"LAMP_COUNT":{},"GEOMETRY":{}}',
     AD_Light_Lane_Rel: '{"LIGHT_ID":{},"LANE_ID":{}}',
     AD_Road_Boundary_Rel: '{"ROAD_ID":{},"LDIV_ID":{}}',
-    AD_Boundary_Rel: '{"F_LDIV_ID":{},"S_LDIV_ID":{}}'
+    AD_Boundary_Rel: '{"F_LDIV_ID":{},"S_LDIV_ID":{}}',
+    AD_RS_Barrier: '{"TYPE":{},"TILT":{},"HEIGHT":{},"GEOMETRY":{}}',
+    AD_RS_Barrier_Rel: '{"REL_ID":{},"BARR_ID":{},"LDIV_ID":{}}'
 };
 
 export const LAYER_TYPE_MAP = {
@@ -1639,6 +1695,11 @@ export const LAYER_TYPE_MAP = {
         {
             key: 'TYPE',
             name: '车道线类型',
+            type: 'AD_LANE_DIVIDER_TYPE'
+        },
+        {
+            key: 'TYPE_PLUS',
+            name: '车道线类型(附加)',
             type: 'AD_LANE_DIVIDER_TYPE'
         },
         {
@@ -1846,6 +1907,23 @@ export const LAYER_TYPE_MAP = {
             key: 'LIGHT_ID',
             name: '用户编号',
             type: 'AD_TRAFFIC_LIGHT_ID'
+        }
+    ],
+    AD_RS_Barrier: [
+        {
+            key: 'BARR_ID',
+            name: '用户编号',
+            type: 'AD_RS_BARRIER_BARR_ID'
+        },
+        {
+            key: 'TYPE',
+            name: '隔离带护栏类型',
+            type: 'AD_RS_BARRIER_TYPE'
+        },
+        {
+            key: 'TILT',
+            name: '是否倾斜',
+            type: 'AD_RS_BARRIER_TILT'
         }
     ],
     AD_LaneDivider_Pln: [

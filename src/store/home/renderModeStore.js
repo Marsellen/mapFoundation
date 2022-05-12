@@ -306,6 +306,7 @@ class RenderModeStore {
                         const idValue = properties[id];
                         if (!idValue) return;
                         const option = this.setOptions({
+                            idKey: id,
                             idValue,
                             layerName: this.getLayerNameByIdKey(id, properties)
                         });
@@ -331,8 +332,10 @@ class RenderModeStore {
         let updateRelMap_2D = {};
         updateRels.forEach(item => {
             const { objId, objType, relObjId, relObjType, objSpec, relObjSpec } = item;
-            const obj = this.setOptions({ layerName: objSpec, idValue: objId });
-            const relObj = this.setOptions({ layerName: relObjSpec, idValue: relObjId });
+            const objRelation = `${objType}_ID`;
+            const relObjRelation = `${relObjType}_ID`;
+            const obj = this.setOptions({ idKey: objRelation, idValue: objId });
+            const relObj = this.setOptions({ idKey: relObjRelation, idValue: relObjId });
             const names = [objType, relObjType];
             const relName = RELS_ID_MAP_REVERSE[names];
             updateRelMap_2D[relName] = updateRelMap_2D[relName] || {};
@@ -427,12 +430,13 @@ class RenderModeStore {
     setOptions = ({ idKey, idValue, layerName }) => {
         idKey = idKey ?? getLayerIDKey(layerName);
         layerName = layerName ?? LAYER_NAME_MAP[idKey]?.layerName;
+        const key = LAYER_NAME_MAP[idKey]?.key;
         return {
             layerName,
             relation: idKey,
             id: idValue,
             option: {
-                key: idKey,
+                key: key,
                 value: idValue
             }
         };

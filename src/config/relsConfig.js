@@ -8,7 +8,8 @@ export const REL_DATA_SET = [
     'AD_Light_Lane_Rel',
     'AD_Road_Boundary_Rel',
     'AD_Boundary_Rel',
-    'AD_Feat_Junc_Rel'
+    'AD_Feat_Junc_Rel',
+    'AD_RS_Barrier_Rel'
 ];
 
 // 属性关联关系图层
@@ -106,10 +107,15 @@ export const REL_TYPE_KEY_MAP = {
     JUNC: {
         name: '关联交叉口',
         validates: 'Numeric|maxLength|15'
+    },
+    BARR: {
+        name: '隔离带护栏',
+        validates: 'Numeric|maxLength|15'
     }
 };
 
 // 各个矢量图层包含关联查询的索引与对象类型的映射
+// relType 关系图层使用OBJ_TYPE_KEYS 非关系图层使用REL_OBJ_TYPE_KEYS
 export const SPEC_REL_KEY_SET = [
     { spec: 'AD_Lane', relKey: 'LANE', relType: 'OBJ_TYPE_KEYS' },
     { spec: 'AD_Lane', relKey: 'LANE', relType: 'REL_OBJ_TYPE_KEYS' },
@@ -132,7 +138,8 @@ export const SPEC_REL_KEY_SET = [
     { spec: 'AD_LaneDivider', relKey: 'LDIV', relType: 'OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'LDIV', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_Pole_Geo', relKey: 'POLE', relType: 'REL_OBJ_TYPE_KEYS' },
-    { spec: 'AD_Junction', relKey: 'JUNC', relType: 'OBJ_TYPE_KEYS' }
+    { spec: 'AD_Junction', relKey: 'JUNC', relType: 'OBJ_TYPE_KEYS' },
+    { spec: 'AD_RS_Barrier', relKey: 'BARR', relType: 'OBJ_TYPE_KEYS' }
 ];
 
 // 索引与被关联对象的存储位置映射关系
@@ -327,6 +334,15 @@ export const REL_SPEC_CONFIG = [
         relObjSpec: 'AD_TrafficLight',
         objType: 'LANE',
         relObjType: 'LIGHT'
+    },
+    {
+        source: 'AD_RS_Barrier_Rel',
+        objKeyName: 'BARR_ID',
+        relObjKeyName: 'LDIV_ID',
+        objSpec: 'AD_RS_Barrier',
+        relObjSpec: 'AD_LaneDivider',
+        objType: 'BARR',
+        relObjType: 'LDIV'
     },
     {
         source: 'AD_LaneAttrPoint',

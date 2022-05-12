@@ -132,6 +132,19 @@ export default {
             ]
         }
     },
+    AD_RS_Barrier: {
+        type: 'Line',
+        showFields: ['NOKEY'],
+        order: 1,
+        showStyles: ['vectorStyle'],
+        vectorStyle: {
+            NOKEY: [
+                {
+                    style: { color: 'rgb(70,109,255)', linewidth: 1 }
+                }
+            ]
+        }
+    },
     AD_LaneDivider_Plg: {
         type: 'Polygon',
         showFields: ['NOKEY'],
