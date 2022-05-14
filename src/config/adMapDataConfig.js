@@ -58,6 +58,12 @@ export const TYPE_SELECT_OPTION_MAP = {
             icon: 'geyinqiang',
             abbreviation: '隔'
         },
+        {
+            value: 23,
+            label: '市政护栏',
+            icon: 'shizhenghulan',
+            abbreviation: '市政'
+        },
         { value: 99, label: '其他', icon: 'qita', abbreviation: '99' }
     ],
     AD_LANE_DIVIDER_DIRECTION: [
@@ -392,6 +398,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3105, label: '其他墙体', icon: 'qitaqiangti', abbreviation: '他' },
         { value: 3106, label: '道路轮廓标', icon: 'daolulunkuobiao', abbreviation: '廓' },
         { value: 3121, label: '新泽西护栏', icon: 'xinzexihulan', abbreviation: '泽' },
+        { value: 3122, label: '市政护栏', icon: 'shizhenghulan', abbreviation: '市政' },
         { value: 3199, label: '其他', icon: 'qita', abbreviation: '其他' }
     ],
     AD_RS_BARRIER_TILT: [
