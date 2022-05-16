@@ -20,6 +20,7 @@ import PostureAdjust from 'src/component/home/toolList/postureAdjust';
 import SetStepSize from 'src/component/home/toolList/setStepSize';
 // import UnionBreak from 'src/component/home/toolList/unionBreak';
 import BatchBreak from 'src/component/home/toolList/batchBreak';
+import MunicipalBarrierDown from 'src/component/home/toolList/municipalBarrierDown';
 import ViewNeighbor from './viewNeighbor';
 
 export default [
@@ -45,5 +46,6 @@ export default [
     <PostureAdjust key="POSTURE_ADJUST" />,
     // <UnionBreak key="UNION_BREAK" />,
     <TopBreakLine key="TOP_BREAK_LINE_2" />,
-    <BatchBreak key="BATCH_BREAK" />
+    <BatchBreak key="BATCH_BREAK" />,
+    <MunicipalBarrierDown key="MUNICIPAL_BARRIER_DOWN" />
 ];

@@ -54,6 +54,15 @@ const AdLineService = {
             data
         };
         return service({ config });
+    },
+    municipalBarrierDown: data => {
+        //交互式构建 市政护栏下压
+        const config = {
+            url: ManualBuildApiPath('/ml/dropBarrier'),
+            method: 'post',
+            data
+        };
+        return service({ config });
     }
 };
 

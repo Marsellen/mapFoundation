@@ -29,6 +29,7 @@ export const TOOLS_MAP = {
         UNION_BREAK: true,
         TOP_BREAK_LINE_2: true,
         BATCH_BREAK: true,
+        MUNICIPAL_BARRIER_DOWN: true,
         VIEW_NEIGHBOR: true
     },
     CHECK: {
@@ -60,6 +61,7 @@ export const TOOLS_MAP = {
         SETSTEP_SIZE: true,
         TOP_BREAK_LINE_2: false,
         BATCH_BREAK: false,
+        MUNICIPAL_BARRIER_DOWN: false,
         VIEW_NEIGHBOR: true
     }
 };
