@@ -70,6 +70,14 @@ const TaskService = {
         };
         return service({ config });
     },
+    tmsInfoErrorAdd: data => {
+        const config = {
+            url: TaskApiPath('/tmsInfoError/upsert'),
+            method: 'post',
+            data
+        };
+        return service({ config });
+    },
     queryTaskNeighbor: params => {
         const config = {
             url: TaskApiPath('/outside/task/neighbor'),

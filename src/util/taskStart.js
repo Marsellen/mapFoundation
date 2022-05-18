@@ -10,6 +10,7 @@ import ResourceLayerStore from 'src/store/home/resourceLayerStore';
 import VectorsStore from 'src/store/home/vectorsStore';
 import TaskStore from 'src/store/home/taskStore';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
+import InformationStore from 'src/store/home/informationStore';
 import SettingStore from 'src/store/setting/settingStore';
 import BuriedPoint from 'src/util/buriedPoint';
 import { getImgPath } from 'src/util/taskUtils';
@@ -128,6 +129,51 @@ export const getMarkerList = async () => {
         const msg = e.message || e || '';
         message.error('质检标注获取失败');
         console.log('获取质检列表失败：' + msg);
+    }
+};
+
+//获取资料问题
+export const getInformationList = async () => {
+    const {
+        isMsTask,
+        isFixStatus,
+        isEditableTask,
+        isLocalTask,
+        activeTask,
+        activeTask: { taskId, processName, postProcess } = {}
+    } = TaskStore;
+    const { getMarkerList, initMarkerList, showList } = InformationStore;
+    if (!window.informationLayer) return;
+    if (!isEditableTask) return; //如果是浏览任务，返回
+    if (isLocalTask) return; //如果是本地任务，返回
+    // if (isMsTask && isFixStatus) return; //如果是人工识别【已领取或进行中】，返回
+    try {
+        // let params = {
+        //     taskId,
+        //     processName
+        // };
+        //判断是二次质检任务，或者是二次质检任务打回来的返工返修任务
+        // if (processName === 'imp_map_second_check' || postProcess === 2) {
+        //     params = { ...params, qcLink: 3 };
+        // }
+        // const res = await getMarkerList(params);
+        // if (!res) return;
+        // const { data } = res;
+        // if (!data) return;
+        // if (data.length === 0) return;
+        // const features = data.map(item => {
+        //     const qcPath = getImgPath(activeTask, item?.qcPath);
+        //     item.qcPath = qcPath;
+        //     return { geometry: JSON.parse(item.geom), properties: item };
+        // });
+        // initMarkerList(data);
+        // QualityCheckStore.setActiveKey('marker');
+        // showList();
+        // window.informationLayer.layer.addFeatures(features);
+    } catch (e) {
+        const msg = e.message || e || '';
+        message.error('资料问题获取失败');
+        console.log('获取资料问题失败：' + msg);
     }
 };
 

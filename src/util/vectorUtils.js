@@ -70,6 +70,8 @@ export const getAllLayersExByName = layerName => {
 export const getLayerExByName = layerName => {
     if (layerName === 'AD_Marker') {
         return window.markerLayer;
+    } else if (layerName === 'AD_Information') {
+        return window.informationLayer;
     } else {
         return window.vectorLayerGroup?.layers.find(layer => layer?.layerName == layerName);
     }
@@ -90,6 +92,9 @@ export const getLayersByNames = layerNames => {
     );
     if (layerNames.includes('AD_Marker')) {
         layers.push(window.markerLayer);
+    }
+    if (layerNames.includes('AD_Information')) {
+        layers.push(window.informationLayer);
     }
     return layers;
 };

@@ -16,6 +16,7 @@ import DrawToolBox from 'src/component/home/toolList/drawToolBox';
 import BatchToolBox from 'src/component/home/toolList/batchToolBox';
 import AttributeBrush from 'src/component/home/toolList/attributeBrush';
 import QCMarkerTool from 'src/component/home/toolList/qcMarkerTool';
+import InformationTool from 'src/component/home/toolList/informationTool';
 import PostureAdjust from 'src/component/home/toolList/postureAdjust';
 import SetStepSize from 'src/component/home/toolList/setStepSize';
 // import UnionBreak from 'src/component/home/toolList/unionBreak';
@@ -35,6 +36,7 @@ export default [
     <SearchInfo key="SEARCH_INFO" />,
     <QualityCheck key="QUALITY_TEST" />,
     <QCMarkerTool key="QC_MARKER" />,
+    <InformationTool key="INFORMATION_TOOL" />,
     <ViewNeighbor key="VIEW_NEIGHBOR" />,
     <TopBreakLine key="TOP_BREAK_LINE_1" />,
     <EditLayer key="EDIT_LAYER" />,

@@ -13,6 +13,7 @@ import AdEmitter from 'src/util/event';
 import EditorConfig from 'src/config/conctrolConfig';
 import AttributeStore from 'src/store/home/attributeStore';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
+import InformationStore from 'src/store/home/informationStore';
 import RightMenuStore from 'src/store/home/rightMenuStore';
 import { getEventPointWkt, getFeaturePointWkt } from 'src/util/pictureCtrl';
 import SettingStore from 'src/store/setting/settingStore';
@@ -22,7 +23,12 @@ import OtherVectorConfig from 'src/config/otherVectorConfig';
 import BuriedPoint from 'src/util/buriedPoint';
 
 const TRACKS = ['TraceListLayer', 'TraceLayer'];
-const UN_ESC_EDIT_TYPE = ['normal', 'choose_error_feature'];
+const UN_ESC_EDIT_TYPE = [
+    'normal',
+    'choose_error_feature',
+    'choose_inform_feature',
+    'change_inform_feature'
+];
 
 configure({ enforceActions: 'always' });
 class DataLayerStore {
@@ -196,6 +202,12 @@ class DataLayerStore {
                 case 'choose_error_feature':
                     this.chooseErrorFeatureCallback(result, event);
                     break;
+                case 'choose_inform_feature':
+                    this.chooseInformFeatureCallback(result, event);
+                    break;
+                case 'change_inform_feature':
+                    this.changeInformFeatureCallback(result, event);
+                    break;
                 case 'dashed_polygon_create':
                     this.dashedPolygonCreateCallback(result, event);
                     break;
@@ -224,6 +236,8 @@ class DataLayerStore {
         this.editor.onFeatureCreated(async (result, event) => {
             if (result.layerName === 'AD_Marker') {
                 this.QCMarkerCallback(result, event);
+            } else if (result.layerName === 'AD_Information') {
+                this.InformationCallback(result, event);
             } else {
                 switch (this.editType) {
                     case 'break_line_by_line':
@@ -251,11 +265,13 @@ class DataLayerStore {
     };
 
     setEditedCallBack = callback => {
-        this.editor.onFeatureEdited(async result => {
+        this.editor.onFeatureEdited(async (result, event) => {
             if (this.editType == 'move_point_feature') {
                 this.movePointFeatureCallback(result, event);
             } else if (this.editType == 'change_points') {
                 this.changePointsCallback(result);
+            } else if (this.editType == 'change_inform_feature') {
+                this.InformationCallback(result, event);
             } else {
                 callback && (await callback(result));
             }
@@ -463,6 +479,18 @@ class DataLayerStore {
         this.editor.newLine();
     };
 
+    newInformationMark = () => {
+        const channel =
+            this.editType === 'choose_inform_feature' || this.editType === 'change_inform_feature'
+                ? null
+                : 'toggle';
+        this.exitEdit(channel);
+        if (!this.editor) return;
+        this.setEditType('new_information_mark', 'button');
+        this.changeCur();
+        this.editor.newPolygon();
+    };
+
     // 左右车道线生成中心线
     newAroundLine = () => {
         this.exitEdit('toggle');
@@ -525,6 +553,51 @@ class DataLayerStore {
     exitChooseErrorFeature = () => {
         const isCreateMarker = QCMarkerStore.isCreateMarker();
         const editType = isCreateMarker && 'new_qc_marker';
+        this.setEditType(editType);
+        this.removeCur();
+        this.fetchTargetLayers();
+    };
+
+    //资料问题录入拾取要素ID
+    enterChooseInformFeature = () => {
+        // if (this.editType !== 'new_information_mark') this.exitEdit('toggle');
+        this.setEditType('choose_inform_feature');
+        this.pipetStyle();
+        //设置可选择图层，只能选除质检标注以外的图层
+        const targetLayers = this.targetLayers.filter(
+            layer => layer.layerName !== 'AD_Information'
+        );
+        this.setTargetLayers(targetLayers);
+    };
+
+    //退出资料问题录入拾取要素ID
+    exitChooseInformFeature = () => {
+        const isCreateMarker = InformationStore.isCreateMarker();
+        const editType = isCreateMarker && 'new_information_mark';
+        this.setEditType(editType);
+        this.removeCur();
+        this.fetchTargetLayers();
+    };
+
+    // 资料问题录入修改形状
+    enterChangeInformFeature = () => {
+        // if (this.editType !== 'new_information_mark') this.exitEdit('toggle');
+        this.setEditType('change_inform_feature', 'button');
+        if (!this.editor) return;
+        this.addShapePoint();
+        //设置可选择图层
+        this.setTargetLayers(this.targetLayers);
+        const { currentMarker: { layerId, uuid } } = InformationStore;
+        //选中要素
+        this.setSelectFeature(layerId, uuid);
+        // 设置被选中的要素可编辑状态
+        this.editor.modifyFeaturePoints();
+    };
+
+    // 退出资料问题录入修改形状
+    exitChangeInformFeature = () => {
+        const isCreateMarker = InformationStore.isCreateMarker();
+        const editType = isCreateMarker && 'new_information_mark';
         this.setEditType(editType);
         this.removeCur();
         this.fetchTargetLayers();
@@ -728,8 +801,20 @@ class DataLayerStore {
         this.chooseErrorFeatureCallback = callback;
     };
 
+    setChooseInformFeatureCallback = callback => {
+        this.chooseInformFeatureCallback = callback;
+    };
+
+    setChangeInformFeatureCallback = callback => {
+        this.changeInformFeatureCallback = callback;
+    };
+
     setQCMarkerCallback = callback => {
         this.QCMarkerCallback = callback;
+    };
+
+    setInformationCallback = callback => {
+        this.InformationCallback = callback;
     };
 
     setDashedPolygonCreateCallback = callback => {
@@ -980,6 +1065,10 @@ class DataLayerStore {
             QCMarkerStore.clearDebuff();
             this.fetchTargetLayers();
         }
+        if (InformationStore.isCreateMarker()) {
+            InformationStore.clearDebuff();
+            this.fetchTargetLayers();
+        }
     };
 
     //执行完此次编辑操作切换控件时触发
@@ -1014,6 +1103,10 @@ class DataLayerStore {
         }
         if (QCMarkerStore.isCreateMarker()) {
             QCMarkerStore.clearDebuff();
+            this.fetchTargetLayers();
+        }
+        if (InformationStore.isCreateMarker()) {
+            InformationStore.clearDebuff();
             this.fetchTargetLayers();
         }
         this.removeCur();
@@ -1087,6 +1180,10 @@ class DataLayerStore {
         if (QCMarkerStore.isCreateMarker()) {
             BuriedPoint.toolBuriedPointEnd('new_qc_marker', 'esc');
             QCMarkerStore.exitMarker();
+            message.warning('退出功能', 3);
+        } else if (InformationStore.isCreateMarker()) {
+            BuriedPoint.toolBuriedPointEnd('new_information_mark', 'esc');
+            InformationStore.exitMarker();
             message.warning('退出功能', 3);
         } else if (!UN_ESC_EDIT_TYPE.includes(this.editType)) {
             this.exitEdit('esc');
