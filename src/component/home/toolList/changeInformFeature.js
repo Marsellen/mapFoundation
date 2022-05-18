@@ -1,6 +1,7 @@
 import React from 'react';
 import ToolIcon from 'src/component/common/toolIcon';
 import { inject, observer } from 'mobx-react';
+import { Button } from 'antd';
 import { getFeatureInfo } from 'src/util/vectorUtils';
 import 'less/information-modal.less';
 
@@ -19,7 +20,11 @@ class ChangeInformFeature extends React.Component {
     }
 
     handleToggle = () => {
-        const { DataLayerStore } = this.props;
+        const {
+            DataLayerStore,
+            InformationStore: { editStatus }
+        } = this.props;
+        if (!editStatus || editStatus == 'visite') return;
         if (DataLayerStore.editType !== 'change_inform_feature') {
             DataLayerStore.enterChangeInformFeature();
         }

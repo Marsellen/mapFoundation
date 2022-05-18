@@ -584,6 +584,7 @@ class DataLayerStore {
         // if (this.editType !== 'new_information_mark') this.exitEdit('toggle');
         this.setEditType('change_inform_feature', 'button');
         if (!this.editor) return;
+        this.removeCur();
         this.addShapePoint();
         //设置可选择图层
         this.setTargetLayers(this.targetLayers);

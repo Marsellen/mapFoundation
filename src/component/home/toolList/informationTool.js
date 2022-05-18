@@ -56,7 +56,9 @@ class InformationTool extends React.Component {
                 DataLayerStore.exitChangeInformFeature();
             }
         } catch (e) {
-            // InformationStore.exitMarker();
+            if (DataLayerStore.editType === 'change_inform_feature') {
+                DataLayerStore.exitChangeInformFeature();
+            }
             message.error(e.message, 3);
         }
     };

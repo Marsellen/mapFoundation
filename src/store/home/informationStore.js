@@ -19,6 +19,7 @@ class InformationStore {
     @observable visibleList = false;
     @observable currentMarker = {};
     @observable markerList = [];
+    @observable submitSuccess = false; // true 保存成功 false 保存失败
 
     @action show = () => {
         this.visible = true;
@@ -34,6 +35,10 @@ class InformationStore {
 
     @action hideList = () => {
         this.visibleList = false;
+    };
+
+    @action toggleSubSuc = data => {
+        this.submitSuccess = data || false;
     };
 
     setFormStatus = status => {
@@ -143,7 +148,11 @@ class InformationStore {
 
     removeMarkerVector = () => {
         if (!this.currentMarker.uuid) return;
-        window.informationLayer.layer.removeFeatureById(this.currentMarker.uuid);
+        // 不是保存成功就清除页面绘制的要素
+        if (!this.submitSuccess) {
+            window.informationLayer.layer.removeFeatureById(this.currentMarker.uuid);
+        }
+        this.toggleSubSuc();
     };
 
     clearDebuff = channel => {
@@ -158,15 +167,19 @@ class InformationStore {
             DataLayerStore.fetchTargetLayers();
             DataLayerStore.activeEditor();
             DataLayerStore.exitEdit();
+            this.clearDebuff(channel);
         }
-        if (
-            (DataLayerStore.editType === 'choose_inform_feature' ||
-                DataLayerStore.editType === 'change_inform_feature') &&
-            this.editStatus === 'modify'
-        ) {
-            DataLayerStore.exitChooseInformFeature();
+        if (this.editStatus === 'visite') {
+            this.toggleSubSuc(true);
+            this.clearDebuff(channel);
         }
-        this.clearDebuff(channel);
+        // if (
+        //     (DataLayerStore.editType === 'choose_inform_feature' ||
+        //         DataLayerStore.editType === 'change_inform_feature') &&
+        //     this.editStatus === 'modify'
+        // ) {
+        //     DataLayerStore.exitChooseInformFeature();
+        // }
     };
 
     insertMarker = flow(function* (data) {
@@ -226,6 +239,7 @@ class InformationStore {
         this.visibleList = false;
         this.currentMarker = {};
         this.markerList = [];
+        this.submitSuccess = false;
     };
 }
 export default new InformationStore();

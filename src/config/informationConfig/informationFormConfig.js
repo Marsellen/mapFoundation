@@ -50,7 +50,7 @@ export const INFOMATION_FIELD_CONFIG = () => {
             editable: false
         },
         errorType: {
-            label: '错误类型',
+            label: '问题类型',
             name: 'errorType',
             type: 'Select',
             initialValue: null,
@@ -58,7 +58,7 @@ export const INFOMATION_FIELD_CONFIG = () => {
             rules: {
                 required: {
                     value: true,
-                    message: '错误类型必选'
+                    message: '问题类型必选'
                 }
             },
             option: {

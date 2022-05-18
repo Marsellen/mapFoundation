@@ -171,6 +171,7 @@ class InformationModal extends React.Component {
         const {
             InformationStore,
             InformationStore: {
+                toggleSubSuc,
                 updateCurrentMarker,
                 currentMarker: { data: { properties: { id } = {} } = {} },
                 updateMarkerList
@@ -194,7 +195,6 @@ class InformationModal extends React.Component {
                 //更新currentMarker
                 const marker = updateCurrentMarker(newProperties);
                 //将添加的属性更新到sdk
-                console.log('marker:',JSON.stringify(marker))
                 window.informationLayer.layer.updateFeatures([marker]);
                 //更新质检标注列表
                 updateMarkerList({
@@ -206,6 +206,7 @@ class InformationModal extends React.Component {
                 this.handleHistory(marker);
                 BuriedPoint.toolLoadBuriedPointEnd(toolType, 'success');
                 BuriedPoint.toolBuriedPointEnd(toolType, 'success');
+                toggleSubSuc(true);
                 isExit && this.release();
                 this.setState({ isLoading: false });
                 message.success(isInsert ? '资料问题录入成功' : '资料问题修改成功');
@@ -273,6 +274,7 @@ class InformationModal extends React.Component {
                 <Button type="primary" size="small" onClick={() => this.handleSubmit('insert')}>
                     保存
                 </Button>
+                <p className="inform-desc">保存后可在底图智能运营平台中情报列表查看</p>
             </div>
         );
     };
@@ -288,7 +290,7 @@ class InformationModal extends React.Component {
 
         return (
             <div className="footer-wrap">
-                {isQcTask && isFirst && (
+                {/* {isQcTask && isFirst && (
                     <Button type="danger" size="small" onClick={this.handleDelete} ghost>
                         删除
                     </Button>
@@ -297,7 +299,7 @@ class InformationModal extends React.Component {
                     <Button type="primary" size="small" onClick={this.handleModify}>
                         修改
                     </Button>
-                )}
+                )} */}
             </div>
         );
     };
@@ -334,8 +336,9 @@ class InformationModal extends React.Component {
             currentMarker: { data: { properties = {} } = {} }
         } = InformationStore;
         const formConfig = this.getFormConfig();
-        // const renderFooter = this[`${editStatus}MarkerFooter`];
-        const renderFooter = this.createMarkerFooter;
+        console.log('editStatus:', editStatus);
+        const renderFooter = this[`${editStatus}MarkerFooter`];
+        // const renderFooter = this.createMarkerFooter;
 
         return (
             <SeniorModal
@@ -367,7 +370,6 @@ class InformationModal extends React.Component {
                         />
                     </div>
                     {renderFooter && renderFooter()}
-                    <span className="inform-desc">保存后可在底图智能运营平台中情报列表查看</span>
                 </Spin>
             </SeniorModal>
         );
