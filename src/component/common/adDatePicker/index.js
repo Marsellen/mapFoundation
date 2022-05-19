@@ -129,7 +129,7 @@ class AdDatePicker extends React.Component {
                             <Checkbox
                                 className="outer-checkbox"
                                 value="radio"
-                                checked={echoDateParams && String(echoDateParams).length !== {}}
+                                checked={echoDateParams && String(echoDateParams).length !== 0}
                             >
                                 年月日周
                             </Checkbox>

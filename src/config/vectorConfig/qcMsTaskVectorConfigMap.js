@@ -563,6 +563,19 @@ export const QC_MS_TASK_VECTOR_CONFIG_MAP = {
                     pointSize: 0.1
                 },
                 {
+                    value: 23,
+                    label: '市政护栏',
+                    showFields: 'TYPE',
+                    color: 'rgb(255,255,255)',
+                    lineStyle: 'solid',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
                     value: 99,
                     label: '其他',
                     showFields: 'TYPE',
@@ -868,6 +881,19 @@ export const QC_MS_TASK_VECTOR_CONFIG_MAP = {
                 {
                     value: 22,
                     label: '隔音墙',
+                    showFields: 'TYPE_PLUS',
+                    color: 'rgb(255,255,255)',
+                    lineStyle: 'solid',
+                    opacity: 1,
+                    arrow: true,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 23,
+                    label: '市政护栏',
                     showFields: 'TYPE_PLUS',
                     color: 'rgb(255,255,255)',
                     lineStyle: 'solid',
@@ -1635,6 +1661,19 @@ export const QC_MS_TASK_VECTOR_CONFIG_MAP = {
                 {
                     value: 3121,
                     label: '新泽西护栏',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(224,16,219)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 3122,
+                    label: '市政护栏',
                     showFields: 'TYPE',
                     lineStyle: 'solid',
                     color: 'rgb(224,16,219)',

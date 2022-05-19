@@ -1,0 +1,136 @@
+.inform-modal {
+    top: 60px;
+    right: 40px;
+    left: unset;
+    bottom: unset;
+    width: 320px;
+
+    .ant-modal {
+        transform-origin: 50% 50% !important;
+        top: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .ant-modal-header {
+        height: 40px;
+        padding: 10px 14px;
+        .ant-modal-title {
+            font-size: 15px;
+        }
+    }
+
+    .ant-modal-close-x {
+        height: 40px;
+        width: 40px;
+        line-height: 40px;
+        font-size: 12px;
+    }
+
+    .ant-modal-content {
+        border-radius: unset;
+        background: rgba(255, 255, 255, 0.93);
+    }
+
+    .ant-modal-body {
+        padding: 0;
+        height: calc(100% - 40px);
+
+        & > div {
+            height: 100%;
+        }
+
+        .ant-spin-nested-loading {
+            height: 100%;
+        }
+
+        .ant-spin-container {
+            height: 100%;
+        }
+    }
+
+    .cancel-button {
+        color: #868686;
+        border-color: #3d3d3d;
+    }
+
+    .title-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 40px;
+        padding: 0 0 0 14px;
+        background-color: #fff;
+        font-size: 15px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.85);
+        .close-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            width: 40px;
+            font-size: 12px;
+            color: #666;
+        }
+    }
+
+    .content-wrap {
+        overflow-y: auto;
+        height: calc(100% - 44px);
+        max-height: calc(100vh - 144px);
+        padding: 6px 14px;
+        /*滚动条样式*/
+        &::-webkit-scrollbar {
+            /*滚动条整体样式*/
+            margin-right: -12px;
+            width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
+            height: 10px;
+        }
+        &::-webkit-scrollbar-thumb {
+            /*滚动条里面小方块*/
+            border-radius: 12px;
+            background: #b7b7b7;
+        }
+        &::-webkit-scrollbar-track {
+            /*滚动条里面轨道*/
+            border-radius: 12px;
+            background: #e5e5e5;
+        }
+    }
+
+    .footer-wrap {
+        padding: 10px 14px;
+        text-align: right;
+        button {
+            margin: 0 0 0 10px;
+        }
+    }
+
+    &.resized {
+        .content-wrap {
+            max-height: unset;
+        }
+    }
+    .inform-desc {
+        color: #999;
+        padding: 6px 14px;
+        font-size: 12px;
+    }
+}
+.fix_inform_feature {
+    padding: 6px;
+    cursor: pointer;
+    border: 1px solid #666;
+    border-radius: 4px;
+    margin-left: 20px;
+    padding-right: 30px;
+    position: relative;
+    .tool {
+        right: 0;
+    }
+}
+.fix_inform_feature.active {
+    border: 1px solid #69a5ff;
+    color: #69a5ff;
+}
