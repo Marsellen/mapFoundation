@@ -33,8 +33,8 @@ const UN_ESC_EDIT_TYPE = [
 configure({ enforceActions: 'always' });
 class DataLayerStore {
     constructor() {
-        this.editor;
-        this.measureControl;
+        this.editor = null;
+        this.measureControl = null;
         this.highLightFeatures = [];
 
         // 修整线要素的吸附模式,默认为1
@@ -1020,7 +1020,7 @@ class DataLayerStore {
     };
 
     clearHighLightFeatures = () => {
-        this.highLightFeatures.map(feature => {
+        this.highLightFeatures.forEach(feature => {
             this.setFeatureColor(feature);
         });
         this.highLightFeatures = [];

@@ -1,12 +1,12 @@
 class Drag {
     constructor() {
-        this.titleDom;
-        this.containerDom;
+        this.titleDom = null;
+        this.containerDom = null;
         this.moving = false;
         this.diffX = 0;
         this.diffY = 0;
-        this.mouseX;
-        this.mouseY;
+        this.mouseX = null;
+        this.mouseY = null;
     }
 
     installListener(title, container) {
