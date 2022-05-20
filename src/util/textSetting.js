@@ -8,8 +8,8 @@ import _ from 'lodash';
 
 class TextSetting {
     constructor(defaultTextConfig) {
-        this.vectorConfig;
-        this.layerConfig;
+        this.vectorConfig = null;
+        this.layerConfig = null;
         this.init(defaultTextConfig);
     }
 
