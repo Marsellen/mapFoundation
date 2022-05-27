@@ -2,7 +2,8 @@ import {
     RESOURCE_LAYER_VECTOR,
     RESOURCE_LAYER_BOUNDARY,
     RESOURCE_LAYER_CHECK,
-    RESOURCE_LAYER_MARKER
+    RESOURCE_LAYER_MARKER,
+    RESOURCE_LAYER_INFORMATION
 } from 'src/config/dataLayerConfig';
 import ResourceLayerStore from 'src/store/home/resourceLayerStore';
 import VectorsStore from 'src/store/home/vectorsStore';
@@ -429,6 +430,16 @@ export const SHORTCUT_KEYS = [
             ResourceLayerStore.toggle(RESOURCE_LAYER_MARKER, true, true);
         },
         describe: '开关质检标注图层 9'
+    },
+    {
+        ctrl: true,
+        alt: false,
+        shift: false,
+        keyCode: 57,
+        callback: () => {
+            ResourceLayerStore.toggle(RESOURCE_LAYER_INFORMATION, true, true);
+        },
+        describe: '开关资料问题图层 Ctrl+9'
     },
     {
         id: 'add-quality-mark',

@@ -2,6 +2,7 @@ import { action, observable, configure, flow } from 'mobx';
 import { message } from 'antd';
 import EditorService from 'src/service/editorService';
 import { MARKER_OPTION_CONFIG } from 'src/config/markerConfig/markerOptionConfig';
+import { INFOMATION_OPTION_CONFIG } from 'src/config/informationConfig/informationOptionConfig';
 import { MS_TASK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/msTaskVectorConfigMap';
 import { QC_MS_TASK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/qcMsTaskVectorConfigMap';
 import { MB_TASK_VECTOR_CONFIG_MAP } from 'src/config/vectorConfig/mbTaskVectorConfigMap';
@@ -28,6 +29,7 @@ configure({ enforceActions: 'always' });
 class SettingStore {
     config = {
         MARKER_OPTION_CONFIG, //质检标注配置
+        INFOMATION_OPTION_CONFIG, //资料问题配置
         MS_TASK_VECTOR_CONFIG_MAP, //符号配置-通用符号模式-人工识别任务样式
         MB_TASK_VECTOR_CONFIG_MAP, //符号配置-通用符号模式-人工构建任务样式
         QC_MS_TASK_VECTOR_CONFIG_MAP, //符号配置-通用符号模式-人工识别质检任务样式

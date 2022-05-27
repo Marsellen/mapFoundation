@@ -13,6 +13,7 @@ import Lock from 'src/util/lock';
 import BuriedPoint from 'src/util/buriedPoint';
 import { EDIT_TOOL_MAP } from 'src/config/editToolMap';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
+import InformationStore from 'src/store/home/informationStore';
 import { bufferLink, keepConnectRels } from 'src/util/utils';
 import SettingStore from 'src/store/setting/settingStore';
 import { CONNECT_REL_LAYERS } from 'src/config/relsConfig';
@@ -165,10 +166,12 @@ export const logDecorator = option => {
             editLog.add(log);
             const editLayerName = DataLayerStore.getEditLayerName();
             const isMarkerLayer = editLayerName === 'AD_Marker';
+            const isInformationLayer = editLayerName === 'AD_Information';
             const channel = isError ? 'error' : 'success';
             BuriedPoint.toolLoadBuriedPointEnd(toolType, channel);
             BuriedPoint.toolBuriedPointEnd(toolType, channel);
             isMarkerLayer ? QCMarkerStore.exitMarker() : DataLayerStore.exitEdit();
+            isInformationLayer ? InformationStore.exitMarker() : DataLayerStore.exitEdit();
         };
         return descriptor;
     };
@@ -247,7 +250,9 @@ export const editOutputLimit = (option = {}) => {
                 //如果是标注图层，报错应退出图层
                 const editLayerName = DataLayerStore.getAdEditLayerName();
                 const isMarkerLayer = editLayerName === 'AD_Marker';
+                const isInformationLayer = editLayerName === 'AD_Information';
                 isMarkerLayer && QCMarkerStore.exitMarker();
+                isInformationLayer && InformationStore.exitMarker();
                 //退出编辑状态
                 DataLayerStore.exitEdit();
                 RightMenuStore.hide();

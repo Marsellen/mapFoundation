@@ -10,6 +10,8 @@ export const OTHER_CONFIG = {
     drawNodeDensity: 0.5,
     statisticInterval: 1,
     inputEditLayer: '["AD_LaneDivider","AD_RS_Barrier","AD_StopLocation"]',
+    outputMunicipalBarrierLayer: '["AD_LaneDivider","AD_RS_Barrier"]',
+    inputMunicipalBarrierLayer: '["AD_LaneDivider","AD_RS_Barrier"]',
     startZ: 6,
     dashedRectangleConstruct: 0.16,
     ZT1: 1000,

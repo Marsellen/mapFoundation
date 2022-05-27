@@ -8,6 +8,7 @@ import TaskStore from 'src/store/home/taskStore';
 import DataLayerStore from 'src/store/home/dataLayerStore';
 import RightMenuStore from 'src/store/home/rightMenuStore';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
+import InformationStore from 'src/store/home/informationStore';
 import AttributeStore from 'src/store/home/attributeStore';
 
 class BuriedPoint {
@@ -135,10 +136,13 @@ class BuriedPoint {
 
     //埋点:单一工具-结束
     toolBuriedPointEnd = async (type, channel) => {
+        if (!type) return;
         if (type === 'choose_error_feature') {
             type = QCMarkerStore.editStatus === 'modify' ? null : type;
         }
-        if (!type) return;
+        if (type === 'choose_inform_feature' || type === 'change_inform_feature') {
+            type = InformationStore.editStatus === 'modify' ? null : type;
+        }
         let eventType = null;
         let buriedPointDesc = null;
         switch (channel) {

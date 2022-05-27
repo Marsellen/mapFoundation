@@ -33,32 +33,44 @@ export const BUFFER_CONFIG_MAP = {
                     value: 3102,
                     label: '路侧防护栏',
                     style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
-                }, {
+                }, 
+                {
                     key: 'TYPE',
                     value: 3103,
                     label: '路缘石',
                     style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
-                }, {
+                }, 
+                {
                     key: 'TYPE',
                     value: 3104,
                     label: '隔音墙',
                     style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
-                }, {
+                }, 
+                {
                     key: 'TYPE',
                     value: 3105,
                     label: '其他墙体',
                     style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
-                }, {
+                }, 
+                {
                     key: 'TYPE',
                     value: 3106,
                     label: '道路轮廓标',
                     style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
-                }, {
+                },
+                {
                     key: 'TYPE',
                     value: 3121,
                     label: '新泽西护栏',
                     style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
-                }, {
+                },
+                {
+                    key: 'TYPE',
+                    value: 3122,
+                    label: '市政护栏',
+                    style: { color: 'rgb(255,800,80)', opacity: 0.2, radius: 0.2 }
+                },
+                {
                     key: 'TYPE',
                     value: 3199,
                     label: '其他',

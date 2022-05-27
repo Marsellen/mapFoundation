@@ -170,6 +170,27 @@ export default {
             ]
         }
     },
+    AD_Information: {
+        type: 'Line',
+        showStyles: ['vectorStyle', 'arrowStyle'],
+        showFields: ['NOKEY'],
+        arrowFields: ['NOKEY'],
+        order: 1,
+        vectorStyle: {
+            NOKEY: [
+                {
+                    style: { color: 'rgb(255,0,0)', linewidth: 1 }
+                }
+            ]
+        },
+        arrowStyle: {
+            NOKEY: [
+                {
+                    style: { color: 'rgb(255,0,0)', linewidth: 1 }
+                }
+            ]
+        }
+    },
     AD_Check: {
         type: 'Point',
         iconFields: ['NOKEY'],

@@ -7,11 +7,11 @@ const DEFAULT_OPTIONS = {
 
 class Resize {
     constructor(options = {}) {
-        this.currentEle;
+        this.currentEle = null;
         this.isStartResize = false;
         this.direction = '';
         this.cursorStyle = '';
-        this.resizeCallBack;
+        this.resizeCallBack = null;
         this.options = Object.assign({}, DEFAULT_OPTIONS, options);
     }
 
