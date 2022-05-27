@@ -6,6 +6,7 @@ import {
     RESOURCE_LAYER_TASK_SCOPE,
     RESOURCE_LAYER_CHECK,
     RESOURCE_LAYER_MARKER,
+    RESOURCE_LAYER_INFORMATION,
     CONFIDENCE_LAYER
 } from 'src/config/dataLayerConfig';
 import Tree from 'src/util/treeCtrl';
@@ -27,7 +28,8 @@ const LAYER_SORT_MAP = {
     [RESOURCE_LAYER_MULTI_PROJECT]: 2,
     [RESOURCE_LAYER_TASK_SCOPE]: 3,
     [RESOURCE_LAYER_CHECK]: 4,
-    [RESOURCE_LAYER_MARKER]: 5
+    [RESOURCE_LAYER_MARKER]: 5,
+    [RESOURCE_LAYER_INFORMATION]: 6
 };
 
 configure({ enforceActions: 'always' });

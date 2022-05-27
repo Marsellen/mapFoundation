@@ -161,7 +161,7 @@ class AttributeStore {
     };
 
     commonHideRelFeatures = () => {
-        this.relFeatures.map(feature => {
+        this.relFeatures.forEach(feature => {
             try {
                 updateFeatureColor(feature.layerName, feature.option);
             } catch (e) {
@@ -203,7 +203,7 @@ class AttributeStore {
 
     @action showRelFeatures = () => {
         try {
-            this.relFeatures.map(feature => {
+            this.relFeatures.forEach(feature => {
                 try {
                     updateFeatureColor(feature.layerName, feature.option, 'rgb(49,209,255)');
                 } catch (e) {

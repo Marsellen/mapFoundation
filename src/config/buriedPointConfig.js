@@ -246,5 +246,21 @@ export const BUSINESS_TYPE_MAP = {
     buffer_switch: {
         label: 'buffer渲染窗口：显隐开关',
         code: 64
+    },
+    municipal_barrier_down: {
+        label: '市政护栏下压',
+        code: 65
+    },
+    new_information_mark: {
+        label: '资料问题录入',
+        code: 66
+    },
+    choose_inform_feature: {
+        label: '资料问题录入',
+        code: 66
+    },
+    change_inform_feature: {
+        label: '修改形状',
+        code: 66
     }
 };

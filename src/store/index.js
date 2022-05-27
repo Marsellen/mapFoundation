@@ -21,6 +21,7 @@ import FeedbackStore from 'src/store/home/feedbackStore';
 import TextStore from 'src/store/home/textStore';
 import AttrRightMenuStore from 'src/store/home/attrRightMenuStore';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
+import InformationStore from 'src/store/home/informationStore';
 import LoadingStore from 'src/store/home/loadingStore';
 import BatchBuildStore from 'src/store/home/batchBuildStore';
 import ManualBuildStore from 'src/store/home/manualBuildStore';
@@ -51,6 +52,7 @@ export default {
     TextStore,
     AttrRightMenuStore,
     QCMarkerStore,
+    InformationStore,
     LoadingStore,
     BatchBuildStore,
     ManualBuildStore,

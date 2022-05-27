@@ -287,6 +287,22 @@ export const DATA_LAYER_MAP = {
         groupRightTools: [],
         editName: '质检标注图层'
     },
+    AD_Information: {
+        label: '资料问题图层',
+        id: 'ID',
+        spec: 'AD_Information',
+        tools: {
+            recognition: [],
+            manbuild: []
+        },
+        drawTools: {
+            recognition: [],
+            manbuild: []
+        },
+        rightTools: [],
+        groupRightTools: [],
+        editName: '资料问题图层'
+    },
     AD_RS_Barrier: {
         label: '隔离带、护栏',
         id: 'BARR_ID',
@@ -585,6 +601,7 @@ export const RESOURCE_LAYER_TRACK = '轨迹';
 export const RESOURCE_LAYER_TASK_SCOPE = '任务范围';
 export const RESOURCE_LAYER_CHECK = '检查结果';
 export const RESOURCE_LAYER_MARKER = '质检标注';
+export const RESOURCE_LAYER_INFORMATION = '资料问题';
 export const CONFIDENCE_LAYER = '置信度分区';
 export const WRONG_LAYER = '错误区';
 export const SUSPECT_LAYER = '怀疑区';
