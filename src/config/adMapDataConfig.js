@@ -440,29 +440,29 @@ export const TYPE_SELECT_OPTION_MAP = {
     ],
     AD_LANE_SPD_TYPE: [
         { value: 0, label: '未定义' },
-        { value: 1, label: '最高限速' },
-        { value: 2, label: '最低限速' }
+        { value: 1, label: '最高限速',alias:'高' },
+        { value: 2, label: '最低限速' ,alias:'低'}
     ],
     AD_LANE_RS_VALUE: [{ value: 0, label: '未定义' }],
     AD_LANE_RS_VALUE0: [{ value: 0, label: '未定义' }],
     AD_LANE_RS_VALUE1: [
-        { value: 0, label: '未定义' },
-        { value: 1, label: '公交车道禁止驶入' },
-        { value: 2, label: '外埠车辆禁止驶入' },
-        { value: 3, label: '禁止驶入' },
-        { value: 4, label: 'HOV车道禁止驶入' }
+        { value: 0, label: '未定义',alias:'未定'},
+        { value: 1, label: '公交车道禁止驶入', alias:'公交'},
+        { value: 2, label: '外埠车辆禁止驶入', alias:'外埠'},
+        { value: 3, label: '禁止驶入', alias:'禁入'},
+        { value: 4, label: 'HOV车道禁止驶入', alias:'HOV'}
     ],
     AD_LANE_RS_VALUE2: [
-        { value: 0, label: '未定义' },
-        { value: 1, label: '正向通行' },
-        { value: 2, label: '逆向通行' },
-        { value: 3, label: '禁止通行' }
+        { value: 0, label: '未定义', alias:'未定'},
+        { value: 1, label: '正向通行', alias:'正向'},
+        { value: 2, label: '逆向通行', alias:'逆向'},
+        { value: 3, label: '禁止通行', alias:'禁通'}
     ],
     AD_LANE_RS_VALUE3: [
-        { value: 0, label: '未定义' },
-        { value: 1, label: '禁止停车' },
-        { value: 2, label: '禁止长时间停车' },
-        { value: 3, label: '禁止停车时间' }
+        { value: 0, label: '未定义', alias:'未定'},
+        { value: 1, label: '禁止停车', alias:'禁停'},
+        { value: 2, label: '禁止长时间停车', alias:'禁长停'},
+        { value: 3, label: '禁止停车时间', alias:'禁停时'}
     ],
     AD_LANE_SPD_SOURCE: [
         { value: 0, label: '未定义' },

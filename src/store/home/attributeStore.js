@@ -22,6 +22,7 @@ import RenderModeStore from './renderModeStore';
 import TaskStore from 'src/store/home/taskStore';
 import BuriedPoint from 'src/util/buriedPoint';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/adMapDataConfig';
+import Attr from 'src/util/attr';
 const LOAD_DATA_MESSAGE = '加载数据中...';
 
 configure({ enforceActions: 'always' });

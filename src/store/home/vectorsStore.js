@@ -4,6 +4,7 @@ import vectorFactory from 'src/util/vectorCtrl/propertyTableCtrl';
 import _ from 'lodash';
 import axios from 'axios';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/adMapDataConfig';
+import Attr from 'src/util/attr';
 const DATA_LAYER_CHECK_MAP = Object.values(MB_EDIT_LAYER_MAP).reduce((checkMap, layerNames) => {
     return layerNames.reduce(
         (_checkMap, layerName) => ({ ..._checkMap, [layerName]: true }),
@@ -144,7 +145,7 @@ class VectorsStore {
         return boundaries.map(item => item.layerId);
     };
 
-    addRecords = flow(function* (urls, dataType) {
+    addRecords = flow(function* (urls, dataType) { 
         // console.log('8加载矢量数据开始：', new Date);
         const response = yield Promise.all(urls.map(axios.get));
         // console.log('8加载矢量数据结束：', new Date);
@@ -153,7 +154,7 @@ class VectorsStore {
         // 获取缓存中的数据表
         let attrs = yield Attr.store.getAll();
         // 处理车道中心线和关联表的关系
-        debugger
+        const addFeatureJson = vectorFactory.vectorDataToTable(response);
         addFeatureJson.AD_Lane.features.forEach((feature, index) => {
             let rsvalue = '';
             let speed = '';
@@ -185,8 +186,6 @@ class VectorsStore {
             feature.properties.RS_VALUE = rsvalue.substring(0, rsvalue.length - 1);
             feature.properties.SPEED = speed.substring(0, speed.length - 1);
         });
-
-        const addFeatureJson = vectorFactory.vectorDataToTable(response);
         yield window.vectorLayerGroup.addLayersFeature(addFeatureJson);
         this.firstPoint = addFeatureJson?.AD_Lane?.features[0]?.geometry?.coordinates[0] || undefined;
         // console.log('9渲染矢量数据结束：', new Date);
