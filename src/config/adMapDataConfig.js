@@ -541,7 +541,10 @@ export const TYPE_SELECT_OPTION_MAP = {
                 icon: 'jinggaolei',
                 abbreviation: '其他警告标志'
             },
-            { value: 2101, label: '建议速度', icon: 'jianyisudu', abbreviation: '建议速度' },
+            { value: 2101, label: '建议速度', icon: 'jianyisudu', abbreviation: '建议速度' },            
+            { value: 2102, label: '隧道', icon: 'suidao', abbreviation: '隧道' },
+            { value: 2103, label: '注意潮汐车道', icon: 'zhuyichaoxichedao', abbreviation: '注意潮汐车道' },
+            { value: 2104, label: '避险车道', icon: 'bixianchedao', abbreviation: '避险车道' },
             {
                 value: 2200,
                 label: '其他禁令标志',
@@ -788,7 +791,10 @@ export const TYPE_SELECT_OPTION_MAP = {
     AD_TS_CONTENT_SIGN_TYPE: [
         [
             { value: 2100, label: '其他警告标志', icon: 'jinggaolei' },
-            { value: 2101, label: '建议速度', icon: 'jianyisudu' },
+            { value: 2101, label: '建议速度', icon: 'jianyisudu' },            
+            { value: 2102, label: '隧道', icon: 'suidao' },
+            { value: 2103, label: '注意潮汐车道', icon: 'zhuyichaoxichedao' },
+            { value: 2104, label: '避险车道', icon: 'bixianchedao' },
             { value: 2200, label: '其他禁令标志', icon: 'jinlinglei' },
             { value: 2201, label: '停车让行', icon: 'tingcherangxing' },
             { value: 2202, label: '减速让行', icon: 'jiansurangxing' },
