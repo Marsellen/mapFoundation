@@ -1788,6 +1788,14 @@ export const LAYER_TYPE_MAP = {
     ],
     AD_Lane: [
         {
+            key: 'RS_VALUE',
+            name: '交通限制'
+        },
+        {
+            key: 'SPEED',
+            name: '交通限速'
+        },
+        {
             key: 'LANE_ID',
             name: '用户编号',
             type: 'AD_LANE_LANE_ID'
