@@ -58,6 +58,7 @@ class TaskStore {
     @observable onlineTasks = [];
     @observable localTasks = [];
     @observable activeTask = {};
+    @observable splitBuildStep = -1;
     @observable taskSaveTime;
     @observable editTaskId;
 
@@ -102,6 +103,11 @@ class TaskStore {
         return this.activeTask && this.activeTask.processName === 'imp_recognition';
     }
 
+    //是否是人工构建任务
+    @computed get isManBuildTask() {
+        return this.activeTask && this.activeTask.processName === 'imp_manbuild';
+    }
+
     //是否是作业任务：人工识别或人工构建
     @computed get isFixTask() {
         if (!this.activeTask) return;
@@ -140,6 +146,10 @@ class TaskStore {
             return 'manbuild';
         }
         return getTaskProcessType();
+    }
+
+    @action setSplitBuildStep = step => {
+        this.splitBuildStep = step;
     }
 
     updateActiveTask = () => {
@@ -412,7 +422,14 @@ class TaskStore {
             const url = completeSecendUrl(taskInfo, this.activeTask);
             const processName = this.activeTask.processName;
             const { data } = yield axios.get(url);
-            const { projectNames, lidarNames, defaultLidarName, treeContent, check_pkg } = data;
+            const {
+                projectNames,
+                lidarNames,
+                defaultLidarName,
+                treeContent,
+                check_pkg,
+                splitBuildStep
+            } = data;
             if (this.isMrTask) {
                 this.activeTask.process_name_check = check_pkg?.[processName];
                 return;
@@ -423,6 +440,7 @@ class TaskStore {
             this.defaultLidarName = JSON.parse(defaultLidarName);
             this.multiProjectTree = treeContent;
             this.activeTask.process_name_check = check_pkg?.[processName];
+            this.splitBuildStep = splitBuildStep ? splitBuildStep - 1 : -1;
             PointCloudStore.initPointCloudMap(data, this.activeTask);
         } catch (e) {
             console.log('taskInfos.json请求失败' + e.message || e || '');

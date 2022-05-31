@@ -64,21 +64,31 @@ export const getEditPath = task => {
 
 // 补齐轨迹、照片数据路径
 export const completeSecendUrl = (path, task) => {
-    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]}/${THIRD_PATH[task.processName]
-        }/${path}`;
+    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]}/${
+        THIRD_PATH[task.processName]
+    }/${path}`;
 };
 
 // 补齐多工程数据路径，如：点云、轨迹
 export const completeMultiProjectUrl = (path, task, projectName) => {
-    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]}/${THIRD_PATH[task.processName]
-        }/${projectName}/${path}`;
+    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]}/${
+        THIRD_PATH[task.processName]
+    }/${projectName}/${path}`;
+};
+
+// 获取逻辑构建根目录
+export const getBuildUrl = task => {
+    const { taskId } = task;
+    const data = task['10_COMMON_DATA'] || '';
+    return data.split(`/${taskId}`)[0];
 };
 
 // 补齐周边底图数据路径
 export const completeBoundaryUrl = (path, task) => {
     const getBoundaryUrl = BOUNDARY_PATH_MAP[task.processName];
-    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]
-        }/${getBoundaryUrl}/around/${path}`;
+    return `${task.Input_imp_data_path}/${
+        SECEND_PATH[task.processName]
+    }/${getBoundaryUrl}/around/${path}`;
 };
 
 // 补齐矢量（可编辑）数据路径
@@ -99,9 +109,10 @@ export const getImgPath = (task, imgUrl) => {
     const { Input_imp_data_path, taskId } = task;
     const imgPath = imgUrl.replace('/ADMAP', '');
     // 对不同环境适配生产环境/IMP_MAPPING_DATA 开发测试预发/task
-    const url = Input_imp_data_path.indexOf('IMP_MAPPING_DATA') != -1 ?
-        Input_imp_data_path.replace(`/IMP_MAPPING_DATA/${taskId}`, '') :
-        Input_imp_data_path.replace(`/task/${taskId}`, '');
+    const url =
+        Input_imp_data_path.indexOf('IMP_MAPPING_DATA') != -1
+            ? Input_imp_data_path.replace(`/IMP_MAPPING_DATA/${taskId}`, '')
+            : Input_imp_data_path.replace(`/task/${taskId}`, '');
     return `${url}${imgPath}`;
 };
 
