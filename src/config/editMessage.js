@@ -123,6 +123,18 @@ export const EDIT_MESSAGE = {
         successMsg: '市政护栏下压完成',
         errorMsg: '市政护栏下压失败：'
     },
+    logic_build: {
+        //逻辑构建
+        loadingMsg: '正在进行逻辑构建...',
+        successMsg: '逻辑构建完成',
+        errorMsg: '逻辑构建失败：'
+    },
+    logic_build_load: {
+        //逻辑构建
+        loadingMsg: '正在进行逻辑构建...',
+        successMsg: '逻辑构建完成',
+        errorMsg: '逻辑构建失败：'
+    },
     new_around_line: {
         //左右车道线生成中心线、路段中参考线生成
         loadingMsg: '正在构建要素...',

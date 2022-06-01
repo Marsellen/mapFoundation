@@ -54,12 +54,12 @@ class ManualBuildStore {
         }
     });
 
-    getLayers = flow(function* (urls) {
+    getLayers = flow(function* (urls, layerNames) {
         try {
             const result = yield Promise.all(urls.map(axios.get));
             let newObj = {};
-            result.forEach(item => {
-                newObj[item?.data.name] = item?.data;
+            result.forEach((item, ix) => {
+                newObj[layerNames[ix]] = item?.data;
             });
             return newObj;
         } catch (e) {

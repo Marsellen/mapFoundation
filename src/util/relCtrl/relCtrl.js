@@ -556,6 +556,7 @@ export {
     getRelConfig,
     basicCheck,
     createRelBySpecConfig,
+    querySameAttrTypeRels,
     querySameTypeRel,
     calcRelChangeLog,
     relUniqCheck

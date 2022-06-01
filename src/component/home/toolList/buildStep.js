@@ -3,15 +3,20 @@ import { inject, observer } from 'mobx-react';
 import { Steps, Modal } from 'antd';
 import { logDecorator } from 'src/util/decorator';
 import { getBuildUrl } from 'src/util/taskUtils';
+import { geojsonToDbData } from 'src/util/relCtrl/utils';
 import 'src/asset/less/set-step-size.less';
 import ToolIcon from 'src/component/common/toolIcon';
 import { completeEditUrl } from 'src/util/taskUtils';
-import { VECTOR_FILES } from 'src/config/taskConfig';
+import { VECTOR_FILES, REL_FILES } from 'src/config/taskConfig';
+import { updateFeatures } from 'src/util/relCtrl/operateCtrl';
+import { querySameAttrTypeRels } from 'src/util/relCtrl/relCtrl';
+import RelStore from 'src/store/home/relStore';
 
 const { Step } = Steps;
 const contentSteps = ['路段中心线构建', '路口中心线+参考线构建', '参考线/中心线关系构建'];
 
 @inject('TaskStore')
+@inject('QualityCheckStore')
 @inject('ManualBuildStore')
 @inject('DataLayerStore')
 @observer
@@ -25,17 +30,23 @@ class BuildStep extends React.Component {
     }
 
     handleClickChange = visible => {
-        if (this.isDisabled()) return;
-        this.setState({
-            clicked: visible
-        });
+        const {
+            TaskStore: { isEditableTask },
+            DataLayerStore
+        } = this.props;
+        if (!isEditableTask) return;
+        if (visible) {
+            DataLayerStore.setEditType('logic_build', 'button');
+        } else {
+            DataLayerStore.setEditType('logic_build_load');
+        }
     };
 
-    isDisabled = () => {
-        const { TaskStore } = this.props;
-        const { isManBuildTask } = TaskStore;
-        return !isManBuildTask;
-    };
+    // isDisabled = () => {
+    //     const { TaskStore } = this.props;
+    //     const { isManBuildTask } = TaskStore;
+    //     return !isManBuildTask;
+    // };
 
     onChange = current => {
         const { TaskStore } = this.props;
@@ -54,8 +65,13 @@ class BuildStep extends React.Component {
             onOk: () => {
                 TaskStore.setSplitBuildStep(current);
                 this.handleOk(current);
-            }
+            },
+            onCancel: this.handleCancel
         });
+    };
+
+    handleCancel = () => {
+        this.props.DataLayerStore.setEditType();
     };
 
     @logDecorator({ operate: '逻辑构建', skipRenderMode: true })
@@ -65,9 +81,6 @@ class BuildStep extends React.Component {
             TaskStore: { activeTask }
         } = this.props;
 
-        // todo 根据taskinfos中的splitBuildStep值判断初始化的current
-        // todo 根据不同的current 请求不同的逻辑构建api，返回的值是outputLayers
-        // 判断返回的是适量图层还是关联关系，是关联关系要更新关联关系
         const path = getBuildUrl(activeTask);
         const params = { taskId: activeTask.taskId, ADMAP_IMPTASK_MAP_BASEDIR: path };
         let outputLayers = {};
@@ -88,13 +101,22 @@ class BuildStep extends React.Component {
         if (outputLayers.code !== 1) return;
         const layers = window.vectorLayerGroup.layers;
         const layerMap = {};
-        const layerNames = outputLayers.data?.layers.map(n => n.replace('.geojson', ''));
+        const fileNames = outputLayers.data?.layers
+        const layerNames = fileNames.map(n => n.replace('.geojson', ''));
         const urls = outputLayers.data?.layers.map(layerName => completeEditUrl(layerName, activeTask));
-        const result = await ManualBuildStore.getLayers(urls);
+        // let vectorsUrl = [];
+        // let relsUrl = [];
+        // fileNames.forEach(fileName => {
+        //     const url = completeEditUrl(fileName, activeTask);
+        //     VECTOR_FILES.includes(fileName) && vectorsUrl.push(url);
+        //     REL_FILES.includes(fileName) && relsUrl.push(url);
+        // })
+        const result = await ManualBuildStore.getLayers(urls, layerNames);
 
         //渲染返回要素
-        const newAllFeatures = [];
-        const oldAllFeatures = [];
+        let newAllFeatures = [];
+        let oldAllFeatures = [];
+        let newRels = [];
         layers.forEach(layerItem => {
             const { layerName, layer } = layerItem;
             const oldLayerFeatures = layer.getVectorData();
@@ -116,33 +138,56 @@ class BuildStep extends React.Component {
                 const layer = layerMap[layerName];
                 layer && layer.clear();
                 layer && layer.addFeatures(newLayerFeatures);
-            }
-            newLayerFeatures.forEach(feature => {
-                newAllFeatures.push({
-                    layerName,
-                    data: feature,
-                    type: 'VectorLayer'
+                newLayerFeatures.forEach(feature => {
+                    newAllFeatures.push({
+                        layerName,
+                        data: feature,
+                        type: 'VectorLayer'
+                    });
                 });
-            });
-            // 如果是矢量图层
-            //     if (!result[layerName]) return;
-            //     const layer = layerMap[layerName];
-            //     if (!layer) return;
-            //     layer.clear();
-            //     const newLayerFeatures = result[layerName].features;
-            //     layer.addFeatures(newLayerFeatures);
-            //     newLayerFeatures.forEach(feature => {
-            //         newAllFeatures.push({
-            //             layerName,
-            //             data: feature,
-            //             type: 'VectorLayer'
-            //         });
-            //     });
+            }
+            if (REL_FILES.includes(`${layerName}.geojson`)) {
+                const spec = layerName;
+                const dataType = 'current';
+                newLayerFeatures.forEach(feature => {
+                    const records = geojsonToDbData(feature.properties, spec, dataType)
+                    newRels = newRels.concat(records)
+                });
+            }
         });
-        //日志数据
+
+        // 获取旧关联关系
+        let { rels: oldRels } = await querySameAttrTypeRels(newRels);
+        // 日志数据
         const history = {
-            features: [oldAllFeatures, newAllFeatures]
+            features: [oldAllFeatures, newAllFeatures],
+            rels: [oldRels, newRels]
         };
+        // 更新关联关系
+        await updateFeatures(history)
+        // 进行检查
+        const {
+            QualityCheckStore: {
+                handleProducerGetReport,
+                openCheckReport,
+                setActiveKey,
+                handleProducerCheck
+            }
+        } = this.props;
+        //质量检查
+        const checkRes = await handleProducerCheck();
+        if (checkRes) {
+            //轮询质检结果
+            const reportList = await handleProducerGetReport();
+            if (reportList) {
+                const reportListL = reportList.length;
+                if (reportListL > 0) {
+                    setActiveKey('check');
+                    openCheckReport();
+                }
+            }
+        }
+
         return history;
     }
 
@@ -168,22 +213,32 @@ class BuildStep extends React.Component {
     };
 
     render() {
-        return (
-            <ToolIcon
-                icon="yichaisantubiao"
-                title="逻辑构建"
-                visible={this.state.clicked}
-                disabled={this.isDisabled()}
-                popover={{
-                    title: '逻辑构建',
-                    placement: 'bottom',
-                    visible: this.state.clicked,
-                    onVisibleChange: this.handleClickChange,
-                    content: this._renderContent(),
-                    trigger: 'click'
-                }}
-            />
-        );
+        const {
+            TaskStore: { isManBuildTask, isEditableTask },
+            DataLayerStore: { editType }
+        } = this.props;
+        const visible = editType === 'logic_build';
+
+        if (isManBuildTask) {
+            return (
+                <ToolIcon
+                    icon="yichaisantubiao"
+                    title="逻辑构建"
+                    visible={visible}
+                    disabled={!isEditableTask}
+                    popover={{
+                        title: '逻辑构建',
+                        placement: 'bottom',
+                        visible: visible,
+                        onVisibleChange: this.handleClickChange,
+                        content: this._renderContent(),
+                        trigger: 'click'
+                    }}
+                />
+            );
+        } else {
+            return null;
+        }
     }
 }
 
