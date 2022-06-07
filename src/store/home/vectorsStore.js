@@ -154,45 +154,51 @@ class VectorsStore {
 
         // 处理车道中心线和关联表的关系
         const addFeatureJson = vectorFactory.vectorDataToTable(response);
-        if (typeof (addFeatureJson) !== "undefined") {
-            if (typeof (addFeatureJson['AD_Lane']) !== "undefined" || addFeatureJson['AD_Lane']) {
-                // 获取缓存中的数据表
-                let attrs = yield Attr.store.getAll();
-                if (attrs || attrs.length > 0) {
-                    addFeatureJson['AD_Lane'].features.forEach((feature, index) => {
-                        let rsvalue = '';
-                        let speed = '';
-                        let AD_LANE_RS_VALUE;
-                        attrs.forEach((att, i) => {
-                            if (att.properties.LANE_ID === feature.properties.LANE_ID) {
-                                // 判断关联关系
-                                if (att.source === "AD_Lane_RS") {
-                                    if (att.properties.RS_TYPE === 1) {
-                                        AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE1;
+        try {
+            if (typeof (addFeatureJson) !== "undefined") {
+                if (typeof (addFeatureJson['AD_Lane']) !== "undefined" || addFeatureJson['AD_Lane']) {
+                    // 获取缓存中的数据表
+                    let attrs = yield Attr.store.getAll();
+                    if (attrs || attrs.length > 0) {
+                        addFeatureJson['AD_Lane'].features.forEach((feature, index) => {
+                            let rsvalue = '';
+                            let speed = '';
+                            let AD_LANE_RS_VALUE;
+                            attrs.forEach((att, i) => {
+                                if (att.properties.LANE_ID === feature.properties.LANE_ID) {
+                                    // 判断关联关系
+                                    if (att.source === "AD_Lane_RS") {
+                                        if (att.properties.RS_TYPE === 1) {
+                                            AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE1;
+                                        }
+                                        else if (att.properties.RS_TYPE === 2) {
+                                            AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE2;
+                                        }
+                                        else if (att.properties.RS_TYPE === 3) {
+                                            AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE3;
+                                        }
+                                        rsvalue += AD_LANE_RS_VALUE.find(c => c.value === att.properties.RS_VALUE).alias + '/';
                                     }
-                                    else if (att.properties.RS_TYPE === 2) {
-                                        AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE2;
+                                    else if (att.source === "AD_Lane_Speed") {
+                                        if (att.properties.SPD_TYPE === 1 || att.properties.SPD_TYPE === 2) {
+                                            let option = TYPE_SELECT_OPTION_MAP.AD_LANE_SPD_TYPE.find(c => c.value === att.properties.SPD_TYPE);
+                                            speed += option.alias + att.properties.SPEED + '/';
+                                        }
                                     }
-                                    else if (att.properties.RS_TYPE === 3) {
-                                        AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE3;
-                                    }
-                                    rsvalue += AD_LANE_RS_VALUE.find(c => c.value === att.properties.RS_VALUE).alias + '/';
-                                }
-                                else if (att.source === "AD_Lane_Speed") {
-                                    if (att.properties.SPD_TYPE === 1 || att.properties.SPD_TYPE === 2) {
-                                        let option = TYPE_SELECT_OPTION_MAP.AD_LANE_SPD_TYPE.find(c => c.value === att.properties.SPD_TYPE);
-                                        speed += option.alias + att.properties.SPEED + '/';
-                                    }
-                                }
 
-                            }
+                                }
+                            });
+                            feature.properties.RS_VALUE = rsvalue.substring(0, rsvalue.length - 1);
+                            feature.properties.SPEED = speed.substring(0, speed.length - 1);
                         });
-                        feature.properties.RS_VALUE = rsvalue.substring(0, rsvalue.length - 1);
-                        feature.properties.SPEED = speed.substring(0, speed.length - 1);
-                    });
+                    }
                 }
             }
         }
+        catch (ex) {
+            console.log(ex);
+        }
+
         yield window.vectorLayerGroup.addLayersFeature(addFeatureJson);
         this.firstPoint = addFeatureJson?.AD_Lane?.features[0]?.geometry?.coordinates[0] || undefined;
         // console.log('9渲染矢量数据结束：', new Date);
