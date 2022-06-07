@@ -1,6 +1,6 @@
 export default {
     title: 'Ecarx React App',
-    version: 'SVC013_v4.2.4.1',
+    version: 'SVC013_v4.2.4.2',
     urlConfig: {
         point_clouds: 'cloud.js',
         track: 'track.json',
