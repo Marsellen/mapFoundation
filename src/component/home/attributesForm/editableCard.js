@@ -47,10 +47,10 @@ class EditableCard extends React.Component {
             if (attr.key == 'OFFSET') {
                 const OFFSETMin = value.properties[`${attr.key}Min`];
                 const OFFSETMax = value.properties[`${attr.key}Max`];
-                const OFFSET = value.properties[attr.key]?.replace('[', '')?.replace(')', '');
+                const OFFSET = value.properties[attr.key]?.replace('(', '')?.replace(']', '');
                 const OFFSETValue = OFFSET?.split(',');
-                attr[`${attr.key}Min`] = !OFFSETMin ? OFFSETValue[0] : OFFSETMin;
-                attr[`${attr.key}Max`] = !OFFSETMax ? OFFSETValue[1] : OFFSETMax;
+                attr[`${attr.key}Min`] = !OFFSETMin ? Number(OFFSETValue[0]) : OFFSETMin;
+                attr[`${attr.key}Max`] = !OFFSETMax ? Number(OFFSETValue[1]) : OFFSETMax;
             }
             if (attr.link == 'RS_VALUE') {
                 let index = attrs.findIndex(item => item.key == attr.link);
@@ -275,7 +275,7 @@ class EditableCard extends React.Component {
         const maxKey = `${key}Max`;
         minVal = minVal ?? form.getFieldValue(minKey);
         maxVal = maxVal ?? form.getFieldValue(maxKey);
-        return `[${minVal},${maxVal})`;
+        return `(${minVal},${maxVal}]`;
     };
 
     renderRangeInputNumber = (item, index, readonly) => {
@@ -340,7 +340,7 @@ class EditableCard extends React.Component {
                         </div>
                     )
                 ) : (
-                    <span className="ant-form-text">{`[${minVal},${maxVal})` || '--'}</span>
+                    <span className="ant-form-text">{`(${minVal},${maxVal}]` || '--'}</span>
                 )}
             </Form.Item>
         );
