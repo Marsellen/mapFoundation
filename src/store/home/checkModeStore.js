@@ -24,6 +24,7 @@ class CheckModeStore {
     @action initCheckMode = () => {
         const { reportList } = QualityCheckStore;
         let setLayers = {}; // 整理检查结果中图层和要素
+        let setStyles = {};
         reportList?.forEach(item => {
             setLayers[item.layerName] = setLayers[item.layerName]
                 ? setLayers[item.layerName].concat({
@@ -51,22 +52,38 @@ class CheckModeStore {
                           }
                       }
                   ];
+            setStyles[item.layerName] = setStyles[item.layerName]
+                ? setStyles[item.layerName].concat({
+                      value: Number(item.featureId),
+                      style: { color: 'rgb(1,186,5)' }
+                  })
+                : [
+                      {
+                          style: { color: 'rgb(255,255,255)' }
+                      },
+                      {
+                          value: Number(item.featureId),
+                          style: { color: 'rgb(1,186,5)' }
+                      }
+                  ];
         });
         Object.keys(setLayers).forEach(layer => {
-            let defConfig = {
-                iconFields: [DATA_LAYER_MAP[layer].id],
-                showFields: [DATA_LAYER_MAP[layer].id],
-                arrowFields: [DATA_LAYER_MAP[layer].id],
-                iconStyle: {},
-                arrowStyle: {},
-                vectorStyle: {},
-                showStyles: ['iconStyle', 'vectorStyle', 'arrowStyle']
-            };
-            const vectorLayer = this.getVectorLayer(layer);
-            defConfig.iconStyle[DATA_LAYER_MAP[layer].id] = [...setLayers[layer]];
-            defConfig.vectorStyle[DATA_LAYER_MAP[layer].id] = [...setLayers[layer]];
-            defConfig.arrowStyle[DATA_LAYER_MAP[layer].id] = [...setLayers[layer]];
-            vectorLayer && vectorLayer.resetConfig(defConfig);
+            if (DATA_LAYER_MAP[layer]?.id) {
+                let defConfig = {
+                    iconFields: [DATA_LAYER_MAP[layer].id],
+                    showFields: [DATA_LAYER_MAP[layer].id],
+                    arrowFields: [DATA_LAYER_MAP[layer].id],
+                    iconStyle: {},
+                    arrowStyle: {},
+                    vectorStyle: {},
+                    showStyles: ['iconStyle', 'vectorStyle', 'arrowStyle']
+                };
+                const vectorLayer = this.getVectorLayer(layer);
+                defConfig.iconStyle[DATA_LAYER_MAP[layer].id] = [...setLayers[layer]];
+                defConfig.vectorStyle[DATA_LAYER_MAP[layer].id] = [...setStyles[layer]];
+                defConfig.arrowStyle[DATA_LAYER_MAP[layer].id] = [...setStyles[layer]];
+                vectorLayer && vectorLayer.resetConfig(defConfig);
+            }
         });
     };
 
