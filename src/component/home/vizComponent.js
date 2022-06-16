@@ -58,7 +58,7 @@ import BatchBuildStore from 'src/store/home/batchBuildStore';
 import DefaultStyleConfig from 'src/config/defaultStyleConfig';
 import SettingStore from 'src/store/setting/settingStore';
 import UpdStatModeStore from 'src/store/home/updStatModeStore';
-import CheckModeStore from 'src/store/home/CheckModeStore';
+import CheckModeStore from 'src/store/home/checkModeStore';
 
 @inject('QualityCheckStore')
 @inject('QCMarkerStore')
