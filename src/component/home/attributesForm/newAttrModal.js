@@ -212,7 +212,7 @@ class NewAttrModal extends React.Component {
         const maxKey = `${key}Max`;
         minVal = minVal ?? form.getFieldValue(minKey);
         maxVal = maxVal ?? form.getFieldValue(maxKey);
-        return `[${minVal},${maxVal})`;
+        return `(${minVal},${maxVal}]`;
     };
 
     renderRangeInputNumber = (item, index) => {
