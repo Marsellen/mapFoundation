@@ -12,6 +12,16 @@ class ManualBuildStore {
             throw e;
         }
     });
+
+    municipalBarrierDown = flow(function* (data) {
+        try {
+            const result = yield AdLineService.municipalBarrierDown(data);
+            return result;
+        } catch (e) {
+            console.log('市政护栏下压失败' + e.message || e || '');
+            throw e;
+        }
+    });
 }
 
 export default new ManualBuildStore();

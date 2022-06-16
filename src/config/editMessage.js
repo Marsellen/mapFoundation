@@ -117,6 +117,12 @@ export const EDIT_MESSAGE = {
         successMsg: '批量线要素打断赋值完成',
         errorMsg: '批量线要素打断赋值失败：'
     },
+    municipal_barrier_down: {
+        //市政护栏下压
+        loadingMsg: '正在市政护栏下压要素...',
+        successMsg: '市政护栏下压完成',
+        errorMsg: '市政护栏下压失败：'
+    },
     new_around_line: {
         //左右车道线生成中心线、路段中参考线生成
         loadingMsg: '正在构建要素...',

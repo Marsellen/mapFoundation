@@ -154,6 +154,31 @@ class ConfigurableForm extends React.Component {
         );
     };
 
+    _renderText = (item, initData) => {
+        const { form } = this.props;
+        const { getFieldDecorator } = form;
+        const {
+            name,
+            tool: Tool,
+            initialValue,
+            className,
+            editable,
+            editableByField,
+            layout
+        } = item;
+        const isEditable = this.getAllEditStatus(editableByField, initData);
+
+        return (
+            <Form.Item label={item.label} key={item.name} className={className} {...layout}>
+                {getFieldDecorator(
+                    item.name,
+                    this.formItemConfig(item)
+                )(<span>{initialValue}</span>)}
+                {Tool && <Tool form={form} className="tool" />}
+            </Form.Item>
+        );
+    };
+
     _renderInputNumber = (item, initData) => {
         const { form } = this.props;
         const { getFieldDecorator } = form;

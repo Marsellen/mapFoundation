@@ -21,7 +21,8 @@ import { message } from 'antd';
 import RenderModeStore from './renderModeStore';
 import TaskStore from 'src/store/home/taskStore';
 import BuriedPoint from 'src/util/buriedPoint';
-
+import { TYPE_SELECT_OPTION_MAP } from 'src/config/adMapDataConfig';
+import Attr from 'src/util/attr';
 const LOAD_DATA_MESSAGE = '加载数据中...';
 
 configure({ enforceActions: 'always' });
@@ -161,7 +162,7 @@ class AttributeStore {
     };
 
     commonHideRelFeatures = () => {
-        this.relFeatures.map(feature => {
+        this.relFeatures.forEach(feature => {
             try {
                 updateFeatureColor(feature.layerName, feature.option);
             } catch (e) {
@@ -203,7 +204,7 @@ class AttributeStore {
 
     @action showRelFeatures = () => {
         try {
-            this.relFeatures.map(feature => {
+            this.relFeatures.forEach(feature => {
                 try {
                     updateFeatureColor(feature.layerName, feature.option, 'rgb(49,209,255)');
                 } catch (e) {
@@ -216,6 +217,7 @@ class AttributeStore {
     };
 
     submit = flow(function* (data) {
+        this.setAttributes(data);
         let relLog = yield this.calcRelLog(data);
         let attrLog = this.calcAttrLog(data.attrs);
         let oldFeature = _.cloneDeep(this.model);
@@ -249,6 +251,49 @@ class AttributeStore {
 
         return historyLog;
     });
+
+    /**
+     * 
+     * 赋值要素数据信息
+     * 
+     * @param {object} data 数据集合
+     * 
+     */
+    setAttributes = (data) => {
+        //  判断关联的限制表
+        if (data.attrs !== undefined && data.attrs.AD_Lane_RS !== undefined) {
+            let rsvalue = '';
+            let AD_LANE_RS_VALUE;
+            data.attrs.AD_Lane_RS.forEach((att, i) => {
+                if (att.properties.RS_TYPE === 1) {
+                    AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE1;
+                }
+                else if (att.properties.RS_TYPE === 2) {
+                    AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE2;
+                }
+                else if (att.properties.RS_TYPE === 3) {
+                    AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE3;
+                }
+                rsvalue += AD_LANE_RS_VALUE.find(c => c.value === att.properties.RS_VALUE).alias + '/';
+            });
+            if (rsvalue !== '') {
+                data.attributes.RS_VALUE = rsvalue.substring(0, rsvalue.length - 1);
+            }
+        }
+        // 判断关联的限速表
+        if (data.attrs !== undefined && data.attrs.AD_Lane_Speed !== undefined) {
+            let speed = '';
+            data.attrs.AD_Lane_Speed.forEach((att, i) => {
+                if (att.properties.SPD_TYPE === 1 || att.properties.SPD_TYPE === 2) {
+                    let option = TYPE_SELECT_OPTION_MAP.AD_LANE_SPD_TYPE.find(c => c.value === att.properties.SPD_TYPE);
+                    speed += option.alias + att.properties.SPEED + '/';
+                }
+            });
+            if (speed !== '') {
+                data.attributes.SPEED = speed.substring(0, speed.length - 1);
+            }
+        }
+    };
 
     calcRelLog = async data => {
         const { rels } = data;

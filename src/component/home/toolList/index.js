@@ -16,10 +16,12 @@ import DrawToolBox from 'src/component/home/toolList/drawToolBox';
 import BatchToolBox from 'src/component/home/toolList/batchToolBox';
 import AttributeBrush from 'src/component/home/toolList/attributeBrush';
 import QCMarkerTool from 'src/component/home/toolList/qcMarkerTool';
+import InformationTool from 'src/component/home/toolList/informationTool';
 import PostureAdjust from 'src/component/home/toolList/postureAdjust';
 import SetStepSize from 'src/component/home/toolList/setStepSize';
-// import UnionBreak from 'src/component/home/toolList/unionBreak';
+import UnionBreak from 'src/component/home/toolList/unionBreak';
 import BatchBreak from 'src/component/home/toolList/batchBreak';
+import MunicipalBarrierDown from 'src/component/home/toolList/municipalBarrierDown';
 import ViewNeighbor from './viewNeighbor';
 
 export default [
@@ -34,6 +36,7 @@ export default [
     <SearchInfo key="SEARCH_INFO" />,
     <QualityCheck key="QUALITY_TEST" />,
     <QCMarkerTool key="QC_MARKER" />,
+    <InformationTool key="INFORMATION_TOOL" />,
     <ViewNeighbor key="VIEW_NEIGHBOR" />,
     <TopBreakLine key="TOP_BREAK_LINE_1" />,
     <EditLayer key="EDIT_LAYER" />,
@@ -43,7 +46,8 @@ export default [
     <BatchToolBox key="BATCH_TOOL_BOX" />,
     <AttributeBrush key="ATTRIBUTE_BRUSH" />,
     <PostureAdjust key="POSTURE_ADJUST" />,
-    // <UnionBreak key="UNION_BREAK" />,
+    <UnionBreak key="UNION_BREAK" />,
     <TopBreakLine key="TOP_BREAK_LINE_2" />,
-    <BatchBreak key="BATCH_BREAK" />
+    <BatchBreak key="BATCH_BREAK" />,
+    <MunicipalBarrierDown key="MUNICIPAL_BARRIER_DOWN" />
 ];

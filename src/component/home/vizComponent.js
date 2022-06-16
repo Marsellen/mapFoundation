@@ -4,6 +4,7 @@ import { message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './attributesModal';
 import QCMarkerModal from './qualityMarker/qcMarkerModal';
+import InformationModal from './informationMark/informationModal';
 //import NewFeatureModal from './NewFeatureModal';
 import RightMenuModal from 'src/component/home/rightMenuModal';
 import {
@@ -12,6 +13,7 @@ import {
     RESOURCE_LAYER_TASK_SCOPE,
     RESOURCE_LAYER_CHECK,
     RESOURCE_LAYER_MARKER,
+    RESOURCE_LAYER_INFORMATION,
     TASK_EDIT_LAYER_MAP
 } from 'src/config/dataLayerConfig';
 import MultimediaView from './multimediaView';
@@ -26,7 +28,7 @@ import _ from 'lodash';
 import editLog from 'src/util/editLog';
 import { windowObserver } from 'src/util/taskUtils';
 import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
-import { initBoundary, getCheckReport, getMarkerList, setTaskLevel } from 'src/util/taskStart';
+import { initBoundary, getCheckReport, getMarkerList, getInformationList, setTaskLevel } from 'src/util/taskStart';
 import axios from 'axios';
 import { logDecorator, editOutputLimit } from 'src/util/decorator';
 import RenderModeStore from 'src/store/home/renderModeStore';
@@ -45,6 +47,7 @@ import PointCloudStore from 'src/store/home/pointCloudStore';
 import VectorsStore from 'src/store/home/vectorsStore';
 import ToolCtrlStore from 'src/store/home/toolCtrlStore';
 import QCMarkerStore from 'src/store/home/qcMarkerStore';
+import InformationStore from 'src/store/home/informationStore';
 import BufferStore from 'src/store/home/bufferStore';
 import QualityCheckStore from 'src/store/home/qualityCheckStore';
 import { showPictureShowView, showAttributesModal, showRightMenu } from 'src/util/map/viewCtrl';
@@ -58,6 +61,7 @@ import UpdStatModeStore from 'src/store/home/updStatModeStore';
 
 @inject('QualityCheckStore')
 @inject('QCMarkerStore')
+@inject('InformationStore')
 @inject('DefineModeStore')
 @inject('TextStore')
 @inject('RenderModeStore')
@@ -100,6 +104,7 @@ class VizComponent extends React.Component {
 
         BatchBuildStore.release();
         QCMarkerStore.release();
+        InformationStore.release();
         ResourceLayerStore.release();
         VectorsStore.release();
         PointCloudStore.release();
@@ -120,6 +125,7 @@ class VizComponent extends React.Component {
         window.map && window.map.release();
         window.map = null;
         window.markerLayer = null;
+        window.informationLayer = null;
         window.horizontal = null;
         window.bufferLayer = null;
     };
@@ -245,6 +251,7 @@ class VizComponent extends React.Component {
                 this.initVectors(),
                 this.initCheckLayer(),
                 this.initMarkerLayer(task),
+                this.initInformationLayer(task),
                 this.initMultiProjectResource(task)
             ]);
             // 加载矢量图层
@@ -460,6 +467,27 @@ class VizComponent extends React.Component {
         getMarkerList();
     };
 
+    //初始化资料问题图层
+    initInformationLayer = async () => {
+        const { isMsTask, isFixStatus, activeTask: { isLocal } = {} } = this.props.TaskStore;
+        const {
+            loginUser: { roleCode }
+        } = this.props.appStore;
+        if (isLocal) return; //如果是本地任务，返回
+        // if (isMsTask && isFixStatus) return; //如果是人工识别【已领取或进行中】，返回
+        const { AD_Information } = OtherVectorConfig;
+        const informationLayer = new VectorLayer(null, { layerConfig: AD_Information });
+        informationLayer.layerName = 'AD_Information';
+        await map.getLayerManager().addLayer('VectorLayer', informationLayer);
+        window.informationLayer = {
+            layerName: informationLayer.layerName,
+            layerId: informationLayer.layerId,
+            layer: informationLayer
+        };
+        ResourceLayerStore.updateLayerByName(RESOURCE_LAYER_INFORMATION, window.informationLayer.layer);
+        getInformationList();
+    };
+
     initResouceLayer = layers => {
         layers = layers.filter(layer => !!layer);
         ResourceLayerStore.addLayers(layers);
@@ -509,7 +537,8 @@ class VizComponent extends React.Component {
             ...vectorLayers,
             { layer: window.trackLayer },
             ...boundaryLayers,
-            window.markerLayer
+            window.markerLayer,
+            window.informationLayer
         ]);
         DataLayerStore.initMeasureControl();
         DataLayerStore.setSelectedCallBack(this.selectedCallBack);
@@ -586,11 +615,17 @@ class VizComponent extends React.Component {
     //显示属性窗口
     showAttributesModal = (result, event) => {
         const isMarkerLayer = result[0].layerName === 'AD_Marker';
+        const isInformationLayer = result[0].layerName === 'AD_Information';
         if (isMarkerLayer) {
             if (QCMarkerStore.isCreateMarker()) return;
             QCMarkerStore.show();
             QCMarkerStore.setEditStatus('visite', 'toggle_select');
             QCMarkerStore.initCurrentMarker(result[0]);
+        } else if (isInformationLayer) {
+            if (InformationStore.isCreateMarker()) return;
+            InformationStore.show();
+            InformationStore.setEditStatus('visite', 'toggle_select');
+            InformationStore.initCurrentMarker(result[0]);
         } else {
             showAttributesModal(result[0], event);
         }
@@ -684,6 +719,7 @@ class VizComponent extends React.Component {
                 <RightMenuModal />
                 <BatchAssignModal />
                 <QCMarkerModal />
+                <InformationModal />
                 <BatchBuildModal />
             </React.Fragment>
         );

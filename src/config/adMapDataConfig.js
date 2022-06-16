@@ -58,6 +58,12 @@ export const TYPE_SELECT_OPTION_MAP = {
             icon: 'geyinqiang',
             abbreviation: '隔'
         },
+        {
+            value: 23,
+            label: '市政护栏',
+            icon: 'shizhenghulan',
+            abbreviation: '市政'
+        },
         { value: 99, label: '其他', icon: 'qita', abbreviation: '99' }
     ],
     AD_LANE_DIVIDER_DIRECTION: [
@@ -392,6 +398,7 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3105, label: '其他墙体', icon: 'qitaqiangti', abbreviation: '他' },
         { value: 3106, label: '道路轮廓标', icon: 'daolulunkuobiao', abbreviation: '廓' },
         { value: 3121, label: '新泽西护栏', icon: 'xinzexihulan', abbreviation: '泽' },
+        { value: 3122, label: '市政护栏', icon: 'shizhenghulan', abbreviation: '市政' },
         { value: 3199, label: '其他', icon: 'qita', abbreviation: '其他' }
     ],
     AD_RS_BARRIER_TILT: [
@@ -433,29 +440,29 @@ export const TYPE_SELECT_OPTION_MAP = {
     ],
     AD_LANE_SPD_TYPE: [
         { value: 0, label: '未定义' },
-        { value: 1, label: '最高限速' },
-        { value: 2, label: '最低限速' }
+        { value: 1, label: '最高限速',alias:'高' },
+        { value: 2, label: '最低限速' ,alias:'低'}
     ],
     AD_LANE_RS_VALUE: [{ value: 0, label: '未定义' }],
     AD_LANE_RS_VALUE0: [{ value: 0, label: '未定义' }],
     AD_LANE_RS_VALUE1: [
-        { value: 0, label: '未定义' },
-        { value: 1, label: '公交车道禁止驶入' },
-        { value: 2, label: '外埠车辆禁止驶入' },
-        { value: 3, label: '禁止驶入' },
-        { value: 4, label: 'HOV车道禁止驶入' }
+        { value: 0, label: '未定义',alias:'未定'},
+        { value: 1, label: '公交车道禁止驶入', alias:'公交'},
+        { value: 2, label: '外埠车辆禁止驶入', alias:'外埠'},
+        { value: 3, label: '禁止驶入', alias:'禁入'},
+        { value: 4, label: 'HOV车道禁止驶入', alias:'HOV'}
     ],
     AD_LANE_RS_VALUE2: [
-        { value: 0, label: '未定义' },
-        { value: 1, label: '正向通行' },
-        { value: 2, label: '逆向通行' },
-        { value: 3, label: '禁止通行' }
+        { value: 0, label: '未定义', alias:'未定'},
+        { value: 1, label: '正向通行', alias:'正向'},
+        { value: 2, label: '逆向通行', alias:'逆向'},
+        { value: 3, label: '禁止通行', alias:'禁通'}
     ],
     AD_LANE_RS_VALUE3: [
-        { value: 0, label: '未定义' },
-        { value: 1, label: '禁止停车' },
-        { value: 2, label: '禁止长时间停车' },
-        { value: 3, label: '禁止停车时间' }
+        { value: 0, label: '未定义', alias:'未定'},
+        { value: 1, label: '禁止停车', alias:'禁停'},
+        { value: 2, label: '禁止长时间停车', alias:'禁长停'},
+        { value: 3, label: '禁止停车时间', alias:'禁停时'}
     ],
     AD_LANE_SPD_SOURCE: [
         { value: 0, label: '未定义' },
@@ -534,7 +541,10 @@ export const TYPE_SELECT_OPTION_MAP = {
                 icon: 'jinggaolei',
                 abbreviation: '其他警告标志'
             },
-            { value: 2101, label: '建议速度', icon: 'jianyisudu', abbreviation: '建议速度' },
+            { value: 2101, label: '建议速度', icon: 'jianyisudu', abbreviation: '建议速度' },            
+            { value: 2102, label: '隧道', icon: 'suidao', abbreviation: '隧道' },
+            { value: 2103, label: '注意潮汐车道', icon: 'zhuyichaoxichedao', abbreviation: '注意潮汐车道' },
+            { value: 2104, label: '避险车道', icon: 'bixianchedao', abbreviation: '避险车道' },
             {
                 value: 2200,
                 label: '其他禁令标志',
@@ -781,7 +791,10 @@ export const TYPE_SELECT_OPTION_MAP = {
     AD_TS_CONTENT_SIGN_TYPE: [
         [
             { value: 2100, label: '其他警告标志', icon: 'jinggaolei' },
-            { value: 2101, label: '建议速度', icon: 'jianyisudu' },
+            { value: 2101, label: '建议速度', icon: 'jianyisudu' },            
+            { value: 2102, label: '隧道', icon: 'suidao' },
+            { value: 2103, label: '注意潮汐车道', icon: 'zhuyichaoxichedao' },
+            { value: 2104, label: '避险车道', icon: 'bixianchedao' },
             { value: 2200, label: '其他禁令标志', icon: 'jinlinglei' },
             { value: 2201, label: '停车让行', icon: 'tingcherangxing' },
             { value: 2202, label: '减速让行', icon: 'jiansurangxing' },
@@ -1780,6 +1793,14 @@ export const LAYER_TYPE_MAP = {
         }
     ],
     AD_Lane: [
+        {
+            key: 'RS_VALUE',
+            name: '交通限制'
+        },
+        {
+            key: 'SPEED',
+            name: '交通限速'
+        },
         {
             key: 'LANE_ID',
             name: '用户编号',

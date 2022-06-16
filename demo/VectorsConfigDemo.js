@@ -196,6 +196,11 @@ export default {
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
+                    value: 23,
+                    label: '市政护栏',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
                     value: 99,
                     label: '其他',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
@@ -320,6 +325,11 @@ export default {
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
+                    value: 23,
+                    label: '市政护栏',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
                     value: 99,
                     label: '其他',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
@@ -441,6 +451,11 @@ export default {
                 {
                     value: 22,
                     label: '隔音墙',
+                    style: { color: 'rgb(255,255,255)', linewidth: 1 }
+                },
+                {
+                    value: 23,
+                    label: '市政护栏',
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 },
                 {
@@ -1571,6 +1586,14 @@ export default {
                     }
                 },
                 {
+                    value: 3122,
+                    label: '市政护栏',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
                     value: 3199,
                     label: '其他',
                     style: {
@@ -1634,6 +1657,13 @@ export default {
                 {
                     value: 3121,
                     label: '新泽西护栏',
+                    style: {
+                        color: 'rgb(70,109,255)'
+                    }
+                },
+                {
+                    value: 3122,
+                    label: '市政护栏',
                     style: {
                         color: 'rgb(70,109,255)'
                     }
@@ -1708,6 +1738,14 @@ export default {
                 {
                     value: 3121,
                     label: '新泽西护栏',
+                    style: {
+                        color: 'rgb(70,109,255)',
+                        linewidth: 1
+                    }
+                },
+                {
+                    value: 3122,
+                    label: '市政护栏',
                     style: {
                         color: 'rgb(70,109,255)',
                         linewidth: 1

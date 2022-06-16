@@ -65,7 +65,7 @@ export const UPDATE_BOUNDARY_PARAM_MAP = {
 //任务类型
 export const TASK_TYPE = {
     100: '底图新增',
-    101: '底图更新',
+    101: '底图补采',
     102: '单点问题修正'
 };
 
