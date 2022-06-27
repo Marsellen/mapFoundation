@@ -43,9 +43,13 @@ const BOUNDARY_PATH_MAP = {
     imp_check_after_recognition: '1303_MS_QC_AROUND_DATA',
     imp_manbuild: '1304_MB_AROUND_DATA',
     imp_check_after_manbuild: '1305_MB_QC_AROUND_DATA',
-    imp_map_second_check: '1305_MB_QC_AROUND_DATA'
+    imp_map_second_check: '1305_MB_QC_AROUND_DATA',
+    imp_std_precompile_man_repair: '0304_STD_AROUND_DES'
 };
 
+const GEO_PATH_MAP={
+    imp_std_precompile_man_repair: '/ADMAP/COMPILE_STD2RMD/PRECOMP_TASKS/'
+};
 //人工构建任务类型枚举: [人工构建, 人工构建后质检]
 const manbuildTaskProcess = [
     'imp_manbuild',
@@ -61,6 +65,20 @@ export const getExportShpUrl = task => {
 export const getEditPath = task => {
     return `/${task.taskId}/${SECEND_PATH[task.processName]}/${getThirdPath(task)}`;
 };
+
+// 补齐切片矢量数据路径titlePath
+export const completeTitleUrl = (path, task) => {
+    const getBoundaryUrl = BOUNDARY_PATH_MAP[task.processName];
+    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]
+        }/${getBoundaryUrl}/${task.titlePath}/${path}?time=${Date.now()}`;
+};
+ 
+export const filePathTitleUrl = (task) => {
+    
+    let url=GEO_PATH_MAP[task.processName]+`${task.taskId}/${SECEND_PATH[task.processName]}/${BOUNDARY_PATH_MAP[task.processName]}/`;
+    return  GEO_PATH_MAP[task.processName]+`${task.taskId}/${SECEND_PATH[task.processName]}/${BOUNDARY_PATH_MAP[task.processName]}/`;
+};
+
 
 // 补齐轨迹、照片数据路径
 export const completeSecendUrl = (path, task) => {

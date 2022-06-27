@@ -40,7 +40,7 @@ import LocalTask from 'src/util/task/localTask';
 import AddTask from 'src/util/task/addTask';
 import UpdateTask from 'src/util/task/updateTask';
 import ModifyTask from 'src/util/task/modifyTask';
-import { VECTOR_FILES, ATTR_FILES, REL_FILES } from 'src/config/taskConfig';
+import { VECTOR_FILES, ATTR_FILES, REL_FILES, REGION_FILES } from 'src/config/taskConfig';
 import { fetchCallback } from 'src/util/map/utils';
 import PointCloudStore from 'src/store/home/pointCloudStore';
 import DefaultStyleConfig from 'src/config/defaultStyleConfig';
@@ -221,7 +221,9 @@ class TaskStore {
 
     @action getBoundaryLayer = () => {
         const taskType = this.taskProcessName;
-        if (taskType == 'imp_std_precompile_man_repair') return;
+        if (taskType == 'imp_std_precompile_man_repair') {
+            return this.initLayerGroup();
+        }
         const updateBoundaryParams = this.initUpdateBoundaryParams(taskType);
         // 如果是本地加载任务，则直接获取底图；如果是工作流下发任务，则先更新再获取底图
         if (this.activeTask.isLocal) {
@@ -358,12 +360,13 @@ class TaskStore {
     });
 
     getTaskFileMap = (fileNames, completeUrlFn) => {
-        const fileMap = { vectors: [], attrs: [], rels: [] };
+        const fileMap = { vectors: [], attrs: [], rels: [], regions: [] };
         fileNames.forEach(fileName => {
             const url = completeUrlFn(fileName, this.activeTask);
             VECTOR_FILES.includes(fileName) && fileMap.vectors.push(url);
             ATTR_FILES.includes(fileName) && fileMap.attrs.push(url);
             REL_FILES.includes(fileName) && fileMap.rels.push(url);
+            REGION_FILES.includes(fileName) && fileMap.regions.push(url);
         });
         return fileMap;
     };
@@ -585,6 +588,22 @@ class TaskStore {
 
     submit = flow(function* () {
         let vectorData = getAllVectorData(true);
+        // 删除不符合规则的字段
+        if (vectorData) {
+            vectorData?.features.forEach(feature => {
+                if (feature.name === "AD_Lane") {
+                    feature.features.forEach(item => {
+                        if (item.properties?.RS_VALUE !== undefined) {
+                            delete item.properties.RS_VALUE;
+                        }
+                        if (item.properties?.speed !== undefined) {
+                            delete item.properties.speed;
+                        }
+                    });
+                }
+            });
+        }
+
         let relData = yield getAllRelData(true);
         let attrData = yield getAllAttrData(true);
         relData = this.completeData(relData, 'rels');
@@ -693,6 +712,31 @@ class TaskStore {
             console.log(e?.message ?? e);
         }
     });
+
+    // 初始化图层集合
+    initLayerGroup = async () => {
+        try {
+            const layerGroup = new LayerGroup([], {
+                styleConifg: DefaultStyleConfig
+            });
+            await window.map.getLayerManager().addLayerGroup(layerGroup, fetchCallback);
+            return layerGroup;
+        } catch (e) {
+            throw new Error('周边底图数据部分图层加载失败');
+        }
+    };
+    // 获取切片路径 
+    getTitleFileList = flow(function* (data) {
+        try {   
+             
+            const result = yield EditorService.getTitleFileList(data); 
+            return result.data; 
+        } catch (e) {
+            console.log(`task file list 请求失败：${e.message || e}`);
+            message.error(e?.message ?? e);
+        }
+    }).bind(this);
+
 }
 
 export default new TaskStore();
