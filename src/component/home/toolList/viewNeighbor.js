@@ -2,7 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { message, Menu, Modal } from 'antd';
 import ToolIcon from 'src/component/common/toolIcon';
-import { VectorLayer } from 'addis-viz-sdk';
+import { IFDEntry, VectorLayer } from 'addis-viz-sdk';
 import AdEmitter from 'src/util/event';
 import CheckButton from 'src/component/common/checkButton';
 
@@ -25,8 +25,7 @@ class ViewNeighbor extends React.Component {
     titleName = [];
     // 判断是否已经加载切片
     selecteTitleName = [];
-    // 暂存边框图层
-    regionLayer = null;
+
     componentDidMount() {
         AdEmitter.on('taskChanged', () => {
             this.regions = [];
@@ -35,6 +34,8 @@ class ViewNeighbor extends React.Component {
     }
 
     render() {
+        // 暂存边框图层
+        this.regionLayer = null;
         this.titleName = [];
         this.selecteTitleName = [];
         const { TaskStore } = this.props;
@@ -64,6 +65,8 @@ class ViewNeighbor extends React.Component {
                     title: '获取周边任务信息',
                     actionid: 'redo-btn'
                 }}
+                handleClickFlag={true}
+                handleClick={this.addlayerRegion}
                 contentTitle="获取周边任务信息"
                 renderContent={this.renderCon}
                 onRef={ref => (this.checkButton = ref)}
@@ -122,10 +125,7 @@ class ViewNeighbor extends React.Component {
         // 获取矢量列表
         try {
             let urls = [];
-            const { mapStore } = this.props;
-            if (!this.regionLayer) {
-                this.regionLayer = mapStore.addVectorLayer({ color: 'rgb(16,201,133)', opacity: 0.5 });
-            }
+
             const { TaskStore } = this.props;
             const { activeTask } = TaskStore;
             activeTask.titlePath = name;
@@ -146,13 +146,61 @@ class ViewNeighbor extends React.Component {
                     RelStore.addRecords(rels, 'titleMap')
                 await VectorsStore.addRecordsTitle(vectors, 'titleMap');
 
-                // 新增要素
-                mapStore.addGeoToFeatures(this.regionLayer, regions);
+
             }
 
         } catch (e) {
             console.log(`task file list 请求失败：${e.message || e}`);
         }
+
+    };
+    addlayerRegion = async () => {
+        if (this.titleName.length > 0) {
+            const { TaskStore, mapStore } = this.props;
+            const { activeTask } = TaskStore;
+            if (!this.regionLayer) {
+                // this.regionLayer = mapStore.addVectorLayer({ color: 'rgb(16,201,133)', opacity: 0.5 });
+                this.regionLayer = mapStore.addVectorLayer({
+                    color: 'rgb(16,201,133)', opacity: 0.5,
+                    layerConfig: {
+                        textStyle: {
+                            showMode: 'polygon-center',
+                            defaultStyle: {
+                                textFields: ['titleId'],
+                                interval: 10,
+                                showMode: 'polygon-center',
+                                fontSize: 40,
+                                strokeColor: 'rgba(0,0,0,1)',
+                                backgroundColor: 'rgba(0,0,0,0.7)',
+                                textColor: 'rgba(255,255,255,1)'
+                            },
+                            titleId: []
+                        },
+                        textFields: ['titleId',],
+                        showStyles: ['vectorStyle', 'textStyle']
+                    }
+                });
+                this.titleName.forEach((item, index) => {
+                    // 查询所在目录
+                    activeTask.titlePath = item;
+                    const url = completeTitleUrl("region.geojson", activeTask);
+                    // 新增要素 
+                    mapStore.addGeoToFeature(this.regionLayer, url, {
+                        titleId: item
+                    });
+                });
+            }
+            else {
+                if (this.regionLayer.visible) {
+                    this.regionLayer.show()
+                }
+                else {
+                    this.regionLayer.hide();
+                }
+                this.regionLayer.visible = !this.regionLayer.visible;
+            }
+        }
+
 
     };
     action = async () => {
