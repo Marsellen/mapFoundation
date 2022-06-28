@@ -22,6 +22,7 @@ class mapStore {
         }
         layer.setDefaultStyle(opts);
         this.mapViewer.getLayerManager().addLayer(opts.layerName || 'VectorLayer', layer);
+
         return layer;
     };
     // 初始化地图
@@ -31,15 +32,47 @@ class mapStore {
     };
     // 将文件geojson数据转换成图层要素
     addGeoToFeatures = flow(function* (layer, urls) {
-        let res = yield Promise.all(urls.map(axios.get));
-        if (res.length > 0) {
-            res.forEach(item => {
-                if (item.data.features.length > 0) {
-                    layer.addFeatures(item.data.features);
-                }
+        // let res = yield Promise.all(urls.map(axios.get));
+        if(urls.length>0)
+        {
+            urls.forEach(url=>{
+                axios(url)
+                .then(res => { 
+                    if (res.data.features.length > 0) { 
+                        layer.addFeatures(res.data.features);
+                    } 
+                })
+                .catch(error => {
+                    console.log(error); 
+                });
             });
-
         }
+        
+
+        // if (res.length > 0) {
+        //     res.forEach(item => {
+        //         if (item.data.features.length > 0) {
+        //             layer.addFeatures(item.data.features);
+        //         }
+        //     });
+
+        // }
+    });
+    addGeoToFeature = flow(function* (layer, url, opts) {
+        axios(url)
+            .then(res => { 
+                if (res.data.features.length > 0) { 
+                    res.data.features.forEach(feature => {
+                        feature.properties = Object.assign(feature.properties, opts);
+                    });
+                    layer.addFeatures(res.data.features);
+                }
+                return true;
+            })
+            .catch(error => {
+                console.log(error);
+                return false;
+            });
     });
     release = () => {
         this.mapViewer && this.mapViewer.release();
