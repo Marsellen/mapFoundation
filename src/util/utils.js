@@ -359,21 +359,21 @@ export function setAttributes(data) {
     
     let objValue = {};
     //  判断关联的限制表
-    if (data !== undefined && data.AD_Lane_RS !== undefined) {
+    if (data !== undefined && data?.AD_Lane_RS !== undefined) {
         let rsvalue = '';
         let AD_LANE_RS_VALUE;
         data.AD_Lane_RS.forEach((att, i) => {
             if (att) {
-                if (att.properties.RS_TYPE === 1) {
+                if (att?.properties?.RS_TYPE === 1) {
                     AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE1;
                 }
-                else if (att.properties.RS_TYPE === 2) {
+                else if (att?.properties?.RS_TYPE === 2) {
                     AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE2;
                 }
-                else if (att.properties.RS_TYPE === 3) {
+                else if (att?.properties?.RS_TYPE === 3) {
                     AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE3;
                 }
-                if (att.properties.RS_VALUE) {
+                if (att?.properties?.RS_VALUE) {
                     rsvalue += AD_LANE_RS_VALUE.find(c => c.value === att.properties.RS_VALUE).alias + '/';
                 }
             }
@@ -383,12 +383,12 @@ export function setAttributes(data) {
         }
     }
     // 判断关联的限速表
-    if (data !== undefined && data.AD_Lane_Speed !== undefined) {
+    if (data !== undefined && data?.AD_Lane_Speed !== undefined) {
         let speed = '';
         data.AD_Lane_Speed.forEach((att, i) => {
             if (att) {
-                if (att.properties.SPD_TYPE === 1 || att.properties.SPD_TYPE === 2) {
-                    if (att.properties.SPD_TYPE) {
+                if (att?.properties?.SPD_TYPE === 1 || att?.properties?.SPD_TYPE === 2) {
+                    if (att?.properties?.SPD_TYPE) {
                         let option = TYPE_SELECT_OPTION_MAP.AD_LANE_SPD_TYPE.find(c => c.value === att.properties.SPD_TYPE);
                         speed += option.alias + att.properties.SPEED + '/';
                     }
