@@ -1733,6 +1733,183 @@ export const UPDATE_VECTOR_CONFIG_MAP = {
             }
         ]
     },
+    AD_RS_Barrier: {
+        key: 'AD_RS_Barrier',
+        label: '隔离带、护栏',
+        checked: false,
+        isClassify: true,
+        type: 'Line',
+        commonStyle: {
+            showFields: 'TYPE',
+            lineStyle: 'solid',
+            color: 'rgb(255,255,255)',
+            opacity: 1,
+            arrow: false,
+            point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
+            pointSize: 0.1
+        },
+        typeStyleMap: {
+            TYPE: [
+                {
+                    value: 0,
+                    label: '未定义',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,255,255)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 3101,
+                    label: '隧道墙',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,255,255)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 3102,
+                    label: '路侧防护栏',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(70,109,255)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 3103,
+                    label: '路缘石',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(80,227,194)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 3104,
+                    label: '隔音墙',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(65,117,5)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 3105,
+                    label: '其他墙体',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(255,255,255)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 3106,
+                    label: '道路轮廓标',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(224,16,219)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 3121,
+                    label: '新泽西护栏',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(224,16,219)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 3122,
+                    label: '市政护栏',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(224,16,219)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                },
+                {
+                    value: 3199,
+                    label: '其他',
+                    showFields: 'TYPE',
+                    lineStyle: 'solid',
+                    color: 'rgb(224,16,219)',
+                    opacity: 1,
+                    arrow: false,
+                    point: true,
+                    pointEnabledStatus: true,
+                    arrowEnabledStatus: true,
+                    pointSize: 0.1
+                }
+            ]
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'xianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixian' },
+            { key: 'dashed', icon: 'xuxian' },
+            { key: 'dashed1', icon: 'xuxian1' },
+            { key: 'dashed2', icon: 'xuxian2' },
+            { key: 'dashed3', icon: 'xuxian3' }
+        ],
+        typeArr: [
+            {
+                key: 'TYPE',
+                name: '隔离带护栏类型',
+                type: 'AD_RS_BARRIER_TYPE',
+                domType: 'RadioIconGroup'
+            },
+            {
+                key: 'TILT',
+                name: '是否倾斜',
+                type: 'AD_RS_BARRIER_TILT',
+                domType: 'Select'
+            }
+        ]
+    },
     AD_StopLocation_Geo: {
         key: 'AD_StopLocation_Geo',
         label: '几何层：停止位置',
