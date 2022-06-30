@@ -8,6 +8,7 @@ import { RENDER_MODE_MAP } from 'src/config/renderModeConfig';
 @inject('DefineModeStore')
 @inject('TextStore')
 @inject('AttributeStore')
+@inject('CheckModeStore')
 @inject('DataLayerStore')
 @inject('TaskStore')
 @inject('RenderModeStore')
@@ -83,6 +84,7 @@ class RenderMode extends React.Component {
     resetStyleConfig = mode => {
         const {
             TaskStore: { taskProcessName },
+            CheckModeStore,
             RenderModeStore,
             DefineModeStore,
             UpdStatModeStore
@@ -92,10 +94,13 @@ class RenderMode extends React.Component {
 
         switch (mode) {
             case 'common':
-            case 'check':
             case 'define':
             case 'selfCheck':
                 initVectorConfig(mode, taskProcessName);
+                break;
+            case 'check':
+                initVectorConfig(mode, taskProcessName);
+                CheckModeStore.initCheckMode(mode);
                 break;
             case 'relation':
                 initVectorConfig(mode, taskProcessName);
@@ -135,7 +140,7 @@ class RenderMode extends React.Component {
                     visible={visible}
                     footer={null}
                     onCancel={this.handleClose}
-                    width={1050}
+                    width={1200}
                     maskClosable={false}
                     zIndex={9999}
                 >
@@ -149,7 +154,7 @@ class RenderMode extends React.Component {
                                 >
                                     <div className="checkbox"></div>
                                     <div>
-                                        <img src={item.icon} />
+                                        <div className="mode-img"><img src={item.icon} /></div>
                                         <p className="bold">{item.title}</p>
                                         <div className="desc">{item.desc}</div>
                                     </div>

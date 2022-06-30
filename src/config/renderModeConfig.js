@@ -1,5 +1,5 @@
 import common from 'src/asset/img/common.png';
-// import check from 'src/asset/img/check.png';
+import check from 'src/asset/img/dingdianjianxiu.png';
 import selfCheck from 'src/asset/img/selfcheck.png';
 import relation from 'src/asset/img/relation.png';
 import update from 'src/asset/img/update.png';
@@ -23,12 +23,12 @@ export const RENDER_MODE_MAP = [
         desc: '用于人工识别生产时的打断/自查环节',
         icon: selfCheck
     },
-    // {
-    //     mode: 'check',
-    //     title: '质检符号模式',
-    //     desc: '用于人工识别质检、人工构建生产、人工构建质检',
-    //     icon: check
-    // },
+    {
+        mode: 'check',
+        title: '定点检修模式',
+        desc: '用于对检查项查看，对问题要素进行定点修正',
+        icon: check
+    },
     {
         mode: 'relation',
         title: '关联关系查看模式',
