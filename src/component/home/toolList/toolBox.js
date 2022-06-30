@@ -35,7 +35,7 @@ class ToolBox extends React.Component {
         );
     }
 
-    disabled = key => {
+    disabled = key => { 
         const { TaskStore, ResourceLayerStore } = this.props;
         const { activeTaskId } = TaskStore;
         const { pointCloudChecked } = ResourceLayerStore;
@@ -84,7 +84,7 @@ class ToolBox extends React.Component {
             });
     };
 
-    getActive = () => {
+    getActive = () => { 
         const { DataLayerStore } = this.props;
         return EDIT_TYPES.includes(DataLayerStore.editType);
     };

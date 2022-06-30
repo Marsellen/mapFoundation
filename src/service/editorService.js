@@ -1,5 +1,5 @@
 import service from 'src/service';
-import { EditApiPath } from 'src/util/api';
+import { EditApiPath, TitleApiPath } from 'src/util/api';
 
 const EditorService = {
     breakLines: data => {
@@ -79,6 +79,15 @@ const EditorService = {
             method: 'post',
             data
         };
+        return service({ config });
+    },
+    // 获取title 列表
+    getTitleFileList: data => {
+        const config = {
+            url: TitleApiPath('/file_query/file_path_list'),
+            method: 'post',
+            data
+        };  
         return service({ config });
     }
 };
