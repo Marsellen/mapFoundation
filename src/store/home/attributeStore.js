@@ -217,14 +217,14 @@ class AttributeStore {
     };
 
     submit = flow(function* (data) {
-        // 提交保存数据
-        if (data !== undefined && data?.attrs !== undefined && data?.attrs?.AD_Lane_RS !== undefined ||data?.attrs?.AD_Lane_Speed !== undefined) {
+        // 提交保存数据 
+        if (data !== undefined && data?.attrs !== undefined && data?.attrs.AD_Lane_RS !== undefined ||data?.attrs?.AD_Lane_Speed !== undefined) {
             const objValue= setAttributes(data.attrs);
              if (data?.attributes) {
-                 if (data?.attributes?.RS_VALUE !== objValue.rsvalue) {
+                 if (data.attributes.RS_VALUE !== objValue.rsvalue) {
                      data.attributes.RS_VALUE = objValue.rsvalue
                  }
-                 if (data?.attributes?.SPEED !== objValue.speed) {
+                 if (data.attributes.SPEED !== objValue.speed) {
                      data.attributes.SPEED = objValue.speed;
                  }
              }

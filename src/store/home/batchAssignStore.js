@@ -174,7 +174,7 @@ class BatchAssignStore {
         if (attrs) {
             batchHistoryLog.attrs = [batchOldAttr, batchNewAttr];
             // 修改要素信息
-            if (attrs.AD_Lane_RS !== undefined || attrs.AD_Lane_Speed !== undefined) {
+            if (attrs?.AD_Lane_RS !== undefined || attrs?.AD_Lane_Speed !== undefined) {
                 batchNewFeature.forEach(item => {
                     const objValue= setAttributes(attrs);
                     if (item?.data?.properties) {
