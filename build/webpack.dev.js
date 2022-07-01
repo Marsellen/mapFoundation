@@ -28,7 +28,7 @@ module.exports = merge(base, {
         publicPath: '/'
     },
     devServer: {
-        port: 15901,
+        port: 15900,
         hot: true,
         inline: true,
         historyApiFallback: true,
