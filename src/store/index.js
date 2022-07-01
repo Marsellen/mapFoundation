@@ -27,6 +27,8 @@ import BatchBuildStore from 'src/store/home/batchBuildStore';
 import ManualBuildStore from 'src/store/home/manualBuildStore';
 import BufferStore from 'src/store/home/bufferStore';
 import UpdStatModeStore from 'src/store/home/updStatModeStore';
+import CheckModeStore from 'src/store/home/checkModeStore';
+import mapStore from 'src/store/home/mapStore';
 
 export default {
     appStore,
@@ -57,5 +59,7 @@ export default {
     BatchBuildStore,
     ManualBuildStore,
     BufferStore,
-    UpdStatModeStore
+    UpdStatModeStore,
+    CheckModeStore,
+    mapStore
 };

@@ -58,6 +58,7 @@ import BatchBuildStore from 'src/store/home/batchBuildStore';
 import DefaultStyleConfig from 'src/config/defaultStyleConfig';
 import SettingStore from 'src/store/setting/settingStore';
 import UpdStatModeStore from 'src/store/home/updStatModeStore';
+import CheckModeStore from 'src/store/home/checkModeStore';
 
 @inject('QualityCheckStore')
 @inject('QCMarkerStore')
@@ -67,6 +68,7 @@ import UpdStatModeStore from 'src/store/home/updStatModeStore';
 @inject('RenderModeStore')
 @inject('TaskStore')
 @inject('appStore')
+@inject('mapStore')
 @observer
 class VizComponent extends React.Component {
     constructor(props) {
@@ -91,9 +93,14 @@ class VizComponent extends React.Component {
         await this.release();
         const { TaskStore: { activeTaskId } = {} } = this.props;
         if (!activeTaskId) return;
-        const div = document.getElementById('viz');
-        window.map = new Map(div);
-        window.map.setKeySpeedRange(1, 0.125, 16);
+         // 替换代码
+         const { mapStore } = this.props; 
+         mapStore.initMap("viz");
+         mapStore.mapViewer.setKeySpeedRange(1, 0.125, 16);
+         window.map=mapStore.mapViewer; 
+        // const div = document.getElementById('viz');
+        // window.map = new Map(div);
+        // window.map.setKeySpeedRange(1, 0.125, 16);
         await this.initTask();
         this.renderMode(); //根据渲染模式，初始化注记和符号
     };
@@ -114,6 +121,7 @@ class VizComponent extends React.Component {
         QualityCheckStore.clearCheckReport();
         BufferStore.release();
         UpdStatModeStore.release();
+        CheckModeStore.release();
         window.boundaryLayerGroup = null;
         window.pointCloudLayer = null;
         window.vectorLayerGroup = null;
