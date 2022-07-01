@@ -18,6 +18,9 @@ import { newRel, delRel } from 'src/util/relCtrl/relCtrl';
 import { CONNECTION_RELS } from 'src/config/relsConfig';
 import SettingStore from 'src/store/setting/settingStore';
 
+import { TYPE_SELECT_OPTION_MAP } from 'src/config/adMapDataConfig';
+
+
 export function randomNum(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
@@ -38,8 +41,8 @@ function specClass(className) {
         editType === 'line_snap_stop'
             ? 'move-point-viz'
             : editType === 'attribute_brush'
-            ? 'shuxingshua-viz'
-            : className;
+                ? 'shuxingshua-viz'
+                : className;
     return specClassName;
 }
 
@@ -108,8 +111,8 @@ function commonDistance(vec1, vec2) {
     return (
         Math.sqrt(
             Math.pow(vec2[0] - vec1[0], 2) +
-                Math.pow(vec2[1] - vec1[1], 2) +
-                Math.pow(vec2[2] - vec1[2], 2)
+            Math.pow(vec2[1] - vec1[1], 2) +
+            Math.pow(vec2[2] - vec1[2], 2)
         ).toFixed(2) * 1
     );
 }
@@ -129,8 +132,8 @@ function mercatorDistance(vec1, vec2) {
     const dis =
         Math.sqrt(
             Math.pow(car_2[0] - car_1[0], 2) +
-                Math.pow(car_2[1] - car_1[1], 2) +
-                Math.pow(car_2[2] - car_1[2], 2)
+            Math.pow(car_2[1] - car_1[1], 2) +
+            Math.pow(car_2[2] - car_1[2], 2)
         ).toFixed(2) * 1;
     return dis;
 }
@@ -153,9 +156,9 @@ export function wgs84ToGeocent(longitude, latitude, height) {
         6378137 /
         Math.sqrt(
             1.0 -
-                0.0066943799901413165 *
-                    Math.sin(latitude * 0.017453292519943295) *
-                    Math.sin(latitude * 0.017453292519943295)
+            0.0066943799901413165 *
+            Math.sin(latitude * 0.017453292519943295) *
+            Math.sin(latitude * 0.017453292519943295)
         );
     const x =
         (N + height) *
@@ -343,4 +346,59 @@ const decNum = (point1, point2) => {
     const p2 = point2?.toString()?.split('.')?.[1]?.length ?? 0;
     const p = Math.pow(10, Math.max(p1, p2));
     return (point1 * p - point2 * p) / p;
+};
+
+/**
+   * 
+   * 获取限制配置
+   * 
+   * @param {object} data 数据集合
+   * 
+   */
+export function setAttributes(data) {
+    
+    let objValue = {};
+    //  判断关联的限制表
+    if (data !== undefined && data?.AD_Lane_RS !== undefined) {
+        let rsvalue = '';
+        let AD_LANE_RS_VALUE;
+        data.AD_Lane_RS.forEach((att, i) => {
+            if (att) {
+                if (att?.properties?.RS_TYPE === 1) {
+                    AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE1;
+                }
+                else if (att?.properties?.RS_TYPE === 2) {
+                    AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE2;
+                }
+                else if (att?.properties?.RS_TYPE === 3) {
+                    AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE3;
+                }
+                if (att?.properties?.RS_VALUE) {
+                    rsvalue += AD_LANE_RS_VALUE.find(c => c.value === att.properties.RS_VALUE).alias + '/';
+                }
+            }
+        });
+        if (rsvalue !== '') {
+            objValue.rsvalue = rsvalue.substring(0, rsvalue.length - 1);
+        }
+    }
+    // 判断关联的限速表
+    if (data !== undefined && data?.AD_Lane_Speed !== undefined) {
+        let speed = '';
+        data.AD_Lane_Speed.forEach((att, i) => {
+            if (att) {
+                if (att?.properties?.SPD_TYPE === 1 || att?.properties?.SPD_TYPE === 2) {
+                    if (att?.properties?.SPD_TYPE) {
+                        let option = TYPE_SELECT_OPTION_MAP.AD_LANE_SPD_TYPE.find(c => c.value === att.properties.SPD_TYPE);
+                        speed += option.alias + att.properties.SPEED + '/';
+                    }
+
+                }
+            }
+        });
+        if (speed !== '') {
+            objValue.speed = speed.substring(0, speed.length - 1);
+        }
+    }
+    return objValue;
 };

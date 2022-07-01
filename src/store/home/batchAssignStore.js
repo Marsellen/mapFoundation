@@ -12,6 +12,7 @@ import attrFactory from 'src/util/attrFactory';
 import IDService from 'src/service/idService';
 import { DEFAULT_CONFIDENCE_MAP } from 'src/config/adMapDataConfig';
 import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';
+import {setAttributes} from 'src/util/utils';
 configure({ enforceActions: 'always' });
 class BatchAssignStore {
     @observable visible = false;
@@ -169,7 +170,25 @@ class BatchAssignStore {
         const batchHistoryLog = {
             features: [batchOldFeature, batchNewFeature]
         };
-        if (attrs) batchHistoryLog.attrs = [batchOldAttr, batchNewAttr];
+        // 批量赋值
+        if (attrs) {
+            batchHistoryLog.attrs = [batchOldAttr, batchNewAttr];
+            // 修改要素信息
+            if (attrs?.AD_Lane_RS !== undefined || attrs?.AD_Lane_Speed !== undefined) {
+                batchNewFeature.forEach(item => {
+                    const objValue= setAttributes(attrs);
+                    if (item?.data?.properties) {
+                        if (item?.data?.properties?.RS_VALUE !== objValue.rsvalue) {
+                            item.data.properties.RS_VALUE = objValue.rsvalue
+                        }
+                        if (item?.data?.properties?.SPEED !== objValue.speed) {
+                            item.data.properties.SPEED = objValue.speed;
+                        }
+
+                    }
+                });
+            }
+        }
         this.loading = false;
         return batchHistoryLog;
     });
