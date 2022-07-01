@@ -103,6 +103,14 @@ export const UPD_STAT_VECTOR_CONFIG = {
         order: 1,
         iconStyle: {}
     },
+    AD_RS_Barrier: {
+        type: 'Line',
+        iconFields: ['UPD_STAT'],
+        showStyles: ['iconStyle'],
+        key: 'AD_RS_Barrier',
+        order: 1,
+        iconStyle: {}
+    },
     AD_Pole_Geo: {
         type: 'Line',
         iconFields: ['UPD_STAT'],

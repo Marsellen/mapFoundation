@@ -13,6 +13,7 @@ export const ROLE_WHITE_MAP = {
     SELF_CHECK_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     RELATION_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     UPDATE_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    CHECK_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     DEFINE_VECTOR_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     MS_TASK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     MB_TASK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
@@ -23,6 +24,7 @@ export const ROLE_WHITE_MAP = {
     RELATION_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     DEFINE_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     UPDATE_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
+    CHECK_TEXT_CONFIG_MAP: ['admin', 'producer_manager', 'quality_manager'],
     ARROW_TEMPLATE_CONFIG: ['admin', 'producer_manager', 'quality_manager'],
     TABLE_DATA_MAP: ['admin', 'producer_manager', 'quality_manager'],
     OTHER_CONFIG: ['admin', 'producer_manager', 'quality_manager']
@@ -37,6 +39,7 @@ export const SAVE_MENUS = [
     'QC_MB_TASK_VECTOR_CONFIG_MAP', //符号配置-通用符号模式-人工构建质检任务样式
     'SELF_CHECK_VECTOR_CONFIG_MAP', //符号配置-自查符号模式
     'UPDATE_VECTOR_CONFIG_MAP', //符号配置-更新标识查看模式
+    'CHECK_VECTOR_CONFIG_MAP', //符号配置-定点检修模式
     'DEFINE_VECTOR_CONFIG_MAP', //符号配置-自定义符号模式
     'MS_TASK_TEXT_CONFIG_MAP', //注记配置-通用符号模式-人工识别任务样式
     'MB_TASK_TEXT_CONFIG_MAP', //注记配置-通用符号模式-人工构建任务样式
@@ -47,6 +50,7 @@ export const SAVE_MENUS = [
     'RELATION_TEXT_CONFIG_MAP', //注记配置-关联关系查看模式
     'DEFINE_TEXT_CONFIG_MAP', //注记配置-自定义符号模式
     'UPDATE_TEXT_CONFIG_MAP', //注记配置-更新标识查看模式
+    'CHECK_TEXT_CONFIG_MAP', //注记配置-定点检修模式
     'ARROW_TEMPLATE_CONFIG', //箭头模板配置
     'TABLE_DATA_MAP', //属性自维护配置
     'OTHER_CONFIG' //其它配置
