@@ -1,5 +1,5 @@
 import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';
-import { getLayerIDKey } from 'src/util/vectorUtils';
+import { getLayerIDKey, deleteAtt } from 'src/util/vectorUtils';
 import _ from 'lodash';
 import Relevance from 'src/util/relevance';
 import Attr from 'src/util/attr';
@@ -170,6 +170,12 @@ const replaceAttrs = async ([oldAttrs, newAttrs] = []) => {
         return total;
     }, []);
     await Promise.all(oldAttrIds.map(id => attrStore.deleteById(id)));
+    // 删除重复的数据
+    if (newAttrs.length > 0) {
+        if (newAttrs[0]?.id !== undefined) {
+            newAttrs = deleteAtt(newAttrs);
+        }
+    }
     await attrStore.batchAdd(newAttrs);
 };
 

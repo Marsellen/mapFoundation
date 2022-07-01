@@ -593,11 +593,11 @@ class TaskStore {
             vectorData?.features.forEach(feature => {
                 if (feature.name === "AD_Lane") {
                     feature.features.forEach(item => {
-                        if (item.properties?.RS_VALUE !== undefined) {
+                        if (item?.properties?.RS_VALUE !== undefined) {
                             delete item.properties.RS_VALUE;
                         }
-                        if (item.properties?.speed !== undefined) {
-                            delete item.properties.speed;
+                        if (item?.properties?.SPEED !== undefined) {
+                            delete item.properties.SPEED;
                         }
                     });
                 }
