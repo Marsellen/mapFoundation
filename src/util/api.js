@@ -85,3 +85,10 @@ export function BuriedPointApiPath(url) {
         return `/gateway/collect/${url}`;
     }
 }
+export function TitleApiPath(url) {
+    if (/^\//.test(url)) {
+        return `/gateway/edit${url}`;
+    } else {
+        return `/gateway/edit/${url}`;
+    }
+}

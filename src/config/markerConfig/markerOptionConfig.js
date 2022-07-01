@@ -587,6 +587,56 @@ const ERROR_DESC_MAP = {
             label: '与车道中心线关联漏做'
         }
     ],
+    AD_RS_Barrier: [
+        {
+            value: '隔离带护栏多余',
+            label: '隔离带护栏多余'
+        },
+        {
+            value: '隔离带护栏遗漏',
+            label: '隔离带护栏遗漏'
+        },
+        {
+            value: '遗漏打断',
+            label: '遗漏打断'
+        },
+        {
+            value: '打断不齐',
+            label: '打断不齐'
+        },
+        {
+            value: '矢量与点云横向偏差≥10cm',
+            label: '矢量与点云横向偏差≥10cm'
+        },
+        {
+            value: '矢量与点云纵向偏差≥10cm',
+            label: '矢量与点云纵向偏差≥10cm'
+        },
+        {
+            value: '矢量与点云高程偏差≥30cm',
+            label: '矢量与点云高程偏差≥30cm'
+        },
+        {
+            value: '几何符合精度要求，但不平滑',
+            label: '几何符合精度要求，但不平滑'
+        },
+        {
+            value: '隔离带类型错误',
+            label: '隔离带类型错误'
+        },
+        {
+            value: '立面属性错误',
+            label: '立面属性错误'
+        },
+        {
+            value: '与车道线关联多做',
+            label: '与车道线关联多做'
+        },
+        {
+            value: '与车道线关联漏做',
+            label: '与车道线关联漏做'
+        }
+    ],
     AD_TrafficLight: [
         {
             value: '交通信号灯多余',
@@ -1714,6 +1764,92 @@ const ERROR_DESC_RESET_FIELD_MAP = {
             errLevel: 1
         }
     },
+    AD_RS_Barrier: {
+        隔离带护栏多余: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 1,
+            fieldName: null,
+            errLevel: 2
+        },
+        隔离带护栏遗漏: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 2,
+            fieldName: null,
+            errLevel: 2
+        },
+        遗漏打断: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 2
+        },
+        打断不齐: {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 3
+        },
+        '矢量与点云纵向偏差≥10cm': {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 2
+        },
+        '矢量与点云横向偏差≥10cm': {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 2
+        },
+        '矢量与点云高程偏差≥30cm': {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 2
+        },
+        '几何符合精度要求，但不平滑': {
+            qcDesc: null,
+            errContent: 1,
+            errorType: 3,
+            fieldName: null,
+            errLevel: 3
+        },
+        隔离带类型错误: {
+            qcDesc: null,
+            errContent: 2,
+            errorType: 3,
+            fieldName: 'TYPE',
+            errLevel: 2
+        },
+        立面属性错误: {
+            qcDesc: null,
+            errContent: 2,
+            errorType: 3,
+            fieldName: 'TILT',
+            errLevel: 2
+        },
+        与车道线关联多做: {
+            qcDesc: null,
+            errContent: 3,
+            errorType: 1,
+            fieldName: 'LDIV_ID',
+            errLevel: 2
+        },
+        与车道线关联漏做: {
+            qcDesc: null,
+            errContent: 3,
+            errorType: 2,
+            fieldName: 'LDIV_ID',
+            errLevel: 2
+        }
+    },
     AD_Pole_Geo: {
         杆状物多余: {
             qcDesc: null,
@@ -1785,6 +1921,10 @@ const FILE_NAME_OPTIONS = [
     {
         value: 'AD_TrafficLight',
         label: '交通信号灯'
+    },
+    {
+        value: 'AD_RS_Barrier',
+        label: '隔离带护栏'
     },
     {
         value: 'AD_LaneDivider_Plg',
@@ -2118,6 +2258,24 @@ const FIELD_NAME_MAP = {
         {
             value: 'LANE_ID',
             label: '面状标识物关联中心线'
+        }
+    ],
+    AD_RS_Barrier: [
+        {
+            "value": "TYPE",
+            "label": "隔离带类型"
+        },
+        {
+            "value": "TILT",
+            "label": "是否倾斜"
+        },
+        {
+            "value": "LDIV_ID",
+            "label": "车道线"
+        },
+        {
+            "value": "LDIV_ID",
+            "label": "车道线"
         }
     ],
     AD_Pole_Geo: [

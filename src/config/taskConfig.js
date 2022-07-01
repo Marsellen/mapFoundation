@@ -124,3 +124,6 @@ export const REL_FILES = [
     'AD_Feat_Junc_Rel.geojson',
     'AD_RS_Barrier_Rel.geojson'
 ];
+export const REGION_FILES = [
+    'region.geojson'
+];

@@ -1,5 +1,8 @@
-export const QR_TASK_TEXT_CONFIG_MAP = {
+export const CHECK_TEXT_CONFIG_MAP = {
     AD_Road: {
+        type: 'Line',
+        textFields: ['TYPE', 'RD_STATUS', 'CROSSING', 'DIRECTION'],
+        showStyles: ['textStyle'],
         key: 'AD_Road',
         label: '道路参考线',
         checked: false,
