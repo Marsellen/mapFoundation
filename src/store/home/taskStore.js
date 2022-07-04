@@ -589,8 +589,9 @@ class TaskStore {
     submit = flow(function* () {
         let vectorData = getAllVectorData(true);
         // 删除不符合规则的字段
-        if (vectorData) {
-            vectorData?.features.forEach(feature => {
+        let vectorDataClone=JSON.parse(JSON.stringify(vectorData));
+        if (vectorDataClone) {
+            vectorDataClone?.features.forEach(feature => {
                 if (feature.name === "AD_Lane") {
                     feature.features.forEach(item => {
                         if (item?.properties?.RS_VALUE !== undefined) {
@@ -615,7 +616,7 @@ class TaskStore {
                     filePath: path,
                     fileName: 'ads_all',
                     fileFormat: 'geojson',
-                    fileData: vectorData
+                    fileData:vectorDataClone
                 },
                 {
                     filePath: path,
@@ -630,7 +631,7 @@ class TaskStore {
                     fileData: relData
                 }
             ],
-            fileNameList: this.getFileNameList(vectorData, relData, attrData)
+            fileNameList: this.getFileNameList(vectorDataClone, relData, attrData)
         };
         yield TaskService.saveFile(saveData);
         this.taskSaveTime = moment().format('YYYY-MM-DD HH:mm:ss');
