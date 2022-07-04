@@ -216,19 +216,33 @@ class AttributeStore {
         }
     };
 
-    submit = flow(function* (data) {
+    submit = flow(function* (data) { 
         // 提交保存数据  
-        if (data !== undefined && data?.attrs !== undefined && data?.attrs.AD_Lane_RS !== undefined ||data?.attrs?.AD_Lane_Speed !== undefined) {
-            const objValue= setAttributes(data.attrs);
-             if (data?.attributes) {
-                 if (data.attributes.RS_VALUE !== objValue.rsvalue) {
-                     data.attributes.RS_VALUE = objValue.rsvalue
-                 } 
-                 if (data.attributes.SPEED !== objValue.speed) {
-                     data.attributes.SPEED = objValue.speed;
-                 }
-             }
-         }
+        if (data !== undefined && data?.attrs !== undefined && data?.attrs.AD_Lane_RS !== undefined || data?.attrs?.AD_Lane_Speed !== undefined) {
+            const objValue = setAttributes(data.attrs);
+            if (data?.attributes) {
+                if (data.attributes.RS_VALUE !== objValue.rsvalue) {
+                    data.attributes.RS_VALUE = objValue.rsvalue;
+                }
+                else {
+                    data.attributes.RS_VALUE = "";
+                }
+                if (data.attributes.SPEED !== objValue.speed) {
+                    data.attributes.SPEED = objValue.speed;
+                }
+                else {
+                    data.attributes.SPEED = "";
+                }
+            }
+        }
+        if (data?.attrs === undefined) {
+            if (this.model?.data?.properties?.RS_VALUE !== undefined) {
+                delete this.model.data.properties.RS_VALUE;
+            }
+            if (this.model?.data?.properties?.SPEED !== undefined) {
+                delete this.model.data.properties.SPEED;
+            }
+        }
         let relLog = yield this.calcRelLog(data);
         let attrLog = this.calcAttrLog(data.attrs);
         let oldFeature = _.cloneDeep(this.model);
@@ -263,7 +277,7 @@ class AttributeStore {
         return historyLog;
     });
 
-    
+
 
     calcRelLog = async data => {
         const { rels } = data;
