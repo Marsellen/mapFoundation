@@ -237,10 +237,10 @@ class AttributeStore {
         }
         if (data?.attrs === undefined) {
             if (this.model?.data?.properties?.RS_VALUE !== undefined) {
-                delete this.model.data.properties.RS_VALUE;
+                this.model.data.properties.RS_VALUE='';
             }
             if (this.model?.data?.properties?.SPEED !== undefined) {
-                delete this.model.data.properties.SPEED;
+                this.model.data.properties.SPEED='';
             }
         }
         let relLog = yield this.calcRelLog(data);
