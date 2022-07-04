@@ -152,10 +152,10 @@ class BatchAssignStore {
             }
             if (attrs === undefined) {
                 if (feature?.data?.properties?.RS_VALUE !== undefined) {
-                    delete feature.data.properties.RS_VALUE;
+                   feature.data.properties.RS_VALUE="";
                 }
                 if (feature?.data?.properties?.SPEED !== undefined) {
-                    delete feature.data.properties.SPEED;
+                   feature.data.properties.SPEED="";
                 }
             }
 
