@@ -202,9 +202,9 @@ class VectorsStore {
                                 }
 
                             }
-                        });
-                        feature.properties.RS_VALUE = rsvalue.substring(0, rsvalue.length - 1);
-                        feature.properties.SPEED = speed.substring(0, speed.length - 1);
+                        }); 
+                        feature.properties.RS_VALUE =rsvalue.length>1?rsvalue.substring(0, rsvalue.length - 1):""; 
+                        feature.properties.SPEED =speed.length>1? speed.substring(0, speed.length - 1):"";
                     });
                 }
             }
