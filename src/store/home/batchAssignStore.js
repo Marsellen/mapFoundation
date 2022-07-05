@@ -12,7 +12,7 @@ import attrFactory from 'src/util/attrFactory';
 import IDService from 'src/service/idService';
 import { DEFAULT_CONFIDENCE_MAP } from 'src/config/adMapDataConfig';
 import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';
-import {setAttributes} from 'src/util/utils';
+import { setAttributes } from 'src/util/utils';
 configure({ enforceActions: 'always' });
 class BatchAssignStore {
     @observable visible = false;
@@ -150,6 +150,15 @@ class BatchAssignStore {
                 oldAttrs = [...oldAttrs, ...oldAttr];
                 newAttrs = [...newAttrs, ...newAttr];
             }
+            if (attrs === undefined) {
+                if (feature?.data?.properties?.RS_VALUE !== undefined) {
+                   feature.data.properties.RS_VALUE="";
+                }
+                if (feature?.data?.properties?.SPEED !== undefined) {
+                   feature.data.properties.SPEED="";
+                }
+            }
+
             let oldFeature = _.cloneDeep(feature);
             let newFeature = _.cloneDeep(feature);
 
@@ -167,6 +176,7 @@ class BatchAssignStore {
         batchOldAttr = [...batchOldAttr, ...oldAttrs];
         batchNewAttr = [...batchNewAttr, ...newAttrs];
         this.hide();
+
         const batchHistoryLog = {
             features: [batchOldFeature, batchNewFeature]
         };
@@ -176,7 +186,7 @@ class BatchAssignStore {
             // 修改要素信息
             if (attrs?.AD_Lane_RS !== undefined || attrs?.AD_Lane_Speed !== undefined) {
                 batchNewFeature.forEach(item => {
-                    const objValue= setAttributes(attrs);
+                    const objValue = setAttributes(attrs);
                     if (item?.data?.properties) {
                         if (item?.data?.properties?.RS_VALUE !== objValue.rsvalue) {
                             item.data.properties.RS_VALUE = objValue.rsvalue

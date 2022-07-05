@@ -187,7 +187,7 @@ class VectorsStore {
                                     else if (att.properties.RS_TYPE === 3) {
                                         AD_LANE_RS_VALUE = TYPE_SELECT_OPTION_MAP.AD_LANE_RS_VALUE3;
                                     }
-                                    if (att.properties.RS_VALUE) {
+                                    if (att?.properties?.RS_VALUE) {
                                         rsvalue += AD_LANE_RS_VALUE.find(c => c.value === att.properties.RS_VALUE).alias + '/';
                                     }
 
@@ -195,7 +195,7 @@ class VectorsStore {
                                 else if (att.source === "AD_Lane_Speed") {
                                     if (att.properties.SPD_TYPE === 1 || att.properties.SPD_TYPE === 2) {
                                         let option = TYPE_SELECT_OPTION_MAP.AD_LANE_SPD_TYPE.find(c => c.value === att.properties.SPD_TYPE);
-                                        if (att.properties.SPEED) {
+                                        if (att?.properties?.SPEED) {
                                             speed += option.alias + att.properties.SPEED + '/';
                                         }
                                     }
@@ -203,8 +203,8 @@ class VectorsStore {
 
                             }
                         });
-                        feature.properties.RS_VALUE = rsvalue.substring(0, rsvalue.length - 1);
-                        feature.properties.SPEED = speed.substring(0, speed.length - 1);
+                        feature.properties.RS_VALUE = rsvalue.length > 1 ? rsvalue.substring(0, rsvalue.length - 1) : "";
+                        feature.properties.SPEED = speed.length > 1 ? speed.substring(0, speed.length - 1) : "";
                     });
                 }
             }
