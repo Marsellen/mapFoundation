@@ -28,7 +28,7 @@ class mapStore {
     // 初始化地图
     initMap = (name) => {
         const div = document.getElementById(name);
-        this.mapViewer = new Map(div);
+        this.mapViewer = new Map(div,{isLevel:true});
     };
     // 将文件geojson数据转换成图层要素
     addGeoToFeatures = flow(function* (layer, urls) {
