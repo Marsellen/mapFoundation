@@ -1,5 +1,5 @@
 import { observable, configure, action, computed, flow } from 'mobx';
-import { Map, PcdLayer, VectorLayer } from 'addis-viz-sdk';
+import { Map, PcdLayer, VectorLayer } from '@ad/xmap';
 import axios from 'axios';
 configure({ enforceActions: 'always' });
 /**

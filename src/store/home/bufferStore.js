@@ -4,7 +4,7 @@ import {
     BUFFER_LAYER_STYLE_CONFIG,
     BUFFER_STYLE
 } from 'src/config/bufferConfig/bufferConfigMap';
-import { VectorLayer } from 'addis-viz-sdk';
+import { VectorLayer } from '@ad/xmap';
 import RightMenuStore from 'src/store/home/rightMenuStore';
 import AttributeStore from 'src/store/home/attributeStore';
 import { getFeatureOption } from 'src/util/vectorUtils';

@@ -14,7 +14,7 @@ import {
 import { getAuthentication } from 'src/util/session';
 import editLog from 'src/util/editLog';
 import moment from 'moment';
-import { LayerGroup } from 'addis-viz-sdk';
+import { LayerGroup } from '@ad/xmap';
 import {
     getExportShpUrl,
     getEditPath,

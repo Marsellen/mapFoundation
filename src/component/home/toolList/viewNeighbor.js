@@ -2,7 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { message, Menu, Modal } from 'antd';
 import ToolIcon from 'src/component/common/toolIcon';
-import { IFDEntry, VectorLayer } from 'addis-viz-sdk';
+import { IFDEntry, VectorLayer } from '@ad/xmap';
 import AdEmitter from 'src/util/event';
 import CheckButton from 'src/component/common/checkButton';
 
