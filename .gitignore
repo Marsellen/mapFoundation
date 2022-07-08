@@ -6,6 +6,7 @@
 # production
 /dist
 /.vscode
+/res
 
 # misc
 .DS_Store
