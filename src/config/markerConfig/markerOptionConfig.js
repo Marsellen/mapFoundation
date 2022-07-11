@@ -2140,6 +2140,10 @@ const FIELD_NAME_MAP = {
             label: '车道通行状态'
         },
         {
+            value: 'TRAVERSAL',
+            label: '可跨越性'
+        },
+        {
             value: 'REL_ID',
             label: '车道中心线连接关系'
         },
