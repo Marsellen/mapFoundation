@@ -72,7 +72,7 @@ class SettingStore {
                 config[key] = data[key];
             });
             this.localConfig = this.config;
-            // this.config = Object.assign(this.config, config);
+            this.config = Object.assign(this.config, config);
         } catch (error) {
             console.log('质检标注配置获取失败' + error?.message);
         } finally {
