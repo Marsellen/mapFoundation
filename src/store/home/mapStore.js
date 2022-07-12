@@ -29,6 +29,7 @@ class mapStore {
     initMap = (name) => {
         const div = document.getElementById(name);
         this.mapViewer = new Map(div,{isLevel:true});
+        this.mapViewer._scene.view.maxPitch=-10 * Math.PI /180; 
     };
     // 将文件geojson数据转换成图层要素
     addGeoToFeatures = flow(function* (layer, urls) {
