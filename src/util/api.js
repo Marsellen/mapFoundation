@@ -80,9 +80,9 @@ export function RepairApiPath(url) {
 
 export function BuriedPointApiPath(url) {
     if (/^\//.test(url)) {
-        return `/gateway/collect${url}`;
+        return `/gateway/collect-analyze${url}`;
     } else {
-        return `/gateway/collect/${url}`;
+        return `/gateway/collect-analyze/${url}`;
     }
 }
 export function TitleApiPath(url) {
