@@ -1,5 +1,5 @@
 import { action, configure, flow, observable, computed } from 'mobx';
-import { EditControl, MeasureControl, VectorLayer } from 'addis-viz-sdk';
+import { EditControl, MeasureControl, VectorLayer } from '@ad/xmap';
 import TaskService from 'src/service/taskService';
 import { Modal, message } from 'antd';
 import {

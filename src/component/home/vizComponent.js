@@ -1,5 +1,5 @@
 import React from 'react';
-import { Map, DynamicPCLayer, LayerGroup, TraceListLayer, VectorLayer } from 'addis-viz-sdk';
+import { Map, DynamicPCLayer, LayerGroup, TraceListLayer, VectorLayer } from '@ad/xmap';
 import { message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import AttributesModal from './attributesModal';

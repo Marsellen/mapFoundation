@@ -99,6 +99,7 @@ class VectorsStore {
         this.vectors[type].checkMap[name] = checked;
         const layer = this.layerMap?.[type]?.[name];
         checked ? layer?.show() : layer?.hide();
+        layer.tocLevel=checked;
         this.updateKey = Math.random();
     };
 
@@ -109,6 +110,7 @@ class VectorsStore {
             this.vectors[type].checkMap[layerName] = checked;
             const layer = this.layerMap?.[type]?.[layerName];
             checked ? layer?.show() : layer?.hide();
+            layer.tocLevel=checked;
         });
         this.updateKey = Math.random();
     };
@@ -129,7 +131,8 @@ class VectorsStore {
         this.vectors[type].disabled = disabled;
         Object.entries(this.layerMap[type]).forEach(([layerName, layer]) => {
             let checked = this.vectors[type].checkMap[layerName];
-            checked && !disabled ? layer.show() : layer.hide();
+            checked && !disabled ? layer.show() : layer.hide();  
+            layer.tocLevel=checked && !disabled;
         });
         this.updateKey = Math.random();
     };

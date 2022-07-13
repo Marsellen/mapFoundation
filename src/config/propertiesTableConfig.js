@@ -103,9 +103,11 @@ export const COLUMNS_CONFIG = {
             filterBy: 'typeFilter|AD_LANE_DIRECTION'
         },
         {
-            dataIndex: 'STATUS',
-            title: '车道通行状态',
-            filterBy: 'typeFilter|AD_LANE_STATUS'
+            dataIndex: 'TRAVERSAL',
+            title: '可跨越性',
+            width: 260,
+            ellipsis: true,
+            filterBy: 'typeFilter|AD_LANE_TRAVERSAL'
         },
         {
             dataIndex: 'ROAD_ID',

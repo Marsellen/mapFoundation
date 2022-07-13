@@ -1409,6 +1409,12 @@ export const SELF_CHECK_VECTOR_CONFIG_MAP = {
                 name: '车道通行状态',
                 type: 'AD_LANE_STATUS',
                 domType: 'Select'
+            },
+            {
+                key: 'TRAVERSAL',
+                name: '可跨越性',
+                type: 'AD_LANE_TRAVERSAL',
+                domType: 'Select'
             }
         ]
     },

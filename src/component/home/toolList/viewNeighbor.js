@@ -2,7 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { message, Menu, Modal } from 'antd';
 import ToolIcon from 'src/component/common/toolIcon';
-import { IFDEntry, VectorLayer } from 'addis-viz-sdk';
+import { IFDEntry, VectorLayer } from '@ad/xmap';
 import AdEmitter from 'src/util/event';
 import CheckButton from 'src/component/common/checkButton';
 
@@ -76,7 +76,7 @@ class ViewNeighbor extends React.Component {
     }
     renderCon = selecteName => {
         return (
-            <Menu className="menu" >
+            <Menu className="menu" style={{overflowY: 'scroll',height:'300px'}}>
                 {this.titleName?.map((item, index) => (
                     <Menu.Item key={item} onClick={this.menuAction}>
                         <p className="menu-item-box">

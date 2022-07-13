@@ -13,7 +13,8 @@ export default {
                     style: { color: 'rgb(30,170,106)', linewidth: 1 }
                 }
             ]
-        }
+        },
+        level:0
     },
     AD_LaneDivider: {
         type: 'Line',
@@ -26,7 +27,8 @@ export default {
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 }
             ]
-        }
+        },
+        level:15
     },
     AD_Lane: {
         type: 'Line',
@@ -39,7 +41,8 @@ export default {
                     style: { color: 'rgb(255,237,37)', linewidth: 1 }
                 }
             ]
-        }
+        },
+        level:12
     },
     AD_LaneAttrPoint: {
         type: 'Point',
@@ -52,7 +55,8 @@ export default {
                     style: { color: 'rgb(102,255,102)', radius: 0.15, size: 80 }
                 }
             ]
-        }
+        },
+        level:18
     },
     AD_Arrow: {
         type: 'Polygon',
@@ -65,7 +69,8 @@ export default {
                     style: { color: 'rgb(255,255,255)', linewidth: 1 }
                 }
             ]
-        }
+        },
+        level:16
     },
     AD_Junction: {
         type: 'Polygon',
@@ -78,7 +83,8 @@ export default {
                     style: { color: 'rgb(248,15,243)', linewidth: 1 }
                 }
             ]
-        }
+        },
+        level:16
     },
     AD_StopLocation: {
         type: 'Line',
@@ -91,7 +97,8 @@ export default {
                     style: { color: 'rgb(255,150,150)', linewidth: 1 }
                 }
             ]
-        }
+        },
+        level:16
     },
     AD_Text: {
         type: 'Polygon',
@@ -104,7 +111,8 @@ export default {
                     style: { color: 'rgb(255,234,149)', linewidth: 1 }
                 }
             ]
-        }
+        },
+        level:16
     },
     AD_TrafficSign: {
         type: 'Polygon',
@@ -117,7 +125,8 @@ export default {
                     style: { color: 'rgb(70,109,255)', linewidth: 1, colorFill: 'rgb(250,250,250)' }
                 }
             ]
-        }
+        },
+        level:16
     },
     AD_TrafficLight: {
         type: 'Polygon',
@@ -130,7 +139,8 @@ export default {
                     style: { color: 'rgb(231,120,0)', linewidth: 1, colorFill: 'rgb(243,5,5)' }
                 }
             ]
-        }
+        },
+        level:16
     },
     AD_RS_Barrier: {
         type: 'Line',
@@ -143,7 +153,8 @@ export default {
                     style: { color: 'rgb(70,109,255)', linewidth: 1 }
                 }
             ]
-        }
+        },
+        level:16
     },
     AD_LaneDivider_Plg: {
         type: 'Polygon',
@@ -156,7 +167,8 @@ export default {
                     style: { color: 'rgb(0,255,160)', linewidth: 1 }
                 }
             ]
-        }
+        },
+        level:17
     },
     AD_StopLocation_Geo: {
         type: 'Polygon',
@@ -169,7 +181,8 @@ export default {
                     style: { color: 'rgb(137,195,255)', linewidth: 1 }
                 }
             ]
-        }
+        },
+        level:17
     },
     AD_LaneMark_Geo: {
         type: 'Polygon',
@@ -182,7 +195,8 @@ export default {
                     style: { color: 'rgb(147,112,219)', linewidth: 1 }
                 }
             ]
-        }
+        },
+        level:17
     },
     AD_Pole_Geo: {
         type: 'Line',
@@ -195,6 +209,7 @@ export default {
                     style: { color: 'rgb(32,52,240)', linewidth: 1 }
                 }
             ]
-        }
+        },
+        level:17
     }
 };

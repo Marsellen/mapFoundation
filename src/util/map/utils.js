@@ -1,4 +1,4 @@
-import { VectorLayer } from 'addis-viz-sdk';
+import { VectorLayer } from '@ad/xmap';
 import Axios from 'axios';
 import { QualityLayerConfig } from 'src/config/qualityLayerConfig';
 import TaskStore from 'src/store/home/taskStore';

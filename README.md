@@ -10,11 +10,11 @@ yarn 依赖安装
 
 > 修改 package.json 中依赖包版本号，重新执行 yarn install
 
-addis-viz-sdk 主版本和次版本更新
+@ad/xmap 主版本和次版本更新
 
 > 需要手动修改 package.json 中 yarn update-sdk 命令中的版本号，再执行 yarn update-sdk
 
-addis-viz-sdk 小版本更新，直接执行下方命令更新
+@ad/xmap 小版本更新，直接执行下方命令更新
 
 > yarn update-sdk
 

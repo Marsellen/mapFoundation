@@ -247,6 +247,26 @@ export const TYPE_SELECT_OPTION_MAP = {
         { value: 3, label: '禁止通行', abbreviation: '禁止' },
         { value: 99, label: '其他', abbreviation: '99' }
     ],
+    AD_LANE_TRAVERSAL: [
+        { value: 0, label: '未定义', abbreviation: '0' },
+        { value: 1, label: '双侧不可跨越（左不可跨，右不可跨）', abbreviation: '' },
+        { value: 2, label: '双侧均可跨越（左可跨，右可跨）', abbreviation: '' },
+        { value: 3, label: '双侧有条件可跨越（左有条件可跨，右有条件可跨）', abbreviation: '' },
+        { value: 4, label: '仅可向左跨越（左可跨，右不可跨）', abbreviation: '' },
+        { value: 5, label: '仅可向左有条件跨越（左有条件可跨，右不可跨）', abbreviation: '' },
+        { value: 6, label: '仅可向右跨越（左不可跨，右可跨）', abbreviation: '' },
+        { value: 7, label: '仅可向右有条件跨越（左不可跨，右有条件可跨）', abbreviation: '' },
+        { value: 8, label: '左有条件可跨，右其他', abbreviation: '' },
+        { value: 9, label: '左有条件可跨，右可跨', abbreviation: '' },
+        { value: 10, label: '左可跨，右有条件可跨', abbreviation: '' },
+        { value: 11, label: '左可跨，右其他', abbreviation: '' },
+        { value: 12, label: '左不可跨，右其他', abbreviation: '' },
+        { value: 13, label: '左其他，右其他', abbreviation: '' },
+        { value: 14, label: '左其他，右有条件可跨', abbreviation: '' },
+        { value: 15, label: '左其他，右可跨', abbreviation: '' },
+        { value: 16, label: '左其他，右不可跨', abbreviation: '' },
+        { value: 99, label: '其他', abbreviation: '99' }
+    ],
     AD_LANE_ATTRPOINT_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi', abbreviation: '0' },
         { value: 1801, label: '道路左侧出口', icon: 'daoluzuocechukou', abbreviation: '左出' },
@@ -951,6 +971,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         DIRECTION: 1,
         LANE_NO: 0,
         STATUS: 1,
+        TRAVERSAL: 1,
         L_LDIV_ID: 0,
         R_LDIV_ID: 0,
         ROAD_ID: 0
@@ -1246,6 +1267,12 @@ export const TABLE_DATA_MAP = {
             key: 'STATUS',
             name: '车道通行状态',
             type: 'AD_LANE_STATUS',
+            domType: 'Select'
+        },
+        {
+            key: 'TRAVERSAL',
+            name: '可跨越性',
+            type: 'AD_LANE_TRAVERSAL',
             domType: 'Select'
         },
         {
@@ -1674,7 +1701,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_Road_Con_RS: '{"REL_ID":{},"RS_TYPE":{},"TIMEDOM":{}}',
     AD_LaneDivider: '{"TYPE":{},"TYPE_PLUS":{},"SHARE_LINE":{},"RD_EDGE":{},"GEOMETRY":{}}',
     AD_Lane:
-        '{"ROAD_ID":{},"L_LDIV_ID":{},"R_LDIV_ID":{},"TYPE":{},"LANE_NO":{},"DIRECTION":{},"STATUS":{},"GEOMETRY":{}}',
+        '{"ROAD_ID":{},"L_LDIV_ID":{},"R_LDIV_ID":{},"TYPE":{},"LANE_NO":{},"DIRECTION":{},"STATUS":{},"TRAVERSAL":{},"GEOMETRY":{}}',
     AD_Lane_Con: '{"FROM_LANE":{},"TO_LANE":{}}',
     AD_LaneShape: '{"LANE_ID":{}}',
     AD_Lane_RS: '{"LANE_ID":{},"RS_TYPE":{},"RS_VALUE":{},"TIMEDOM":{}}',
@@ -1825,6 +1852,11 @@ export const LAYER_TYPE_MAP = {
             key: 'STATUS',
             name: '车道通行状态',
             type: 'AD_LANE_STATUS'
+        },
+        {
+            key: 'TRAVERSAL',
+            name: '可跨越性',
+            type: 'AD_LANE_TRAVERSAL'
         },
         {
             key: 'ROAD_ID',

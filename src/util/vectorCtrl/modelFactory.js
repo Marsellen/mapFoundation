@@ -2,11 +2,17 @@ import { DEFAULT_PROPERTIES_MAP, DEFAULT_CONFIDENCE_MAP } from 'src/config/adMap
 import { getLayerIDKey } from 'src/util/vectorUtils';
 import _ from 'lodash';
 import SettingStore from 'src/store/setting/settingStore';
+import TaskStore from 'src/store/home/taskStore';
 
 class modelFactory {
     getTabelData = (layerName, properties) => {
         const tableDataMap = SettingStore.getConfig('TABLE_DATA_MAP');
-        const tableData = _.cloneDeep(tableDataMap[layerName]);
+        let tableData = _.cloneDeep(tableDataMap[layerName]);
+        // 如果是人工检修任务，则增加可跨越性字段TRAVERSAL
+        const { isMrTask } = TaskStore;
+        if (!isMrTask) {
+            tableData = tableData.filter(item => item.key != 'TRAVERSAL');
+        }
         return tableData.map(record => {
             record.value = properties[record.key];
             return record;
@@ -38,7 +44,12 @@ class modelFactory {
 
     getBatchAssignTableData = (layerName, properties) => {
         const tableDataMap = SettingStore.getConfig('TABLE_DATA_MAP');
-        const tableData = _.cloneDeep(tableDataMap[layerName]);
+        let tableData = _.cloneDeep(tableDataMap[layerName]);
+        // 如果是人工检修任务，则增加可跨越性字段TRAVERSAL
+        const { isMrTask } = TaskStore;
+        if (!isMrTask) {
+            tableData = tableData.filter(item => item.key != 'TRAVERSAL');
+        }
         return tableData.map(record => {
             let uniProperties = properties.reduce((total, property) => {
                 let propertyValue = property[record.key];
