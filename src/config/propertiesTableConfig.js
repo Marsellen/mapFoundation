@@ -105,6 +105,8 @@ export const COLUMNS_CONFIG = {
         {
             dataIndex: 'TRAVERSAL',
             title: '可跨越性',
+            width: 260,
+            ellipsis: true,
             filterBy: 'typeFilter|AD_LANE_TRAVERSAL'
         },
         {

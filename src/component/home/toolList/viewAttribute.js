@@ -212,8 +212,8 @@ class ViewAttribute extends React.Component {
         let columns = layerName ? COLUMNS_CONFIG[layerName] : [];
         return columns.map((col, index) => {
             return {
-                ...col,
                 width: this.clacWidth(col.title),
+                ...col,
                 onCell: record => ({
                     record,
                     dataIndex: col.dataIndex,
