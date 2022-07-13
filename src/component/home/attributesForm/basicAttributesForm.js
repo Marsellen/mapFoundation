@@ -158,7 +158,7 @@ class BasicAttributesForm extends React.Component {
                         >
                             {options.map((option, index) => {
                                 return (
-                                    <Select.Option key={index} value={option.value}>
+                                    <Select.Option key={index} title={option.label} value={option.value}>
                                         {option.label}
                                     </Select.Option>
                                 );
