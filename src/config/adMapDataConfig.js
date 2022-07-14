@@ -1279,13 +1279,15 @@ export const TABLE_DATA_MAP = {
             type: 'AD_LANE_TRAVERSAL',
             domType: 'Select'
         } 
-    ].concat(LAYER_MAP_FIELD?.AD_Lane).push(
-        {
-            key: 'UPD_STAT',
-            name: '更新标识',
-            filterBy: 'updStatFilter',
-            domType: 'Text'
-        }
+    ].concat(LAYER_MAP_FIELD?.AD_Lane).concat(
+        [
+            {
+                key: 'UPD_STAT',
+                name: '更新标识',
+                filterBy: 'updStatFilter',
+                domType: 'Text'
+            }
+        ]
     ),
     
     AD_StopLocation: [
