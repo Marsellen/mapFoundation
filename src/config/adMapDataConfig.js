@@ -1,4 +1,8 @@
-export const TYPE_SELECT_OPTION_MAP = {
+import {AD_LANE_TURN_TYPE} from './adFieldTypeConfig';
+import {LAYER_MAP_FIELD} from './adMapLayerConfig';
+
+export const TYPE_SELECT_OPTION_MAP = { 
+    AD_LANE_TURN_TYPE,
     AD_LANE_DIVIDER_TYPE: [
         { value: 0, label: '未定义', icon: 'weidingyi', abbreviation: '0' },
         { value: 1, label: '单实线', icon: 'danshixian', abbreviation: '单实' },
@@ -1281,7 +1285,9 @@ export const TABLE_DATA_MAP = {
             filterBy: 'updStatFilter',
             domType: 'Text'
         }
-    ],
+       
+    ].concat(LAYER_MAP_FIELD?.AD_Lane),
+    
     AD_StopLocation: [
         {
             key: 'STOPL_ID',
@@ -1873,7 +1879,7 @@ export const LAYER_TYPE_MAP = {
             name: '关联右侧车道线ID',
             type: 'AD_LANE_R_LDIV_ID'
         }
-    ],
+    ].concat(LAYER_MAP_FIELD?.AD_Lane),
     AD_StopLocation: [
         {
             key: 'STOPL_ID',

@@ -1,3 +1,5 @@
+import {LAYER_MAP_FIELD} from 'src/config/adMapLayerConfig';
+
 //人工识别
 export const MS_TASK_VECTOR_CONFIG_MAP = {
     AD_Road: {
@@ -1423,7 +1425,7 @@ export const MS_TASK_VECTOR_CONFIG_MAP = {
                 type: 'AD_LANE_TRAVERSAL',
                 domType: 'Select'
             }
-        ]
+        ].concat(LAYER_MAP_FIELD?.AD_Lane)
     },
     AD_LaneAttrPoint: {
         key: 'AD_LaneAttrPoint',

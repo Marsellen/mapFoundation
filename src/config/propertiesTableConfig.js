@@ -1,3 +1,4 @@
+import {LAYER_MAP_FIELD} from './adMapLayerConfig';
 export const COLUMNS_CONFIG = {
     AD_Road: [
         {
@@ -126,7 +127,7 @@ export const COLUMNS_CONFIG = {
             title: '更新标识',
             filterBy: 'updStatFilter'
         }
-    ],
+    ].concat(LAYER_MAP_FIELD?.AD_Lane),
     AD_Lane_RS: [
         {
             dataIndex: 'index',
