@@ -76,7 +76,7 @@ class ViewNeighbor extends React.Component {
     }
     renderCon = selecteName => {
         return (
-            <Menu className="menu" >
+            <Menu className="menu" style={{overflowY: 'scroll',height:'300px'}}>
                 {this.titleName?.map((item, index) => (
                     <Menu.Item key={item} onClick={this.menuAction}>
                         <p className="menu-item-box">
