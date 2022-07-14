@@ -1417,7 +1417,7 @@ export const QC_MS_TASK_VECTOR_CONFIG_MAP = {
             },
             {
                 key: 'TRAVERSAL',
-                name: '可跨越性11',
+                name: '可跨越性',
                 type: 'AD_LANE_TRAVERSAL',
                 domType: 'Select'
             }
