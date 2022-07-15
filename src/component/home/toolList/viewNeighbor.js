@@ -76,7 +76,7 @@ class ViewNeighbor extends React.Component {
     }
     renderCon = selecteName => {
         return (
-            <Menu className="menu" >
+            <Menu className="menu" style={{overflowY: 'scroll',height:'300px'}}>
                 {this.titleName?.map((item, index) => (
                     <Menu.Item key={item} onClick={this.menuAction}>
                         <p className="menu-item-box">
@@ -142,10 +142,9 @@ class ViewNeighbor extends React.Component {
                 let taskFileMap = TaskStore.getTaskFileMap(urls, completeTitleUrl);
                 const { vectors, rels, attrs, regions } = taskFileMap;
 
-                AttrStore.addRecords(attrs, 'titleMap'),
-                    RelStore.addRecords(rels, 'titleMap')
-                await VectorsStore.addRecordsTitle(vectors, 'titleMap');
-
+                AttrStore.addRecords(attrs, 'boundary'),
+                RelStore.addRecords(rels, 'boundary')
+                await VectorsStore.addRecordsTitle(vectors, 'boundary');
 
             }
 
