@@ -1043,6 +1043,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         CFD_FEAT: 1
     },
     AD_Pole_Geo: {
+        ROAD_ID: 0,
         CFD_GEO: 1,
         CFD_FEAT: 1
     },
