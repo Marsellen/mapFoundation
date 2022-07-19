@@ -1,3 +1,5 @@
+import {LAYER_MAP_FIELD} from 'src/config/adMapLayerConfig';
+
 export const UPDATE_VECTOR_CONFIG_MAP = {
     AD_Road: {
         key: 'AD_Road',
@@ -1418,7 +1420,7 @@ export const UPDATE_VECTOR_CONFIG_MAP = {
                 type: 'AD_LANE_TRAVERSAL',
                 domType: 'Select'
             }
-        ]
+        ].concat(LAYER_MAP_FIELD?.AD_Lane)
     },
     AD_LaneAttrPoint: {
         key: 'AD_LaneAttrPoint',

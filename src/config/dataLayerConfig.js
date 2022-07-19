@@ -464,8 +464,10 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_LaneDivider_Plg',
         tools: {
             recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX']
+            // 关联配置 配置工具栏是否显示按钮
+            manbuild: ['DRAW_TOOL_BOX','ADD_REL', 'DEL_REL']
         },
+      
         drawTools: {
             recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON', 'DASHED_POLYGON_CREATE'],
             manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON', 'DASHED_POLYGON_CREATE']
@@ -487,7 +489,7 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_StopLocation_Geo',
         tools: {
             recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX']
+            manbuild: ['DRAW_TOOL_BOX','ADD_REL', 'DEL_REL']
         },
         drawTools: {
             recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],

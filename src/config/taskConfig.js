@@ -109,6 +109,8 @@ export const ATTR_FILES = [
 ];
 
 //任务文件-关联关系文件
+
+// 关联配置  配置暂存数据关系
 export const REL_FILES = [
     'AD_Lane.geojson',
     'AD_Road_Con.geojson',
@@ -122,7 +124,11 @@ export const REL_FILES = [
     'AD_Road_Boundary_Rel.geojson',
     'AD_Boundary_Rel.geojson',
     'AD_Feat_Junc_Rel.geojson',
-    'AD_RS_Barrier_Rel.geojson'
+    'AD_RS_Barrier_Rel.geojson',
+    'AD_Pole_Geo.geojson',
+    'AD_LaneDivider_Plg.geojson',
+    'AD_Text.geojson',
+    'AD_StopLocation_Geo.geojson'
 ];
 export const REGION_FILES = [
     'region.geojson'

@@ -603,6 +603,18 @@ class TaskStore {
                     });
                 }
             });
+// 暂时模拟数据---上线会删除
+            vectorDataClone?.features.forEach(feature => {
+                if (feature.name === "AD_Pole_Geo") {
+                    feature.features.forEach(item => { 
+                        if (item?.properties?.ROAD_ID === undefined) {
+                            item.properties.ROAD_ID='';
+                        }
+
+                    });
+                }
+            });
+
         }
 
         let relData = yield getAllRelData(true);

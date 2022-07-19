@@ -1,3 +1,4 @@
+import {LAYER_MAP_FIELD} from './../adMapLayerConfig';
 const ERROR_DESC_MAP = {
     AD_LaneDivider: [
         {
@@ -2167,7 +2168,7 @@ const FIELD_NAME_MAP = {
             value: 'TIMEDOM',
             label: '车道中心线连接关系限制时间描述'
         }
-    ],
+    ].concat(LAYER_MAP_FIELD?.AD_Lane),
     AD_Arrow: [
         {
             value: 'ARR_DIRECT',

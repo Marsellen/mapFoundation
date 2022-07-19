@@ -12,8 +12,8 @@ export const REL_DATA_SET = [
     'AD_RS_Barrier_Rel'
 ];
 
-// 属性关联关系图层
-export const ATTR_REL_DATA_SET = ['AD_Lane', 'AD_Arrow', 'AD_LaneAttrPoint'];
+// 属性关联关系图层  关联配置  配置是否对图层做关联操作
+export const ATTR_REL_DATA_SET = ['AD_Lane', 'AD_Arrow', 'AD_LaneAttrPoint','AD_Pole_Geo','AD_LaneDivider_Plg','AD_Text','AD_StopLocation_Geo'];
 
 // 车道线不能同时建立多条线要素的图层
 export const REL_LIMIT_LAYER = ['AD_Lane'];
@@ -104,6 +104,11 @@ export const REL_TYPE_KEY_MAP = {
         name: '关联杆状物',
         validates: 'Numeric|maxLength|15'
     },
+    LDIV_PLG: {
+        name: '关联几个车道线面要素',
+        validates: 'Numeric|maxLength|15'
+    },
+
     JUNC: {
         name: '关联交叉口',
         validates: 'Numeric|maxLength|15'
@@ -124,6 +129,8 @@ export const SPEC_REL_KEY_SET = [
     { spec: 'AD_Road', relKey: 'TO_ROAD', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_Road', relKey: 'FROM_ROAD', relType: 'OBJ_TYPE_KEYS' },
     { spec: 'AD_Road', relKey: 'ROAD', relType: 'REL_OBJ_TYPE_KEYS' },
+    { spec: 'AD_Road', relKey: 'ROAD', relType: 'OBJ_TYPE_KEYS' },
+
     { spec: 'AD_Arrow', relKey: 'ARROW', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_Text', relKey: 'TEXT', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneMark_Geo', relKey: 'PLG', relType: 'REL_OBJ_TYPE_KEYS' },
@@ -137,7 +144,12 @@ export const SPEC_REL_KEY_SET = [
     { spec: 'AD_LaneDivider', relKey: 'R_LDIV', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'LDIV', relType: 'OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'LDIV', relType: 'REL_OBJ_TYPE_KEYS' },
+    // 关联配置 【根据这个位置找主键】
     { spec: 'AD_Pole_Geo', relKey: 'POLE', relType: 'REL_OBJ_TYPE_KEYS' },
+    { spec: 'AD_LaneDivider_Plg', relKey: 'LDIV_PLG', relType: 'REL_OBJ_TYPE_KEYS' },
+    { spec: 'AD_StopLocation_Geo', relKey: 'STOPL_GEO', relType: 'REL_OBJ_TYPE_KEYS' },
+    { spec: 'AD_StopLocation', relKey: 'STOPL', relType: 'OBJ_TYPE_KEYS' },
+
     { spec: 'AD_Junction', relKey: 'JUNC', relType: 'OBJ_TYPE_KEYS' },
     { spec: 'AD_RS_Barrier', relKey: 'BARR', relType: 'OBJ_TYPE_KEYS' }
 ];
@@ -365,7 +377,7 @@ export const REL_SPEC_CONFIG = [
     {
         source: 'AD_Arrow',
         objKeyName: 'LANE_ID',
-        relObjKeyName: 'ARR_ID',
+        relObjKeyName: 'ARR_ID', 
         objSpec: 'AD_Lane',
         relObjSpec: 'AD_Arrow',
         objType: 'LANE',
@@ -388,7 +400,45 @@ export const REL_SPEC_CONFIG = [
         relObjSpec: 'AD_LaneDivider',
         objType: 'F_LDIV_ID',
         relObjType: 'S_LDIV_ID'
+    },
+    // 配置关联关系  关联配置
+    {
+        source: 'AD_Pole_Geo',
+        objKeyName: 'ROAD_ID',
+        relObjKeyName: 'OBJ_ID',
+        objSpec: 'AD_Road',
+        relObjSpec: 'AD_Pole_Geo',
+        objType: 'ROAD',
+        relObjType: 'POLE'
+    },
+    {
+        source: 'AD_LaneDivider_Plg',
+        objKeyName: 'LDIV_ID',
+        relObjKeyName: 'OBJ_ID',
+        objSpec: 'AD_LaneDivider',
+        relObjSpec: 'AD_LaneDivider_Plg',
+        objType: 'LDIV',
+        relObjType: 'LDIV_PLG'
+    },
+    {
+        source: 'AD_Text',
+        objKeyName: 'LANE_ID',
+        relObjKeyName: 'TEXT_ID',
+        objSpec: 'AD_Lane',
+        relObjSpec: 'AD_Text',
+        objType: 'LANE',
+        relObjType: 'TEXT'
+    },
+    {
+        source: 'AD_StopLocation_Geo',
+        objKeyName: 'STOPL_ID',
+        relObjKeyName: 'OBJ_ID',
+        objSpec: 'AD_StopLocation',
+        relObjSpec: 'AD_StopLocation_Geo',
+        objType: 'STOPL',
+        relObjType: 'STOPL_GEO'
     }
+    
 ];
 
 export const JUNC_REL_SPEC_CONFIG = REL_SPEC_CONFIG.filter(
