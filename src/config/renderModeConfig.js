@@ -233,6 +233,9 @@ export const LAYER_NAME_MAP = {
     LANEP_ID: { layerName: 'AD_LaneAttrPoint', key: 'LAP_ID' },
     LIGHT_ID: { layerName: 'AD_TrafficLight', key: 'LIGHT_ID' },
     POLE: { layerName: 'AD_Pole_Geo', key: 'OBJ_ID' },
+    // 关联配置【主键表】
+    LDIV_PLG: { layerName: 'AD_LaneDivider_Plg', key: 'OBJ_ID' },
+     
     POLE_ID: { layerName: 'AD_Pole_Geo', key: 'OBJ_ID' },
     JUNC: { layerName: 'AD_Junction', key: 'JUNC_ID' },
     JUNC_ID: { layerName: 'AD_Junction', key: 'JUNC_ID' },

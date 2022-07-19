@@ -268,12 +268,12 @@ const createRelBySpecConfig = (specConfig, mainFeature, feature) => {
     }
     let extraInfo = REL_DATA_SET.includes(spec)
         ? {
-              CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec],
-              COLL_TIME: '',
-              MAKE_TIME: '',
-              UPD_STAT: '{}',
-              TILE_ID: ''
-          }
+            CONFIDENCE: DEFAULT_CONFIDENCE_MAP[spec],
+            COLL_TIME: '',
+            MAKE_TIME: '',
+            UPD_STAT: '{}',
+            TILE_ID: ''
+        }
         : {};
     //交叉口关系添加FEAT_TYPE
     if (relObjFeatTypes) {
@@ -463,7 +463,8 @@ const querySameTypeRel = async rel => {
     // 根据关联类型构造查询器
     // 地面箭头和地面文字为被关联对象（relObj）
     // 车道中心线和属性变化点为主对象（obj）
-    if (rel.spec === 'AD_Arrow') {
+    // 关联配置  判断 是否一个要素 只能关联 一个参考物
+    if (rel.spec === 'AD_Arrow' || rel.spec === 'AD_Pole_Geo' || rel.spec === 'AD_LaneDivider_Plg'||rel.spec==='AD_Text'||'AD_StopLocation_Geo'||'AD_StopLocation') {
         condition = [rel.relObjType, rel.relObjId];
         indexName = 'REL_OBJ_TYPE_KEYS';
         relkey = 'objType';

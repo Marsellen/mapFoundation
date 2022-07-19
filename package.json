@@ -12,7 +12,7 @@
         "start-local": "cross-env PROXY_ENV=local webpack-dev-server --config build/webpack.dev.js",
         "start-demo": "cross-env PROXY_ENV=demo webpack-dev-server --config build/webpack.dev.js",
         "build": "cross-env PROXY_ENV=prod webpack --config build/webpack.prod.js",
-        "update-sdk": "yarn upgrade @ad/xmap@~1.0.3"
+        "update-sdk": "yarn upgrade @ad/xmap@~1.0.5"
     },
     "sideEffects": [
         "@babel/polyfill",
@@ -20,7 +20,7 @@
         "*.less"
     ],
     "dependencies": {
-        "@ad/xmap": "~1.0.3",
+        "@ad/xmap": "~1.0.5",
         "antd": "^3.26.13",
         "axios": "^0.18.0",
         "dragm": "^0.0.5",
