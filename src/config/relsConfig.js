@@ -12,8 +12,8 @@ export const REL_DATA_SET = [
     'AD_RS_Barrier_Rel'
 ];
 
-// 属性关联关系图层
-export const ATTR_REL_DATA_SET = ['AD_Lane', 'AD_Arrow', 'AD_LaneAttrPoint'];
+// 属性关联关系图层  关联配置
+export const ATTR_REL_DATA_SET = ['AD_Lane', 'AD_Arrow', 'AD_LaneAttrPoint','AD_Pole_Geo'];
 
 // 车道线不能同时建立多条线要素的图层
 export const REL_LIMIT_LAYER = ['AD_Lane'];
@@ -124,6 +124,8 @@ export const SPEC_REL_KEY_SET = [
     { spec: 'AD_Road', relKey: 'TO_ROAD', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_Road', relKey: 'FROM_ROAD', relType: 'OBJ_TYPE_KEYS' },
     { spec: 'AD_Road', relKey: 'ROAD', relType: 'REL_OBJ_TYPE_KEYS' },
+    { spec: 'AD_Road', relKey: 'ROAD', relType: 'OBJ_TYPE_KEYS' },
+
     { spec: 'AD_Arrow', relKey: 'ARROW', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_Text', relKey: 'TEXT', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneMark_Geo', relKey: 'PLG', relType: 'REL_OBJ_TYPE_KEYS' },
@@ -137,7 +139,9 @@ export const SPEC_REL_KEY_SET = [
     { spec: 'AD_LaneDivider', relKey: 'R_LDIV', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'LDIV', relType: 'OBJ_TYPE_KEYS' },
     { spec: 'AD_LaneDivider', relKey: 'LDIV', relType: 'REL_OBJ_TYPE_KEYS' },
+    
     { spec: 'AD_Pole_Geo', relKey: 'POLE', relType: 'REL_OBJ_TYPE_KEYS' },
+
     { spec: 'AD_Junction', relKey: 'JUNC', relType: 'OBJ_TYPE_KEYS' },
     { spec: 'AD_RS_Barrier', relKey: 'BARR', relType: 'OBJ_TYPE_KEYS' }
 ];
@@ -365,7 +369,7 @@ export const REL_SPEC_CONFIG = [
     {
         source: 'AD_Arrow',
         objKeyName: 'LANE_ID',
-        relObjKeyName: 'ARR_ID',
+        relObjKeyName: 'ARR_ID', 
         objSpec: 'AD_Lane',
         relObjSpec: 'AD_Arrow',
         objType: 'LANE',
@@ -388,6 +392,16 @@ export const REL_SPEC_CONFIG = [
         relObjSpec: 'AD_LaneDivider',
         objType: 'F_LDIV_ID',
         relObjType: 'S_LDIV_ID'
+    },
+    // 配置关联关系  关联配置
+    {
+        source: 'AD_Pole_Geo',
+        objKeyName: 'ROAD_ID',
+        relObjKeyName: 'OBJ_ID',
+        objSpec: 'AD_Road',
+        relObjSpec: 'AD_Pole_Geo',
+        objType: 'ROAD',
+        relObjType: 'POLE'
     }
 ];
 

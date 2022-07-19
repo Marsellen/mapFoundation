@@ -57,24 +57,24 @@ class ViewNeighbor extends React.Component {
                 visible={active}
                 disabled={!activeTaskId}
             />
-            : <CheckButton
-                icon="limianjuxing"
-                key={['sdfs']}
-                defaultOption={{
-                    key: 'block',
-                    title: '获取周边任务信息',
-                    actionid: 'redo-btn'
-                }}
-                handleClickFlag={true}
-                handleClick={this.addlayerRegion}
-                contentTitle="获取周边任务信息"
-                renderContent={this.renderCon}
-                onRef={ref => (this.checkButton = ref)}
-            />
+            : 
+            <CheckButton
+            key={activeTaskId}
+            defaultOption={{
+                key: 'block',
+                title: '获取周边任务信息',
+                actionid: 'redo-btn'
+            }}
+            handleClickFlag={true}
+            handleClick={this.addlayerRegion}
+            contentTitle="获取周边任务信息"
+            renderContent={this.renderContent} 
+            onRef={ref => (this.checkButton = ref)}
+        />
 
         );
     }
-    renderCon = selecteName => {
+    renderContent = selecteName => {
         return (
             <Menu className="menu" style={{overflowY: 'scroll',height:'300px'}}>
                 {this.titleName?.map((item, index) => (
@@ -162,6 +162,7 @@ class ViewNeighbor extends React.Component {
                 // this.regionLayer = mapStore.addVectorLayer({ color: 'rgb(16,201,133)', opacity: 0.5 });
                 this.regionLayer = mapStore.addVectorLayer({
                     color: 'rgb(16,201,133)', opacity: 0.5,
+                    tocLevel:false,
                     layerConfig: {
                         textStyle: {
                             showMode: 'polygon-center',
@@ -224,6 +225,7 @@ class ViewNeighbor extends React.Component {
                 const { region, ...info } = regionItem;
                 const regionUrl = Input_imp_data_path.replace(taskId, region);
                 let vectorLayer = new VectorLayer(regionUrl, {
+                    tocLevel:false,
                     layerConfig: {
                         textStyle: {
                             showMode: 'polygon-center',
