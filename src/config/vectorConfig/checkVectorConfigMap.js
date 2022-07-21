@@ -387,6 +387,8 @@ export const CHECK_VECTOR_CONFIG_MAP = {
             { key: 'dashed3', icon: 'xuxiankuang3' }
         ]
     },
+    
+
     AD_RS_Barrier: {
         key: 'AD_RS_Barrier',
         label: '隔离带、护栏',
@@ -429,6 +431,36 @@ export const CHECK_VECTOR_CONFIG_MAP = {
                 domType: 'Select'
             }
         ]
+    },
+    // 新增图层配置
+    AD_Lane_Overlap: {
+        key: 'AD_Lane_Overlap',
+        label: '中心线压盖',
+        checked: false,
+        isClassify: true,
+        type: 'Line',
+        commonStyle: {
+            showFields: 'TYPE',
+            lineStyle: 'solid',
+            color: 'rgb(255,255,255)',
+            opacity: 1,
+            arrow: true,
+            point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
+            pointSize: 0.1
+        },
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'xianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixian' },
+            { key: 'dashed', icon: 'xuxian' },
+            { key: 'dashed1', icon: 'xuxian1' },
+            { key: 'dashed2', icon: 'xuxian2' },
+            { key: 'dashed3', icon: 'xuxian3' }
+        ] 
     },
     AD_LaneDivider_Plg: {
         key: 'AD_LaneDivider_Plg',

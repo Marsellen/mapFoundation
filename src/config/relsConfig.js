@@ -13,7 +13,7 @@ export const REL_DATA_SET = [
 ];
 
 // 属性关联关系图层  关联配置  配置是否对图层做关联操作
-export const ATTR_REL_DATA_SET = ['AD_Lane', 'AD_Arrow', 'AD_LaneAttrPoint','AD_Pole_Geo','AD_LaneDivider_Plg','AD_Text','AD_StopLocation_Geo'];
+export const ATTR_REL_DATA_SET = ['AD_Lane', 'AD_Arrow', 'AD_LaneAttrPoint','AD_Pole_Geo','AD_LaneDivider_Plg','AD_Text','AD_StopLocation_Geo','AD_Lane_Overlap'];
 
 // 车道线不能同时建立多条线要素的图层
 export const REL_LIMIT_LAYER = ['AD_Lane'];
@@ -100,6 +100,7 @@ export const REL_TYPE_KEY_MAP = {
         name: '关联车道线',
         validates: 'Numeric|maxLength|15'
     },
+    // 关联配置--配置属性提示框中的内容
     POLE: {
         name: '关联杆状物',
         validates: 'Numeric|maxLength|15'
@@ -115,6 +116,11 @@ export const REL_TYPE_KEY_MAP = {
     },
     BARR: {
         name: '隔离带护栏',
+        validates: 'Numeric|maxLength|15'
+    },
+    // 关联关系--新增图层
+    LANE_OVERLAP: {
+        name: '中心线压盖',
         validates: 'Numeric|maxLength|15'
     }
 };
@@ -149,6 +155,8 @@ export const SPEC_REL_KEY_SET = [
     { spec: 'AD_LaneDivider_Plg', relKey: 'LDIV_PLG', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_StopLocation_Geo', relKey: 'STOPL_GEO', relType: 'REL_OBJ_TYPE_KEYS' },
     { spec: 'AD_StopLocation', relKey: 'STOPL', relType: 'OBJ_TYPE_KEYS' },
+    { spec: 'AD_Lane_Overlap', relKey: 'LANE_OVERLAP', relType: 'REL_OBJ_TYPE_KEYS' },
+    { spec: 'AD_LaneMark_Geo', relKey: 'PLG', relType: 'OBJ_TYPE_KEYS' },
 
     { spec: 'AD_Junction', relKey: 'JUNC', relType: 'OBJ_TYPE_KEYS' },
     { spec: 'AD_RS_Barrier', relKey: 'BARR', relType: 'OBJ_TYPE_KEYS' }
@@ -437,6 +445,26 @@ export const REL_SPEC_CONFIG = [
         relObjSpec: 'AD_StopLocation_Geo',
         objType: 'STOPL',
         relObjType: 'STOPL_GEO'
+    },
+    //  中心线压盖-车道线
+    {
+        source: 'AD_Lane_Overlap',
+        objKeyName: 'LANE_ID',
+        relObjKeyName: 'OVERLAP_ID',
+        objSpec: 'AD_Lane',
+        relObjSpec: 'AD_Lane_Overlap',
+        objType: 'LANE',
+        relObjType: 'LANE_OVERLAP'
+    },
+    // 新增关联关系   中心线压盖-道路车道标记
+    {
+        source: 'AD_Lane_Overlap',
+        objKeyName: 'PLG_ID',
+        relObjKeyName: 'OVERLAP_ID',
+        objSpec: 'AD_LaneMark_Geo',
+        relObjSpec: 'AD_Lane_Overlap',
+        objType: 'PLG',
+        relObjType: 'LANE_OVERLAP'
     }
     
 ];

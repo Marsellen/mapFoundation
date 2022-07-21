@@ -97,7 +97,10 @@ export const VECTOR_FILES = [
     'AD_Text.geojson',
     'AD_TrafficSign.geojson',
     'AD_RS_Barrier.geojson',
-    'AD_Junction.geojson'
+    'AD_Junction.geojson',
+    // 新增图层配置
+    'AD_Lane_Overlap.geojson'
+
 ];
 
 //任务文件-关联属性文件
@@ -128,7 +131,8 @@ export const REL_FILES = [
     'AD_Pole_Geo.geojson',
     'AD_LaneDivider_Plg.geojson',
     'AD_Text.geojson',
-    'AD_StopLocation_Geo.geojson'
+    'AD_StopLocation_Geo.geojson',
+    'AD_Lane_Overlap.geojson'
 ];
 export const REGION_FILES = [
     'region.geojson'

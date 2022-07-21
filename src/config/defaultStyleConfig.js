@@ -86,6 +86,22 @@ export default {
         },
         level:16
     },
+    // 新增图层配置
+    AD_Lane_Overlap: {
+        type: 'Line',
+        showFields: ['NOKEY'],
+        order: 1,
+        showStyles: ['vectorStyle'],
+        vectorStyle: {
+            NOKEY: [
+                {
+                    style: { color: 'rgb(255,255,0)', linewidth: 1 }
+                }
+            ]
+        },
+        level:15
+    },
+
     AD_StopLocation: {
         type: 'Line',
         showFields: ['NOKEY'],

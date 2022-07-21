@@ -35,7 +35,7 @@ class Task extends React.Component {
             return (
                 <Menu className="menu" selectedKeys={[taskIndex]}>
                     {validTasks.map((item, index) => (
-                        <Menu.Item key={index}>
+                        <Menu.Item key={index}  onClick={e => this.chooseTask(e, item.taskId)}>
                             <p className="menu-item-box">
                                 <span>{this.getTaskLabel(item)}</span>
                                 <ToolIcon
