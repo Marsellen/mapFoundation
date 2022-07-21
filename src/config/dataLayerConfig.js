@@ -1,3 +1,4 @@
+// 新增图层配置
 export const DATA_LAYER_MAP = {
     AD_Arrow: {
         label: '地面导向箭头',
@@ -30,6 +31,24 @@ export const DATA_LAYER_MAP = {
         rightTools: ['delete', 'force_delete', 'change_points'],
         groupRightTools: ['delete'],
         editName: '交叉口'
+    },
+    // 新增图层配置
+    AD_Lane_Overlap: {
+        label: '中心线压盖',
+        id: 'OVERLAP_ID',
+        spec: 'AD_Lane_Overlap',
+        tools: {
+            recognition: ['DRAW_TOOL_BOX'],
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'ATTRIBUTE_BRUSH']
+        },
+        drawTools: {
+            recognition: ['LINE', 'CURVED_LINE'],
+            manbuild: ['LINE',
+            'CURVED_LINE']
+        },
+        rightTools: ['delete', 'force_delete', 'change_points','group_move'],
+        groupRightTools: ['delete'],
+        editName: '中心线压盖'
     },
     AD_LaneAttrPoint: {
         label: '车道属性变化点',
@@ -620,6 +639,8 @@ export const MS_EDIT_LAYER_MAP = {
         'AD_TrafficLight',
         'AD_TrafficSign',
         'AD_Junction',
+         // 新增图层配置
+         'AD_Lane_Overlap',
         'AD_RS_Barrier'
     ],
     GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']
@@ -637,7 +658,8 @@ export const MB_EDIT_LAYER_MAP = {
         'AD_Text',
         'AD_TrafficLight',
         'AD_TrafficSign',
-        'AD_Junction',
+         // 新增图层配置
+         'AD_Lane_Overlap',
         'AD_RS_Barrier'
     ],
     GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']

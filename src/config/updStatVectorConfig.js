@@ -79,6 +79,16 @@ export const UPD_STAT_VECTOR_CONFIG = {
         order: 1,
         iconStyle: {}
     },
+    // 新增图层配置
+    AD_Lane_Overlap: {
+        type: 'Line',
+        iconFields: ['UPD_STAT'],
+        showStyles: ['iconStyle'],
+        key: 'AD_Lane_Overlap',
+        order: 1,
+        iconStyle: {}
+    },
+
     AD_LaneDivider_Plg: {
         type: 'Line',
         iconFields: ['UPD_STAT'],

@@ -271,6 +271,22 @@ export const COLUMNS_CONFIG = {
             filterBy: 'updStatFilter'
         }
     ],
+    // 新增图层配置
+    AD_Lane_Overlap: [
+        {
+            dataIndex: 'index',
+            title: '序号'
+        },
+        {
+            dataIndex: 'OVERLAP_ID',
+            title: '用户编号'
+        },
+        {
+            dataIndex: 'UPD_STAT',
+            title: '更新标识',
+            filterBy: 'updStatFilter'
+        }
+    ],
     AD_StopLocation: [
         {
             dataIndex: 'index',
@@ -610,7 +626,9 @@ export const SELECT_OPTIONS = [
             'AD_Text',
             'AD_TrafficSign',
             'AD_TrafficLight',
+            // 新增图层配置
             'AD_Junction',
+            'AD_Lane_Overlap',
             'AD_RS_Barrier'
         ]
     },
@@ -668,6 +686,9 @@ export const OPTION_LAYER_MAP = {
     AD_TrafficLight: ['AD_TrafficLight'],
     AD_RS_Barrier: ['AD_RS_Barrier'],
     AD_Junction: ['AD_Junction'],
+    // 新增图层配置
+    AD_Lane_Overlap: ['AD_Lane_Overlap'],
+    
     AD_LaneDivider_Pln: ['AD_LaneDivider_Pln'],
     AD_LaneDivider_Plg: ['AD_LaneDivider_Plg'],
     AD_StopLocation_Geo: ['AD_StopLocation_Geo'],

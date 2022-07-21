@@ -235,7 +235,8 @@ export const LAYER_NAME_MAP = {
     POLE: { layerName: 'AD_Pole_Geo', key: 'OBJ_ID' },
     // 关联配置【主键表】
     LDIV_PLG: { layerName: 'AD_LaneDivider_Plg', key: 'OBJ_ID' },
-     
+    LANE_OVERLAP: { layerName: 'AD_Lane_Overlap', key: 'OVERLAP_ID' },
+
     POLE_ID: { layerName: 'AD_Pole_Geo', key: 'OBJ_ID' },
     JUNC: { layerName: 'AD_Junction', key: 'JUNC_ID' },
     JUNC_ID: { layerName: 'AD_Junction', key: 'JUNC_ID' },

@@ -941,6 +941,10 @@ export const DEFAULT_PROPERTIES_MAP = {
     AD_Junction: {
         JUNC_ID: 0
     },
+    // 新增图层配置
+    AD_Lane_Overlap: {
+        OVERLAP_ID: 0
+    },
     AD_LaneMark_Plg: {
         TYPE: 1
     },
@@ -1350,6 +1354,21 @@ export const TABLE_DATA_MAP = {
             key: 'JUNC_ID',
             name: '用户编号',
             type: 'AD_JUNCTION_ID',
+            domType: 'Text'
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
+        }
+    ],
+    // 新增图层配置
+    AD_Lane_Overlap: [
+        {
+            key: 'OVERLAP_ID',
+            name: '用户编号',
+            type: 'AD_LANE_OVERLAP_ID',
             domType: 'Text'
         },
         {
@@ -1929,6 +1948,14 @@ export const LAYER_TYPE_MAP = {
             key: 'JUNC_ID',
             name: '用户编号',
             type: 'AD_JUNCTION_ID'
+        }
+    ],
+    // 新增图层配置
+    AD_Lane_Overlap: [
+        {
+            key: 'OVERLAP_ID',
+            name: '用户编号',
+            type: 'AD_LANE_OVERLAP_ID'
         }
     ],
     AD_LaneAttrPoint: [
