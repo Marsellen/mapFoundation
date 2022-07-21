@@ -941,9 +941,11 @@ export const DEFAULT_PROPERTIES_MAP = {
     AD_Junction: {
         JUNC_ID: 0
     },
-    // 新增图层配置
+    // 新增图层配置 适配字段
     AD_Lane_Overlap: {
-        OVERLAP_ID: 0
+        OVERLAP_ID: 0,
+        LANE_ID:0,
+        PLG_ID:0
     },
     AD_LaneMark_Plg: {
         TYPE: 1

@@ -639,9 +639,9 @@ export const MS_EDIT_LAYER_MAP = {
         'AD_TrafficLight',
         'AD_TrafficSign',
         'AD_Junction',
+        'AD_RS_Barrier', 
          // 新增图层配置
-         'AD_Lane_Overlap',
-        'AD_RS_Barrier'
+         'AD_Lane_Overlap'
     ],
     GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']
 };
@@ -657,10 +657,10 @@ export const MB_EDIT_LAYER_MAP = {
         'AD_StopLocation',
         'AD_Text',
         'AD_TrafficLight',
-        'AD_TrafficSign',
-         // 新增图层配置
-         'AD_Lane_Overlap',
-        'AD_RS_Barrier'
+        'AD_TrafficSign', 
+        'AD_RS_Barrier',
+        // 新增图层配置
+        'AD_Lane_Overlap'
     ],
     GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']
 };

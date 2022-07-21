@@ -122,7 +122,7 @@ export const REL_TYPE_KEY_MAP = {
     LANE_OVERLAP: {
         name: '中心线压盖',
         validates: 'Numeric|maxLength|15'
-    },
+    }
 };
 
 // 各个矢量图层包含关联查询的索引与对象类型的映射
