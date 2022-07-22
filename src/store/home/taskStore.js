@@ -43,7 +43,7 @@ import ModifyTask from 'src/util/task/modifyTask';
 import { VECTOR_FILES, ATTR_FILES, REL_FILES, REGION_FILES } from 'src/config/taskConfig';
 import { fetchCallback } from 'src/util/map/utils';
 import PointCloudStore from 'src/store/home/pointCloudStore';
-import DefaultStyleConfig from 'src/config/defaultStyleConfig';
+import {DefaultStyleConfig} from 'src/config/defaultStyleConfig';
 
 configure({ enforceActions: 'always' });
 class TaskStore {

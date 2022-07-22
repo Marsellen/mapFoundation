@@ -1,3 +1,5 @@
+import {UPD_STAT_VECTOR_CONFIG_LAYER} from 'src/config/adMapLayerConfig';
+// 新增图层配置 --更新图层标识
 export const UPD_STAT_VECTOR_CONFIG = {
     AD_Road: {
         type: 'Line',
@@ -79,15 +81,8 @@ export const UPD_STAT_VECTOR_CONFIG = {
         order: 1,
         iconStyle: {}
     },
-    // 新增图层配置
-    AD_Lane_Overlap: {
-        type: 'Line',
-        iconFields: ['UPD_STAT'],
-        showStyles: ['iconStyle'],
-        key: 'AD_Lane_Overlap',
-        order: 1,
-        iconStyle: {}
-    },
+    
+   
 
     AD_LaneDivider_Plg: {
         type: 'Line',
@@ -130,3 +125,4 @@ export const UPD_STAT_VECTOR_CONFIG = {
         iconStyle: {}
     }
 };
+Object.assign(UPD_STAT_VECTOR_CONFIG,UPD_STAT_VECTOR_CONFIG_LAYER);

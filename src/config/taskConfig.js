@@ -1,3 +1,5 @@
+import { VECTOR_FILES_LAYER,REL_FILES_LAYER } from "./adMapLayerConfig";
+
 //任务环节映射
 export const TASK_PROCESS_NAME = [
     { value: 'imp_recognition', label: '人工识别' },
@@ -77,6 +79,7 @@ export const POST_PROCESS = {
 };
 
 //任务文件-矢量文件
+ // 新增图层配置
 export const VECTOR_FILES = [
     // 'AD_LaneDivider_Pln.geojson',
     'AD_LaneDivider_Plg.geojson',
@@ -97,11 +100,8 @@ export const VECTOR_FILES = [
     'AD_Text.geojson',
     'AD_TrafficSign.geojson',
     'AD_RS_Barrier.geojson',
-    'AD_Junction.geojson',
-    // 新增图层配置
-    'AD_Lane_Overlap.geojson'
-
-];
+    'AD_Junction.geojson'
+].concat(VECTOR_FILES_LAYER);
 
 //任务文件-关联属性文件
 export const ATTR_FILES = [
@@ -113,7 +113,7 @@ export const ATTR_FILES = [
 
 //任务文件-关联关系文件
 
-// 关联配置  配置暂存数据关系
+// 新增图层配置  关联配置  配置暂存数据关系
 export const REL_FILES = [
     'AD_Lane.geojson',
     'AD_Road_Con.geojson',
@@ -131,9 +131,8 @@ export const REL_FILES = [
     'AD_Pole_Geo.geojson',
     'AD_LaneDivider_Plg.geojson',
     'AD_Text.geojson',
-    'AD_StopLocation_Geo.geojson',
-    'AD_Lane_Overlap.geojson'
-];
+    'AD_StopLocation_Geo.geojson'
+].concat(REL_FILES_LAYER);
 export const REGION_FILES = [
     'region.geojson'
 ];

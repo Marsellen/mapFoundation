@@ -1,4 +1,4 @@
-import DefaultStyleConfig from 'src/config/defaultStyleConfig';
+import {DefaultStyleConfig} from 'src/config/defaultStyleConfig';
 import {
     TYPE_SELECT_OPTION_MAP,
     EXTRA_TEXT_CONFIG,
