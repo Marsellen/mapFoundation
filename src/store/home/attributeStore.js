@@ -216,7 +216,7 @@ class AttributeStore {
         }
     };
 
-    submit = flow(function* (data) { 
+    submit = flow(function* (data) {
         // 提交保存数据  
         if (data !== undefined && data?.attrs !== undefined && data?.attrs.AD_Lane_RS !== undefined || data?.attrs?.AD_Lane_Speed !== undefined) {
             const objValue = setAttributes(data.attrs);
@@ -237,10 +237,10 @@ class AttributeStore {
         }
         if (data?.attrs === undefined) {
             if (this.model?.data?.properties?.RS_VALUE !== undefined) {
-                this.model.data.properties.RS_VALUE='';
+                this.model.data.properties.RS_VALUE = '';
             }
             if (this.model?.data?.properties?.SPEED !== undefined) {
-                this.model.data.properties.SPEED='';
+                this.model.data.properties.SPEED = '';
             }
         }
         let relLog = yield this.calcRelLog(data);
@@ -374,15 +374,31 @@ class AttributeStore {
             let MainKey = ATTR_SPEC_CONFIG.find(config => config.source == key);
             let MainFId = MainKey.key;
             properties = properties || this.model.data.properties;
-            Object.assign(value, {
-                [MainFId]: properties[MainFId],
-                [IDKey]: id,
-                CONFIDENCE: DEFAULT_CONFIDENCE_MAP[key],
-                COLL_TIME: '',
-                MAKE_TIME: '',
-                UPD_STAT: '{}',
-                TILE_ID: ''
-            });
+            if (key === 'AD_Lane_Speed') {
+                // properties.UPD_STAT='{"PRECOMPLIER_STAT":"AUTO"}';
+                value.UPD_STAT = '{"PRECOMPLIER_STAT":"MAN"}';
+                Object.assign({
+                    [MainFId]: properties[MainFId],
+                    [IDKey]: id,
+                    CONFIDENCE: DEFAULT_CONFIDENCE_MAP[key],
+                    COLL_TIME: '',
+                    MAKE_TIME: '',
+                    UPD_STAT: '{}',
+                    TILE_ID: ''
+                }, value);
+            }
+            else {
+                Object.assign(value, {
+                    [MainFId]: properties[MainFId],
+                    [IDKey]: id,
+                    CONFIDENCE: DEFAULT_CONFIDENCE_MAP[key],
+                    COLL_TIME: '',
+                    MAKE_TIME: '',
+                    UPD_STAT: '{}',
+                    TILE_ID: ''
+                });
+            }
+
             let record = attrFactory.dataToTable(value, key);
             this.attrs[key] = this.attrs[key] || [];
             this.attrs[key].push(record);

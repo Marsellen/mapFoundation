@@ -129,6 +129,12 @@ export const ATTR_TABLE_CONFIG = {
                 max: '100000',
                 min: '0'
             }
+        },
+        {
+            key: 'UPD_STAT',
+            name: '更新标识',
+            filterBy: 'updStatFilter',
+            domType: 'Text'
         }
     ]
 };

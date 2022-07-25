@@ -28,6 +28,9 @@ export const DEFAULT_PROPERTIES_LAYER = {
         OVERLAP_ID: 0,
         LANE_ID: 0,
         PLG_ID: 0
+    },
+    AD_Lane: {
+        TURN_TYPE:0
     }
 }
 // 2.适配表显示内容 【属性显示】
