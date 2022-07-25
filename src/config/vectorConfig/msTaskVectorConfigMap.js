@@ -1806,7 +1806,7 @@ export const MS_TASK_VECTOR_CONFIG_MAP = {
         commonStyle: {
             showFields: 'NOKEY',
             polygonStyle: 'solid',
-            color: 'rgb(248,15,243)',
+            color: 'rgb(4,15,243)',
             opacity: 1
         },
         fieldStyle: {
@@ -1821,6 +1821,30 @@ export const MS_TASK_VECTOR_CONFIG_MAP = {
             { key: 'dashed3', icon: 'xuxiankuang3' }
         ]
     },
+    AD_Lane_Overlap: {
+        key: 'AD_Lane_Overlap',
+        label: '中心线压盖',
+        checked: false,
+        isClassify: false,
+        type: 'Polygon',
+        commonStyle: {
+            showFields: 'NOKEY',
+            polygonStyle: 'solid',
+            color: 'rgb(255,110,100)',
+            opacity: 1
+        },
+        fieldStyle: {
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
+        ]
+    }, 
     AD_LaneDivider_Plg: {
         key: 'AD_LaneDivider_Plg',
         label: '几何层：车道线面要素',

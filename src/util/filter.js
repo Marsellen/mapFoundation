@@ -20,9 +20,11 @@ const UPD_STAT_MAP = {
         MOD: '属性修改',
         NO_CHANGE: '属性未变化',
         //新配置更新标识字段
-        AUTO:'预编译自动修改',
-        MAN:'预编译人工修改',
-        MAN_AUTO:'预编译人工变自动'
+        AUTO: '预编译自动修改',
+        MAN: '预编译人工修改',
+        MAN_AUTO: '预编译人工变自动',
+        0: '预编译无变化',
+        1: '预编译变化'
     }
 };
 const COMPLEX_TYPES = ['AD_ARROW_ARR_DIRECT', 'AD_ARROW_GEO_FEAT_TYPE'];
@@ -59,7 +61,6 @@ class Filter {
             let UPD_STAT = JSON.parse(value);
             let { GEOMETRY, RELATION, ...properties } = UPD_STAT;
             let MEANING = [];
-            debugger
             if (GEOMETRY) {
                 MEANING.push(UPD_STAT_MAP.GEOMETRY[GEOMETRY]);
             }
@@ -69,11 +70,18 @@ class Filter {
             if (!_.isEmpty(properties)) {
                 // 保留之前方法
                 let PROPERTIES;
+                // PRECOMPLIER_CHK
+                if (properties?.PRECOMPLIER_CHK !== undefined) {
+                    PROPERTIES = properties?.PRECOMPLIER_CHK;
+                    if (PROPERTIES === '') {
+                        PROPERTIES = '0';
+                    }
+                    MEANING.push(UPD_STAT_MAP.PROPERTIES[PROPERTIES]);
+                }
                 if (properties?.PRECOMPLIER_STAT !== undefined) {
                     PROPERTIES = properties?.PRECOMPLIER_STAT;
-                    if(PROPERTIES==='')
-                    {
-                        PROPERTIES='NO_CHANGE';
+                    if (PROPERTIES === '') {
+                        PROPERTIES = 'NO_CHANGE';
                     }
                 }
                 else {

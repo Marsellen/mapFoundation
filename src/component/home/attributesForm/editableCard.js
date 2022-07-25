@@ -114,6 +114,32 @@ class EditableCard extends React.Component {
                 return;
             }
             // console.log(values);
+            if (value.source === 'AD_Lane_Speed') { 
+                if (values?.UPD_STAT) { 
+                    if (typeof values.UPD_STAT === 'string') {
+                        let strUpd_stat = {};
+                        let upd_stat = values.UPD_STAT.split(',');
+                        upd_stat.forEach(item => {
+                            if (item === '预编译无变化') {
+                                strUpd_stat.PRECOMPLIER_CHK = 0;
+                            }
+                            else if (item === '预编译变化') {
+                                strUpd_stat.PRECOMPLIER_CHK = 1;
+                            }
+                            else if (item === '预编译自动修改') {
+                                strUpd_stat.PRECOMPLIER_STAT = 'AUTO';
+                            }
+                            else if (item === '预编译人工修改') {
+                                strUpd_stat.PRECOMPLIER_STAT = 'MAN';
+                            }
+                            else if (item === '预编译人工变自动') {
+                                strUpd_stat.PRECOMPLIER_STAT = 'MAN-AUTO';
+                            }
+                        })
+                        values.UPD_STAT = JSON.stringify(strUpd_stat);
+                    } 
+                }
+            }
             let id = value.key;
             let IDKey = getLayerIDKey(value.spec);
             this.hide();

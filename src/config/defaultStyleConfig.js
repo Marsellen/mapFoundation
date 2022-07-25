@@ -83,13 +83,26 @@ export const DefaultStyleConfig= {
         vectorStyle: {
             NOKEY: [
                 {
-                    style: { color: 'rgb(248,15,243)', linewidth: 1 }
+                    style: { color: 'rgb(2,15,243)', linewidth: 1 }
                 }
             ]
         },
         level:16
     },
-    
+    AD_Lane_Overlap: {
+        type: 'Line',
+        showFields: ['NOKEY'],
+        order: 1,
+        showStyles: ['vectorStyle'],
+        vectorStyle: {
+            NOKEY: [
+                {
+                    style: { color: 'rgb(255,110,100)', linewidth: 1 }
+                }
+            ]
+        },
+        level:16
+    }, 
 
     AD_StopLocation: {
         type: 'Line',

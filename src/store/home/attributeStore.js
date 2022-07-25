@@ -375,17 +375,22 @@ class AttributeStore {
             let MainFId = MainKey.key;
             properties = properties || this.model.data.properties;
             if (key === 'AD_Lane_Speed') {
-                // properties.UPD_STAT='{"PRECOMPLIER_STAT":"AUTO"}';
-                value.UPD_STAT = '{"PRECOMPLIER_STAT":"MAN"}';
-                Object.assign({
+                if (value?.UPD_STAT) {
+                    let UPD_STAT = JSON.parse(value.UPD_STAT);
+                    UPD_STAT.PRECOMPLIER_STAT = 'MAN';
+                    value.UPD_STAT = JSON.stringify(UPD_STAT);
+                } else {
+                    value.UPD_STAT = '{"PRECOMPLIER_STAT":"MAN"}';
+                }  
+                Object.assign(value, {
                     [MainFId]: properties[MainFId],
                     [IDKey]: id,
                     CONFIDENCE: DEFAULT_CONFIDENCE_MAP[key],
                     COLL_TIME: '',
                     MAKE_TIME: '',
-                    UPD_STAT: '{}',
+                    UPD_STAT:  value.UPD_STAT,
                     TILE_ID: ''
-                }, value);
+                });
             }
             else {
                 Object.assign(value, {
