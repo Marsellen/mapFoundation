@@ -121,17 +121,17 @@ export const COLUMNS_CONFIG_LAYER = {
 }
 
 // 7.符号配置-定点检修模式 [配置]
-export const CHECK_VECTOR_CONFIG_LAYER = {
+export const CHECK_VECTOR_CONFIG_LAYER = { 
     AD_Lane_Overlap: {
         key: 'AD_Lane_Overlap',
         label: '中心线压盖',
         checked: false,
-        isClassify: true,
-        type: 'Line',
+        isClassify: false,
+        type: 'Line', 
         commonStyle: {
-            showFields: 'TYPE',
+            showFields: 'NOKEY',
             lineStyle: 'solid',
-            color: 'rgb(255,255,255)',
+            color: 'rgb(238,209,11)',
             opacity: 1,
             arrow: true,
             point: true,
@@ -139,16 +139,17 @@ export const CHECK_VECTOR_CONFIG_LAYER = {
             arrowEnabledStatus: true,
             pointSize: 0.1
         },
+
         fieldStyle: {
-            colorFieldSize: 28,
-            colorFieldIcon: 'xianyaosu'
+            colorFieldSize: 26,
+            colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
-            { key: 'solid', icon: 'zhixian' },
-            { key: 'dashed', icon: 'xuxian' },
-            { key: 'dashed1', icon: 'xuxian1' },
-            { key: 'dashed2', icon: 'xuxian2' },
-            { key: 'dashed3', icon: 'xuxian3' }
+            { key: 'solid', icon: 'zhixiankuang' },
+            { key: 'dashed', icon: 'xuxiankuang' },
+            { key: 'dashed1', icon: 'xuxiankuang1' },
+            { key: 'dashed2', icon: 'xuxiankuang2' },
+            { key: 'dashed3', icon: 'xuxiankuang3' }
         ]
     }
 }

@@ -1821,13 +1821,19 @@ export const MB_TASK_VECTOR_CONFIG_MAP = {
         label: '中心线压盖',
         checked: false,
         isClassify: false,
-        type: 'Line',
+        type: 'Line', 
         commonStyle: {
             showFields: 'NOKEY',
-            polygonStyle: 'solid',
-            color: 'rgb(255,110,100)',
-            opacity: 1
+            lineStyle: 'solid',
+            color: 'rgb(238,209,11)',
+            opacity: 1,
+            arrow: true,
+            point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
+            pointSize: 0.1
         },
+
         fieldStyle: {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
@@ -2153,7 +2159,7 @@ export const MB_TASK_VECTOR_CONFIG_MAP = {
         isClassify: true,
         type: 'Line',
         commonStyle: {
-            showFields: 'CFD_GEO',
+            showFields: 'NOKEY',
             lineStyle: 'solid',
             color: 'rgb(238,209,11)',
             opacity: 1,
