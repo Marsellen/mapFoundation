@@ -145,11 +145,11 @@ export const CHECK_VECTOR_CONFIG_LAYER = {
             colorFieldIcon: 'mianyaosu'
         },
         styleOptionArr: [
-            { key: 'solid', icon: 'zhixiankuang' },
-            { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'dashed1', icon: 'xuxiankuang1' },
-            { key: 'dashed2', icon: 'xuxiankuang2' },
-            { key: 'dashed3', icon: 'xuxiankuang3' }
+            { key: 'solid', icon: 'zhixian' },
+            { key: 'dashed', icon: 'xuxian' },
+            { key: 'dashed1', icon: 'xuxian1' },
+            { key: 'dashed2', icon: 'xuxian2' },
+            { key: 'dashed3', icon: 'xuxian3' }
         ]
     }
 }

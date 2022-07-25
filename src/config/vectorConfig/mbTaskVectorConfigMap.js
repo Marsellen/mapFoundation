@@ -1835,15 +1835,15 @@ export const MB_TASK_VECTOR_CONFIG_MAP = {
         },
 
         fieldStyle: {
-            colorFieldSize: 26,
-            colorFieldIcon: 'mianyaosu'
+            colorFieldSize: 28,
+            colorFieldIcon: 'xianyaosu'
         },
         styleOptionArr: [
-            { key: 'solid', icon: 'zhixiankuang' },
-            { key: 'dashed', icon: 'xuxiankuang' },
-            { key: 'dashed1', icon: 'xuxiankuang1' },
-            { key: 'dashed2', icon: 'xuxiankuang2' },
-            { key: 'dashed3', icon: 'xuxiankuang3' }
+            { key: 'solid', icon: 'zhixian' },
+            { key: 'dashed', icon: 'xuxian' },
+            { key: 'dashed1', icon: 'xuxian1' },
+            { key: 'dashed2', icon: 'xuxian2' },
+            { key: 'dashed3', icon: 'xuxian3' }
         ]
     },
     AD_LaneDivider_Plg: {
@@ -2159,7 +2159,7 @@ export const MB_TASK_VECTOR_CONFIG_MAP = {
         isClassify: true,
         type: 'Line',
         commonStyle: {
-            showFields: 'NOKEY',
+            showFields: 'CFD_GEO',
             lineStyle: 'solid',
             color: 'rgb(238,209,11)',
             opacity: 1,
