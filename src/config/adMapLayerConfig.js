@@ -144,6 +144,7 @@ export const CHECK_VECTOR_CONFIG_LAYER = {
             colorFieldSize: 26,
             colorFieldIcon: 'mianyaosu'
         },
+        
         styleOptionArr: [
             { key: 'solid', icon: 'zhixian' },
             { key: 'dashed', icon: 'xuxian' },
