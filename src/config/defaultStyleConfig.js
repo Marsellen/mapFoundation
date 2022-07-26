@@ -83,7 +83,7 @@ export const DefaultStyleConfig= {
         vectorStyle: {
             NOKEY: [
                 {
-                    style: { color: 'rgb(2,15,243)', linewidth: 1 }
+                    style: { color: 'rgb(248,15,243)', linewidth: 1 }
                 }
             ]
         },
