@@ -374,25 +374,26 @@ class AttributeStore {
             let MainKey = ATTR_SPEC_CONFIG.find(config => config.source == key);
             let MainFId = MainKey.key;
             properties = properties || this.model.data.properties;
-            if (key === 'AD_Lane_Speed') {
-                if (value?.UPD_STAT) {
-                    let UPD_STAT = JSON.parse(value.UPD_STAT);
-                    UPD_STAT.PRECOMPLIER_STAT = 'MAN';
-                    value.UPD_STAT = JSON.stringify(UPD_STAT);
-                } else {
-                    value.UPD_STAT = '{"PRECOMPLIER_STAT":"MAN"}';
-                }  
-                Object.assign(value, {
-                    [MainFId]: properties[MainFId],
-                    [IDKey]: id,
-                    CONFIDENCE: DEFAULT_CONFIDENCE_MAP[key],
-                    COLL_TIME: '',
-                    MAKE_TIME: '',
-                    UPD_STAT:  value.UPD_STAT,
-                    TILE_ID: ''
-                });
-            }
-            else {
+            // 临时注销
+            // if (key === 'AD_Lane_Speed') {
+            //     if (value?.UPD_STAT) {
+            //         let UPD_STAT = JSON.parse(value.UPD_STAT);
+            //         UPD_STAT.PRECOMPLIER_STAT = 'MAN';
+            //         value.UPD_STAT = JSON.stringify(UPD_STAT);
+            //     } else {
+            //         value.UPD_STAT = '{"PRECOMPLIER_STAT":"MAN"}';
+            //     }  
+            //     Object.assign(value, {
+            //         [MainFId]: properties[MainFId],
+            //         [IDKey]: id,
+            //         CONFIDENCE: DEFAULT_CONFIDENCE_MAP[key],
+            //         COLL_TIME: '',
+            //         MAKE_TIME: '',
+            //         UPD_STAT:  value.UPD_STAT,
+            //         TILE_ID: ''
+            //     });
+            // }
+            // else {
                 Object.assign(value, {
                     [MainFId]: properties[MainFId],
                     [IDKey]: id,
@@ -402,7 +403,7 @@ class AttributeStore {
                     UPD_STAT: '{}',
                     TILE_ID: ''
                 });
-            }
+            // }
 
             let record = attrFactory.dataToTable(value, key);
             this.attrs[key] = this.attrs[key] || [];
