@@ -1512,6 +1512,20 @@ export default {
             ]
         }
     },
+    AD_Lane_Overlap: {
+        type: 'Line',
+        showFields: ['NOKEY'],
+        order: 1,
+        showStyles: ['vectorStyle'],
+        vectorStyle: {
+            NOKEY: [
+                {
+                    style: { color: 'rgb(255,110,100)', linewidth: 1 }
+                }
+            ]
+        }
+    }, 
+
     AD_RS_Barrier: {
         type: 'Line',
         showFields: ['TYPE'],

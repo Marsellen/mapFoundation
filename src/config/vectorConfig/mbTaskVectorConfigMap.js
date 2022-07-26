@@ -1,4 +1,4 @@
-//人工构建
+//人工构建    人工检修
 import {LAYER_MAP_FIELD} from './../adMapLayerConfig';
 export const MB_TASK_VECTOR_CONFIG_MAP = {
     AD_Road: {
@@ -1814,6 +1814,36 @@ export const MB_TASK_VECTOR_CONFIG_MAP = {
             { key: 'dashed1', icon: 'xuxiankuang1' },
             { key: 'dashed2', icon: 'xuxiankuang2' },
             { key: 'dashed3', icon: 'xuxiankuang3' }
+        ]
+    },
+    AD_Lane_Overlap: {
+        key: 'AD_Lane_Overlap',
+        label: '中心线压盖',
+        checked: false,
+        isClassify: false,
+        type: 'Line', 
+        commonStyle: {
+            showFields: 'NOKEY',
+            lineStyle: 'solid',
+            color: 'rgb(238,209,11)',
+            opacity: 1,
+            arrow: true,
+            point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
+            pointSize: 0.1
+        },
+
+        fieldStyle: {
+            colorFieldSize: 28,
+            colorFieldIcon: 'xianyaosu'
+        },
+        styleOptionArr: [
+            { key: 'solid', icon: 'zhixian' },
+            { key: 'dashed', icon: 'xuxian' },
+            { key: 'dashed1', icon: 'xuxian1' },
+            { key: 'dashed2', icon: 'xuxian2' },
+            { key: 'dashed3', icon: 'xuxian3' }
         ]
     },
     AD_LaneDivider_Plg: {

@@ -1,3 +1,6 @@
+
+import {DATA_LAYER_LAYER,MS_EDIT_LAYER_LAYER,MB_EDIT_LAYER_MAP_LAYER} from './adMapLayerConfig';
+
 // 新增图层配置
 export const DATA_LAYER_MAP = {
     AD_Arrow: {
@@ -32,24 +35,7 @@ export const DATA_LAYER_MAP = {
         groupRightTools: ['delete'],
         editName: '交叉口'
     },
-    // 新增图层配置
-    AD_Lane_Overlap: {
-        label: '中心线压盖',
-        id: 'OVERLAP_ID',
-        spec: 'AD_Lane_Overlap',
-        tools: {
-            recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL', 'ATTRIBUTE_BRUSH']
-        },
-        drawTools: {
-            recognition: ['LINE', 'CURVED_LINE'],
-            manbuild: ['LINE',
-            'CURVED_LINE']
-        },
-        rightTools: ['delete', 'force_delete', 'change_points','group_move'],
-        groupRightTools: ['delete'],
-        editName: '中心线压盖'
-    },
+   
     AD_LaneAttrPoint: {
         label: '车道属性变化点',
         id: 'LAP_ID',
@@ -613,6 +599,7 @@ export const DATA_LAYER_MAP = {
         editName: '几何层：\n交通信号灯'
     }
 };
+Object.assign(DATA_LAYER_MAP,DATA_LAYER_LAYER);
 
 export const RESOURCE_LAYER_VECTOR = '高精地图';
 export const RESOURCE_LAYER_BOUNDARY = '周边底图';
@@ -628,7 +615,7 @@ export const WRONG_LAYER = '错误区';
 export const SUSPECT_LAYER = '怀疑区';
 export const IMP_RECOGNITION_DISABLED_LAYERS = ['AD_Road', 'AD_Lane'];
 
-//人工识别设置编辑图层配置
+//人工识别设置编辑图层配置  --  可以编辑的图层配置
 export const MS_EDIT_LAYER_MAP = {
     LOGIC: [
         'AD_LaneDivider',
@@ -639,10 +626,8 @@ export const MS_EDIT_LAYER_MAP = {
         'AD_TrafficLight',
         'AD_TrafficSign',
         'AD_Junction',
-        'AD_RS_Barrier', 
-         // 新增图层配置
-         'AD_Lane_Overlap'
-    ],
+        'AD_RS_Barrier'
+    ].concat(MS_EDIT_LAYER_LAYER.LOGIC),
     GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']
 };
 
@@ -658,10 +643,8 @@ export const MB_EDIT_LAYER_MAP = {
         'AD_Text',
         'AD_TrafficLight',
         'AD_TrafficSign', 
-        'AD_RS_Barrier',
-        // 新增图层配置
-        'AD_Lane_Overlap'
-    ],
+        'AD_RS_Barrier' 
+    ].concat(MB_EDIT_LAYER_MAP_LAYER.LOGIC),
     GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']
 };
 

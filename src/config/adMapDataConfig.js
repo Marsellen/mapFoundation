@@ -1,5 +1,5 @@
 import {AD_LANE_TURN_TYPE} from './adFieldTypeConfig';
-import {LAYER_MAP_FIELD} from './adMapLayerConfig';
+import {LAYER_MAP_FIELD,DEFAULT_PROPERTIES_LAYER,TABLE_DATA_LAYER,LAYER_TYPE_LAYER} from './adMapLayerConfig';
 
 export const TYPE_SELECT_OPTION_MAP = { 
     AD_LANE_TURN_TYPE,
@@ -932,20 +932,14 @@ export const TYPE_SELECT_OPTION_MAP = {
         // { value: 'BE', label: '方向向左的箭头+掉头' }
     ]
 };
-
-export const DEFAULT_PROPERTIES_MAP = {
+// 新增图层配置    1.新增图层需要适配字段  2.已有图层 新增字段需要适配
+export const DEFAULT_PROPERTIES_MAP = {  
     AD_Arrow: {
         ARR_DIRECT: 'A',
         LANE_ID: 0
     },
     AD_Junction: {
         JUNC_ID: 0
-    },
-    // 新增图层配置 适配字段
-    AD_Lane_Overlap: {
-        OVERLAP_ID: 0,
-        LANE_ID:0,
-        PLG_ID:0
     },
     AD_LaneMark_Plg: {
         TYPE: 1
@@ -1064,7 +1058,8 @@ export const DEFAULT_PROPERTIES_MAP = {
         CFD_FEAT: 1
     }
 };
-
+Object.assign(DEFAULT_PROPERTIES_MAP,DEFAULT_PROPERTIES_LAYER)
+//  点击弹出【属性显示】的字段
 export const TABLE_DATA_MAP = {
     AD_LaneDivider: [
         {
@@ -1356,21 +1351,6 @@ export const TABLE_DATA_MAP = {
             key: 'JUNC_ID',
             name: '用户编号',
             type: 'AD_JUNCTION_ID',
-            domType: 'Text'
-        },
-        {
-            key: 'UPD_STAT',
-            name: '更新标识',
-            filterBy: 'updStatFilter',
-            domType: 'Text'
-        }
-    ],
-    // 新增图层配置
-    AD_Lane_Overlap: [
-        {
-            key: 'OVERLAP_ID',
-            name: '用户编号',
-            type: 'AD_LANE_OVERLAP_ID',
             domType: 'Text'
         },
         {
@@ -1724,6 +1704,7 @@ export const TABLE_DATA_MAP = {
         }
     ]
 };
+Object.assign(TABLE_DATA_MAP,TABLE_DATA_LAYER)
 
 export const DEFAULT_CONFIDENCE_MAP = {
     AD_Road: '{"TYPE":{},"CROSSING":{},"RD_STATUS":{},"RD_FORM":{},"DIRECTION":{},"GEOMETRY":{}}',
@@ -1755,6 +1736,7 @@ export const DEFAULT_CONFIDENCE_MAP = {
     AD_RS_Barrier_Rel: '{"REL_ID":{},"BARR_ID":{},"LDIV_ID":{}}'
 };
 
+// 标注文字显示
 export const LAYER_TYPE_MAP = {
     AD_LaneDivider: [
         {
@@ -1951,15 +1933,7 @@ export const LAYER_TYPE_MAP = {
             name: '用户编号',
             type: 'AD_JUNCTION_ID'
         }
-    ],
-    // 新增图层配置
-    AD_Lane_Overlap: [
-        {
-            key: 'OVERLAP_ID',
-            name: '用户编号',
-            type: 'AD_LANE_OVERLAP_ID'
-        }
-    ],
+    ], 
     AD_LaneAttrPoint: [
         {
             key: 'LAP_ID',
@@ -2182,7 +2156,8 @@ export const LAYER_TYPE_MAP = {
         }
     ]
 };
-
+Object.assign(LAYER_TYPE_MAP,LAYER_TYPE_LAYER);
+ 
 export const EXTRA_TEXT_CONFIG = {
     AD_LANEMARK_PLG_TYPE: [
         { value: 11, label: '虚拟人行横道', abbreviation: '虚人' },

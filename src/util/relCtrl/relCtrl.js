@@ -16,6 +16,7 @@ import {
 import IDService from 'src/service/idService';
 import { distance } from 'src/util/utils';
 import { updateFeatures } from './operateCtrl';
+import { SPEC_LAYER } from 'src/config/adMapLayerConfig';
 
 const newRel = async (mainFeature, relFeatures) => {
     // 根据mainFeature与relFeatures构建关联关系
@@ -463,8 +464,10 @@ const querySameTypeRel = async rel => {
     // 根据关联类型构造查询器
     // 地面箭头和地面文字为被关联对象（relObj）
     // 车道中心线和属性变化点为主对象（obj）
-    // 关联配置  判断 是否一个要素 只能关联 一个参考物
-    if (rel.spec === 'AD_Arrow' || rel.spec === 'AD_Pole_Geo' || rel.spec === 'AD_LaneDivider_Plg'||rel.spec==='AD_Text'||'AD_StopLocation_Geo'||'AD_StopLocation'||'AD_Lane_Overlap') {
+    // 关联配置  判断 是否一个要素 只能关联 一个参考物 
+    const isSpec = SPEC_LAYER.includes(rel.spec);
+
+    if (isSpec) {
         condition = [rel.relObjType, rel.relObjId];
         indexName = 'REL_OBJ_TYPE_KEYS';
         relkey = 'objType';

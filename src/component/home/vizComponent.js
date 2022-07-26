@@ -55,7 +55,7 @@ import { fetchCallback } from 'src/util/map/utils';
 import OcTreeIndex from 'src/util/octreeIndex';
 import BatchBuildModal from 'src/component/home/toolList/batchBuild/batchBuildModal';
 import BatchBuildStore from 'src/store/home/batchBuildStore';
-import DefaultStyleConfig from 'src/config/defaultStyleConfig';
+import {DefaultStyleConfig} from 'src/config/defaultStyleConfig';
 import SettingStore from 'src/store/setting/settingStore';
 import UpdStatModeStore from 'src/store/home/updStatModeStore';
 import CheckModeStore from 'src/store/home/checkModeStore';

@@ -8,6 +8,7 @@ const jihexinzeng = require('src/asset/img/jihexinzeng.png');
 const jihexiugai = require('src/asset/img/jihexiugai.png');
 const shuxingxiugai = require('src/asset/img/shuxingxiugai.png');
 const guanxixiugai = require('src/asset/img/guanxixiugai.png');
+import {LAYER_NAME_MAP_LAYER} from 'src/config/adMapLayerConfig';
 
 //渲染模式配置
 export const RENDER_MODE_MAP = [
@@ -234,14 +235,13 @@ export const LAYER_NAME_MAP = {
     LIGHT_ID: { layerName: 'AD_TrafficLight', key: 'LIGHT_ID' },
     POLE: { layerName: 'AD_Pole_Geo', key: 'OBJ_ID' },
     // 关联配置【主键表】
-    LDIV_PLG: { layerName: 'AD_LaneDivider_Plg', key: 'OBJ_ID' },
-    LANE_OVERLAP: { layerName: 'AD_Lane_Overlap', key: 'OVERLAP_ID' },
-
+    LDIV_PLG: { layerName: 'AD_LaneDivider_Plg', key: 'OBJ_ID' }, 
     POLE_ID: { layerName: 'AD_Pole_Geo', key: 'OBJ_ID' },
     JUNC: { layerName: 'AD_Junction', key: 'JUNC_ID' },
     JUNC_ID: { layerName: 'AD_Junction', key: 'JUNC_ID' },
     BARR_ID: { layerName: 'AD_RS_Barrier', key: 'BARR_ID' }
 };
+Object.assign(LAYER_NAME_MAP,LAYER_NAME_MAP_LAYER);
 
 //关联关系与id映射
 export const RELS_ID_MAP = {

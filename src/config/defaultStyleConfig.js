@@ -1,4 +1,7 @@
-export default {
+// 新增图层配置  - 图层初始化样式
+import {DEFAULT_STYLE} from 'src/config/adMapLayerConfig';
+
+export const DefaultStyleConfig= {
     AD_Road: {
         type: 'Line',
         //符号配置按什么类别展示，当前支持一个
@@ -80,13 +83,12 @@ export default {
         vectorStyle: {
             NOKEY: [
                 {
-                    style: { color: 'rgb(248,15,243)', linewidth: 1 }
+                    style: { color: 'rgb(2,15,243)', linewidth: 1 }
                 }
             ]
         },
         level:16
     },
-    // 新增图层配置
     AD_Lane_Overlap: {
         type: 'Line',
         showFields: ['NOKEY'],
@@ -95,12 +97,12 @@ export default {
         vectorStyle: {
             NOKEY: [
                 {
-                    style: { color: 'rgb(255,255,0)', linewidth: 1 }
+                    style: { color: 'rgb(255,110,100)', linewidth: 1 }
                 }
             ]
         },
-        level:15
-    },
+        level:16
+    }, 
 
     AD_StopLocation: {
         type: 'Line',
@@ -229,3 +231,4 @@ export default {
         level:17
     }
 };
+Object.assign(DefaultStyleConfig,DEFAULT_STYLE);

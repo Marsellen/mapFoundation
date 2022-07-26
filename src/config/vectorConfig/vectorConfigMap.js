@@ -52,5 +52,6 @@ export const CONFIGURABLE_LAYERS = [
     'AD_LaneDivider_Plg',
     'AD_StopLocation_Geo',
     'AD_LaneMark_Geo',
-    'AD_Pole_Geo'
+    'AD_Pole_Geo',
+    'AD_Lane_Overlap'
 ];

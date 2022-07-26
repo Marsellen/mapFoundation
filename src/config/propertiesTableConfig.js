@@ -1,4 +1,5 @@
-import {LAYER_MAP_FIELD} from './adMapLayerConfig';
+import {LAYER_MAP_FIELD,COLUMNS_CONFIG_LAYER,SELECT_OPTIONS_LAYER,OPTION_LAYER} from './adMapLayerConfig';
+// 新增图层配置  -表展示
 export const COLUMNS_CONFIG = {
     AD_Road: [
         {
@@ -271,22 +272,7 @@ export const COLUMNS_CONFIG = {
             filterBy: 'updStatFilter'
         }
     ],
-    // 新增图层配置
-    AD_Lane_Overlap: [
-        {
-            dataIndex: 'index',
-            title: '序号'
-        },
-        {
-            dataIndex: 'OVERLAP_ID',
-            title: '用户编号'
-        },
-        {
-            dataIndex: 'UPD_STAT',
-            title: '更新标识',
-            filterBy: 'updStatFilter'
-        }
-    ],
+    
     AD_StopLocation: [
         {
             dataIndex: 'index',
@@ -609,7 +595,8 @@ export const COLUMNS_CONFIG = {
         { dataIndex: 'UPD_STAT', title: '更新标识', filterBy: 'updStatFilter' }
     ]
 };
-
+Object.assign(COLUMNS_CONFIG,COLUMNS_CONFIG_LAYER);
+// 新增图层配置 图层控制
 export const SELECT_OPTIONS = [
     {
         group: '逻辑层：几何要素图层',
@@ -626,11 +613,10 @@ export const SELECT_OPTIONS = [
             'AD_Text',
             'AD_TrafficSign',
             'AD_TrafficLight',
-            // 新增图层配置
-            'AD_Junction',
-            'AD_Lane_Overlap',
+            
+            'AD_Junction', 
             'AD_RS_Barrier'
-        ]
+        ].concat(SELECT_OPTIONS_LAYER.items)
     },
     {
         group: '逻辑层：关系图层',
@@ -671,7 +657,7 @@ export const SELECT_OPTIONS = [
         ]
     }
 ];
-
+// 新增图层配置 检查当前编辑图层和要操作条目是否匹配
 export const OPTION_LAYER_MAP = {
     //矢量要素
     AD_Road: ['AD_Road'],
@@ -685,10 +671,7 @@ export const OPTION_LAYER_MAP = {
     AD_TrafficSign: ['AD_TrafficSign'],
     AD_TrafficLight: ['AD_TrafficLight'],
     AD_RS_Barrier: ['AD_RS_Barrier'],
-    AD_Junction: ['AD_Junction'],
-    // 新增图层配置
-    AD_Lane_Overlap: ['AD_Lane_Overlap'],
-    
+    AD_Junction: ['AD_Junction'], 
     AD_LaneDivider_Pln: ['AD_LaneDivider_Pln'],
     AD_LaneDivider_Plg: ['AD_LaneDivider_Plg'],
     AD_StopLocation_Geo: ['AD_StopLocation_Geo'],
@@ -717,3 +700,4 @@ export const OPTION_LAYER_MAP = {
     AD_Road_Con_RS: ['AD_Road'],
     AD_Lane_Con_RS: ['AD_Lane']
 };
+Object.assign(OPTION_LAYER_MAP,OPTION_LAYER)
