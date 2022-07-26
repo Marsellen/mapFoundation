@@ -969,17 +969,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         RD_FORM: 1,
         DIRECTION: 1,
         LENGTH: 0
-    },
-    AD_Lane: {
-        TYPE: 1,
-        DIRECTION: 1,
-        LANE_NO: 0,
-        STATUS: 1,
-        // TRAVERSAL: 1,
-        L_LDIV_ID: 0,
-        R_LDIV_ID: 0,
-        ROAD_ID: 0
-    },
+    }, 
     AD_Lane_RS: {
         RS_TYPE: 0,
         RS_VALUE: '',
