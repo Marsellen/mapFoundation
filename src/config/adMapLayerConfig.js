@@ -139,7 +139,7 @@ export const CHECK_VECTOR_CONFIG_LAYER = {
         commonStyle: {
             showFields: 'NOKEY',
             lineStyle: 'solid',
-            color: 'rgb(238,209,11)',
+            color: 'rgb(255,110,100)',
             opacity: 1,
             arrow: true,
             point: true,
