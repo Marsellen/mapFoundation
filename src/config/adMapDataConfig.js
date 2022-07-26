@@ -975,7 +975,7 @@ export const DEFAULT_PROPERTIES_MAP = {
         DIRECTION: 1,
         LANE_NO: 0,
         STATUS: 1,
-        TRAVERSAL: 1,
+        // TRAVERSAL: 1,
         L_LDIV_ID: 0,
         R_LDIV_ID: 0,
         ROAD_ID: 0
