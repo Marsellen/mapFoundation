@@ -643,10 +643,12 @@ export const MB_EDIT_LAYER_MAP = {
         'AD_Text',
         'AD_TrafficLight',
         'AD_TrafficSign', 
+        'AD_Junction',
         'AD_RS_Barrier' 
     ].concat(MB_EDIT_LAYER_MAP_LAYER.LOGIC),
     GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']
 };
+
 
 export const TASK_EDIT_LAYER_MAP = {
     imp_recognition: Object.values(MS_EDIT_LAYER_MAP).flat(),
