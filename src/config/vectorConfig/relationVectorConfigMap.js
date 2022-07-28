@@ -225,5 +225,23 @@ export const RELATION_VECTOR_CONFIG_MAP = {
             arrowEnabledStatus: true,
             pointSize: 0.1
         }
+    },
+    AD_Lane_Overlap: {
+        key: 'AD_Lane_Overlap',
+        label: '中心线压盖',
+        checked: false,
+        isClassify: true,
+        type: 'Line',
+        commonStyle: {
+            showFields: 'NOKEY',
+            lineStyle: 'solid',
+            color: 'rgb(255,255,255)',
+            opacity: 1,
+            arrow: true,
+            point: true,
+            pointEnabledStatus: true,
+            arrowEnabledStatus: true,
+            pointSize: 0.1
+        }
     }
 };
