@@ -31,7 +31,7 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:15
+        level:14
     },
     AD_Lane: {
         type: 'Line',
@@ -45,7 +45,7 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:12
+        level:14
     },
     AD_LaneAttrPoint: {
         type: 'Point',
@@ -59,7 +59,7 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:18
+        level:17
     },
     AD_Arrow: {
         type: 'Polygon',
@@ -87,7 +87,7 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:16
+        level:17
     },
     AD_Lane_Overlap: {
         type: 'Line',
@@ -144,7 +144,7 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:16
+        level:15
     },
     AD_TrafficLight: {
         type: 'Polygon',
@@ -158,7 +158,7 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:16
+        level:15
     },
     AD_RS_Barrier: {
         type: 'Line',
@@ -186,7 +186,7 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:17
+        level:16
     },
     AD_StopLocation_Geo: {
         type: 'Polygon',
@@ -200,7 +200,7 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:17
+        level:16
     },
     AD_LaneMark_Geo: {
         type: 'Polygon',
@@ -214,7 +214,7 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:17
+        level:16
     },
     AD_Pole_Geo: {
         type: 'Line',
@@ -228,7 +228,7 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:17
+        level:16
     }
 };
 Object.assign(DefaultStyleConfig,DEFAULT_STYLE);
