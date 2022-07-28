@@ -1801,7 +1801,7 @@ export const MB_TASK_VECTOR_CONFIG_MAP = {
         commonStyle: {
             showFields: 'NOKEY',
             polygonStyle: 'solid',
-            color: 'rgb(3,15,243)',
+            color: 'rgb(248,15,243)',
             opacity: 1
         },
         fieldStyle: {
@@ -1825,7 +1825,7 @@ export const MB_TASK_VECTOR_CONFIG_MAP = {
         commonStyle: {
             showFields: 'NOKEY',
             lineStyle: 'solid',
-            color: 'rgb(238,209,11)',
+            color: 'rgb(255,110,100)',
             opacity: 1,
             arrow: true,
             point: true,
@@ -2161,7 +2161,7 @@ export const MB_TASK_VECTOR_CONFIG_MAP = {
         commonStyle: {
             showFields: 'CFD_GEO',
             lineStyle: 'solid',
-            color: 'rgb(238,209,11)',
+            color: 'rgb(255,110,100)',
             opacity: 1,
             arrow: false,
             point: false,

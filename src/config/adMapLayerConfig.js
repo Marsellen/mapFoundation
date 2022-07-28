@@ -28,10 +28,18 @@ export const DEFAULT_PROPERTIES_LAYER = {
         OVERLAP_ID: 0,
         LANE_ID: 0,
         PLG_ID: 0
-    },
+    }, 
     AD_Lane: {
+        TYPE: 1,
+        DIRECTION: 1,
+        LANE_NO: 0,
+        STATUS: 1,
+        // TRAVERSAL: 1,
+        L_LDIV_ID: 0,
+        R_LDIV_ID: 0,
+        ROAD_ID: 0,
         TURN_TYPE:0
-    }
+    },
 }
 // 2.适配表显示内容 【属性显示】
 export const TABLE_DATA_LAYER = {
@@ -131,7 +139,7 @@ export const CHECK_VECTOR_CONFIG_LAYER = {
         commonStyle: {
             showFields: 'NOKEY',
             lineStyle: 'solid',
-            color: 'rgb(238,209,11)',
+            color: 'rgb(255,110,100)',
             opacity: 1,
             arrow: true,
             point: true,

@@ -189,11 +189,14 @@ class ResourceLayerStore {
 
     //isHotKey 指是否是快捷键调用的toggle方法
     @action toggle = (name, checked, isHotKey) => {
-        let layerEx = this.layers.find(layer => layer.value == name); 
+        let layerEx = this.layers.find(layer => layer.value == name);
         if (!layerEx) return;
-        layerEx.layer.layers.forEach(layer => {
-            layer.layer.tocLevel = checked;
-        });
+        if (layerEx.layer?.layers !== undefined) {
+            layerEx.layer?.layers.forEach(layer => {
+                layer.layer.tocLevel = checked;
+            });
+        }
+
         layerEx.checked = isHotKey ? !layerEx.checked : checked;
         layerEx.checked ? layerEx.layer.show() : layerEx.layer.hide();
         this.updateKey = Math.random();
@@ -270,7 +273,7 @@ class ResourceLayerStore {
     };
 
     @action toggleConfidenceLayer = (checked, value = CONFIDENCE_LAYER) => {
-        let ConfidenceLayer = this.layers.find(layer => layer.value == CONFIDENCE_LAYER); 
+        let ConfidenceLayer = this.layers.find(layer => layer.value == CONFIDENCE_LAYER);
         if (!ConfidenceLayer) return;
         if (value === CONFIDENCE_LAYER) {
             checked = checked === undefined ? !ConfidenceLayer.checked : checked;
