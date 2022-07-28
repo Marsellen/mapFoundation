@@ -192,7 +192,7 @@ class ViewAttribute extends React.Component {
     changeLayer = layerName => {
         const isMarkerLayer = layerName === 'AD_Marker';
         layerName = isMarkerLayer ? this.state.layerName : layerName;
-        this.setState({ layerName, filteredInfo: null, sortedInfo: null }, this.getData);
+        this.setState({ layerName, filteredInfo: null, sortedInfo: null, columns: null }, this.getData);
     };
 
     getData = () => {
@@ -330,16 +330,16 @@ class ViewAttribute extends React.Component {
 
     handleResize =
         index =>
-        (e, { size }) => {
-            this.setState(({ columns }) => {
-                const nextColumns = [...columns];
-                nextColumns[index] = {
-                    ...nextColumns[index],
-                    width: size.width
-                };
-                return { columns: nextColumns };
-            });
-        };
+            (e, { size }) => {
+                this.setState(({ columns }) => {
+                    const nextColumns = [...columns];
+                    nextColumns[index] = {
+                        ...nextColumns[index],
+                        width: size.width
+                    };
+                    return { columns: nextColumns };
+                });
+            };
 
     sorter = col => {
         return (a, b) => {
