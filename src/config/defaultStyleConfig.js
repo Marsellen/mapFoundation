@@ -59,7 +59,7 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:17
+        level:15
     },
     AD_Arrow: {
         type: 'Polygon',
