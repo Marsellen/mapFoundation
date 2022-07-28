@@ -87,7 +87,7 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:17
+        level:16
     },
     AD_Lane_Overlap: {
         type: 'Line',
@@ -186,7 +186,7 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:16
+        level:15
     },
     AD_StopLocation_Geo: {
         type: 'Polygon',
