@@ -107,7 +107,8 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:16
+        level:16,
+        tocLevel:true
     }, 
 
     AD_StopLocation: {
@@ -122,7 +123,8 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:16
+        level:16,
+        tocLevel:true
     },
     AD_Text: {
         type: 'Polygon',
@@ -136,7 +138,8 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:16
+        level:16,
+        tocLevel:true
     },
     AD_TrafficSign: {
         type: 'Polygon',
@@ -150,7 +153,8 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:15
+        level:15,
+        tocLevel:true
     },
     AD_TrafficLight: {
         type: 'Polygon',
@@ -164,7 +168,8 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:15
+        level:15,
+        tocLevel:true
     },
     AD_RS_Barrier: {
         type: 'Line',
@@ -178,7 +183,8 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:16
+        level:16,
+        tocLevel:true
     },
     AD_LaneDivider_Plg: {
         type: 'Polygon',
@@ -192,7 +198,8 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:15
+        level:15,
+        tocLevel:true
     },
     AD_StopLocation_Geo: {
         type: 'Polygon',
@@ -206,7 +213,8 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:16
+        level:16,
+        tocLevel:true
     },
     AD_LaneMark_Geo: {
         type: 'Polygon',
@@ -220,7 +228,8 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:16
+        level:16,
+        tocLevel:true
     },
     AD_Pole_Geo: {
         type: 'Line',
@@ -230,11 +239,12 @@ export const DefaultStyleConfig= {
         vectorStyle: {
             NOKEY: [
                 {
-                    style: { color: 'rgb(32,52,240)', linewidth: 1 }
+                    style: { color: 'rgb(238,209,11)', linewidth: 1 }
                 }
             ]
         },
-        level:16
+        level:16,
+        tocLevel:true
     }
 };
 Object.assign(DefaultStyleConfig,DEFAULT_STYLE);
