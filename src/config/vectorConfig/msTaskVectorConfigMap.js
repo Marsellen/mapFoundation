@@ -2165,7 +2165,7 @@ export const MS_TASK_VECTOR_CONFIG_MAP = {
         commonStyle: {
             showFields: 'CFD_GEO',
             lineStyle: 'solid',
-            color: 'rgb(255,110,100)',
+            color: 'rgb(238,209,11)',
             opacity: 1,
             arrow: false,
             point: false,

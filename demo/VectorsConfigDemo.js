@@ -1901,21 +1901,21 @@ export default {
         vectorStyle: {
             NOKEY: [
                 {
-                    style: { color: 'rgb(32,52,240)', linewidth: 1 }
+                    style: { color: 'rgb(238,209,11)', linewidth: 1 }
                 }
             ]
         },
         pointFLStyle: {
             NOKEY: [
                 {
-                    style: { color: 'rgb(32,52,240)' }
+                    style: { color: 'rgb(238,209,11)' }
                 }
             ]
         },
         arrowStyle: {
             NOKEY: [
                 {
-                    style: { color: 'rgb(32,52,240)', linewidth: 1 }
+                    style: { color: 'rgb(238,209,11)', linewidth: 1 }
                 }
             ]
         }
