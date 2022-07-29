@@ -105,7 +105,8 @@ export const DEFAULT_STYLE = {
                 }
             ]
         },
-        level: 15
+        level: 15,
+        tocLevel:true
     }
 }
 

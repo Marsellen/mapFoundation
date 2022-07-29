@@ -17,7 +17,8 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:0
+        level:0,
+        tocLevel:true
     },
     AD_LaneDivider: {
         type: 'Line',
@@ -31,7 +32,8 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:14
+        level:14,
+        tocLevel:true
     },
     AD_Lane: {
         type: 'Line',
@@ -45,7 +47,8 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:14
+        level:14,
+        tocLevel:true
     },
     AD_LaneAttrPoint: {
         type: 'Point',
@@ -59,7 +62,8 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:15
+        level:15,
+        tocLevel:true
     },
     AD_Arrow: {
         type: 'Polygon',
@@ -73,7 +77,8 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:16
+        level:16,
+        tocLevel:true
     },
     AD_Junction: {
         type: 'Polygon',
@@ -87,7 +92,8 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:17
+        level:16,
+        tocLevel:true
     },
     AD_Lane_Overlap: {
         type: 'Line',
@@ -186,7 +192,7 @@ export const DefaultStyleConfig= {
                 }
             ]
         },
-        level:16
+        level:15
     },
     AD_StopLocation_Geo: {
         type: 'Polygon',
