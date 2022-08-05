@@ -653,7 +653,9 @@ export const MB_EDIT_LAYER_MAP = {
 export const TASK_EDIT_LAYER_MAP = {
     imp_recognition: Object.values(MS_EDIT_LAYER_MAP).flat(),
     imp_manbuild: Object.values(MB_EDIT_LAYER_MAP).flat(),
-    imp_std_precompile_man_repair: Object.values(MB_EDIT_LAYER_MAP).flat()
+    imp_std_precompile_man_repair: Object.values(MB_EDIT_LAYER_MAP).flat(),
+    // 定点检修
+    imp_designated_repair: Object.values(MB_EDIT_LAYER_MAP).flat(),
 };
 
 export const EDIT_LAYER_TYPE_MAP = { LOGIC: '逻辑层', GEOMETRY: '几何层' };

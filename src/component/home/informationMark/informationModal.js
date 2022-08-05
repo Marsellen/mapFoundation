@@ -251,6 +251,8 @@ class InformationModal extends React.Component {
         const isMsQcTask = processName === 'imp_check_after_recognition';
         const isMbQcTask = processName === 'imp_check_after_manbuild';
         const isSecondQcTask = processName === 'imp_map_second_check';
+        // 定点检修
+        const isDesignatedTask = processName === 'imp_designated_repair';
         const isSecondQcBack = postProcess === 2; // 是否是二次质检环节打回的任务
         const isFirst = fetchId == taskFetchId;
 

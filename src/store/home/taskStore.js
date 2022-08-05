@@ -415,7 +415,7 @@ class TaskStore {
             const url = completeSecendUrl(taskInfo, this.activeTask);
             const processName = this.activeTask.processName;
             const { data } = yield axios.get(url);
-            const { projectNames, lidarNames, defaultLidarName, treeContent, check_pkg } = data;
+            const { projectNames, lidarNames, defaultLidarName, treeContent, check_pkg } = data; 
             if (this.isMrTask) {
                 this.activeTask.process_name_check = check_pkg?.[processName];
                 return;

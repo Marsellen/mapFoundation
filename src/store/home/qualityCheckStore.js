@@ -48,7 +48,7 @@ class QualityCheckStore {
         this.filters = {};
     };
 
-    initReportConfig = () => {
+    initReportConfig = () => { 
         const { taskProcessName = 'imp_recognition' } = TaskStore;
         this.reportColumns = REPORT_COLUMNS[taskProcessName];
         this.reportFilterKeys = this.reportColumns.flatMap(item => {
@@ -68,7 +68,7 @@ class QualityCheckStore {
     }).bind(this);
 
     //质量检查
-    @action handleProducerCheck = flow(function* () {
+    @action handleProducerCheck = flow(function* () { 
         const {
             loginUser: { roleCode, username }
         } = appStore;

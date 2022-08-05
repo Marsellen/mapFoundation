@@ -12,7 +12,7 @@ export const LAYER_MAP_FIELD = {
             value: 'TURN_TYPE',
             label: '车道转向方向',
             // 表
-            dataIndex: 'TRAVERSAL',
+            dataIndex: 'TURN_TYPE',
             title: '车道转向方向',
             width: 260,
             ellipsis: true,
@@ -1273,35 +1273,36 @@ export const COLUMNS_CONFIG_LAYER = {
         {
             dataIndex: 'LANE_NO',
             title: '车道编号'
-        }].concat(LAYER_MAP_FIELD?.AD_Lane).concat([{
-            dataIndex: 'DIRECTION',
-            title: '车道通行方向',
-            filterBy: 'typeFilter|AD_LANE_DIRECTION'
-        },
-        {
-            dataIndex: 'TRAVERSAL',
-            title: '可跨越性',
-            width: 260,
-            ellipsis: true,
-            filterBy: 'typeFilter|AD_LANE_TRAVERSAL'
-        },
-        {
-            dataIndex: 'ROAD_ID',
-            title: '关联道路参考线ID'
-        },
-        {
-            dataIndex: 'L_LDIV_ID',
-            title: '关联左侧车道线ID'
-        },
-        {
-            dataIndex: 'R_LDIV_ID',
-            title: '关联右侧车道线ID'
-        },
-        {
-            dataIndex: 'UPD_STAT',
-            title: '更新标识',
-            filterBy: 'updStatFilter'
-        }]),
+        }].concat(LAYER_MAP_FIELD?.AD_Lane).concat([
+            {
+                dataIndex: 'DIRECTION',
+                title: '车道通行方向',
+                filterBy: 'typeFilter|AD_LANE_DIRECTION'
+            },
+            {
+                dataIndex: 'TRAVERSAL',
+                title: '可跨越性',
+                width: 260,
+                ellipsis: true,
+                filterBy: 'typeFilter|AD_LANE_TRAVERSAL'
+            },
+            {
+                dataIndex: 'ROAD_ID',
+                title: '关联道路参考线ID'
+            },
+            {
+                dataIndex: 'L_LDIV_ID',
+                title: '关联左侧车道线ID'
+            },
+            {
+                dataIndex: 'R_LDIV_ID',
+                title: '关联右侧车道线ID'
+            },
+            {
+                dataIndex: 'UPD_STAT',
+                title: '更新标识',
+                filterBy: 'updStatFilter'
+            }]),
     AD_Lane_RS: [
         {
             dataIndex: 'index',

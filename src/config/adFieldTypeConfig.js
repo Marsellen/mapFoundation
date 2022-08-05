@@ -52,7 +52,7 @@ export const TYPE_SELECT_OPTION_LAYER = {
         { value: 1810, label: '下方道路起点', icon: 'xiafangdaoluqidian', abbreviation: '下起' },
         { value: 1811, label: '下方道路终点', icon: 'xiafangdaoluzhongdian', abbreviation: '下终' },
         // 新增
-        { value: 1812, label: '交替通行合流点', icon: 'xiafangdaoluzhongdian', abbreviation: '交替' },
+        { value: 1812, label: '交替通行合流点', icon: 'jiaotitongxingheliu', abbreviation: '交替' },
         {
             value: 1821,
             label: '服务区道路开始位置',

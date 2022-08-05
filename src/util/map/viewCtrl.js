@@ -20,7 +20,7 @@ export const showPictureShowView = obj => {
 export const showAttributesModal = (obj, event) => {
     //判断没有按住ctrl左击
     if ((event && event.ctrlKey) || (event && event.button === 2)) return;
-    let editLayer = DataLayerStore.getAdEditLayer();
+    let editLayer = DataLayerStore.getAdEditLayer(); 
     let readonly = (editLayer && editLayer.layerId !== obj.layerId) || !editLayer;
     DataLayerStore.clearHighLightFeatures();
     AttributeStore.setModel(obj);

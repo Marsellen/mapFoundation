@@ -7,6 +7,8 @@ export const TASK_PROCESS_NAME = [
     { value: 'imp_manbuild', label: '人工构建' },
     { value: 'imp_check_after_manbuild', label: '人工构建后质检' },
     { value: 'imp_map_second_check', label: '二次质检' },
+    // 定点检修
+    { value: 'imp_designated_repair', label: '定点检修' },
     { value: 'imp_std_precompile_man_repair', label: '人工检修' }
 ];
 //任务状态映射
@@ -27,13 +29,14 @@ export const TASK_ORDER_NUM = {
     100: '低',
     90: '极低'
 };
-//作业任务环节
+//作业任务环节   定点检修
 export const TASK_FIX_TYPES = ['imp_recognition', 'imp_manbuild', 'imp_std_precompile_man_repair'];
 //质检任务环节
 export const TASK_QC_TYPES = [
     'imp_check_after_recognition',
     'imp_check_after_manbuild',
-    'imp_map_second_check'
+    'imp_map_second_check',
+    'imp_designated_repair'
 ];
 //任务已领取、进行中状态
 export const TASK_FIX_STATUS = [1, 2];
@@ -61,7 +64,12 @@ export const UPDATE_BOUNDARY_PARAM_MAP = {
     imp_map_second_check: {
         referData: 'MB_EDITOR_QUERYDB_PATHS',
         outDir: '1305_MB_QC_AROUND_DATA'
-    }
+    },
+    // 定点检修
+    imp_designated_repair: {
+        referData: 'MB_EDITOR_QUERYDB_PATHS',
+        outDir: '1305_MB_QC_AROUND_DATA'
+    },
 };
 
 //任务类型

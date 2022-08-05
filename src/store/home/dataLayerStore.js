@@ -157,7 +157,7 @@ class DataLayerStore {
         return currentLayer;
     };
 
-    setSelectedCallBack = callback => {
+    setSelectedCallBack = callback => { 
         this.editor.onFeatureSelected((result, event) => {
             switch (this.editType) {
                 case 'normal':

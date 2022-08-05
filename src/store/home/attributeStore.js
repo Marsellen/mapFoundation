@@ -44,6 +44,8 @@ class AttributeStore {
     @observable updateKey;
 
     @action show = (readonly, obj) => {
+        console.log(readonly);
+        
         const modelId = obj.data.properties[getLayerIDKey(this.layerName)];
         if (this.modelId !== modelId) {
             if (!this.readonly && this.visible) {

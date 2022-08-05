@@ -114,8 +114,8 @@ class EditableCard extends React.Component {
                 return;
             }
             // console.log(values);
-            if (value.source === 'AD_Lane_Speed') { 
-                if (values?.UPD_STAT) { 
+            if (value.source === 'AD_Lane_Speed') {
+                if (values?.UPD_STAT) {
                     if (typeof values.UPD_STAT === 'string') {
                         let strUpd_stat = {};
                         let upd_stat = values.UPD_STAT.split(',');
@@ -135,9 +135,12 @@ class EditableCard extends React.Component {
                             else if (item === '预编译人工变自动') {
                                 strUpd_stat.PRECOMPLIER_STAT = 'MAN-AUTO';
                             }
+                            else {
+                                strUpd_stat.PRECOMPLIER_STAT = 'MAN';
+                            }
                         })
                         values.UPD_STAT = JSON.stringify(strUpd_stat);
-                    } 
+                    }
                 }
             }
             let id = value.key;
