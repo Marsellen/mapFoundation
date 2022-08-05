@@ -59,7 +59,8 @@ class QualityCheckStore {
     //作业员质检
     producerCheck = flow(function* (option) {
         try {
-            const { data } = yield CheckService.check(option);
+            const { isMrTask } = TaskStore;
+            const { data } = yield CheckService[isMrTask ? 'checkPreMdb' : 'check'](option);
             return data;
         } catch (e) {
             console.error('请求失败');

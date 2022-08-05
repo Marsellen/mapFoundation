@@ -62,6 +62,14 @@ export function CheckApiPath(url) {
     }
 }
 
+export function CheckPreMdbApiPath(url) {
+    if (/^\//.test(url)) {
+        return `/gateway/preMdb${url}`;
+    } else {
+        return `/gateway/preMdb/${url}`;
+    }
+}
+
 export function MarkerApiPath(url) {
     if (/^\//.test(url)) {
         return `/gateway/check-web${url}`;
