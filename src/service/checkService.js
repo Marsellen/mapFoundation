@@ -1,11 +1,19 @@
 import service from 'src/service';
-import { CheckApiPath, RepairApiPath } from 'src/util/api';
+import { CheckApiPath, RepairApiPath, CheckPreMdbApiPath } from 'src/util/api';
 
 const CheckService = {
-    // 作业员质检接口
+    // 作业员质检接口 人工检修用/preMdb 其他/check
     check: data => {
         const config = {
             url: CheckApiPath('/addata/check'),
+            method: 'post',
+            data
+        };
+        return service({ config });
+    },
+    checkPreMdb: data => {
+        const config = {
+            url: CheckPreMdbApiPath('/addata/check'),
             method: 'post',
             data
         };
