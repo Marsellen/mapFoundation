@@ -141,8 +141,8 @@ class ViewNeighbor extends React.Component {
             if (urls.length > 0) {
                 let taskFileMap = TaskStore.getTaskFileMap(urls, completeTitleUrl);
                 const { vectors, rels, attrs, regions } = taskFileMap;
-
-                AttrStore.addRecords(attrs, 'boundary'),
+ 
+                AttrStore.addRecordsBoundary(attrs, 'boundary'),
                 RelStore.addRecords(rels, 'boundary')
                 await VectorsStore.addRecordsTitle(vectors, 'boundary');
 
