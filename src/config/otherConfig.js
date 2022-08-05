@@ -6,7 +6,7 @@ export const OTHER_CONFIG = {
     repairNodeDensity: 0.5,
     adsorptionSensitivity: 0.15,
     outputEditLayer: '["AD_LaneDivider","AD_RS_Barrier"]',
-    pollingLimit: 180,
+    pollingLimit: 1800,
     drawNodeDensity: 0.5,
     statisticInterval: 1,
     inputEditLayer: '["AD_LaneDivider","AD_RS_Barrier","AD_StopLocation"]',
