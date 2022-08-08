@@ -20,6 +20,7 @@ import InformationTool from 'src/component/home/toolList/informationTool';
 import PostureAdjust from 'src/component/home/toolList/postureAdjust';
 import SetStepSize from 'src/component/home/toolList/setStepSize';
 import UnionBreak from 'src/component/home/toolList/unionBreak';
+import BuildStep from 'src/component/home/toolList/buildStep';
 import BatchBreak from 'src/component/home/toolList/batchBreak';
 import MunicipalBarrierDown from 'src/component/home/toolList/municipalBarrierDown';
 import ViewNeighbor from './viewNeighbor';
@@ -35,6 +36,7 @@ export default [
     <ToolBox key="TOOL_BOX" />,
     <SearchInfo key="SEARCH_INFO" />,
     <QualityCheck key="QUALITY_TEST" />,
+    <BuildStep key="BUILD_STEP" />,
     <QCMarkerTool key="QC_MARKER" />,
     <InformationTool key="INFORMATION_TOOL" />,
     <ViewNeighbor key="VIEW_NEIGHBOR" />,
