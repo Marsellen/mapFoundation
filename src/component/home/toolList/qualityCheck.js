@@ -110,7 +110,7 @@ class QualityCheck extends React.Component {
             const { TaskStore } = this.props;
             const { activeTask } = TaskStore;
             const { processName, Input_imp_data_path } = activeTask;
-            if (processName !== 'imp_manbuild') return;
+            if (processName !== 'imp_manbuild'|| processName !== 'imp_designated_repair') return;
             let suspectUrl = `${Input_imp_data_path}/18_QE_DATA/1809_QE_DES/AD_Suspect.geojson`;
             let wrongUrl = `${Input_imp_data_path}/18_QE_DATA/1809_QE_DES/AD_Wrong.geojson`;
             ResourceLayerStore.confidenceLayerRelease();

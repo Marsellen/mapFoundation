@@ -202,5 +202,5 @@ export const REPORT_COLUMNS = {
     imp_map_second_check: QC_REPORT_COLUMNS,
     imp_std_precompile_man_repair: FIX_REPORT_COLUMNS,
     // 定点检修
-    imp_designated_repair:QC_REPORT_COLUMNS
+    imp_designated_repair:FIX_REPORT_COLUMNS
 };

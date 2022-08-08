@@ -107,9 +107,8 @@ export const getMarkerList = async () => {
             taskId,
             processName
         };
-        //判断是二次质检任务，或者是二次质检任务打回来的返工返修任务 
-        // 定点检修
-        if (processName === 'imp_map_second_check' || processName === 'imp_designated_repair' || postProcess === 2) {
+        //判断是二次质检任务，或者是二次质检任务打回来的返工返修任务  
+        if (processName === 'imp_map_second_check' || postProcess === 2) {
             params = { ...params, qcLink: 3 };
         }
         const res = await getMarkerList(params);

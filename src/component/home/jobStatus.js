@@ -287,18 +287,19 @@ class JobStatus extends React.Component {
     };
 
     handleCheck = async option => {
-        debugger
-        const { TaskStore: { activeTask: { processName, manualStatus } } = {} } = this.props;
+        const { TaskStore: { activeTask: { processName, manualStatus } } = {} } = this.props; 
         switch (processName) {
             case 'imp_recognition': //人工识别
             case 'imp_std_precompile_man_repair': //编译预处理人工检修
                 return this.checkMsTask(manualStatus, option);
+                
             case 'imp_manbuild': //人工构建
+            case 'imp_designated_repair':// 定点检修
                 return this.checkMbTask(option);
+
             case 'imp_check_after_recognition': //人工识别后质检
             case 'imp_check_after_manbuild': //人工构建后质检
             case 'imp_map_second_check': //二次质检
-            case 'imp_designated_repair':// 定点检修
                 return this.checkQcTask(option.manualStatus);
             default:
                 return true;

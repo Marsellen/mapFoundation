@@ -13,5 +13,5 @@ export const TEXT_CONFIG_MAP = {
     imp_map_second_check: 'QC_MB_TASK_TEXT_CONFIG_MAP',
     imp_std_precompile_man_repair: 'QR_TASK_TEXT_CONFIG_MAP',
     // 定点检修
-    imp_designated_repair:'QC_MB_TASK_TEXT_CONFIG_MAP'
+    imp_designated_repair:'MB_TASK_TEXT_CONFIG_MAP'
 };

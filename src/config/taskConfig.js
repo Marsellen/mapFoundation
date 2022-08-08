@@ -1,4 +1,4 @@
-import { VECTOR_FILES_LAYER,REL_FILES_LAYER } from "./adMapLayerConfig";
+import { VECTOR_FILES_LAYER, REL_FILES_LAYER } from "./adMapLayerConfig";
 
 //任务环节映射
 export const TASK_PROCESS_NAME = [
@@ -29,8 +29,8 @@ export const TASK_ORDER_NUM = {
     100: '低',
     90: '极低'
 };
-//作业任务环节   定点检修
-export const TASK_FIX_TYPES = ['imp_recognition', 'imp_manbuild', 'imp_std_precompile_man_repair'];
+//作业任务环节
+export const TASK_FIX_TYPES = ['imp_recognition', 'imp_std_precompile_man_repair'];
 //质检任务环节
 export const TASK_QC_TYPES = [
     'imp_check_after_recognition',
@@ -68,7 +68,7 @@ export const UPDATE_BOUNDARY_PARAM_MAP = {
     // 定点检修
     imp_designated_repair: {
         referData: 'MB_EDITOR_QUERYDB_PATHS',
-        outDir: '1305_MB_QC_AROUND_DATA'
+        outDir: '1304_MB_AROUND_DATA'
     },
 };
 
@@ -87,7 +87,7 @@ export const POST_PROCESS = {
 };
 
 //任务文件-矢量文件
- // 新增图层配置
+// 新增图层配置
 export const VECTOR_FILES = [
     // 'AD_LaneDivider_Pln.geojson',
     'AD_LaneDivider_Plg.geojson',

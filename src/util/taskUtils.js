@@ -52,7 +52,7 @@ const BOUNDARY_PATH_MAP = {
     imp_map_second_check: '1305_MB_QC_AROUND_DATA',
     imp_std_precompile_man_repair: '0304_STD_AROUND_DES',
     // 定点检修
-    imp_designated_repair: '1305_MB_QC_AROUND_DATA'
+    imp_designated_repair: '1304_MB_AROUND_DATA'
 };
 
 const GEO_PATH_MAP = {
@@ -83,9 +83,8 @@ export const completeTitleUrl = (path, task) => {
         }/${getBoundaryUrl}/${task.titlePath}/${path}?time=${Date.now()}`;
 };
 
-export const filePathTitleUrl = (task) => {
-
-    let url = GEO_PATH_MAP[task.processName] + `${task.taskId}/${SECEND_PATH[task.processName]}/${BOUNDARY_PATH_MAP[task.processName]}/`;
+export const filePathTitleUrl = (task) => { 
+    // let url = GEO_PATH_MAP[task.processName] + `${task.taskId}/${SECEND_PATH[task.processName]}/${BOUNDARY_PATH_MAP[task.processName]}/`;
     return GEO_PATH_MAP[task.processName] + `${task.taskId}/${SECEND_PATH[task.processName]}/${BOUNDARY_PATH_MAP[task.processName]}/`;
 };
 
@@ -93,7 +92,7 @@ export const filePathTitleUrl = (task) => {
 // 补齐轨迹、照片数据路径
 export const completeSecendUrl = (path, task) => {
     return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]}/${THIRD_PATH[task.processName]
-        }/${path}`;
+        }/${path}?time=${Date.now()}`;
 };
 
 // 补齐多工程数据路径，如：点云、轨迹

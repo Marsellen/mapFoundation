@@ -37,16 +37,12 @@ class ViewNeighbor extends React.Component {
         // 暂存边框图层
         this.regionLayer = null;
         this.titleName = [];
+        
         this.selecteTitleName = [];
         const { TaskStore } = this.props;
         const { active } = this.state;
-        const { activeTaskId } = TaskStore;
-        if (typeof (TaskStore.activeTask.referTileIds) !== 'undefined') {
-            const titles = TaskStore.activeTask.referTileIds.substring(1, TaskStore.activeTask.referTileIds.length - 1).split(',');
-            titles.forEach(item => {
-                this.titleName.push(item.trim());
-            });
-        }
+        const { activeTaskId } = TaskStore; 
+        TaskStore.referTileIds=[];
         const isDesc = TaskStore.activeTask?.nodeDesc === "人工检修" ? true : false;
         return (!isDesc ?
             <ToolIcon
@@ -57,36 +53,45 @@ class ViewNeighbor extends React.Component {
                 visible={active}
                 disabled={!activeTaskId}
             />
-            : 
+            :
             <CheckButton
-            key={activeTaskId}
-            defaultOption={{
-                key: 'block',
-                title: '获取周边任务信息',
-                actionid: 'redo-btn'
-            }}
-            handleClickFlag={true}
-            handleClick={this.addlayerRegion}
-            contentTitle="获取周边任务信息"
-            renderContent={this.renderContent} 
-            onRef={ref => (this.checkButton = ref)}
-        />
+                key={activeTaskId}
+                defaultOption={{
+                    key: 'block',
+                    title: '获取周边任务信息',
+                    actionid: 'redo-btn'
+                }}
+                handleClickFlag={true}
+                handleClick={this.addlayerRegion}
+                contentTitle="获取周边任务信息"
+                renderContent={this.renderContent}
+                onRef={ref => (this.checkButton = ref)}
+            />
 
         );
     }
-    renderContent = selecteName => {
-        return (
-            <Menu className="menu" style={{overflowY: 'scroll',height:'300px'}}>
-                {this.titleName?.map((item, index) => (
+    renderContent = selecteName => { 
+        const { TaskStore } = this.props;
+        if (typeof (TaskStore.referTileIds) !== 'undefined') {
+            if (TaskStore.referTileIds.length > 0) {
+                this.titleName = TaskStore.referTileIds;
+            }
+        }
+
+        return (<Menu className="menu" style={{ overflowY: 'scroll', height: '300px' }}>
+            {
+
+                this.titleName.map((item) => (
                     <Menu.Item key={item} onClick={this.menuAction}>
                         <p className="menu-item-box">
                             {item}
                         </p>
                     </Menu.Item>
-                ))}
-            </Menu>
+                ))
 
-        );
+            }
+        </Menu>);
+
     };
     menuAction = async (e) => {
 
@@ -141,9 +146,9 @@ class ViewNeighbor extends React.Component {
             if (urls.length > 0) {
                 let taskFileMap = TaskStore.getTaskFileMap(urls, completeTitleUrl);
                 const { vectors, rels, attrs, regions } = taskFileMap;
- 
+
                 AttrStore.addRecordsBoundary(attrs, 'boundary'),
-                RelStore.addRecords(rels, 'boundary')
+                    RelStore.addRecords(rels, 'boundary')
                 await VectorsStore.addRecordsTitle(vectors, 'boundary');
 
 
@@ -162,7 +167,7 @@ class ViewNeighbor extends React.Component {
                 // this.regionLayer = mapStore.addVectorLayer({ color: 'rgb(16,201,133)', opacity: 0.5 });
                 this.regionLayer = mapStore.addVectorLayer({
                     color: 'rgb(16,201,133)', opacity: 0.5,
-                    tocLevel:false,
+                    tocLevel: false,
                     layerConfig: {
                         textStyle: {
                             showMode: 'polygon-center',
@@ -225,7 +230,7 @@ class ViewNeighbor extends React.Component {
                 const { region, ...info } = regionItem;
                 const regionUrl = Input_imp_data_path.replace(taskId, region);
                 let vectorLayer = new VectorLayer(regionUrl, {
-                    tocLevel:false,
+                    tocLevel: false,
                     layerConfig: {
                         textStyle: {
                             showMode: 'polygon-center',

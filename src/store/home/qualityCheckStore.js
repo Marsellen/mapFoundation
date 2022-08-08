@@ -48,7 +48,7 @@ class QualityCheckStore {
         this.filters = {};
     };
 
-    initReportConfig = () => { 
+    initReportConfig = () => {
         const { taskProcessName = 'imp_recognition' } = TaskStore;
         this.reportColumns = REPORT_COLUMNS[taskProcessName];
         this.reportFilterKeys = this.reportColumns.flatMap(item => {
@@ -69,7 +69,7 @@ class QualityCheckStore {
     }).bind(this);
 
     //质量检查
-    @action handleProducerCheck = flow(function* () { 
+    @action handleProducerCheck = flow(function* () {
         const {
             loginUser: { roleCode, username }
         } = appStore;
@@ -155,7 +155,7 @@ class QualityCheckStore {
                             case 1:
                                 this.handleReportList(data);
                                 //人工构建任务且执行过自动修正的才会更新任务数据
-                                if (TaskStore.taskProcessName === 'imp_manbuild') {
+                                if (TaskStore.taskProcessName === 'imp_manbuild' || TaskStore.taskProcessName === 'imp_designated_repair') {
                                     const repairList = data.filter(item => item.repairStatus === 1);
                                     repairList.length > 0 && (await updateData());
                                 }

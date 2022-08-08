@@ -1,5 +1,5 @@
 
-import {DATA_LAYER_LAYER,MS_EDIT_LAYER_LAYER,MB_EDIT_LAYER_MAP_LAYER} from './adMapLayerConfig';
+import { DATA_LAYER_LAYER, MS_EDIT_LAYER_LAYER, MB_EDIT_LAYER_MAP_LAYER } from './adMapLayerConfig';
 
 // 新增图层配置
 export const DATA_LAYER_MAP = {
@@ -35,7 +35,7 @@ export const DATA_LAYER_MAP = {
         groupRightTools: ['delete'],
         editName: '交叉口'
     },
-   
+
     AD_LaneAttrPoint: {
         label: '车道属性变化点',
         id: 'LAP_ID',
@@ -470,9 +470,9 @@ export const DATA_LAYER_MAP = {
         tools: {
             recognition: ['DRAW_TOOL_BOX'],
             // 关联配置 配置工具栏是否显示按钮
-            manbuild: ['DRAW_TOOL_BOX','ADD_REL', 'DEL_REL']
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
         },
-      
+
         drawTools: {
             recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON', 'DASHED_POLYGON_CREATE'],
             manbuild: ['ADD_GROUND_RECTANGLE', 'POLYGON', 'DASHED_POLYGON_CREATE']
@@ -494,7 +494,7 @@ export const DATA_LAYER_MAP = {
         spec: 'AD_StopLocation_Geo',
         tools: {
             recognition: ['DRAW_TOOL_BOX'],
-            manbuild: ['DRAW_TOOL_BOX','ADD_REL', 'DEL_REL']
+            manbuild: ['DRAW_TOOL_BOX', 'ADD_REL', 'DEL_REL']
         },
         drawTools: {
             recognition: ['ADD_GROUND_RECTANGLE', 'POLYGON'],
@@ -599,7 +599,7 @@ export const DATA_LAYER_MAP = {
         editName: '几何层：\n交通信号灯'
     }
 };
-Object.assign(DATA_LAYER_MAP,DATA_LAYER_LAYER);
+Object.assign(DATA_LAYER_MAP, DATA_LAYER_LAYER);
 
 export const RESOURCE_LAYER_VECTOR = '高精地图';
 export const RESOURCE_LAYER_BOUNDARY = '周边底图';
@@ -642,9 +642,9 @@ export const MB_EDIT_LAYER_MAP = {
         'AD_StopLocation',
         'AD_Text',
         'AD_TrafficLight',
-        'AD_TrafficSign', 
+        'AD_TrafficSign',
         'AD_Junction',
-        'AD_RS_Barrier' 
+        'AD_RS_Barrier'
     ].concat(MB_EDIT_LAYER_MAP_LAYER.LOGIC),
     GEOMETRY: ['AD_LaneDivider_Plg', 'AD_StopLocation_Geo', 'AD_LaneMark_Geo', 'AD_Pole_Geo']
 };

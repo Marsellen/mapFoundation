@@ -44,6 +44,12 @@ export default {
             label: '人工检修数据',
             value: 'imp_std_precompile_man_repair',
             roleCodes: ['producer', 'producer_leader']
+        },
+        // 定点检修
+        {
+            label: '定点检修数据',
+            value: 'imp_designated_repair',
+            roleCodes: ['producer', 'producer_leader']
         }
     ]
 };
