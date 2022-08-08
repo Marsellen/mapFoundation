@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Steps, Modal } from 'antd';
+import { Steps, Modal, Tooltip } from 'antd';
 import { logDecorator } from 'src/util/decorator';
 import { getBuildUrl } from 'src/util/taskUtils';
 import { geojsonToDbData } from 'src/util/relCtrl/utils';
@@ -63,8 +63,8 @@ class BuildStep extends React.Component {
             okText: '确定',
             cancelText: '取消',
             onOk: () => {
-                TaskStore.setSplitBuildStep(current);
                 this.handleOk(current);
+                TaskStore.setSplitBuildStep(current);
             },
             onCancel: this.handleCancel
         });
@@ -78,11 +78,16 @@ class BuildStep extends React.Component {
     async handleOk(current) {
         const {
             ManualBuildStore,
-            TaskStore: { activeTask }
+            TaskStore: { activeTask, splitBuildStep }
         } = this.props;
 
         const path = getBuildUrl(activeTask);
-        const params = { taskId: activeTask.taskId, ADMAP_IMPTASK_MAP_BASEDIR: path };
+        const isBack = splitBuildStep >= current;
+        const params = {
+            taskId: activeTask.taskId,
+            ADMAP_IMPTASK_MAP_BASEDIR: path,
+            reback: isBack ? 1 : 0
+        };
         let outputLayers = {};
         switch (current) {
             case 0:
@@ -101,9 +106,11 @@ class BuildStep extends React.Component {
         if (outputLayers.code !== 1) return;
         const layers = window.vectorLayerGroup.layers;
         const layerMap = {};
-        const fileNames = outputLayers.data?.layers
+        const fileNames = outputLayers.data?.layers;
         const layerNames = fileNames.map(n => n.replace('.geojson', ''));
-        const urls = outputLayers.data?.layers.map(layerName => completeEditUrl(layerName, activeTask));
+        const urls = outputLayers.data?.layers.map(layerName =>
+            completeEditUrl(layerName, activeTask)
+        );
         // let vectorsUrl = [];
         // let relsUrl = [];
         // fileNames.forEach(fileName => {
@@ -150,8 +157,8 @@ class BuildStep extends React.Component {
                 const spec = layerName;
                 const dataType = 'current';
                 newLayerFeatures.forEach(feature => {
-                    const records = geojsonToDbData(feature.properties, spec, dataType)
-                    newRels = newRels.concat(records)
+                    const records = geojsonToDbData(feature.properties, spec, dataType);
+                    newRels = newRels.concat(records);
                 });
             }
         });
@@ -164,7 +171,7 @@ class BuildStep extends React.Component {
             rels: [oldRels, newRels]
         };
         // 更新关联关系
-        await updateFeatures(history)
+        await updateFeatures(history);
         // 进行检查
         const {
             QualityCheckStore: {
@@ -191,8 +198,31 @@ class BuildStep extends React.Component {
         return history;
     }
 
+    handleClickBack = current => {
+        const { TaskStore } = this.props;
+        const content = (
+            <>
+                <p>{`是否确认回退至“${contentSteps[current]}”步骤前？将会丢失该步骤后所有编辑操作。`}</p>
+            </>
+        );
+        Modal.confirm({
+            title: false,
+            zIndex: 99999,
+            content,
+            okText: '确定',
+            cancelText: '取消',
+            onOk: () => {
+                this.handleOk(current);
+                TaskStore.setSplitBuildStep(current - 1);
+            },
+            onCancel: this.handleCancel
+        });
+    };
+
     _renderContent = () => {
-        const { TaskStore: { splitBuildStep } } = this.props;
+        const {
+            TaskStore: { splitBuildStep }
+        } = this.props;
         return (
             <div className="build-step">
                 <Steps current={splitBuildStep} initial={0} onChange={this.onChange} size="small">
@@ -201,7 +231,25 @@ class BuildStep extends React.Component {
                             key={item}
                             disabled={splitBuildStep + 1 > ix || splitBuildStep + 1 < ix}
                             title={item}
-                        />
+                            description={
+                                ix < splitBuildStep + 1 && (
+                                    <Tooltip
+                                        placement="right"
+                                        title={`返回至“${contentSteps[ix]}”前状态`}
+                                    >
+                                        <span
+                                            className="build-step-back"
+                                            onClick={e => {
+                                                e.preventDefault();
+                                                this.handleClickBack(ix);
+                                            }}
+                                        >
+                                            <ToolIcon icon="fanhui" />
+                                        </span>
+                                    </Tooltip>
+                                )
+                            }
+                        ></Step>
                     ))}
                 </Steps>
                 <div className="build-step-hint">
