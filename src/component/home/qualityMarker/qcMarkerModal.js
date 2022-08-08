@@ -286,8 +286,9 @@ class QCMarkerModal extends React.Component {
         const isQuality = roleCode === 'quality';
         const isProductor = roleCode === 'producer';
         const isMsQcTask = processName === 'imp_check_after_recognition';
-        const isMbQcTask = processName === 'imp_check_after_manbuild'; 
-        const isSecondQcTask = processName === 'imp_map_second_check'; 
+        const isMbQcTask = processName === 'imp_check_after_manbuild';
+        const isSecondQcTask = processName === 'imp_map_second_check';
+
 
         const isSecondQcBack = postProcess === 2; // 是否是二次质检环节打回的任务
         const isFirst = fetchId == taskFetchId;
@@ -299,7 +300,7 @@ class QCMarkerModal extends React.Component {
             formConfigName = 'MB_QC_CREATE_CONFIG';
         } else if (isQuality && isCreate && isMbQcTask && isSecondQcBack) {
             formConfigName = 'SECOND_QC_CREATE_CONFIG';
-        } else if (isQuality && isCreate && isSecondQcTask && isDesignatedTask) {
+        } else if (isQuality && isCreate && isSecondQcTask) {
             formConfigName = 'SECOND_QC_CREATE_CONFIG';
         } else if (isQuality && isFirst && isVisite && isMsQcTask) {
             formConfigName = 'MS_QC_FIRST_VISITE_CONFIG';
@@ -307,7 +308,7 @@ class QCMarkerModal extends React.Component {
             formConfigName = 'MB_QC_FIRST_VISITE_CONFIG';
         } else if (isQuality && isFirst && isVisite && isMbQcTask && isSecondQcBack) {
             formConfigName = 'SECOND_QC_FIRST_VISITE_CONFIG';
-        } else if (isQuality && isFirst && isVisite && isSecondQcTask && isDesignatedTask) {
+        } else if (isQuality && isFirst && isVisite && isSecondQcTask) {
             formConfigName = 'SECOND_QC_FIRST_VISITE_CONFIG';
         } else if (isQuality && !isFirst && isVisite && isMsQcTask) {
             formConfigName = 'MS_QC_NOT_FIRST_VISITE_CONFIG';
@@ -315,7 +316,7 @@ class QCMarkerModal extends React.Component {
             formConfigName = 'MB_QC_NOT_FIRST_VISITE_CONFIG';
         } else if (isQuality && !isFirst && isVisite && isMbQcTask && isSecondQcBack) {
             formConfigName = 'SECOND_QC_NOT_FIRST_VISITE_CONFIG';
-        } else if (isQuality && !isFirst && isVisite && isSecondQcTask && isDesignatedTask) {
+        } else if (isQuality && !isFirst && isVisite && isSecondQcTask) {
             formConfigName = 'SECOND_QC_NOT_FIRST_VISITE_CONFIG';
         } else if (isQuality && isFirst && isModify && isMsQcTask) {
             formConfigName = 'MS_QC_FIRST_MOD_CONFIG';
