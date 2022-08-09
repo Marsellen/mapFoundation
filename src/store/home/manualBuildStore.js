@@ -54,6 +54,16 @@ class ManualBuildStore {
         }
     });
 
+    buildReback = flow(function* (data) {
+        try {
+            const result = yield AdLineService.buildReback(data);
+            return result;
+        } catch (e) {
+            console.log('回退失败' + e.message || e || '');
+            throw e;
+        }
+    });
+
     getLayers = flow(function* (urls, layerNames) {
         try {
             const result = yield Promise.all(urls.map(axios.get));

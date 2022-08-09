@@ -90,6 +90,15 @@ const AdLineService = {
             data
         };
         return service({ config });
+    },
+    buildReback: data => {
+        //逻辑构建 回退
+        const config = {
+            url: BuildApiPath('/reback'),
+            method: 'post',
+            data
+        };
+        return service({ config });
     }
 };
 

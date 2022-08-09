@@ -85,23 +85,28 @@ class BuildStep extends React.Component {
         const isBack = splitBuildStep >= current;
         const params = {
             taskId: activeTask.taskId,
-            ADMAP_IMPTASK_MAP_BASEDIR: path,
-            reback: isBack ? 1 : 0
+            ADMAP_IMPTASK_MAP_BASEDIR: path
         };
         let outputLayers = {};
-        switch (current) {
-            case 0:
-                outputLayers = await ManualBuildStore.buildLane(params);
-                break;
-            case 1:
-                outputLayers = await ManualBuildStore.buildRoad(params);
-                break;
-            case 2:
-                outputLayers = await ManualBuildStore.buildLink(params);
-                break;
+        if (isBack) {
+            params.reback = 1;
+            params.step = current + 1;
+            outputLayers = await ManualBuildStore.buildReback(params);
+        } else {
+            switch (current) {
+                case 0:
+                    outputLayers = await ManualBuildStore.buildLane(params);
+                    break;
+                case 1:
+                    outputLayers = await ManualBuildStore.buildRoad(params);
+                    break;
+                case 2:
+                    outputLayers = await ManualBuildStore.buildLink(params);
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+            }
         }
         if (outputLayers.code !== 1) return;
         const layers = window.vectorLayerGroup.layers;
