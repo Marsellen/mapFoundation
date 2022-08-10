@@ -83,7 +83,7 @@ export const completeTitleUrl = (path, task) => {
         }/${getBoundaryUrl}/${task.titlePath}/${path}?time=${Date.now()}`;
 };
 
-export const filePathTitleUrl = (task) => { 
+export const filePathTitleUrl = (task) => {
     // let url = GEO_PATH_MAP[task.processName] + `${task.taskId}/${SECEND_PATH[task.processName]}/${BOUNDARY_PATH_MAP[task.processName]}/`;
     return GEO_PATH_MAP[task.processName] + `${task.taskId}/${SECEND_PATH[task.processName]}/${BOUNDARY_PATH_MAP[task.processName]}/`;
 };
