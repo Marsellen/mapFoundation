@@ -23,6 +23,7 @@ export const OTHER_CONFIG = {
     updStatAllChecked: true,
     autoConnectRel: true,
     bufferDiff: 0.01,
+    notAllowSaveNodeList: ['imp_map_second_check'],
     needSetLevelLists: ['imp_std_precompile_man_repair'],
     needSetDefaultLevel: 15
 };

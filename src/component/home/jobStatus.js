@@ -287,14 +287,14 @@ class JobStatus extends React.Component {
     };
 
     handleCheck = async option => {
-        const { TaskStore: { activeTask: { processName, manualStatus } } = {} } = this.props; 
+        const { TaskStore: { activeTask: { processName, manualStatus } } = {} } = this.props;
         switch (processName) {
             case 'imp_recognition': //人工识别
             case 'imp_std_precompile_man_repair': //编译预处理人工检修
                 return this.checkMsTask(manualStatus, option);
-                
+
             case 'imp_manbuild': //人工构建
-            case 'imp_designated_repair':// 定点检修
+            case 'imp_designated_repair': // 定点检修
                 return this.checkMbTask(option);
 
             case 'imp_check_after_recognition': //人工识别后质检
@@ -307,12 +307,16 @@ class JobStatus extends React.Component {
     };
 
     handleTaskSubmit = async option => {
-        const { OperateHistoryStore } = this.props;
+        const { OperateHistoryStore, TaskStore } = this.props;
         const { currentNode, savedNode } = OperateHistoryStore;
+        const { activeTask } = TaskStore;
         const shouldSave = currentNode > savedNode;
+        const notAllowSave = SettingStore.getConfig('OTHER_CONFIG')?.notAllowSaveNodeList.find(
+            i => i == activeTask.processName
+        );
 
-        //第一步：保存
-        if (shouldSave) {
+        //第一步：保存 （满足条件：有修改 且 属于可修改环节）
+        if (shouldSave && !notAllowSave) {
             await this.action();
         }
 
@@ -336,7 +340,9 @@ class JobStatus extends React.Component {
             // 清除质检标注相关数据
             QCMarkerStore.release();
             // 获取新任务，更新任务列表
-            await TaskStore.initTask({ type: SettingStore.getConfig('OTHER_CONFIG')?.autoGetTask ? 3 : 4 });
+            await TaskStore.initTask({
+                type: SettingStore.getConfig('OTHER_CONFIG')?.autoGetTask ? 3 : 4
+            });
             // 更新任务列表后，清除浏览器缓存中多余任务信息
             AdLocalStorage.filterTaskInfosStorage(TaskStore.taskIdList);
         } catch (e) {
