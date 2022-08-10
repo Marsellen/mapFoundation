@@ -10,6 +10,7 @@ import { completeEditUrl } from 'src/util/taskUtils';
 import { VECTOR_FILES, REL_FILES } from 'src/config/taskConfig';
 import { updateFeatures } from 'src/util/relCtrl/operateCtrl';
 import { querySameAttrTypeRels } from 'src/util/relCtrl/relCtrl';
+import Relevance from 'src/util/relevance';
 import RelStore from 'src/store/home/relStore';
 
 const { Step } = Steps;
@@ -108,7 +109,7 @@ class BuildStep extends React.Component {
                     break;
             }
         }
-        if (outputLayers.code !== 1) return;
+        if (outputLayers.code !== 1) return {};
         const layers = window.vectorLayerGroup.layers;
         const layerMap = {};
         const fileNames = outputLayers.data?.layers;
@@ -116,13 +117,6 @@ class BuildStep extends React.Component {
         const urls = outputLayers.data?.layers.map(layerName =>
             completeEditUrl(layerName, activeTask)
         );
-        // let vectorsUrl = [];
-        // let relsUrl = [];
-        // fileNames.forEach(fileName => {
-        //     const url = completeEditUrl(fileName, activeTask);
-        //     VECTOR_FILES.includes(fileName) && vectorsUrl.push(url);
-        //     REL_FILES.includes(fileName) && relsUrl.push(url);
-        // })
         const result = await ManualBuildStore.getLayers(urls, layerNames);
 
         //渲染返回要素
@@ -170,13 +164,28 @@ class BuildStep extends React.Component {
 
         // 获取旧关联关系
         let { rels: oldRels } = await querySameAttrTypeRels(newRels);
-        // 日志数据
-        const history = {
-            features: [oldAllFeatures, newAllFeatures],
-            rels: [oldRels, newRels]
-        };
-        // 更新关联关系
-        await updateFeatures(history);
+        let history = {};
+        if (!isBack) {
+            // 日志数据
+            history = {
+                features: [oldAllFeatures, newAllFeatures],
+                rels: [oldRels, newRels]
+            };
+            // 更新矢量、关联关系
+            await updateFeatures(history);
+        } else {
+            // 日志数据
+            history = {
+                features: [oldAllFeatures, newAllFeatures]
+            };
+            // 更新矢量、关联关系
+            await updateFeatures(history);
+            let relStore = Relevance.store;
+            // 清空indexDB中的关系
+            await RelStore.destroy();
+            // 向indexDB中添加新关联关系
+            await relStore.batchAdd(newRels);
+        }
         // 进行检查
         const {
             QualityCheckStore: {
