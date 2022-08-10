@@ -39,7 +39,7 @@ class BuildStep extends React.Component {
         if (visible) {
             DataLayerStore.setEditType('logic_build', 'button');
         } else {
-            DataLayerStore.setEditType('logic_build_load');
+            DataLayerStore.setEditType();
         }
     };
 
@@ -50,13 +50,14 @@ class BuildStep extends React.Component {
     // };
 
     onChange = current => {
-        const { TaskStore } = this.props;
+        const { TaskStore, DataLayerStore } = this.props;
         const content = (
             <>
                 <p>{`是否确定进行${contentSteps[current]}？`}</p>
                 <p>该操作只能进行一次。</p>
             </>
         );
+        DataLayerStore.setEditType('logic_build_load');
         Modal.confirm({
             title: false,
             zIndex: 99999,
@@ -213,12 +214,13 @@ class BuildStep extends React.Component {
     }
 
     handleClickBack = current => {
-        const { TaskStore } = this.props;
+        const { TaskStore, DataLayerStore } = this.props;
         const content = (
             <>
                 <p>{`是否确认回退至“${contentSteps[current]}”步骤前？将会丢失该步骤后所有编辑操作。`}</p>
             </>
         );
+        DataLayerStore.setEditType('logic_build_load');
         Modal.confirm({
             title: false,
             zIndex: 99999,
