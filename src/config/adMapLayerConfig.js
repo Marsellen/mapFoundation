@@ -1362,7 +1362,7 @@ export const COLUMNS_CONFIG_LAYER = {
         {
             dataIndex: 'SPD_SOURCE',
             title: '车道限速来源',
-            filterBy: 'typeFilter|AD_LANE_SPD_TYPE'
+            filterBy: 'typeFilter|AD_LANE_MAX_SP_TYP'
         },
         {
             dataIndex: 'OFFSET',
