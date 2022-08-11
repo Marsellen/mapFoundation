@@ -126,14 +126,8 @@ class EditableCard extends React.Component {
                             else if (item === '预编译变化') {
                                 strUpd_stat.PRECOMPLIER_CHK = 1;
                             }
-                            else if (item === '预编译自动修改') {
-                                strUpd_stat.PRECOMPLIER_STAT = 'AUTO';
-                            }
-                            else if (item === '预编译人工修改') {
+                            else if (item === '预编译自动修改' || item === '预编译人工修改' || item === '预编译人工变自动') {
                                 strUpd_stat.PRECOMPLIER_STAT = 'MAN';
-                            }
-                            else if (item === '预编译人工变自动') {
-                                strUpd_stat.PRECOMPLIER_STAT = 'MAN-AUTO';
                             }
                             else {
                                 strUpd_stat.PRECOMPLIER_STAT = 'MAN';
