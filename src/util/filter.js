@@ -68,8 +68,7 @@ class Filter {
                 MEANING.push(UPD_STAT_MAP.RELATION[RELATION]);
             }
             if (!_.isEmpty(properties)) {
-                // 更新标记
-                // 保留之前方法
+                // 更新标记 
                 let PROPERTIES; 
                 if (properties?.PRECOMPLIER_CHK !== undefined) {
                     PROPERTIES = properties?.PRECOMPLIER_CHK;

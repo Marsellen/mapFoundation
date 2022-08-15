@@ -59,7 +59,8 @@ class QualityCheckStore {
     //作业员质检
     producerCheck = flow(function* (option) {
         try {
-            const { data } = yield CheckService.check(option);
+            const { isMrTask } = TaskStore;
+            const { data } = yield CheckService[isMrTask ? 'checkPreMdb' : 'check'](option);
             return data;
         } catch (e) {
             console.error('请求失败');
@@ -154,7 +155,7 @@ class QualityCheckStore {
                             case 1:
                                 this.handleReportList(data);
                                 //人工构建任务且执行过自动修正的才会更新任务数据
-                                if (TaskStore.taskProcessName === 'imp_manbuild') {
+                                if (TaskStore.taskProcessName === 'imp_manbuild' || TaskStore.taskProcessName === 'imp_designated_repair') {
                                     const repairList = data.filter(item => item.repairStatus === 1);
                                     repairList.length > 0 && (await updateData());
                                 }

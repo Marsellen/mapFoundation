@@ -8,6 +8,8 @@ import dianfuhao6 from 'src/asset/img/dianfuhao6.png';
 import dianfuhao7 from 'src/asset/img/dianfuhao7.png';
 import dianfuhao8 from 'src/asset/img/dianfuhao8.png';
 
+import {CONFIGURABLE_LAYER} from 'src/config/adMapLayerConfig';
+
 export const VECTOR_CONFIG_MAP = {
     //渲染模式与符号配置映射
     selfCheck: 'SELF_CHECK_VECTOR_CONFIG_MAP',
@@ -21,7 +23,9 @@ export const VECTOR_CONFIG_MAP = {
     imp_manbuild: 'MB_TASK_VECTOR_CONFIG_MAP',
     imp_check_after_manbuild: 'QC_MB_TASK_VECTOR_CONFIG_MAP',
     imp_map_second_check: 'QC_MB_TASK_VECTOR_CONFIG_MAP',
-    imp_std_precompile_man_repair: 'MB_TASK_VECTOR_CONFIG_MAP'
+    imp_std_precompile_man_repair: 'MB_TASK_VECTOR_CONFIG_MAP',
+    // 定点检修
+    imp_designated_repair:'MB_TASK_VECTOR_CONFIG_MAP'
 };
 
 //点符号图标名与base64映射
@@ -37,6 +41,7 @@ export const POINT_ICON_MAP = {
     dianfuhao8: dianfuhao8
 };
 
+// 关联渲染  会做检查
 export const CONFIGURABLE_LAYERS = [
     'AD_Road',
     'AD_LaneDivider',
@@ -52,6 +57,5 @@ export const CONFIGURABLE_LAYERS = [
     'AD_LaneDivider_Plg',
     'AD_StopLocation_Geo',
     'AD_LaneMark_Geo',
-    'AD_Pole_Geo',
-    'AD_Lane_Overlap'
-];
+    'AD_Pole_Geo'
+].concat(CONFIGURABLE_LAYER);

@@ -1,3 +1,5 @@
+import {CHECK_VECTOR_CONFIG_LAYER} from 'src/config/adMapLayerConfig'; 
+
 export const DEFINE_TEXT_CONFIG_MAP = {
     AD_Road: {
         type: 'Line',
@@ -314,27 +316,6 @@ export const DEFINE_TEXT_CONFIG_MAP = {
                 interval: true
             }
         }
-    },
-    AD_Lane_Overlap: {
-        key: 'AD_Lane_Overlap',
-        label: '中心线压盖',
-        checked: false,
-        defaultStyle: {
-            textFields: ['NOKEY'], //看数据规格
-            interval: 10,
-            showMode: 'line-center',
-            fontSize: 40,
-            strokeColor: 'rgba(0,0,0,1)'    ,
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            textColor: 'rgba(255,255,255,1)'
-        },
-        textModeMap: {
-            'line-center': { key: 'line-center', label: '线中心' },
-            'line-repeat': {
-                key: 'line-repeat',
-                label: '线上循环',
-                interval: true
-            }
-        }
-    }
+    } 
 };
+Object.assign(DEFINE_TEXT_CONFIG_MAP,CHECK_VECTOR_CONFIG_LAYER);

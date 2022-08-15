@@ -95,22 +95,6 @@ export const DefaultStyleConfig= {
         level:16,
         tocLevel:true
     },
-    AD_Lane_Overlap: {
-        type: 'Line',
-        showFields: ['NOKEY'],
-        order: 1,
-        showStyles: ['vectorStyle'],
-        vectorStyle: {
-            NOKEY: [
-                {
-                    style: { color: 'rgb(255,110,100)', linewidth: 1 }
-                }
-            ]
-        },
-        level:16,
-        tocLevel:true
-    }, 
-
     AD_StopLocation: {
         type: 'Line',
         showFields: ['NOKEY'],

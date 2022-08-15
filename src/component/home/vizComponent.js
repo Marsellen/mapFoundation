@@ -556,7 +556,7 @@ class VizComponent extends React.Component {
         installMapListener();
     };
 
-    selectedCallBack = (result, event) => {
+    selectedCallBack = (result, event) => { 
         if (result && result.length > 0) {
             const firstFeature = result[0];
             const { type: featureType, layerName: featureLayerName } = firstFeature;

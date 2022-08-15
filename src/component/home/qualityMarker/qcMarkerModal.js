@@ -288,6 +288,8 @@ class QCMarkerModal extends React.Component {
         const isMsQcTask = processName === 'imp_check_after_recognition';
         const isMbQcTask = processName === 'imp_check_after_manbuild';
         const isSecondQcTask = processName === 'imp_map_second_check';
+
+
         const isSecondQcBack = postProcess === 2; // 是否是二次质检环节打回的任务
         const isFirst = fetchId == taskFetchId;
 
@@ -322,7 +324,7 @@ class QCMarkerModal extends React.Component {
             formConfigName = 'MB_QC_FIRST_MOD_CONFIG';
         } else if (isQuality && isFirst && isModify && isMbQcTask && isSecondQcBack) {
             formConfigName = 'SECOND_QC_FIRST_MOD_CONFIG';
-        } else if (isQuality && isFirst && isModify && isSecondQcTask) {
+        } else if (isQuality && isFirst && isModify && isSecondQcTask && isDesignatedTask) {
             formConfigName = 'SECOND_QC_FIRST_MOD_CONFIG';
         } else if (isProductor && isVisite) {
             formConfigName = 'FIX_VISITE_CONFIG';

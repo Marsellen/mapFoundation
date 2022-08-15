@@ -44,6 +44,8 @@ class AttributeStore {
     @observable updateKey;
 
     @action show = (readonly, obj) => {
+        console.log(readonly);
+        
         const modelId = obj.data.properties[getLayerIDKey(this.layerName)];
         if (this.modelId !== modelId) {
             if (!this.readonly && this.visible) {
@@ -375,8 +377,7 @@ class AttributeStore {
             let MainFId = MainKey.key;
             properties = properties || this.model.data.properties;
             // 更新标记
-            if (key === 'AD_Lane_Speed') {
-                debugger
+            if (key === 'AD_Lane_Speed') { 
                 if (value?.UPD_STAT) {
                     let UPD_STAT = JSON.parse(value.UPD_STAT);
                     UPD_STAT.PRECOMPLIER_STAT = 'MAN';

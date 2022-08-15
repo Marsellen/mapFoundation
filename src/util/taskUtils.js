@@ -20,7 +20,9 @@ const SECEND_PATH = {
     imp_manbuild: '13_ED_DATA',
     imp_check_after_manbuild: '13_ED_DATA',
     imp_map_second_check: '13_ED_DATA',
-    imp_std_precompile_man_repair: '03_STD_ED_DATA'
+    imp_std_precompile_man_repair: '03_STD_ED_DATA',
+    // 定点检修
+    imp_designated_repair: '13_ED_DATA'
 };
 const THIRD_PATH = {
     imp_recognition: '1301_RAW_DATA',
@@ -28,7 +30,9 @@ const THIRD_PATH = {
     imp_manbuild: '1301_RAW_DATA',
     imp_check_after_manbuild: '1301_RAW_DATA',
     imp_map_second_check: '1301_RAW_DATA',
-    imp_std_precompile_man_repair: '0301_RAW_DATA'
+    imp_std_precompile_man_repair: '0301_RAW_DATA',
+    // 定点检修
+    imp_designated_repair: '1301_RAW_DATA'
 };
 const THIRD_PATH_MAP = {
     imp_recognition: '1312_MS_VEC_DES',
@@ -36,7 +40,9 @@ const THIRD_PATH_MAP = {
     imp_manbuild: '1339_MB_VEC_DES',
     imp_check_after_manbuild: '1339_MB_VEC_DES',
     imp_map_second_check: '1339_MB_VEC_DES',
-    imp_std_precompile_man_repair: '0303_STD_ED_DES'
+    imp_std_precompile_man_repair: '0303_STD_ED_DES',
+    // 定点检修
+    imp_designated_repair: '1339_MB_VEC_DES'
 };
 const BOUNDARY_PATH_MAP = {
     imp_recognition: '1302_MS_AROUND_DATA',
@@ -44,10 +50,12 @@ const BOUNDARY_PATH_MAP = {
     imp_manbuild: '1304_MB_AROUND_DATA',
     imp_check_after_manbuild: '1305_MB_QC_AROUND_DATA',
     imp_map_second_check: '1305_MB_QC_AROUND_DATA',
-    imp_std_precompile_man_repair: '0304_STD_AROUND_DES'
+    imp_std_precompile_man_repair: '0304_STD_AROUND_DES',
+    // 定点检修
+    imp_designated_repair: '1304_MB_AROUND_DATA'
 };
 
-const GEO_PATH_MAP={
+const GEO_PATH_MAP = {
     imp_std_precompile_man_repair: '/ADMAP/COMPILE_STD2RMD/PRECOMP_TASKS/'
 };
 //人工构建任务类型枚举: [人工构建, 人工构建后质检]
@@ -55,7 +63,9 @@ const manbuildTaskProcess = [
     'imp_manbuild',
     'imp_check_after_manbuild',
     'imp_map_second_check',
-    'imp_std_precompile_man_repair'
+    'imp_std_precompile_man_repair',
+    // 定点检修
+    'imp_designated_repair'
 ];
 
 export const getExportShpUrl = task => {
@@ -72,18 +82,17 @@ export const completeTitleUrl = (path, task) => {
     return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]
         }/${getBoundaryUrl}/${task.titlePath}/${path}?time=${Date.now()}`;
 };
- 
+
 export const filePathTitleUrl = (task) => {
-    
-    let url=GEO_PATH_MAP[task.processName]+`${task.taskId}/${SECEND_PATH[task.processName]}/${BOUNDARY_PATH_MAP[task.processName]}/`;
-    return  GEO_PATH_MAP[task.processName]+`${task.taskId}/${SECEND_PATH[task.processName]}/${BOUNDARY_PATH_MAP[task.processName]}/`;
+    // let url = GEO_PATH_MAP[task.processName] + `${task.taskId}/${SECEND_PATH[task.processName]}/${BOUNDARY_PATH_MAP[task.processName]}/`;
+    return GEO_PATH_MAP[task.processName] + `${task.taskId}/${SECEND_PATH[task.processName]}/${BOUNDARY_PATH_MAP[task.processName]}/`;
 };
 
 
 // 补齐轨迹、照片数据路径
 export const completeSecendUrl = (path, task) => {
     return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]}/${THIRD_PATH[task.processName]
-        }/${path}`;
+        }/${path}?time=${Date.now()}`;
 };
 
 // 补齐多工程数据路径，如：点云、轨迹

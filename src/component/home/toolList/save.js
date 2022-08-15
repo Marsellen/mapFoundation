@@ -8,6 +8,7 @@ import { saveTaskData } from 'src/util/taskUtils';
 import { editLock } from 'src/util/decorator';
 import { withRouter } from 'react-router';
 import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
+import SettingStore from 'src/store/setting/settingStore';
 
 @withRouter
 @inject('TaskStore')
@@ -59,9 +60,13 @@ class Save extends React.Component {
     };
 
     autoSave = async () => {
-        const { OperateHistoryStore } = this.props;
+        const { OperateHistoryStore, TaskStore } = this.props;
+        const { activeTask } = TaskStore;
         let { couldSave } = OperateHistoryStore;
-        if (couldSave) {
+        const notAllowSave = SettingStore.getConfig('OTHER_CONFIG')?.notAllowSaveNodeList.find(
+            i => i == activeTask.processName
+        );
+        if (couldSave && !notAllowSave) {
             await saveTaskData('auto');
         }
     };

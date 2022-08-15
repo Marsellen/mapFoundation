@@ -1,4 +1,4 @@
-import { VECTOR_FILES_LAYER,REL_FILES_LAYER } from "./adMapLayerConfig";
+import { VECTOR_FILES_LAYER, REL_FILES_LAYER } from "./adMapLayerConfig";
 
 //任务环节映射
 export const TASK_PROCESS_NAME = [
@@ -7,6 +7,8 @@ export const TASK_PROCESS_NAME = [
     { value: 'imp_manbuild', label: '人工构建' },
     { value: 'imp_check_after_manbuild', label: '人工构建后质检' },
     { value: 'imp_map_second_check', label: '二次质检' },
+    // 定点检修
+    { value: 'imp_designated_repair', label: '定点检修' },
     { value: 'imp_std_precompile_man_repair', label: '人工检修' }
 ];
 //任务状态映射
@@ -28,12 +30,13 @@ export const TASK_ORDER_NUM = {
     90: '极低'
 };
 //作业任务环节
-export const TASK_FIX_TYPES = ['imp_recognition', 'imp_manbuild', 'imp_std_precompile_man_repair'];
+export const TASK_FIX_TYPES = ['imp_recognition', 'imp_std_precompile_man_repair'];
 //质检任务环节
 export const TASK_QC_TYPES = [
     'imp_check_after_recognition',
     'imp_check_after_manbuild',
-    'imp_map_second_check'
+    'imp_map_second_check',
+    'imp_designated_repair'
 ];
 //任务已领取、进行中状态
 export const TASK_FIX_STATUS = [1, 2];
@@ -61,7 +64,12 @@ export const UPDATE_BOUNDARY_PARAM_MAP = {
     imp_map_second_check: {
         referData: 'MB_EDITOR_QUERYDB_PATHS',
         outDir: '1305_MB_QC_AROUND_DATA'
-    }
+    },
+    // 定点检修
+    imp_designated_repair: {
+        referData: 'MB_EDITOR_QUERYDB_PATHS',
+        outDir: '1304_MB_AROUND_DATA'
+    },
 };
 
 //任务类型
@@ -79,7 +87,7 @@ export const POST_PROCESS = {
 };
 
 //任务文件-矢量文件
- // 新增图层配置
+// 新增图层配置
 export const VECTOR_FILES = [
     // 'AD_LaneDivider_Pln.geojson',
     'AD_LaneDivider_Plg.geojson',

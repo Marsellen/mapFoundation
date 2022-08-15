@@ -10,6 +10,7 @@ import { saveTaskData } from 'src/util/taskUtils';
 import { editLock } from 'src/util/decorator';
 import BuriedPoint from 'src/util/buriedPoint';
 import AdEmitter from 'src/util/event';
+import SettingStore from 'src/store/setting/settingStore';
 
 const processNameOptions = CONFIG.processNameOptions;
 
@@ -35,7 +36,7 @@ class Task extends React.Component {
             return (
                 <Menu className="menu" selectedKeys={[taskIndex]}>
                     {validTasks.map((item, index) => (
-                        <Menu.Item key={index}  onClick={e => this.chooseTask(e, item.taskId)}>
+                        <Menu.Item key={index} onClick={e => this.chooseTask(e, item.taskId)}>
                             <p className="menu-item-box">
                                 <span>{this.getTaskLabel(item)}</span>
                                 <ToolIcon
@@ -86,10 +87,14 @@ class Task extends React.Component {
 
     @editLock
     chooseTask = (e, id) => {
-        const { OperateHistoryStore } = this.props;
+        const { OperateHistoryStore, TaskStore } = this.props;
+        const { activeTask } = TaskStore;
+        const notAllowSave = SettingStore.getConfig('OTHER_CONFIG')?.notAllowSaveNodeList.find(
+            i => i == activeTask.processName
+        );
         let { currentNode, savedNode } = OperateHistoryStore;
         let shouldSave = currentNode > savedNode;
-        if (shouldSave) {
+        if (shouldSave && !notAllowSave) {
             Modal.confirm({
                 title: '提示： 当前任务未保存。',
                 okText: '保存并切换',

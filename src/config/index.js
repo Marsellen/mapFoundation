@@ -1,6 +1,6 @@
 export default {
     title: 'Ecarx React App',
-    version: 'SVC013_v4.3.2.3',
+    version: 'SVC013_v4.3.3.1',
     urlConfig: {
         point_clouds: 'cloud.js',
         track: 'track.json',
@@ -43,6 +43,12 @@ export default {
         {
             label: '人工检修数据',
             value: 'imp_std_precompile_man_repair',
+            roleCodes: ['producer', 'producer_leader']
+        },
+        // 定点检修
+        {
+            label: '定点检修数据',
+            value: 'imp_designated_repair',
             roleCodes: ['producer', 'producer_leader']
         }
     ]

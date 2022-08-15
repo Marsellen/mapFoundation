@@ -43,7 +43,7 @@ import ModifyTask from 'src/util/task/modifyTask';
 import { VECTOR_FILES, ATTR_FILES, REL_FILES, REGION_FILES } from 'src/config/taskConfig';
 import { fetchCallback } from 'src/util/map/utils';
 import PointCloudStore from 'src/store/home/pointCloudStore';
-import {DefaultStyleConfig} from 'src/config/defaultStyleConfig';
+import { DefaultStyleConfig } from 'src/config/defaultStyleConfig';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -55,6 +55,10 @@ class TaskStore {
     projectNameArr = []; //当前任务工程名
     lidarNameArr = []; //多工程点云，每个工程下对应的点云名
     defaultLidarName = []; //多工程点云，每个工程下默认显示的点云名
+
+    // 切片名称
+    referTileIds = [];
+
     @observable onlineTasks = [];
     @observable localTasks = [];
     @observable activeTask = {};
@@ -415,7 +419,14 @@ class TaskStore {
             const url = completeSecendUrl(taskInfo, this.activeTask);
             const processName = this.activeTask.processName;
             const { data } = yield axios.get(url);
-            const { projectNames, lidarNames, defaultLidarName, treeContent, check_pkg } = data;
+            const { projectNames, lidarNames, defaultLidarName, treeContent, check_pkg, referTileIds } = data;
+
+            if (typeof (referTileIds) !== 'undefined') {
+                const titles = referTileIds.slice(',');
+                titles.forEach(item => { 
+                    this.referTileIds.push(item.toString().trim());
+                });
+            }
             if (this.isMrTask) {
                 this.activeTask.process_name_check = check_pkg?.[processName];
                 return;
@@ -424,7 +435,7 @@ class TaskStore {
             this.multiProjectMap = this.initMultiProjectMap();
             this.lidarNameArr = JSON.parse(lidarNames);
             this.defaultLidarName = JSON.parse(defaultLidarName);
-            this.multiProjectTree = treeContent;
+            this.multiProjectTree = treeContent; 
             this.activeTask.process_name_check = check_pkg?.[processName];
             PointCloudStore.initPointCloudMap(data, this.activeTask);
         } catch (e) {
@@ -589,7 +600,7 @@ class TaskStore {
     submit = flow(function* () {
         let vectorData = getAllVectorData(true);
         // 删除不符合规则的字段
-        let vectorDataClone=JSON.parse(JSON.stringify(vectorData));
+        let vectorDataClone = JSON.parse(JSON.stringify(vectorData));
         if (vectorDataClone) {
             vectorDataClone?.features.forEach(feature => {
                 if (feature.name === "AD_Lane") {
@@ -616,7 +627,7 @@ class TaskStore {
                     filePath: path,
                     fileName: 'ads_all',
                     fileFormat: 'geojson',
-                    fileData:vectorDataClone
+                    fileData: vectorDataClone
                 },
                 {
                     filePath: path,
@@ -728,10 +739,10 @@ class TaskStore {
     };
     // 获取切片路径 
     getTitleFileList = flow(function* (data) {
-        try {   
-             
-            const result = yield EditorService.getTitleFileList(data); 
-            return result.data; 
+        try {
+
+            const result = yield EditorService.getTitleFileList(data);
+            return result.data;
         } catch (e) {
             console.log(`task file list 请求失败：${e.message || e}`);
             message.error(e?.message ?? e);

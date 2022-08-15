@@ -1125,7 +1125,7 @@ export default {
                         radius: 0.15,
                         size: 80
                     }
-                },
+                }, 
                 {
                     value: 1821,
                     label: '服务区道路开始位置',
