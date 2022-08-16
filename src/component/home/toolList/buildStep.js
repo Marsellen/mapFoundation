@@ -66,7 +66,6 @@ class BuildStep extends React.Component {
             cancelText: '取消',
             onOk: () => {
                 this.handleOk(current);
-                TaskStore.setSplitBuildStep(current);
             },
             onCancel: this.handleCancel
         });
@@ -78,11 +77,8 @@ class BuildStep extends React.Component {
 
     @logDecorator({ operate: '逻辑构建', skipRenderMode: true })
     async handleOk(current) {
-        const {
-            ManualBuildStore,
-            TaskStore: { activeTask, splitBuildStep }
-        } = this.props;
-
+        const { ManualBuildStore, TaskStore } = this.props;
+        const { activeTask, splitBuildStep } = TaskStore;
         const path = getBuildUrl(activeTask);
         const isBack = splitBuildStep >= current;
         const params = {
@@ -112,6 +108,8 @@ class BuildStep extends React.Component {
             }
         }
         if (outputLayers.code !== 1) return {};
+        TaskStore.setSplitBuildStep(isBack ? current - 1 : current);
+
         const layers = window.vectorLayerGroup.layers;
         const layerMap = {};
         const fileNames = outputLayers.data?.layers;
@@ -230,7 +228,6 @@ class BuildStep extends React.Component {
             cancelText: '取消',
             onOk: () => {
                 this.handleOk(current);
-                TaskStore.setSplitBuildStep(current - 1);
             },
             onCancel: this.handleCancel
         });
