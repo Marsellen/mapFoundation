@@ -87,7 +87,8 @@ class BuildStep extends React.Component {
         const isBack = splitBuildStep >= current;
         const params = {
             taskId: activeTask.taskId,
-            ADMAP_IMPTASK_MAP_BASEDIR: path
+            ADMAP_IMPTASK_MAP_BASEDIR: path,
+            PRJ_LIST: activeTask.PRJ_LIST
         };
         let outputLayers = {};
         if (isBack) {
