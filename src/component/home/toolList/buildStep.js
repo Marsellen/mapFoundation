@@ -78,7 +78,7 @@ class BuildStep extends React.Component {
     @logDecorator({ operate: '逻辑构建', skipRenderMode: true })
     async handleOk(current) {
         const { ManualBuildStore, TaskStore } = this.props;
-        const { activeTask, splitBuildStep } = TaskStore;
+        const { activeTask, splitBuildStep, getTaskFile } = TaskStore;
         const path = getBuildUrl(activeTask);
         const isBack = splitBuildStep >= current;
         const params = {
@@ -161,31 +161,20 @@ class BuildStep extends React.Component {
                 });
             }
         });
-
         // 获取旧关联关系
-        let { rels: oldRels } = await querySameAttrTypeRels(newRels);
+        // let { rels: oldRels } = await querySameAttrTypeRels(newRels);
         let history = {};
-        if (!isBack) {
-            // 日志数据
-            history = {
-                features: [oldAllFeatures, newAllFeatures],
-                rels: [oldRels, newRels]
-            };
-            // 更新矢量、关联关系
-            await updateFeatures(history);
-        } else {
-            // 日志数据
-            history = {
-                features: [oldAllFeatures, newAllFeatures]
-            };
-            // 更新矢量、关联关系
-            await updateFeatures(history);
-            let relStore = Relevance.store;
-            // 清空indexDB中的关系
-            await RelStore.destroy();
-            // 向indexDB中添加新关联关系
-            await relStore.batchAdd(newRels);
-        }
+        const taskFile = getTaskFile();
+        // 日志数据
+        history = {
+            features: [oldAllFeatures, newAllFeatures]
+        };
+        // 更新矢量
+        await updateFeatures(history);
+        // 清空indexDB中的关系
+        await RelStore.destroy();
+        // 向indexDB中添加新关联关系
+        await RelStore.addRecords(taskFile.rels, 'current');
         // 进行检查
         const {
             QualityCheckStore: {
