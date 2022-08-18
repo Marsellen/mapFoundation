@@ -10,6 +10,9 @@ import { editLock } from 'src/util/decorator';
 
 @inject('appStore')
 @inject('TaskStore')
+@inject('CheckModeStore')
+@inject('DefineModeStore')
+@inject('RenderModeStore')
 @inject('QualityCheckStore')
 @inject('OperateHistoryStore')
 @observer
@@ -78,8 +81,13 @@ class QualityCheck extends React.Component {
                     closeCheckReport,
                     setActiveKey,
                     handleProducerCheck
-                }
+                },
+                TaskStore: { taskProcessName },
+                RenderModeStore,
+                DefineModeStore,
+                CheckModeStore
             } = this.props;
+            const { initVectorConfig } = DefineModeStore;
 
             closeCheckReport(); //关闭质检弹窗
 
@@ -92,10 +100,16 @@ class QualityCheck extends React.Component {
             const reportListL = reportList.length;
             reportListL > 0
                 ? this.checkModal(`质量检查结束，发现${reportListL}个错误，是否查看？`, () => {
-                    setActiveKey('check');
-                    openCheckReport();
-                })
+                      setActiveKey('check');
+                      openCheckReport();
+                  })
                 : this.checkModal(`质量检查结束，未发现数据问题`);
+            // 如果是定点检修模式则更新页面检查图标
+            const { activeMode } = RenderModeStore;
+            if (activeMode == 'check') {
+                initVectorConfig(activeMode, taskProcessName);
+                CheckModeStore.initCheckMode(activeMode);
+            }
 
             this.setState({ visible: false });
             this.loadConfidenceFiles();
