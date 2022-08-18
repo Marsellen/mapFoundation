@@ -43,7 +43,7 @@ import ModifyTask from 'src/util/task/modifyTask';
 import { VECTOR_FILES, ATTR_FILES, REL_FILES, REGION_FILES } from 'src/config/taskConfig';
 import { fetchCallback } from 'src/util/map/utils';
 import PointCloudStore from 'src/store/home/pointCloudStore';
-import {DefaultStyleConfig} from 'src/config/defaultStyleConfig';
+import { DefaultStyleConfig } from 'src/config/defaultStyleConfig';
 
 configure({ enforceActions: 'always' });
 class TaskStore {
@@ -150,7 +150,7 @@ class TaskStore {
 
     @action setSplitBuildStep = step => {
         this.splitBuildStep = step;
-    }
+    };
 
     updateActiveTask = () => {
         if (!this.activeTask) return;
@@ -422,7 +422,7 @@ class TaskStore {
         try {
             if (!this.activeTaskUrl) return;
             const { taskInfo } = CONFIG.urlConfig;
-            const url = completeSecendUrl(taskInfo, this.activeTask);
+            const url = completeSecendUrl(taskInfo, this.activeTask) + `?time=${Date.now()}`;
             const processName = this.activeTask.processName;
             const { data } = yield axios.get(url);
             const {
@@ -607,10 +607,10 @@ class TaskStore {
     submit = flow(function* () {
         let vectorData = getAllVectorData(true);
         // 删除不符合规则的字段
-        let vectorDataClone=JSON.parse(JSON.stringify(vectorData));
+        let vectorDataClone = JSON.parse(JSON.stringify(vectorData));
         if (vectorDataClone) {
             vectorDataClone?.features.forEach(feature => {
-                if (feature.name === "AD_Lane") {
+                if (feature.name === 'AD_Lane') {
                     feature.features.forEach(item => {
                         if (item?.properties?.RS_VALUE !== undefined) {
                             delete item.properties.RS_VALUE;
@@ -634,7 +634,7 @@ class TaskStore {
                     filePath: path,
                     fileName: 'ads_all',
                     fileFormat: 'geojson',
-                    fileData:vectorDataClone
+                    fileData: vectorDataClone
                 },
                 {
                     filePath: path,
@@ -744,18 +744,16 @@ class TaskStore {
             throw new Error('周边底图数据部分图层加载失败');
         }
     };
-    // 获取切片路径 
+    // 获取切片路径
     getTitleFileList = flow(function* (data) {
-        try {   
-             
-            const result = yield EditorService.getTitleFileList(data); 
-            return result.data; 
+        try {
+            const result = yield EditorService.getTitleFileList(data);
+            return result.data;
         } catch (e) {
             console.log(`task file list 请求失败：${e.message || e}`);
             message.error(e?.message ?? e);
         }
     }).bind(this);
-
 }
 
 export default new TaskStore();
