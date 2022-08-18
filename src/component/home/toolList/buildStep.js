@@ -2,11 +2,10 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Steps, Modal, Tooltip } from 'antd';
 import { logDecorator } from 'src/util/decorator';
-import { getBuildUrl } from 'src/util/taskUtils';
+import { getBuildUrl, completeEditUrl, saveTaskData } from 'src/util/taskUtils';
 import { geojsonToDbData } from 'src/util/relCtrl/utils';
 import 'src/asset/less/set-step-size.less';
 import ToolIcon from 'src/component/common/toolIcon';
-import { completeEditUrl } from 'src/util/taskUtils';
 import { VECTOR_FILES, REL_FILES } from 'src/config/taskConfig';
 import { updateFeatures } from 'src/util/relCtrl/operateCtrl';
 import { querySameAttrTypeRels } from 'src/util/relCtrl/relCtrl';
@@ -64,7 +63,9 @@ class BuildStep extends React.Component {
             content,
             okText: '确定',
             cancelText: '取消',
-            onOk: () => {
+            onOk: async () => {
+                // 构建前先保存数据
+                await saveTaskData('auto');
                 this.handleOk(current);
             },
             onCancel: this.handleCancel
@@ -75,7 +76,7 @@ class BuildStep extends React.Component {
         this.props.DataLayerStore.setEditType();
     };
 
-    @logDecorator({ operate: '逻辑构建', skipRenderMode: true })
+    @logDecorator({ operate: '逻辑构建', skipHistory: true, skipRenderMode: true })
     async handleOk(current) {
         const { ManualBuildStore, TaskStore } = this.props;
         const { activeTask, splitBuildStep, getTaskFile } = TaskStore;
