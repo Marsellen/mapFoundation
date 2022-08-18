@@ -16,6 +16,7 @@ const { Step } = Steps;
 const contentSteps = ['路段中心线构建', '路口中心线+参考线构建', '参考线/中心线关系构建'];
 
 @inject('TaskStore')
+@inject('OperateHistoryStore')
 @inject('QualityCheckStore')
 @inject('ManualBuildStore')
 @inject('DataLayerStore')
@@ -65,7 +66,12 @@ class BuildStep extends React.Component {
             cancelText: '取消',
             onOk: async () => {
                 // 构建前先保存数据
-                await saveTaskData('auto');
+                const {
+                    OperateHistoryStore: { couldSave }
+                } = this.props;
+                if (couldSave) {
+                    await saveTaskData('auto');
+                }
                 this.handleOk(current);
             },
             onCancel: this.handleCancel
