@@ -25,10 +25,12 @@ class CheckModeStore {
         const { reportList } = QualityCheckStore;
         let setLayers = {}; // 整理检查结果中图层和要素
         let setStyles = {};
+        let local = {};
         reportList?.forEach(item => {
-            setLayers[item.layerName] = setLayers[item.layerName]
-                ? setLayers[item.layerName].concat({
-                      value: Number(item.featureId),
+            local = JSON.parse(item.location);
+            setLayers[local.layerName] = setLayers[local.layerName]
+                ? setLayers[local.layerName].concat({
+                      value: Number(local.featureId),
                       style: {
                           showMode: 'center-point',
                           url: dingdianjianxiubiaoji,
@@ -43,7 +45,7 @@ class CheckModeStore {
                           }
                       },
                       {
-                          value: Number(item.featureId),
+                          value: Number(local.featureId),
                           style: {
                               showMode: 'center-point',
                               url: dingdianjianxiubiaoji,
@@ -52,9 +54,9 @@ class CheckModeStore {
                           }
                       }
                   ];
-            setStyles[item.layerName] = setStyles[item.layerName]
-                ? setStyles[item.layerName].concat({
-                      value: Number(item.featureId),
+            setStyles[local.layerName] = setStyles[local.layerName]
+                ? setStyles[local.layerName].concat({
+                      value: Number(local.featureId),
                       style: { color: 'rgb(1,186,5)' }
                   })
                 : [
@@ -62,7 +64,7 @@ class CheckModeStore {
                           style: { color: 'rgb(255,255,255)' }
                       },
                       {
-                          value: Number(item.featureId),
+                          value: Number(local.featureId),
                           style: { color: 'rgb(1,186,5)' }
                       }
                   ];
