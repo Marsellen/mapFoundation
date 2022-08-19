@@ -21,12 +21,13 @@ class CheckModeStore {
     @action release = () => {};
 
     //初始化更新标识模式渲染
-    @action initCheckMode = () => {
+    @action initCheckMode = list => {
         const { reportList } = QualityCheckStore;
+        const data = list ? list : reportList;
         let setLayers = {}; // 整理检查结果中图层和要素
         let setStyles = {};
         let local = {};
-        reportList?.forEach(item => {
+        data?.forEach(item => {
             local = JSON.parse(item.location);
             setLayers[local.layerName] = setLayers[local.layerName]
                 ? setLayers[local.layerName].concat({

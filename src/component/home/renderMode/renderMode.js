@@ -100,7 +100,7 @@ class RenderMode extends React.Component {
                 break;
             case 'check':
                 initVectorConfig(mode, taskProcessName);
-                CheckModeStore.initCheckMode(mode);
+                CheckModeStore.initCheckMode();
                 break;
             case 'relation':
                 initVectorConfig(mode, taskProcessName);

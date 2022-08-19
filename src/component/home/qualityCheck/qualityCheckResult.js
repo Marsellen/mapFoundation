@@ -11,6 +11,10 @@ const { TabPane } = Tabs;
 
 @inject('appStore')
 @inject('TaskStore')
+@inject('CheckModeStore')
+@inject('DefineModeStore')
+@inject('RenderModeStore')
+@inject('UpdStatModeStore')
 @inject('QualityCheckStore')
 @inject('QCMarkerStore')
 @observer
@@ -96,6 +100,21 @@ class QualityCheckResult extends React.Component {
         } = this.props;
         closeCheckReport();
         hideList();
+        // 如果是定点检修模式则更新页面检查图标
+        const {
+            RenderModeStore,
+            DefineModeStore,
+            CheckModeStore,
+            UpdStatModeStore,
+            TaskStore: { taskProcessName }
+        } = this.props;
+        const { activeMode } = RenderModeStore;
+        const { initVectorConfig } = DefineModeStore;
+        if (activeMode == 'check') {
+            UpdStatModeStore.clearUpdStatMode();
+            initVectorConfig(activeMode, taskProcessName);
+            CheckModeStore.initCheckMode();
+        }
     };
 
     _dragDom = () => <div className="drag-dom"></div>;

@@ -11,6 +11,7 @@ import { editLock } from 'src/util/decorator';
 @inject('appStore')
 @inject('TaskStore')
 @inject('CheckModeStore')
+@inject('UpdStatModeStore')
 @inject('DefineModeStore')
 @inject('RenderModeStore')
 @inject('QualityCheckStore')
@@ -107,8 +108,9 @@ class QualityCheck extends React.Component {
             // 如果是定点检修模式则更新页面检查图标
             const { activeMode } = RenderModeStore;
             if (activeMode == 'check') {
+                UpdStatModeStore.clearUpdStatMode();
                 initVectorConfig(activeMode, taskProcessName);
-                CheckModeStore.initCheckMode(activeMode);
+                CheckModeStore.initCheckMode();
             }
 
             this.setState({ visible: false });
