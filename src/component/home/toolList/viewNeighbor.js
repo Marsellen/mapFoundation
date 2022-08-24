@@ -10,13 +10,9 @@ import VectorsStore from 'src/store/home/vectorsStore';
 import RelStore from 'src/store/home/relStore';
 import AttrStore from 'src/store/home/attrStore';
 
-import {
-    completeTitleUrl,
-    filePathTitleUrl
-} from 'src/util/taskUtils';
+import { completeTitleUrl, filePathTitleUrl } from 'src/util/taskUtils';
 @inject('TaskStore')
 @inject('mapStore')
-
 @observer
 class ViewNeighbor extends React.Component {
     regions = [];
@@ -37,14 +33,14 @@ class ViewNeighbor extends React.Component {
         // 暂存边框图层
         this.regionLayer = null;
         this.titleName = [];
-        
+
         this.selecteTitleName = [];
         const { TaskStore } = this.props;
         const { active } = this.state;
-        const { activeTaskId } = TaskStore; 
-        TaskStore.referTileIds=[];
-        const isDesc = TaskStore.activeTask?.nodeDesc === "人工检修" ? true : false;
-        return (!isDesc ?
+        const { activeTaskId } = TaskStore;
+        TaskStore.referTileIds = [];
+        const isDesc = TaskStore.activeTask?.nodeDesc === '人工检修' ? true : false;
+        return !isDesc ? (
             <ToolIcon
                 id="neighbor"
                 icon="block"
@@ -53,7 +49,7 @@ class ViewNeighbor extends React.Component {
                 visible={active}
                 disabled={!activeTaskId}
             />
-            :
+        ) : (
             <CheckButton
                 key={activeTaskId}
                 defaultOption={{
@@ -67,39 +63,32 @@ class ViewNeighbor extends React.Component {
                 renderContent={this.renderContent}
                 onRef={ref => (this.checkButton = ref)}
             />
-
         );
     }
-    renderContent = selecteName => { 
+    renderContent = selecteName => {
         const { TaskStore } = this.props;
-        if (typeof (TaskStore.referTileIds) !== 'undefined') {
+        if (typeof TaskStore.referTileIds !== 'undefined') {
             if (TaskStore.referTileIds.length > 0) {
                 this.titleName = TaskStore.referTileIds;
             }
         }
 
-        return (<Menu className="menu" style={{ overflowY: 'scroll', height: '300px' }}>
-            {
-
-                this.titleName.map((item) => (
+        return (
+            <Menu className="menu" style={{ overflowY: 'scroll', height: '300px' }}>
+                {this.titleName.map(item => (
                     <Menu.Item key={item} onClick={this.menuAction}>
-                        <p className="menu-item-box">
-                            {item}
-                        </p>
+                        <p className="menu-item-box">{item}</p>
                     </Menu.Item>
-                ))
-
-            }
-        </Menu>);
-
+                ))}
+            </Menu>
+        );
     };
-    menuAction = async (e) => {
+    menuAction = async e => {
+        let content = '加载周边任务' + e.key + '会影响当前任务性能，是否确定加载！';
 
-        let content = "加载周边任务" + e.key + "会影响当前任务性能，是否确定加载！";
-
-        const name = this.selecteTitleName.find((item) => {
+        const name = this.selecteTitleName.find(item => {
             return item === e.key;
-        })
+        });
         if (!name) {
             this.selecteTitleName.push(e.key);
             // 加载数据
@@ -110,23 +99,20 @@ class ViewNeighbor extends React.Component {
                 cancelText: '取消',
                 autoFocusButton: null,
                 onOk: () => {
-                    this.loadTitle(e.key)
+                    this.loadTitle(e.key);
                 },
                 onCancel: () => {
                     // this.props.QualityCheckStore.cancelPolling();
                     // this.setState({ visible: false });
                 }
             });
+        } else {
+            message.error('当前任务已经加载！');
         }
-        else {
-            message.error("当前任务已经加载！");
-        }
-
-
     };
 
     // 加载title 数据
-    loadTitle = async (name) => {
+    loadTitle = async name => {
         // 获取矢量列表
         try {
             let urls = [];
@@ -134,30 +120,28 @@ class ViewNeighbor extends React.Component {
             const { TaskStore } = this.props;
             const { activeTask } = TaskStore;
             activeTask.titlePath = name;
-            // 加载矢量图层 
+            // 加载矢量图层
             const file = filePathTitleUrl(activeTask);
-            urls = JSON.parse(JSON.stringify(await TaskStore.getTitleFileList(
-                {
-                    taskId: activeTask.taskId,
-                    filePath: file + name
-                }
-            )));
+            urls = JSON.parse(
+                JSON.stringify(
+                    await TaskStore.getTitleFileList({
+                        taskId: activeTask.taskId,
+                        filePath: file + name
+                    })
+                )
+            );
 
             if (urls.length > 0) {
                 let taskFileMap = TaskStore.getTaskFileMap(urls, completeTitleUrl);
-                const { vectors, rels, attrs, regions } = taskFileMap;
+                const { vectors, rels, attrs } = taskFileMap;
 
-                AttrStore.addRecordsBoundary(attrs, 'boundary'),
-                    RelStore.addRecords(rels, 'boundary')
+                AttrStore.addRecordsBoundary(attrs, 'boundary');
+                RelStore.addRecords(rels, 'boundary');
                 await VectorsStore.addRecordsTitle(vectors, 'boundary');
-
-
             }
-
         } catch (e) {
             console.log(`task file list 请求失败：${e.message || e}`);
         }
-
     };
     addlayerRegion = async () => {
         if (this.titleName.length > 0) {
@@ -166,7 +150,8 @@ class ViewNeighbor extends React.Component {
             if (!this.regionLayer) {
                 // this.regionLayer = mapStore.addVectorLayer({ color: 'rgb(16,201,133)', opacity: 0.5 });
                 this.regionLayer = mapStore.addVectorLayer({
-                    color: 'rgb(16,201,133)', opacity: 0.5,
+                    color: 'rgb(16,201,133)',
+                    opacity: 0.5,
                     tocLevel: false,
                     layerConfig: {
                         textStyle: {
@@ -182,32 +167,28 @@ class ViewNeighbor extends React.Component {
                             },
                             titleId: []
                         },
-                        textFields: ['titleId',],
+                        textFields: ['titleId'],
                         showStyles: ['vectorStyle', 'textStyle']
                     }
                 });
                 this.titleName.forEach((item, index) => {
                     // 查询所在目录
                     activeTask.titlePath = item;
-                    const url = completeTitleUrl("region.geojson", activeTask);
-                    // 新增要素 
+                    const url = completeTitleUrl('region.geojson', activeTask);
+                    // 新增要素
                     mapStore.addGeoToFeature(this.regionLayer, url, {
                         titleId: item
                     });
                 });
-            }
-            else {
+            } else {
                 if (this.regionLayer.visible) {
-                    this.regionLayer.show()
-                }
-                else {
+                    this.regionLayer.show();
+                } else {
                     this.regionLayer.hide();
                 }
                 this.regionLayer.visible = !this.regionLayer.visible;
             }
         }
-
-
     };
     action = async () => {
         const { active } = this.state;
@@ -262,7 +243,6 @@ class ViewNeighbor extends React.Component {
             this.setState({ active: true });
         }
     };
-
 }
 
 export default ViewNeighbor;

@@ -16,8 +16,7 @@ class mapStore {
         let layer = null;
         if (!opts.url) {
             layer = new VectorLayer(null, opts);
-        }
-        else {
+        } else {
             layer = new VectorLayer(opts.url, opts);
         }
         layer.setDefaultStyle(opts);
@@ -26,29 +25,27 @@ class mapStore {
         return layer;
     };
     // 初始化地图
-    initMap = (name) => {
+    initMap = name => {
         const div = document.getElementById(name);
-        this.mapViewer = new Map(div,{isLevel:true});
-        this.mapViewer._scene.view.maxPitch=-10 * Math.PI /180; 
+        this.mapViewer = new Map(div, { isLevel: true });
+        this.mapViewer._scene.view.maxPitch = (-10 * Math.PI) / 180;
     };
     // 将文件geojson数据转换成图层要素
-    addGeoToFeatures = flow(function* (layer, urls) {
+    addGeoToFeatures = (layer, urls) => {
         // let res = yield Promise.all(urls.map(axios.get));
-        if(urls.length>0)
-        {
-            urls.forEach(url=>{
+        if (urls.length > 0) {
+            urls.forEach(url => {
                 axios(url)
-                .then(res => { 
-                    if (res.data.features.length > 0) { 
-                        layer.addFeatures(res.data.features);
-                    } 
-                })
-                .catch(error => {
-                    console.log(error); 
-                });
+                    .then(res => {
+                        if (res.data.features.length > 0) {
+                            layer.addFeatures(res.data.features);
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
             });
         }
-        
 
         // if (res.length > 0) {
         //     res.forEach(item => {
@@ -56,13 +53,12 @@ class mapStore {
         //             layer.addFeatures(item.data.features);
         //         }
         //     });
-
         // }
-    });
+    };
     addGeoToFeature = flow(function* (layer, url, opts) {
-        axios(url)
-            .then(res => { 
-                if (res.data.features.length > 0) { 
+        yield axios(url)
+            .then(res => {
+                if (res.data.features.length > 0) {
                     res.data.features.forEach(feature => {
                         feature.properties = Object.assign(feature.properties, opts);
                     });
