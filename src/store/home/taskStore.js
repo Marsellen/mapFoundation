@@ -63,6 +63,7 @@ class TaskStore {
     @observable localTasks = [];
     @observable activeTask = {};
     @observable taskSaveTime;
+    @observable taskVersionTime='';
     @observable editTaskId;
 
     @computed get tasks() {
@@ -419,7 +420,7 @@ class TaskStore {
             const url = completeSecendUrl(taskInfo, this.activeTask);
             const processName = this.activeTask.processName;
             const { data } = yield axios.get(url);
-            const { projectNames, lidarNames, defaultLidarName, treeContent, check_pkg, referTileIds } = data;
+            const { projectNames, lidarNames, defaultLidarName, treeContent, check_pkg, referTileIds,spec_version } = data;
 
             if (typeof (referTileIds) !== 'undefined') {
                 const titles = referTileIds.slice(',');
@@ -431,6 +432,7 @@ class TaskStore {
                 this.activeTask.process_name_check = check_pkg?.[processName];
                 return;
             }
+            this.taskVersionTime=spec_version?spec_version:''
             this.projectNameArr = projectNames.split(';').sort();
             this.multiProjectMap = this.initMultiProjectMap();
             this.lidarNameArr = JSON.parse(lidarNames);

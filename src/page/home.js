@@ -7,6 +7,7 @@ import VizComponent from 'src/component/home/vizComponent';
 import HeaderBar from 'src/component/home/headerBar';
 import 'less/home.less';
 import logo from 'src/asset/img/logo.svg';
+import TaskVersion from 'src/component/home/taskVersion'
 import ShortcutKey from 'src/util/shortcutKey';
 import SettingStore from 'src/store/setting/settingStore';
 import { MENUS } from 'src/config/menuConfig';
@@ -40,7 +41,9 @@ class Home extends React.Component {
                         </div>
                         <HeaderBar />
                     </Header>
-                    <Sider menus={MENUS}>{SiderView}</Sider>
+                    <div className='side-content'><Sider menus={MENUS}>{SiderView}</Sider>
+                    <TaskVersion className='side-inner' />
+                    </div>
                     <div className="flex-1 viz-content" id="viz-content">
                         <VizComponent />
                     </div>
