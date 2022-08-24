@@ -85,6 +85,7 @@ class CheckModeStore {
                 defConfig.iconStyle[DATA_LAYER_MAP[layer].id] = [...setLayers[layer]];
                 defConfig.vectorStyle[DATA_LAYER_MAP[layer].id] = [...setStyles[layer]];
                 defConfig.arrowStyle[DATA_LAYER_MAP[layer].id] = [...setStyles[layer]];
+                defConfig.arrowStyle['defaultStyle'] = { color: 'rgb(255,255,255)' };
                 vectorLayer && vectorLayer.resetConfig(defConfig);
             }
         });
