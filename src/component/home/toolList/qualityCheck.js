@@ -84,6 +84,7 @@ class QualityCheck extends React.Component {
                     handleProducerCheck
                 },
                 TaskStore: { taskProcessName },
+                UpdStatModeStore,
                 RenderModeStore,
                 DefineModeStore,
                 CheckModeStore

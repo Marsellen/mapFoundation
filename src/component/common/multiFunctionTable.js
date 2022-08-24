@@ -31,7 +31,7 @@ class MultiFunctionTable extends React.Component {
 
     componentDidMount() {
         const { className } = this.props;
-        this.updateTable();
+        this.updateTable(1);
         this.table = document.querySelector(`.${className} .ant-table-body`);
     }
 
@@ -150,14 +150,18 @@ class MultiFunctionTable extends React.Component {
         return newColumns;
     };
 
-    updateTable = () => {
+    updateTable = first => {
         const { dataSource } = this.props;
         this.setState({
             dataSource,
-            extraData: dataSource,
             dataSourceL: dataSource.length,
             columns: this.handleColumns()
         });
+        if (first) {
+            this.setState({
+                extraData: dataSource
+            });
+        }
     };
 
     //展开某行
