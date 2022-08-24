@@ -6,11 +6,16 @@ import QualityCheckResultTable from 'src/component/home/qualityCheck/qualityChec
 import QCMarkerListTable from 'src/component/home/qualityMarker/qcMarkerListTable';
 import { inject, observer } from 'mobx-react';
 import ToolIcon from 'src/component/common/toolIcon';
+import IconFont from 'src/component/common/iconFont';
 
 const { TabPane } = Tabs;
 
 @inject('appStore')
 @inject('TaskStore')
+@inject('CheckModeStore')
+@inject('DefineModeStore')
+@inject('RenderModeStore')
+@inject('UpdStatModeStore')
 @inject('QualityCheckStore')
 @inject('QCMarkerStore')
 @observer
@@ -96,18 +101,66 @@ class QualityCheckResult extends React.Component {
         } = this.props;
         closeCheckReport();
         hideList();
+        // 如果是定点检修模式则更新页面检查图标
+        const {
+            RenderModeStore,
+            DefineModeStore,
+            CheckModeStore,
+            UpdStatModeStore,
+            TaskStore: { taskProcessName }
+        } = this.props;
+        const { activeMode } = RenderModeStore;
+        const { initVectorConfig } = DefineModeStore;
+        if (activeMode == 'check') {
+            UpdStatModeStore.clearUpdStatMode();
+            initVectorConfig(activeMode, taskProcessName);
+            CheckModeStore.initCheckMode();
+        }
+    };
+
+    handleAmplification = () => {
+        const {
+            QualityCheckStore: { toggleAmplification, amplification }
+        } = this.props;
+        toggleAmplification();
+        const dom = document.getElementsByClassName('quality-check-result-modal-wrap')[0];
+        if (amplification) {
+            dom.style.width = '1000px';
+            dom.style.height = '251px';
+            dom.style.left = 'calc(50% - 500px)';
+        } else {
+            dom.style.width = '500px';
+            dom.style.height = '251px';
+            dom.style.left = 'auto';
+            dom.style.right = '0';
+            dom.style.top = 'auto';
+            dom.style.bottom = '0';
+        }
     };
 
     _dragDom = () => <div className="drag-dom"></div>;
 
-    _closeIcon = () => (
-        <Icon
-            type="close"
-            className="close-icon"
-            onClick={this.handleAllClose}
-            id="check-result-close-btn"
-        />
-    );
+    _closeIcon = () => {
+        const {
+            QualityCheckStore: { amplification }
+        } = this.props;
+        return (
+            <span className="check-table-control-box">
+                <ToolIcon
+                    icon={amplification ? 'fangda1' : 'suoxiao1'}
+                    className="close-icon"
+                    title={amplification ? '放大' : '缩小'}
+                    action={this.handleAmplification}
+                />
+                <Icon
+                    type="close"
+                    className="close-icon"
+                    onClick={this.handleAllClose}
+                    id="check-result-close-btn"
+                />
+            </span>
+        );
+    };
 
     _renderContent = () => {
         const {

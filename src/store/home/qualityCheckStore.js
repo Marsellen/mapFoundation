@@ -1,11 +1,15 @@
 import { observable, configure, action, flow, computed } from 'mobx';
 import CheckService from 'src/service/checkService';
 import { message } from 'antd';
+import React from 'react';
 import AdLocalStorage from 'src/util/adLocalStorage';
 import { REPORT_COLUMNS } from 'src/config/checkTableConfig';
 import _ from 'lodash';
+import { locateCheckItem } from 'src/util/vectorUtils';
+import { DATA_LAYER_MAP } from 'src/config/dataLayerConfig';
 import { getQualityChecked } from 'src/util/permissionCtrl';
 import SettingStore from 'src/store/setting/settingStore';
+import RenderModeStore from 'src/store/home/renderModeStore';
 import { updateData } from 'src/util/map/viewCtrl';
 import TaskStore from 'src/store/home/taskStore';
 import appStore from 'src/store/common/appStore.js';
@@ -18,12 +22,14 @@ class QualityCheckStore {
     pollingStartTime; //轮询开始时间
     pollingStatus = true; //轮询状态
 
+    billPictureRef = React.createRef();
     @observable reportList = [];
     @observable filters = {};
     @observable checkReportIsVisited = {};
     @observable checkReportVisible = false;
     @observable tableHeight = 0;
     @observable activeKey = 'check';
+    @observable amplification = false;
 
     @computed get reportListL() {
         return this.reportList ? this.reportList.length : 0;
@@ -46,6 +52,32 @@ class QualityCheckStore {
         this.reportList = [];
         this.checkReportIsVisited = {};
         this.filters = {};
+    };
+
+    @action toggleAmplification = () => {
+        this.amplification = !this.amplification;
+    };
+
+    @action checkPosition = (obj, event) => {
+        // 判断表格是否展开
+        if (!this.checkReportVisible) return;
+        // 判断是否是定点检修模式
+        const { activeMode } = RenderModeStore;
+        const { layerName, data } = obj;
+        const properties = data.properties;
+        if (activeMode == 'check' && event) {
+            // 如果是，则获取featureId
+            // 根据featureId设置表格选中行
+            const featureId = properties[DATA_LAYER_MAP[layerName].id];
+            // 根据featureId定位到页数、展开行、并勾选查看数据
+            const callback = (extraData, rowIx) => {
+                const { activeTaskId } = TaskStore;
+                const record = extraData[rowIx];
+                this.visitedReport(record, activeTaskId);
+                // locateCheckItem(record, true);
+            };
+            this.billPictureRef.current.searchRowOpen(featureId, callback);
+        }
     };
 
     initReportConfig = () => {
@@ -155,7 +187,10 @@ class QualityCheckStore {
                             case 1:
                                 this.handleReportList(data);
                                 //人工构建任务且执行过自动修正的才会更新任务数据
-                                if (TaskStore.taskProcessName === 'imp_manbuild' || TaskStore.taskProcessName === 'imp_designated_repair') {
+                                if (
+                                    TaskStore.taskProcessName === 'imp_manbuild' ||
+                                    TaskStore.taskProcessName === 'imp_designated_repair'
+                                ) {
                                     const repairList = data.filter(item => item.repairStatus === 1);
                                     repairList.length > 0 && (await updateData());
                                 }

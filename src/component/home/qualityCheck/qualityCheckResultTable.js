@@ -8,6 +8,10 @@ import MultiFunctionalTable from 'src/component/common/multiFunctionTable';
 @inject('LoadingStore')
 @inject('TaskStore')
 @inject('appStore')
+@inject('CheckModeStore')
+@inject('DefineModeStore')
+@inject('UpdStatModeStore')
+@inject('RenderModeStore')
 @inject('DataLayerStore')
 @inject('AttributeStore')
 @inject('QualityCheckStore')
@@ -107,11 +111,8 @@ class QualityCheckResultTable extends React.Component {
     handleChange = async (checked, record, e) => {
         e.stopPropagation();
         const { QualityCheckStore, appStore } = this.props;
-        const {
-            producerInsertMisreport,
-            producerDeleteMisreport,
-            qualityUpdateMisreport
-        } = QualityCheckStore;
+        const { producerInsertMisreport, producerDeleteMisreport, qualityUpdateMisreport } =
+            QualityCheckStore;
         const { loginUser } = appStore;
         const { roleCode } = loginUser;
         const { misrepId, index } = record;
@@ -128,6 +129,25 @@ class QualityCheckResultTable extends React.Component {
                 break;
             default:
                 break;
+        }
+    };
+
+    handleTableChange = ({ extra: { currentDataSource = [] } }) => {
+        // 处理检查结果筛选变化后事件，人工检修模式下更新页面icon
+        // 如果是定点检修模式则更新页面检查图标
+        const {
+            RenderModeStore,
+            DefineModeStore,
+            CheckModeStore,
+            UpdStatModeStore,
+            TaskStore: { taskProcessName }
+        } = this.props;
+        const { activeMode } = RenderModeStore;
+        const { initVectorConfig } = DefineModeStore;
+        if (activeMode == 'check') {
+            UpdStatModeStore.clearUpdStatMode();
+            initVectorConfig(activeMode, taskProcessName);
+            CheckModeStore.initCheckMode(currentDataSource);
         }
     };
 
@@ -185,11 +205,12 @@ class QualityCheckResultTable extends React.Component {
 
     render() {
         const {
-            QualityCheckStore: { reportList, filters, tableHeight }
+            QualityCheckStore: { reportList, filters, tableHeight, billPictureRef }
         } = this.props;
         const columns = this.getColumns();
         return (
             <MultiFunctionalTable
+                ref={billPictureRef}
                 dataSource={reportList}
                 tableHeight={tableHeight}
                 columns={columns}
@@ -197,6 +218,7 @@ class QualityCheckResultTable extends React.Component {
                 addJumpToFirstPage={false}
                 className="check-result-table"
                 onClick={this.handleClick}
+                onChange={this.handleTableChange}
                 onDoubleClick={this.handleDoudleClick}
                 rowKey={record => `check_result_${record.index}`}
             />
