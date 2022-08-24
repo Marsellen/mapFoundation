@@ -30,12 +30,12 @@ const FIX_REPORT_COLUMNS = [
         key: 'index',
         width: 40
     },
-    {
-        title: '任务号',
-        dataIndex: 'taskId',
-        key: 'taskId',
-        width: 60
-    },
+    // {
+    //     title: '任务号',
+    //     dataIndex: 'taskId',
+    //     key: 'taskId',
+    //     width: 60
+    // },
     {
         title: '检查项编号',
         dataIndex: 'checkId',
@@ -97,24 +97,24 @@ const FIX_REPORT_COLUMNS = [
         },
         width: 90
     },
-    {
-        title: '修改方法',
-        dataIndex: 'suggest',
-        key: 'suggest',
-        width: 100
-    },
-    {
-        title: '自动修正',
-        dataIndex: 'repairStatus',
-        key: 'repairStatus',
-        isFilter: true,
-        describe: {
-            data: REPAIR_STATUS_DESC,
-            label: 'label',
-            value: 'value'
-        },
-        width: 90
-    }
+    // {
+    //     title: '修改方法',
+    //     dataIndex: 'suggest',
+    //     key: 'suggest',
+    //     width: 100
+    // },
+    // {
+    //     title: '自动修正',
+    //     dataIndex: 'repairStatus',
+    //     key: 'repairStatus',
+    //     isFilter: true,
+    //     describe: {
+    //         data: REPAIR_STATUS_DESC,
+    //         label: 'label',
+    //         value: 'value'
+    //     },
+    //     width: 90
+    // }
 ];
 
 const QC_REPORT_COLUMNS = [

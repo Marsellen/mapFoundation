@@ -19,6 +19,7 @@ class MultiFunctionTable extends React.Component {
         this.state = {
             currentIndex: -1,
             columns: [],
+            extraData: [], // 记录筛选后的list
             currentPage: 1,
             pageSize: 10,
             filteredInfo: null,
@@ -69,16 +70,18 @@ class MultiFunctionTable extends React.Component {
         );
     };
 
-    handleResize = index => (e, { size }) => {
-        this.setState(({ columns }) => {
-            const nextColumns = [...columns];
-            nextColumns[index] = {
-                ...nextColumns[index],
-                width: size.width
-            };
-            return { columns: nextColumns };
-        });
-    };
+    handleResize =
+        index =>
+        (e, { size }) => {
+            this.setState(({ columns }) => {
+                const nextColumns = [...columns];
+                nextColumns[index] = {
+                    ...nextColumns[index],
+                    width: size.width
+                };
+                return { columns: nextColumns };
+            });
+        };
 
     clearFilters = () => {
         const { dataSource } = this.state;
@@ -151,6 +154,7 @@ class MultiFunctionTable extends React.Component {
         const { dataSource } = this.props;
         this.setState({
             dataSource,
+            extraData: dataSource,
             dataSourceL: dataSource.length,
             columns: this.handleColumns()
         });
@@ -170,6 +174,32 @@ class MultiFunctionTable extends React.Component {
         this.setState({
             currentIndex: index
         });
+    };
+
+    //找到行，展开，选中
+    searchRowOpen = (id, callback) => {
+        let { extraData, pageSize } = this.state;
+        let rowIx = extraData.findIndex(item => JSON.parse(item.location).featureId == id);
+        // 判断选中的id在页面数据中的index
+        if (rowIx !== -1) {
+            const integer = parseInt(rowIx / pageSize);
+            const remainder = rowIx % pageSize;
+            // 根据index计算在哪一页，在哪一行
+            this.setState(
+                {
+                    currentPage: integer + 1
+                },
+                () => {
+                    // 设置行选中、变色、以及定位更新
+                    this.activeRowStyle(remainder);
+                    this.openRow(remainder);
+                    this.updateTable();
+                    this.table.scrollTop = remainder * 32.5;
+                    // 如果有传入回调，则执行
+                    callback && callback(extraData, rowIx);
+                }
+            );
+        }
     };
 
     //选中某行
@@ -217,11 +247,15 @@ class MultiFunctionTable extends React.Component {
     handleTableChange = (pagination, filters, sorter, extra) => {
         this.setState(
             {
+                extraData: extra.currentDataSource || [],
                 filteredInfo: filters,
                 total: extra.currentDataSource && extra.currentDataSource.length
             },
             this.updateTable
         );
+        //执行传入的表格变化事件
+        const { onChange } = this.props;
+        onChange && onChange({ pagination, filters, sorter, extra });
     };
 
     //阻止keyDown默认事件

@@ -1,6 +1,7 @@
 import DataLayerStore from 'src/store/home/dataLayerStore';
 import AttributeStore from 'src/store/home/attributeStore';
 import PictureShowStore from 'src/store/home/pictureShowStore';
+import QualityCheckStore from 'src/store/home/qualityCheckStore';
 import ResourceLayerStore from 'src/store/home/resourceLayerStore';
 import RightMenuStore from 'src/store/home/rightMenuStore';
 import TaskStore from 'src/store/home/taskStore';
@@ -20,11 +21,12 @@ export const showPictureShowView = obj => {
 export const showAttributesModal = (obj, event) => {
     //判断没有按住ctrl左击
     if ((event && event.ctrlKey) || (event && event.button === 2)) return;
-    let editLayer = DataLayerStore.getAdEditLayer(); 
+    let editLayer = DataLayerStore.getAdEditLayer();
     let readonly = (editLayer && editLayer.layerId !== obj.layerId) || !editLayer;
     DataLayerStore.clearHighLightFeatures();
     AttributeStore.setModel(obj);
     AttributeStore.show(readonly, obj);
+    QualityCheckStore.checkPosition(obj, event);
 };
 
 /**
