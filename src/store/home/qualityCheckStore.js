@@ -29,6 +29,7 @@ class QualityCheckStore {
     @observable checkReportVisible = false;
     @observable tableHeight = 0;
     @observable activeKey = 'check';
+    @observable amplification = false;
 
     @computed get reportListL() {
         return this.reportList ? this.reportList.length : 0;
@@ -51,6 +52,10 @@ class QualityCheckStore {
         this.reportList = [];
         this.checkReportIsVisited = {};
         this.filters = {};
+    };
+
+    @action toggleAmplification = () => {
+        this.amplification = !this.amplification;
     };
 
     @action checkPosition = (obj, event) => {
