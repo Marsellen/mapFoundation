@@ -63,7 +63,7 @@ class TaskStore {
     @observable localTasks = [];
     @observable activeTask = {};
     @observable taskSaveTime;
-    @observable taskVersionTime='';
+    @observable taskVersionTime = '';
     @observable editTaskId;
 
     @computed get tasks() {
@@ -420,11 +420,19 @@ class TaskStore {
             const url = completeSecendUrl(taskInfo, this.activeTask);
             const processName = this.activeTask.processName;
             const { data } = yield axios.get(url);
-            const { projectNames, lidarNames, defaultLidarName, treeContent, check_pkg, referTileIds,spec_version } = data;
+            const {
+                projectNames,
+                lidarNames,
+                defaultLidarName,
+                treeContent,
+                check_pkg,
+                referTileIds,
+                spec_version
+            } = data;
 
-            if (typeof (referTileIds) !== 'undefined') {
+            if (typeof referTileIds !== 'undefined') {
                 const titles = referTileIds.slice(',');
-                titles.forEach(item => { 
+                titles.forEach(item => {
                     this.referTileIds.push(item.toString().trim());
                 });
             }
@@ -432,12 +440,12 @@ class TaskStore {
                 this.activeTask.process_name_check = check_pkg?.[processName];
                 return;
             }
-            this.taskVersionTime=spec_version?spec_version:''
+            this.taskVersionTime = spec_version ? spec_version : '';
             this.projectNameArr = projectNames.split(';').sort();
             this.multiProjectMap = this.initMultiProjectMap();
             this.lidarNameArr = JSON.parse(lidarNames);
             this.defaultLidarName = JSON.parse(defaultLidarName);
-            this.multiProjectTree = treeContent; 
+            this.multiProjectTree = treeContent;
             this.activeTask.process_name_check = check_pkg?.[processName];
             PointCloudStore.initPointCloudMap(data, this.activeTask);
         } catch (e) {
@@ -605,7 +613,7 @@ class TaskStore {
         let vectorDataClone = JSON.parse(JSON.stringify(vectorData));
         if (vectorDataClone) {
             vectorDataClone?.features.forEach(feature => {
-                if (feature.name === "AD_Lane") {
+                if (feature.name === 'AD_Lane') {
                     feature.features.forEach(item => {
                         if (item?.properties?.RS_VALUE !== undefined) {
                             delete item.properties.RS_VALUE;
@@ -739,10 +747,9 @@ class TaskStore {
             throw new Error('周边底图数据部分图层加载失败');
         }
     };
-    // 获取切片路径 
+    // 获取切片路径
     getTitleFileList = flow(function* (data) {
         try {
-
             const result = yield EditorService.getTitleFileList(data);
             return result.data;
         } catch (e) {
@@ -750,7 +757,6 @@ class TaskStore {
             message.error(e?.message ?? e);
         }
     }).bind(this);
-
 }
 
 export default new TaskStore();
