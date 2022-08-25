@@ -68,8 +68,8 @@ class ManualBuildStore {
         try {
             const result = yield Promise.all(urls.map(axios.get));
             let newObj = {};
-            result.forEach((item, ix) => {
-                newObj[layerNames[ix]] = item?.data;
+            result.forEach(item => {
+                newObj[item?.data.name] = item?.data;
             });
             return newObj;
         } catch (e) {

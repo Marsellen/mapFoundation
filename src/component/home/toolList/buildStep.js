@@ -119,12 +119,11 @@ class BuildStep extends React.Component {
 
         const layers = window.vectorLayerGroup.layers;
         const layerMap = {};
-        const fileNames = outputLayers.data?.layers;
+        const fileNames = outputLayers.data?.alllayers;
         const layerNames = fileNames.map(n => n.replace('.geojson', ''));
-        const urls = outputLayers.data?.layers.map(layerName =>
-            completeEditUrl(layerName, activeTask)
-        );
-        const result = await ManualBuildStore.getLayers(urls, layerNames);
+        const taskFileMap = TaskStore.getTaskFileMap(fileNames, completeEditUrl);
+        // 获取构建后所有矢量图层数据
+        const vectorsResult = await ManualBuildStore.getLayers(taskFileMap.vectors, layerNames);
 
         //渲染返回要素
         let newAllFeatures = [];
@@ -144,29 +143,18 @@ class BuildStep extends React.Component {
                 layerMap[layerName] = layer;
             }
         });
-        layerNames.forEach(layerName => {
-            const newLayerFeatures = result[layerName].features;
-            if (VECTOR_FILES.includes(`${layerName}.geojson`)) {
-                // 如果是矢量图层
-                const layer = layerMap[layerName];
-                layer && layer.clear();
-                layer && layer.addFeatures(newLayerFeatures);
-                newLayerFeatures.forEach(feature => {
-                    newAllFeatures.push({
-                        layerName,
-                        data: feature,
-                        type: 'VectorLayer'
-                    });
+        Object.keys(vectorsResult).forEach(layerName => {
+            const newLayerFeatures = vectorsResult[layerName].features;
+            const layer = layerMap[layerName];
+            layer && layer.clear();
+            layer && layer.addFeatures(newLayerFeatures);
+            newLayerFeatures.forEach(feature => {
+                newAllFeatures.push({
+                    layerName,
+                    data: feature,
+                    type: 'VectorLayer'
                 });
-            }
-            if (REL_FILES.includes(`${layerName}.geojson`)) {
-                const spec = layerName;
-                const dataType = 'current';
-                newLayerFeatures.forEach(feature => {
-                    const records = geojsonToDbData(feature.properties, spec, dataType);
-                    newRels = newRels.concat(records);
-                });
-            }
+            });
         });
         // 获取旧关联关系
         // let { rels: oldRels } = await querySameAttrTypeRels(newRels);
