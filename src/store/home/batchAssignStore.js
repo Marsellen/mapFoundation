@@ -12,6 +12,7 @@ import IDService from 'src/service/idService';
 import { DEFAULT_CONFIDENCE_MAP } from 'src/config/adMapDataConfig';
 import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';
 import { setAttributes } from 'src/util/utils';
+import { IFDEntry } from '@ad/xmap';
 configure({ enforceActions: 'always' });
 class BatchAssignStore {
     @observable visible = false;
@@ -19,12 +20,18 @@ class BatchAssignStore {
     @observable attrs = [];
     @observable attrRecords = {};
     @observable attrMap = {};
+    attrMapClone = [];
     @observable layerName = '';
     @observable features = [];
     @observable updateKey;
     @observable loading = false;
     // 记录删除信息
     delAttrs = [];
+    // 标记是否删除最高最低限速
+    isDelSpeed = {
+        high: false,
+        low: false
+    }
     // 是否修改限速
     speedValue = [];
     @action show = features => {
@@ -50,18 +57,21 @@ class BatchAssignStore {
         }
         this.updateKey = Math.random();
 
+        this.attrMapClone = JSON.parse(JSON.stringify(Object.entries(this.attrMap)));
+
         // 记录是否全部为空
         let index = -1;
         // 记录 数量是否超过 2以上
         let maxAttrCount = -1;
         // 判断是否 有为空的数据
         let isRSnull = false;
-        let attrs = JSON.parse(JSON.stringify(Object.entries(this.attrMap)));
         let attrsRS = [];
-        attrs.forEach((item, i) => {
+        this.attrMapClone.forEach((item, i) => {
             if (item[1].attrRecords.length > 0) {
-                index = i;
                 let recordsRS = item[1].attrRecords.filter(t => t.source === "AD_Lane_RS");
+                if (recordsRS && recordsRS.length > 0) {
+                    index = i;
+                }
                 if (recordsRS && recordsRS.length > 1) {
                     maxAttrCount = recordsRS.length;
                 }
@@ -100,14 +110,14 @@ class BatchAssignStore {
                     let attrFirst = attrsRS[0];
                     attrFirst.properties.RS_ID = '(多项内容)';
                     attrsRS?.forEach(item => {
-                        if (attrFirst.properties.RS_TYPE !== item.properties.RS_TYPE) {
+                        if (attrFirst?.properties?.RS_TYPE !== item?.properties?.RS_TYPE) {
                             attrFirst.properties.RS_TYPE = '(多项内容)';
                             attrFirst.properties.RS_VALUE = '(多项内容)';
                         }
-                        if (attrFirst.properties.RS_VALUE !== item.properties.RS_VALUE) {
+                        if (attrFirst?.properties?.RS_VALUE !== item?.properties?.RS_VALUE) {
                             attrFirst.properties.RS_VALUE = '(多项内容)';
                         }
-                        if (attrFirst.properties.TIMEDOM !== item.properties.TIMEDOM) {
+                        if (attrFirst?.properties?.TIMEDOM !== item?.properties?.TIMEDOM) {
                             attrFirst.properties.TIMEDOM = '(多项内容)';
                         }
                     })
@@ -138,8 +148,7 @@ class BatchAssignStore {
 
     @action spliceAttrs = (key, value) => {
         if (value.properties.RS_ID === '(多项内容)') {
-            let attrs = JSON.parse(JSON.stringify(Object.entries(this.attrMap)));
-            attrs.forEach((item, i) => {
+            this.attrMapClone.forEach((item, i) => {
                 if (item[1].attrRecords.length > 0) {
                     if (item[1].attrRecords.length > 0) {
                         let oldData = item[1].attrRecords.filter((t) => {
@@ -220,14 +229,19 @@ class BatchAssignStore {
      * @param {*} value
      */
     @action onBatchAssignDelete = (value) => {
-        let attrs = JSON.parse(JSON.stringify(Object.entries(this.attrMap)));
-        attrs.forEach((item, i) => {
+        if (value === 1) {
+            this.isDelSpeed.high = true;
+        }
+        else if (value === 2) {
+            this.isDelSpeed.low = true;
+        }
+        this.attrMapClone.forEach((item, i) => {
             if (item[1].attrRecords.length > 0) {
                 if (item[1].attrRecords.length > 0) {
                     let oldData = item[1].attrRecords.filter((t) => {
-                        return t.properties.RS_TYPE === value && t.source === "AD_Lane_Speed";
+                        return t.properties.SPD_TYPE === value && t.source === "AD_Lane_Speed";
                     });
-                    if (oldData !== undefined) {
+                    if (oldData !== undefined && oldData.length > 0) {
                         if (this.delAttrs[item[0]] && this.delAttrs[item[0]].length > 0) {
                             oldData.forEach(old => {
                                 this.delAttrs[item[0]].push(old);
@@ -299,7 +313,6 @@ class BatchAssignStore {
     @action submit = flow(function* (data, attrType) {
         this.loading = true;
         let { attrs, attributes } = data;
-        let attrMapClone = Object.entries(this.attrMap);
 
         // 是否存在多项内容
         let RS_TYPE; let RS_VALUE; let TIMEDOM;
@@ -354,7 +367,7 @@ class BatchAssignStore {
         }
         // 初始化 限制数据
         // 查询历史数据，并赋值
-        attrMapClone.forEach((item) => {
+        this.attrMapClone.forEach((item) => {
             // 限制
             if (attrs !== undefined) {
                 if (attrs?.AD_Lane_RS !== undefined) {
@@ -400,42 +413,55 @@ class BatchAssignStore {
             });
             if (oldData !== undefined && oldData.length > 0) {
                 oldData.forEach(oldItem => {
-                    let iitem = JSON.parse(JSON.stringify(oldItem));
-                    if (data.attrs === undefined) {
-                        data.attrs = {
-                            AD_Lane_RS: [],
-                            AD_Lane_Speed: []
-                        };
-                    }
-                    if (this.speedValue.length > 0) {
-                        if (oldItem?.properties?.SPD_TYPE === 1 && this.speedValue[0] !== undefined) {
-                            if (iitem?.properties?.SPEED !== undefined) {
-                                iitem.properties.SPEED = this.speedValue[0]?.SPEED;
-                            }
-                            if (iitem?.properties?.SPD_SOURCE !== undefined) {
-                                iitem.properties.SPD_SOURCE = this.speedValue[0]?.SPD_SOURCE;
-                            }
-                            if (iitem?.properties?.UPD_STAT !== undefined) {
-                                iitem.properties.UPD_STAT = this.speedValue[0]?.UPD_STAT;
-                            }
-                        }
-                        else if (oldItem?.properties?.SPD_TYPE === 2 && this.speedValue[1] !== undefined) {
-                            if (iitem?.properties?.SPEED !== undefined) {
-                                iitem.properties.SPEED = this.speedValue[1]?.SPEED;
-                            }
-                            if (iitem?.properties?.SPD_SOURCE !== undefined) {
-                                iitem.properties.SPD_SOURCE = this.speedValue[1]?.SPD_SOURCE;
-                            }
-                            if (iitem?.properties?.UPD_STAT !== undefined) {
-                                iitem.properties.UPD_STAT = this.speedValue[1]?.UPD_STAT;
-                            }
+                    let isDel = false;
+                    if (oldItem?.properties?.SPD_TYPE === 1) {
+                        if (this.isDelSpeed.high) {
+                            isDel = true;
                         }
                     }
-                    if (data.attrs?.AD_Lane_Speed === undefined) {
-                        data.attrs.AD_Lane_Speed = [];
+                    if (oldItem?.properties?.SPD_TYPE === 2) {
+                        if (this.isDelSpeed.low) {
+                            isDel = true;
+                        }
                     }
-                    data.attrs.AD_Lane_Speed.push(iitem);
-                })
+                    if (!isDel) {
+                        let iitem = JSON.parse(JSON.stringify(oldItem));
+                        if (data.attrs === undefined) {
+                            data.attrs = {
+                                AD_Lane_RS: [],
+                                AD_Lane_Speed: []
+                            };
+                        }
+                        if (this.speedValue.length > 0) {
+                            if (oldItem?.properties?.SPD_TYPE === 1 && this.speedValue[0] !== undefined) {
+                                if (iitem?.properties?.SPEED !== undefined) {
+                                    iitem.properties.SPEED = this.speedValue[0]?.SPEED;
+                                }
+                                if (iitem?.properties?.SPD_SOURCE !== undefined) {
+                                    iitem.properties.SPD_SOURCE = this.speedValue[0]?.SPD_SOURCE;
+                                }
+                                if (iitem?.properties?.UPD_STAT !== undefined) {
+                                    iitem.properties.UPD_STAT = this.speedValue[0]?.UPD_STAT;
+                                }
+                            }
+                            else if (oldItem?.properties?.SPD_TYPE === 2 && this.speedValue[1] !== undefined) {
+                                if (iitem?.properties?.SPEED !== undefined) {
+                                    iitem.properties.SPEED = this.speedValue[1]?.SPEED;
+                                }
+                                if (iitem?.properties?.SPD_SOURCE !== undefined) {
+                                    iitem.properties.SPD_SOURCE = this.speedValue[1]?.SPD_SOURCE;
+                                }
+                                if (iitem?.properties?.UPD_STAT !== undefined) {
+                                    iitem.properties.UPD_STAT = this.speedValue[1]?.UPD_STAT;
+                                }
+                            }
+                        }
+                        if (data.attrs?.AD_Lane_Speed === undefined) {
+                            data.attrs.AD_Lane_Speed = [];
+                        }
+                        data.attrs.AD_Lane_Speed.push(iitem);
+                    }
+                });
             }
 
 
@@ -444,40 +470,6 @@ class BatchAssignStore {
             attrs.AD_Lane_RS.splice(0, 1);
         }
         data.attrs = attrs;
-
-        // // 批量修改   限速
-        // attrMapClone.forEach((items) => {
-        //     if (items[1].attrRecords.length > 0) {
-        //         items[1].attrRecords.forEach(item => {
-        //             if (item.source === 'AD_Lane_Speed') {
-        //                 let iitem = JSON.parse(JSON.stringify(item));
-        //                 if (data.attrs === undefined) {
-        //                     data.attrs = {
-        //                         AD_Lane_RS: [],
-        //                         AD_Lane_Speed: []
-        //                     };
-        //                 }
-        //                 if (this.speedValue.length > 0) {
-        //                     if (item.properties.SPD_TYPE === 1 && this.speedValue[0].SPEED !== undefined) {
-        //                         iitem.properties.SPEED = this.speedValue[0]?.SPEED;
-        //                         iitem.properties.SPD_SOURCE = this.speedValue[0]?.SPD_SOURCE;
-        //                         iitem.properties.UPD_STAT = this.speedValue[0]?.UPD_STAT;
-        //                     }
-        //                     else if (item.properties.SPD_TYPE === 2 && this.speedValue[1].SPEED !== undefined) {
-        //                         iitem.properties.SPEED = this.speedValue[1]?.SPEED;
-        //                         iitem.properties.SPD_SOURCE = this.speedValue[1]?.SPD_SOURCE;
-        //                         iitem.properties.UPD_STAT = this.speedValue[1]?.UPD_STAT;
-        //                     }
-        //                 }
-        //                 if (data.attrs?.AD_Lane_Speed === undefined) {
-        //                     data.attrs.AD_Lane_Speed = [];
-        //                 }
-        //                 data.attrs.AD_Lane_Speed.push(iitem);
-        //             }
-        //         })
-        //     }
-        // });
-
         for (let featureId in this.attrMap) {
             const feature = this.attrMap[featureId].feature;
             let newData = {
@@ -580,6 +572,8 @@ class BatchAssignStore {
         }
         this.loading = false
         this.delAttrs = [];
+        this.isDelSpeed.high = false;
+        this.isDelSpeed.low = false;
         return batchHistoryLog;
     });
 
