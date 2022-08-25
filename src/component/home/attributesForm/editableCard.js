@@ -15,7 +15,6 @@ import { testDataString } from 'src/util/timeUtils';
 import Filter from 'src/util/filter';
 import AttributeStore from 'src/store/home/attributeStore';
 import 'less/attributes-modal.less';
-
 const formItemLayout = {
     labelCol: {
         xs: { span: 16 },
@@ -72,11 +71,12 @@ class EditableCard extends React.Component {
             <div id="newEdit">
                 {attrs.map((item, index) => this.renderItem(item, index, true))}
                 <div className="attr">
-                    {!readonly && (
-                        <Button onClick={this.edit} className="newEdit-edit" title="编辑">
-                            <Icon type="edit" />
-                        </Button>
-                    )}
+                    {
+                        !readonly && (
+                            <Button onClick={this.edit} className="newEdit-edit" title="编辑">
+                                <Icon type="edit" />
+                            </Button>
+                        )}
                     {!readonly && (
                         <Button onClick={this.onDelete} className="newEdit-del" title="删除">
                             <Icon type="delete" />
@@ -107,13 +107,11 @@ class EditableCard extends React.Component {
     };
 
     onCreate = () => {
-        const { value, onChange, form } = this.props;
-
+        let { value, onChange, form } = this.props;
         form.validateFields((err, values) => {
             if (err) {
                 return;
             }
-            // console.log(values);
             if (value.source === 'AD_Lane_Speed') {
                 if (values?.UPD_STAT) {
                     if (typeof values.UPD_STAT === 'string') {
@@ -211,19 +209,26 @@ class EditableCard extends React.Component {
 
     renderAdDateInput = (item, index, readonly) => {
         const { form } = this.props;
+        let isValue = true;
+        if (item.value === '(多项内容)') {
+            isValue = false;
+        }
         return (
             <Form.Item key={index} label={item.name} {...formItemLayout}>
+
                 {!readonly ? (
                     form.getFieldDecorator(item.key, {
                         rules: [
                             { validator: this.checkDate },
                             ...this.getValidatorSetting(item.validates)
                         ],
-                        initialValue: item.value,
+                        initialValue: !isValue ? '' : item.value,
                         validateTrigger: 'onBlur'
-                    })(<AdDateInput />)
+                    }
+                    )(<AdDateInput />)
                 ) : (
-                    <span className="ant-form-text">{item.value}</span>
+                    !isValue ? (<div>(多项内容)</div>) : (<span className="ant-form-text">{item.value}</span>)
+
                 )}
             </Form.Item>
         );
@@ -394,6 +399,17 @@ class EditableCard extends React.Component {
     };
 
     renderSelect = (item, index, readonly) => {
+        if (index === 1) {
+            if (item.value === '(多项内容)') {
+                if (item.type === 'AD_LANE_RS_TYPE(多项内容)') {
+                    item.type = "AD_LANE_RS_TYPE";
+                }
+            }
+        }
+        if (index === 2) {
+            let splitFirst = item.type.split('(多项内容)');
+            item.type = splitFirst.join('');
+        }
         const { form } = this.props;
         const options = TYPE_SELECT_OPTION_MAP[item.type] || [];
         return (
@@ -557,6 +573,7 @@ class EditableCard extends React.Component {
     };
 
     attrOnChange = key => {
+
         switch (key) {
             case 'RS_VALUE':
                 return this.linkRsValueChangeEvent;
@@ -611,8 +628,14 @@ class EditableCard extends React.Component {
 
     getArrayOption = (value, arr) => {
         let text = '';
-        const pos = arr.findIndex(val => val.value === value);
-        text = pos != -1 && this.isPresent(arr[pos].label) ? arr[pos].label : '--';
+        if (value === '(多项内容)') {
+            text = '(多项内容)';
+        }
+        else {
+            const pos = arr.findIndex(val => val.value === value);
+            text = pos != -1 && this.isPresent(arr[pos].label) ? arr[pos].label : '--';
+        }
+
         return text;
     };
 
