@@ -30,7 +30,8 @@ class BatchAssignStore {
     // 标记是否删除最高最低限速
     isDelSpeed = {
         high: false,
-        low: false
+        low: false,
+        delRS: false
     }
     // 是否修改限速
     speedValue = [];
@@ -107,7 +108,7 @@ class BatchAssignStore {
             }
             else {
                 if (attrsRS.length > 0) {
-                    let attrFirst = attrsRS[0];
+                    let attrFirst = JSON.parse(JSON.stringify(attrsRS[0]));
                     attrFirst.properties.RS_ID = '(多项内容)';
                     attrsRS?.forEach(item => {
                         if (attrFirst?.properties?.RS_TYPE !== item?.properties?.RS_TYPE) {
@@ -148,6 +149,7 @@ class BatchAssignStore {
 
     @action spliceAttrs = (key, value) => {
         if (value.properties.RS_ID === '(多项内容)') {
+            this.isDelSpeed.delRS = true;
             this.attrMapClone.forEach((item, i) => {
                 if (item[1].attrRecords.length > 0) {
                     if (item[1].attrRecords.length > 0) {
@@ -167,7 +169,7 @@ class BatchAssignStore {
                     }
                 }
             });
-            if (this.attrs.AD_Lane_RS.length <= 1) {
+            if (this.attrs?.AD_Lane_RS?.length <= 1) {
                 delete this.attrs.AD_Lane_RS;
             }
             else {
@@ -369,7 +371,7 @@ class BatchAssignStore {
         // 查询历史数据，并赋值
         this.attrMapClone.forEach((item) => {
             // 限制
-            if (attrs !== undefined) {
+            if (attrs !== undefined && !this.isDelSpeed.delRS) {
                 if (attrs?.AD_Lane_RS !== undefined) {
                     let oldData = item[1].attrRecords.filter((t) => {
                         return t.source === 'AD_Lane_RS';
@@ -426,8 +428,8 @@ class BatchAssignStore {
                     }
                     if (!isDel) {
                         let iitem = JSON.parse(JSON.stringify(oldItem));
-                        if (data.attrs === undefined) {
-                            data.attrs = {
+                        if (attrs === undefined) {
+                            attrs = {
                                 AD_Lane_RS: [],
                                 AD_Lane_Speed: []
                             };
@@ -456,10 +458,10 @@ class BatchAssignStore {
                                 }
                             }
                         }
-                        if (data.attrs?.AD_Lane_Speed === undefined) {
-                            data.attrs.AD_Lane_Speed = [];
+                        if (attrs?.AD_Lane_Speed === undefined) {
+                            attrs.AD_Lane_Speed = [];
                         }
-                        data.attrs.AD_Lane_Speed.push(iitem);
+                        attrs.AD_Lane_Speed.push(iitem);
                     }
                 });
             }
@@ -469,7 +471,6 @@ class BatchAssignStore {
         if (isDelType) {
             attrs.AD_Lane_RS.splice(0, 1);
         }
-        data.attrs = attrs;
         for (let featureId in this.attrMap) {
             const feature = this.attrMap[featureId].feature;
             let newData = {
@@ -480,8 +481,8 @@ class BatchAssignStore {
                 }
             };
             // 限制
-            if (data?.attrs?.AD_Lane_RS !== undefined) {
-                let oldData = data.attrs.AD_Lane_RS.filter((item, index) => {
+            if (attrs?.AD_Lane_RS !== undefined) {
+                let oldData = attrs.AD_Lane_RS.filter((item) => {
                     return item.key === undefined || item.key === Number(featureId);
                 })
                 if (oldData !== undefined) {
@@ -489,38 +490,51 @@ class BatchAssignStore {
                 }
             }
             // 限速
-            if (data?.attrs?.AD_Lane_Speed !== undefined) {
-                let oldData = data.attrs.AD_Lane_Speed.filter((item, index) => {
+            if (attrs?.AD_Lane_Speed !== undefined) {
+                let oldData = attrs.AD_Lane_Speed.filter((item) => {
                     return item.key === undefined || item.key === Number(featureId);
                 })
                 if (oldData !== undefined) {
                     newData.attrs.AD_Lane_Speed = oldData;
                 }
             }
-            newData.attributes = data.attributes;
+            newData.attributes = attributes;
             if (newData === undefined) break;
-            if (this.delAttrs.length > 0) {
-                if (this.delAttrs[featureId] !== undefined && this.delAttrs[featureId].length > 0) {
-                    let [oldAttr, newAttr] = attrFactory.calcDiffAttrs(this.delAttrs[featureId], []);
-                    oldAttr = oldAttr.map(item => {
-                        return toJS(item);
-                    });
-                    oldAttrs = [...oldAttrs, ...oldAttr];
-                    newAttrs = [...newAttrs, ...newAttr];
-                }
+            // if (this.delAttrs.length > 0) {
+            //     if (this.delAttrs[featureId] !== undefined && this.delAttrs[featureId].length > 0) {
+            //         let newItems = [];
+            //         if (newData?.attrs !== undefined) {
+            //             if (newData?.attrs?.AD_Lane_RS !== undefined) {
+            //                 newData?.attrs?.AD_Lane_RS.forEach(t => {
+            //                     newItems.push(t);
+            //                 });
+            //             }
+            //             if (newData?.attrs?.AD_Lane_Speed !== undefined) {
+            //                 newData?.attrs?.AD_Lane_Speed.forEach(t => {
+            //                     newItems.push(t);
+            //                 });
+            //             }
+            //         }
+            //         let [oldAttr, newAttr] = attrFactory.calcDiffAttrs(this.delAttrs[featureId], newItems);
+            //         oldAttr = oldAttr.map(item => {
+            //             return toJS(item);
+            //         });
+            //         oldAttrs = [...oldAttrs, ...oldAttr];
+            //         newAttrs = [...newAttrs, ...newAttr];
+            //     }
+            // }
+            // else {
+            for (let item of attrType) {
+                const [oldAttr, newAttr] = yield this.getAttrLog(
+                    feature,
+                    newData,
+                    featureId,
+                    item.source
+                );
+                oldAttrs = [...oldAttrs, ...oldAttr];
+                newAttrs = [...newAttrs, ...newAttr];
             }
-            else {
-                for (let item of attrType) {
-                    const [oldAttr, newAttr] = yield this.getAttrLog(
-                        feature,
-                        newData,
-                        featureId,
-                        item.source
-                    );
-                    oldAttrs = [...oldAttrs, ...oldAttr];
-                    newAttrs = [...newAttrs, ...newAttr];
-                }
-            }
+            // }
             if (attrs === undefined) {
                 if (feature?.data?.properties?.RS_VALUE !== undefined) {
                     feature.data.properties.RS_VALUE = "";
@@ -574,6 +588,8 @@ class BatchAssignStore {
         this.delAttrs = [];
         this.isDelSpeed.high = false;
         this.isDelSpeed.low = false;
+        this.isDelSpeed.delRS = false;
+        this.speedValue = [];
         return batchHistoryLog;
     });
 
