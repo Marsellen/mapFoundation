@@ -899,7 +899,7 @@ const updateFeatures = async ({ features, rels, attrs } = {}) => {
             layer.addFeatures([feature.data]);
         }
     });
-    if (rels) {
+    if (rels&&rels.length>0) {
         await updateRels(rels);
     }
     if (attrs) {
