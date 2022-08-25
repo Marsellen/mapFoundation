@@ -17,6 +17,7 @@ import BuriedPoint from 'src/util/buriedPoint';
 import AttrsForm from './attributesForm/attrsForm';
 import { updateFeatures } from 'src/util/relCtrl/operateCtrl';
 import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';
+import batchAssignStore from 'src/store/home/batchAssignStore';
 
 const formItemLayout = {
     labelCol: {
@@ -34,12 +35,15 @@ const formItemLayout = {
 @inject('AttributeStore')
 @observer
 class BatchAssignModal extends React.Component {
+
     constructor(props) {
+
         super(props);
         this.submit = this.submit.bind(this);
     }
 
     getAttrType = () => {
+
         const { BatchAssignStore } = this.props;
         const { layerName } = BatchAssignStore;
         const attrConfig = ATTR_SPEC_CONFIG.filter(item => item.relSpec === layerName);
@@ -47,9 +51,13 @@ class BatchAssignModal extends React.Component {
     };
 
     render() {
-        const { BatchAssignStore } = this.props;
+
+        const { BatchAssignStore, form } = this.props;
         const { visible, loading } = BatchAssignStore;
         const disabledList = this.getDisabledList();
+
+
+
         return (
             <Modal
                 footer={this._renderFooter()}
@@ -76,6 +84,7 @@ class BatchAssignModal extends React.Component {
     };
 
     _renderForm = disabledList => {
+
         const { BatchAssignStore } = this.props;
         const { attributes } = BatchAssignStore;
         return (
@@ -92,6 +101,11 @@ class BatchAssignModal extends React.Component {
             form,
             BatchAssignStore: { layerName, attrs, spliceAttrs, updateKey }
         } = this.props;
+        let { BatchAssignStore: { attrMap } } = this.props;
+
+
+
+
         return layerName === 'AD_Lane' ? (
             <>
                 {this.getAttrType().map((item, index) => {
@@ -103,9 +117,12 @@ class BatchAssignModal extends React.Component {
                             attrType={item.source}
                             layerName={layerName}
                             attrs={attrs}
+                            attrMap={attrMap}
                             readonly={false}
                             onOk={this.handleSave}
+                            onBatchAssignDelete={this.onBatchAssignDelete}
                             onDelete={spliceAttrs}
+                            batchAssign={true}
                         />
                     );
                 })}
@@ -113,11 +130,26 @@ class BatchAssignModal extends React.Component {
         ) : null;
     };
 
-    handleSave = (key, values, properties, onCancel) => {
+    handleSave = (key, values, properties, onCancel, batchAssign = false, title) => {
+
         const { BatchAssignStore } = this.props;
-        BatchAssignStore.newAttr(key, values, properties);
-        onCancel();
+
+        if (!batchAssign) {
+            BatchAssignStore.newAttr(key, values, properties);
+            onCancel();
+        }
+        else {
+            BatchAssignStore.editAttr(values, title);
+            onCancel();
+
+        }
+
     };
+    // 限速批量删除
+    onBatchAssignDelete = (value) => {
+        const { BatchAssignStore } = this.props;
+        batchAssignStore.onBatchAssignDelete(value);
+    }
 
     _renderFooter = () => {
         return (
@@ -128,12 +160,32 @@ class BatchAssignModal extends React.Component {
     };
 
     getDisabledList = () => {
-        const { BatchAssignStore } = this.props;
+        // const { BatchAssignStore } = this.props;
+        //
+        //         this.props.form.validateFields((err, values) => {
+        //
+        //             // if (err) {
+        //             //     return;
+        //             // }
+        //             // try {
+        //             //     if (values.attrs !== undefined) {
+        //             //         BatchAssignStore.a(values.attrs);
+        //             //     }
+
+        //             // } catch (e) {
+        //             //     message.error(e.message);
+        //             //     throw e;
+        //             // }
+
+
+        //         });
+
         const { attributes } = BatchAssignStore;
         if (!attributes) return;
         const fieldsValue = this.props.form.getFieldsValue().attributes;
         const disabledList = attributes.reduce((total, item) => {
-            const { key, linkDisabled } = item;
+            let { key, linkDisabled, readonly } = item;
+            readonly = false
             const value = fieldsValue?.[key] ?? item.value;
             const fieldDisabledList = linkDisabled?.[value] ?? [];
             return [...total, ...fieldDisabledList];
@@ -148,13 +200,18 @@ class BatchAssignModal extends React.Component {
 
     @logDecorator({ operate: '批量赋值', skipRenderMode: true, toolType: 'batch_assign' })
     async submit(err, values) {
+
         if (err) {
             return;
         }
         try {
+
             const attrtype = this.getAttrType();
             const log = await BatchAssignStore.submit(values, attrtype);
-            await updateFeatures(log);
+            if (log) {
+                await updateFeatures(log);
+            }
+
             AdEmitter.emit('fetchViewAttributeData');
             DataLayerStore.clearPick();
             return log;
@@ -165,6 +222,7 @@ class BatchAssignModal extends React.Component {
     }
 
     handleCancel = e => {
+
         const channel = e.keyCode ? 'esc' : e.detail ? 'close' : null;
         const { BatchAssignStore, AttributeStore } = this.props;
         BatchAssignStore.hide();
@@ -180,6 +238,7 @@ class BatchAssignModal extends React.Component {
     renderText = (item, index, name) => {
         const { form } = this.props;
         const { readonly } = item;
+
         return (
             item.key != 'UPD_STAT' && (
                 <Form.Item key={index} label={item.name} {...formItemLayout}>
@@ -294,7 +353,7 @@ class BatchAssignModal extends React.Component {
     getArrayOption = (value, arr) => {
         let text = '';
         const pos = arr.findIndex(val => val.value === value);
-        text = pos != -1 && this.isPresent(arr[pos].label) ? arr[pos].label : '--';
+        text = pos != -1 && this.isPresent(arr[pos].label) ? arr[pos].label : '--11111';
         return text;
     };
 
@@ -303,7 +362,7 @@ class BatchAssignModal extends React.Component {
             arr
                 .filter(val => value.includes(val.value))
                 .map(val => val.label)
-                .join('+') || '--';
+                .join('+') || '--1111';
         return text;
     };
 
@@ -422,6 +481,7 @@ class BatchAssignModal extends React.Component {
     };
 
     getLabel = (readonly, item) => {
+
         const placeholder = (
             <span>
                 {item.name}
@@ -438,10 +498,10 @@ class BatchAssignModal extends React.Component {
     getValidatorSetting = validates => {
         return validates
             ? [
-                  {
-                      validator: getValidator(validates)
-                  }
-              ]
+                {
+                    validator: getValidator(validates)
+                }
+            ]
             : [];
     };
 }

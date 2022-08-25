@@ -47,7 +47,7 @@ class NewAttrModal extends React.Component {
                 onCancel={this.onCancel}
                 destroyOnClose={true}
                 confirmLoading={confirmLoading}
-                title="新增"
+                title={this.title || "新增"}
                 okText="确定"
                 cancelText="取消"
                 wrapClassName="edit-attr-modal"
@@ -64,6 +64,11 @@ class NewAttrModal extends React.Component {
         config.forEach(item => {
             item.value = DEFAULT_PROPERTIES_MAP[key][item.key];
         });
+        if (this.batchAssign) {
+            config = config.filter((item) => {
+                return item.batchAssign;
+            })
+        }
         this.setState({
             key,
             properties,
@@ -85,7 +90,13 @@ class NewAttrModal extends React.Component {
                 });
                 return;
             }
-            handleSave(key, values, properties, this.onCancel);
+            if (this.batchAssign) {
+                handleSave(key, values, properties, this.onCancel, this.batchAssign, this.title);
+            }
+            else {
+                handleSave(key, values, properties, this.onCancel);
+            }
+
         });
     };
 
@@ -395,7 +406,7 @@ class NewAttrModal extends React.Component {
             case 'CONT_VALUE':
                 return this.linkContValueChangeEvent;
             default:
-                return () => {};
+                return () => { };
         }
     };
 
@@ -444,10 +455,10 @@ class NewAttrModal extends React.Component {
     getValidatorSetting = validates => {
         return validates
             ? [
-                  {
-                      validator: getValidator(validates)
-                  }
-              ]
+                {
+                    validator: getValidator(validates)
+                }
+            ]
             : [];
     };
 }
