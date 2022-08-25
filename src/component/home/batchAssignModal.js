@@ -80,7 +80,7 @@ class BatchAssignModal extends React.Component {
     }
 
     _renderTitle = () => {
-        return '批量赋值111';
+        return '批量赋值';
     };
 
     _renderForm = disabledList => {

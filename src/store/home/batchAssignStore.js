@@ -364,13 +364,13 @@ class BatchAssignStore {
                     if (oldData !== undefined && oldData.length > 0) {
                         oldData.forEach(oldItem => {
                             let iitem = JSON.parse(JSON.stringify(oldItem));
-                            if (iitem?.properties?.RS_TYPE) {
+                            if (iitem?.properties?.RS_TYPE !== undefined) {
                                 iitem.properties.RS_TYPE = RS_TYPE === undefined ? oldItem.properties.RS_TYPE : RS_TYPE;
                             }
-                            if (iitem?.properties?.RS_VALUE) {
+                            if (iitem?.properties?.RS_VALUE !== undefined) {
                                 iitem.properties.RS_VALUE = RS_VALUE === undefined ? oldItem.properties.RS_VALUE : RS_VALUE;
                             }
-                            if (iitem?.properties?.TIMEDOM) {
+                            if (iitem?.properties?.TIMEDOM !== undefined) {
                                 iitem.properties.TIMEDOM = TIMEDOM === undefined ? oldItem.properties.TIMEDOM : TIMEDOM;
                             }
 
@@ -408,15 +408,27 @@ class BatchAssignStore {
                         };
                     }
                     if (this.speedValue.length > 0) {
-                        if (oldItem.properties.SPD_TYPE === 1 && this.speedValue[0].SPEED !== undefined) {
-                            iitem.properties.SPEED = this.speedValue[0]?.SPEED;
-                            iitem.properties.SPD_SOURCE = this.speedValue[0]?.SPD_SOURCE;
-                            iitem.properties.UPD_STAT = this.speedValue[0]?.UPD_STAT;
+                        if (oldItem?.properties?.SPD_TYPE === 1 && this.speedValue[0] !== undefined) {
+                            if (iitem?.properties?.SPEED !== undefined) {
+                                iitem.properties.SPEED = this.speedValue[0]?.SPEED;
+                            }
+                            if (iitem?.properties?.SPD_SOURCE !== undefined) {
+                                iitem.properties.SPD_SOURCE = this.speedValue[0]?.SPD_SOURCE;
+                            }
+                            if (iitem?.properties?.UPD_STAT !== undefined) {
+                                iitem.properties.UPD_STAT = this.speedValue[0]?.UPD_STAT;
+                            }
                         }
-                        else if (oldItem.properties.SPD_TYPE === 2 && this.speedValue[1].SPEED !== undefined) {
-                            iitem.properties.SPEED = this.speedValue[1]?.SPEED;
-                            iitem.properties.SPD_SOURCE = this.speedValue[1]?.SPD_SOURCE;
-                            iitem.properties.UPD_STAT = this.speedValue[1]?.UPD_STAT;
+                        else if (oldItem?.properties?.SPD_TYPE === 2 && this.speedValue[1] !== undefined) {
+                            if (iitem?.properties?.SPEED !== undefined) {
+                                iitem.properties.SPEED = this.speedValue[1]?.SPEED;
+                            }
+                            if (iitem?.properties?.SPD_SOURCE !== undefined) {
+                                iitem.properties.SPD_SOURCE = this.speedValue[1]?.SPD_SOURCE;
+                            }
+                            if (iitem?.properties?.UPD_STAT !== undefined) {
+                                iitem.properties.UPD_STAT = this.speedValue[1]?.UPD_STAT;
+                            }
                         }
                     }
                     if (data.attrs?.AD_Lane_Speed === undefined) {
