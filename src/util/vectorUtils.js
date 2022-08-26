@@ -431,12 +431,14 @@ export const locateCheckItem = (record, isDoubleClick) => {
     }
 };
 // 根据 id 删除重复的数组数据
-export const deleteAtt = (arr)=>{
+export const deleteAtt = (arr) => {
     for (let i = 0; i < arr.length; i++) {
-        for (let j = i + 1; j < arr.length; j++) { 
-            if (arr[i]?.id == arr[j]?.id) {
-                arr.splice(j, 1);
-                j--;
+        if (arr[i]?.id !== undefined) {
+            for (let j = i + 1; j < arr.length; j++) {
+                if (arr[i]?.id == arr[j]?.id) {
+                    arr.splice(j, 1);
+                    j--;
+                }
             }
         }
     }

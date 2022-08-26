@@ -111,13 +111,15 @@ export const ATTR_TABLE_CONFIG = {
             name: '限速值',
             type: 'AD_LANE_SPEED',
             domType: 'InputNumber',
-            validates: 'Numeric|range|0|150'
+            validates: 'Numeric|range|0|150',
+            batchAssign:true
         },
         {
             key: 'SPD_SOURCE',
             name: '限速来源',
             type: 'AD_LANE_SPD_SOURCE',
-            domType: 'Select'
+            domType: 'Select',
+            batchAssign:true
         },
         {
             key: 'OFFSET',
@@ -128,13 +130,14 @@ export const ATTR_TABLE_CONFIG = {
             validates: {
                 max: '100000',
                 min: '0'
-            }
+            } 
         },
         {
             key: 'UPD_STAT',
             name: '更新标识',
             filterBy: 'updStatFilter',
-            domType: 'Text'
+            domType: 'Text',
+            batchAssign:true
         }
     ]
 };
