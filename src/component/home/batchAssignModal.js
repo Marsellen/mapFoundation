@@ -18,7 +18,6 @@ import AttrsForm from './attributesForm/attrsForm';
 import { updateFeatures } from 'src/util/relCtrl/operateCtrl';
 import { ATTR_SPEC_CONFIG } from 'src/config/attrsConfig';
 import batchAssignStore from 'src/store/home/batchAssignStore';
-
 const formItemLayout = {
     labelCol: {
         xs: { span: 16 },
@@ -122,7 +121,7 @@ class BatchAssignModal extends React.Component {
                             onOk={this.handleSave}
                             onBatchAssignDelete={this.onBatchAssignDelete}
                             onDelete={spliceAttrs}
-                            batchAssign={true}
+                            batchAssign={false}
                         />
                     );
                 })}
@@ -160,26 +159,6 @@ class BatchAssignModal extends React.Component {
     };
 
     getDisabledList = () => {
-        // const { BatchAssignStore } = this.props;
-        //
-        //         this.props.form.validateFields((err, values) => {
-        //
-        //             // if (err) {
-        //             //     return;
-        //             // }
-        //             // try {
-        //             //     if (values.attrs !== undefined) {
-        //             //         BatchAssignStore.a(values.attrs);
-        //             //     }
-
-        //             // } catch (e) {
-        //             //     message.error(e.message);
-        //             //     throw e;
-        //             // }
-
-
-        //         });
-
         const { attributes } = BatchAssignStore;
         if (!attributes) return;
         const fieldsValue = this.props.form.getFieldsValue().attributes;

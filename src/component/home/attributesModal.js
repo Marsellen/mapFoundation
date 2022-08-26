@@ -143,6 +143,7 @@ class AttributesModal extends React.Component {
                                     readonly={readonly}
                                     onOk={this.handleSave}
                                     onDelete={spliceAttrs}
+                                    batchAssign={true}
                                 />
                             );
                         })}

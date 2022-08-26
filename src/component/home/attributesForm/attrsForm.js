@@ -9,7 +9,8 @@ class AttrsForm extends React.Component {
 
     newAttrs = attrType => {
         return () => {
-            this.batchAssign = false;
+            this.modal.batchAssign = false;
+            this.modal.title = "增加";
             this.modal.show(attrType);
         };
     };
@@ -17,14 +18,13 @@ class AttrsForm extends React.Component {
     batchAssignEdit = (attrType, title) => {
         return () => {
             this.modal.title = title;
-            this.modal.batchAssign = this.batchAssign;
+            this.modal.batchAssign = true;
             this.modal.show(attrType);
         };
     };
     // 批量删除
     onBatchAssignDelete = (value) => {
         return () => {
-            this.batchAssign = false;
             Modal.confirm({
                 title: '删除后无法撤回，确认删除？',
                 okText: '确定',
@@ -56,8 +56,6 @@ class AttrsForm extends React.Component {
 
     render = () => {
         const { form, onOk, attrs, attrType, readonly, updateKey, batchAssign } = this.props;
-        this.batchAssign = batchAssign;
-
 
         const newEnable = !readonly;
         const text = attrType === 'AD_Lane_RS' ? '交通限制信息' : '交通限速信息';
@@ -66,7 +64,7 @@ class AttrsForm extends React.Component {
         return (
             <div className="attr_box">
                 <p>{text}   </p>
-                {batchAssign && isAD_Lane_Speed && (
+                {!batchAssign && isAD_Lane_Speed && (
                     <div> <div className="attr">
                         最高限速批量修改
                         {
