@@ -19,7 +19,7 @@ module.exports = PROXY_MAP = {
         check: LOCAL_PATH,
         correct: LOCAL_PATH,
         collect: LOCAL_PATH,
-        build: DEV_PATH
+        build: LOCAL_PATH
     },
     dev: {
         auth: DEV_PATH,
@@ -47,6 +47,6 @@ module.exports = PROXY_MAP = {
         check: DOME_PATH,
         correct: DOME_PATH,
         collect: DOME_PATH,
-        build: DEV_PATH
+        build: DOME_PATH
     }
 };
