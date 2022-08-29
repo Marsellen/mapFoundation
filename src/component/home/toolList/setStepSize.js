@@ -28,11 +28,11 @@ class SetStepSize extends React.Component {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
         return (
-            <div className="SetStepSize">
-                <div className="SetStepSize-top">
+            <div className="set-step-size">
+                <div className="set-step-size-top">
                     <StepSize activeTaskId={activeTaskId} key={this.state.clicked} />
                 </div>
-                <div className="SetStepSize-content">
+                <div className="set-step-size-content">
                     <p>相关快捷键：</p>
                     <p>W(前进)、S(后退)</p>
                     <p>A(左移)、D(右移)、E(上移)、Q(下移)</p>

@@ -18,7 +18,8 @@ module.exports = PROXY_MAP = {
         'check-web': LOCAL_PATH,
         check: LOCAL_PATH,
         correct: LOCAL_PATH,
-        collect: LOCAL_PATH
+        collect: LOCAL_PATH,
+        build: DEV_PATH
     },
     dev: {
         auth: DEV_PATH,
@@ -31,7 +32,8 @@ module.exports = PROXY_MAP = {
         'check-web': DEV_PATH,
         check: DEV_PATH,
         correct: DEV_PATH,
-        collect: DEV_PATH
+        collect: DEV_PATH,
+        build: DEV_PATH
     },
     demo: {
         auth: DOME_PATH,
@@ -44,6 +46,7 @@ module.exports = PROXY_MAP = {
         'check-web': DOME_PATH,
         check: DOME_PATH,
         correct: DOME_PATH,
-        collect: DOME_PATH
+        collect: DOME_PATH,
+        build: DEV_PATH
     }
 };

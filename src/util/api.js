@@ -54,6 +54,14 @@ export function ManualBuildApiPath(url) {
     }
 }
 
+export function BuildApiPath(url) {
+    if (/^\//.test(url)) {
+        return `/gateway/build${url}`;
+    } else {
+        return `/gateway/build/${url}`;
+    }
+}
+
 export function CheckApiPath(url) {
     if (/^\//.test(url)) {
         return `/gateway/check${url}`;

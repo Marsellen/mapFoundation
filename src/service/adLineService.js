@@ -1,5 +1,5 @@
 import service from 'src/service';
-import { ManualBuildApiPath } from 'src/util/api';
+import { ManualBuildApiPath, BuildApiPath } from 'src/util/api';
 
 const AdLineService = {
     aroundLines: data => {
@@ -59,6 +59,42 @@ const AdLineService = {
         //交互式构建 市政护栏下压
         const config = {
             url: ManualBuildApiPath('/ml/dropBarrier'),
+            method: 'post',
+            data
+        };
+        return service({ config });
+    },
+    buildLane: data => {
+        //逻辑构建 构建中心线&停止线
+        const config = {
+            url: BuildApiPath('/lane'),
+            method: 'post',
+            data
+        };
+        return service({ config });
+    },
+    buildRoad: data => {
+        //逻辑构建 构建参考线
+        const config = {
+            url: BuildApiPath('/road'),
+            method: 'post',
+            data
+        };
+        return service({ config });
+    },
+    buildLink: data => {
+        //逻辑构建 构建联通关系
+        const config = {
+            url: BuildApiPath('/link'),
+            method: 'post',
+            data
+        };
+        return service({ config });
+    },
+    buildReback: data => {
+        //逻辑构建 回退
+        const config = {
+            url: BuildApiPath('/reback'),
             method: 'post',
             data
         };

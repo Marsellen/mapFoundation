@@ -262,5 +262,9 @@ export const BUSINESS_TYPE_MAP = {
     change_inform_feature: {
         label: '修改形状',
         code: 66
+    },
+    logic_build: {
+        label: '逻辑构建',
+        code: 67
     }
 };
