@@ -431,6 +431,7 @@ class TaskStore {
             const processName = this.activeTask.processName;
             const { data } = yield axios.get(url);
             const {
+                splitBuildStep,
                 projectNames,
                 lidarNames,
                 defaultLidarName,
