@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Icon, Modal } from 'antd';
+import { Button, Icon, Modal, Col, Row } from 'antd';
 import EditableCard from './editableCard';
 import _ from 'lodash';
 import NewAttrModal from './newAttrModal';
@@ -65,34 +65,46 @@ class AttrsForm extends React.Component {
             <div className="attr_box">
                 <p>{text}   </p>
                 {!batchAssign && isAD_Lane_Speed && (
-                    <div> <div className="attr">
-                        最高限速批量修改
-                        {
-                            !readonly && (
-                                <Button onClick={this.batchAssignEdit(attrType, '最高限速批量修改')} className="newEdit-edit" title="编辑">
-                                    <Icon type="edit" />
-                                </Button>
-                            )}
-                        {!readonly && (
-                            <Button onClick={this.onBatchAssignDelete(1)} className="newEdit-del" title="删除">
-                                <Icon type="delete" />
-                            </Button>
-                        )}
-                    </div>
+                    <div>
                         <div className="attr">
-                            最低限速批量修改
-                            {
-                                !readonly && (
-                                    <Button onClick={this.batchAssignEdit(attrType, '最低限速批量修改')} className="newEdit-edit" title="编辑">
-                                        <Icon type="edit" />
-                                    </Button>
-                                )}
-                            {!readonly && (
-                                <Button onClick={this.onBatchAssignDelete(2)} className="newEdit-del" title="删除">
-                                    <Icon type="delete" />
-                                </Button>
-                            )}
-                        </div></div>
+                            <Row justify="space-around" align="bottom">
+                                <Col span={10} >最高限速批量修改</Col>
+                                <Col span={8} offset={1}>
+                                    {
+                                        !readonly && (
+                                            <Button onClick={this.batchAssignEdit(attrType, '最高限速批量修改')} className="newEdit-edit" title="编辑">
+                                                <Icon type="edit" />
+                                            </Button>
+                                        )}
+                                    {!readonly && (
+                                        <Button onClick={this.onBatchAssignDelete(1)} className="newEdit-del" title="删除">
+                                            <Icon type="delete" />
+                                        </Button>
+                                    )}
+                                </Col>
+                            </Row>
+                        </div>
+                        <div className="attr">
+                            <Row justify="space-around" align="bottom">
+                                <Col span={10} >最低限速批量修改</Col>
+                                <Col span={8} offset={1}>
+                                    {
+                                        !readonly && (
+                                            <Button onClick={this.batchAssignEdit(attrType, '最低限速批量修改')} className="newEdit-edit" title="编辑">
+                                                <Icon type="edit" />
+                                            </Button>
+                                        )}
+                                    {!readonly && (
+                                        <Button onClick={this.onBatchAssignDelete(2)} className="newEdit-del" title="删除">
+                                            <Icon type="delete" />
+                                        </Button>
+                                    )}
+                                </Col>
+                            </Row>
+
+
+                        </div>
+                    </div>
 
                 )}
 
