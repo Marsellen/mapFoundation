@@ -122,8 +122,9 @@ class BuildStep extends React.Component {
         const fileNames = outputLayers.data?.alllayers;
         const layerNames = fileNames.map(n => n.replace('.geojson', ''));
         const taskFileMap = TaskStore.getTaskFileMap(fileNames, completeEditUrl);
+        const { vectors, rels } = taskFileMap;
         // 获取构建后所有矢量图层数据
-        const vectorsResult = await ManualBuildStore.getLayers(taskFileMap.vectors, layerNames);
+        const vectorsResult = await ManualBuildStore.getLayers(vectors, layerNames);
 
         //渲染返回要素
         let newAllFeatures = [];
@@ -169,7 +170,7 @@ class BuildStep extends React.Component {
         // 清空indexDB中的关系
         await RelStore.destroy();
         // 向indexDB中添加新关联关系
-        await RelStore.addRecords(taskFile.rels, 'current');
+        await RelStore.addRecords(rels, 'current');
         // 进行检查
         const {
             QualityCheckStore: {
