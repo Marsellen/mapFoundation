@@ -315,6 +315,21 @@ class BatchAssignStore {
     @action submit = flow(function* (data, attrType) {
         this.loading = true;
         let { attrs, attributes } = data;
+        // 判断属性是否修改
+        let isAttributes = false;
+        Object.entries(attributes).forEach(item => {
+            let oldAttribute = this.attributes.filter((t) => {
+                return t.key === item[0];
+            });
+            if (oldAttribute.length > 0) {
+                if (oldAttribute[0].value != item[1]) {
+                    isAttributes = true;
+                }
+            }
+            else {
+                isAttributes = true;
+            }
+        })
 
         // 是否存在多项内容
         let RS_TYPE; let RS_VALUE; let TIMEDOM;
@@ -333,7 +348,7 @@ class BatchAssignStore {
                             && this.attrs?.AD_Lane_RS[0]?.properties.RS_VALUE === attrs?.AD_Lane_RS[0].properties.RS_VALUE
                             && this.attrs?.AD_Lane_RS[0]?.properties.TIMEDOM === attrs?.AD_Lane_RS[0]?.properties.TIMEDOM) {
                             // 不做任何修改
-                            if (this.speedValue.length === 0) {
+                            if (this.speedValue.length === 0 && !isAttributes) {
                                 // 未做任何修改
                                 this.hide();
                                 this.loading = false
@@ -359,7 +374,7 @@ class BatchAssignStore {
             }
             else {
                 // 无限制信息，可能存在限速信息
-                if (this.speedValue.length === 0 && attrs?.AD_Lane_Speed === undefined) {
+                if (this.speedValue.length === 0 && attrs?.AD_Lane_Speed === undefined && !isAttributes) {
                     // 未做任何修改
                     this.hide();
                     this.loading = false
