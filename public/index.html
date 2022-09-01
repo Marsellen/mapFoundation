@@ -25,4 +25,6 @@
         <div id="root"></div>
         <div id="viz"></div>
     </body>
+    <!-- loadsh template 导入依赖 -->
+    <% remoteUrls.map(function(url) { %><script src="<%- url %>"></script><% }); %>
 </html>

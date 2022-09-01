@@ -3,7 +3,7 @@ const path = require('path');
 const base = require('./webpack.base.js');
 const CleanWebpackPlugin = require('clean-webpack-plugin'); //清除build/dist文件夹文件
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); //提取css
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin'); //压缩css
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin'); //压缩css
 const TerserPlugin = require('terser-webpack-plugin'); //压缩js
 
 module.exports = merge(base, {
@@ -19,10 +19,10 @@ module.exports = merge(base, {
         minimize: true,
         minimizer: [
             //webpack4需要安装terser-webpack-plugin@4.2.3
-            new TerserPlugin({
-                parallel: 2,
-                cache: true
-            })
+            // new TerserPlugin({
+            //     parallel: 2,
+            //     cache: true
+            // })
         ]
     },
     performance: {
@@ -56,7 +56,7 @@ module.exports = merge(base, {
                     {
                         loader: 'url-loader',
                         options: {
-                            name: '[name].[hash].[ext]', //图片用hash
+                            name: '[name].[chunkhash].[ext]', //图片用hash
                             limit: 8192, //8kb以下的图片使用base64编码，8kb以上的图片交给file-loader处理
                             outputPath: 'img',
                             esModule: false
@@ -77,6 +77,6 @@ module.exports = merge(base, {
             ignoreOrder: true
         }),
         //压缩css
-        new OptimizeCSSAssetsPlugin()
+        new CssMinimizerPlugin()
     ]
 });

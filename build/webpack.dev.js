@@ -27,16 +27,15 @@ module.exports = merge(base, {
         globalObject: 'this',
         publicPath: '/'
     },
+    stats: 'errors-only', // 'errors-only'只在发生错误时输出 'verbose'全部输出
     devServer: {
         port: 15900,
         hot: true,
-        inline: true,
         historyApiFallback: true,
         host: '0.0.0.0',
-        publicPath: '/',
-        proxy: proxyConfig,
-        stats: 'errors-only'
+        proxy: proxyConfig
     },
+    target: 'web', // 不编译成es5
     module: {
         rules: [
             {
