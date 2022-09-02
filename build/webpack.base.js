@@ -46,7 +46,7 @@ module.exports = {
             ENV: process.env.npm_config_ENV,
             CSYS: process.env.CSYS,
             NOSHP: process.env.NOSHP,
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+            // 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
         }),
         new webpack.ProvidePlugin({
             $: 'jquery',
