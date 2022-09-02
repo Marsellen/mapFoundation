@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const path = require('path');
-const env = process.env.npm_config_ENV;
+const env = process.env.npm_config_ENV || 'dev';
 const { moduleSetting, publicPath, remoteUrls } = require('./module.js');
 
 module.exports = {
