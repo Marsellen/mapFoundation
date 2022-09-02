@@ -37,7 +37,7 @@ module.exports = {
             favicon: path.resolve(__dirname, '../public/favicon.ico'),
             filename: 'index.html',
             templateParameters: {
-                remoteUrls: remoteUrls[env] || remoteUrls.prd
+                remoteUrls: remoteUrls[env] || remoteUrls.dev
             }
         }),
         //定义全局变量
