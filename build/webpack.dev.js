@@ -29,7 +29,7 @@ module.exports = merge(base, {
     },
     stats: 'errors-only', // 'errors-only'只在发生错误时输出 'verbose'全部输出
     devServer: {
-        port: 15900,
+        port: 15901,
         hot: true,
         historyApiFallback: true,
         host: '0.0.0.0',
