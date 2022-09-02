@@ -1,8 +1,8 @@
 {
-    "name": "ecarx-editor-app",
+    "name": "ecarx-ultron-app",
     "version": "1.0.0",
     "private": true,
-    "keywords": [],
+    "keywords": ["科技", "韧性", "进化"],
     "scripts": {
         "i": "yarn",
         "start-local": "cross-env PROXY_ENV=local webpack-dev-server --config build/webpack.dev.js",
