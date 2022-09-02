@@ -2,7 +2,6 @@ import { flow, configure } from 'mobx';
 import attrFactory from 'src/util/attrFactory';
 import axios from 'axios';
 import Attr from 'src/util/attr';
-import { collectCustomHooksForSignature } from 'react-refresh';
 
 configure({ enforceActions: 'always' });
 class AttrStore {
