@@ -12,8 +12,7 @@ module.exports = merge(base, {
     output: {
         path: path.resolve(__dirname, '../dist'),
         filename: '[name].[chunkhash].js', //js用chunkhash
-        globalObject: 'this',
-        publicPath: '/'
+        globalObject: 'this'
     },
     optimization: {
         minimize: true,
