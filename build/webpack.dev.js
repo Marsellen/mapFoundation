@@ -24,8 +24,7 @@ module.exports = merge(base, {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].bundle.js',
-        globalObject: 'this',
-        publicPath: '/'
+        globalObject: 'this'
     },
     stats: 'errors-only', // 'errors-only'只在发生错误时输出 'verbose'全部输出
     devServer: {
