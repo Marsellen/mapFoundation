@@ -26,9 +26,6 @@ module.exports = {
     module: {
         noParse: /jquery|chartjs/ //忽略没采用模块化的文件
     },
-    // optimization: {
-    //     runtimeChunk: 'single' // 为了线上更新版本时，充分利用浏览器缓存 'single' 是指只生成一个 runtime chunk
-    // },
     plugins: [
         //处理htm文件
         new HtmlWebpackPlugin({
