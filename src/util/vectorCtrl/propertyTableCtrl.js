@@ -89,12 +89,21 @@ export const findRelDataById = async rel_id => {
 
 export const vectorDataToTable = data => {
     let map = {};
-    data.forEach(response => {
-        const { data: feature } = response;
-        const spec = feature.name;
-        const features = feature.features;
+    if (data.length > 0) {
+        data.forEach(response => {
+            const { data: feature } = response;
+            const spec = feature.name;
+            const features = feature.features;
+            map[spec] = { features };
+        });
+    }
+    else {
+        const { features, name } = data;
+        const spec = name;
         map[spec] = { features };
-    });
+
+    }
+
     return map
 };
 

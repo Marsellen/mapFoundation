@@ -26,7 +26,6 @@ class ToolBox extends React.Component {
                     title: '测距',
                     actionid: 'ceju-btn'
                 }}
-                disabled={this.disabled()}
                 contentTitle="常用工具"
                 renderContent={this.renderContent}
                 active={this.getActive()}
@@ -35,7 +34,8 @@ class ToolBox extends React.Component {
         );
     }
 
-    disabled = key => { 
+    disabled = key => {
+        debugger
         const { TaskStore, ResourceLayerStore } = this.props;
         const { activeTaskId } = TaskStore;
         const { pointCloudChecked } = ResourceLayerStore;
@@ -53,9 +53,9 @@ class ToolBox extends React.Component {
                     key="ceju1"
                     title="测距"
                     actionid="ceju-btn"
-                    disabled={this.disabled('ceju')}
+                // disabled={this.disabled('ceju')}
                 >
-                    <Ranging disabled={this.disabled('ceju')} />
+                    <Ranging />
                 </Menu.Item>
                 {/* <Menu.Item
                     key="zuobiaoshiqu1"
@@ -68,7 +68,7 @@ class ToolBox extends React.Component {
                     key="lumianshezhi"
                     title="路面设置"
                     actionid="road-set-btn"
-                    disabled={this.disabled('lumianshezhi')}
+                // disabled={this.disabled('lumianshezhi')}
                 >
                     <RoadSet disabled={this.disabled('lumianshezhi')} />
                 </Menu.Item>
@@ -84,8 +84,9 @@ class ToolBox extends React.Component {
             });
     };
 
-    getActive = () => { 
+    getActive = () => {
         const { DataLayerStore } = this.props;
+        debugger
         return EDIT_TYPES.includes(DataLayerStore.editType);
     };
 }

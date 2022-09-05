@@ -24,7 +24,7 @@ import BuildStep from 'src/component/home/toolList/buildStep';
 import BatchBreak from 'src/component/home/toolList/batchBreak';
 import MunicipalBarrierDown from 'src/component/home/toolList/municipalBarrierDown';
 import ViewNeighbor from './viewNeighbor';
-
+import ImpTool from './editor/impTool';
 export default [
     <Undo key="UNDO" />,
     <Redo key="REDO" />,
@@ -51,5 +51,6 @@ export default [
     <UnionBreak key="UNION_BREAK" />,
     <TopBreakLine key="TOP_BREAK_LINE_2" />,
     <BatchBreak key="BATCH_BREAK" />,
-    <MunicipalBarrierDown key="MUNICIPAL_BARRIER_DOWN" />
+    <MunicipalBarrierDown key="MUNICIPAL_BARRIER_DOWN" />,
+    <ImpTool key='IMP_TOOL'></ImpTool>
 ];

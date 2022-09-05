@@ -184,7 +184,7 @@ class BatchAssignStore {
 
     @action newAttr = (key, value) => {
         try {
-            debugger
+
             if (key === 'AD_Lane_Speed') {
                 value.UPD_STAT = '{"PRECOMPLIER_STAT":"MAN"}';
             }

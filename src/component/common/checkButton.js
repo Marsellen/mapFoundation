@@ -38,7 +38,7 @@ class CheckButton extends React.Component {
             option: { icon, title },
             defaultOption
         } = this.state;
-        const { active, disabled, contentTitle, hideDropdown,handleClickFlag, handleClick } = this.props;
+        const { active, disabled, contentTitle, hideDropdown, handleClickFlag, handleClick } = this.props;
         return (
             <span id="check-button" className="check-button">
                 <ToolIcon
@@ -48,7 +48,7 @@ class CheckButton extends React.Component {
                     focusClassName="ad-tool-icon-active"
                     disabled={disabled}
                     visible={active}
-                    action={handleClickFlag?handleClick:this.action}
+                    action={handleClickFlag ? handleClick : this.action}
                 />
 
                 <ToolIcon
@@ -97,7 +97,7 @@ class CheckButton extends React.Component {
         document.removeEventListener('click', this.onClick, true);
     };
 
-    onClick = e => { 
+    onClick = e => {
         let isActive = document.getElementById('check-button').contains(e.target);
 
         if (!isActive) {
@@ -107,7 +107,7 @@ class CheckButton extends React.Component {
         }
     };
 
-    action = () => { 
+    action = () => {
         const { option } = this.state;
         const { defaultOption } = this.props;
         const id = option.actionid || defaultOption.actionid;

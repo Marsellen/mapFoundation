@@ -155,19 +155,27 @@ class VectorsStore {
     };
     // 对整体不熟悉，暂时用此方式修改周边title
     addRecordsTitle = flow(function* (urls, dataType) {
-        // console.log('8加载矢量数据开始：', new Date); 
+        // console.log('8加载矢量数据开始：', new Date);
 
         const response = yield Promise.all(urls.map(axios.get));
         // console.log('8加载矢量数据结束：', new Date);
         // 处理数据
-        // console.log('9渲染矢量数据开始：', new Date); 
+        // console.log('9渲染矢量数据开始：', new Date);
         // 处理车道中心线和关联表的关系
         const addFeatureJson = vectorFactory.vectorDataToTable(response);
         yield window.boundaryLayerGroup.addLayersFeature(addFeatureJson);
     });
-    addRecords = flow(function* (urls, dataType) {
-        // console.log('8加载矢量数据开始：', new Date);
-        const response = yield Promise.all(urls.map(axios.get));
+
+    addRecords = flow(function* (urls, dataType, data = null) {
+        let response = null;
+        if (data) {
+            response = data;
+        }
+        else {
+            // console.log('8加载矢量数据开始：', new Date);
+            response = yield Promise.all(urls.map(axios.get));
+        }
+
         // console.log('8加载矢量数据结束：', new Date);
         // 处理数据
         // console.log('9渲染矢量数据开始：', new Date);

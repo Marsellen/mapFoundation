@@ -62,7 +62,6 @@ class ViewAttribute extends React.Component {
                     title="属性列表"
                     placement="right"
                     className="ad-menu-icon"
-                    disabled={!activeTaskId}
                     visible={attrListVisible}
                     action={this.toggle}
                 />
