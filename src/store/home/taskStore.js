@@ -147,10 +147,12 @@ class TaskStore {
     }
 
     @computed get taskToolType() {
-        if (this.activeTask.isLocal) {
-            return 'manbuild';
-        }
-        return getTaskProcessType();
+
+        return 'manbuild';
+        // if (this.activeTask.isLocal) {
+        //     return 'manbuild';
+        // }
+        // return getTaskProcessType();
     }
 
     @action setSplitBuildStep = step => {
@@ -620,6 +622,7 @@ class TaskStore {
     };
 
     submit = flow(function* () {
+
         let vectorData = getAllVectorData(true);
         // 删除不符合规则的字段
         let vectorDataClone = JSON.parse(JSON.stringify(vectorData));
@@ -666,6 +669,8 @@ class TaskStore {
             ],
             fileNameList: this.getFileNameList(vectorDataClone, relData, attrData)
         };
+
+
         yield TaskService.saveFile(saveData);
         this.taskSaveTime = moment().format('YYYY-MM-DD HH:mm:ss');
     });

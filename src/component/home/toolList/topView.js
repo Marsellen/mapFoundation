@@ -15,7 +15,7 @@ class TopView extends React.Component {
         const { TaskStore, DataLayerStore } = this.props;
         const { activeTaskId } = TaskStore;
         const { isTopView } = DataLayerStore;
-        return activeTaskId ? (
+        return (
             <div>
                 <ToolIcon
                     id="top-view-btn"
@@ -27,7 +27,7 @@ class TopView extends React.Component {
                     action={this.action}
                 />
             </div>
-        ) : null;
+        );
     }
 
     action = () => {

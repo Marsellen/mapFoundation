@@ -5,17 +5,32 @@ import Relevance from 'src/util/relevance';
 import Attr from 'src/util/attr';
 
 const attrDataToTable = (data, dataType) => {
-    return data.reduce((total, response) => {
-        const { data: feature } = response;
-        const spec = feature.name;
-        feature.features.forEach(f => {
+    if (data.length > 0) {
+        return data.reduce((total, response) => {
+            const { data: feature } = response;
+            const spec = feature.name;
+            feature.features.forEach(f => {
+                let record = dataToTable(f.properties, spec);
+                record.dataType = dataType;
+                total.push(record);
+            });
+            return total;
+        }, []);
+    }
+    else {
+        let total = [];
+        const { features, name } = data;
+        const spec = name;
+        features.forEach(f => {
             let record = dataToTable(f.properties, spec);
             record.dataType = dataType;
             total.push(record);
         });
         return total;
-    }, []);
+    }
+
 };
+
 
 const attrTableToData = records => {
     let featureMap = records.reduce((total, record) => {

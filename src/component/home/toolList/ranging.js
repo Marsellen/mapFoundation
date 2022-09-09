@@ -24,6 +24,7 @@ class Ranging extends React.Component {
 
     @editLock
     action = () => {
+
         if (this.props.disabled) return;
         const { editType, startMeatureDistance_1 } = this.props.DataLayerStore;
         if (editType == 'meature_distance') return;

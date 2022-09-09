@@ -23,7 +23,6 @@ class UnionBreak extends React.Component {
                 icon="lianhedaduan"
                 title="联合打断"
                 action={this.action}
-                disabled={!isEditableTask}
                 className="ad-tool-icon"
                 focusClassName="ad-tool-icon-active"
                 visible={isUnionBreak}
