@@ -155,17 +155,19 @@ class DataLayer extends React.Component {
         const value = e.target.checked;
         const { VectorsStore } = this.props;
         VectorsStore.toggleStratification(key, value);
-        this.updateResourceLayer();
+        // this.updateResourceLayer();
     };
 
     @bufferDecorator()
     changeEvent(item, value) {
+
         const { VectorsStore } = this.props;
         VectorsStore.toggle(item, value);
-        this.updateResourceLayer();
+        // this.updateResourceLayer();
     };
 
     updateResourceLayer() {
+
         const { ResourceLayerStore, VectorsStore } = this.props;
         const { toggle: resourceToggle, setIndeterminate } = ResourceLayerStore;
         const { layerType } = VectorsStore;
@@ -180,6 +182,7 @@ class DataLayer extends React.Component {
 
     @bufferDecorator()
     handleSwitchChange(checked) {
+
         const { ResourceLayerStore, VectorsStore } = this.props;
         const { layerType } = VectorsStore;
         let resourceKey = vectorsTabsConfig.find(config => config.key === layerType).value;

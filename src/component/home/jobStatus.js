@@ -9,8 +9,12 @@ import { saveTaskData } from 'src/util/taskUtils';
 import { editLock } from 'src/util/decorator';
 import BuriedPoint from 'src/util/buriedPoint';
 import SettingStore from 'src/store/setting/settingStore';
-
+import { VECTOR_FILES, ATTR_FILES, REL_FILES, REGION_FILES } from 'src/config/taskConfig';
+import VectorsStore from 'src/store/home/vectorsStore';
+import RelStore from 'src/store/home/relStore';
+import AttrStore from 'src/store/home/attrStore';
 import 'less/jobstatus.less';
+import { lineToStop } from 'src/util/relCtrl/operateCtrl';
 
 @withRouter
 @inject('QCMarkerStore')
@@ -21,8 +25,8 @@ import 'less/jobstatus.less';
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
 @inject('TaskStore')
-@inject('RelStore')
-@inject('AttrStore')
+// @inject('RelStore')
+// @inject('AttrStore')
 @inject('AttributeStore')
 @inject('PictureShowStore')
 @observer
@@ -63,9 +67,8 @@ class JobStatus extends React.Component {
                 {!isLocal && (
                     <ToolIcon
                         icon="tijiaorenwu"
-                        title="提交任务"
+                        title="提交任务111"
                         className="jobstatus-submit"
-                        disabled={taskId ? false : true}
                         focusColor={false}
                         action={this.submitTask}
                     />
@@ -80,28 +83,79 @@ class JobStatus extends React.Component {
             </div>
         );
     }
+    impConfig() {
+        let formCreate = document.getElementById("fileName");
+        if (formCreate) {
+            formCreate.removeChild(document.getElementById("file"));
+            document.body.removeChild(formCreate);
+        }
+        let form = document.createElement('form');
+        // form.style.display = 'none';
+        form.id = "fileName";
+        document.body.appendChild(form);
+        let fileInput = document.createElement('input');
+        fileInput.id = 'file';
+        fileInput.multiple = true;
+        fileInput.type = 'file';
 
+        fileInput.addEventListener('change', function () {
+            let filesName = [];
+            let files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                let reader = new FileReader();
+                reader.readAsText(files[i]);
+                let that = this;
+                let name = files[i].name;
+                that.name = name;
+                reader.onload = (data) => {
+                    try {
+                        filesName[that.name] = data.target.result;
+                        let vec = VECTOR_FILES.includes(name);
+                        if (vec) {
+                            VectorsStore.addRecords(null, 'current', JSON.parse(data.target.result));
+                        }
+                        let attr = ATTR_FILES.includes(name);
+                        if (attr) {
+                            AttrStore.addRecords(null, 'current', JSON.parse(data.target.result));
+                        }
+                        let rel = REL_FILES.includes(name);
+                        if (rel) {
+                            RelStore.addRecords(null, 'current', JSON.parse(data.target.result));
+                        }
+                        const extent = window.map.getExtentByFeatures(JSON.parse(data.target.result).features);
+                        window.map.setExtent(extent);
+                    } catch (error) {
+
+                    }
+
+                };
+            }
+        });
+        form.appendChild(fileInput);
+        return fileInput.click();
+    };
     // 获取
     getJob = async () => {
-        const { OperateHistoryStore } = this.props;
-        let { currentNode, savedNode } = OperateHistoryStore;
-        let shouldSave = currentNode > savedNode;
+        this.impConfig();
+        // const { OperateHistoryStore } = this.props;
+        // let { currentNode, savedNode } = OperateHistoryStore;
+        // let shouldSave = currentNode > savedNode;
 
-        if (shouldSave) {
-            return Modal.confirm({
-                title: '提示',
-                content: '当前任务未保存，是否自动保存',
-                okText: '确定',
-                cancelText: '取消',
-                maskStyle: { zIndex: 99999999 },
-                zIndex: 999999999,
-                onOk: async () => {
-                    await this.action();
-                    await this.fetchTask();
-                }
-            });
-        }
-        await this.fetchTask();
+        // if (shouldSave) {
+        //     return Modal.confirm({
+        //         title: '提示',
+        //         content: '当前任务未保存，是否自动保存',
+        //         okText: '确定',
+        //         cancelText: '取消',
+        //         maskStyle: { zIndex: 99999999 },
+        //         zIndex: 999999999,
+        //         onOk: async () => {
+        //             await this.action();
+        //             await this.fetchTask();
+        //         }
+        //     });
+        // }
+        // await this.fetchTask();
     };
 
     fetchTask = async () => {
@@ -404,16 +458,28 @@ class JobStatus extends React.Component {
         );
     };
 
-    @editLock
+    // @editLock
     submitTask = e => {
-        e || e.target || e.target.blur(); //在click事件中主动去掉button的焦点，回车就不会触发click
-        const { appStore } = this.props;
-        const { loginUser } = appStore;
-        if (loginUser.roleCode === 'quality') {
-            return this.showQualityComfirm();
-        } else {
-            return this.submitJob(this.submitOption);
-        }
+        const link = document.createElement("a");
+        link.style.display = "none";
+        // link.href = url;
+        link.setAttribute("download", "sss1");
+        document.body.appendChild(link);
+        let blob = new Blob(['sdfs'], { type: 'text/plain' });
+        link.href = URL.createObjectURL(blob);
+        link.download = 'aa.json';
+        link.dispatchEvent(new MouseEvent('click'));
+
+        // link.click();
+
+        // e || e.target || e.target.blur(); //在click事件中主动去掉button的焦点，回车就不会触发click
+        // const { appStore } = this.props;
+        // const { loginUser } = appStore;
+        // if (loginUser.roleCode === 'quality') {
+        //     return this.showQualityComfirm();
+        // } else {
+        //     return this.submitJob(this.submitOption);
+        // }
     };
 
     showQualityComfirm = () => {

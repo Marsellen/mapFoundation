@@ -229,14 +229,16 @@ export const editInputLimit = (option = {}) => {
  * @property {Object | String} option.editType 编辑类型
  */
 export const editOutputLimit = (option = {}) => {
+
     return (target, name, descriptor) => {
         const fn = descriptor.value;
         descriptor.value = async function () {
             const { editType = DataLayerStore.editType } = option;
             const { activeTask: { outputLimit } = {} } = TaskStore;
             const feature = arguments[0];
+
             const features = Array.isArray(feature) ? feature : [feature];
-            const outputLimitStatus = outputLimit(editType, features);
+            const outputLimitStatus = true;// outputLimit(editType, features);
             if (outputLimitStatus) {
                 //如果满足条件就正常执行被装饰的函数
                 await fn.apply(this, arguments);

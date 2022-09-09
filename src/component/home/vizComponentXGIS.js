@@ -228,6 +228,7 @@ class VizComponentXGIS extends React.Component {
         //初始化文字注记配置
         initTextConfig(mode, taskProcessName);
         //初始化符号配置
+
         initVectorConfig(mode, taskProcessName);
     };
 
@@ -387,10 +388,11 @@ class VizComponentXGIS extends React.Component {
     };
 
     setMapScale = () => {
-        const { TaskStore } = this.props;
-        const { activeTaskId } = TaskStore;
-        const { taskScale } = AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
-        taskScale && window.map.setEyeView(taskScale);
+        // const { TaskStore } = this.props;
+        // const { activeTaskId } = TaskStore;
+        // const { taskScale } = AdLocalStorage.getTaskInfosStorage(activeTaskId) || {};
+        // taskScale &&
+        // window.map.setEyeView(13);
     };
 
     initVectors = async () => {
@@ -596,13 +598,15 @@ class VizComponentXGIS extends React.Component {
         const vectorLayers = window.vectorLayerGroup ? window.vectorLayerGroup.layers : [];
 
         DataLayerStore.initEditor([
-            // { layer: pointCloudLayer },
+            { layer: pointCloudLayer },
             ...vectorLayers,
             // { layer: window.trackLayer },
             ...boundaryLayers,
             window.markerLayer,
             window.informationLayer
         ]);
+
+
         DataLayerStore.initMeasureControl();
         DataLayerStore.setSelectedCallBack(this.selectedCallBack);
         DataLayerStore.setCreatedCallBack(this.createdCallBack);

@@ -1,21 +1,5 @@
 export const MENUS = [
     {
-        id: 0,
-        label: '任务管理',
-        icon: 'renwuguanli',
-        type: 'task-manage',
-        isPopover: true,
-        hasTitle: true
-    },
-    {
-        id: 1,
-        label: '资料图层',
-        icon: 'ziliaotuceng',
-        type: 'resource-layer',
-        isPopover: true,
-        hasTitle: true
-    },
-    {
         id: 2,
         label: '数据图层',
         icon: 'shujutuceng',

@@ -57,7 +57,6 @@ let radomKey = 0;
 export default function AdTrafficSignContent(props) {
     let { form, readonly, item, name } = props;
     let { value, key } = item;
-
     const [contents, setContents] = useState(parseArrayString(value));
 
     useEffect(() => {
@@ -92,10 +91,10 @@ export default function AdTrafficSignContent(props) {
         values[index].SIGN_TYPE = value;
         setContents(values);
     };
-
+    // (contents.length === undefined ? null :
     return (
-        <div>
-            {contents.map((content, index) => (
+        < div >
+            {contents?.map((content, index) => (
                 <div key={index} className="content-box">
                     <Form.Item
                         key={`SIGN_TYPE-${index}-${radomKey}`}
@@ -198,7 +197,7 @@ export default function AdTrafficSignContent(props) {
                             <span className="ant-form-text">{content.TIMEDOM}</span>
                         )}
                     </Form.Item>
-                    {contents.length > 1 && (
+                    {contents?.length > 1 && (
                         <ToolIcon
                             icon="shanchu"
                             className={`del-icon ${!readonly && 'show'}`}
@@ -212,17 +211,20 @@ export default function AdTrafficSignContent(props) {
                         />
                     )}
                 </div>
-            ))}
-            {!readonly && contents.length < 10 && (
-                <Button
-                    onClick={() => {
-                        const values = form.getFieldValue(`${name}.${key}`) || [];
-                        setContents(values.concat(DEFAULT_CONTENT));
-                    }}
-                >
-                    增加标牌子属性
-                </Button>
-            )}
-        </div>
+            ))
+            }
+            {
+                !readonly && contents?.length < 10 && (
+                    <Button
+                        onClick={() => {
+                            const values = form.getFieldValue(`${name}.${key}`) || [];
+                            setContents(values.concat(DEFAULT_CONTENT));
+                        }}
+                    >
+                        增加标牌子属性
+                    </Button>
+                )
+            }
+        </div >
     );
 }

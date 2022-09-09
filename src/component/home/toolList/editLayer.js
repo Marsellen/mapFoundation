@@ -31,6 +31,7 @@ class EditLayer extends React.Component {
     };
 
     handleClickChange = visible => {
+
         if (this.disEditable()) return;
         this.setState({
             clicked: visible
@@ -50,11 +51,9 @@ class EditLayer extends React.Component {
                 <ToolIcon
                     icon="bianji3"
                     title="设置编辑图层"
-                    disabled={this.disEditable()}
                     visible={clicked}
                     popover={{
                         placement: 'bottom',
-                        visible: clicked,
                         onVisibleChange: this.handleClickChange,
                         content: this._renderContent(),
                         trigger: 'click'
@@ -82,6 +81,7 @@ class EditLayer extends React.Component {
     };
 
     _renderContent() {
+
         return <EditLayerPicker _renderValue={this._renderValue} />;
     }
 
@@ -101,6 +101,7 @@ class EditLayer extends React.Component {
 @observer
 class EditLayerPicker extends React.Component {
     render() {
+
         let { DataLayerStore } = this.props;
         const { updateKey } = DataLayerStore;
         let editLayer = DataLayerStore.adEditLayer;
@@ -118,6 +119,7 @@ class EditLayerPicker extends React.Component {
     }
 
     renderLayersContent() {
+
         const layerConfig = getEditableLayerConfig();
         return Object.keys(layerConfig).map(key => {
             return (
@@ -158,6 +160,7 @@ class EditLayerPicker extends React.Component {
 
     @editLock
     onChange = e => {
+
         const { DataLayerStore, ToolCtrlStore, AttributeStore } = this.props;
         const value = e.target.value;
         const layerPicker = DATA_LAYER_MAP[value] ? DATA_LAYER_MAP[value].editName : '';
