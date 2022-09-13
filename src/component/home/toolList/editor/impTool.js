@@ -1,13 +1,14 @@
 import React from 'react';
 import ToolIcon from 'src/component/common/toolIcon';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Icon } from 'antd';
 import AdMessage from 'src/component/common/adMessage';
 import 'less/tool-icon.less';
 import 'src/asset/less/add-rel.less';
 
+@inject('DataLayerStore')
 @observer
-class ImpTool extends React.Component {
+class EditorMode extends React.Component {
     constructor() {
         super();
     }
@@ -30,16 +31,17 @@ class ImpTool extends React.Component {
     }
 
     action = () => {
-
+        const { DataLayerStore } = this.props;
+        DataLayerStore.editor.setEditorMode(!DataLayerStore.editor.isEditorMode);
     };
 
     content = () => {
         return (
             <label>
-                <Icon type="info-circle" onClick={this.renderTips} /> 导入GeoJSON数据
+                <Icon type="info-circle" onClick={this.renderTips} /> 切换编辑模式
             </label>
         );
     };
 }
 
-export default ImpTool;
+export default EditorMode;

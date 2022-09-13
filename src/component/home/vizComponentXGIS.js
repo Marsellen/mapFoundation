@@ -620,11 +620,11 @@ class VizComponentXGIS extends React.Component {
             const firstFeature = result[0];
             const { type: featureType, layerName: featureLayerName } = firstFeature;
             const { TaskStore } = this.props;
-            const editLayers = TASK_EDIT_LAYER_MAP?.[TaskStore.taskProcessName] ?? [];
-            const isEditableLayer = editLayers.includes(featureLayerName);
+            // const editLayers = TASK_EDIT_LAYER_MAP?.[TaskStore.taskProcessName] ?? [];
+            // const isEditableLayer = editLayers.includes(featureLayerName);
             switch (featureType) {
                 case 'VectorLayer': //矢量要素
-                    if (isEditableLayer && result.length === 1) {
+                    if (result.length === 1) {
                         const { appStore } = this.props;
                         const editStatus = DataLayerStore.editStatus;
                         const layerName = DataLayerStore.getAdEditLayerName();
