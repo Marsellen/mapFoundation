@@ -16,6 +16,14 @@ import AttrStore from 'src/store/home/attrStore';
 import 'less/jobstatus.less';
 import { lineToStop } from 'src/util/relCtrl/operateCtrl';
 
+import { flow } from 'mobx';
+
+import {
+    getAllVectorData,
+    getAllRelData,
+    getAllAttrData
+} from 'src/util/vectorUtils';
+
 @withRouter
 @inject('QCMarkerStore')
 @inject('RenderModeStore')
@@ -59,7 +67,7 @@ class JobStatus extends React.Component {
             <div className="flex flex-center jobstatus">
                 <ToolIcon
                     icon="huoqurenwu"
-                    title="获取任务"
+                    title="导入数据"
                     className="jobstatus-get"
                     focusColor={false}
                     action={this.getJob}
@@ -67,7 +75,7 @@ class JobStatus extends React.Component {
                 {!isLocal && (
                     <ToolIcon
                         icon="tijiaorenwu"
-                        title="提交任务111"
+                        title="导出数据"
                         className="jobstatus-submit"
                         focusColor={false}
                         action={this.submitTask}
@@ -97,42 +105,44 @@ class JobStatus extends React.Component {
         fileInput.id = 'file';
         fileInput.multiple = true;
         fileInput.type = 'file';
-
         fileInput.addEventListener('change', function () {
-            let filesName = [];
             let files = event.target.files;
             for (let i = 0; i < files.length; i++) {
                 let reader = new FileReader();
                 reader.readAsText(files[i]);
-                let that = this;
-                let name = files[i].name;
-                that.name = name;
                 reader.onload = (data) => {
                     try {
-                        filesName[that.name] = data.target.result;
-                        let vec = VECTOR_FILES.includes(name);
-                        if (vec) {
-                            VectorsStore.addRecords(null, 'current', JSON.parse(data.target.result));
+                        const result = JSON.parse(data.target.result);
+                        const name = result.name;
+                        let allLayer = [...VECTOR_FILES, ...ATTR_FILES, ...REL_FILES];
+                        let layer = allLayer.includes(name);
+                        if (layer) {
+                            let vec = VECTOR_FILES.includes(name);
+                            if (vec) {
+                                VectorsStore.addRecords(null, 'current', result);
+                            }
+                            let attr = ATTR_FILES.includes(name);
+                            if (attr) {
+                                AttrStore.addRecords(null, 'current', result);
+                            }
+                            let rel = REL_FILES.includes(name);
+                            if (rel) {
+                                RelStore.addRecords(null, 'current', result);
+                            }
                         }
-                        let attr = ATTR_FILES.includes(name);
-                        if (attr) {
-                            AttrStore.addRecords(null, 'current', JSON.parse(data.target.result));
+                        else {
+                            // VectorsStore.addRecords(null, 'boundary', result);
                         }
-                        let rel = REL_FILES.includes(name);
-                        if (rel) {
-                            RelStore.addRecords(null, 'current', JSON.parse(data.target.result));
-                        }
-                        const extent = window.map.getExtentByFeatures(JSON.parse(data.target.result).features);
+                        const extent = window.map.getExtentByFeatures(result.features);
                         window.map.setExtent(extent);
                     } catch (error) {
-
                     }
-
                 };
             }
         });
         form.appendChild(fileInput);
-        return fileInput.click();
+        fileInput.click();
+        document.body.removeChild(form);
     };
     // 获取
     getJob = async () => {
@@ -459,18 +469,49 @@ class JobStatus extends React.Component {
     };
 
     // @editLock
-    submitTask = e => {
-        const link = document.createElement("a");
-        link.style.display = "none";
-        // link.href = url;
-        link.setAttribute("download", "sss1");
-        document.body.appendChild(link);
-        let blob = new Blob(['sdfs'], { type: 'text/plain' });
-        link.href = URL.createObjectURL(blob);
-        link.download = 'aa.json';
-        link.dispatchEvent(new MouseEvent('click'));
+    submitTask = flow(function* () {
+        let vectorData = getAllVectorData(true);
+        // 删除不符合规则的字段
+        let vectorDataClone = JSON.parse(JSON.stringify(vectorData));
+        if (vectorDataClone) {
+            vectorDataClone?.features.forEach(feature => {
+                if (feature.name === 'AD_Lane') {
+                    feature.features.forEach(item => {
+                        if (item?.properties?.RS_VALUE !== undefined) {
+                            delete item.properties.RS_VALUE;
+                        }
+                        if (item?.properties?.SPEED !== undefined) {
+                            delete item.properties.SPEED;
+                        }
+                    });
+                }
+            });
+        }
 
-        // link.click();
+        let relData = yield getAllRelData(true);
+        let attrData = yield getAllAttrData(true);
+        const allData = [...vectorDataClone.features, ...relData.features, ...attrData.features];
+        console.log(allData)
+        let isAllData = [];
+        allData.forEach(item => {
+            if (item.features.length > 0) {
+                if (isAllData[item.name] === undefined) {
+                    isAllData[item.name] = true;
+                    const link = document.createElement("a");
+                    link.style.display = "none";
+                    link.setAttribute("download", item.name);
+                    document.body.appendChild(link);
+                    let blob = new Blob([JSON.stringify(item)], { type: 'text/plain' });
+                    link.href = URL.createObjectURL(blob);
+                    link.download = item.name + '.geojson';
+                    link.click();
+                    link.remove();
+                }
+
+            }
+        });
+
+
 
         // e || e.target || e.target.blur(); //在click事件中主动去掉button的焦点，回车就不会触发click
         // const { appStore } = this.props;
@@ -480,6 +521,14 @@ class JobStatus extends React.Component {
         // } else {
         //     return this.submitJob(this.submitOption);
         // }
+    });
+    //获取当前所有图层名，合并到文件列表中，合成新的文件列表
+    getFileNameList = (vectorData, relData, attrData) => {
+        const allData = [...vectorData.features, ...relData.features, ...attrData.features];
+        const newFileNameList = allData.map(item => item.name + '.geojson');
+        const allFileNameList = [...newFileNameList, ...this.taskFileNames];
+        const fileNameList = [...new Set(allFileNameList)];
+        return fileNameList;
     };
 
     showQualityComfirm = () => {

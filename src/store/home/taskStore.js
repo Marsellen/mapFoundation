@@ -640,9 +640,9 @@ class TaskStore {
                 }
             });
         }
-
         let relData = yield getAllRelData(true);
         let attrData = yield getAllAttrData(true);
+        let layerData = Object.assign(vectorDataClone.features, relData.features, attrData.features);
         relData = this.completeData(relData, 'rels');
         attrData = this.completeData(attrData, 'attrs');
         let path = getEditPath(this.activeTask);
@@ -652,6 +652,7 @@ class TaskStore {
                     filePath: path,
                     fileName: 'ads_all',
                     fileFormat: 'geojson',
+
                     fileData: vectorDataClone
                 },
                 {

@@ -33,7 +33,7 @@ export const TOOLS_MAP = {
         BATCH_BREAK: true,
         MUNICIPAL_BARRIER_DOWN: true,
         VIEW_NEIGHBOR: true,
-        IMP_TOOL: true
+        EDITOR_MODE: true
     },
     CHECK: {
         UNDO: true,
@@ -68,6 +68,6 @@ export const TOOLS_MAP = {
         BATCH_BREAK: false,
         MUNICIPAL_BARRIER_DOWN: false,
         VIEW_NEIGHBOR: true,
-        IMP_TOOL: true
+        EDITOR_MODE: true
     }
 };

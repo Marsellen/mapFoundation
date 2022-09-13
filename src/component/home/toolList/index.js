@@ -23,7 +23,7 @@ import UnionBreak from 'src/component/home/toolList/unionBreak';
 import BuildStep from 'src/component/home/toolList/buildStep';
 import BatchBreak from 'src/component/home/toolList/batchBreak';
 import MunicipalBarrierDown from 'src/component/home/toolList/municipalBarrierDown';
-import ImpTool from './editor/impTool';
+import EditorMode from './editor/impTool';
 export default [
     <Undo key="UNDO" />,
     <Redo key="REDO" />,
@@ -50,5 +50,5 @@ export default [
     <TopBreakLine key="TOP_BREAK_LINE_2" />,
     <BatchBreak key="BATCH_BREAK" />,
     <MunicipalBarrierDown key="MUNICIPAL_BARRIER_DOWN" />,
-    <ImpTool key='IMP_TOOL'></ImpTool>
+    <EditorMode key='EDITOR_MODE'></EditorMode>
 ];

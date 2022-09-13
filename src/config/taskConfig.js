@@ -89,58 +89,58 @@ export const POST_PROCESS = {
 //任务文件-矢量文件
 // 新增图层配置
 export const VECTOR_FILES = [
-    // 'AD_LaneDivider_Pln.geojson',
-    'AD_LaneDivider_Plg.geojson',
-    'AD_StopLocation_Geo.geojson',
-    // 'AD_Arrow_Geo.geojson',
-    'AD_LaneMark_Geo.geojson',
-    'AD_Pole_Geo.geojson',
-    // 'AD_TrafficSign_Geo.geojson',
-    // 'AD_TrafficLight_Geo.geojson',
-    'AD_Road.geojson',
-    'AD_LaneDivider.geojson',
-    'AD_Lane.geojson',
-    'AD_LaneAttrPoint.geojson',
-    'AD_Arrow.geojson',
-    'AD_StopLocation.geojson',
-    // 'AD_LaneMark_Plg.geojson',
-    'AD_TrafficLight.geojson',
-    'AD_Text.geojson',
-    'AD_TrafficSign.geojson',
-    'AD_RS_Barrier.geojson',
-    'AD_Junction.geojson'
+    // 'AD_LaneDivider_Pln',
+    'AD_LaneDivider_Plg',
+    'AD_StopLocation_Geo',
+    // 'AD_Arrow_Geo',
+    'AD_LaneMark_Geo',
+    'AD_Pole_Geo',
+    // 'AD_TrafficSign_Geo',
+    // 'AD_TrafficLight_Geo',
+    'AD_Road',
+    'AD_LaneDivider',
+    'AD_Lane',
+    'AD_LaneAttrPoint',
+    'AD_Arrow',
+    'AD_StopLocation',
+    // 'AD_LaneMark_Plg',
+    'AD_TrafficLight',
+    'AD_Text',
+    'AD_TrafficSign',
+    'AD_RS_Barrier',
+    'AD_Junction'
 ].concat(VECTOR_FILES_LAYER);
 
 //任务文件-关联属性文件
 export const ATTR_FILES = [
-    'AD_Road_Con_RS.geojson',
-    'AD_Lane_RS.geojson',
-    'AD_Lane_Con_RS.geojson',
-    'AD_Lane_Speed.geojson'
+    'AD_Road_Con_RS',
+    'AD_Lane_RS',
+    'AD_Lane_Con_RS',
+    'AD_Lane_Speed'
 ];
 
 //任务文件-关联关系文件
 
 // 新增图层配置  关联配置  配置暂存数据关系
 export const REL_FILES = [
-    'AD_Lane.geojson',
-    'AD_Road_Con.geojson',
-    'AD_Lane_Con.geojson',
-    'AD_StopL_Lane_Rel.geojson',
-    'AD_Plg_Lane_Rel.geojson',
-    'AD_Light_Lane_Rel.geojson',
-    'AD_Sign_Lane_Rel.geojson',
-    'AD_LaneAttrPoint.geojson',
-    'AD_Arrow.geojson',
-    'AD_Road_Boundary_Rel.geojson',
-    'AD_Boundary_Rel.geojson',
-    'AD_Feat_Junc_Rel.geojson',
-    'AD_RS_Barrier_Rel.geojson',
-    'AD_Pole_Geo.geojson',
-    'AD_LaneDivider_Plg.geojson',
-    'AD_Text.geojson',
-    'AD_StopLocation_Geo.geojson'
+    'AD_Lane',
+    'AD_Road_Con',
+    'AD_Lane_Con',
+    'AD_StopL_Lane_Rel',
+    'AD_Plg_Lane_Rel',
+    'AD_Light_Lane_Rel',
+    'AD_Sign_Lane_Rel',
+    'AD_LaneAttrPoint',
+    'AD_Arrow',
+    'AD_Road_Boundary_Rel',
+    'AD_Boundary_Rel',
+    'AD_Feat_Junc_Rel',
+    'AD_RS_Barrier_Rel',
+    'AD_Pole_Geo',
+    'AD_LaneDivider_Plg',
+    'AD_Text',
+    'AD_StopLocation_Geo'
 ].concat(REL_FILES_LAYER);
 export const REGION_FILES = [
-    'region.geojson'
+    'region'
 ];
