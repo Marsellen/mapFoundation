@@ -41,8 +41,9 @@ class Home extends React.Component {
                         </div>
                         <HeaderBar />
                     </Header>
-                    <div className='side-content'><Sider menus={MENUS}>{SiderView}</Sider>
-                    <TaskVersion className='side-inner' />
+                    <div className='side-content'>
+                        <Sider menus={MENUS}>{SiderView}</Sider>
+                        <TaskVersion className='side-inner' />
                     </div>
                     <div className="flex-1 viz-content" id="viz-content">
                         <VizComponent />
