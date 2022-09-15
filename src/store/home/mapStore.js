@@ -1,6 +1,11 @@
 import { observable, configure, action, computed, flow } from 'mobx';
-import { Map, PcdLayer, VectorLayer } from '@ad/xmap';
+import { Map, PcdLayer, VectorLayer, Utils } from '@ad/xmap';
 import axios from 'axios';
+import {
+    getFeatureByOptionFormAll
+} from 'src/util/vectorUtils'
+import Item from 'antd/lib/list/Item';
+
 configure({ enforceActions: 'always' });
 /**
  *  控制地图的所有全量
@@ -10,7 +15,8 @@ class mapStore {
     mapViewer = null;
     // 临时图层
     vectorLayer = null;
-
+    // 临时存储高亮数据
+    tempObjs = [];
     // 加载矢量地图
     addVectorLayer = (opts = {}) => {
         let layer = null;
@@ -71,6 +77,28 @@ class mapStore {
                 return false;
             });
     });
+    updateFeatureColor(layerName, option, matOption) {
+
+        let [layer] = getFeatureByOptionFormAll(layerName, option);
+        if (layer) {
+            layer.updateFeatureColor(option, matOption.color, false);
+            const objs = this.lineToFatline(layer.shapeNode, option, matOption);
+            if (objs.length > 0) {
+                objs.forEach(obj => {
+                    this.tempObjs.push(obj);
+                    this.mapViewer._scene.scene.add(obj);
+                });
+            }
+        }
+
+    };
+    clear() {
+        this.tempObjs.forEach((item) => { this.mapViewer._scene.scene.remove(item) });
+        this.tempObjs = [];
+    }
+    lineToFatline(shapeNode, option, matOption) {
+        return Utils.lineToFatline(shapeNode, option, matOption);
+    };
     release = () => {
         this.mapViewer && this.mapViewer.release();
         this.mapViewer = null;

@@ -625,11 +625,9 @@ class VizComponentXGIS extends React.Component {
             switch (featureType) {
                 case 'VectorLayer': //矢量要素
                     if (result.length === 1) {
-                        const { appStore } = this.props;
                         const editStatus = DataLayerStore.editStatus;
                         const layerName = DataLayerStore.getAdEditLayerName();
                         if (
-                            appStore.isProducer &&
                             editStatus === 'normal' && //当前是普通模式，不是联合打断模式
                             layerName !== featureLayerName //选中要素所属图层不是当前编辑图层
                         ) {
@@ -782,7 +780,7 @@ class VizComponentXGIS extends React.Component {
         this.init();
         return (
             <React.Fragment>
-                {TaskStore.activeTaskId ? <MultimediaView /> : <MultimediaView />}
+                <MultimediaView />
                 <AttributesModal />
                 <RightMenuModal />
                 <BatchAssignModal />

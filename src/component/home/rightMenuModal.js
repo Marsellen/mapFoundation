@@ -100,6 +100,7 @@ class RightMenuModal extends React.Component {
         };
     }
     componentDidMount() {
+
         const { DataLayerStore } = this.props;
         this.installListener();
         this.changePoints = this.changePoints.bind(this);
@@ -127,14 +128,16 @@ class RightMenuModal extends React.Component {
     }
 
     render() {
+
         const {
             RightMenuStore: { visible, zIndex },
             DataLayerStore: { editType }
         } = this.props;
-        if (!visible) {
-            let messageVisible = EDIT_TYPE.includes(editType);
-            return <AdMessage visible={messageVisible} content={this.content()} />;
-        }
+
+        // if (false) {
+        //     let messageVisible = EDIT_TYPE.includes(editType);
+        //     return <AdMessage visible={messageVisible} content={this.content()} />;
+        // }
         const menuList = this.menuList();
         return (
             <div>
@@ -347,6 +350,7 @@ class RightMenuModal extends React.Component {
     };
 
     installListener = () => {
+
         const { DataLayerStore } = this.props;
         DataLayerStore.setBreakCallback(result => {
             this.breakCallBack(result);

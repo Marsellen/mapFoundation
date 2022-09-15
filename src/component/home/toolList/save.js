@@ -19,7 +19,7 @@ import SettingStore from 'src/store/setting/settingStore';
 class Save extends React.Component {
     constructor(props) {
         super(props);
-        this.loop();
+        // this.loop();
     }
 
     render() {

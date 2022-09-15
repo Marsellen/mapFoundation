@@ -55,7 +55,7 @@ class BuriedPoint {
                 params.businessData.taskId,
                 params.businessData.taskStatus
             );
-            await BuriedPointService.buriedPoint(params);
+            // await BuriedPointService.buriedPoint(params);
         } catch (e) {
             console.log('埋点接口异常' + e.message || e || '');
         }
@@ -63,151 +63,151 @@ class BuriedPoint {
 
     //埋点:单一工具-开始
     toolBuriedPointStart = async (type, channel) => {
-        if (!type) return;
-        let eventType = null;
-        let buriedPointDesc = null;
-        switch (channel) {
-            case 'button':
-                const isShortcutKey = ShortcutKey.keyCode;
-                const isRightMenu = RightMenuStore?.menus?.includes?.(type);
-                eventType = isShortcutKey ? 'keydown' : 'click';
-                buriedPointDesc = isShortcutKey ? '快捷键' : isRightMenu ? '右键菜单' : '按钮';
-                break;
-            case 'right_menu':
-                const isShortcutKey2 = ShortcutKey.keyCode;
-                eventType = isShortcutKey2 ? 'keydown' : 'click';
-                buriedPointDesc = isShortcutKey2 ? '快捷键' : '右键菜单';
-                break;
-            case 'shortcut_key':
-                eventType = 'keydown';
-                buriedPointDesc = '快捷键';
-                break;
-            case 'attr_list_right_menu':
-                eventType = 'click';
-                buriedPointDesc = '属性列表右键菜单';
-                break;
-            case 'attr_list_shortcut_key':
-                eventType = 'keydown';
-                buriedPointDesc = '属性列表快捷键';
-                break;
-            case 'delete_button':
-                eventType = 'click';
-                buriedPointDesc = '删除按钮';
-                break;
-            case 'modify_button':
-                eventType = 'click';
-                buriedPointDesc = '修改按扭';
-                break;
-            case 'shortcut_modity':
-                eventType = 'click';
-                buriedPointDesc = '快捷修改';
-                break;
-            case 'open':
-                buriedPointDesc = '开启窗口';
-                break;
-            case 'auto':
-                buriedPointDesc = '前端定时触发';
-                break;
-            case 'check_server':
-                buriedPointDesc = '质检服务自动调用';
-                break;
-            case 'toggle_task':
-                buriedPointDesc = '切换任务自动调用';
-                break;
-            case 'submit_task':
-                buriedPointDesc = '提交任务自动调用';
-                break;
-            case 'switch':
-                eventType = 'click';
-                buriedPointDesc = '显隐开关';
-                break;
-            default:
-                return;
-        }
-        await this.sendRequest({
-            type,
-            functionType: '单一工具',
-            buriedPointType: '编辑工具开始',
-            buriedPointDesc,
-            action: 1,
-            eventType
-        });
+        // if (!type) return;
+        // let eventType = null;
+        // let buriedPointDesc = null;
+        // switch (channel) {
+        //     case 'button':
+        //         const isShortcutKey = ShortcutKey.keyCode;
+        //         const isRightMenu = RightMenuStore?.menus?.includes?.(type);
+        //         eventType = isShortcutKey ? 'keydown' : 'click';
+        //         buriedPointDesc = isShortcutKey ? '快捷键' : isRightMenu ? '右键菜单' : '按钮';
+        //         break;
+        //     case 'right_menu':
+        //         const isShortcutKey2 = ShortcutKey.keyCode;
+        //         eventType = isShortcutKey2 ? 'keydown' : 'click';
+        //         buriedPointDesc = isShortcutKey2 ? '快捷键' : '右键菜单';
+        //         break;
+        //     case 'shortcut_key':
+        //         eventType = 'keydown';
+        //         buriedPointDesc = '快捷键';
+        //         break;
+        //     case 'attr_list_right_menu':
+        //         eventType = 'click';
+        //         buriedPointDesc = '属性列表右键菜单';
+        //         break;
+        //     case 'attr_list_shortcut_key':
+        //         eventType = 'keydown';
+        //         buriedPointDesc = '属性列表快捷键';
+        //         break;
+        //     case 'delete_button':
+        //         eventType = 'click';
+        //         buriedPointDesc = '删除按钮';
+        //         break;
+        //     case 'modify_button':
+        //         eventType = 'click';
+        //         buriedPointDesc = '修改按扭';
+        //         break;
+        //     case 'shortcut_modity':
+        //         eventType = 'click';
+        //         buriedPointDesc = '快捷修改';
+        //         break;
+        //     case 'open':
+        //         buriedPointDesc = '开启窗口';
+        //         break;
+        //     case 'auto':
+        //         buriedPointDesc = '前端定时触发';
+        //         break;
+        //     case 'check_server':
+        //         buriedPointDesc = '质检服务自动调用';
+        //         break;
+        //     case 'toggle_task':
+        //         buriedPointDesc = '切换任务自动调用';
+        //         break;
+        //     case 'submit_task':
+        //         buriedPointDesc = '提交任务自动调用';
+        //         break;
+        //     case 'switch':
+        //         eventType = 'click';
+        //         buriedPointDesc = '显隐开关';
+        //         break;
+        //     default:
+        //         return;
+        // }
+        // await this.sendRequest({
+        //     type,
+        //     functionType: '单一工具',
+        //     buriedPointType: '编辑工具开始',
+        //     buriedPointDesc,
+        //     action: 1,
+        //     eventType
+        // });
     };
 
     //埋点:单一工具-结束
     toolBuriedPointEnd = async (type, channel) => {
-        if (!type) return;
-        if (type === 'choose_error_feature') {
-            type = QCMarkerStore.editStatus === 'modify' ? null : type;
-        }
-        if (type === 'choose_inform_feature' || type === 'change_inform_feature') {
-            type = InformationStore.editStatus === 'modify' ? null : type;
-        }
-        let eventType = null;
-        let buriedPointDesc = null;
-        switch (channel) {
-            case 'toggle':
-                if (type === 'normal') return;
-                const isShortcutKey = ShortcutKey.keyCode;
-                eventType = isShortcutKey ? 'keydown' : 'click';
-                buriedPointDesc = '切换工具退出';
-                break;
-            case 'esc':
-                eventType = 'keyup';
-                buriedPointDesc = 'Esc退出';
-                break;
-            case 'success':
-                buriedPointDesc = '前端更新结束';
-                break;
-            case 'error':
-                buriedPointDesc = '报错退出';
-                break;
-            case 'close':
-                eventType = 'click';
-                buriedPointDesc = '右上角关闭窗口';
-                break;
-            case 'cancel':
-                eventType = 'click';
-                buriedPointDesc = '取消按钮';
-                break;
-            case 'toggle_select':
-                eventType = 'click';
-                buriedPointDesc = '切换选择';
-                break;
-            case 'other_close':
-                buriedPointDesc = '其它退出';
-                break;
-            case 'toggle_task':
-                eventType = 'click';
-                buriedPointDesc = '切换任务';
-                break;
-            case 'submit_task':
-                eventType = 'click';
-                buriedPointDesc = '提交任务';
-                break;
-            case 'logout':
-                eventType = 'click';
-                buriedPointDesc = '退出登录';
-                break;
-            case 'toggle_buffer_render':
-                eventType = 'click';
-                buriedPointDesc = '切换全图层渲染';
-                break;
-            case 'switch':
-                eventType = 'click';
-                buriedPointDesc = '显隐开关';
-                break;
-            default:
-                return;
-        }
-        await this.sendRequest({
-            type,
-            functionType: '单一工具',
-            buriedPointType: '编辑工具结束',
-            buriedPointDesc,
-            action: 2,
-            eventType
-        });
+        // if (!type) return;
+        // if (type === 'choose_error_feature') {
+        //     type = QCMarkerStore.editStatus === 'modify' ? null : type;
+        // }
+        // if (type === 'choose_inform_feature' || type === 'change_inform_feature') {
+        //     type = InformationStore.editStatus === 'modify' ? null : type;
+        // }
+        // let eventType = null;
+        // let buriedPointDesc = null;
+        // switch (channel) {
+        //     case 'toggle':
+        //         if (type === 'normal') return;
+        //         const isShortcutKey = ShortcutKey.keyCode;
+        //         eventType = isShortcutKey ? 'keydown' : 'click';
+        //         buriedPointDesc = '切换工具退出';
+        //         break;
+        //     case 'esc':
+        //         eventType = 'keyup';
+        //         buriedPointDesc = 'Esc退出';
+        //         break;
+        //     case 'success':
+        //         buriedPointDesc = '前端更新结束';
+        //         break;
+        //     case 'error':
+        //         buriedPointDesc = '报错退出';
+        //         break;
+        //     case 'close':
+        //         eventType = 'click';
+        //         buriedPointDesc = '右上角关闭窗口';
+        //         break;
+        //     case 'cancel':
+        //         eventType = 'click';
+        //         buriedPointDesc = '取消按钮';
+        //         break;
+        //     case 'toggle_select':
+        //         eventType = 'click';
+        //         buriedPointDesc = '切换选择';
+        //         break;
+        //     case 'other_close':
+        //         buriedPointDesc = '其它退出';
+        //         break;
+        //     case 'toggle_task':
+        //         eventType = 'click';
+        //         buriedPointDesc = '切换任务';
+        //         break;
+        //     case 'submit_task':
+        //         eventType = 'click';
+        //         buriedPointDesc = '提交任务';
+        //         break;
+        //     case 'logout':
+        //         eventType = 'click';
+        //         buriedPointDesc = '退出登录';
+        //         break;
+        //     case 'toggle_buffer_render':
+        //         eventType = 'click';
+        //         buriedPointDesc = '切换全图层渲染';
+        //         break;
+        //     case 'switch':
+        //         eventType = 'click';
+        //         buriedPointDesc = '显隐开关';
+        //         break;
+        //     default:
+        //         return;
+        // }
+        // await this.sendRequest({
+        //     type,
+        //     functionType: '单一工具',
+        //     buriedPointType: '编辑工具结束',
+        //     buriedPointDesc,
+        //     action: 2,
+        //     eventType
+        // });
     };
 
     //埋点：单一工具loading开始
@@ -240,14 +240,14 @@ class BuriedPoint {
             default:
                 return;
         }
-        await this.sendRequest({
-            type,
-            functionType: '单一工具',
-            buriedPointType: 'Loading开始',
-            buriedPointDesc,
-            action: 3,
-            eventType
-        });
+        // await this.sendRequest({
+        //     type,
+        //     functionType: '单一工具',
+        //     buriedPointType: 'Loading开始',
+        //     buriedPointDesc,
+        //     action: 3,
+        //     eventType
+        // });
     };
 
     //埋点：单一工具loading结束
@@ -265,14 +265,14 @@ class BuriedPoint {
             default:
                 return;
         }
-        await this.sendRequest({
-            type,
-            functionType: '单一工具',
-            buriedPointType: 'Loading结束',
-            buriedPointDesc,
-            action: 4,
-            eventType
-        });
+        // await this.sendRequest({
+        //     type,
+        //     functionType: '单一工具',
+        //     buriedPointType: 'Loading结束',
+        //     buriedPointDesc,
+        //     action: 4,
+        //     eventType
+        // });
     };
 
     //埋点：窗口交互1-开启
@@ -292,14 +292,14 @@ class BuriedPoint {
             default:
                 return;
         }
-        await this.sendRequest({
-            type,
-            functionType: '窗口交互',
-            buriedPointType: '开启窗口',
-            buriedPointDesc,
-            action: 1,
-            eventType
-        });
+        // await this.sendRequest({
+        //     type,
+        //     functionType: '窗口交互',
+        //     buriedPointType: '开启窗口',
+        //     buriedPointDesc,
+        //     action: 1,
+        //     eventType
+        // });
     };
 
     //埋点：窗口交互1-关闭
@@ -343,14 +343,14 @@ class BuriedPoint {
             default:
                 return;
         }
-        await this.sendRequest({
-            type,
-            functionType: '窗口交互',
-            buriedPointType: '关闭窗口',
-            buriedPointDesc,
-            action: 2,
-            eventType
-        });
+        // await this.sendRequest({
+        //     type,
+        //     functionType: '窗口交互',
+        //     buriedPointType: '关闭窗口',
+        //     buriedPointDesc,
+        //     action: 2,
+        //     eventType
+        // });
     };
 
     //埋点：数据加载-开始加载
@@ -358,14 +358,14 @@ class BuriedPoint {
         if (channel === 'task_start') {
             const eventType = null;
             const buriedPointDesc = '开始任务';
-            await this.sendRequest({
-                type,
-                functionType: '数据加载',
-                buriedPointType: '开始加载',
-                buriedPointDesc,
-                action: 1,
-                eventType
-            });
+            // await this.sendRequest({
+            //     type,
+            //     functionType: '数据加载',
+            //     buriedPointType: '开始加载',
+            //     buriedPointDesc,
+            //     action: 1,
+            //     eventType
+            // });
         }
     };
 
@@ -383,14 +383,14 @@ class BuriedPoint {
             default:
                 return;
         }
-        await this.sendRequest({
-            type,
-            functionType: '数据加载',
-            buriedPointType: '结束加载',
-            buriedPointDesc,
-            action: 2,
-            eventType
-        });
+        // await this.sendRequest({
+        //     type,
+        //     functionType: '数据加载',
+        //     buriedPointType: '结束加载',
+        //     buriedPointDesc,
+        //     action: 2,
+        //     eventType
+        // });
     };
 
     //埋点：状态切换-开始
@@ -411,14 +411,14 @@ class BuriedPoint {
             default:
                 return;
         }
-        await this.sendRequest({
-            type,
-            functionType: '状态切换',
-            buriedPointType: '进入状态',
-            buriedPointDesc,
-            action: 1,
-            eventType
-        });
+        // await this.sendRequest({
+        //     type,
+        //     functionType: '状态切换',
+        //     buriedPointType: '进入状态',
+        //     buriedPointDesc,
+        //     action: 1,
+        //     eventType
+        // });
     };
 
     //埋点：状态切换-结束
@@ -451,14 +451,14 @@ class BuriedPoint {
             default:
                 return;
         }
-        await this.sendRequest({
-            type,
-            functionType: '状态切换',
-            buriedPointType: '退出状态',
-            buriedPointDesc,
-            action: 2,
-            eventType
-        });
+        // await this.sendRequest({
+        //     type,
+        //     functionType: '状态切换',
+        //     buriedPointType: '退出状态',
+        //     buriedPointDesc,
+        //     action: 2,
+        //     eventType
+        // });
     };
 
     //退出登录、提交任务、切换任务统一调用功能结束埋点
@@ -467,12 +467,12 @@ class BuriedPoint {
         const { adEditLayer, editStatus, editType } = DataLayerStore;
         const isUnionBreak = editStatus === 'union_break';
         const isEditing = editType && editType !== 'normal';
-        await Promise.allSettled([
-            isEditing && this.toolBuriedPointEnd(editType, channel),
-            attrListVisible && this.modalBuriedPointEnd('attr_list', channel),
-            adEditLayer && this.statusBuriedPointEnd('normal', channel),
-            isUnionBreak && this.statusBuriedPointEnd('union_break', channel)
-        ]);
+        // await Promise.allSettled([
+        //     isEditing && this.toolBuriedPointEnd(editType, channel),
+        //     attrListVisible && this.modalBuriedPointEnd('attr_list', channel),
+        //     adEditLayer && this.statusBuriedPointEnd('normal', channel),
+        //     isUnionBreak && this.statusBuriedPointEnd('union_break', channel)
+        // ]);
     };
 }
 
