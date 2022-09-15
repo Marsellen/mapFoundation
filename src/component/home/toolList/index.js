@@ -8,7 +8,7 @@ import ExportShp from 'src/component/home/toolList/exportShp';
 import AddRel from 'src/component/home/toolList/addRel';
 import DelRel from 'src/component/home/toolList/delRel';
 import SearchInfo from 'src/component/home/toolList/searchInfo';
-import QualityCheck from 'src/component/home/toolList/qualityCheck';
+// import QualityCheck from 'src/component/home/toolList/qualityCheck';
 import PointCloud from 'src/component/home/toolList/pointCloud';
 import TopBreakLine from 'src/component/home/toolList/topBreakLine';
 import ToolBox from 'src/component/home/toolList/toolBox';
@@ -16,15 +16,14 @@ import DrawToolBox from 'src/component/home/toolList/drawToolBox';
 import BatchToolBox from 'src/component/home/toolList/batchToolBox';
 import AttributeBrush from 'src/component/home/toolList/attributeBrush';
 import QCMarkerTool from 'src/component/home/toolList/qcMarkerTool';
-import InformationTool from 'src/component/home/toolList/informationTool';
+// import InformationTool from 'src/component/home/toolList/informationTool';
 import PostureAdjust from 'src/component/home/toolList/postureAdjust';
 import SetStepSize from 'src/component/home/toolList/setStepSize';
 import UnionBreak from 'src/component/home/toolList/unionBreak';
 import BuildStep from 'src/component/home/toolList/buildStep';
 import BatchBreak from 'src/component/home/toolList/batchBreak';
 import MunicipalBarrierDown from 'src/component/home/toolList/municipalBarrierDown';
-import ViewNeighbor from './viewNeighbor';
-
+import EditorMode from './editor/impTool';
 export default [
     <Undo key="UNDO" />,
     <Redo key="REDO" />,
@@ -35,11 +34,10 @@ export default [
     <SetStepSize key="SETSTEP_SIZE" />,
     <ToolBox key="TOOL_BOX" />,
     <SearchInfo key="SEARCH_INFO" />,
-    <QualityCheck key="QUALITY_TEST" />,
+    // <QualityCheck key="QUALITY_TEST" />,
     <BuildStep key="BUILD_STEP" />,
     <QCMarkerTool key="QC_MARKER" />,
-    <InformationTool key="INFORMATION_TOOL" />,
-    <ViewNeighbor key="VIEW_NEIGHBOR" />,
+    // <InformationTool key="INFORMATION_TOOL" />,
     <TopBreakLine key="TOP_BREAK_LINE_1" />,
     <EditLayer key="EDIT_LAYER" />,
     <DrawToolBox key="DRAW_TOOL_BOX" />,
@@ -51,5 +49,6 @@ export default [
     <UnionBreak key="UNION_BREAK" />,
     <TopBreakLine key="TOP_BREAK_LINE_2" />,
     <BatchBreak key="BATCH_BREAK" />,
-    <MunicipalBarrierDown key="MUNICIPAL_BARRIER_DOWN" />
+    <MunicipalBarrierDown key="MUNICIPAL_BARRIER_DOWN" />,
+    <EditorMode key='EDITOR_MODE'></EditorMode>
 ];

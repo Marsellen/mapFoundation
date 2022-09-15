@@ -618,6 +618,7 @@ export const IMP_RECOGNITION_DISABLED_LAYERS = ['AD_Road', 'AD_Lane'];
 //人工识别设置编辑图层配置  --  可以编辑的图层配置
 export const MS_EDIT_LAYER_MAP = {
     LOGIC: [
+        'AD_Lane',
         'AD_LaneDivider',
         'AD_LaneAttrPoint',
         'AD_Arrow',

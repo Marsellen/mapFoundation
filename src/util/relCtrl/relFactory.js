@@ -6,20 +6,31 @@ import { getLayerIDKey, getLayerByName } from '../vectorUtils';
 import { LAYER_NAME_MAP } from 'src/config/renderModeConfig';
 
 export const relDataToTable = (data, dataType) => {
-    return data.reduce((total, response) => {
-        const { data: feature } = response;
-        const spec = feature.name;
-        feature.features.map(f => {
+    if (data.length > 0) {
+        return data.reduce((total, response) => {
+            const { data: feature } = response;
+            const spec = feature.name;
+            feature.features.map(f => {
+                const records = geojsonToDbData(f.properties, spec, dataType);
+                total = total.concat(records);
+            });
+            return total;
+        }, []);
+    }
+    else {
+        let total = [];
+        const { features, name } = data;
+        const spec = name;
+        features.forEach(f => {
             const records = geojsonToDbData(f.properties, spec, dataType);
             total = total.concat(records);
         });
         return total;
-    }, []);
+    }
 };
 
 export const relTableToData = records => {
     records = records.filter(record => REL_DATA_SET.includes(record.spec));
-
     let featureMap = records.reduce((total, record) => {
         let spec = record.spec;
         total[spec] = total[spec] || [];

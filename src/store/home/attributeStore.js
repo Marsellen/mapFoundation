@@ -36,7 +36,7 @@ class AttributeStore {
     @observable attributes = [];
     @observable rels = [];
     @observable attrs = {};
-    @observable readonly;
+    @observable readonly = false;
     @observable modelId;
     @observable loading = false;
     @observable loadingMessage;
@@ -45,7 +45,7 @@ class AttributeStore {
 
     @action show = (readonly, obj) => {
         console.log(readonly);
-        
+
         const modelId = obj.data.properties[getLayerIDKey(this.layerName)];
         if (this.modelId !== modelId) {
             if (!this.readonly && this.visible) {
@@ -56,7 +56,7 @@ class AttributeStore {
             }
         }
         this.visible = true;
-        this.readonly = readonly;
+        this.readonly = false;
         this.modelId = modelId;
         this.updateKey = Math.random();
     };
@@ -219,7 +219,7 @@ class AttributeStore {
     };
 
     submit = flow(function* (data) {
-        // 提交保存数据  
+        // 提交保存数据
         if (data !== undefined && data?.attrs !== undefined && data?.attrs.AD_Lane_RS !== undefined || data?.attrs?.AD_Lane_Speed !== undefined) {
             const objValue = setAttributes(data.attrs);
             if (data?.attributes) {
@@ -377,7 +377,7 @@ class AttributeStore {
             let MainFId = MainKey.key;
             properties = properties || this.model.data.properties;
             // 更新标记
-            if (key === 'AD_Lane_Speed') { 
+            if (key === 'AD_Lane_Speed') {
                 if (value?.UPD_STAT) {
                     let UPD_STAT = JSON.parse(value.UPD_STAT);
                     UPD_STAT.PRECOMPLIER_STAT = 'MAN';

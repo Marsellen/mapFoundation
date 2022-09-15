@@ -85,7 +85,6 @@ class DrawToolBox extends React.Component {
             <CheckButton
                 key={ToolCtrlStore.updateKey}
                 defaultOption={this.getDefaultOption()}
-                disabled={this.disabled()}
                 contentTitle="绘制工具"
                 renderContent={this.renderContent}
                 active={this.getActive()}
@@ -103,9 +102,9 @@ class DrawToolBox extends React.Component {
         let layerName = layer ? layer.layerName : '';
         return firstTool
             ? {
-                  id: layerName,
-                  ...OPTIONS[firstTool]
-              }
+                id: layerName,
+                ...OPTIONS[firstTool]
+            }
             : {};
     };
 
