@@ -32,10 +32,8 @@ class Home extends React.Component {
 
     render() {
         const { LoadingStore } = this.props;
-        window.isXGIS = true;
 
-
-        return (window.isXGIS ?
+        return (
             <Spin tip="loading..." spinning={LoadingStore.globalLoading}>
                 <Layout id="home">
                     <Header className="header">
@@ -47,19 +45,6 @@ class Home extends React.Component {
                     <Sider menus={MENUS}>{SiderView}</Sider>
                     <div className="flex-1 viz-content" id="viz-content">
                         <VizComponentXGIS />
-                    </div>
-                </Layout>
-            </Spin> : <Spin tip="loading..." spinning={LoadingStore.globalLoading}>
-                <Layout id="home">
-                    <Header className="header">
-                        <div className="logo-content">
-                            <img className="logo" src={logo} alt="logo" />
-                        </div>
-                        <HeaderBar />
-                    </Header>
-                    <Sider menus={MENUS}>{SiderView}</Sider>
-                    <div className="flex-1 viz-content" id="viz-content">
-                        <VizComponent />
                     </div>
                 </Layout>
             </Spin>
