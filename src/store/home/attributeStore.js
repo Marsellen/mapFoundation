@@ -24,7 +24,7 @@ import BuriedPoint from 'src/util/buriedPoint';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/adMapDataConfig';
 import { setAttributes } from 'src/util/utils';
 const LOAD_DATA_MESSAGE = '加载数据中...';
-
+import mapStore from 'src/store/home/mapStore';
 configure({ enforceActions: 'always' });
 class AttributeStore {
     model;
@@ -164,13 +164,17 @@ class AttributeStore {
     };
 
     commonHideRelFeatures = () => {
-        this.relFeatures.forEach(feature => {
-            try {
-                updateFeatureColor(feature.layerName, feature.option);
-            } catch (e) {
-                console.log(e);
-            }
-        });
+        if (this.relFeatures.length > 0) {
+            mapStore.clear();
+            // this.relFeatures.forEach(feature => {
+            //     try {
+            //         mapStore.updateFeatureColor(feature.layerName, feature.option);
+            //     } catch (e) {
+            //         console.log(e);
+            //     }
+            // });
+        }
+
     };
 
     fetchRelFeatures = async relRecords => {
@@ -206,13 +210,16 @@ class AttributeStore {
 
     @action showRelFeatures = () => {
         try {
-            this.relFeatures.forEach(feature => {
-                try {
-                    updateFeatureColor(feature.layerName, feature.option, 'rgb(49,209,255)');
-                } catch (e) {
-                    console.log(e);
-                }
-            });
+            if (this.relFeatures.length > 0) {
+                mapStore.clear();
+                this.relFeatures.forEach(feature => {
+                    try {
+                        mapStore.updateFeatureColor(feature.layerName, feature.option, { color: 'rgb(49,209,255)', linewidth: 10, opacity: 0.5 });
+                    } catch (e) {
+                        console.log(e);
+                    }
+                });
+            }
         } catch (error) {
             console.log(error);
         }
@@ -367,6 +374,7 @@ class AttributeStore {
 
     newAttr = flow(function* (key, value, properties) {
         try {
+
             const _result = yield IDService.initID({
                 id_type: key
             });

@@ -49,7 +49,7 @@ export const TOOLS_MAP = {
         QC_MARKER: true,
         INFORMATION_TOOL: true,
         TOP_BREAK_LINE_1: true,
-        EDIT_LAYER: false,
+        EDIT_LAYER: true,
         ADD_REL: false,
         DEL_REL: false,
         ADJUST_POINT_SIZE: true,

@@ -22,6 +22,7 @@ import { editLock } from 'src/util/decorator';
 import OtherVectorConfig from 'src/config/otherVectorConfig';
 import BuriedPoint from 'src/util/buriedPoint';
 
+import mapStore from './mapStore';
 const TRACKS = ['TraceListLayer', 'TraceLayer'];
 const UN_ESC_EDIT_TYPE = [
     'normal',
@@ -157,7 +158,7 @@ class DataLayerStore {
         return currentLayer;
     };
 
-    setSelectedCallBack = callback => { 
+    setSelectedCallBack = callback => {
         this.editor.onFeatureSelected((result, event) => {
             switch (this.editType) {
                 case 'normal':
@@ -324,6 +325,7 @@ class DataLayerStore {
     clearPick = () => {
         if (!this.editor) return;
         this.editor.clear();
+        mapStore.clear();
     };
 
     clearChoose = (channel, noClear) => {
@@ -333,6 +335,7 @@ class DataLayerStore {
         this.setEditType(null, channel);
         if (!noClear) {
             this.editor.clear();
+            mapStore.clear();;
             this.editor.cancel();
         }
         this.unPick();
@@ -497,6 +500,7 @@ class DataLayerStore {
         if (!this.editor) return;
         this.setEditType('new_around_line', 'button');
         this.editor.clear();
+        mapStore.clear();;
         this.editor.toggleMode(61); //多选模式
         this.removeCur();
         let layers = getAllLayersExByName('AD_LaneDivider');
@@ -509,6 +513,7 @@ class DataLayerStore {
         if (!this.editor) return;
         this.setEditType('new_straight_line', 'button');
         this.editor.clear();
+        mapStore.clear();;
         this.editor.toggleMode(61);
         this.removeCur();
         let layers = getAllLayersExByName(this.editor.editLayer.layerName);
@@ -521,6 +526,7 @@ class DataLayerStore {
         if (!this.editor) return;
         this.setEditType('new_turn_line', 'button');
         this.editor.clear();
+        mapStore.clear();;
         this.editor.toggleMode(61);
         this.removeCur();
         let layers = getAllLayersExByName(this.editor.editLayer.layerName);
@@ -533,6 +539,7 @@ class DataLayerStore {
         if (!this.editor) return;
         this.setEditType('new_Uturn_line', 'button');
         this.editor.clear();
+        mapStore.clear();;
         this.editor.toggleMode(61);
         this.removeCur();
         let layers = getAllLayersExByName(this.editor.editLayer.layerName);
@@ -700,6 +707,7 @@ class DataLayerStore {
         if (this.editType == 'new_rel') return;
         this.setEditType('new_rel', 'button');
         this.editor.clear();
+        mapStore.clear();;
         this.editor.toggleMode(61);
     };
 
@@ -1354,6 +1362,11 @@ class DataLayerStore {
     changeUnAble = () => {
         return UNABLE_CHANGE_TYPES.includes(this.editType);
     };
+    setEditorMode = mode => {
+        if (!this.editor) return;
+        this.editor.setEditorMode(mode);
+    };
+
 
     release = () => {
         this.locatePictureStatus = false;

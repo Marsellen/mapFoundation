@@ -201,21 +201,21 @@ export const editInputLimit = (option = {}) => {
         const fn = descriptor.value;
         descriptor.value = async function () {
             const { editType, subtype, isRightMenu } = option;
-            const { activeTask: { inputLimit } = {} } = TaskStore;
+            // const { activeTask: { inputLimit } = {} } = TaskStore;
             const features = isRightMenu ? RightMenuStore.features : arguments[0];
-            const inputLimitStatus = inputLimit(editType, features);
-            if (inputLimitStatus) {
-                //如果满足条件就正常执行被装饰的函数
-                await fn.apply(this, arguments);
-            } else {
-                //按编辑工具类型执行报错埋点
-                editInputLimitBuriedPoint(editType, subtype);
-                //如果不满足条件就退出编辑状态，且不执行被装饰的函数
-                DataLayerStore.exitEdit();
-                RightMenuStore.hide();
-                AttributeStore.hide('other_close');
-                AttributeStore.hideRelFeatures();
-            }
+            // const inputLimitStatus = inputLimit(editType, features);
+            // if (true) {
+            //如果满足条件就正常执行被装饰的函数
+            await fn.apply(this, arguments);
+            // } else {
+            //     //按编辑工具类型执行报错埋点
+            //     editInputLimitBuriedPoint(editType, subtype);
+            //     //如果不满足条件就退出编辑状态，且不执行被装饰的函数
+            //     DataLayerStore.exitEdit();
+            //     RightMenuStore.hide();
+            //     AttributeStore.hide('other_close');
+            //     AttributeStore.hideRelFeatures();
+            // }
         };
         return descriptor;
     };

@@ -59,9 +59,9 @@ axios.interceptors.response.use(
             // 返回 401 清除token信息并跳转到登录页面
             if (status === 401) {
                 if (code === 1016) {
-                    logoutModal('您的账号已在其他地点登陆，请重新登陆');
+                    // logoutModal('您的账号已在其他地点登陆，请重新登陆');
                 } else {
-                    logoutModal('token失效，请重新获取');
+                    // logoutModal('token失效，请重新获取');
                 }
                 //停止“总体作业时间的监控”和“精细作业时间监控”
                 endTaskTimePolling();
