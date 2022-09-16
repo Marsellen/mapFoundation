@@ -81,7 +81,6 @@ class Board extends React.Component {
 
     handleClick = () => {
         HomeVisiteHistory.clearVisitedHistory();
-        LoginVisiteHistory.clearVisitedHistory();
     };
 
     handleClickOpen = () => {
@@ -89,7 +88,6 @@ class Board extends React.Component {
 
         this.props.history.push('/');
         HomeVisiteHistory.clearVisitedHistory();
-        LoginVisiteHistory.clearVisitedHistory();
     };
 }
 
