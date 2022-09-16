@@ -26,7 +26,7 @@
         "*.less"
     ],
     "dependencies": {
-        "@ad/xmap": "~1.0.7",
+        "@ad/xmap": "~1.0.9",
         "antd": "^3.26.13",
         "axios": "^0.18.0",
         "dragm": "^0.0.5",

@@ -7,6 +7,7 @@ import LoginVisitedHistory from 'src/util/visiteHistory/loginVisiteHistory';
 
 const Login = lazy(() => import('src/page/login'));
 const Home = lazy(() => import('src/page/home'));
+const Board = lazy(() => import('src/page/board'));
 const Setting = lazy(() => import('src/page/setting'));
 const Search = lazy(() => import('src/page/search'));
 const Blank = lazy(() => import('src/page/blank'));
@@ -31,6 +32,7 @@ class Routers extends React.Component {
                 <Switch>
                     <Route key="Home" path="/home" component={Home} exact />
                     <Route key="Blank" path="/blank" component={Blank} exact />
+                    <Route key="Board" path="/board" component={Board} exact />
                     <PrivateRoute key="Setting" path="/setting" component={Setting} exact />
                     <PrivateRoute key="Search" path="/search" component={Search} exact />
                     <PrivateRoute key="Home" path="/" component={Home} exact />
