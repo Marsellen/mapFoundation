@@ -28,7 +28,13 @@ import _ from 'lodash';
 import editLog from 'src/util/editLog';
 import { windowObserver } from 'src/util/taskUtils';
 import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
-import { initBoundary, getCheckReport, getMarkerList, getInformationList, setTaskLevel } from 'src/util/taskStart';
+import {
+    initBoundary,
+    getCheckReport,
+    getMarkerList,
+    getInformationList,
+    setTaskLevel
+} from 'src/util/taskStart';
 import axios from 'axios';
 import { logDecorator, editOutputLimit } from 'src/util/decorator';
 import RenderModeStore from 'src/store/home/renderModeStore';
@@ -55,7 +61,7 @@ import { fetchCallback } from 'src/util/map/utils';
 import OcTreeIndex from 'src/util/octreeIndex';
 import BatchBuildModal from 'src/component/home/toolList/batchBuild/batchBuildModal';
 import BatchBuildStore from 'src/store/home/batchBuildStore';
-import {DefaultStyleConfig} from 'src/config/defaultStyleConfig';
+import { DefaultStyleConfig } from 'src/config/defaultStyleConfig';
 import SettingStore from 'src/store/setting/settingStore';
 import UpdStatModeStore from 'src/store/home/updStatModeStore';
 import CheckModeStore from 'src/store/home/checkModeStore';
@@ -93,11 +99,11 @@ class VizComponent extends React.Component {
         await this.release();
         const { TaskStore: { activeTaskId } = {} } = this.props;
         if (!activeTaskId) return;
-         // 替换代码
-         const { mapStore } = this.props; 
-         mapStore.initMap("viz");
-         mapStore.mapViewer.setKeySpeedRange(1, 0.125, 16);
-         window.map=mapStore.mapViewer; 
+        // 替换代码
+        const { mapStore } = this.props;
+        mapStore.initMap('viz');
+        mapStore.mapViewer.setKeySpeedRange(1, 0.125, 16);
+        window.map = mapStore.mapViewer;
         // const div = document.getElementById('viz');
         // window.map = new Map(div);
         // window.map.setKeySpeedRange(1, 0.125, 16);
@@ -220,8 +226,9 @@ class VizComponent extends React.Component {
             //“开始任务”时，加载周边底图
             if (isEditableTask) initBoundary();
             // 设置初始化的任务范围
-            const needSetLevel =
-                SettingStore.getConfig('OTHER_CONFIG').needSetLevelLists.find(i => i == activeTask.processName);
+            const needSetLevel = SettingStore.getConfig('OTHER_CONFIG').needSetLevelLists.find(
+                i => i == activeTask.processName
+            );
             if (needSetLevel) setTaskLevel();
             //获取检查报表
             getCheckReport();
@@ -284,8 +291,9 @@ class VizComponent extends React.Component {
         const { TaskStore } = this.props;
         const { activeTaskId, activeTask } = TaskStore;
         try {
-            const needSetLevel =
-                SettingStore.getConfig('OTHER_CONFIG').needSetLevelLists.find(i => i == activeTask.processName);
+            const needSetLevel = SettingStore.getConfig('OTHER_CONFIG').needSetLevelLists.find(
+                i => i == activeTask.processName
+            );
             if (needSetLevel) {
                 this.installRel(task.rels);
                 this.installAttr(task.attrs);
@@ -492,7 +500,10 @@ class VizComponent extends React.Component {
             layerId: informationLayer.layerId,
             layer: informationLayer
         };
-        ResourceLayerStore.updateLayerByName(RESOURCE_LAYER_INFORMATION, window.informationLayer.layer);
+        ResourceLayerStore.updateLayerByName(
+            RESOURCE_LAYER_INFORMATION,
+            window.informationLayer.layer
+        );
         getInformationList();
     };
 
@@ -556,7 +567,7 @@ class VizComponent extends React.Component {
         installMapListener();
     };
 
-    selectedCallBack = (result, event) => { 
+    selectedCallBack = (result, event) => {
         if (result && result.length > 0) {
             const firstFeature = result[0];
             const { type: featureType, layerName: featureLayerName } = firstFeature;

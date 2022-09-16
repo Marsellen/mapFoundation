@@ -28,7 +28,13 @@ import _ from 'lodash';
 import editLog from 'src/util/editLog';
 import { windowObserver } from 'src/util/taskUtils';
 import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
-import { initBoundary, getCheckReport, getMarkerList, getInformationList, setTaskLevel } from 'src/util/taskStart';
+import {
+    initBoundary,
+    getCheckReport,
+    getMarkerList,
+    getInformationList,
+    setTaskLevel
+} from 'src/util/taskStart';
 import axios from 'axios';
 import { logDecorator, editOutputLimit } from 'src/util/decorator';
 import RenderModeStore from 'src/store/home/renderModeStore';
@@ -60,9 +66,7 @@ import SettingStore from 'src/store/setting/settingStore';
 import UpdStatModeStore from 'src/store/home/updStatModeStore';
 import CheckModeStore from 'src/store/home/checkModeStore';
 
-import {
-    completeTitleUrl
-} from 'src/util/taskUtils';
+import { completeTitleUrl } from 'src/util/taskUtils';
 
 @inject('QualityCheckStore')
 @inject('QCMarkerStore')
@@ -82,17 +86,17 @@ class VizComponentXGIS extends React.Component {
     }
 
     componentDidMount = async () => {
-
         // const { TaskStore } = this.props;
         // await TaskStore.initTask({ type: 4 });
         // //清除多余任务比例记录
         // AdLocalStorage.filterTaskInfosStorage(TaskStore.taskIdList);
         // windowObserver();
+
+        if (!window.map) this.init();
     };
 
     componentDidUpdate() {
-
-        this.init();
+        // this.init();
     }
 
     init = async () => {
@@ -103,7 +107,7 @@ class VizComponentXGIS extends React.Component {
 
         const { mapStore } = this.props;
 
-        mapStore.initMap("viz");
+        mapStore.initMap('viz');
         mapStore.mapViewer.setKeySpeedRange(1, 0.125, 16);
         window.map = mapStore.mapViewer;
         // // const div = document.getElementById('viz');
@@ -127,14 +131,13 @@ class VizComponentXGIS extends React.Component {
         //     }
         // )));
 
-
         // let taskFileMap = TaskStore.getFileMap(urls, filePath);
         // const { vectors, rels, attrs, regions } = taskFileMap;
         // // 加载矢量图层
         // // this.initVectors();
         // //再加载其它资料
         // const resources = await Promise.all([
-        this.initVectors()
+        this.initVectors();
         // ]);
         // this.initResouceLayer([...resources]);
 
@@ -144,13 +147,8 @@ class VizComponentXGIS extends React.Component {
 
         this.installListener();
 
-
         // this.installRel(rels);
         // this.installAttr(attrs);
-
-
-
-
 
         // await this.initTask();
         this.renderMode(); //根据渲染模式，初始化注记和符号
@@ -255,7 +253,6 @@ class VizComponentXGIS extends React.Component {
             //初化化检查结果配置，不同任务采用不同配置
             QualityCheckStore.initReportConfig();
 
-
             //获取任务信息 taskinfos.json
             // console.log('1获取任务开始：', new Date);
             await Promise.all([
@@ -267,8 +264,6 @@ class VizComponentXGIS extends React.Component {
             //获取任务资料文件路径
             const task = getTaskFile();
 
-
-
             // console.log('2加载数据&渲染数据开始：', new Date);
             //加载当前任务资料
             await Promise.all([this.initEditResource(task), this.initExResource(task)]);
@@ -276,8 +271,9 @@ class VizComponentXGIS extends React.Component {
             //“开始任务”时，加载周边底图
             if (isEditableTask) initBoundary();
             // 设置初始化的任务范围
-            const needSetLevel =
-                SettingStore.getConfig('OTHER_CONFIG').needSetLevelLists.find(i => i == activeTask.processName);
+            const needSetLevel = SettingStore.getConfig('OTHER_CONFIG').needSetLevelLists.find(
+                i => i == activeTask.processName
+            );
             if (needSetLevel) setTaskLevel();
             //获取检查报表
             getCheckReport();
@@ -549,7 +545,10 @@ class VizComponentXGIS extends React.Component {
             layerId: informationLayer.layerId,
             layer: informationLayer
         };
-        ResourceLayerStore.updateLayerByName(RESOURCE_LAYER_INFORMATION, window.informationLayer.layer);
+        ResourceLayerStore.updateLayerByName(
+            RESOURCE_LAYER_INFORMATION,
+            window.informationLayer.layer
+        );
         getInformationList();
     };
 
@@ -605,7 +604,6 @@ class VizComponentXGIS extends React.Component {
             window.markerLayer,
             window.informationLayer
         ]);
-
 
         DataLayerStore.initMeasureControl();
         DataLayerStore.setSelectedCallBack(this.selectedCallBack);
@@ -778,11 +776,10 @@ class VizComponentXGIS extends React.Component {
     };
 
     render() {
-        const { TaskStore } = this.props;
-        this.init();
+        // this.init();
         return (
             <React.Fragment>
-                {TaskStore.activeTaskId ? <MultimediaView /> : <MultimediaView />}
+                <MultimediaView />
                 <AttributesModal />
                 <RightMenuModal />
                 <BatchAssignModal />
