@@ -46,6 +46,14 @@ export function TaskApiPath(url) {
     }
 }
 
+export function DataApiPath(url) {
+    if (/^\//.test(url)) {
+        return `/gateway/data_prepare${url}`;
+    } else {
+        return `/gateway/data_prepare/${url}`;
+    }
+}
+
 export function ManualBuildApiPath(url) {
     if (/^\//.test(url)) {
         return `/gateway/manualBuild${url}`;

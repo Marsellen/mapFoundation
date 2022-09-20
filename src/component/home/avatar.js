@@ -36,8 +36,11 @@ class Avatar extends React.Component {
     _renderMenu() {
         const { appStore } = this.props;
         const { loginUser } = appStore;
+        const style = {
+            fontSize: '12px'
+        };
         return (
-            <Menu className="submenu-title-wrapper">
+            <Menu className="submenu-title-wrapper" style={style}>
                 <Menu.Item>{loginUser ? loginUser.name : '未登录'}</Menu.Item>
                 <Menu.Item>
                     {/* onClick={this.about} */}

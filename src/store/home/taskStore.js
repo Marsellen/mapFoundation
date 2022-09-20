@@ -147,7 +147,6 @@ class TaskStore {
     }
 
     @computed get taskToolType() {
-
         return 'manbuild';
         // if (this.activeTask.isLocal) {
         //     return 'manbuild';
@@ -622,7 +621,6 @@ class TaskStore {
     };
 
     submit = flow(function* () {
-
         let vectorData = getAllVectorData(true);
         // 删除不符合规则的字段
         let vectorDataClone = JSON.parse(JSON.stringify(vectorData));
@@ -642,7 +640,11 @@ class TaskStore {
         }
         let relData = yield getAllRelData(true);
         let attrData = yield getAllAttrData(true);
-        let layerData = Object.assign(vectorDataClone.features, relData.features, attrData.features);
+        let layerData = Object.assign(
+            vectorDataClone.features,
+            relData.features,
+            attrData.features
+        );
         relData = this.completeData(relData, 'rels');
         attrData = this.completeData(attrData, 'attrs');
         let path = getEditPath(this.activeTask);
@@ -670,7 +672,6 @@ class TaskStore {
             ],
             fileNameList: this.getFileNameList(vectorDataClone, relData, attrData)
         };
-
 
         yield TaskService.saveFile(saveData);
         this.taskSaveTime = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -708,6 +709,16 @@ class TaskStore {
         } catch (e) {
             console.log(e.message);
             message.warning('日志保存失败：' + e.message, 3);
+        }
+    });
+
+    dataPrepareSearch = flow(function* (data) {
+        try {
+            const result = yield TaskService.dataPrepareSearch(data);
+            return result.data;
+        } catch (e) {
+            console.log(e.message);
+            message.warning('数据加载失败：' + e.message, 3);
         }
     });
 

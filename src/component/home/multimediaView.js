@@ -12,6 +12,7 @@ import ToolIcon from 'src/component/common/toolIcon';
 import RelModeTheme from 'src/component/home/renderMode/relModeTheme';
 import UpdStatModeTheme from 'src/component/home/renderMode/updStatModeTheme';
 import PointCloudLayer from 'src/component/home/pointCloudLayer';
+import PCView from './toolList/pointCloudView';
 
 const MENU_LIST = [
     // {
@@ -31,7 +32,7 @@ const MENU_LIST = [
     {
         id: 'point-cloud-icon',
         title: '点云图层窗口',
-        icon: 'dianyuncengji',
+        icon: 'ziliaotuceng',
         storeName: 'PointCloudStore',
         content: <PointCloudLayer />
     },
@@ -97,6 +98,7 @@ class MultimediaView extends React.Component {
                 <div className="right-footer">
                     {/* 俯视图、放大、缩小、还原 */}
                     <div className="set-compass">
+                        <PCView key="PC_VIEW" />
                         <TopView key="TOP_VIEW" />
                         <ZoomOut key="ZOOM_OUT" />
                         <ZoomIn key="ZOOM_IN" />
