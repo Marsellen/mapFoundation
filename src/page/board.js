@@ -8,10 +8,12 @@ import { getAuthentication } from 'src/util/session';
 import Avatar from 'src/component/home/avatar';
 import logo from 'src/asset/img/logo-x.svg';
 import { Col, Button, Row, Card, Icon } from 'antd';
+import AdLocalStorage from 'src/util/adLocalStorage';
 
 @withRouter
 class Board extends React.Component {
     render() {
+        const { imgPath } = AdLocalStorage.getTaskInfosStorage('10009') || {};
         return (
             <div className="board-wrap">
                 <div className="board-header">
@@ -52,11 +54,11 @@ class Board extends React.Component {
                             <Col className="board-gutter-row" span={12}>
                                 <div>
                                     <h2>最近</h2>
-                                    <div className="site-card-wrapper">
+                                    <div className="board-card-wrapper">
                                         <Row gutter={16}>
                                             <Col span={8}>
                                                 <Card title="2022-09-16" bordered={false}>
-                                                    Card content
+                                                    <img src={imgPath} alt="图片" />
                                                 </Card>
                                             </Col>
                                             <Col span={8}>

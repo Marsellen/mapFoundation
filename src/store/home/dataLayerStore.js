@@ -84,8 +84,7 @@ class DataLayerStore {
 
     initPointCloud = async urlArr => {
         try {
-            //实例化点云
-            const pointCloudLayer = new DynamicPCLayer(null, {
+            const pointCloudObj = new DynamicPCLayer(null, {
                 pointBudget: SettingStore.getConfig('OTHER_CONFIG').pointLimit, // 点云点数量
                 minLevel: SettingStore.getConfig('OTHER_CONFIG').scaleSize, // 开始更新点云八叉树最小比例尺级别
                 intensityGamma: 0.5,
@@ -93,11 +92,12 @@ class DataLayerStore {
                 intensityBrightness: 0.3,
                 size: 1.2
             });
-            window.pointCloudLayer = pointCloudLayer;
-            //将点云实例加到map
-            map.getLayerManager().addLayer('DynamicPCLayer', pointCloudLayer);
+            map.getLayerManager().addLayer('DynamicPCLayer', pointCloudObj);
             if (!urlArr) return;
-            await window.pointCloudLayer.updatePointClouds(urlArr);
+            // TODO 如果使用 window.pointCloudLayer 就会不展示
+            window.nowPointCloudLayer = pointCloudObj;
+            await window.nowPointCloudLayer.updatePointClouds(urlArr);
+            // map.setView('U');
             //根据点云索引，动态加载点云
             // OcTreeIndex.updateOctree();
         } catch (e) {

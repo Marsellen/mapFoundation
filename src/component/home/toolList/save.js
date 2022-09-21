@@ -1,7 +1,7 @@
 import React from 'react';
 import ToolIcon from 'src/component/common/toolIcon';
 import { inject, observer } from 'mobx-react';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import CONFIG from 'src/config';
 import { getAuthentication, logout } from 'src/util/session';
 import { saveTaskData } from 'src/util/taskUtils';
@@ -25,19 +25,16 @@ class Save extends React.Component {
     render() {
         const { OperateHistoryStore } = this.props;
         let { couldSave } = OperateHistoryStore;
-        return (
-            <ToolIcon
-                id="save-btn"
-                icon="baocun"
-                title="保存"
-                action={this.action}
-            />
-        );
+        return <ToolIcon id="save-btn" icon="baocun" title="保存" action={this.action} />;
     }
 
     @editLock
     action = async () => {
-        await this.save();
+        // await this.save();
+        const { TaskStore } = this.props;
+        const { saveTaskScale } = TaskStore;
+        await saveTaskScale();
+        message.success('保存成功！');
     };
 
     save = async () => {

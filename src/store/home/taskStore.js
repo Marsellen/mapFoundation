@@ -29,6 +29,7 @@ import {
 import RelStore from './relStore';
 import AttrStore from './attrStore';
 import { getTaskProcessType } from 'src/util/taskUtils';
+import AdLocalStorage from 'src/util/adLocalStorage';
 import {
     TASK_FIX_TYPES,
     TASK_QC_TYPES,
@@ -80,7 +81,8 @@ class TaskStore {
     }
 
     @computed get activeTaskId() {
-        return this.activeTask && this.activeTask.taskId;
+        // return this.activeTask && this.activeTask.taskId;
+        return this.activeTask && 10009;
     }
 
     @computed get activeTaskUrl() {
@@ -246,6 +248,32 @@ class TaskStore {
             return this.getBoundaryFile();
         } else {
             return this.updateBoundaryFile(updateBoundaryParams);
+        }
+    };
+
+    transforString = () => {
+        const reg = /^[\'\"]+|[\'\"]+$/g;
+        let str = window.map.viewer.renderer.domElement.toDataURL('image/png');
+        str = str.replace(reg, '');
+        return str;
+    };
+
+    //保存当前任务比例
+    saveTaskScale = () => {
+        if (!window.map) return;
+        const activeTaskId = this.activeTaskId;
+        if (!activeTaskId) return;
+        // 截图
+        const imgPath = this.transforString();
+        const preTaskScale = window.map.getEyeView();
+        const { position } = preTaskScale;
+        const { x, y, z } = position;
+        if (!(x === 0 && y === 0 && z === 0)) {
+            AdLocalStorage.setTaskInfosStorage({
+                imgPath,
+                taskId: activeTaskId,
+                taskScale: preTaskScale
+            });
         }
     };
 
@@ -717,8 +745,7 @@ class TaskStore {
             const result = yield TaskService.dataPrepareSearch(data);
             return result.data;
         } catch (e) {
-            console.log(e.message);
-            message.warning('数据加载失败：' + e.message, 3);
+            console.error('数据加载失败：' + e.message, 3);
         }
     });
 

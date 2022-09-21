@@ -173,6 +173,7 @@ class VizComponentXGIS extends React.Component {
         CheckModeStore.release();
         window.boundaryLayerGroup = null;
         window.pointCloudLayer = null;
+        window.nowPointCloudLayer = null;
         window.vectorLayerGroup = null;
         window.trackLayer = null;
 
