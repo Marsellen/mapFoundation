@@ -88,6 +88,7 @@ class DataLayerStore {
         this.targetLayers = (layers || []).flatMap(item => (item ? [item] : []));
         this.fetchTargetLayers();
         this.editor.setConfig && this.editor.setConfig(EditorConfig);
+        this.editor.setEditorMode(this.editor.isEditorMode);
         this.editor.setAdsorbThreshold && this.editor.setAdsorbThreshold(adsorptionSensitivity);
         this.editor.setEditBoundary && this.editor.setEditBoundary(this.regionGeojson);
     };

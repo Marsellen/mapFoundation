@@ -9,7 +9,7 @@ export default {
         IS_SELECT_FATLINE: true,
         // isEditorMode
         //是否依赖点云和图层
-        IS_EDITOR_MODE: false,
+        IS_EDITOR_MODE: true,
 
         //下面三个参数涉及点大小的实时计算，不建议修改
         INIT_SIZE_NODE: 0.3, //节点初始化大小
