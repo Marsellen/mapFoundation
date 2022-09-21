@@ -24,6 +24,7 @@ window.isLogin = true;
 @observer
 class Home extends React.Component {
     componentWillMount() {
+        // 进入首页后清楚历史
         HomeVisiteHistory.enterPage();
     }
 

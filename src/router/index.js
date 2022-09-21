@@ -31,6 +31,7 @@ class Routers extends React.Component {
             <Suspense fallback={<LoadingPage />}>
                 <Switch>
                     <Route key="Home" path="/home" component={Home} exact />
+                    <Route key="Login" path="/login" component={Login} exact />
                     <Route key="Blank" path="/blank" component={Blank} exact />
                     <Route key="Board" path="/board" component={Board} exact />
                     <PrivateRoute key="Setting" path="/setting" component={Setting} exact />

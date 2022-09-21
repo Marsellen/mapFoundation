@@ -38,11 +38,11 @@ class AdLocalStorage {
         const { taskId } = currentTaskInfo;
         const taskInfos = this.getLocalStorage('taskInfos', true) || {};
         taskInfos[this.username] = taskInfos[this.username] || {};
-        taskInfos[this.username][taskId] = Object.assign(
-            {},
-            taskInfos[this.username][taskId],
-            currentTaskInfo
-        );
+        taskInfos[this.username][taskId] = {
+            taskId: taskInfos[this.username][taskId],
+            ...currentTaskInfo
+        };
+        console.log(taskInfos[this.username][taskId])
         this.setLocalStorage('taskInfos', taskInfos);
     };
 
@@ -52,6 +52,17 @@ class AdLocalStorage {
         const taskInfos = this.getLocalStorage('taskInfos', true) || null;
         if (taskInfos && taskInfos[this.username] && taskInfos[this.username][taskId]) {
             return taskInfos[this.username][taskId];
+        } else {
+            return false;
+        }
+    };
+
+    getTaskInfosStorageAll = () => {
+        this.getUserName();
+        if (!this.username) return;
+        const taskInfos = this.getLocalStorage('taskInfos', true) || null;
+        if (taskInfos && taskInfos[this.username]) {
+            return taskInfos[this.username];
         } else {
             return false;
         }
