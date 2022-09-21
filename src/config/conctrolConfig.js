@@ -4,6 +4,13 @@ export default {
         SCALE_FACTOR_DELETE: 1.2, //删除形状点的比例系数
         SCALE_FACTOR_DRAGE: 1.0, //拖拽的形状点比例系数
 
+        SCALE_PERPIXEL: 2.0,// 拾取精确度系数
+        // 高亮是否加粗显示
+        IS_SELECT_FATLINE: true,
+        // isEditorMode
+        //是否依赖点云和图层
+        IS_EDITOR_MODE: false,
+
         //下面三个参数涉及点大小的实时计算，不建议修改
         INIT_SIZE_NODE: 0.3, //节点初始化大小
         INIT_SIZE_FACTOR: 1, //默认点大小比例

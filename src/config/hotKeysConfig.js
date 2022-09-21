@@ -17,7 +17,7 @@ export const HOT_KEYS_CONFIG = {
         { value: 'Ctrl+G', label: '缩放至全图' },
         { value: 'X', label: '俯视图模式' },
         {
-            value: 'W（放大）、S（缩小）',
+            value: 'Q（放大）、E（缩小）',
             label: '放大/缩小'
         },
         {
@@ -26,7 +26,7 @@ export const HOT_KEYS_CONFIG = {
         },
 
         {
-            value: 'A（左移）、D（右移）、Q（下移）、E（上移）',
+            value: 'A（左移）、D（右移）、W（下移）、S（上移）',
             label: '视角平移'
         },
         {
