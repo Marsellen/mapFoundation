@@ -43,6 +43,7 @@ import UpdateTask from 'src/util/task/updateTask';
 import ModifyTask from 'src/util/task/modifyTask';
 import { VECTOR_FILES, ATTR_FILES, REL_FILES, REGION_FILES } from 'src/config/taskConfig';
 import { fetchCallback } from 'src/util/map/utils';
+import fileStore from 'src/store/home/fileStore';
 import PointCloudStore from 'src/store/home/pointCloudStore';
 import { DefaultStyleConfig } from 'src/config/defaultStyleConfig';
 
@@ -82,7 +83,7 @@ class TaskStore {
 
     @computed get activeTaskId() {
         // return this.activeTask && this.activeTask.taskId;
-        return this.activeTask && 10009;
+        return this.activeTask && moment(new Date()).format('YYYY-MM-DD');
     }
 
     @computed get activeTaskUrl() {
@@ -262,6 +263,7 @@ class TaskStore {
     saveTaskScale = () => {
         if (!window.map) return;
         const activeTaskId = this.activeTaskId;
+        const files = this.taskFileMap;
         if (!activeTaskId) return;
         // 截图
         const imgPath = this.transforString();
@@ -272,7 +274,8 @@ class TaskStore {
             AdLocalStorage.setTaskInfosStorage({
                 imgPath,
                 taskId: activeTaskId,
-                taskScale: preTaskScale
+                taskScale: preTaskScale,
+                files
             });
         }
     };
@@ -413,6 +416,10 @@ class TaskStore {
             REGION_FILES.includes(fileName) && fileMap.regions.push(url);
         });
         return fileMap;
+    };
+
+    setTaskFileMap = data => {
+        this.taskFileMap = data;
     };
 
     //获取任务文件列表
@@ -625,7 +632,7 @@ class TaskStore {
     };
 
     completeData = (data, typeName) => {
-        this.taskFileMap[typeName].forEach(fileName => {
+        this.taskFileMap?.[typeName].forEach(fileName => {
             const layerName = fileName.match(/\/([^/]+)\.geojson/)[1];
             const isInclude = data.features.find(item => item.name === layerName);
             if (!isInclude) {
@@ -648,7 +655,7 @@ class TaskStore {
         return fileNameList;
     };
 
-    submit = flow(function* () {
+    saveDataFormat = async () => {
         let vectorData = getAllVectorData(true);
         // 删除不符合规则的字段
         let vectorDataClone = JSON.parse(JSON.stringify(vectorData));
@@ -666,8 +673,8 @@ class TaskStore {
                 }
             });
         }
-        let relData = yield getAllRelData(true);
-        let attrData = yield getAllAttrData(true);
+        let relData = await getAllRelData(true);
+        let attrData = await getAllAttrData(true);
         let layerData = Object.assign(
             vectorDataClone.features,
             relData.features,
@@ -700,7 +707,11 @@ class TaskStore {
             ],
             fileNameList: this.getFileNameList(vectorDataClone, relData, attrData)
         };
+        return saveData;
+    };
 
+    submit = flow(function* () {
+        const saveData = this.saveDataFormat();
         yield TaskService.saveFile(saveData);
         this.taskSaveTime = moment().format('YYYY-MM-DD HH:mm:ss');
     });
