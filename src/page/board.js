@@ -10,6 +10,8 @@ import logo from 'src/asset/img/logo-x.svg';
 import { Col, Button, Row, Card, Icon } from 'antd';
 import AdLocalStorage from 'src/util/adLocalStorage';
 
+import fileStore from 'src/store/home/fileStore';
+
 @withRouter
 class Board extends React.Component {
     render() {
@@ -89,10 +91,17 @@ class Board extends React.Component {
     handleClick = () => {
         HomeVisiteHistory.clearVisitedHistory();
     };
+    
+    handleClickNew = () => {
+        this.props.history.push('/');
+        HomeVisiteHistory.clearVisitedHistory();
+        LoginVisiteHistory.clearVisitedHistory();
+        window.location.reload();
+    };
 
     handleClickOpen = () => {
         // 导入数据 成功后 跳转到“/”
-
+        fileStore.impConfig();
         this.props.history.push('/');
         HomeVisiteHistory.clearVisitedHistory();
     };

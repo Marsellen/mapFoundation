@@ -6,16 +6,9 @@ import editLog from 'src/util/editLog';
 import ToolIcon from 'src/component/common/toolIcon';
 import AdLocalStorage from 'src/util/adLocalStorage';
 import { saveTaskData } from 'src/util/taskUtils';
-import { editLock } from 'src/util/decorator';
 import BuriedPoint from 'src/util/buriedPoint';
 import SettingStore from 'src/store/setting/settingStore';
-import { VECTOR_FILES, ATTR_FILES, REL_FILES, REGION_FILES } from 'src/config/taskConfig';
-import VectorsStore from 'src/store/home/vectorsStore';
-import RelStore from 'src/store/home/relStore';
-import AttrStore from 'src/store/home/attrStore';
 import 'less/jobstatus.less';
-import { lineToStop } from 'src/util/relCtrl/operateCtrl';
-
 import { flow } from 'mobx';
 
 import {
@@ -23,6 +16,8 @@ import {
     getAllRelData,
     getAllAttrData
 } from 'src/util/vectorUtils';
+
+import fileStore from 'src/store/home/fileStore';
 
 @withRouter
 @inject('QCMarkerStore')
@@ -91,62 +86,10 @@ class JobStatus extends React.Component {
             </div>
         );
     }
-    impConfig() {
-        let formCreate = document.getElementById("fileName");
-        if (formCreate) {
-            formCreate.removeChild(document.getElementById("file"));
-            document.body.removeChild(formCreate);
-        }
-        let form = document.createElement('form');
-        // form.style.display = 'none';
-        form.id = "fileName";
-        document.body.appendChild(form);
-        let fileInput = document.createElement('input');
-        fileInput.id = 'file';
-        fileInput.multiple = true;
-        fileInput.type = 'file';
-        fileInput.addEventListener('change', function () {
-            let files = event.target.files;
-            for (let i = 0; i < files.length; i++) {
-                let reader = new FileReader();
-                reader.readAsText(files[i]);
-                reader.onload = (data) => {
-                    try {
-                        const result = JSON.parse(data.target.result);
-                        const name = result.name;
-                        let allLayer = [...VECTOR_FILES, ...ATTR_FILES, ...REL_FILES];
-                        let layer = allLayer.includes(name);
-                        if (layer) {
-                            let vec = VECTOR_FILES.includes(name);
-                            if (vec) {
-                                VectorsStore.addRecords(null, 'current', result);
-                            }
-                            let attr = ATTR_FILES.includes(name);
-                            if (attr) {
-                                AttrStore.addRecords(null, 'current', result);
-                            }
-                            let rel = REL_FILES.includes(name);
-                            if (rel) {
-                                RelStore.addRecords(null, 'current', result);
-                            }
-                        }
-                        else {
-                            // VectorsStore.addRecords(null, 'boundary', result);
-                        }
-                        const extent = window.map.getExtentByFeatures(result.features);
-                        window.map.setExtent(extent);
-                    } catch (error) {
-                    }
-                };
-            }
-        });
-        form.appendChild(fileInput);
-        fileInput.click();
-        document.body.removeChild(form);
-    };
+
     // 获取
     getJob = async () => {
-        this.impConfig();
+        fileStore.impConfig();
         // const { OperateHistoryStore } = this.props;
         // let { currentNode, savedNode } = OperateHistoryStore;
         // let shouldSave = currentNode > savedNode;
