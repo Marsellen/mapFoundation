@@ -4,7 +4,7 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const path = require('path');
 const env = process.env.npm_config_ENV || 'dev';
 const { moduleSetting, publicPath, remoteUrls } = require('./module.js');
-
+console.log('env:', env);
 module.exports = {
     entry: path.resolve(__dirname, '../src/index.js'),
     output: {
@@ -42,7 +42,7 @@ module.exports = {
             DATA_SPEC: JSON.stringify('../src/config/'),
             ENV: process.env.npm_config_ENV,
             CSYS: process.env.CSYS,
-            NOSHP: process.env.NOSHP,
+            NOSHP: process.env.NOSHP
             // 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
         }),
         new webpack.ProvidePlugin({
