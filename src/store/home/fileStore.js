@@ -103,8 +103,27 @@ class fileStore {
                     console.log('fileMap:', fileMap);
                     TaskStore.setTaskFileMap(fileMap);
                     const extent = window.map.getExtentByFeatures(result.features);
-                    window.map.setExtent(extent);
-                } catch (error) {}
+                    if (window.extent) {
+                        if (window.extent.max[0] < extent.max[0]) {
+                            window.extent.max[0] = extent.max[0];
+                        }
+                        if (window.extent.max[1] < extent.max[1]) {
+                            window.extent.max[1] = extent.max[1];
+                        }
+                        if (window.extent.min[0] > extent.min[0]) {
+                            window.extent.min[0] = extent.min[0];
+                        }
+                        if (window.extent.min[1] > extent.min[1]) {
+                            window.extent.min[1] = extent.min[1];
+                        }
+
+                    } else {
+                        window.extent = extent;
+                    }
+                    if (i === files.length - 1) {
+                        window.map.setExtent(window.extent);
+                    }
+                } catch (error) { }
             };
         }
     };

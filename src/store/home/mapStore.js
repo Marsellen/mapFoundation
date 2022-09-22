@@ -69,11 +69,13 @@ class mapStore {
         await this.release();
         this.initMap('viz');
         this.mapViewer.setKeySpeedRange(1, 0.125, 16);
+        this.mapViewer.viewer.setControls('EarthControls');
         window.map = this.mapViewer;
         this.initVectors();
         //设置画面缩放比例
         this.installListener();
         this.renderMode(); //根据渲染模式，初始化注记和符号
+        this.setBackground('./bg.png')
     };
     // 初始化地图
     initMap = name => {
@@ -354,6 +356,13 @@ class mapStore {
             showAttributesModal(result[0], event);
         }
     };
+
+    // 修改场景背景
+    setBackground(url) {
+        this.mapViewer.viewer.background = 'gradient';
+        this.mapViewer._scene.setBackground(url);
+    }
+
     //不同任务类型采用不同渲染模式
     renderMode = () => {
         const { taskProcessName } = TaskStore;
