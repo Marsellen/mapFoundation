@@ -36,7 +36,10 @@ class Board extends React.Component {
                                 <div>
                                     <h2>启动</h2>
                                     <p>
-                                        <Button type="link">
+                                        <Button type="link" onClick={e => {
+                                            e.preventDefault();
+                                            this.handleClickNew();
+                                        }} >
                                             <Icon type="file-add" />
                                             新建项目...
                                         </Button>
