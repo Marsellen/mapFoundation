@@ -120,9 +120,15 @@ class fileStore {
                     } else {
                         window.extent = extent;
                     }
-                    if (i === files.length - 1) {
+                    if (files.length === 1) {
                         window.map.setExtent(window.extent);
                     }
+                    else {
+                        if (i === files.length - 1) {
+                            window.map.setExtent(window.extent);
+                        }
+                    }
+
                 } catch (error) { }
             };
         }
