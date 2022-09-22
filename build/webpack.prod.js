@@ -19,8 +19,7 @@ module.exports = merge(base, {
         minimizer: [
             //webpack4需要安装terser-webpack-plugin@4.2.3
             new TerserPlugin({
-                parallel: 2,
-                cache: true
+                parallel: 2
             })
         ]
     },
