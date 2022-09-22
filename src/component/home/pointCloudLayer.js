@@ -11,7 +11,7 @@ import { Button } from 'antd';
 @observer
 class PointCloudLayer extends React.Component {
     handleChange = (e, key) => {
-        alert(111)
+        alert(111);
         const { PointCloudStore, DataLayerStore } = this.props;
         const { checked } = e.target;
         DataLayerStore.exitReadCoordinate();
@@ -19,13 +19,8 @@ class PointCloudLayer extends React.Component {
     };
 
     render() {
-        const {
-            pointCloudMap,
-            toggleStretch,
-            updateKey,
-            same,
-            toggleSame
-        } = this.props.PointCloudStore;
+        const { pointCloudMap, toggleStretch, updateKey, same, toggleSame } =
+            this.props.PointCloudStore;
         return (
             <div className="point-cloud-layer">
                 <div className="same-box">
@@ -38,8 +33,12 @@ class PointCloudLayer extends React.Component {
                     />
                 </div>
 
-                <Button type="primary" onClick={() => this.handleClick('lod')} >关闭/打开LOD</Button>
-                <Button type="primary" onClick={() => this.handleClick('controls')}>切换左右键操作方式</Button>
+                <Button type="primary" onClick={() => this.handleClick('lod')}>
+                    关闭/打开LOD
+                </Button>
+                <Button type="primary" onClick={() => this.handleClick('controls')}>
+                    切换左右键操作方式
+                </Button>
                 <AdTree
                     key={updateKey}
                     stretch={true}
@@ -50,20 +49,17 @@ class PointCloudLayer extends React.Component {
             </div>
         );
     }
-    handleClick = (e) => {
+    handleClick = e => {
         if (e === 'lod') {
             window.map.isLevel = !window.map.isLevel;
-        }
-        else if (e === 'controls') {
+        } else if (e === 'controls') {
             if (window.map._scene.view.navigationMode.name === 'EarthControls') {
-                window.map.viewer.setControls("OrbitControls");
-            }
-            else {
-                window.map.viewer.setControls("EarthControls");
+                window.map.viewer.setControls('OrbitControls');
+            } else {
+                window.map.viewer.setControls('EarthControls');
             }
         }
     };
-
 }
 
 export default PointCloudLayer;

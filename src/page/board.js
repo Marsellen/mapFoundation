@@ -115,7 +115,7 @@ class Board extends React.Component {
         };
         if (typeof key == 'string') {
             const nowData = moment(new Date()).format('YYYY-MM-DD');
-            const { files } = AdLocalStorage.getTaskInfosStorage(nowData) || {};
+            const { files } = AdLocalStorage.getTaskInfosStorage(key) || {};
             fileStore.filesViewer(files, callBack);
         } else {
             fileStore.impConfig(null, callBack);
