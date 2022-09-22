@@ -78,7 +78,7 @@ class mapStore {
     // 初始化地图
     initMap = name => {
         const div = document.getElementById(name);
-        this.mapViewer = new Map(div, { isLevel: true });
+        this.mapViewer = new Map(div, { isLevel: false });
         this.mapViewer._scene.view.maxPitch = (-10 * Math.PI) / 180;
     };
     // 将文件geojson数据转换成图层要素

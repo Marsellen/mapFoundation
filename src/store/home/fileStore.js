@@ -40,7 +40,7 @@ class fileStore {
         document.body.removeChild(form);
     }
 
-    async filesViewer(data, callBack) {
+    async filesViewer(data = {}, callBack) {
         if (!window.map) await mapStore.init();
         Object.keys(data).forEach(key => {
             const result = data[key];
