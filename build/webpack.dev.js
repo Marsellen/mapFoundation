@@ -20,12 +20,13 @@ Object.entries(PROXY_MAP).forEach(([key, val]) => {
 
 module.exports = merge(base, {
     mode: 'development', //设置开发环境模式
-    devtool: 'eval-cheap-module-source-map',
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: '[name].bundle.js',
-        globalObject: 'this'
-    },
+    devtool: 'cheap-module-source-map',
+    // devtool: 'eval-cheap-module-source-map',
+    // output: {
+    //     path: path.resolve(__dirname, 'dist'),
+    //     filename: '[name].bundle.js',
+    //     globalObject: 'this'
+    // },
     stats: 'errors-only', // 'errors-only'只在发生错误时输出 'verbose'全部输出
     devServer: {
         port: 15901,
