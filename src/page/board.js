@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import 'less/board.less';
+import ToolIcon from 'src/component/common/toolIcon';
 import IconFont from 'src/component/common/iconFont';
 import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
 import LoginVisiteHistory from 'src/util/visiteHistory/loginVisiteHistory';
@@ -11,6 +12,7 @@ import moment from 'moment';
 import { Col, Button, Row, Card, Icon } from 'antd';
 import AdLocalStorage from 'src/util/adLocalStorage';
 import fileStore from 'src/store/home/fileStore';
+import Home from 'src/component/home/toolList/home';
 
 @withRouter
 class Board extends React.Component {
@@ -21,25 +23,34 @@ class Board extends React.Component {
             <div className="board-wrap">
                 <div className="board-header">
                     <div className="board-logo" onClick={this.handleClick}>
+                        <img className="logo" src={logo} alt="logo" />
                         <Link to={'/'}>
-                            <img className="logo" src={logo} alt="logo" />
+                            <ToolIcon
+                                className="gohome"
+                                icon="shouye"
+                                title="Home"
+                                action={this.action}
+                            />
                         </Link>
-                        <span className="name">Ultron</span>
                     </div>
                     <Avatar />
                 </div>
                 <div className="board-content">
                     <div className="board-slider"></div>
                     <div className="board-main">
+                        <div className="name">Ultron</div>
                         <Row gutter={[16, 60]}>
                             <Col className="board-gutter-row" span={12}>
                                 <div>
                                     <h2>启动</h2>
                                     <p>
-                                        <Button type="link" onClick={e => {
-                                            e.preventDefault();
-                                            this.handleClickNew();
-                                        }} >
+                                        <Button
+                                            type="link"
+                                            onClick={e => {
+                                                e.preventDefault();
+                                                this.handleClickNew();
+                                            }}
+                                        >
                                             <Icon type="file-add" />
                                             新建项目...
                                         </Button>

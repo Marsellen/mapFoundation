@@ -1,6 +1,7 @@
 import React from 'react';
 import Undo from 'src/component/home/toolList/undo';
 import Redo from 'src/component/home/toolList/redo';
+import Home from 'src/component/home/toolList/home';
 import Save from 'src/component/home/toolList/save';
 import EditLayer from 'src/component/home/toolList/editLayer';
 import ResourceLoader from 'src/component/home/toolList/resourceLoader';
@@ -25,6 +26,7 @@ import BatchBreak from 'src/component/home/toolList/batchBreak';
 import MunicipalBarrierDown from 'src/component/home/toolList/municipalBarrierDown';
 // import EditorMode from './editor/impTool';
 export default [
+    <Home key="HOME" />,
     <Undo key="UNDO" />,
     <Redo key="REDO" />,
     <ResourceLoader key="RESOURCE_LOADER" />,

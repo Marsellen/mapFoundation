@@ -1,5 +1,6 @@
 export const TOOLS_MAP = {
     EDIT: {
+        HOME: true,
         UNDO: true,
         REDO: true,
         SAVE: true,
@@ -36,6 +37,7 @@ export const TOOLS_MAP = {
         EDITOR_MODE: true
     },
     CHECK: {
+        HOME: true,
         UNDO: true,
         REDO: true,
         SAVE: true,
