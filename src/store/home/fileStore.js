@@ -5,7 +5,7 @@ import RelStore from 'src/store/home/relStore';
 import AttrStore from 'src/store/home/attrStore';
 import TaskStore from './taskStore';
 import mapStore from './mapStore';
-
+import { getRGB } from "src/util/utils";
 /**
  *  导入和导出数据
  */
@@ -98,7 +98,31 @@ class fileStore {
                             fileMap.rels.push(result);
                         }
                     } else {
-                        // VectorsStore.addRecords(null, 'boundary', result);
+                        let rgb = getRGB();
+                        let regionLayer = mapStore.addVectorLayer({
+                            color: rgb,
+                            opacity: 1,
+                            tocLevel: false,
+                            layerConfig: {
+                                textStyle: {
+                                    showMode: 'polygon-center',
+                                    defaultStyle: {
+                                        textFields: ['titleId'],
+                                        interval: 10,
+                                        showMode: 'polygon-center',
+                                        fontSize: 40,
+                                        strokeColor: 'rgba(0,0,0,1)',
+                                        backgroundColor: 'rgba(0,0,0,0.7)',
+                                        textColor: 'rgba(255,255,255,1)'
+                                    },
+                                    titleId: []
+                                },
+                                textFields: ['titleId'],
+                                showStyles: ['vectorStyle', 'textStyle']
+                            }
+                        });
+                        mapStore.featuresToLayer(regionLayer, result.features);
+
                     }
                     console.log('fileMap:', fileMap);
                     TaskStore.setTaskFileMap(fileMap);

@@ -349,17 +349,17 @@ const decNum = (point1, point2) => {
 };
 
 /**
-   * 
+   *
    * 获取限制配置
-   * 
+   *
    * @param {object} data 数据集合
-   * 
+   *
    */
 export function setAttributes(data) {
-    
-    let objValue = {rsvalue:'',speed:''};
+
+    let objValue = { rsvalue: '', speed: '' };
     //  判断关联的限制表
-    if (data !== undefined && data?.AD_Lane_RS !== undefined) { 
+    if (data !== undefined && data?.AD_Lane_RS !== undefined) {
         let AD_LANE_RS_VALUE;
         data.AD_Lane_RS.forEach((att, i) => {
             if (att) {
@@ -400,3 +400,12 @@ export function setAttributes(data) {
     }
     return objValue;
 };
+// 随机生成颜色值
+export function getRGB() {
+    //rgb颜色随机
+    var r = Math.floor(Math.random() * 256);
+    var g = Math.floor(Math.random() * 256);
+    var b = Math.floor(Math.random() * 256);
+    var rgb = 'rgb(' + r + ',' + g + ',' + b + ')';
+    return rgb;
+}
