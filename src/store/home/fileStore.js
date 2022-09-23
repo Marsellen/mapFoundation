@@ -44,19 +44,20 @@ class fileStore {
         if (!window.map) await mapStore.init();
         Object.keys(data).forEach(key => {
             const result = data[key];
-            if ((key = 'vectors')) {
+            if (key == 'vectors') {
                 result.forEach(item => {
                     VectorsStore.addRecords(null, 'current', item);
                     const extent = window.map.getExtentByFeatures(item.features);
+                    this.setExtent(item);
                     window.map.setExtent(extent);
                 });
-            } else if ((key = 'attrs')) {
+            } else if (key == 'attrs') {
                 result.forEach(item => {
                     AttrStore.addRecords(null, 'current', item);
                     const extent = window.map.getExtentByFeatures(item.features);
                     window.map.setExtent(extent);
                 });
-            } else if ((key = 'rels')) {
+            } else if (key == 'rels') {
                 result.forEach(item => {
                     RelStore.addRecords(null, 'current', item);
                     const extent = window.map.getExtentByFeatures(item.features);
@@ -126,35 +127,37 @@ class fileStore {
                     }
                     console.log('fileMap:', fileMap);
                     TaskStore.setTaskFileMap(fileMap);
-                    const extent = window.map.getExtentByFeatures(result.features);
-                    if (window.extent) {
-                        if (window.extent.max[0] < extent.max[0]) {
-                            window.extent.max[0] = extent.max[0];
-                        }
-                        if (window.extent.max[1] < extent.max[1]) {
-                            window.extent.max[1] = extent.max[1];
-                        }
-                        if (window.extent.min[0] > extent.min[0]) {
-                            window.extent.min[0] = extent.min[0];
-                        }
-                        if (window.extent.min[1] > extent.min[1]) {
-                            window.extent.min[1] = extent.min[1];
-                        }
-
-                    } else {
-                        window.extent = extent;
-                    }
+                    this.setExtent(result);
                     if (files.length === 1) {
                         window.map.setExtent(window.extent);
-                    }
-                    else {
+                    } else {
                         if (i === files.length - 1) {
                             window.map.setExtent(window.extent);
                         }
                     }
-
-                } catch (error) { }
+                } catch (error) {}
             };
+        }
+    };
+
+    // 判断任务边框范围，并赋值给全局变量extent
+    setExtent = result => {
+        const extent = window.map.getExtentByFeatures(result.features);
+        if (window.extent) {
+            if (window.extent.max[0] < extent.max[0]) {
+                window.extent.max[0] = extent.max[0];
+            }
+            if (window.extent.max[1] < extent.max[1]) {
+                window.extent.max[1] = extent.max[1];
+            }
+            if (window.extent.min[0] > extent.min[0]) {
+                window.extent.min[0] = extent.min[0];
+            }
+            if (window.extent.min[1] > extent.min[1]) {
+                window.extent.min[1] = extent.min[1];
+            }
+        } else {
+            window.extent = extent;
         }
     };
 
