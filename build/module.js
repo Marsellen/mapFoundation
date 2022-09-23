@@ -35,7 +35,7 @@ module.exports = {
     },
     publicPath: {
         local: 'http://localhost:15901/',
-        dev: 'http://localhost:15901/',
+        dev: 'http://ad-ultron-dev.ecarxmap.com/',
         test: 'http://ad-ultron-test.ecarxmap.com/',
         pre: 'http://ad-ultron-pre.ecarxmap.com/',
         prd: 'http://ad-ultron.ecarxmap.com/'
