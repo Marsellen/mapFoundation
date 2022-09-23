@@ -40,9 +40,7 @@ class Home extends React.Component {
                 <Layout id="home">
                     <Header className="header">
                         <div className="logo-content">
-                            <Link to={'/board'}>
-                                <img className="logo" src={logo} alt="logo" />
-                            </Link>
+                            <img className="logo" src={logo} alt="logo" />
                         </div>
                         <HeaderBar />
                     </Header>
