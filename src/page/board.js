@@ -12,6 +12,7 @@ import moment from 'moment';
 import { Col, Button, Row, Card, Icon } from 'antd';
 import AdLocalStorage from 'src/util/adLocalStorage';
 import fileStore from 'src/store/home/fileStore';
+import img from 'src/asset/img/gis.gif';
 import Home from 'src/component/home/toolList/home';
 
 @withRouter
@@ -62,13 +63,6 @@ class Board extends React.Component {
                                         </Button>
                                     </p>
                                 </div>
-                            </Col>
-                            <Col className="board-gutter-row" span={12}>
-                                <div></div>
-                            </Col>
-                        </Row>
-                        <Row gutter={16}>
-                            <Col className="board-gutter-row" span={12}>
                                 <div>
                                     <h2>最近</h2>
                                     <div className="board-card-wrapper">
@@ -76,10 +70,6 @@ class Board extends React.Component {
                                             {Object.keys(storages).map(key => (
                                                 <Col key={key} span={8}>
                                                     <Card hoverable title={key} bordered={false}>
-                                                        {/* <img
-                                                            src={storages[key]?.imgPath}
-                                                            alt="图片"
-                                                        /> */}
                                                         <div
                                                             className="board-history-img"
                                                             onClick={e => {
@@ -98,7 +88,9 @@ class Board extends React.Component {
                                 </div>
                             </Col>
                             <Col className="board-gutter-row" span={12}>
-                                <div></div>
+                                {/* <div className='board-gutter-right'>
+                                    <img src={img}></img>
+                                </div> */}
                             </Col>
                         </Row>
                     </div>
