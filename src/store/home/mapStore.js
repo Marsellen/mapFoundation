@@ -385,6 +385,7 @@ class mapStore {
         });
         window.__cancelRequestArr = [];
     };
+
     clearWorkSpace = async () => {
         await OperateHistoryStore.destroy();
         await editLog.store.clear();
@@ -399,6 +400,11 @@ class mapStore {
         PictureShowStore.destory();
         TextStore.hide();
     };
+    featuresToLayer(layer, features) {
+        if (features.length > 0) {
+            layer.addFeatures(features);
+        }
+    }
     release = async () => {
         await this.cancelRequest();
         await this.clearWorkSpace();
