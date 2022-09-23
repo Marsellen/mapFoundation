@@ -41,6 +41,7 @@ class pointCloudView extends React.Component {
             if (window.nowPointCloudLayer) return window.nowPointCloudLayer.show();
             //加载点云
             const { min, max } = window.extent;
+            // console.log(min, max);
             const params = {
                 region: {
                     type: 'FeatureCollection',
