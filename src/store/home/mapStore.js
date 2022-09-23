@@ -75,7 +75,7 @@ class mapStore {
         //设置画面缩放比例
         this.installListener();
         this.renderMode(); //根据渲染模式，初始化注记和符号
-        this.setBackground('./bg.png')
+        // this.setBackground('./bg.png')
     };
     // 初始化地图
     initMap = name => {
