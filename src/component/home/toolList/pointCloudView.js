@@ -70,7 +70,6 @@ class pointCloudView extends React.Component {
                     const arr = Object.values(item.las).map(val => val.dataPath) || [];
                     return first.concat(arr);
                 }, []);
-                debugger;
                 initPointCloud(urlArr);
             } else {
                 message.info('暂无匹配点云数据！');
