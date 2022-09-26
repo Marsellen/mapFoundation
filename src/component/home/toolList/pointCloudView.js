@@ -66,7 +66,11 @@ class pointCloudView extends React.Component {
             };
             const data = await dataPrepareSearch(params);
             if (data && data.length > 0) {
-                const urlArr = data?.map(item => item.las['LiDAR_1-PAN64'].dataPath) || [];
+                const urlArr = data?.reduce((first, item) => {
+                    const arr = Object.values(item.las).map(val => val.dataPath) || [];
+                    return first.concat(arr);
+                }, []);
+                debugger;
                 initPointCloud(urlArr);
             } else {
                 message.info('暂无匹配点云数据！');
