@@ -132,7 +132,7 @@ class LoginForm extends React.Component {
                     </div>
                 </Form>
                 <div className="footer">
-                    <div>欢迎登录编辑系统</div>
+                    <div>欢迎登录Ultron</div>
                 </div>
             </div>
         );
