@@ -3,6 +3,7 @@ import CONFIG from 'src/config';
 import { Modal } from 'antd';
 import ToolIcon from 'src/component/common/toolIcon';
 import EditorService from 'src/service/editorService';
+import { logout } from 'src/util/session';
 
 class VersionInfo extends React.Component {
     state = {
@@ -19,6 +20,7 @@ class VersionInfo extends React.Component {
             const result = await EditorService.versionInfo();
             this.setState({ versionData: result.data });
         } catch (e) {
+            logout();
             this.setState({ versionData: '暂未获取到版本信息' });
         }
     };

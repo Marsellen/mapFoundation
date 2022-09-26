@@ -10,7 +10,7 @@ class HomeVisiteHistory extends VisiteHistory {
 
     enterPage = () => {
         this.addVisitedHistory();
-        this.pollingVisiteHistory();
+        // this.pollingVisiteHistory();
         // let jump = this.LinkToBlank() || this.LinkToBoard();
         // if (jump) {
         //     this.viz.style.display = 'none';

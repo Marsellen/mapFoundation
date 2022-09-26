@@ -756,7 +756,7 @@ class TaskStore {
             const result = yield TaskService.dataPrepareSearch(data);
             return result.data;
         } catch (e) {
-            console.error('数据加载失败：' + e.message, 3);
+            message.warning('数据加载失败：' + e.message, 3);
         }
     });
 

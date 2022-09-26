@@ -15,7 +15,7 @@ class Blank extends React.Component {
                 <div>
                     <p>
                         <IconFont type="icon-jinzhi" className="big-icon" />
-                        <span className="big-font">已经打开编辑平台了。</span>
+                        <span className="big-font">已经打开平台了。</span>
                     </p>
                     <div className="jump-tips-wrap">
                         <Link to={`${token ? '/' : '/login'}`}>
@@ -26,7 +26,7 @@ class Blank extends React.Component {
                             />
                         </Link>
                         <div className="small-font">
-                            <p>点击此处可在本页打开编辑平台，并关闭其它编辑平台页面。</p>
+                            <p>点击此处可在本页打开平台，并关闭其它平台页面。</p>
                             <p>页面切换，注意保存~</p>
                         </div>
                     </div>

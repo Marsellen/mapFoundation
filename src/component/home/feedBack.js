@@ -78,7 +78,7 @@ class FeedBack extends React.Component {
                     <Descriptions.Item>
                         环境地址: {activeTask.Input_imp_data_path}
                         <br />
-                        编辑平台版本: {CONFIG.version}
+                        版本: {CONFIG.version}
                         <br />
                     </Descriptions.Item>
                 </Descriptions>
