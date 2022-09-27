@@ -25,6 +25,7 @@ import { TYPE_SELECT_OPTION_MAP } from 'src/config/adMapDataConfig';
 import { setAttributes } from 'src/util/utils';
 const LOAD_DATA_MESSAGE = '加载数据中...';
 import mapStore from 'src/store/home/mapStore';
+import { VECTOR_FILES, ATTR_FILES, REL_FILES, REGION_FILES } from 'src/config/taskConfig';
 configure({ enforceActions: 'always' });
 class AttributeStore {
     model;
@@ -92,14 +93,22 @@ class AttributeStore {
     };
 
     setModel = flow(function* (obj) {
-        this.showLoading(LOAD_DATA_MESSAGE);
-        this.model = obj;
-        this.layerName = obj.layerName;
-        this.fetchAttributes();
-        yield this.fetchRels();
-        yield this.fetchAttrs();
-        this.toggleEvent && this.toggleEvent();
-        this.loaded();
+        let allLayer = [...VECTOR_FILES, ...ATTR_FILES, ...REL_FILES];
+        if (obj.layerName !== undefined) {
+            let layer = allLayer.includes(obj.layerName);
+            if (layer) {
+                this.showLoading(LOAD_DATA_MESSAGE);
+                this.model = obj;
+                this.layerName = obj.layerName;
+                this.fetchAttributes();
+                yield this.fetchRels();
+                yield this.fetchAttrs();
+                this.toggleEvent && this.toggleEvent();
+                this.loaded();
+            }
+        }
+
+
     });
 
     getModel = () => {

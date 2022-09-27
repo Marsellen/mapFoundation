@@ -48,15 +48,15 @@ class PointCloudLayer extends React.Component {
 
     onCheck = (checkedKeys, info) => {
         console.log('onCheck', checkedKeys);
+        let layers = null;
         if (info.node.props.eventKey === '0-0') {
-            let layers = window.vectorLayerGroup.layers;
-            layers.forEach(layer => {
-                info.checked ? layer.layer.show() : layer.layer.hide();
-            });
+            layers = mapStore.getLayers();
         } else {
-            let layer = mapStore.getVectorLayer(window.vectorLayerGroup, info.node.props.eventKey);
-            info.checked ? layer.show() : layer.hide();
+            layers = mapStore.getLayersByName(info.node.props.eventKey);
         }
+        layers.forEach(layer => {
+            info.checked ? layer.layer.show() : layer.layer.hide();
+        });
         this.setState({ checkedKeys });
     };
 

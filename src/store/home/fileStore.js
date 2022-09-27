@@ -124,6 +124,8 @@ class fileStore {
                     } else {
                         let rgb = getRGB();
                         let regionLayer = mapStore.addVectorLayer({
+                            layerName: name,
+                            tracePoint: true,
                             color: rgb,
                             opacity: 1,
                             tocLevel: false,
@@ -146,6 +148,8 @@ class fileStore {
                             }
                         });
                         mapStore.featuresToLayer(regionLayer, result.features);
+                        let obj = { title: name, key: name };
+                        that.setTreeData(obj);
                     }
                     console.log('fileMap:', fileMap);
                     TaskStore.setTaskFileMap(fileMap);
@@ -157,7 +161,7 @@ class fileStore {
                             window.map.setExtent(window.extent);
                         }
                     }
-                } catch (error) {}
+                } catch (error) { }
             };
         }
     });

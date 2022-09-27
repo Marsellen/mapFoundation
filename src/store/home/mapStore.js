@@ -61,8 +61,21 @@ class mapStore {
             layer = new VectorLayer(opts.url, opts);
         }
         layer.setDefaultStyle(opts);
-        this.mapViewer.getLayerManager().addLayer(opts.layerName || 'VectorLayer', layer);
-
+        let layerName;
+        if (opts.layerName === '' || opts.layerName === undefined) {
+            layerName = layer.layerId;
+            layer.layerName = layer.layerId;
+        }
+        else {
+            layerName = opts.layerName;
+        }
+        this.mapViewer.getLayerManager().addLayer('VectorLayer', layer);
+        if (opts.tracePoint) {
+            DataLayerStore.addTargetLayers({ layerId: layer.layerId, layerName: layerName, layer });
+            if (DataLayerStore.measureControl) {
+                DataLayerStore.measureControl.addTargetLayers({ layerId: layer.layerId, layerName: layerName, layer });
+            }
+        }
         return layer;
     };
     init = async () => {
@@ -405,12 +418,12 @@ class mapStore {
             layer.addFeatures(features);
         }
     }
+    getLayers = () => {
+        return this.mapViewer.getLayerManager().getLayers();
+    };
     // 获得layer
-    getVectorLayer = (layerGroup, key) => {
-        if (!layerGroup) return;
-        const { layers } = layerGroup;
-        const { layer } = layers.find(item => item.layerName === key) || {};
-        return layer;
+    getLayersByName = (key) => {
+        return this.mapViewer.getLayerManager().getLayersByName(key);
     };
     release = async () => {
         await this.cancelRequest();
