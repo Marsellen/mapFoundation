@@ -16,19 +16,24 @@ const { TreeNode } = Tree;
 @inject('PointCloudStore')
 @observer
 class PointCloudLayer extends React.Component {
-    state = {
-        expandedKeys: ['0-0'],
-        autoExpandParent: true,
-        checkedKeys: ['0-0'],
-        selectedKeys: [],
-    };
+    constructor() {
+        super();
+        this.state = {
+            expandedKeys: ['0-0'],
+            autoExpandParent: true,
+            checkedKeys: ['0-0'],
+            selectedKeys: []
+        };
+    }
+
     onExpand = expandedKeys => {
         console.log('onExpand', expandedKeys);
         this.setState({
             expandedKeys,
-            autoExpandParent: false,
+            autoExpandParent: false
         });
     };
+
     onSelect = (selectedKeys, info) => {
         console.log('onSelect', info);
         this.setState({ selectedKeys });
@@ -48,13 +53,27 @@ class PointCloudLayer extends React.Component {
             layers.forEach(layer => {
                 info.checked ? layer.layer.show() : layer.layer.hide();
             });
-        }
-        else {
+        } else {
             let layer = mapStore.getVectorLayer(window.vectorLayerGroup, info.node.props.eventKey);
             info.checked ? layer.show() : layer.hide();
         }
         this.setState({ checkedKeys });
     };
+
+    onChange = (checked, key) => {
+        if (key === 'control') {
+            if (!checked) {
+                window.map.viewer.setControls('OrbitControls');
+            } else {
+                window.map.viewer.setControls('EarthControls');
+            }
+        } else if (key === 'lod') {
+            window.map.isLevel = checked;
+        } else if (key === 'mode') {
+            DataLayerStore.editor.setEditorMode(checked);
+        }
+    };
+
     renderTreeNodes = data =>
         data.map(item => {
             if (item.children) {
@@ -66,39 +85,61 @@ class PointCloudLayer extends React.Component {
             }
             return <TreeNode key={item.key} {...item} />;
         });
+
+    setTreeData = data => {
+        const { fileStore } = this.props;
+        fileStore.setTreeData(2);
+    };
+
     render() {
-        const { pointCloudMap, toggleStretch, updateKey, same, toggleSame } =
-            this.props.PointCloudStore;
-        let treeData = this.props.fileStore.treeDataList();
+        const { PointCloudStore, fileStore } = this.props;
+        const { pointCloudMap, toggleStretch, updateKey, same, toggleSame } = PointCloudStore;
+        const { treeDataList, treeData } = fileStore;
+
         return (
             <div className="point-cloud-layer">
-                <div className="same-box">
-                    <ToolIcon
-                        icon="lasliandong"
-                        title="同名las同开同关"
-                        placement="left"
-                        className={`same-button ${same ? 'on' : ''}`}
-                        action={toggleSame}
-                    />
+                <div className="layer-control">
+                    <span className="layer-control-name">图层控制</span>
+                    <Tree
+                        checkable
+                        onExpand={this.onExpand}
+                        expandedKeys={this.state.expandedKeys}
+                        autoExpandParent={this.state.autoExpandParent}
+                        onCheck={this.onCheck}
+                        checkedKeys={this.state.checkedKeys}
+                        // onSelect={this.onSelect}
+                        selectedKeys={this.state.selectedKeys}
+                    >
+                        {this.renderTreeNodes(treeData)}
+                    </Tree>
                 </div>
-                <div>图层控制</div>
-                {/* {treeData[0].children.length > 0 ? treeData[0].children[treeData[0].children.length - 1].key : null} */}
-                <Tree
-                    checkable
-                    onExpand={this.onExpand}
-                    expandedKeys={this.state.expandedKeys}
-                    autoExpandParent={this.state.autoExpandParent}
-                    onCheck={this.onCheck}
-                    checkedKeys={this.state.checkedKeys}
-                    // onSelect={this.onSelect}
-                    selectedKeys={this.state.selectedKeys}
-                >
-                    {this.renderTreeNodes(treeData)}
-                </Tree>
-                <Row >
-                    <Col >   操作器切换<Switch checkedChildren="地图" unCheckedChildren="轨道" defaultChecked onChange={(e) => this.onChange(e, 'control')} /></Col>
-                    <Col> LOD控制<Switch checkedChildren="打开" unCheckedChildren="关闭" onChange={(e) => this.onChange(e, 'lod')} /></Col>
-                    <Col> 编辑模式切换<Switch checkedChildren="打开" unCheckedChildren="关闭" defaultChecked onChange={(e) => this.onChange(e, 'mode')} />
+
+                <Row>
+                    <Col>
+                        操作器切换
+                        <Switch
+                            checkedChildren="地图"
+                            unCheckedChildren="轨道"
+                            defaultChecked
+                            onChange={e => this.onChange(e, 'control')}
+                        />
+                    </Col>
+                    <Col>
+                        LOD控制
+                        <Switch
+                            checkedChildren="打开"
+                            unCheckedChildren="关闭"
+                            onChange={e => this.onChange(e, 'lod')}
+                        />
+                    </Col>
+                    <Col>
+                        编辑模式切换
+                        <Switch
+                            checkedChildren="打开"
+                            unCheckedChildren="关闭"
+                            defaultChecked
+                            onChange={e => this.onChange(e, 'mode')}
+                        />
                     </Col>
                 </Row>
                 <AdTree
@@ -111,22 +152,6 @@ class PointCloudLayer extends React.Component {
             </div>
         );
     }
-    onChange = (checked, key) => {
-        if (key === 'control') {
-            if (!checked) {
-                window.map.viewer.setControls('OrbitControls');
-            } else {
-                window.map.viewer.setControls('EarthControls');
-            }
-        }
-        else if (key === 'lod') {
-            window.map.isLevel = checked;
-        }
-        else if (key === 'mode') {
-            DataLayerStore.editor.setEditorMode(checked);
-        }
-
-    };
 }
 
 export default PointCloudLayer;
