@@ -61,6 +61,7 @@ class PointCloud extends React.Component {
                 icon="dianyunshezhi"
                 title="点云设置"
                 visible={visible}
+                disabled={this.isDisabled()}
                 popover={{
                     title: '点云设置',
                     placement: 'bottom',
