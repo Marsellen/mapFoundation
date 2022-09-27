@@ -12,9 +12,22 @@ import { getRGB } from "src/util/utils";
 configure({ enforceActions: 'always' });
 class fileStore {
     @observable files = [];
+    _treeData = [{
+        title: "图层控制",
+        key: '0-0',
+        children: []
+    }
+    ];
+    @observable treeData = [];
+    @action treeDataList = () => {
+        this.treeData = this._treeData;
+        return this.treeData;
+    };
 
-    async impConfig(data, callBack) {
-        if (!window.map) await mapStore.init();
+
+    @action
+    impConfig(data, callBack) {
+        if (!window.map) mapStore.init();
         if (data) return this.addLayer(data) && callBack && callBack(true);
         let that = this;
         let formCreate = document.getElementById('fileName');
@@ -68,13 +81,12 @@ class fileStore {
         TaskStore.setTaskFileMap(data);
         callBack(true);
     }
-
-    @action
-    addLayer = files => {
+    addLayer = flow(function* (files) {
         this.files = files;
         for (let i = 0; i < files.length; i++) {
             let reader = new FileReader();
             reader.readAsText(files[i]);
+            let that = this;
             reader.onload = item => {
                 try {
                     const result = JSON.parse(item.target.result);
@@ -87,6 +99,8 @@ class fileStore {
                         if (vec) {
                             VectorsStore.addRecords(null, 'current', result);
                             fileMap.vectors.push(result);
+                            let obj = { title: name, key: name };
+                            that._treeData[0].children.push(obj);
                         }
                         let attr = ATTR_FILES.includes(name);
                         if (attr) {
@@ -135,10 +149,10 @@ class fileStore {
                             window.map.setExtent(window.extent);
                         }
                     }
-                } catch (error) {}
+                } catch (error) { }
             };
         }
-    };
+    });
 
     // 判断任务边框范围，并赋值给全局变量extent
     setExtent = result => {

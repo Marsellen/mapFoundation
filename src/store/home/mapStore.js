@@ -405,6 +405,13 @@ class mapStore {
             layer.addFeatures(features);
         }
     }
+    // 获得layer
+    getVectorLayer = (layerGroup, key) => {
+        if (!layerGroup) return;
+        const { layers } = layerGroup;
+        const { layer } = layers.find(item => item.layerName === key) || {};
+        return layer;
+    };
     release = async () => {
         await this.cancelRequest();
         await this.clearWorkSpace();
