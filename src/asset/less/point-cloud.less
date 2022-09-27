@@ -39,10 +39,17 @@
 //点云图层窗口
 .point-cloud-layer {
     overflow-y: auto;
-    width: 300px;
-    height: calc(100vh - 60px);
+    width: 400px;
+    height: calc(100vh - 40px);
     padding: 10px 20px 20px;
     background: #fff;
+
+    .layer-control {
+        height: calc(100vh - 200px);
+        .layer-control-name {
+            font-weight: 700;
+        }
+    }
 
     .same-box {
         text-align: right;

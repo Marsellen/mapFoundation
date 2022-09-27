@@ -5,25 +5,30 @@ import RelStore from 'src/store/home/relStore';
 import AttrStore from 'src/store/home/attrStore';
 import TaskStore from './taskStore';
 import mapStore from './mapStore';
-import { getRGB } from "src/util/utils";
+import { getRGB } from 'src/util/utils';
 /**
  *  导入和导出数据
  */
 configure({ enforceActions: 'always' });
 class fileStore {
     @observable files = [];
-    _treeData = [{
-        title: "图层控制",
-        key: '0-0',
-        children: []
-    }
+    @observable treeData = [
+        {
+            title: '全选',
+            key: '0-0',
+            children: []
+        }
     ];
-    @observable treeData = [];
-    @action treeDataList = () => {
-        this.treeData = this._treeData;
-        return this.treeData;
-    };
 
+    @action setTreeData = obj => {
+        this.treeData = [
+            {
+                title: '全选',
+                key: '0-0',
+                children: [...this.treeData[0].children, obj]
+            }
+        ];
+    };
 
     @action
     impConfig(data, callBack) {
@@ -61,8 +66,11 @@ class fileStore {
                 result.forEach(item => {
                     VectorsStore.addRecords(null, 'current', item);
                     const extent = window.map.getExtentByFeatures(item.features);
+                    const name = item.name;
                     this.setExtent(item);
                     window.map.setExtent(extent);
+                    let obj = { title: name, key: name };
+                    this.setTreeData(obj);
                 });
             } else if (key == 'attrs') {
                 result.forEach(item => {
@@ -81,12 +89,13 @@ class fileStore {
         TaskStore.setTaskFileMap(data);
         callBack(true);
     }
+
     addLayer = flow(function* (files) {
         this.files = files;
         for (let i = 0; i < files.length; i++) {
             let reader = new FileReader();
-            reader.readAsText(files[i]);
             let that = this;
+            reader.readAsText(files[i]);
             reader.onload = item => {
                 try {
                     const result = JSON.parse(item.target.result);
@@ -100,7 +109,7 @@ class fileStore {
                             VectorsStore.addRecords(null, 'current', result);
                             fileMap.vectors.push(result);
                             let obj = { title: name, key: name };
-                            that._treeData[0].children.push(obj);
+                            that.setTreeData(obj);
                         }
                         let attr = ATTR_FILES.includes(name);
                         if (attr) {
@@ -137,7 +146,6 @@ class fileStore {
                             }
                         });
                         mapStore.featuresToLayer(regionLayer, result.features);
-
                     }
                     console.log('fileMap:', fileMap);
                     TaskStore.setTaskFileMap(fileMap);
@@ -149,7 +157,7 @@ class fileStore {
                             window.map.setExtent(window.extent);
                         }
                     }
-                } catch (error) { }
+                } catch (error) {}
             };
         }
     });
