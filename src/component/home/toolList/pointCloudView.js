@@ -20,7 +20,7 @@ class pointCloudView extends React.Component {
                 <ToolIcon
                     id="top-view-btn"
                     icon="dianyuncengji"
-                    title="加载点云"
+                    title="点云渲染"
                     placement="left"
                     className="ad-icon-topview"
                     visible={isPCVVisible}
@@ -31,7 +31,7 @@ class pointCloudView extends React.Component {
     }
 
     action = async () => {
-        if (!window.map) return;
+        if (!window.map || !window.extent) return;
         const {
             DataLayerStore: { isPCVVisible, PCViewMode, initPointCloud },
             TaskStore: { dataPrepareSearch }
@@ -39,7 +39,7 @@ class pointCloudView extends React.Component {
         PCViewMode(!isPCVVisible);
         if (!isPCVVisible) {
             if (window.nowPointCloudLayer) return window.nowPointCloudLayer.show();
-            //加载点云
+            //点云渲染
             const { min, max } = window.extent;
             // console.log(min, max);
             const params = {

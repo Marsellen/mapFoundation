@@ -7,14 +7,14 @@ import 'src/asset/less/tool-icon.less';
 class PointStratification extends React.Component {
     constructor(props) {
         super(props);
-        const range = window?.pointCloudLayer?.getElevationRange?.() ?? [0, 0];
+        const range = window?.nowPointCloudLayer?.getElevationRange?.() ?? [0, 0];
         this.props.PointCloudStore.setInitRange(range);
     }
 
     onChange = range => {
         this.props.PointCloudStore.setCurrentRange(range);
-        window?.pointCloudLayer?.setDisplayAltitudeMin?.(range[0]);
-        window?.pointCloudLayer?.setDisplayAltitudeMax?.(range[1]);
+        window?.nowPointCloudLayer?.setDisplayAltitudeMin?.(range[0]);
+        window?.nowPointCloudLayer?.setDisplayAltitudeMax?.(range[1]);
     };
 
     sliderFormatter = value => {
@@ -23,22 +23,23 @@ class PointStratification extends React.Component {
 
     render() {
         const { initRange = [0, 0], currentRange } = this.props.PointCloudStore;
+        const range = initRange || [0, 0];
         return (
             <div className="ad-slider-box">
                 <span>点云分高程显示</span>
-                <p>{initRange[1].toFixed(2)}米</p>
+                <p>{range[1].toFixed(2)}米</p>
                 <Slider
                     className="ad-slider-vertical"
                     onChange={this.onChange}
-                    min={initRange[0]}
-                    max={initRange[1]}
+                    min={range[0]}
+                    max={range[1]}
                     tipFormatter={this.sliderFormatter}
-                    value={currentRange || initRange}
+                    value={currentRange || range}
                     step={0.01}
                     vertical={true}
                     range={true}
                 />
-                <p>{initRange[0].toFixed(2)}米</p>
+                <p>{range[0].toFixed(2)}米</p>
             </div>
         );
     }

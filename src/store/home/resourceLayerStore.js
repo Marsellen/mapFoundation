@@ -41,16 +41,16 @@ class ResourceLayerStore {
     @observable updateKey;
     //获取所有已勾选点云
     @computed get pointCloudCheckedList() {
-        const checkedArr = [];
-        Object.values(this.multiProjectMap).forEach(project => {
-            const projectLidarMap = project.children.point_clouds.children;
-            Object.values(projectLidarMap).forEach(lidar => {
-                const { checked, disabled, layerKey } = lidar;
-                if (checked && !disabled) {
-                    checkedArr.push(layerKey);
-                }
-            });
-        });
+        const checkedArr = ['default'];
+        // Object.values(this.multiProjectMap).forEach(project => {
+        //     const projectLidarMap = project.children.point_clouds.children;
+        //     Object.values(projectLidarMap).forEach(lidar => {
+        //         const { checked, disabled, layerKey } = lidar;
+        //         if (checked && !disabled) {
+        //             checkedArr.push(layerKey);
+        //         }
+        //     });
+        // });
         return checkedArr;
     }
     //只要有一个点云显示，即为true
