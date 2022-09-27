@@ -31,7 +31,7 @@ class pointCloudView extends React.Component {
     }
 
     action = async () => {
-        if (!window.map) return;
+        if (!window.map || !window.extent) return;
         const {
             DataLayerStore: { isPCVVisible, PCViewMode, initPointCloud },
             TaskStore: { dataPrepareSearch }
