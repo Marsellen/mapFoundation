@@ -4,14 +4,14 @@ import 'less/point-cloud.less';
 
 class Contrast extends React.Component {
     state = {
-        value: window?.pointCloudLayer?.getIntensityContrast?.() ?? 0
+        value: window?.nowPointCloudLayer?.getIntensityContrast?.() ?? 0
     };
 
     onChange = value => {
         this.setState({
             value
         });
-        window?.pointCloudLayer?.setIntensityContrast?.(value);
+        window?.nowPointCloudLayer?.setIntensityContrast?.(value);
     };
 
     render() {

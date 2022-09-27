@@ -10,12 +10,12 @@ const marks = {
 
 class ReflexRange extends React.Component {
     state = {
-        value: window?.pointCloudLayer?.getIntensityRange?.() ?? [0, 255]
+        value: window?.nowPointCloudLayer?.getIntensityRange?.() ?? [0, 255]
     };
 
     onChange = value => {
         this.setState({ value });
-        window?.pointCloudLayer?.setIntensityRange?.(value);
+        window?.nowPointCloudLayer?.setIntensityRange?.(value);
     };
 
     render() {

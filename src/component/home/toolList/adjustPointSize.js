@@ -10,14 +10,14 @@ const marks = {
 
 class AdjustPointSize extends React.Component {
     state = {
-        value: window?.pointCloudLayer?.material?.size ?? 0
+        value: window?.nowPointCloudLayer?.material?.size ?? 0
     };
 
     onChange = value => {
         this.setState({
             value
         });
-        window?.pointCloudLayer?.setPointSize?.(value);
+        window?.nowPointCloudLayer?.setPointSize?.(value);
     };
 
     render() {

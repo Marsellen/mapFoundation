@@ -7,14 +7,14 @@ import 'src/asset/less/tool-icon.less';
 class PointStratification extends React.Component {
     constructor(props) {
         super(props);
-        const range = window?.pointCloudLayer?.getElevationRange?.() ?? [0, 0];
+        const range = window?.nowPointCloudLayer?.getElevationRange?.() ?? [0, 0];
         this.props.PointCloudStore.setInitRange(range);
     }
 
     onChange = range => {
         this.props.PointCloudStore.setCurrentRange(range);
-        window?.pointCloudLayer?.setDisplayAltitudeMin?.(range[0]);
-        window?.pointCloudLayer?.setDisplayAltitudeMax?.(range[1]);
+        window?.nowPointCloudLayer?.setDisplayAltitudeMin?.(range[0]);
+        window?.nowPointCloudLayer?.setDisplayAltitudeMax?.(range[1]);
     };
 
     sliderFormatter = value => {
