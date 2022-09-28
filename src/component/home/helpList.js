@@ -30,7 +30,7 @@ class HelpList extends React.Component {
                 visible={hovered}
                 popover={{
                     title: '帮助中心',
-                    placement: 'rightBottom',
+                    placement: 'bottom',
                     visible: hovered,
                     overlayClassName: 'help-list',
                     onVisibleChange: this.handleClickChange,

@@ -5,6 +5,7 @@ import QCMarkerModal from './qualityMarker/qcMarkerModal';
 import InformationModal from './informationMark/informationModal';
 import RightMenuModal from 'src/component/home/rightMenuModal';
 import MultimediaView from './multimediaView';
+import MenuList from './menuList';
 import 'less/viz-component.less';
 import BatchAssignModal from './batchAssignModal';
 import BatchBuildModal from 'src/component/home/toolList/batchBuild/batchBuildModal';
@@ -25,6 +26,7 @@ class VizComponentXGIS extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <MenuList />
                 <MultimediaView />
                 <AttributesModal />
                 <RightMenuModal />

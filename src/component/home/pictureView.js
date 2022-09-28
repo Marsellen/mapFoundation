@@ -23,7 +23,7 @@ class PictureView extends React.Component {
                     id="picture-icon"
                     icon="zhaopianshezhi"
                     title="照片窗口"
-                    placement="right"
+                    placement="bottom"
                     className="ad-menu-icon"
                     disabled={!activeTaskId}
                     visible={visible}

@@ -60,7 +60,7 @@ class ViewAttribute extends React.Component {
                     id="view-attribute-btn"
                     icon="shuxingliebiao1"
                     title="属性列表"
-                    placement="right"
+                    placement="bottom"
                     className="ad-menu-icon"
                     visible={attrListVisible}
                     action={this.toggle}

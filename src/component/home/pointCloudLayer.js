@@ -6,8 +6,6 @@ import ToolIcon from 'src/component/common/toolIcon';
 
 import { Button, Switch, Col, Row, Tree } from 'antd';
 import { DataNode } from 'antd/es/tree';
-
-import DataLayerStore from 'src/store/home/dataLayerStore';
 import mapStore from 'src/store/home/mapStore';
 const { TreeNode } = Tree;
 
@@ -67,20 +65,6 @@ class PointCloudLayer extends React.Component {
         this.setState({ checkedKeys });
     };
 
-    onChange = (checked, key) => {
-        if (key === 'control') {
-            if (!checked) {
-                window.map.viewer.setControls('OrbitControls');
-            } else {
-                window.map.viewer.setControls('EarthControls');
-            }
-        } else if (key === 'lod') {
-            window.map.isLevel = checked;
-        } else if (key === 'mode') {
-            DataLayerStore.editor.setEditorMode(checked);
-        }
-    };
-
     renderTreeNodes = data =>
         data.map(item => {
             if (item.children) {
@@ -101,7 +85,7 @@ class PointCloudLayer extends React.Component {
     render() {
         const { PointCloudStore, fileStore } = this.props;
         const { pointCloudMap, toggleStretch, updateKey, same, toggleSame } = PointCloudStore;
-        const { treeDataList, treeData } = fileStore;
+        const { treeData } = fileStore;
 
         return (
             <div className="point-cloud-layer">
@@ -121,34 +105,6 @@ class PointCloudLayer extends React.Component {
                     </Tree>
                 </div>
 
-                <Row>
-                    <Col>
-                        操作器切换
-                        <Switch
-                            checkedChildren="地图"
-                            unCheckedChildren="轨道"
-                            defaultChecked
-                            onChange={e => this.onChange(e, 'control')}
-                        />
-                    </Col>
-                    <Col>
-                        LOD控制
-                        <Switch
-                            checkedChildren="打开"
-                            unCheckedChildren="关闭"
-                            onChange={e => this.onChange(e, 'lod')}
-                        />
-                    </Col>
-                    <Col>
-                        编辑模式切换
-                        <Switch
-                            checkedChildren="打开"
-                            unCheckedChildren="关闭"
-                            defaultChecked
-                            onChange={e => this.onChange(e, 'mode')}
-                        />
-                    </Col>
-                </Row>
                 <AdTree
                     key={updateKey}
                     stretch={true}

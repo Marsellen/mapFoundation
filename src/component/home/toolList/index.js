@@ -25,8 +25,14 @@ import BuildStep from 'src/component/home/toolList/buildStep';
 import BatchBreak from 'src/component/home/toolList/batchBreak';
 import MunicipalBarrierDown from 'src/component/home/toolList/municipalBarrierDown';
 // import EditorMode from './editor/impTool';
+import ViewAttribute from 'src/component/home/toolList/viewAttribute';
+import RenderMode from 'src/component/home/renderMode/renderMode';
+import PictureView from 'src/component/home/pictureView';
+import HelpList from 'src/component/home/helpList';
+
 export default [
-    <Home key="HOME" />,
+    // <Home key="HOME" />,
+    <TopBreakLine key="TOP_BREAK_LINE_0" />,
     <Undo key="UNDO" />,
     <Redo key="REDO" />,
     <ResourceLoader key="RESOURCE_LOADER" />,
@@ -50,6 +56,13 @@ export default [
     <PostureAdjust key="POSTURE_ADJUST" />,
     <UnionBreak key="UNION_BREAK" />,
     <TopBreakLine key="TOP_BREAK_LINE_2" />,
+
+    <ViewAttribute key="VIEWATTRIBUTE" />,
+    <PictureView key="PICTUREVIEW" />,
+    <RenderMode key="RENDERMODE" />,
+    <HelpList key="HELPLIST" />,
+
+    <TopBreakLine key="TOP_BREAK_LINE_3" />,
     <BatchBreak key="BATCH_BREAK" />,
     <MunicipalBarrierDown key="MUNICIPAL_BARRIER_DOWN" />
     // <EditorMode key='EDITOR_MODE'></EditorMode>
