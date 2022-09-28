@@ -47,16 +47,23 @@ class PointCloudLayer extends React.Component {
     };
 
     onCheck = (checkedKeys, info) => {
-        console.log('onCheck', checkedKeys);
         let layers = null;
         if (info.node.props.eventKey === '0-0') {
-            layers = mapStore.getLayers();
+            const { treeData } = this.props.fileStore;
+            if (treeData.length > 0) {
+                treeData[0].children.forEach(item => {
+                    layers = mapStore.getLayersByName(item.key);
+                    layers.forEach(layer => {
+                        info.checked ? layer.layer.show() : layer.layer.hide();
+                    });
+                });
+            }
         } else {
             layers = mapStore.getLayersByName(info.node.props.eventKey);
+            layers.forEach(layer => {
+                info.checked ? layer.layer.show() : layer.layer.hide();
+            });
         }
-        layers.forEach(layer => {
-            info.checked ? layer.layer.show() : layer.layer.hide();
-        });
         this.setState({ checkedKeys });
     };
 
