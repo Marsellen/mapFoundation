@@ -127,7 +127,7 @@ class RenderMode extends React.Component {
                 <ToolIcon
                     icon="xuanranmoshi"
                     title="渲染模式"
-                    placement="right"
+                    placement="bottom"
                     className="ad-menu-icon"
                     visible={visible}
                     disabled={!activeTaskId}

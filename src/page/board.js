@@ -7,12 +7,13 @@ import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
 import LoginVisiteHistory from 'src/util/visiteHistory/loginVisiteHistory';
 import { getAuthentication } from 'src/util/session';
 import Avatar from 'src/component/home/avatar';
-import logo from 'src/asset/img/logo-x.svg';
+import logo from 'src/asset/img/logo.svg';
+import ultronLogo from 'src/asset/img/ultron-logo.svg';
+import ultronLogoBig from 'src/asset/img/ultron-logo-big.svg';
 import moment from 'moment';
 import { Col, Button, Row, Card, Icon } from 'antd';
 import AdLocalStorage from 'src/util/adLocalStorage';
 import fileStore from 'src/store/home/fileStore';
-import img from 'src/asset/img/gis.gif';
 import Home from 'src/component/home/toolList/home';
 
 @withRouter
@@ -23,26 +24,29 @@ class Board extends React.Component {
         return (
             <div className="board-wrap">
                 <div className="board-header">
-                    <div className="board-logo" onClick={this.handleClick}>
-                        <img className="logo" src={logo} alt="logo" />
-                        <Link to={'/'}>
-                            <ToolIcon
+                    <Link to={'/'}>
+                        <div className="board-logo" onClick={this.handleClick}>
+                            <img className="logo" src={logo} alt="logo" />
+                            <img className="ultron-logo" src={ultronLogo} alt="ultronLogo" />
+                            {/* <ToolIcon
                                 className="gohome"
                                 icon="shouye"
                                 title="Home"
                                 action={this.action}
-                            />
-                        </Link>
-                    </div>
+                            /> */}
+                        </div>
+                    </Link>
                     <Avatar />
                 </div>
                 <div className="board-content">
                     <div className="board-slider"></div>
                     <div className="board-main">
-                        <div className="name">Ultron</div>
+                        <div className="name">
+                            <img className="logo" src={ultronLogoBig} alt="logo" />
+                        </div>
                         <Row gutter={[16, 60]}>
-                            <Col className="board-gutter-row" span={12}>
-                                <div>
+                            <Col className="board-gutter-row">
+                                <div className="board-gutter-btn">
                                     <h2>启动</h2>
                                     <p>
                                         <Button
@@ -59,39 +63,31 @@ class Board extends React.Component {
                                     <p>
                                         <Button type="link" onClick={this.handleClickOpen}>
                                             <Icon type="folder-open" />
-                                            打开...
+                                            打开项目...
                                         </Button>
                                     </p>
                                 </div>
                                 <div>
                                     <h2>最近</h2>
                                     <div className="board-card-wrapper">
-                                        <Row gutter={16}>
-                                            {Object.keys(storages).map(key => (
-                                                <Col key={key} span={8}>
-                                                    <Card hoverable title={key} bordered={false}>
-                                                        <div
-                                                            className="board-history-img"
-                                                            onClick={e => {
-                                                                e.preventDefault();
-                                                                this.handleClickOpen(key);
-                                                            }}
-                                                            style={{
-                                                                backgroundImage: `url(${storages[key]?.imgPath})`
-                                                            }}
-                                                        ></div>
-                                                    </Card>
-                                                </Col>
-                                            ))}
-                                        </Row>
+                                        {Object.keys(storages).map(key => (
+                                            <Card key={key} hoverable title={key} bordered={false}>
+                                                <div
+                                                    className="board-history-img"
+                                                    onClick={e => {
+                                                        e.preventDefault();
+                                                        this.handleClickOpen(key);
+                                                    }}
+                                                    style={{
+                                                        backgroundImage: `url(${storages[key]?.imgPath})`
+                                                    }}
+                                                ></div>
+                                            </Card>
+                                        ))}
                                     </div>
                                 </div>
                             </Col>
-                            <Col className="board-gutter-row" span={12}>
-                                {/* <div className='board-gutter-right'>
-                                    <img src={img}></img>
-                                </div> */}
-                            </Col>
+                            <Col className="board-gutter-row" span={12}></Col>
                         </Row>
                     </div>
                 </div>

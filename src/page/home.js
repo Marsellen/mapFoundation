@@ -8,7 +8,8 @@ import VizComponent from 'src/component/home/vizComponent';
 import VizComponentXGIS from 'src/component/home/vizComponentXGIS';
 import HeaderBar from 'src/component/home/headerBar';
 import 'less/home.less';
-import logo from 'src/asset/img/logo-x.svg';
+import logo from 'src/asset/img/logo.svg';
+import ultronLogo from 'src/asset/img/ultron-logo.svg';
 import ShortcutKey from 'src/util/shortcutKey';
 import SettingStore from 'src/store/setting/settingStore';
 import { MENUS } from 'src/config/menuConfig';
@@ -39,12 +40,15 @@ class Home extends React.Component {
             <Spin tip="loading..." spinning={LoadingStore.globalLoading}>
                 <Layout id="home">
                     <Header className="header">
-                        <div className="logo-content">
-                            <img className="logo" src={logo} alt="logo" />
-                        </div>
+                        <Link to={'/board'}>
+                            <div className="logo-content">
+                                <img className="logo" src={logo} alt="logo" />
+                                <img className="ultron-logo" src={ultronLogo} alt="ultronLogo" />
+                            </div>
+                        </Link>
                         <HeaderBar />
                     </Header>
-                    <Sider menus={MENUS}>{SiderView}</Sider>
+                    {/* <Sider menus={MENUS}>{SiderView}</Sider> */}
                     <div className="flex-1 viz-content" id="viz-content">
                         <VizComponentXGIS />
                     </div>
