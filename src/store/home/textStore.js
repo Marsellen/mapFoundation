@@ -28,15 +28,15 @@ class TextStore {
     };
 
     getDefaultConfig = (mode, taskProcessName) => {
-        const configType = mode === 'common' ? taskProcessName : mode;
-        const configName = TEXT_CONFIG_MAP[configType];
-        const configMap = SettingStore.getConfig(configName);
+        // const configType = mode === 'common' ? taskProcessName : mode;
+        // const configName = TEXT_CONFIG_MAP[configType];
+        const configMap = SettingStore.getConfig("QR_TASK_TEXT_CONFIG_MAP");
         return JSON.parse(JSON.stringify(configMap));
     };
 
     //初始化文字注记配置
     @action initTextConfig = (mode, taskProcessName) => {
-        if (!taskProcessName) return;
+        // if (!taskProcessName) return;
         //质检符号模式是根据任务类型采用对应配置，其它模式采用通用配置
         this.vectorTextConfig = this.getDefaultConfig(mode, taskProcessName);
         this.textSetting = new TextSetting(this.vectorTextConfig);

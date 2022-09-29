@@ -1,13 +1,22 @@
 .vector-config-wrap {
     .vector-config-global-title-wrap {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
+        /* align-items: center; */
+        padding: 5px 0;
         margin: 0 5px 0 5px;
-        height: 30px;
+        flex-flow: column;
+        /* height: 30px; */
         border-bottom: 1px solid #d7d7d7;
         font-size: 12px;
         color: #222;
+        .vector-config-global-title-box {
+            display: flex;
+            justify-content: space-between;
+        }
+        .vector-config {
+            display: flex;
+            z-index: 99;
+        }
         .vector-config-global-title-left {
             display: flex;
         }

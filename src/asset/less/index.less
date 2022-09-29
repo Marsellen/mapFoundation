@@ -1,3 +1,12 @@
+#viz {
+    position: fixed;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 0px;
+    display: none;
+}
+
 .flex {
     display: flex;
 }
@@ -30,6 +39,10 @@
         background-color: #18a2ff;
         border-color: #18a2ff;
     }
+    .dengchu {
+        color: #1ec9e9;
+        font-size: 26px;
+    }
 }
 
 .flex-1 {
@@ -39,14 +52,21 @@
 }
 
 .header-tool {
-    height: 60px;
-    font-size: 20px;
+    height: 40px;
+    font-size: 16px;
     color: #fff;
 
     & > span {
         display: flex;
         justify-content: center;
         min-width: 40px;
+    }
+    .goboard {
+        display: flex;
+        justify-content: center;
+        min-width: 40px;
+        color: #fff;
+        font-size: 18px;
     }
 }
 
@@ -55,10 +75,10 @@
 }
 
 .top-break-line {
-    width: 2px;
-    height: 40px;
+    width: 1px;
+    height: 22px;
     margin: 0 5px;
-    background: #434343;
+    border-right: 2px dashed #434343;
 }
 
 .bianjituceng > span {
@@ -67,7 +87,7 @@
 }
 
 .bianjituceng > span > i > svg {
-    font-size: 29px;
+    font-size: 24px;
 }
 
 .value-color {

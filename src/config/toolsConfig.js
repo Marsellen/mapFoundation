@@ -1,5 +1,6 @@
 export const TOOLS_MAP = {
     EDIT: {
+        HOME: true,
         UNDO: true,
         REDO: true,
         SAVE: true,
@@ -12,6 +13,7 @@ export const TOOLS_MAP = {
         SEARCHINFO: true,
         QC_MARKER: true,
         INFORMATION_TOOL: true,
+        TOP_BREAK_LINE_0: true,
         TOP_BREAK_LINE_1: true,
         EDIT_LAYER: true,
         ADD_REL: false,
@@ -30,11 +32,18 @@ export const TOOLS_MAP = {
         BUILD_STEP: true,
         UNION_BREAK: true,
         TOP_BREAK_LINE_2: true,
+        TOP_BREAK_LINE_3: true,
+        VIEWATTRIBUTE: true,
+        PICTUREVIEW: true,
+        HELPLIST: true,
+        RENDERMODE: true,
         BATCH_BREAK: true,
         MUNICIPAL_BARRIER_DOWN: true,
-        VIEW_NEIGHBOR: true
+        VIEW_NEIGHBOR: true,
+        EDITOR_MODE: true
     },
     CHECK: {
+        HOME: true,
         UNDO: true,
         REDO: true,
         SAVE: true,
@@ -47,8 +56,9 @@ export const TOOLS_MAP = {
         SEARCHINFO: true,
         QC_MARKER: true,
         INFORMATION_TOOL: true,
+        TOP_BREAK_LINE_0: true,
         TOP_BREAK_LINE_1: true,
-        EDIT_LAYER: false,
+        EDIT_LAYER: true,
         ADD_REL: false,
         DEL_REL: false,
         ADJUST_POINT_SIZE: true,
@@ -63,9 +73,15 @@ export const TOOLS_MAP = {
         POSTURE_ADJUST: false,
         SETSTEP_SIZE: true,
         BUILD_STEP: true,
-        TOP_BREAK_LINE_2: false,
+        TOP_BREAK_LINE_2: true,
+        TOP_BREAK_LINE_3: true,
+        VIEWATTRIBUTE: true,
+        PICTUREVIEW: true,
+        HELPLIST: true,
+        RENDERMODE: true,
         BATCH_BREAK: false,
         MUNICIPAL_BARRIER_DOWN: false,
-        VIEW_NEIGHBOR: true
+        VIEW_NEIGHBOR: true,
+        EDITOR_MODE: true
     }
 };

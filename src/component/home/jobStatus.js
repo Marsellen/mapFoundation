@@ -6,11 +6,18 @@ import editLog from 'src/util/editLog';
 import ToolIcon from 'src/component/common/toolIcon';
 import AdLocalStorage from 'src/util/adLocalStorage';
 import { saveTaskData } from 'src/util/taskUtils';
-import { editLock } from 'src/util/decorator';
 import BuriedPoint from 'src/util/buriedPoint';
 import SettingStore from 'src/store/setting/settingStore';
-
 import 'less/jobstatus.less';
+import { flow } from 'mobx';
+
+import {
+    getAllVectorData,
+    getAllRelData,
+    getAllAttrData
+} from 'src/util/vectorUtils';
+
+import fileStore from 'src/store/home/fileStore';
 
 @withRouter
 @inject('QCMarkerStore')
@@ -21,8 +28,8 @@ import 'less/jobstatus.less';
 @inject('DataLayerStore')
 @inject('ToolCtrlStore')
 @inject('TaskStore')
-@inject('RelStore')
-@inject('AttrStore')
+// @inject('RelStore')
+// @inject('AttrStore')
 @inject('AttributeStore')
 @inject('PictureShowStore')
 @observer
@@ -55,7 +62,7 @@ class JobStatus extends React.Component {
             <div className="flex flex-center jobstatus">
                 <ToolIcon
                     icon="huoqurenwu"
-                    title="获取任务"
+                    title="导入数据"
                     className="jobstatus-get"
                     focusColor={false}
                     action={this.getJob}
@@ -63,9 +70,8 @@ class JobStatus extends React.Component {
                 {!isLocal && (
                     <ToolIcon
                         icon="tijiaorenwu"
-                        title="提交任务"
+                        title="导出数据"
                         className="jobstatus-submit"
-                        disabled={taskId ? false : true}
                         focusColor={false}
                         action={this.submitTask}
                     />
@@ -83,25 +89,26 @@ class JobStatus extends React.Component {
 
     // 获取
     getJob = async () => {
-        const { OperateHistoryStore } = this.props;
-        let { currentNode, savedNode } = OperateHistoryStore;
-        let shouldSave = currentNode > savedNode;
+        fileStore.impConfig();
+        // const { OperateHistoryStore } = this.props;
+        // let { currentNode, savedNode } = OperateHistoryStore;
+        // let shouldSave = currentNode > savedNode;
 
-        if (shouldSave) {
-            return Modal.confirm({
-                title: '提示',
-                content: '当前任务未保存，是否自动保存',
-                okText: '确定',
-                cancelText: '取消',
-                maskStyle: { zIndex: 99999999 },
-                zIndex: 999999999,
-                onOk: async () => {
-                    await this.action();
-                    await this.fetchTask();
-                }
-            });
-        }
-        await this.fetchTask();
+        // if (shouldSave) {
+        //     return Modal.confirm({
+        //         title: '提示',
+        //         content: '当前任务未保存，是否自动保存',
+        //         okText: '确定',
+        //         cancelText: '取消',
+        //         maskStyle: { zIndex: 99999999 },
+        //         zIndex: 999999999,
+        //         onOk: async () => {
+        //             await this.action();
+        //             await this.fetchTask();
+        //         }
+        //     });
+        // }
+        // await this.fetchTask();
     };
 
     fetchTask = async () => {
@@ -404,16 +411,67 @@ class JobStatus extends React.Component {
         );
     };
 
-    @editLock
-    submitTask = e => {
-        e || e.target || e.target.blur(); //在click事件中主动去掉button的焦点，回车就不会触发click
-        const { appStore } = this.props;
-        const { loginUser } = appStore;
-        if (loginUser.roleCode === 'quality') {
-            return this.showQualityComfirm();
-        } else {
-            return this.submitJob(this.submitOption);
+    // @editLock
+    submitTask = flow(function* () {
+        let vectorData = getAllVectorData(true);
+        // 删除不符合规则的字段
+        let vectorDataClone = JSON.parse(JSON.stringify(vectorData));
+        if (vectorDataClone) {
+            vectorDataClone?.features.forEach(feature => {
+                if (feature.name === 'AD_Lane') {
+                    feature.features.forEach(item => {
+                        if (item?.properties?.RS_VALUE !== undefined) {
+                            delete item.properties.RS_VALUE;
+                        }
+                        if (item?.properties?.SPEED !== undefined) {
+                            delete item.properties.SPEED;
+                        }
+                    });
+                }
+            });
         }
+
+        let relData = yield getAllRelData(true);
+        let attrData = yield getAllAttrData(true);
+        const allData = [...vectorDataClone.features, ...relData.features, ...attrData.features];
+        console.log(allData)
+        let isAllData = [];
+        allData.forEach(item => {
+            if (item.features.length > 0) {
+                if (isAllData[item.name] === undefined) {
+                    isAllData[item.name] = true;
+                    const link = document.createElement("a");
+                    link.style.display = "none";
+                    link.setAttribute("download", item.name);
+                    document.body.appendChild(link);
+                    let blob = new Blob([JSON.stringify(item)], { type: 'text/plain' });
+                    link.href = URL.createObjectURL(blob);
+                    link.download = item.name + '.geojson';
+                    link.click();
+                    link.remove();
+                }
+
+            }
+        });
+
+
+
+        // e || e.target || e.target.blur(); //在click事件中主动去掉button的焦点，回车就不会触发click
+        // const { appStore } = this.props;
+        // const { loginUser } = appStore;
+        // if (loginUser.roleCode === 'quality') {
+        //     return this.showQualityComfirm();
+        // } else {
+        //     return this.submitJob(this.submitOption);
+        // }
+    });
+    //获取当前所有图层名，合并到文件列表中，合成新的文件列表
+    getFileNameList = (vectorData, relData, attrData) => {
+        const allData = [...vectorData.features, ...relData.features, ...attrData.features];
+        const newFileNameList = allData.map(item => item.name + '.geojson');
+        const allFileNameList = [...newFileNameList, ...this.taskFileNames];
+        const fileNameList = [...new Set(allFileNameList)];
+        return fileNameList;
     };
 
     showQualityComfirm = () => {

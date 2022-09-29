@@ -1,11 +1,11 @@
 .multimedia-container {
     position: fixed;
-    top: 60px;
+    top: 41px;
     right: 0;
     background: #434343;
     -webkit-transition: all 0.2s;
     transition: all 0.2s;
-    height: calc(100% - 60px);
+    height: calc(100% - 40px);
 
     .menu-list-icon {
         position: absolute;
@@ -15,15 +15,24 @@
         align-items: center;
         width: 40px;
         height: 40px;
-        background: rgb(102, 102, 102);
+        background: #2c2c2c;
         border-radius: 2px;
-        font-size: 22px;
+        font-size: 20px;
+        opacity: 0.8;
         color: #fff;
         cursor: pointer;
 
         &.on {
             background: #3e7fe0;
         }
+    }
+}
+.multimedia-container-right {
+    left: 0;
+    right: inherit;
+    .menu-list-icon {
+        left: inherit;
+        right: -40px;
     }
 }
 
@@ -123,8 +132,8 @@
 .set-compass {
     position: absolute;
     bottom: 10px;
-    left: -70px;
-    line-height: 46px;
+    left: -50px;
+    line-height: 32px;
     font-size: 36px;
     color: #fff;
 }

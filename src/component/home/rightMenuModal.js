@@ -100,6 +100,7 @@ class RightMenuModal extends React.Component {
         };
     }
     componentDidMount() {
+
         const { DataLayerStore } = this.props;
         this.installListener();
         this.changePoints = this.changePoints.bind(this);
@@ -127,14 +128,16 @@ class RightMenuModal extends React.Component {
     }
 
     render() {
+
         const {
             RightMenuStore: { visible, zIndex },
             DataLayerStore: { editType }
         } = this.props;
-        if (!visible) {
-            let messageVisible = EDIT_TYPE.includes(editType);
-            return <AdMessage visible={messageVisible} content={this.content()} />;
-        }
+
+        // if (false) {
+        //     let messageVisible = EDIT_TYPE.includes(editType);
+        //     return <AdMessage visible={messageVisible} content={this.content()} />;
+        // }
         const menuList = this.menuList();
         return (
             <div>
@@ -228,14 +231,14 @@ class RightMenuModal extends React.Component {
             >
                 <span>修改形状点</span>
             </Menu.Item>,
-            <Menu.Item
-                id="break-line-btn"
-                key="break_line"
-                onClick={this.breakLine}
-                className="right-menu-item"
-            >
-                <span>打断</span>
-            </Menu.Item>,
+            // <Menu.Item
+            //     id="break-line-btn"
+            //     key="break_line"
+            //     onClick={this.breakLine}
+            //     className="right-menu-item"
+            // >
+            //     <span>打断</span>
+            // </Menu.Item>,
             <Menu.Item
                 id="reverse-order-line-btn"
                 key="reverse_order_line"
@@ -244,33 +247,33 @@ class RightMenuModal extends React.Component {
             >
                 <span>线要素逆序</span>
             </Menu.Item>,
-            <Menu.Item id="trim-btn" key="trim" onClick={this.trim} className="right-menu-item">
-                <span>修整</span>
-            </Menu.Item>,
-            <Menu.Item
-                id="break-group-btn"
-                key="break_line_by_point"
-                onClick={this.breakLineByPoint}
-                className="right-menu-item"
-            >
-                <span>齐打断</span>
-            </Menu.Item>,
-            <Menu.Item
-                id="merge-line-btn"
-                key="merge_line"
-                onClick={this.mergeLine}
-                className="right-menu-item"
-            >
-                <span>合并</span>
-            </Menu.Item>,
-            <Menu.Item
-                id="batch-merge-btn"
-                key="batch_merge_line"
-                onClick={this.batchMergeLine}
-                className="right-menu-item"
-            >
-                <span>批量线合并</span>
-            </Menu.Item>,
+            // <Menu.Item id="trim-btn" key="trim" onClick={this.trim} className="right-menu-item">
+            //     <span>修整</span>
+            // </Menu.Item>,
+            // <Menu.Item
+            //     id="break-group-btn"
+            //     key="break_line_by_point"
+            //     onClick={this.breakLineByPoint}
+            //     className="right-menu-item"
+            // >
+            //     <span>齐打断</span>
+            // </Menu.Item>,
+            // <Menu.Item
+            //     id="merge-line-btn"
+            //     key="merge_line"
+            //     onClick={this.mergeLine}
+            //     className="right-menu-item"
+            // >
+            //     <span>合并</span>
+            // </Menu.Item>,
+            // <Menu.Item
+            //     id="batch-merge-btn"
+            //     key="batch_merge_line"
+            //     onClick={this.batchMergeLine}
+            //     className="right-menu-item"
+            // >
+            //     <span>批量线合并</span>
+            // </Menu.Item>,
             <Menu.Item
                 id="batch-assign-btn"
                 key="batch_assign"
@@ -279,22 +282,22 @@ class RightMenuModal extends React.Component {
             >
                 <span>批量赋值</span>
             </Menu.Item>,
-            <Menu.Item
-                id="break-by-line-btn"
-                key="break_line_by_line"
-                onClick={this.breakByLine}
-                className="right-menu-item"
-            >
-                <span>拉线齐打断</span>
-            </Menu.Item>,
-            <Menu.Item
-                id="group-move-btn"
-                key="group_move"
-                onClick={this.groupMove}
-                className="right-menu-item"
-            >
-                <span>批量平移</span>
-            </Menu.Item>,
+            // <Menu.Item
+            //     id="break-by-line-btn"
+            //     key="break_line_by_line"
+            //     onClick={this.breakByLine}
+            //     className="right-menu-item"
+            // >
+            //     <span>拉线齐打断</span>
+            // </Menu.Item>,
+            // <Menu.Item
+            //     id="group-move-btn"
+            //     key="group_move"
+            //     onClick={this.groupMove}
+            //     className="right-menu-item"
+            // >
+            //     <span>批量平移</span>
+            // </Menu.Item>,
             <Menu.Item
                 id="copy-btn"
                 key="copy_line"
@@ -347,6 +350,7 @@ class RightMenuModal extends React.Component {
     };
 
     installListener = () => {
+
         const { DataLayerStore } = this.props;
         DataLayerStore.setBreakCallback(result => {
             this.breakCallBack(result);

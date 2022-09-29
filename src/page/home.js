@@ -1,13 +1,15 @@
 import React from 'react';
 import { Layout, Spin } from 'antd';
 import { inject, observer } from 'mobx-react';
+import { Link } from 'react-router-dom';
 import Sider from 'src/component/common/sider';
 import SiderView from 'src/component/home/siderView';
 import VizComponent from 'src/component/home/vizComponent';
+import VizComponentXGIS from 'src/component/home/vizComponentXGIS';
 import HeaderBar from 'src/component/home/headerBar';
 import 'less/home.less';
 import logo from 'src/asset/img/logo.svg';
-import TaskVersion from 'src/component/home/taskVersion'
+import ultronLogo from 'src/asset/img/ultron-logo.svg';
 import ShortcutKey from 'src/util/shortcutKey';
 import SettingStore from 'src/store/setting/settingStore';
 import { MENUS } from 'src/config/menuConfig';
@@ -23,6 +25,7 @@ window.isLogin = true;
 @observer
 class Home extends React.Component {
     componentWillMount() {
+        // 进入首页后清楚历史
         HomeVisiteHistory.enterPage();
     }
 
@@ -32,20 +35,22 @@ class Home extends React.Component {
 
     render() {
         const { LoadingStore } = this.props;
+
         return (
             <Spin tip="loading..." spinning={LoadingStore.globalLoading}>
                 <Layout id="home">
                     <Header className="header">
-                        <div className="logo-content">
-                            <img className="logo" src={logo} alt="logo" />
-                        </div>
+                        <Link to={'/board'}>
+                            <div className="logo-content">
+                                <img className="logo" src={logo} alt="logo" />
+                                <img className="ultron-logo" src={ultronLogo} alt="ultronLogo" />
+                            </div>
+                        </Link>
                         <HeaderBar />
                     </Header>
-                    <div className='side-content'><Sider menus={MENUS}>{SiderView}</Sider>
-                    <TaskVersion className='side-inner' />
-                    </div>
+                    {/* <Sider menus={MENUS}>{SiderView}</Sider> */}
                     <div className="flex-1 viz-content" id="viz-content">
-                        <VizComponent />
+                        <VizComponentXGIS />
                     </div>
                 </Layout>
             </Spin>

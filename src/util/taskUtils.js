@@ -79,9 +79,8 @@ export const getEditPath = task => {
 // 补齐切片矢量数据路径titlePath
 export const completeTitleUrl = (path, task) => {
     const getBoundaryUrl = BOUNDARY_PATH_MAP[task.processName];
-    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]}/${getBoundaryUrl}/${
-        task.titlePath
-    }/${path}?time=${Date.now()}`;
+    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]}/${getBoundaryUrl}/${task.titlePath
+        }/${path}?time=${Date.now()}`;
 };
 
 export const filePathTitleUrl = task => {
@@ -94,16 +93,14 @@ export const filePathTitleUrl = task => {
 
 // 补齐轨迹、照片数据路径
 export const completeSecendUrl = (path, task) => {
-    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]}/${
-        THIRD_PATH[task.processName]
-    }/${path}?time=${Date.now()}`;
+    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]}/${THIRD_PATH[task.processName]
+        }/${path}?time=${Date.now()}`;
 };
 
 // 补齐多工程数据路径，如：点云、轨迹
 export const completeMultiProjectUrl = (path, task, projectName) => {
-    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]}/${
-        THIRD_PATH[task.processName]
-    }/${projectName}/${path}`;
+    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]}/${THIRD_PATH[task.processName]
+        }/${projectName}/${path}`;
 };
 
 // 获取逻辑构建根目录
@@ -116,9 +113,8 @@ export const getBuildUrl = task => {
 // 补齐周边底图数据路径
 export const completeBoundaryUrl = (path, task) => {
     const getBoundaryUrl = BOUNDARY_PATH_MAP[task.processName];
-    return `${task.Input_imp_data_path}/${
-        SECEND_PATH[task.processName]
-    }/${getBoundaryUrl}/around/${path}`;
+    return `${task.Input_imp_data_path}/${SECEND_PATH[task.processName]
+        }/${getBoundaryUrl}/around/${path}`;
 };
 
 // 补齐矢量（可编辑）数据路径
@@ -152,6 +148,7 @@ export const isManbuildTask = () => {
 };
 
 export const getTaskProcessType = () => {
+
     if (isManbuildTask()) {
         return 'manbuild';
     } else {
@@ -163,10 +160,10 @@ export const saveTaskData = async channel => {
     const isAutoSave = channel === 'auto';
     const type = isAutoSave ? 'auto_save' : 'save';
     try {
-        operateLock.lock('保存');
-        BuriedPoint.toolBuriedPointStart(type, channel);
-        BuriedPoint.toolLoadBuriedPointStart(type, 'tool_start');
-        message.loading({ key: 'save', content: '正在保存...', duration: 0 });
+        // operateLock.lock('保存');
+        // BuriedPoint.toolBuriedPointStart(type, channel);
+        // BuriedPoint.toolLoadBuriedPointStart(type, 'tool_start');
+        // message.loading({ key: 'save', content: '正在保存...', duration: 0 });
         await saveData(isAutoSave);
         message.success({ key: 'save', content: '保存完成', duration: 2 });
         BuriedPoint.toolLoadBuriedPointEnd(type, 'success');
@@ -185,15 +182,16 @@ export const saveTaskData = async channel => {
 };
 
 const saveData = async isAutoSave => {
-    let hasEmptyData = await checkEmptyData();
-    if (hasEmptyData) {
-        let log = {
-            action: 'save-with-empty',
-            result: 'success',
-            message: 'agree'
-        };
-        editLog.add(log);
-    }
+
+    // let hasEmptyData = await checkEmptyData();
+    // if (hasEmptyData) {
+    //     let log = {
+    //         action: 'save-with-empty',
+    //         result: 'success',
+    //         message: 'agree'
+    //     };
+    //     editLog.add(log);
+    // }
     await TaskStore.submit();
     await TaskStore.writeEditLog();
     isAutoSave ? OperateHistoryStore.autoSave() : OperateHistoryStore.save();
@@ -306,6 +304,7 @@ export const windowObserver = () => {
 };
 
 export const getEditableLayerConfig = () => {
+
     if (isManbuildTask()) {
         return MB_EDIT_LAYER_MAP;
     } else {

@@ -24,7 +24,8 @@ import BuriedPoint from 'src/util/buriedPoint';
 import { TYPE_SELECT_OPTION_MAP } from 'src/config/adMapDataConfig';
 import { setAttributes } from 'src/util/utils';
 const LOAD_DATA_MESSAGE = '加载数据中...';
-
+import mapStore from 'src/store/home/mapStore';
+import { VECTOR_FILES, ATTR_FILES, REL_FILES, REGION_FILES } from 'src/config/taskConfig';
 configure({ enforceActions: 'always' });
 class AttributeStore {
     model;
@@ -36,7 +37,7 @@ class AttributeStore {
     @observable attributes = [];
     @observable rels = [];
     @observable attrs = {};
-    @observable readonly;
+    @observable readonly = false;
     @observable modelId;
     @observable loading = false;
     @observable loadingMessage;
@@ -45,7 +46,7 @@ class AttributeStore {
 
     @action show = (readonly, obj) => {
         console.log(readonly);
-        
+
         const modelId = obj.data.properties[getLayerIDKey(this.layerName)];
         if (this.modelId !== modelId) {
             if (!this.readonly && this.visible) {
@@ -56,7 +57,7 @@ class AttributeStore {
             }
         }
         this.visible = true;
-        this.readonly = readonly;
+        this.readonly = false;
         this.modelId = modelId;
         this.updateKey = Math.random();
     };
@@ -92,14 +93,22 @@ class AttributeStore {
     };
 
     setModel = flow(function* (obj) {
-        this.showLoading(LOAD_DATA_MESSAGE);
-        this.model = obj;
-        this.layerName = obj.layerName;
-        this.fetchAttributes();
-        yield this.fetchRels();
-        yield this.fetchAttrs();
-        this.toggleEvent && this.toggleEvent();
-        this.loaded();
+        let allLayer = [...VECTOR_FILES, ...ATTR_FILES, ...REL_FILES];
+        if (obj.layerName !== undefined) {
+            let layer = allLayer.includes(obj.layerName);
+            if (layer) {
+                this.showLoading(LOAD_DATA_MESSAGE);
+                this.model = obj;
+                this.layerName = obj.layerName;
+                this.fetchAttributes();
+                yield this.fetchRels();
+                yield this.fetchAttrs();
+                this.toggleEvent && this.toggleEvent();
+                this.loaded();
+            }
+        }
+
+
     });
 
     getModel = () => {
@@ -164,13 +173,17 @@ class AttributeStore {
     };
 
     commonHideRelFeatures = () => {
-        this.relFeatures.forEach(feature => {
-            try {
-                updateFeatureColor(feature.layerName, feature.option);
-            } catch (e) {
-                console.log(e);
-            }
-        });
+        if (this.relFeatures.length > 0) {
+            mapStore.clear();
+            // this.relFeatures.forEach(feature => {
+            //     try {
+            //         mapStore.updateFeatureColor(feature.layerName, feature.option);
+            //     } catch (e) {
+            //         console.log(e);
+            //     }
+            // });
+        }
+
     };
 
     fetchRelFeatures = async relRecords => {
@@ -206,20 +219,23 @@ class AttributeStore {
 
     @action showRelFeatures = () => {
         try {
-            this.relFeatures.forEach(feature => {
-                try {
-                    updateFeatureColor(feature.layerName, feature.option, 'rgb(49,209,255)');
-                } catch (e) {
-                    console.log(e);
-                }
-            });
+            if (this.relFeatures.length > 0) {
+                mapStore.clear();
+                this.relFeatures.forEach(feature => {
+                    try {
+                        mapStore.updateFeatureColor(feature.layerName, feature.option, { color: 'rgb(49,209,255)', linewidth: 10, opacity: 0.5 });
+                    } catch (e) {
+                        console.log(e);
+                    }
+                });
+            }
         } catch (error) {
             console.log(error);
         }
     };
 
     submit = flow(function* (data) {
-        // 提交保存数据  
+        // 提交保存数据
         if (data !== undefined && data?.attrs !== undefined && data?.attrs.AD_Lane_RS !== undefined || data?.attrs?.AD_Lane_Speed !== undefined) {
             const objValue = setAttributes(data.attrs);
             if (data?.attributes) {
@@ -367,6 +383,7 @@ class AttributeStore {
 
     newAttr = flow(function* (key, value, properties) {
         try {
+
             const _result = yield IDService.initID({
                 id_type: key
             });
@@ -377,7 +394,7 @@ class AttributeStore {
             let MainFId = MainKey.key;
             properties = properties || this.model.data.properties;
             // 更新标记
-            if (key === 'AD_Lane_Speed') { 
+            if (key === 'AD_Lane_Speed') {
                 if (value?.UPD_STAT) {
                     let UPD_STAT = JSON.parse(value.UPD_STAT);
                     UPD_STAT.PRECOMPLIER_STAT = 'MAN';

@@ -40,6 +40,15 @@ class VisitedHistory {
         }
     };
 
+    //跳转到宣传首页
+    LinkToBoard = () => {
+        const visiteHistory = this.getVisitedHistory();
+        if (visiteHistory.length > 1) {
+            window.location.href = '/board';
+            return true;
+        }
+    };
+
     //轮询监听访问状态
     pollingVisiteHistory = () => {
         setInterval(

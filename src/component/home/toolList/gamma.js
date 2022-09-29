@@ -4,14 +4,14 @@ import 'less/point-cloud.less';
 
 class Gamma extends React.Component {
     state = {
-        value: window?.pointCloudLayer?.getIntensityGamma?.() ?? 0
+        value: window?.nowPointCloudLayer?.getIntensityGamma?.() ?? 0
     };
 
     onChange = value => {
         this.setState({
             value
         });
-        window?.pointCloudLayer?.setIntensityGamma?.(value);
+        window?.nowPointCloudLayer?.setIntensityGamma?.(value);
     };
 
     render() {

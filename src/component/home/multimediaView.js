@@ -1,48 +1,15 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import RenderConfigWindow from './renderMode/renderConfigWindow';
-import BufferConfigWindow from './bufferConfig/bufferConfigWindow';
 import 'less/multimedia-modal.less';
 import ZoomIn from './toolList/zoomIn';
 import ZoomOut from './toolList/zoomOut';
 import UnderView from './toolList/underView';
 import TopView from './toolList/topView';
 import SaveTimeView from './saveTimeView';
-import ToolIcon from 'src/component/common/toolIcon';
 import RelModeTheme from 'src/component/home/renderMode/relModeTheme';
 import UpdStatModeTheme from 'src/component/home/renderMode/updStatModeTheme';
-import PointCloudLayer from 'src/component/home/pointCloudLayer';
+import PCView from './toolList/pointCloudView';
 
-const MENU_LIST = [
-    // {
-    //     id: 'picture-icon',
-    //     title: '图片显示窗口',
-    //     icon: 'zhaopianshezhi',
-    //     storeName: 'PictureShowStore',
-    //     content: <PictureShowView />
-    // },
-    {
-        id: 'define-icon',
-        title: '渲染设置窗口',
-        icon: 'xuanranshezhi',
-        storeName: 'TextStore',
-        content: <RenderConfigWindow />
-    },
-    {
-        id: 'point-cloud-icon',
-        title: '点云图层窗口',
-        icon: 'dianyuncengji',
-        storeName: 'PointCloudStore',
-        content: <PointCloudLayer />
-    },
-    {
-        id: 'buffer-render-icon',
-        title: 'buffer渲染窗口',
-        icon: 'yaosulunkuobuffer',
-        storeName: 'BufferStore',
-        content: <BufferConfigWindow />
-    }
-];
 @inject('DefineModeStore')
 @inject('RenderModeStore')
 @inject('TextStore')
@@ -51,45 +18,10 @@ const MENU_LIST = [
 @inject('BufferStore')
 @observer
 class MultimediaView extends React.Component {
-    handleClick = storeName => {
-        //点击'渲染设置窗口'，需要等数据准备好之后，才能打开
-        if (storeName === 'TextStore') {
-            const { vectorConfigMap } = this.props.DefineModeStore;
-            if (!vectorConfigMap) return;
-        }
-        //关闭其它窗口，只显示当前点击窗口
-        const { visible, show, hide } = this.props[storeName];
-        MENU_LIST.forEach(item => {
-            if (item.storeName === storeName) return;
-            this.props[item.storeName].hide();
-        });
-        visible ? hide() : show();
-    };
-
     render() {
         const { activeMode } = this.props.RenderModeStore;
         return (
             <div className="multimedia-container">
-                {/* 遍历出页签 */}
-                {MENU_LIST.map((item, index) => {
-                    const { id, title, storeName, icon, content } = item;
-                    const { visible } = this.props[storeName];
-                    return (
-                        <div key={id}>
-                            <div
-                                id={id}
-                                title={title}
-                                onClick={() => this.handleClick(storeName)}
-                                style={{ top: 41 * index }}
-                                className={`menu-list-icon ${visible ? 'on' : ''}`}
-                            >
-                                <ToolIcon icon={icon} />
-                            </div>
-                            {visible && content}
-                        </div>
-                    );
-                })}
-
                 {/* 关联关系专题图 */}
                 {activeMode === 'relation' && <RelModeTheme />}
                 {activeMode === 'update' && <UpdStatModeTheme />}
@@ -97,6 +29,7 @@ class MultimediaView extends React.Component {
                 <div className="right-footer">
                     {/* 俯视图、放大、缩小、还原 */}
                     <div className="set-compass">
+                        <PCView key="PC_VIEW" />
                         <TopView key="TOP_VIEW" />
                         <ZoomOut key="ZOOM_OUT" />
                         <ZoomIn key="ZOOM_IN" />

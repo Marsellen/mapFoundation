@@ -1,5 +1,5 @@
 import { action, configure, flow, observable, computed } from 'mobx';
-import { EditControl, MeasureControl, VectorLayer } from '@ad/xmap';
+import { EditControl, MeasureControl, VectorLayer, DynamicPCLayer } from '@ad/xmap';
 import TaskService from 'src/service/taskService';
 import { Modal, message } from 'antd';
 import {
@@ -22,6 +22,7 @@ import { editLock } from 'src/util/decorator';
 import OtherVectorConfig from 'src/config/otherVectorConfig';
 import BuriedPoint from 'src/util/buriedPoint';
 
+import mapStore from './mapStore';
 const TRACKS = ['TraceListLayer', 'TraceLayer'];
 const UN_ESC_EDIT_TYPE = [
     'normal',
@@ -50,6 +51,7 @@ class DataLayerStore {
     @observable editStatus = 'normal'; //当前有两种编辑状态：normal（普通模式）、union-break（联合打断模式）
     @observable beenPick;
     @observable isTopView = false;
+    @observable isPCVVisible = false; // 是否显示点云
     @observable readCoordinateResult;
     @observable updateKey;
     @observable isMessage = true;
@@ -80,6 +82,30 @@ class DataLayerStore {
         }
     };
 
+    initPointCloud = async urlArr => {
+        try {
+            const pointCloudObj = new DynamicPCLayer(null, {
+                pointBudget: SettingStore.getConfig('OTHER_CONFIG').pointLimit, // 点云点数量
+                minLevel: SettingStore.getConfig('OTHER_CONFIG').scaleSize, // 开始更新点云八叉树最小比例尺级别
+                intensityGamma: 0.5,
+                intensityContrast: 0.4,
+                intensityBrightness: 0.3,
+                size: 1.2
+            });
+            map.getLayerManager().addLayer('DynamicPCLayer', pointCloudObj);
+            if (!urlArr) return;
+            // TODO 如果使用 window.pointCloudLayer 就会不展示
+            window.nowPointCloudLayer = pointCloudObj;
+            await window.nowPointCloudLayer.updatePointClouds(urlArr);
+            // map.setView('U');
+            //根据点云索引，动态加载点云
+            // OcTreeIndex.updateOctree();
+        } catch (e) {
+            message.warning('没有点云数据');
+            console.log(`点云加载异常：${e.message || e}`);
+        }
+    };
+
     initEditor = layers => {
         const adsorptionSensitivity = SettingStore.getConfig('OTHER_CONFIG').adsorptionSensitivity;
         this.editor = new EditControl();
@@ -87,6 +113,7 @@ class DataLayerStore {
         this.targetLayers = (layers || []).flatMap(item => (item ? [item] : []));
         this.fetchTargetLayers();
         this.editor.setConfig && this.editor.setConfig(EditorConfig);
+        this.editor.setEditorMode(this.editor.isEditorMode);
         this.editor.setAdsorbThreshold && this.editor.setAdsorbThreshold(adsorptionSensitivity);
         this.editor.setEditBoundary && this.editor.setEditBoundary(this.regionGeojson);
     };
@@ -157,7 +184,7 @@ class DataLayerStore {
         return currentLayer;
     };
 
-    setSelectedCallBack = callback => { 
+    setSelectedCallBack = callback => {
         this.editor.onFeatureSelected((result, event) => {
             switch (this.editType) {
                 case 'normal':
@@ -324,6 +351,7 @@ class DataLayerStore {
     clearPick = () => {
         if (!this.editor) return;
         this.editor.clear();
+        mapStore.clear();
     };
 
     clearChoose = (channel, noClear) => {
@@ -333,6 +361,7 @@ class DataLayerStore {
         this.setEditType(null, channel);
         if (!noClear) {
             this.editor.clear();
+            mapStore.clear();
             this.editor.cancel();
         }
         this.unPick();
@@ -497,6 +526,7 @@ class DataLayerStore {
         if (!this.editor) return;
         this.setEditType('new_around_line', 'button');
         this.editor.clear();
+        mapStore.clear();
         this.editor.toggleMode(61); //多选模式
         this.removeCur();
         let layers = getAllLayersExByName('AD_LaneDivider');
@@ -509,6 +539,7 @@ class DataLayerStore {
         if (!this.editor) return;
         this.setEditType('new_straight_line', 'button');
         this.editor.clear();
+        mapStore.clear();
         this.editor.toggleMode(61);
         this.removeCur();
         let layers = getAllLayersExByName(this.editor.editLayer.layerName);
@@ -521,6 +552,7 @@ class DataLayerStore {
         if (!this.editor) return;
         this.setEditType('new_turn_line', 'button');
         this.editor.clear();
+        mapStore.clear();
         this.editor.toggleMode(61);
         this.removeCur();
         let layers = getAllLayersExByName(this.editor.editLayer.layerName);
@@ -533,6 +565,7 @@ class DataLayerStore {
         if (!this.editor) return;
         this.setEditType('new_Uturn_line', 'button');
         this.editor.clear();
+        mapStore.clear();
         this.editor.toggleMode(61);
         this.removeCur();
         let layers = getAllLayersExByName(this.editor.editLayer.layerName);
@@ -588,7 +621,9 @@ class DataLayerStore {
         this.addShapePoint();
         //设置可选择图层
         this.setTargetLayers(this.targetLayers);
-        const { currentMarker: { layerId, uuid } } = InformationStore;
+        const {
+            currentMarker: { layerId, uuid }
+        } = InformationStore;
         //选中要素
         this.setSelectFeature(layerId, uuid);
         // 设置被选中的要素可编辑状态
@@ -679,6 +714,11 @@ class DataLayerStore {
         this.updateKey = Math.random();
     };
 
+    @action PCViewMode = opt => {
+        this.isPCVVisible = opt;
+        this.updateKey = Math.random();
+    };
+
     @action hideMessage = () => {
         this.isMessage = false;
     };
@@ -700,6 +740,7 @@ class DataLayerStore {
         if (this.editType == 'new_rel') return;
         this.setEditType('new_rel', 'button');
         this.editor.clear();
+        mapStore.clear();
         this.editor.toggleMode(61);
     };
 
@@ -1353,6 +1394,10 @@ class DataLayerStore {
 
     changeUnAble = () => {
         return UNABLE_CHANGE_TYPES.includes(this.editType);
+    };
+    setEditorMode = mode => {
+        if (!this.editor) return;
+        this.editor.setEditorMode(mode);
     };
 
     release = () => {

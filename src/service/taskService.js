@@ -1,5 +1,5 @@
 import service from 'src/service';
-import { EditApiPath, TaskApiPath, StoreApiPath } from 'src/util/api';
+import { EditApiPath, TaskApiPath, StoreApiPath, DataApiPath } from 'src/util/api';
 import { getAuthentication } from 'src/util/session';
 
 const TaskService = {
@@ -22,6 +22,15 @@ const TaskService = {
     writeEditLog: data => {
         const config = {
             url: EditApiPath('/snapshot/logSnapshot'),
+            method: 'post',
+            data
+        };
+        return service({ config });
+    },
+    //数据准备接口/data_prepare/search
+    dataPrepareSearch: data => {
+        const config = {
+            url: DataApiPath('/search'),
             method: 'post',
             data
         };

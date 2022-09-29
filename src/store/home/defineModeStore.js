@@ -19,15 +19,17 @@ class DefineModeStore {
     @observable vectorConfigMap = {};
 
     getDefaultConfig = (mode, taskProcessName) => {
-        const configType = mode === 'common' ? taskProcessName : mode;
-        const configName = VECTOR_CONFIG_MAP[configType];
-        const configMap = SettingStore.getConfig(configName);
+        // const configType = mode === 'common' ? taskProcessName : mode;
+        // const configName = VECTOR_CONFIG_MAP[configType];
+
+        const configMap = SettingStore.getConfig("MB_TASK_VECTOR_CONFIG_MAP");
         return JSON.parse(JSON.stringify(configMap));
     };
 
     //初始化符号配置
     @action initVectorConfig = (mode, taskProcessName) => {
-        if (!taskProcessName) return;
+
+        // if (!taskProcessName) return;
         this.globalPointEnabledStatus = true;
         this.globalArrowEnabledStatus = true;
         this.vectorConfigMap = this.getDefaultConfig(mode, taskProcessName);

@@ -8,8 +8,8 @@ class LoginVisitedHistory extends VisiteHistory {
 
     enterPage = () => {
         this.addVisitedHistory();
-        this.pollingVisiteHistory();
-        this.LinkToBlank();
+        // this.pollingVisiteHistory();
+        // this.LinkToBlank();
     };
 
     leavePage = () => {

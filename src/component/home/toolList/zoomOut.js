@@ -8,7 +8,7 @@ class ZoomOut extends React.Component {
     render() {
         const { TaskStore } = this.props;
         const { activeTaskId } = TaskStore;
-        return activeTaskId ? (
+        return (
             <div>
                 <ToolIcon
                     icon="suoxiao"
@@ -18,7 +18,7 @@ class ZoomOut extends React.Component {
                     action={this.action}
                 />
             </div>
-        ) : null;
+        );
     }
 
     action = () => {

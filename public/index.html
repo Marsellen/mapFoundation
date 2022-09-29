@@ -1,30 +1,20 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta
-            name="viewport"
-            content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0"
-        />
-        <link rel="shortcut icon" href="./favicon.ico" />
-        <title>AD Map编辑平台</title>
-        <style>
-            #viz {
-                position: fixed;
-                top: 60px;
-                left: 60px;
-                right: 0;
-                bottom: 0px;
-                display: none;
-            }
-        </style>
-    </head>
 
-    <body>
-        <div id="root"></div>
-        <div id="viz"></div>
-    </body>
-    <!-- loadsh template 导入依赖 -->
-    <% remoteUrls.map(function(url) { %><script src="<%- url %>"></script><% }); %>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <title>Ultron-GIS数据可视化工具</title>
+</head>
+
+<body style="background-color: #030d1c;">
+    <div id="root"></div>
+    <div id="viz"></div>
+</body>
+
+<!-- loadsh template 导入依赖 -->
+<% remoteUrls.map(function(url) { %><script src="<%- url %>"></script><% }); %>
+
 </html>

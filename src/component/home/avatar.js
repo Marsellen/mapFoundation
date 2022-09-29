@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { logout } from 'src/util/session';
 import ToolIcon from 'src/component/common/toolIcon';
+import { Link } from 'react-router-dom';
 import HomeVisiteHistory from 'src/util/visiteHistory/homeVisiteHistory';
 import BuriedPoint from 'src/util/buriedPoint';
 
@@ -19,16 +20,24 @@ class Avatar extends React.Component {
 
     render() {
         const { avatar } = this.state;
+        const { appStore } = this.props;
+        const { loginUser } = appStore;
         return (
             <div className="flex flex-center">
-                <Dropdown overlay={this._renderMenu()}>
-                    <img
-                        onClick={() => this.setState({ visible: true })}
-                        src={avatar}
-                        className="avatar-img"
-                        alt=""
-                    />
-                </Dropdown>
+                {loginUser ? (
+                    <Dropdown overlay={this._renderMenu()}>
+                        <img
+                            onClick={() => this.setState({ visible: true })}
+                            src={avatar}
+                            className="avatar-img"
+                            alt=""
+                        />
+                    </Dropdown>
+                ) : (
+                    <Link to={'/login'}>
+                        <ToolIcon className="dengchu" icon="denglu" />
+                    </Link>
+                )}
             </div>
         );
     }
@@ -36,8 +45,11 @@ class Avatar extends React.Component {
     _renderMenu() {
         const { appStore } = this.props;
         const { loginUser } = appStore;
+        const style = {
+            fontSize: '12px'
+        };
         return (
-            <Menu className="submenu-title-wrapper">
+            <Menu className="submenu-title-wrapper" style={style}>
                 <Menu.Item>{loginUser ? loginUser.name : '未登录'}</Menu.Item>
                 <Menu.Item>
                     {/* onClick={this.about} */}

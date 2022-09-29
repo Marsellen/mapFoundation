@@ -4,14 +4,14 @@ import 'less/point-cloud.less';
 
 class PointBright extends React.Component {
     state = {
-        value: window?.pointCloudLayer?.getIntensityBrightness?.() ?? 0
+        value: window?.nowPointCloudLayer?.getIntensityBrightness?.() ?? 0
     };
 
     onChange = value => {
         this.setState({
             value
         });
-        window?.pointCloudLayer?.setIntensityBrightness?.(value);
+        window?.nowPointCloudLayer?.setIntensityBrightness?.(value);
     };
 
     render() {

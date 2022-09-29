@@ -2,30 +2,34 @@
     background: #000;
 
     .header {
-        padding: 0 22px 0 60px;
-        height: 60px;
+        padding: 0 8px 0 150px;
+        height: 40px;
         background: #1c2028;
         line-height: unset;
     }
 
     .logo-content {
         display: flex;
-        justify-content: center;
         align-items: center;
         position: absolute;
+        padding-left: 8px;
         left: 0;
         top: 0;
-        width: 150px;
-        height: 60px;
+        height: 40px;
         color: #fff;
 
         .logo {
-            width: 110px;
+            height: 24px;
+            width: 80px;
+            margin-right: 8px;
+        }
+        .ultron-logo {
+            height: 12px;
         }
     }
 
     .tool-container {
-        padding-left: 100px;
+        // padding-left: 80px;
 
         .bianjituceng {
             display: flex;
@@ -41,6 +45,8 @@
         position: relative;
         z-index: 1;
         display: flex;
+        width: '100%';
+        height: '100%';
     }
 
     .task-manage {
@@ -54,9 +60,11 @@
     }
 
     .avatar-img {
-        width: 40px;
-        height: 40px;
-        border-radius: 20px;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        font-size: 24px;
+        margin-right: 5px;
         -moz-user-select: none;
         -webkit-user-select: none;
         -ms-user-select: none;
@@ -71,7 +79,7 @@
 }
 
 .ant-message {
-    top: 60px !important;
+    top: 40px !important;
 }
 
 .ad-message.ant-message {
@@ -123,7 +131,7 @@
         height: calc(100% - 39px);
     }
 
-    .ant-modal-body>div {
+    .ant-modal-body > div {
         height: 100%;
     }
 
@@ -137,7 +145,8 @@
         line-height: 35px;
     }
 }
-.save-version-view{
+
+.save-version-view {
     position: fixed;
     bottom: 10px;
     color: #ededed;

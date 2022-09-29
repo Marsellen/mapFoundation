@@ -32,7 +32,6 @@ class BatchToolBox extends React.Component {
         return (
             <CheckButton
                 defaultOption={this.getDefaultOption()}
-                disabled={this.disabled()}
                 contentTitle="批处理工具"
                 renderContent={this.renderContent}
                 active={this.getActive()}
@@ -52,9 +51,9 @@ class BatchToolBox extends React.Component {
 
         return firstTool
             ? {
-                  id: layerName,
-                  ...OPTIONS[firstTool]
-              }
+                id: layerName,
+                ...OPTIONS[firstTool]
+            }
             : {};
     };
 

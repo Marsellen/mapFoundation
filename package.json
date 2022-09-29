@@ -2,7 +2,11 @@
     "name": "ecarx-ultron-app",
     "version": "1.0.0",
     "private": true,
-    "keywords": ["科技", "韧性", "进化"],
+    "keywords": [
+        "科技",
+        "韧性",
+        "进化"
+    ],
     "scripts": {
         "i": "yarn",
         "start-local": "cross-env PROXY_ENV=local webpack-dev-server --config build/webpack.dev.js",
@@ -14,7 +18,7 @@
         "build:pre": "npm run build --ENV=pre",
         "build:prd": "npm run build --ENV=prd",
         "build:test": "npm run build --ENV=test",
-        "update-sdk": "yarn upgrade @ad/xmap@~1.0.7"
+        "update-sdk": "yarn upgrade @ad/xmap@~2.0.1"
     },
     "sideEffects": [
         "@babel/polyfill",
@@ -22,7 +26,7 @@
         "*.less"
     ],
     "dependencies": {
-        "@ad/xmap": "~1.0.7",
+        "@ad/xmap": "~2.0.1",
         "antd": "^3.26.13",
         "axios": "^0.18.0",
         "dragm": "^0.0.5",
@@ -59,13 +63,13 @@
         "copy-webpack-plugin": "^5.0.3",
         "cross-env": "^7.0.3",
         "css-loader": "^2.1.1",
+        "css-minimizer-webpack-plugin": "^4.0.0",
         "file-loader": "^6.2.0",
         "hard-source-webpack-plugin": "^0.13.1",
         "html-webpack-plugin": "^5.5.0",
         "less": "^3.9.0",
         "less-loader": "^5.0.0",
         "mini-css-extract-plugin": "^2.6.1",
-        "css-minimizer-webpack-plugin": "^4.0.0",
         "postcss": "^8.0.1",
         "postcss-loader": "^4.2.0",
         "postcss-preset-env": "^7.4.2",
