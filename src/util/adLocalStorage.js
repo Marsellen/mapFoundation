@@ -42,7 +42,7 @@ class AdLocalStorage {
             taskId: taskInfos[this.username][taskId],
             ...currentTaskInfo
         };
-        console.log(taskInfos[this.username][taskId])
+        console.log(taskInfos[this.username][taskId]);
         this.setLocalStorage('taskInfos', taskInfos);
     };
 
@@ -55,6 +55,14 @@ class AdLocalStorage {
         } else {
             return false;
         }
+    };
+
+    setTaskInfosStorageAll = infos => {
+        this.getUserName();
+        if (!this.username) return;
+        const taskInfos = {};
+        taskInfos[this.username] = infos || {};
+        this.setLocalStorage('taskInfos', taskInfos);
     };
 
     getTaskInfosStorageAll = () => {

@@ -29,15 +29,18 @@ import ViewAttribute from 'src/component/home/toolList/viewAttribute';
 import RenderMode from 'src/component/home/renderMode/renderMode';
 import PictureView from 'src/component/home/pictureView';
 import HelpList from 'src/component/home/helpList';
+import JobStatus from 'src/component/home/jobStatus';
 
 export default [
     // <Home key="HOME" />,
     <TopBreakLine key="TOP_BREAK_LINE_0" />,
+    <JobStatus key="JOBSTATUS" />,
     <Undo key="UNDO" />,
     <Redo key="REDO" />,
     <ResourceLoader key="RESOURCE_LOADER" />,
     <ExportShp key="EXPORT_SHP" />,
     <Save key="SAVE" />,
+    <TopBreakLine key="TOP_BREAK_LINE_4" />,
     <PointCloud key="POINT_CLOUD" />,
     <SetStepSize key="SETSTEP_SIZE" />,
     <ToolBox key="TOOL_BOX" />,

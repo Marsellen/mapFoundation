@@ -11,11 +11,7 @@ import SettingStore from 'src/store/setting/settingStore';
 import 'less/jobstatus.less';
 import { flow } from 'mobx';
 
-import {
-    getAllVectorData,
-    getAllRelData,
-    getAllAttrData
-} from 'src/util/vectorUtils';
+import { getAllVectorData, getAllRelData, getAllAttrData } from 'src/util/vectorUtils';
 
 import fileStore from 'src/store/home/fileStore';
 
@@ -61,7 +57,7 @@ class JobStatus extends React.Component {
         return (
             <div className="flex flex-center jobstatus">
                 <ToolIcon
-                    icon="huoqurenwu"
+                    icon="tubiao06"
                     title="导入数据"
                     className="jobstatus-get"
                     focusColor={false}
@@ -69,7 +65,7 @@ class JobStatus extends React.Component {
                 />
                 {!isLocal && (
                     <ToolIcon
-                        icon="tijiaorenwu"
+                        icon="tubiao05"
                         title="导出数据"
                         className="jobstatus-submit"
                         focusColor={false}
@@ -434,15 +430,15 @@ class JobStatus extends React.Component {
         let relData = yield getAllRelData(true);
         let attrData = yield getAllAttrData(true);
         const allData = [...vectorDataClone.features, ...relData.features, ...attrData.features];
-        console.log(allData)
+        console.log(allData);
         let isAllData = [];
         allData.forEach(item => {
             if (item.features.length > 0) {
                 if (isAllData[item.name] === undefined) {
                     isAllData[item.name] = true;
-                    const link = document.createElement("a");
-                    link.style.display = "none";
-                    link.setAttribute("download", item.name);
+                    const link = document.createElement('a');
+                    link.style.display = 'none';
+                    link.setAttribute('download', item.name);
                     document.body.appendChild(link);
                     let blob = new Blob([JSON.stringify(item)], { type: 'text/plain' });
                     link.href = URL.createObjectURL(blob);
@@ -450,11 +446,8 @@ class JobStatus extends React.Component {
                     link.click();
                     link.remove();
                 }
-
             }
         });
-
-
 
         // e || e.target || e.target.blur(); //在click事件中主动去掉button的焦点，回车就不会触发click
         // const { appStore } = this.props;

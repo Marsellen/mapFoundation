@@ -60,30 +60,30 @@ class fileStore {
 
     async filesViewer(data = {}, callBack) {
         if (!window.map) await mapStore.init();
-        Object.keys(data).forEach(key => {
+        Object.keys(data).forEach((key, i) => {
             const result = data[key];
             if (key == 'vectors') {
                 result.forEach(item => {
                     VectorsStore.addRecords(null, 'current', item);
-                    const extent = window.map.getExtentByFeatures(item.features);
+                    // const extent = window.map.getExtentByFeatures(item.features);
                     const name = item.name;
                     this.setExtent(item);
-                    window.map.setExtent(extent);
                     let obj = { title: name, key: name };
                     this.setTreeData(obj);
                 });
             } else if (key == 'attrs') {
                 result.forEach(item => {
                     AttrStore.addRecords(null, 'current', item);
-                    const extent = window.map.getExtentByFeatures(item.features);
-                    window.map.setExtent(extent);
                 });
             } else if (key == 'rels') {
                 result.forEach(item => {
                     RelStore.addRecords(null, 'current', item);
-                    const extent = window.map.getExtentByFeatures(item.features);
-                    window.map.setExtent(extent);
                 });
+            }
+            if (Object.keys(data).length === 1) {
+                window.map.setExtent(window.extent);
+            } else if (i === Object.keys(data).length - 1) {
+                window.map.setExtent(window.extent);
             }
         });
         TaskStore.setTaskFileMap(data);
@@ -92,6 +92,7 @@ class fileStore {
 
     addLayer = flow(function* (files) {
         this.files = files;
+        let fileMap = { vectors: [], attrs: [], rels: [], regions: [] };
         for (let i = 0; i < files.length; i++) {
             let reader = new FileReader();
             let that = this;
@@ -102,7 +103,6 @@ class fileStore {
                     const name = result.name;
                     let allLayer = [...VECTOR_FILES, ...ATTR_FILES, ...REL_FILES];
                     let layer = allLayer.includes(name);
-                    let fileMap = { vectors: [], attrs: [], rels: [], regions: [] };
                     if (layer) {
                         let vec = VECTOR_FILES.includes(name);
                         if (vec) {
@@ -151,19 +151,18 @@ class fileStore {
                         let obj = { title: name, key: name };
                         that.setTreeData(obj);
                     }
-                    console.log('fileMap:', fileMap);
-                    TaskStore.setTaskFileMap(fileMap);
                     this.setExtent(result);
                     if (files.length === 1) {
                         window.map.setExtent(window.extent);
-                    } else {
-                        if (i === files.length - 1) {
-                            window.map.setExtent(window.extent);
-                        }
+                    } else if (i === files.length - 1) {
+                        window.map.setExtent(window.extent);
                     }
-                } catch (error) { }
+                } catch (error) {
+                    console.log('fileStore-error:', error);
+                }
             };
         }
+        TaskStore.setTaskFileMap(fileMap);
     });
 
     // 判断任务边框范围，并赋值给全局变量extent
