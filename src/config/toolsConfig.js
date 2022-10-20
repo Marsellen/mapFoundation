@@ -33,6 +33,7 @@ export const TOOLS_MAP = {
         UNION_BREAK: true,
         TOP_BREAK_LINE_2: true,
         TOP_BREAK_LINE_3: true,
+        TOP_BREAK_LINE_4: true,
         VIEWATTRIBUTE: true,
         PICTUREVIEW: true,
         HELPLIST: true,
@@ -40,7 +41,8 @@ export const TOOLS_MAP = {
         BATCH_BREAK: true,
         MUNICIPAL_BARRIER_DOWN: true,
         VIEW_NEIGHBOR: true,
-        EDITOR_MODE: true
+        EDITOR_MODE: true,
+        JOBSTATUS: true
     },
     CHECK: {
         HOME: true,
@@ -75,6 +77,7 @@ export const TOOLS_MAP = {
         BUILD_STEP: true,
         TOP_BREAK_LINE_2: true,
         TOP_BREAK_LINE_3: true,
+        TOP_BREAK_LINE_4: true,
         VIEWATTRIBUTE: true,
         PICTUREVIEW: true,
         HELPLIST: true,
@@ -82,6 +85,7 @@ export const TOOLS_MAP = {
         BATCH_BREAK: false,
         MUNICIPAL_BARRIER_DOWN: false,
         VIEW_NEIGHBOR: true,
-        EDITOR_MODE: true
+        EDITOR_MODE: true,
+        JOBSTATUS: true
     }
 };

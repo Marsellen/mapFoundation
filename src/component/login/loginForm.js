@@ -49,7 +49,7 @@ class LoginForm extends React.Component {
                 LoginVisitedHistory.removeVisitedHistory();
                 this.props.history.push(from);
                 //如果是跳转到home页，则获取任务列表
-                if (from.pathname === '/') await TaskStore.initTask({ type: 1 });
+                // if (from.pathname === '/') await TaskStore.initTask({ type: 1 });
             } catch (e) {
                 message.error(e.message, 3);
             }

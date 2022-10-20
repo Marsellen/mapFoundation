@@ -18,9 +18,20 @@ import Home from 'src/component/home/toolList/home';
 
 @withRouter
 class Board extends React.Component {
-    render() {
+    constructor() {
+        super();
+        this.state = {
+            storages: {}
+        };
+    }
+
+    componentWillMount = () => {
         const storages = AdLocalStorage.getTaskInfosStorageAll() || {};
-        console.log(storages);
+        this.setState({ storages });
+    };
+
+    render() {
+        const { storages } = this.state;
         return (
             <div className="board-wrap">
                 <div className="board-header">
@@ -71,7 +82,21 @@ class Board extends React.Component {
                                     <h2>最近</h2>
                                     <div className="board-card-wrapper">
                                         {Object.keys(storages).map(key => (
-                                            <Card key={key} hoverable title={key} bordered={false}>
+                                            <Card
+                                                key={key}
+                                                hoverable
+                                                title={key}
+                                                bordered={false}
+                                                extra={
+                                                    <Icon
+                                                        type="close"
+                                                        onClick={e => {
+                                                            e.preventDefault();
+                                                            this.handleClickClose(key);
+                                                        }}
+                                                    />
+                                                }
+                                            >
                                                 <div
                                                     className="board-history-img"
                                                     onClick={e => {
@@ -122,6 +147,14 @@ class Board extends React.Component {
         } else {
             fileStore.impConfig(null, callBack);
         }
+    };
+
+    handleClickClose = key => {
+        const storages = AdLocalStorage.getTaskInfosStorageAll() || {};
+        const index = Object.keys(storages).find(k => k == key);
+        delete storages[index];
+        AdLocalStorage.setTaskInfosStorageAll(storages);
+        this.setState({ storages });
     };
 }
 
