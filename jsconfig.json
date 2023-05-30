@@ -5,7 +5,6 @@
         "baseUrl": "./",
         "paths": {
             "src/*": ["src/*"],
-            "mock/*": ["mock/*"],
             "less/*": ["src/assets/less/*"]
         }
     },
