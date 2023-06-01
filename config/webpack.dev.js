@@ -6,14 +6,17 @@ const WebpackBar = require('webpackbar');
 
 module.exports = merge(base, {
     mode: 'development', // 设置开发环境模式
-    devtool: 'cheap-module-source-map',
-    // devtool: 'eval-cheap-module-source-map',
+    // devtool: 'cheap-module-source-map',
+    devtool: 'eval-source-map',
     stats: 'errors-only', // 'errors-only'只在发生错误时输出 'verbose'全部输出
     devServer: {
         port: 8001,
-        hot: true,
+        // hot: true,
         historyApiFallback: true,
         host: '0.0.0.0',
+        client: {
+            overlay: false // 关闭浏览器全屏报错（不过webpack V5好像不支持）
+        },
         headers: {
             'Access-Control-Allow-Origin': '*'
         },
@@ -26,9 +29,10 @@ module.exports = merge(base, {
             }
         }
     },
-    target: 'web', // 不编译成es5
+    // target: 'web', // 不编译成es5
+    cache: false,
     optimization: {
-        runtimeChunk: 'single' // 为了线上更新版本时，充分利用浏览器缓存 'single' 是指只生成一个 runtime chunk
+        minimize: false
     },
     module: {
         rules: [

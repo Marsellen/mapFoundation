@@ -19,6 +19,7 @@
         "*.less"
     ],
     "dependencies": {
+        "@loadable/component": "^5.15.3",
         "antd": "^4.24.10",
         "axios": "^1.4.0",
         "jsts": "2.0.8",
@@ -30,6 +31,7 @@
         "qs": "^6.11.1",
         "react": "^16.14.0",
         "react-dom": "^16.14.0",
+        "react-helmet": "^6.1.0",
         "react-router-dom": "^6.11.1"
     },
     "devDependencies": {

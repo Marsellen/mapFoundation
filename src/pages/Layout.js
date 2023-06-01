@@ -1,30 +1,31 @@
 import React from 'react';
 import { Layout, Spin, Menu } from 'antd';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
+import IconFont from 'src/components/iconFont';
 import 'less/home.less';
 
 const { Header, Content, Footer } = Layout;
 
-class Home extends React.Component {
+class Layouts extends React.Component {
     constructor() {
         super();
         this.state = {
             items: [
                 {
                     label: (
-                        <NavLink to={'/home'}>
-                            <span>Home</span>
+                        <NavLink to={'/oneMap'}>
+                            <span>OneMap</span>
                         </NavLink>
                     ),
-                    key: '/home'
+                    key: '/oneMap'
                 },
                 {
                     label: (
-                        <NavLink to={'/board'}>
-                            <span>Board</span>
+                        <NavLink to={'/ultron'}>
+                            <span>Ultron</span>
                         </NavLink>
                     ),
-                    key: '/board'
+                    key: '/ultron'
                 }
             ]
         };
@@ -40,7 +41,9 @@ class Home extends React.Component {
         return (
             <Layout className="layout">
                 <Header>
-                    <div className="logo" />
+                    <div className="logo">
+                        Anything<span>just do it!</span>
+                    </div>
                     <Menu
                         theme="dark"
                         mode="horizontal"
@@ -49,11 +52,13 @@ class Home extends React.Component {
                     />
                 </Header>
                 <Content>
-                    <div className="site-layout-content">{children}</div>
+                    <div className="layout-content">
+                        <Outlet />
+                    </div>
                 </Content>
             </Layout>
         );
     }
 }
 
-export default Home;
+export default Layouts;

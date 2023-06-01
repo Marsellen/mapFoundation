@@ -9,8 +9,6 @@ class Board extends React.Component {
         this.state = {};
     }
 
-    componentWillMount = () => {};
-
     render() {
         return <div className="board-wrap">board</div>;
     }

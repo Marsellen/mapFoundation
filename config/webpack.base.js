@@ -1,17 +1,16 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const ModuleFederationPlugin = require('webpack').container.ModuleFederationPlugin;
 const path = require('path');
 const paths = require('./paths');
 // const env = process.env.npm_config_ENV || 'dev';
 const env = paths.env;
-const { moduleSetting, publicPath, remoteUrls } = require('./module.js');
+const { moduleSetting } = require('./module.js');
 
 module.exports = {
     entry: paths.src,
     output: {
-        path: paths.build,
-        publicPath: env == 'development' ? 'http://localhost:8001/' : '/'
+        publicPath: env == 'development' ? 'auto' : '/'
     },
     module: {
         rules: [
@@ -41,18 +40,11 @@ module.exports = {
             inject: true,
             template: path.resolve(__dirname, '../public/index.html'),
             filename: 'index.html',
-            // templateParameters: {
-            //     remoteUrls: remoteUrls[env] || remoteUrls.development
-            // }
+            chunks: ['main']
         }),
         //定义全局变量
         new webpack.DefinePlugin({
-            ENV: process.env.npm_config_ENV,
-            NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-        }),
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery'
+            ENV: process.env.npm_config_ENV
         })
     ],
     resolve: {

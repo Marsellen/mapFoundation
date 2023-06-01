@@ -1,40 +1,41 @@
 import React, { lazy, Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
 import PageLoading from 'src/components/PageLoading';
-import Home from 'src/pages/Home';
+import ErrorCatch from 'src/components/ErrorCatch';
 import Layout from 'src/pages/Layout';
 
-// 路由懒加载
-const lazyLoad = path => {
-    const Comp = lazy(() => import(`src/pages/${path}`));
+const Home = lazy(() => import('src/pages/Home'));
+const Ultron = lazy(() => import('ultron/App'));
+const OneMap = lazy(() => import('oneMap/App'));
+const lazyLoad = children => {
     return (
         <Suspense fallback={<PageLoading />}>
-            <Layout>
-                <Comp />
-            </Layout>
+            <ErrorCatch>{children}</ErrorCatch>
         </Suspense>
     );
 };
+
 const routes = [
     {
         path: '/',
-        name: '首页',
-        element: <Layout />
-    },
-    {
-        path: '/home',
-        name: '首页',
-        element: lazyLoad('Home')
-    },
-    {
-        path: '/board',
-        name: 'Board',
-        element: lazyLoad('Board')
-    },
-    // {
-    //     path: '*',
-    //     element: lazyLoad('Home')
-    // }
+        element: <Layout />,
+        children: [
+            {
+                path: '/oneMap/*',
+                name: 'oneMap',
+                element: lazyLoad(<OneMap />)
+            },
+            {
+                path: '/ultron/*',
+                name: 'Ultron',
+                element: lazyLoad(<Ultron />)
+            },
+            {
+                path: '*',
+                element: lazyLoad(<Home />)
+            }
+        ]
+    }
 ];
 
 const Routers = () => {
